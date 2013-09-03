@@ -154,7 +154,6 @@
     self.currentScriptElement = [self.currentScript nextScriptElement];
     if(!self.currentScriptElement)
     {
-        [[AppServices sharedAppServices] updateServerNodeViewed:self.currentScriptOption.nodeId fromLocation:0];
         [self movePcIn];
         [delegate scriptEndedExitToType:self.currentScript.exitToType title:self.currentScript.exitToTabTitle id:self.currentScript.exitToTypeId];
         return;

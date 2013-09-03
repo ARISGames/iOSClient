@@ -25,6 +25,7 @@
 #import "QuestsViewController.h"
 #import "IconQuestsViewController.h"
 #import "InventoryViewController.h"
+#import "InventoryTagViewController.h"
 #import "MapViewController.h"
 #import "AttributesViewController.h"
 #import "NotebookViewController.h"
@@ -241,9 +242,19 @@
         }
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"])
         {
-            InventoryViewController *inventoryListViewController = [[InventoryViewController alloc] initWithDelegate:self];
-            self.inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryListViewController];
-            [gamePlayTabVCs addObject:self.inventoryNavigationController];
+            //if uses tag sort view
+            if(YES)//(BOOL)tmpTab.tabDetail1)
+            {
+                InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:self];
+                self.inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
+                [gamePlayTabVCs addObject:self.inventoryNavigationController];
+            }
+            else
+            {
+                InventoryViewController *inventoryListViewController = [[InventoryViewController alloc] initWithDelegate:self];
+                self.inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryListViewController];
+                [gamePlayTabVCs addObject:self.inventoryNavigationController];
+            }
         }
         else if([tmpTab.tabName isEqualToString:@"QR"])
         {

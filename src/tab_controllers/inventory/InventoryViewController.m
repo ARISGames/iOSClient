@@ -19,7 +19,7 @@
 #import "ItemViewController.h"
 #import "UIColor+ARISColors.h"
 
-@interface InventoryViewController() <ARISMediaViewDelegate, InventoryTradeViewControllerDelegate, GameObjectViewControllerDelegate>
+@interface InventoryViewController() <ARISMediaViewDelegate, InventoryTradeViewControllerDelegate>
 {
     UITableView *inventoryTable;
     NSArray *inventory;
@@ -43,12 +43,6 @@
 @property (nonatomic, strong) NSMutableDictionary *iconCache;
 @property (nonatomic, strong) NSMutableDictionary *mediaCache;
 @property (nonatomic, strong) NSMutableDictionary *viewedList;
-
-- (void) refresh;
-- (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString;
-- (void) showLoadingIndicator;
-- (void) refreshViewFromModel;
-- (NSString *) stringByStrippingHTML:(NSString *)stringToStrip;
 
 @end
 
@@ -173,6 +167,40 @@
     [inventoryTable reloadData];
 }
 
+//Removes all content after first <br> or </br> or <br /> tags, then removes all html
+-(NSString *) stringByStrippingHTML:(NSString *)stringToStrip
+{
+    //PHIL- probably could convert this into a pretty simple regex. but it works for now...
+    NSRange range;
+    range = [stringToStrip rangeOfString:@"<br>"];   if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
+    range = [stringToStrip rangeOfString:@"</br>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
+    range = [stringToStrip rangeOfString:@"<br/>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
+    range = [stringToStrip rangeOfString:@"<br />"]; if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
+
+    while ((range = [stringToStrip rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
+        stringToStrip = [stringToStrip stringByReplacingCharactersInRange:range withString:@""];
+    return stringToStrip;
+}
+
+- (NSString *) getQtyLabelStringForQty:(int)qty maxQty:(int)maxQty weight:(int)weight
+{
+    NSString *qtyString = @"";
+    NSString *weightString = @"";
+    if(qty > 1 || maxQty != 1) qtyString    = [NSString stringWithFormat:@"x%d",  qty];
+    if(weight > 1)             weightString = [NSString stringWithFormat:@"\n%@ %d",NSLocalizedString(@"WeightKey", @""), weight];
+    return [NSString stringWithFormat:@"%@%@", qtyString, weightString];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return [inventory count];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return 60;
+}
+
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
 {
 	CGRect cellFrame   = CGRectMake(  0,  0, 310, 60);
@@ -217,16 +245,6 @@
 	[cell.contentView addSubview:lblTemp];
     
 	return cell;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	return [inventory count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -286,55 +304,12 @@
 	return cell;
 }
 
-//Removes all content after first <br> or </br> or <br /> tags, then removes all html
--(NSString *) stringByStrippingHTML:(NSString *)stringToStrip
-{
-    //PHIL- probably could convert this into a pretty simple regex. but it works for now...
-    NSRange range;
-    range = [stringToStrip rangeOfString:@"<br>"];   if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
-    range = [stringToStrip rangeOfString:@"</br>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
-    range = [stringToStrip rangeOfString:@"<br/>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
-    range = [stringToStrip rangeOfString:@"<br />"]; if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
-
-    while ((range = [stringToStrip rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
-        stringToStrip = [stringToStrip stringByReplacingCharactersInRange:range withString:@""];
-    return stringToStrip;
-}
-
-- (NSString *) getQtyLabelStringForQty:(int)qty maxQty:(int)maxQty weight:(int)weight
-{
-    NSString *qtyString = @"";
-    NSString *weightString = @"";
-    if(qty > 1 || maxQty != 1) qtyString    = [NSString stringWithFormat:@"x%d",  qty];
-    if(weight > 1)             weightString = [NSString stringWithFormat:@"\n%@ %d",NSLocalizedString(@"WeightKey", @""), weight];
-    return [NSString stringWithFormat:@"%@%@", qtyString, weightString];
-}
-
-- (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString
-{
-	NSRange searchRange;
-	searchRange.location = (unsigned int) searchChar;
-	searchRange.length = 1;
-	NSRange foundRange = [searchString rangeOfCharacterFromSet:[NSCharacterSet characterSetWithRange:searchRange]];
-	return foundRange.location;	
-}
-
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return 60;
-}
-
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"swish" shouldVibrate:NO];
     [delegate displayGameObject:[inventory objectAtIndex:[indexPath row]] fromSource:self];
     
     [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[inventory objectAtIndex:[indexPath row]]).itemId]];
-}
-
-- (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
-{
-    //[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
