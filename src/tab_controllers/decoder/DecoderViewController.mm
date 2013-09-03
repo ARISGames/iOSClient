@@ -56,6 +56,8 @@
     self.view.backgroundColor = [UIColor ARISColorWhite];
     
     codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20,self.view.frame.size.width-40,30)];
+    codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
     codeTextField.textAlignment = NSTextAlignmentCenter;
 	codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
     codeTextField.delegate = self;

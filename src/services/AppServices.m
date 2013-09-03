@@ -2012,7 +2012,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseInventoryFromJSON:(ServiceResult *)jsonResult
+-(void) parseInventoryFromJSON:(ServiceResult *)jsonResult
 {
     if(!currentlyFetchingInventory) return;
     currentlyFetchingInventory = NO;
@@ -2026,9 +2026,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     NSArray *inventoryArray = (NSArray *)jsonResult.data;
 	NSEnumerator *inventoryEnumerator = [((NSArray *)inventoryArray) objectEnumerator];
 	NSDictionary *itemDictionary;
-	while ((itemDictionary = [inventoryEnumerator nextObject]))
+	while((itemDictionary = [inventoryEnumerator nextObject]))
     {
         Item *item = [[Item alloc] initWithDictionary:itemDictionary];
+        item.tags = [[AppModel sharedAppModel] itemForItemId:item.itemId].tags;
         if(item.itemType == ItemTypeAttribute) [tempAttributes addObject:item];
         else                                   [tempInventory  addObject:item];
 	}

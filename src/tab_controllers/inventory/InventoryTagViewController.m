@@ -19,7 +19,7 @@
 
 @interface InventoryTagViewController ()<ARISMediaViewDelegate, InventoryTradeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 {
-    UIView *tagView;
+    UIScrollView *tagView;
     NSMutableArray *sortableTags;
     int currentTagIndex;
     
@@ -36,7 +36,7 @@
     id<GamePlayTabBarViewControllerDelegate, InventoryTradeViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) UIView *tagView;
+@property (nonatomic, strong) UIScrollView *tagView;
 @property (nonatomic, strong) NSMutableArray *sortableTags;
 @property (nonatomic, assign) int currentTagIndex;
 @property (nonatomic, strong) UITableView *inventoryTable;
@@ -88,21 +88,31 @@
 {
     [super loadView];
     
-    self.tagView = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,0)];
+    self.tagView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,0)];
+    self.tagView.backgroundColor = [UIColor ARISColorBlack];
+    self.tagView.contentSize = self.tagView.frame.size;
+    self.tagView.scrollEnabled = YES;
+    self.tagView.bounces = YES;
     [self.view addSubview:self.tagView];
     
     self.inventoryTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.inventoryTable.frame = self.view.bounds;
     self.inventoryTable.dataSource = self;
     self.inventoryTable.delegate = self;
+    [self.view addSubview:self.inventoryTable];
     
     if([AppModel sharedAppModel].currentGame.allowTrading)
     {
         self.tradeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.tradeButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
         self.tradeButton.backgroundColor = [UIColor ARISColorWhite];
+        [self.tradeButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
         [self.tradeButton setTitle:NSLocalizedString(@"InventoryTradeViewTitleKey", @"") forState:UIControlStateNormal];
         [self.tradeButton addTarget:self action:@selector(tradeButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
+        line.backgroundColor = [UIColor ARISColorLightGray];
+        [self.tradeButton addSubview:line];
+        [self.view addSubview:self.tradeButton];
     }
     
     if([AppModel sharedAppModel].currentGame.inventoryModel.weightCap > 0)
@@ -115,9 +125,6 @@
     }
     
     [self sizeViewsWithoutTagView];
-    [self.view addSubview:self.tagView];
-    [self.view addSubview:self.inventoryTable];
-    [self.view addSubview:self.tradeButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -145,16 +152,23 @@
 {
     self.tagView.frame = CGRectMake(0,0,self.view.bounds.size.width,100);
     if([AppModel sharedAppModel].currentGame.allowTrading)
-        self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
+    {
+        self.inventoryTable.frame = CGRectMake(0,100,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
+        self.tradeButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+    }
     else
-        self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-100);
+        self.inventoryTable.frame = CGRectMake(0,100,self.view.bounds.size.width,self.view.bounds.size.height-100);
+    
 }
     
 - (void) sizeViewsWithoutTagView
 {
     self.tagView.frame = CGRectMake(0,0,self.view.bounds.size.width,0);
     if([AppModel sharedAppModel].currentGame.allowTrading)
+    {
         self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44);
+        self.tradeButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+    }
     else
         self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
     
@@ -193,7 +207,39 @@
 
 - (void) loadTagViewData
 {
+    while([self.tagView.subviews count] > 0)
+        [[self.tagView.subviews objectAtIndex:0] removeFromSuperview];
     
+    UIView *tag;
+    UILabel *label;
+    tag = [[UIView alloc] initWithFrame:CGRectMake(10,10,80,80)];
+    tag.backgroundColor = [UIColor ARISColorYellow];
+    tag.tag = 0;
+    [tag addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagTapped:)]];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    label.backgroundColor = [UIColor clearColor];
+    label.opaque = NO;
+    label.text = @"All";
+    [tag addSubview:label];
+    [self.tagView addSubview:tag];
+    for(int i = 0; i < [self.sortableTags count]; i++)
+    {
+        tag = [[UIView alloc] initWithFrame:CGRectMake((i+1)*100+10,10,80,80)];
+        tag.backgroundColor = [UIColor ARISColorYellow];
+        tag.tag = i+1;
+        [tag addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagTapped:)]];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.numberOfLines = 0;
+        label.backgroundColor = [UIColor clearColor];
+        label.opaque = NO;
+        label.text = [self.sortableTags objectAtIndex:i];
+        [tag addSubview:label];
+        [self.tagView addSubview:tag];
+    }
+    self.tagView.contentSize = CGSizeMake(([self.sortableTags count]+1)*100, 100);
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -371,6 +417,12 @@
 - (void) refetch
 {
     [[AppServices sharedAppServices] fetchPlayerInventory];
+}
+
+- (void) tagTapped:(UITapGestureRecognizer *)r
+{
+    self.currentTagIndex = r.view.tag;
+    [self refreshViews];
 }
 
 - (void) tradeButtonTouched
