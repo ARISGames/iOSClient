@@ -16,6 +16,15 @@ typedef enum
     ItemTypeAttribute = 2
 } ItemType;
 
+@interface Tag : NSObject
+{
+    NSString *name;
+    int media_id;
+}
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) int media_id;
+@end
+
 @interface Item : NSObject <GameObjectProtocol>
 {
 	int itemId;

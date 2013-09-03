@@ -10,6 +10,11 @@
 #import "ItemViewController.h"
 #import "NSDictionary+ValidParsers.h"
 
+@implementation Tag
+@synthesize name;
+@synthesize media_id;
+@end
+
 @implementation Item
 
 @synthesize itemId;
@@ -71,7 +76,12 @@
         self.tags = [[NSMutableArray alloc] initWithCapacity:10];
         NSArray *rawtags = [dict validObjectForKey:@"tags"];
         for(int i = 0; i < [rawtags count]; i++)
-            [self.tags addObject:[((NSDictionary *)[rawtags objectAtIndex:i]) objectForKey:@"tag"]];
+        {
+            Tag *t = [[Tag alloc] init];
+            t.name = [((NSDictionary *)[rawtags objectAtIndex:i]) validStringForKey:@"tag"];
+            t.media_id = [((NSDictionary *)[rawtags objectAtIndex:i]) validIntForKey:@"media_id"];
+            [self.tags addObject:t];
+        }
     }
     return self;
 }
