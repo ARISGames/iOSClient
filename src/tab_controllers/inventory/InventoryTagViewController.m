@@ -89,7 +89,7 @@
     [super loadView];
     
     self.tagView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,0)];
-    self.tagView.backgroundColor = [UIColor ARISColorBlack];
+    self.tagView.backgroundColor = [UIColor ARISColorDarkGray];
     self.tagView.contentSize = self.tagView.frame.size;
     self.tagView.scrollEnabled = YES;
     self.tagView.bounces = YES;
@@ -190,7 +190,7 @@
             match = NO;
             for(int k = 0; k < [self.sortableTags count]; k++)
             {
-                if([[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j] isEqualToString:[self.sortableTags objectAtIndex:k]])
+                if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:k]).name])
                     match = YES;
             }
             if(!match) [self.sortableTags addObject:[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]];
@@ -213,10 +213,11 @@
     UIView *tag;
     UILabel *label;
     tag = [[UIView alloc] initWithFrame:CGRectMake(10,10,80,80)];
-    tag.backgroundColor = [UIColor ARISColorYellow];
+    tag.backgroundColor = [UIColor ARISColorLightGray];
     tag.tag = 0;
     [tag addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagTapped:)]];
     label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+    label.textColor = [UIColor ARISColorWhite];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     label.backgroundColor = [UIColor clearColor];
@@ -227,15 +228,21 @@
     for(int i = 0; i < [self.sortableTags count]; i++)
     {
         tag = [[UIView alloc] initWithFrame:CGRectMake((i+1)*100+10,10,80,80)];
-        tag.backgroundColor = [UIColor ARISColorYellow];
+        tag.backgroundColor = [UIColor ARISColorLightGray];
         tag.tag = i+1;
         [tag addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagTapped:)]];
         label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+        label.textColor = [UIColor ARISColorWhite];
         label.textAlignment = NSTextAlignmentCenter;
         label.numberOfLines = 0;
         label.backgroundColor = [UIColor clearColor];
         label.opaque = NO;
-        label.text = [self.sortableTags objectAtIndex:i];
+        label.text = ((ItemTag *)[self.sortableTags objectAtIndex:i]).name;
+        if(((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id != 0)
+        {
+            ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) media:[[AppModel sharedAppModel] mediaForMediaId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+            [tag addSubview:amv];
+        }
         [tag addSubview:label];
         [self.tagView addSubview:tag];
     }
@@ -251,7 +258,7 @@
     {
         for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
         {
-            if([[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j] isEqualToString:[self.sortableTags objectAtIndex:self.currentTagIndex-1]])
+            if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex-1]).name])
                 rows++;
         }
     }
@@ -329,7 +336,7 @@
         {
             for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
             {
-                if([[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j] isEqualToString:[self.sortableTags objectAtIndex:self.currentTagIndex-1]])
+                if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex-1]).name])
                     tagItemIndex++;
             }
             if(tagItemIndex == indexPath.row) { item = [self.inventory objectAtIndex:i]; break; }

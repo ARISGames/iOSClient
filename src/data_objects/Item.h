@@ -16,7 +16,7 @@ typedef enum
     ItemTypeAttribute = 2
 } ItemType;
 
-@interface Tag : NSObject
+@interface ItemTag : NSObject
 {
     NSString *name;
     int media_id;
