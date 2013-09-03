@@ -40,7 +40,7 @@
 {    
     application.idleTimerDisabled = YES;
     
-    //[Crittercism enableWithAppID:@"5101a46d59e1bd498c000002"];
+    [Crittercism enableWithAppID:@"5101a46d59e1bd498c000002"];
     //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist
 	[[AppModel sharedAppModel] initUserDefaults];

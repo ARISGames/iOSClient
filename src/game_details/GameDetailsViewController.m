@@ -75,11 +75,12 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"")
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(backButtonTouched)];
-    self.navigationItem.leftBarButtonItem = backButton;
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 19, 19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+
     
     self.mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
     self.descriptionWebView = [[UIWebView alloc] initWithFrame:CGRectMake(15, 15, self.view.bounds.size.width-30, 10)];
