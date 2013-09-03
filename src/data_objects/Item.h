@@ -31,6 +31,7 @@ typedef enum
 	BOOL destroyable;
     BOOL tradeable;
     NSString *url;
+    NSMutableArray *tags;
 }
 
 @property (nonatomic, assign) int itemId;
@@ -46,5 +47,6 @@ typedef enum
 @property (nonatomic, assign) BOOL destroyable;
 @property (nonatomic, assign) BOOL tradeable;
 @property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) NSMutableArray *tags;
 
 @end

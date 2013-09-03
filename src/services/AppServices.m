@@ -1339,7 +1339,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
                                                             andServiceName:@"items"
-                                                             andMethodName:@"getItems"
+                                                             andMethodName:@"getFullItems"
                                                               andArguments:arguments andUserInfo:nil];
 	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameItemListFromJSON:)];
