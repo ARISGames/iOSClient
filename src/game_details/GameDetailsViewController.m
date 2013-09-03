@@ -53,7 +53,7 @@
 @synthesize newHeight;
 @synthesize mediaImageView;
 
-- (id)initWithGame:(Game *)g delegate:(id<GameDetailsViewControllerDelegate>)d
+- (id) initWithGame:(Game *)g delegate:(id<GameDetailsViewControllerDelegate>)d
 {
     if(self = [super initWithNibName:@"GameDetailsViewController" bundle:nil])
     {
@@ -66,12 +66,12 @@
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     
@@ -133,13 +133,13 @@
     return YES;  
 } 
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (self.game.offlineMode) return 4;
     return 3;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch(section)
     {
@@ -160,14 +160,14 @@
     return 0; //Should never get here
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if(section == 2) return  [NSString stringWithFormat:@"%@: ", NSLocalizedString(@"DescriptionKey", @"")];
     
     return @""; 
 }
 
-- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
 	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -225,7 +225,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1)
     {
@@ -327,7 +327,7 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if     (indexPath.section == 0 && indexPath.row == 0)                   return 200;
     else if(indexPath.section == 2 && indexPath.row == 0 && self.newHeight) return self.newHeight+30;
@@ -335,7 +335,7 @@
     return 40;
 }
 
--(UITableViewCell *)constructReviewCell
+- (UITableViewCell *) constructReviewCell
 {
     UITableViewCell *cell = (RatingCell *)[[UIViewController alloc] initWithNibName:@"RatingCell" bundle:nil].view;
     
