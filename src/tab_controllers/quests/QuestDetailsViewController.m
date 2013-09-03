@@ -64,44 +64,31 @@
 - (void) viewWillAppearFirstTime
 {
     hasAppeared = YES;
-
-    self.navigationItem.hidesBackButton = YES;
     
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     self.title = self.quest.name;
     self.navigationItem.title = self.quest.name;
     
     CGRect mainFrame = self.view.bounds;
-    mainFrame.size.height -= 44;
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.opaque = YES;
-    backButton.frame = CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 44);
-    [backButton setTitle:@"back" forState:UIControlStateNormal];
-    [backButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
-    [backButton setBackgroundColor:[UIColor ARISColorTextBackdrop]];
-    [backButton addTarget:self action:@selector(backButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backButton];
     
     if(![self.quest.goFunction isEqualToString:@"NONE"])
     {
+        mainFrame.size.height -= 44;
+        
         UIButton *goButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        goButton.frame = CGRectMake(mainFrame.size.width/2, mainFrame.size.height, mainFrame.size.width/2, 44);
-        [goButton setBackgroundColor:[UIColor ARISColorText]];
-        [goButton setTitleColor:[UIColor ARISColorTextBackdrop] forState:UIControlStateNormal];
+        goButton.frame = CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 44);
+        [goButton setBackgroundColor:[UIColor ARISColorTextBackdrop]];
+        [goButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
         [goButton setTitle:@"GO" forState:UIControlStateNormal];
         [goButton addTarget:self action:@selector(goButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:goButton];
         
-        backButton.frame = CGRectMake(0, mainFrame.size.height, mainFrame.size.width/2, 44);
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 1)];
+        line.backgroundColor = [UIColor ARISColorLightGray];
+        [self.view addSubview:line];
     }
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 1)];
-    line.backgroundColor = [UIColor ARISColorLightGray];
-    [self.view addSubview:line];
-    
-    //Setup the Description Webview
-    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 1) delegate:self]; //Needs width of 320, otherwise "height" is calculated wrong because only 1 character can fit per line
+    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 1) delegate:self];
     self.webView.delegate = self;
     self.webView.backgroundColor = [UIColor clearColor];
     self.webView.scrollView.scrollEnabled = NO;
@@ -109,13 +96,11 @@
     Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
     if(media && [media.type isEqualToString:@"PHOTO"] && media.url)
     {
-        ARISMediaView *mediaImageView = [[ARISMediaView alloc] initWithFrame:mainFrame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
-        [self.view addSubview:mediaImageView];
+        [self.view addSubview:[[ARISMediaView alloc] initWithFrame:mainFrame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self]];
     }
     else if(media && ([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:mainFrame media:media presenter:self preloadNow:NO];
-        [self.view addSubview:mediaButton];
+        [self.view addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:mainFrame media:media presenter:self preloadNow:NO]];
     }
     
     NSString *text = self.quest.qdescription;
@@ -165,7 +150,6 @@
     [self.webView injectHTMLWithARISjs];
     self.webView.alpha = 1.00;
     
-    //Calculate the height of the web content
     float newHeight = [[self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]+5;
     [self.webView setFrame:CGRectMake(self.webView.frame.origin.x,self.webView.frame.origin.y,self.webView.frame.size.width,newHeight)];
     
@@ -202,11 +186,13 @@
     [delegate displayTab:t];
 }
 
+/*
 - (void) backButtonPressed
 {
     [delegate questDetailsRequestsDismissal];
 }
-
+*/
+ 
 - (void) goButtonPressed
 {
     if([self.quest.goFunction isEqualToString:@"JAVASCRIPT"]) [self.webView hookWithParams:@""];

@@ -174,7 +174,7 @@
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
-    [self.navigationController popToViewController:self animated:YES];
+    [self.navigationController popToViewController:self animated:NO];
     [delegate displayScannerWithPrompt:p];
 }
 

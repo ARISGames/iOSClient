@@ -232,7 +232,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self presentViewController:widController animated:NO completion:nil];
 }
 
-- (void) changePassTouch
+- (void) changePassTouch   
 {
     [self resignKeyboard];
     ForgotPasswordViewController *forgotPassViewController = [[ForgotPasswordViewController alloc] init];

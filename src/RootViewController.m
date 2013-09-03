@@ -63,8 +63,6 @@
         PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithDelegate:self];
         self.playerSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:playerSettingsViewController];
         
-        self.gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
-        
         //PHIL HATES THIS
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutWasRequested) name:@"LogoutRequested" object:nil];
         //PHIL DONE HATING
@@ -102,6 +100,8 @@
         }
     }
     //PHIL DONE HATING CHUNK
+    
+    self.gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
     
     if(!newPlayer && !gameId)
         [self displayContentController:self.gamePickersViewController];
@@ -168,7 +168,6 @@
 {
     [AppModel sharedAppModel].player = nil;
     [[AppModel sharedAppModel] saveUserDefaults];
-    [self.gamePickersViewController resetState];
     [(LoginViewController *)[[self.loginNavigationController viewControllers] objectAtIndex:0] resetState];
     [self displayContentController:self.loginNavigationController];
 }

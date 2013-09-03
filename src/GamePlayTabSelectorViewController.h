@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 @class ARISNavigationController;
+@class ARISGamePlayTabBarViewController;
 
 @protocol GamePlayTabSelectorViewControllerDelegate
 - (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc;
 @end
 
 @interface GamePlayTabSelectorViewController : UIViewController
-- (id) initWithViewControllers:(NSArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
+- (id) initWithViewControllers:(NSMutableArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
+- (void) addViewController:(UIViewController *)vc;
+- (void) removeViewControllerWithTabID:(NSString *)t;
 @end
