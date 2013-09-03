@@ -21,6 +21,7 @@
 {
     UIView *tagView;
     NSMutableArray *sortableTags;
+    int currentTagIndex;
     
     UITableView *inventoryTable;
     NSArray *inventory;
@@ -34,16 +35,15 @@
     
     id<GamePlayTabBarViewControllerDelegate, InventoryTradeViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
+
 @property (nonatomic, strong) UIView *tagView;
 @property (nonatomic, strong) NSMutableArray *sortableTags;
-
+@property (nonatomic, assign) int currentTagIndex;
 @property (nonatomic, strong) UITableView *inventoryTable;
 @property (nonatomic, strong) NSArray *inventory;
-
 @property (nonatomic, strong) UIButton *tradeButton;
 @property (nonatomic, strong) UIProgressView *capBar;
 @property (nonatomic, strong) UILabel *capLabel;
-
 @property (nonatomic, strong) NSMutableDictionary *iconCache;
 @property (nonatomic, strong) NSMutableDictionary *viewedList;
 
@@ -53,6 +53,7 @@
 
 @synthesize tagView;
 @synthesize sortableTags;
+@synthesize currentTagIndex;
 @synthesize inventoryTable;
 @synthesize inventory;
 @synthesize tradeButton;
@@ -74,9 +75,10 @@
         self.sortableTags = [[NSMutableArray alloc] initWithCapacity:10];
         self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
+        self.currentTagIndex = 0;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable)   name:@"NewlyAcquiredItemsAvailable"           object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable)   name:@"NewlyLostItemsAvailable"               object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews)   name:@"NewlyAcquiredItemsAvailable"           object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews)   name:@"NewlyLostItemsAvailable"               object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge) name:@"NewlyChangedItemsGameNotificationSent" object:nil];
     }
     return self;
@@ -91,12 +93,14 @@
     
     self.inventoryTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.inventoryTable.frame = self.view.bounds;
+    self.inventoryTable.dataSource = self;
     self.inventoryTable.delegate = self;
     
     if([AppModel sharedAppModel].currentGame.allowTrading)
     {
         self.tradeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.tradeButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        self.tradeButton.backgroundColor = [UIColor ARISColorWhite];
         [self.tradeButton setTitle:NSLocalizedString(@"InventoryTradeViewTitleKey", @"") forState:UIControlStateNormal];
         [self.tradeButton addTarget:self action:@selector(tradeButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -133,7 +137,7 @@
 {
     [super viewDidAppear:animated];
     [[AppServices sharedAppServices] updateServerInventoryViewed];
-    [self refreshTable]; //For un-bolding items
+    [self refreshViews]; //For un-bolding items
     [self refetch];
 }
 
@@ -153,65 +157,59 @@
         self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44);
     else
         self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
+    
+    self.currentTagIndex = 0;
 }
 
-- (void) tradeDidComplete
-{
-    [self refetch];
-}
-
-- (void) tradeCancelled
-{
-    [self refetch];
-}
-
-- (void) refetch
-{
-    [[AppServices sharedAppServices] fetchPlayerInventory];
-}
-
-- (void) refreshTable
+- (void) refreshViews
 {
     NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
     self.inventory = [[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory sortedArrayUsingDescriptors:sortDescriptors];
     [self.sortableTags removeAllObjects];
+    
+    //populate sortableTags with all available tags (obnoxiously complex...)
+    BOOL match;
+    for(int i = 0; i < [self.inventory count]; i++)
+    {
+        for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
+        {
+            match = NO;
+            for(int k = 0; k < [self.sortableTags count]; k++)
+            {
+                if([[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j] isEqualToString:[self.sortableTags objectAtIndex:k]])
+                    match = YES;
+            }
+            if(!match) [self.sortableTags addObject:[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]];
+        }
+    }
+        
+    if([self.sortableTags count] > 0) [self sizeViewsForTagView];
+    else                              [self sizeViewsWithoutTagView];
+    
+    
+    [self loadTagViewData];
     [inventoryTable reloadData];
 }
 
-- (void) tradeButtonTouched
+- (void) loadTagViewData
 {
-    InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithDelegate:self];
-    tradeVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:tradeVC animated:YES];
-}
-
-//Removes all content after first <br> or </br> or <br /> tags, then removes all html
-- (NSString *) stringByStrippingHTML:(NSString *)stringToStrip
-{
-    //PHIL- probably could convert this into a pretty simple regex. but it works for now...
-    NSRange range;
-    range = [stringToStrip rangeOfString:@"<br>"];   if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
-    range = [stringToStrip rangeOfString:@"</br>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
-    range = [stringToStrip rangeOfString:@"<br/>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
-    range = [stringToStrip rangeOfString:@"<br />"]; if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
     
-    while((range = [stringToStrip rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
-        stringToStrip = [stringToStrip stringByReplacingCharactersInRange:range withString:@""];
-    return stringToStrip;
-}
-
-- (NSString *) getQtyLabelStringForQty:(int)qty maxQty:(int)maxQty weight:(int)weight
-{
-    NSString *qtyString = @"";
-    NSString *weightString = @"";
-    if(qty > 1 || maxQty != 1) qtyString    = [NSString stringWithFormat:@"x%d",  qty];
-    if(weight > 1)             weightString = [NSString stringWithFormat:@"\n%@ %d",NSLocalizedString(@"WeightKey", @""), weight];
-    return [NSString stringWithFormat:@"%@%@", qtyString, weightString];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.inventory count];
+    if(self.currentTagIndex == 0) return [self.inventory count];
+    
+    int rows = 0;
+    for(int i = 0; i < [self.inventory count]; i++)
+    {
+        for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
+        {
+            if([[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j] isEqualToString:[self.sortableTags objectAtIndex:self.currentTagIndex-1]])
+                rows++;
+        }
+    }
+    return rows;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -275,7 +273,22 @@
     if(indexPath.row % 2 == 0) cell.contentView.backgroundColor = [UIColor ARISColorWhite];
     else                       cell.contentView.backgroundColor = [UIColor ARISColorOffWhite];
     
-    Item *item = [self.inventory objectAtIndex:[indexPath row]];
+    Item *item;
+    if(self.currentTagIndex == 0)
+         item = [self.inventory objectAtIndex:[indexPath row]];
+    else
+    {
+        int tagItemIndex = -1;//-1 so first item found will be index 0
+        for(int i = 0; i < [self.inventory count]; i++)
+        {
+            for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
+            {
+                if([[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j] isEqualToString:[self.sortableTags objectAtIndex:self.currentTagIndex-1]])
+                    tagItemIndex++;
+            }
+            if(tagItemIndex == indexPath.row) { item = [self.inventory objectAtIndex:i]; break; }
+        }
+    }
     
     ((UILabel *)[cell viewWithTag:1]).text = item.name;
     ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.idescription];
@@ -319,6 +332,52 @@
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     
+}
+
+//Removes all content after first <br> or </br> or <br /> tags, then removes all html
+- (NSString *) stringByStrippingHTML:(NSString *)stringToStrip
+{
+    //PHIL- probably could convert this into a pretty simple regex. but it works for now...
+    NSRange range;
+    range = [stringToStrip rangeOfString:@"<br>"];   if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
+    range = [stringToStrip rangeOfString:@"</br>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
+    range = [stringToStrip rangeOfString:@"<br/>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
+    range = [stringToStrip rangeOfString:@"<br />"]; if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
+    
+    while((range = [stringToStrip rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
+        stringToStrip = [stringToStrip stringByReplacingCharactersInRange:range withString:@""];
+    return stringToStrip;
+}
+
+- (NSString *) getQtyLabelStringForQty:(int)qty maxQty:(int)maxQty weight:(int)weight
+{
+    NSString *qtyString = @"";
+    NSString *weightString = @"";
+    if(qty > 1 || maxQty != 1) qtyString    = [NSString stringWithFormat:@"x%d",  qty];
+    if(weight > 1)             weightString = [NSString stringWithFormat:@"\n%@ %d",NSLocalizedString(@"WeightKey", @""), weight];
+    return [NSString stringWithFormat:@"%@%@", qtyString, weightString];
+}
+
+- (void) tradeDidComplete
+{
+    [self refetch];
+}
+
+- (void) tradeCancelled
+{
+    [self refetch];
+}
+
+- (void) refetch
+{
+    [[AppServices sharedAppServices] fetchPlayerInventory];
+}
+
+- (void) tradeButtonTouched
+{
+    InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithDelegate:self];
+    tradeVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:tradeVC animated:YES];
 }
 
 - (void) dealloc

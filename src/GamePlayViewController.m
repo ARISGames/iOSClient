@@ -243,7 +243,7 @@
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"])
         {
             //if uses tag sort view
-            if((BOOL)tmpTab.tabDetail1)
+            if(YES)//(BOOL)tmpTab.tabDetail1)
             {
                 InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:self];
                 self.inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
