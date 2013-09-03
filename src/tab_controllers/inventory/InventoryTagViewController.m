@@ -195,9 +195,19 @@
             }
             if(!match) [self.sortableTags addObject:[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]];
         }
+        if([((Item *)[self.inventory objectAtIndex:i]).tags count] == 0)
+        {
+            match = NO;
+            for(int k = 0; k < [self.sortableTags count]; k++)
+            {
+                if([@"untagged" isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:k]).name])
+                    match = YES;
+            }
+            if(!match) { ItemTag *t = [[ItemTag alloc] init]; t.name = @"untagged"; t.media_id = 0; [self.sortableTags insertObject:t atIndex:0]; }
+        }
     }
         
-    if([self.sortableTags count] > 0) [self sizeViewsForTagView];
+    if([self.sortableTags count] > 1) [self sizeViewsForTagView];
     else                              [self sizeViewsWithoutTagView];
     
     
@@ -212,24 +222,11 @@
     
     UIView *tag;
     UILabel *label;
-    tag = [[UIView alloc] initWithFrame:CGRectMake(10,10,80,80)];
-    tag.backgroundColor = [UIColor ARISColorLightGray];
-    tag.tag = 0;
-    [tag addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagTapped:)]];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
-    label.textColor = [UIColor ARISColorWhite];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 0;
-    label.backgroundColor = [UIColor clearColor];
-    label.opaque = NO;
-    label.text = @"All";
-    [tag addSubview:label];
-    [self.tagView addSubview:tag];
     for(int i = 0; i < [self.sortableTags count]; i++)
     {
-        tag = [[UIView alloc] initWithFrame:CGRectMake((i+1)*100+10,10,80,80)];
+        tag = [[UIView alloc] initWithFrame:CGRectMake(i*100+10,10,80,80)];
         tag.backgroundColor = [UIColor ARISColorLightGray];
-        tag.tag = i+1;
+        tag.tag = i;
         [tag addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagTapped:)]];
         label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
         label.textColor = [UIColor ARISColorWhite];
@@ -246,21 +243,21 @@
         [tag addSubview:label];
         [self.tagView addSubview:tag];
     }
-    self.tagView.contentSize = CGSizeMake(([self.sortableTags count]+1)*100, 100);
+    self.tagView.contentSize = CGSizeMake([self.sortableTags count]*100, 100);
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(self.currentTagIndex == 0) return [self.inventory count];
-    
     int rows = 0;
     for(int i = 0; i < [self.inventory count]; i++)
     {
         for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
         {
-            if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex-1]).name])
+            if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex]).name])
                 rows++;
         }
+        if(self.currentTagIndex == 0 && [((Item *)[self.inventory objectAtIndex:i]).tags count] == 0)
+            rows++; //untagged selected, has no tags
     }
     return rows;
 }
@@ -327,20 +324,18 @@
     else                       cell.contentView.backgroundColor = [UIColor ARISColorOffWhite];
     
     Item *item;
-    if(self.currentTagIndex == 0)
-         item = [self.inventory objectAtIndex:[indexPath row]];
-    else
+    int tagItemIndex = -1;//-1 so first item found will be index 0  //also, yes, this is dumb and n^2, and could be n if I just saved state. chill.
+    for(int i = 0; i < [self.inventory count]; i++)
     {
-        int tagItemIndex = -1;//-1 so first item found will be index 0
-        for(int i = 0; i < [self.inventory count]; i++)
+        for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
         {
-            for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
-            {
-                if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex-1]).name])
-                    tagItemIndex++;
-            }
-            if(tagItemIndex == indexPath.row) { item = [self.inventory objectAtIndex:i]; break; }
+            if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex]).name])
+                tagItemIndex++;
         }
+        if(self.currentTagIndex == 0 && [((Item *)[self.inventory objectAtIndex:i]).tags count] == 0)
+            tagItemIndex++; //untagged selected, and current item has no tags
+        
+        if(tagItemIndex == indexPath.row) { item = [self.inventory objectAtIndex:i]; break; }
     }
     
     ((UILabel *)[cell viewWithTag:1]).text = item.name;

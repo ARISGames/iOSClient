@@ -168,7 +168,7 @@
 }
 
 //Removes all content after first <br> or </br> or <br /> tags, then removes all html
--(NSString *) stringByStrippingHTML:(NSString *)stringToStrip
+- (NSString *) stringByStrippingHTML:(NSString *)stringToStrip
 {
     //PHIL- probably could convert this into a pretty simple regex. but it works for now...
     NSRange range;
@@ -177,7 +177,7 @@
     range = [stringToStrip rangeOfString:@"<br/>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
     range = [stringToStrip rangeOfString:@"<br />"]; if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
 
-    while ((range = [stringToStrip rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
+    while((range = [stringToStrip rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
         stringToStrip = [stringToStrip stringByReplacingCharactersInRange:range withString:@""];
     return stringToStrip;
 }
