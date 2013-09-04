@@ -18,7 +18,6 @@
     WebPage *webPage;
     ARISWebView *webView;
     UIActivityIndicatorView *activityIndicator;
-    UIButton *continueButton;
     
     BOOL hasAppeared;
     
@@ -28,7 +27,6 @@
 @property (nonatomic, strong) WebPage *webPage;
 @property (nonatomic, strong) ARISWebView *webView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) UIButton *continueButton;
 
 @end
 
@@ -71,7 +69,7 @@
     [self.activityIndicator startAnimating];
     [self.view addSubview:self.activityIndicator];
     
-    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44) delegate:self];
+    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height) delegate:self];
     self.webView.scalesPageToFit = YES;
     self.webView.allowsInlineMediaPlayback = YES;
     self.webView.mediaPlaybackRequiresUserAction = NO;
@@ -102,12 +100,6 @@
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
     [self dismissSelf];
-}
-
-- (void) ARISWebViewRequestsHideButton:(ARISWebView *)awv
-{
-    self.webView.frame = self.view.bounds;
-    [self.continueButton removeFromSuperview];
 }
 
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
