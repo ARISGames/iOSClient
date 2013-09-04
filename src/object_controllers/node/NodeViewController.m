@@ -122,14 +122,19 @@ static NSString * const OPTION_CELL = @"option";
     }
     
     
-    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
+    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width-30, 44)];
     self.continueButton.backgroundColor = [UIColor ARISColorTextBackdrop];
     self.continueButton.textColor = [UIColor ARISColorText];
     self.continueButton.textAlignment = NSTextAlignmentRight;
-    self.continueButton.text = [NSString stringWithFormat:@"%@ > ",NSLocalizedString(@"ContinueKey", @"")];
+    self.continueButton.text = NSLocalizedString(@"ContinueKey", @"");
     self.continueButton.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     self.continueButton.userInteractionEnabled = YES;
     [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouchAction)]];
+    
+    
+    UIImageView *arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19);
+    [self.view addSubview:arrow];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
