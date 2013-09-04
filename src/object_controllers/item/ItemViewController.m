@@ -202,7 +202,7 @@
         self.descriptionWebView.scrollView.bounces = NO;
         self.descriptionWebView.opaque = NO;
         self.descriptionWebView.backgroundColor = [UIColor clearColor];
-        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10) open:NO showHandle:YES draggable:YES tappable:YES delegate:self];
+        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
         [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.item.idescription] baseURL:nil];
         [self.view addSubview:self.descriptionCollapseView];
     }
@@ -213,7 +213,6 @@
         line.backgroundColor = [UIColor ARISColorLightGray];
         [self.view addSubview:line];
     }
-    
     
 	[self updateQuantityDisplay];
 }
@@ -339,7 +338,7 @@
         {
 			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
 			
-			if (itemInInventory.qty < item.maxQty)
+			if(itemInInventory.qty < item.maxQty)
             {
 				quantity = item.maxQty - itemInInventory.qty;
                 
@@ -367,10 +366,9 @@
 														   delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
 			[alert show];
 		}
-        else if (((quantity*item.weight +[AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)&&([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0))
+        else if(((quantity*item.weight +[AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)&&([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0))
         {
-            while ((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
-
+            while((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
                 quantity--;
 
             errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionTooHeavyKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
@@ -380,16 +378,18 @@
 			[alert show];
         }
         
-		if (quantity > 0) 
+		if(quantity > 0) 
         {
 			if([(NSObject *)source isKindOfClass:[Location class]])
             {
                 [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:((Location *)source).locationId qty:quantity];
                 [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:((Location *)source).locationId];
             }
-            
-            [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
-			item.qty -= quantity;
+            else
+            {
+                [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
+                item.qty -= quantity;
+            }
         }
 	}
 	

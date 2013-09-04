@@ -80,8 +80,12 @@
         goButton.frame = CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 44);
         [goButton setBackgroundColor:[UIColor ARISColorTextBackdrop]];
         [goButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
-        [goButton setTitle:@"GO" forState:UIControlStateNormal];
+        [goButton setTitle:@"GO     " forState:UIControlStateNormal];
+        [goButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
         [goButton addTarget:self action:@selector(goButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+        continueArrow.frame = CGRectMake(self.view.bounds.size.width-25, 14, 19, 19);
+        [goButton addSubview:continueArrow];
         [self.view addSubview:goButton];
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 1)];
