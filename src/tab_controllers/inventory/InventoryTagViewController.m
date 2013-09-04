@@ -372,7 +372,23 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"swish" shouldVibrate:NO];
-    [delegate displayGameObject:[self.inventory objectAtIndex:[indexPath row]] fromSource:self];
+ 
+    Item *item;
+    int tagItemIndex = -1;//-1 so first item found will be index 0  //also, yes, this is dumb and n^2, and could be n if I just saved state. chill.
+    for(int i = 0; i < [self.inventory count]; i++)
+    {
+        for(int j = 0; j < [((Item *)[self.inventory objectAtIndex:i]).tags count]; j++)
+        {
+            if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex]).name])
+                tagItemIndex++;
+        }
+        if(self.currentTagIndex == 0 && [((Item *)[self.inventory objectAtIndex:i]).tags count] == 0)
+            tagItemIndex++; //untagged selected, and current item has no tags
+        
+        if(tagItemIndex == indexPath.row) { item = [self.inventory objectAtIndex:i]; break; }
+    }
+    
+    [delegate displayGameObject:item fromSource:self];
     
     [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[self.inventory objectAtIndex:[indexPath row]]).itemId]];
 }

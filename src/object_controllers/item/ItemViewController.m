@@ -202,7 +202,7 @@
         self.descriptionWebView.scrollView.bounces = NO;
         self.descriptionWebView.opaque = NO;
         self.descriptionWebView.backgroundColor = [UIColor clearColor];
-        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10) open:NO showHandle:YES draggable:YES tappable:YES delegate:self];
+        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
         [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.item.idescription] baseURL:nil];
         [self.view addSubview:self.descriptionCollapseView];
     }
