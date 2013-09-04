@@ -464,6 +464,8 @@
 		ABE735F117D65EFA00396CF5 /* threeLines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735EF17D65EFA00396CF5 /* threeLines@2x.png */; };
 		ABE735F417D65FBD00396CF5 /* 74-location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735F217D65FBD00396CF5 /* 74-location@2x.png */; };
 		ABE735F517D65FBD00396CF5 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735F317D65FBD00396CF5 /* 74-location.png */; };
+		ABE735F817D6B96600396CF5 /* arrowForward.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735F617D6B96600396CF5 /* arrowForward.png */; };
+		ABE735F917D6B96600396CF5 /* arrowFoward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735F717D6B96600396CF5 /* arrowFoward@2x.png */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
@@ -1200,6 +1202,8 @@
 		ABE735EF17D65EFA00396CF5 /* threeLines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "threeLines@2x.png"; sourceTree = "<group>"; };
 		ABE735F217D65FBD00396CF5 /* 74-location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location@2x.png"; sourceTree = "<group>"; };
 		ABE735F317D65FBD00396CF5 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
+		ABE735F617D6B96600396CF5 /* arrowForward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowForward.png; sourceTree = "<group>"; };
+		ABE735F717D6B96600396CF5 /* arrowFoward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowFoward@2x.png"; sourceTree = "<group>"; };
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1482,6 +1486,8 @@
 			children = (
 				ABE735EA17D65E8000396CF5 /* idcard.png */,
 				ABE735EB17D65E8000396CF5 /* idcard@2x.png */,
+				ABE735F617D6B96600396CF5 /* arrowForward.png */,
+				ABE735F717D6B96600396CF5 /* arrowFoward@2x.png */,
 				ABE735E617D65C0100396CF5 /* arrowBack@2x.png */,
 				ABE735E717D65C0100396CF5 /* arrowBack.png */,
 				AA942B8A17CD4CB9004EDEA1 /* app */,
@@ -2604,6 +2610,7 @@
 				AABC6FCA1727398B0074CC21 /* 123-id-card@2x.png in Resources */,
 				AABC6FCB1727398B0074CC21 /* 14-gear-white.png in Resources */,
 				AABC6FCC1727398B0074CC21 /* 14-gear-white@2x.png in Resources */,
+				ABE735F817D6B96600396CF5 /* arrowForward.png in Resources */,
 				AABC6FCD1727398B0074CC21 /* 16-tag-white.png in Resources */,
 				AA942B7F17CD498D004EDEA1 /* globe_selected@2x.png in Resources */,
 				AABC6FCE1727398B0074CC21 /* 16-tag-white@2x.png in Resources */,
@@ -2738,6 +2745,7 @@
 				AABC705D1727399C0074CC21 /* Grainger.gpx in Resources */,
 				AABC705E1727399C0074CC21 /* Institutes for Discovery.gpx in Resources */,
 				AABC705F1727399C0074CC21 /* North Hall.gpx in Resources */,
+				ABE735F917D6B96600396CF5 /* arrowFoward@2x.png in Resources */,
 				AABC70601727399C0074CC21 /* Science Hall.gpx in Resources */,
 				AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */,
 				AABC7374172739D80074CC21 /* AccountSettingsViewController.xib in Resources */,

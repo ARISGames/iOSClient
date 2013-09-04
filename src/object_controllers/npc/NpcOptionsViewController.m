@@ -131,10 +131,9 @@
     self.optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
     UIView *cell;
     ARISWebView * text;
-    UILabel *arrow;
+    UIImageView *arrow;
     CGRect cellFrame;
     CGRect textFrame;
-    CGRect arrowFrame;
     for(int i = 0; i < [self.optionList count]; i++)
     {
         cellFrame = CGRectMake(0, 43*i, self.view.bounds.size.width, 43);
@@ -158,17 +157,9 @@
         else
             [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], [NSString stringWithFormat:@"<div style=\"color:#555555;\">%@</div>",option.optionText]] baseURL:nil];
         
-        arrowFrame = textFrame;
-        arrowFrame.origin.x = textFrame.size.width;
-        arrowFrame.size.width = cellFrame.size.width-textFrame.size.width;
-        arrow = [[UILabel alloc] initWithFrame:arrowFrame];
-        arrow.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:19];
-        arrow.textAlignment = NSTextAlignmentCenter;
-        arrow.backgroundColor = [UIColor clearColor];
-        arrow.textColor = [UIColor ARISColorText];
-        arrow.opaque = NO;
-        arrow.text = @">";
-        
+        arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+        arrow.frame = CGRectMake(textFrame.size.width, 10, 19, 19);
+    
         [cell addSubview:text];
         [cell addSubview:arrow];
         [self.optionsScrollView addSubview:cell];
@@ -192,7 +183,12 @@
         cell.tag = -1;
         [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.currentLeaveConversationTitle] baseURL:nil];
         
+        arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+        arrow.frame = CGRectMake(textFrame.size.width, 10, 19, 19);
+        
         [cell addSubview:text];
+        [cell addSubview:arrow];
+        
         [self.optionsScrollView addSubview:cell];
     }
     
