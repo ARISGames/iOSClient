@@ -37,7 +37,6 @@
 @synthesize webPage;
 @synthesize webView;
 @synthesize activityIndicator;
-@synthesize continueButton;
 
 - (id) initWithWebPage:(WebPage *)w delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d
 {
@@ -78,13 +77,11 @@
     self.webView.mediaPlaybackRequiresUserAction = NO;
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webPage.url]] withAppendation:[NSString stringWithFormat:@"&webPageId=%d",self.webPage.webPageId]];
     
-    self.continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.continueButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
-    self.continueButton.backgroundColor = [UIColor whiteColor];
-    [self.continueButton setTitle:@"Continue" forState:UIControlStateNormal];
-    [self.continueButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.continueButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.continueButton];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 19, 19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) webViewDidFinishLoad:(UIWebView *)wv

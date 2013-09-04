@@ -89,8 +89,8 @@
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
     else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
     
-    if(pcMedia) self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia                                    mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
-    else        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+    if(pcMedia) self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia                                    mode:ARISMediaDisplayModeAspectFill delegate:self];
+    else        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
     [self.mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToOptions:)]];
     
     self.optionsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 128)];

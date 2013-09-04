@@ -86,12 +86,13 @@
                                                        mode:ARISMediaDisplayModeStretchFill
                                                    delegate:self];
     
-    //Create a close buttonx
-	self.navigationItem.leftBarButtonItem =
-	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
-									 style:UIBarButtonItemStyleBordered
-									target:self
-									action:@selector(backButtonTouchAction:)];
+    //Create a back button
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 19, 19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backButtonTouchAction:) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
 }
 
 -(void) viewDidAppear:(BOOL)animated

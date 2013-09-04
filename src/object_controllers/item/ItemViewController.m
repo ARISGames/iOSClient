@@ -233,14 +233,12 @@
     [super viewWillAppear:animated];
     self.view.frame = viewFrame;
     
-    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancelButton.frame = CGRectMake(0, 0, 40, 40);
-    [cancelButton setImage:[UIImage imageNamed:@"213-reply-white.png"] forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 19, 19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
-    UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
-    
-    self.navigationItem.leftBarButtonItem = cancelBarButton;
 }
 
 - (void) updateQuantityDisplay
