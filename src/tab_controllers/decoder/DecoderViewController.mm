@@ -19,20 +19,17 @@
 @interface DecoderViewController() <ZXingDelegate, UITextFieldDelegate>
 {
 	UITextField *codeTextField;
-    UIBarButtonItem *cancelButton;
     
     ZXingWidgetController *widController;
     id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) UITextField *codeTextField;
-@property (nonatomic, strong) UIBarButtonItem *cancelButton;
 
 @end
 
 @implementation DecoderViewController
 
 @synthesize codeTextField;
-@synthesize cancelButton;
 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
 {
@@ -70,8 +67,6 @@
     [scanBtn addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:scanBtn];
 	
-    cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouched)];      
-    
     UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
     [threeLineNavButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
@@ -84,16 +79,11 @@
     [super showNav];
 }
 
-- (void) cancelButtonTouched
-{
-    [self clearScreenActions];
-}
      
  - (void) clearScreenActions
  {
      [self.codeTextField resignFirstResponder];
      if(widController) [self hideWidController];
-     [self hideCancelButton];
  }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
@@ -103,24 +93,12 @@
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
 	
 	[self loadResult:codeTextField.text];
-    [self hideCancelButton];
 	return YES;
 }
 
 - (BOOL) textFieldShouldBeginEditing:(UITextField *)textField
 {    
-    [self displayCancelButton];
     return YES;
-}
-
-- (void) displayCancelButton
-{
-    self.navigationItem.rightBarButtonItem = self.cancelButton;	
-}
-
-- (void) hideCancelButton
-{
-    self.navigationItem.rightBarButtonItem = nil;	
 }
 
 - (void) launchScannerWithPrompt:(NSString *)p
@@ -129,7 +107,6 @@
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
     
     [self.view addSubview:widController.view];
-    [self displayCancelButton];
 }
 
 - (void) scanButtonTouched
