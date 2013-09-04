@@ -98,10 +98,15 @@
 
 - (void) scriptEndedExitToType:(NSString *)type title:(NSString *)title id:(int)typeId
 {
-    if(closingScriptPlaying && !type) [self dismissSelf];
+    if(closingScriptPlaying && !type)
+    {
+        [[AppServices sharedAppServices] updateServerNodeViewed:self.option.nodeId fromLocation:0];
+        [self dismissSelf];
+    }
     
     if(type)
     {
+        [[AppServices sharedAppServices] updateServerNodeViewed:self.option.nodeId fromLocation:0];
         [self dismissSelf];
         
         if([type isEqualToString:@"tab"])

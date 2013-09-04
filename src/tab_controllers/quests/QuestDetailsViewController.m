@@ -71,6 +71,7 @@
     
     CGRect mainFrame = self.view.bounds;
     
+    //self.quest.goFunction = @"JAVASCRIPT";
     if(![self.quest.goFunction isEqualToString:@"NONE"])
     {
         mainFrame.size.height -= 44;

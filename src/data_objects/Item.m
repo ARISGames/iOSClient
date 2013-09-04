@@ -10,6 +10,11 @@
 #import "ItemViewController.h"
 #import "NSDictionary+ValidParsers.h"
 
+@implementation ItemTag
+@synthesize name;
+@synthesize media_id;
+@end
+
 @implementation Item
 
 @synthesize itemId;
@@ -25,6 +30,7 @@
 @synthesize destroyable;
 @synthesize tradeable;
 @synthesize url;
+@synthesize tags;
 
 - (Item *) init
 {
@@ -43,6 +49,7 @@
         self.destroyable = NO;
         self.tradeable = NO;
         self.url = @"";
+        self.tags = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -66,6 +73,15 @@
         self.destroyable  = [dict validBoolForKey:@"destroyable"];
         self.tradeable    = [dict validBoolForKey:@"tradeable"];
         self.url          = [dict validObjectForKey:@"url"];
+        self.tags = [[NSMutableArray alloc] initWithCapacity:10];
+        NSArray *rawtags = [dict validObjectForKey:@"tags"];
+        for(int i = 0; i < [rawtags count]; i++)
+        {
+            ItemTag *t = [[ItemTag alloc] init];
+            t.name = [((NSDictionary *)[rawtags objectAtIndex:i]) validStringForKey:@"tag"];
+            t.media_id = [((NSDictionary *)[rawtags objectAtIndex:i]) validIntForKey:@"media_id"];
+            [self.tags addObject:t];
+        }
     }
     return self;
 }
@@ -81,7 +97,7 @@
 	return [[ItemViewController alloc] initWithItem:self viewFrame:vf delegate:d source:s];
 }
 
--(Item *)copy
+- (Item *) copy
 {
     Item *c = [[Item alloc] init];
     c.itemId = self.itemId;
@@ -97,10 +113,11 @@
     c.destroyable = self.destroyable;
     c.tradeable = self.tradeable;
     c.url = self.url;
+    c.tags = self.tags;
     return c;
 }
 
-- (int)compareTo:(Item *)ob
+- (int) compareTo:(Item *)ob
 {
 	return (ob.itemId == self.itemId);
 }

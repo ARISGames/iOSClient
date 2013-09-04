@@ -27,6 +27,7 @@
 #import "UIColor+ARISColors.h"
 
 #import "InventoryViewController.h"
+#import "InventoryTagViewController.h"
 
 @interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, UIWebViewDelegate, UITextViewDelegate>
 {
@@ -99,7 +100,7 @@
     self.view.frame = viewFrame;
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
-	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] == YES)
+	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] || [(NSObject *)source isKindOfClass:[InventoryTagViewController class]])
     {
         if(item.dropable)
         {
