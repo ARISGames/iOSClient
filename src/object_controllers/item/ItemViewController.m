@@ -214,7 +214,6 @@
         [self.view addSubview:line];
     }
     
-    
 	[self updateQuantityDisplay];
 }
 
