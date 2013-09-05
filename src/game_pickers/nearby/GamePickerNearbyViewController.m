@@ -30,7 +30,7 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self performSelector:@selector(resizeSelf) withObject:Nil afterDelay:0.1];//see reasoning below
+    [self resizeSelf];
 }
 
 //This pickervc uniquely fails to size itself appropriately. Since it is first in the tabvc, it alone 'knows' it is
@@ -40,8 +40,8 @@
 //the first one, I'm adding code to the first one to adjust for its multiple adjustments to JUST the first vc. -Phil
 - (void) resizeSelf
 {
-    self.gameTable.frame = self.view.bounds;
     [self.gameTable setContentInset:UIEdgeInsetsMake(64,0,49,0)];
+    self.gameTable.frame = self.view.bounds;
 }
 
 - (void) requestNewGameList
@@ -61,6 +61,12 @@
     [self.gameTable reloadData];
     
     [self removeLoadingIndicator];
+}
+
+- (void) removeLoadingIndicator
+{
+    [super removeLoadingIndicator];
+    [self resizeSelf];
 }
 
 - (void) dealloc

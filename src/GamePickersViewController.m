@@ -24,7 +24,7 @@
     PKRevealController *gamePickersRevealController;
     ARISNavigationController *gamePickersNavigationController;
     UITabBarController *gamePickersTabBarController;
-    ARISNavigationController *gameDetailsNavigationController;
+    GameDetailsViewController *gameDetailsViewController;
     ARISNavigationController *accountSettingsNavigationController;
     
     id<GamePickersViewControllerDelegate> __unsafe_unretained delegate;
@@ -33,7 +33,7 @@
 @property (nonatomic, strong) PKRevealController *gamePickersRevealController;
 @property (nonatomic, strong) ARISNavigationController *gamePickersNavigationController;
 @property (nonatomic, strong) UITabBarController *gamePickersTabBarController;
-@property (nonatomic, strong) ARISNavigationController *gameDetailsNavigationController;
+@property (nonatomic, strong) GameDetailsViewController *gameDetailsViewController;
 @property (nonatomic, strong) ARISNavigationController *accountSettingsNavigationController;
 
 @end
@@ -43,7 +43,7 @@
 @synthesize gamePickersRevealController;
 @synthesize gamePickersNavigationController;
 @synthesize gamePickersTabBarController;
-@synthesize gameDetailsNavigationController;
+@synthesize gameDetailsViewController;
 @synthesize accountSettingsNavigationController;
 
 - (id) initWithDelegate:(id<GamePickersViewControllerDelegate>)d;
@@ -98,15 +98,14 @@
 
 - (void) gamePicked:(Game *)g
 {
-    GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
-    
-    self.gameDetailsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:gameDetailsViewController];
-    [self displayContentController:self.gameDetailsNavigationController];
+    self.gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
+    [self.gamePickersNavigationController pushViewController:self.gameDetailsViewController animated:YES];
 }
 
 - (void) gameDetailsWereCanceled:(Game *)g
 {
-    [self displayContentController:self.gamePickersRevealController];
+    [self.gamePickersNavigationController popToRootViewControllerAnimated:YES];
+    self.gameDetailsViewController = nil;
 }
 
 - (void) gameDetailsWereConfirmed:(Game *)g
