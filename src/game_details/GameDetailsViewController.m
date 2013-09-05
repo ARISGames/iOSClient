@@ -10,7 +10,6 @@
 #import "GameDetailsViewController.h"
 #import "AppServices.h"
 #import "AppModel.h"
-#import "ARISAppDelegate.h"
 #import "commentsViewController.h"
 #import "RatingCell.h"
 #import "LocalData.h"
@@ -27,35 +26,38 @@
 @interface GameDetailsViewController() <ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate,  UIWebViewDelegate>
 {
 	Game *game; 
-    IBOutlet UITableView *tableView;
-    UIWebView *descriptionWebView;
+    
+    UITableView *tableView;
     ARISMediaView *mediaImageView;
-    CGFloat newHeight;
+    UIWebView *descriptionWebView;
+    
     NSIndexPath *descriptionIndexPath;
+    CGFloat newHeight;
+    
     id<GameDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) NSIndexPath *descriptionIndexPath;
 @property (nonatomic, strong) Game *game;
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIWebView *descriptionWebView;
-@property (nonatomic, assign) CGFloat  newHeight;
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) ARISMediaView *mediaImageView;
+@property (nonatomic, strong) UIWebView *descriptionWebView;
+@property (nonatomic, assign) CGFloat newHeight;
+@property (nonatomic, strong) NSIndexPath *descriptionIndexPath;
 
 @end
 
 @implementation GameDetailsViewController
 
-@synthesize descriptionIndexPath;
-@synthesize descriptionWebView;
 @synthesize game;
 @synthesize tableView;
-@synthesize newHeight;
 @synthesize mediaImageView;
+@synthesize descriptionWebView;
+@synthesize newHeight;
+@synthesize descriptionIndexPath;
 
 - (id) initWithGame:(Game *)g delegate:(id<GameDetailsViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"GameDetailsViewController" bundle:nil])
+    if(self = [super init])
     {
         delegate = d;
         self.game = g;
@@ -66,9 +68,33 @@
     return self;
 }
 
-- (void) dealloc
+- (void) loadView
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super loadView];
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    [self.view addSubview:self.tableView];
+    [self setLayoutFrames];
+}
+
+- (void) viewDidAppear:(BOOL)animated 
+{
+    //for some reason, frames get messed up when you get to this screen from leaving a game. This corrects it.
+    [super viewDidAppear:animated];
+    [self setLayoutFrames];
+}
+
+- (void) setLayoutFrames
+{
+    self.tableView.frame = self.view.bounds;
+    self.tableView.contentInset = UIEdgeInsetsMake(64,0,0,0);
 }
 
 - (void) viewDidLoad
@@ -76,29 +102,23 @@
     [super viewDidLoad];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, 19, 19);
+    backButton.frame = CGRectMake(0,0,19,19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 
+    if(self.game.splashMedia)
+        self.mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,200) media:self.game.splashMedia mode:ARISMediaDisplayModeAspectFit delegate:self];
+    else
+        self.mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,200) image:[UIImage imageNamed:@"DefaultGameSplash"] mode:ARISMediaDisplayModeAspectFit delegate:self];
     
-    self.mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
     self.descriptionWebView = [[UIWebView alloc] initWithFrame:CGRectMake(15, 15, self.view.bounds.size.width-30, 10)];
     [descriptionWebView setBackgroundColor:[UIColor clearColor]];
+    self.descriptionWebView.delegate = self;
+    if(![self.game.gdescription isEqualToString:@""])
+        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.game.gdescription] baseURL:nil];
     
     self.title = self.game.name;
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    if(![self.game.gdescription isEqualToString:@""])
-    {
-        self.descriptionWebView.delegate = self;
-        self.descriptionWebView.hidden = NO;
-        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.game.gdescription] baseURL:nil];
-
-        [self.tableView reloadData];
-    }
 }
 
 - (void) viewDidIntentionallyAppear
@@ -112,8 +132,7 @@
 
 - (void) webViewDidFinishLoad:(UIWebView *)descriptionView
 {
-	float nHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
-	self.newHeight = nHeight;
+	self.newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
 	
 	CGRect descriptionFrame = [descriptionView frame];	
 	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
@@ -135,7 +154,7 @@
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.game.offlineMode) return 4;
+    if(self.game.offlineMode) return 4;
     return 3;
 }
 
@@ -162,27 +181,18 @@
 
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if(section == 2) return  [NSString stringWithFormat:@"%@: ", NSLocalizedString(@"DescriptionKey", @"")];
-    
     return @""; 
 }
 
 - (UITableViewCell *) tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
 	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = (UITableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];;
 	
     if(indexPath.section == 0 && indexPath.row == 0)
     {
-        if(self.game.splashMedia)
-            [self.mediaImageView refreshWithFrame:CGRectMake(0,0,self.view.bounds.size.width-20,200) media:self.game.splashMedia mode:ARISMediaDisplayModeAspectFit delegate:self];
-        else
-            [self.mediaImageView refreshWithFrame:CGRectMake(0,0,self.view.bounds.size.width-20,200) image:[UIImage imageNamed:@"DefaultGameSplash"] mode:ARISMediaDisplayModeAspectFit delegate:self];
-        
-        cell.backgroundView = mediaImageView;
-        cell.backgroundView.layer.masksToBounds = YES;
-        cell.backgroundView.layer.cornerRadius = 10.0;
+        cell.backgroundView = self.mediaImageView;
         cell.userInteractionEnabled = NO;
     }
     else if(indexPath.section == 1)
@@ -244,6 +254,11 @@
             cell.backgroundColor = [UIColor ARISColorOffWhite];
         }
     }
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section //hides empty cells at bottom
+{
+    return 0.01f;
 }
 
 - (void) playGame
@@ -329,7 +344,7 @@
 
 - (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if     (indexPath.section == 0 && indexPath.row == 0)                   return 200;
+    if     (indexPath.section == 0 && indexPath.row == 0)                   return 220;
     else if(indexPath.section == 2 && indexPath.row == 0 && self.newHeight) return self.newHeight+30;
     
     return 40;
@@ -358,6 +373,11 @@
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
