@@ -273,13 +273,8 @@
             break;
 		case kAudioRecorderRecording:
             [self.soundRecorder stop];
-            
-            //iOS5 way to do it
-            [session setActive:NO withFlags:AVAudioSessionSetActiveFlags_NotifyOthersOnDeactivation error:nil];
-            //iOS6 way to do it
-            //[session setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
-            
-			[session setCategory: AVAudioSessionCategoryPlayback error: nil];
+            [session setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+			[session setCategory:AVAudioSessionCategoryPlayback error: nil];
 			self.soundRecorder = nil;
             [self setMode:kAudioRecorderRecordingComplete];
             break;

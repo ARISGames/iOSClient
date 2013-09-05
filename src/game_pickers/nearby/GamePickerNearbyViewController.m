@@ -27,6 +27,23 @@
     return self;
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self performSelector:@selector(resizeSelf) withObject:Nil afterDelay:0.1];//see reasoning below
+}
+
+//This pickervc uniquely fails to size itself appropriately. Since it is first in the tabvc, it alone 'knows' it is
+//in a navigationvc. because of this, it will automatically add the offset in the table behind the nav bar. however,
+//since none of the other pickervc's are aware of this, they need to have their offsets manually set. in the case of
+//this pickervc, it will do its automatic offset AND the adjusted offset. So, rather than add code to 'all vcs except
+//the first one, I'm adding code to the first one to adjust for its multiple adjustments to JUST the first vc. -Phil
+- (void) resizeSelf
+{
+    self.gameTable.frame = self.view.bounds;
+    [self.gameTable setContentInset:UIEdgeInsetsMake(64,0,49,0)];
+}
+
 - (void) requestNewGameList
 {
     [super requestNewGameList];

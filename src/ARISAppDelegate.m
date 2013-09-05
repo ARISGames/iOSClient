@@ -57,19 +57,19 @@
 - (void) setApplicationUITemplates
 {
     
-        [[UINavigationBar appearance] setTitleTextAttributes:
-         [NSDictionary dictionaryWithObjectsAndKeys:
-          [UIColor ARISColorNavBarText],                      UITextAttributeTextColor,
-          [UIColor clearColor],                               UITextAttributeTextShadowColor,
-          [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],    UITextAttributeFont,
-          nil]
-         ];
-        
-
-        // Load resources for iOS 7 or later
-        self.window.rootViewController.edgesForExtendedLayout = UIRectEdgeAll;
-        self.window.rootViewController.extendedLayoutIncludesOpaqueBars = NO;
-
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor ARISColorNavBarText],                      UITextAttributeTextColor,
+      [UIColor clearColor],                               UITextAttributeTextShadowColor,
+      [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],    UITextAttributeFont,
+      nil]
+     ];
+    
+    
+    // Load resources for iOS 7 or later
+    self.window.rootViewController.edgesForExtendedLayout = UIRectEdgeAll;
+    self.window.rootViewController.extendedLayoutIncludesOpaqueBars = NO;
+    
     
     [[UILabel appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]];
     [[UILabel appearanceWhenContainedIn:[UIButton class],        nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
@@ -80,38 +80,38 @@
                                                     barMetrics:UIBarMetricsDefault];
     
     [[UIBarButtonItem appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
-            [UIColor ARISColorDarkGray], UITextAttributeTextColor,
-         nil]
-        forState:UIControlStateNormal];
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
+      [UIColor ARISColorDarkGray], UITextAttributeTextColor,
+      nil]
+                                                forState:UIControlStateNormal];
     [[UIBarButtonItem appearance] setBackButtonBackgroundImage:
      [UIImage imageNamed:@"1pxColorClear"]
                                                       forState:UIControlStateNormal
                                                     barMetrics:UIBarMetricsDefault];
     
     [[UISegmentedControl appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
-            [UIColor ARISColorDarkGray],                          UITextAttributeTextColor,
-            [UIColor clearColor],                                 UITextAttributeTextShadowColor,
-            nil]
-        forState:UIControlStateNormal];
-
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
+      [UIColor ARISColorDarkGray],                          UITextAttributeTextColor,
+      [UIColor clearColor],                                 UITextAttributeTextShadowColor,
+      nil]
+                                                   forState:UIControlStateNormal];
+    
     [[UINavigationBar appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont,
-            [UIColor ARISColorNavBarText],                          UITextAttributeTextColor,
-            [UIColor clearColor],                                   UITextAttributeTextShadowColor,
-            nil]
-        ];
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont,
+      [UIColor ARISColorNavBarText],                          UITextAttributeTextColor,
+      [UIColor clearColor],                                   UITextAttributeTextShadowColor,
+      nil]
+     ];
     
     [[UITabBarItem appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,
-            [UIColor ARISColorTabBarText],                         UITextAttributeTextColor,
-            nil] 
-        forState:UIControlStateNormal];
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,
+      [UIColor ARISColorTabBarText],                         UITextAttributeTextColor,
+      nil] 
+                                             forState:UIControlStateNormal];
 }
 
 - (void) applicationDidBecomeActive:(UIApplication *)application
@@ -119,7 +119,7 @@
 	NSLog(@"ARIS: Application Became Active");
 	[[AppModel sharedAppModel]       loadUserDefaults];
     [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
-
+    
     if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
         [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].fallbackGameId];
     else if([AppModel sharedAppModel].player.playerId > 0)
@@ -168,8 +168,8 @@
     [AppModel sharedAppModel].motionManager.accelerometerUpdateInterval = 0.2;
     NSOperationQueue *motionQueue = [[NSOperationQueue alloc] init];
     [[AppModel sharedAppModel].motionManager startAccelerometerUpdatesToQueue: motionQueue withHandler:
-        ^(CMAccelerometerData *data, NSError *error) { [self accelerometerData: data errorMessage: error];}
-        ];
+     ^(CMAccelerometerData *data, NSError *error) { [self accelerometerData: data errorMessage: error];}
+     ];
 }
 
 - (void)accelerometerData:(CMAccelerometerData *)data errorMessage:(NSError *)error
@@ -200,7 +200,7 @@
     }
     if (data.acceleration.z > minAccelZ || data.acceleration.z < (-1* minAccelZ)){
         shake = TRUE;
-            NSLog(@"Shaken Z: %f", data.acceleration.x);
+        NSLog(@"Shaken Z: %f", data.acceleration.x);
     }
     if (shake) {
         steps++;
@@ -209,8 +209,6 @@
     beenhere = false;
     NSLog(@"Number of steps: %d", steps);
 } 
-
-#pragma mark - Audio
 
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate
 {
@@ -221,9 +219,9 @@
 - (void) playAudio:(NSString*)wavFileName
 {
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
-
-    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategorySoloAmbient error: nil];
-    [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
     
     NSError* err;
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
@@ -252,7 +250,7 @@
 - (BOOL) application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
     if (!url) {  return NO; }
-
+    
     NSString *strPath = [[url host] lowercaseString];
     if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"])
     {
@@ -262,7 +260,6 @@
     return YES;
 }
 
-#pragma mark Memory Management
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

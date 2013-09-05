@@ -21,31 +21,14 @@
 
 - (void) loadView
 {
-    //Frame will need to get set in viewWillAppear:
-    // http://stackoverflow.com/questions/11305818/create-view-in-load-view-and-set-its-frame-but-frame-auto-changes
-    self.view = [[UIView alloc] initWithFrame:CGRectZero];
+    [super loadView];
 }
 
-- (CGRect) screenRect //This is Stupid. 
+- (void) viewWillLayoutSubviews
 {
-    CGRect rect = [UIScreen mainScreen].applicationFrame;
-    rect.origin.x = 0;
-    rect.origin.y = 0;
-    if(rect.size.height == [UIScreen mainScreen].bounds.size.height) //if no status bar
-    {
-        rect.size.height = rect.size.height-20;
-        rect.origin.y = 20;
-    }
-    return rect;
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
+    [super viewWillLayoutSubviews];
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
-    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
-        self.view.frame = [self screenRect];
-    else 
-        self.view.frame = [UIScreen mainScreen].bounds;
+    self.view.frame = [UIScreen mainScreen].bounds;
 }
 
 // Container VC Functions pulled from Apple Docs 5/6/13

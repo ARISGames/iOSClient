@@ -78,9 +78,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     if(viewHasAppeared) return;
     viewHasAppeared = YES;
     
-    int navOffset = 0;
-    if(floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
-        navOffset = 66;
+    int navOffset = 66;
         
     UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
     UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];

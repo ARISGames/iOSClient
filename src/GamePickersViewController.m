@@ -65,14 +65,14 @@
     //Setup the Game Selection Tab Bar
     self.gamePickersTabBarController = [[UITabBarController alloc] init];
     self.gamePickersTabBarController.delegate = self;
-    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
-                        [[GamePickerNearbyViewController   alloc] initWithDelegate:self],
-                        [[GamePickerAnywhereViewController alloc] initWithDelegate:self],
-                        [[GamePickerPopularViewController  alloc] initWithDelegate:self],
-                        [[GamePickerRecentViewController   alloc] initWithDelegate:self],
-                        [[GamePickerSearchViewController   alloc] initWithDelegate:self],
-                        nil];
     
+    //init pickervcs
+    GamePickerNearbyViewController   *gpnvc = [[GamePickerNearbyViewController   alloc] initWithDelegate:self];
+    GamePickerAnywhereViewController *gpavc = [[GamePickerAnywhereViewController alloc] initWithDelegate:self];
+    GamePickerPopularViewController  *gppvc = [[GamePickerPopularViewController  alloc] initWithDelegate:self];
+    GamePickerRecentViewController   *gprvc = [[GamePickerRecentViewController   alloc] initWithDelegate:self];
+    GamePickerSearchViewController   *gpsvc = [[GamePickerSearchViewController   alloc] initWithDelegate:self];
+    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gpavc,gppvc,gprvc,gpsvc,nil];
     self.gamePickersNavigationController = [[ARISNavigationController alloc] initWithRootViewController:self.gamePickersTabBarController];
     
     AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithDelegate:self];
@@ -94,11 +94,6 @@
     
     if(!currentChildViewController)
         [self displayContentController:self.gamePickersRevealController];
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 - (void) gamePicked:(Game *)g
