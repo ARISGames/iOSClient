@@ -150,20 +150,22 @@
 
 - (void) sizeViewsForTagView
 {
-    self.tagView.frame = CGRectMake(0,0,self.view.bounds.size.width,100);
+    self.tagView.frame = CGRectMake(0,64,self.view.bounds.size.width,100);
+    self.inventoryTable.contentInset = UIEdgeInsetsMake(0,0,0,0);
     if([AppModel sharedAppModel].currentGame.allowTrading)
     {
-        self.inventoryTable.frame = CGRectMake(0,100,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
+        self.inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-64-44);
         self.tradeButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
     }
     else
-        self.inventoryTable.frame = CGRectMake(0,100,self.view.bounds.size.width,self.view.bounds.size.height-100);
+        self.inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
     
 }
     
 - (void) sizeViewsWithoutTagView
 {
     self.tagView.frame = CGRectMake(0,0,self.view.bounds.size.width,0);
+    self.inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
     if([AppModel sharedAppModel].currentGame.allowTrading)
     {
         self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44);

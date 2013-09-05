@@ -51,7 +51,7 @@
 {
     [super viewWillLayoutSubviews];
     self.gameTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    [self.gameTable setContentInset:UIEdgeInsetsMake(64,0,49,0)];
+    self.gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
     self.gameTable.delegate = self;
     self.gameTable.dataSource = self;
     [self.view addSubview:self.gameTable];

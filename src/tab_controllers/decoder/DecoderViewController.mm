@@ -52,7 +52,7 @@
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorWhite];
     
-    codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20,self.view.frame.size.width-40,30)];
+    codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
     codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
     codeTextField.textAlignment = NSTextAlignmentCenter;
@@ -61,15 +61,23 @@
     [self.view addSubview:codeTextField];
     
     UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    scanBtn.frame = CGRectMake(20,70,self.view.frame.size.width-40,30);
+    scanBtn.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
     scanBtn.backgroundColor = [UIColor ARISColorDarkGray];
     [scanBtn setTitle:@"Scan" forState:UIControlStateNormal];
     [scanBtn addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:scanBtn];
-	
+    
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
     UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
     [threeLineNavButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
 }
 
