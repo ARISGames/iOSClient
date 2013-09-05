@@ -198,7 +198,7 @@ NSString *const kQuestsHtmlTemplate =
     [tableView reloadData];
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     if(![[[request URL] absoluteString] isEqualToString:@"about:blank"])
     {
@@ -240,7 +240,7 @@ NSString *const kQuestsHtmlTemplate =
 	[tableView reloadData];
 }
 
--(void)updateCellSize:(UITableViewCell*)cell
+-(void) updateCellSize:(UITableViewCell*)cell
 {
 	UIWebView *descriptionView = (UIWebView *)[cell viewWithTag:1];
 	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
@@ -263,6 +263,7 @@ NSString *const kQuestsHtmlTemplate =
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	UIWebView *descriptionView = [[UIWebView alloc] initWithFrame:CGRectMake(5, 10, 310, 50)];
+    descriptionView.scrollView.scrollEnabled = NO;
 	descriptionView.delegate = self;
 	descriptionView.tag = 1;
 	descriptionView.backgroundColor = [UIColor clearColor];
@@ -272,12 +273,12 @@ NSString *const kQuestsHtmlTemplate =
 	return cell;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(activeQuestsSwitch.selectedSegmentIndex == 0)
         return [activeQuestCells count];
@@ -285,7 +286,7 @@ NSString *const kQuestsHtmlTemplate =
         return [completedQuestCells count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(activeQuestsSwitch.selectedSegmentIndex == 0)
         return [activeQuestCells objectAtIndex:indexPath.row];
