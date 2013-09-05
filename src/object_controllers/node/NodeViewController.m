@@ -29,7 +29,7 @@ static NSString * const OPTION_CELL = @"option";
     UIScrollView *scrollView;
     UIView *mediaSection;
     UIWebView *webView;
-    UILabel *continueButton;
+    UIView *continueButton;
     
     UIActivityIndicatorView *webViewSpinner;
     
@@ -40,7 +40,7 @@ static NSString * const OPTION_CELL = @"option";
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *mediaSection;
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, strong) UILabel *continueButton;
+@property (nonatomic, strong) UIView *continueButton;
 @property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
 
 @end
@@ -122,13 +122,15 @@ static NSString * const OPTION_CELL = @"option";
         [self.scrollView addSubview:self.mediaSection];
     }
     
-    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
+    self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
     self.continueButton.backgroundColor = [UIColor ARISColorTextBackdrop];
-    self.continueButton.textColor = [UIColor ARISColorText];
-    self.continueButton.textAlignment = NSTextAlignmentRight;
-    self.continueButton.text = [NSString stringWithFormat:@"%@      ",NSLocalizedString(@"ContinueKey", @"")];
-    self.continueButton.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     self.continueButton.userInteractionEnabled = YES;
+    UILabel *continueLbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)];
+    continueLbl.textColor = [UIColor ARISColorText];
+    continueLbl.textAlignment = NSTextAlignmentRight;
+    continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
+    continueLbl.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    [self.continueButton addSubview:continueLbl];
     [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouchAction)]];
     
     UIImageView *arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
