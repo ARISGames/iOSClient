@@ -16,9 +16,9 @@
 
 @implementation GamePickerRecentViewController
 
-- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithViewFrame:f delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerRecentTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock_unselected.png"]];

@@ -34,9 +34,9 @@
 @synthesize theSearchBar;
 @synthesize disableViewOverlay;
 
-- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithViewFrame:f delegate:d])
+    if(self = [super initWithDelegate:d])
     {        
         currentPage = 0;
         currentlyFetchingNextPage = NO;

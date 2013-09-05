@@ -27,7 +27,7 @@
 @property (nonatomic, strong) UITableView *gameTable;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
-- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d;
 - (void) clearList;
 - (void) requestNewGameList;
 - (void) refreshViewFromModel;

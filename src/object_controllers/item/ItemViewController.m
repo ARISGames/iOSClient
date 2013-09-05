@@ -49,7 +49,6 @@
 	UIButton *mediaPlaybackButton;
 	ItemDetailsModeType mode;
     
-    CGRect viewFrame;
     id<GameObjectViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
     id source;
 }
@@ -75,11 +74,10 @@
 @synthesize descriptionCollapseView;
 @synthesize scrollView;
 
-- (id) initWithItem:(Item *)i viewFrame:(CGRect)vf delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
+- (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
 {
     if(self = [super init])
     {
-        viewFrame = vf;
 		self.item = i;
         source = s;
         mode = kItemDetailsViewing;
@@ -97,7 +95,6 @@
     
     BOOL atLeastOneButton = NO;
     
-    self.view.frame = viewFrame;
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
 	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] || [(NSObject *)source isKindOfClass:[InventoryTagViewController class]])
@@ -157,7 +154,7 @@
     
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
-        self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height) delegate:self];
+        self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) delegate:self];
         self.itemWebView.hidden = YES;
         self.itemWebView.allowsInlineMediaPlayback = YES;
         self.itemWebView.mediaPlaybackRequiresUserAction = NO;
@@ -167,7 +164,7 @@
     }
     else
     {
-        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-(atLeastOneButton*44))];
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-(atLeastOneButton*44))];
         self.scrollView.contentSize = self.scrollView.bounds.size;
         self.scrollView.clipsToBounds = NO;
         self.scrollView.maximumZoomScale = 100;
@@ -230,7 +227,6 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.view.frame = viewFrame;
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
@@ -255,7 +251,7 @@
         if(self.descriptionCollapseView)
             [self.descriptionCollapseView setOpenFrame:CGRectMake(0,self.view.bounds.size.height-self.descriptionWebView.frame.size.height-10,self.view.frame.size.width,self.descriptionWebView.frame.size.height+10)];
         if(self.scrollView)
-            self.scrollView.frame = CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height);
+            self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }
 }
 

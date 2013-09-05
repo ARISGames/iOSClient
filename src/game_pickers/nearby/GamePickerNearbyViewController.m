@@ -16,9 +16,9 @@
 
 @implementation GamePickerNearbyViewController
 
-- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithViewFrame:f delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerNearbyTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"arrow_selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"arrow_unselected"]];

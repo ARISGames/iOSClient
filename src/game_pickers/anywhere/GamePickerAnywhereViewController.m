@@ -16,9 +16,9 @@
 
 @implementation GamePickerAnywhereViewController
 
-- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithViewFrame:f delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe_unselected.png"]];

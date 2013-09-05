@@ -72,7 +72,7 @@
     return 126853;
 }
 
-- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d viewFrame:(CGRect)vf fromSource:(id)s
+- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s
 {
     return nil;
 }

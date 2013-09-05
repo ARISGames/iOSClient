@@ -316,9 +316,7 @@
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
 
-    CGRect boundsMinusNav = self.view.bounds;
-    boundsMinusNav.size.height -= 44;
-    UIViewController *uivc = [g viewControllerForDelegate:self viewFrame:boundsMinusNav fromSource:s];
+    UIViewController *uivc = [g viewControllerForDelegate:self fromSource:s];
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:uivc];
     
     [self presentViewController:nav animated:NO completion:nil];

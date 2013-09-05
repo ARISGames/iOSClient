@@ -18,7 +18,6 @@
 
 @interface GamePickerViewController () <ARISMediaViewDelegate>
 {
-    CGRect viewFrame;
 }
 
 @end
@@ -29,11 +28,10 @@
 @synthesize gameTable;
 @synthesize refreshControl;
 
-- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        viewFrame = f;
         delegate = d;
         
         gameList = [[NSArray alloc] init];
@@ -47,10 +45,13 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorRed];
+}
 
-    self.gameTable = [[UITableView alloc] initWithFrame:viewFrame style:UITableViewStylePlain];
-    [self fixAppleAutoFraming];
-    
+- (void) viewWillLayoutSubviews
+{
+    self.gameTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    [self.gameTable setContentInset:UIEdgeInsetsMake(64,0,49,0)];
+    [self.gameTable setContentOffset:CGPointMake(0,-64)];    
     self.gameTable.delegate = self;
     self.gameTable.dataSource = self;
     [self.view addSubview:self.gameTable];
@@ -63,29 +64,9 @@
     if([AppModel sharedAppModel].player.location) [self playerFirstMoved];
 }
 
-- (void) fixAppleAutoFraming
-{
-    self.view.frame = viewFrame;
-    
-    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
-        self.gameTable.frame = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height-44-49);
-    else //ios7
-    {
-        self.gameTable.frame = viewFrame;
-        [self.gameTable setContentInset:UIEdgeInsetsMake(64,0,49,0)];
-    }
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self fixAppleAutoFraming];
-}
-
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self fixAppleAutoFraming];
 	[self requestNewGameList];
 }
 

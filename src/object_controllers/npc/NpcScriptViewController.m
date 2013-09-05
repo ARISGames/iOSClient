@@ -35,7 +35,6 @@
     UIView *line;
     
     int textBoxSizeState;
-    CGRect viewFrame;
 	
     id<NpcScriptViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -75,8 +74,6 @@
         self.npc = n;
         self.parser = [[ScriptParser  alloc] initWithDelegate:self];
         
-        viewFrame = f; //ugh
-        
         delegate = d;
     }
     return self;
@@ -86,8 +83,7 @@
 {
     [super loadView];
 
-    self.view.frame = viewFrame;
-    self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
+    self.view.bounds = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     self.view.backgroundColor = [UIColor clearColor];
     self.view.opaque = NO;
     
@@ -184,22 +180,22 @@
     else if([currentScriptElement.type isEqualToString:@"panoramic"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"webpage"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"node"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"item"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     self.view.userInteractionEnabled = YES;
 }

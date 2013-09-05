@@ -26,9 +26,9 @@
 
 @synthesize timeControl;
 
-- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithViewFrame:f delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         time = 1;
         

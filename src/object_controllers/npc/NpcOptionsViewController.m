@@ -32,8 +32,6 @@
     
     int textBoxSizeState;
     
-    CGRect viewFrame;
-    
     id<NpcOptionsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -70,8 +68,6 @@
         currentLeaveConversationTitle = NSLocalizedString(@"DialogEnd",@"");
         currentlyHidingLeaveConversationButton = NO;
         
-        viewFrame = f; //ugh
-        
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(optionsReceivedFromNotification:) name:@"ConversationOptionsReady" object:nil];
     }
     return self;
@@ -81,8 +77,7 @@
 {
     [super loadView];
      
-    self.view.frame = viewFrame;
-    self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
+    self.view.bounds = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
     Media *pcMedia = 0;

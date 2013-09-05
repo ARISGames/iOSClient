@@ -46,7 +46,7 @@
 @synthesize gameDetailsNavigationController;
 @synthesize accountSettingsNavigationController;
 
-- (id) initWithDelegate:(id<GamePickersViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePickersViewControllerDelegate>)d;
 {
     if(self = [super init])
     {
@@ -58,31 +58,19 @@
 - (void) loadView
 {
     [super loadView];
-    
-    //Frame will need to get set in viewWillAppear:
-    // http://stackoverflow.com/questions/11305818/create-view-in-load-view-and-set-its-frame-but-frame-auto-changes
-    self.view = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) viewWillLayoutSubviews
 {
-    [super viewWillAppear:animated];
-    
-    CGRect viewFrame;
-    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
-        viewFrame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-    else
-        viewFrame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-    
     //Setup the Game Selection Tab Bar
     self.gamePickersTabBarController = [[UITabBarController alloc] init];
     self.gamePickersTabBarController.delegate = self;
     self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
-                        [[GamePickerNearbyViewController   alloc] initWithViewFrame:viewFrame delegate:self],
-                        [[GamePickerAnywhereViewController alloc] initWithViewFrame:viewFrame delegate:self],
-                        [[GamePickerPopularViewController  alloc] initWithViewFrame:viewFrame delegate:self],
-                        [[GamePickerRecentViewController   alloc] initWithViewFrame:viewFrame delegate:self],
-                        [[GamePickerSearchViewController   alloc] initWithViewFrame:viewFrame delegate:self],
+                        [[GamePickerNearbyViewController   alloc] initWithDelegate:self],
+                        [[GamePickerAnywhereViewController alloc] initWithDelegate:self],
+                        [[GamePickerPopularViewController  alloc] initWithDelegate:self],
+                        [[GamePickerRecentViewController   alloc] initWithDelegate:self],
+                        [[GamePickerSearchViewController   alloc] initWithDelegate:self],
                         nil];
     
     self.gamePickersNavigationController = [[ARISNavigationController alloc] initWithRootViewController:self.gamePickersTabBarController];
