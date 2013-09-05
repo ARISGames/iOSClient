@@ -233,7 +233,6 @@
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    
 }
 
 - (void) updateQuantityDisplay

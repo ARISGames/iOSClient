@@ -166,12 +166,6 @@
     return cell;
 }
 
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor ARISColorWhite];
-    else                       cell.backgroundColor = [UIColor ARISColorOffWhite];
-}
-
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([self.gameList count] == 0) return;
