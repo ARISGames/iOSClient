@@ -64,6 +64,7 @@
 {
     self.backgroundColor = [UIColor clearColor];
     self.mediaSection = [[UIScrollView alloc] initWithFrame:self.bounds];
+    self.mediaSection.contentInset = UIEdgeInsetsMake(64,0,0,0);
     self.mediaSection.contentSize = self.bounds.size;
     self.mediaSection.backgroundColor = [UIColor clearColor];
     self.mediaSection.opaque = NO;
