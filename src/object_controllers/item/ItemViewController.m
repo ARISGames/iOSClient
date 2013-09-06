@@ -49,6 +49,7 @@
 	UIButton *mediaPlaybackButton;
 	ItemDetailsModeType mode;
     
+    BOOL alreadyLayedOut;
     id<GameObjectViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
     id source;
 }
@@ -84,6 +85,7 @@
         
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         
+        alreadyLayedOut = NO;
         delegate = d;
     }
     return self;
@@ -92,11 +94,9 @@
 - (void) loadView
 {
     [super loadView];
-    
-    BOOL atLeastOneButton = NO;
-    
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
+    BOOL atLeastOneButton = NO;
 	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] || [(NSObject *)source isKindOfClass:[InventoryTagViewController class]])
     {
         if(item.dropable)
@@ -109,10 +109,6 @@
             dropBtn.text = NSLocalizedString(@"ItemDropKey", @"");
             dropBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
             dropBtn.textColor       = [UIColor ARISColorText];
-            if(item.destroyable)
-                dropBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-            else
-                dropBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
             [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
             [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
             [self.view addSubview:dropBtn];
@@ -127,10 +123,6 @@
             destroyBtn.text = NSLocalizedString(@"ItemDeleteKey",@"");
             destroyBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
             destroyBtn.textColor       = [UIColor ARISColorText];
-            if(item.dropable)
-                destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-            else
-                destroyBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
             [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
             [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
             [self.view addSubview:destroyBtn];
@@ -146,7 +138,6 @@
         pickupBtn.text = NSLocalizedString(@"ItemPickupKey", @"");
         pickupBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
         pickupBtn.textColor       = [UIColor ARISColorText];
-        pickupBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
         [pickupBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickupButtonTouched)]];
         [pickupBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
         [self.view addSubview:pickupBtn];
@@ -154,7 +145,7 @@
     
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
-        self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) delegate:self];
+        self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
         self.itemWebView.hidden = YES;
         self.itemWebView.allowsInlineMediaPlayback = YES;
         self.itemWebView.mediaPlaybackRequiresUserAction = NO;
@@ -165,7 +156,6 @@
     else
     {
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-(atLeastOneButton*44))];
-        self.scrollView.contentSize = self.scrollView.bounds.size;
         self.scrollView.clipsToBounds = NO;
         self.scrollView.maximumZoomScale = 100;
         self.scrollView.minimumZoomScale = 1;
@@ -206,7 +196,7 @@
     
     if(atLeastOneButton)
     {
-        line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
+        line = [[UIView alloc] init];
         line.backgroundColor = [UIColor ARISColorLightGray];
         [self.view addSubview:line];
     }
@@ -214,14 +204,36 @@
 	[self updateQuantityDisplay];
 }
 
-- (void) passTapToDescription:(UITapGestureRecognizer *)r
+- (void) viewWillLayoutSubviews
 {
-    [self.descriptionCollapseView handleTapped:r];
-}
-
-- (void) passPanToDescription:(UIPanGestureRecognizer *)g
-{
-    [self.descriptionCollapseView handlePanned:g];
+    [super viewWillLayoutSubviews];
+    
+    if(!alreadyLayedOut)
+    {
+        alreadyLayedOut = YES;
+        if(dropBtn && destroyBtn)
+        {
+            dropBtn.frame    = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width/2,44);
+            destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2,self.view.bounds.size.height-44,self.view.bounds.size.width/2,44);
+        }
+        else if(dropBtn)    dropBtn.frame    = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+        else if(destroyBtn) destroyBtn.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+        else if(pickupBtn)  pickupBtn.frame  = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+        
+        BOOL atLeastOneButton = (dropBtn || destroyBtn || pickupBtn);
+        
+        if(line) line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
+        
+        if(self.scrollView)
+        {
+            self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-(atLeastOneButton*44));
+            self.scrollView.contentInset = UIEdgeInsetsMake(64,0,(atLeastOneButton*44),0);
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width,self.scrollView.bounds.size.height-64-(atLeastOneButton*44));
+            if(self.itemImageView) [self.itemImageView refreshWithFrame:CGRectMake(0,0,self.scrollView.bounds.size.width,self.scrollView.bounds.size.height-64-(atLeastOneButton*44))];
+        }
+        
+        [self.descriptionCollapseView setOpenFrame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10)];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -233,6 +245,16 @@
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
+
+- (void) passTapToDescription:(UITapGestureRecognizer *)r
+{
+    [self.descriptionCollapseView handleTapped:r];
+}
+
+- (void) passPanToDescription:(UIPanGestureRecognizer *)g
+{
+    [self.descriptionCollapseView handlePanned:g];
 }
 
 - (void) updateQuantityDisplay
@@ -252,12 +274,6 @@
         if(self.scrollView)
             self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }
-}
-
-- (void) backButtonTouched
-{
-	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:0];	
-    [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
 - (void) dropButtonTouched
@@ -401,24 +417,14 @@
 	return itemImageView;
 }
 
+/*
 - (void) scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale
 {
 	CGAffineTransform transform = CGAffineTransformIdentity;
 	transform = CGAffineTransformScale(transform, scale, scale);
 	itemImageView.transform = transform;
 }
-
-- (void) touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
-{
-    UITouch *touch = [touches anyObject];
-	
-    if([touch tapCount] == 2)
-    {
-		CGAffineTransform transform = CGAffineTransformIdentity;
-		transform = CGAffineTransformScale(transform, 1.0, 1.0);
-		itemImageView.transform = transform;
-    }
-}
+ */
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
@@ -498,6 +504,12 @@
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     
+}
+
+- (void) backButtonTouched
+{
+	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:0];	
+    [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
 - (void) dealloc

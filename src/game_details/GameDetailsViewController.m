@@ -79,7 +79,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    //self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     [self.view addSubview:self.tableView];
     [self setLayoutFrames];
 }

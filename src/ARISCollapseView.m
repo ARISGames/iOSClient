@@ -128,8 +128,7 @@
 
 - (void) open
 {
-    if([(NSObject *)delegate respondsToSelector:@selector(collapseView:didStartOpen:)])
-        [delegate collapseView:self didStartOpen:YES];
+    if([(NSObject *)delegate respondsToSelector:@selector(collapseView:didStartOpen:)]) [delegate collapseView:self didStartOpen:YES];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.1];
