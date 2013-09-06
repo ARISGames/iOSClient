@@ -30,9 +30,7 @@
     
     NpcScriptElementView *npcView;
     NpcScriptElementView *pcView;
-    UILabel *continueButton;
-    UIImageView *continueArrow;
-    UIView *line;
+    UIView *continueButton;
     
     int textBoxSizeState;
 	
@@ -48,9 +46,7 @@
 
 @property (nonatomic, strong) NpcScriptElementView *npcView;
 @property (nonatomic, strong) NpcScriptElementView *pcView;
-@property (nonatomic, strong) UILabel *continueButton;
-@property (nonatomic, strong) UIImageView *continueArrow;
-@property (nonatomic, strong) UIView *line;
+@property (nonatomic, strong) UIView *continueButton;
 
 @end
 
@@ -64,8 +60,6 @@
 @synthesize npcView;
 @synthesize pcView;
 @synthesize continueButton;
-@synthesize continueArrow;
-@synthesize line;
 
 - (id) initWithNpc:(Npc *)n frame:(CGRect)f delegate:(id<NpcScriptViewControllerDelegate>)d
 {
@@ -102,25 +96,25 @@
     else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
     [self.view addSubview:self.npcView];
     
-    self.continueButton = [[UILabel alloc] init]; //frame it set later
-    self.continueButton.textAlignment = NSTextAlignmentRight;
-    self.continueButton.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
-    self.continueButton.text = [NSString stringWithFormat:@"%@       ",NSLocalizedString(@"ContinueKey",@"")];
+    self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0,0,0,0)];
+    UILabel *continueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)]; //frame it set later
+    continueLabel.textAlignment = NSTextAlignmentRight;
+    continueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    continueLabel.text = NSLocalizedString(@"ContinueKey",@"");
+    continueLabel.textColor = [UIColor ARISColorText];
+    UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    continueArrow.frame = CGRectMake(self.view.bounds.size.width-25,13,19,19);
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
+    line.backgroundColor = [UIColor ARISColorLightGray];
+    [self.continueButton addSubview:line];
+    [self.continueButton addSubview:continueLabel];
+    [self.continueButton addSubview:continueArrow];
     self.continueButton.userInteractionEnabled = YES;
-    self.continueButton.textColor = [UIColor ARISColorText];
     self.continueButton.backgroundColor = [UIColor clearColor];
     self.continueButton.opaque = NO;
     [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
     
-    self.continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
-    self.continueArrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height, 19, 19);
-    
-    self.line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
-    self.line.backgroundColor = [UIColor ARISColorLightGray];
-    
     [self.view addSubview:self.continueButton];
-    [self.view addSubview:self.continueArrow];
-    [self.view addSubview:self.line];
     
     [self movePcIn];
 }
@@ -234,8 +228,6 @@
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.1];
         self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-        self.continueArrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19);
-        self.line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
         [UIView commitAnimations];
     }
     if(h)
@@ -244,8 +236,6 @@
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.1];
         self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44);
-        self.continueArrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height, 19, 19);
-        self.line.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 1);
         [UIView commitAnimations];
     }
 }
