@@ -146,12 +146,19 @@
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
         self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
+        if(atLeastOneButton)
+            self.itemWebView.scrollView.contentInset = UIEdgeInsetsMake(0,0,54,0);
+        else
+            self.itemWebView.scrollView.contentInset = UIEdgeInsetsMake(0,0,10,0);
         self.itemWebView.hidden = YES;
+        self.itemWebView.scalesPageToFit = YES;
         self.itemWebView.allowsInlineMediaPlayback = YES;
         self.itemWebView.mediaPlaybackRequiresUserAction = NO;
         
         [self.itemWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"itemId=%d",self.item.itemId]];
+        
         [self.view addSubview:self.itemWebView];
+        [self.view sendSubviewToBack:self.itemWebView];
     }
     else
     {
