@@ -117,14 +117,19 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewStylePlain reuseIdentifier:nil];
+    UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     c.opaque = NO;
     c.backgroundColor = [UIColor clearColor];
     c.textLabel.textColor = [UIColor ARISColorSideNaviagtionText];
-    UIViewController *vc = [self.viewControllers objectAtIndex:indexPath.row];
-    ARISNavigationController *anc = (ARISNavigationController *)vc;
+    
+    ARISNavigationController *anc = (ARISNavigationController *)[self.viewControllers objectAtIndex:indexPath.row];
     ARISGamePlayTabBarViewController *agptbvc = [anc.viewControllers objectAtIndex:0];
-    c.textLabel.text = agptbvc.tabID;
+    
+    while([c.contentView.subviews count] > 0)
+        [[c.contentView.subviews objectAtIndex:0] removeFromSuperview];
+    
+    c.textLabel.text = agptbvc.title;
+    c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
     
     return c;
 }

@@ -96,7 +96,6 @@
 - (void) injectHTMLWithARISjs
 {
     NSString *arisjs = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"arisjs" ofType:@"js"] encoding:NSASCIIStringEncoding error:NULL];
-    //if([[self stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('html')[0] != null;"] isEqualToString:@"true"])
     [self stringByEvaluatingJavaScriptFromString:arisjs];
 }
 

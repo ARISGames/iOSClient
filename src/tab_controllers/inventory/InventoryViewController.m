@@ -63,10 +63,10 @@
     if(self = [super initWithNibName:@"InventoryViewController" bundle:nil delegate:d])
     {
         self.tabID = @"INVENTORY";
+        self.tabIconName = @"toolbox";
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"toolboxTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"toolboxTabBarSelected"]];
         
         self.mediaCache = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];

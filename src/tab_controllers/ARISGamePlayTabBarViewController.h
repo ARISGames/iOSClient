@@ -17,10 +17,12 @@
 @interface ARISGamePlayTabBarViewController : UIViewController
 {
     NSString *tabID;
+    NSString *tabIconName;
     int badgeCount;
 }
 
 @property (nonatomic, strong) NSString *tabID;
+@property (nonatomic, strong) NSString *tabIconName;
 
 - (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate>)d;
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id<GamePlayTabBarViewControllerDelegate>)d;

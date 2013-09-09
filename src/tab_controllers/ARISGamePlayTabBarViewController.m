@@ -17,6 +17,7 @@
 @implementation ARISGamePlayTabBarViewController
 
 @synthesize tabID;
+@synthesize tabIconName;
 
 - (id) init
 {

@@ -20,9 +20,8 @@
     if(self = [super initWithNibName:nibName bundle:nibBundle])
     {
         self.tabID = @"AR";
+        self.tabIconName = @"cameraTabBarSelected";
         self.title = NSLocalizedString(@"ARViewTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"cameraTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"cameraTabBarSelected"]];
-        
     }
     return self;
 }

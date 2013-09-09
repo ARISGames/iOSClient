@@ -34,8 +34,9 @@
     if(self = [super initWithNibName:@"NearbyObjectsViewController" bundle:nil delegate:d])
     {
         self.tabID = @"NEARBY";
+        self.tabIconName = @"radar";
+        
         delegate = d;
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"radarTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"radarTabBarSelected"]];
         
         self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");
 		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");

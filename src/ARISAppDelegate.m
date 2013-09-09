@@ -65,11 +65,8 @@
       nil]
      ];
     
-    
-    // Load resources for iOS 7 or later
     self.window.rootViewController.edgesForExtendedLayout = UIRectEdgeAll;
     self.window.rootViewController.extendedLayoutIncludesOpaqueBars = NO;
-    
     
     [[UILabel appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]];
     [[UILabel appearanceWhenContainedIn:[UIButton class],        nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];

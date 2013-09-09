@@ -131,13 +131,13 @@
 {
     self.waitingIndicator.title = message;
     [self.loadingSpiral startAnimating];
-    //[self.waitingIndicator show]; //ios7 compatibility
+    [self.waitingIndicator show];
 }
 
 - (void)removeWaitingIndicator
 {
     [self.loadingSpiral stopAnimating];
-	//[self.waitingIndicator dismissWithClickedButtonIndex:0 animated:YES]; //ios7 compatibility
+	[self.waitingIndicator dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 @end

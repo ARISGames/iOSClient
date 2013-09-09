@@ -81,12 +81,11 @@
     if(self = [super initWithNibName:@"MapViewController" bundle:nil delegate:d])
     {
         self.tabID = @"GPS";
+        self.tabIconName = @"map";
         
         delegate = d;
         
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
-        
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"mapTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"mapTabBarSelected"]];
         
         self.tracking = YES;
         self.locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];

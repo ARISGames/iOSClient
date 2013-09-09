@@ -67,10 +67,10 @@
     if(self = [super initWithDelegate:d])
     {
         self.tabID = @"INVENTORY";
+        self.tabIconName = @"toolbox";
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"toolboxTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"toolboxTabBarSelected"]];
         
         self.sortableTags = [[NSMutableArray alloc] initWithCapacity:10];
         self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
