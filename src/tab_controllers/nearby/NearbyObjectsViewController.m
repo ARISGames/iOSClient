@@ -115,15 +115,9 @@
     }
     
     if([self.nearbyLocationsList count] == 0)
-    {
-        self.navigationController.tabBarItem.badgeValue = nil;
-        [delegate hideNearbyObjectsTab];
-    }
+        self.navigationController.tabBarItem.badgeValue = nil; //hide
     else
-    {
-        self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[self.nearbyLocationsList count]];
-        [delegate showNearbyObjectsTab];
-    }
+        self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[self.nearbyLocationsList count]]; //show
     
     [nearbyTable reloadData];
 }

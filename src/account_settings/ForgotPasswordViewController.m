@@ -42,7 +42,7 @@
     self.view.backgroundColor = [UIColor ARISColorWhite];
 }
 
-- (void)  viewWillAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     if(viewHasAppeared) return;

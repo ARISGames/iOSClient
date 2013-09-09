@@ -30,7 +30,6 @@
 #import "AttributesViewController.h"
 #import "NotebookViewController.h"
 #import "DecoderViewController.h"
-#import "BogusSelectGameViewController.h"
 #import "NearbyObjectsViewController.h"
 #import "GamePlayTabSelectorViewController.h"
 #import "PKRevealController.h"
@@ -39,7 +38,7 @@
 #import "ARISNavigationController.h"
 #import "UIColor+ARISColors.h"
 
-@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, BogusSelectGameViewControllerDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate>
 {
     Game *game;
 
@@ -57,7 +56,6 @@
     ARISNavigationController *attributesNavigationController;
     ARISNavigationController *notesNavigationController;
     ARISNavigationController *decoderNavigationController;
-    BogusSelectGameViewController *bogusSelectGameViewController;
 
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -75,7 +73,6 @@
 @property (nonatomic, strong) ARISNavigationController *attributesNavigationController;
 @property (nonatomic, strong) ARISNavigationController *notesNavigationController;
 @property (nonatomic, strong) ARISNavigationController *decoderNavigationController;
-@property (nonatomic, strong) BogusSelectGameViewController *bogusSelectGameViewController;
 
 @end
 
@@ -94,7 +91,6 @@
 @synthesize attributesNavigationController;
 @synthesize notesNavigationController;
 @synthesize decoderNavigationController;
-@synthesize bogusSelectGameViewController;
 
 - (id) initWithGame:(Game *)g delegate:(id<GamePlayViewControllerDelegate>)d
 {
@@ -175,7 +171,7 @@
     [self beginGamePlay];
 }
 
-- (void) gameDismisallWasRequested
+- (void) gameRequestsDismissal
 {
     [self.gameNotificationViewController stopListeningToModel];
     [self.gameNotificationViewController cutOffGameNotifications];
@@ -186,17 +182,6 @@
 }
 
 //PHIL UNAPPROVED FROM THIS POINT ON
-
-- (void) hideNearbyObjectsTab
-{
-    [self.gamePlayTabSelectorController removeViewControllerWithTabID:@"NEARBY"];
-}
-
-- (void) showNearbyObjectsTab
-{
-    //[self.gamePlayTabSelectorController removeViewControllerWithTabID:@"NEARBY"];
-    [self.gamePlayTabSelectorController addViewController:self.nearbyObjectsNavigationController];
-}
 
 - (void) gameTabListRecieved:(NSNotification *)n
 {
@@ -279,11 +264,6 @@
             //ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
             //self.arNavigationController = [[ARISNavigationController alloc] initWithRootViewController: arViewController];
             //[gamePlayTabVCs addObject:self.arNavigationController];
-        }
-        else if([tmpTab.tabName isEqualToString:@"PICKGAME"] && ![AppModel sharedAppModel].disableLeaveGame)
-        {
-            self.bogusSelectGameViewController = [[BogusSelectGameViewController alloc] initWithDelegate:self];
-            [gamePlayTabVCs addObject:self.bogusSelectGameViewController];
         }
     }
     

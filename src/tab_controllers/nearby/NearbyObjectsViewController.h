@@ -11,8 +11,6 @@
 
 @protocol StateControllerProtocol;
 @protocol NearbyObjectsViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
-- (void) showNearbyObjectsTab;
-- (void) hideNearbyObjectsTab;
 @end
 
 @interface NearbyObjectsViewController : ARISGamePlayTabBarViewController <UITableViewDataSource,UITableViewDelegate>

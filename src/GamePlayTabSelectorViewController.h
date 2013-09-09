@@ -12,10 +12,9 @@
 
 @protocol GamePlayTabSelectorViewControllerDelegate
 - (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc;
+- (void) gameRequestsDismissal;
 @end
 
 @interface GamePlayTabSelectorViewController : UIViewController
 - (id) initWithViewControllers:(NSMutableArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
-- (void) addViewController:(UIViewController *)vc;
-- (void) removeViewControllerWithTabID:(NSString *)t;
 @end

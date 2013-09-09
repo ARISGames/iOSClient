@@ -322,7 +322,6 @@
 		AABC73DF172739D80074CC21 /* NearbyObjectARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7140172739D60074CC21 /* NearbyObjectARCoordinate.m */; };
 		AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7143172739D60074CC21 /* AttributesViewController.m */; };
 		AABC73E1172739D80074CC21 /* AttributesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7144172739D60074CC21 /* AttributesViewController.xib */; };
-		AABC73E2172739D80074CC21 /* BogusSelectGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7147172739D60074CC21 /* BogusSelectGameViewController.m */; };
 		AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC714B172739D60074CC21 /* DecoderViewController.mm */; };
 		AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7152172739D60074CC21 /* InventoryTradeViewController.m */; };
 		AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7153172739D60074CC21 /* InventoryTradeViewController.xib */; };
@@ -936,8 +935,6 @@
 		AABC7142172739D60074CC21 /* AttributesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesViewController.h; sourceTree = "<group>"; };
 		AABC7143172739D60074CC21 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		AABC7144172739D60074CC21 /* AttributesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributesViewController.xib; sourceTree = "<group>"; };
-		AABC7146172739D60074CC21 /* BogusSelectGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BogusSelectGameViewController.h; sourceTree = "<group>"; };
-		AABC7147172739D60074CC21 /* BogusSelectGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BogusSelectGameViewController.m; sourceTree = "<group>"; };
 		AABC714A172739D60074CC21 /* DecoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecoderViewController.h; sourceTree = "<group>"; };
 		AABC714B172739D60074CC21 /* DecoderViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DecoderViewController.mm; sourceTree = "<group>"; };
 		AABC7151172739D60074CC21 /* InventoryTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryTradeViewController.h; sourceTree = "<group>"; };
@@ -2047,7 +2044,6 @@
 				AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */,
 				AABC71A5172739D70074CC21 /* quests */,
 				AABC7141172739D60074CC21 /* attributes */,
-				AABC7145172739D60074CC21 /* bogus */,
 				AABC7148172739D60074CC21 /* decoder */,
 				AABC714D172739D60074CC21 /* inventory */,
 				AABC715A172739D60074CC21 /* map */,
@@ -2086,15 +2082,6 @@
 				AABC7144172739D60074CC21 /* AttributesViewController.xib */,
 			);
 			path = attributes;
-			sourceTree = "<group>";
-		};
-		AABC7145172739D60074CC21 /* bogus */ = {
-			isa = PBXGroup;
-			children = (
-				AABC7146172739D60074CC21 /* BogusSelectGameViewController.h */,
-				AABC7147172739D60074CC21 /* BogusSelectGameViewController.m */,
-			);
-			path = bogus;
 			sourceTree = "<group>";
 		};
 		AABC7148172739D60074CC21 /* decoder */ = {
@@ -2913,7 +2900,6 @@
 				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				AABC73DF172739D80074CC21 /* NearbyObjectARCoordinate.m in Sources */,
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
-				AABC73E2172739D80074CC21 /* BogusSelectGameViewController.m in Sources */,
 				AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */,
 				AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */,
 				AABC73EB172739D80074CC21 /* RoundedTableViewCell.m in Sources */,
