@@ -156,6 +156,7 @@
             [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copy]];
     } 
     self.itemsToTrade = [[NSMutableArray alloc] init];
+    self.tradeTableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     [self.tradeTableView reloadData];
     
     
@@ -168,6 +169,8 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    
     [self.tradeTableView reloadData];
     [self configureBump];
 }
