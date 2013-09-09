@@ -188,7 +188,6 @@
 		AABC701B1727398B0074CC21 /* PinFloating.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F941727398B0074CC21 /* PinFloating.png */; };
 		AABC701C1727398B0074CC21 /* PinShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F951727398B0074CC21 /* PinShadow.png */; };
 		AABC701D1727398B0074CC21 /* plaque.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F961727398B0074CC21 /* plaque.png */; };
-		AABC701E1727398B0074CC21 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F971727398B0074CC21 /* play.png */; };
 		AABC701F1727398B0074CC21 /* play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F981727398B0074CC21 /* play_button.png */; };
 		AABC70201727398B0074CC21 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F991727398B0074CC21 /* player.png */; };
 		AABC70231727398B0074CC21 /* profpic.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F9C1727398B0074CC21 /* profpic.png */; };
@@ -706,7 +705,6 @@
 		AABC6F941727398B0074CC21 /* PinFloating.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinFloating.png; sourceTree = "<group>"; };
 		AABC6F951727398B0074CC21 /* PinShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinShadow.png; sourceTree = "<group>"; };
 		AABC6F961727398B0074CC21 /* plaque.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plaque.png; sourceTree = "<group>"; };
-		AABC6F971727398B0074CC21 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		AABC6F981727398B0074CC21 /* play_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_button.png; sourceTree = "<group>"; };
 		AABC6F991727398B0074CC21 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		AABC6F9C1727398B0074CC21 /* profpic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profpic.png; sourceTree = "<group>"; };
@@ -1530,7 +1528,6 @@
 				AABC6F941727398B0074CC21 /* PinFloating.png */,
 				AABC6F951727398B0074CC21 /* PinShadow.png */,
 				AABC6F961727398B0074CC21 /* plaque.png */,
-				AABC6F971727398B0074CC21 /* play.png */,
 				AABC6F981727398B0074CC21 /* play_button.png */,
 				AABC6F991727398B0074CC21 /* player.png */,
 				AABC6F9C1727398B0074CC21 /* profpic.png */,
@@ -2613,7 +2610,6 @@
 				AABC701C1727398B0074CC21 /* PinShadow.png in Resources */,
 				AA2D214317DE560C00CF4198 /* magnify_selected@2x.png in Resources */,
 				AABC701D1727398B0074CC21 /* plaque.png in Resources */,
-				AABC701E1727398B0074CC21 /* play.png in Resources */,
 				AABC701F1727398B0074CC21 /* play_button.png in Resources */,
 				AABC70201727398B0074CC21 /* player.png in Resources */,
 				AABC70231727398B0074CC21 /* profpic.png in Resources */,
