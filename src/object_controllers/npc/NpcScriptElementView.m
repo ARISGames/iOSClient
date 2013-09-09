@@ -124,7 +124,6 @@
     self.scriptElement = s;
     
     if(self.scriptElement.vibrate) [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) vibrate];
-    if(self.scriptElement.adjustTextArea) [delegate scriptElementViewRequestsTextBoxArea:self.scriptElement.adjustTextArea];
     if(self.scriptElement.title) [delegate scriptElementViewRequestsTitle:self.scriptElement.title];
     else                         [delegate scriptElementViewRequestsTitle:self.defaultTitle];
     

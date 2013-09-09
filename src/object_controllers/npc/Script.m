@@ -17,8 +17,6 @@
 @synthesize hideLeaveConversationButtonSpecified;
 @synthesize leaveConversationButtonTitle;
 @synthesize defaultPcTitle;
-@synthesize hideAdjustTextAreaButton;
-@synthesize adjustTextArea;
 @synthesize scriptElementArray;
 
 -(id) init
@@ -32,8 +30,6 @@
         hideLeaveConversationButtonSpecified = NO;
         leaveConversationButtonTitle         = nil;
         defaultPcTitle                       = nil;
-        hideAdjustTextAreaButton             = NO;
-        adjustTextArea = nil;
         scriptElementArray = [[NSMutableArray alloc] init];
         scriptElementIndex = -1;
     }

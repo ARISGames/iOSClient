@@ -23,6 +23,4 @@
 - (void) setDefaultTitle:(NSString *)t;
 - (void) setShowLeaveConversationButton:(BOOL)s;
 - (void) setLeaveConversationTitle:(NSString *)t;
-- (void) toggleNextTextBoxSize;
-- (void) toggleTextBoxSize:(int)s;
 @end

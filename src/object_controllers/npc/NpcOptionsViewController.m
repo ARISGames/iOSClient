@@ -282,29 +282,6 @@
     }
 }
 
-- (void) toggleNextTextBoxSize
-{
-    [delegate optionsRequestsTextBoxSize:(textBoxSizeState+1)%3];
-}
-
-- (void) toggleTextBoxSize:(int)s
-{
-    textBoxSizeState = s;
-    
-    CGRect newFrame;
-    switch(textBoxSizeState)
-    {
-        case 0: newFrame = CGRectMake(0, self.view.bounds.size.height    , 320,                            1); break;
-        case 1: newFrame = CGRectMake(0, self.view.bounds.size.height-128, 320,                          128); break;
-        case 2: newFrame = CGRectMake(0,                                0, 320, self.view.bounds.size.height); break;
-    }
-    
-	[UIView beginAnimations:@"toggleTextSize" context:nil];
-	[UIView setAnimationDuration:0.5];
-	self.optionsScrollView.frame  = newFrame;
-	[UIView commitAnimations];
-}
-
 - (void) setDefaultTitle:(NSString *)t
 {
     self.playerTitle = t;

@@ -18,8 +18,6 @@
     
     int mediaId;
     
-    NSString *adjustTextArea;
-    
     CGRect imageRect;
     float  zoomTime;
     
@@ -34,8 +32,6 @@
 @property (nonatomic,strong) NSString *text;
 
 @property (nonatomic,assign) int mediaId;
-
-@property (nonatomic,strong) NSString *adjustTextArea;
 
 @property (nonatomic,assign) CGRect imageRect;
 @property (nonatomic,assign) float  zoomTime;

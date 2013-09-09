@@ -40,8 +40,6 @@ NSString *const kAttrMedia                       = @"mediaId";//
 NSString *const kAttrHideLeaveConversationButton = @"hideLeaveConversationButton";//
 NSString *const kAttrLeaveButtonTitle            = @"leaveButtonTitle";//
 NSString *const kAttrDefaultPcTitle              = @"pcTitle";//
-NSString *const kAttrHideAdjustTextAreaButton    = @"hideAdjustTextAreaButton";
-NSString *const kAttrAdjustTextArea              = @"adjustTextArea";//
 
 NSString *const kAttrExitToTab                   = @"exitToTab";//
 NSString *const kAttrExitToPlaque                = @"exitToPlaque";//
@@ -143,11 +141,6 @@ didStartElement:(NSString *)elementName
         if([attributeDict objectForKey:kAttrDefaultPcTitle])
             script.defaultPcTitle = [attributeDict objectForKey:kAttrDefaultPcTitle];
         // end weirdness
-            
-        if([attributeDict objectForKey:kAttrHideAdjustTextAreaButton])
-            script.hideAdjustTextAreaButton = [[attributeDict objectForKey:kAttrHideAdjustTextAreaButton] boolValue];
-        if ([attributeDict objectForKey:kAttrAdjustTextArea])
-            script.adjustTextArea = [attributeDict objectForKey:kAttrAdjustTextArea];
     }
     else
     {
@@ -159,8 +152,6 @@ didStartElement:(NSString *)elementName
             if([elementName isEqualToString:kTagNpc]) tempScriptElement.type = @"npc";
             if([elementName isEqualToString:kTagPc])  tempScriptElement.type = @"pc";
         
-            if([attributeDict objectForKey:kAttrAdjustTextArea])
-                tempScriptElement.adjustTextArea = [attributeDict objectForKey:kAttrAdjustTextArea];
             if([attributeDict objectForKey:kAttrTitle])
                 tempScriptElement.title = [attributeDict objectForKey:kAttrTitle];
             if([attributeDict objectForKey:kAttrMedia])

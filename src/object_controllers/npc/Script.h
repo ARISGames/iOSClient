@@ -19,8 +19,6 @@
     BOOL hideLeaveConversationButtonSpecified;
     NSString *leaveConversationButtonTitle;
     NSString *defaultPcTitle;
-    BOOL hideAdjustTextAreaButton;
-    NSString *adjustTextArea; //Note- possible both in script AND scriptElement
     
     NSMutableArray *scriptElementArray;
     int scriptElementIndex;
@@ -34,8 +32,6 @@
 @property (nonatomic, assign) BOOL hideLeaveConversationButtonSpecified;
 @property (nonatomic, strong) NSString *leaveConversationButtonTitle;
 @property (nonatomic, strong) NSString *defaultPcTitle;
-@property (nonatomic, assign) BOOL hideAdjustTextAreaButton;
-@property (nonatomic, strong) NSString *adjustTextArea;
 
 @property (nonatomic, strong) NSMutableArray *scriptElementArray;
 

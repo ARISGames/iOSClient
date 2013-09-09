@@ -316,9 +316,7 @@
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
 
-    UIViewController *uivc = [g viewControllerForDelegate:self fromSource:s];
-	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:uivc];
-    
+	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self fromSource:s]];
     [self presentViewController:nav animated:NO completion:nil];
     //Phil hates that the frame changes depending on what view you add it to...
     self.gameNotificationViewController.view.frame = CGRectMake(self.gameNotificationViewController.view.frame.origin.x, 

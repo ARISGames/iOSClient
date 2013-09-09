@@ -24,6 +24,4 @@
 @interface NpcScriptViewController : UIViewController
 - (id) initWithNpc:(Npc *)n frame:(CGRect)f delegate:(id<NpcScriptViewControllerDelegate>)d;
 - (void) loadScriptOption:(NpcScriptOption *)s;
-- (void) toggleNextTextBoxSize;
-- (void) toggleTextBoxSize:(int)s;
 @end

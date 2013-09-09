@@ -198,36 +198,6 @@
     [self.optionsViewController setDefaultTitle:s];
 }
 
-- (void) scriptRequestsTextBoxSize:(int)s
-{
-    [self toggleTextBoxSize:s];
-}
-
-- (void) optionsRequestsTextBoxSize:(int)s
-{
-    [self toggleTextBoxSize:s];
-}
-
-- (void) toggleNextTextBoxSize
-{
-    if(self.optionsViewController.view.superview == self.view) [self.optionsViewController toggleNextTextBoxSize];
-    if(self.scriptViewController.view.superview  == self.view) [self.scriptViewController  toggleNextTextBoxSize];
-}
-
-- (void) hideAdjustTextAreaButton:(BOOL)hide
-{
-    if(hide) self.navigationItem.rightBarButtonItem = nil;
-    else     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleNextTextBoxSize)];
-}
-
-- (void) toggleTextBoxSize:(int)s
-{
-    if(s == 0) [self hideAdjustTextAreaButton:NO];
-    
-    if(self.optionsViewController.view.superview == self.view) [self.optionsViewController toggleTextBoxSize:s];
-    if(self.scriptViewController.view.superview  == self.view) [self.scriptViewController  toggleTextBoxSize:s];
-}
-
 - (void) leaveConversationRequested
 {
     [self dismissSelf];

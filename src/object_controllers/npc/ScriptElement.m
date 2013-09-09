@@ -18,8 +18,6 @@
 
 @synthesize mediaId;
 
-@synthesize adjustTextArea;
-
 @synthesize imageRect;
 @synthesize zoomTime;
 

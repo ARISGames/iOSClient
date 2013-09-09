@@ -131,7 +131,6 @@
     if(s.hideLeaveConversationButtonSpecified) [delegate scriptRequestsHideLeaveConversation:s.hideLeaveConversationButton];
     if(s.leaveConversationButtonTitle)         [delegate scriptRequestsLeaveConversationTitle:s.leaveConversationButtonTitle];
     if(s.defaultPcTitle)                       [delegate scriptRequestsOptionsPcTitle:s.defaultPcTitle];
-    if(s.adjustTextArea)                       [self adjustTextArea:s.adjustTextArea];
     
     self.currentScript = s;
     [self readyNextScriptElementForDisplay];
@@ -210,16 +209,6 @@
     [[AVAudioSession sharedInstance] setActive:NO error:nil];
 }
 
-- (void) scriptElementViewRequestsTextBoxArea:(NSString *)a
-{
-    [self adjustTextArea:a];
-}
-
-- (void) scriptElementViewRequestsHideTextAdjust:(BOOL)h
-{
-    //tell delegate to hide/show textadjust button
-}
-
 - (void) scriptElementViewRequestsHideContinue:(BOOL)h
 {
     if(!h)
@@ -238,27 +227,6 @@
         self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44);
         [UIView commitAnimations];
     }
-}
-
-- (void) adjustTextArea:(NSString *)area
-{
-    if([area isEqualToString:@"hidden"])    [self toggleTextBoxSize:0];
-    else if([area isEqualToString:@"half"]) [self toggleTextBoxSize:1];
-    else if([area isEqualToString:@"full"]) [self toggleTextBoxSize:2];
-}
-
-- (void) toggleNextTextBoxSize
-{
-    [delegate scriptRequestsTextBoxSize:(textBoxSizeState+1)%3];
-}
-
-- (void) toggleTextBoxSize:(int)s
-{
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
-    [delegate scriptRequestsTextBoxSize:s];
-    [self.pcView  toggleTextBoxSize:s];
-    [self.npcView toggleTextBoxSize:s];
 }
 
 - (void) continueButtonTouched
