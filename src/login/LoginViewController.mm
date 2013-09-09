@@ -115,10 +115,10 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     
     loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
     loginButton.backgroundColor = [UIColor clearColor];
-    [loginButton setTitle:@">" forState:UIControlStateNormal];
+    [loginButton setBackgroundImage:[UIImage imageNamed:@"arrowForward"] forState:UIControlStateNormal];
     [loginButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     [loginButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
-    loginButton.frame = CGRectMake(self.view.frame.size.width-60, navOffset+90, 40, 40);
+    loginButton.frame = CGRectMake(self.view.frame.size.width-50, navOffset+100, 20, 20);
     [loginButton addTarget:self action:@selector(loginButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton];
     
