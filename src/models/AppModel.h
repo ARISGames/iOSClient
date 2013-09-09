@@ -30,11 +30,12 @@
 	NSURL *serverURL;
     BOOL showGamesInDevelopment;
     BOOL showPlayerOnMap;
+    
     BOOL disableLeaveGame;
     int skipGameDetails;
+    
 	Game *currentGame;
     Player *player;
-	UIAlertView *networkAlert;
 
     CMMotionManager *motionManager;
 
@@ -43,10 +44,10 @@
     NSMutableArray *oneGameGameList;
 	NSMutableArray *nearbyGameList;
 	NSMutableArray *anywhereGameList;
-    NSMutableArray *searchGameList;
     NSMutableArray *popularGameList;
     NSMutableArray *recentGamelist;
-	NSMutableArray *playerList;
+    NSMutableArray *searchGameList;
+    
 	NSMutableArray *nearbyLocationsList;
 
 	NSMutableDictionary *gameMediaList;
@@ -60,8 +61,6 @@
     NSMutableArray *gameTagList;
     NSMutableArray *overlayList;
 
-    UIProgressView *progressBar;
-
     BOOL overlayIsVisible;
 
     //Accelerometer Data
@@ -69,8 +68,7 @@
     float averageAccelerometerReadingY;
     float averageAccelerometerReadingZ;
     
-	//Training Flags
-    BOOL hidePlayers,isGameNoteList;
+    BOOL hidePlayers;
     
     //CORE Data
     NSManagedObjectModel *managedObjectModel;
@@ -80,62 +78,54 @@
     MediaCache *mediaCache;
 }
 
-@property(nonatomic, strong) NSURL *serverURL;
-@property(readwrite) BOOL showGamesInDevelopment;
-@property(readwrite) BOOL showPlayerOnMap;
-@property(readwrite) BOOL disableLeaveGame;
-@property(readwrite) int  skipGameDetails;
+@property (nonatomic, strong) NSURL *serverURL;
+@property (readwrite) BOOL showGamesInDevelopment;
+@property (readwrite) BOOL showPlayerOnMap;
+@property (readwrite) BOOL disableLeaveGame;
+@property (readwrite) int  skipGameDetails;
 
-@property(nonatomic, strong) CMMotionManager *motionManager;
+@property (nonatomic, strong) CMMotionManager *motionManager;
 
-@property(readwrite) BOOL hidePlayers;
-@property(readwrite) BOOL isGameNoteList;
+@property (readwrite) BOOL hidePlayers;
 
-@property(readwrite) BOOL overlayIsVisible;
+@property (readwrite) BOOL overlayIsVisible;
 
-@property(readwrite) float averageAccelerometerReadingX;
-@property(readwrite) float averageAccelerometerReadingY;
-@property(readwrite) float averageAccelerometerReadingZ;
+@property (readwrite) float averageAccelerometerReadingX;
+@property (readwrite) float averageAccelerometerReadingY;
+@property (readwrite) float averageAccelerometerReadingZ;
 
-@property(readwrite) int fallbackGameId;//Used only to recover from crashes
+@property (readwrite) int fallbackGameId;//Used only to recover from crashes
 
-@property(nonatomic, strong) Player *player;
-@property(nonatomic, strong) Game *currentGame;
+@property (nonatomic, strong) Player *player;
+@property (nonatomic, strong) Game *currentGame;
 
-@property(nonatomic, strong) NSURL *fileToDeleteURL;
-@property(nonatomic, strong) NSMutableArray *oneGameGameList;
-@property(nonatomic, strong) NSMutableArray *nearbyGameList;
-@property(nonatomic, strong) NSMutableArray *anywhereGameList;
-@property(nonatomic, strong) NSMutableArray *searchGameList;
-@property(nonatomic, strong) NSMutableArray *popularGameList;
-@property(nonatomic, strong) NSMutableArray *recentGameList;	
-@property(nonatomic, strong) NSMutableArray *playerList;
+@property (nonatomic, strong) NSURL *fileToDeleteURL;
+@property (nonatomic, strong) NSMutableArray *oneGameGameList;
+@property (nonatomic, strong) NSMutableArray *nearbyGameList;
+@property (nonatomic, strong) NSMutableArray *anywhereGameList;
+@property (nonatomic, strong) NSMutableArray *searchGameList;
+@property (nonatomic, strong) NSMutableArray *popularGameList;
+@property (nonatomic, strong) NSMutableArray *recentGameList;	
 
-@property(nonatomic, strong) NSMutableArray *nearbyLocationsList;	
+@property (nonatomic, strong) NSMutableArray *nearbyLocationsList;	
 
-@property(nonatomic, strong) NSMutableDictionary *gameNoteList;
-@property(nonatomic, strong) NSMutableDictionary *playerNoteList;
-@property(nonatomic, strong) NSMutableArray *gameTagList;
-@property(nonatomic, strong) NSMutableArray *overlayList;
-
-@property(nonatomic, strong) NSMutableDictionary *gameMediaList;
-@property(nonatomic, strong) NSMutableDictionary *gameItemList;
-@property(nonatomic, strong) NSMutableDictionary *gameNodeList;
-
-@property(nonatomic, strong) NSMutableDictionary *gameNpcList;
-@property(nonatomic, strong) NSMutableDictionary *gameWebPageList;
-
-@property(nonatomic, strong) NSMutableDictionary *gamePanoramicList;
-
-@property(nonatomic, strong) UIAlertView *networkAlert;
-@property(nonatomic, strong) UIProgressView *progressBar;
+@property (nonatomic, strong) NSMutableDictionary *gameNoteList;
+@property (nonatomic, strong) NSMutableDictionary *playerNoteList;
+@property (nonatomic, strong) NSMutableArray *gameTagList;
+@property (nonatomic, strong) NSMutableArray *overlayList;
+@property (nonatomic, strong) NSMutableDictionary *gameMediaList;
+@property (nonatomic, strong) NSMutableDictionary *gameItemList;
+@property (nonatomic, strong) NSMutableDictionary *gameNodeList;
+@property (nonatomic, strong) NSMutableDictionary *gameNpcList;
+@property (nonatomic, strong) NSMutableDictionary *gameWebPageList;
+@property (nonatomic, strong) NSMutableDictionary *gamePanoramicList;
 
 // CORE Data
 @property (nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property(nonatomic, strong) UploadMan *uploadManager;
-@property(nonatomic, strong) MediaCache *mediaCache;
+@property (nonatomic, strong) UploadMan *uploadManager;
+@property (nonatomic, strong) MediaCache *mediaCache;
 
 + (AppModel *)sharedAppModel;
 
@@ -148,12 +138,12 @@
 - (void) saveCOREData;
 - (void) clearGameLists;
 
-- (Media *)mediaForMediaId:(int)mId ofType:(NSString *)type;
-- (Item *)itemForItemId:(int)mId;
-- (Node *)nodeForNodeId:(int)mId;
-- (Npc *)npcForNpcId:(int)mId;
-- (WebPage *)webPageForWebPageId:(int)mId;
-- (Panoramic *)panoramicForPanoramicId:(int)mId;
-- (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
+- (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type;
+- (Item *) itemForItemId:(int)mId;
+- (Node *) nodeForNodeId:(int)mId;
+- (Npc *) npcForNpcId:(int)mId;
+- (WebPage *) webPageForWebPageId:(int)mId;
+- (Panoramic *) panoramicForPanoramicId:(int)mId;
+- (Note *) noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
 
 @end

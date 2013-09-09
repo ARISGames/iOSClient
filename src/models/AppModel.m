@@ -30,8 +30,6 @@
 @synthesize recentGameList;
 @synthesize player;
 @synthesize currentGame;
-@synthesize playerList;
-@synthesize networkAlert;
 @synthesize gameMediaList;
 @synthesize gameItemList;
 @synthesize gameNodeList;
@@ -45,8 +43,6 @@
 @synthesize nearbyLocationsList;
 @synthesize gameTagList;
 @synthesize hidePlayers;
-@synthesize progressBar;
-@synthesize isGameNoteList;
 @synthesize uploadManager;
 @synthesize mediaCache;
 @synthesize fileToDeleteURL;
@@ -56,7 +52,7 @@
 @synthesize averageAccelerometerReadingY;
 @synthesize averageAccelerometerReadingZ;
 
-+ (id)sharedAppModel
++ (id) sharedAppModel
 {
     static dispatch_once_t pred = 0;
     __strong static id _sharedObject = nil;
@@ -69,8 +65,7 @@
 #pragma mark Init/dealloc
 - (id) init
 {
-    self = [super init];
-    if(self)
+    if(self = [super init])
     {
 		//Init USerDefaults
         disableLeaveGame = NO;

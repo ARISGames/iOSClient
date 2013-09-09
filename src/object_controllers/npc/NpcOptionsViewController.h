@@ -14,7 +14,6 @@
 - (void) leaveConversationRequested;
 - (void) optionChosen:(NpcScriptOption *)o;
 - (void) optionsRequestsTitle:(NSString *)t;
-- (void) optionsRequestsTextBoxSize:(int)s;
 @end
 
 @interface NpcOptionsViewController : UIViewController

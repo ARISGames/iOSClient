@@ -31,8 +31,6 @@
     NpcScriptElementView *npcView;
     NpcScriptElementView *pcView;
     UIView *continueButton;
-    
-    int textBoxSizeState;
 	
     id<NpcScriptViewControllerDelegate> __unsafe_unretained delegate;
 }

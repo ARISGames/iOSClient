@@ -30,8 +30,6 @@
     NSString *currentLeaveConversationTitle;
     BOOL currentlyHidingLeaveConversationButton;
     
-    int textBoxSizeState;
-    
     id<NpcOptionsViewControllerDelegate> __unsafe_unretained delegate;
 }
 

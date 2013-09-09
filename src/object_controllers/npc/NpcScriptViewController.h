@@ -18,7 +18,6 @@
 - (void) scriptRequestsHideLeaveConversation:(BOOL)h;
 - (void) scriptRequestsLeaveConversationTitle:(NSString *)t;
 - (void) scriptRequestsOptionsPcTitle:(NSString *)s;
-- (void) scriptRequestsTextBoxSize:(int)s;
 @end
 
 @interface NpcScriptViewController : UIViewController

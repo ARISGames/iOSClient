@@ -13,8 +13,6 @@
 @class NpcScriptElementView;
 @protocol NPcScriptElementViewDelegate
 - (void) scriptElementViewRequestsTitle:(NSString *)t;
-- (void) scriptElementViewRequestsHideTextAdjust:(BOOL)h;
-- (void) scriptElementViewRequestsTextBoxArea:(NSString *)a;
 - (void) scriptElementViewRequestsHideContinue:(BOOL)h;
 @end
 @interface NpcScriptElementView : UIView
