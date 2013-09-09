@@ -113,6 +113,12 @@
     createAccountButton.frame = CGRectMake(self.view.frame.size.width-60,navOffset+20+20+20+20+20+20, 40, 40);
     [createAccountButton addTarget:self action:@selector(createAccountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:createAccountButton];
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0,0,19,19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -162,6 +168,11 @@
 - (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void) backButtonTouched
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

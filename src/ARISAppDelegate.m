@@ -56,44 +56,8 @@
 
 - (void) setApplicationUITemplates
 {
-    
-    [[UINavigationBar appearance] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIColor ARISColorNavBarText],                      UITextAttributeTextColor,
-      [UIColor clearColor],                               UITextAttributeTextShadowColor,
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],    UITextAttributeFont,
-      nil]
-     ];
-    
     self.window.rootViewController.edgesForExtendedLayout = UIRectEdgeAll;
     self.window.rootViewController.extendedLayoutIncludesOpaqueBars = NO;
-    
-    [[UILabel appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]];
-    [[UILabel appearanceWhenContainedIn:[UIButton class],        nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
-    
-    
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[UIImage imageNamed:@"arrowBack"]
-                                                      forState:UIControlStateNormal
-                                                    barMetrics:UIBarMetricsDefault];
-    
-    [[UIBarButtonItem appearance] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
-      [UIColor ARISColorDarkGray], UITextAttributeTextColor,
-      nil]
-                                                forState:UIControlStateNormal];
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:
-     [UIImage imageNamed:@"1pxColorClear"]
-                                                      forState:UIControlStateNormal
-                                                    barMetrics:UIBarMetricsDefault];
-    
-    [[UISegmentedControl appearance] setTitleTextAttributes:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
-      [UIColor ARISColorDarkGray],                          UITextAttributeTextColor,
-      [UIColor clearColor],                                 UITextAttributeTextShadowColor,
-      nil]
-                                                   forState:UIControlStateNormal];
     
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
@@ -109,6 +73,14 @@
       [UIColor ARISColorTabBarText],                         UITextAttributeTextColor,
       nil] 
                                              forState:UIControlStateNormal];
+    
+    [[UISegmentedControl appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
+      [UIColor ARISColorTabBarText],                        UITextAttributeTextColor,
+      [UIColor clearColor],                                 UITextAttributeTextShadowColor,
+      nil]
+                                                   forState:UIControlStateNormal];
 }
 
 - (void) applicationDidBecomeActive:(UIApplication *)application

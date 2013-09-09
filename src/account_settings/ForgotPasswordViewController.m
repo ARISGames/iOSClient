@@ -74,6 +74,12 @@
     instructions.lineBreakMode = NSLineBreakByWordWrapping;
     instructions.text = @"An email will be sent to the above address with instructions on how to reset your password.";
     [self.view addSubview:instructions];
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0,0,19,19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
@@ -81,6 +87,11 @@
     [textField resignFirstResponder];
     [[AppServices sharedAppServices] resetAndEmailNewPassword:textField.text];
     return YES;
+}
+
+- (void) backButtonTouched
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

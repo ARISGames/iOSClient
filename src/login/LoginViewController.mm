@@ -16,7 +16,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "AppServices.h"
 
 #import "SelfRegistrationViewController.h"
-#import "ChangePasswordViewController.h"
 #import "ForgotPasswordViewController.h"
 #import "BumpTestViewController.h"
 

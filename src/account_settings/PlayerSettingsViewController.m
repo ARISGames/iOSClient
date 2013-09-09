@@ -20,7 +20,6 @@
 {
     IBOutlet ARISMediaView *playerPic;
     IBOutlet UITextField *playerNameField;
-	IBOutlet UIButton *playerPicCamButton;
     int chosenMediaId;
     
     id<PlayerSettingsViewControllerDelegate> __unsafe_unretained delegate;
@@ -28,7 +27,6 @@
 
 @property (nonatomic) IBOutlet ARISMediaView *playerPic;
 @property (nonatomic) IBOutlet UITextField *playerNameField;
-@property (nonatomic) IBOutlet UIButton *playerPicCamButton;
 
 - (IBAction)saveButtonTouched:(id)sender;
 - (IBAction)playerPicCamButtonTouched:(id)sender;
@@ -39,7 +37,6 @@
 
 @synthesize playerPic;
 @synthesize playerNameField;
-@synthesize playerPicCamButton;
 
 - (id)initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d
 {
