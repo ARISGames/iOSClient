@@ -47,18 +47,9 @@
     return nil;
 }
 
-- (void)dealloc
-{
-    [[AppModel sharedAppModel].motionManager stopGyroUpdates];
-    plView.isGyroEnabled = NO;
-    [plView removeFromSuperview];
-    [plView stopAnimation];
-    [plView removeAllTextures];
-}
-
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     
@@ -111,7 +102,7 @@
     [plView.gyroTimer invalidate];
 }
 
-- (IBAction)backButtonTouchAction:(id)sender
+- (IBAction) backButtonTouchAction:(id)sender
 {    
 	[[AppServices sharedAppServices] updateServerPanoramicViewed:self.panoramic.panoramicId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
@@ -136,7 +127,7 @@
     [self showPanoViewWithImage:image];
 }
 
-- (void)showPanoViewWithImage:(UIImage *)image
+- (void) showPanoViewWithImage:(UIImage *)image
 {
     [plView stopAnimation];
     [plView removeAllTextures];
@@ -145,6 +136,15 @@
     [plView drawView];
     
     [self.view addSubview:plView];
+}
+
+- (void) dealloc
+{
+    [[AppModel sharedAppModel].motionManager stopGyroUpdates];
+    plView.isGyroEnabled = NO;
+    [plView removeFromSuperview];
+    [plView stopAnimation];
+    [plView removeAllTextures];
 }
 
 @end
