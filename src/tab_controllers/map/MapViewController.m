@@ -283,7 +283,7 @@
     }
     [locationsToAdd addObjectsFromArray:newLocations];
     
-    if(self.tabBarController.tabBar.selectedItem == self.tabBarItem) [self refreshViewFromModel];
+    if(self.isViewLoaded && self.view.window) [self refreshViewFromModel];
 }
 
 - (void) addLocationsToRemoveQueue:(NSNotification *)notification
@@ -310,7 +310,7 @@
         }
     }
     
-    if(self.tabBarController.tabBar.selectedItem == self.tabBarItem) [self refreshViewFromModel];
+    if(self.isViewLoaded && self.view.window) [self refreshViewFromModel];
 }
 
 - (void) refreshViewFromModel

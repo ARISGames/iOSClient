@@ -188,7 +188,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
 {
-    if (currentlyFetchingNearbyGamesList)
+    if(currentlyFetchingNearbyGamesList)
     {
         NSLog(@"Skipping Request: already fetching nearby games");
         return;
@@ -216,7 +216,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchAnywhereGameList
 {
-    if (currentlyFetchingAnywhereGamesList)
+    if(currentlyFetchingAnywhereGamesList)
     {
         NSLog(@"Skipping Request: already fetching nearby games");
         return;
@@ -244,7 +244,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchRecentGameListForPlayer
 {
-    if (currentlyFetchingRecentGamesList)
+    if(currentlyFetchingRecentGamesList)
     {
         NSLog(@"Skipping Request: already fetching recent games");
         return;
@@ -270,7 +270,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchPopularGameListForTime:(int)time
 {
-    if (currentlyFetchingPopularGamesList)
+    if(currentlyFetchingPopularGamesList)
     {
         NSLog(@"Skipping Request: already fetching popular games");
         return;
@@ -295,7 +295,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchGameListBySearch:(NSString *)searchText onPage:(int)page
 {
-    if (currentlyFetchingSearchGamesList)
+    if(currentlyFetchingSearchGamesList)
     {
         NSLog(@"Skipping Request: already fetching search games");
         return;
@@ -695,7 +695,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	ServiceResult *jsonResult = [jsonConnection performSynchronousRequest];
     [self fetchAllPlayerLists];
 	
-	if (!jsonResult) return 0;
+	if(!jsonResult) return 0;
 	else             return [(NSDecimalNumber*)jsonResult.data intValue];
 }
 
@@ -748,7 +748,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                                andUserInfo:nil];
 	ServiceResult *jsonResult = [jsonConnection performSynchronousRequest];
     [self fetchAllPlayerLists];
-	if (!jsonResult) return 0;
+	if(!jsonResult) return 0;
 	else             return jsonResult.data ? [(NSDecimalNumber*)jsonResult.data intValue] : 0;
 }
 
@@ -913,7 +913,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     NSNumber *nId = [[NSNumber alloc]initWithInt:5];
     nId = [[uploader userInfo] validObjectForKey:@"noteId"];
-	//if (description == NULL) description = @"filename";
+	//if(description == NULL) description = @"filename";
     
     [[AppModel sharedAppModel].uploadManager contentFailedUploading];
     NSLog(@"NSNotification: NewNoteListReady");
@@ -1002,13 +1002,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)updateServerWithPlayerLocation
 {
-	if (![AppModel sharedAppModel].player)
+	if(![AppModel sharedAppModel].player)
     {
         NSLog(@"Skipping Request: player not logged in");
 		return;
 	}
 	
-	if (currentlyUpdatingServerWithPlayerLocation)
+	if(currentlyUpdatingServerWithPlayerLocation)
     {
         NSLog(@"Skipping Request: already updating player location");
         return;
@@ -1070,7 +1070,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getCurrentOverlaysForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	if (YesForAsyncOrNoForSync) [jsonConnection performAsynchronousRequestWithHandler:@selector(parseOverlayListFromJSON:)];
+	if(YesForAsyncOrNoForSync) [jsonConnection performAsynchronousRequestWithHandler:@selector(parseOverlayListFromJSON:)];
     else [self parseOverlayListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1097,7 +1097,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     while(overlayDictionary = [overlayListEnumerator nextObject])
     {
         // if new overlay in database
-        if (currentOverlayID != [overlayDictionary validIntForKey:@"overlay_id"])
+        if(currentOverlayID != [overlayDictionary validIntForKey:@"overlay_id"])
         {
             // add previous overlay to overlay list
             [tempOverlayList addObject:tempOverlay];
@@ -1135,7 +1135,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [AppModel sharedAppModel].overlayList = tempOverlayList;
     // don' do that for offline game
     Game *game = [AppModel sharedAppModel].currentGame;
-    if (!game.offlineMode) {
+    if(!game.offlineMode) {
         for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++) {
             Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
             int iTiles = [currentOverlay.tileX count];
@@ -1184,7 +1184,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"games"
                                                              andMethodName:@"getTabBarItemsForGame"
                                                               andArguments:arguments andUserInfo:nil];
-    if (YesForAsyncOrNoForSync)
+    if(YesForAsyncOrNoForSync)
         [jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameTabListFromJSON:)];
 	else
         [self parseGameTabListFromJSON:[jsonConnection performSynchronousRequest]];
@@ -1236,7 +1236,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync
 {
-    if (currentlyFetchingGameNoteList)
+    if(currentlyFetchingGameNoteList)
     {
         NSLog(@"Skipping Request: already fetching game notes");
         return;
@@ -1249,7 +1249,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"notes"
                                                              andMethodName:@"getNotesForGame"
                                                               andArguments:arguments andUserInfo:nil];
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync){
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameNoteListFromJSON:)];
 	}
 	else [self parseGameNoteListFromJSON:[jsonConnection performSynchronousRequest]];
@@ -1257,7 +1257,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync
 {
-	if (currentlyFetchingPlayerNoteList)
+	if(currentlyFetchingPlayerNoteList)
     {
         NSLog(@"Skipping Request: already fetching player notes");
         return;
@@ -1417,7 +1417,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [jsonConnection performAsynchronousRequestWithHandler:nil];
 }
 
--(void)deleteTagFromNote:(int)noteId tagId:(int)tagId
+-(void) deleteTagFromNote:(int)noteId tagId:(int)tagId
 {
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",tagId], nil];
 	
@@ -1429,9 +1429,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
 }
 
-- (void)fetchPlayerLocationList
+- (void) fetchPlayerLocationList
 {
-    if (currentlyFetchingLocationList)
+    if(currentlyFetchingLocationList)
     {
         NSLog(@"Skipping Request: already fetching locations");
         return;
@@ -1453,7 +1453,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchPlayerOverlayList
 {
-    if (currentlyFetchingOverlayList)
+    if(currentlyFetchingOverlayList)
     {
         NSLog(@"Skipping Request: already fetching overlays or interacting with object");
         return;
@@ -1474,7 +1474,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchPlayerInventory
 {    
-    if (currentlyFetchingInventory)
+    if(currentlyFetchingInventory)
     {
         NSLog(@"Skipping Request: already fetching inventory");
         return;
@@ -1496,7 +1496,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void)fetchPlayerQuestList
 {
-    if (currentlyFetchingQuestList)
+    if(currentlyFetchingQuestList)
     {
         NSLog(@"Skipping Request: already fetching quests");
         return;
@@ -1519,7 +1519,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchOneGameGameList:(int)gameId
 {
-    if (currentlyFetchingOneGame)
+    if(currentlyFetchingOneGame)
     {
         NSLog(@"Skipping Request: already fetching one game");
         return;
@@ -1641,15 +1641,15 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     game.name                     = [gameSource validStringForKey:@"name"];
     game.authors                  = [gameSource validStringForKey:@"editors"];
     game.mapType                  = [gameSource validObjectForKey:@"map_type"];
-    if (!game.mapType || (![game.mapType isEqualToString:@"STREET"] && ![game.mapType isEqualToString:@"SATELLITE"] && ![game.mapType isEqualToString:@"HYBRID"])) game.mapType = @"STREET";
+    if(!game.mapType || (![game.mapType isEqualToString:@"STREET"] && ![game.mapType isEqualToString:@"SATELLITE"] && ![game.mapType isEqualToString:@"HYBRID"])) game.mapType = @"STREET";
 
     NSString *distance = [gameSource validObjectForKey:@"distance"];
-    if (distance) game.distanceFromPlayer = [distance doubleValue];
+    if(distance) game.distanceFromPlayer = [distance doubleValue];
     else game.distanceFromPlayer = 999999999;
     
     NSString *latitude  = [gameSource validObjectForKey:@"latitude"];
     NSString *longitude = [gameSource validObjectForKey:@"longitude"];
-    if (latitude && longitude)
+    if(latitude && longitude)
         game.location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
     else
         game.location = [[CLLocation alloc] init];
@@ -1692,7 +1692,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         c.text = [comment validObjectForKey:@"text"];
         c.playerName = [comment validObjectForKey:@"username"];
         NSString *cRating = [comment validObjectForKey:@"rating"];
-        if (cRating) c.rating = [cRating intValue];
+        if(cRating) c.rating = [cRating intValue];
         [game.comments addObject:c];
     }
     game.offlineMode = [gameSource validBoolForKey:@"offline"];
@@ -1712,7 +1712,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [tempGameList addObject:[self parseGame:(gameDictionary)]];
     
     NSError *error;
-    if (![[AppModel sharedAppModel].mediaCache.context save:&error])
+    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
 
     return tempGameList;
@@ -1796,7 +1796,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [AppModel sharedAppModel].recentGameList = tempGameList;
     
     NSError *error;
-    if (![[AppModel sharedAppModel].mediaCache.context save:&error])
+    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     
     NSLog(@"NSNotification: NewRecentGameListReady");
@@ -1895,7 +1895,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         }
     }
     NSError *error;
-    if (![[AppModel sharedAppModel].mediaCache.context save:&error])
+    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     
     NSLog(@"NSNotification: ReceivedMediaList");
