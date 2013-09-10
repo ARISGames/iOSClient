@@ -300,7 +300,6 @@
 		AABC73DE172739D80074CC21 /* ARViewViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC713E172739D60074CC21 /* ARViewViewControler.m */; };
 		AABC73DF172739D80074CC21 /* NearbyObjectARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7140172739D60074CC21 /* NearbyObjectARCoordinate.m */; };
 		AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7143172739D60074CC21 /* AttributesViewController.m */; };
-		AABC73E1172739D80074CC21 /* AttributesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7144172739D60074CC21 /* AttributesViewController.xib */; };
 		AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC714B172739D60074CC21 /* DecoderViewController.mm */; };
 		AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7152172739D60074CC21 /* InventoryTradeViewController.m */; };
 		AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7153172739D60074CC21 /* InventoryTradeViewController.xib */; };
@@ -889,7 +888,6 @@
 		AABC7140172739D60074CC21 /* NearbyObjectARCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectARCoordinate.m; sourceTree = "<group>"; };
 		AABC7142172739D60074CC21 /* AttributesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesViewController.h; sourceTree = "<group>"; };
 		AABC7143172739D60074CC21 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
-		AABC7144172739D60074CC21 /* AttributesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributesViewController.xib; sourceTree = "<group>"; };
 		AABC714A172739D60074CC21 /* DecoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecoderViewController.h; sourceTree = "<group>"; };
 		AABC714B172739D60074CC21 /* DecoderViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DecoderViewController.mm; sourceTree = "<group>"; };
 		AABC7151172739D60074CC21 /* InventoryTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryTradeViewController.h; sourceTree = "<group>"; };
@@ -2016,7 +2014,6 @@
 			children = (
 				AABC7142172739D60074CC21 /* AttributesViewController.h */,
 				AABC7143172739D60074CC21 /* AttributesViewController.m */,
-				AABC7144172739D60074CC21 /* AttributesViewController.xib */,
 			);
 			path = attributes;
 			sourceTree = "<group>";
@@ -2666,7 +2663,6 @@
 				AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
 				AABC73DC172739D80074CC21 /* ARView.xib in Resources */,
-				AABC73E1172739D80074CC21 /* AttributesViewController.xib in Resources */,
 				AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */,
 				AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */,
 				AA942B9017CD4CF4004EDEA1 /* Default-568h@2x.png in Resources */,
