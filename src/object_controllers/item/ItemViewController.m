@@ -483,9 +483,12 @@
     {
         [self.descriptionWebView injectHTMLWithARISjs];
         float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-        if(newHeight > self.view.bounds.size.height-44) newHeight = self.view.bounds.size.height-44;
-        [self.descriptionCollapseView setFrameHeight:newHeight+10];
-        self.descriptionWebView.frame = CGRectMake(0, 0, self.descriptionWebView.frame.size.width, newHeight);
+        [self.descriptionCollapseView setContentFrameHeight:newHeight];
+        
+        if(newHeight+10 < self.view.bounds.size.height-44-64)
+            [self.descriptionCollapseView setFrameHeight:newHeight+10];
+        else
+            [self.descriptionCollapseView setFrameHeight:self.view.bounds.size.height-44-64];
     }
 }
 
