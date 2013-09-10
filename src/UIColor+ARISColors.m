@@ -54,7 +54,7 @@
     @"  html { margin:0; padding:0; }"
     @"	body {"
     @"      color:#000000;"
-    @"		font-size:14px;"
+    @"		font-size:15px;"
     @"      font-family:HelveticaNeue-Light;"
     @"      margin:0;"
     @"      padding:10;"
