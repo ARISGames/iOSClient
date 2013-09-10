@@ -67,7 +67,7 @@ NSString *const kAttrNotification                = @"notification";
 
 - (id) initWithDelegate:(id<ScriptParserDelegate>)inputDelegate
 {
-	if ((self = [super init]))
+	if(self = [super init])
     {
         parser = nil;
         sourceText = nil;

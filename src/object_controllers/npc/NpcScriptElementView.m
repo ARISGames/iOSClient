@@ -70,12 +70,14 @@
     self.mediaSection.opaque = NO;
     [self.mediaSection addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
-    self.textWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(10, 10, self.bounds.size.width-20, 10) delegate:self];
+    self.textWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(10, 0, self.bounds.size.width-20, 10) delegate:self];
+    self.textWebView.scrollView.bounces = NO;
+    self.textWebView.scrollView.scrollEnabled = NO;
     self.textWebView.opaque = NO;
     self.textWebView.backgroundColor = [UIColor clearColor];
     [self.textWebView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
-    self.textSection = [[ARISCollapseView alloc] initWithView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    self.textSection = [[ARISCollapseView alloc] initWithContentView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     
     [self addSubview:self.mediaSection];
     [self.mediaSection addSubview:self.mediaView];
@@ -211,10 +213,10 @@
 	//Size the webView
 	CGRect wvFrame = [webView frame];
     CGFloat wvHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-	webView.frame = CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, wvHeight);
-	[[[webView subviews] lastObject] setScrollEnabled:NO]; //Disable scrolling in webview
     
-    [self.textSection setOpenFrameHeight:wvHeight+54];
+    if(wvHeight+54+64 > self.bounds.size.height) [self.textSection setFrameHeight:self.bounds.size.height-64];
+    else                                         [self.textSection setFrameHeight:wvHeight+54];
+    [self.textSection setContentFrame:CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, wvHeight)];
 	
     //Fade in the WebView
     [UIView beginAnimations:@"dialog" context:nil];

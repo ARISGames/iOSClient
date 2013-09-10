@@ -196,7 +196,7 @@
         self.descriptionWebView.scrollView.bounces = NO;
         self.descriptionWebView.opaque = NO;
         self.descriptionWebView.backgroundColor = [UIColor clearColor];
-        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithContentView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
         [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.item.idescription] baseURL:nil];
         [self.view addSubview:self.descriptionCollapseView];
     }
@@ -239,7 +239,7 @@
             if(self.itemImageView) [self.itemImageView refreshWithFrame:CGRectMake(0,0,self.scrollView.bounds.size.width,self.scrollView.bounds.size.height-64-(atLeastOneButton*44))];
         }
         
-        [self.descriptionCollapseView setOpenFrame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10)];
+        [self.descriptionCollapseView setFrame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10)];
     }
 }
 
@@ -277,7 +277,7 @@
         [line removeFromSuperview];
         
         if(self.descriptionCollapseView)
-            [self.descriptionCollapseView setOpenFrame:CGRectMake(0,self.view.bounds.size.height-self.descriptionWebView.frame.size.height-10,self.view.frame.size.width,self.descriptionWebView.frame.size.height+10)];
+            [self.descriptionCollapseView setFrame:CGRectMake(0,self.view.bounds.size.height-self.descriptionWebView.frame.size.height-10,self.view.frame.size.width,self.descriptionWebView.frame.size.height+10)];
         if(self.scrollView)
             self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }
@@ -484,7 +484,7 @@
         [self.descriptionWebView injectHTMLWithARISjs];
         float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
         if(newHeight > self.view.bounds.size.height-44) newHeight = self.view.bounds.size.height-44;
-        [self.descriptionCollapseView setOpenFrameHeight:newHeight+10];
+        [self.descriptionCollapseView setFrameHeight:newHeight+10];
         self.descriptionWebView.frame = CGRectMake(0, 0, self.descriptionWebView.frame.size.width, newHeight);
     }
 }

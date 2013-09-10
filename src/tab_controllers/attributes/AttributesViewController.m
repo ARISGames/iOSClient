@@ -92,6 +92,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.attributesTable.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
         [pcImage refreshWithFrame:pcImage.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
     else if([AppModel sharedAppModel].player.playerMediaId != 0)

@@ -18,9 +18,11 @@
 @end
 
 @interface ARISCollapseView : UIView
-- (id) initWithView:(UIView *)v frame:(CGRect)f open:(BOOL)o showHandle:(BOOL)h draggable:(BOOL)d tappable:(BOOL)t delegate:(id<ARISCollapseViewDelegate>)del;
-- (void) setOpenFrame:(CGRect)f;
-- (void) setOpenFrameHeight:(CGFloat)h; //sets open frame while keeping bottom in same spot
+- (id) initWithContentView:(UIView *)v frame:(CGRect)f open:(BOOL)o showHandle:(BOOL)h draggable:(BOOL)d tappable:(BOOL)t delegate:(id<ARISCollapseViewDelegate>)del;
+- (void) setFrame:(CGRect)f;
+- (void) setFrameHeight:(CGFloat)h; //sets open frame while keeping bottom in same spot
+- (void) setContentFrame:(CGRect)f;
+- (void) setContentFrameHeight:(CGFloat)h;
 - (void) open;
 - (void) close;
 

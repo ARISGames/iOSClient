@@ -92,7 +92,7 @@
     self.optionsScrollView.scrollEnabled = YES;
     self.optionsScrollView.bounces = NO;
     
-    self.optionsCollapseView = [[ARISCollapseView alloc] initWithView:self.optionsScrollView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    self.optionsCollapseView = [[ARISCollapseView alloc] initWithContentView:self.optionsScrollView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     
     [self.view addSubview:self.mediaView];
     [self.view addSubview:self.optionsCollapseView];
@@ -205,7 +205,7 @@
     CGFloat newHeight = 43*[self.optionList count]+(43*(1+(!self.currentlyHidingLeaveConversationButton)));
     self.optionsScrollView.frame = CGRectMake(0, 0, self.optionsScrollView.frame.size.width, newHeight);
     self.optionsScrollView.contentSize = CGSizeMake(self.optionsScrollView.frame.size.width, newHeight);
-    [self.optionsCollapseView setOpenFrameHeight:newHeight+10];
+    [self.optionsCollapseView setFrameHeight:newHeight+10];
 }
 
 - (void) showWaitingIndicatorForPlayerOptions
@@ -265,7 +265,7 @@
     newFrame.size.height += newOffset;
     self.optionsScrollView.frame = newFrame;
     self.optionsScrollView.contentSize = CGSizeMake(newFrame.size.width, newFrame.size.height);
-    [self.optionsCollapseView setOpenFrameHeight:self.optionsScrollView.frame.size.height+10];
+    [self.optionsCollapseView setFrameHeight:self.optionsScrollView.frame.size.height+10];
 }
 
 - (void) optionSelected:(UITapGestureRecognizer *)r

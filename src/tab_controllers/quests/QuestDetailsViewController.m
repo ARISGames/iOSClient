@@ -110,7 +110,7 @@
         [goButton setBackgroundColor:[UIColor ARISColorTextBackdrop]];
         goButton.titleEdgeInsets = UIEdgeInsetsMake(0,0,0,30);
         [goButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
-        [goButton setTitle:@"GO" forState:UIControlStateNormal];
+        [goButton setTitle:@"Begin Quest" forState:UIControlStateNormal];
         [goButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
         [goButton addTarget:self action:@selector(goButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];

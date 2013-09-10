@@ -9,44 +9,51 @@
 #import "ARISCollapseView.h"
 #import "UIColor+ARISColors.h"
 
-@interface ARISCollapseView()
+const int HANDLE_HEIGHT = 10;
+const int TOUCH_BUFFER_HEIGHT = 20;
+#define handle_buffer_height ((HANDLE_HEIGHT*handleShowing)+TOUCH_BUFFER_HEIGHT)
+
+@interface ARISCollapseView() <UIScrollViewDelegate>
 {
     UIView *handle;
-    UIView *childContainerView;
-    UIView *childView;
+    UIScrollView *contentContainerView;
+    UIView *content;
     CGRect openFrame;
-    CGRect dragStartFrame;
+    CGRect tempDragStartFrame; //to hold state while dragging
     int handleShowing;
     
     id<ARISCollapseViewDelegate> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) UIView *handle;
-@property (nonatomic, strong) UIView *childContainerView;
-@property (nonatomic, strong) UIView *childView;
+@property (nonatomic, strong) UIScrollView *contentContainerView;
+@property (nonatomic, strong) UIView *content;
 @end
 
 @implementation ARISCollapseView
 @synthesize handle;
-@synthesize childContainerView;
-@synthesize childView;
+@synthesize contentContainerView;
+@synthesize content;
 
-- (id) initWithView:(UIView *)v frame:(CGRect)f open:(BOOL)o showHandle:(BOOL)h draggable:(BOOL)d tappable:(BOOL)t delegate:(id<ARISCollapseViewDelegate>)del
+- (id) initWithContentView:(UIView *)v frame:(CGRect)f open:(BOOL)o showHandle:(BOOL)h draggable:(BOOL)d tappable:(BOOL)t delegate:(id<ARISCollapseViewDelegate>)del
 {
     if(self = [super initWithFrame:f])
     {
-        openFrame = [self morphFrame:f];
+        openFrame = [self frameWithBarAndTouchBuffer:f];
         
         handleShowing = h ? 1 : 0;
         
-        if(!o) self.frame = CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-(20+10*handleShowing), f.size.width, (20+10*handleShowing));
+        if(!o) [super setFrame:CGRectMake(openFrame.origin.x,
+                                       openFrame.origin.y+openFrame.size.height-handle_buffer_height,
+                                       f.size.width,
+                                       handle_buffer_height)];
             
         self.userInteractionEnabled = YES;
         self.clipsToBounds = YES;
         
         if(h)
         {
-            self.handle = [[UIView alloc] initWithFrame:CGRectMake(0,20,f.size.width,10)];
-            UILabel *dots = [[UILabel alloc] initWithFrame:CGRectMake(0, -15, f.size.width, 20)];
+            self.handle = [[UIView alloc] initWithFrame:CGRectMake(0,TOUCH_BUFFER_HEIGHT,f.size.width,HANDLE_HEIGHT)];
+            UILabel *dots = [[UILabel alloc] initWithFrame:CGRectMake(0, -15, f.size.width, TOUCH_BUFFER_HEIGHT)];
             dots.backgroundColor = [UIColor clearColor];
             dots.textColor = [UIColor ARISColorGray];
             dots.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:30];
@@ -56,12 +63,15 @@
             [self addSubview:self.handle];
         }
             
-        self.childContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing))];
-        self.childContainerView.userInteractionEnabled = YES;
-        self.childView = v;
-        self.childView.frame = self.childContainerView.bounds;
-        [self addSubview:self.childContainerView];
-        [self.childContainerView addSubview:self.childView];
+        self.contentContainerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, handle_buffer_height, openFrame.size.width, openFrame.size.height-handle_buffer_height)];
+        self.contentContainerView.clipsToBounds = YES;
+        self.contentContainerView.userInteractionEnabled = YES;
+        self.contentContainerView.bounces = NO;
+        self.contentContainerView.delegate = self;
+        self.content = v;
+        [self setContentFrame:self.content.frame];
+        [self addSubview:self.contentContainerView];
+        [self.contentContainerView addSubview:self.content];
         
         [self setBackgroundColor:[UIColor ARISColorTextBackdrop]];
         
@@ -73,53 +83,67 @@
     return self;
 }
 
-- (CGRect) morphFrame:(CGRect)f
+- (CGRect) frameWithBarAndTouchBuffer:(CGRect)f
 {
-    if(handleShowing && f.size.height < 10) { f.origin.y-=(10-f.size.height); f.size.height = 10; }
+    if(handleShowing && f.size.height < HANDLE_HEIGHT) { f.origin.y-=(HANDLE_HEIGHT-f.size.height); f.size.height = HANDLE_HEIGHT; }
     
-    //touch area buffer
-    f.size.height += 20;
-    f.origin.y    -= 20;
+    //invisible touch area buffer
+    f.size.height += TOUCH_BUFFER_HEIGHT;
+    f.origin.y    -= TOUCH_BUFFER_HEIGHT;
+    
     return f;
 }
     
-- (void) setOpenFrame:(CGRect)f
+- (void) setFrame:(CGRect)f
 {
-    openFrame = [self morphFrame:f];
+    openFrame = [self frameWithBarAndTouchBuffer:f];
     
-    if(self.frame.size.height != (20+10*handleShowing)) [self open];
-    else                                                [self close];
+    if(self.frame.size.height != handle_buffer_height) [self open];
+    else                                               [self close];
 }
 
-- (void) setOpenFrameHeight:(CGFloat)h
+- (void) setFrameHeight:(CGFloat)h
 {
-    [self setOpenFrame:CGRectMake(openFrame.origin.x, self.frame.origin.y+self.frame.size.height-h, openFrame.size.width, h)];
+    [self setFrame:CGRectMake(openFrame.origin.x, self.frame.origin.y+self.frame.size.height-h, openFrame.size.width, h)];
+}
+
+- (void) setContentFrame:(CGRect)f
+{
+    self.content.frame = f;
+    self.contentContainerView.contentSize = CGSizeMake(self.content.frame.origin.x+self.content.frame.size.width,self.content.frame.origin.y+self.content.frame.size.height);
+}
+
+- (void) setContentFrameHeight:(CGFloat)h
+{
+    [self setContentFrame:CGRectMake(self.content.frame.origin.x,self.content.frame.origin.y,self.content.frame.size.width,h)];
 }
 
 - (void) handleTapped:(UITapGestureRecognizer *)g
 {
-    if(self.frame.size.height == (20+10*handleShowing)) [self open];
-    else                                                [self close];
+    if(self.frame.size.height == handle_buffer_height) [self open];
+    else                                               [self close];
 }
 
 - (void) handlePanned:(UIPanGestureRecognizer *)g
 {
     if(g.state == UIGestureRecognizerStateBegan) 
-        dragStartFrame = self.frame;
+        tempDragStartFrame = self.frame;
     else if(g.state == UIGestureRecognizerStateEnded)
     {
-        if(openFrame.size.height-self.frame.size.height < self.frame.size.height-(20+10*handleShowing))
+        if(openFrame.size.height-self.frame.size.height < self.frame.size.height-handle_buffer_height)
             [self open];
         else
             [self close];
     }
-    else
+    //else if((self.contentContainerView.contentOffset.y == 0 && [g translationInView:self].y < 0) ||
+    //(self.contentContainerView.frame.size.height + self.contentContainerView.contentOffset.y == self.contentContainerView.contentSize.height && [g translationInView:self].y > 0))
+    else 
     {
         CGFloat drag = [g translationInView:self].y;
-        if(dragStartFrame.origin.y+drag < openFrame.origin.y)       drag = openFrame.origin.y - dragStartFrame.origin.y;
-        if(dragStartFrame.size.height-drag < (20+10*handleShowing)) drag = dragStartFrame.size.height - (20+10*handleShowing);
+        if(tempDragStartFrame.origin.y+drag < openFrame.origin.y)      drag = openFrame.origin.y - tempDragStartFrame.origin.y;
+        if(tempDragStartFrame.size.height-drag < handle_buffer_height) drag = tempDragStartFrame.size.height - handle_buffer_height;
         
-        self.frame = CGRectMake(dragStartFrame.origin.x, dragStartFrame.origin.y+drag, dragStartFrame.size.width, dragStartFrame.size.height-drag);
+        [super setFrame:CGRectMake(tempDragStartFrame.origin.x, tempDragStartFrame.origin.y+drag, tempDragStartFrame.size.width, tempDragStartFrame.size.height-drag)];
     }
     
     if([(NSObject *)delegate respondsToSelector:@selector(collapseView:wasDragged:)])
@@ -132,8 +156,9 @@
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.1];
-    self.frame = openFrame;
-    self.childContainerView.frame = CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing));
+    [super setFrame:openFrame];
+    self.contentContainerView.frame = CGRectMake(0,handle_buffer_height,openFrame.size.width,openFrame.size.height-handle_buffer_height);
+    self.contentContainerView.contentSize= self.content.frame.size;
     [UIView commitAnimations];
 }
 
@@ -143,15 +168,16 @@
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.1];
-    self.frame = CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-(20+10*handleShowing), openFrame.size.width, (20+10*handleShowing));
-    self.childContainerView.frame = CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing));
+    [super setFrame:CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-handle_buffer_height, openFrame.size.width, handle_buffer_height)];
+    self.contentContainerView.frame = CGRectMake(0,handle_buffer_height,openFrame.size.width,openFrame.size.height-handle_buffer_height);
+    self.contentContainerView.contentSize= self.content.frame.size;
     [UIView commitAnimations];
 }
 
 - (void) setBackgroundColor:(UIColor *)backgroundColor
 {
-    self.handle.backgroundColor             = backgroundColor;
-    self.childContainerView.backgroundColor = backgroundColor;
+    self.handle.backgroundColor               = backgroundColor;
+    self.contentContainerView.backgroundColor = backgroundColor;
 }
 
 @end
