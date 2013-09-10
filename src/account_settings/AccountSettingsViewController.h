@@ -14,16 +14,5 @@
 @end
 
 @interface AccountSettingsViewController : UIViewController
-{
-	IBOutlet UIButton *logoutButton;
-	IBOutlet UIButton *passButton;
-	IBOutlet UIButton *profileButton;
-	IBOutlet UILabel *warningLabel;
-}
-
 - (id) initWithDelegate:(id<AccountSettingsViewControllerDelegate>)d;
-- (IBAction) logoutButtonPressed:(id)sender;
-- (IBAction) passButtonPressed:(id)sender;
-- (IBAction) profileButtonPressed:(id)sender;
-
 @end

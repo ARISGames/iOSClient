@@ -220,7 +220,6 @@
 		AABC705F1727399C0074CC21 /* North Hall.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AABC70541727399C0074CC21 /* North Hall.gpx */; };
 		AABC70601727399C0074CC21 /* Science Hall.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AABC70551727399C0074CC21 /* Science Hall.gpx */; };
 		AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AABC70561727399C0074CC21 /* Van Hise.gpx */; };
-		AABC7374172739D80074CC21 /* AccountSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7064172739D60074CC21 /* AccountSettingsViewController.xib */; };
 		AABC7375172739D80074CC21 /* AccountSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7066172739D60074CC21 /* AccountSettingsViewController.m */; };
 		AABC7378172739D80074CC21 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */; };
 		AABC737A172739D80074CC21 /* PlayerSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */; };
@@ -737,7 +736,6 @@
 		AABC70541727399C0074CC21 /* North Hall.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "North Hall.gpx"; sourceTree = "<group>"; };
 		AABC70551727399C0074CC21 /* Science Hall.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Science Hall.gpx"; sourceTree = "<group>"; };
 		AABC70561727399C0074CC21 /* Van Hise.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Van Hise.gpx"; sourceTree = "<group>"; };
-		AABC7064172739D60074CC21 /* AccountSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountSettingsViewController.xib; sourceTree = "<group>"; };
 		AABC7065172739D60074CC21 /* AccountSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountSettingsViewController.h; sourceTree = "<group>"; };
 		AABC7066172739D60074CC21 /* AccountSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountSettingsViewController.m; sourceTree = "<group>"; };
 		AABC706A172739D60074CC21 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
@@ -1632,7 +1630,6 @@
 		AABC7063172739D60074CC21 /* account_settings */ = {
 			isa = PBXGroup;
 			children = (
-				AABC7064172739D60074CC21 /* AccountSettingsViewController.xib */,
 				AABC7065172739D60074CC21 /* AccountSettingsViewController.h */,
 				AABC7066172739D60074CC21 /* AccountSettingsViewController.m */,
 				AABC706A172739D60074CC21 /* ForgotPasswordViewController.h */,
@@ -2656,7 +2653,6 @@
 				ABE735F917D6B96600396CF5 /* arrowFoward@2x.png in Resources */,
 				AABC70601727399C0074CC21 /* Science Hall.gpx in Resources */,
 				AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */,
-				AABC7374172739D80074CC21 /* AccountSettingsViewController.xib in Resources */,
 				AABC737B172739D80074CC21 /* PlayerSettingsViewController.xib in Resources */,
 				AABC7391172739D80074CC21 /* CommentCell.xib in Resources */,
 				AABC7393172739D80074CC21 /* CommentsFormCell.xib in Resources */,
