@@ -21,7 +21,7 @@
     ARISMediaView *mediaView;
     
     ARISCollapseView *optionsCollapseView;
-    UIScrollView *optionsScrollView;
+    UIView *optionsView;
     UIActivityIndicatorView *loadingIndicator;
     
 	NSArray *optionList;
@@ -35,7 +35,7 @@
 
 @property (nonatomic, strong) ARISMediaView *mediaView;
 @property (nonatomic, strong) ARISCollapseView *optionsCollapseView;
-@property (nonatomic, strong) UIScrollView *optionsScrollView;
+@property (nonatomic, strong) UIView *optionsView;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingIndicator;
 
 @property (nonatomic, strong) NSArray *optionList;
@@ -50,7 +50,7 @@
 
 @synthesize mediaView;
 @synthesize optionsCollapseView;
-@synthesize optionsScrollView;
+@synthesize optionsView;
 @synthesize loadingIndicator;
 @synthesize optionList;
 @synthesize playerTitle;
@@ -86,13 +86,11 @@
     else        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
     [self.mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToOptions:)]];
     
-    self.optionsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 128)];
-    self.optionsScrollView.userInteractionEnabled = YES;
-    self.optionsScrollView.opaque = NO;
-    self.optionsScrollView.scrollEnabled = YES;
-    self.optionsScrollView.bounces = NO;
+    self.optionsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 128)];
+    self.optionsView.userInteractionEnabled = YES;
+    self.optionsView.opaque = NO;
     
-    self.optionsCollapseView = [[ARISCollapseView alloc] initWithContentView:self.optionsScrollView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    self.optionsCollapseView = [[ARISCollapseView alloc] initWithContentView:self.optionsView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     
     [self.view addSubview:self.mediaView];
     [self.view addSubview:self.optionsCollapseView];
@@ -118,8 +116,8 @@
 
 - (void) showPlayerOptions:(NSArray *)options
 {
-    while([[self.optionsScrollView subviews] count] > 0)
-        [[[self.optionsScrollView subviews] objectAtIndex:0] removeFromSuperview];
+    while([[self.optionsView subviews] count] > 0)
+        [[[self.optionsView subviews] objectAtIndex:0] removeFromSuperview];
     
     self.optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
     UIView *cell;
@@ -155,7 +153,7 @@
     
         [cell addSubview:text];
         [cell addSubview:arrow];
-        [self.optionsScrollView addSubview:cell];
+        [self.optionsView addSubview:cell];
     }
     
     if(!self.currentlyHidingLeaveConversationButton)
@@ -182,7 +180,7 @@
         [cell addSubview:text];
         [cell addSubview:arrow];
         
-        [self.optionsScrollView addSubview:cell];
+        [self.optionsView addSubview:cell];
     }
     
     cellFrame = CGRectMake(0, 43*([self.optionList count]+(!self.currentlyHidingLeaveConversationButton)), self.view.bounds.size.width, 40);
@@ -200,12 +198,14 @@
     [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], @"<div style=\"color:#BBBBBB; font-size:14px; text-align:center;\">(Make a Selection)</div>"] baseURL:nil];
     
     [cell addSubview:text];
-    [self.optionsScrollView addSubview:cell];
+    [self.optionsView addSubview:cell];
     
     CGFloat newHeight = 43*[self.optionList count]+(43*(1+(!self.currentlyHidingLeaveConversationButton)));
-    self.optionsScrollView.frame = CGRectMake(0, 0, self.optionsScrollView.frame.size.width, newHeight);
-    self.optionsScrollView.contentSize = CGSizeMake(self.optionsScrollView.frame.size.width, newHeight);
-    [self.optionsCollapseView setFrameHeight:newHeight+10];
+    [self.optionsCollapseView setContentFrame:CGRectMake(0, 0, self.optionsView.frame.size.width, newHeight)];
+    if((newHeight+10) < self.view.bounds.size.height-64)
+        [self.optionsCollapseView setFrameHeight:newHeight+10];
+    else
+        [self.optionsCollapseView setFrameHeight:self.view.bounds.size.height-64];
 }
 
 - (void) showWaitingIndicatorForPlayerOptions
@@ -213,10 +213,10 @@
     if(!self.loadingIndicator)
     {
         self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        self.loadingIndicator.center = self.optionsScrollView.center;
+        self.loadingIndicator.center = self.optionsView.center;
     }
-    self.optionsScrollView.hidden = YES;
-    [self.optionsScrollView addSubview:self.loadingIndicator];
+    self.optionsView.hidden = YES;
+    [self.optionsView addSubview:self.loadingIndicator];
     [self.loadingIndicator startAnimating];
 }
 
@@ -224,7 +224,7 @@
 {
     [self.loadingIndicator removeFromSuperview];
 	[self.loadingIndicator stopAnimating];
-    self.optionsScrollView.hidden = NO;
+    self.optionsView.hidden = NO;
 }
 
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
@@ -241,12 +241,12 @@
 {
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     float newOffset = 0.0;
-    for(int i = 0; i < [[self.optionsScrollView subviews] count]-1; i++)
+    for(int i = 0; i < [[self.optionsView subviews] count]-1; i++)
     {
-        CGRect superFrame = ((UIView *)[[self.optionsScrollView subviews] objectAtIndex:i]).frame;
+        CGRect superFrame = ((UIView *)[[self.optionsView subviews] objectAtIndex:i]).frame;
         superFrame.origin.y += newOffset;
-        ((UIView *)[[self.optionsScrollView subviews] objectAtIndex:i]).frame = superFrame;
-        if([[self.optionsScrollView subviews] objectAtIndex:i] == [webView superview])
+        ((UIView *)[[self.optionsView subviews] objectAtIndex:i]).frame = superFrame;
+        if([[self.optionsView subviews] objectAtIndex:i] == [webView superview])
         {
             newOffset = newHeight - webView.superview.frame.size.height;
             webView.frame             = CGRectMake(0,                               0,          webView.frame.size.width,newHeight);
@@ -258,14 +258,14 @@
         }
     }
     
-    UIView *masCell = [[self.optionsScrollView subviews] objectAtIndex:[self.optionsScrollView.subviews count]-1];
+    UIView *masCell = [[self.optionsView subviews] objectAtIndex:[self.optionsView.subviews count]-1];
     masCell.frame = CGRectMake(masCell.frame.origin.x, masCell.frame.origin.y+newOffset, masCell.frame.size.width, masCell.frame.size.height);
     
-    CGRect newFrame = self.optionsScrollView.frame;
-    newFrame.size.height += newOffset;
-    self.optionsScrollView.frame = newFrame;
-    self.optionsScrollView.contentSize = CGSizeMake(newFrame.size.width, newFrame.size.height);
-    [self.optionsCollapseView setFrameHeight:self.optionsScrollView.frame.size.height+10];
+    [self.optionsCollapseView setContentFrameHeight:self.optionsView.frame.size.height+newOffset];
+    if(self.optionsView.frame.size.height+newOffset < self.view.bounds.size.height-64)
+        [self.optionsCollapseView setFrameHeight:self.optionsView.frame.size.height+10];
+    else 
+        [self.optionsCollapseView setFrameHeight:self.view.bounds.size.height-64];
 }
 
 - (void) optionSelected:(UITapGestureRecognizer *)r

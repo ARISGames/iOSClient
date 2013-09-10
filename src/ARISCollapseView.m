@@ -93,7 +93,7 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     
     return f;
 }
-    
+
 - (void) setFrame:(CGRect)f
 {
     openFrame = [self frameWithBarAndTouchBuffer:f];
