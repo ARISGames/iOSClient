@@ -164,7 +164,7 @@
 
 - (void) editButtonTouched
 {
-    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNote:self.note inView:nil delegate:self];
+    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNote:self.note delegate:self];
     [self.navigationController pushViewController:noteVC animated:YES];
 }
 

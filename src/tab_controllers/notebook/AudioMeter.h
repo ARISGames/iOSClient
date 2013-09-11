@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-
-@interface AudioMeter : UIView {
-
+@interface AudioMeter : UIView
+{
 	NSMutableArray *barViews;
 	int numberofBars;
 	int spacingBetweenBars;
@@ -18,12 +17,11 @@
 	UIColor *inactiveColor;
 }
 
-@property(readwrite) NSMutableArray *barViews;
-@property(readwrite) int numberofBars;
-@property(readwrite) int spacingBetweenBars;
-@property(readwrite) UIColor *activeColor;
-@property(readwrite) UIColor *inactiveColor;
-
+@property (readwrite) NSMutableArray *barViews;
+@property (readwrite) int numberofBars;
+@property (readwrite) int spacingBetweenBars;
+@property (readwrite) UIColor *activeColor;
+@property (readwrite) UIColor *inactiveColor;
 
 - (void)updateLevel:(double)level;
 

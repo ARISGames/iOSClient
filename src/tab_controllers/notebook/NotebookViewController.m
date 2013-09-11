@@ -17,10 +17,16 @@
 #import "Comment.h"
 #import "UIColor+ARISColors.h"
 
+#define NOTE_SCOPE_PLAYER 0
+#define NOTE_SCOPE_GAME 1
+
+#define NOTE_SORT_NONE 0
+#define NOTE_SORT_ABC  1
+#define NOTE_SORT_POP  2
+#define NOTE_SORT_TAG  3
+
 @interface NotebookViewController()  <UITableViewDelegate, UITableViewDataSource, NoteEditorViewControllerDelegate>
 {
-    BOOL menuDown;
-    
     NSMutableArray *playerNoteList;
     NSMutableArray *gameNoteList;
     NSMutableArray *tagPlayerNoteListList;
@@ -28,13 +34,13 @@
     NSMutableArray *tagPlayerHeaderList;
     NSMutableArray *tagGameHeaderList;
     
-    IBOutlet UIToolbar *filterToolBar;
-    IBOutlet UISegmentedControl *filterControl;
-    IBOutlet UITableView *noteTable;
-    IBOutlet UIToolbar *toolBar;
-    IBOutlet UIToolbar *sortToolBar;
-    IBOutlet UISegmentedControl *sortControl;
+    UITableView *noteTable;
+    UIView *createBar;
     
+    int noteScope;//0 - Player notes, 1 - Game notes
+    int noteSort;
+    
+    BOOL hasAppeared;
     id<NotebookViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
@@ -45,16 +51,8 @@
 @property (nonatomic, strong) NSMutableArray *tagPlayerHeaderList;
 @property (nonatomic, strong) NSMutableArray *tagGameHeaderList;
 
-@property (nonatomic, strong) IBOutlet UIToolbar *filterToolBar;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *filterControl;
-@property (nonatomic, strong) IBOutlet UIToolbar *toolBar;
-@property (nonatomic, strong) IBOutlet UITableView *noteTable;
-@property (nonatomic, strong) IBOutlet UIToolbar *sortToolBar;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *sortControl;
-
-- (IBAction) filterButtonTouchAction:(id)sender;
-- (IBAction) sortButtonTouchAction:(id)sender;
-- (IBAction) barButtonTouchAction:(id)sender;
+@property (nonatomic, strong) UITableView *noteTable;
+@property (nonatomic, strong) UIView *createBar;
 
 @end
 
@@ -66,22 +64,18 @@
 @synthesize tagGameNoteListList;
 @synthesize tagPlayerHeaderList;
 @synthesize tagGameHeaderList;
-@synthesize filterToolBar;
-@synthesize filterControl;
-@synthesize toolBar;
+
 @synthesize noteTable;
-@synthesize sortToolBar;
-@synthesize sortControl;
+@synthesize createBar;
 
 - (id) initWithDelegate:(id<NotebookViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"NotebookViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.tabID = @"NOTE";
         self.tabIconName = @"book";
+        hasAppeared = NO;
         delegate = d;
-        
-        menuDown  = NO;
         
         self.playerNoteList        = [[NSMutableArray alloc] initWithCapacity:10];
         self.gameNoteList          = [[NSMutableArray alloc] initWithCapacity:10];
@@ -99,23 +93,37 @@
     return self;
 }
 
-- (void) viewDidLoad
+- (void) loadView
 {
-    [super viewDidLoad];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
-    
-    float screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
-    [self.filterToolBar setFrame:CGRectMake(0,             -44, 320,                     44)];
-    [self.toolBar       setFrame:CGRectMake(0,               0, 320,                     44)];
-    [self.noteTable     setFrame:CGRectMake(0,              44, 320, screenHeight-(2*44)-49)];
-    [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-49, 320,                     44)];
+    [super loadView];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setMenuDisplayDown:menuDown];
+    if(hasAppeared) return;
+    hasAppeared = YES;
+    
+    self.noteTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height)];
+    self.noteTable.contentInset = UIEdgeInsetsMake(0,0,44,0);
+    self.noteTable.delegate = self;
+    self.noteTable.dataSource = self;
+    [self.view addSubview:self.noteTable];
+    
+    self.createBar = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44)];
+    UIButton *camera = [[UIButton alloc] initWithFrame:CGRectMake(0*(self.view.bounds.size.width/3),0,self.view.bounds.size.width/3,44)];
+    UIButton *text   = [[UIButton alloc] initWithFrame:CGRectMake(1*(self.view.bounds.size.width/3),0,self.view.bounds.size.width/3,44)];
+    UIButton *audio  = [[UIButton alloc] initWithFrame:CGRectMake(2*(self.view.bounds.size.width/3),0,self.view.bounds.size.width/3,44)];
+    [camera setImage:[UIImage imageNamed:@"camera"]     forState:UIControlStateNormal];
+    [text   setImage:[UIImage imageNamed:@"note"]       forState:UIControlStateNormal];
+    [audio  setImage:[UIImage imageNamed:@"microphone"] forState:UIControlStateNormal];
+    [camera addTarget:self action:@selector(cameraTouched) forControlEvents:UIControlEventTouchUpInside];
+    [text   addTarget:self action:@selector(textTouched)   forControlEvents:UIControlEventTouchUpInside];
+    [audio  addTarget:self action:@selector(audioTouched)  forControlEvents:UIControlEventTouchUpInside];
+    [self.createBar addSubview:camera];
+    [self.createBar addSubview:text];
+    [self.createBar addSubview:audio];
+    [self.view addSubview:self.createBar];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -124,72 +132,26 @@
     [self refresh];
 }
 
-- (void) toggleMenu
-{
-    [self setMenuDisplayDown:!menuDown];
-}
-
-- (void) setMenuDisplayDown:(BOOL)down
-{
-    menuDown = down;
-    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"swish" shouldVibrate:NO];
-    
-    float screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
-    if(menuDown)
-    {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:.2];
-        [self.filterToolBar setFrame:CGRectMake(0,                      0, 320,                     44)];
-        [self.toolBar       setFrame:CGRectMake(0,                     44, 320,                     44)];
-        [self.noteTable     setFrame:CGRectMake(0,                 (2*44), 320, screenHeight-(4*44)-49)];
-        [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-(2*44)-49, 320,                     44)];
-        [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleDone];
-        [UIView commitAnimations];
-    }
-    else
-    {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:.2];
-        [self.filterToolBar setFrame:CGRectMake(0,             -44, 320,                     44)];
-        [self.toolBar       setFrame:CGRectMake(0,               0, 320,                     44)];
-        [self.noteTable     setFrame:CGRectMake(0,              44, 320, screenHeight-(2*44)-49)];
-        [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-49, 320,                     44)];
-        [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleBordered];
-        [UIView commitAnimations];
-    }
-}
-
-- (void) filterButtonTouchAction:(id)sender
-{    
-    [self refresh];
-}
-
-- (void) sortButtonTouchAction:(id)sender
-{
-    [self sortWithMode:[(UISegmentedControl *)sender selectedSegmentIndex]];
-}
-
 - (void) sortWithMode:(int)mode
 {
-    switch(mode)
+    noteSort = mode;
+    switch(noteSort)
     {
-        case 0:
+        case NOTE_SORT_NONE:
         {
             NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"noteId" ascending:NO]];
             self.playerNoteList     = [NSMutableArray arrayWithArray:[self.playerNoteList sortedArrayUsingDescriptors:sortDescriptors]];
             self.gameNoteList       = [NSMutableArray arrayWithArray:[self.gameNoteList   sortedArrayUsingDescriptors:sortDescriptors]];
             break;
         }
-        case 1:
+        case NOTE_SORT_ABC:
         {
             NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES]];
             self.playerNoteList     = [NSMutableArray arrayWithArray:[self.playerNoteList sortedArrayUsingDescriptors:sortDescriptors]];
             self.gameNoteList       = [NSMutableArray arrayWithArray:[self.gameNoteList   sortedArrayUsingDescriptors:sortDescriptors]];
             break;
         }
-        case 2:
+        case NOTE_SORT_POP:
         {
             NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"numRatings" ascending:NO]];
             self.playerNoteList     = [NSMutableArray arrayWithArray:[self.playerNoteList sortedArrayUsingDescriptors:sortDescriptors]];
@@ -204,10 +166,8 @@
 
 - (void) refresh
 {
-    if(filterControl.selectedSegmentIndex == 0)
-        [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
-    else
-        [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
+    if(noteScope == NOTE_SCOPE_PLAYER)    [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
+    else if(noteScope == NOTE_SCOPE_GAME) [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
     
     [[AppServices sharedAppServices] fetchGameNoteTagsAsynchronously:YES];
 }
@@ -215,26 +175,14 @@
 - (void) showLoadingIndicator
 {
 	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:activityIndicator]];
+	[self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:activityIndicator]];
 	[activityIndicator startAnimating];    
 }
 
 - (void) removeLoadingIndicator
 {
+    [self.navigationItem setRightBarButtonItem:nil];
     [noteTable reloadData];
-}
-
-- (void) barButtonTouchAction:(id)sender
-{
-    NSString *startView;
-    switch([sender tag])
-    {
-        case 0: startView = @"camera"; break;
-        case 1: startView = @"text";   break;
-        case 2: startView = @"audio";  break;
-        default:startView = @"text";   break;
-    }
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil inView:startView delegate:self] animated:NO];
 }
 
 - (void) noteEditorViewControllerDidFinish
@@ -245,8 +193,11 @@
 - (void) refreshViewFromModel
 {    
 	self.playerNoteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
-    if([AppModel sharedAppModel].currentGame.allowShareNoteToList) self.gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
-    else                                                           self.gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    if([AppModel sharedAppModel].currentGame.allowShareNoteToList)
+        self.gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
+    else
+        self.gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
     
     for(int i = 0; i < [gameNoteList count]; i++)
     {
@@ -303,7 +254,7 @@
                 [self.tagGameHeaderList     addObject:tagName];
             }
         }
-        [self sortWithMode:0];
+        [self sortWithMode:NOTE_SORT_NONE];
     }
     
     [noteTable reloadData];
@@ -311,42 +262,42 @@
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if([sortControl selectedSegmentIndex] == 3) //tag
+    if(noteSort == NOTE_SORT_TAG)
     {
-        if(self.filterControl.selectedSegmentIndex == 0) return [self.tagPlayerNoteListList count];
-        else                                             return [self.tagGameNoteListList   count];
+        if     (noteScope == NOTE_SCOPE_PLAYER) return [self.tagPlayerNoteListList count];
+        else if(noteScope == NOTE_SCOPE_GAME)   return [self.tagGameNoteListList   count];
     }
-    else
-        return 1;
+    return 1;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([sortControl selectedSegmentIndex] == 3) //tag
+    if(noteSort ==  NOTE_SORT_TAG)
     {
-        if(self.filterControl.selectedSegmentIndex == 0) return [[self.tagPlayerNoteListList objectAtIndex:section] count];
-        else                                             return [[self.tagGameNoteListList   objectAtIndex:section] count]; 
+        if     (noteScope == NOTE_SCOPE_PLAYER) return [[self.tagPlayerNoteListList objectAtIndex:section] count];
+        else if(noteScope == NOTE_SCOPE_GAME)   return [[self.tagGameNoteListList   objectAtIndex:section] count];
     }
     else
     {
-        if(self.filterControl.selectedSegmentIndex == 0) return ([self.playerNoteList count] == 0) ? 1 : [self.playerNoteList count];
-        else                                             return ([self.gameNoteList   count] == 0) ? 1 : [self.gameNoteList   count];
+        if     (noteScope == NOTE_SCOPE_PLAYER) return ([self.playerNoteList count] == 0) ? 1 : [self.playerNoteList count];
+        else if(noteScope == NOTE_SCOPE_GAME)   return ([self.gameNoteList   count] == 0) ? 1 : [self.gameNoteList   count];
     }
+    return ([self.gameNoteList count] == 0) ? 1 : [self.gameNoteList count];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray *currentNoteList;
     
-    if([sortControl selectedSegmentIndex] == 3) //tag
+    if(noteSort == NOTE_SORT_TAG)
     {
-        if(self.filterControl.selectedSegmentIndex == 0) currentNoteList = self.tagPlayerNoteListList;
-        else                                             currentNoteList = self.tagGameNoteListList;
+        if     (noteScope == NOTE_SCOPE_PLAYER) currentNoteList = self.tagPlayerNoteListList;
+        else if(noteScope == NOTE_SCOPE_GAME)   currentNoteList = self.tagGameNoteListList;
     }
     else
     {
-        if(self.filterControl.selectedSegmentIndex == 0) currentNoteList = self.playerNoteList;
-        else                                             currentNoteList = self.gameNoteList;
+        if     (noteScope == NOTE_SCOPE_PLAYER) currentNoteList = self.playerNoteList;
+        else if(noteScope == NOTE_SCOPE_GAME)   currentNoteList = self.gameNoteList;
     }
     
 	static NSString *CellIdentifier = @"Cell";
@@ -368,7 +319,7 @@
         cell = (NoteCell *)tempCell;
     
     Note *currNote;
-    if([sortControl selectedSegmentIndex] == 3) //tag
+    if(noteSort == NOTE_SORT_TAG)
         currNote = (Note *)[[currentNoteList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     else
         currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
@@ -380,46 +331,30 @@
 
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if([sortControl selectedSegmentIndex] == 3) //tag
+    if(noteSort == NOTE_SORT_TAG)
     {
-        if(self.filterControl.selectedSegmentIndex == 0)
-        {
-            if([self.tagGameHeaderList count] > section)
-                return [self.tagGameHeaderList objectAtIndex:section];
-            else return @"";
-        }
-        else
-        {
-            if([self.tagGameHeaderList count] > section)
-                return [self.tagGameHeaderList objectAtIndex:section];
-            else return @"";
-        }
+        if(noteScope == NOTE_SCOPE_PLAYER && [self.tagPlayerHeaderList count] > section)
+            return [self.tagPlayerHeaderList objectAtIndex:section];
+        else if(noteScope == NOTE_SCOPE_GAME && [self.tagGameHeaderList count] > section)
+            return [self.tagGameHeaderList objectAtIndex:section];
     }
-    else return @"";
+    return @"";
 }
-
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{    
-    if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor ARISColorLightGray];  
-    else                       cell.backgroundColor = [UIColor ARISColorDarkGray];  
-}
-
+    
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray *currentNoteList;
-    if(self.filterControl.selectedSegmentIndex == 0)
+    if(noteScope == NOTE_SCOPE_PLAYER)
     {
-        if([sortControl selectedSegmentIndex] == 3) //tag
+        currentNoteList = self.playerNoteList;
+        if(noteSort == NOTE_SORT_TAG)
             currentNoteList = [self.tagPlayerNoteListList objectAtIndex:indexPath.section];
-        else
-            currentNoteList = self.playerNoteList;
     }
     else
     {
-        if([sortControl selectedSegmentIndex] == 3) //tag
+        currentNoteList = self.gameNoteList;
+        if(noteSort == NOTE_SORT_TAG)
             currentNoteList = [self.tagGameNoteListList objectAtIndex:indexPath.section];
-        else
-            currentNoteList = self.gameNoteList;
     }
     
     [delegate displayGameObject:(Note *)[currentNoteList objectAtIndex:indexPath.row] fromSource:self];
@@ -432,28 +367,24 @@
 
 - (UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([sortControl selectedSegmentIndex] == 3) //tag
+    if(noteSort == NOTE_SORT_TAG)
         return UITableViewCellEditingStyleNone;
-    if(self.filterControl.selectedSegmentIndex == 1) //game notes
-    {
-        if(([self.gameNoteList count] != 0) && [[self.gameNoteList objectAtIndex:indexPath.row] creatorId] == [AppModel sharedAppModel].player.playerId)
+    if(noteScope == NOTE_SCOPE_GAME && 
+       ([self.gameNoteList count] != 0) && 
+       [[self.gameNoteList objectAtIndex:indexPath.row] creatorId] == [AppModel sharedAppModel].player.playerId)
             return UITableViewCellEditingStyleDelete;
-    }
-    else
-    {
-        if([self.playerNoteList count] != 0)
+    else if(noteScope == NOTE_SCOPE_PLAYER && [self.playerNoteList count] != 0)
             return UITableViewCellEditingStyleDelete;
-    }
     
     return UITableViewCellEditingStyleNone;
 }
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[AppServices sharedAppServices]deleteNoteWithNoteId:[(Note *)[self.playerNoteList objectAtIndex:indexPath.row] noteId]];
-    if(self.filterControl.selectedSegmentIndex == 1) //game notes
+    [[AppServices sharedAppServices] deleteNoteWithNoteId:[(Note *)[self.playerNoteList objectAtIndex:indexPath.row] noteId]];
+    if(noteScope == NOTE_SCOPE_GAME)
         [[AppModel sharedAppModel].gameNoteList   removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.gameNoteList objectAtIndex:indexPath.row] noteId]]];
-    else
+    else if(noteScope == NOTE_SCOPE_PLAYER)
         [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.playerNoteList objectAtIndex:indexPath.row] noteId]]];
     [self refreshViewFromModel];
 }
@@ -466,6 +397,21 @@
 - (NSString *) tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return  @"Delete Note";
+}
+
+- (void) cameraTouched
+{
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil delegate:self] animated:NO];
+}
+
+- (void) textTouched
+{
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil delegate:self] animated:NO];
+}
+
+- (void) audiotouched
+{
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil delegate:self] animated:NO];
 }
 
 - (void) dealloc

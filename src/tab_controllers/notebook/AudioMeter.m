@@ -35,14 +35,14 @@
 		
 		self.barViews = [NSMutableArray arrayWithCapacity:self.numberofBars];
 		
-		for (int i = 0; i<self.numberofBars; i++) {
+		for(int i = 0; i<self.numberofBars; i++)
+        {
 			int currentPosition = i * (heightPerBar + self.spacingBetweenBars);
 			UIView *bar = [[UIView alloc] initWithFrame:CGRectMake(0, currentPosition, width, heightPerBar)];
 			bar.backgroundColor = inactiveColor;
 			[self.barViews insertObject:bar atIndex:0];
 			[self addSubview:bar];
 		}
-		
     }
     return self;
 }
