@@ -153,6 +153,14 @@ var ARISJS = function(_ARIS)
             alert("Just recieved a hook from ARIS with this information: '"+paramsJSON+"'. Override ARIS.hook(paramsJSON) to handle this event however you want! (Or, just add 'ARIS.hook = function(paramsJSON){return;};' to your code to just get rid of this message)");
         }
     }
+    
+    if(typeof(_ARIS.ready) === 'undefined')
+    {
+        _ARIS.ready = function()
+        {
+            return;
+        }
+    }
 
     return _ARIS;
 }
@@ -160,4 +168,4 @@ var ARISJS = function(_ARIS)
 if(typeof(ARIS) === 'undefined') var ARIS = ARISJS({});
 else ARIS = ARISJS(ARIS);
 
-if(typeof(ARISReady) === 'function') ARISReady();
+ARIS.ready();

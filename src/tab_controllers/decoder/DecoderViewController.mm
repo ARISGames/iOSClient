@@ -55,6 +55,7 @@
     codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
     codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+    codeTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     codeTextField.textAlignment = NSTextAlignmentCenter;
 	codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
     codeTextField.delegate = self;
@@ -66,7 +67,6 @@
     [scanBtn setTitle:@"Scan" forState:UIControlStateNormal];
     [scanBtn addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:scanBtn];
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -87,7 +87,6 @@
     [super showNav];
 }
 
-     
  - (void) clearScreenActions
  {
      [self.codeTextField resignFirstResponder];

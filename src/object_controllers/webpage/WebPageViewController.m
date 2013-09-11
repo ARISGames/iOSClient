@@ -71,6 +71,7 @@
     
     self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height) delegate:self];
     self.webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    self.webView.scrollView.bounces = NO;
     self.webView.scalesPageToFit = YES;
     self.webView.allowsInlineMediaPlayback = YES;
     self.webView.mediaPlaybackRequiresUserAction = NO;
