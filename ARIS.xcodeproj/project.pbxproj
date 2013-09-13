@@ -2989,11 +2989,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"ARCHS[sdk=iphoneos*]" = (
-					armv7,
-					armv6,
-				);
-				"ARCHS[sdk=iphonesimulator*]" = i386;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
@@ -3012,7 +3009,7 @@
 					src/third_party/zxing/cpp/core/src,
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
@@ -3069,10 +3066,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"ARCHS[sdk=iphoneos*]" = (
-					armv7,
-					armv6,
-				);
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
@@ -3090,7 +3085,7 @@
 					src/third_party/zxing/cpp/core/src,
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
