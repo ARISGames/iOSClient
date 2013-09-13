@@ -17,11 +17,14 @@ var resetUser = function()
 
 	var resetUser = "Resetting the User if already logged in.";
 	UIALogger.logStart(resetUser);
-
-		if (app.navigationBar().rightButton().checkIsValid() )
+	
+		if (app.navigationBar().buttons()["idcard"].checkIsValid() )
 		{
-			app.navigationBar().rightButton().tap();
-			target.frontMostApp().mainWindow().buttons()["Logout"].tap();
+			app.navigationBar().buttons()["idcard"].tap();
+			
+window.staticTexts()["Logout"].tap();
+			
+			
 		}
 	
 	UIALogger.logPass(resetUser);	
@@ -33,29 +36,31 @@ var resetUser = function()
 var loginUITests = function(){
 
 	target.captureScreenWithName("1 - Login Screen");
-		
+	
 };
 
 ////////////////////////////////////////////////////////////////////// SIMULATING: LOGIN
 var loginTest = function(username,password){
 		var login = "Simulating Login Test";
+	
+	
 		UIALogger.logStart(login);
 	
 		//TYPE USERNAME
-	
-	window.tableViews()["Empty list"].cells()[0].textFields()[0].tap();
-	
-		target.frontMostApp().keyboard().typeString(username + "\n");
+		window.textFields()[0].tap();
+		app.keyboard().typeString(username + "\n");
 			
 		// TYPE PASSWORD
-		window.tableViews()["Empty list"].cells()[1].secureTextFields()[0].tap();
+		window.secureTextFields()[0].tap();
+		app.keyboard().typeString(password);
 	
-	
-	target.frontMostApp().keyboard().typeString(password);
 	
 		// CLICK LOGIN
-		target.frontMostApp().mainWindow().buttons()[0].tap();
-		UIALogger.logPass(login);
+	window.buttons()["arrowForward"].tap();
+	
+	UIALogger.logPass(login);
+	
+	
 };
 //////////////////////////////////////////////////////////////////////  SEARCH UI TEST
 var searchUITests = function(){
@@ -75,8 +80,11 @@ var searchGame = function(gameName){
 	target.frontMostApp().tabBar().buttons()["Search"].tap();		
 	
 	//Input name of game
-	target.frontMostApp().mainWindow().searchBars()[0].tap();
-	target.frontMostApp().keyboard().typeString(gameName);
+	
+	window.tableViews()["Empty list"].cells()["Cancel"].searchBars()[0].tap();
+
+	
+	app.keyboard().typeString(gameName);
 	app.keyboard().buttons()["Search"].tap();
 	
 	// wait for game to show
@@ -117,7 +125,6 @@ var selectGame = function(gameName){
 		// CREATE NEW GAME
 		window.tableViews()["Empty list"].cells()["New Game"].tap();
 		
-	
 	}
 	
 	UIALogger.logPass(selectGame);
@@ -137,7 +144,7 @@ UIATarget.onAlert = function onAlert(alert) {
  		   // return false to use the default handler
   				  return false;
 													}
-		//////// END Handling the Alert
+//////// END Handling the Alert
 
 ////////////////////////////////////////////////////////////////////// WHAT DO DO INSIDE THE GAME?
 
@@ -145,7 +152,7 @@ var inGame = function() {
 var inGame = "In Game Activity";
 UIALogger.logStart(inGame);	
 	
-	// Initial Plaque appeared, press continue
+	// Initial Plaque appeared, take screenshot
 	
 	target.delay(1);
 	target.captureScreenWithName('5 - Initial Plaque');
@@ -154,35 +161,51 @@ UIALogger.logStart(inGame);
 	//SCREEN CAPTURE
 	target.delay(1);
 	target.captureScreenWithName('6 - Initial Quests');
-	target.frontMostApp().mainWindow().buttons()["Continue > "].tap();
 	
+	// Initial plaque - press continue
+	
+	window.staticTexts()["Continue"].tap();
+	 	
 	
 	//GO TO MAP
-	target.frontMostApp().navigationBar().leftButton().tap();
-	target.frontMostApp().mainWindow().tableViews()[0].cells()["GPS"].tap();
+	
+	app.navigationBar().buttons()["threeLines"].tap();
+
+target.frontMostApp().mainWindow().tableViews()[0].cells()["Map"].tap();
 	
 	
+
 	//TAP ON NORMAL ITEM AND QUICK TRAVEL
 	
-	target.frontMostApp().mainWindow().elements()["Normal Item"].tap();
-	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
-	target.frontMostApp().mainWindow().staticTexts()["Back"].tapWithOptions({tapOffset:{x:0.61, y:0.55}});
+	window.elements()["Normal Item"].tap();
+	app.actionSheet().buttons()["Quick Travel"].tap();
+	app.navigationBar().buttons()["arrowBack"].tap();
+	
+
 	
 	//QUEST COMPLETE, DISMISS
-	target.frontMostApp().mainWindow().buttons()[0].tap();
+	window.staticTexts()["Continue > "].tap();
 	
 	
 	//TAP ON PLAQUE ON MAP
-	target.frontMostApp().mainWindow().elements()["Plaque"].tap();
-	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[0].buttons()["Tap To Continue"].tap();
+	target.delay(5);
+	window.elements()["Plaque"].tap();
+	app.actionSheet().buttons()["Quick Travel"].tap();
+	window.staticTexts()["Continue"].tap();
+	
+	
 	
 	//////////////////////////////////////////////////TAP ON GREETING CHARACTER
 	
+	
+	
 	UIATarget.localTarget().pushTimeout(10);
 	
-	target.frontMostApp().mainWindow().elements()["Greeting/Closing Character"].tap();
-	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
+	window.elements()["Greeting/Closing Character"].tap();
+ 	
+	
+	app.actionSheet().buttons()["Quick Travel"].tap();
+	
 	
 	UIATarget.localTarget().popTimeout();
 	
@@ -190,95 +213,160 @@ UIALogger.logStart(inGame);
 	
 	
 	//I AM THE PC CHARACTER
-	target.frontMostApp().mainWindow().buttons()["Tap To Continue"].tap();
-	
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
 	
 	
 	// I AM THE NPC CHARACTER
-	target.frontMostApp().mainWindow().buttons()["Tap To Continue"].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
+	
 	
 	//NOC WITH CUSTOM MEDIA
-	target.frontMostApp().mainWindow().buttons()["Tap To Continue"].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
+	
 	
 	//Leave Conversation
-	target.frontMostApp().mainWindow().tableViews()["Empty list"].cells()["Leave Conversation"].tap();
-	// Alert detected. Expressions for handling alerts should be moved into the UIATarget.onAlert function definition.
+	target.delay(2);
+	window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Leave Conversation"].tap();
+	
 	
 	
 	//////////////////////////////Wait for Conversation Tester
 	UIATarget.localTarget().pushTimeout(10);
-	target.frontMostApp().mainWindow().elements()["Conversation Tester"].tap();
+	window.elements()["Conversation Tester"].tap();
+	
+	
 	UIATarget.localTarget().popTimeout();
 	
+	//Quick Travel to Conversation Character
+	app.actionSheet().buttons()["Quick Travel"].tap();
+	
+	
+	//Hello I am the conversation Test Character
+	window.staticTexts()["Continue"].tap();
 	
 	
 	//No Script
+	window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+	window.staticTexts()["Continue"].tap();
 	
 	
 	// NPC and PC Tag
+	target.delay(2);
+	window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
+	
 	
 	// Item Tag
-		
+	target.delay(1);
+	window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+	target.delay(1);
+ 	app.navigationBar().buttons()["arrowBack"].tap();
+ 	
 	//Plaque Tag
-		
-	// Video Tag
+	window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
+	
+	
+	// Video Tag == This is funky, it exited me.
+	target.delay(1);
+	
 
 	
-	// Panoramic Tag
+	// Panoramic Tag  == This is funky , it exited me.
 		
+	
 
 	// Webpage Tag
-		
+	
+	target.frontMostApp().mainWindow().scrollViews()[0].scrollViews()[2].webViews()[0].tap();
+	target.delay(2);
+	target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
+	
+	
 	
 	// Exit to Map
-	target.frontMostApp().mainWindow().scrollViews()[3].tableViews()["Empty list"].cells()["Exit to Map"].tap();
+	
+	target.frontMostApp().mainWindow().scrollViews()[0].scrollViews()[2].webViews()[0].tap();
+	target.frontMostApp().mainWindow().staticTexts()["Continue"].tap();
+	
+	
+	//Back to Character
+	window.elements()["Conversation Tester"].tap();
+	app.actionSheet().buttons()["Quick Travel"].tap();
+	window.staticTexts()["Continue"].tap();
+	
+	
+	// Exit to Plaque
+	
+	window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
+	window.staticTexts()["Continue"].tap();
+	window.staticTexts()["Continue"].tap();
+	
+	
+	//Back to Character
+	window.elements()["Conversation Tester"].tap();
 	target.delay(1);
-	target.captureScreenWithName('21 - Exit to Map');
-	target.frontMostApp().mainWindow().scrollViews()[1].buttons()["Tap to Continue"].tap();
-	
-	//Back to Character and EXIT TO PLAQUE
-	target.frontMostApp().mainWindow().elements()["Conversation Tester"].tap();
-	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
-	
-	target.frontMostApp().mainWindow().scrollViews()[2].buttons()["Tap to Continue"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[3].tableViews()["Empty list"].cells()["Exit to Plaque"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[1].buttons()["Tap to Continue"].tap();
+	app.actionSheet().buttons()["Quick Travel"].tap();
 	target.delay(1);
-	target.captureScreenWithName('22 - Exit to Plaque');
-	target.frontMostApp().mainWindow().scrollViews()[0].buttons()["Tap To Continue"].tap();
+	window.staticTexts()["Continue"].tap();
 	
-	// //Back to Character and EXIT TO ITEM
-	target.frontMostApp().mainWindow().elements()["Conversation Tester"].tap();
-	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[2].buttons()["Tap to Continue"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[3].tableViews()["Empty list"].cells()["Exit to Item"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[1].buttons()["Tap to Continue"].tap();
+	
+	/// EXIT TO ITEM
 	target.delay(1);
-	target.captureScreenWithName('23 - Exit to Item');
-	target.frontMostApp().navigationBar().leftButton().tap();
-	
-	//Back to Character and EXIT TO CHARACTER
-	target.frontMostApp().mainWindow().elements()["Conversation Tester"].tap();
-	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[2].buttons()["Tap to Continue"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[3].tableViews()["Empty list"].cells()["Exit to Character"].tap();
+	window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
 	target.delay(1);
-	target.frontMostApp().mainWindow().scrollViews()[1].buttons()["Tap to Continue"].tap();
+	window.staticTexts()["Continue"].tap();
 	target.delay(1);
-	target.frontMostApp().mainWindow().scrollViews()[2].buttons()["Tap to Continue"].tap();
+	target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
+	
+
+	
+	//Back to Character
+	target.delay(2);
+	window.elements()["Conversation Tester"].tap();
 	target.delay(1);
-	target.frontMostApp().mainWindow().scrollViews()[1].buttons()["Tap to Continue"].tap();
+	app.actionSheet().buttons()["Quick Travel"].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
 	
-	//Back to Character and EXIT TO WEBSITE
-	target.frontMostApp().mainWindow().elements()["Conversation Tester"].tap();
-	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[2].buttons()["Tap to Continue"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[3].tableViews()["Empty list"].cells()["Exit to Webpage"].tap();
-	target.frontMostApp().mainWindow().scrollViews()[1].buttons()["Tap to Continue"].tap();
-	target.frontMostApp().navigationBar().leftButton().tap();
+	// EXIT TO CHARACTER
+	window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
+	target.delay(1);
+	window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+	
+
+	
+	//Back to Character 
+
+	target.delay(1);
+	window.elements()["Conversation Tester"].tap();
+	target.delay(1);
+	app.actionSheet().buttons()["Quick Travel"].tap();
+	target.delay(1);
+	window.staticTexts()["Continue"].tap();
 	
 	
-// ----------------
+	
+	//EXIT TO WEBPAGE
+	window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
+	window.staticTexts()["Continue"].tap();
+	app.navigationBar().buttons()["arrowBack"].tap();
+	
+
+	
+	// EXIT TO PANORAMIC -- this is broken
+
 UIALogger.logPass(inGame);
 	
 };
@@ -290,18 +378,15 @@ var reset = function(){
 	var resetGame = "Resetting Game";
 	UIALogger.logStart(resetGame);
 	
+	app.navigationBar().buttons()["threeLines"].tap();
+	target.delay(1);
+	window.staticTexts()["Leave Game"].tap();
+	target.delay(1);
+	app.navigationBar().buttons()["arrowBack"].tap();
 	
-	target.frontMostApp().tabBar().buttons()["More"].tap();
-	target.frontMostApp().mainWindow().tableViews()[0].cells()["Leave Game"].tap();
-	target.frontMostApp().mainWindow().tableViews()["Empty list"].cells()["Reset"].tap();
-			target.delay(2);
+	resetUser();
 	
-	target.frontMostApp().navigationBar().leftButton().tap();
-	target.frontMostApp().mainWindow().searchBars()[0].tap();
-	window.buttons()["Cancel"].tap();
-	
-	target.frontMostApp().navigationBar().rightButton().tap();
-	target.frontMostApp().mainWindow().buttons()["Logout"].tap();
+
 	
 	UIALogger.logPass(resetGame);
 	
