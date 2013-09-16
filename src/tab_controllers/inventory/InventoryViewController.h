@@ -1,5 +1,5 @@
 //
-//  FilesViewController.h
+//  InventoryViewController.h
 //  ARIS
 //
 //  Created by Ben Longoria on 2/11/09.

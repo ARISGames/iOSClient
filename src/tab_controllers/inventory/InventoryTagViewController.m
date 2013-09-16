@@ -87,10 +87,10 @@
 - (void) loadView
 {
     [super loadView];
+    self.view.autoresizesSubviews = NO;
     
-    self.tagView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,0)];
+    self.tagView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,100)];
     self.tagView.backgroundColor = [UIColor ARISColorDarkGray];
-    self.tagView.contentSize = self.tagView.frame.size;
     self.tagView.scrollEnabled = YES;
     self.tagView.bounces = YES;
     [self.view addSubview:self.tagView];
@@ -125,6 +125,8 @@
     }
     
     [self sizeViewsWithoutTagView];
+    
+    [self refreshViews];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -179,6 +181,8 @@
 
 - (void) refreshViews
 {
+    if(!self.view) return;
+    
     NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
     self.inventory = [[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory sortedArrayUsingDescriptors:sortDescriptors];
     [self.sortableTags removeAllObjects];
@@ -215,6 +219,10 @@
     
     [self loadTagViewData];
     [inventoryTable reloadData];
+    
+    //Apple is for some reason competing over the control of this view. Without this constantly being called, it messes everything up.
+    self.tagView.contentSize = CGSizeMake([self.sortableTags count]*100,0);
+    self.tagView.contentOffset = CGPointMake(0,0);    
 }
 
 - (void) loadTagViewData
@@ -245,7 +253,7 @@
         [tag addSubview:label];
         [self.tagView addSubview:tag];
     }
-    self.tagView.contentSize = CGSizeMake([self.sortableTags count]*100, 100);
+    self.tagView.contentSize = CGSizeMake([self.sortableTags count]*100,0);// self.tagView.frame.size.height);
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
