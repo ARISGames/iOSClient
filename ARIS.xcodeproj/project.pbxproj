@@ -404,8 +404,6 @@
 		AABC74E0172739D80074CC21 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC736F172739D80074CC21 /* UIImage+Resize.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7371172739D80074CC21 /* UIImage+RoundedCorner.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7373172739D80074CC21 /* UIImage+Scale.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AABC74F917285FE00074CC21 /* InventoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74F717285FE00074CC21 /* InventoryViewController.m */; };
-		AABC74FA17285FE00074CC21 /* InventoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74F817285FE00074CC21 /* InventoryViewController.xib */; };
 		AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FB17285FF70074CC21 /* QuestsViewController.xib */; };
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75011728600B0074CC21 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FF1728600B0074CC21 /* MapViewController.xib */; };
@@ -1100,9 +1098,6 @@
 		AABC7372172739D80074CC21 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
 		AABC7373172739D80074CC21 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		AABC74E317273A0F0074CC21 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AABC74F617285FE00074CC21 /* InventoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryViewController.h; sourceTree = "<group>"; };
-		AABC74F717285FE00074CC21 /* InventoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryViewController.m; sourceTree = "<group>"; };
-		AABC74F817285FE00074CC21 /* InventoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InventoryViewController.xib; sourceTree = "<group>"; };
 		AABC74FB17285FF70074CC21 /* QuestsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestsViewController.xib; sourceTree = "<group>"; };
 		AABC74FD1728600B0074CC21 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		AABC74FE1728600B0074CC21 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
@@ -1118,7 +1113,6 @@
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAD298C717D1160C002A4C47 /* InventoryTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryTagViewController.h; sourceTree = "<group>"; };
 		AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryTagViewController.m; sourceTree = "<group>"; };
-		AAD298CC17D116E7002A4C47 /* InventoryViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InventoryViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		AAF7115517B9579900262A37 /* PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealController.h; sourceTree = "<group>"; };
 		AAF7115617B9579900262A37 /* PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealController.m; sourceTree = "<group>"; };
@@ -2045,10 +2039,6 @@
 		AABC714D172739D60074CC21 /* inventory */ = {
 			isa = PBXGroup;
 			children = (
-				AAD298CC17D116E7002A4C47 /* InventoryViewControllerDelegate.h */,
-				AABC74F617285FE00074CC21 /* InventoryViewController.h */,
-				AABC74F717285FE00074CC21 /* InventoryViewController.m */,
-				AABC74F817285FE00074CC21 /* InventoryViewController.xib */,
 				AAD298C717D1160C002A4C47 /* InventoryTagViewController.h */,
 				AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */,
 				AABC7151172739D60074CC21 /* InventoryTradeViewController.h */,
@@ -2700,7 +2690,6 @@
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,
 				AA2D215017DE560C00CF4198 /* todo.png in Resources */,
-				AABC74FA17285FE00074CC21 /* InventoryViewController.xib in Resources */,
 				AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */,
 				AABC75011728600B0074CC21 /* MapViewController.xib in Resources */,
 				AA2D214F17DE560C00CF4198 /* qr_small@2x.png in Resources */,
@@ -2907,7 +2896,6 @@
 				AABC74E0172739D80074CC21 /* UIImage+Resize.m in Sources */,
 				AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */,
 				AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */,
-				AABC74F917285FE00074CC21 /* InventoryViewController.m in Sources */,
 				AABC75001728600B0074CC21 /* MapViewController.m in Sources */,
 				AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */,
 				AABC750A172860690074CC21 /* NpcViewController.m in Sources */,

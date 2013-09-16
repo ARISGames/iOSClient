@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ARISGamePlayTabBarViewController.h"
-#import "InventoryViewControllerDelegate.h"
 
 @protocol StateControllerProtocol;
+@protocol InventoryViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
+@end
 
 @interface InventoryTagViewController : ARISGamePlayTabBarViewController
 - (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, InventoryViewControllerDelegate, StateControllerProtocol>)d;

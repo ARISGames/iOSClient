@@ -25,8 +25,6 @@
 #import "ARISMediaView.h"
 #import "ARISCollapseView.h"
 #import "UIColor+ARISColors.h"
-
-#import "InventoryViewController.h"
 #import "InventoryTagViewController.h"
 
 @interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, UIWebViewDelegate, UITextViewDelegate>
@@ -97,7 +95,7 @@
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
     BOOL atLeastOneButton = NO;
-	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] || [(NSObject *)source isKindOfClass:[InventoryTagViewController class]])
+	if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]])
     {
         if(item.dropable)
         {
