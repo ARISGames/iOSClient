@@ -82,7 +82,7 @@
     
     self.attributesTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height)];
     self.attributesTable.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-    //self.attributesTable.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.attributesTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.attributesTable.delegate = self;
     self.attributesTable.dataSource = self;
     self.attributesTable.backgroundColor = [UIColor clearColor];
@@ -133,12 +133,10 @@
     
     cell.contentView.backgroundColor = [UIColor ARISColorTranslucentWhite];
     cell.contentView.opaque = NO;
-    cell.contentView.layer.cornerRadius = 10.0;
     
     cell.userInteractionEnabled = NO;
     
 	Item *item = [attributes objectAtIndex: [indexPath row]];
-    
     
 	UILabel *lblTemp;
 	lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 22, 240, 20)];
