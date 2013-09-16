@@ -236,7 +236,7 @@
             
             if(tmpTab.tabDetail1 == 0) //both scanner and text input- default (do nothing)
                 ;
-            if(tmpTab.tabDetail1 == 1) //just scanner
+            if(YES)//tmpTab.tabDetail1 == 1) //just scanner
                 decoderViewController.textEnabled = NO;
             if(tmpTab.tabDetail1 == 2) //just text input
                 decoderViewController.scanEnabled = NO; 
