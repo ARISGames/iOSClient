@@ -19,4 +19,6 @@
 @interface DecoderViewController : ARISGamePlayTabBarViewController 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d;
 - (void) launchScannerWithPrompt:(NSString *)p;
+- (void) setTextEnabled:(BOOL)s;
+- (void) setScanEnabled:(BOOL)s;
 @end

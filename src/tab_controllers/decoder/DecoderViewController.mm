@@ -19,17 +19,22 @@
 @interface DecoderViewController() <ZXingDelegate, UITextFieldDelegate>
 {
 	UITextField *codeTextField;
+   	UIButton *scanButton; 
     
+    BOOL textEnabled;
+    BOOL scanEnabled;
     ZXingWidgetController *widController;
     id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) UITextField *codeTextField;
+@property (nonatomic, strong) UIButton *scanButton;
 
 @end
 
 @implementation DecoderViewController
 
 @synthesize codeTextField;
+@synthesize scanButton;
 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
 {
@@ -38,6 +43,8 @@
         self.tabID = @"QR";
         self.tabIconName = @"qr_small";
         
+        textEnabled = YES;
+        scanEnabled = YES; 
         delegate = d;
         
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
@@ -59,14 +66,16 @@
     codeTextField.textAlignment = NSTextAlignmentCenter;
 	codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
     codeTextField.delegate = self;
+    if(!textEnabled) codeTextField.hidden = YES;
     [self.view addSubview:codeTextField];
     
-    UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    scanBtn.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
-    scanBtn.backgroundColor = [UIColor ARISColorDarkGray];
-    [scanBtn setTitle:@"Scan" forState:UIControlStateNormal];
-    [scanBtn addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:scanBtn];
+    scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    scanButton.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
+    scanButton.backgroundColor = [UIColor ARISColorDarkGray];
+    [scanButton setTitle:@"Scan" forState:UIControlStateNormal];
+    [scanButton addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    if(!scanEnabled) scanButton.hidden = YES; 
+    [self.view addSubview:scanButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -81,17 +90,36 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if(codeTextField.hidden)   [self scanButtonTouched];
+    else if(scanButton.hidden) [codeTextField becomeFirstResponder];
+}
+
+- (void) setTextEnabled:(BOOL)s
+{
+    textEnabled = s;
+    codeTextField.hidden = !s;
+}
+
+- (void) setScanEnabled:(BOOL)s
+{
+    scanEnabled = s;
+    scanButton.hidden = !s; 
+}
+
 - (void) showNav
 {
     [self clearScreenActions];
     [super showNav];
 }
 
- - (void) clearScreenActions
- {
-     [self.codeTextField resignFirstResponder];
-     if(widController) [self hideWidController];
- }
+- (void) clearScreenActions
+{
+    [self.codeTextField resignFirstResponder];
+    if(widController) [self hideWidController];
+}
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
 {	
@@ -111,7 +139,7 @@
 - (void) launchScannerWithPrompt:(NSString *)p
 {
     widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
-    widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
+    widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
     
     [self.view addSubview:widController.view];
 }

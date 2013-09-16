@@ -233,8 +233,16 @@
         else if([tmpTab.tabName isEqualToString:@"QR"])
         {
             DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self];
+            
+            if(tmpTab.tabDetail1 == 0) //both scanner and text input- default (do nothing)
+                ;
+            if(tmpTab.tabDetail1 == 1) //just scanner
+                decoderViewController.textEnabled = NO;
+            if(tmpTab.tabDetail1 == 2) //just text input
+                decoderViewController.scanEnabled = NO; 
+            
             self.decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
-            [gamePlayTabVCs addObject:self.decoderNavigationController];
+            [gamePlayTabVCs addObject:self.decoderNavigationController];  
         }
         else if([tmpTab.tabName isEqualToString:@"PLAYER"])
         {
