@@ -265,8 +265,8 @@
                 [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:((Location *)source).locationId qty:quantity];
                 [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:((Location *)source).locationId];
             }
-
-            [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
+            else
+                [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
 			item.qty -= quantity; //the above line does not give us an update, only the map
         }
 	}
