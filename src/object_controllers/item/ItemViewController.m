@@ -307,8 +307,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
                 [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:((Location *)source).locationId qty:quantity];
                 [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:((Location *)source).locationId];
             }
+            else
+                [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
             
-            [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
 			item.qty -= quantity;
         }
 	}
