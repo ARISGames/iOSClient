@@ -54,7 +54,9 @@
     BOOL allowTrading;
     Media *iconMedia;
     Media *splashMedia;
-
+    double latitude;
+    double longitude; 
+    double zoomLevel;  
 }
 
 @property (readwrite, assign) int gameId;
@@ -79,17 +81,21 @@
 @property (readwrite, assign) int launchNodeId;
 @property (readwrite, assign) int completeNodeId;
 @property (readwrite, assign) int numReviews;
-@property (readwrite) BOOL reviewedByUser;
-@property (readwrite) BOOL hasBeenPlayed;
-@property (readwrite) BOOL isLocational;
-@property (readwrite) BOOL showPlayerLocation;
-@property (readwrite) BOOL allowsPlayerTags;
-@property (readwrite) BOOL allowShareNoteToMap;
-@property (readwrite) BOOL allowShareNoteToList;
-@property (readwrite) BOOL allowNoteComments;
-@property (readwrite) BOOL allowNoteLikes;
-@property (readwrite) BOOL allowTrading;
-@property (readwrite) BOOL offlineMode;
+@property (readwrite, assign) BOOL reviewedByUser;
+@property (readwrite, assign) BOOL hasBeenPlayed;
+@property (readwrite, assign) BOOL isLocational;
+@property (readwrite, assign) BOOL showPlayerLocation;
+@property (readwrite, assign) BOOL allowsPlayerTags;
+@property (readwrite, assign) BOOL allowShareNoteToMap;
+@property (readwrite, assign) BOOL allowShareNoteToList;
+@property (readwrite, assign) BOOL allowNoteComments;
+@property (readwrite, assign) BOOL allowNoteLikes;
+@property (readwrite, assign) BOOL allowTrading;
+@property (readwrite, assign) BOOL offlineMode;
+
+@property (readwrite, assign) double latitude;
+@property (readwrite, assign) double longitude;
+@property (readwrite, assign) double zoomLevel;
 
 @property (readwrite, assign) int calculatedScore;
 @property (nonatomic, strong) Media *iconMedia;

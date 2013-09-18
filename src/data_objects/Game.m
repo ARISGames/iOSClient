@@ -31,9 +31,22 @@
 @synthesize location;
 @synthesize launchNodeId;
 @synthesize completeNodeId;
-@synthesize numReviews, reviewedByUser;
-@synthesize calculatedScore,isLocational, showPlayerLocation, iconMedia;
-@synthesize allowsPlayerTags,splashMedia,allowNoteComments,allowNoteLikes,allowShareNoteToMap,allowShareNoteToList,allowTrading;
+@synthesize numReviews;
+@synthesize reviewedByUser;
+@synthesize calculatedScore;
+@synthesize isLocational;
+@synthesize showPlayerLocation;
+@synthesize iconMedia;
+@synthesize allowsPlayerTags;
+@synthesize splashMedia;
+@synthesize allowNoteComments;
+@synthesize allowNoteLikes;
+@synthesize allowShareNoteToMap;
+@synthesize allowShareNoteToList;
+@synthesize allowTrading;
+@synthesize latitude;
+@synthesize longitude;
+@synthesize zoomLevel;
 
 - (id)init
 {
