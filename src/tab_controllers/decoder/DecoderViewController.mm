@@ -93,6 +93,7 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self clearScreenActions]; 
     if(codeTextField.hidden)   [self scanButtonTouched];
     else if(scanButton.hidden) [codeTextField becomeFirstResponder];
 }
@@ -138,6 +139,7 @@
 
 - (void) launchScannerWithPrompt:(NSString *)p
 {
+    [self clearScreenActions];
     widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
     widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
     
