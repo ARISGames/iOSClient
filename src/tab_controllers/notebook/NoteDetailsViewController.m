@@ -121,7 +121,8 @@
 
 - (void) noteEditorViewControllerDidFinish
 {
-    [self refreshView];
+    //[self refreshView];
+    [delegate gameObjectViewControllerRequestsDismissal:self]; 
 }
 
 - (void) refreshView

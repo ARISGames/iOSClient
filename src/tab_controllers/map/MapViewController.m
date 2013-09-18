@@ -22,7 +22,6 @@
 #import "AnnotationView.h"
 #import "Media.h"
 #import "NoteDetailsViewController.h"
-#import "NoteEditorViewController.h"
 
 #define INITIAL_SPAN 0.001f
 
