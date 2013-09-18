@@ -115,13 +115,14 @@
 
 - (void) viewDidDisappear:(BOOL)animated
 {
-    while([[self.scrollView subviews] count] > 0)
-        [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
+    //while([[self.scrollView subviews] count] > 0)
+        //[[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
 }
 
 - (void) noteEditorViewControllerDidFinish
 {
-    [self refreshView];
+    //[self refreshView];
+    [delegate gameObjectViewControllerRequestsDismissal:self]; 
 }
 
 - (void) refreshView
@@ -139,7 +140,7 @@
         [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
     self.scrollView.frame = self.navigationController.view.frame;
     
-    self.pageControl.currentPage = 0;
+    self.pageControl.currentPage   = 0;
     self.pageControl.numberOfPages = 0;
     for(int x = 0; x < [self.note.contents count]; x++)
         [self loadNewPageWithContent:[self.note.contents objectAtIndex:x]];

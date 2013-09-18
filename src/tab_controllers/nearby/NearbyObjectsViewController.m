@@ -72,6 +72,7 @@
     //Find locations that are "nearby" from the list of all locations
     for(Location *location in [AppModel sharedAppModel].currentGame.locationsModel.currentLocations)
     {
+        if(location.gameObject.type == GameObjectItem) ((Item *)location.gameObject).qty = location.qty;
         BOOL match = NO;
         for(Location *oldLocation in self.nearbyLocationsList)
             if(oldLocation.locationId == location.locationId) match = YES;
