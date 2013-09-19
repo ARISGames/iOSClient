@@ -4,7 +4,7 @@
 // #github "alexvollmer/tuneup_js/tuneup.js"
 
 //import tuneup.js library relative to the script location
-#import "../../tuneup_js/tuneup.js"
+#import "tuneup_js/tuneup.js"
 
 //Reset User if Already Logged in
 #import "resetUser.js"
