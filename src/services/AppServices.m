@@ -1641,6 +1641,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     game.name                     = [gameSource validStringForKey:@"name"];
     game.authors                  = [gameSource validStringForKey:@"editors"];
     game.mapType                  = [gameSource validObjectForKey:@"map_type"];
+    game.latitude                 = [gameSource validDoubleForKey:@"latitude"]; 
+    game.longitude                = [gameSource validDoubleForKey:@"longitude"]; 
+    game.zoomLevel                = [gameSource validDoubleForKey:@"zoom_level"]; 
     if(!game.mapType || (![game.mapType isEqualToString:@"STREET"] && ![game.mapType isEqualToString:@"SATELLITE"] && ![game.mapType isEqualToString:@"HYBRID"])) game.mapType = @"STREET";
 
     NSString *distance = [gameSource validObjectForKey:@"distance"];

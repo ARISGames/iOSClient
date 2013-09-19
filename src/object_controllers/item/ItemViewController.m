@@ -17,7 +17,6 @@
 #import "WebPage.h"
 #import "WebPageViewController.h"
 #import "NpcViewController.h"
-#import "NoteEditorViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "UIImage+Scale.h"
 #import "Item.h"
@@ -402,10 +401,8 @@
                 [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:((Location *)source).locationId];
             }
             else
-            {
                 [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
-                item.qty -= quantity;
-            }
+            item.qty -= quantity;
         }
 	}
 	

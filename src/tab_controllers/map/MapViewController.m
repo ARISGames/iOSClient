@@ -318,13 +318,16 @@
     
     //Remove old locations first
     id<MKAnnotation> annotation;
+    Location *loc;
     for(int i = 0; i < [[mapView annotations] count]; i++)
     {
         if(![[[mapView annotations] objectAtIndex:i] isKindOfClass:[Location class]]) continue;
         annotation = [[mapView annotations] objectAtIndex:i];
+        loc = (Location *)annotation; 
+        if(loc.gameObject.type == GameObjectItem) ((Item *)loc.gameObject).qty = loc.qty;  
         for(int j = 0; j < [locationsToRemove count]; j++)
         {
-            if([(Location *)annotation compareTo:((Location *)[locationsToRemove objectAtIndex:j])])
+            if([loc compareTo:((Location *)[locationsToRemove objectAtIndex:j])])
             {
                 [mapView removeAnnotation:annotation];
                 i--;

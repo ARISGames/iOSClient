@@ -64,11 +64,11 @@
     [super viewDidLoad];
 
     UICollectionViewFlowLayout *questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
-    questIconCollectionViewLayout.itemSize = CGSizeMake(76, 90);
+    questIconCollectionViewLayout.itemSize = CGSizeMake(100, 120);
     questIconCollectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
-    questIconCollectionViewLayout.minimumLineSpacing = 30.0;
-    questIconCollectionViewLayout.minimumInteritemSpacing = 10.0;
+    questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    questIconCollectionViewLayout.minimumLineSpacing = 5.0;
+    questIconCollectionViewLayout.minimumInteritemSpacing = 5.0;
     
     questIconCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:questIconCollectionViewLayout];
     questIconCollectionView.backgroundColor = [UIColor clearColor];
@@ -145,7 +145,7 @@
     iconTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
     [cell.contentView addSubview:iconTitleLabel];
     
-    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height-(textFrame.size.height+7));
+    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width);
     ARISMediaView *icon;
     if(q.iconMediaId != 0)
         icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];

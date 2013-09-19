@@ -146,7 +146,7 @@
         }
         case NOTE_SORT_ABC:
         {
-            NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES]];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES]];
             self.playerNoteList     = [NSMutableArray arrayWithArray:[self.playerNoteList sortedArrayUsingDescriptors:sortDescriptors]];
             self.gameNoteList       = [NSMutableArray arrayWithArray:[self.gameNoteList   sortedArrayUsingDescriptors:sortDescriptors]];
             break;
