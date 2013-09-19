@@ -239,7 +239,7 @@
 {
     if (indexPath.section == 1)
     {
-        if(indexPath.row == 0)//Resume
+        if(indexPath.row == 0)//Start/Resume
         {
             cell.backgroundColor = [UIColor ARISColorLightBlue];
             cell.textLabel.textColor = [UIColor whiteColor];

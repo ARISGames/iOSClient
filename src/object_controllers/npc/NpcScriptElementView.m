@@ -206,6 +206,7 @@
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
+    //education.mnhs.org/playthepast/qr?2005
 }
 
 - (void) webViewDidFinishLoad:(UIWebView *)webView
@@ -213,10 +214,12 @@
 	//Size the webView
 	CGRect wvFrame = [webView frame];
     CGFloat wvHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    BOOL emptyText = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML;"] isEqualToString:@""];
     
     if(wvHeight+54+64 > self.bounds.size.height) [self.textSection setFrameHeight:self.bounds.size.height-64];
+    else if(emptyText)                           [self.textSection setFrameHeight:44];
     else                                         [self.textSection setFrameHeight:wvHeight+54];
-    [self.textSection setContentFrame:CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, wvHeight)];
+    [self.textSection setContentFrame:CGRectMake(wvFrame.origin.x,wvFrame.origin.y,wvFrame.size.width,wvHeight)];
 	
     //Fade in the WebView
     [UIView beginAnimations:@"dialog" context:nil];

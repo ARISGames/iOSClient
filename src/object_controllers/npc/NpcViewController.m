@@ -62,17 +62,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if(!hasAppeared) [self viewWillAppearFirstTime];
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, 19, 19);
-    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(leaveConversationRequested) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-}
-
-- (void) viewWillAppearFirstTime
-{
+    if(hasAppeared) return;
     hasAppeared = YES;
     
     self.optionsViewController = [[NpcOptionsViewController alloc] initWithFrame:self.view.bounds delegate:self];
@@ -93,6 +83,12 @@
         [self displayScriptVC];
         [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.greeting nodeId:-1 hasViewed:NO]];
     }
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 19, 19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(leaveConversationRequested) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
 }
 
 - (void) optionChosen:(NpcScriptOption *)o

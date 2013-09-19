@@ -101,6 +101,13 @@
     mainFrame.origin.y = 64;
     mainFrame.size.height = mainFrame.size.height-64;
     
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
+    if(media)
+    {
+        [self.mediaView refreshWithFrame:mainFrame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
+        [self.view addSubview:self.mediaView];
+    } 
+    
     if(![self.quest.goFunction isEqualToString:@"NONE"])
     {
         mainFrame.size.height -= 44;
@@ -123,12 +130,6 @@
         [self.view addSubview:line];
     }
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
-    if(media)
-    {
-        [self.mediaView refreshWithFrame:mainFrame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
-        [self.view addSubview:self.mediaView];
-    }
     [self.view addSubview:self.webView];
 }
 
