@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     bwoken (1.3.0)
       coffee-script-source
@@ -10,9 +10,13 @@ GEM
     colorful (0.0.3)
     execjs (2.0.0)
     rake (10.1.0)
+    state_machine (1.1.2)
+    xcodebuild-rb (0.3.0)
+      state_machine (~> 1.1.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bwoken
+  xcodebuild-rb
