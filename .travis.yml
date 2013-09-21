@@ -1,4 +1,4 @@
 language: objective-c
 
 xcode_sdk: iphonesimulator
-script: rake
+script: bwoken test
