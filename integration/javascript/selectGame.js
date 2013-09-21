@@ -3,8 +3,9 @@ var selectGame = function(gameName){
 	
 	test("Selecting Game", function(target,app) {
 	
-	//Tap the Game
-	window.tableViews()["Empty list"].cells()["ARIS-Tester, 0.0 km, 1 reviews, econtreras"].tap();
+	//Tap the top Game
+	target.frontMostApp().mainWindow().tableViews()["Empty list"].cells()[1].tap();
+		 
 		
 	//RESET GAME IF "RESET" BUTTON IS THERE
 	if(window.tableViews()["Empty list"].cells()["New Game"].checkIsValid())
