@@ -1,4 +1,4 @@
 language: objective-c
 
 xcode_sdk: iphonesimulator
-script: bwoken test
+script: bwoken test --simulator --scheme=ARIS

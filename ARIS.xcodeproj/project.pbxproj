@@ -3015,7 +3015,6 @@
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7 armv6 i386 armv7s";
 			};
 			name = Debug;
 		};
@@ -3072,7 +3071,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/**",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-v",
@@ -3085,7 +3084,6 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "armv7 armv6 i386 armv7s";
 			};
 			name = Release;
 		};
