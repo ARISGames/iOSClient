@@ -1,8 +1,5 @@
-if RUBY_VERSION =~ /1.9/
-Encoding.default_external = Encoding::UTF_8
-Encoding.default_internal = Encoding::UTF_8
-end
+# A sample Gemfile
+source "https://rubygems.org"
 
-source :rubygems
-gem 'xcodebuild-rb'
-gem 'bwoken'
+# gem "rails"
+gem 'bwoken', '2.0.0.beta.1'
