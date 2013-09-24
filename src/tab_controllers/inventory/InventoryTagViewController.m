@@ -90,6 +90,7 @@
     self.view.autoresizesSubviews = NO;
     
     self.tagView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,100)];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.tagView.backgroundColor = [UIColor ARISColorDarkGray];
     self.tagView.scrollEnabled = YES;
     self.tagView.bounces = YES;
