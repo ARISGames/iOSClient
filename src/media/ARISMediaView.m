@@ -11,6 +11,7 @@
 #import "Media.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "UIImage+animatedGIF.h"
 
 @interface ARISMediaView()
 {
@@ -179,7 +180,12 @@
 - (void) connectionDidFinishLoading:(NSURLConnection*)theConnection
 {
     if(theConnection != self.connection) return;
-	UIImage* i = [UIImage imageWithData:self.data];
+    
+    UIImage *i;
+    if([[self contentTypeForImageData:self.data] isEqualToString:@"image/gif"])
+        i = [UIImage animatedImageWithAnimatedGIFData:self.data]; 
+    else
+        i = [UIImage imageWithData:self.data];
     if(i) self.media.image = self.data;
     [self cancelConnection];
 	[self displayImage:i];
@@ -239,6 +245,26 @@
     [self.connection cancel];
     self.connection = nil;
     self.data = nil;
+}
+       
+- (NSString *) contentTypeForImageData:(NSData *)d
+{
+    uint8_t c;
+    [d getBytes:&c length:1];
+   
+    switch(c)
+    {
+        case 0xFF:
+            return @"image/jpeg";
+        case 0x89:
+            return @"image/png";
+        case 0x47:
+            return @"image/gif";
+        case 0x49:
+        case 0x4D:
+            return @"image/tiff";
+    }
+    return nil;
 }
 
 - (void) dealloc

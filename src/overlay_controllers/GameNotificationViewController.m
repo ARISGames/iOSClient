@@ -49,6 +49,7 @@
 {
     [super loadView];
     self.view.userInteractionEnabled = NO;
+    NSLog(@"PHIL- PopoverDisabled 1");  
     
     popOverVC = [[PopOverViewController alloc] initWithDelegate:self];
     //dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28.0, [UIScreen mainScreen].bounds.size.width, 28)];
@@ -141,12 +142,14 @@
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
+    NSLog(@"PHIL- PopoverEnabled"); 
 }
 
 - (void) popOverContinueButtonPressed
 {
     showingPopOver = NO;
     self.view.userInteractionEnabled = NO;
+    NSLog(@"PHIL- PopoverDisabled");
     
     if([popOverArray count] > 0)
         [self dequeuePopOver];

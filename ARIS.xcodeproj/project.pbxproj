@@ -43,6 +43,7 @@
 		AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807F17B015A00002A81C /* NpcScriptViewController.m */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
+		AA2A8AC417F1DF5C002DA8C4 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */; };
 		AA2D213617DE560C00CF4198 /* arrow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211717DE560C00CF4198 /* arrow_selected.png */; };
 		AA2D213717DE560C00CF4198 /* arrow_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */; };
 		AA2D213817DE560C00CF4198 /* arrow_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211917DE560C00CF4198 /* arrow_unselected.png */; };
@@ -512,6 +513,8 @@
 		AA0D807F17B015A00002A81C /* NpcScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptViewController.m; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AA2A8AC217F1DF5C002DA8C4 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
+		AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
 		AA2D211717DE560C00CF4198 /* arrow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_selected.png; sourceTree = "<group>"; };
 		AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_selected@2x.png"; sourceTree = "<group>"; };
 		AA2D211917DE560C00CF4198 /* arrow_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_unselected.png; sourceTree = "<group>"; };
@@ -1157,6 +1160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */,
 				5BBA6A6517822F5E00387DBD /* Accelerate.framework in Frameworks */,
 				AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */,
 				ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */,
@@ -1173,7 +1177,6 @@
 				11BE77A713B26515000D037B /* CoreMotion.framework in Frameworks */,
 				ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */,
 				A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */,
-				3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */,
 				ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */,
 				AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */,
 				A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */,
@@ -2340,6 +2343,8 @@
 		AABC7362172739D80074CC21 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				AA2A8AC217F1DF5C002DA8C4 /* UIImage+animatedGIF.h */,
+				AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */,
 				AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */,
 				AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */,
 				AABC7363172739D80074CC21 /* NSDictionary+ValidParsers.h */,
@@ -2866,6 +2871,7 @@
 				AABC7437172739D80074CC21 /* priorityq.c in Sources */,
 				AABC7439172739D80074CC21 /* render.c in Sources */,
 				AABC743A172739D80074CC21 /* sweep.c in Sources */,
+				AA2A8AC417F1DF5C002DA8C4 /* UIImage+animatedGIF.m in Sources */,
 				AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */,
 				AABC743B172739D80074CC21 /* tess.c in Sources */,
 				AABC743C172739D80074CC21 /* tessmono.c in Sources */,
