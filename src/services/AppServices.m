@@ -1721,7 +1721,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     return tempGameList;
 }
 
--(void)parseOneGameGameListFromJSON:(ServiceResult *)jsonResult
+- (void) parseOneGameGameListFromJSON:(ServiceResult *)jsonResult
 {
     if(!currentlyFetchingOneGame) return;
     currentlyFetchingOneGame = NO;

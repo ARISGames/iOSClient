@@ -215,15 +215,16 @@
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);  
 }
 
-// handle opening ARIS using custom URL of form ARIS://?game=397 
+// handle opening ARIS using custom URL of form ARIS://game/397 
 - (BOOL) application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if (!url) {  return NO; }
+    if(!url) return NO;
     
     NSString *strPath = [[url host] lowercaseString];
     if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"])
     {
         NSString *gameID = [url lastPathComponent];
+        [[NSNotificationCenter defaultCenter] addObserver:window.rootViewController selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
         [[AppServices sharedAppServices] fetchOneGameGameList:[gameID intValue]];
     }
     return YES;
