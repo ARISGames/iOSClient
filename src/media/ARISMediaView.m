@@ -121,7 +121,15 @@
 {
     [self addSpinner];
     self.media = m;
-    if(m.image) { [self displayImage:[UIImage imageWithData:m.image]]; return; }
+    if(m.image)
+    { 
+        if([[self contentTypeForImageData:m.image] isEqualToString:@"image/gif"])
+            [self displayImage:[UIImage animatedImageWithAnimatedGIFData:m.image]];  
+        else
+            [self displayImage:[UIImage imageWithData:m.image]];
+        
+        return;
+    }
     
     if(!m.url || !m.type)
     {
