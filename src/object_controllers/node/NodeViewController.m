@@ -82,7 +82,6 @@ static NSString * const OPTION_CELL = @"option";
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44)];
-    self.scrollView.contentInset = UIEdgeInsetsMake(64,0,0,0);
     self.scrollView.backgroundColor = [UIColor ARISColorContentBackdrop];
     self.scrollView.contentSize = self.scrollView.bounds.size;
     self.scrollView.clipsToBounds = NO;

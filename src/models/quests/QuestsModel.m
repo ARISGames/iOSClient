@@ -43,38 +43,6 @@
 
 -(void)updateQuestListsActive:(NSArray *)activeQuests complete:(NSArray *)completedQuests;
 {
-    //Active Quests
-    NSMutableArray *newlyActiveQuests = [[NSMutableArray alloc] initWithCapacity:5];
-    for (Quest *newQuest in activeQuests)
-    {
-        BOOL match = NO;
-        for (Quest *existingQuest in self.currentActiveQuests)
-            if (newQuest.questId == existingQuest.questId) match = YES;
-        
-        if (!match)
-            [newlyActiveQuests addObject:newQuest];
-    }
-    BOOL questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
-    for(Quest *existingQuest in self.currentActiveQuests)
-    {
-        BOOL match = NO;
-        for(Quest *newQuest in activeQuests) 
-            if (newQuest.questId == existingQuest.questId) match = YES;
-        
-        if (!match)
-            questLost = YES;
-    }
-    self.currentActiveQuests = activeQuests;
-    if([newlyActiveQuests count] > 0 || questLost)
-    {
-        NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               newlyActiveQuests,@"newlyActiveQuests",
-                               activeQuests,     @"allActiveQuests",
-                               nil];
-        NSLog(@"NSNotification: NewlyActiveQuestsAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyActiveQuestsAvailable" object:self userInfo:qDict]];
-    }
-    
     //Completed Quests
     NSMutableArray *newlyCompletedQuests = [[NSMutableArray alloc] initWithCapacity:5];
     for (Quest *newQuest in completedQuests)
@@ -86,7 +54,7 @@
         if (!match)
             [newlyCompletedQuests addObject:newQuest];
     }
-    questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
+    BOOL questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
     for(Quest *existingQuest in self.currentCompletedQuests)
     {
         BOOL match = NO;
@@ -105,6 +73,38 @@
                                nil];
         NSLog(@"NSNotification: NewlyCompletedQuestsAvailable");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyCompletedQuestsAvailable" object:self userInfo:qDict]];
+    }
+    
+    //Active Quests
+    NSMutableArray *newlyActiveQuests = [[NSMutableArray alloc] initWithCapacity:5];
+    for (Quest *newQuest in activeQuests)
+    {
+        BOOL match = NO;
+        for (Quest *existingQuest in self.currentActiveQuests)
+            if (newQuest.questId == existingQuest.questId) match = YES;
+        
+        if (!match)
+            [newlyActiveQuests addObject:newQuest];
+    }
+    questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
+    for(Quest *existingQuest in self.currentActiveQuests)
+    {
+        BOOL match = NO;
+        for(Quest *newQuest in activeQuests) 
+            if (newQuest.questId == existingQuest.questId) match = YES;
+        
+        if (!match)
+            questLost = YES;
+    }
+    self.currentActiveQuests = activeQuests;
+    if([newlyActiveQuests count] > 0 || questLost)
+    {
+        NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                               newlyActiveQuests,@"newlyActiveQuests",
+                               activeQuests,     @"allActiveQuests",
+                               nil];
+        NSLog(@"NSNotification: NewlyActiveQuestsAvailable");
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyActiveQuestsAvailable" object:self userInfo:qDict]];
     }
 }
 
