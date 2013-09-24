@@ -108,6 +108,8 @@
         [self.view addSubview:self.mediaView];
     } 
     
+    [self.view addSubview:self.webView];  
+    
     if(![self.quest.goFunction isEqualToString:@"NONE"])
     {
         mainFrame.size.height -= 44;
@@ -129,8 +131,6 @@
         line.backgroundColor = [UIColor ARISColorLightGray];
         [self.view addSubview:line];
     }
-    
-    [self.view addSubview:self.webView];
 }
 
 - (void) viewWillAppear:(BOOL)animated
