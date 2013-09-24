@@ -120,8 +120,8 @@
             destroyBtn.text = NSLocalizedString(@"ItemDeleteKey",@"");
             destroyBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
             destroyBtn.textColor       = [UIColor ARISColorText];
-            [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
-            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+            [destroyBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(destroyButtonTouched)]];
+            [destroyBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
             [self.view addSubview:destroyBtn];
         }
 	}
