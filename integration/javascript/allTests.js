@@ -14,12 +14,7 @@ var resetUser = function()
 {
 	test("Resetting the User if already logged in.", function(target,app){
 	
-		if (app.navigationBar().buttons()["idcard"].checkIsValid())
-		{
-			app.navigationBar().buttons()["idcard"].tap();
-			window.staticTexts()["Logout"].tap();
-		} 
-	});	
+		io	});	
 };
 
 // SIMULATING: LOGIN
@@ -304,7 +299,38 @@ var reset = function(){
 };
 
 
+var resetToMap = function(){
+
+test("Reset to In Game Menu", function(target,app){
+	 
+	 //Inside Character, Web Item, Normal Item
+	 if (app.navigationBar().buttons()["arrowBack"].checkIsValid())
+		{
+			app.navigationBar().buttons()["arrowBack"].tap();
+		} 
+	 //Inside Plaque
+	 else if (window.staticTexts()["Continue"].checkIsValid())
+	 	{
+	 	window.staticTexts()["Continue"].tap();
+	 	}
+	 // quick nav tapped or item tapped
+	 else if (app.actionSheet().cancelButton().checkIsValid())
+	 	{
+		app.actionSheet().cancelButton().tap();
+	 	}
+	 
+	 //Tap the three bars
+	 if (app.navigationBar().buttons()["threeLines"].checkIsValid())
+		{
+			app.navigationBar().buttons()["threeLines"].tap();
+		} 
+	 });
+};
+
+
+	
 //Run the Tests
+
 resetUser();
 loginTest(username, password);
 searchGame(gameName);
@@ -312,3 +338,5 @@ selectGame();
 inGame();
 reset();
 
+
+//resetToMap();
