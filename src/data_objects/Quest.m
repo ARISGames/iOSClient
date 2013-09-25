@@ -14,9 +14,11 @@
 @synthesize questId;
 @synthesize name, sortNum;
 @synthesize qdescription;
+@synthesize qdescriptionNotification;
 @synthesize goFunction;
 @synthesize mediaId;
 @synthesize iconMediaId;
+@synthesize notificationMediaId;
 @synthesize fullScreenNotification;
 @synthesize isNullQuest;
 

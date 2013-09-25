@@ -2091,14 +2091,16 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	while ((activeQuestDict = [activeQuestDictsEnumerator nextObject]))
     {
         Quest *quest = [[Quest alloc] init];
-        quest.questId                = [activeQuestDict validIntForKey:@"quest_id"];
-        quest.mediaId                = [activeQuestDict validIntForKey:@"active_media_id"];
-        quest.iconMediaId            = [activeQuestDict validIntForKey:@"active_icon_media_id"];
-        quest.sortNum                = [activeQuestDict validIntForKey:@"sort_index"];
-        quest.name                   = [activeQuestDict validObjectForKey:@"name"];
-        quest.qdescription           = [activeQuestDict validObjectForKey:@"description"];
-        quest.fullScreenNotification = [activeQuestDict validBoolForKey:@"full_screen_notify"];
-        quest.goFunction             = [activeQuestDict validObjectForKey:@"go_function"];
+        quest.questId                  = [activeQuestDict validIntForKey:@"quest_id"];
+        quest.mediaId                  = [activeQuestDict validIntForKey:@"active_media_id"];
+        quest.iconMediaId              = [activeQuestDict validIntForKey:@"active_icon_media_id"];
+        quest.notificationMediaId      = [activeQuestDict validIntForKey:@"active_notification_media_id"];  
+        quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"];
+        quest.name                     = [activeQuestDict validStringForKey:@"name"];
+        quest.qdescription             = [activeQuestDict validStringForKey:@"description"];
+        quest.qdescriptionNotification = [activeQuestDict validStringForKey:@"descriptionNotification"]; 
+        quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
+        quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
         
 		[activeQuestObjects addObject:quest];
 	}
@@ -2111,14 +2113,16 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	while ((completedQuestDict = [completedQuestDictsEnumerator nextObject]))
     {
         Quest *quest = [[Quest alloc] init];
-        quest.questId                = [completedQuestDict validIntForKey:@"quest_id"];
-        quest.mediaId                = [completedQuestDict validIntForKey:@"complete_media_id"];
-        quest.iconMediaId            = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
-        quest.sortNum                = [completedQuestDict validIntForKey:@"sort_index"];
-        quest.fullScreenNotification = [completedQuestDict validBoolForKey:@"full_screen_notify"];
-        quest.name                   = [completedQuestDict validStringForKey:@"name"];
-        quest.qdescription           = [completedQuestDict validStringForKey:@"text_when_complete"];
-        quest.goFunction             = [completedQuestDict validStringForKey:@"go_function"];
+        quest.questId                  = [completedQuestDict validIntForKey:@"quest_id"];
+        quest.mediaId                  = [completedQuestDict validIntForKey:@"complete_media_id"];
+        quest.iconMediaId              = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
+        quest.notificationMediaId      = [completedQuestDict validIntForKey:@"complete_notification_media_id"]; 
+        quest.sortNum                  = [completedQuestDict validIntForKey:@"sort_index"];
+        quest.name                     = [completedQuestDict validStringForKey:@"name"];
+        quest.qdescription             = [completedQuestDict validStringForKey:@"text_when_complete"];
+        quest.qdescriptionNotification = [completedQuestDict validStringForKey:@"text_when_complete_notification"];  
+        quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"full_screen_notify"]; 
+        quest.goFunction               = [completedQuestDict validStringForKey:@"go_function"];
         
 		[completedQuestObjects addObject:quest];
 	}
