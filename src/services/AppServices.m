@@ -2098,7 +2098,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"];
         quest.name                     = [activeQuestDict validStringForKey:@"name"];
         quest.qdescription             = [activeQuestDict validStringForKey:@"description"];
-        quest.qdescriptionNotification = [activeQuestDict validStringForKey:@"descriptionNotification"]; 
+        quest.qdescriptionNotification = [activeQuestDict validStringForKey:@"description_notification"]; 
         quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
         quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
         
