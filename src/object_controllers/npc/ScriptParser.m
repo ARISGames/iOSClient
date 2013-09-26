@@ -96,9 +96,9 @@ didStartElement:(NSString *)elementName
   qualifiedName:(NSString *)qName
      attributes:(NSDictionary *)attributeDict
 {
-    if ([elementName isEqualToString:kTagDialog])
+    if([elementName isEqualToString:kTagDialog])
     {
-        if ([attributeDict objectForKey:kAttrExitToTab])
+        if([attributeDict objectForKey:kAttrExitToTab])
         {
             script.exitToType = @"tab";
             script.exitToTabTitle = [attributeDict objectForKey:kAttrExitToTab];
@@ -145,44 +145,36 @@ didStartElement:(NSString *)elementName
     else
     {
         tempScriptElement = [[ScriptElement alloc] init];
-        tempText  = [[NSMutableString alloc] init];
+        tempText = [[NSMutableString alloc] init];
 
         if([elementName isEqualToString:kTagNpc] || [elementName isEqualToString:kTagPc])
         {
             if([elementName isEqualToString:kTagNpc]) tempScriptElement.type = @"npc";
             if([elementName isEqualToString:kTagPc])  tempScriptElement.type = @"pc";
         
-            if([attributeDict objectForKey:kAttrTitle])
-                tempScriptElement.title = [attributeDict objectForKey:kAttrTitle];
-            if([attributeDict objectForKey:kAttrMedia])
-                tempScriptElement.mediaId = [[attributeDict objectForKey:kAttrMedia] intValue];
-            if([attributeDict objectForKey:kAttrVibrate])
-                tempScriptElement.vibrate = YES;
-            if ([attributeDict objectForKey:kAttrNotification])
-                tempScriptElement.notification = [attributeDict objectForKey:kAttrNotification];
+            if([attributeDict objectForKey:kAttrTitle])        tempScriptElement.title        = [attributeDict objectForKey:kAttrTitle];
+            if([attributeDict objectForKey:kAttrMedia])        tempScriptElement.mediaId      = [[attributeDict objectForKey:kAttrMedia] intValue];
+            if([attributeDict objectForKey:kAttrVibrate])      tempScriptElement.vibrate      = YES;
+            if([attributeDict objectForKey:kAttrNotification]) tempScriptElement.notification = [attributeDict objectForKey:kAttrNotification];
             
             int x = 0;
             int y = 0;
             int width  = 320;
             int height = [UIScreen mainScreen].applicationFrame.size.height-44;
-            if([attributeDict objectForKey:kAttrZoomX])
-                x = [[attributeDict objectForKey:kAttrZoomX] intValue];
-            if([attributeDict objectForKey:kAttrZoomY])
-                y = [[attributeDict objectForKey:kAttrZoomY] intValue];
-            if([attributeDict objectForKey:kAttrZoomWidth])
-                width = [[attributeDict objectForKey:kAttrZoomWidth] intValue];
-            if([attributeDict objectForKey:kAttrZoomHeight])
-                height = [[attributeDict objectForKey:kAttrZoomHeight] intValue];
+            if([attributeDict objectForKey:kAttrZoomX])      x      = [[attributeDict objectForKey:kAttrZoomX] intValue];
+            if([attributeDict objectForKey:kAttrZoomY])      y      = [[attributeDict objectForKey:kAttrZoomY] intValue];
+            if([attributeDict objectForKey:kAttrZoomWidth])  width  = [[attributeDict objectForKey:kAttrZoomWidth] intValue];
+            if([attributeDict objectForKey:kAttrZoomHeight]) height = [[attributeDict objectForKey:kAttrZoomHeight] intValue];
             tempScriptElement.imageRect = CGRectMake(x,y,width,height);
 
             if([attributeDict objectForKey:kAttrZoomTime])
                 tempScriptElement.zoomTime = [[attributeDict objectForKey:kAttrZoomTime] floatValue];
         }
-        else if ([elementName isEqualToString:kTagVideo]     ||
-                 [elementName isEqualToString:kTagPanoramic] ||
-                 [elementName isEqualToString:kTagWebPage]   ||
-                 [elementName isEqualToString:kTagPlaque]    ||
-                 [elementName isEqualToString:kTagItem]       )
+        else if([elementName isEqualToString:kTagVideo]     ||
+                [elementName isEqualToString:kTagPanoramic] ||
+                [elementName isEqualToString:kTagWebPage]   ||
+                [elementName isEqualToString:kTagPlaque]    ||
+                [elementName isEqualToString:kTagItem]       )
         {
             if([elementName isEqualToString:kTagItem])      tempScriptElement.type = @"item";
             if([elementName isEqualToString:kTagPlaque])    tempScriptElement.type = @"node";
@@ -223,7 +215,7 @@ didStartElement:(NSString *)elementName
 - (void) parserDidEndDocument:(NSXMLParser *)parser
 {
 	NSLog(@"ScriptParser: parserDidEndDocument");
-	if ([script.scriptElementArray count] == 0)
+	if([script.scriptElementArray count] == 0)
     {
         ScriptElement *s = [[ScriptElement alloc] init];
         s.type = @"npc";

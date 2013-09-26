@@ -237,7 +237,7 @@
         [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
         [[AVAudioSession sharedInstance] setActive: YES error: nil];
         NSError* err;
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData: media.image error:&err];
+        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:media.image error:&err];
         //[audioPlayer setDelegate:self];
         
         if(err) NSLog(@"NpcViewController: Playing Audio: Failed with reason: %@", [err localizedDescription]);
@@ -249,7 +249,7 @@
         ARISMoviePlayerViewController *ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
         ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
         ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
-        [ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
+        [ARISMoviePlayer.moviePlayer setContentURL:[NSURL URLWithString:media.url]];
         [ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
         [ARISMoviePlayer.moviePlayer setFullscreen:NO];
         [ARISMoviePlayer.moviePlayer prepareToPlay];
