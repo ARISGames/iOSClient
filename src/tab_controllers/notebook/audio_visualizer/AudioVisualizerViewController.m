@@ -98,10 +98,10 @@
     //change if a better way is found for forcing the orientation to initially be in landscape
     UIApplication *app = [UIApplication sharedApplication];
     UIWindow *window = [[app windows] objectAtIndex:0];
-    UIViewController *root = window.rootViewController;
+    ARISViewController *root = window.rootViewController;
     window.rootViewController = nil;
     window.rootViewController = root;
-    [UIViewController attemptRotationToDeviceOrientation];
+    [ARISViewController attemptRotationToDeviceOrientation];
 
     CGRect frame = self.navigationController.navigationBar.frame;
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];

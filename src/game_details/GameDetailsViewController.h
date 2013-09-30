@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class Game;
 @protocol GameDetailsViewControllerDelegate
@@ -14,6 +15,6 @@
 - (void) gameDetailsWereCanceled:(Game *)g;
 @end
 
-@interface GameDetailsViewController : UIViewController 
+@interface GameDetailsViewController : ARISViewController
 - (id) initWithGame:(Game *)g delegate:(id<GameDetailsViewControllerDelegate>)d;
 @end

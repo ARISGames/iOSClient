@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @protocol PlayerSettingsViewControllerDelegate
 - (void) playerSettingsWasDismissed;
 @end
 
-@interface PlayerSettingsViewController : UIViewController 
+@interface PlayerSettingsViewController : ARISViewController 
 
 - (id) initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d;
 - (void) resetState;

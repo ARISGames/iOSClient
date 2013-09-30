@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
-@interface ARISContainerViewController : UIViewController
+@interface ARISContainerViewController : ARISViewController
 {
     UIViewController *currentChildViewController;
 }

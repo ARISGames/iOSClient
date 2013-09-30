@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @protocol CameraViewControllerDelegate
 - (void) imageChosenWithURL:(NSURL *)url;
@@ -14,6 +15,6 @@
 - (void) cameraViewControllerCancelled;
 @end
 
-@interface CameraViewController : UIViewController
+@interface CameraViewController : ARISViewController
 - (id) initWithPresentMode:(NSString *)mode delegate:(id<CameraViewControllerDelegate>)d;
 @end

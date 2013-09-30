@@ -27,6 +27,8 @@
     ARISCollapseView *textSection;
     ARISWebView *textWebView;
     
+    ARISMoviePlayerViewController *ARISMoviePlayer;
+    
     NSString *defaultTitle;
     Media *defaultMedia;
     UIImage *defaultImage;
@@ -40,6 +42,8 @@
 @property (nonatomic, strong) ARISMediaView *mediaView;
 @property (nonatomic, strong) ARISCollapseView *textSection;
 @property (nonatomic, strong) ARISWebView *textWebView;
+
+@property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
 
 @property (nonatomic, strong) NSString *defaultTitle;
 @property (nonatomic, strong) Media *defaultMedia;
@@ -55,6 +59,8 @@
 @synthesize mediaView;
 @synthesize textSection;
 @synthesize textWebView;
+
+@synthesize ARISMoviePlayer;
 
 @synthesize defaultTitle;
 @synthesize defaultMedia;
@@ -123,6 +129,8 @@
 
 - (void) loadScriptElement:(ScriptElement *)s
 {
+    if(self.ARISMoviePlayer) { [self.ARISMoviePlayer.view removeFromSuperview]; self.ARISMoviePlayer = nil; }
+        
     self.scriptElement = s;
     
     if(self.scriptElement.vibrate) [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) vibrate];
@@ -246,18 +254,20 @@
     else
     {
         NSLog(@"NpcViewController: Playing through MPMoviePlayerController");
-        ARISMoviePlayerViewController *ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
-        ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
-        ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
-        [ARISMoviePlayer.moviePlayer setContentURL:[NSURL URLWithString:media.url]];
-        [ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
-        [ARISMoviePlayer.moviePlayer setFullscreen:NO];
-        [ARISMoviePlayer.moviePlayer prepareToPlay];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerLoadStateDidChangeNotification: ) name:MPMoviePlayerLoadStateDidChangeNotification object:ARISMoviePlayer.moviePlayer];
+        self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
+        self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
+        self.ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        [self.ARISMoviePlayer.moviePlayer setContentURL:[NSURL URLWithString:media.url]];
+        [self.ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
+        [self.ARISMoviePlayer.moviePlayer setFullscreen:NO];
+        [self.ARISMoviePlayer.moviePlayer prepareToPlay];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerLoadStateDidChangeNotification:) name:MPMoviePlayerLoadStateDidChangeNotification object:self.ARISMoviePlayer.moviePlayer];
         if(!hidden)
         {
-            ARISMoviePlayer.view.frame = self.mediaView.frame;
-            //self.npcVideoView = (UIScrollView *)ARISMoviePlayer.view;
+            [self.mediaSection addSubview:self.ARISMoviePlayer.view]; 
+            self.ARISMoviePlayer.view.frame = CGRectMake(0, self.ARISMoviePlayer.view.frame.origin.y-44, self.ARISMoviePlayer.view.frame.size.width, self.ARISMoviePlayer.view.frame.size.height); 
+            self.ARISMoviePlayer.view.frame = self.mediaView.frame;
+            //self.npcVideoView = (UIScrollView *)self.ARISMoviePlayer.view;
             //self.npcVideoView.hidden = NO;
             //[self.npcView insertSubview:npcVideoView atIndex: 1];
             //self.npcImageView.hidden = YES;
@@ -267,10 +277,10 @@
 
 - (void) MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
 {
-    //if(ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled)
-        //[ARISMoviePlayer.moviePlayer pause];
-    //else if(ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable)
-        //[ARISMoviePlayer.moviePlayer play];
+    if(self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled)
+        [self.ARISMoviePlayer.moviePlayer pause];
+    else if(self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable)
+        [self.ARISMoviePlayer.moviePlayer play];
 }
 
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)audioPlayer successfully:(BOOL)flag

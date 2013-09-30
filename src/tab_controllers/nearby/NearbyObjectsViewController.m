@@ -141,7 +141,7 @@
     
 	if(cell == nil)
     {
-		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NearbyObjectCell" bundle:nil];
+		ARISViewController *temporaryController = [[ARISViewController alloc] initWithNibName:@"NearbyObjectCell" bundle:nil];
 		cell = (NearbyObjectCell *)temporaryController.view;
 	}
 	

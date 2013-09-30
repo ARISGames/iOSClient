@@ -160,7 +160,7 @@
     NoteCommentCell *cell = (NoteCommentCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if(!cell || ![cell respondsToSelector:@selector(mediaIcon2)])
     {
-        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteCommentCell" bundle:nil];
+        ARISViewController *temporaryController = [[ARISViewController alloc] initWithNibName:@"NoteCommentCell" bundle:nil];
         cell = (NoteCommentCell *)temporaryController.view;
     }
         

@@ -12,20 +12,10 @@
 
 @implementation ARISMoviePlayerViewController
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
 	self.view.backgroundColor = [UIColor ARISColorViewBackdrop];
 	[super viewDidLoad];
-}
-
--(void) viewDidDisappear:(BOOL)animated
-{
-    UIApplication* application = [UIApplication sharedApplication];
-    if(application.statusBarOrientation != UIInterfaceOrientationPortrait)
-    {
-        NSLog(@"NSNotification: MovieForcedRotationToPortrait");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"MovieForcedRotationToPortrait" object:nil]];
-    } 
 }
 
 - (NSUInteger) supportedInterfaceOrientations

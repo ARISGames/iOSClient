@@ -8,12 +8,14 @@
 
 /*
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
+ 
 #import "Note.h"
 
 @protocol NoteEditorViewControllerDelegate
 - (void) noteEditorViewControllerDidFinish;
 @end
-@interface NoteEditorViewController : UIViewController
+@interface NoteEditorViewController : ARISViewController
 - (id) initWithNote:(Note *)n inView:(NSString *)view delegate:(id<NoteEditorViewControllerDelegate>)d;
 @end
 */

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 typedef enum {
 	kAudioRecorderStarting,
@@ -21,6 +22,6 @@ typedef enum {
 - (void) audioRecorderViewControllerCancelled;
 @end
 
-@interface AudioRecorderViewController : UIViewController
+@interface AudioRecorderViewController : ARISViewController
 - (id) initWithDelegate:(id<AudioRecorderViewControllerDelegate>)d;
 @end

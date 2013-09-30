@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
+
 #import "ARISMediaView.h"
 #import "Media.h"
 
-@interface ImageViewer : UIViewController
+@interface ImageViewer : ARISViewController
 {
     IBOutlet ARISMediaView *imageView;
     Media *media;

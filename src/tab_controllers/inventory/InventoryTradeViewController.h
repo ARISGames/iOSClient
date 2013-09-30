@@ -19,7 +19,8 @@
 - (void) tradeCancelled;
 @end
 
-@interface InventoryTradeViewController : UIViewController {
+@interface InventoryTradeViewController : ARISViewController
+{
 	UITableView *tradeTableView;
 	NSMutableArray *inventory;
     NSMutableArray *itemsToTrade;

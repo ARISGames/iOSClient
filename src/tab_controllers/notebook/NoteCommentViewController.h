@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class Note;
-@interface NoteCommentViewController : UIViewController
+@interface NoteCommentViewController : ARISViewController
 - (id) initWithNote:(Note *)n delegate:(id)d;
 @end

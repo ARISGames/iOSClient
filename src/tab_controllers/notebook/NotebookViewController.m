@@ -314,7 +314,7 @@
     NoteCell *cell;
     UITableViewCell *tempCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(!tempCell || ![tempCell isKindOfClass:[NoteCell class]])
-        cell = (NoteCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteCell" owner:[[UIViewController alloc] init] options:nil] objectAtIndex:0];
+        cell = (NoteCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteCell" owner:[[ARISViewController alloc] init] options:nil] objectAtIndex:0];
     else
         cell = (NoteCell *)tempCell;
     

@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
+
 #import "AppModel.h"
 #import "Game.h"
 #import "ARISAppDelegate.h"
 #import "CommentCell.h"
 #import "Comment.h"
 
-@interface commentsViewController :UIViewController <UITableViewDelegate,UITableViewDataSource> {
+@interface commentsViewController : ARISViewController <UITableViewDelegate,UITableViewDataSource> {
 	UITableView *tableView;
     int defaultRating;
     Game *game;

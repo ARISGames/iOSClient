@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
-@interface ForgotPasswordViewController : UIViewController
+@interface ForgotPasswordViewController : ARISViewController
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class Npc;
 @class NpcScriptOption;
@@ -20,7 +21,7 @@
 - (void) scriptRequestsOptionsPcTitle:(NSString *)s;
 @end
 
-@interface NpcScriptViewController : UIViewController
+@interface NpcScriptViewController : ARISViewController
 - (id) initWithNpc:(Npc *)n frame:(CGRect)f delegate:(id<NpcScriptViewControllerDelegate>)d;
 - (void) loadScriptOption:(NpcScriptOption *)s;
 @end

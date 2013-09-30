@@ -501,7 +501,7 @@
     NoteContentCell *cell;
     UITableViewCell *tempCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(!tempCell || ![tempCell respondsToSelector:@selector(titleLbl)])
-        cell = (NoteContentCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteContentCell" owner:[[UIViewController alloc] init] options:nil] objectAtIndex:0];
+        cell = (NoteContentCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteContentCell" owner:[[ARISViewController alloc] init] options:nil] objectAtIndex:0];
     else
         cell = (NoteContentCell *)tempCell;
     

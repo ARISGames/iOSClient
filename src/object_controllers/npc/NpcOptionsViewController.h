@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class Npc;
 @class NpcScriptOption;
@@ -16,7 +17,7 @@
 - (void) optionsRequestsTitle:(NSString *)t;
 @end
 
-@interface NpcOptionsViewController : UIViewController
+@interface NpcOptionsViewController : ARISViewController
 - (id) initWithFrame:(CGRect)f delegate:(id<NpcOptionsViewControllerDelegate>)d;
 - (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o;
 - (void) setDefaultTitle:(NSString *)t;

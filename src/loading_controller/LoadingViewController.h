@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @protocol LoadingViewControllerDelegate
 - (void) loadingViewControllerFinishedLoadingGameData;
@@ -14,7 +15,7 @@
 - (void) loadingViewControllerFinishedLoadingData;
 @end
 
-@interface LoadingViewController : UIViewController
+@interface LoadingViewController : ARISViewController
 
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
 - (void)moveProgressBar;

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
-
-@interface AudioPlayerViewController : UIViewController {
-    
+@interface AudioPlayerViewController : ARISViewController
+{
 }
 
 @end

@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
+
 #import <MapKit/MapKit.h>
 #import "AppModel.h"
 #import "Location.h"
 #import "DDAnnotation.h"
 #import "NoteEditorViewController.h"
 
-@interface DropOnMapViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate>{
+@interface DropOnMapViewController : ARISViewController <MKMapViewDelegate, UIActionSheetDelegate>{
     IBOutlet MKMapView *mapView;
 	NSArray *locations;
 	BOOL tracking;

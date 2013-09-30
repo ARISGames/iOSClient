@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
+
 #import "WaveSampleProvider.h"
 #import "AudioSlider.h"
 #include <AVFoundation/AVFoundation.h>
@@ -15,7 +17,7 @@
 #import "Playhead.h"
 
 
-@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate, PlayheadControlDelegate, UIAlertViewDelegate>
+@interface AudioVisualizerViewController : ARISViewController <WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate, PlayheadControlDelegate, UIAlertViewDelegate>
 {
 	WaveSampleProvider *wsp;
 	AVPlayer *player;

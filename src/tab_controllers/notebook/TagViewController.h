@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
+
 #import "Note.h"
 
-@interface TagViewController : UIViewController
+@interface TagViewController : ARISViewController
 - (id) initWithNote:(Note *)n;
 @end
