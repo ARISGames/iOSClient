@@ -98,6 +98,7 @@
     emailField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     emailField.delegate = self;
 	emailField.placeholder = NSLocalizedString(@"EmailKey",@"");
+    emailField.keyboardType = UIKeyboardTypeEmailAddress;
     emailField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:emailField];
     
