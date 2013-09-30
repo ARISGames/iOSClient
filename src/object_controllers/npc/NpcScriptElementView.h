@@ -11,14 +11,15 @@
 
 @class ScriptElement;
 @class NpcScriptElementView;
-@protocol NPcScriptElementViewDelegate
+
+@protocol NpcScriptElementViewDelegate
 - (void) scriptElementViewRequestsTitle:(NSString *)t;
 - (void) scriptElementViewRequestsHideContinue:(BOOL)h;
 @end
+
 @interface NpcScriptElementView : UIView
 - (id) initWithFrame:(CGRect)f media:(Media *)m   title:(NSString *)t delegate:(id)d;
 - (id) initWithFrame:(CGRect)f image:(UIImage *)i title:(NSString *)t delegate:(id)d;
 - (void) loadScriptElement:(ScriptElement *)s;
-
 - (void) fadeWithCallback:(SEL)s;
 @end

@@ -22,8 +22,10 @@
     NpcScriptOption *option;
     NpcScriptViewController  *scriptViewController;
     NpcOptionsViewController *optionsViewController;
+    
+    UIButton *backButton;
+    
     BOOL closingScriptPlaying;
-    BOOL hasAppeared;
     id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
@@ -31,6 +33,7 @@
 @property (nonatomic, strong) NpcScriptOption *option;
 @property (nonatomic, strong) NpcScriptViewController  *scriptViewController;
 @property (nonatomic, strong) NpcOptionsViewController *optionsViewController;
+@property (nonatomic, strong) UIButton *backButton;
 
 @end
 
@@ -40,6 +43,7 @@
 @synthesize option;
 @synthesize scriptViewController;
 @synthesize optionsViewController;
+@synthesize backButton;
 
 - (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
@@ -47,7 +51,6 @@
     {
         self.npc = n;
         closingScriptPlaying = NO;
-        hasAppeared = NO;
         delegate = d;
     }
     return self;
@@ -57,21 +60,30 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorNpcContentBackdrop];
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if(hasAppeared) return;
-    hasAppeared = YES;
     
     self.optionsViewController = [[NpcOptionsViewController alloc] initWithFrame:self.view.bounds delegate:self];
-    self.scriptViewController  = [[NpcScriptViewController alloc] initWithNpc:self.npc frame:self.view.bounds delegate:self];
-    
-    self.optionsViewController.view.alpha = 0.0;
-    self.optionsViewController.view.frame = self.view.bounds;
+    self.optionsViewController.view.alpha = 0.0; 
+    self.scriptViewController  = [[NpcScriptViewController alloc] initWithNpc:self.npc frame:self.view.bounds delegate:self]; 
     self.scriptViewController.view.alpha = 0.0;
-    self.scriptViewController.view.frame = self.view.bounds;
+    
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.backButton.frame = CGRectMake(0, 0, 19, 19);
+    [self.backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(leaveConversationRequested) forControlEvents:UIControlEventTouchUpInside]; 
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    self.optionsViewController.view.frame = self.view.bounds;
+    self.scriptViewController.view.frame = self.view.bounds; 
+   	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
+}
+
+- (void) viewDidAppearFirstTime:(BOOL)animated
+{
+    [super viewDidAppearFirstTime:animated];
     
     if([[self.npc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
     {
@@ -83,12 +95,6 @@
         [self displayScriptVC];
         [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.greeting nodeId:-1 hasViewed:NO]];
     }
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, 19, 19);
-    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(leaveConversationRequested) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
 }
 
 - (void) optionChosen:(NpcScriptOption *)o

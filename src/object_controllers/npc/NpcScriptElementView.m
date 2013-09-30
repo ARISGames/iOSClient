@@ -33,7 +33,7 @@
     Media *defaultMedia;
     UIImage *defaultImage;
     
-    id<NPcScriptElementViewDelegate> __unsafe_unretained delegate;
+    id<NpcScriptElementViewDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) ScriptElement *scriptElement;
@@ -70,8 +70,8 @@
 {
     self.backgroundColor = [UIColor clearColor];
     self.mediaSection = [[UIScrollView alloc] initWithFrame:self.bounds];
-    self.mediaSection.contentInset = UIEdgeInsetsMake(64,0,0,0);
-    self.mediaSection.contentSize = self.bounds.size;
+    //self.mediaSection.contentInset = UIEdgeInsetsMake(64,0,0,0);
+    //self.mediaSection.contentSize = CGSizeMake(self.bounds.size.width,self.bounds.size.height-64);
     self.mediaSection.backgroundColor = [UIColor clearColor];
     self.mediaSection.opaque = NO;
     [self.mediaSection addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
@@ -90,7 +90,7 @@
     [self addSubview:self.textSection];
 }
 
-- (id) initWithFrame:(CGRect)f media:(Media *)m title:(NSString *)t delegate:(id)d
+- (id) initWithFrame:(CGRect)f media:(Media *)m title:(NSString *)t delegate:(id<NpcScriptElementViewDelegate>)d
 {
     if(self = [super initWithFrame:f])
     {
@@ -106,7 +106,7 @@
     return self;
 }
 
-- (id) initWithFrame:(CGRect)f image:(UIImage *)i title:(NSString *)t delegate:(id)d;
+- (id) initWithFrame:(CGRect)f image:(UIImage *)i title:(NSString *)t delegate:(id<NpcScriptElementViewDelegate>)d;
 {
     if(self = [super initWithFrame:f])
     {

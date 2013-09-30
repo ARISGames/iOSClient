@@ -19,7 +19,7 @@
 #import "UIColor+ARISColors.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface NpcScriptViewController() <ScriptParserDelegate, NPcScriptElementViewDelegate, GameObjectViewControllerDelegate>
+@interface NpcScriptViewController() <ScriptParserDelegate, NpcScriptElementViewDelegate, GameObjectViewControllerDelegate>
 {
     Npc *npc;
     
@@ -74,28 +74,31 @@
 - (void) loadView
 {
     [super loadView];
-
-    self.view.bounds = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     self.view.backgroundColor = [UIColor clearColor];
     self.view.opaque = NO;
-    
-    CGRect scriptElementFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
+}
+
+- (void) viewWillAppearFirstTime:(BOOL)animated
+{
+    [super viewWillAppearFirstTime:animated];
     
     Media *pcMedia;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
     else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
-    if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
-    else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+    
+    if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+    else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
     [self.view addSubview:self.pcView];
     
     Media *npcMedia;
     if(self.npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:self.npc.mediaId ofType:nil];
-    if(npcMedia) self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame media:npcMedia                                   title:self.npc.name delegate:self];
-    else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
+    
+    if(npcMedia) self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:self.npc.name delegate:self];
+    else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
     [self.view addSubview:self.npcView];
     
     self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44)];
-    UILabel *continueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)]; //frame it set later
+    UILabel *continueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)]; //frame is set later
     continueLabel.textAlignment = NSTextAlignmentRight;
     continueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
     continueLabel.text = NSLocalizedString(@"ContinueKey",@"");
