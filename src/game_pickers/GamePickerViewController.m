@@ -53,7 +53,6 @@
     
     self.refreshControl = [[UIRefreshControl alloc] init]; 
     [self.refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
-    [self.gameTable addSubview:refreshControl]; 
     
     [self.gameTable reloadData];
     if([AppModel sharedAppModel].player.location) [self playerFirstMoved]; 
@@ -62,8 +61,14 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    
+    //These next four lines are required in precise order for this to work. apple. c'mon.
     self.gameTable.frame = self.view.bounds;
     self.gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
+    [self.gameTable setContentOffset:CGPointMake(0,-64)];
+    [self.gameTable addSubview:refreshControl];  
+    
+    [self.gameTable reloadData]; 
 }
 
 - (void) viewDidAppear:(BOOL)animated
