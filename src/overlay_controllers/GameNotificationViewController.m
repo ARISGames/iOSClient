@@ -142,6 +142,8 @@
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
+    if(self.view.frame.size.height == 0) 
+        [self viewWillAppear:NO];//to ensure a non-zero rect. Not sure why necessary- short term fix
     NSLog(@"PHIL- PopoverEnabled"); 
 }
 

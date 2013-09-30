@@ -11,6 +11,7 @@
 #import "RootViewController.h"
 
 #import "ARISAlertHandler.h"
+#import "ARISPusherHandler.h"
 
 #import "LoginViewController.h"
 #import "PlayerSettingsViewController.h"
@@ -81,6 +82,7 @@
 - (void) loginCredentialsApprovedForPlayer:(Player *)p toGame:(int)gameId newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
 {
     [[AppModel sharedAppModel] commitPlayerLogin:p];
+    //[[ARISPusherHandler sharedPusherHandler] loginPlayer:p.playerId];
     
     //PHIL HATES THIS NEXT CHUNK
     [AppModel sharedAppModel].disableLeaveGame = disableLeaveGame;
@@ -149,12 +151,14 @@
 
 - (void) gamePickedForPlay:(Game *)g
 {
+    [[ARISPusherHandler sharedPusherHandler] loginGame:g.gameId]; 
     self.gamePlayViewController = [[GamePlayViewController alloc] initWithGame:g delegate:self];
     [self displayContentController:self.gamePlayViewController];
 }
 
 - (void) gameplayWasDismissed
 {
+    [[ARISPusherHandler sharedPusherHandler] logoutGame];  
     self.gamePlayViewController = nil;
     [self displayContentController:self.gamePickersViewController];
     
@@ -166,6 +170,7 @@
 
 - (void) logoutWasRequested
 {
+    [[ARISPusherHandler sharedPusherHandler] logoutPlayer];   
     [AppModel sharedAppModel].player = nil;
     [[AppModel sharedAppModel] saveUserDefaults];
     [(LoginViewController *)[[self.loginNavigationController viewControllers] objectAtIndex:0] resetState];

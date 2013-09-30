@@ -10,6 +10,8 @@
 
 @interface ARISPusherHandler : NSObject
 
++ (ARISPusherHandler *) sharedPusherHandler;
+
 - (void) loginGame:(int)gameId;
 - (void) loginPlayer:(int)playerId;
 - (void) loginGroup:(NSString *)group;

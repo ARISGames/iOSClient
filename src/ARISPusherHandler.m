@@ -13,6 +13,8 @@
 #import "PTPusherChannel.h"
 #import "PTPusherEvent.h"
 
+#import "ARISAlertHandler.h" //HACK BECAUSE ONLY FUNCTIONALITY IS TO DISPLAY ALERT
+
 @interface ARISPusherHandler () <PTPusherDelegate>
 {
     PTPusher *pusherClient;
@@ -37,6 +39,16 @@
 @synthesize groupChannel;
 @synthesize gameChannel;
 @synthesize webPageChannel;
+
++ (id) sharedPusherHandler
+{
+    static dispatch_once_t pred = 0;
+    __strong static id _sharedObject = nil;
+    dispatch_once(&pred, ^{
+        _sharedObject = [[self alloc] init];
+    });
+    return _sharedObject;
+}
 
 - (id) init
 {
@@ -92,6 +104,8 @@
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"game"].location == NSNotFound) return;
     
+    if([event.name isEqualToString:@"alert"])
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Game Notice" message:event.data];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherGameEventReceived" object:event]];
 }
 
@@ -100,6 +114,8 @@
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"player"].location == NSNotFound) return;
     
+    if([event.name isEqualToString:@"alert"]) 
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Player Notice" message:event.data];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherPlayerEventReceived" object:event]];
 }
 

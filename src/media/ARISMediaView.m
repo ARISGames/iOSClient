@@ -138,7 +138,7 @@
         return;
     }
     
-    if([m.type isEqualToString:@"PHOTO"])      [self loadPhotoForMedia:m];
+    if     ([m.type isEqualToString:@"PHOTO"]) [self loadPhotoForMedia:m];
     else if([m.type isEqualToString:@"VIDEO"]) [self loadVideoFrameForMedia:m];
     else if([m.type isEqualToString:@"AUDIO"]) [self displayImage:[UIImage imageNamed:@"microphoneBackground.jpg"]];
 }
@@ -225,7 +225,7 @@
     return self.imageView.image;
 }
 
-- (void)retryLoadingMyMedia
+- (void) retryLoadingMyMedia
 {
     NSLog(@"Failed to load media %d previously- new media list received so trying again...", [self.media.uid intValue]);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
