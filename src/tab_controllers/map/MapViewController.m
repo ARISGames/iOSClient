@@ -32,10 +32,11 @@
     BOOL tracking;
     BOOL appSetNextRegionChange;
 
-    IBOutlet MKMapView *mapView;
-    IBOutlet UIBarButtonItem *mapTypeButton;
-    IBOutlet UIBarButtonItem *playerButton;
-    IBOutlet UIBarButtonItem *playerTrackingButton;
+    __weak IBOutlet MKMapView *mapView;
+    __weak IBOutlet UIToolbar *toolBar;
+    UIBarButtonItem *mapTypeButton;
+    UIBarButtonItem *playerButton;
+    UIBarButtonItem *playerTrackingButton;
 
     NSTimer *refreshTimer;
 
@@ -51,14 +52,9 @@
 @property (nonatomic, assign) BOOL tracking;
 @property (nonatomic, assign) BOOL appSetNextRegionChange;
 
-@property (nonatomic, strong) IBOutlet MKMapView *mapView;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *mapTypeButton;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *playerButton;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *playerTrackingButton;
+@property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
 @property (nonatomic, strong) NSTimer *refreshTimer;
-
-- (IBAction) playerButtonTouch;
 
 @end
 
@@ -71,9 +67,6 @@
 @synthesize tracking;
 @synthesize appSetNextRegionChange;
 @synthesize mapView;
-@synthesize mapTypeButton;
-@synthesize playerButton;
-@synthesize playerTrackingButton;
 @synthesize refreshTimer;
 
 - (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d
@@ -108,12 +101,15 @@
     
 	self.mapView.delegate = self;
     
-	self.mapTypeButton.target = self;
-	self.mapTypeButton.action = @selector(changeMapType:);
-	self.mapTypeButton.title = NSLocalizedString(@"MapTypeKey",@"");
+    playerTrackingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"74-location.png"] style:UIBarButtonItemStylePlain target:self action:@selector(refreshButtonAction)];
     
-	self.playerTrackingButton.target = self;
-	self.playerTrackingButton.action = @selector(refreshButtonAction);
+    playerButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"player.png"] style:UIBarButtonItemStylePlain target:self action:@selector(playerButtonTouch)];
+    
+    UIBarButtonItem *flexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(refreshButtonAction)];
+    
+    mapTypeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"MapTypeKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(changeMapType:)];
+    
+    [toolBar setItems:[NSArray arrayWithObjects:playerTrackingButton, playerButton, flexible, mapTypeButton, nil]];
     
     [self updateOverlays];
     [self refresh];
@@ -146,7 +142,7 @@
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 
-- (IBAction) changeMapType:(id)sender
+- (void) changeMapType:(id)sender
 {
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
@@ -159,7 +155,7 @@
     }
 }
 
-- (IBAction) refreshButtonAction
+- (void) refreshButtonAction
 {
 	self.tracking = YES;
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];

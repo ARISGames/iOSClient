@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4488.1" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3715.3"/>
+        <deployment defaultVersion="1552" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapViewController">
             <connections>
-                <outlet property="mapTypeButton" destination="11" id="16"/>
                 <outlet property="mapView" destination="23" id="24"/>
-                <outlet property="playerButton" destination="28" id="30"/>
-                <outlet property="playerTrackingButton" destination="12" id="17"/>
+                <outlet property="toolBar" destination="10" id="nvx-6M-z9n"/>
                 <outlet property="view" destination="1" id="4"/>
             </connections>
         </placeholder>
@@ -29,18 +27,7 @@
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="10">
                     <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <items>
-                        <barButtonItem image="74-location.png" style="plain" id="12"/>
-                        <barButtonItem image="player.png" style="plain" id="28">
-                            <connections>
-                                <action selector="playerButtonTouch" destination="-1" id="29"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="32"/>
-                        <barButtonItem title="Type" style="plain" id="11">
-                            <color key="tintColor" red="0.0" green="0.39607843139999999" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
-                        </barButtonItem>
-                    </items>
+                    <items/>
                 </toolbar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,8 +36,4 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
-    <resources>
-        <image name="74-location.png" width="20" height="20"/>
-        <image name="player.png" width="20" height="20"/>
-    </resources>
 </document>
