@@ -131,7 +131,7 @@
 {
     self.waitingIndicator.title = message;
     [self.loadingSpiral startAnimating];
-    [self.waitingIndicator show];
+    //[self.waitingIndicator show];
 }
 
 - (void)removeWaitingIndicator

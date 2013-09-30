@@ -70,8 +70,8 @@
 {
     self.backgroundColor = [UIColor clearColor];
     self.mediaSection = [[UIScrollView alloc] initWithFrame:self.bounds];
-    //self.mediaSection.contentInset = UIEdgeInsetsMake(64,0,0,0);
-    //self.mediaSection.contentSize = CGSizeMake(self.bounds.size.width,self.bounds.size.height-64);
+    self.mediaSection.contentInset = UIEdgeInsetsMake(64,0,0,0);
+    self.mediaSection.contentSize = CGSizeMake(self.bounds.size.width,self.bounds.size.height-64);
     self.mediaSection.backgroundColor = [UIColor clearColor];
     self.mediaSection.opaque = NO;
     [self.mediaSection addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
@@ -264,13 +264,8 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerLoadStateDidChangeNotification:) name:MPMoviePlayerLoadStateDidChangeNotification object:self.ARISMoviePlayer.moviePlayer];
         if(!hidden)
         {
-            [self.mediaSection addSubview:self.ARISMoviePlayer.view]; 
-            self.ARISMoviePlayer.view.frame = CGRectMake(0, self.ARISMoviePlayer.view.frame.origin.y-44, self.ARISMoviePlayer.view.frame.size.width, self.ARISMoviePlayer.view.frame.size.height); 
-            self.ARISMoviePlayer.view.frame = self.mediaView.frame;
-            //self.npcVideoView = (UIScrollView *)self.ARISMoviePlayer.view;
-            //self.npcVideoView.hidden = NO;
-            //[self.npcView insertSubview:npcVideoView atIndex: 1];
-            //self.npcImageView.hidden = YES;
+            [self.mediaSection addSubview:self.ARISMoviePlayer.view];
+            self.ARISMoviePlayer.view.frame = CGRectMake(0,0,self.bounds.size.width,self.bounds.size.height-64);
         }
     }
 }
