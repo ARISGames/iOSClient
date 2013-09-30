@@ -94,7 +94,7 @@
     else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
     [self.view addSubview:self.npcView];
     
-    self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0,0,0,0)];
+    self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44)];
     UILabel *continueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)]; //frame it set later
     continueLabel.textAlignment = NSTextAlignmentRight;
     continueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];

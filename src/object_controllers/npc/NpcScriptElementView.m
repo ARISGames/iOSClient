@@ -77,7 +77,7 @@
     self.textWebView.backgroundColor = [UIColor clearColor];
     [self.textWebView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
-    self.textSection = [[ARISCollapseView alloc] initWithContentView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    self.textSection = [[ARISCollapseView alloc] initWithContentView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-20, self.bounds.size.width, 20) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     
     [self addSubview:self.mediaSection];
     [self.mediaSection addSubview:self.mediaView];
