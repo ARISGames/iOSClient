@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class Game;
 
@@ -14,7 +15,7 @@
 - (void) gamePicked:(Game *)g;
 @end
 
-@interface GamePickerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface GamePickerViewController : ARISViewController <UITableViewDelegate, UITableViewDataSource>
 {
 	NSArray *gameList;
 	UITableView *gameTable;

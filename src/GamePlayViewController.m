@@ -371,7 +371,7 @@
         [self viewControllerRequestedDisplay:self.attributesNavigationController];
 }
 
-- (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
+- (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(ARISViewController *)viewController 
 {
     if(tabBarController.selectedIndex > 3 && [tabBarController.viewControllers count] > 5)
     {

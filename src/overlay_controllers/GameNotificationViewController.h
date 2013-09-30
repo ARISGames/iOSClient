@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
-@interface GameNotificationViewController : UIViewController
+@interface GameNotificationViewController : ARISViewController
 
 - (void) startListeningToModel;
 - (void) stopListeningToModel;

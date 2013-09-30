@@ -154,7 +154,7 @@
     
     if (cell == nil)
     {
-        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"TagCell" bundle:nil];
+        ARISViewController *temporaryController = [[ARISViewController alloc] initWithNibName:@"TagCell" bundle:nil];
         cell = (TagCell *)temporaryController.view;
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

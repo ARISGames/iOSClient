@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
+
 @class ARISNavigationController;
 @class ARISGamePlayTabBarViewController;
 
@@ -15,6 +17,6 @@
 - (void) gameRequestsDismissal;
 @end
 
-@interface GamePlayTabSelectorViewController : UIViewController
+@interface GamePlayTabSelectorViewController : ARISViewController
 - (id) initWithViewControllers:(NSMutableArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
 @end

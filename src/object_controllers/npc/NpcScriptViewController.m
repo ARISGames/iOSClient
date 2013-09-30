@@ -141,6 +141,7 @@
     mMoviePlayer.moviePlayer.shouldAutoplay = YES;
     [mMoviePlayer.moviePlayer prepareToPlay];
     [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
     
 - (void) readyNextScriptElementForDisplay
@@ -171,22 +172,22 @@
     else if([currentScriptElement.type isEqualToString:@"panoramic"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"webpage"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"node"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"item"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     self.view.userInteractionEnabled = YES;
 }
@@ -198,7 +199,7 @@
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
-    [((UIViewController *)delegate).navigationController popToViewController:((UIViewController *)delegate) animated:YES];
+    [((ARISViewController *)delegate).navigationController popToViewController:((ARISViewController *)delegate) animated:YES];
     [self readyNextScriptElementForDisplay];
 }
 

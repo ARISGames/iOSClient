@@ -68,7 +68,7 @@
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     /*
     if (cell == nil) {
-		// Create a temporary UIViewController to instantiate the custom cell.
+		// Create a temporary ARISViewController to instantiate the custom cell.
 		UITableViewCell *tempCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
                                                             reuseIdentifier:CellIdentifier];
         cell = tempCell;
@@ -76,7 +76,7 @@
      */
     if(indexPath.row == 0)
     {
-        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
+        ARISViewController *temporaryController = [[ARISViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
 		// Grab a pointer to the custom cell
 		cell = (CommentsFormCell *)temporaryController.view;
         //cell.userInteractionEnabled = NO;
@@ -100,12 +100,12 @@
     {
         //CommentCell *cell = [[CommentCell alloc] init]; //? WithNibName:@"CommentCell" bundle:nil];
         
-        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentCell" bundle:nil];
+        ARISViewController *temporaryController = [[ARISViewController alloc] initWithNibName:@"CommentCell" bundle:nil];
 		// Grab a pointer to the custom cell
 		cell = (CommentCell *)temporaryController.view;
         cell.userInteractionEnabled = NO;
 
-		// Release the temporary UIViewController.
+		// Release the temporary ARISViewController.
 
         CommentCell *commentCell = (CommentCell *)cell;
 

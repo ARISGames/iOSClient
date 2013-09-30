@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class ARISGamePlayTabBarViewController;
 @protocol GameObjectProtocol;
@@ -14,7 +15,7 @@
 - (void) gamePlayTabBarViewControllerRequestsNav;
 @end
 
-@interface ARISGamePlayTabBarViewController : UIViewController
+@interface ARISGamePlayTabBarViewController : ARISViewController
 {
     NSString *tabID;
     NSString *tabIconName;

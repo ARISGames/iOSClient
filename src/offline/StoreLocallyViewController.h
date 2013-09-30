@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class Game;
 
-@interface StoreLocallyViewController : UIViewController
+@interface StoreLocallyViewController : ARISViewController
 @property (retain, nonatomic) IBOutlet UILabel *progressTitle;
 @property (retain, nonatomic) IBOutlet UILabel *progressLabel;
 @property (retain, nonatomic) IBOutlet UIProgressView *progressView;

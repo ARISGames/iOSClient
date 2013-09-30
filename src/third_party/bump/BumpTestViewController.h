@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
-@interface BumpTestViewController : UIViewController
+@interface BumpTestViewController : ARISViewController
 {
     id __unsafe_unretained delegate;
     IBOutlet UIScrollView *debugView;

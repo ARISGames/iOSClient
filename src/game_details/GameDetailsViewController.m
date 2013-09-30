@@ -352,7 +352,7 @@
 
 - (UITableViewCell *) constructReviewCell
 {
-    UITableViewCell *cell = (RatingCell *)[[UIViewController alloc] initWithNibName:@"RatingCell" bundle:nil].view;
+    UITableViewCell *cell = (RatingCell *)[[ARISViewController alloc] initWithNibName:@"RatingCell" bundle:nil].view;
     
     RatingCell *ratingCell = (RatingCell *)cell;
 

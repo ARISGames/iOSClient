@@ -18,7 +18,7 @@
     Media *media;
     ARISMoviePlayerViewController *mMoviePlayer;
     
-    UIViewController *presenter;
+    ARISViewController *presenter;
     id<AsyncMediaPlayerButtonDelegate> __unsafe_unretained delegate;
 }
 
@@ -33,12 +33,12 @@
 @synthesize mMoviePlayer;
 
 
-- (id) initWithFrame:(CGRect)frame mediaId:(int)mediaId presenter:(UIViewController *)p preloadNow:(BOOL)preload
+- (id) initWithFrame:(CGRect)frame mediaId:(int)mediaId presenter:(ARISViewController *)p preloadNow:(BOOL)preload
 {
     return [self initWithFrame:frame mediaId:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil] presenter:p preloadNow:preload];
 }
 
-- (id) initWithFrame:(CGRect)frame media:(Media *)aMedia presenter:(UIViewController *)p preloadNow:(BOOL)preload
+- (id) initWithFrame:(CGRect)frame media:(Media *)aMedia presenter:(ARISViewController *)p preloadNow:(BOOL)preload
 {
     if(self = [super initWithFrame:frame])
     {

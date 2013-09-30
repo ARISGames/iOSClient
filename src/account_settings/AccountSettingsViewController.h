@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @protocol AccountSettingsViewControllerDelegate
 - (void) playerSettingsRequested;
 - (void) logoutWasRequested;
 @end
 
-@interface AccountSettingsViewController : UIViewController
+@interface AccountSettingsViewController : ARISViewController
 - (id) initWithDelegate:(id<AccountSettingsViewControllerDelegate>)d;
 @end

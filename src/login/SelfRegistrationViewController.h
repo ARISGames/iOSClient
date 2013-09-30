@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @protocol SelfRegistrationViewControllerDelegate
 - (void) registrationSucceededWithUsername:(NSString *)username password:(NSString *)password;
 @end
 
-@interface SelfRegistrationViewController : UIViewController
+@interface SelfRegistrationViewController : ARISViewController
 - (id)initWithDelegate:(id<SelfRegistrationViewControllerDelegate>)d;
 @end

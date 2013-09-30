@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class Note;
 @class NoteContent;
@@ -16,6 +17,6 @@
 - (void) textViewControllerCancelled;
 @end
 
-@interface TextViewController : UIViewController
+@interface TextViewController : ARISViewController
 - (id) initWithNote:(Note *)n content:(NoteContent *)c inMode:(NSString *)m delegate:(id<TextViewControllerDelegate>)d;
 @end

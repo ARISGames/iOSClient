@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -16,7 +17,7 @@
 - (UIView *)viewForCoordinate:(ARCoordinate *)coordinate;
 @end
 
-@interface ARViewController : UIViewController <UIAccelerometerDelegate, CLLocationManagerDelegate> {
+@interface ARViewController : ARISViewController <UIAccelerometerDelegate, CLLocationManagerDelegate> {
 	CLLocationManager *locationManager;
 	UIAccelerometer *accelerometerManager;
 	
