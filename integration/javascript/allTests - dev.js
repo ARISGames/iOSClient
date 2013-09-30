@@ -116,29 +116,37 @@ var inGame = function() {
 	
 	
 	test("Initial Plaque,Normal Item and Plaque", function(target,app){
+	
 		// Initial plaque - press continue
 		window.staticTexts()["Continue"].tap();
+		});
+	
+	test ("Normal Item", function(target,app){
 	
 		//GO TO MAP
 		app.navigationBar().buttons()["threeLines"].tap();
 		window.tableViews()[0].cells()["Map"].tap();
-
+	
 		//TAP ON NORMAL ITEM AND QUICK TRAVEL
 		window.elements()["Normal Item"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		app.navigationBar().buttons()["arrowBack"].tap();
+		
+		});
 	
+	
+	test("Plaque", function(target,app){
 		//TAP ON PLAQUE ON MAP
 		target.delay(5);
 		window.elements()["Plaque"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		window.staticTexts()["Continue"].tap();
 	
-	});
+		});
 	
-	
+
 	// GREETING CHARACTER TEST
-	test("Greeting Character", function(target,app){
+	test("Greeting Character - PC/NPC/Custom Media", function(target,app){
 	
 		UIATarget.localTarget().pushTimeout(10);
 		window.elements()["Greeting/Closing Character"].tap();
@@ -164,7 +172,7 @@ var inGame = function() {
 	});
 	
 	// TAP CONVERSATION TESTER TEST
-	test("Tap Conversation Tester", function(target, app) {
+	test("Conversation Tester Dropped", function(target, app) {
 	
 		 //Wait for him to drop
 		target.delay(11);
@@ -180,12 +188,16 @@ var inGame = function() {
 	 });
 	
 	//NORMAL SCRIPT TESTS
-	test("Testing regular scripts", function(target,app){
+	test("No Script", function(target,app){
 		 
 		//No Script
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
 		window.staticTexts()["Continue"].tap();
 	
+		});
+		
+		test("NPC and PC Tag", function(target,app){
+		
 		// NPC and PC Tag
 		target.delay(2);
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
@@ -193,6 +205,9 @@ var inGame = function() {
 		window.staticTexts()["Continue"].tap();
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
+		
+		});
+		
 	
 	
 		// Item Tag
@@ -212,7 +227,7 @@ var inGame = function() {
 		// Panoramic Tag  == This is funky , it exited me.
 		
 		// End Normal Script Tests
-		});
+		
 	
 	//EXIT SCRIPT TESTS
 	test("EXIT TO SCRIPTS", function(target,app){
