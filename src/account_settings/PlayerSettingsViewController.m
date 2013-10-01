@@ -126,9 +126,9 @@
 {
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         
-        UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(40, 390, 300, 33)];
+        UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(40, 12, 300, 33)];
         instructions.backgroundColor = [UIColor clearColor];
         instructions.textColor = [UIColor whiteColor];
         instructions.text = NSLocalizedString(@"TakeYourPictureKey", @"");
@@ -136,7 +136,6 @@
         [picker.view addSubview:instructions];
         picker.delegate = self;
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
         if([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
             picker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
         else
