@@ -28,6 +28,7 @@
 }
 @property (nonatomic, strong) UITextField *codeTextField;
 @property (nonatomic, strong) UIButton *scanButton;
+@property (nonatomic, strong) ZXingWidgetController *widController;
 
 @end
 
@@ -35,16 +36,18 @@
 
 @synthesize codeTextField;
 @synthesize scanButton;
+@synthesize widController;
 
-- (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d inMode:(int)m
 {
     if(self = [super initWithDelegate:d])
     {
         self.tabID = @"QR";
         self.tabIconName = @"qr_small";
         
-        textEnabled = YES;
-        scanEnabled = YES; 
+        textEnabled = (m == 0 || m == 1);
+        scanEnabled = (m == 0 || m == 2);
+        
         delegate = d;
         
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
@@ -57,69 +60,71 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorWhite];
+    self.view.backgroundColor = [UIColor ARISColorBlack];  
     
-    codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
-    codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
-    codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
-    codeTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    codeTextField.textAlignment = NSTextAlignmentCenter;
-	codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
-    codeTextField.delegate = self;
-    if(!textEnabled) codeTextField.hidden = YES;
-    [self.view addSubview:codeTextField];
+    if(textEnabled)
+    {
+        self.view.backgroundColor = [UIColor ARISColorWhite]; 
+        self.codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
+        self.codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+        self.codeTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        self.codeTextField.textAlignment = NSTextAlignmentCenter;
+        self.codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
+        self.codeTextField.delegate = self;
+        [self.view addSubview:self.codeTextField];
+    }
     
-    scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    scanButton.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
-    scanButton.backgroundColor = [UIColor ARISColorDarkGray];
-    [scanButton setTitle:@"Scan" forState:UIControlStateNormal];
-    [scanButton addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    if(!scanEnabled) scanButton.hidden = YES; 
-    [self.view addSubview:scanButton];
+    if(scanEnabled)
+    {
+        self.scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.scanButton.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
+        self.scanButton.backgroundColor = [UIColor ARISColorDarkGray];
+        [self.scanButton setTitle:@"Scan" forState:UIControlStateNormal];
+        [self.scanButton addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+        if(textEnabled) [self.view addSubview:self.scanButton]; //else, don't bother adding it to view as it should always be open
+    }
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) viewWillAppearFirstTime:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewWillAppearFirstTime:animated];
     
-    //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [threeLineNavButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    if(textEnabled)
+    {
+        //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
+        UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+        [threeLineNavButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
+        [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+        [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton]; 
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self clearScreenActions]; 
-    if(codeTextField.hidden)   [self scanButtonTouched];
-    else if(scanButton.hidden) [codeTextField becomeFirstResponder];
+    if(!textEnabled) [self scanButtonTouched];
+    if(!scanEnabled) [self.codeTextField becomeFirstResponder];
 }
 
-- (void) setTextEnabled:(BOOL)s
+- (void) viewDidDisappear:(BOOL)animated
 {
-    textEnabled = s;
-    codeTextField.hidden = !s;
-}
-
-- (void) setScanEnabled:(BOOL)s
-{
-    scanEnabled = s;
-    scanButton.hidden = !s; 
+    [super viewDidDisappear:animated];
+    [self clearScreenActions];
 }
 
 - (void) showNav
 {
-    [self clearScreenActions];
+    if(textEnabled) [self clearScreenActions];
     [super showNav];
 }
 
 - (void) clearScreenActions
 {
-    [self.codeTextField resignFirstResponder];
-    if(widController) [self hideWidController];
+    if(self.codeTextField) [self.codeTextField resignFirstResponder];
+    if(self.widController) [self hideWidController];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
@@ -128,7 +133,7 @@
 	
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
 	
-	[self loadResult:codeTextField.text];
+	[self loadResult:self.codeTextField.text];
 	return YES;
 }
 
@@ -140,10 +145,10 @@
 - (void) launchScannerWithPrompt:(NSString *)p
 {
     [self clearScreenActions];
-    widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
-    widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
+    self.widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
+    self.widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
     
-    [self.view addSubview:widController.view];
+    [self.view addSubview:self.widController.view];
 }
 
 - (void) scanButtonTouched
@@ -164,8 +169,8 @@
 
 - (void) hideWidController
 {
-    [widController.view removeFromSuperview];
-    widController = nil;
+    [self.widController.view removeFromSuperview];
+    self.widController = nil;
 }
 
 - (void) loadResult:(NSString *)code
@@ -191,11 +196,13 @@
     {
 		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
+        [self scanButtonTouched];
 	}
 	else if([qrCodeObject isKindOfClass:[NSString class]])
     {
         [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:(NSString *)qrCodeObject];
+        [self scanButtonTouched]; 
     }
     else
     {
