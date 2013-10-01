@@ -196,13 +196,13 @@
     {
 		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
-        [self scanButtonTouched];
+        [self performSelector:@selector(scanButtonTouched) withObject:nil afterDelay:1]; 
 	}
 	else if([qrCodeObject isKindOfClass:[NSString class]])
     {
         [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:(NSString *)qrCodeObject];
-        [self scanButtonTouched]; 
+        [self performSelector:@selector(scanButtonTouched) withObject:nil afterDelay:1];
     }
     else
     {
