@@ -67,6 +67,45 @@
         self.parser = [[ScriptParser  alloc] initWithDelegate:self];
         
         delegate = d;
+        
+        Media *pcMedia;
+        if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
+        else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
+        
+        if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+        else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+        [self.view addSubview:self.pcView];
+        
+        Media *npcMedia;
+        if(self.npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:self.npc.mediaId ofType:nil];
+        
+        if(npcMedia) self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:self.npc.name delegate:self];
+        else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
+        [self.view addSubview:self.npcView];
+        
+        self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44)];
+        UILabel *continueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)]; //frame is set later
+        continueLabel.textAlignment = NSTextAlignmentRight;
+        continueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+        continueLabel.text = NSLocalizedString(@"ContinueKey",@"");
+        continueLabel.textColor = [UIColor ARISColorText];
+        UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+        continueArrow.frame = CGRectMake(self.view.bounds.size.width-25,13,19,19);
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
+        line.backgroundColor = [UIColor ARISColorLightGray];
+        [self.continueButton addSubview:line];
+        [self.continueButton addSubview:continueLabel];
+        [self.continueButton addSubview:continueArrow];
+        self.continueButton.userInteractionEnabled = YES;
+        self.continueButton.backgroundColor = [UIColor clearColor];
+        self.continueButton.opaque = NO;
+        [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+        
+        [self.view addSubview:self.continueButton];
+        
+        [self movePcIn];
+        
+        
     }
     return self;
 }
@@ -76,48 +115,6 @@
     [super loadView];
     self.view.backgroundColor = [UIColor clearColor];
     self.view.opaque = NO;
-}
-
-- (void) viewWillAppearFirstTime:(BOOL)animated
-{
-    [super viewWillAppearFirstTime:animated];
-    
-    Media *pcMedia;
-    if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
-    else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
-    
-    if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
-    else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
-    [self.view addSubview:self.pcView];
-    
-    Media *npcMedia;
-    if(self.npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:self.npc.mediaId ofType:nil];
-    
-    if(npcMedia) self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:self.npc.name delegate:self];
-    else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
-    [self.view addSubview:self.npcView];
-    
-    self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44)];
-    UILabel *continueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)]; //frame is set later
-    continueLabel.textAlignment = NSTextAlignmentRight;
-    continueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
-    continueLabel.text = NSLocalizedString(@"ContinueKey",@"");
-    continueLabel.textColor = [UIColor ARISColorText];
-    UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
-    continueArrow.frame = CGRectMake(self.view.bounds.size.width-25,13,19,19);
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
-    line.backgroundColor = [UIColor ARISColorLightGray];
-    [self.continueButton addSubview:line];
-    [self.continueButton addSubview:continueLabel];
-    [self.continueButton addSubview:continueArrow];
-    self.continueButton.userInteractionEnabled = YES;
-    self.continueButton.backgroundColor = [UIColor clearColor];
-    self.continueButton.opaque = NO;
-    [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
-    
-    [self.view addSubview:self.continueButton];
-    
-    [self movePcIn];
 }
 
 - (void) loadScriptOption:(NpcScriptOption *)o
