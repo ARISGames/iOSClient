@@ -10,9 +10,9 @@ var password = "aris";
 var gameName = "ARIS-Tester";
 
 // RESET USER IF ALREADY LOGGED IN
-var resetUser = function()
+var resetToLoginScreen = function()
 {
-	test("Resetting the User if already logged in.", function(target,app){
+	test("Reset To Login Screen", function(target,app){
 		 	if (app.navigationBar().buttons()["threeLines"].checkIsValid())
 		 	{
 		 		
@@ -24,7 +24,7 @@ var resetUser = function()
 				app.navigationBar().buttons()["arrowBack"].tap();
 			}
 		 
-			else if (app.navigationBar().buttons()["idcard"].checkIsValid())
+			if (app.navigationBar().buttons()["idcard"].checkIsValid())
 			{
 				app.navigationBar().buttons()["idcard"].tap();
 				window.staticTexts()["Logout"].tap();
@@ -155,6 +155,8 @@ var plaque = function(){
 	test("Plaque", function(target,app){
 		//TAP ON PLAQUE ON MAP
 		target.delay(5);
+		UIALogger.logMessage("Check 'Plaque' Message");
+		assertEquals("Plaque Content", window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Plaque Content"].value());
 		window.elements()["Plaque"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		window.staticTexts()["Continue"].tap();
@@ -340,52 +342,11 @@ var exitToScripts = function() {
 	
 };
 
-//  RESET FROM INSIDE GAME
-var reset = function(){
-	test("Resetting Game", function(target,app) {
-		app.navigationBar().buttons()["threeLines"].tap();
-		target.delay(1);
-		window.staticTexts()["Leave Game"].tap();
-		target.delay(1);
-		app.navigationBar().buttons()["arrowBack"].tap();
-		resetUser();
-	});
-};
-
-
-var resetToMap = function(){
-
-test("Reset to In Game Menu", function(target,app){
-	 
-	 //Inside Character, Web Item, Normal Item
-	 if (app.navigationBar().buttons()["arrowBack"].checkIsValid())
-		{
-			app.navigationBar().buttons()["arrowBack"].tap();
-		} 
-	 //Inside Plaque
-	 else if (window.staticTexts()["Continue"].checkIsValid())
-	 	{
-	 	window.staticTexts()["Continue"].tap();
-	 	}
-	 // quick nav tapped or item tapped
-	 else if (app.actionSheet().cancelButton().checkIsValid())
-	 	{
-		app.actionSheet().cancelButton().tap();
-	 	}
-	 
-	 //Tap the three bars
-	 if (app.navigationBar().buttons()["threeLines"].checkIsValid())
-		{
-			app.navigationBar().buttons()["threeLines"].tap();
-		} 
-	 });
-};
-
 
 	
 //Run the Tests
 
-resetUser();
+resetToLoginScreen();
 loginTest(username, password);
 searchGame(gameName);
 selectGame();
@@ -394,12 +355,11 @@ selectGame();
 //modularized
 initialPlaque();
 normalItem();
+
 plaque();
+
 greetingCharacter();
 dropConversationTester();
 normalScriptTests();
 exitToScripts();
-reset();
-
-
-//resetToMap();
+resetToLoginScreen();
