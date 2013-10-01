@@ -128,25 +128,46 @@ UIATarget.onAlert = function onAlert(alert) {
 }
 
 var initialPlaque = function(){
-	test("Initial Plaque", function(target,app){
+	test("Dismiss Initial Plaque the Go To Map", function(target,app){
 	
 		// Initial plaque - press continue
 		window.staticTexts()["Continue"].tap();
+		 
+		 
+		//GO TO MAP
+		app.navigationBar().buttons()["threeLines"].tap();
+		window.tableViews()[0].cells()["Map"].tap();
+		 
 	});	
 };
 
 var normalItem = function(){
 	test ("Normal Item", function(target,app){
 	
-		//GO TO MAP
-		app.navigationBar().buttons()["threeLines"].tap();
-		window.tableViews()[0].cells()["Map"].tap();
-		
+		  
 	
 		//TAP ON NORMAL ITEM AND QUICK TRAVEL  
 		window.elements()["Normal Item"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
-		app.navigationBar().buttons()["arrowBack"].tap();
+		  
+		  
+		  
+		  
+		//Check "Navigation bar says 'Normal Item'?"
+		UIALogger.logMessage("Navigation bar says 'Normal Item' ?");
+		assertEquals("Normal Item", app.navigationBar().name(), , "PAss");
+		  
+		  
+		  //Tap Three lines
+		window.staticTexts()["..."].tap();
+		  
+		  
+		//Check "Item content says 'Normal Item' "
+		UIALogger.logMessage("Item content says 'Normal Item' ?");
+		assertEquals("Normal Item", window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["Normal Item"].name(), , "PAss");
+		  
+
+		  app.navigationBar().buttons()["arrowBack"].tap();
 		
 	});
 };
@@ -155,10 +176,22 @@ var plaque = function(){
 	test("Plaque", function(target,app){
 		//TAP ON PLAQUE ON MAP
 		target.delay(5);
-		UIALogger.logMessage("Check 'Plaque' Message");
-		assertEquals("Plaque Content", window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Plaque Content"].value());
+		 
 		window.elements()["Plaque"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
+		 
+		// Plaque content name is "Plaque Content"
+		UIALogger.logMessage("Check 'Plaque' Message");
+		assertEquals("Plaque Content", window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Plaque Content"].name());
+		 
+		 
+		//Check "Does the Navigation say 'Plaque'?"
+		UIALogger.logMessage("Navigation bar says 'Plaque' ?");
+		assertEquals("Plaque",target.frontMostApp().navigationBar().name());
+		 
+		 
+		 
+		 
 		window.staticTexts()["Continue"].tap();
 	
 	});	
@@ -211,8 +244,9 @@ var dropConversationTester = function(){
 };
 
 var normalScriptTests = function(){
-	//NORMAL SCRIPT TESTS
-	test("No Script", function(target,app){
+	
+		//NORMAL SCRIPT TESTS
+		test("No Script", function(target,app){
 		 
 		//No Script
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
@@ -244,10 +278,20 @@ var normalScriptTests = function(){
 	
 	
 		//Plaque Tag
+	test("Plaque Tag",function(target,app){
+		 
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
-	
+		 
+		 
+
+		 //Check "Forgot Password" Button
+		UIALogger.logMessage("Navigation bar says 'Plaque' ?");
+		assertEquals("Plaque",target.frontMostApp().navigationBar().name());
+		 
+		 
+		 });
 	
 		// Video Tag == This is funky, it exited me.
 	
@@ -257,8 +301,6 @@ var normalScriptTests = function(){
 };
 
 
-// A HUGE PILE OF TESTS
-// TODO: BREAK ME UP
 var exitToScripts = function() {
 		
 	
@@ -344,22 +386,53 @@ var exitToScripts = function() {
 
 
 	
-//Run the Tests
+////////////////////////////Main
 
+/*
+
+// Reset the game from anywhere in the application
 resetToLoginScreen();
-loginTest(username, password);
-searchGame(gameName);
-selectGame();
-//inGame();
 
-//modularized
+//Login to account
+loginTest(username, password);
+
+//Search for Game
+searchGame(gameName);
+
+// Select Game
+selectGame();
+
+//////////////////////////////// Begin In game Tests
+
+// Dismiss Initial Plaque
 initialPlaque();
+*/
+//Normal Item Test
 normalItem();
 
+/*
+
+//Plaque Test 
 plaque();
 
+
+
+// Greeting Character Dialogue Test
 greetingCharacter();
+
+// Has the Conversation Tester Dropped?
 dropConversationTester();
+
+// Test Normal Scripts
 normalScriptTests();
+
+//Test Exit to Scripts
 exitToScripts();
+
+//////////////////////////////// End In game Tests
+
+// Reset Back to Login Screen
 resetToLoginScreen();
+
+
+*/
