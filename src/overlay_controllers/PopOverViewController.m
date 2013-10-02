@@ -25,10 +25,12 @@
     UILabel *title;
     UILabel *subtitle;
     UILabel *continueButton;
+    UILabel *goButton; 
+    NSString *goFunction;
     
     UIActivityIndicatorView *loadingIndicator;
         
-    id<PopOverViewDelegate> __unsafe_unretained delegate;
+    id<PopOverViewDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) UIView *popOverView;
@@ -38,6 +40,8 @@
 @property (nonatomic, strong) UILabel *title;
 @property (nonatomic, strong) UILabel *subtitle;
 @property (nonatomic, strong) UILabel *continueButton;
+@property (nonatomic, strong) UILabel *goButton;
+@property (nonatomic, strong) NSString *goFunction;
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingIndicator;
 
@@ -52,10 +56,12 @@
 @synthesize title;
 @synthesize subtitle;
 @synthesize continueButton;
+@synthesize goButton;
+@synthesize goFunction;
 
 @synthesize loadingIndicator;
         
-- (id) initWithDelegate:(id <PopOverViewDelegate>)poDelegate
+- (id) initWithDelegate:(id <PopOverViewDelegate, StateControllerProtocol>)poDelegate
 {
     if(self = [super init])
     {
@@ -89,12 +95,20 @@
     
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0,44+20,self.popOverView.bounds.size.width,320)];
     
-    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(10, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width-20, 44)];
-    self.continueButton.text = @"Continue > ";
-    self.continueButton.textAlignment = NSTextAlignmentRight;
+    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(10, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44)];
+    self.continueButton.text = @" < Dismiss";
+    self.continueButton.textAlignment = NSTextAlignmentLeft;
     self.continueButton.backgroundColor = [UIColor clearColor];
     self.continueButton.userInteractionEnabled = YES;
     [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+    
+    self.goButton = [[UILabel alloc] initWithFrame:CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44)]; 
+    self.goButton.text = @"GO! > ";
+    self.goButton.textAlignment = NSTextAlignmentRight;
+    self.goButton.backgroundColor = [UIColor clearColor];
+    self.goButton.userInteractionEnabled = YES;
+    [self.goButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goButtonTouched)]]; 
+    
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width, 1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
     
@@ -102,11 +116,12 @@
     [self.popOverView addSubview:self.subtitle];
     [self.popOverView addSubview:self.contentView];
     [self.popOverView addSubview:self.continueButton];
+    [self.popOverView addSubview:self.goButton]; 
     [self.popOverView addSubview:line];
     [self.view addSubview:self.popOverView];
 }
 
-- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt andMediaId:(int)m
+- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt mediaId:(int)m function:(NSString *)f
 {
     if(!self.view) self.view.hidden = NO; //Just accesses view to force its load
     
@@ -131,6 +146,22 @@
     {
         self.mediaView = [[ARISMediaView alloc] initWithFrame:CGRectMake(10,0,self.contentView.frame.size.width-20,20) media:[[AppModel sharedAppModel] mediaForMediaId:m ofType:@"PHOTO"] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
         [self.contentView addSubview:self.mediaView];
+    }
+    
+    self.goFunction = f;
+    if([f isEqualToString:@"NONE"])
+    {
+        self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width-20, 44);
+        self.continueButton.textAlignment = NSTextAlignmentRight;
+        self.goButton.frame = CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, 0, 44);
+        self.goButton.text = @"";
+    }
+    else
+    {
+        self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44);
+        self.continueButton.textAlignment = NSTextAlignmentLeft; 
+        self.goButton.frame = CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44); 
+        self.goButton.text = @"GO! > "; 
     }
 }
 
@@ -159,15 +190,25 @@
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
+    [delegate displayScannerWithPrompt:p];
 }
 
 - (void) displayTab:(NSString *)t
 {
+    [delegate displayTab:t]; 
 }
 
 - (void) continueButtonTouched
 {
     [delegate popOverContinueButtonPressed];
+}
+
+- (void) goButtonTouched
+{
+    if([self.goFunction isEqualToString:@"JAVASCRIPT"]) [self.descriptionView hookWithParams:@""];
+    else if(![self.goFunction isEqualToString:@"NONE"]) [self displayTab:self.goFunction];
+    
+    [self continueButtonTouched];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

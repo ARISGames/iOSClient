@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "ARISViewController.h"
 
+@protocol StateControllerProtocol;
 @protocol PopOverViewDelegate
 - (void) popOverContinueButtonPressed;
 @end
 
 @interface PopOverViewController : ARISViewController
 
-- (id) initWithDelegate:(id <PopOverViewDelegate>)poDelegate;
-- (void) setTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int)mediaId;
+- (id) initWithDelegate:(id <PopOverViewDelegate,StateControllerProtocol>)poDelegate;
+- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt mediaId:(int)m function:(NSString *)f;
 
 @end

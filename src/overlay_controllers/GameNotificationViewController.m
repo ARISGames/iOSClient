@@ -10,11 +10,12 @@
 #import "ARISAppDelegate.h"
 #import "PopOverViewController.h"
 #import "MTStatusBarOverlay.h"
+#import "StateControllerProtocol.h"
 
 #import "Item.h"
 #import "Quest.h"
 
-@interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate>
+@interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate, StateControllerProtocol>
 {
     UIWebView *dropDownView;
     PopOverViewController *popOverVC;
@@ -23,12 +24,14 @@
     NSMutableArray *popOverArray;
     BOOL showingDropDown;
     BOOL showingPopOver;
+    
+    id<StateControllerProtocol> delegate;
 }
 @end
 
 @implementation GameNotificationViewController
 
-- (id) init
+- (id) initWithDelegate:(id<StateControllerProtocol>)d
 {
     if(self = [super init])
     {
@@ -41,6 +44,8 @@
         MTStatusBarOverlay *o = [MTStatusBarOverlay sharedInstance];
         o.animation = MTStatusBarOverlayAnimationFallDown;
         o.delegate = self;
+        
+        delegate = d;
     }
     return self;
 }
@@ -138,7 +143,8 @@
     [popOverVC setTitle:[poDict objectForKey:@"title"]
             description:[poDict objectForKey:@"description"]
             webViewText:[poDict objectForKey:@"text"]
-             andMediaId:[[poDict objectForKey:@"mediaId"] intValue]];
+                mediaId:[[poDict objectForKey:@"mediaId"] intValue] 
+               function:[poDict objectForKey:@"function"]];
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
@@ -172,9 +178,9 @@
      */
 }
 
-- (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
+- (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text mediaId:(int)mediaId function:(NSString *)function
 {
-    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil]];
+    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId",function,@"function",nil]];
     if(!showingPopOver) [self dequeuePopOver];
 }
 
@@ -187,7 +193,7 @@
         Quest *activeQuest = [activeQuests objectAtIndex:i];
         
         if(activeQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:activeQuest.name webViewText:activeQuest.qdescriptionNotification andMediaId:activeQuest.notificationMediaId];
+            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:activeQuest.name webViewText:activeQuest.qdescriptionNotification mediaId:activeQuest.notificationMediaId function:activeQuest.goFunction];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
         
@@ -207,7 +213,7 @@
         Quest *completedQuest = [completedQuests objectAtIndex:i];      
     
         if(completedQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:completedQuest.name webViewText:completedQuest.qdescriptionNotification andMediaId:completedQuest.notificationMediaId];
+            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:completedQuest.name webViewText:completedQuest.qdescriptionNotification mediaId:completedQuest.notificationMediaId function:completedQuest.goFunction];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
         
@@ -378,6 +384,21 @@
 - (void)stopListeningToModel
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) displayTab:(NSString *)t
+{
+    [delegate displayTab:t];
+}
+
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    [delegate displayScannerWithPrompt:p];
+}
+
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+{
+    return [delegate displayGameObject:g fromSource:s];
 }
 
 @end

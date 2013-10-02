@@ -106,7 +106,7 @@
         
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
 
-        self.gameNotificationViewController = [[GameNotificationViewController alloc] init];
+        self.gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         
         //PHIL UNAPPROVED
         [[AppServices sharedAppServices] resetAllPlayerLists];
