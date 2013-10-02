@@ -30,7 +30,6 @@ var resetToLoginScreen = function()
 				window.staticTexts()["Logout"].tap();
 
 			}
-		  
 	});	
 };
 
@@ -57,7 +56,9 @@ var loginTest = function(username,password){
 		app.keyboard().typeString(password);
 	
 		// CLICK LOGIN
-		window.buttons()["arrowForward"].tap();
+		 target.delay(2);
+		window.buttons()["arrowForward"].tap();		 
+		 
 	});
 	
 };
@@ -155,7 +156,7 @@ var normalItem = function(){
 		  
 		//Check "Navigation bar says 'Normal Item'?"
 		UIALogger.logMessage("Navigation bar says 'Normal Item' ?");
-		assertEquals("Normal Item", app.navigationBar().name(), , "PAss");
+		assertEquals("Normal Item", app.navigationBar().name(), "PAss");
 		  
 		  
 		  //Tap Three lines
@@ -164,7 +165,7 @@ var normalItem = function(){
 		  
 		//Check "Item content says 'Normal Item' "
 		UIALogger.logMessage("Item content says 'Normal Item' ?");
-		assertEquals("Normal Item", window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["Normal Item"].name(), , "PAss");
+		assertEquals("Normal Item", window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["Normal Item"].name(), "PAss");
 		  
 
 		  app.navigationBar().buttons()["arrowBack"].tap();
@@ -291,6 +292,15 @@ var normalScriptTests = function(){
 		assertEquals("Plaque",target.frontMostApp().navigationBar().name());
 		 
 		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
 		 });
 	
 		// Video Tag == This is funky, it exited me.
@@ -385,10 +395,81 @@ var exitToScripts = function() {
 };
 
 
+
+var testDecoder = function() {
+
+
+test("Decoder Plaque Item", function(target, app){
+	 
+	 //Go Into Decoder From MAP	
+	 app.navigationBar().buttons()["threeLines"].tap();
+	 window.tableViews()["Empty list"].cells()["Decoder"].tap();
+	 
+	 // Plaque Decoder
+	 window.textFields()[0].tap();
+	 target.delay(1);
+	 app.keyboard().typeString('4982\n');
+	 
+	 //Entered plaque?
+	 target.frontMostApp().mainWindow().staticTexts()["Continue"].tap();
+	
+	 // Clear text Field
+	 window.textFields()[0].tap();
+	 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+	 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+	 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+	 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+	 
+	 });
+	 
+	test("Decoder Normal Item", function(target,app){
+		 
+		 
+		 
+	 //Go Into Decoder From MAP	
+	 app.navigationBar().buttons()["threeLines"].tap();
+	 window.tableViews()["Empty list"].cells()["Decoder"].tap();
+	 
+	// Normal Item Decoder
+	 window.textFields()[0].tap();
+	 target.delay(1);
+	 app.keyboard().typeString('8317\n');
+	 
+	 //Entered Normal Item?
+	
+	 app.navigationBar().buttons()["arrowBack"].tap();
+		 
+	 // Clear text Field
+	 window.textFields()[0].tap();
+		 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+		 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+		 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+		 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+		 
+		 
+		 
+		 
+		 
+		 });
+	 
+	
+	 
+
+
+};
+
 	
 ////////////////////////////Main
 
-/*
+
 
 // Reset the game from anywhere in the application
 resetToLoginScreen();
@@ -402,15 +483,16 @@ searchGame(gameName);
 // Select Game
 selectGame();
 
-//////////////////////////////// Begin In game Tests
+/////////////////////////////////////////////////////////////////// Begin In game Tests
 
 // Dismiss Initial Plaque
 initialPlaque();
-*/
+ 
+
 //Normal Item Test
 normalItem();
 
-/*
+
 
 //Plaque Test 
 plaque();
@@ -429,10 +511,16 @@ normalScriptTests();
 //Test Exit to Scripts
 exitToScripts();
 
-//////////////////////////////// End In game Tests
+//Test Decoder
+
+
+
+testDecoder();
+
+
+/////////////////////////////////////////////////////////////////////// End In game Tests
 
 // Reset Back to Login Screen
 resetToLoginScreen();
 
 
-*/
