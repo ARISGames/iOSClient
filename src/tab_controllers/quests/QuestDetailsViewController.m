@@ -177,6 +177,11 @@
     [delegate displayScannerWithPrompt:p];
 }
 
+- (void) displayTrade
+{
+    [delegate displayTrade];
+}
+
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     return [delegate displayGameObject:g fromSource:s];

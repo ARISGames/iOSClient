@@ -302,7 +302,10 @@
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
-    
+}
+
+- (void) displayTrade
+{
 }
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s

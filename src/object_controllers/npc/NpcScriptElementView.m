@@ -306,7 +306,10 @@
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
-    
+}
+
+- (void) displayTrade
+{
 }
 
 @end

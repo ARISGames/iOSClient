@@ -455,9 +455,14 @@
 
 - (void) tradeButtonTouched
 {
+    [self launchTrade];
+}
+
+- (void) launchTrade
+{
     InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithDelegate:self];
     tradeVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:tradeVC animated:YES];
+    [self.navigationController pushViewController:tradeVC animated:YES]; 
 }
 
 - (void) dealloc

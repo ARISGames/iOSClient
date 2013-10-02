@@ -193,6 +193,11 @@
     [delegate displayScannerWithPrompt:p];
 }
 
+- (void) displayTrade
+{
+    [delegate displayTrade];
+}
+
 - (void) displayTab:(NSString *)t
 {
     [delegate displayTab:t]; 

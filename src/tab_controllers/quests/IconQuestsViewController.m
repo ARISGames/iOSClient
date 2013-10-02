@@ -179,6 +179,12 @@
     [delegate displayScannerWithPrompt:p];
 }
 
+- (void) displayTrade
+{
+    [self.navigationController popToViewController:self animated:NO];
+    [delegate displayTrade];
+}
+
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     [self.navigationController popToViewController:self animated:YES];

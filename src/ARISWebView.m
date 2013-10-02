@@ -108,7 +108,7 @@
 {
     NSLog(@"ARISWebView received: %@",[[request URL] absoluteString]);
     if(![self isARISRequest:request]) return NO;
-
+    
     [self stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
     
     NSString *mainCommand = [[request URL] host];
@@ -137,6 +137,8 @@
             [delegate displayTab:token];
         else if([type isEqualToString:@"scanner"])
             [delegate displayScannerWithPrompt:token];
+        else if([type isEqualToString:@"trade"])
+            [delegate displayTrade]; 
         else if([type isEqualToString:@"plaque"])
             [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:[token intValue]]           fromSource:delegate];
         else if([type isEqualToString:@"webpage"])
@@ -333,39 +335,39 @@
     [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
     
     [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel)
-    {
-        NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]);
-        [[BumpClient sharedClient] confirmMatch:YES onChannel:channel];
-    }];
+     {
+         NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]);
+         [[BumpClient sharedClient] confirmMatch:YES onChannel:channel];
+     }];
     
     [[BumpClient sharedClient] setChannelConfirmedBlock:^(BumpChannelID channel)
-    {
-        NSLog(@"Channel with %@ confirmed.", [[BumpClient sharedClient] userIDForChannel:channel]);
-        [[BumpClient sharedClient] sendData:[self.bumpSendString dataUsingEncoding:NSUTF8StringEncoding]
-                                  toChannel:channel];
-    }];
+     {
+         NSLog(@"Channel with %@ confirmed.", [[BumpClient sharedClient] userIDForChannel:channel]);
+         [[BumpClient sharedClient] sendData:[self.bumpSendString dataUsingEncoding:NSUTF8StringEncoding]
+                                   toChannel:channel];
+     }];
     
     [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data)
-    {
-        NSString *receipt = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"Data received:\n%@",receipt);
-        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.bumpDetected(%@);",receipt]];
-    }];
+     {
+         NSString *receipt = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+         NSLog(@"Data received:\n%@",receipt);
+         [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.bumpDetected(%@);",receipt]];
+     }];
     
     [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected)
-    {
-        if(connected) { NSLog(@"Bump connected...");    self.isConnectedToBump = YES; }
-        else          { NSLog(@"Bump disconnected..."); self.isConnectedToBump = NO;  }
-    }];
+     {
+         if(connected) { NSLog(@"Bump connected...");    self.isConnectedToBump = YES; }
+         else          { NSLog(@"Bump disconnected..."); self.isConnectedToBump = NO;  }
+     }];
     
     [[BumpClient sharedClient] setBumpEventBlock:^(bump_event event)
-    {
-        switch(event)
-        {
-            case BUMP_EVENT_BUMP:     NSLog(@"Bump detected."); break;
-            case BUMP_EVENT_NO_MATCH: NSLog(@"No match.");      break;
-        }
-    }];
+     {
+         switch(event)
+         {
+             case BUMP_EVENT_BUMP:     NSLog(@"Bump detected."); break;
+             case BUMP_EVENT_NO_MATCH: NSLog(@"No match.");      break;
+         }
+     }];
 }
 
 - (void) hookWithParams:(NSString *)params
