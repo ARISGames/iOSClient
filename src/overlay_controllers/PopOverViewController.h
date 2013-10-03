@@ -17,6 +17,6 @@
 @interface PopOverViewController : ARISViewController
 
 - (id) initWithDelegate:(id <PopOverViewDelegate,StateControllerProtocol>)poDelegate;
-- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt mediaId:(int)m function:(NSString *)f;
+- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt mediaId:(int)m function:(NSString *)f showDismiss:(BOOL)sd;
 
 @end

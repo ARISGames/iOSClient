@@ -16,10 +16,12 @@
 @synthesize qdescription;
 @synthesize qdescriptionNotification;
 @synthesize goFunction;
+@synthesize notifGoFunction;
 @synthesize mediaId;
 @synthesize iconMediaId;
 @synthesize notificationMediaId;
 @synthesize fullScreenNotification;
+@synthesize showDismiss;
 @synthesize isNullQuest;
 
 - (Quest *) init {

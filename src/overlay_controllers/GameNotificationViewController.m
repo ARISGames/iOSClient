@@ -144,7 +144,8 @@
             description:[poDict objectForKey:@"description"]
             webViewText:[poDict objectForKey:@"text"]
                 mediaId:[[poDict objectForKey:@"mediaId"] intValue] 
-               function:[poDict objectForKey:@"function"]];
+               function:[poDict objectForKey:@"function"]
+            showDismiss:[poDict objectForKey:@"showdismiss"]];
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
@@ -178,9 +179,9 @@
      */
 }
 
-- (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text mediaId:(int)mediaId function:(NSString *)function
+- (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text mediaId:(int)mediaId function:(NSString *)function showDismiss:(BOOL)sd
 {
-    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId",function,@"function",nil]];
+    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId",function,@"function",[NSNumber numberWithBool:sd],@"showdismiss",nil]];
     if(!showingPopOver) [self dequeuePopOver];
 }
 
@@ -193,7 +194,7 @@
         Quest *activeQuest = [activeQuests objectAtIndex:i];
         
         if(activeQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:activeQuest.name webViewText:activeQuest.qdescriptionNotification mediaId:activeQuest.notificationMediaId function:activeQuest.goFunction];
+            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:activeQuest.name webViewText:activeQuest.qdescriptionNotification mediaId:activeQuest.notificationMediaId function:activeQuest.notifGoFunction showDismiss:activeQuest.showDismiss];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
         
@@ -213,7 +214,7 @@
         Quest *completedQuest = [completedQuests objectAtIndex:i];      
     
         if(completedQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:completedQuest.name webViewText:completedQuest.qdescriptionNotification mediaId:completedQuest.notificationMediaId function:completedQuest.goFunction];
+            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:completedQuest.name webViewText:completedQuest.qdescriptionNotification mediaId:completedQuest.notificationMediaId function:completedQuest.notifGoFunction showDismiss:completedQuest.showDismiss];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
         

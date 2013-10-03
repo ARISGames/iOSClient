@@ -2101,6 +2101,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         quest.qdescriptionNotification = [activeQuestDict validStringForKey:@"description_notification"]; 
         quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
         quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
+        quest.notifGoFunction          = [activeQuestDict validStringForKey:@"notif_go_function"]; 
+        quest.showDismiss              = [activeQuestDict validBoolForKey:@"active_notif_show_dismiss"]; 
         
 		[activeQuestObjects addObject:quest];
 	}
@@ -2121,8 +2123,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         quest.name                     = [completedQuestDict validStringForKey:@"name"];
         quest.qdescription             = [completedQuestDict validStringForKey:@"text_when_complete"];
         quest.qdescriptionNotification = [completedQuestDict validStringForKey:@"text_when_complete_notification"];  
-        quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"full_screen_notify"]; 
-        quest.goFunction               = [completedQuestDict validStringForKey:@"go_function"];
+        quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"complete_full_screen_notify"]; 
+        quest.goFunction               = [completedQuestDict validStringForKey:@"complete_go_function"];
+        quest.notifGoFunction          = [completedQuestDict validStringForKey:@"complete_notif_go_function"]; 
+        quest.showDismiss              = [completedQuestDict validBoolForKey:@"complete_notif_show_dismiss"];
         
 		[completedQuestObjects addObject:quest];
 	}

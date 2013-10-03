@@ -121,7 +121,7 @@
     [self.view addSubview:self.popOverView];
 }
 
-- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt mediaId:(int)m function:(NSString *)f
+- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt mediaId:(int)m function:(NSString *)f showDismiss:(BOOL)sd
 {
     if(!self.view) self.view.hidden = NO; //Just accesses view to force its load
     
@@ -153,14 +153,25 @@
     {
         self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width-20, 44);
         self.continueButton.textAlignment = NSTextAlignmentRight;
+        self.continueButton.text = @"Dismiss > ";  
         self.goButton.frame = CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, 0, 44);
         self.goButton.text = @"";
+    }
+    else if(!sd)
+    {
+        self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, 0, 44);
+        self.continueButton.text = @"";
+        self.goButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width-20, 44);
+        self.goButton.textAlignment = NSTextAlignmentRight;
+        self.goButton.text = @"GO! > "; 
     }
     else
     {
         self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44);
         self.continueButton.textAlignment = NSTextAlignmentLeft; 
+        self.continueButton.text = @" < Dismiss"; 
         self.goButton.frame = CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44); 
+        self.continueButton.textAlignment = NSTextAlignmentRight;  
         self.goButton.text = @"GO! > "; 
     }
 }
