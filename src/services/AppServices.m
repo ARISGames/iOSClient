@@ -1865,7 +1865,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     NSLog(@"%d total media for %d",[currentlyCachedMediaArray count], [AppModel sharedAppModel].currentGame.gameId);
     
     //Construct cached media map (dictionary with identical key/values of mediaId) to quickly check for existence of media
-    NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc]initWithCapacity:currentlyCachedMediaArray.count];
+    NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] initWithCapacity:currentlyCachedMediaArray.count];
     for(int i = 0; i < [currentlyCachedMediaArray count]; i++)
     {
         if([[currentlyCachedMediaArray objectAtIndex:i] uid])
