@@ -9,9 +9,30 @@ var username = "aris-test";
 var password = "aris";
 var gameName = "ARIS-Tester";
 
-// RESET USER IF ALREADY LOGGED IN
+							/*  ******* RESER USER ******* */
 var resetToLoginScreen = function()
 {
+
+test("Reset to Three bars in game.", function(target,app){
+   
+   //Inside Character, Web Item, Normal Item
+   if (app.navigationBar().buttons()["arrowBack"].checkIsValid())
+   		 {
+		 app.navigationBar().buttons()["arrowBack"].tap();
+  		  } 
+   //Inside Plaque
+   else if (window.staticTexts()["Continue"].checkIsValid())
+    	 {
+    	 window.staticTexts()["Continue"].tap();
+	 	app.navigationBar().buttons()["arrowBack"].tap();
+    	 }
+   // quick nav tapped or item tapped
+   else if (app.actionSheet().cancelButton().checkIsValid())
+   		  {
+   		 app.actionSheet().cancelButton().tap();
+    	 }
+  });
+
 	test("Reset To Login Screen", function(target,app){
 		 	if (app.navigationBar().buttons()["threeLines"].checkIsValid())
 		 	{
@@ -33,7 +54,7 @@ var resetToLoginScreen = function()
 	});	
 };
 
-// SIMULATING: LOGIN
+							/*  ******* SIMULATE LOGIN ******* */
 var loginTest = function(username,password){
 	
 	//This is a tuneup_js test
@@ -63,7 +84,7 @@ var loginTest = function(username,password){
 	
 };
 
-// SIMULATING: SEARCHING FOR THE GAME
+									/*  ******* SIMULATE LOGIN ******* */
 var searchGame = function(gameName){
 	
 	test("Search Game Test", function(target,app){
@@ -85,7 +106,7 @@ var searchGame = function(gameName){
 };
 
 
-//  SELECT GAME
+									/*  ******* SELECT GAME ******* */
 var selectGame = function(gameName){
 	
 	test("Selecting Game", function(target,app) 
@@ -113,7 +134,7 @@ var selectGame = function(gameName){
 
 };
 
-// FUNCTION TO HANDLE ALERTS
+									/*  ******* ALERT FUNCTION ******* */
 
 UIATarget.onAlert = function onAlert(alert) {
 
@@ -142,6 +163,7 @@ var initialPlaque = function(){
 	});	
 };
 
+										/*  ******* NOARMAL ITEM TESTS ******* */
 var normalItem = function(){
 	test ("Normal Item", function(target,app){
 	
@@ -151,17 +173,13 @@ var normalItem = function(){
 		window.elements()["Normal Item"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		  
-		  
-		  
-		  
+
 		//Check "Navigation bar says 'Normal Item'?"
 		UIALogger.logMessage("Navigation bar says 'Normal Item' ?");
 		assertEquals("Normal Item", app.navigationBar().name(), "PAss");
-		  
-		  
+		    
 		  //Tap Three lines
-		window.staticTexts()["..."].tap();
-		  
+		window.staticTexts()["..."].tap();	  
 		  
 		//Check "Item content says 'Normal Item' "
 		UIALogger.logMessage("Item content says 'Normal Item' ?");
@@ -173,6 +191,7 @@ var normalItem = function(){
 	});
 };
 
+								/*  ******* PLAQUE TESTS ******* */
 var plaque = function(){
 	test("Plaque", function(target,app){
 		//TAP ON PLAQUE ON MAP
@@ -181,23 +200,21 @@ var plaque = function(){
 		window.elements()["Plaque"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		 
-		// Plaque content name is "Plaque Content"
-		UIALogger.logMessage("Check 'Plaque' Message");
-		assertEquals("Plaque Content", window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Plaque Content"].name());
-		 
-		 
-		//Check "Does the Navigation say 'Plaque'?"
 		UIALogger.logMessage("Navigation bar says 'Plaque' ?");
 		assertEquals("Plaque",target.frontMostApp().navigationBar().name());
 		 
+		 		// Plaque content name is "Plaque Content"
+		UIALogger.logMessage("Plaque content says 'Plaque Content' ");
+		assertEquals("Plaque Content", window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Plaque Content"].name());
 		 
-		 
-		 
+ 
 		window.staticTexts()["Continue"].tap();
 	
 	});	
 };
 
+
+							/*  ******* GREETING CHARACTER TESTS ******* */
 var greetingCharacter = function(){
 	// GREETING CHARACTER TEST
 	test("Greeting Character - PC/NPC/Custom Media", function(target,app){
@@ -225,25 +242,18 @@ var greetingCharacter = function(){
 
 	});	
 };
-
-var dropConversationTester = function(){
+							/*  ******* ENTER CONVERSATION TESTER ******* */
+var enterConversationTester = function(){
 	// TAP CONVERSATION TESTER TEST
 	test("Conversation Tester Dropped", function(target, app) {
-	
-		 //Wait for him to drop
-		target.delay(11);
 		window.elements()["Conversation Tester"].tap();
-	 
-		//Quick Travel to Conversation Character
 		app.actionSheet().buttons()["Quick Travel"].tap();
-	
-		//Hello I am the conversation Test Character
 		window.staticTexts()["Continue"].tap();
-	
-		 //End TAP CONVERSATION TESTER TEST
 	 });	
 };
 
+
+							/*  ******* NORMAL SCRIPTS TESTS ******* */
 var normalScriptTests = function(){
 	
 		//NORMAL SCRIPT TESTS
@@ -286,21 +296,6 @@ var normalScriptTests = function(){
 		window.staticTexts()["Continue"].tap();
 		 
 		 
-
-		 //Check "Forgot Password" Button
-		UIALogger.logMessage("Navigation bar says 'Plaque' ?");
-		assertEquals("Plaque",target.frontMostApp().navigationBar().name());
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
 		 });
 	
 		// Video Tag == This is funky, it exited me.
@@ -310,7 +305,7 @@ var normalScriptTests = function(){
 		// End Normal Script Tests	
 };
 
-
+									/*  ******* EXIT TO SCRIPTS TESTS ******* */
 var exitToScripts = function() {
 		
 	
@@ -395,7 +390,7 @@ var exitToScripts = function() {
 };
 
 
-
+								/*  ******* DECODER TESTS ******* */
 var testDecoder = function() {
 
 
@@ -455,9 +450,6 @@ test("Decoder Plaque Item", function(target, app){
 	 target.frontMostApp().keyboard().keys()["Delete"].tap();
 		 
 		 
-		 
-		 
-		 
 		 });
 	 
 	
@@ -488,22 +480,20 @@ selectGame();
 // Dismiss Initial Plaque
 initialPlaque();
  
-
+ 
 //Normal Item Test
 normalItem();
-
 
 
 //Plaque Test 
 plaque();
 
 
-
 // Greeting Character Dialogue Test
 greetingCharacter();
 
 // Has the Conversation Tester Dropped?
-dropConversationTester();
+enterConversationTester();
 
 // Test Normal Scripts
 normalScriptTests();
@@ -514,7 +504,6 @@ exitToScripts();
 //Test Decoder
 
 
-
 testDecoder();
 
 
@@ -522,5 +511,4 @@ testDecoder();
 
 // Reset Back to Login Screen
 resetToLoginScreen();
-
 
