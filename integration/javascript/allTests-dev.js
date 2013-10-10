@@ -245,7 +245,7 @@ var greetingCharacter = function(){
 							/*  ******* ENTER CONVERSATION TESTER ******* */
 var enterConversationTester = function(){
 	// TAP CONVERSATION TESTER TEST
-	test("Conversation Tester Dropped", function(target, app) {
+	test("Enter Conversation Tester", function(target, app) {
 		window.elements()["Conversation Tester"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		window.staticTexts()["Continue"].tap();
@@ -269,7 +269,9 @@ var normalScriptTests = function(){
 		
 		// NPC and PC Tag
 		target.delay(2);
+		//window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+			 
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
 		target.delay(1);
@@ -277,7 +279,6 @@ var normalScriptTests = function(){
 		
 		});
 		
-	
 	
 		// Item Tag
 		test("Item Tag", function(target,app){
@@ -307,8 +308,8 @@ var normalScriptTests = function(){
 
 									/*  ******* EXIT TO SCRIPTS TESTS ******* */
 var exitToScripts = function() {
-		
-	
+
+
 	//EXIT SCRIPT TESTS
 	test("Exit To Webpage", function(target,app){
 		// Webpage Tag
@@ -316,6 +317,7 @@ var exitToScripts = function() {
 		target.delay(2);
 		target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
 	});
+	
 	test("Exit To Map", function(target,app){
 		// Exit to Map
 		target.frontMostApp().mainWindow().scrollViews()[0].scrollViews()[2].webViews()[0].tap();
@@ -385,8 +387,8 @@ var exitToScripts = function() {
 		app.navigationBar().buttons()["arrowBack"].tap();
 	});
 		// EXIT TO PANORAMIC -- this is broken
-		 
-	
+
+
 };
 
 
@@ -480,7 +482,8 @@ selectGame();
 // Dismiss Initial Plaque
 initialPlaque();
  
- 
+
+
 //Normal Item Test
 normalItem();
 
@@ -491,24 +494,33 @@ plaque();
 
 // Greeting Character Dialogue Test
 greetingCharacter();
+ 
+
 
 // Has the Conversation Tester Dropped?
 enterConversationTester();
 
+window.logElementTree();
+
 // Test Normal Scripts
 normalScriptTests();
+
+ 
+window.logElementTree();
 
 //Test Exit to Scripts
 exitToScripts();
 
+
+
 //Test Decoder
-
-
 testDecoder();
 
+ 
 
 /////////////////////////////////////////////////////////////////////// End In game Tests
 
 // Reset Back to Login Screen
 resetToLoginScreen();
+
 
