@@ -167,7 +167,6 @@ var initialPlaque = function(){
 var normalItem = function(){
 	test ("Normal Item", function(target,app){
 	
-		  
 	
 		//TAP ON NORMAL ITEM AND QUICK TRAVEL  
 		window.elements()["Normal Item"].tap();
@@ -176,14 +175,14 @@ var normalItem = function(){
 
 		//Check "Navigation bar says 'Normal Item'?"
 		UIALogger.logMessage("Navigation bar says 'Normal Item' ?");
-		assertEquals("Normal Item", app.navigationBar().name(), "PAss");
+		assertEquals("Normal Item", app.navigationBar().name());
 		    
 		  //Tap Three lines
 		window.staticTexts()["..."].tap();	  
 		  
 		//Check "Item content says 'Normal Item' "
 		UIALogger.logMessage("Item content says 'Normal Item' ?");
-		assertEquals("Normal Item", window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["Normal Item"].name(), "PAss");
+		assertEquals("Normal Item", window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["Normal Item"].name());
 		  
 
 		  app.navigationBar().buttons()["arrowBack"].tap();
@@ -217,30 +216,44 @@ var plaque = function(){
 							/*  ******* GREETING CHARACTER TESTS ******* */
 var greetingCharacter = function(){
 	// GREETING CHARACTER TEST
-	test("Greeting Character - PC/NPC/Custom Media", function(target,app){
-	
-		UIATarget.localTarget().pushTimeout(10);
+	test("Enter Greeting Character", function(target,app){
+		 
 		window.elements()["Greeting/Closing Character"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
-		UIATarget.localTarget().popTimeout();
+		UIALogger.message("Navigation says 'You'? ");		 
+		 });	
 	
-		//I AM THE PC CHARACTER
+	test("PC Character Test",function(target,app){
+		 //I AM THE PC CHARACTER
+		 
+		  assertEquals("I'm the PC",window.scrollViews()[3].scrollViews()[0].webViews()[0].staticTexts()["I'm the PC"].name())
+		 target.delay(1);
+		 window.staticTexts()["Continue"].tap();
+		 });
+	
+	test("NPC Character Test",function(target,app){
+		 // I AM THE NPC CHARACTER
+		 
+		 assertEquals("I'm the NPC",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["I'm the NPC"].name())
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
+		 });
 	
-		// I AM THE NPC CHARACTER
-		target.delay(1);
-		window.staticTexts()["Continue"].tap();
+	test("NOC With Custom Media Test",function(target,app){
+		 //NOC WITH CUSTOM MEDIA
+		 
+		 assertEquals("NOC with custom media",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["NOC with custom media"].name())
+		 target.delay(1);
+		 window.staticTexts()["Continue"].tap();
+		 });
 	
-		//NOC WITH CUSTOM MEDIA
-		target.delay(1);
-		window.staticTexts()["Continue"].tap();
-	
-		//Leave Conversation
+	test("Leaving Converstaion Tester", function(target,app){
+		 //Leave Conversation
 		target.delay(2);
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Leave Conversation"].tap();
+		 });
 
-	});	
+		 
 };
 							/*  ******* ENTER CONVERSATION TESTER ******* */
 var enterConversationTester = function(){
@@ -308,6 +321,7 @@ var normalScriptTests = function(){
 
 									/*  ******* EXIT TO SCRIPTS TESTS ******* */
 var exitToScripts = function() {
+	
 
 
 	//EXIT SCRIPT TESTS
@@ -453,10 +467,6 @@ test("Decoder Plaque Item", function(target, app){
 		 
 		 
 		 });
-	 
-	
-	 
-
 
 };
 
@@ -494,7 +504,6 @@ plaque();
 
 // Greeting Character Dialogue Test
 greetingCharacter();
- 
 
 
 // Has the Conversation Tester Dropped?
@@ -504,6 +513,7 @@ window.logElementTree();
 
 // Test Normal Scripts
 normalScriptTests();
+
 
  
 window.logElementTree();
@@ -516,7 +526,6 @@ exitToScripts();
 //Test Decoder
 testDecoder();
 
- 
 
 /////////////////////////////////////////////////////////////////////// End In game Tests
 
