@@ -386,5 +386,9 @@
     }];
 }
 
+- (void) dealloc
+{
+    [self clear];
+}
 
 @end

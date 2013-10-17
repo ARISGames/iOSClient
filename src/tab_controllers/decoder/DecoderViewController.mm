@@ -23,6 +23,7 @@
     
     BOOL textEnabled;
     BOOL scanEnabled;
+    NSString *prompt;
     ZXingWidgetController *widController;
     id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -47,6 +48,7 @@
         
         textEnabled = (m == 0 || m == 1);
         scanEnabled = (m == 0 || m == 2);
+        prompt = @""; 
         
         delegate = d;
         
@@ -90,22 +92,21 @@
 {
     [super viewWillAppearFirstTime:animated];
     
+    //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside]; 
     if(textEnabled)
-    {
-        //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
-        UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-        [threeLineNavButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
-        [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
         [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton]; 
-    }
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];  
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self clearScreenActions]; 
-    if(!textEnabled) [self scanButtonTouched];
+    
+    if(!textEnabled || ![prompt isEqualToString:@""]) [self launchScanner];
     if(!scanEnabled) [self.codeTextField becomeFirstResponder];
 }
 
@@ -142,18 +143,24 @@
     return YES;
 }
 
-- (void) launchScannerWithPrompt:(NSString *)p
+- (void) setPrompt:(NSString *)p
+{
+    prompt = p;
+}
+
+- (void) launchScanner
 {
     [self clearScreenActions];
-    self.widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
+    self.widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:prompt];
     self.widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
+    prompt = @"";
     
     [self.view addSubview:self.widController.view];
 }
 
 - (void) scanButtonTouched
 {
-    [self launchScannerWithPrompt:@""];
+    [self launchScanner];
 }
 
 - (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result

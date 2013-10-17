@@ -275,9 +275,8 @@
 {
     if(self.decoderNavigationController)
     {
+        [(DecoderViewController *)[[self.decoderNavigationController viewControllers] objectAtIndex:0] setPrompt:p]; 
         [self viewControllerRequestedDisplay:self.decoderNavigationController];
-        //[(DecoderViewController *)[[self.decoderNavigationController viewControllers] objectAtIndex:0] launchScannerWithPrompt:p];
-        [(DecoderViewController *)[[self.decoderNavigationController viewControllers] objectAtIndex:0] performSelector:@selector(launchScannerWithPrompt:) withObject:p afterDelay:0.1];
     }
 }
 
