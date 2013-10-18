@@ -143,34 +143,41 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	[itemDescriptionView loadHTMLString:[NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.text] baseURL:nil];
     
-	Media *media;
-    if(item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId     ofType:@"PHOTO"];
-    else             media = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
-    
-	if([media.type isEqualToString:@"PHOTO"] && media.url)
-    {
-		[itemImageView loadMedia:media];
-        itemImageView.contentMode = UIViewContentModeScaleAspectFit;
-	}
-	else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
-    {        
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
-        [self.scrollView addSubview:mediaButton];
-	}
-	else
-		NSLog(@"ItemDetailsVC: Error Loading Media ID: %d. It etiher doesn't exist or is not of a valid type.", item.mediaId);
-    
-    self.itemWebView.hidden = YES;
-
-	[self updateQuantityDisplay];
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
+        self.itemImageView.hidden = YES;
+        
         self.itemWebView.allowsInlineMediaPlayback = YES;
         self.itemWebView.mediaPlaybackRequiresUserAction = NO;
         
         [itemWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"itemId=%d",self.item.itemId]];
+        
     }
-    else itemWebView.hidden = YES;
+    else
+    {
+        itemWebView.hidden = YES;
+    
+        Media *media;
+        if(item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId     ofType:@"PHOTO"];
+        else             media = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
+        
+        if([media.type isEqualToString:@"PHOTO"] && media.url)
+        {
+            [itemImageView loadMedia:media];
+            itemImageView.contentMode = UIViewContentModeScaleAspectFit;
+        }
+        else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
+        {        
+            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
+            [self.scrollView addSubview:mediaButton];
+        }
+        else
+            NSLog(@"ItemDetailsVC: Error Loading Media ID: %d. It etiher doesn't exist or is not of a valid type.", item.mediaId);
+        
+        self.itemWebView.hidden = YES;
+    }
+	[self updateQuantityDisplay];
+
 }
 
 - (void)updateQuantityDisplay
