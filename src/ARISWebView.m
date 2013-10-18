@@ -19,7 +19,7 @@
     NSString *bumpSendString;
     BOOL isConnectedToBump;
     NSMutableDictionary *audioPlayers;
-    id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<ARISWebViewDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) NSString *bumpSendString;
 @property (nonatomic, assign) BOOL isConnectedToBump;
@@ -33,7 +33,7 @@
 @synthesize isConnectedToBump;
 @synthesize audioPlayers;
 
-- (id) initWithFrame:(CGRect)frame delegate:(id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d
+- (id) initWithFrame:(CGRect)frame delegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
 {
     if(self = [super initWithFrame:frame])
     {
@@ -43,7 +43,7 @@
     return self;
 }
 
-- (id) initWithDelegate:(id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d
+- (id) initWithDelegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
 {
     if(self = [super init])
     {
@@ -59,7 +59,7 @@
     self.isConnectedToBump = NO;
 }
 
-- (void) setDelegate:(id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d
+- (void) setDelegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
 {
     [super setDelegate:d];
     delegate = d;

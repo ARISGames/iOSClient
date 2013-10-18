@@ -91,7 +91,7 @@
     return GameObjectItem;
 }
 
-- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d fromSource:(id)s
+- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d fromSource:(id<ItemViewControllerSource>)s
 {
     if(self.qty == 0) self.qty = 1;
 	return [[ItemViewController alloc] initWithItem:self delegate:d source:s];

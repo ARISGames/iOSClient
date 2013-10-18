@@ -2,529 +2,427 @@
 //  ItemViewController.m
 //  ARIS
 //
-//  Created by David Gagnon on 4/2/09.
-//  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
+//  Created by Phil Dougherty on 10/17/13.
+//
 //
 
 #import "ItemViewController.h"
-#import "ARISWebView.h"
-#import "ARISAppDelegate.h"
-#import "AppServices.h"
-#import "AsyncMediaPlayerButton.h"
-#import "Media.h"
-#import "Item.h"
+
 #import "ItemActionViewController.h"
-#import "WebPage.h"
-#import "WebPageViewController.h"
-#import "NpcViewController.h"
-#import <AVFoundation/AVFoundation.h>
-#import "UIImage+Scale.h"
-#import "Item.h"
-#import "ARISMoviePlayerViewController.h"
-#import "ARISMediaView.h"
-#import "ARISCollapseView.h"
-#import "UIColor+ARISColors.h"
 #import "InventoryTagViewController.h"
 
-@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, UIWebViewDelegate, UITextViewDelegate>
+#import "Item.h"
+#import "ARISWebView.h"
+#import "ARISMediaView.h"
+#import "AsyncMediaPlayerButton.h"
+#import "ARISCollapseView.h"
+#import "AppModel.h"
+#import "AppServices.h"
+
+#import "UIColor+ARISColors.h"
+
+@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
 {
-	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
-	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
+  //Labels as buttons (easier formatting)
+  UILabel *dropBtn;
+  UILabel *destroyBtn; 
+  UILabel *pickupBtn;  
+  UIView *line; //separator between buttons/etc...
+
+  ARISWebView *webView;
+  ARISCollapseView *collapseView;
+  ARISWebView *descriptionView;
+  UIScrollView *scrollView;
+  ARISMediaView *imageView;
     
-    UILabel *dropBtn;
-    UILabel *destroyBtn;
-    UILabel *pickupBtn;
-    
-    UIView *line;
-    
-	ARISMediaView *itemImageView;
-    ARISWebView *itemWebView;
-	UIScrollView *scrollView;
     UIActivityIndicatorView *activityIndicator;
-    ARISCollapseView *descriptionCollapseView;
-	ARISWebView *descriptionWebView;
-	UIButton *mediaPlaybackButton;
-	ItemDetailsModeType mode;
-    
-    BOOL alreadyLayedOut;
-    id<GameObjectViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
-    id source;
+
+  id<GameObjectViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+  id<ItemViewControllerSource> __unsafe_unretained source; 
 }
-
-@property (nonatomic, assign) ItemDetailsModeType mode;
-@property (nonatomic, strong) ARISMediaView *itemImageView;
-@property (nonatomic, strong) ARISWebView *itemWebView;
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) ARISWebView *descriptionWebView;
-@property (nonatomic, strong) ARISCollapseView *descriptionCollapseView;
-
 @end
 
 @implementation ItemViewController
 
 @synthesize item;
-@synthesize mode;
-@synthesize itemImageView;
-@synthesize itemWebView;
-@synthesize activityIndicator;
-@synthesize descriptionWebView;
-@synthesize descriptionCollapseView;
-@synthesize scrollView;
 
-- (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
+- (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s
 {
-    if(self = [super init])
-    {
-		self.item = i;
-        source = s;
-        mode = kItemDetailsViewing;
-        
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
-        
-        alreadyLayedOut = NO;
-        delegate = d;
-    }
-    return self;
+  if(self = [super init])
+  {
+      self.item = i;
+    delegate = d;
+    source = s;
+  }
+  return self;
+}
+
+//Helper to cleanly/consistently create bottom buttons
+- (UILabel *) createItemButtonWithText:(NSString *)t selector:(SEL)s
+{
+  UILabel *btn = [[UILabel alloc] init];
+  btn.userInteractionEnabled = YES;
+  btn.textAlignment = NSTextAlignmentCenter;
+  btn.text = t;
+  btn.backgroundColor = [UIColor ARISColorTextBackdrop];
+  btn.textColor       = [UIColor ARISColorText];
+  [btn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:s]];
+  [btn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+
+  return btn;
 }
 
 - (void) loadView
 {
-    [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
-    
-    BOOL atLeastOneButton = NO;
-	if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]])
-    {
-        if(item.dropable)
-        {
-            atLeastOneButton = YES;
-            
-            dropBtn = [[UILabel alloc] init];
-            dropBtn.userInteractionEnabled = YES;
-            dropBtn.textAlignment = NSTextAlignmentCenter;
-            dropBtn.text = NSLocalizedString(@"ItemDropKey", @"");
-            dropBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
-            dropBtn.textColor       = [UIColor ARISColorText];
-            [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
-            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
-            [self.view addSubview:dropBtn];
-        }
-        if(item.destroyable)
-        {
-            atLeastOneButton = YES;
-            
-            destroyBtn = [[UILabel alloc] init];
-            destroyBtn.userInteractionEnabled = YES;
-            destroyBtn.textAlignment = NSTextAlignmentCenter;
-            destroyBtn.text = NSLocalizedString(@"ItemDeleteKey",@"");
-            destroyBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
-            destroyBtn.textColor       = [UIColor ARISColorText];
-            [destroyBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(destroyButtonTouched)]];
-            [destroyBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
-            [self.view addSubview:destroyBtn];
-        }
-	}
-	else
-    {
-        atLeastOneButton = YES;
-            
-        pickupBtn = [[UILabel alloc] init];
-        pickupBtn.userInteractionEnabled = YES;
-        pickupBtn.textAlignment = NSTextAlignmentCenter;
-        pickupBtn.text = NSLocalizedString(@"ItemPickupKey", @"");
-        pickupBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
-        pickupBtn.textColor       = [UIColor ARISColorText];
-        [pickupBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickupButtonTouched)]];
-        [pickupBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
-        [self.view addSubview:pickupBtn];
-	}
-    
-    if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
-    {
-        self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
-        if(atLeastOneButton)
-            self.itemWebView.scrollView.contentInset = UIEdgeInsetsMake(0,0,54,0);
-        else
-            self.itemWebView.scrollView.contentInset = UIEdgeInsetsMake(0,0,10,0);
-        self.itemWebView.hidden = YES;
-        self.itemWebView.scalesPageToFit = YES;
-        self.itemWebView.allowsInlineMediaPlayback = YES;
-        self.itemWebView.mediaPlaybackRequiresUserAction = NO;
-        
-        [self.itemWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"itemId=%d",self.item.itemId]];
-        
-        [self.view addSubview:self.itemWebView];
-        [self.view sendSubviewToBack:self.itemWebView];
-    }
-    else
-    {
-        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-(atLeastOneButton*44))];
-        self.scrollView.clipsToBounds = NO;
-        self.scrollView.maximumZoomScale = 100;
-        self.scrollView.minimumZoomScale = 1;
-        self.scrollView.delegate = self;
-        
-        Media *media;
-        if(item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId     ofType:@"PHOTO"];
-        else             media = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
-        
-        if([media.type isEqualToString:@"PHOTO"] && media.url)
-        {
-            self.itemImageView = [[ARISMediaView alloc] initWithFrame:self.scrollView.frame media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
-            [self.scrollView addSubview:self.itemImageView];
-            [self.scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToDescription:)]];
-        }
-        else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
-        {        
-            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
-            [self.scrollView addSubview:mediaButton];
-        }
-        
-        [self.view addSubview:self.scrollView];
-        [self.view sendSubviewToBack:self.scrollView];
-    }
-    
-    if(![self.item.idescription isEqualToString:@""])
-    {
-        self.descriptionWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
-        self.descriptionWebView.userInteractionEnabled = NO;
-        self.descriptionWebView.scrollView.scrollEnabled = NO;
-        self.descriptionWebView.scrollView.bounces = NO;
-        self.descriptionWebView.opaque = NO;
-        self.descriptionWebView.backgroundColor = [UIColor clearColor];
-        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithContentView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
-        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.item.idescription] baseURL:nil];
-        [self.view addSubview:self.descriptionCollapseView];
-    }
-    
-    if(atLeastOneButton)
-    {
-        line = [[UIView alloc] init];
-        line.backgroundColor = [UIColor ARISColorLightGray];
-        [self.view addSubview:line];
-    }
-    
-	[self updateQuantityDisplay];
-}
+  [super loadView];
+  self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
 
-- (void) viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
+  int numButtons = 0;
+    /*
+     //What it SHOULD be \/
+  if([source supportsDestroying] && self.item.destroyable) { destroyBtn = [self createItemButtonWithText:@"Destroy" selector:@selector(destroyButtonTouched)]; numButtons++; }
+  if([source supportsDropping]   && self.item.dropable)    { dropBtn    = [self createItemButtonWithText:@"Drop" selector:@selector(DropButtonTouched)];       numButtons++; }
+  if([source supportsPickingUp]  && self.item.qty > 0)     { pickupBtn  = [self createItemButtonWithText:@"Pick Up" selector:@selector(pickupButtonTouched)];  numButtons++; }
+     */
     
-    if(!alreadyLayedOut)
+    //What it IS
+    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.destroyable) { destroyBtn = [self createItemButtonWithText:@"Destroy" selector:@selector(destroyButtonTouched)]; numButtons++; }
+    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.dropable)    { dropBtn    = [self createItemButtonWithText:@"Drop" selector:@selector(DropButtonTouched)];       numButtons++; }
+    if([(NSObject *)source isKindOfClass:[Location class]] && self.item.qty != 0)     { pickupBtn  = [self createItemButtonWithText:@"Pick Up" selector:@selector(pickupButtonTouched)];  numButtons++; } 
+    
+    line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
+    line.backgroundColor = [UIColor ARISColorLightGray];
+
+  //Web Item
+  if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
+  {
+    webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
+    if(numButtons > 0) webView.scrollView.contentInset = UIEdgeInsetsMake(64,0,54,0);
+    else               webView.scrollView.contentInset = UIEdgeInsetsMake(64,0,10,0);
+
+    webView.hidden                          = YES;
+    webView.scalesPageToFit                 = YES;
+    webView.allowsInlineMediaPlayback       = YES;
+    webView.mediaPlaybackRequiresUserAction = NO;
+
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"itemId=%d",self.item.itemId]];
+  }
+  //Normal Item
+  else
+  {
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    if(numButtons > 0) scrollView.contentInset = UIEdgeInsetsMake(64,0,54,0);
+    else               scrollView.contentInset = UIEdgeInsetsMake(64,0,10,0);
+    scrollView.clipsToBounds    = NO;
+    scrollView.maximumZoomScale = 100;
+    scrollView.minimumZoomScale = 1;
+    scrollView.delegate = self;
+
+    Media *media;
+    if(self.item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:self.item.mediaId     ofType:@"PHOTO"];
+    else                  media = [[AppModel sharedAppModel] mediaForMediaId:self.item.iconMediaId ofType:@"PHOTO"];
+
+    if([media.type isEqualToString:@"PHOTO"] && media.url)
     {
-        alreadyLayedOut = YES;
-        if(dropBtn && destroyBtn)
-        {
-            dropBtn.frame    = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width/2,44);
-            destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2,self.view.bounds.size.height-44,self.view.bounds.size.width/2,44);
-        }
-        else if(dropBtn)    dropBtn.frame    = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
-        else if(destroyBtn) destroyBtn.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
-        else if(pickupBtn)  pickupBtn.frame  = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
-        
-        BOOL atLeastOneButton = (dropBtn || destroyBtn || pickupBtn);
-        
-        if(line) line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
-        
-        if(self.scrollView)
-        {
-            self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-(atLeastOneButton*44));
-            self.scrollView.contentInset = UIEdgeInsetsMake(64,0,(atLeastOneButton*44),0);
-            self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width,self.scrollView.bounds.size.height-64-(atLeastOneButton*44));
-            if(self.itemImageView) [self.itemImageView refreshWithFrame:CGRectMake(0,0,self.scrollView.bounds.size.width,self.scrollView.bounds.size.height-64-(atLeastOneButton*44))];
-        }
-        
-        [self.descriptionCollapseView setFrame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10)];
+      imageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,scrollView.frame.size.width,scrollView.frame.size.height-64) media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
+      [scrollView addSubview:imageView];
+      [scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToDescription:)]];
     }
+    else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
+    {        
+      AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
+      [scrollView addSubview:mediaButton];
+    }
+  }
+
+  if(![self.item.idescription isEqualToString:@""])
+  {
+    descriptionView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+    descriptionView.userInteractionEnabled   = NO;
+    descriptionView.scrollView.scrollEnabled = NO;
+    descriptionView.scrollView.bounces       = NO;
+    descriptionView.opaque                   = NO;
+    descriptionView.backgroundColor = [UIColor clearColor];
+    [descriptionView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.item.idescription] baseURL:nil];
+    collapseView = [[ARISCollapseView alloc] initWithContentView:descriptionView frame:CGRectMake(0,self.view.bounds.size.height-(10+((numButtons > 0)*44)),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+  }
+
+  //nil subviews should be ignored
+  [self.view addSubview:webView];
+  [self.view addSubview:scrollView];
+  [self.view addSubview:collapseView];
+[self updateViewButtons]; 
+  [self.view addSubview:line];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+  [super viewWillAppear:animated];
+
+  if(item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
+  else self.title = item.name;
+
+    [self updateViewButtons];
+
+  UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+  backButton.frame = CGRectMake(0, 0, 19, 19);
+  [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+  [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
+
+- (void) updateViewButtons
+{
+    if(destroyBtn) [destroyBtn removeFromSuperview];
+    if(dropBtn)    [dropBtn    removeFromSuperview]; 
+    if(pickupBtn)  [pickupBtn  removeFromSuperview]; 
+    if(line)       [line       removeFromSuperview]; 
     
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, 19, 19);
-    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    if(item.qty == 0)
+    {
+        destroyBtn = nil;
+        dropBtn    = nil; 
+        pickupBtn  = nil; 
+    }
+    
+    int numButtons = (destroyBtn != nil) + (dropBtn != nil) + (pickupBtn != nil);
+    if(destroyBtn) destroyBtn.frame = CGRectMake(self.view.bounds.size.width-(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44);
+    if(dropBtn)    dropBtn.frame    = CGRectMake(self.view.bounds.size.width-(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44);
+    if(pickupBtn)  pickupBtn.frame  = CGRectMake(self.view.bounds.size.width-(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); 
+    
+    [self.view addSubview:destroyBtn];
+    [self.view addSubview:dropBtn];
+    [self.view addSubview:pickupBtn];
+    if(numButtons > 0)[self.view addSubview:line];
+    
+    if(collapseView) [collapseView setFrame:CGRectMake(0,self.view.bounds.size.height-(descriptionView.frame.size.height+10),self.view.frame.size.width,descriptionView.frame.size.height+10)]; 
 }
 
 - (void) passTapToDescription:(UITapGestureRecognizer *)r
 {
-    [self.descriptionCollapseView handleTapped:r];
+  [collapseView handleTapped:r];
 }
 
 - (void) passPanToDescription:(UIPanGestureRecognizer *)g
 {
-    [self.descriptionCollapseView handlePanned:g];
-}
-
-- (void) updateQuantityDisplay
-{
-	if(item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
-	else self.title = item.name;
-    
-    if(item.qty == 0)
-    {
-        [dropBtn removeFromSuperview];
-        [destroyBtn removeFromSuperview];
-        [pickupBtn removeFromSuperview];
-        [line removeFromSuperview];
-        
-        if(self.descriptionCollapseView)
-            [self.descriptionCollapseView setFrame:CGRectMake(0,self.view.bounds.size.height-self.descriptionWebView.frame.size.height-10,self.view.frame.size.width,self.descriptionWebView.frame.size.height+10)];
-        if(self.scrollView)
-            self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
+  [collapseView handlePanned:g];
 }
 
 - (void) dropButtonTouched
 {	
-	mode = kItemDetailsDropping;
-	if(self.item.qty > 1)
-    {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self source:source];
-        itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
-        [[self navigationController] pushViewController:itemActionVC animated:YES];
-        [self updateQuantityDisplay];
-    }
-    else 
-    {
-        [self doActionWithMode:mode quantity:1];
-    }    
+  if(self.item.qty > 1)
+  {
+    ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Drop" qty:self.item.qty delegate:self];
+    [[self navigationController] pushViewController:itemActionVC animated:YES];
+  }
+  else 
+    [self dropItemQty:1];
+}
+
+- (void) dropItemQty:(int)q
+{
+  [[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:q];
+  [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q];
 }
 
 - (void) destroyButtonTouched
 {
-	mode = kItemDetailsDestroying;
-	if(self.item.qty > 1)
-    {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self source:source];
+  if(self.item.qty > 1)
+  {
+    ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Destroy" qty:self.item.qty delegate:self];
+    [[self navigationController] pushViewController:itemActionVC animated:YES];
+  }
+  else 
+    [self destroyItemQty:1];
+}
 
-        itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
-        [[self navigationController] pushViewController:itemActionVC animated:YES];
-        [self updateQuantityDisplay];
-    }
-    else 
-        [self doActionWithMode:mode quantity:1];
+- (void) destroyItemQty:(int)q
+{
+    [[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:q];
+    [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q];
 }
 
 - (void) pickupButtonTouched
 {
-	mode = kItemDetailsPickingUp;
-    if(self.item.qty > 1)
-    {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self source:source];
-        
-        itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
-        [[self navigationController] pushViewController:itemActionVC animated:YES];
-        [self updateQuantityDisplay];
-    }
-    else 
-        [self doActionWithMode:mode quantity:1];
-    
-    [[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:0];
+  if(self.item.qty > 1)
+  {
+      int q = self.item.qty;
+      
+  Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
+  if(!invItem) { invItem = [[AppModel sharedAppModel] itemForItemId:item.itemId]; invItem.qty = 0; }
+
+      int maxPUAmt = invItem.maxQty == -1 ? 99999 : invItem.maxQty-invItem.qty;
+      if(q < maxPUAmt) maxPUAmt = q;
+
+        int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
+      int cw = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
+      while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
+
+      if(maxPUAmt < q)
+        q = maxPUAmt;
+          
+    ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Pick Up" qty:q delegate:self];
+    [[self navigationController] pushViewController:itemActionVC animated:YES];
+  }
+  else 
+    [self pickupItemQty:1];
 }
 
-- (void) doActionWithMode:(ItemDetailsModeType)itemMode quantity:(int)quantity
+- (void) pickupItemQty:(int)q
 {
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
-		
-	if(mode == kItemDetailsDropping)
-    {
-		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:quantity];
-		[[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:quantity];
-    }
-	else if(mode == kItemDetailsDestroying)
-    {
-		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:quantity];
-		[[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:quantity];
-	}
-	else if(mode == kItemDetailsPickingUp)
-    {
-        NSString *errorMessage;
-        
-		//Determine if this item can be picked up
-		Item *itemInInventory  = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
-		if(itemInInventory && itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1)
-        {
-			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
-			
-			if(itemInInventory.qty < item.maxQty)
-            {
-				quantity = item.maxQty - itemInInventory.qty;
-                
-                if([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0)
-                {
-                    while((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap){
-                        quantity--;
-                    }
-                }
-				errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionCarryThatMuchKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
-			}
-			else if(item.maxQty == 0)
-            {
-				errorMessage = NSLocalizedString(@"ItemAcionCannotPickUpKey", @"");
-				quantity = 0;
-			}
-            else
-            {
-				errorMessage = NSLocalizedString(@"ItemAcionCannotCarryMoreKey", @"");
-				quantity = 0;
-			}
-            
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
-															message:errorMessage
-														   delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-			[alert show];
-		}
-        else if(((quantity*item.weight +[AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)&&([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0))
-        {
-            while((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
-                quantity--;
+  Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
+  if(!invItem) { invItem = [[AppModel sharedAppModel] itemForItemId:item.itemId]; invItem.qty = 0; }
 
-            errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionTooHeavyKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
-															message:errorMessage
-														   delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-			[alert show];
-        }
-        
-		if(quantity > 0) 
-        {
-			if([(NSObject *)source isKindOfClass:[Location class]])
-            {
-                [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:((Location *)source).locationId qty:quantity];
-                [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:((Location *)source).locationId];
-            }
-            else
-                [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
-            item.qty -= quantity;
-        }
-	}
-	
-	[self updateQuantityDisplay];
+  int maxPUAmt = invItem.maxQty == -1 ? 99999 : invItem.maxQty-invItem.qty;
+  if(q < maxPUAmt) maxPUAmt = q;
+
+    int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
+  int cw = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
+  while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
+
+  if(maxPUAmt < q)
+  {
+    q = maxPUAmt;
+    /*
+    [ARISAlertHandler sharedAlertHandler]
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
+    message:[NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionCarryThatMuchKey", @""),q,NSLocalizedString(@"PickedUpKey", @"")]
+    delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+  [alert show];
+  */
+  }
+  else if(q > 0) 
+  {
+    if([(NSObject *)source isKindOfClass:[Location class]])
+    {
+      [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:((Location *)source).locationId qty:q];
+      [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-q forLocationId:((Location *)source).locationId];
+    }
+    else
+      [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:q];
+    item.qty -= q;
+  }
+}
+
+- (void) amtChosen:(int)amt
+{
+    [[self navigationController] popToViewController:self animated:YES]; 
 }
 
 - (void) movieFinishedCallback:(NSNotification*) aNotification
 {
-	[self dismissMoviePlayerViewControllerAnimated];
+  //[self dismissMoviePlayerViewControllerAnimated];
 }
 
 - (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView 
 {
-	return itemImageView;
+  return imageView;
 }
-
-/*
-- (void) scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale
-{
-	CGAffineTransform transform = CGAffineTransformIdentity;
-	transform = CGAffineTransformScale(transform, scale, scale);
-	itemImageView.transform = transform;
-}
- */
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+  [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
 {
-    //ignore
+  //ignore
 }
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
-    return [delegate displayGameObject:g fromSource:self];
+  return [delegate displayGameObject:g fromSource:self];
 }
 
 - (void) displayTab:(NSString *)t
 {
-    [delegate displayTab:t];
+  [delegate displayTab:t];
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
-    [delegate displayScannerWithPrompt:p];
+  [delegate displayScannerWithPrompt:p];
 }
 
 - (void) displayTrade
 {
-    [delegate displayTrade];
+  [delegate displayTrade];
 }
 
-- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    if(webView == self.itemWebView) return (![self.itemWebView handleARISRequestIfApplicable:request]);
-    else if(![[[request URL] absoluteString] isEqualToString:@"about:blank"])
-    {
-        WebPage *tempWebPage = [[WebPage alloc] init];
-        tempWebPage.url = [[request URL] absoluteString];
-        [delegate displayGameObject:tempWebPage fromSource:self];
-        return NO;
-    }
-    return YES;
+  if(wv == webView) return (![webView handleARISRequestIfApplicable:request]);
+  else if(![[[request URL] absoluteString] isEqualToString:@"about:blank"])
+  {
+    WebPage *tempWebPage = [[WebPage alloc] init];
+    tempWebPage.url = [[request URL] absoluteString];
+    [delegate displayGameObject:tempWebPage fromSource:self];
+    return NO;
+  }
+  return YES;
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)webView
+- (void) webViewDidFinishLoad:(UIWebView *)wv
 {
-    if(webView == self.itemWebView)
-    {
-        [self.itemWebView injectHTMLWithARISjs];
-        self.itemWebView.hidden = NO;
-        [self dismissWaitingIndicator];
-    }
-    if(webView == self.descriptionWebView)
-    {
-        [self.descriptionWebView injectHTMLWithARISjs];
-        float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-        [self.descriptionCollapseView setContentFrameHeight:newHeight];
-        
-        if(newHeight+10 < self.view.bounds.size.height-44-64)
-            [self.descriptionCollapseView setFrameHeight:newHeight+10];
-        else
-            [self.descriptionCollapseView setFrameHeight:self.view.bounds.size.height-44-64];
-    }
+  if(wv == webView)
+  {
+    [webView injectHTMLWithARISjs];
+    webView.hidden = NO;
+    [self dismissWaitingIndicator];
+  }
+  if(wv == descriptionView)
+  {
+    [descriptionView injectHTMLWithARISjs];
+    float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    [collapseView setContentFrameHeight:newHeight];
+
+    if(newHeight+10 < self.view.bounds.size.height-44-64)
+      [collapseView setFrameHeight:newHeight+10];
+    else
+      [collapseView setFrameHeight:self.view.bounds.size.height-44-64];
+  }
 }
 
-- (void) webViewDidStartLoad:(UIWebView *)webView
+- (void) webViewDidStartLoad:(UIWebView *)wv
 {
-    if(webView == self.itemWebView) [self showWaitingIndicator];
+  if(wv == webView) [self showWaitingIndicator];
 }
 
 - (void) showWaitingIndicator
 {
-    if(!self.activityIndicator)
-        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.scrollView.bounds];
-    [self.activityIndicator startAnimating];
-    [self.scrollView addSubview:self.activityIndicator];
+  if(!activityIndicator)
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:scrollView.bounds];
+  [activityIndicator startAnimating];
+  [scrollView addSubview:activityIndicator];
 }
 
 - (void) dismissWaitingIndicator
 {
-    [self.activityIndicator stopAnimating];
-    [self.activityIndicator removeFromSuperview];
+  [activityIndicator stopAnimating];
+  [activityIndicator removeFromSuperview];
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    
+
+}
+
+- (void) dismissSelf
+{
+  int locationId = ([(NSObject *)source isKindOfClass:[Location class]]) ? ((Location *)source).locationId : 0;
+  [[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:locationId];	
+  [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
 - (void) backButtonTouched
 {
-	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:0];	
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+  [self dismissSelf];
 }
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
+

@@ -411,9 +411,8 @@
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
 		AABC750A172860690074CC21 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7508172860690074CC21 /* NpcViewController.m */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
-		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
-		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */; };
+		AAE2851D1810461700E2534A /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE2851C1810461700E2534A /* ItemViewController.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
 		AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */; };
@@ -1112,11 +1111,10 @@
 		AABC7508172860690074CC21 /* NpcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcViewController.m; sourceTree = "<group>"; };
 		AABC750E172860860074CC21 /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		AABC750F172860860074CC21 /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
-		AABC7510172860860074CC21 /* ItemActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemActionViewController.xib; sourceTree = "<group>"; };
-		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
-		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAD298C717D1160C002A4C47 /* InventoryTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryTagViewController.h; sourceTree = "<group>"; };
 		AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryTagViewController.m; sourceTree = "<group>"; };
+		AAE2851B1810461700E2534A /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
+		AAE2851C1810461700E2534A /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		AAF7115517B9579900262A37 /* PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealController.h; sourceTree = "<group>"; };
 		AAF7115617B9579900262A37 /* PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealController.m; sourceTree = "<group>"; };
@@ -1896,11 +1894,10 @@
 		AABC70F2172739D60074CC21 /* item */ = {
 			isa = PBXGroup;
 			children = (
-				AABC7516172873510074CC21 /* ItemViewController.h */,
-				AABC7517172873510074CC21 /* ItemViewController.m */,
+				AAE2851B1810461700E2534A /* ItemViewController.h */,
+				AAE2851C1810461700E2534A /* ItemViewController.m */,
 				AABC750E172860860074CC21 /* ItemActionViewController.h */,
 				AABC750F172860860074CC21 /* ItemActionViewController.m */,
-				AABC7510172860860074CC21 /* ItemActionViewController.xib */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -2704,7 +2701,6 @@
 				AABC75011728600B0074CC21 /* MapViewController.xib in Resources */,
 				AA2D214F17DE560C00CF4198 /* qr_small@2x.png in Resources */,
 				AA527E4917E0B6830040AB75 /* threelines.png in Resources */,
-				AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */,
 				AA74E79F176267EF005C279B /* MainWindow-iPad.xib in Resources */,
 				AA2D213717DE560C00CF4198 /* arrow_selected@2x.png in Resources */,
 				AA74E7DB17626EE9005C279B /* ac_location.gpx in Resources */,
@@ -2860,6 +2856,7 @@
 				AABC7426172739D80074CC21 /* NSString+SBJSON.m in Sources */,
 				AABC7427172739D80074CC21 /* SBJSON.m in Sources */,
 				AABC7428172739D80074CC21 /* SBJsonBase.m in Sources */,
+				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,
 				AABC7429172739D80074CC21 /* SBJsonParser.m in Sources */,
 				AABC742A172739D80074CC21 /* SBJsonWriter.m in Sources */,
 				AABC742B172739D80074CC21 /* glues_error.c in Sources */,
@@ -2911,7 +2908,6 @@
 				AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */,
 				AABC750A172860690074CC21 /* NpcViewController.m in Sources */,
 				AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */,
-				AABC7519172873510074CC21 /* ItemViewController.m in Sources */,
 				AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */,
 				AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */,
 				AA701FE117342169003A840D /* GamePickersViewController.m in Sources */,

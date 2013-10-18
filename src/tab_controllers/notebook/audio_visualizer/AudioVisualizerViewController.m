@@ -98,7 +98,7 @@
     //change if a better way is found for forcing the orientation to initially be in landscape
     UIApplication *app = [UIApplication sharedApplication];
     UIWindow *window = [[app windows] objectAtIndex:0];
-    ARISViewController *root = window.rootViewController;
+    ARISViewController *root = (ARISViewController *)window.rootViewController;
     window.rootViewController = nil;
     window.rootViewController = root;
     [ARISViewController attemptRotationToDeviceOrientation];

@@ -10,16 +10,16 @@
 #import "StateControllerProtocol.h"
 
 @class ARISWebView;
-@protocol ARISWebViewDelegate
+@protocol ARISWebViewDelegate <UIWebViewDelegate>
 @optional
 - (void) ARISWebViewRequestsDismissal: (ARISWebView *)awv;
 - (void) ARISWebViewRequestsRefresh:   (ARISWebView *)awv;
 - (void) ARISWebViewRequestsHideButton:(ARISWebView *)awv;
 @end
 @interface ARISWebView : UIWebView
-- (id) initWithFrame:(CGRect)frame delegate:(id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d;
-- (id) initWithDelegate:                    (id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d;
-- (void) setDelegate:                       (id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d;
+- (id) initWithFrame:(CGRect)frame delegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d;
+- (id) initWithDelegate:                    (id<ARISWebViewDelegate,StateControllerProtocol>)d;
+- (void) setDelegate:                       (id<ARISWebViewDelegate,StateControllerProtocol>)d;
 
 - (void) injectHTMLWithARISjs;
 - (BOOL) isARISRequest:(NSURLRequest *)request;

@@ -12,6 +12,10 @@
 #import "ItemViewController.h"
 
 @class Item;
+
+@protocol ItemActionViewControllerDelegate
+- (void) amtChosen:(int)amt;
+@end
 @interface ItemActionViewController : ARISViewController
-- (id) initWithItem:(Item *)i mode:(ItemDetailsModeType)m delegate:(id)d source:(id)s;
+- (id) initWithPrompt:(NSString *)s qty:(int)q delegate:(id)d;
 @end
