@@ -57,6 +57,8 @@ test("Reset to Three bars in game.", function(target,app){
 							/*  ******* SIMULATE LOGIN ******* */
 var loginTest = function(username,password){
 	
+
+	
 	//This is a tuneup_js test
 	test("Login Screen", function(target, app){
 		 		 
@@ -470,16 +472,32 @@ test("Decoder Plaque Item", function(target, app){
 
 };
 
+
+
+//Added as noted in the tread below
+// https://github.com/alexvollmer/tuneup_js/pull/49
+var imageAsserter = function(){
+		 
+		 createImageAsserter('integration/javascript/tuneup_js', 'integration/tmp/results', 'integration/ref_images');
+		
+	assertScreenMatchesImageNamed("login", "Login Image does not match");
+		 
+
+};
+
 	
 ////////////////////////////Main
 
 
-
 // Reset the game from anywhere in the application
 resetToLoginScreen();
+ 
+//Test Login Image 
+ imageAsserter();
 
 //Login to account
 loginTest(username, password);
+ 
 
 //Search for Game
 searchGame(gameName);
@@ -491,8 +509,6 @@ selectGame();
 
 // Dismiss Initial Plaque
 initialPlaque();
- 
-
 
 //Normal Item Test
 normalItem();
@@ -513,15 +529,11 @@ window.logElementTree();
 
 // Test Normal Scripts
 normalScriptTests();
-
-
  
 window.logElementTree();
 
 //Test Exit to Scripts
 exitToScripts();
-
-
 
 //Test Decoder
 testDecoder();
