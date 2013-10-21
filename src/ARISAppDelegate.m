@@ -193,7 +193,7 @@
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
     
     NSError* err;
-    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
     self.player.delegate = self;
     
     if(err) NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);

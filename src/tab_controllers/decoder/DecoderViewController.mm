@@ -143,9 +143,10 @@
     return YES;
 }
 
-- (void) setPrompt:(NSString *)p
+-  (void) setPrompt:(NSString *)p
 {
     prompt = p;
+    if(self.widController) { [self clearScreenActions]; [self launchScanner]; }
 }
 
 - (void) launchScanner
