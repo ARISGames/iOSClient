@@ -193,8 +193,7 @@
         cell.likesButton.hidden = YES;
     }
 
-    if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor ARISColorLightGray];
-    else                        cell.backgroundColor = [UIColor ARISColorDarkGray];
+    cell.backgroundColor = [UIColor ARISColorLightGray];
 
     return cell;
 }

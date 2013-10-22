@@ -23,30 +23,30 @@
 
 const float kDefaultZoomTime = 1.0;
 
-NSString *const kTagDialog                       = @"dialog";//
-NSString *const kTagPc                           = @"pc";//
-NSString *const kTagNpc                          = @"npc";//
+NSString *const kTagDialog                       = @"dialog";
+NSString *const kTagPc                           = @"pc";
+NSString *const kTagNpc                          = @"npc";
 
-NSString *const kTagVideo                        = @"video";//
-NSString *const kTagPanoramic                    = @"panoramic";//
-NSString *const kTagWebPage                      = @"webpage";//
-NSString *const kTagPlaque                       = @"plaque";//
-NSString *const kTagItem                         = @"item";//
-NSString *const kAttrId                          = @"id";//
+NSString *const kTagVideo                        = @"video";
+NSString *const kTagPanoramic                    = @"panoramic";
+NSString *const kTagWebPage                      = @"webpage";
+NSString *const kTagPlaque                       = @"plaque";
+NSString *const kTagItem                         = @"item";
+NSString *const kAttrId                          = @"id";
 
-NSString *const kAttrTitle                       = @"title";//
-NSString *const kAttrMedia                       = @"mediaId";//
+NSString *const kAttrTitle                       = @"title";
+NSString *const kAttrMedia                       = @"mediaId";
 
-NSString *const kAttrHideLeaveConversationButton = @"hideLeaveConversationButton";//
-NSString *const kAttrLeaveButtonTitle            = @"leaveButtonTitle";//
-NSString *const kAttrDefaultPcTitle              = @"pcTitle";//
+NSString *const kAttrHideLeaveConversationButton = @"hideLeaveConversationButton";
+NSString *const kAttrLeaveButtonTitle            = @"leaveButtonTitle";
+NSString *const kAttrDefaultPcTitle              = @"pcTitle";
 
-NSString *const kAttrExitToTab                   = @"exitToTab";//
-NSString *const kAttrExitToPlaque                = @"exitToPlaque";//
-NSString *const kAttrExitToWebPage               = @"exitToWebPage";//
-NSString *const kAttrExitToCharacter             = @"exitToCharacter";//
-NSString *const kAttrExitToPanoramic             = @"exitToPanoramic";//
-NSString *const kAttrExitToItem                  = @"exitToItem";//
+NSString *const kAttrExitToTab                   = @"exitToTab";
+NSString *const kAttrExitToPlaque                = @"exitToPlaque";
+NSString *const kAttrExitToWebPage               = @"exitToWebPage";
+NSString *const kAttrExitToCharacter             = @"exitToCharacter";
+NSString *const kAttrExitToPanoramic             = @"exitToPanoramic";
+NSString *const kAttrExitToItem                  = @"exitToItem";
 
 NSString *const kAttrZoomX                       = @"zoomX";
 NSString *const kAttrZoomY                       = @"zoomY";
@@ -54,7 +54,7 @@ NSString *const kAttrZoomWidth                   = @"zoomWidth";
 NSString *const kAttrZoomHeight                  = @"zoomHeight";
 NSString *const kAttrZoomTime                    = @"zoomTime";
 
-NSString *const kAttrVibrate                     = @"vibrate";//
+NSString *const kAttrVibrate                     = @"vibrate";
 NSString *const kAttrNotification                = @"notification";
 
 @implementation ScriptParser
