@@ -186,16 +186,17 @@
     }
     
     int numButtons = (destroyBtn != nil) + (dropBtn != nil) + (pickupBtn != nil);
-    if(destroyBtn) destroyBtn.frame = CGRectMake(self.view.bounds.size.width-(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44);
-    if(dropBtn)    dropBtn.frame    = CGRectMake(self.view.bounds.size.width-(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44);
-    if(pickupBtn)  pickupBtn.frame  = CGRectMake(self.view.bounds.size.width-(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); 
+    int numPlacedButtons = 0;
+    if(destroyBtn) { destroyBtn.frame = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
+    if(dropBtn)    { dropBtn.frame    = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
+    if(pickupBtn)  { pickupBtn.frame  = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
     
     [self.view addSubview:destroyBtn];
     [self.view addSubview:dropBtn];
     [self.view addSubview:pickupBtn];
     if(numButtons > 0)[self.view addSubview:line];
     
-    if(collapseView) [collapseView setFrame:CGRectMake(0,self.view.bounds.size.height-(descriptionView.frame.size.height+10),self.view.frame.size.width,descriptionView.frame.size.height+10)]; 
+    if(collapseView) [collapseView setFrame:CGRectMake(0,self.view.bounds.size.height-((descriptionView.frame.size.height+10)+((numButtons > 0) ? 44 : 0)),self.view.frame.size.width,descriptionView.frame.size.height+10)]; 
 }
 
 - (void) passTapToDescription:(UITapGestureRecognizer *)r
@@ -379,6 +380,7 @@
             [collapseView setFrameHeight:newHeight+10];
         else
             [collapseView setFrameHeight:self.view.bounds.size.height-44-64];
+        
         [collapseView open];
     }
 }
