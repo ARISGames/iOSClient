@@ -65,8 +65,8 @@
     
     [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected)
     {
-        if (connected) [self debugString:@"Bump Connected..."];
-        else           [self debugString:@"Bump Disconnected..."];
+        if(connected) [self debugString:@"Bump Connected..."];
+        else          [self debugString:@"Bump Disconnected..."];
     }];
     
     [[BumpClient sharedClient] setBumpEventBlock:^(bump_event event)

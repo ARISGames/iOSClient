@@ -44,7 +44,7 @@ const int TOUCH_BUFFER_HEIGHT = 20;
         
         if(!o) [super setFrame:CGRectMake(openFrame.origin.x,
                                        openFrame.origin.y+openFrame.size.height-handle_buffer_height,
-                                       f.size.width,
+                                       openFrame.size.width,
                                        handle_buffer_height)];
             
         self.userInteractionEnabled = YES;

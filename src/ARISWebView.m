@@ -232,13 +232,13 @@
     [audioPlayers setObject:player forKey:[NSNumber numberWithInt:mediaId]];
 }
 
-
 - (void) playAudioFromMediaId:(int)mediaId
 {
     AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
     CMTime zero = CMTimeMakeWithSeconds(0, 600);
     [player seekToTime:zero];
-    if (!player) {
+    if(!player)
+    {
         [self loadAudioFromMediaId:mediaId];
         player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
     }
