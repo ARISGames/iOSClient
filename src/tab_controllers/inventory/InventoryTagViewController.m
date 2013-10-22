@@ -330,8 +330,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(cell == nil) cell = [self getCellContentView:CellIdentifier];
     
-    if(indexPath.row % 2 == 0) cell.contentView.backgroundColor = [UIColor ARISColorWhite];
-    else                       cell.contentView.backgroundColor = [UIColor ARISColorOffWhite];
+    cell.contentView.backgroundColor = [UIColor ARISColorWhite];
     
     Item *item;
     int tagItemIndex = -1;//-1 so first item found will be index 0  //also, yes, this is dumb and n^2, and could be n if I just saved state. chill.
