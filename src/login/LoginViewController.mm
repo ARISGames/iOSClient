@@ -25,7 +25,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "UIColor+ARISColors.h"
 #import "ARISAlertHandler.h"
 
-
 @interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate>
 {
     UITextField *usernameField;

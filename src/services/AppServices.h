@@ -42,11 +42,7 @@ extern NSString *const kARISServerServicePackage;
 
 //Player
 - (void) loginUserName:(NSString *)username password:(NSString *)password userInfo:(NSMutableDictionary *)dict;
-- (void) registerNewUser:(NSString*)userName
-               password:(NSString*)pass
-			  firstName:(NSString*)firstName
-               lastName:(NSString*)lastName
-                  email:(NSString*)email;
+- (void) registerNewUser:(NSString*)userName password:(NSString*)pass firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;
 - (void) createUserAndLoginWithGroup:(NSString *)groupName;
 - (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL;
 - (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid;
