@@ -7,6 +7,7 @@
 //
 
 #import "ScriptParser.h"
+#import "NSDictionary+ValidParsers.h"
 
 /*
  SAMPLE DIALOG FORMAT
@@ -40,6 +41,7 @@ NSString *const kAttrMedia                       = @"mediaId";
 NSString *const kAttrHideLeaveConversationButton = @"hideLeaveConversationButton";
 NSString *const kAttrLeaveButtonTitle            = @"leaveButtonTitle";
 NSString *const kAttrDefaultPcTitle              = @"pcTitle";
+NSString *const kAttrDefaultPcMediaId            = @"pcMediaId";
 
 NSString *const kAttrExitToTab                   = @"exitToTab";
 NSString *const kAttrExitToPlaque                = @"exitToPlaque";
@@ -101,32 +103,32 @@ didStartElement:(NSString *)elementName
         if([attributeDict objectForKey:kAttrExitToTab])
         {
             script.exitToType = @"tab";
-            script.exitToTabTitle = [attributeDict objectForKey:kAttrExitToTab];
+            script.exitToTabTitle = [attributeDict validStringForKey:kAttrExitToTab];
         }
         else if([attributeDict objectForKey:kAttrExitToPlaque])
         {
             script.exitToType = @"plaque";
-            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToPlaque] intValue];
+            script.exitToTypeId = [attributeDict validIntForKey:kAttrExitToPlaque];
         }
         else if([attributeDict objectForKey:kAttrExitToWebPage])
         {
             script.exitToType = @"webpage";
-            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToWebPage] intValue];
+            script.exitToTypeId = [attributeDict validIntForKey:kAttrExitToWebPage];
         }
         else if([attributeDict objectForKey:kAttrExitToItem])
         {
             script.exitToType = @"item";
-            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToItem] intValue];
+            script.exitToTypeId = [attributeDict validIntForKey:kAttrExitToItem];
         }
         else if([attributeDict objectForKey:kAttrExitToCharacter])
         {
             script.exitToType = @"character";
-            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToCharacter] intValue];
+            script.exitToTypeId = [attributeDict validIntForKey:kAttrExitToCharacter];
         }
         else if([attributeDict objectForKey:kAttrExitToPanoramic])
         {
             script.exitToType = @"panoramic";
-            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToPanoramic] intValue];
+            script.exitToTypeId = [attributeDict validIntForKey:kAttrExitToPanoramic];
         }
         
         //These two are weird, and should in stead be a member of the parent class that contains all conversations (the npc?)
@@ -134,12 +136,14 @@ didStartElement:(NSString *)elementName
         if([attributeDict objectForKey:kAttrHideLeaveConversationButton])
         {
             script.hideLeaveConversationButtonSpecified = YES; //This is dumb, but setting it to "NO" and doing nothing need to be regarded differently
-            script.hideLeaveConversationButton = [[attributeDict objectForKey:kAttrHideLeaveConversationButton] boolValue];
+            script.hideLeaveConversationButton = [attributeDict validBoolForKey:kAttrHideLeaveConversationButton];
         }
         if([attributeDict objectForKey:kAttrLeaveButtonTitle])
-            script.leaveConversationButtonTitle = [attributeDict objectForKey:kAttrLeaveButtonTitle];
+            script.leaveConversationButtonTitle = [attributeDict validStringForKey:kAttrLeaveButtonTitle];
         if([attributeDict objectForKey:kAttrDefaultPcTitle])
-            script.defaultPcTitle = [attributeDict objectForKey:kAttrDefaultPcTitle];
+            script.defaultPcTitle = [attributeDict validStringForKey:kAttrDefaultPcTitle];
+       if([attributeDict objectForKey:kAttrDefaultPcMediaId])
+           script.defaultPcMediaId = [attributeDict validIntForKey:kAttrDefaultPcMediaId]; 
         // end weirdness
     }
     else

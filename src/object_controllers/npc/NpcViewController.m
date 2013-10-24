@@ -200,6 +200,11 @@
     [self.optionsViewController setDefaultTitle:s];
 }
 
+- (void) scriptRequestsOptionsPcMedia:(Media *)m
+{
+    [self.optionsViewController setDefaultMedia:m];
+}
+
 - (void) leaveConversationRequested
 {
     [self dismissSelf];

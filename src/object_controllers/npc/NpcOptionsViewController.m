@@ -285,6 +285,11 @@
     self.playerTitle = t;
 }
 
+- (void) setDefaultMedia:(Media *)m
+{
+    [self.mediaView refreshWithFrame:self.mediaView.frame media:m mode:ARISMediaDisplayModeAspectFill delegate:self]; 
+}
+
 - (void) setShowLeaveConversationButton:(BOOL)s
 {
     self.currentlyHidingLeaveConversationButton = !s;

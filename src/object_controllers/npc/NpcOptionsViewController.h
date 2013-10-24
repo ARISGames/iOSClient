@@ -11,6 +11,7 @@
 
 @class Npc;
 @class NpcScriptOption;
+@class Media;
 @protocol NpcOptionsViewControllerDelegate
 - (void) leaveConversationRequested;
 - (void) optionChosen:(NpcScriptOption *)o;
@@ -21,6 +22,7 @@
 - (id) initWithFrame:(CGRect)f delegate:(id<NpcOptionsViewControllerDelegate>)d;
 - (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o;
 - (void) setDefaultTitle:(NSString *)t;
+- (void) setDefaultMedia:(Media *)m;
 - (void) setShowLeaveConversationButton:(BOOL)s;
 - (void) setLeaveConversationTitle:(NSString *)t;
 @end

@@ -17,6 +17,7 @@
 @synthesize hideLeaveConversationButtonSpecified;
 @synthesize leaveConversationButtonTitle;
 @synthesize defaultPcTitle;
+@synthesize defaultPcMediaId;
 @synthesize scriptElementArray;
 
 -(id) init
@@ -30,6 +31,7 @@
         hideLeaveConversationButtonSpecified = NO;
         leaveConversationButtonTitle         = nil;
         defaultPcTitle                       = nil;
+        defaultPcMediaId                     = 0; 
         scriptElementArray = [[NSMutableArray alloc] init];
         scriptElementIndex = -1;
     }

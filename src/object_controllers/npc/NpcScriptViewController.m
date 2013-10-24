@@ -129,6 +129,7 @@
     if(s.hideLeaveConversationButtonSpecified) [delegate scriptRequestsHideLeaveConversation:s.hideLeaveConversationButton];
     if(s.leaveConversationButtonTitle)         [delegate scriptRequestsLeaveConversationTitle:s.leaveConversationButtonTitle];
     if(s.defaultPcTitle)                       [delegate scriptRequestsOptionsPcTitle:s.defaultPcTitle];
+    if(s.defaultPcMediaId)                     [delegate scriptRequestsOptionsPcMedia:[[AppModel sharedAppModel] mediaForMediaId:s.defaultPcMediaId ofType:@"PHOTO"]]; 
     
     self.currentScript = s;
     [self readyNextScriptElementForDisplay];

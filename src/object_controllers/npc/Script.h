@@ -19,6 +19,7 @@
     BOOL hideLeaveConversationButtonSpecified;
     NSString *leaveConversationButtonTitle;
     NSString *defaultPcTitle;
+    int defaultPcMediaId; 
     
     NSMutableArray *scriptElementArray;
     int scriptElementIndex;
@@ -32,6 +33,7 @@
 @property (nonatomic, assign) BOOL hideLeaveConversationButtonSpecified;
 @property (nonatomic, strong) NSString *leaveConversationButtonTitle;
 @property (nonatomic, strong) NSString *defaultPcTitle;
+@property (nonatomic, assign) int       defaultPcMediaId;
 
 @property (nonatomic, strong) NSMutableArray *scriptElementArray;
 

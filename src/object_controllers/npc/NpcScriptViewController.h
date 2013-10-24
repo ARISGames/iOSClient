@@ -11,6 +11,7 @@
 
 @class Npc;
 @class NpcScriptOption;
+@class Media;
 
 @protocol NpcScriptViewControllerDelegate
 - (void) scriptEndedExitToType:(NSString *)type title:(NSString *)title id:(int)typeId;
@@ -19,6 +20,7 @@
 - (void) scriptRequestsHideLeaveConversation:(BOOL)h;
 - (void) scriptRequestsLeaveConversationTitle:(NSString *)t;
 - (void) scriptRequestsOptionsPcTitle:(NSString *)s;
+- (void) scriptRequestsOptionsPcMedia:(Media *)m;
 @end
 
 @interface NpcScriptViewController : ARISViewController
