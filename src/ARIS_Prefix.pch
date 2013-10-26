@@ -8,6 +8,10 @@
 #import "PLConstants.h"
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
+#import "TestFlight.h"
+
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
+#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #endif
