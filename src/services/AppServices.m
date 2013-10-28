@@ -1133,19 +1133,16 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     }
     
     [AppModel sharedAppModel].overlayList = tempOverlayList;
-    // don' do that for offline game
-    Game *game = [AppModel sharedAppModel].currentGame;
-    if(!game.offlineMode) {
-        for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++) {
-            Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
-            int iTiles = [currentOverlay.tileX count];
-            for (int iTile = 0; iTile < iTiles; iTile++)
-            {
-                //SHOULD NOT MANIPULATE VIEWS IN APPSERVICES!!! -Phil
-                //ARISMediaView *aImageView = [[ARISMediaView alloc] initWithFrame:CGRectZero media:[currentOverlay.tileImage objectAtIndex:iTile] mode:ARISMediaDisplayModeAspectFit delegate:nil];
-                //also... what the heck is this doing? -Phil
-                //This is dumb so I commented it out
-            }
+    
+    for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++)
+    {
+        Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
+        int iTiles = [currentOverlay.tileX count];
+        for (int iTile = 0; iTile < iTiles; iTile++)
+        {
+            //SHOULD NOT MANIPULATE VIEWS IN APPSERVICES!!! -Phil
+            //ARISMediaView *aImageView = [[ARISMediaView alloc] initWithFrame:CGRectZero media:[currentOverlay.tileImage objectAtIndex:iTile] mode:ARISMediaDisplayModeAspectFit delegate:nil];
+            //also... what the heck is this doing? -Phil
         }
     }
     
@@ -1623,7 +1620,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationOptionsReady" object:conversationOptions]];
 }
 
-
 - (Game *)parseGame:(NSDictionary *)gameSource
 {
     Game *game = [[Game alloc] init];
@@ -1698,7 +1694,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         if(cRating) c.rating = [cRating intValue];
         [game.comments addObject:c];
     }
-    game.offlineMode = [gameSource validBoolForKey:@"offline"];
     
     return game;
 }

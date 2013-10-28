@@ -97,7 +97,6 @@ typedef enum
 @property (readwrite, assign) BOOL allowNoteComments;
 @property (readwrite, assign) BOOL allowNoteLikes;
 @property (readwrite, assign) BOOL allowTrading;
-@property (readwrite, assign) BOOL offlineMode;
 @property (readwrite, assign) NoteTitleBehavior noteTitleBehavior;
 
 @property (readwrite, assign) double latitude;

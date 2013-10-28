@@ -13,7 +13,6 @@
 #import "ServiceResult.h"
 #import "ARISURLConnection.h"
 #import "ARISAlertHandler.h"
-#import "JSONConnection+Local.h"
 
 @implementation JSONConnection
 
@@ -73,13 +72,6 @@
 
 - (ServiceResult *) performSynchronousRequest
 {
-    // MG: try offline mode
-    ServiceResult *jsonResult = nil;
-    jsonResult = [self performSynchronousRequestLocal];
-    if (jsonResult) {
-        return jsonResult;
-    }
-    
 	NSURLRequest *request = [NSURLRequest requestWithURL:self.completeRequestURL];
     
     // Make synchronous request
@@ -105,17 +97,13 @@
 	NSString *resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
 	
 	//Get the JSONResult here
+    ServiceResult *jsonResult = nil; 
 	jsonResult = [[ServiceResult alloc] initWithJSONString:resultString andUserData:self.userInfo];
 	
 	return jsonResult;
 }
 
 - (void) performAsynchronousRequestWithHandler: (SEL)aHandler{
-    // MG: use offline mode
-    if ([self performAsynchronousLocalRequestWithHandler:aHandler]) {
-        return;
-    }
-    
     //save the handler
     if (aHandler) self.handler = aHandler;
     else self.handler = nil;

@@ -12,8 +12,6 @@
 #import "AppModel.h"
 #import "commentsViewController.h"
 #import "RatingCell.h"
-#import "LocalData.h"
-#import "StoreLocallyViewController.h"
 #import "Game.h"
 #import "ARISMediaView.h"
 #import "Media.h"
@@ -154,7 +152,6 @@
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if(self.game.offlineMode) return 4;
     return 3;
 }
 
@@ -278,19 +275,6 @@
     {
         if(indexPath.row == 0)
         {
-            if (self.game.offlineMode) {
-                // MG: try to get it from the local model
-                MGame *mgame = [[LocalData sharedLocal] gameForId:self.game.gameId];
-                if (!mgame)  {
-                    // download the game
-                    StoreLocallyViewController *controller = [[StoreLocallyViewController alloc] initWithNibName:@"StoreLocallyViewController" bundle:nil];
-                    controller.game = self.game;
-                    [controller setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-                    [self presentViewController:controller animated:YES completion:nil];
-                    return;
-                }
-            }
-            
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             [self playGame];
             [self.tableView reloadData];
@@ -318,12 +302,6 @@
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             [self.navigationController pushViewController:commentsVC animated:YES];     
         }
-    }
-    else if (indexPath.section == 3) {
-        StoreLocallyViewController *controller = [[StoreLocallyViewController alloc] initWithNibName:@"StoreLocallyViewController" bundle:nil];
-        controller.game = self.game;
-        [controller setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-        [self presentViewController:controller animated:YES completion:nil];
     }
 }
 
