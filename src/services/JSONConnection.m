@@ -7,84 +7,73 @@
 //
 
 #import "JSONConnection.h"
-#import "AppModel.h"
-#import "ARISAppDelegate.h"
-#import "AppServices.h"
 #import "ServiceResult.h"
-#import "ARISURLConnection.h"
 #import "ARISAlertHandler.h"
+
+NSString *const kARISServerServicePackage = @"v1";
+
+@interface JSONConnection() <NSURLConnectionDelegate>
+{
+    NSMutableDictionary *userInfo; 
+   	NSMutableData *asyncData; 
+   	NSURL *requestURL;
+    NSURLConnection *connection; 
+    id handler;
+    SEL successSelector; 
+    SEL failSelector;  
+}
+@end
 
 @implementation JSONConnection
 
-@synthesize jsonServerURL;
-@synthesize serviceName;
-@synthesize methodName;
-@synthesize arguments;
-@synthesize handler;
-@synthesize userInfo;
-@synthesize completeRequestURL;
-@synthesize asyncData;
-@synthesize connection;
-
-- (JSONConnection*)initWithServer:(NSURL *)server
-                   andServiceName:(NSString *)service 
-                    andMethodName:(NSString *)method
-                     andArguments:(NSArray *)args
-                      andUserInfo:(NSMutableDictionary *)auserInfo{
-	
-	self.jsonServerURL = server;
-	self.serviceName = service;
-	self.methodName = method;	
-	self.arguments = args;
-	self.userInfo = auserInfo;
-
-	//Compute the Arguments 
-	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, self.serviceName, self.methodName];	
-	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
-	NSString *argument;
-	while (argument = [argumentsEnumerator nextObject]) {
-        
-        
-		[requestParameters appendString:@"/"];
-        // replace special characters
-        argument = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes( kCFAllocatorDefault,
-                                                                                         (__bridge_retained CFStringRef)argument,
-                                                                                         NULL,
-                                                                                         (CFStringRef)@"!*'();:@&=+$,?%#",
-                                                                                         kCFStringEncodingUTF8 );
-        
-        // double encode slashes (CFURLCreateStringByAddingPercentEscapes doesn't handle them well)
-        // actions.php on server side decodes them once before sending these arguments on to their respective functions.
-        argument = [argument stringByReplacingOccurrencesOfString:@"/" withString:@"%252F"]; 
-        [requestParameters appendString:argument];
-	}
-    NSMutableString *serverString = [NSMutableString stringWithString:[server absoluteString]];
-    [serverString appendString:@"/"];
-    [serverString appendString:requestParameters];
-    NSURL *url = [NSURL URLWithString:[serverString stringByReplacingOccurrencesOfString:@" " withString:@"%20"]];
-
-    self.completeRequestURL = url;
+- (JSONConnection*) initWithServer:(NSURL *)server
+                    andServiceName:(NSString *)service 
+                     andMethodName:(NSString *)method
+                      andArguments:(NSArray *)args
+                       andUserInfo:(NSMutableDictionary *)auserInfo
+{
+    if(self = [super init])
+    {
+        userInfo = auserInfo;
     
-	NSLog(@"Requesting URL: %@", self.completeRequestURL);
-
+        NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, service, method];	
+    
+        NSEnumerator *argumentsEnumerator = [args objectEnumerator];
+        NSString *argument;
+        while(argument = [argumentsEnumerator nextObject])
+        {
+            [requestParameters appendString:@"/"];  
+        
+            // replace special characters
+            // double encode slashes (CFURLCreateStringByAddingPercentEscapes doesn't handle them well)
+            // actions.php on server side decodes them once before sending these arguments on to their respective functions. 
+            argument = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,(__bridge_retained CFStringRef)argument,NULL,(CFStringRef)@"!*'();:@&=+$,?%#",kCFStringEncodingUTF8 );
+            argument = [argument stringByReplacingOccurrencesOfString:@"/" withString:@"%252F"]; 
+        
+            [requestParameters appendString:argument];
+        }
+        NSMutableString *serverString = [NSMutableString stringWithString:[server absoluteString]];
+        [serverString appendString:@"/"];
+        [serverString appendString:requestParameters];
+        requestURL = [NSURL URLWithString:[serverString stringByReplacingOccurrencesOfString:@" " withString:@"%20"]];
+    }
+    
 	return self;
 }
 
 - (ServiceResult *) performSynchronousRequest
 {
-	NSURLRequest *request = [NSURLRequest requestWithURL:self.completeRequestURL];
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
     
-    // Make synchronous request
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
+    NSLog(@"Req synchr URL: %@", requestURL); 
+	NSURLRequest *request = [NSURLRequest requestWithURL:requestURL];
     
-    NSURLResponse *response = [[NSURLResponse alloc] init];
-    NSError *error = [[NSError alloc] init];
+    NSURLResponse *response = [[NSURLResponse alloc] init]; //why do we just throw these out?
+    NSError *error = [[NSError alloc] init];                //why do we just throw these out?
     NSData* resultData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	[[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
-
+    
 	if(!resultData)
     {
 		NSLog(@"JSONConnection: performSynchronousRequest Error");
@@ -92,86 +81,62 @@
 		return nil;
 	}
     
-    //[response release];
-    
 	NSString *resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
 	
-	//Get the JSONResult here
-    ServiceResult *jsonResult = nil; 
-	jsonResult = [[ServiceResult alloc] initWithJSONString:resultString andUserData:self.userInfo];
-	
-	return jsonResult;
+	return [[ServiceResult alloc] initWithJSONString:resultString andUserData:userInfo];
 }
 
-- (void) performAsynchronousRequestWithHandler: (SEL)aHandler{
-    //save the handler
-    if (aHandler) self.handler = aHandler;
-    else self.handler = nil;
-	
-    //Make sure we were inited correctly
-    if (!completeRequestURL) return;
+- (void) performAsynchronousRequestWithHandler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:completeRequestURL];
-    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSLog(@"Req asynch URL: %@", requestURL);  
+    
+    handler = h;
+    successSelector = ss;
+    failSelector = fs; 
 	
-	[self.connection start];
-	
-	//Set up indicators
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    connection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:requestURL] delegate:self];
+	[connection start];
 }
 
-
-- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
-    if (self.asyncData == nil) {
-        NSMutableData *asyncDataAlloc = [[NSMutableData alloc] initWithCapacity:2048];
-        self.asyncData = asyncDataAlloc;
-    }
-    [self.asyncData appendData:incrementalData];
+- (void) connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData
+{
+    if(asyncData == nil) asyncData = [[NSMutableData alloc] initWithCapacity:2048];
+    [asyncData appendData:incrementalData];
 }
 
-
-- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection {
-    //end the UI indicator
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [[ARISAlertHandler sharedAlertHandler] removeNetworkAlert];
+- (void) connectionDidFinishLoading:(NSURLConnection*)theConnection
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;  
     
-    //throw out the connection
-    self.connection=nil;
+    NSString *jsonString = [[NSString alloc] initWithData:asyncData encoding:NSUTF8StringEncoding];
+	ServiceResult *jsonResult = [[ServiceResult alloc] initWithJSONString:jsonString andUserData:userInfo];
+    connection = nil;
+    asyncData  = nil;   
     
-    //Convert the data into a string
-    NSString *jsonString = [[NSString alloc] initWithData:self.asyncData 
-												 encoding:NSUTF8StringEncoding];
-    
-    //throw out the data
-    self.asyncData=nil;
-	
-	//Get the JSONResult here
-	ServiceResult *jsonResult = [[ServiceResult alloc] initWithJSONString:jsonString andUserData:[self userInfo]];
-    
-	if (self.handler != nil)
-		[[AppServices sharedAppServices] performSelector:self.handler withObject:jsonResult];
+	if(handler && successSelector)
+		[handler performSelector:successSelector withObject:jsonResult];
 }
-
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+   	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO; 
+    
     NSLog(@"NSNotification: ConnectionLost");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConnectionLost" object:nil]];
-	// inform the user
-    NSLog(@"*** JSONConnection: requestFailed: %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
-	[[AppServices sharedAppServices]  resetCurrentlyFetchingVars];
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
+    NSLog(@"*** JSONConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+    
+   	if(handler && failSelector)
+		[handler performSelector:failSelector withObject:error]; 
+    
+	//[[AppServices sharedAppServices]  resetCurrentlyFetchingVars];
     [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
 }
 
-
-
-- (void)dealloc {
-    if (connection) [connection cancel];
-    
+- (void)dealloc
+{
+    if(connection) [connection cancel];
 }
- 
+
 @end

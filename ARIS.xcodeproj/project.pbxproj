@@ -261,7 +261,6 @@
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
 		AABC73D1172739D80074CC21 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7121172739D60074CC21 /* AppServices.m */; };
 		AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7123172739D60074CC21 /* ARISUploader.m */; };
-		AABC73D3172739D80074CC21 /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7125172739D60074CC21 /* ARISURLConnection.m */; };
 		AABC73D4172739D80074CC21 /* JSONConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7127172739D60074CC21 /* JSONConnection.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC73D5172739D80074CC21 /* ServiceResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7129172739D60074CC21 /* ServiceResult.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC73D6172739D80074CC21 /* UploadContent.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC712B172739D60074CC21 /* UploadContent.m */; };
@@ -780,8 +779,6 @@
 		AABC7121172739D60074CC21 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppServices.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AABC7122172739D60074CC21 /* ARISUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISUploader.h; sourceTree = "<group>"; };
 		AABC7123172739D60074CC21 /* ARISUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISUploader.m; sourceTree = "<group>"; };
-		AABC7124172739D60074CC21 /* ARISURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISURLConnection.h; sourceTree = "<group>"; };
-		AABC7125172739D60074CC21 /* ARISURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISURLConnection.m; sourceTree = "<group>"; };
 		AABC7126172739D60074CC21 /* JSONConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONConnection.h; sourceTree = "<group>"; };
 		AABC7127172739D60074CC21 /* JSONConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONConnection.m; sourceTree = "<group>"; };
 		AABC7128172739D60074CC21 /* ServiceResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceResult.h; sourceTree = "<group>"; };
@@ -1808,8 +1805,6 @@
 				AABC7121172739D60074CC21 /* AppServices.m */,
 				AABC7122172739D60074CC21 /* ARISUploader.h */,
 				AABC7123172739D60074CC21 /* ARISUploader.m */,
-				AABC7124172739D60074CC21 /* ARISURLConnection.h */,
-				AABC7125172739D60074CC21 /* ARISURLConnection.m */,
 				AABC7126172739D60074CC21 /* JSONConnection.h */,
 				AABC7127172739D60074CC21 /* JSONConnection.m */,
 				AABC7128172739D60074CC21 /* ServiceResult.h */,
@@ -2639,7 +2634,6 @@
 				AABC73D0172739D80074CC21 /* RootViewController.m in Sources */,
 				AABC73D1172739D80074CC21 /* AppServices.m in Sources */,
 				AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */,
-				AABC73D3172739D80074CC21 /* ARISURLConnection.m in Sources */,
 				AABC73D4172739D80074CC21 /* JSONConnection.m in Sources */,
 				AA527E5017E0E0710040AB75 /* NoteEditorViewController.m in Sources */,
 				AABC73D5172739D80074CC21 /* ServiceResult.m in Sources */,

@@ -10,41 +10,15 @@
 
 @class ServiceResult;
 
-@interface JSONConnection : NSObject  <NSURLConnectionDelegate>{
-	NSURL *jsonServerURL;
-	NSString *serviceName;
-	NSString *methodName;
-	NSArray *arguments;
-    SEL handler;
-    NSMutableDictionary *userInfo;
-	NSMutableData *asyncData;
-	NSURL *completeRequestURL;
-    NSURLConnection *connection;
-}
+@interface JSONConnection : NSObject  
 
-@property(nonatomic) NSURL *jsonServerURL;
-@property(nonatomic) NSString *serviceName;
-@property(nonatomic) NSString *methodName;
-@property(nonatomic) NSArray *arguments;
-@property(nonatomic) SEL handler;
-@property(nonatomic) NSMutableDictionary *userInfo;
-@property(nonatomic) NSURL *completeRequestURL;
-@property(nonatomic) NSMutableData *asyncData;
-@property(nonatomic) NSURLConnection *connection;
-
-
-
-- (JSONConnection*)initWithServer: (NSURL *)server
-					andServiceName:(NSString *)serviceName 
-					andMethodName:(NSString *)methodName
-					andArguments:(NSArray *)arguments
-                      andUserInfo:(NSMutableDictionary *)userInfo;
+- (JSONConnection*) initWithServer:(NSURL *)server
+                    andServiceName:(NSString *)serviceName 
+                     andMethodName:(NSString *)methodName
+                      andArguments:(NSArray *)arguments
+                       andUserInfo:(NSMutableDictionary *)userInfo;
 
 - (ServiceResult *) performSynchronousRequest;
-- (void) performAsynchronousRequestWithHandler: (SEL)handler;
-- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection;
-- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData;
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
-
+- (void) performAsynchronousRequestWithHandler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs;
 
 @end

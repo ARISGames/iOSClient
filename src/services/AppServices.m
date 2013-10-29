@@ -13,13 +13,6 @@
 #import "ARISAlertHandler.h"
 #import "ARISMediaView.h"
 
-static const int kDefaultCapacity = 10;
-static const BOOL kEmptyBoolValue = NO;
-static const int kEmptyIntValue = 0;
-static const float kEmptyFloatValue = 0.0;
-static const double kEmptyDoubleValue = 0.0;
-NSString *const kARISServerServicePackage = @"v1";
-
 BOOL currentlyFetchingLocationList;
 BOOL currentlyFetchingOverlayList;
 BOOL currentlyFetchingGameNoteList;
@@ -52,7 +45,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) resetCurrentlyFetchingVars
 {
     currentlyFetchingNearbyGamesList           = NO;
-    currentlyFetchingAnywhereGamesList           = NO;
+    currentlyFetchingAnywhereGamesList         = NO;
     currentlyFetchingSearchGamesList           = NO;
     currentlyFetchingPopularGamesList          = NO;
     currentlyFetchingRecentGamesList           = NO;
@@ -77,7 +70,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andMethodName:@"getLoginPlayerObject"
                                                                andArguments:arguments
                                                                 andUserInfo:dict];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseLoginResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) parseLoginResponseFromJSON:(ServiceResult *)result
@@ -101,7 +94,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                                andArguments:arguments
                                                                 andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSelfRegistrationResponseFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseSelfRegistrationResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) parseSelfRegistrationResponseFromJSON:(ServiceResult *)result
@@ -120,7 +113,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andMethodName:@"createPlayerAndGetLoginPlayerObject"
                                                                andArguments:arguments
                                                                 andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseLoginResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
@@ -154,7 +147,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                                  andMethodName:@"updatePlayerNameMedia"
                                                                   andArguments:arguments
                                                                    andUserInfo:nil];
-        [jsonConnection performAsynchronousRequestWithHandler:nil];
+        [jsonConnection performAsynchronousRequestWithHandler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars)];
     }
     else
         NSLog(@"Tried updating non-existent player! (playerId = 0)");
@@ -171,8 +164,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                       andMethodName:@"resetAndEmailNewPassword"
                                       andArguments:arguments
                                       andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:
-     @selector(parseResetAndEmailNewPassword:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseResetAndEmailNewPassword:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 -(void)setShowPlayerOnMap
@@ -183,7 +175,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andMethodName:@"setShowPlayerOnMap"
                                                                andArguments:arguments
                                                                 andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
@@ -211,7 +203,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getGamesForPlayerAtLocation"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseNearbyGameListFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseNearbyGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchAnywhereGameList
@@ -239,7 +231,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getGamesForPlayerAtLocation"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseAnywhereGameListFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseAnywhereGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchRecentGameListForPlayer
@@ -265,7 +257,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getRecentGamesForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseRecentGameListFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseRecentGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchPopularGameListForTime:(int)time
@@ -290,7 +282,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getPopularGames"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parsePopularGameListFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parsePopularGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchGameListBySearch:(NSString *)searchText onPage:(int)page
@@ -317,7 +309,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"games"
                                                              andMethodName:@"getGamesContainingText"
                                                               andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSearchGameListFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseSearchGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)updateServerLocationViewed:(int)locationId
@@ -333,7 +325,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"locationViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId
@@ -349,7 +341,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"nodeViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId
@@ -366,7 +358,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"webPageViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerPanoramicViewed:(int)panoramicId fromLocation:(int)locationId
@@ -382,7 +374,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"augBubbleViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId
@@ -398,7 +390,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"itemViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
     
 }
 
@@ -414,7 +406,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"npcViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerGameSelected
@@ -429,7 +421,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"updatePlayerLastGame"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:nil];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerMapViewed
@@ -444,7 +436,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"mapViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerLocationList)];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchPlayerLocationList) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerQuestsViewed
@@ -458,7 +450,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"questsViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerQuestList)];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchPlayerQuestList) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerInventoryViewed
@@ -472,7 +464,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"inventoryViewed"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerInventory)];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchPlayerInventory) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) parseResetAndEmailNewPassword:(ServiceResult *)jsonResult
@@ -497,7 +489,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                       andMethodName:@"startOverGameForPlayer"
                                       andArguments:arguments
                                       andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty
@@ -514,7 +506,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"pickupItemFromLocation"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)updateServerDropItemHere:(int)itemId qty:(int)qty
@@ -531,7 +523,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"dropItem"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate
@@ -547,7 +539,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"dropNote"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerDestroyItem:(int)itemId qty:(int)qty
@@ -562,7 +554,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"destroyItem"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerInventoryItem:(int)itemId qty:(int)qty
@@ -578,7 +570,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"setItemCountForPlayer"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerAddInventoryItem:(int)itemId addQty:(int)qty
@@ -594,7 +586,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"giveItemToPlayer"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty
@@ -610,7 +602,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"takeItemFromPlayer"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
@@ -630,7 +622,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"commitTradeTransaction"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerInventory)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchPlayerInventory) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh
@@ -646,9 +638,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                                andUserInfo:nil];
     
     if(refresh)
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)];
+        [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchPlayerNoteListAsync) failSelector:@selector(resetCurrentlyFetchingVars)];
     else
-        [jsonConnection performAsynchronousRequestWithHandler:nil];	
+        [jsonConnection performAsynchronousRequestWithHandler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars)];	
 }
 
 - (void) likeNote:(int)noteId
@@ -662,7 +654,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"likeNote"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) unLikeNote:(int)noteId
@@ -676,7 +668,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"unlikeNote"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (int) addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title
@@ -778,7 +770,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"addContentToNote"
                                                               andArguments:arguments
                                                                andUserInfo:userInfo];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(contentAddedToNoteWithText:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(contentAddedToNoteWithText:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) deleteNoteContentWithContentId:(int)contentId
@@ -793,7 +785,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                                  andMethodName:@"deleteNoteContent"
                                                                   andArguments:arguments
                                                                    andUserInfo:nil];
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNoteViewer)];
+        [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(sendNotificationToNoteViewer) failSelector:@selector(resetCurrentlyFetchingVars)];
     }
 }
 
@@ -809,7 +801,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"deleteLocationsForObject"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) deleteNoteWithNoteId:(int)noteId
@@ -824,7 +816,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                                  andMethodName:@"deleteNote"
                                                                   andArguments:arguments
                                                                    andUserInfo:nil];
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNotebookViewer)];
+        [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(sendNotificationToNotebookViewer) failSelector:@selector(resetCurrentlyFetchingVars)];
     }
 }
 
@@ -899,7 +891,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments
                                                                andUserInfo:nil];
 
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchPlayerNoteListAsync) failSelector:@selector(resetCurrentlyFetchingVars)];
     [self fetchAllPlayerLists];
 }
 
@@ -933,7 +925,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"addPlayerPicFromFilename"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(parseNewPlayerMediaResponseFromJSON:)];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseNewPlayerMediaResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
     
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[uploader.userInfo validObjectForKey:@"url"]];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
@@ -971,7 +963,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"updateNote"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void) updateNoteContent:(int)contentId title:(NSString *)text;
@@ -984,7 +976,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"updateContentTitle"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];    
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];    
 }
 
 -(void)updateNoteContent:(int)contentId text:(NSString *)text
@@ -997,7 +989,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"updateContent"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];    
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars)];    
 }
 
 - (void)updateServerWithPlayerLocation
@@ -1027,7 +1019,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andMethodName:@"updatePlayerLocation"
                                                                andArguments:arguments
                                                                 andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseUpdateServerWithPlayerLocationFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseUpdateServerWithPlayerLocationFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 #pragma mark ASync Fetch selectors
@@ -1070,7 +1062,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getCurrentOverlaysForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	if(YesForAsyncOrNoForSync) [jsonConnection performAsynchronousRequestWithHandler:@selector(parseOverlayListFromJSON:)];
+	if(YesForAsyncOrNoForSync) [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
     else [self parseOverlayListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1182,7 +1174,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getTabBarItemsForGame"
                                                               andArguments:arguments andUserInfo:nil];
     if(YesForAsyncOrNoForSync)
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameTabListFromJSON:)];
+        [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 	else
         [self parseGameTabListFromJSON:[jsonConnection performSynchronousRequest]];
 }
@@ -1199,7 +1191,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"qrcodes"
                                                              andMethodName:@"getQRCodeNearbyObjectForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseQRCodeObjectFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseQRCodeObjectFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 -(void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId
@@ -1214,7 +1206,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"npcs"
                                                              andMethodName:@"getNpcConversationsForPlayerAfterViewingNode"
                                                               andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseConversationOptionsFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseConversationOptionsFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchGameNpcListAsynchronously:(BOOL)YesForAsyncOrNoForSync
@@ -1226,7 +1218,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getNpcs"
                                                               andArguments:arguments andUserInfo:nil];
 	if(YesForAsyncOrNoForSync)
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameNpcListFromJSON:)];
+        [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGameNpcListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 	else
         [self parseGameNpcListFromJSON:[jsonConnection performSynchronousRequest]];
 }
@@ -1247,7 +1239,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getNotesForGame"
                                                               andArguments:arguments andUserInfo:nil];
 	if(YesForAsyncOrNoForSync){
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameNoteListFromJSON:)];
+		[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGameNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 	}
 	else [self parseGameNoteListFromJSON:[jsonConnection performSynchronousRequest]];
 }
@@ -1269,7 +1261,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getNotesForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
 	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parsePlayerNoteListFromJSON:)];
+		[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parsePlayerNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 	else [self parsePlayerNoteListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1282,7 +1274,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getWebPages"
                                                               andArguments:arguments andUserInfo:nil];
 	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameWebPageListFromJSON:)];
+		[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 	else [self parseGameWebPageListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1298,7 +1290,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getMediaObject"
                                                               andArguments:arguments andUserInfo:nil];
     
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(parseSingleMediaFromJSON:)];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseSingleMediaFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync
@@ -1311,7 +1303,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments andUserInfo:nil];
 	
 	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameMediaListFromJSON:)];
+		[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 	else [self parseGameMediaListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1325,7 +1317,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments andUserInfo:nil];
 	
 	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGamePanoramicListFromJSON:)];
+		[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGamePanoramicListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 	else [self parseGamePanoramicListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1339,7 +1331,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getFullItems"
                                                               andArguments:arguments andUserInfo:nil];
 	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameItemListFromJSON:)];
+		[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGameItemListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 	else
         [self parseGameItemListFromJSON:[jsonConnection performSynchronousRequest]];
 	
@@ -1355,7 +1347,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments andUserInfo:nil];
     
 	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameNodeListFromJSON:)];    
+		[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGameNodeListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];    
 	else
     {
         ServiceResult *result = [jsonConnection performSynchronousRequest];
@@ -1373,7 +1365,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments andUserInfo:nil];
     
     if(YesForAsyncOrNoForSync)
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameTagsListFromJSON:)];    
+        [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseGameTagsListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];    
 	else
     {
         ServiceResult *result = [jsonConnection performSynchronousRequest];
@@ -1411,7 +1403,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"notes"
                                                              andMethodName:@"addTagToNote"
                                                               andArguments:arguments andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:nil];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 -(void) deleteTagFromNote:(int)noteId tagId:(int)tagId
@@ -1422,7 +1414,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"notes"
                                                              andMethodName:@"deleteTagFromNote"
                                                               andArguments:arguments andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:nil];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars)];
     
 }
 
@@ -1445,7 +1437,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"locations"
                                                              andMethodName:@"getLocationsForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLocationListFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchPlayerOverlayList
@@ -1466,7 +1458,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getCurrentOverlaysForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
 	
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(parseOverlayListFromJSON:)];
+    [jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchPlayerInventory
@@ -1488,7 +1480,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"items"
                                                              andMethodName:@"getItemsForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseInventoryFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseInventoryFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 -(void)fetchPlayerQuestList
@@ -1511,7 +1503,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getQuestsForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseQuestListFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseQuestListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)fetchOneGameGameList:(int)gameId
@@ -1540,7 +1532,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getOneGame"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseOneGameGameListFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:@selector(parseOneGameGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (Tab *)parseTabFromDictionary:(NSDictionary *)tabDictionary
@@ -1668,7 +1660,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         game.splashMedia.type = @"PHOTO"; //Phil doesn't like this...
     }
 
-    
     game.questsModel.totalQuestsInGame = [gameSource validIntForKey:@"totalQuests"];
     game.launchNodeId                  = [gameSource validIntForKey:@"on_launch_node_id"];
     game.completeNodeId                = [gameSource validIntForKey:@"game_complete_node_id"];
@@ -1810,7 +1801,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andMethodName:@"saveComment"
                                                                andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars)];
 }
 
 - (void)parseLocationListFromJSON:(ServiceResult *)jsonResult

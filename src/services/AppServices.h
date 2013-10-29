@@ -34,8 +34,6 @@
 
 @interface AppServices : NSObject
 
-extern NSString *const kARISServerServicePackage;
-
 + (AppServices *)sharedAppServices;
 
 - (void) resetCurrentlyFetchingVars;

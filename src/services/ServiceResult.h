@@ -14,16 +14,13 @@
 	NSString *returnCodeDescription;
 	NSObject *data;
     NSDictionary *userInfo;
-    
-    BOOL alreadyErred;
 }
 
-@property(readwrite) int returnCode;
-@property(copy, readwrite) NSString *returnCodeDescription;
-@property(copy, readwrite) NSObject *data;
-@property(copy, readwrite) NSDictionary *userInfo;
+@property(nonatomic, assign) int returnCode;
+@property(nonatomic, strong) NSString *returnCodeDescription;
+@property(nonatomic, strong) NSObject *data;
+@property(nonatomic, strong) NSDictionary *userInfo;
 
 - (id) initWithJSONString:(NSString *)JSONString andUserData:(NSDictionary *)userData;
-- (NSObject*) parseJSONData:(NSObject *)dictionary;
 
 @end
