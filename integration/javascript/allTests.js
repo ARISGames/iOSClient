@@ -9,16 +9,56 @@ var username = "aris-test";
 var password = "aris";
 var gameName = "ARIS-Tester";
 
-// RESET USER IF ALREADY LOGGED IN
-var resetUser = function()
+							/*  ******* RESER USER ******* */
+var resetToLoginScreen = function()
 {
-	test("Resetting the User if already logged in.", function(target,app){
-	
-		io	});	
+
+test("Reset to Three bars in game.", function(target,app){
+   
+   //Inside Character, Web Item, Normal Item
+   if (app.navigationBar().buttons()["arrowBack"].checkIsValid())
+   		 {
+		 app.navigationBar().buttons()["arrowBack"].tap();
+  		  } 
+   //Inside Plaque
+   else if (window.staticTexts()["Continue"].checkIsValid())
+    	 {
+    	 window.staticTexts()["Continue"].tap();
+	 	app.navigationBar().buttons()["arrowBack"].tap();
+    	 }
+   // quick nav tapped or item tapped
+   else if (app.actionSheet().cancelButton().checkIsValid())
+   		  {
+   		 app.actionSheet().cancelButton().tap();
+    	 }
+  });
+		
+
+	test("Reset To Login Screen", function(target,app){
+		 	if (app.navigationBar().buttons()["threeLines"].checkIsValid())
+		 	{
+		 		
+		 		UIALogger.logMessage("Inside ThreeLines If Statement");
+				app.navigationBar().buttons()["threeLines"].tap();
+				target.delay(1);
+				window.staticTexts()["Leave Game"].tap();
+				target.delay(1);
+				app.navigationBar().buttons()["arrowBack"].tap();
+			}
+		 
+			if (app.navigationBar().buttons()["idcard"].checkIsValid())
+			{
+				app.navigationBar().buttons()["idcard"].tap();
+				window.staticTexts()["Logout"].tap();
+
+			}
+	});	
 };
 
-// SIMULATING: LOGIN
+							/*  ******* SIMULATE LOGIN ******* */
 var loginTest = function(username,password){
+	
+
 	
 	//This is a tuneup_js test
 	test("Login Screen", function(target, app){
@@ -40,12 +80,14 @@ var loginTest = function(username,password){
 		app.keyboard().typeString(password);
 	
 		// CLICK LOGIN
-		window.buttons()["arrowForward"].tap();
+		 target.delay(3);
+		window.buttons()["arrowForward"].tap();		 
+		 
 	});
 	
 };
 
-// SIMULATING: SEARCHING FOR THE GAME
+									/*  ******* SIMULATE LOGIN ******* */
 var searchGame = function(gameName){
 	
 	test("Search Game Test", function(target,app){
@@ -67,7 +109,7 @@ var searchGame = function(gameName){
 };
 
 
-//  SELECT GAME
+									/*  ******* SELECT GAME ******* */
 var selectGame = function(gameName){
 	
 	test("Selecting Game", function(target,app) 
@@ -95,7 +137,7 @@ var selectGame = function(gameName){
 
 };
 
-// FUNCTION TO HANDLE ALERTS
+									/*  ******* ALERT FUNCTION ******* */
 
 UIATarget.onAlert = function onAlert(alert) {
 
@@ -110,138 +152,215 @@ UIATarget.onAlert = function onAlert(alert) {
   	return false;
 }
 
-// A HUGE PILE OF TESTS
-// TODO: BREAK ME UP
-var inGame = function() {
+var initialPlaque = function(){
+	test("Dismiss Initial Plaque the Go To Map", function(target,app){
 	
-	
-	test("Initial Plaque,Normal Item and Plaque", function(target,app){
 		// Initial plaque - press continue
 		window.staticTexts()["Continue"].tap();
-	
+		 
+		 
 		//GO TO MAP
 		app.navigationBar().buttons()["threeLines"].tap();
 		window.tableViews()[0].cells()["Map"].tap();
+		 
+	});	
+};
 
-		//TAP ON NORMAL ITEM AND QUICK TRAVEL
+										/*  ******* NOARMAL ITEM TESTS ******* */
+var normalItem = function(){
+	test ("Normal Item", function(target,app){
+	
+	
+		//TAP ON NORMAL ITEM AND QUICK TRAVEL  
 		window.elements()["Normal Item"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
-		app.navigationBar().buttons()["arrowBack"].tap();
-	
+		  
+
+		//Check "Navigation bar says 'Normal Item'?"
+		UIALogger.logMessage("Navigation bar says 'Normal Item' ?");
+		assertEquals("Normal Item", app.navigationBar().name());
+		    
+		  //Tap Three lines
+		window.staticTexts()["..."].tap();	  
+		  
+		//Check "Item content says 'Normal Item' "
+		UIALogger.logMessage("Item content says 'Normal Item' ?");
+		assertEquals("Normal Item", window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["Normal Item"].name());
+		  
+
+		  app.navigationBar().buttons()["arrowBack"].tap();
+		
+	});
+};
+
+								/*  ******* PLAQUE TESTS ******* */
+var plaque = function(){
+	test("Plaque", function(target,app){
 		//TAP ON PLAQUE ON MAP
 		target.delay(5);
+		 
 		window.elements()["Plaque"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
+		 
+		UIALogger.logMessage("Navigation bar says 'Plaque' ?");
+		assertEquals("Plaque",target.frontMostApp().navigationBar().name());
+		 
+		 		// Plaque content name is "Plaque Content"
+		UIALogger.logMessage("Plaque content says 'Plaque Content' ");
+		assertEquals("Plaque Content", window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Plaque Content"].name());
+		 
+ 
 		window.staticTexts()["Continue"].tap();
 	
-	});
-	
-	
+	});	
+};
+
+
+							/*  ******* GREETING CHARACTER TESTS ******* */
+var greetingCharacter = function(){
 	// GREETING CHARACTER TEST
-	test("Greeting Character", function(target,app){
-	
-		UIATarget.localTarget().pushTimeout(10);
+	test("Enter Greeting Character", function(target,app){
+		 
 		window.elements()["Greeting/Closing Character"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
-		UIATarget.localTarget().popTimeout();
+		UIALogger.message("Navigation says 'You'? ");		 
+		 });	
 	
-		//I AM THE PC CHARACTER
+	test("PC Character Test",function(target,app){
+		 //I AM THE PC CHARACTER
+		 
+		  assertEquals("I'm the PC",window.scrollViews()[3].scrollViews()[0].webViews()[0].staticTexts()["I'm the PC"].name())
+		 target.delay(1);
+		 window.staticTexts()["Continue"].tap();
+		 });
+	
+	test("NPC Character Test",function(target,app){
+		 // I AM THE NPC CHARACTER
+		 
+		 assertEquals("I'm the NPC",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["I'm the NPC"].name())
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
+		 });
 	
-		// I AM THE NPC CHARACTER
-		target.delay(1);
-		window.staticTexts()["Continue"].tap();
+	test("NOC With Custom Media Test",function(target,app){
+		 //NOC WITH CUSTOM MEDIA
+		 
+		 assertEquals("NOC with custom media",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["NOC with custom media"].name())
+		 target.delay(1);
+		 window.staticTexts()["Continue"].tap();
+		 });
 	
-		//NOC WITH CUSTOM MEDIA
-		target.delay(1);
-		window.staticTexts()["Continue"].tap();
-	
-		//Leave Conversation
+	test("Leaving Converstaion Tester", function(target,app){
+		 //Leave Conversation
 		target.delay(2);
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Leave Conversation"].tap();
+		 });
 
-	});
-	
+		 
+};
+							/*  ******* ENTER CONVERSATION TESTER ******* */
+var enterConversationTester = function(){
 	// TAP CONVERSATION TESTER TEST
-	test("Tap Conversation Tester", function(target, app) {
-	
-		 //Wait for him to drop
-		target.delay(11);
+	test("Enter Conversation Tester", function(target, app) {
 		window.elements()["Conversation Tester"].tap();
-	 
-		//Quick Travel to Conversation Character
 		app.actionSheet().buttons()["Quick Travel"].tap();
-	
-		//Hello I am the conversation Test Character
 		window.staticTexts()["Continue"].tap();
+	 });	
+};
+
+
+							/*  ******* NORMAL SCRIPTS TESTS ******* */
+var normalScriptTests = function(){
 	
-		 //End TAP CONVERSATION TESTER TEST
-	 });
-	
-	//NORMAL SCRIPT TESTS
-	test("Testing regular scripts", function(target,app){
+		//NORMAL SCRIPT TESTS
+		test("No Script", function(target,app){
 		 
 		//No Script
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
 		window.staticTexts()["Continue"].tap();
 	
+		});
+		
+		test("NPC and PC Tag", function(target,app){
+		
 		// NPC and PC Tag
 		target.delay(2);
+		//window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+			 
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
-	
+		
+		});
+		
 	
 		// Item Tag
-		target.delay(1);
-		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
-		target.delay(1);
-		app.navigationBar().buttons()["arrowBack"].tap();
+		test("Item Tag", function(target,app){
+			target.delay(1);
+			window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+			target.delay(1);
+			app.navigationBar().buttons()["arrowBack"].tap();	 
+		});
+	
 	
 		//Plaque Tag
+	test("Plaque Tag",function(target,app){
+		 
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
-	
+		 
+		 
+		 });
 	
 		// Video Tag == This is funky, it exited me.
 	
 		// Panoramic Tag  == This is funky , it exited me.
 		
-		// End Normal Script Tests
-		});
+		// End Normal Script Tests	
+};
+
+									/*  ******* EXIT TO SCRIPTS TESTS ******* */
+var exitToScripts = function() {
 	
+
+
 	//EXIT SCRIPT TESTS
-	test("EXIT TO SCRIPTS", function(target,app){
+	test("Exit To Webpage", function(target,app){
 		// Webpage Tag
 		target.frontMostApp().mainWindow().scrollViews()[0].scrollViews()[2].webViews()[0].tap();
 		target.delay(2);
 		target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
+	});
 	
+	test("Exit To Map", function(target,app){
 		// Exit to Map
 		target.frontMostApp().mainWindow().scrollViews()[0].scrollViews()[2].webViews()[0].tap();
 		target.frontMostApp().mainWindow().staticTexts()["Continue"].tap();
-	
+	});
+	test("Back To Character", function(target,app){
 		//Back to Character
 		window.elements()["Conversation Tester"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		window.staticTexts()["Continue"].tap();
-	
+	});
+	test("Exit To Plaque", function(target,app){
 		// Exit to Plaque
 		window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
 		window.staticTexts()["Continue"].tap();
 		window.staticTexts()["Continue"].tap();
-	
+	});
+	test("Back To Character", function(target,app){
 		//Back to Character
 		window.elements()["Conversation Tester"].tap();
 		target.delay(1);
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
-	
+	});
+	test("Exit To Item", function(target,app){
 		/// EXIT TO ITEM
 		target.delay(1);
 		window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
@@ -249,7 +368,8 @@ var inGame = function() {
 		window.staticTexts()["Continue"].tap();
 		target.delay(1);
 		target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
-
+	});
+	test("Back To Character", function(target,app){
 		//Back to Character
 		target.delay(2);
 		window.elements()["Conversation Tester"].tap();
@@ -257,7 +377,8 @@ var inGame = function() {
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
-	
+	});
+	test("Exit To Character", function(target,app){
 		// EXIT TO CHARACTER
 		window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
 		target.delay(1);
@@ -266,7 +387,8 @@ var inGame = function() {
 		window.staticTexts()["Continue"].tap();
 		target.delay(1);
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
-	
+	});
+	test("Back To Character", function(target,app){
 		//Back to Character
 		target.delay(1);
 		window.elements()["Conversation Tester"].tap();
@@ -274,69 +396,153 @@ var inGame = function() {
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
-
+	});
+	test("Exit To Webpage", function(target,app){
 		//EXIT TO WEBPAGE
 		window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
 		window.staticTexts()["Continue"].tap();
 		app.navigationBar().buttons()["arrowBack"].tap();
-	
+	});
 		// EXIT TO PANORAMIC -- this is broken
-		 
-	});
+
+
+};
+
+
+								/*  ******* DECODER TESTS ******* */
+var testDecoder = function() {
+
+
+test("Decoder Plaque Item", function(target, app){
+	 
+	 //Go Into Decoder From MAP	
+	 app.navigationBar().buttons()["threeLines"].tap();
+	 window.tableViews()["Empty list"].cells()["Decoder"].tap();
+	 
+	 // Plaque Decoder
+	 window.textFields()[0].tap();
+	 target.delay(1);
+	 app.keyboard().typeString('4982\n');
+	 
+	 //Entered plaque?
+	 target.frontMostApp().mainWindow().staticTexts()["Continue"].tap();
 	
-};
-
-//  RESET FROM INSIDE GAME
-var reset = function(){
-	test("Resetting Game", function(target,app) {
-		app.navigationBar().buttons()["threeLines"].tap();
-		target.delay(1);
-		window.staticTexts()["Leave Game"].tap();
-		target.delay(1);
-		app.navigationBar().buttons()["arrowBack"].tap();
-		resetUser();
-	});
-};
-
-
-var resetToMap = function(){
-
-test("Reset to In Game Menu", function(target,app){
+	 // Clear text Field
+	 window.textFields()[0].tap();
+	 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+	 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+	 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+	 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
 	 
-	 //Inside Character, Web Item, Normal Item
-	 if (app.navigationBar().buttons()["arrowBack"].checkIsValid())
-		{
-			app.navigationBar().buttons()["arrowBack"].tap();
-		} 
-	 //Inside Plaque
-	 else if (window.staticTexts()["Continue"].checkIsValid())
-	 	{
-	 	window.staticTexts()["Continue"].tap();
-	 	}
-	 // quick nav tapped or item tapped
-	 else if (app.actionSheet().cancelButton().checkIsValid())
-	 	{
-		app.actionSheet().cancelButton().tap();
-	 	}
-	 
-	 //Tap the three bars
-	 if (app.navigationBar().buttons()["threeLines"].checkIsValid())
-		{
-			app.navigationBar().buttons()["threeLines"].tap();
-		} 
 	 });
+	 
+	test("Decoder Normal Item", function(target,app){
+		 
+		 
+		 
+	 //Go Into Decoder From MAP	
+	 app.navigationBar().buttons()["threeLines"].tap();
+	 window.tableViews()["Empty list"].cells()["Decoder"].tap();
+	 
+	// Normal Item Decoder
+	 window.textFields()[0].tap();
+	 target.delay(1);
+	 app.keyboard().typeString('8317\n');
+	 
+	 //Entered Normal Item?
+	
+	 app.navigationBar().buttons()["arrowBack"].tap();
+		 
+	 // Clear text Field
+	 window.textFields()[0].tap();
+		 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+		 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+		 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+		 target.delay(1);
+	 target.frontMostApp().keyboard().keys()["Delete"].tap();
+		 
+		 
+		 });
+
 };
 
 
+
+//Added as noted in the tread below
+// https://github.com/alexvollmer/tuneup_js/pull/49
+var imageAsserter = function(){
+		 
+	//	 createImageAsserter('integration/javascript/tuneup_js', 'integration/tmp/results', 'integration/ref_images');
+		
+	// assertScreenMatchesImageNamed("login", "Login Image does not match");
+		 
+
+};
+
 	
-//Run the Tests
+////////////////////////////Main
 
-resetUser();
+
+// Reset the game from anywhere in the application
+resetToLoginScreen();
+ 
+//Test Login Image 
+ imageAsserter();
+
+//Login to account
 loginTest(username, password);
+ 
+
+//Search for Game
 searchGame(gameName);
+
+// Select Game
 selectGame();
-inGame();
-reset();
+
+/////////////////////////////////////////////////////////////////// Begin In game Tests
+
+// Dismiss Initial Plaque
+initialPlaque();
+
+//Normal Item Test
+normalItem();
 
 
-//resetToMap();
+//Plaque Test 
+plaque();
+
+
+// Greeting Character Dialogue Test
+greetingCharacter();
+
+
+// Has the Conversation Tester Dropped?
+enterConversationTester();
+
+window.logElementTree();
+
+// Test Normal Scripts
+normalScriptTests();
+ 
+window.logElementTree();
+
+//Test Exit to Scripts
+exitToScripts();
+
+//Test Decoder
+testDecoder();
+
+
+/////////////////////////////////////////////////////////////////////// End In game Tests
+
+// Reset Back to Login Screen
+resetToLoginScreen();
+
+
