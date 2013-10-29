@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2009 Stig Brautaset. All rights reserved.
+ Copyright (C) 2011 Stig Brautaset. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,25 +27,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSObject+SBJSON.h"
-#import "SBJsonWriter.h"
+#if !__has_feature(objc_arc)
+#error "This source file must be compiled with ARC enabled!"
+#endif
 
-@implementation NSObject (NSObject_SBJSON)
+#import "SBJsonStreamParserAccumulator.h"
 
-- (NSString *)JSONFragment {
-    SBJsonWriter *jsonWriter = [SBJsonWriter new];
-    NSString *json = [jsonWriter stringWithFragment:self];    
-    if (json)
-        NSLog(@"-JSONFragment failed. Error trace is: %@", [jsonWriter errorTrace]);
-    return json;
+@implementation SBJsonStreamParserAccumulator
+
+@synthesize value;
+
+
+#pragma mark SBJsonStreamParserAdapterDelegate
+
+- (void)parser:(SBJsonStreamParser*)parser foundArray:(NSArray *)array {
+	value = array;
 }
 
-- (NSString *)JSONRepresentation {
-    SBJsonWriter *jsonWriter = [SBJsonWriter new];    
-    NSString *json = [jsonWriter stringWithObject:self];
-    if (json)
-        NSLog(@"-JSONRepresentation failed. Error trace is: %@", [jsonWriter errorTrace]);
-    return json;
+- (void)parser:(SBJsonStreamParser*)parser foundObject:(NSDictionary *)dict {
+	value = dict;
 }
 
 @end

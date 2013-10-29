@@ -8,7 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class ServiceResult;
+@interface ServiceResult : NSObject
+{
+    NSObject *data;
+    NSDictionary *userInfo;
+};
+@property (nonatomic, strong) NSObject *data;
+@property (nonatomic, strong) NSDictionary *userInfo;
+- (id) initWithData:(NSObject *)d userInfo:(NSDictionary *)u;
+@end
 
 @interface JSONConnection : NSObject  
 
