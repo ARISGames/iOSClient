@@ -14,6 +14,8 @@
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
 #import "TestFlight.h"
+#import <Crashlytics/Crashlytics.h>
+
 #import "UIColor+ARISColors.h"
 
 #import "AppModel.h"
@@ -41,6 +43,8 @@
     application.idleTimerDisabled = YES;
     
     [TestFlight takeOff:@"73157065-5a1d-42ab-800a-3925dd2ad5a3"];
+    
+    [Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];
     
     //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist

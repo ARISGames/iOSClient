@@ -424,6 +424,7 @@
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */; };
+		AB5EC6E31820DC4D00FF49A6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5EC6E21820DC4D00FF49A6 /* Crashlytics.framework */; };
 		AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB70F39313153BB500BD06CD /* MessageUI.framework */; };
 		AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277713C7556100F10AD5 /* AddressBookUI.framework */; };
 		AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277913C7559800F10AD5 /* CoreMedia.framework */; };
@@ -1133,6 +1134,7 @@
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		AB5EC6E21820DC4D00FF49A6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AB70F39313153BB500BD06CD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AB7D277713C7556100F10AD5 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		AB7D277913C7559800F10AD5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -1173,6 +1175,7 @@
 				AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */,
 				D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */,
 				AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */,
+				AB5EC6E31820DC4D00FF49A6 /* Crashlytics.framework in Frameworks */,
 				4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */,
 				A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */,
 				A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */,
@@ -2152,6 +2155,7 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
+				AB5EC6E21820DC4D00FF49A6 /* Crashlytics.framework */,
 				AB8873E3181B6F250042FD63 /* TestFlightSDK2.0.2 */,
 				AAF7115117B9579900262A37 /* PKRevealController */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
@@ -2742,7 +2746,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#APP_ID=\"5101a46d59e1bd498c000002\"\n#API_KEY=\"dvoqdekc54cfpinayo2uqf3u6nbhrty7\"\n#REQUIRE_UPLOAD_SUCCESS=0\n#source ${SRCROOT}/src/third_party/CrittercismSDK/dsym_upload.sh";
+			shellScript = "./Crashlytics.framework/run 998e417813fdeb68d423930898cf8efc3001db1a";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2996,7 +3000,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = /Users/djgagnon/Development/ARISiOSClient/src/third_party;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3065,7 +3069,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = /Users/djgagnon/Development/ARISiOSClient/src/third_party;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/ARIS_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
