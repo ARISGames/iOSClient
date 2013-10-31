@@ -12,21 +12,29 @@
 {
     NSObject *data;
     NSDictionary *userInfo;
+   	NSMutableData *asyncData; 
+    NSURLConnection *connection; 
+    id __unsafe_unretained handler;
+    SEL successSelector; 
+    SEL failSelector;   
 };
 @property (nonatomic, strong) NSObject *data;
 @property (nonatomic, strong) NSDictionary *userInfo;
-- (id) initWithData:(NSObject *)d userInfo:(NSDictionary *)u;
+@property (nonatomic, strong) NSMutableData *asyncData;
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, assign) id handler;
+@property (nonatomic, assign) SEL successSelector;
+@property (nonatomic, assign) SEL failSelector;
 @end
 
 @interface JSONConnection : NSObject  
 
-- (JSONConnection*) initWithServer:(NSURL *)server
-                    andServiceName:(NSString *)serviceName 
-                     andMethodName:(NSString *)methodName
-                      andArguments:(NSArray *)arguments
-                       andUserInfo:(NSMutableDictionary *)userInfo;
+- (id) initWithServer:(NSString *)server;
+- (void) performAsynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict;
+- (ServiceResult *) performSynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args userInfo:(NSDictionary *)dict;
 
-- (ServiceResult *) performSynchronousRequest;
-- (void) performAsynchronousRequestWithHandler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs;
+- (void) performAsyncRequestWithURL:(NSURL *)url handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict;
+- (ServiceResult *) performSyncRequestWithURL:(NSURL *)url userInfo:(NSDictionary *)dict;
+- (NSURL *) createRequestURLFromService:(NSString *)service method:(NSString *)method arguments:(NSArray *)args;
 
 @end

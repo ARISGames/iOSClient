@@ -14,125 +14,139 @@ NSString *const kARISServerServicePackage = @"v1";
 
 @interface JSONConnection() <NSURLConnectionDelegate>
 {
-    NSMutableDictionary *userInfo; 
-   	NSMutableData *asyncData; 
-   	NSURL *requestURL;
-    NSURLConnection *connection; 
-    id handler;
-    SEL successSelector; 
-    SEL failSelector;  
     SBJsonParser *jsonParser;
+    NSString *server;
+    NSMutableDictionary *connections;
 }
 @end
 
 @implementation JSONConnection
 
-- (JSONConnection*) initWithServer:(NSURL *)server
-                    andServiceName:(NSString *)service 
-                     andMethodName:(NSString *)method
-                      andArguments:(NSArray *)args
-                       andUserInfo:(NSMutableDictionary *)auserInfo
+- (id) initWithServer:(NSString *)s
 {
     if(self = [super init])
     {
-        jsonParser = [[SBJsonParser alloc] init];
-        userInfo = auserInfo;
-    
-        NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, service, method];	
-    
-        NSEnumerator *argumentsEnumerator = [args objectEnumerator];
-        NSString *argument;
-        while(argument = [argumentsEnumerator nextObject])
-        {
-            [requestParameters appendString:@"/"];  
-        
-            // replace special characters
-            // double encode slashes (CFURLCreateStringByAddingPercentEscapes doesn't handle them well)
-            // actions.php on server side decodes them once before sending these arguments on to their respective functions. 
-            argument = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,(__bridge_retained CFStringRef)argument,NULL,(CFStringRef)@"!*'();:@&=+$,?%#",kCFStringEncodingUTF8 );
-            argument = [argument stringByReplacingOccurrencesOfString:@"/" withString:@"%252F"]; 
-        
-            [requestParameters appendString:argument];
-        }
-        NSMutableString *serverString = [NSMutableString stringWithString:[server absoluteString]];
-        [serverString appendString:@"/"];
-        [serverString appendString:requestParameters];
-        requestURL = [NSURL URLWithString:[serverString stringByReplacingOccurrencesOfString:@" " withString:@"%20"]];
+        jsonParser = [[SBJsonParser alloc] init]; 
+        server = s;
+        connections = [[NSMutableDictionary alloc] initWithCapacity:20];
     }
-    
-	return self;
+    return self;
 }
 
-- (ServiceResult *) performSynchronousRequest
+- (void) performAsynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict
+{
+    [self performAsyncRequestWithURL:[self createRequestURLFromService:service method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict]; 
+}
+
+- (ServiceResult *) performSynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args userInfo:(NSDictionary *)dict
+{
+    return [self performSyncRequestWithURL :[self createRequestURLFromService:service method:m arguments:args] userInfo:dict];
+}
+
+- (void) performAsyncRequestWithURL:(NSURL *)url handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)u
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
+    NSLog(@"Req asynch URL: %@", url);
+    
+    ServiceResult *r = [[ServiceResult alloc] init];
+    r.asyncData = [[NSMutableData alloc] initWithCapacity:2048]; 
+    r.userInfo = u;
+    r.connection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:url] delegate:self];
+    r.handler = h;
+    r.successSelector = ss;
+    r.failSelector = fs; 
+	
+    [connections setObject:r forKey:r.connection];
+	[r.connection start];
+}
+
+- (ServiceResult *) performSyncRequestWithURL:(NSURL *)url userInfo:(NSDictionary *)u
 {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
+    NSLog(@"Req synchr URL: %@", url); 
     
-    NSLog(@"Req synchr URL: %@", requestURL); 
-	NSURLRequest *request = [NSURLRequest requestWithURL:requestURL];
+    ServiceResult *sr = [[ServiceResult alloc] init];
+    sr.userInfo = u;
     
+	NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSURLResponse *response = [[NSURLResponse alloc] init]; //why do we just throw these out?
     NSError *error = [[NSError alloc] init];                //why do we just throw these out?
-    NSData* resultData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData* result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-	if(!resultData)
+	if(!result)
     {
 		NSLog(@"JSONConnection: performSynchronousRequest Error");
         [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
 		return nil;
 	}
+    sr.data = [self parseJSONString:[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding]];
     
-    return [self parseJSONResult:[[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding]];
+    return sr;
 }
 
-- (void) performAsynchronousRequestWithHandler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs
+- (NSURL *) createRequestURLFromService:(NSString *)service method:(NSString *)method arguments:(NSArray *)args
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
+    NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, service, method];	 
     
-    NSLog(@"Req asynch URL: %@", requestURL);  
-    
-    handler = h;
-    successSelector = ss;
-    failSelector = fs; 
-	
-    connection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:requestURL] delegate:self];
-	[connection start];
+    NSEnumerator *argumentsEnumerator = [args objectEnumerator];
+    NSString *argument;
+    while(argument = [argumentsEnumerator nextObject])
+    {
+        [requestParameters appendString:@"/"];  
+        
+        // replace special characters
+        // double encode slashes (CFURLCreateStringByAddingPercentEscapes doesn't handle them well)
+        // actions.php on server side decodes them once before sending these arguments on to their respective functions. 
+        argument = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,(__bridge_retained CFStringRef)argument,NULL,(CFStringRef)@"!*'();:@&=+$,?%#",kCFStringEncodingUTF8 );
+        argument = [argument stringByReplacingOccurrencesOfString:@"/" withString:@"%252F"]; 
+        
+        [requestParameters appendString:argument];
+    }
+    return [NSURL URLWithString:[[server stringByAppendingString:requestParameters] stringByReplacingOccurrencesOfString:@" " withString:@"%20"]];
 }
 
-- (void) connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData
+- (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
 {
-    if(asyncData == nil) asyncData = [[NSMutableData alloc] initWithCapacity:2048];
-    [asyncData appendData:incrementalData];
+    ServiceResult *sr = [connections objectForKey:c];
+    if(sr) [sr.asyncData appendData:d];
 }
 
-- (void) connectionDidFinishLoading:(NSURLConnection*)theConnection
+- (void) connectionDidFinishLoading:(NSURLConnection*)c
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;  
+    ServiceResult *sr = [connections objectForKey:c];
+    if(!sr) return;
     
-    ServiceResult *result = [self parseJSONResult:[[NSString alloc] initWithData:asyncData encoding:NSUTF8StringEncoding]]; 
-    connection = nil;
-    asyncData  = nil;   
+    sr.data = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];  
+    [connections removeObjectForKey:c];
+    if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
+    sr.connection = nil;
+    sr.asyncData = nil;
     
-	if(handler && successSelector)
-		[handler performSelector:successSelector withObject:result];
+	if(sr.handler && sr.successSelector)
+		[sr.handler performSelector:sr.successSelector withObject:sr];
 }
 
-- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+- (void) connection:(NSURLConnection *)c didFailWithError:(NSError *)error
 {
-   	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO; 
+    ServiceResult *sr = [connections objectForKey:c];
+    if(!sr) return; 
+    
+    [connections removeObjectForKey:c];
+    if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;    
     
     NSLog(@"NSNotification: ConnectionLost");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConnectionLost" object:nil]];
     NSLog(@"*** JSONConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
     
-   	if(handler && failSelector)
-		[handler performSelector:failSelector withObject:error]; 
+   	if(sr.handler && sr.failSelector)
+		[sr.handler performSelector:sr.failSelector withObject:error]; 
     
     [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
 }
 
-- (ServiceResult*) parseJSONResult:(NSString *)json
+- (NSObject *) parseJSONString:(NSString *)json
 {
     NSDictionary *result = [jsonParser objectWithString:json];
     if(!result)
@@ -144,7 +158,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     int returnCode = [[result objectForKey:@"returnCode"] intValue];
     if(returnCode == 0)
-        return [[ServiceResult alloc] initWithData:[self parseOutColRowStructure:[result objectForKey:@"data"]] userInfo:userInfo];
+        return [self parseOutColRowStructure:[result objectForKey:@"data"]];
     else
     {
         NSLog(@"JSONResult: Return code %d: %@",returnCode,[result objectForKey:@"returnCodeDescription"]);
@@ -187,25 +201,19 @@ NSString *const kARISServerServicePackage = @"v1";
 	return dictionaryArray;
 }
 
-- (void) dealloc
-{
-    if(connection) [connection cancel];
-}
-
 @end
 
 @implementation ServiceResult
 @synthesize data;
 @synthesize userInfo;
+@synthesize asyncData; 
+@synthesize connection; 
+@synthesize handler;
+@synthesize successSelector; 
+@synthesize failSelector;  
 
-- (id) initWithData:(NSObject *)d userInfo:(NSDictionary *)u
+- (void) dealloc
 {
-    if(self = [super init])
-    {
-        self.data = d;
-        self.userInfo = u; 
-    }
-    return self;
+    [self.connection cancel];
 }
-
 @end
