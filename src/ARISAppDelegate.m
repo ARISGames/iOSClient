@@ -13,7 +13,9 @@
 #import <CoreMotion/CoreMotion.h>
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
-#import "Crittercism.h"
+#import "TestFlight.h"
+#import <Crashlytics/Crashlytics.h>
+
 #import "UIColor+ARISColors.h"
 
 #import "AppModel.h"
@@ -40,7 +42,8 @@
 {    
     application.idleTimerDisabled = YES;
     
-    //[Crittercism enableWithAppID:@"5101a46d59e1bd498c000002"];
+    [TestFlight takeOff:@"73157065-5a1d-42ab-800a-3925dd2ad5a3"];
+        
     //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist
 	[[AppModel sharedAppModel] initUserDefaults];

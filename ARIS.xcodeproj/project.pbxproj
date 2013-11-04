@@ -30,8 +30,6 @@
 		5BBA6A6117822E4C00387DBD /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA6A5117822E4C00387DBD /* WaveformControl.m */; };
 		5BBA6A6217822E4C00387DBD /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA6A5317822E4C00387DBD /* WaveSampleProvider.m */; };
 		5BBA6A6517822F5E00387DBD /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BBA6A6417822F5E00387DBD /* Accelerate.framework */; };
-		8902C4A917AC09E700C80803 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 8902C4A717AC09E700C80803 /* dsym_upload.sh */; };
-		8902C4AA17AC09E700C80803 /* libCrittercism_v4_0_6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8902C4A817AC09E700C80803 /* libCrittercism_v4_0_6.a */; };
 		A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8AF0F4B7E9400820FEA /* Foundation.framework */; };
 		A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */; };
 		A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79202630F8E717C0049F990 /* MediaPlayer.framework */; };
@@ -398,9 +396,13 @@
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */; };
+		AB5EC6E31820DC4D00FF49A6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5EC6E21820DC4D00FF49A6 /* Crashlytics.framework */; };
 		AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB70F39313153BB500BD06CD /* MessageUI.framework */; };
 		AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277713C7556100F10AD5 /* AddressBookUI.framework */; };
 		AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277913C7559800F10AD5 /* CoreMedia.framework */; };
+		AB8873EA181B6F250042FD63 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8873E4181B6F250042FD63 /* libTestFlight.a */; };
+		AB8873EB181B6F250042FD63 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AB8873E5181B6F250042FD63 /* README.md */; };
+		AB8873EC181B6F250042FD63 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = AB8873E6181B6F250042FD63 /* release_notes.md */; };
 		AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9BA24813DFBAB1007470E3 /* libz.dylib */; };
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
@@ -465,11 +467,6 @@
 		5BBA6A5317822E4C00387DBD /* WaveSampleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveSampleProvider.m; sourceTree = "<group>"; };
 		5BBA6A5417822E4C00387DBD /* WaveSampleProviderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProviderDelegate.h; sourceTree = "<group>"; };
 		5BBA6A6417822F5E00387DBD /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		8902C4A417AC09E700C80803 /* CRFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRFilter.h; sourceTree = "<group>"; };
-		8902C4A517AC09E700C80803 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
-		8902C4A617AC09E700C80803 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
-		8902C4A717AC09E700C80803 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
-		8902C4A817AC09E700C80803 /* libCrittercism_v4_0_6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_0_6.a; sourceTree = "<group>"; };
 		A78FD8AF0F4B7E9400820FEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A79202630F8E717C0049F990 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -1056,9 +1053,16 @@
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		AB5EC6E21820DC4D00FF49A6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AB70F39313153BB500BD06CD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AB7D277713C7556100F10AD5 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		AB7D277913C7559800F10AD5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		AB8873E4181B6F250042FD63 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		AB8873E5181B6F250042FD63 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		AB8873E6181B6F250042FD63 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		AB8873E7181B6F250042FD63 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		AB8873E8181B6F250042FD63 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		AB8873E9181B6F250042FD63 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		AB9BA24813DFBAB1007470E3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		ABB2CDC313C7497400F051E4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		ABB2CDC513C7498A00F051E4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -1090,6 +1094,7 @@
 				AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */,
 				D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */,
 				AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */,
+				AB5EC6E31820DC4D00FF49A6 /* Crashlytics.framework in Frameworks */,
 				4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */,
 				A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */,
 				A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */,
@@ -1104,6 +1109,7 @@
 				11BE779F13B0FCC7000D037B /* OpenGLES.framework in Frameworks */,
 				A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */,
 				ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */,
+				AB8873EA181B6F250042FD63 /* libTestFlight.a in Frameworks */,
 				AA1E2D501652CC7500219535 /* Security.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */,
@@ -1111,7 +1117,6 @@
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
 				AABC7421172739D80074CC21 /* libBump.a in Frameworks */,
 				AABC7450172739D80074CC21 /* libPusher-combined.a in Frameworks */,
-				8902C4AA17AC09E700C80803 /* libCrittercism_v4_0_6.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1176,18 +1181,6 @@
 				5B87AE23178DBA4100229D92 /* Playhead.m */,
 			);
 			path = audio_visualizer;
-			sourceTree = "<group>";
-		};
-		8902C4A317AC09E700C80803 /* CrittercismSDK */ = {
-			isa = PBXGroup;
-			children = (
-				8902C4A417AC09E700C80803 /* CRFilter.h */,
-				8902C4A517AC09E700C80803 /* Crittercism.h */,
-				8902C4A617AC09E700C80803 /* CrittercismDelegate.h */,
-				8902C4A717AC09E700C80803 /* dsym_upload.sh */,
-				8902C4A817AC09E700C80803 /* libCrittercism_v4_0_6.a */,
-			);
-			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
 		AA2D211617DE560C00CF4198 /* gamepicker_tabbar */ = {
@@ -1998,8 +1991,9 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
+				AB5EC6E21820DC4D00FF49A6 /* Crashlytics.framework */,
+				AB8873E3181B6F250042FD63 /* TestFlightSDK2.0.2 */,
 				AAF7115117B9579900262A37 /* PKRevealController */,
-				8902C4A317AC09E700C80803 /* CrittercismSDK */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71B5172739D70074CC21 /* bump */,
 				AABC71C0172739D70074CC21 /* JSON */,
@@ -2289,6 +2283,19 @@
 			name = "Frameworks and Dependancies";
 			sourceTree = "<group>";
 		};
+		AB8873E3181B6F250042FD63 /* TestFlightSDK2.0.2 */ = {
+			isa = PBXGroup;
+			children = (
+				AB8873E4181B6F250042FD63 /* libTestFlight.a */,
+				AB8873E5181B6F250042FD63 /* README.md */,
+				AB8873E6181B6F250042FD63 /* release_notes.md */,
+				AB8873E7181B6F250042FD63 /* TestFlight+AsyncLogging.h */,
+				AB8873E8181B6F250042FD63 /* TestFlight+ManualSessions.h */,
+				AB8873E9181B6F250042FD63 /* TestFlight.h */,
+			);
+			path = TestFlightSDK2.0.2;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2525,9 +2532,11 @@
 				AABC7401172739D80074CC21 /* DropOnMapViewController.xib in Resources */,
 				AABC7403172739D80074CC21 /* ImageViewer.xib in Resources */,
 				AA2D213D17DE560C00CF4198 /* clock_unselected@2x.png in Resources */,
+				AB8873EB181B6F250042FD63 /* README.md in Resources */,
 				AABC7407172739D80074CC21 /* NoteCell.xib in Resources */,
 				AABC7409172739D80074CC21 /* NoteCommentCell.xib in Resources */,
 				AABC740B172739D80074CC21 /* NoteCommentViewController.xib in Resources */,
+				AB8873EC181B6F250042FD63 /* release_notes.md in Resources */,
 				AABC740D172739D80074CC21 /* NoteContentCell.xib in Resources */,
 				AABC740F172739D80074CC21 /* NoteDetailsViewController.xib in Resources */,
 				AABC7411172739D80074CC21 /* NoteEditorViewController_old.xib in Resources */,
@@ -2560,7 +2569,6 @@
 				AA2D214117DE560C00CF4198 /* globe_unselected@2x.png in Resources */,
 				5B1D9991178CC3A700661453 /* 35-circle-stop@2x.png in Resources */,
 				AA856FF517A9AFA900E9D451 /* qr.png in Resources */,
-				8902C4A917AC09E700C80803 /* dsym_upload.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2578,7 +2586,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#APP_ID=\"5101a46d59e1bd498c000002\"\n#API_KEY=\"dvoqdekc54cfpinayo2uqf3u6nbhrty7\"\n#REQUIRE_UPLOAD_SUCCESS=0\n#source ${SRCROOT}/src/third_party/CrittercismSDK/dsym_upload.sh";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2803,10 +2811,10 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2823,6 +2831,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
+					/Users/djgagnon/Development/ARISiOSClient/src/third_party/TestFlightSDK2.0.2,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2830,8 +2839,8 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "387C618D-56A7-48E8-BE66-AFFC6964A595";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "387C618D-56A7-48E8-BE66-AFFC6964A595";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6843AF32-0270-4606-9124-0B775C1E363A";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
@@ -2871,10 +2880,10 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: UW Division of Information Technology";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/ARIS_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
@@ -2889,6 +2898,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
+					/Users/djgagnon/Development/ARISiOSClient/src/third_party/TestFlightSDK2.0.2,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2896,7 +2906,7 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
