@@ -143,7 +143,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) resetAndEmailNewPassword:(NSString *)email
 {
   NSArray *args = [NSArray arrayWithObjects:email, nil];
-  JSONConnection *jsonConnection = [[JSONConnection alloc]
   [connection performAsynchronousRequestWithService:@"players" method:@"resetAndEmailNewPassword" arguments:args handler:self successSelector:@selector(parseResetAndEmailNewPassword:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
@@ -340,7 +339,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"questsViewed" args:args handler:self successSelector:@selector(fetchPlayerQuestList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"questsViewed" arguments:args handler:self successSelector:@selector(fetchPlayerQuestList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerInventoryViewed
@@ -469,7 +468,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [NSString stringWithFormat:@"%d",noteId],
     title,
     nil];
-  [connection performAsynchronousRequestWithService:@"notes" method:@"updateComment" arguments:args handler:self successSelector:@selector(fetchPlayerNoteListAsync) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"updateComment" arguments:args handler:self successSelector:@selector(fetchNoteLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) likeNote:(int)noteId
@@ -546,7 +545,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[result.userInfo validIntForKey:@"noteId"]
       andFileURL:[result.userInfo validObjectForKey:@"localURL"]];
   [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
-  [self fetchPlayerNoteListAsync];
+  [self fetchNoteLists];
 }
 
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
@@ -600,14 +599,14 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
   NSLog(@"NSNotification: NewContentListReady");
   [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewContentListReady" object:nil]];
-  [self fetchPlayerNoteListAsync];
+  [self fetchNoteLists];
 }
 
 - (void) sendNotificationToNotebookViewer
 {
   NSLog(@"NSNotification: NoteDeleted");
   [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDeleted" object:nil]];
-  [self fetchPlayerNoteListAsync];
+  [self fetchNoteLists];
 }
 
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
@@ -626,10 +625,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   [uploader upload];
 }
 
-- (void) fetchPlayerNoteListAsync
+- (void) fetchNoteLists
 {
-  [self fetchGameNoteListAsynchronously:YES];
-  [self fetchPlayerNoteListAsynchronously:YES];
+  [self fetchGameNoteList];
+  [self fetchPlayerNoteList];
 }
 
 - (void) noteContentUploadDidFinish:(ARISUploader*)uploader
@@ -660,7 +659,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     type,
     title,
     nil];
-  [connection performAsynchronousRequestWithService:@"notes" method:@"addContentToNoteFromFileName" arguments:args handler:self successSelector:@selector(fetchPlayerNoteListAsync) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"addContentToNoteFromFileName" arguments:args handler:self successSelector:@selector(fetchNoteLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
   [self fetchAllPlayerLists];
 }
 
@@ -779,8 +778,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   [self fetchGameWebPageList];
   [self fetchGameOverlayList];
 
-  [self fetchGameNoteListAsynchronously:NO];
-  [self fetchPlayerNoteListAsynchronously:YES];
+  [self fetchGameNoteList];
+  [self fetchPlayerNoteList];
 }
 
 - (void) resetAllGameLists

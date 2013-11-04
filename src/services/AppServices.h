@@ -65,18 +65,18 @@
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
 - (void) resetAllGameLists;
 - (void) fetchAllGameLists;
-- (void) fetchGameMediaListAsynchronously:    (BOOL)YesForAsyncOrNoForSync;
-- (void) fetchTabBarItemsAsynchronously:      (BOOL)YesForAsyncOrNoForSync;
-- (void) fetchGameOverlayListAsynchronously:  (BOOL)YesForAsyncOrNoForSync;
-- (void) fetchGameNpcListAsynchronously:      (BOOL)YesForAsyncOrNoForSync;
-- (void) fetchGameItemListAsynchronously:     (BOOL)YesForAsyncOrNoForSync;
-- (void) fetchGameNodeListAsynchronously:     (BOOL)YesForAsyncOrNoForSync;
-- (void) fetchGameWebPageListAsynchronously:  (BOOL)YesForAsyncOrNoForSync;
-- (void) fetchGamePanoramicListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
-- (void) fetchGameNoteTagsAsynchronously:     (BOOL)YesForAsyncOrNoForSync;
+- (void) fetchGameMediaList;
+- (void) fetchTabBarItems;
+- (void) fetchGameOverlayList;
+- (void) fetchGameNpcList;
+- (void) fetchGameItemList;
+- (void) fetchGameNodeList;
+- (void) fetchGameWebPageList;
+- (void) fetchGamePanoramicList;
+- (void) fetchGameNoteTags;
 
-- (void) fetchGameNoteListAsynchronously:      (BOOL)YesForAsyncOrNoForSync;
-- (void) fetchPlayerNoteListAsynchronously:    (BOOL)YesForAsyncOrNoForSync;
+- (void) fetchGameNoteList;
+- (void) fetchPlayerNoteList;
 
 //Should only be called in the case of a media appearing in the game that didn't exist when the game was initially launched (eg- someone took a picture)
 - (void) fetchMedia:(int)mediaId;
@@ -143,7 +143,7 @@
 - (void) saveGameComment:(NSString*)comment game:(int)gameId starRating:(int)rating;
 - (void) sendNotificationToNoteViewer;
 - (void) sendNotificationToNotebookViewer;
-- (void) fetchPlayerNoteListAsync;
+- (void) fetchPlayerNoteList;
 - (void) startOverGame:(int)gameId;
 
 @end

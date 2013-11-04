@@ -56,7 +56,7 @@ NSString *const kARISServerServicePackage = @"v1";
     r.successSelector = ss;
     r.failSelector = fs; 
 	
-    [connections setObject:r forKey:r.connection];
+    [connections setObject:r forKey:r.connection.description];
 	[r.connection start];
 }
 
@@ -88,7 +88,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (NSURL *) createRequestURLFromService:(NSString *)service method:(NSString *)method arguments:(NSArray *)args
 {
-    NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, service, method];	 
+    NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"/json.php/%@.%@.%@", kARISServerServicePackage, service, method];	 
     
     NSEnumerator *argumentsEnumerator = [args objectEnumerator];
     NSString *argument;
@@ -109,17 +109,17 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
 {
-    ServiceResult *sr = [connections objectForKey:c];
+    ServiceResult *sr = [connections objectForKey:c.description];
     if(sr) [sr.asyncData appendData:d];
 }
 
 - (void) connectionDidFinishLoading:(NSURLConnection*)c
 {
-    ServiceResult *sr = [connections objectForKey:c];
+    ServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
     
     sr.data = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];  
-    [connections removeObjectForKey:c];
+    [connections removeObjectForKey:c.description];
     if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
     sr.connection = nil;
     sr.asyncData = nil;
@@ -130,10 +130,10 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void) connection:(NSURLConnection *)c didFailWithError:(NSError *)error
 {
-    ServiceResult *sr = [connections objectForKey:c];
+    ServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return; 
     
-    [connections removeObjectForKey:c];
+    [connections removeObjectForKey:c.description];
     if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;    
     
     NSLog(@"NSNotification: ConnectionLost");
