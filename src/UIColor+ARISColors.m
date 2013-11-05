@@ -41,8 +41,8 @@
 + (UIColor *) ARISColorNpcContentBackdrop       { return [UIColor blackColor]; }
 + (UIColor *) ARISColorViewBackdrop             { return [UIColor ARISColorWhite]; }
 + (UIColor *) ARISColorViewText                 { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorSideNaviagtionBackdrop   { return [UIColor ARISColorGray];  }
-+ (UIColor *) ARISColorSideNaviagtionText       { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorSideNaviagtionBackdrop   { return [UIColor ARISColorTranslucentWhite];  }
++ (UIColor *) ARISColorSideNaviagtionText       { return [UIColor ARISColorBlack]; }
 
 
 + (NSString *) ARISHtmlTemplate
