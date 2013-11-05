@@ -11,7 +11,6 @@
 #include "NoteContentProtocol.h"
 #include "Media.h"
 
-
 @interface UploadContent : NSManagedObject <NoteContentProtocol>
 
 @property (nonatomic, strong) NSString *title;
@@ -19,19 +18,6 @@
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *state;
 @property (nonatomic, strong) NSURL *fileURL;
-@property int noteId;
-
-@end
-
-@interface UploadContent (CoreDataGeneratedPrimitiveAccessors)
-
-- (NSString *) primitiveState;
-- (void) setPrimitiveState:(NSString *)value;
-
-- (NSString *) primitiveFileURL;
-- (void) setPrimitiveFileURL:(NSString *)value;
-
-- (NSNumber *) primitiveNoteId;
-- (void) setPrimitiveNoteId:(NSNumber *)value;
+@property (nonatomic, assign) int noteId;
 
 @end

@@ -9,6 +9,19 @@
 #import "UploadContent.h"
 #import "AppModel.h"
 
+@interface UploadContent (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSString *) primitiveState;
+- (void) setPrimitiveState:(NSString *)value;
+
+- (NSString *) primitiveFileURL;
+- (void) setPrimitiveFileURL:(NSString *)value;
+
+- (NSNumber *) primitiveNoteId;
+- (void) setPrimitiveNoteId:(NSNumber *)value;
+
+@end
+
 @implementation UploadContent
 
 @dynamic title;
@@ -18,11 +31,7 @@
 @dynamic fileURL;
 @dynamic noteId;
 
-/*
- Through we provide a public NSURL interface, the underlying persistant store
- is an NSString.
- */
-- (NSString *)getUploadState 
+- (NSString *) getUploadState 
 {
     NSString * tmpValue;
     [self willAccessValueForKey:@"state"];
@@ -31,11 +40,7 @@
     return tmpValue;
 }
 
-/*
- Through we provide a public NSURL interface, the underlying persistant store
- is an NSString.
- */
-- (NSURL *)fileURL 
+- (NSURL *) fileURL 
 {
     NSString * tmpValue;
     [self willAccessValueForKey:@"fileURL"];
@@ -44,18 +49,14 @@
     return [NSURL URLWithString:tmpValue];
 }
 
-- (void)setFileURL:(NSURL *)value 
+- (void) setFileURL:(NSURL *)value 
 {
     [self willChangeValueForKey:@"fileURL"];
     [self setPrimitiveFileURL:[value absoluteString]];
     [self didChangeValueForKey:@"fileURL"];
 }
 
-/*
- Through we provide a public int interface, the underlying persistant store
- is an NSNumber.
- */
-- (int)noteId 
+- (int) noteId 
 {
     NSNumber * tmpValue;
     [self willAccessValueForKey:@"noteId"];
@@ -64,7 +65,7 @@
     return [tmpValue intValue];
 }
 
-- (void)setNoteId:(int)value 
+- (void) setNoteId:(int)value 
 {
     [self willChangeValueForKey:@"noteId"];
     [self setPrimitiveNoteId:[NSNumber numberWithInt:value]];

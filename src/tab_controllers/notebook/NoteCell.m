@@ -2,184 +2,105 @@
 //  NoteCell.m
 //  ARIS
 //
-//  Created by Brian Thiel on 8/30/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Phil Dougherty on 11/4/13.
+//
 //
 
 #import "NoteCell.h"
 #import "Note.h"
-#import "AppServices.h"
 
-@interface NoteCell() <UITextViewDelegate>
+@interface NoteCell()
 {
-    Note *note;
+    UILabel *title;
+    UILabel *date; 
+    UILabel *owner; 
+    UIImageView *imageIcon;
+    UIImageView *videoIcon; 
+    UIImageView *audioIcon; 
+    UITextField *desc;
     
-    IBOutlet UITextView *titleLabel;
-    IBOutlet UIImageView *mediaIcon1;
-    IBOutlet UIImageView *mediaIcon2;
-    IBOutlet UIImageView *mediaIcon3;
-    IBOutlet UIImageView *mediaIcon4;
-    IBOutlet UILabel *likeLabel;
-    
-    IBOutlet UIButton *likesButton;
-    IBOutlet UILabel *commentsLbl;
-    IBOutlet UILabel *holdLbl;
-    
-    id __unsafe_unretained delegate;
+    id<NoteCellDelegate> __unsafe_unretained delegate;
 }
-
-@property (nonatomic) Note *note;
-@property (nonatomic) IBOutlet UITextView *titleLabel;
-@property (nonatomic) IBOutlet UIImageView *mediaIcon1;
-@property (nonatomic) IBOutlet UIImageView *mediaIcon2;
-@property (nonatomic) IBOutlet UIImageView *mediaIcon3;
-@property (nonatomic) IBOutlet UIImageView *mediaIcon4;
-@property (nonatomic) IBOutlet UILabel *likeLabel;
-@property (nonatomic) IBOutlet UIButton *likesButton;
-@property (nonatomic) IBOutlet UILabel *commentsLbl;
-@property (nonatomic) IBOutlet UILabel *holdLbl;
-
-- (IBAction) likeButtonTouched;
-
 @end
 
 @implementation NoteCell
 
-@synthesize note;
-@synthesize titleLabel;
-@synthesize mediaIcon1;
-@synthesize mediaIcon2;
-@synthesize mediaIcon3;
-@synthesize mediaIcon4;
-@synthesize likeLabel;
-@synthesize likesButton;
-@synthesize commentsLbl;
-@synthesize holdLbl;
++ (NSString *) cellIdentifier { return @"notecell"; };  
 
-- (void) setupWithNote:(Note *)n delegate:(id)d
+- (id) initWithDelegate:(id<NoteCellDelegate>)d
 {
-    self.note = n;
-    delegate = d;
-
-    if(self.note.creatorId == [AppModel sharedAppModel].player.playerId)
-        [holdLbl addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(holdTextBox:)]];
-    [self.titleLabel setUserInteractionEnabled:NO];
-
-    
-    if([self.note.comments count] == 0)
+    if(self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"notecell"])
     {
-        self.commentsLbl.text = @"";
-        [self.likesButton setFrame:CGRectMake(self.likesButton.frame.origin.x, 14, self.likesButton.frame.size.width, self.likesButton.frame.size.height)];
-        [self.likeLabel   setFrame:CGRectMake(self.likeLabel.frame.origin.x,   26, self.likeLabel.frame.size.width,   self.likeLabel.frame.size.height)];
-    }
-    else
-    {
-        self.commentsLbl.text = [NSString stringWithFormat:@"%d %@",[self.note.comments count],NSLocalizedString(@"NotebookCommentsKey", @"")];
-        [self.likesButton setFrame:CGRectMake(self.likesButton.frame.origin.x, 2,  self.likesButton.frame.size.width, self.likesButton.frame.size.height)];
-        [self.likeLabel   setFrame:CGRectMake(self.likeLabel.frame.origin.x,   14, self.likeLabel.frame.size.width,   self.likeLabel.frame.size.height)];
-    }
-    self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
-    if(self.note.userLiked) self.likesButton.selected = YES;
-    self.titleLabel.text = self.note.name;
-    if([self.note.contents count] == 0 && (self.note.creatorId != [AppModel sharedAppModel].player.playerId))
-        self.userInteractionEnabled = NO;
-    
-    BOOL videoIconUsed = NO;
-    BOOL photoIconUsed = NO;
-    BOOL audioIconUsed = NO;
-    BOOL textIconUsed  = NO;
-    for(int x = 0; x < [self.note.contents count]; x++)
-    {
-        if([[(NoteContent *)[self.note.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !textIconUsed)
-        {
-            textIconUsed = YES;
-            if     (self.mediaIcon1.image == nil) self.mediaIcon1.image = [UIImage imageNamed:@"noteicon.png"];
-            else if(self.mediaIcon2.image == nil) self.mediaIcon2.image = [UIImage imageNamed:@"noteicon.png"];
-            else if(self.mediaIcon3.image == nil) self.mediaIcon3.image = [UIImage imageNamed:@"noteicon.png"];
-            else if(self.mediaIcon4.image == nil) self.mediaIcon4.image = [UIImage imageNamed:@"noteicon.png"];
-        }
-        else if ([[(NoteContent *)[self.note.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !photoIconUsed)
-        {
-            photoIconUsed = YES;
-            if     (self.mediaIcon1.image == nil) self.mediaIcon1.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-            else if(self.mediaIcon2.image == nil) self.mediaIcon2.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-            else if(self.mediaIcon3.image == nil) self.mediaIcon3.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-            else if(self.mediaIcon4.image == nil) self.mediaIcon4.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-        }
-        else if([[(NoteContent *)[self.note.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !audioIconUsed)
-        {
-            audioIconUsed = YES;
-            if     (self.mediaIcon1.image == nil) self.mediaIcon1.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-            else if(self.mediaIcon2.image == nil) self.mediaIcon2.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-            else if(self.mediaIcon3.image == nil) self.mediaIcon3.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-            else if(self.mediaIcon4.image == nil) self.mediaIcon4.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-        }
-        else if([[(NoteContent *)[self.note.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !videoIconUsed)
-        {
-            videoIconUsed = YES;
-            if     (self.mediaIcon1.image == nil) self.mediaIcon1.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
-            else if(self.mediaIcon2.image == nil) self.mediaIcon2.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
-            else if(self.mediaIcon3.image == nil) self.mediaIcon3.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
-            else if(self.mediaIcon4.image == nil) self.mediaIcon4.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
-        }
-    }
-    
-    if(![AppModel sharedAppModel].currentGame.allowNoteLikes)
-    {
-        self.likesButton.enabled = NO;
-        self.likeLabel.hidden = YES;
-        self.likesButton.hidden = YES;
-    }
-}
-
-- (void) likeButtonTouched
-{
-    self.likesButton.selected = !self.likesButton.selected;
-    self.note.userLiked = !self.note.userLiked;
-    if(self.note.userLiked)
-    {
-        [[AppServices sharedAppServices] likeNote:self.note.noteId];
-        self.note.numRatings++;
-    }
-    else
-    {
-        [[AppServices sharedAppServices] unLikeNote:self.note.noteId];
-        self.note.numRatings--;
-    }
-    likeLabel.text = [NSString stringWithFormat:@"%d",note.numRatings];
-}
-
-- (BOOL) textViewShouldBeginEditing:(UITextView *)textView
-{
-    if([textView.text isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")]) textView.text = @"";
-    return YES;
-}
-
-- (BOOL) textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if([text isEqualToString:@"\n"])
-    {
-        [textView resignFirstResponder];  
-        self.note.name = textView.text;
+        delegate = d;
         
-        [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:textView.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
-
-        return NO;
+        title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.frame.size.width-20,20)];
+        date  = [[UILabel alloc] initWithFrame:CGRectMake(10,35,self.frame.size.width-20,12)];
+        owner = [[UILabel alloc] initWithFrame:CGRectMake(40,35,self.frame.size.width-20,12)];
+        desc  = [[UITextField alloc] initWithFrame:CGRectMake(10,52,self.frame.size.width-20,self.frame.size.height-52-5)];
+        imageIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-50,10,10,20)];
+        videoIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-50,10,10,20)];
+        audioIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-50,10,10,20)];
+        
+        [self addSubview:title];
+        [self addSubview:date]; 
+        [self addSubview:owner]; 
+        [self addSubview:desc]; 
+        [self addSubview:imageIcon]; 
+        [self addSubview:videoIcon];  
+        [self addSubview:audioIcon];  
     }
-    if([text isEqualToString:@"\b"]) return YES;
-    if([textView.text length] > 20)  return NO;
-    return YES;
+    return self;
 }
 
-- (void) holdTextBox:(UIPanGestureRecognizer *)gestureRecognizer
+- (void) setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    if(gestureRecognizer.state == UIGestureRecognizerStateBegan || gestureRecognizer.state == UIGestureRecognizerStatePossible || gestureRecognizer.state == UIGestureRecognizerStateRecognized)
-    {
-        [self.titleLabel setEditable:YES];
-        [self.titleLabel becomeFirstResponder];
-    }
-    else
-        [self.titleLabel setUserInteractionEnabled:NO];
+    [super setSelected:selected animated:animated];
+}
+
+- (void) populateWithNote:(Note *)n
+{
+    [self setTitle:n.name];
+    //[self setDate:]; //currently no date!
+    [self setOwner:n.name]; 
+    [self setTitle:n.name]; 
+}
+
+- (void) setTitle:(NSString *)t
+{
+    title.text = t;
+}
+
+- (void) setDate:(NSString *)d
+{
+    date.text = d; 
+}
+
+- (void) setOwner:(NSString *)o
+{
+    owner.text = o;
+}
+
+- (void) setDescription:(NSString *)d
+{
+    desc.text = d;
+}
+
+- (void) setHasImageIcon:(BOOL)i
+{
+    if(i) [self addSubview:imageIcon];
+    else [imageIcon removeFromSuperview];
+}
+
+- (void) setHasVideoIcon:(BOOL)v
+{
+    if(v) [self addSubview:videoIcon];
+    else  [videoIcon removeFromSuperview]; 
+}
+
+- (void) setHasAudioIcon:(BOOL)a
+{
+    if(a) [self addSubview:audioIcon];
+    else  [audioIcon removeFromSuperview]; 
 }
 
 @end

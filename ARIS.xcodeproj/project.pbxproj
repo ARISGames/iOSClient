@@ -21,14 +21,6 @@
 		5B1D998F178CC3A700661453 /* 30-circle-play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9985178CC3A700661453 /* 30-circle-play@2x.png */; };
 		5B1D9990178CC3A700661453 /* 35-circle-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9986178CC3A700661453 /* 35-circle-stop.png */; };
 		5B1D9991178CC3A700661453 /* 35-circle-stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9987178CC3A700661453 /* 35-circle-stop@2x.png */; };
-		5B87AE24178DBA4100229D92 /* Playhead.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B87AE23178DBA4100229D92 /* Playhead.m */; };
-		5BBA6A5C17822E4C00387DBD /* AudioSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA6A4817822E4C00387DBD /* AudioSlider.m */; };
-		5BBA6A5D17822E4C00387DBD /* AudioTint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA6A4A17822E4C00387DBD /* AudioTint.m */; };
-		5BBA6A5E17822E4C00387DBD /* AudioVisualizerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA6A4C17822E4C00387DBD /* AudioVisualizerViewController.m */; };
-		5BBA6A5F17822E4C00387DBD /* AudioVisualizerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BBA6A4D17822E4C00387DBD /* AudioVisualizerViewController.xib */; };
-		5BBA6A6017822E4C00387DBD /* FreqHistogramControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA6A4F17822E4C00387DBD /* FreqHistogramControl.m */; };
-		5BBA6A6117822E4C00387DBD /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA6A5117822E4C00387DBD /* WaveformControl.m */; };
-		5BBA6A6217822E4C00387DBD /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA6A5317822E4C00387DBD /* WaveSampleProvider.m */; };
 		5BBA6A6517822F5E00387DBD /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BBA6A6417822F5E00387DBD /* Accelerate.framework */; };
 		A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8AF0F4B7E9400820FEA /* Foundation.framework */; };
 		A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */; };
@@ -76,6 +68,8 @@
 		AA2D215717DE57F000CF4198 /* radar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215517DE57F000CF4198 /* radar@2x.png */; };
 		AA2D215B17DE593B00CF4198 /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215917DE593B00CF4198 /* book.png */; };
 		AA2D215C17DE593B00CF4198 /* book@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215A17DE593B00CF4198 /* book@2x.png */; };
+		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
+		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
 		AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FA8182037CB006C9715 /* SBJsonParser.m */; };
 		AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAA182037CB006C9715 /* SBJsonStreamParser.m */; };
 		AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAC182037CB006C9715 /* SBJsonStreamParserAccumulator.m */; };
@@ -100,7 +94,6 @@
 		AA527E4B17E0B6830040AB75 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4417E0B6830040AB75 /* camera.png */; };
 		AA527E4C17E0B6830040AB75 /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4517E0B6830040AB75 /* microphone.png */; };
 		AA527E4D17E0B6830040AB75 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4617E0B6830040AB75 /* note.png */; };
-		AA527E5017E0E0710040AB75 /* NoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA527E4F17E0E0710040AB75 /* NoteEditorViewController.m */; };
 		AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FDB17330947003A840D /* GamePlayViewController.m */; };
 		AA701FE117342169003A840D /* GamePickersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE017342169003A840D /* GamePickersViewController.m */; };
 		AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE4173428C3003A840D /* ARISAlertHandler.m */; };
@@ -273,13 +266,6 @@
 		AABC73D6172739D80074CC21 /* UploadContent.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC712B172739D60074CC21 /* UploadContent.m */; };
 		AABC73D7172739D80074CC21 /* UploadContent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AABC712C172739D60074CC21 /* UploadContent.xcdatamodeld */; };
 		AABC73D8172739D80074CC21 /* UploadMan.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7131172739D60074CC21 /* UploadMan.m */; };
-		AABC73D9172739D80074CC21 /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7135172739D60074CC21 /* ARCoordinate.m */; };
-		AABC73DA172739D80074CC21 /* ARGeoCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7137172739D60074CC21 /* ARGeoCoordinate.m */; };
-		AABC73DB172739D80074CC21 /* ARGeoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7139172739D60074CC21 /* ARGeoViewController.m */; };
-		AABC73DC172739D80074CC21 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC713A172739D60074CC21 /* ARView.xib */; };
-		AABC73DD172739D80074CC21 /* ARViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC713C172739D60074CC21 /* ARViewController.m */; };
-		AABC73DE172739D80074CC21 /* ARViewViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC713E172739D60074CC21 /* ARViewViewControler.m */; };
-		AABC73DF172739D80074CC21 /* NearbyObjectARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7140172739D60074CC21 /* NearbyObjectARCoordinate.m */; };
 		AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7143172739D60074CC21 /* AttributesViewController.m */; };
 		AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC714B172739D60074CC21 /* DecoderViewController.mm */; };
 		AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7152172739D60074CC21 /* InventoryTradeViewController.m */; };
@@ -292,37 +278,6 @@
 		AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC716B172739D60074CC21 /* NearbyObjectCell.xib */; };
 		AABC73F5172739D80074CC21 /* NearbyObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC716E172739D60074CC21 /* NearbyObjectsViewController.m */; };
 		AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC716F172739D60074CC21 /* NearbyObjectsViewController.xib */; };
-		AABC73F7172739D80074CC21 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7172172739D60074CC21 /* AudioMeter.m */; };
-		AABC73F8172739D80074CC21 /* AudioPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7174172739D60074CC21 /* AudioPlayerViewController.m */; };
-		AABC73F9172739D80074CC21 /* AudioPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7175172739D60074CC21 /* AudioPlayerViewController.xib */; };
-		AABC73FA172739D80074CC21 /* AudioRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7177172739D60074CC21 /* AudioRecorderViewController.m */; };
-		AABC73FB172739D80074CC21 /* AudioRecorderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */; };
-		AABC73FC172739D80074CC21 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7179172739D60074CC21 /* CameraViewController.xib */; };
-		AABC73FD172739D80074CC21 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717B172739D60074CC21 /* CameraViewController.m */; };
-		AABC73FE172739D80074CC21 /* DDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717D172739D60074CC21 /* DDAnnotation.m */; };
-		AABC73FF172739D80074CC21 /* DDAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717F172739D60074CC21 /* DDAnnotationView.m */; };
-		AABC7400172739D80074CC21 /* DropOnMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7181172739D60074CC21 /* DropOnMapViewController.m */; };
-		AABC7401172739D80074CC21 /* DropOnMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7182172739D60074CC21 /* DropOnMapViewController.xib */; };
-		AABC7402172739D80074CC21 /* ImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7184172739D60074CC21 /* ImageViewer.m */; };
-		AABC7403172739D80074CC21 /* ImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7185172739D60074CC21 /* ImageViewer.xib */; };
-		AABC7404172739D80074CC21 /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7187172739D60074CC21 /* NotebookViewController.m */; };
-		AABC7406172739D80074CC21 /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC718A172739D60074CC21 /* NoteCell.m */; };
-		AABC7407172739D80074CC21 /* NoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC718B172739D60074CC21 /* NoteCell.xib */; };
-		AABC7408172739D80074CC21 /* NoteCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC718D172739D60074CC21 /* NoteCommentCell.m */; };
-		AABC7409172739D80074CC21 /* NoteCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC718E172739D60074CC21 /* NoteCommentCell.xib */; };
-		AABC740A172739D80074CC21 /* NoteCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7190172739D70074CC21 /* NoteCommentViewController.m */; };
-		AABC740B172739D80074CC21 /* NoteCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7191172739D70074CC21 /* NoteCommentViewController.xib */; };
-		AABC740C172739D80074CC21 /* NoteContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7193172739D70074CC21 /* NoteContentCell.m */; };
-		AABC740D172739D80074CC21 /* NoteContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7194172739D70074CC21 /* NoteContentCell.xib */; };
-		AABC740E172739D80074CC21 /* NoteDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7197172739D70074CC21 /* NoteDetailsViewController.m */; };
-		AABC740F172739D80074CC21 /* NoteDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7198172739D70074CC21 /* NoteDetailsViewController.xib */; };
-		AABC7410172739D80074CC21 /* NoteEditorViewController_old.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC719A172739D70074CC21 /* NoteEditorViewController_old.m */; };
-		AABC7411172739D80074CC21 /* NoteEditorViewController_old.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC719B172739D70074CC21 /* NoteEditorViewController_old.xib */; };
-		AABC7412172739D80074CC21 /* TagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC719D172739D70074CC21 /* TagCell.m */; };
-		AABC7413172739D80074CC21 /* TagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC719E172739D70074CC21 /* TagCell.xib */; };
-		AABC7414172739D80074CC21 /* TagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71A0172739D70074CC21 /* TagViewController.m */; };
-		AABC7415172739D80074CC21 /* TagViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC71A1172739D70074CC21 /* TagViewController.xib */; };
-		AABC7416172739D80074CC21 /* TextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71A3172739D70074CC21 /* TextViewController.m */; };
 		AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71A9172739D70074CC21 /* IconQuestsViewController.m */; };
 		AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */; };
 		AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B0172739D70074CC21 /* QuestsViewController.m */; };
@@ -450,22 +405,6 @@
 		5B1D9985178CC3A700661453 /* 30-circle-play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "30-circle-play@2x.png"; sourceTree = "<group>"; };
 		5B1D9986178CC3A700661453 /* 35-circle-stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "35-circle-stop.png"; sourceTree = "<group>"; };
 		5B1D9987178CC3A700661453 /* 35-circle-stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "35-circle-stop@2x.png"; sourceTree = "<group>"; };
-		5B87AE22178DBA4100229D92 /* Playhead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playhead.h; sourceTree = "<group>"; };
-		5B87AE23178DBA4100229D92 /* Playhead.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playhead.m; sourceTree = "<group>"; };
-		5BBA6A4717822E4C00387DBD /* AudioSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSlider.h; sourceTree = "<group>"; };
-		5BBA6A4817822E4C00387DBD /* AudioSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSlider.m; sourceTree = "<group>"; };
-		5BBA6A4917822E4C00387DBD /* AudioTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTint.h; sourceTree = "<group>"; };
-		5BBA6A4A17822E4C00387DBD /* AudioTint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTint.m; sourceTree = "<group>"; };
-		5BBA6A4B17822E4C00387DBD /* AudioVisualizerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerViewController.h; sourceTree = "<group>"; };
-		5BBA6A4C17822E4C00387DBD /* AudioVisualizerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerViewController.m; sourceTree = "<group>"; };
-		5BBA6A4D17822E4C00387DBD /* AudioVisualizerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioVisualizerViewController.xib; sourceTree = "<group>"; };
-		5BBA6A4E17822E4C00387DBD /* FreqHistogramControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreqHistogramControl.h; sourceTree = "<group>"; };
-		5BBA6A4F17822E4C00387DBD /* FreqHistogramControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramControl.m; sourceTree = "<group>"; };
-		5BBA6A5017822E4C00387DBD /* WaveformControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformControl.h; sourceTree = "<group>"; };
-		5BBA6A5117822E4C00387DBD /* WaveformControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformControl.m; sourceTree = "<group>"; };
-		5BBA6A5217822E4C00387DBD /* WaveSampleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProvider.h; sourceTree = "<group>"; };
-		5BBA6A5317822E4C00387DBD /* WaveSampleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveSampleProvider.m; sourceTree = "<group>"; };
-		5BBA6A5417822E4C00387DBD /* WaveSampleProviderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProviderDelegate.h; sourceTree = "<group>"; };
 		5BBA6A6417822F5E00387DBD /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		A78FD8AF0F4B7E9400820FEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -519,6 +458,11 @@
 		AA2D215917DE593B00CF4198 /* book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = book.png; sourceTree = "<group>"; };
 		AA2D215A17DE593B00CF4198 /* book@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "book@2x.png"; sourceTree = "<group>"; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
+		AA383B0C1828324F00612FFB /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
+		AA383B0D1828324F00612FFB /* NotebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookViewController.m; sourceTree = "<group>"; };
+		AA383B0F18283B9F00612FFB /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
+		AA383B1018283B9F00612FFB /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
+		AA383B121829604200612FFB /* NoteContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentProtocol.h; sourceTree = "<group>"; };
 		AA3B7FA6182037CB006C9715 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
 		AA3B7FA7182037CB006C9715 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		AA3B7FA8182037CB006C9715 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
@@ -559,8 +503,6 @@
 		AA527E4417E0B6830040AB75 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		AA527E4517E0B6830040AB75 /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphone.png; sourceTree = "<group>"; };
 		AA527E4617E0B6830040AB75 /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note.png; sourceTree = "<group>"; };
-		AA527E4E17E0E0710040AB75 /* NoteEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteEditorViewController.h; sourceTree = "<group>"; };
-		AA527E4F17E0E0710040AB75 /* NoteEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteEditorViewController.m; sourceTree = "<group>"; };
 		AA701FDA17330947003A840D /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		AA701FDB17330947003A840D /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
 		AA701FDF17342169003A840D /* GamePickersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickersViewController.h; sourceTree = "<group>"; };
@@ -808,19 +750,6 @@
 		AABC712F172739D60074CC21 /* UploadContent1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.8.xcdatamodel; sourceTree = "<group>"; };
 		AABC7130172739D60074CC21 /* UploadMan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadMan.h; sourceTree = "<group>"; };
 		AABC7131172739D60074CC21 /* UploadMan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadMan.m; sourceTree = "<group>"; };
-		AABC7134172739D60074CC21 /* ARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCoordinate.h; sourceTree = "<group>"; };
-		AABC7135172739D60074CC21 /* ARCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARCoordinate.m; sourceTree = "<group>"; };
-		AABC7136172739D60074CC21 /* ARGeoCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGeoCoordinate.h; sourceTree = "<group>"; };
-		AABC7137172739D60074CC21 /* ARGeoCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGeoCoordinate.m; sourceTree = "<group>"; };
-		AABC7138172739D60074CC21 /* ARGeoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGeoViewController.h; sourceTree = "<group>"; };
-		AABC7139172739D60074CC21 /* ARGeoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGeoViewController.m; sourceTree = "<group>"; };
-		AABC713A172739D60074CC21 /* ARView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ARView.xib; sourceTree = "<group>"; };
-		AABC713B172739D60074CC21 /* ARViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
-		AABC713C172739D60074CC21 /* ARViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewController.m; sourceTree = "<group>"; };
-		AABC713D172739D60074CC21 /* ARViewViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewViewControler.h; sourceTree = "<group>"; };
-		AABC713E172739D60074CC21 /* ARViewViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewViewControler.m; sourceTree = "<group>"; };
-		AABC713F172739D60074CC21 /* NearbyObjectARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectARCoordinate.h; sourceTree = "<group>"; };
-		AABC7140172739D60074CC21 /* NearbyObjectARCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectARCoordinate.m; sourceTree = "<group>"; };
 		AABC7142172739D60074CC21 /* AttributesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesViewController.h; sourceTree = "<group>"; };
 		AABC7143172739D60074CC21 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		AABC714A172739D60074CC21 /* DecoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecoderViewController.h; sourceTree = "<group>"; };
@@ -842,56 +771,6 @@
 		AABC716D172739D60074CC21 /* NearbyObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectsViewController.h; sourceTree = "<group>"; };
 		AABC716E172739D60074CC21 /* NearbyObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectsViewController.m; sourceTree = "<group>"; };
 		AABC716F172739D60074CC21 /* NearbyObjectsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyObjectsViewController.xib; sourceTree = "<group>"; };
-		AABC7171172739D60074CC21 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
-		AABC7172172739D60074CC21 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
-		AABC7173172739D60074CC21 /* AudioPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerViewController.h; sourceTree = "<group>"; };
-		AABC7174172739D60074CC21 /* AudioPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerViewController.m; sourceTree = "<group>"; };
-		AABC7175172739D60074CC21 /* AudioPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioPlayerViewController.xib; sourceTree = "<group>"; };
-		AABC7176172739D60074CC21 /* AudioRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorderViewController.h; sourceTree = "<group>"; };
-		AABC7177172739D60074CC21 /* AudioRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderViewController.m; sourceTree = "<group>"; };
-		AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRecorderViewController.xib; sourceTree = "<group>"; };
-		AABC7179172739D60074CC21 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
-		AABC717A172739D60074CC21 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
-		AABC717B172739D60074CC21 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
-		AABC717C172739D60074CC21 /* DDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotation.h; sourceTree = "<group>"; };
-		AABC717D172739D60074CC21 /* DDAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotation.m; sourceTree = "<group>"; };
-		AABC717E172739D60074CC21 /* DDAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotationView.h; sourceTree = "<group>"; };
-		AABC717F172739D60074CC21 /* DDAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotationView.m; sourceTree = "<group>"; };
-		AABC7180172739D60074CC21 /* DropOnMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropOnMapViewController.h; sourceTree = "<group>"; };
-		AABC7181172739D60074CC21 /* DropOnMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropOnMapViewController.m; sourceTree = "<group>"; };
-		AABC7182172739D60074CC21 /* DropOnMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DropOnMapViewController.xib; sourceTree = "<group>"; };
-		AABC7183172739D60074CC21 /* ImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewer.h; sourceTree = "<group>"; };
-		AABC7184172739D60074CC21 /* ImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewer.m; sourceTree = "<group>"; };
-		AABC7185172739D60074CC21 /* ImageViewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewer.xib; sourceTree = "<group>"; };
-		AABC7186172739D60074CC21 /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
-		AABC7187172739D60074CC21 /* NotebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookViewController.m; sourceTree = "<group>"; };
-		AABC7189172739D60074CC21 /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
-		AABC718A172739D60074CC21 /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
-		AABC718B172739D60074CC21 /* NoteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCell.xib; sourceTree = "<group>"; };
-		AABC718C172739D60074CC21 /* NoteCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentCell.h; sourceTree = "<group>"; };
-		AABC718D172739D60074CC21 /* NoteCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentCell.m; sourceTree = "<group>"; };
-		AABC718E172739D60074CC21 /* NoteCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCommentCell.xib; sourceTree = "<group>"; };
-		AABC718F172739D70074CC21 /* NoteCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentViewController.h; sourceTree = "<group>"; };
-		AABC7190172739D70074CC21 /* NoteCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentViewController.m; sourceTree = "<group>"; };
-		AABC7191172739D70074CC21 /* NoteCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCommentViewController.xib; sourceTree = "<group>"; };
-		AABC7192172739D70074CC21 /* NoteContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentCell.h; sourceTree = "<group>"; };
-		AABC7193172739D70074CC21 /* NoteContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContentCell.m; sourceTree = "<group>"; };
-		AABC7194172739D70074CC21 /* NoteContentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteContentCell.xib; sourceTree = "<group>"; };
-		AABC7195172739D70074CC21 /* NoteContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentProtocol.h; sourceTree = "<group>"; };
-		AABC7196172739D70074CC21 /* NoteDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteDetailsViewController.h; sourceTree = "<group>"; };
-		AABC7197172739D70074CC21 /* NoteDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteDetailsViewController.m; sourceTree = "<group>"; };
-		AABC7198172739D70074CC21 /* NoteDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteDetailsViewController.xib; sourceTree = "<group>"; };
-		AABC7199172739D70074CC21 /* NoteEditorViewController_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteEditorViewController_old.h; sourceTree = "<group>"; };
-		AABC719A172739D70074CC21 /* NoteEditorViewController_old.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteEditorViewController_old.m; sourceTree = "<group>"; };
-		AABC719B172739D70074CC21 /* NoteEditorViewController_old.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteEditorViewController_old.xib; sourceTree = "<group>"; };
-		AABC719C172739D70074CC21 /* TagCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagCell.h; sourceTree = "<group>"; };
-		AABC719D172739D70074CC21 /* TagCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagCell.m; sourceTree = "<group>"; };
-		AABC719E172739D70074CC21 /* TagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagCell.xib; sourceTree = "<group>"; };
-		AABC719F172739D70074CC21 /* TagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagViewController.h; sourceTree = "<group>"; };
-		AABC71A0172739D70074CC21 /* TagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagViewController.m; sourceTree = "<group>"; };
-		AABC71A1172739D70074CC21 /* TagViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagViewController.xib; sourceTree = "<group>"; };
-		AABC71A2172739D70074CC21 /* TextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewController.h; sourceTree = "<group>"; };
-		AABC71A3172739D70074CC21 /* TextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewController.m; sourceTree = "<group>"; };
 		AABC71A9172739D70074CC21 /* IconQuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconQuestsViewController.m; sourceTree = "<group>"; };
 		AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailsViewController.h; sourceTree = "<group>"; };
 		AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; };
@@ -1156,29 +1035,6 @@
 				5B1D9985178CC3A700661453 /* 30-circle-play@2x.png */,
 				5B1D9986178CC3A700661453 /* 35-circle-stop.png */,
 				5B1D9987178CC3A700661453 /* 35-circle-stop@2x.png */,
-			);
-			path = audio_visualizer;
-			sourceTree = "<group>";
-		};
-		5BBA6A3F17822E4C00387DBD /* audio_visualizer */ = {
-			isa = PBXGroup;
-			children = (
-				5BBA6A4717822E4C00387DBD /* AudioSlider.h */,
-				5BBA6A4817822E4C00387DBD /* AudioSlider.m */,
-				5BBA6A4917822E4C00387DBD /* AudioTint.h */,
-				5BBA6A4A17822E4C00387DBD /* AudioTint.m */,
-				5BBA6A4B17822E4C00387DBD /* AudioVisualizerViewController.h */,
-				5BBA6A4C17822E4C00387DBD /* AudioVisualizerViewController.m */,
-				5BBA6A4D17822E4C00387DBD /* AudioVisualizerViewController.xib */,
-				5BBA6A4E17822E4C00387DBD /* FreqHistogramControl.h */,
-				5BBA6A4F17822E4C00387DBD /* FreqHistogramControl.m */,
-				5BBA6A5017822E4C00387DBD /* WaveformControl.h */,
-				5BBA6A5117822E4C00387DBD /* WaveformControl.m */,
-				5BBA6A5217822E4C00387DBD /* WaveSampleProvider.h */,
-				5BBA6A5317822E4C00387DBD /* WaveSampleProvider.m */,
-				5BBA6A5417822E4C00387DBD /* WaveSampleProviderDelegate.h */,
-				5B87AE22178DBA4100229D92 /* Playhead.h */,
-				5B87AE23178DBA4100229D92 /* Playhead.m */,
 			);
 			path = audio_visualizer;
 			sourceTree = "<group>";
@@ -1827,29 +1683,8 @@
 				AABC715A172739D60074CC21 /* map */,
 				AABC7168172739D60074CC21 /* nearby */,
 				AABC7170172739D60074CC21 /* notebook */,
-				AABC7133172739D60074CC21 /* ar */,
 			);
 			path = tab_controllers;
-			sourceTree = "<group>";
-		};
-		AABC7133172739D60074CC21 /* ar */ = {
-			isa = PBXGroup;
-			children = (
-				AABC713D172739D60074CC21 /* ARViewViewControler.h */,
-				AABC713E172739D60074CC21 /* ARViewViewControler.m */,
-				AABC713B172739D60074CC21 /* ARViewController.h */,
-				AABC713C172739D60074CC21 /* ARViewController.m */,
-				AABC7134172739D60074CC21 /* ARCoordinate.h */,
-				AABC7135172739D60074CC21 /* ARCoordinate.m */,
-				AABC7136172739D60074CC21 /* ARGeoCoordinate.h */,
-				AABC7137172739D60074CC21 /* ARGeoCoordinate.m */,
-				AABC7138172739D60074CC21 /* ARGeoViewController.h */,
-				AABC7139172739D60074CC21 /* ARGeoViewController.m */,
-				AABC713A172739D60074CC21 /* ARView.xib */,
-				AABC713F172739D60074CC21 /* NearbyObjectARCoordinate.h */,
-				AABC7140172739D60074CC21 /* NearbyObjectARCoordinate.m */,
-			);
-			path = ar;
 			sourceTree = "<group>";
 		};
 		AABC7141172739D60074CC21 /* attributes */ = {
@@ -1916,59 +1751,11 @@
 		AABC7170172739D60074CC21 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
-				5BBA6A3F17822E4C00387DBD /* audio_visualizer */,
-				AABC7186172739D60074CC21 /* NotebookViewController.h */,
-				AABC7187172739D60074CC21 /* NotebookViewController.m */,
-				AA527E4E17E0E0710040AB75 /* NoteEditorViewController.h */,
-				AA527E4F17E0E0710040AB75 /* NoteEditorViewController.m */,
-				AABC7199172739D70074CC21 /* NoteEditorViewController_old.h */,
-				AABC719A172739D70074CC21 /* NoteEditorViewController_old.m */,
-				AABC719B172739D70074CC21 /* NoteEditorViewController_old.xib */,
-				AABC71A2172739D70074CC21 /* TextViewController.h */,
-				AABC71A3172739D70074CC21 /* TextViewController.m */,
-				AABC717A172739D60074CC21 /* CameraViewController.h */,
-				AABC717B172739D60074CC21 /* CameraViewController.m */,
-				AABC7179172739D60074CC21 /* CameraViewController.xib */,
-				AABC7176172739D60074CC21 /* AudioRecorderViewController.h */,
-				AABC7177172739D60074CC21 /* AudioRecorderViewController.m */,
-				AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */,
-				AABC7171172739D60074CC21 /* AudioMeter.h */,
-				AABC7172172739D60074CC21 /* AudioMeter.m */,
-				AABC7173172739D60074CC21 /* AudioPlayerViewController.h */,
-				AABC7174172739D60074CC21 /* AudioPlayerViewController.m */,
-				AABC7175172739D60074CC21 /* AudioPlayerViewController.xib */,
-				AABC717C172739D60074CC21 /* DDAnnotation.h */,
-				AABC717D172739D60074CC21 /* DDAnnotation.m */,
-				AABC717E172739D60074CC21 /* DDAnnotationView.h */,
-				AABC717F172739D60074CC21 /* DDAnnotationView.m */,
-				AABC7180172739D60074CC21 /* DropOnMapViewController.h */,
-				AABC7181172739D60074CC21 /* DropOnMapViewController.m */,
-				AABC7182172739D60074CC21 /* DropOnMapViewController.xib */,
-				AABC7183172739D60074CC21 /* ImageViewer.h */,
-				AABC7184172739D60074CC21 /* ImageViewer.m */,
-				AABC7185172739D60074CC21 /* ImageViewer.xib */,
-				AABC7189172739D60074CC21 /* NoteCell.h */,
-				AABC718A172739D60074CC21 /* NoteCell.m */,
-				AABC718B172739D60074CC21 /* NoteCell.xib */,
-				AABC718C172739D60074CC21 /* NoteCommentCell.h */,
-				AABC718D172739D60074CC21 /* NoteCommentCell.m */,
-				AABC718E172739D60074CC21 /* NoteCommentCell.xib */,
-				AABC718F172739D70074CC21 /* NoteCommentViewController.h */,
-				AABC7190172739D70074CC21 /* NoteCommentViewController.m */,
-				AABC7191172739D70074CC21 /* NoteCommentViewController.xib */,
-				AABC7192172739D70074CC21 /* NoteContentCell.h */,
-				AABC7193172739D70074CC21 /* NoteContentCell.m */,
-				AABC7194172739D70074CC21 /* NoteContentCell.xib */,
-				AABC7195172739D70074CC21 /* NoteContentProtocol.h */,
-				AABC7196172739D70074CC21 /* NoteDetailsViewController.h */,
-				AABC7197172739D70074CC21 /* NoteDetailsViewController.m */,
-				AABC7198172739D70074CC21 /* NoteDetailsViewController.xib */,
-				AABC719C172739D70074CC21 /* TagCell.h */,
-				AABC719D172739D70074CC21 /* TagCell.m */,
-				AABC719E172739D70074CC21 /* TagCell.xib */,
-				AABC719F172739D70074CC21 /* TagViewController.h */,
-				AABC71A0172739D70074CC21 /* TagViewController.m */,
-				AABC71A1172739D70074CC21 /* TagViewController.xib */,
+				AA383B121829604200612FFB /* NoteContentProtocol.h */,
+				AA383B0C1828324F00612FFB /* NotebookViewController.h */,
+				AA383B0D1828324F00612FFB /* NotebookViewController.m */,
+				AA383B0F18283B9F00612FFB /* NoteCell.h */,
+				AA383B1018283B9F00612FFB /* NoteCell.m */,
 			);
 			path = notebook;
 			sourceTree = "<group>";
@@ -2521,28 +2308,14 @@
 				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
 				AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
-				AABC73DC172739D80074CC21 /* ARView.xib in Resources */,
 				AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */,
 				AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */,
 				AA942B9017CD4CF4004EDEA1 /* Default-568h@2x.png in Resources */,
 				AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */,
-				AABC73F9172739D80074CC21 /* AudioPlayerViewController.xib in Resources */,
-				AABC73FB172739D80074CC21 /* AudioRecorderViewController.xib in Resources */,
-				AABC73FC172739D80074CC21 /* CameraViewController.xib in Resources */,
-				AABC7401172739D80074CC21 /* DropOnMapViewController.xib in Resources */,
-				AABC7403172739D80074CC21 /* ImageViewer.xib in Resources */,
 				AA2D213D17DE560C00CF4198 /* clock_unselected@2x.png in Resources */,
 				AB8873EB181B6F250042FD63 /* README.md in Resources */,
-				AABC7407172739D80074CC21 /* NoteCell.xib in Resources */,
-				AABC7409172739D80074CC21 /* NoteCommentCell.xib in Resources */,
-				AABC740B172739D80074CC21 /* NoteCommentViewController.xib in Resources */,
 				AB8873EC181B6F250042FD63 /* release_notes.md in Resources */,
-				AABC740D172739D80074CC21 /* NoteContentCell.xib in Resources */,
-				AABC740F172739D80074CC21 /* NoteDetailsViewController.xib in Resources */,
-				AABC7411172739D80074CC21 /* NoteEditorViewController_old.xib in Resources */,
 				AA2D214217DE560C00CF4198 /* magnify_selected.png in Resources */,
-				AABC7413172739D80074CC21 /* TagCell.xib in Resources */,
-				AABC7415172739D80074CC21 /* TagViewController.xib in Resources */,
 				ABE735E917D65C0100396CF5 /* arrowBack.png in Resources */,
 				AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */,
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
@@ -2555,7 +2328,6 @@
 				AA74E79F176267EF005C279B /* MainWindow-iPad.xib in Resources */,
 				AA2D213717DE560C00CF4198 /* arrow_selected@2x.png in Resources */,
 				AAF7115B17B9579900262A37 /* .gitignore in Resources */,
-				5BBA6A5F17822E4C00387DBD /* AudioVisualizerViewController.xib in Resources */,
 				5B1D998A178CC3A700661453 /* 05-shuffle.png in Resources */,
 				AA2D213C17DE560C00CF4198 /* clock_unselected.png in Resources */,
 				5B1D998B178CC3A700661453 /* 05-shuffle@2x.png in Resources */,
@@ -2656,17 +2428,11 @@
 				AABC73D1172739D80074CC21 /* AppServices.m in Sources */,
 				AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */,
 				AABC73D4172739D80074CC21 /* JSONConnection.m in Sources */,
-				AA527E5017E0E0710040AB75 /* NoteEditorViewController.m in Sources */,
 				AABC73D6172739D80074CC21 /* UploadContent.m in Sources */,
 				AABC73D7172739D80074CC21 /* UploadContent.xcdatamodeld in Sources */,
 				AABC73D8172739D80074CC21 /* UploadMan.m in Sources */,
-				AABC73D9172739D80074CC21 /* ARCoordinate.m in Sources */,
-				AABC73DA172739D80074CC21 /* ARGeoCoordinate.m in Sources */,
-				AABC73DB172739D80074CC21 /* ARGeoViewController.m in Sources */,
-				AABC73DD172739D80074CC21 /* ARViewController.m in Sources */,
-				AABC73DE172739D80074CC21 /* ARViewViewControler.m in Sources */,
 				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
-				AABC73DF172739D80074CC21 /* NearbyObjectARCoordinate.m in Sources */,
+				AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */,
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
 				AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */,
 				AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */,
@@ -2676,26 +2442,8 @@
 				AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */,
 				AABC73F3172739D80074CC21 /* NearbyObjectCell.m in Sources */,
 				AABC73F5172739D80074CC21 /* NearbyObjectsViewController.m in Sources */,
-				AABC73F7172739D80074CC21 /* AudioMeter.m in Sources */,
-				AABC73F8172739D80074CC21 /* AudioPlayerViewController.m in Sources */,
-				AABC73FA172739D80074CC21 /* AudioRecorderViewController.m in Sources */,
-				AABC73FD172739D80074CC21 /* CameraViewController.m in Sources */,
-				AABC73FE172739D80074CC21 /* DDAnnotation.m in Sources */,
-				AABC73FF172739D80074CC21 /* DDAnnotationView.m in Sources */,
-				AABC7400172739D80074CC21 /* DropOnMapViewController.m in Sources */,
 				AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */,
 				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
-				AABC7402172739D80074CC21 /* ImageViewer.m in Sources */,
-				AABC7404172739D80074CC21 /* NotebookViewController.m in Sources */,
-				AABC7406172739D80074CC21 /* NoteCell.m in Sources */,
-				AABC7408172739D80074CC21 /* NoteCommentCell.m in Sources */,
-				AABC740A172739D80074CC21 /* NoteCommentViewController.m in Sources */,
-				AABC740C172739D80074CC21 /* NoteContentCell.m in Sources */,
-				AABC740E172739D80074CC21 /* NoteDetailsViewController.m in Sources */,
-				AABC7410172739D80074CC21 /* NoteEditorViewController_old.m in Sources */,
-				AABC7412172739D80074CC21 /* TagCell.m in Sources */,
-				AABC7414172739D80074CC21 /* TagViewController.m in Sources */,
-				AABC7416172739D80074CC21 /* TextViewController.m in Sources */,
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
 				AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */,
@@ -2764,18 +2512,12 @@
 				AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
 				AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */,
+				AA383B1118283B9F00612FFB /* NoteCell.m in Sources */,
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
 				AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */,
 				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
 				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,
-				5BBA6A5C17822E4C00387DBD /* AudioSlider.m in Sources */,
-				5BBA6A5D17822E4C00387DBD /* AudioTint.m in Sources */,
-				5BBA6A5E17822E4C00387DBD /* AudioVisualizerViewController.m in Sources */,
-				5BBA6A6017822E4C00387DBD /* FreqHistogramControl.m in Sources */,
-				5BBA6A6117822E4C00387DBD /* WaveformControl.m in Sources */,
-				5BBA6A6217822E4C00387DBD /* WaveSampleProvider.m in Sources */,
-				5B87AE24178DBA4100229D92 /* Playhead.m in Sources */,
 				AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,
 				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,

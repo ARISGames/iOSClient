@@ -10,7 +10,6 @@
 #import "ARISMediaView.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
-#import "CameraViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"

@@ -9,7 +9,7 @@
 #import "Note.h"
 #import "NoteContent.h"
 #import "Tag.h"
-#import "NoteDetailsViewController.h"
+//#import "NoteDetailsViewController.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Note
@@ -112,10 +112,16 @@
     return 71;
 }
 
+- (GameObjectViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
+{
+    return nil;
+}
+/*
 - (NoteDetailsViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
 {
     return [[NoteDetailsViewController alloc] initWithNote:self delegate:d];
 }
+ */
 
 -(Note *)copy
 {

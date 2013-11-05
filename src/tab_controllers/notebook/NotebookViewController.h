@@ -2,17 +2,17 @@
 //  NotebookViewController.h
 //  ARIS
 //
-//  Created by Brian Thiel on 8/25/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Phil Dougherty on 11/4/13.
+//
 //
 
-#import <UIKit/UIKit.h>
 #import "ARISGamePlayTabBarViewController.h"
 
-@protocol StateControllerProtocol;
-@protocol NotebookViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
+@protocol NotebookViewControllerDelegate
 @end
 
 @interface NotebookViewController : ARISGamePlayTabBarViewController
-- (id) initWithDelegate:(id<NotebookViewControllerDelegate, StateControllerProtocol>)d;
+
+- (id) initWithDelegate:(id<NotebookViewControllerDelegate>)d;
+
 @end
