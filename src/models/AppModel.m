@@ -280,8 +280,8 @@
     
 	if(!note)
     {
-        if(checkPlayerList) [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
-        else                [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
+        if(checkPlayerList) [[AppServices sharedAppServices] fetchPlayerNoteList];
+        else                [[AppServices sharedAppServices] fetchGameNoteList];
 	}
 	return note;
 }

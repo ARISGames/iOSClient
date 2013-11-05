@@ -62,13 +62,13 @@
 
 - (id)initWithFrame:(MKMapRect)f image:(UIImage *)i
 {
-    if (self = [super init]) {
+    if(self = [super init])
+    {
         image = i;
         frame = f;
     }
     return self;
 }
-
 
 @end
 
@@ -160,7 +160,8 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
 
 - (id)initWithIndex:(int)ov_index
 {
-    if (self = [super init]) {
+    if(self = [super init])
+    {
         // get all tiles for current overlay
         Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:ov_index];
         NSMutableArray* xArray = [[NSMutableArray alloc] init];
@@ -169,11 +170,10 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
         // MG: using NSNumber breaks comparison
         NSInteger minZ = [NSNumber numberWithInt:1000000];
         
-        for (int i = 0; i < [currentOverlay.tileX count]; i++) {
-        
+        for(int i = 0; i < [currentOverlay.tileX count]; i++)
+        {
             // for each tile, get coordinates
-             // important stuff: x,y,z, minZ
-
+            // important stuff: x,y,z, minZ
             NSNumber *x = [currentOverlay.tileX objectAtIndex:i];  
             [xArray addObject:x];
             NSNumber *y = [currentOverlay.tileY objectAtIndex:i];  
@@ -182,23 +182,12 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
             [zArray addObject:z];
             
             NSInteger currentZ = [z intValue];
-            if (currentZ < minZ)
-                minZ = currentZ;
-            
-            
+            if(currentZ < minZ) minZ = currentZ;
         }
-
         
-        
-        
-        // return nil if no tiles
-        if ([xArray count] == 0) {
-            NSLog(@"Could not locate any tiles");
-            return nil;
-        }
+        if([xArray count] == 0) return nil;
         
         // find bounds of base level of tiles to determine boundingMapRect
-        
         NSInteger minX = INT_MAX;
         NSInteger minY = INT_MAX;
         NSInteger maxX = 0;
@@ -292,34 +281,28 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
                     // get the local path for the image
                     //NSString *path = [currentOverlay.tileFileName objectAtIndex:i]; 
                     
-                    
                     //NSString *path = [currentOverlay.tilePath objectAtIndex:i];
                     // MG: load image from file system if offline
                     UIImage *image;
-                    if (media.image) {
+                    if(media.image)
                         image = [UIImage imageWithData:media.image];
-                    }
-                    else {
+                    else
+                    {
                         NSURL *url = [NSURL URLWithString:media.url];
-                        if ([url isFileURL]) {
+                        if([url isFileURL])
                             image = [UIImage imageWithContentsOfFile:[url path]];
-                        }
                     }
                     //init tile
                     ImageTile *tile = [[ImageTile alloc] initWithFrame:frame image:image];
                     
-                    
                     [tiles addObject:tile];                               
                 }
-                
             }
         }
     }
     
-    
     return tiles;
 }
-
 
 //Reading through this function- it will ALWAYS return an empty NSMutableArray. It won't do anything outside that either.
 //Is this an error? Is it being used? Can we get rid of this function? -Phil 3/1/2013

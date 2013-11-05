@@ -8,43 +8,33 @@
 
 #import <Foundation/Foundation.h>
 
-@class ServiceResult;
+@interface ServiceResult : NSObject
+{
+    NSObject *data;
+    NSDictionary *userInfo;
+   	NSMutableData *asyncData; 
+    NSURLConnection *connection; 
+    id __unsafe_unretained handler;
+    SEL successSelector; 
+    SEL failSelector;   
+};
+@property (nonatomic, strong) NSObject *data;
+@property (nonatomic, strong) NSDictionary *userInfo;
+@property (nonatomic, strong) NSMutableData *asyncData;
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, assign) id handler;
+@property (nonatomic, assign) SEL successSelector;
+@property (nonatomic, assign) SEL failSelector;
+@end
 
-@interface JSONConnection : NSObject  <NSURLConnectionDelegate>{
-	NSURL *jsonServerURL;
-	NSString *serviceName;
-	NSString *methodName;
-	NSArray *arguments;
-    SEL handler;
-    NSMutableDictionary *userInfo;
-	NSMutableData *asyncData;
-	NSURL *completeRequestURL;
-    NSURLConnection *connection;
-}
+@interface JSONConnection : NSObject  
 
-@property(nonatomic) NSURL *jsonServerURL;
-@property(nonatomic) NSString *serviceName;
-@property(nonatomic) NSString *methodName;
-@property(nonatomic) NSArray *arguments;
-@property(nonatomic) SEL handler;
-@property(nonatomic) NSMutableDictionary *userInfo;
-@property(nonatomic) NSURL *completeRequestURL;
-@property(nonatomic) NSMutableData *asyncData;
-@property(nonatomic) NSURLConnection *connection;
+- (id) initWithServer:(NSString *)server;
+- (void) performAsynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict;
+- (ServiceResult *) performSynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args userInfo:(NSDictionary *)dict;
 
-
-
-- (JSONConnection*)initWithServer: (NSURL *)server
-					andServiceName:(NSString *)serviceName 
-					andMethodName:(NSString *)methodName
-					andArguments:(NSArray *)arguments
-                      andUserInfo:(NSMutableDictionary *)userInfo;
-
-- (ServiceResult *) performSynchronousRequest;
-- (void) performAsynchronousRequestWithHandler: (SEL)handler;
-- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection;
-- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData;
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
-
+- (void) performAsyncRequestWithURL:(NSURL *)url handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict;
+- (ServiceResult *) performSyncRequestWithURL:(NSURL *)url userInfo:(NSDictionary *)dict;
+- (NSURL *) createRequestURLFromService:(NSString *)service method:(NSString *)method arguments:(NSArray *)args;
 
 @end

@@ -166,10 +166,10 @@
 
 - (void) refresh
 {
-    if(noteScope == NOTE_SCOPE_PLAYER)    [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
-    else if(noteScope == NOTE_SCOPE_GAME) [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
+    if(noteScope == NOTE_SCOPE_PLAYER)    [[AppServices sharedAppServices] fetchPlayerNoteList];
+    else if(noteScope == NOTE_SCOPE_GAME) [[AppServices sharedAppServices] fetchGameNoteList];
     
-    [[AppServices sharedAppServices] fetchGameNoteTagsAsynchronously:YES];
+    [[AppServices sharedAppServices] fetchGameNoteTags];
 }
 
 - (void) showLoadingIndicator

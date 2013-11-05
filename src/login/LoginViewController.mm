@@ -20,7 +20,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "BumpTestViewController.h"
 
 #import "Player.h"
-#import "ServiceResult.h"
 
 #import "UIColor+ARISColors.h"
 #import "ARISAlertHandler.h"

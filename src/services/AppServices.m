@@ -13,12 +13,12 @@
 #import "ARISAlertHandler.h"
 #import "ARISMediaView.h"
 
-static const int kDefaultCapacity = 10;
-static const BOOL kEmptyBoolValue = NO;
-static const int kEmptyIntValue = 0;
-static const float kEmptyFloatValue = 0.0;
-static const double kEmptyDoubleValue = 0.0;
-NSString *const kARISServerServicePackage = @"v1";
+@interface AppServices()
+{
+    JSONConnection *connection;
+}
+
+@end
 
 BOOL currentlyFetchingLocationList;
 BOOL currentlyFetchingOverlayList;
@@ -41,2105 +41,1686 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 + (id) sharedAppServices
 {
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
-        _sharedObject = [[self alloc] init]; // or some other init method
-    });
-    return _sharedObject;
+  static dispatch_once_t pred = 0;
+  __strong static id _sharedObject = nil;
+  dispatch_once(&pred, ^{
+      _sharedObject = [[self alloc] init]; // or some other init method
+      });
+  return _sharedObject;
+}
+
+- (id) init
+{
+    if(self = [super init])
+    {
+        connection = [[JSONConnection alloc] initWithServer:[[AppModel sharedAppModel].serverURL absoluteString]];
+    }
+    return self;
 }
 
 - (void) resetCurrentlyFetchingVars
 {
-    currentlyFetchingNearbyGamesList           = NO;
-    currentlyFetchingAnywhereGamesList           = NO;
-    currentlyFetchingSearchGamesList           = NO;
-    currentlyFetchingPopularGamesList          = NO;
-    currentlyFetchingRecentGamesList           = NO;
-    currentlyFetchingInventory                 = NO;
-    currentlyFetchingLocationList              = NO;
-    currentlyFetchingOverlayList               = NO;
-    currentlyFetchingQuestList                 = NO;
-    currentlyFetchingGameNoteList              = NO;
-    currentlyFetchingPlayerNoteList            = NO;
-    currentlyUpdatingServerWithInventoryViewed = NO;
-    currentlyUpdatingServerWithMapViewed       = NO;
-    currentlyUpdatingServerWithPlayerLocation  = NO;
-    currentlyUpdatingServerWithQuestsViewed    = NO;
+  currentlyFetchingNearbyGamesList           = NO;
+  currentlyFetchingAnywhereGamesList         = NO;
+  currentlyFetchingSearchGamesList           = NO;
+  currentlyFetchingPopularGamesList          = NO;
+  currentlyFetchingRecentGamesList           = NO;
+  currentlyFetchingInventory                 = NO;
+  currentlyFetchingLocationList              = NO;
+  currentlyFetchingOverlayList               = NO;
+  currentlyFetchingQuestList                 = NO;
+  currentlyFetchingGameNoteList              = NO;
+  currentlyFetchingPlayerNoteList            = NO;
+  currentlyUpdatingServerWithInventoryViewed = NO;
+  currentlyUpdatingServerWithMapViewed       = NO;
+  currentlyUpdatingServerWithPlayerLocation  = NO;
+  currentlyUpdatingServerWithQuestsViewed    = NO;
 }
 
 #pragma mark Communication with Server
 - (void) loginUserName:(NSString *)username password:(NSString *)password userInfo:(NSMutableDictionary *)dict
 {
-	NSArray *arguments = [NSArray arrayWithObjects:username, password, nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
-                                                             andServiceName:@"players"
-                                                              andMethodName:@"getLoginPlayerObject"
-                                                               andArguments:arguments
-                                                                andUserInfo:dict];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)];
+  NSArray *args = [NSArray arrayWithObjects:username, password, nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"getLoginPlayerObject" arguments:args handler:self successSelector:@selector(parseLoginResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:dict];
 }
 
 - (void) parseLoginResponseFromJSON:(ServiceResult *)result
 {
-    NSMutableDictionary *responseDict = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [responseDict setObject:result forKey:@"result"];
-    NSLog(@"NSNotification: LoginResponseReady");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LoginResponseReady" object:nil userInfo:responseDict]];
+  NSMutableDictionary *responseDict = [[NSMutableDictionary alloc] initWithCapacity:2];
+  [responseDict setObject:result forKey:@"result"];
+  NSLog(@"NSNotification: LoginResponseReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LoginResponseReady" object:nil userInfo:responseDict]];
 }
 
-- (void) registerNewUser:(NSString*)userName password:(NSString*)pass
-			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email
+- (void) registerNewUser:(NSString*)userName password:(NSString*)pass firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email
 {
-	//createPlayer($strNewUserName, $strPassword, $strFirstName, $strLastName, $strEmail)
-	NSArray *arguments = [NSArray arrayWithObjects:userName, pass, firstName, lastName, email, nil];
-    [AppModel sharedAppModel].player.username = userName;
-    //[AppModel sharedAppModel].password = pass;
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
-                                                             andServiceName:@"players"
-                                                              andMethodName:@"createPlayer"
-                                                               andArguments:arguments
-                                                                andUserInfo:nil];
-	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSelfRegistrationResponseFromJSON:)];
+  NSArray *args = [NSArray arrayWithObjects:userName, pass, firstName, lastName, email, nil];
+  [AppModel sharedAppModel].player.username = userName;
+  [connection performAsynchronousRequestWithService:@"players" method:@"createPlayer" arguments:args handler:self successSelector:@selector(parseSelfRegistrationResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) parseSelfRegistrationResponseFromJSON:(ServiceResult *)result
 {
-    NSMutableDictionary *responseDict = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [responseDict setObject:result forKey:@"result"];
-    NSLog(@"NSNotification: RegistrationResponseReady");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RegistrationResponseReady" object:nil userInfo:responseDict]];
+  NSMutableDictionary *responseDict = [[NSMutableDictionary alloc] initWithCapacity:2];
+  [responseDict setObject:result forKey:@"result"];
+  NSLog(@"NSNotification: RegistrationResponseReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RegistrationResponseReady" object:nil userInfo:responseDict]];
 }
 
 - (void) createUserAndLoginWithGroup:(NSString *)groupName
 {
-	NSArray *arguments = [NSArray arrayWithObjects:groupName, nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
-                                                             andServiceName:@"players"
-                                                              andMethodName:@"createPlayerAndGetLoginPlayerObject"
-                                                               andArguments:arguments
-                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)];
+  NSArray *args = [NSArray arrayWithObjects:groupName, nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"createPlayerAndGetLoginPlayerObject" arguments:args handler:self successSelector:@selector(parseLoginResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
 {
-    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidFinish:) errorSelector:@selector(playerPicUploadDidFail:)];
-    
-    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [userInfo setValue:@"PHOTO" forKey: @"type"];
-    [userInfo setValue:fileURL forKey:@"url"];
-	[uploader setUserInfo:userInfo];
+  ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidFinish:) errorSelector:@selector(playerPicUploadDidFail:)];
 
-	//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    //[[[RootViewController sharedRootViewController] showWaitingIndicator:@"Uploading" displayProgressBar:YES];
-	//[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
-    
-	[uploader upload];
+  NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
+  [userInfo setValue:@"PHOTO" forKey: @"type"];
+  [userInfo setValue:fileURL forKey:@"url"];
+  [uploader setUserInfo:userInfo];
+
+  //ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+  //[[[RootViewController sharedRootViewController] showWaitingIndicator:@"Uploading" displayProgressBar:YES];
+  //[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
+
+  [uploader upload];
 }
 
 - (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid
 {
-    if(playerId != 0)
-    {
-        //Call server service
-        NSArray *arguments = [NSArray arrayWithObjects:
-                              [NSString stringWithFormat:@"%d",playerId],
-                              name,
-                              [NSString stringWithFormat:@"%d",mid],
-                              nil];
-        JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                                andServiceName:@"players"
-                                                                 andMethodName:@"updatePlayerNameMedia"
-                                                                  andArguments:arguments
-                                                                   andUserInfo:nil];
-        [jsonConnection performAsynchronousRequestWithHandler:nil];
-    }
-    else
-        NSLog(@"Tried updating non-existent player! (playerId = 0)");
+  if(playerId != 0)
+  {
+    NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",playerId], name, [NSString stringWithFormat:@"%d",mid], nil];
+    [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerNameMedia" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+  }
+  else
+    NSLog(@"Tried updating non-existent player! (playerId = 0)");
 }
 
--(void)resetAndEmailNewPassword:(NSString *)email
+- (void) resetAndEmailNewPassword:(NSString *)email
 {
-    NSArray *arguments = [NSArray arrayWithObjects:
-                          email,
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]
-                                      initWithServer:[AppModel sharedAppModel].serverURL
-                                      andServiceName:@"players"
-                                      andMethodName:@"resetAndEmailNewPassword"
-                                      andArguments:arguments
-                                      andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:
-     @selector(parseResetAndEmailNewPassword:)];
+  NSArray *args = [NSArray arrayWithObjects:email, nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"resetAndEmailNewPassword" arguments:args handler:self successSelector:@selector(parseResetAndEmailNewPassword:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
--(void)setShowPlayerOnMap
+- (void) setShowPlayerOnMap
 {
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId],[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
-                                                             andServiceName:@"players"
-                                                              andMethodName:@"setShowPlayerOnMap"
-                                                               andArguments:arguments
-                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:nil];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId],[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"setShowPlayerOnMap" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
 {
-    if(currentlyFetchingNearbyGamesList)
-    {
-        NSLog(@"Skipping Request: already fetching nearby games");
-        return;
-    }
-    
-    currentlyFetchingNearbyGamesList = YES;
-    
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-                          [NSString stringWithFormat:@"%d",distanceInMeters],
-                          [NSString stringWithFormat:@"%d",YES],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"games"
-                                                             andMethodName:@"getGamesForPlayerAtLocation"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseNearbyGameListFromJSON:)];
+  if(currentlyFetchingNearbyGamesList)
+  {
+    NSLog(@"Skipping Request: already fetching nearby games");
+    return;
+  }
+
+  currentlyFetchingNearbyGamesList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+    [NSString stringWithFormat:@"%d",distanceInMeters],
+    [NSString stringWithFormat:@"%d",YES],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+    nil];
+  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseNearbyGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchAnywhereGameList
+- (void) fetchAnywhereGameList
 {
-    if(currentlyFetchingAnywhereGamesList)
-    {
-        NSLog(@"Skipping Request: already fetching nearby games");
-        return;
-    }
-    
-    currentlyFetchingAnywhereGamesList = YES;
-    
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-                          [NSString stringWithFormat:@"%d",0],
-                          [NSString stringWithFormat:@"%d",NO],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"games"
-                                                             andMethodName:@"getGamesForPlayerAtLocation"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseAnywhereGameListFromJSON:)];
+  if(currentlyFetchingAnywhereGamesList)
+  {
+    NSLog(@"Skipping Request: already fetching nearby games");
+    return;
+  }
+
+  currentlyFetchingAnywhereGamesList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+    [NSString stringWithFormat:@"%d",0],
+    [NSString stringWithFormat:@"%d",NO],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+    nil];
+  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseAnywhereGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchRecentGameListForPlayer
+- (void) fetchRecentGameListForPlayer
 {
-    if(currentlyFetchingRecentGamesList)
-    {
-        NSLog(@"Skipping Request: already fetching recent games");
-        return;
-    }
-    
-    currentlyFetchingRecentGamesList = YES;
-    
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"games"
-                                                             andMethodName:@"getRecentGamesForPlayer"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseRecentGameListFromJSON:)];
+  if(currentlyFetchingRecentGamesList)
+  {
+    NSLog(@"Skipping Request: already fetching recent games");
+    return;
+  }
+
+  currentlyFetchingRecentGamesList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+    nil];
+  [connection performAsynchronousRequestWithService:@"games" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)fetchPopularGameListForTime:(int)time
 {
-    if(currentlyFetchingPopularGamesList)
-    {
-        NSLog(@"Skipping Request: already fetching popular games");
-        return;
-    }
-    
-    currentlyFetchingPopularGamesList = YES;
-    
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-                          [NSString stringWithFormat:@"%d",time],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"games"
-                                                             andMethodName:@"getPopularGames"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parsePopularGameListFromJSON:)];
+  if(currentlyFetchingPopularGamesList)
+  {
+    NSLog(@"Skipping Request: already fetching popular games");
+    return;
+  }
+
+  currentlyFetchingPopularGamesList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",time],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+    nil];
+  [connection performAsynchronousRequestWithService:@"games" method:@"getPopularGames" arguments:args handler:self successSelector:@selector(parsePopularGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)fetchGameListBySearch:(NSString *)searchText onPage:(int)page
 {
-    if(currentlyFetchingSearchGamesList)
-    {
-        NSLog(@"Skipping Request: already fetching search games");
-        return;
-    }
-    
-    currentlyFetchingSearchGamesList = YES;
-    
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-						  searchText,
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
-                          [NSString stringWithFormat:@"%d", page],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"games"
-                                                             andMethodName:@"getGamesContainingText"
-                                                              andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSearchGameListFromJSON:)];
+  if(currentlyFetchingSearchGamesList)
+  {
+    NSLog(@"Skipping Request: already fetching search games");
+    return;
+  }
+
+  currentlyFetchingSearchGamesList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+    searchText,
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+    [NSString stringWithFormat:@"%d", page],
+    nil];
+  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesContainingText" arguments:args handler:self successSelector:@selector(parseSearchGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)updateServerLocationViewed:(int)locationId
 {
-    //Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						    [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId],
-                          [NSString stringWithFormat:@"%d",locationId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"locationViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",locationId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"locationViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId
 {
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d", nodeId],
-                          [NSString stringWithFormat:@"%d",locationId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"nodeViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId],
+          [NSString stringWithFormat:@"%d", nodeId],
+          [NSString stringWithFormat:@"%d",locationId],
+          nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"nodeViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId
 {
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",webPageId],
-                          [NSString stringWithFormat:@"%d",locationId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"webPageViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",webPageId],
+    [NSString stringWithFormat:@"%d",locationId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"webPageViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerPanoramicViewed:(int)panoramicId fromLocation:(int)locationId
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",panoramicId],
-                          [NSString stringWithFormat:@"%d",locationId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"augBubbleViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",panoramicId],
+    [NSString stringWithFormat:@"%d",locationId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"augBubbleViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId
 {	
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",itemId],
-                          [NSString stringWithFormat:@"%d",locationId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"itemViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
-    
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",itemId],
+    [NSString stringWithFormat:@"%d",locationId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"itemViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerNpcViewed:(int)npcId fromLocation:(int)locationId
 {	
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",npcId],
-						  [NSString stringWithFormat:@"%d",locationId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"npcViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          [NSString stringWithFormat:@"%d",npcId],
+          [NSString stringWithFormat:@"%d",locationId],
+          nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"npcViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerGameSelected
 {	
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"updatePlayerLastGame"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:nil];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerLastGame" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerMapViewed
 {
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"mapViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerLocationList)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"mapViewed" arguments:args handler:self successSelector:@selector(fetchPlayerLocationList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerQuestsViewed
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"questsViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerQuestList)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"questsViewed" arguments:args handler:self successSelector:@selector(fetchPlayerQuestList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerInventoryViewed
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"inventoryViewed"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerInventory)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"inventoryViewed" arguments:args handler:self successSelector:@selector(fetchPlayerInventory) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) parseResetAndEmailNewPassword:(ServiceResult *)jsonResult
 {
-    if(jsonResult == nil)
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ForgotPasswordTitleKey", nil) message:NSLocalizedString(@"ForgotPasswordMessageKey", nil)];
-    else
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ForgotEmailSentTitleKey", @"") message:NSLocalizedString(@"ForgotMessageKey", @"")];
+  if(jsonResult == nil)
+    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ForgotPasswordTitleKey", nil) message:NSLocalizedString(@"ForgotPasswordMessageKey", nil)];
+  else
+    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ForgotEmailSentTitleKey", @"") message:NSLocalizedString(@"ForgotMessageKey", @"")];
 }
 
 - (void) startOverGame:(int)gameId
 {
-    [self resetAllGameLists];
-    
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d", gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]
-                                      initWithServer:[AppModel sharedAppModel].serverURL
-                                      andServiceName:@"players"
-                                      andMethodName:@"startOverGameForPlayer"
-                                      andArguments:arguments
-                                      andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:nil];
+  [self resetAllGameLists];
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d", gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"startOverGameForPlayer" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",itemId],
-						  [NSString stringWithFormat:@"%d",locationId],
-						  [NSString stringWithFormat:@"%d",qty],
-						  nil];
-    
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"pickupItemFromLocation"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          [NSString stringWithFormat:@"%d",itemId],
+          [NSString stringWithFormat:@"%d",locationId],
+          [NSString stringWithFormat:@"%d",qty],
+          nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"pickupItemFromLocation" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)updateServerDropItemHere:(int)itemId qty:(int)qty
 {
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",itemId],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-						  [NSString stringWithFormat:@"%d",qty],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"dropItem"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          [NSString stringWithFormat:@"%d",itemId],
+          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+          [NSString stringWithFormat:@"%d",qty],
+          nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"dropItem" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate
 {
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",noteId],
-						  [NSString stringWithFormat:@"%f",coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",coordinate.longitude],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"dropNote"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          [NSString stringWithFormat:@"%d",noteId],
+          [NSString stringWithFormat:@"%f",coordinate.latitude],
+          [NSString stringWithFormat:@"%f",coordinate.longitude],
+          nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"dropNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerDestroyItem:(int)itemId qty:(int)qty
 {
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",itemId],
-						  [NSString stringWithFormat:@"%d",qty],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"destroyItem"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          [NSString stringWithFormat:@"%d",itemId],
+          [NSString stringWithFormat:@"%d",qty],
+          nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"destroyItem" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerInventoryItem:(int)itemId qty:(int)qty
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",itemId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",qty],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"setItemCountForPlayer"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",itemId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",qty],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"setItemCountForPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerAddInventoryItem:(int)itemId addQty:(int)qty
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",itemId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",qty],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"giveItemToPlayer"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",itemId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",qty],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"giveItemToPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",itemId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",qty],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"takeItemFromPlayer"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",itemId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",qty],
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"takeItemFromPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
 {
-    //  Gifts/Receipts json should be of following format:
-    //  {"items":[{"item_id":1,"qtyDelta":3},{"item_id":2,"qtyDelta":4}]}
-    
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",gameId],
-						  [NSString stringWithFormat:@"%d",playerOneId],
-						  [NSString stringWithFormat:@"%d",playerTwoId],
-                          giftsJSON,
-                          receiptsJSON,
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"items"
-                                                             andMethodName:@"commitTradeTransaction"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerInventory)];
+  //  Gifts/Receipts json should be of following format:
+  //  {"items":[{"item_id":1,"qtyDelta":3},{"item_id":2,"qtyDelta":4}]}
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",gameId],
+    [NSString stringWithFormat:@"%d",playerOneId],
+    [NSString stringWithFormat:@"%d",playerTwoId],
+    giftsJSON,
+    receiptsJSON,
+    nil];
+  [connection performAsynchronousRequestWithService:@"items" method:@"commitTradeTransaction" arguments:args handler:self successSelector:@selector(fetchPlayerInventory) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",noteId],
-                          title,
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"updateComment"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-    
-    if(refresh)
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)];
-    else
-        [jsonConnection performAsynchronousRequestWithHandler:nil];	
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",noteId],
+    title,
+    nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"updateComment" arguments:args handler:self successSelector:@selector(fetchNoteLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) likeNote:(int)noteId
 {
-    NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-                          [NSString stringWithFormat:@"%d",noteId],
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"likeNote"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",noteId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"likeNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) unLikeNote:(int)noteId
 {
-    NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-                          [NSString stringWithFormat:@"%d",noteId],
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"unlikeNote"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",noteId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"unlikeNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (int) addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-                          [NSString stringWithFormat:@"%d",noteId],
-                          title,
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"addCommentToNote"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	ServiceResult *jsonResult = [jsonConnection performSynchronousRequest];
-    [self fetchAllPlayerLists];
-	
-	if(!jsonResult) return 0;
-	else             return [(NSDecimalNumber*)jsonResult.data intValue];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",noteId],
+    title,
+    nil];
+  ServiceResult *result = [connection performSynchronousRequestWithService:@"notes" method:@"addCommentToNote" arguments:args userInfo:nil];
+  [self fetchAllPlayerLists];
+
+  return result.data ? [(NSDecimalNumber*)result.data intValue] : 0;
 }
 
 - (void) setNoteCompleteForNoteId:(int)noteId
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",noteId],
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"setNoteComplete"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performSynchronousRequest];
-    [self fetchAllPlayerLists];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",noteId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"setNoteComplete" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (int) createNote
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"createNewNote"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	ServiceResult *jsonResult = [jsonConnection performSynchronousRequest];
-    [self fetchAllPlayerLists];
-    
-	if(!jsonResult) return 0;
-	else            return jsonResult.data ? [(NSDecimalNumber*)jsonResult.data intValue] : 0;
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+    nil];
+  ServiceResult *result =[connection performSynchronousRequestWithService:@"notes" method:@"createNewNote" arguments:args userInfo:nil];
+  [self fetchAllPlayerLists];
+
+  return result.data ? [(NSDecimalNumber*)result.data intValue] : 0;
 }
 
 - (int) createNoteStartIncomplete
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"createNewNoteStartIncomplete"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	ServiceResult *jsonResult = [jsonConnection performSynchronousRequest];
-    [self fetchAllPlayerLists];
-	if(!jsonResult) return 0;
-	else             return jsonResult.data ? [(NSDecimalNumber*)jsonResult.data intValue] : 0;
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+    nil];
+  ServiceResult *result = [connection performSynchronousRequestWithService:@"notes" method:@"createNewNoteStartIncomplete" arguments:args userInfo:nil];
+  [self fetchAllPlayerLists];
+
+  return result.data ? [(NSDecimalNumber*)result.data intValue] : 0;
 }
 
 - (void) contentAddedToNoteWithText:(ServiceResult *)result
 {
-    if([result.userInfo validObjectForKey:@"noteId"])
-        [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[result.userInfo validIntForKey:@"noteId"]
-                                                              andFileURL:[result.userInfo validObjectForKey:@"localURL"]];
-    [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
-    [self fetchPlayerNoteListAsync];
+  if([result.userInfo validObjectForKey:@"noteId"])
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[result.userInfo validIntForKey:@"noteId"]
+      andFileURL:[result.userInfo validObjectForKey:@"localURL"]];
+  [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
+  [self fetchNoteLists];
 }
 
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",noteId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",mediaId],
-                          type,
-						  text,
-						  nil];
-    
-    NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:noteId], @"noteId", fileURL, @"localURL", nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"addContentToNote"
-                                                              andArguments:arguments
-                                                               andUserInfo:userInfo];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(contentAddedToNoteWithText:)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",noteId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",mediaId],
+    type,
+    text,
+    nil];
+
+  NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:noteId], @"noteId", fileURL, @"localURL", nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"addContentToNote" arguments:args handler:self successSelector:@selector(contentAddedToNoteWithText:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:userInfo];
 }
 
 - (void) deleteNoteContentWithContentId:(int)contentId
 {
-    if(contentId != -1)
-    {
-        NSArray *arguments = [NSArray arrayWithObjects:
-                              [NSString stringWithFormat:@"%d",contentId],
-                              nil];
-        JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                                andServiceName:@"notes"
-                                                                 andMethodName:@"deleteNoteContent"
-                                                                  andArguments:arguments
-                                                                   andUserInfo:nil];
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNoteViewer)];
-    }
+  if(contentId != -1)
+  {
+    NSArray *args = [NSArray arrayWithObjects:
+      [NSString stringWithFormat:@"%d",contentId],
+      nil];
+    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNoteContent" arguments:args handler:self successSelector:@selector(sendNotificationToNoteViewer) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+  }
 }
 
 - (void) deleteNoteLocationWithNoteId:(int)noteId
 {
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-                          @"PlayerNote",
-						  [NSString stringWithFormat:@"%d",noteId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"locations"
-                                                             andMethodName:@"deleteLocationsForObject"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    @"PlayerNote",
+    [NSString stringWithFormat:@"%d",noteId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"locations" method:@"deleteLocationsForObject" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) deleteNoteWithNoteId:(int)noteId
 {
-    if(noteId != 0)
-    {
-        NSArray *arguments = [NSArray arrayWithObjects:
-                              [NSString stringWithFormat:@"%d",noteId],
-                              nil];
-        JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                                andServiceName:@"notes"
-                                                                 andMethodName:@"deleteNote"
-                                                                  andArguments:arguments
-                                                                   andUserInfo:nil];
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNotebookViewer)];
-    }
+  if(noteId != 0)
+  {
+    NSArray *args = [NSArray arrayWithObjects:
+      [NSString stringWithFormat:@"%d",noteId],
+      nil];
+    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(sendNotificationToNotebookViewer) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+  }
 }
 
 - (void) sendNotificationToNoteViewer
 {
-    NSLog(@"NSNotification: NewContentListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewContentListReady" object:nil]];
-    [self fetchPlayerNoteListAsync];
+  NSLog(@"NSNotification: NewContentListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewContentListReady" object:nil]];
+  [self fetchNoteLists];
 }
 
 - (void) sendNotificationToNotebookViewer
 {
-    NSLog(@"NSNotification: NoteDeleted");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDeleted" object:nil]];
-    [self fetchPlayerNoteListAsync];
+  NSLog(@"NSNotification: NoteDeleted");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDeleted" object:nil]];
+  [self fetchNoteLists];
 }
 
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
 {
-    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidFinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
-    
-    NSNumber *nId = [[NSNumber alloc] initWithInt:noteId];
-    
-    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [userInfo setValue:name forKey:@"title"];
-    [userInfo setValue:nId forKey:@"noteId"];
-    [userInfo setValue:type forKey: @"type"];
-    [userInfo setValue:fileURL forKey:@"url"];
-	[uploader setUserInfo:userInfo];
-	
-	[uploader upload];
+  ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidFinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
+
+  NSNumber *nId = [[NSNumber alloc] initWithInt:noteId];
+
+  NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
+  [userInfo setValue:name forKey:@"title"];
+  [userInfo setValue:nId forKey:@"noteId"];
+  [userInfo setValue:type forKey: @"type"];
+  [userInfo setValue:fileURL forKey:@"url"];
+  [uploader setUserInfo:userInfo];
+
+  [uploader upload];
 }
 
-- (void) fetchPlayerNoteListAsync
+- (void) fetchNoteLists
 {
-    [self fetchGameNoteListAsynchronously:YES];
-    [self fetchPlayerNoteListAsynchronously:YES];
+  [self fetchGameNoteList];
+  [self fetchPlayerNoteList];
 }
 
 - (void) noteContentUploadDidFinish:(ARISUploader*)uploader
 {
-    int noteId      = [[uploader userInfo] validIntForKey:@"noteId"] ? [[uploader userInfo] validIntForKey:@"noteId"] : 0;
-    NSString *title = [[uploader userInfo] validObjectForKey:@"title"];
-    NSString *type  = [[uploader userInfo] validObjectForKey:@"type"];
-    NSURL *localUrl = [[uploader userInfo] validObjectForKey:@"url"];
-    NSString *newFileName = [uploader responseString];
-    
-    //TODO: Check that the response string is actually a new filename that was made on the server, not an error
-    
-    NoteContent *newContent = [[NoteContent alloc] init];
-    newContent.noteId = noteId;
-    newContent.title = @"Refreshing From Server...";
-    newContent.type = type;
-    newContent.contentId = 0;
-    
-    [[[[[AppModel sharedAppModel] playerNoteList] objectForKey:[NSNumber numberWithInt:noteId]] contents] addObject:newContent];
-    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:noteId andFileURL:localUrl];
-    [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
-    
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",noteId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  newFileName,
-                          type,
-                          title,
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"addContentToNoteFromFileName"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
+  int noteId      = [[uploader userInfo] validIntForKey:@"noteId"] ? [[uploader userInfo] validIntForKey:@"noteId"] : 0;
+  NSString *title = [[uploader userInfo] validObjectForKey:@"title"];
+  NSString *type  = [[uploader userInfo] validObjectForKey:@"type"];
+  NSURL *localUrl = [[uploader userInfo] validObjectForKey:@"url"];
+  NSString *newFileName = [uploader responseString];
 
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)];
-    [self fetchAllPlayerLists];
+  //TODO: Check that the response string is actually a new filename that was made on the server, not an error
+
+  NoteContent *newContent = [[NoteContent alloc] init];
+  newContent.noteId = noteId;
+  newContent.title = @"Refreshing From Server...";
+  newContent.type = type;
+  newContent.contentId = 0;
+
+  [[[[[AppModel sharedAppModel] playerNoteList] objectForKey:[NSNumber numberWithInt:noteId]] contents] addObject:newContent];
+  [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:noteId andFileURL:localUrl];
+  [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",noteId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    newFileName,
+    type,
+    title,
+    nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"addContentToNoteFromFileName" arguments:args handler:self successSelector:@selector(fetchNoteLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+  [self fetchAllPlayerLists];
 }
 
 - (void) uploadNoteContentDidFail:(ARISUploader *)uploader
 {
-    NSError *error = uploader.error;
-	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-	
-	[alert show];
-    
-    NSNumber *nId = [[NSNumber alloc]initWithInt:5];
-    nId = [[uploader userInfo] validObjectForKey:@"noteId"];
-	//if(description == NULL) description = @"filename";
-    
-    [[AppModel sharedAppModel].uploadManager contentFailedUploading];
-    NSLog(@"NSNotification: NewNoteListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
+  NSError *error = uploader.error;
+  NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+
+  [alert show];
+
+  NSNumber *nId = [[NSNumber alloc]initWithInt:5];
+  nId = [[uploader userInfo] validObjectForKey:@"noteId"];
+  //if(description == NULL) description = @"filename";
+
+  [[AppModel sharedAppModel].uploadManager contentFailedUploading];
+  NSLog(@"NSNotification: NewNoteListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
 - (void) playerPicUploadDidFinish:(ARISUploader*)uploader
 {        
-    NSString *newFileName = [uploader responseString];
-    
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  newFileName,
-                          nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"players"
-                                                             andMethodName:@"addPlayerPicFromFilename"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(parseNewPlayerMediaResponseFromJSON:)];
-    
-    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[uploader.userInfo validObjectForKey:@"url"]];
-    [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
+  NSString *newFileName = [uploader responseString];
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    newFileName,
+    nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"addPlayerPicFromFilename" arguments:args handler:self successSelector:@selector(parseNewPlayerMediaResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+
+  [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[uploader.userInfo validObjectForKey:@"url"]];
+  [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult
 {	   
-    if(jsonResult.data && [((NSDictionary *)jsonResult.data) validIntForKey:@"media_id"])
-    {
-        [AppModel sharedAppModel].player.playerMediaId = [((NSDictionary*)jsonResult.data) validIntForKey:@"media_id"];
-        [[AppModel sharedAppModel] saveUserDefaults];
-    }
+  if(jsonResult.data && [((NSDictionary *)jsonResult.data) validIntForKey:@"media_id"])
+  {
+    [AppModel sharedAppModel].player.playerMediaId = [((NSDictionary*)jsonResult.data) validIntForKey:@"media_id"];
+    [[AppModel sharedAppModel] saveUserDefaults];
+  }
 }
 
 - (void) playerPicUploadDidFail:(ARISUploader *)uploader
 {
-    NSError *error = uploader.error;
-	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-	
-	[alert show];
-    
-    [[AppModel sharedAppModel].uploadManager contentFailedUploading];
+  NSError *error = uploader.error;
+  NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadFailedKey", @"") message:NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+
+  [alert show];
+
+  [[AppModel sharedAppModel].uploadManager contentFailedUploading];
 }
 
 - (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList
 {	
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",noteId],
-						  title,
-                          [NSString stringWithFormat:@"%d",publicToMap],
-                          [NSString stringWithFormat:@"%d",publicToList],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"updateNote"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",noteId],
+          title,
+          [NSString stringWithFormat:@"%d",publicToMap],
+          [NSString stringWithFormat:@"%d",publicToList],
+          nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"updateNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) updateNoteContent:(int)contentId title:(NSString *)text;
 {	
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",contentId],
-						  text,
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"updateContentTitle"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];    
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",contentId],
+          text,
+          nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"updateContentTitle" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
--(void)updateNoteContent:(int)contentId text:(NSString *)text
+- (void)updateNoteContent:(int)contentId text:(NSString *)text
 {
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",contentId],
-						  text,
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"updateContent"
-                                                              andArguments:arguments
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];    
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",contentId],
+          text,
+          nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"updateContent" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)updateServerWithPlayerLocation
 {
-	if(![AppModel sharedAppModel].player)
-    {
-        NSLog(@"Skipping Request: player not logged in");
-		return;
-	}
-	
-	if(currentlyUpdatingServerWithPlayerLocation)
-    {
-        NSLog(@"Skipping Request: already updating player location");
-        return;
-    }
-    
-    currentlyUpdatingServerWithPlayerLocation = YES;
-    
-	//Update the server with the new Player Location
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
-                                                             andServiceName:@"players"
-                                                              andMethodName:@"updatePlayerLocation"
-                                                               andArguments:arguments
-                                                                andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseUpdateServerWithPlayerLocationFromJSON:)];
+  if(![AppModel sharedAppModel].player)
+  {
+    NSLog(@"Skipping Request: player not logged in");
+    return;
+  }
+
+  if(currentlyUpdatingServerWithPlayerLocation)
+  {
+    NSLog(@"Skipping Request: already updating player location");
+    return;
+  }
+
+  currentlyUpdatingServerWithPlayerLocation = YES;
+
+  //Update the server with the new Player Location
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+          nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerLocation" arguments:args handler:self successSelector:@selector(parseUpdateServerWithPlayerLocationFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 #pragma mark ASync Fetch selectors
 
 - (void) fetchAllGameLists
 {
-    [self fetchTabBarItemsAsynchronously:      YES];
-    [self fetchGameMediaListAsynchronously:    YES];
-    [self fetchGameItemListAsynchronously:     YES];
-    [self fetchGameNpcListAsynchronously:      YES];
-    [self fetchGameNodeListAsynchronously:     YES];
-    [self fetchGamePanoramicListAsynchronously:YES];
-    [self fetchGameWebPageListAsynchronously:  YES];
-    [self fetchGameOverlayListAsynchronously:  YES];
-    
-    [self fetchGameNoteListAsynchronously:NO];
-    [self fetchPlayerNoteListAsynchronously:YES];
+  [self fetchTabBarItems];
+  [self fetchGameMediaList];
+  [self fetchGameItemList];
+  [self fetchGameNpcList];
+  [self fetchGameNodeList];
+  [self fetchGamePanoramicList];
+  [self fetchGameWebPageList];
+  [self fetchGameOverlayList];
+
+  [self fetchGameNoteList];
+  [self fetchPlayerNoteList];
 }
 
 - (void) resetAllGameLists
 {
-	NSLog(@"Resetting game lists");
-	[[AppModel sharedAppModel].gameItemList removeAllObjects];
-	[[AppModel sharedAppModel].gameNodeList removeAllObjects];
-    [[AppModel sharedAppModel].gameNpcList removeAllObjects];
-    [[AppModel sharedAppModel].gameMediaList removeAllObjects];
-    [[AppModel sharedAppModel].gameWebPageList removeAllObjects];
-    [[AppModel sharedAppModel].gamePanoramicList removeAllObjects];
-    [[AppModel sharedAppModel].playerNoteList removeAllObjects];
-    [[AppModel sharedAppModel].gameNoteList removeAllObjects];
+  NSLog(@"Resetting game lists");
+  [[AppModel sharedAppModel].gameItemList removeAllObjects];
+  [[AppModel sharedAppModel].gameNodeList removeAllObjects];
+  [[AppModel sharedAppModel].gameNpcList removeAllObjects];
+  [[AppModel sharedAppModel].gameMediaList removeAllObjects];
+  [[AppModel sharedAppModel].gameWebPageList removeAllObjects];
+  [[AppModel sharedAppModel].gamePanoramicList removeAllObjects];
+  [[AppModel sharedAppModel].playerNoteList removeAllObjects];
+  [[AppModel sharedAppModel].gameNoteList removeAllObjects];
 }
 
-- (void) fetchGameOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void) fetchGameOverlayList
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], nil];
-    
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"overlays"
-                                                             andMethodName:@"getCurrentOverlaysForPlayer"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	if(YesForAsyncOrNoForSync) [jsonConnection performAsynchronousRequestWithHandler:@selector(parseOverlayListFromJSON:)];
-    else [self parseOverlayListFromJSON: [jsonConnection performSynchronousRequest]];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], nil];
+
+  [connection performAsynchronousRequestWithService:@"overlays" method:@"getCurrentOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) parseOverlayListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingOverlayList) return;
-    currentlyFetchingOverlayList = NO;
-    
-    NSLog(@"NSNotification: ReceivedOverlayList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedOverlayList" object:nil]];
+  if(!currentlyFetchingOverlayList) return;
+  currentlyFetchingOverlayList = NO;
 
-    [AppModel sharedAppModel].overlayIsVisible = false;
-    
-    NSArray *overlayListArray = (NSArray *)jsonResult.data;
-    
-    NSMutableArray *tempOverlayList = [[NSMutableArray alloc] init];
-    Overlay *tempOverlay = [[Overlay alloc] init];
-    
-    NSEnumerator *overlayListEnumerator = [overlayListArray objectEnumerator];
-    NSDictionary *overlayDictionary;
-    // step through results and create overlays
-    int currentOverlayID = -1;
-    int overlaysIndex = 0;
-    while(overlayDictionary = [overlayListEnumerator nextObject])
+  NSLog(@"NSNotification: ReceivedOverlayList");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedOverlayList" object:nil]];
+
+  [AppModel sharedAppModel].overlayIsVisible = false;
+
+  NSArray *overlayListArray = (NSArray *)jsonResult.data;
+
+  NSMutableArray *tempOverlayList = [[NSMutableArray alloc] init];
+  Overlay *tempOverlay = [[Overlay alloc] init];
+
+  NSEnumerator *overlayListEnumerator = [overlayListArray objectEnumerator];
+  NSDictionary *overlayDictionary;
+  // step through results and create overlays
+  int currentOverlayID = -1;
+  int overlaysIndex = 0;
+  while(overlayDictionary = [overlayListEnumerator nextObject])
+  {
+    // if new overlay in database
+    if(currentOverlayID != [overlayDictionary validIntForKey:@"overlay_id"])
     {
-        // if new overlay in database
-        if(currentOverlayID != [overlayDictionary validIntForKey:@"overlay_id"])
-        {
-            // add previous overlay to overlay list
-            [tempOverlayList addObject:tempOverlay];
-            
-            // create new overlay
-            tempOverlay.index = overlaysIndex;
-            tempOverlay.overlayId = [overlayDictionary validIntForKey:@"overlay_id"];;
-            tempOverlay.num_tiles = [overlayDictionary validIntForKey:@"num_tiles"];;
-            //tempOverlay.alpha = [[overlayDictionary validObjectForKey:@"alpha"] floatValue] ;
-            tempOverlay.alpha = 1.0;
-            [tempOverlay.tileFileName addObject:[overlayDictionary validObjectForKey:@"file_path"]];
-            [tempOverlay.tileMediaID addObject:[overlayDictionary validObjectForKey:@"media_id"]];
-            [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
-            [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
-            [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
-            [tempOverlay.tileImage addObject:media];
-            currentOverlayID = tempOverlay.overlayId;
-            overlaysIndex += 1;
-        }
-        else
-        {
-            // add tiles to existing overlay
-            [tempOverlay.tileFileName addObject:[overlayDictionary validObjectForKey:@"file_path"]];
-            [tempOverlay.tileMediaID addObject:[overlayDictionary validObjectForKey:@"media_id"]];
-            [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
-            [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
-            [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
-            [tempOverlay.tileImage addObject:media];
-            currentOverlayID = tempOverlay.overlayId;
-        }
+      // add previous overlay to overlay list
+      [tempOverlayList addObject:tempOverlay];
+
+      // create new overlay
+      tempOverlay.index = overlaysIndex;
+      tempOverlay.overlayId = [overlayDictionary validIntForKey:@"overlay_id"];;
+      tempOverlay.num_tiles = [overlayDictionary validIntForKey:@"num_tiles"];;
+      //tempOverlay.alpha = [[overlayDictionary validObjectForKey:@"alpha"] floatValue] ;
+      tempOverlay.alpha = 1.0;
+      [tempOverlay.tileFileName addObject:[overlayDictionary validObjectForKey:@"file_path"]];
+      [tempOverlay.tileMediaID addObject:[overlayDictionary validObjectForKey:@"media_id"]];
+      [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
+      [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
+      [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
+      Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
+      [tempOverlay.tileImage addObject:media];
+      currentOverlayID = tempOverlay.overlayId;
+      overlaysIndex += 1;
     }
-    
-    [AppModel sharedAppModel].overlayList = tempOverlayList;
-    // don' do that for offline game
-    Game *game = [AppModel sharedAppModel].currentGame;
-    if(!game.offlineMode) {
-        for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++) {
-            Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
-            int iTiles = [currentOverlay.tileX count];
-            for (int iTile = 0; iTile < iTiles; iTile++)
-            {
-                //SHOULD NOT MANIPULATE VIEWS IN APPSERVICES!!! -Phil
-                //ARISMediaView *aImageView = [[ARISMediaView alloc] initWithFrame:CGRectZero media:[currentOverlay.tileImage objectAtIndex:iTile] mode:ARISMediaDisplayModeAspectFit delegate:nil];
-                //also... what the heck is this doing? -Phil
-                //This is dumb so I commented it out
-            }
-        }
+    else
+    {
+      // add tiles to existing overlay
+      [tempOverlay.tileFileName addObject:[overlayDictionary validObjectForKey:@"file_path"]];
+      [tempOverlay.tileMediaID addObject:[overlayDictionary validObjectForKey:@"media_id"]];
+      [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
+      [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
+      [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
+      Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
+      [tempOverlay.tileImage addObject:media];
+      currentOverlayID = tempOverlay.overlayId;
     }
-    
-    NSError *error;
-    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-        
-    NSLog(@"NSNotification: NewOverlayListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlayListReady" object:nil]];
-    NSLog(@"NSNotification: PlayerPieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+  }
+
+  [AppModel sharedAppModel].overlayList = tempOverlayList;
+
+  for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++)
+  {
+    Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
+    int iTiles = [currentOverlay.tileX count];
+    for (int iTile = 0; iTile < iTiles; iTile++)
+    {
+      //SHOULD NOT MANIPULATE VIEWS IN APPSERVICES!!! -Phil
+      //ARISMediaView *aImageView = [[ARISMediaView alloc] initWithFrame:CGRectZero media:[currentOverlay.tileImage objectAtIndex:iTile] mode:ARISMediaDisplayModeAspectFit delegate:nil];
+      //also... what the heck is this doing? -Phil
+    }
+  }
+
+  NSError *error;
+  if(![[AppModel sharedAppModel].mediaCache.context save:&error])
+    NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+
+  NSLog(@"NSNotification: NewOverlayListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlayListReady" object:nil]];
+  NSLog(@"NSNotification: PlayerPieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
 - (void)fetchAllPlayerLists
 {
-	[self fetchPlayerLocationList];
-	[self fetchPlayerQuestList];
-	[self fetchPlayerInventory];
-    [self fetchPlayerOverlayList];
+  [self fetchPlayerLocationList];
+  [self fetchPlayerQuestList];
+  [self fetchPlayerInventory];
+  [self fetchPlayerOverlayList];
 }
 
 - (void)resetAllPlayerLists
 {
-	NSLog(@"AppModel: resetAllPlayerLists");    
-	[AppModel sharedAppModel].nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
-	[[AppModel sharedAppModel].currentGame clearLocalModels];
-    [[AppModel sharedAppModel].overlayList removeAllObjects];
+  NSLog(@"AppModel: resetAllPlayerLists");    
+  [AppModel sharedAppModel].nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
+  [[AppModel sharedAppModel].currentGame clearLocalModels];
+  [[AppModel sharedAppModel].overlayList removeAllObjects];
 }
 
--(void)fetchTabBarItemsAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchTabBarItems
 {
-    NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  nil];
-    
-    JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"games"
-                                                             andMethodName:@"getTabBarItemsForGame"
-                                                              andArguments:arguments andUserInfo:nil];
-    if(YesForAsyncOrNoForSync)
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameTabListFromJSON:)];
-	else
-        [self parseGameTabListFromJSON:[jsonConnection performSynchronousRequest]];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          nil];
+
+  [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGame" arguments:args handler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
--(void)fetchQRCode:(NSString*)code
+- (void)fetchQRCode:(NSString*)code
 {
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%@",code],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  nil];
-
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"qrcodes"
-                                                             andMethodName:@"getQRCodeNearbyObjectForPlayer"
-                                                              andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseQRCodeObjectFromJSON:)];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%@",code],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          nil];
+  [connection performAsynchronousRequestWithService:@"qrcodes" method:@"getQRCodeNearbyObjectForPlayer" arguments:args handler:self successSelector:@selector(parseQRCodeObjectFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
--(void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId
+- (void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId
 {
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",npcId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  [NSString stringWithFormat:@"%d",nodeId],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"npcs"
-                                                             andMethodName:@"getNpcConversationsForPlayerAfterViewingNode"
-                                                              andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseConversationOptionsFromJSON:)];
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",npcId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          [NSString stringWithFormat:@"%d",nodeId],
+          nil];
+  [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcConversationsForPlayerAfterViewingNode" arguments:args handler:self successSelector:@selector(parseConversationOptionsFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchGameNpcListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchGameNpcList
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"npcs"
-                                                             andMethodName:@"getNpcs"
-                                                              andArguments:arguments andUserInfo:nil];
-	if(YesForAsyncOrNoForSync)
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameNpcListFromJSON:)];
-	else
-        [self parseGameNpcListFromJSON:[jsonConnection performSynchronousRequest]];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+
+  [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcs" arguments:args handler:self successSelector:@selector(parseGameNpcListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchGameNoteList
 {
-    if(currentlyFetchingGameNoteList)
-    {
-        NSLog(@"Skipping Request: already fetching game notes");
-        return;
-    }
-     
-    currentlyFetchingGameNoteList = YES;
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"getNotesForGame"
-                                                              andArguments:arguments andUserInfo:nil];
-	if(YesForAsyncOrNoForSync){
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameNoteListFromJSON:)];
-	}
-	else [self parseGameNoteListFromJSON:[jsonConnection performSynchronousRequest]];
+  if(currentlyFetchingGameNoteList)
+  {
+    NSLog(@"Skipping Request: already fetching game notes");
+    return;
+  }
+
+  currentlyFetchingGameNoteList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],nil];
+
+  [connection performAsynchronousRequestWithService:@"notes" method:@"getNotesForGame" arguments:args handler:self successSelector:@selector(parseGameNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchPlayerNoteList
 {
-	if(currentlyFetchingPlayerNoteList)
-    {
-        NSLog(@"Skipping Request: already fetching player notes");
-        return;
-    }
-     
-    currentlyFetchingPlayerNoteList = YES;
-    
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"getNotesForPlayer"
-                                                              andArguments:arguments andUserInfo:nil];
-	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parsePlayerNoteListFromJSON:)];
-	else [self parsePlayerNoteListFromJSON: [jsonConnection performSynchronousRequest]];
+  if(currentlyFetchingPlayerNoteList)
+  {
+    NSLog(@"Skipping Request: already fetching player notes");
+    return;
+  }
+
+  currentlyFetchingPlayerNoteList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+
+  [connection performAsynchronousRequestWithService:@"notes" method:@"getNotesForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchGameWebPageListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchGameWebPageList
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"webpages"
-                                                             andMethodName:@"getWebPages"
-                                                              andArguments:arguments andUserInfo:nil];
-	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameWebPageListFromJSON:)];
-	else [self parseGameWebPageListFromJSON: [jsonConnection performSynchronousRequest]];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+
+  [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPages" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) fetchMedia:(int)mediaId
 {
-    NSArray *arguments = [NSArray arrayWithObjects:
-                          (([AppModel sharedAppModel].currentGame.gameId != 0) ? [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId] : @"player"),
-                          [NSString stringWithFormat:@"%d",mediaId],
-                          nil];
-    
-    JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"media"
-                                                             andMethodName:@"getMediaObject"
-                                                              andArguments:arguments andUserInfo:nil];
-    
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(parseSingleMediaFromJSON:)];
+  NSArray *args = [NSArray arrayWithObjects:
+    (([AppModel sharedAppModel].currentGame.gameId != 0) ? [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId] : @"player"),
+    [NSString stringWithFormat:@"%d",mediaId],
+    nil];
+
+  [connection performAsynchronousRequestWithService:@"media" method:@"getMediaObject" arguments:args handler:self successSelector:@selector(parseSingleMediaFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchGameMediaList
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-    
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"media"
-                                                             andMethodName:@"getMedia"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameMediaListFromJSON:)];
-	else [self parseGameMediaListFromJSON: [jsonConnection performSynchronousRequest]];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchGamePanoramicListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchGamePanoramicList
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-    
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"augbubbles"
-                                                             andMethodName:@"getAugBubbles"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGamePanoramicListFromJSON:)];
-	else [self parseGamePanoramicListFromJSON: [jsonConnection performSynchronousRequest]];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+  [connection performAsynchronousRequestWithService:@"augbubbles" method:@"getAugBubbles" arguments:args handler:self successSelector:@selector(parseGamePanoramicListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-
-- (void)fetchGameItemListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchGameItemList
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"items"
-                                                             andMethodName:@"getFullItems"
-                                                              andArguments:arguments andUserInfo:nil];
-	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameItemListFromJSON:)];
-	else
-        [self parseGameItemListFromJSON:[jsonConnection performSynchronousRequest]];
-	
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+  [connection performAsynchronousRequestWithService:@"items" method:@"getFullItems" arguments:args handler:self successSelector:@selector(parseGameItemListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchGameNodeListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchGameNodeList
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"nodes"
-                                                             andMethodName:@"getNodes"
-                                                              andArguments:arguments andUserInfo:nil];
-    
-	if(YesForAsyncOrNoForSync)
-		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameNodeListFromJSON:)];    
-	else
-    {
-        ServiceResult *result = [jsonConnection performSynchronousRequest];
-        [self parseGameNodeListFromJSON: result];
-    }
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+  [connection performAsynchronousRequestWithService:@"nodes" method:@"getNodes" arguments:args handler:self successSelector:@selector(parseGameNodeListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchGameNoteTagsAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void)fetchGameNoteTags
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"getAllTagsInGame"
-                                                              andArguments:arguments andUserInfo:nil];
-    
-    if(YesForAsyncOrNoForSync)
-        [jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameTagsListFromJSON:)];    
-	else
-    {
-        ServiceResult *result = [jsonConnection performSynchronousRequest];
-        [self parseGameTagsListFromJSON: result];
-    }
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"getAllTagsInGame" arguments:args handler:self successSelector:@selector(parseGameTagsListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
--(void)parseGameTagsListFromJSON:(ServiceResult *)jsonResult
+- (void)parseGameTagsListFromJSON:(ServiceResult *)jsonResult
 {    
-    NSArray *gameTagsArray = (NSArray *)jsonResult.data;
-	
-	NSMutableArray *tempTagsList = [[NSMutableArray alloc] initWithCapacity:10];
-	
-	NSEnumerator *gameTagEnumerator = [gameTagsArray objectEnumerator];
-	NSDictionary *tagDictionary;
-	while ((tagDictionary = [gameTagEnumerator nextObject]))
-    {
-        Tag *t = [[Tag alloc]init];
-        t.tagName = [tagDictionary validObjectForKey:@"tag"];
-        t.playerCreated = [tagDictionary validBoolForKey:@"player_created"];
-        t.tagId = [tagDictionary validIntForKey:@"tag_id"];
-		[tempTagsList addObject:t];
-	}
-	[AppModel sharedAppModel].gameTagList = tempTagsList;
-    
-    NSLog(@"NSNotification: NewNoteListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
+  NSArray *gameTagsArray = (NSArray *)jsonResult.data;
+
+  NSMutableArray *tempTagsList = [[NSMutableArray alloc] initWithCapacity:10];
+
+  NSEnumerator *gameTagEnumerator = [gameTagsArray objectEnumerator];
+  NSDictionary *tagDictionary;
+  while ((tagDictionary = [gameTagEnumerator nextObject]))
+  {
+    Tag *t = [[Tag alloc]init];
+    t.tagName = [tagDictionary validObjectForKey:@"tag"];
+    t.playerCreated = [tagDictionary validBoolForKey:@"player_created"];
+    t.tagId = [tagDictionary validIntForKey:@"tag_id"];
+    [tempTagsList addObject:t];
+  }
+  [AppModel sharedAppModel].gameTagList = tempTagsList;
+
+  NSLog(@"NSNotification: NewNoteListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
--(void)addTagToNote:(int)noteId tagName:(NSString *)tag
+- (void)addTagToNote:(int)noteId tagName:(NSString *)tag
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],tag, nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"addTagToNote"
-                                                              andArguments:arguments andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:nil];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],tag, nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"addTagToNote" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
--(void) deleteTagFromNote:(int)noteId tagId:(int)tagId
+- (void) deleteTagFromNote:(int)noteId tagId:(int)tagId
 {
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",tagId], nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"notes"
-                                                             andMethodName:@"deleteTagFromNote"
-                                                              andArguments:arguments andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:nil];
-    
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",tagId], nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"deleteTagFromNote" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) fetchPlayerLocationList
 {
-    if(currentlyFetchingLocationList)
-    {
-        NSLog(@"Skipping Request: already fetching locations");
-        return;
-    }
-    
-    currentlyFetchingLocationList = YES;
-    
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"locations"
-                                                             andMethodName:@"getLocationsForPlayer"
-                                                              andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLocationListFromJSON:)];
+  if(currentlyFetchingLocationList)
+  {
+    NSLog(@"Skipping Request: already fetching locations");
+    return;
+  }
+
+  currentlyFetchingLocationList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    nil];
+  [connection performAsynchronousRequestWithService:@"locations" method:@"getLocationsForPlayer" arguments:args handler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)fetchPlayerOverlayList
 {
-    if(currentlyFetchingOverlayList)
-    {
-        NSLog(@"Skipping Request: already fetching overlays or interacting with object");
-        return;
-    }
-    
-    currentlyFetchingOverlayList = YES;
-    
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], nil];
-    
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"overlays"
-                                                             andMethodName:@"getCurrentOverlaysForPlayer"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(parseOverlayListFromJSON:)];
+  if(currentlyFetchingOverlayList)
+  {
+    NSLog(@"Skipping Request: already fetching overlays or interacting with object");
+    return;
+  }
+
+  currentlyFetchingOverlayList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], nil];
+  [connection performAsynchronousRequestWithService:@"overlays" method:@"getCurrentOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)fetchPlayerInventory
 {    
-    if(currentlyFetchingInventory)
-    {
-        NSLog(@"Skipping Request: already fetching inventory");
-        return;
-    }
-    
-    currentlyFetchingInventory = YES;
-	
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"items"
-                                                             andMethodName:@"getItemsForPlayer"
-                                                              andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseInventoryFromJSON:)];
+  if(currentlyFetchingInventory)
+  {
+    NSLog(@"Skipping Request: already fetching inventory");
+    return;
+  }
+
+  currentlyFetchingInventory = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    nil];
+
+  [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForPlayer" arguments:args handler:self successSelector:@selector(parseInventoryFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
--(void)fetchPlayerQuestList
+- (void)fetchPlayerQuestList
 {
-    if(currentlyFetchingQuestList)
-    {
-        NSLog(@"Skipping Request: already fetching quests");
-        return;
-    }
-    
-    currentlyFetchingQuestList = YES;
-	
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"quests"
-                                                             andMethodName:@"getQuestsForPlayer"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseQuestListFromJSON:)];
+  if(currentlyFetchingQuestList)
+  {
+    NSLog(@"Skipping Request: already fetching quests");
+    return;
+  }
+
+  currentlyFetchingQuestList = YES;
+
+  NSArray *args = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+          nil];
+  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parseQuestListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)fetchOneGameGameList:(int)gameId
 {
-    if(currentlyFetchingOneGame)
-    {
-        NSLog(@"Skipping Request: already fetching one game");
-        return;
-    }
-    
-    currentlyFetchingOneGame = YES;
-    
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-                          [NSString stringWithFormat:@"%d",gameId],
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
-                          [NSString stringWithFormat:@"%d",1],
-                          [NSString stringWithFormat:@"%d",999999999],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
-                          [NSString stringWithFormat:@"%d",1],//'showGamesInDev' = 1, because if you're specifically seeking out one game, who cares
-						  nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
-                                                            andServiceName:@"games"
-                                                             andMethodName:@"getOneGame"
-                                                              andArguments:arguments andUserInfo:nil];
-	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseOneGameGameListFromJSON:)];
+  if(currentlyFetchingOneGame)
+  {
+    NSLog(@"Skipping Request: already fetching one game");
+    return;
+  }
+
+  currentlyFetchingOneGame = YES;
+
+  NSArray *args = [NSArray arrayWithObjects:
+    [NSString stringWithFormat:@"%d",gameId],
+    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+    [NSString stringWithFormat:@"%d",1],
+    [NSString stringWithFormat:@"%d",999999999],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+    [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+    [NSString stringWithFormat:@"%d",1],//'showGamesInDev' = 1, because if you're specifically seeking out one game, who cares
+    nil];
+
+  [connection performAsynchronousRequestWithService:@"games" method:@"getOneGame" arguments:args handler:self successSelector:@selector(parseOneGameGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (Tab *)parseTabFromDictionary:(NSDictionary *)tabDictionary
 {
-    Tab *tab = [[Tab alloc] init];
-    tab.tabIndex   = [tabDictionary validIntForKey:@"tab_index"];
-    tab.tabName    = [tabDictionary validObjectForKey:@"tab"];
-    tab.tabDetail1 = [tabDictionary validObjectForKey:@"tab_detail_1"] ? [tabDictionary validIntForKey:@"tab_detail_1"] : 0;
-    return tab;
+  Tab *tab = [[Tab alloc] init];
+  tab.tabIndex   = [tabDictionary validIntForKey:@"tab_index"];
+  tab.tabName    = [tabDictionary validObjectForKey:@"tab"];
+  tab.tabDetail1 = [tabDictionary validObjectForKey:@"tab_detail_1"] ? [tabDictionary validIntForKey:@"tab_detail_1"] : 0;
+  return tab;
 }
 
--(void)parseGameNoteListFromJSON:(ServiceResult *)jsonResult
+- (void)parseGameNoteListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingGameNoteList) return;
-    currentlyFetchingGameNoteList = NO;
+  if(!currentlyFetchingGameNoteList) return;
+  currentlyFetchingGameNoteList = NO;
 
-	NSArray *noteListArray = (NSArray *)jsonResult.data;
-    NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc]init];
-    
-	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject]))
-    {
-        Note *tmpNote = [[Note alloc] initWithDictionary:dict];
-        [tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
-	}
-    
-	[AppModel sharedAppModel].gameNoteList = tempNoteList;
-    NSLog(@"NSNotification: NewNoteListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady"      object:nil]];
-    NSLog(@"NSNotification: ReceivedNoteList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList"      object:nil]];
-    //^ This is ridiculous. Each notification is a paraphrasing of the last. <3 Phil
+  NSArray *noteListArray = (NSArray *)jsonResult.data;
+  NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc]init];
+
+  NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
+  NSDictionary *dict;
+  while ((dict = [enumerator nextObject]))
+  {
+    Note *tmpNote = [[Note alloc] initWithDictionary:dict];
+    [tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
+  }
+
+  [AppModel sharedAppModel].gameNoteList = tempNoteList;
+  NSLog(@"NSNotification: NewNoteListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady"      object:nil]];
+  NSLog(@"NSNotification: ReceivedNoteList");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList"      object:nil]];
+  //^ This is ridiculous. Each notification is a paraphrasing of the last. <3 Phil
 }
 
--(void)parsePlayerNoteListFromJSON:(ServiceResult *)jsonResult
+- (void)parsePlayerNoteListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingPlayerNoteList) return;
-    currentlyFetchingPlayerNoteList = NO;
-    
-	NSArray *noteListArray = (NSArray *)jsonResult.data;
-    	NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
-	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject]))
-    {
-		Note *tmpNote = [[Note alloc] initWithDictionary:dict];
-		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
-	}
-    
-	[AppModel sharedAppModel].playerNoteList = tempNoteList;
-    NSLog(@"NSNotification: ReceivedNoteList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList" object:nil]];
-    NSLog(@"NSNotification: NewNoteListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
+  if(!currentlyFetchingPlayerNoteList) return;
+  currentlyFetchingPlayerNoteList = NO;
+
+  NSArray *noteListArray = (NSArray *)jsonResult.data;
+  NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
+  NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
+  NSDictionary *dict;
+  while ((dict = [enumerator nextObject]))
+  {
+    Note *tmpNote = [[Note alloc] initWithDictionary:dict];
+    [tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
+  }
+
+  [AppModel sharedAppModel].playerNoteList = tempNoteList;
+  NSLog(@"NSNotification: ReceivedNoteList");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList" object:nil]];
+  NSLog(@"NSNotification: NewNoteListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
--(void)parseConversationOptionsFromJSON:(ServiceResult *)jsonResult
+- (void)parseConversationOptionsFromJSON:(ServiceResult *)jsonResult
 {
-    NSArray *conversationOptionsArray = (NSArray *)jsonResult.data;
-	
-	NSMutableArray *conversationOptions = [[NSMutableArray alloc] initWithCapacity:3];
-	
-	NSEnumerator *conversationOptionsEnumerator = [conversationOptionsArray objectEnumerator];
-	NSDictionary *conversationDictionary;
-	
-	while((conversationDictionary = [conversationOptionsEnumerator nextObject]))
-    {
-		int nodeId = [conversationDictionary validIntForKey:@"node_id"];
-		NSString *text = [conversationDictionary validObjectForKey:@"text"];
-        BOOL hasViewed = [conversationDictionary validBoolForKey:@"has_viewed"];
-		NpcScriptOption *option = [[NpcScriptOption alloc] initWithOptionText:text scriptText:@"" nodeId:nodeId hasViewed:hasViewed];
-		[conversationOptions addObject:option];
-	}
-	
-    NSLog(@"NSNotification: ConversationOptionsReady");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationOptionsReady" object:conversationOptions]];
-}
+  NSArray *conversationOptionsArray = (NSArray *)jsonResult.data;
 
+  NSMutableArray *conversationOptions = [[NSMutableArray alloc] initWithCapacity:3];
+
+  NSEnumerator *conversationOptionsEnumerator = [conversationOptionsArray objectEnumerator];
+  NSDictionary *conversationDictionary;
+
+  while((conversationDictionary = [conversationOptionsEnumerator nextObject]))
+  {
+    int nodeId = [conversationDictionary validIntForKey:@"node_id"];
+    NSString *text = [conversationDictionary validObjectForKey:@"text"];
+    BOOL hasViewed = [conversationDictionary validBoolForKey:@"has_viewed"];
+    NpcScriptOption *option = [[NpcScriptOption alloc] initWithOptionText:text scriptText:@"" nodeId:nodeId hasViewed:hasViewed];
+    [conversationOptions addObject:option];
+  }
+
+  NSLog(@"NSNotification: ConversationOptionsReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationOptionsReady" object:conversationOptions]];
+}
 
 - (Game *)parseGame:(NSDictionary *)gameSource
 {
-    Game *game = [[Game alloc] init];
-    
-    game.gameId                   = [gameSource validIntForKey:@"game_id"];
-    game.hasBeenPlayed            = [gameSource validBoolForKey:@"has_been_played"];
-    game.isLocational             = [gameSource validBoolForKey:@"is_locational"];
-    game.showPlayerLocation       = [gameSource validBoolForKey:@"show_player_location"];
-    game.inventoryModel.weightCap = [gameSource validIntForKey:@"inventory_weight_cap"];
-    game.rating                   = [gameSource validIntForKey:@"rating"];
-    game.pcMediaId                = [gameSource validIntForKey:@"pc_media_id"];
-    game.numPlayers               = [gameSource validIntForKey:@"numPlayers"];
-    game.playerCount              = [gameSource validIntForKey:@"count"];
-    game.gdescription             = [gameSource validStringForKey:@"description"];
-    game.name                     = [gameSource validStringForKey:@"name"];
-    game.authors                  = [gameSource validStringForKey:@"editors"];
-    game.mapType                  = [gameSource validObjectForKey:@"map_type"];
-    game.latitude                 = [gameSource validDoubleForKey:@"latitude"]; 
-    game.longitude                = [gameSource validDoubleForKey:@"longitude"]; 
-    game.zoomLevel                = [gameSource validDoubleForKey:@"zoom_level"]; 
-    if(!game.mapType || (![game.mapType isEqualToString:@"STREET"] && ![game.mapType isEqualToString:@"SATELLITE"] && ![game.mapType isEqualToString:@"HYBRID"])) game.mapType = @"STREET";
+  Game *game = [[Game alloc] init];
 
-    NSString *distance = [gameSource validObjectForKey:@"distance"];
-    if(distance) game.distanceFromPlayer = [distance doubleValue];
-    else game.distanceFromPlayer = 999999999;
-    
-    NSString *latitude  = [gameSource validObjectForKey:@"latitude"];
-    NSString *longitude = [gameSource validObjectForKey:@"longitude"];
-    if(latitude && longitude)
-        game.location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
-    else
-        game.location = [[CLLocation alloc] init];
-    
-    int iconMediaId;
-    if((iconMediaId = [gameSource validIntForKey:@"icon_media_id"]) > 0)
-    {
-        game.iconMedia = [[AppModel sharedAppModel] mediaForMediaId:iconMediaId ofType:@"PHOTO"];
-        game.iconMedia.type = @"PHOTO"; //Phil doesn't like this...
-    }
-    
-    
-    int mediaId;
-    if((mediaId = [gameSource validIntForKey:@"media_id"]) > 0)
-    {
-        game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:@"PHOTO"];
-        game.splashMedia.type = @"PHOTO"; //Phil doesn't like this...
-    }
+  game.gameId                   = [gameSource validIntForKey:@"game_id"];
+  game.hasBeenPlayed            = [gameSource validBoolForKey:@"has_been_played"];
+  game.isLocational             = [gameSource validBoolForKey:@"is_locational"];
+  game.showPlayerLocation       = [gameSource validBoolForKey:@"show_player_location"];
+  game.inventoryModel.weightCap = [gameSource validIntForKey:@"inventory_weight_cap"];
+  game.rating                   = [gameSource validIntForKey:@"rating"];
+  game.pcMediaId                = [gameSource validIntForKey:@"pc_media_id"];
+  game.numPlayers               = [gameSource validIntForKey:@"numPlayers"];
+  game.playerCount              = [gameSource validIntForKey:@"count"];
+  game.gdescription             = [gameSource validStringForKey:@"description"];
+  game.name                     = [gameSource validStringForKey:@"name"];
+  game.authors                  = [gameSource validStringForKey:@"editors"];
+  game.mapType                  = [gameSource validObjectForKey:@"map_type"];
+  game.latitude                 = [gameSource validDoubleForKey:@"latitude"]; 
+  game.longitude                = [gameSource validDoubleForKey:@"longitude"]; 
+  game.zoomLevel                = [gameSource validDoubleForKey:@"zoom_level"]; 
+  if(!game.mapType || (![game.mapType isEqualToString:@"STREET"] && ![game.mapType isEqualToString:@"SATELLITE"] && ![game.mapType isEqualToString:@"HYBRID"])) game.mapType = @"STREET";
 
-    
-    game.questsModel.totalQuestsInGame = [gameSource validIntForKey:@"totalQuests"];
-    game.launchNodeId                  = [gameSource validIntForKey:@"on_launch_node_id"];
-    game.completeNodeId                = [gameSource validIntForKey:@"game_complete_node_id"];
-    game.calculatedScore               = [gameSource validIntForKey:@"calculatedScore"];
-    game.numReviews                    = [gameSource validIntForKey:@"numComments"];
-    game.allowsPlayerTags              = [gameSource validBoolForKey:@"allow_player_tags"];
-    game.allowShareNoteToMap           = [gameSource validBoolForKey:@"allow_share_note_to_map"];
-    game.allowShareNoteToList          = [gameSource validBoolForKey:@"allow_share_note_to_book"];
-    game.allowNoteComments             = [gameSource validBoolForKey:@"allow_note_comments"];
-    game.allowNoteLikes                = [gameSource validBoolForKey:@"allow_note_likes"];
-    game.allowTrading                  = [gameSource validBoolForKey:@"allow_trading"];
-    if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"NONE"])                 game.noteTitleBehavior = None;
-    else if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"FORCE_OVERWRITE"]) game.noteTitleBehavior = ForceOverwrite;
-    
-    NSArray *comments = [gameSource validObjectForKey:@"comments"];
-    for (NSDictionary *comment in comments)
-    {
-        //This is returning an object with playerId,tex, and rating. Right now, we just want the text
-        Comment *c = [[Comment alloc] init];
-        c.text = [comment validObjectForKey:@"text"];
-        c.playerName = [comment validObjectForKey:@"username"];
-        NSString *cRating = [comment validObjectForKey:@"rating"];
-        if(cRating) c.rating = [cRating intValue];
-        [game.comments addObject:c];
-    }
-    game.offlineMode = [gameSource validBoolForKey:@"offline"];
-    
-    return game;
+  NSString *distance = [gameSource validObjectForKey:@"distance"];
+  if(distance) game.distanceFromPlayer = [distance doubleValue];
+  else game.distanceFromPlayer = 999999999;
+
+  NSString *latitude  = [gameSource validObjectForKey:@"latitude"];
+  NSString *longitude = [gameSource validObjectForKey:@"longitude"];
+  if(latitude && longitude)
+    game.location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
+  else
+    game.location = [[CLLocation alloc] init];
+
+  int iconMediaId;
+  if((iconMediaId = [gameSource validIntForKey:@"icon_media_id"]) > 0)
+  {
+    game.iconMedia = [[AppModel sharedAppModel] mediaForMediaId:iconMediaId ofType:@"PHOTO"];
+    game.iconMedia.type = @"PHOTO"; //Phil doesn't like this...
+  }
+
+
+  int mediaId;
+  if((mediaId = [gameSource validIntForKey:@"media_id"]) > 0)
+  {
+    game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:@"PHOTO"];
+    game.splashMedia.type = @"PHOTO"; //Phil doesn't like this...
+  }
+
+  game.questsModel.totalQuestsInGame = [gameSource validIntForKey:@"totalQuests"];
+  game.launchNodeId                  = [gameSource validIntForKey:@"on_launch_node_id"];
+  game.completeNodeId                = [gameSource validIntForKey:@"game_complete_node_id"];
+  game.calculatedScore               = [gameSource validIntForKey:@"calculatedScore"];
+  game.numReviews                    = [gameSource validIntForKey:@"numComments"];
+  game.allowsPlayerTags              = [gameSource validBoolForKey:@"allow_player_tags"];
+  game.allowShareNoteToMap           = [gameSource validBoolForKey:@"allow_share_note_to_map"];
+  game.allowShareNoteToList          = [gameSource validBoolForKey:@"allow_share_note_to_book"];
+  game.allowNoteComments             = [gameSource validBoolForKey:@"allow_note_comments"];
+  game.allowNoteLikes                = [gameSource validBoolForKey:@"allow_note_likes"];
+  game.allowTrading                  = [gameSource validBoolForKey:@"allow_trading"];
+  if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"NONE"])                 game.noteTitleBehavior = None;
+  else if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"FORCE_OVERWRITE"]) game.noteTitleBehavior = ForceOverwrite;
+
+  NSArray *comments = [gameSource validObjectForKey:@"comments"];
+  for (NSDictionary *comment in comments)
+  {
+    //This is returning an object with playerId,tex, and rating. Right now, we just want the text
+    Comment *c = [[Comment alloc] init];
+    c.text = [comment validObjectForKey:@"text"];
+    c.playerName = [comment validObjectForKey:@"username"];
+    NSString *cRating = [comment validObjectForKey:@"rating"];
+    if(cRating) c.rating = [cRating intValue];
+    [game.comments addObject:c];
+  }
+
+  return game;
 }
 
--(NSMutableArray *)parseGameListFromJSON:(ServiceResult *)jsonResult
+- (NSMutableArray *)parseGameListFromJSON:(ServiceResult *)jsonResult
 {
-    NSArray *gameListArray = (NSArray *)jsonResult.data;
-    
-    NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-    
-    NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];
-    NSDictionary *gameDictionary;
-    while ((gameDictionary = [gameListEnumerator nextObject]))
-        [tempGameList addObject:[self parseGame:(gameDictionary)]];
-    
-    NSError *error;
-    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+  NSArray *gameListArray = (NSArray *)jsonResult.data;
 
-    return tempGameList;
+  NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
+
+  NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];
+  NSDictionary *gameDictionary;
+  while ((gameDictionary = [gameListEnumerator nextObject]))
+    [tempGameList addObject:[self parseGame:(gameDictionary)]];
+
+  NSError *error;
+  if(![[AppModel sharedAppModel].mediaCache.context save:&error])
+    NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+
+  return tempGameList;
 }
 
 - (void) parseOneGameGameListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingOneGame) return;
-    currentlyFetchingOneGame = NO;
-    
-    [AppModel sharedAppModel].oneGameGameList = [self parseGameListFromJSON:jsonResult];
-    
-    Game *game;
-    if([[AppModel sharedAppModel].oneGameGameList count] > 0)
-    {
-        game = (Game *)[[AppModel sharedAppModel].oneGameGameList  objectAtIndex:0];
-        NSLog(@"NSNotification: NewOneGameGameListReady");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListReady" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:game,@"game", nil]]];
-    }
-    else
-    {
-        NSLog(@"NSNotification: NewOneGameGameListFailed");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListFailed" object:nil userInfo:nil]];
-    }
+  if(!currentlyFetchingOneGame) return;
+  currentlyFetchingOneGame = NO;
+
+  [AppModel sharedAppModel].oneGameGameList = [self parseGameListFromJSON:jsonResult];
+
+  Game *game;
+  if([[AppModel sharedAppModel].oneGameGameList count] > 0)
+  {
+    game = (Game *)[[AppModel sharedAppModel].oneGameGameList  objectAtIndex:0];
+    NSLog(@"NSNotification: NewOneGameGameListReady");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListReady" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:game,@"game", nil]]];
+  }
+  else
+  {
+    NSLog(@"NSNotification: NewOneGameGameListFailed");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListFailed" object:nil userInfo:nil]];
+  }
 }
 
 - (void)parseNearbyGameListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingNearbyGamesList) return;
-    currentlyFetchingNearbyGamesList = NO;
-    
-    [AppModel sharedAppModel].nearbyGameList = [self parseGameListFromJSON:jsonResult];
-    NSLog(@"NSNotification: NewNearbyGameListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNearbyGameListReady" object:nil]];
+  if(!currentlyFetchingNearbyGamesList) return;
+  currentlyFetchingNearbyGamesList = NO;
+
+  [AppModel sharedAppModel].nearbyGameList = [self parseGameListFromJSON:jsonResult];
+  NSLog(@"NSNotification: NewNearbyGameListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNearbyGameListReady" object:nil]];
 }
 
 - (void)parseAnywhereGameListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingAnywhereGamesList) return;
-    currentlyFetchingAnywhereGamesList = NO;
-    
-    [AppModel sharedAppModel].anywhereGameList = [self parseGameListFromJSON:jsonResult];
-    NSLog(@"NSNotification: NewAnywhereGameListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewAnywhereGameListReady" object:nil]];
+  if(!currentlyFetchingAnywhereGamesList) return;
+  currentlyFetchingAnywhereGamesList = NO;
+
+  [AppModel sharedAppModel].anywhereGameList = [self parseGameListFromJSON:jsonResult];
+  NSLog(@"NSNotification: NewAnywhereGameListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewAnywhereGameListReady" object:nil]];
 }
 
 - (void)parseSearchGameListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingSearchGamesList) return;
-    currentlyFetchingSearchGamesList = NO;
-    
-    [AppModel sharedAppModel].searchGameList = [self parseGameListFromJSON:jsonResult];
-    NSLog(@"NSNotification: NewSearchGameListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewSearchGameListReady" object:nil]];
+  if(!currentlyFetchingSearchGamesList) return;
+  currentlyFetchingSearchGamesList = NO;
+
+  [AppModel sharedAppModel].searchGameList = [self parseGameListFromJSON:jsonResult];
+  NSLog(@"NSNotification: NewSearchGameListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewSearchGameListReady" object:nil]];
 }
 
--(void)parsePopularGameListFromJSON:(ServiceResult *)jsonResult
+- (void)parsePopularGameListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingPopularGamesList) return;
-    currentlyFetchingPopularGamesList = NO;
-    
-    [AppModel sharedAppModel].popularGameList = [self parseGameListFromJSON:jsonResult];
-    NSLog(@"NSNotification: NewPopularGameListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewPopularGameListReady" object:nil]];
+  if(!currentlyFetchingPopularGamesList) return;
+  currentlyFetchingPopularGamesList = NO;
+
+  [AppModel sharedAppModel].popularGameList = [self parseGameListFromJSON:jsonResult];
+  NSLog(@"NSNotification: NewPopularGameListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewPopularGameListReady" object:nil]];
 }
 
--(void)parseRecentGameListFromJSON:(ServiceResult *)jsonResult
+- (void)parseRecentGameListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingRecentGamesList) return;
-    currentlyFetchingRecentGamesList = NO;
-    
-    NSArray *gameListArray = (NSArray *)jsonResult.data;
-    
-    NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-    
-    NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];
-    NSDictionary *gameDictionary;
-    while ((gameDictionary = [gameListEnumerator nextObject]))
-        [tempGameList addObject:[self parseGame:(gameDictionary)]];
-    
-    [AppModel sharedAppModel].recentGameList = tempGameList;
-    
-    NSError *error;
-    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    
-    NSLog(@"NSNotification: NewRecentGameListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
+  if(!currentlyFetchingRecentGamesList) return;
+  currentlyFetchingRecentGamesList = NO;
+
+  NSArray *gameListArray = (NSArray *)jsonResult.data;
+
+  NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
+
+  NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];
+  NSDictionary *gameDictionary;
+  while ((gameDictionary = [gameListEnumerator nextObject]))
+    [tempGameList addObject:[self parseGame:(gameDictionary)]];
+
+  [AppModel sharedAppModel].recentGameList = tempGameList;
+
+  NSError *error;
+  if(![[AppModel sharedAppModel].mediaCache.context save:&error])
+    NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+
+  NSLog(@"NSNotification: NewRecentGameListReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
 }
 
 - (void)saveGameComment:(NSString*)comment game:(int)gameId starRating:(int)rating
 {
-	NSLog(@"AppModel: Save Comment Requested");
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], [NSString stringWithFormat:@"%d", gameId], [NSString stringWithFormat:@"%d", rating], comment, nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
-                                                             andServiceName: @"games"
-                                                              andMethodName:@"saveComment"
-                                                               andArguments:arguments andUserInfo:nil];
-	
-	[jsonConnection performAsynchronousRequestWithHandler:nil];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], [NSString stringWithFormat:@"%d", gameId], [NSString stringWithFormat:@"%d", rating], comment, nil];
+  [connection performAsynchronousRequestWithService: @"games" method:@"saveComment" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)parseLocationListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingLocationList) return;
-    currentlyFetchingLocationList = NO;
-    
-    NSLog(@"NSNotification: ReceivedLocationList");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
-	
-	NSArray *locationsArray = (NSArray *)jsonResult.data;
-    
-	//Build the location list
-	NSMutableArray *tempLocationsList = [[NSMutableArray alloc] init];
-	NSEnumerator *locationsEnumerator = [locationsArray objectEnumerator];
-	NSDictionary *locationDictionary;
-	while ((locationDictionary = [locationsEnumerator nextObject]))
-        [tempLocationsList addObject:[[Location alloc] initWithDictionary:locationDictionary]];
-		
-	//Tell everyone
-    NSDictionary *locations  = [[NSDictionary alloc] initWithObjectsAndKeys:tempLocationsList,@"locations", nil];
-    NSLog(@"NSNotification: LatestPlayerLocationsReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerLocationsReceived" object:nil userInfo:locations]];
-    NSLog(@"NSNotification: PlayerPieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+  if(!currentlyFetchingLocationList) return;
+  currentlyFetchingLocationList = NO;
+
+  NSLog(@"NSNotification: ReceivedLocationList");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
+
+  NSArray *locationsArray = (NSArray *)jsonResult.data;
+
+  //Build the location list
+  NSMutableArray *tempLocationsList = [[NSMutableArray alloc] init];
+  NSEnumerator *locationsEnumerator = [locationsArray objectEnumerator];
+  NSDictionary *locationDictionary;
+  while ((locationDictionary = [locationsEnumerator nextObject]))
+    [tempLocationsList addObject:[[Location alloc] initWithDictionary:locationDictionary]];
+
+  //Tell everyone
+  NSDictionary *locations  = [[NSDictionary alloc] initWithObjectsAndKeys:tempLocationsList,@"locations", nil];
+  NSLog(@"NSNotification: LatestPlayerLocationsReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerLocationsReceived" object:nil userInfo:locations]];
+  NSLog(@"NSNotification: PlayerPieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
--(void)parseSingleMediaFromJSON:(ServiceResult *)jsonResult
+- (void)parseSingleMediaFromJSON:(ServiceResult *)jsonResult
 {
-    //Just convert the data into an array and pretend it is a full game list, so same thing as 'parseGameMediaListFromJSON'
-    NSArray * data = [[NSArray alloc] initWithObjects:jsonResult.data, nil];
-    jsonResult.data = data;
-    [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread
+  //Just convert the data into an array and pretend it is a full game list, so same thing as 'parseGameMediaListFromJSON'
+  NSArray * data = [[NSArray alloc] initWithObjects:jsonResult.data, nil];
+  jsonResult.data = data;
+  [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread
 }
 
--(void)parseGameMediaListFromJSON:(ServiceResult *)jsonResult
+- (void)parseGameMediaListFromJSON:(ServiceResult *)jsonResult
 {
-    [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread
+  [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread
 }
 
--(void)startCachingMedia:(ServiceResult *)jsonResult
+- (void)startCachingMedia:(ServiceResult *)jsonResult
 {
-    NSArray *serverMediaArray = (NSArray *)jsonResult.data;
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(gameid = 0) OR (gameid = %d)", [AppModel sharedAppModel].currentGame.gameId];
-    NSArray *currentlyCachedMediaArray = [[AppModel sharedAppModel].mediaCache mediaForPredicate:predicate];
-    NSLog(@"%d total media for %d",[currentlyCachedMediaArray count], [AppModel sharedAppModel].currentGame.gameId);
-    
-    //Construct cached media map (dictionary with identical key/values of mediaId) to quickly check for existence of media
-    NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] initWithCapacity:currentlyCachedMediaArray.count];
-    for(int i = 0; i < [currentlyCachedMediaArray count]; i++)
+  NSArray *serverMediaArray = (NSArray *)jsonResult.data;
+
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(gameid = 0) OR (gameid = %d)", [AppModel sharedAppModel].currentGame.gameId];
+  NSArray *currentlyCachedMediaArray = [[AppModel sharedAppModel].mediaCache mediaForPredicate:predicate];
+  NSLog(@"%d total media for %d",[currentlyCachedMediaArray count], [AppModel sharedAppModel].currentGame.gameId);
+
+  //Construct cached media map (dictionary with identical key/values of mediaId) to quickly check for existence of media
+  NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] initWithCapacity:currentlyCachedMediaArray.count];
+  for(int i = 0; i < [currentlyCachedMediaArray count]; i++)
+  {
+    if([[currentlyCachedMediaArray objectAtIndex:i] uid])
+      [currentlyCachedMediaMap setObject:[currentlyCachedMediaArray objectAtIndex:i] forKey:[[currentlyCachedMediaArray objectAtIndex:i] uid]];
+    else
+      NSLog(@"found broken coredata entry");
+  }
+
+  Media *tmpMedia;
+  for(int i = 0; i < [serverMediaArray count]; i++)
+  {
+    NSDictionary *serverMediaDict = [serverMediaArray objectAtIndex:i];
+    int mediaId        = [serverMediaDict validIntForKey:@"media_id"];
+    NSString *fileName = [serverMediaDict validObjectForKey:@"file_path"];
+
+    if(!(tmpMedia = [currentlyCachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]]))
+      tmpMedia = [[AppModel sharedAppModel].mediaCache addMediaToCache:mediaId];
+
+    if(tmpMedia && (tmpMedia.url == nil || tmpMedia.type == nil || tmpMedia.gameid == nil))
     {
-        if([[currentlyCachedMediaArray objectAtIndex:i] uid])
-            [currentlyCachedMediaMap setObject:[currentlyCachedMediaArray objectAtIndex:i] forKey:[[currentlyCachedMediaArray objectAtIndex:i] uid]];
-        else
-            NSLog(@"found broken coredata entry");
+      tmpMedia.url = [NSString stringWithFormat:@"%@%@", [serverMediaDict validObjectForKey:@"url_path"], fileName];
+      if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Image"] || [[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Icon"])
+        tmpMedia.type = @"PHOTO";
+      else if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Audio"])
+        tmpMedia.type = @"AUDIO";
+      else if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Video"])
+        tmpMedia.type = @"VIDEO";
+      tmpMedia.gameid = [NSNumber numberWithInt:[serverMediaDict validIntForKey:@"game_id"]];
+      NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.url);
     }
-    
-    Media *tmpMedia;
-    for(int i = 0; i < [serverMediaArray count]; i++)
-    {
-        NSDictionary *serverMediaDict = [serverMediaArray objectAtIndex:i];
-        int mediaId        = [serverMediaDict validIntForKey:@"media_id"];
-        NSString *fileName = [serverMediaDict validObjectForKey:@"file_path"];
+  }
+  NSError *error;
+  if(![[AppModel sharedAppModel].mediaCache.context save:&error])
+    NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
 
-        if(!(tmpMedia = [currentlyCachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]]))
-            tmpMedia = [[AppModel sharedAppModel].mediaCache addMediaToCache:mediaId];
-
-        if(tmpMedia && (tmpMedia.url == nil || tmpMedia.type == nil || tmpMedia.gameid == nil))
-        {
-            tmpMedia.url = [NSString stringWithFormat:@"%@%@", [serverMediaDict validObjectForKey:@"url_path"], fileName];
-            if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Image"] || [[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Icon"])
-                tmpMedia.type = @"PHOTO";
-            else if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Audio"])
-                tmpMedia.type = @"AUDIO";
-            else if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Video"])
-                tmpMedia.type = @"VIDEO";
-            tmpMedia.gameid = [NSNumber numberWithInt:[serverMediaDict validIntForKey:@"game_id"]];
-            NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.url);
-        }
-    }
-    NSError *error;
-    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    
-    NSLog(@"NSNotification: ReceivedMediaList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  NSLog(@"NSNotification: ReceivedMediaList");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];
+  NSLog(@"NSNotification: GamePieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 - (void) parseGameItemListFromJSON:(ServiceResult *)jsonResult
 {
-	NSArray *itemListArray = (NSArray *)jsonResult.data;
-    
-	NSMutableDictionary *tempItemList = [[NSMutableDictionary alloc] init];
-	NSEnumerator *enumerator = [itemListArray objectEnumerator];
-    
-	NSDictionary *dict;
-	while((dict = [enumerator nextObject]))
-    {
-		Item *tmpItem = [[Item alloc] initWithDictionary:dict];
-		[tempItemList setObject:tmpItem forKey:[NSNumber numberWithInt:tmpItem.itemId]];
-    }
-	
-	[AppModel sharedAppModel].gameItemList = tempItemList;
-    
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  NSArray *itemListArray = (NSArray *)jsonResult.data;
+
+  NSMutableDictionary *tempItemList = [[NSMutableDictionary alloc] init];
+  NSEnumerator *enumerator = [itemListArray objectEnumerator];
+
+  NSDictionary *dict;
+  while((dict = [enumerator nextObject]))
+  {
+    Item *tmpItem = [[Item alloc] initWithDictionary:dict];
+    [tempItemList setObject:tmpItem forKey:[NSNumber numberWithInt:tmpItem.itemId]];
+  }
+
+  [AppModel sharedAppModel].gameItemList = tempItemList;
+
+  NSLog(@"NSNotification: GamePieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 - (void) parseGameNodeListFromJSON:(ServiceResult *)jsonResult
 {
-	NSArray *nodeListArray = (NSArray *)jsonResult.data;
-	NSMutableDictionary *tempNodeList = [[NSMutableDictionary alloc] init];
-	NSEnumerator *enumerator = [nodeListArray objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject]))
-    {
-		Node *tmpNode = [[Node alloc] initWithDictionary:dict];
-		[tempNodeList setObject:tmpNode forKey:[NSNumber numberWithInt:tmpNode.nodeId]];
-	}
-	
-	[AppModel sharedAppModel].gameNodeList = tempNodeList;
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  NSArray *nodeListArray = (NSArray *)jsonResult.data;
+  NSMutableDictionary *tempNodeList = [[NSMutableDictionary alloc] init];
+  NSEnumerator *enumerator = [nodeListArray objectEnumerator];
+  NSDictionary *dict;
+  while ((dict = [enumerator nextObject]))
+  {
+    Node *tmpNode = [[Node alloc] initWithDictionary:dict];
+    [tempNodeList setObject:tmpNode forKey:[NSNumber numberWithInt:tmpNode.nodeId]];
+  }
+
+  [AppModel sharedAppModel].gameNodeList = tempNodeList;
+  NSLog(@"NSNotification: GamePieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGameTabListFromJSON:(ServiceResult *)jsonResult
+- (void)parseGameTabListFromJSON:(ServiceResult *)jsonResult
 {
-	NSArray *tabListArray = (NSArray *)jsonResult.data;
-    NSMutableArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
-	for(int i = 0; i < [tabListArray count]; i++)
-		[tempTabList addObject:[self parseTabFromDictionary:[tabListArray objectAtIndex:i]]];
-    
-    //PHIL HATES THIS
-    NSLog(@"NSNotification: ReceivedTabList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedTabList" object:nil userInfo:[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]]];
-    //PHIL DONE HATING
-    
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  NSArray *tabListArray = (NSArray *)jsonResult.data;
+  NSMutableArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
+  for(int i = 0; i < [tabListArray count]; i++)
+    [tempTabList addObject:[self parseTabFromDictionary:[tabListArray objectAtIndex:i]]];
+
+  //PHIL HATES THIS
+  NSLog(@"NSNotification: ReceivedTabList");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedTabList" object:nil userInfo:[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]]];
+  //PHIL DONE HATING
+
+  NSLog(@"NSNotification: GamePieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGameNpcListFromJSON:(ServiceResult *)jsonResult
+- (void)parseGameNpcListFromJSON:(ServiceResult *)jsonResult
 {
-	NSArray *npcListArray = (NSArray *)jsonResult.data;
-	
-	NSMutableDictionary *tempNpcList = [[NSMutableDictionary alloc] init];
-	NSEnumerator *enumerator = [((NSArray *)npcListArray) objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject]))
-    {
-		Npc *tmpNpc = [[Npc alloc] initWithDictionary:dict];
-		[tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
-	}
-	
-	[AppModel sharedAppModel].gameNpcList = tempNpcList;
-    
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  NSArray *npcListArray = (NSArray *)jsonResult.data;
+
+  NSMutableDictionary *tempNpcList = [[NSMutableDictionary alloc] init];
+  NSEnumerator *enumerator = [((NSArray *)npcListArray) objectEnumerator];
+  NSDictionary *dict;
+  while ((dict = [enumerator nextObject]))
+  {
+    Npc *tmpNpc = [[Npc alloc] initWithDictionary:dict];
+    [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
+  }
+
+  [AppModel sharedAppModel].gameNpcList = tempNpcList;
+
+  NSLog(@"NSNotification: GamePieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 - (void) parseGameWebPageListFromJSON:(ServiceResult *)jsonResult
 {
-	NSArray *webPageListArray = (NSArray *)jsonResult.data;
-	
-	NSMutableDictionary *tempWebPageList = [[NSMutableDictionary alloc] init];
-	NSEnumerator *enumerator = [((NSArray *)webPageListArray) objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject]))
-    {
-		WebPage *tmpWebPage = [[WebPage alloc] initWithDictionary:dict];
-		[tempWebPageList setObject:tmpWebPage forKey:[NSNumber numberWithInt:tmpWebPage.webPageId]];
-	}
-	
-	[AppModel sharedAppModel].gameWebPageList = tempWebPageList;
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  NSArray *webPageListArray = (NSArray *)jsonResult.data;
+
+  NSMutableDictionary *tempWebPageList = [[NSMutableDictionary alloc] init];
+  NSEnumerator *enumerator = [((NSArray *)webPageListArray) objectEnumerator];
+  NSDictionary *dict;
+  while ((dict = [enumerator nextObject]))
+  {
+    WebPage *tmpWebPage = [[WebPage alloc] initWithDictionary:dict];
+    [tempWebPageList setObject:tmpWebPage forKey:[NSNumber numberWithInt:tmpWebPage.webPageId]];
+  }
+
+  [AppModel sharedAppModel].gameWebPageList = tempWebPageList;
+  NSLog(@"NSNotification: GamePieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 - (void) parseGamePanoramicListFromJSON:(ServiceResult *)jsonResult
 {
-	NSArray *panListArray = (NSArray *)jsonResult.data;
-	
-	NSMutableDictionary *tempPanoramicList = [[NSMutableDictionary alloc] init];
-	NSEnumerator *enumerator = [((NSArray *)panListArray) objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject]))
-    {
-		Panoramic *tmpPan = [[Panoramic alloc] initWithDictionary:dict];
-		[tempPanoramicList setObject:tmpPan forKey:[NSNumber numberWithInt:tmpPan.panoramicId]];
-	}
-	
-	[AppModel sharedAppModel].gamePanoramicList = tempPanoramicList;
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  NSArray *panListArray = (NSArray *)jsonResult.data;
+
+  NSMutableDictionary *tempPanoramicList = [[NSMutableDictionary alloc] init];
+  NSEnumerator *enumerator = [((NSArray *)panListArray) objectEnumerator];
+  NSDictionary *dict;
+  while ((dict = [enumerator nextObject]))
+  {
+    Panoramic *tmpPan = [[Panoramic alloc] initWithDictionary:dict];
+    [tempPanoramicList setObject:tmpPan forKey:[NSNumber numberWithInt:tmpPan.panoramicId]];
+  }
+
+  [AppModel sharedAppModel].gamePanoramicList = tempPanoramicList;
+  NSLog(@"NSNotification: GamePieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void) parseInventoryFromJSON:(ServiceResult *)jsonResult
+- (void) parseInventoryFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingInventory) return;
-    currentlyFetchingInventory = NO;
-    
-    NSLog(@"NSNotification: ReceivedInventory");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedInventory" object:nil]];
-    
-	NSMutableArray *tempInventory = [[NSMutableArray alloc] initWithCapacity:10];
-    NSMutableArray *tempAttributes = [[NSMutableArray alloc] initWithCapacity:10];
-    
-    NSArray *inventoryArray = (NSArray *)jsonResult.data;
-	NSEnumerator *inventoryEnumerator = [((NSArray *)inventoryArray) objectEnumerator];
-	NSDictionary *itemDictionary;
-	while((itemDictionary = [inventoryEnumerator nextObject]))
-    {
-        Item *item = [[Item alloc] initWithDictionary:itemDictionary];
-        item.tags = [[AppModel sharedAppModel] itemForItemId:item.itemId].tags;
-        if(item.itemType == ItemTypeAttribute) [tempAttributes addObject:item];
-        else                                   [tempInventory  addObject:item];
-	}
-    
-	NSDictionary *inventory  = [[NSDictionary alloc] initWithObjectsAndKeys:tempInventory,@"inventory", nil];
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:tempAttributes,@"attributes", nil];
-    NSLog(@"NSNotification: LatestPlayerInventoryReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerInventoryReceived" object:nil userInfo:inventory]];
-    NSLog(@"NSNotification: LatestPlayerAttributesReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerAttributesReceived" object:nil userInfo:attributes]];
-    NSLog(@"NSNotification: PlayerPieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+  if(!currentlyFetchingInventory) return;
+  currentlyFetchingInventory = NO;
+
+  NSLog(@"NSNotification: ReceivedInventory");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedInventory" object:nil]];
+
+  NSMutableArray *tempInventory = [[NSMutableArray alloc] initWithCapacity:10];
+  NSMutableArray *tempAttributes = [[NSMutableArray alloc] initWithCapacity:10];
+
+  NSArray *inventoryArray = (NSArray *)jsonResult.data;
+  NSEnumerator *inventoryEnumerator = [((NSArray *)inventoryArray) objectEnumerator];
+  NSDictionary *itemDictionary;
+  while((itemDictionary = [inventoryEnumerator nextObject]))
+  {
+    Item *item = [[Item alloc] initWithDictionary:itemDictionary];
+    item.tags = [[AppModel sharedAppModel] itemForItemId:item.itemId].tags;
+    if(item.itemType == ItemTypeAttribute) [tempAttributes addObject:item];
+    else                                   [tempInventory  addObject:item];
+  }
+
+  NSDictionary *inventory  = [[NSDictionary alloc] initWithObjectsAndKeys:tempInventory,@"inventory", nil];
+  NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:tempAttributes,@"attributes", nil];
+  NSLog(@"NSNotification: LatestPlayerInventoryReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerInventoryReceived" object:nil userInfo:inventory]];
+  NSLog(@"NSNotification: LatestPlayerAttributesReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerAttributesReceived" object:nil userInfo:attributes]];
+  NSLog(@"NSNotification: PlayerPieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
--(void)parseQRCodeObjectFromJSON:(ServiceResult *)jsonResult
+- (void)parseQRCodeObjectFromJSON:(ServiceResult *)jsonResult
 {
-	NSObject *qrCodeObject;
-    
-	if(jsonResult.data && jsonResult.data != [NSNull null])
+  NSObject *qrCodeObject;
+
+  if(jsonResult.data && jsonResult.data != [NSNull null])
+  {
+    NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
+    if(![qrCodeDictionary isKindOfClass:[NSString class]])
     {
-		NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
-        if(![qrCodeDictionary isKindOfClass:[NSString class]])
-        {
-            NSString *type = [qrCodeDictionary validObjectForKey:@"link_type"];
-            NSDictionary *objectDictionary = [qrCodeDictionary validObjectForKey:@"object"];
-            if([type isEqualToString:@"Location"]) qrCodeObject = [[Location alloc] initWithDictionary:objectDictionary];
-        }
-        else qrCodeObject = qrCodeDictionary;
-	}
-	
-    NSLog(@"NSNotification: QRCodeObjectReady");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
+      NSString *type = [qrCodeDictionary validObjectForKey:@"link_type"];
+      NSDictionary *objectDictionary = [qrCodeDictionary validObjectForKey:@"object"];
+      if([type isEqualToString:@"Location"]) qrCodeObject = [[Location alloc] initWithDictionary:objectDictionary];
+    }
+    else qrCodeObject = qrCodeDictionary;
+  }
+
+  NSLog(@"NSNotification: QRCodeObjectReady");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
 }
 
--(void)parseUpdateServerWithPlayerLocationFromJSON:(ServiceResult *)jsonResult
+- (void)parseUpdateServerWithPlayerLocationFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyUpdatingServerWithPlayerLocation) return;
-    currentlyUpdatingServerWithPlayerLocation = NO;
+  if(!currentlyUpdatingServerWithPlayerLocation) return;
+  currentlyUpdatingServerWithPlayerLocation = NO;
 }
 
--(void)parseQuestListFromJSON:(ServiceResult *)jsonResult
+- (void)parseQuestListFromJSON:(ServiceResult *)jsonResult
 {
-    if(!currentlyFetchingQuestList) return;
-    currentlyFetchingQuestList = NO;
-    
-    NSLog(@"NSNotification: ReceivedQuestList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedQuestList" object:nil]];
+  if(!currentlyFetchingQuestList) return;
+  currentlyFetchingQuestList = NO;
 
-	NSDictionary *questListsDictionary = (NSDictionary *)jsonResult.data;
-	
-    //Active Quests
-    NSArray *activeQuestDicts = [questListsDictionary validObjectForKey:@"active"];
-	NSEnumerator *activeQuestDictsEnumerator = [activeQuestDicts objectEnumerator];
-	NSDictionary *activeQuestDict;
-    NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
-	while ((activeQuestDict = [activeQuestDictsEnumerator nextObject]))
-    {
-        Quest *quest = [[Quest alloc] init];
-        quest.questId                  = [activeQuestDict validIntForKey:@"quest_id"];
-        quest.mediaId                  = [activeQuestDict validIntForKey:@"active_media_id"];
-        quest.iconMediaId              = [activeQuestDict validIntForKey:@"active_icon_media_id"];
-        quest.notificationMediaId      = [activeQuestDict validIntForKey:@"active_notification_media_id"];  
-        quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"];
-        quest.name                     = [activeQuestDict validStringForKey:@"name"];
-        quest.qdescription             = [activeQuestDict validStringForKey:@"description"];
-        quest.qdescriptionNotification = [activeQuestDict validStringForKey:@"description_notification"]; 
-        quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
-        quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
-        quest.notifGoFunction          = [activeQuestDict validStringForKey:@"notif_go_function"]; 
-        quest.showDismiss              = [activeQuestDict validBoolForKey:@"active_notif_show_dismiss"]; 
-        
-		[activeQuestObjects addObject:quest];
-	}
-    
-    //Completed Quests
-    NSArray *completedQuestDicts = [questListsDictionary validObjectForKey:@"completed"];
-	NSEnumerator *completedQuestDictsEnumerator = [completedQuestDicts objectEnumerator];
-	NSDictionary *completedQuestDict;
-    NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
-	while ((completedQuestDict = [completedQuestDictsEnumerator nextObject]))
-    {
-        Quest *quest = [[Quest alloc] init];
-        quest.questId                  = [completedQuestDict validIntForKey:@"quest_id"];
-        quest.mediaId                  = [completedQuestDict validIntForKey:@"complete_media_id"];
-        quest.iconMediaId              = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
-        quest.notificationMediaId      = [completedQuestDict validIntForKey:@"complete_notification_media_id"]; 
-        quest.sortNum                  = [completedQuestDict validIntForKey:@"sort_index"];
-        quest.name                     = [completedQuestDict validStringForKey:@"name"];
-        quest.qdescription             = [completedQuestDict validStringForKey:@"text_when_complete"];
-        quest.qdescriptionNotification = [completedQuestDict validStringForKey:@"text_when_complete_notification"];  
-        quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"complete_full_screen_notify"]; 
-        quest.goFunction               = [completedQuestDict validStringForKey:@"complete_go_function"];
-        quest.notifGoFunction          = [completedQuestDict validStringForKey:@"complete_notif_go_function"]; 
-        quest.showDismiss              = [completedQuestDict validBoolForKey:@"complete_notif_show_dismiss"];
-        
-		[completedQuestObjects addObject:quest];
-	}
-        
-	//Package the two object arrays in a Dictionary
-	NSMutableDictionary *questLists = [[NSMutableDictionary alloc] init];
-	[questLists setObject:activeQuestObjects forKey:@"active"];
-	[questLists setObject:completedQuestObjects forKey:@"completed"];
-    
-    NSLog(@"NSNotification: LatestPlayerQuestListsReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerQuestListsReceived" object:self userInfo:questLists]];
-    NSLog(@"NSNotification: PlayerPieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+  NSLog(@"NSNotification: ReceivedQuestList");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedQuestList" object:nil]];
+
+  NSDictionary *questListsDictionary = (NSDictionary *)jsonResult.data;
+
+  //Active Quests
+  NSArray *activeQuestDicts = [questListsDictionary validObjectForKey:@"active"];
+  NSEnumerator *activeQuestDictsEnumerator = [activeQuestDicts objectEnumerator];
+  NSDictionary *activeQuestDict;
+  NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
+  while ((activeQuestDict = [activeQuestDictsEnumerator nextObject]))
+  {
+    Quest *quest = [[Quest alloc] init];
+    quest.questId                  = [activeQuestDict validIntForKey:@"quest_id"];
+    quest.mediaId                  = [activeQuestDict validIntForKey:@"active_media_id"];
+    quest.iconMediaId              = [activeQuestDict validIntForKey:@"active_icon_media_id"];
+    quest.notificationMediaId      = [activeQuestDict validIntForKey:@"active_notification_media_id"];  
+    quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"];
+    quest.name                     = [activeQuestDict validStringForKey:@"name"];
+    quest.qdescription             = [activeQuestDict validStringForKey:@"description"];
+    quest.qdescriptionNotification = [activeQuestDict validStringForKey:@"description_notification"]; 
+    quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
+    quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
+    quest.notifGoFunction          = [activeQuestDict validStringForKey:@"notif_go_function"]; 
+    quest.showDismiss              = [activeQuestDict validBoolForKey:@"active_notif_show_dismiss"]; 
+
+    [activeQuestObjects addObject:quest];
+  }
+
+  //Completed Quests
+  NSArray *completedQuestDicts = [questListsDictionary validObjectForKey:@"completed"];
+  NSEnumerator *completedQuestDictsEnumerator = [completedQuestDicts objectEnumerator];
+  NSDictionary *completedQuestDict;
+  NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
+  while ((completedQuestDict = [completedQuestDictsEnumerator nextObject]))
+  {
+    Quest *quest = [[Quest alloc] init];
+    quest.questId                  = [completedQuestDict validIntForKey:@"quest_id"];
+    quest.mediaId                  = [completedQuestDict validIntForKey:@"complete_media_id"];
+    quest.iconMediaId              = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
+    quest.notificationMediaId      = [completedQuestDict validIntForKey:@"complete_notification_media_id"]; 
+    quest.sortNum                  = [completedQuestDict validIntForKey:@"sort_index"];
+    quest.name                     = [completedQuestDict validStringForKey:@"name"];
+    quest.qdescription             = [completedQuestDict validStringForKey:@"text_when_complete"];
+    quest.qdescriptionNotification = [completedQuestDict validStringForKey:@"text_when_complete_notification"];  
+    quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"complete_full_screen_notify"]; 
+    quest.goFunction               = [completedQuestDict validStringForKey:@"complete_go_function"];
+    quest.notifGoFunction          = [completedQuestDict validStringForKey:@"complete_notif_go_function"]; 
+    quest.showDismiss              = [completedQuestDict validBoolForKey:@"complete_notif_show_dismiss"];
+
+    [completedQuestObjects addObject:quest];
+  }
+
+  //Package the two object arrays in a Dictionary
+  NSMutableDictionary *questLists = [[NSMutableDictionary alloc] init];
+  [questLists setObject:activeQuestObjects forKey:@"active"];
+  [questLists setObject:completedQuestObjects forKey:@"completed"];
+
+  NSLog(@"NSNotification: LatestPlayerQuestListsReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerQuestListsReceived" object:self userInfo:questLists]];
+  NSLog(@"NSNotification: PlayerPieceReceived");
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
 @end
+

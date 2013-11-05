@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2009,2010 Stig Brautaset. All rights reserved.
+ Copyright (C) 2011 Stig Brautaset. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,65 +27,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if !__has_feature(objc_arc)
-#error "This source file must be compiled with ARC enabled!"
-#endif
-
-#import "SBJsonParser.h"
-#import "SBJsonStreamParser.h"
+#import <Foundation/Foundation.h>
 #import "SBJsonStreamParserAdapter.h"
-#import "SBJsonStreamParserAccumulator.h"
 
-@implementation SBJsonParser
+@interface SBJsonStreamParserAccumulator : NSObject <SBJsonStreamParserAdapterDelegate>
 
-@synthesize maxDepth;
-@synthesize error;
-
-- (id)init {
-    self = [super init];
-    if (self)
-        self.maxDepth = 32u;
-    return self;
-}
-
-
-#pragma mark Methods
-
-- (id)objectWithData:(NSData *)data {
-
-    if (!data) {
-        self.error = @"Input was 'nil'";
-        return nil;
-    }
-
-	SBJsonStreamParserAccumulator *accumulator = [[SBJsonStreamParserAccumulator alloc] init];
-    
-    SBJsonStreamParserAdapter *adapter = [[SBJsonStreamParserAdapter alloc] init];
-    adapter.delegate = accumulator;
-	
-	SBJsonStreamParser *parser = [[SBJsonStreamParser alloc] init];
-	parser.maxDepth = self.maxDepth;
-	parser.delegate = adapter;
-	
-	switch ([parser parse:data]) {
-		case SBJsonStreamParserComplete:
-            return accumulator.value;
-			break;
-			
-		case SBJsonStreamParserWaitingForData:
-		    self.error = @"Unexpected end of input";
-			break;
-
-		case SBJsonStreamParserError:
-		    self.error = parser.error;
-			break;
-	}
-	
-	return nil;
-}
-
-- (id)objectWithString:(NSString *)string {
-	return [self objectWithData:[string dataUsingEncoding:NSUTF8StringEncoding]];
-}
+@property (copy) id value;
 
 @end

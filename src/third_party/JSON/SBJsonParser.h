@@ -1,20 +1,20 @@
 /*
  Copyright (C) 2009 Stig Brautaset. All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- 
+
  * Redistributions of source code must retain the above copyright notice, this
    list of conditions and the following disclaimer.
- 
+
  * Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
- 
+
  * Neither the name of the author nor the names of its contributors may be used
    to endorse or promote products derived from this software without specific
    prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,60 +28,59 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SBJsonBase.h"
 
 /**
-  @brief Options for the parser class.
- 
- This exists so the SBJSON facade can implement the options in the parser without having to re-declare them.
+ Parse JSON Strings and NSData objects
+
+ This uses SBJsonStreamParser internally.
+
  */
-@protocol SBJsonParser
+
+@interface SBJsonParser : NSObject
 
 /**
- @brief Return the object represented by the given string.
- 
- Returns the object represented by the passed-in string or nil on error. The returned object can be
- a string, number, boolean, null, array or dictionary.
- 
- @param repr the json string to parse
+ The maximum recursing depth.
+
+ Defaults to 32. If the input is nested deeper than this the input will be deemed to be
+ malicious and the parser returns nil, signalling an error. ("Nested too deep".) You can
+ turn off this security feature by setting the maxDepth value to 0.
  */
-- (id)objectWithString:(NSString *)repr;
-
-@end
-
+@property NSUInteger maxDepth;
 
 /**
- @brief The JSON parser class.
- 
- JSON is mapped to Objective-C types in the following way:
- 
- @li Null -> NSNull
- @li String -> NSMutableString
- @li Array -> NSMutableArray
- @li Object -> NSMutableDictionary
- @li Boolean -> NSNumber (initialised with -initWithBool:)
- @li Number -> NSDecimalNumber
- 
- Since Objective-C doesn't have a dedicated class for boolean values, these turns into NSNumber
- instances. These are initialised with the -initWithBool: method, and 
- round-trip back to JSON properly. (They won't silently suddenly become 0 or 1; they'll be
- represented as 'true' and 'false' again.)
- 
- JSON numbers turn into NSDecimalNumber instances,
- as we can thus avoid any loss of precision. (JSON allows ridiculously large numbers.)
- 
+ Description of parse error
+
+ This method returns the trace of the last method that failed.
+ You need to check the return value of the call you're making to figure out
+ if the call actually failed, before you know call this method.
+
+ @return A string describing the error encountered, or nil if no error occured.
+
  */
-@interface SBJsonParser : SBJsonBase <SBJsonParser> {
-    
-@private
-    const char *c;
-}
+@property(copy) NSString *error;
 
-@end
+/**
+ Return the object represented by the given NSData object.
 
-// don't use - exists for backwards compatibility with 2.1.x only. Will be removed in 2.3.
-@interface SBJsonParser (Private)
-- (id)fragmentWithString:(id)repr;
+ The data *must* be UTF8 encoded.
+
+ @param data An NSData containing UTF8 encoded data to parse.
+ @return The NSArray or NSDictionary represented by the object, or nil if an error occured.
+
+ */
+- (id)objectWithData:(NSData*)data;
+
+/**
+ Parse string and return the represented dictionary or array.
+
+ Calls objectWithData: internally.
+
+ @param string An NSString containing JSON text.
+
+ @return The NSArray or NSDictionary represented by the object, or nil if an error occured.
+ */
+- (id)objectWithString:(NSString *)string;
+
 @end
 
 

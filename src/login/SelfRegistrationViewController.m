@@ -8,7 +8,6 @@
 
 #import "SelfRegistrationViewController.h"
 #import "AppServices.h"
-#import "ServiceResult.h"
 #import "ARISAlertHandler.h"
 #import "UIColor+ARISColors.h"
 

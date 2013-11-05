@@ -31,9 +31,10 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 
 - (id) initWithURLToUpload:(NSURL*)aUrlToUpload gameSpecific:(BOOL)aGame delegate:(id)aDelegate doneSelector:(SEL)aDoneSelector errorSelector:(SEL)anErrorSelector
 {
-    if ((self = [super init]))
+    if(self = [super init])
     {
-        serverURL = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:[NSString stringWithFormat:@"services/%@/uploadHandler.php",kARISServerServicePackage]];
+        //serverURL = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:[NSString stringWithFormat:@"services/%@/uploadHandler.php",kARISServerServicePackage]];
+        serverURL = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/v1/uploadHandler.php"]; 
         urlToUpload = aUrlToUpload;
         delegate = aDelegate;
         doneSelector = aDoneSelector;
