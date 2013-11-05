@@ -54,7 +54,6 @@
 {
     [super loadView];
     self.view.userInteractionEnabled = NO;
-    NSLog(@"PHIL- PopoverDisabled 1");  
     
     popOverVC = [[PopOverViewController alloc] initWithDelegate:self];
     //dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28.0, [UIScreen mainScreen].bounds.size.width, 28)];
@@ -151,14 +150,12 @@
     self.view.userInteractionEnabled = YES;
     if(self.view.frame.size.height == 0) 
         [self viewWillAppear:NO];//to ensure a non-zero rect. Not sure why necessary- short term fix
-    NSLog(@"PHIL- PopoverEnabled"); 
 }
 
 - (void) popOverContinueButtonPressed
 {
     showingPopOver = NO;
     self.view.userInteractionEnabled = NO;
-    NSLog(@"PHIL- PopoverDisabled");
     
     if([popOverArray count] > 0)
         [self dequeuePopOver];

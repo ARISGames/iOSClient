@@ -70,6 +70,9 @@
 		AA2D215C17DE593B00CF4198 /* book@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215A17DE593B00CF4198 /* book@2x.png */; };
 		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
+		AA383B161829A8BD00612FFB /* audio.png in Resources */ = {isa = PBXBuildFile; fileRef = AA383B131829A8BD00612FFB /* audio.png */; };
+		AA383B171829A8BD00612FFB /* video.png in Resources */ = {isa = PBXBuildFile; fileRef = AA383B141829A8BD00612FFB /* video.png */; };
+		AA383B181829A8BD00612FFB /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = AA383B151829A8BD00612FFB /* photo.png */; };
 		AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FA8182037CB006C9715 /* SBJsonParser.m */; };
 		AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAA182037CB006C9715 /* SBJsonStreamParser.m */; };
 		AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAC182037CB006C9715 /* SBJsonStreamParserAccumulator.m */; };
@@ -463,6 +466,9 @@
 		AA383B0F18283B9F00612FFB /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
 		AA383B1018283B9F00612FFB /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
 		AA383B121829604200612FFB /* NoteContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentProtocol.h; sourceTree = "<group>"; };
+		AA383B131829A8BD00612FFB /* audio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio.png; sourceTree = "<group>"; };
+		AA383B141829A8BD00612FFB /* video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video.png; sourceTree = "<group>"; };
+		AA383B151829A8BD00612FFB /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
 		AA3B7FA6182037CB006C9715 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
 		AA3B7FA7182037CB006C9715 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		AA3B7FA8182037CB006C9715 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
@@ -1110,6 +1116,9 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				AA383B131829A8BD00612FFB /* audio.png */,
+				AA383B141829A8BD00612FFB /* video.png */,
+				AA383B151829A8BD00612FFB /* photo.png */,
 				AA527E4417E0B6830040AB75 /* camera.png */,
 				AA527E4517E0B6830040AB75 /* microphone.png */,
 				AA527E4617E0B6830040AB75 /* note.png */,
@@ -2211,6 +2220,7 @@
 				AABC6FE41727398B0074CC21 /* Button-Play-icon.png in Resources */,
 				AA2D214817DE560C00CF4198 /* star_unselected.png in Resources */,
 				AABC6FE51727398B0074CC21 /* buttonborder.png in Resources */,
+				AA383B181829A8BD00612FFB /* photo.png in Resources */,
 				AABC6FE61727398B0074CC21 /* buttonborder2.png in Resources */,
 				AABC6FE81727398B0074CC21 /* camera_icon.png in Resources */,
 				AABC6FE91727398B0074CC21 /* camera_roll.png in Resources */,
@@ -2272,6 +2282,7 @@
 				AA527E4C17E0B6830040AB75 /* microphone.png in Resources */,
 				AABC70421727398B0074CC21 /* error.wav in Resources */,
 				AA2D215C17DE593B00CF4198 /* book@2x.png in Resources */,
+				AA383B171829A8BD00612FFB /* video.png in Resources */,
 				AABC70431727398B0074CC21 /* harp.wav in Resources */,
 				AABC70441727398B0074CC21 /* inventoryChange.wav in Resources */,
 				AABC70451727398B0074CC21 /* mapChange.wav in Resources */,
@@ -2308,6 +2319,7 @@
 				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
 				AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
+				AA383B161829A8BD00612FFB /* audio.png in Resources */,
 				AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */,
 				AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */,
 				AA942B9017CD4CF4004EDEA1 /* Default-568h@2x.png in Resources */,
