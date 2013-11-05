@@ -51,10 +51,12 @@ NSString *const kARISServerServicePackage = @"v1";
     ServiceResult *r = [[ServiceResult alloc] init];
     r.asyncData = [[NSMutableData alloc] initWithCapacity:2048]; 
     r.userInfo = u;
+    r.url = url;
     r.connection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:url] delegate:self];
     r.handler = h;
     r.successSelector = ss;
     r.failSelector = fs; 
+    r.start = [NSDate date];
 	
     [connections setObject:r forKey:r.connection.description];
 	[r.connection start];
@@ -67,11 +69,15 @@ NSString *const kARISServerServicePackage = @"v1";
     
     ServiceResult *sr = [[ServiceResult alloc] init];
     sr.userInfo = u;
+    sr.url = url; 
+    sr.start = [NSDate date];
     
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSURLResponse *response = [[NSURLResponse alloc] init]; //why do we just throw these out?
     NSError *error = [[NSError alloc] init];                //why do we just throw these out?
     NSData* result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    sr.time = -1*[sr.start timeIntervalSinceNow];
 	
 	if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
@@ -117,6 +123,9 @@ NSString *const kARISServerServicePackage = @"v1";
 {
     ServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
+    
+    sr.time = -1*[sr.start timeIntervalSinceNow]; 
+    NSLog(@"Fin asynch URL: %@\t(%f)", sr.url, sr.time); 
     
     sr.data = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];  
     [connections removeObjectForKey:c.description];
@@ -207,10 +216,13 @@ NSString *const kARISServerServicePackage = @"v1";
 @synthesize data;
 @synthesize userInfo;
 @synthesize asyncData; 
+@synthesize url; 
 @synthesize connection; 
 @synthesize handler;
 @synthesize successSelector; 
 @synthesize failSelector;  
+@synthesize start;  
+@synthesize time;  
 
 - (void) dealloc
 {

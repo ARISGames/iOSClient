@@ -127,7 +127,7 @@
 @property (nonatomic, strong) UploadMan *uploadManager;
 @property (nonatomic, strong) MediaCache *mediaCache;
 
-+ (AppModel *)sharedAppModel;
++ (AppModel *) sharedAppModel;
 
 - (void) commitPlayerLogin:(Player *)p;
 - (void) setPlayerLocation:(CLLocation *)newLocation;
@@ -136,7 +136,6 @@
 - (void) saveUserDefaults;
 - (void) loadUserDefaults;
 - (void) saveCOREData;
-- (void) clearGameLists;
 
 - (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type;
 - (Item *) itemForItemId:(int)mId;

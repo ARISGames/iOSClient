@@ -77,8 +77,6 @@
         
         playerNoteList = [[NSMutableDictionary alloc] initWithCapacity:10];
 		gameNoteList   = [[NSMutableDictionary alloc] initWithCapacity:10];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
 	}
     return self;
 }
@@ -142,19 +140,6 @@
     [[AppModel sharedAppModel] saveUserDefaults];
     //Subscribe to player channel
     //[RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
-}
-
--(void)clearGameLists
-{
-    NSLog(@"Clearing Game Lists");
-    [gameMediaList     removeAllObjects];
-    [gameItemList      removeAllObjects];
-    [gameNodeList      removeAllObjects];
-    [gameNpcList       removeAllObjects];
-    [gameWebPageList   removeAllObjects];
-    [gamePanoramicList removeAllObjects];
-    //[gameNoteList removeAllObjects];
-    //[playerNoteList removeAllObjects];
 }
 
 -(void)saveUserDefaults
@@ -260,7 +245,6 @@
 {
 	return [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
 }
-
 
 - (Panoramic *) panoramicForPanoramicId:(int)mId
 {

@@ -9,6 +9,7 @@
 #import "NotebookViewController.h"
 
 #import "AppModel.h"
+#import "AppServices.h"
 #import "NoteCell.h"
 
 const int VIEW_MODE_MINE = 0;
@@ -24,14 +25,15 @@ const int VIEW_MODE_ALL  = 1;
 
 @implementation NotebookViewController
 
-- (id) initWithDelegate:(id<NotebookViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, NotebookViewControllerDelegate>)d
 {
-    if(self = [super init])
+    if(self = [super initWithDelegate:d])
     {
-        viewMode = 0;
+        viewMode = 1;
         self.tabID = @"NOTE"; 
         self.tabIconName = @"";
         self.title = NSLocalizedString(@"NotebookTitleKey",@""); 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNoteListAvailable) name:@"NewNoteListReady" object:nil];
     }
     return self;
 }
@@ -41,12 +43,26 @@ const int VIEW_MODE_ALL  = 1;
     [super loadView];
     
     table = [[UITableView alloc] initWithFrame:self.view.frame];
+    table.delegate   = self;
+    table.dataSource = self;
     [self.view addSubview:table];
 }
 
 - (void) viewDidLayoutSubviews
 {
+    [super viewDidLayoutSubviews];
     table.frame = self.view.frame;
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [[AppServices sharedAppServices] fetchGameNoteList];
+}
+
+- (void) newNoteListAvailable
+{
+    [table reloadData]; 
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView
@@ -57,7 +73,7 @@ const int VIEW_MODE_ALL  = 1;
 - (int) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
 {
     if     (viewMode == VIEW_MODE_MINE) return [[[AppModel sharedAppModel] playerNoteList] count];
-    else if(viewMode == VIEW_MODE_MINE) return [[[AppModel sharedAppModel] gameNoteList]   count]; 
+    else if(viewMode == VIEW_MODE_ALL)  return [[[AppModel sharedAppModel] gameNoteList]   count]; 
     return 0;
 }
 
@@ -70,7 +86,7 @@ const int VIEW_MODE_ALL  = 1;
 {
     NSArray *noteList;
     if     (viewMode == VIEW_MODE_MINE) noteList = [[[AppModel sharedAppModel] playerNoteList] allValues];
-    else if(viewMode == VIEW_MODE_MINE) noteList = [[[AppModel sharedAppModel] gameNoteList]   allValues];  
+    else if(viewMode == VIEW_MODE_ALL)  noteList = [[[AppModel sharedAppModel] gameNoteList]   allValues];  
     
     NoteCell *cell;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))

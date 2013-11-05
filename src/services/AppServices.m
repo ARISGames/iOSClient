@@ -784,15 +784,14 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void) resetAllGameLists
 {
-  NSLog(@"Resetting game lists");
-  [[AppModel sharedAppModel].gameItemList removeAllObjects];
-  [[AppModel sharedAppModel].gameNodeList removeAllObjects];
-  [[AppModel sharedAppModel].gameNpcList removeAllObjects];
-  [[AppModel sharedAppModel].gameMediaList removeAllObjects];
-  [[AppModel sharedAppModel].gameWebPageList removeAllObjects];
+  [[AppModel sharedAppModel].gameItemList      removeAllObjects];
+  [[AppModel sharedAppModel].gameNodeList      removeAllObjects];
+  [[AppModel sharedAppModel].gameNpcList       removeAllObjects];
+  [[AppModel sharedAppModel].gameMediaList     removeAllObjects];
+  [[AppModel sharedAppModel].gameWebPageList   removeAllObjects];
   [[AppModel sharedAppModel].gamePanoramicList removeAllObjects];
-  [[AppModel sharedAppModel].playerNoteList removeAllObjects];
-  [[AppModel sharedAppModel].gameNoteList removeAllObjects];
+  [[AppModel sharedAppModel].playerNoteList    removeAllObjects];
+  [[AppModel sharedAppModel].gameNoteList      removeAllObjects];
 }
 
 - (void) fetchGameOverlayList
@@ -1144,7 +1143,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   return tab;
 }
 
-- (void)parseGameNoteListFromJSON:(ServiceResult *)jsonResult
+- (void) parseGameNoteListFromJSON:(ServiceResult *)jsonResult
 {
   if(!currentlyFetchingGameNoteList) return;
   currentlyFetchingGameNoteList = NO;
@@ -1154,7 +1153,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
   NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
   NSDictionary *dict;
-  while ((dict = [enumerator nextObject]))
+  while((dict = [enumerator nextObject]))
   {
     Note *tmpNote = [[Note alloc] initWithDictionary:dict];
     [tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
@@ -1163,9 +1162,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   [AppModel sharedAppModel].gameNoteList = tempNoteList;
   NSLog(@"NSNotification: NewNoteListReady");
   [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady"      object:nil]];
-  NSLog(@"NSNotification: ReceivedNoteList");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList"      object:nil]];
-  //^ This is ridiculous. Each notification is a paraphrasing of the last. <3 Phil
 }
 
 - (void)parsePlayerNoteListFromJSON:(ServiceResult *)jsonResult
@@ -1184,8 +1180,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   }
 
   [AppModel sharedAppModel].playerNoteList = tempNoteList;
-  NSLog(@"NSNotification: ReceivedNoteList");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList" object:nil]];
   NSLog(@"NSNotification: NewNoteListReady");
   [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
