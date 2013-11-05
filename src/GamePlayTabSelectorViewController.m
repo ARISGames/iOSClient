@@ -61,12 +61,12 @@
     hasAppeared = YES;
     
     self.tableView.frame = self.view.bounds;
-    self.tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
+    self.tableView.contentInset = UIEdgeInsetsMake(64,0,0,0);
     [self.view addSubview:self.tableView];
     
     if(![AppModel sharedAppModel].disableLeaveGame)
     {
-        self.tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
+        self.tableView.contentInset = UIEdgeInsetsMake(64,0,44,0);
         
         self.leaveGameButton = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44)];
         UILabel *leaveGameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30,0,self.view.bounds.size.width-30,44)];
@@ -114,6 +114,13 @@
 {
     return [self.viewControllers count];
 }
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"TOOLS";
+}
+
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
