@@ -8,6 +8,7 @@
 
 #import "NotebookViewController.h"
 #import "NoteViewController.h"
+#import "NoteEditorViewController.h"
 
 #import "AppModel.h"
 #import "AppServices.h"
@@ -16,7 +17,7 @@
 const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 
-@interface NotebookViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate>
+@interface NotebookViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate>
 {
     UITableView *table;
     int viewMode;
@@ -58,6 +59,12 @@ const int VIEW_MODE_ALL  = 1;
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    UIButton *plus = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [plus setImage:[UIImage imageNamed:@"plus"] forState:UIControlStateNormal];
+    [plus addTarget:self action:@selector(addNote) forControlEvents:UIControlEventTouchUpInside]; 
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:plus]; 
+    
     [[AppServices sharedAppServices] fetchGameNoteList];
 }
 
@@ -93,7 +100,7 @@ const int VIEW_MODE_ALL  = 1;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
         cell = [[NoteCell alloc] initWithDelegate:self]; 
     [cell populateWithNote:[noteList objectAtIndex:indexPath.row]]; 
-    
+
     return cell;
 }
 
@@ -101,7 +108,7 @@ const int VIEW_MODE_ALL  = 1;
 {
     NSArray *noteList;
     if     (viewMode == VIEW_MODE_MINE) noteList = [[[AppModel sharedAppModel] playerNoteList] allValues];
-    else if(viewMode == VIEW_MODE_ALL)  noteList = [[[AppModel sharedAppModel] gameNoteList]   allValues];   
+    else if(viewMode == VIEW_MODE_ALL)  noteList = [[[AppModel sharedAppModel] gameNoteList]   allValues];
     
     NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[noteList objectAtIndex:indexPath.row] delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];
@@ -110,6 +117,12 @@ const int VIEW_MODE_ALL  = 1;
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
     
+}
+
+- (void) addNote
+{
+    NoteEditorViewController *nevc = [[NoteEditorViewController alloc] initWithNote:nil delegate:self];
+    [self.navigationController pushViewController:nevc animated:YES]; 
 }
 
 @end

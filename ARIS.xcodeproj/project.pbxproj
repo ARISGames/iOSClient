@@ -35,6 +35,8 @@
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
 		AA2A8AC417F1DF5C002DA8C4 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */; };
 		AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */; };
+		AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */; };
+		AA2B4A72182ABC4000A0D2A1 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2B4A71182ABC4000A0D2A1 /* plus.png */; };
 		AA2D213617DE560C00CF4198 /* arrow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211717DE560C00CF4198 /* arrow_selected.png */; };
 		AA2D213717DE560C00CF4198 /* arrow_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */; };
 		AA2D213817DE560C00CF4198 /* arrow_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211917DE560C00CF4198 /* arrow_unselected.png */; };
@@ -430,6 +432,9 @@
 		AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
 		AA2B4A6B182AA6FF00A0D2A1 /* NoteContentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentsViewController.h; sourceTree = "<group>"; };
 		AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContentsViewController.m; sourceTree = "<group>"; };
+		AA2B4A6E182AB84500A0D2A1 /* NoteEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteEditorViewController.h; sourceTree = "<group>"; };
+		AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteEditorViewController.m; sourceTree = "<group>"; };
+		AA2B4A71182ABC4000A0D2A1 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		AA2D211717DE560C00CF4198 /* arrow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_selected.png; sourceTree = "<group>"; };
 		AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_selected@2x.png"; sourceTree = "<group>"; };
 		AA2D211917DE560C00CF4198 /* arrow_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_unselected.png; sourceTree = "<group>"; };
@@ -1133,6 +1138,7 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				AA2B4A71182ABC4000A0D2A1 /* plus.png */,
 				AA383B131829A8BD00612FFB /* audio.png */,
 				AA383B141829A8BD00612FFB /* video.png */,
 				AA383B151829A8BD00612FFB /* photo.png */,
@@ -1781,6 +1787,8 @@
 				AA383B121829604200612FFB /* NoteContentProtocol.h */,
 				AA383B0C1828324F00612FFB /* NotebookViewController.h */,
 				AA383B0D1828324F00612FFB /* NotebookViewController.m */,
+				AA2B4A6E182AB84500A0D2A1 /* NoteEditorViewController.h */,
+				AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */,
 				AA383B0F18283B9F00612FFB /* NoteCell.h */,
 				AA383B1018283B9F00612FFB /* NoteCell.m */,
 			);
@@ -2259,6 +2267,7 @@
 				AABC6FF61727398B0074CC21 /* game.png in Resources */,
 				AA942B9D17CD4F86004EDEA1 /* logo_text.png in Resources */,
 				ABE735E817D65C0100396CF5 /* arrowBack@2x.png in Resources */,
+				AA2B4A72182ABC4000A0D2A1 /* plus.png in Resources */,
 				AABC70001727398B0074CC21 /* item.png in Resources */,
 				AABC70021727398B0074CC21 /* location.png in Resources */,
 				AABC70041727398B0074CC21 /* LogoutButton.png in Resources */,
@@ -2558,6 +2567,7 @@
 				AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */,
 				AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */,
 				AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */,
+				AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
