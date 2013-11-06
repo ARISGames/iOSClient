@@ -7,6 +7,7 @@
 //
 
 #import "NotebookViewController.h"
+#import "NoteViewController.h"
 
 #import "AppModel.h"
 #import "AppServices.h"
@@ -15,7 +16,7 @@
 const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 
-@interface NotebookViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate>
+@interface NotebookViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate>
 {
     UITableView *table;
     int viewMode;
@@ -94,6 +95,16 @@ const int VIEW_MODE_ALL  = 1;
     [cell populateWithNote:[noteList objectAtIndex:indexPath.row]]; 
     
     return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray *noteList;
+    if     (viewMode == VIEW_MODE_MINE) noteList = [[[AppModel sharedAppModel] playerNoteList] allValues];
+    else if(viewMode == VIEW_MODE_ALL)  noteList = [[[AppModel sharedAppModel] gameNoteList]   allValues];   
+    
+    NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[noteList objectAtIndex:indexPath.row] delegate:self];
+    [self.navigationController pushViewController:nvc animated:YES];
 }
 
 @end

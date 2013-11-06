@@ -81,7 +81,6 @@
     [format setDateFormat:@"MM/dd/yy"];
     [self setDate:[format stringFromDate:[NSDate date]]]; //currently no date!
     [self setOwner:@"Phildo"]; //currently no owner!
-    [self setTitle:n.name]; 
     [self setDescription:@"Check out this bird! It's totally crazy like woah just look at it!"]; //Currently no description
     
     [self setHasImageIcon:NO];
@@ -89,7 +88,6 @@
     [self setHasVideoIcon:NO]; 
     for(int i = 0; i < [n.contents count]; i++)
     {
-        NSLog(@"%@",[((NoteContent *)[n.contents objectAtIndex:i]) getType]);
         if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"PHOTO"]) [self setHasImageIcon:YES];
         if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"AUDIO"]) [self setHasAudioIcon:YES]; 
         if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"VIDEO"]) [self setHasVideoIcon:YES]; 
