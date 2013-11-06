@@ -7,10 +7,11 @@
 //
 
 #import "NoteViewController.h"
+#import "NoteContentsViewController.h"
 #import "Note.h"
 #import "UIColor+ARISColors.h"
 
-@interface NoteViewController ()
+@interface NoteViewController () <NoteContentsViewControllerDelegate>
 {
     Note *note;
     
@@ -19,6 +20,7 @@
     UILabel *owner; 
     UILabel *date; 
     UILabel *desc; 
+    NoteContentsViewController *contentsDisplay;
     
     id<GameObjectViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -27,7 +29,7 @@
 
 @implementation NoteViewController
 
-- (id)initWithNote:(Note *)n delegate:(id<GameObjectViewControllerDelegate, NoteViewControllerDelegate>)d
+- (id) initWithNote:(Note *)n delegate:(id<GameObjectViewControllerDelegate, NoteViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -62,6 +64,10 @@
     desc.textColor = [UIColor ARISColorDarkGray];  
     desc.adjustsFontSizeToFitWidth = NO;    
     
+    contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
+    contentsDisplay.view.frame = CGRectMake(0, 100, self.view.frame.size.width, 200);
+    [scrollView addSubview:contentsDisplay.view];
+    
     title.text = note.name;
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
@@ -77,4 +83,9 @@
     [self.view addSubview:scrollView];
 }
     
+- (void) viewDidLayoutSubviews
+{
+    
+}
+
 @end

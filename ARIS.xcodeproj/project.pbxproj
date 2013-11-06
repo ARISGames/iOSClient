@@ -34,6 +34,7 @@
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
 		AA2A8AC417F1DF5C002DA8C4 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */; };
+		AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */; };
 		AA2D213617DE560C00CF4198 /* arrow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211717DE560C00CF4198 /* arrow_selected.png */; };
 		AA2D213717DE560C00CF4198 /* arrow_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */; };
 		AA2D213817DE560C00CF4198 /* arrow_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211917DE560C00CF4198 /* arrow_unselected.png */; };
@@ -427,6 +428,8 @@
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AA2A8AC217F1DF5C002DA8C4 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
 		AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
+		AA2B4A6B182AA6FF00A0D2A1 /* NoteContentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentsViewController.h; sourceTree = "<group>"; };
+		AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContentsViewController.m; sourceTree = "<group>"; };
 		AA2D211717DE560C00CF4198 /* arrow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_selected.png; sourceTree = "<group>"; };
 		AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_selected@2x.png"; sourceTree = "<group>"; };
 		AA2D211917DE560C00CF4198 /* arrow_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_unselected.png; sourceTree = "<group>"; };
@@ -1053,6 +1056,8 @@
 			children = (
 				AA383B191829AD2F00612FFB /* NoteViewController.h */,
 				AA383B1A1829AD2F00612FFB /* NoteViewController.m */,
+				AA2B4A6B182AA6FF00A0D2A1 /* NoteContentsViewController.h */,
+				AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */,
 			);
 			path = note;
 			sourceTree = "<group>";
@@ -2544,6 +2549,7 @@
 				AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */,
 				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
 				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,
+				AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */,
 				AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,
 				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,

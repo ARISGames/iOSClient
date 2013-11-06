@@ -107,4 +107,9 @@ const int VIEW_MODE_ALL  = 1;
     [self.navigationController pushViewController:nvc animated:YES];
 }
 
+- (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
+{
+    
+}
+
 @end
