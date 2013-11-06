@@ -14,6 +14,7 @@
 @interface NoteContentsViewController () <ARISMediaViewDelegate>
 {
     NSArray *contents;
+    UIScrollView *scrollView;
     id<NoteContentsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -36,17 +37,37 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.view.clipsToBounds = YES;
     
+    scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    
     NoteContent *c;
+    int offset = 0;
     for(int i = 0; i < [contents count]; i++)
     {
-        if([((NoteContent *)[contents objectAtIndex:i]).type isEqualToString:@"PHOTO"])
-            c = (NoteContent *)[contents objectAtIndex:i];
+        c = (NoteContent *)[contents objectAtIndex:i];
+        if([c.type isEqualToString:@"TEXT"]) continue;
+        ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) media:[[AppModel sharedAppModel] mediaForMediaId:c.mediaId ofType:[c getType]] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        amv.clipsToBounds = YES;
+        
+        [scrollView addSubview:amv];
+        offset += self.view.bounds.size.width;
     }
-    if(c)
+    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height); 
+    [self.view addSubview:scrollView];
+}
+    
+
+- (void) viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    scrollView.frame = self.view.bounds;
+    int offset = 0;
+    for(UIView *v in scrollView.subviews)
     {
-        ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) media:[[AppModel sharedAppModel] mediaForMediaId:c.mediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
-        [self.view addSubview:amv];
+        v.frame = CGRectMake(offset, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+        offset += self.view.bounds.size.width;
     }
+    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
