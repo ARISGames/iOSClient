@@ -81,7 +81,8 @@ var loginTest = function(username,password){
 	
 		// CLICK LOGIN
 		 target.delay(3);
-		window.buttons()["Login"].tap();		 
+		window.buttons()["Login"].tap();		
+		 		 
 		 
 	});
 	
@@ -223,7 +224,13 @@ var greetingCharacter = function(){
 		 
 		window.elements()["Greeting/Closing Character"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
-		UIALogger.message("Navigation says 'You'? ");		 
+		 
+		 
+		UIALogger.logMessage("Navigation says 'You'? ");	
+		 
+		 assertEquals("You", app.navigationBar().name());
+		 
+		 
 		 });	
 	
 	test("PC Character Test",function(target,app){
@@ -489,6 +496,7 @@ var imageAsserter = function(){
 	
 ////////////////////////////Main
 
+/*
 
 // Reset the game from anywhere in the application
 resetToLoginScreen();
@@ -508,31 +516,34 @@ selectGame();
 
 /////////////////////////////////////////////////////////////////// Begin In game Tests
 
+
 // Dismiss Initial Plaque
 initialPlaque();
+
 
 //Normal Item Test
 normalItem();
 
+ 
 
 //Plaque Test 
 plaque();
 
+*/
 
 // Greeting Character Dialogue Test
 greetingCharacter();
 
+/*
 
 // Has the Conversation Tester Dropped?
 enterConversationTester();
 
-window.logElementTree();
+
 
 // Test Normal Scripts
 normalScriptTests();
  
-window.logElementTree();
-
 //Test Exit to Scripts
 exitToScripts();
 
@@ -545,4 +556,4 @@ testDecoder();
 // Reset Back to Login Screen
 resetToLoginScreen();
 
-
+*/
