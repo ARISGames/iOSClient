@@ -90,6 +90,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     usernameField.placeholder = @"ARIS ID";
+    usernameField.accessibilityLabel = @"Username Field";
     usernameField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:usernameField];
     
@@ -104,6 +105,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     passwordField.secureTextEntry = YES;
     passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
     passwordField.clearButtonMode = UITextFieldViewModeAlways;
+    passwordField.accessibilityLabel = @"Password Field";
     [self.view addSubview:passwordField];
     
     line = [[UIView alloc] initWithFrame:CGRectMake(20, navOffset+20+20+20+20+5, self.view.frame.size.width-40, 1)];
