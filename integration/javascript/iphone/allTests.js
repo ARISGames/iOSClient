@@ -497,7 +497,6 @@ var imageAsserter = function(){
 	
 ////////////////////////////Main
 
-/*
 
 // Reset the game from anywhere in the application
 resetToLoginScreen();
@@ -505,12 +504,12 @@ resetToLoginScreen();
 //Test Login Image 
  imageAsserter();
 
- */
+ 
 
 //Login to account
 loginTest(username, password);
  
-/*
+
 
 //Search for Game
 searchGame(gameName);
@@ -561,4 +560,4 @@ testDecoder();
 resetToLoginScreen();
 
 
-*/
+
