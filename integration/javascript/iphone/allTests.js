@@ -81,7 +81,7 @@ var loginTest = function(username,password){
 	
 		// CLICK LOGIN
 		 target.delay(3);
-		window.buttons()["arrowForward"].tap();		 
+		window.buttons()["Login"].tap();		 
 		 
 	});
 	
