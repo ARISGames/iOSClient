@@ -72,17 +72,18 @@ var loginTest = function(username,password){
 		assertEquals("Forgot Password?",window.buttons()["Forgot Password?"].name());
 		 		 
 		//TYPE USERNAME
-		window.textFields()[0].tap();
-		app.keyboard().typeString(username + "\n");
-			
+		 window.textFields()["Username Field"].textFields()["Username Field"].tap();
+		 app.keyboard().typeString(username);
+		 
 		// TYPE PASSWORD
-		window.secureTextFields()[0].tap();
-		app.keyboard().typeString(password);
+		 window.secureTextFields()["Password Field"].secureTextFields()["Password Field"].tap();
+		 app.keyboard().typeString(password);
 	
 		// CLICK LOGIN
 		 target.delay(3);
-		window.buttons()["Login"].tap();		
-		 		 
+		window.buttons()["Login"].tap();	
+		 
+		 
 		 
 	});
 	
@@ -504,9 +505,12 @@ resetToLoginScreen();
 //Test Login Image 
  imageAsserter();
 
+ */
+
 //Login to account
 loginTest(username, password);
  
+/*
 
 //Search for Game
 searchGame(gameName);
@@ -528,13 +532,13 @@ normalItem();
 
 //Plaque Test 
 plaque();
+ 
 
-*/
 
 // Greeting Character Dialogue Test
 greetingCharacter();
 
-/*
+
 
 // Has the Conversation Tester Dropped?
 enterConversationTester();
@@ -555,5 +559,6 @@ testDecoder();
 
 // Reset Back to Login Screen
 resetToLoginScreen();
+
 
 */
