@@ -15,6 +15,7 @@
     NSArray *tags;
     
     UIScrollView *scrollView;
+    UILabel *plus;
     
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -35,14 +36,28 @@
 - (void) loadView
 {
     [super loadView];
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,30)];
-    [self.view addSubview:scrollView];
-    [self refreshViewFromTags]; 
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
+    
+    int width = [@" + " sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
+    
+    //make "plus" in similar way to tags
+    plus = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,width,20)];
+    plus.font = [UIFont fontWithName:@"HelveticaNeue-Light"  size:18];
+    plus.textColor = [UIColor whiteColor];
+    plus.backgroundColor = [UIColor ARISColorLightBlue];
+    plus.text = @" + ";
+    plus.layer.cornerRadius = 8;
+    plus.layer.masksToBounds = YES;
+    
+    [self refreshViewFromTags];  
+    [self.view addSubview:scrollView]; 
+    [self.view addSubview:plus]; 
 }
 
 - (void) viewDidLayoutSubviews
 {
-    scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
+    scrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,self.view.frame.size.height); 
 }
 
 - (void) setTags:(NSArray *)t
