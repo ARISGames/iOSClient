@@ -7,10 +7,11 @@
 //
 
 #import "NoteEditorViewController.h"
+#import "NoteContentsViewController.h"
 #import "Note.h"
 #import "UIColor+ARISColors.h"
 
-@interface NoteEditorViewController ()
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteContentsViewControllerDelegate>
 {
     Note *note;
     
@@ -20,7 +21,7 @@
     UITextView *description;
     UIButton *descriptionDoneButton;
     UIView *tagView;
-    UIScrollView *mediaView;
+    NoteContentsViewController *contentsViewController;
     UIButton *locationPickerButton;
     UIButton *imagePickerButton; 
     UIButton *audioPickerButton;  
@@ -48,9 +49,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     title = [[UITextField alloc] initWithFrame:CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20)];
+    title.delegate = self;
     title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20]; 
     title.placeholder = @"Title";
     title.text = note.name;
+    title.returnKeyType = UIReturnKeyDone;
     
     date = [[UILabel alloc] initWithFrame:CGRectMake(10, 35+64, 65, 14)];  
     date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
@@ -66,14 +69,18 @@
     owner.text = @"Phildo";
     
     description = [[UITextView alloc] initWithFrame:CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170)];   
+    description.delegate = self;
     description.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [descriptionDoneButton setTitle:@"Done" forState:UIControlStateNormal];
     [descriptionDoneButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     descriptionDoneButton.frame = CGRectMake(self.view.bounds.size.width-80, 219+64-18, 70, 18);
+    [descriptionDoneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    descriptionDoneButton.hidden = YES;
     
     tagView = [[UIView alloc] initWithFrame:CGRectMake(0, 219+64, self.view.bounds.size.width, 20)];    
-    mediaView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 239+64, self.view.bounds.size.width, self.view.bounds.size.height-239-44-64)];     
+    contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
+    contentsViewController.view.frame = CGRectMake(0, 239+64, self.view.bounds.size.width, self.view.bounds.size.height-239-44-64);     
     
     UIView *bottombar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
     locationPickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -91,7 +98,7 @@
     [self.view addSubview:description]; 
     [self.view addSubview:descriptionDoneButton];  
     [self.view addSubview:tagView]; 
-    [self.view addSubview:mediaView]; 
+    [self.view addSubview:contentsViewController.view]; 
     [self.view addSubview:bottombar];  
 }
 
@@ -103,11 +110,40 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if([title.text isEqualToString:@""])
+        [title becomeFirstResponder];
 }
 
 - (void) refreshViewFromNote
 {
     
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField*)textField
+{
+    [title resignFirstResponder];
+    return NO; //prevents \n from being added to description
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField
+{
+    if([description.text isEqualToString:@""])
+        [description becomeFirstResponder];
+}
+
+- (void) textViewDidBeginEditing:(UITextView *)textView
+{
+    descriptionDoneButton.hidden = NO; 
+}
+
+- (void) doneButtonPressed
+{
+    [description resignFirstResponder];
+}
+
+- (void) textViewDidEndEditing:(UITextView *)textView
+{
+    descriptionDoneButton.hidden = YES; 
 }
 
 @end
