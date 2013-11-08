@@ -39,7 +39,7 @@
         title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.frame.size.width-65,20)];
         title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
         title.adjustsFontSizeToFitWidth = NO;
-        date  = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
+        date = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
         date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
         date.textColor = [UIColor ARISColorDarkBlue];
         date.adjustsFontSizeToFitWidth = NO; 
@@ -47,7 +47,7 @@
         owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
         owner.textColor = [UIColor ARISColorDarkGray]; 
         owner.adjustsFontSizeToFitWidth = NO; 
-        desc  = [[UILabel alloc] initWithFrame:CGRectMake(10,54,self.frame.size.width-20,14)];
+        desc = [[UILabel alloc] initWithFrame:CGRectMake(10,54,self.frame.size.width-20,14)];
         desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
         desc.textColor = [UIColor ARISColorDarkGray];  
         desc.adjustsFontSizeToFitWidth = NO;   
