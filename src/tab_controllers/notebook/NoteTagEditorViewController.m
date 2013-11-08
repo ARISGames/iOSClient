@@ -16,6 +16,7 @@
     
     UIScrollView *scrollView;
     UILabel *plus;
+    UIImageView *grad;
     
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -48,16 +49,22 @@
     plus.text = @" + ";
     plus.layer.cornerRadius = 8;
     plus.layer.masksToBounds = YES;
+    [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
+    
+    grad = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_white_gradient"]];
+    grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30);
     
     [self refreshViewFromTags];  
     [self.view addSubview:scrollView]; 
     [self.view addSubview:plus]; 
+    [self.view addSubview:grad]; 
 }
 
 - (void) viewDidLayoutSubviews
 {
     plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,self.view.frame.size.height); 
+    grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
 }
 
 - (void) setTags:(NSArray *)t
@@ -93,6 +100,16 @@
         [scrollView addSubview:tv];
     }
     scrollView.contentSize = CGSizeMake(x,30);
+}
+
+- (void) addTagButtonTouched
+{
+    
+}
+
+- (void) deleteTagButtonTouched:(Tag *)t
+{
+    
 }
 
 @end
