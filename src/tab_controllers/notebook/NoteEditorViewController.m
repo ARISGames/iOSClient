@@ -52,21 +52,16 @@
     title.delegate = self;
     title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20]; 
     title.placeholder = @"Title";
-    title.text = note.name;
     title.returnKeyType = UIReturnKeyDone;
     
     date = [[UILabel alloc] initWithFrame:CGRectMake(10, 35+64, 65, 14)];  
     date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
     date.textColor = [UIColor ARISColorDarkBlue];
     date.adjustsFontSizeToFitWidth = NO;  
-    NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
-    [format setDateFormat:@"MM/dd/yy"];
-    date.text = [format stringFromDate:[NSDate date]];
     
     owner = [[UILabel alloc] initWithFrame:CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14)];  
     owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
     owner.adjustsFontSizeToFitWidth = NO;
-    owner.text = @"Phildo";
     
     description = [[UITextView alloc] initWithFrame:CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170)];   
     description.delegate = self;
@@ -84,22 +79,32 @@
     
     UIView *bottombar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
     locationPickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+    locationPickerButton.frame = CGRectMake(10, 10, 24, 24);
     imagePickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [imagePickerButton setImage:[UIImage imageNamed:@"photo.png"] forState:UIControlStateNormal]; 
+    imagePickerButton.frame = CGRectMake(44, 10, 24, 24); 
     audioPickerButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
+    [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
+    audioPickerButton.frame = CGRectMake(78, 10, 24, 24); 
     shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareButton setImage:[UIImage imageNamed:@"lock.png"] forState:UIControlStateNormal]; 
+    shareButton.frame = CGRectMake(self.view.bounds.size.width-34, 10, 24, 24); 
     [bottombar addSubview:locationPickerButton];
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:audioPickerButton]; 
     [bottombar addSubview:shareButton]; 
     
     [self.view addSubview:title];
-    [self.view addSubview:date]; 
-    [self.view addSubview:owner]; 
-    [self.view addSubview:description]; 
-    [self.view addSubview:descriptionDoneButton];  
-    [self.view addSubview:tagView]; 
-    [self.view addSubview:contentsViewController.view]; 
-    [self.view addSubview:bottombar];  
+    [self.view addSubview:date];
+    [self.view addSubview:owner];
+    [self.view addSubview:description];
+    [self.view addSubview:descriptionDoneButton];
+    [self.view addSubview:tagView];
+    [self.view addSubview:contentsViewController.view];
+    [self.view addSubview:bottombar]; 
+    
+    [self refreshViewFromNote];
 }
 
 - (void) viewDidLayoutSubviews
@@ -116,7 +121,13 @@
 
 - (void) refreshViewFromNote
 {
+    if(!self.view) [self loadView];
     
+    title.text = note.name; 
+    NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
+    [format setDateFormat:@"MM/dd/yy"]; 
+    date.text = [format stringFromDate:[NSDate date]]; 
+    owner.text = @"Phildo"; 
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField

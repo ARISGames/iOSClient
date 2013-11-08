@@ -117,6 +117,8 @@
 		AA942B9B17CD4F86004EDEA1 /* logo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9717CD4F86004EDEA1 /* logo_icon.png */; };
 		AA942B9C17CD4F86004EDEA1 /* logo_text_nav.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9817CD4F86004EDEA1 /* logo_text_nav.png */; };
 		AA942B9D17CD4F86004EDEA1 /* logo_text.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9917CD4F86004EDEA1 /* logo_text.png */; };
+		AA9A6D91182D7566000CC323 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9A6D90182D7566000CC323 /* location.png */; };
+		AA9A6D95182D75C3000CC323 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9A6D94182D75C3000CC323 /* lock.png */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
 		AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F3A172738CD0074CC21 /* Settings.bundle */; };
@@ -542,6 +544,8 @@
 		AA942B9717CD4F86004EDEA1 /* logo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_icon.png; sourceTree = "<group>"; };
 		AA942B9817CD4F86004EDEA1 /* logo_text_nav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text_nav.png; sourceTree = "<group>"; };
 		AA942B9917CD4F86004EDEA1 /* logo_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text.png; sourceTree = "<group>"; };
+		AA9A6D90182D7566000CC323 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
+		AA9A6D94182D75C3000CC323 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAAB7635173AB6E6007B5A75 /* ARISGamePlayTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISGamePlayTabBarViewController.h; sourceTree = "<group>"; };
 		AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISGamePlayTabBarViewController.m; sourceTree = "<group>"; };
@@ -1138,6 +1142,8 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				AA9A6D94182D75C3000CC323 /* lock.png */,
+				AA9A6D90182D7566000CC323 /* location.png */,
 				AA2B4A71182ABC4000A0D2A1 /* plus.png */,
 				AA383B131829A8BD00612FFB /* audio.png */,
 				AA383B141829A8BD00612FFB /* video.png */,
@@ -2208,6 +2214,7 @@
 				AA2D214B17DE560C00CF4198 /* id_card@2x.png in Resources */,
 				AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */,
 				AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */,
+				AA9A6D91182D7566000CC323 /* location.png in Resources */,
 				AA2D214A17DE560C00CF4198 /* id_card.png in Resources */,
 				AABC6FCB1727398B0074CC21 /* 14-gear-white.png in Resources */,
 				AA2D214417DE560C00CF4198 /* magnify_unselected.png in Resources */,
@@ -2347,6 +2354,7 @@
 				AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
 				AA383B161829A8BD00612FFB /* audio.png in Resources */,
+				AA9A6D95182D75C3000CC323 /* lock.png in Resources */,
 				AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */,
 				AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */,
 				AA942B9017CD4CF4004EDEA1 /* Default-568h@2x.png in Resources */,
