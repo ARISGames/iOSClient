@@ -38,7 +38,33 @@
     self.view.clipsToBounds = YES;
     
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    [self refreshFromContents];
     
+    [self.view addSubview:scrollView];
+}
+    
+- (void) viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    scrollView.frame = self.view.bounds;
+    int offset = 0;
+    for(UIView *v in scrollView.subviews)
+    {
+        v.frame = CGRectMake(offset, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+        offset += self.view.bounds.size.width;
+    }
+    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);  
+}
+
+- (void) setContents:(NSArray *)c
+{
+    contents = c;
+    [self refreshFromContents];
+}
+
+- (void) refreshFromContents
+{
     NoteContent *c;
     int offset = 0;
     for(int i = 0; i < [contents count]; i++)
@@ -51,23 +77,7 @@
         [scrollView addSubview:amv];
         offset += self.view.bounds.size.width;
     }
-    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height); 
-    [self.view addSubview:scrollView];
-}
-    
-
-- (void) viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    scrollView.frame = self.view.bounds;
-    int offset = 0;
-    for(UIView *v in scrollView.subviews)
-    {
-        v.frame = CGRectMake(offset, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-        offset += self.view.bounds.size.width;
-    }
-    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);
+    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);  
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv

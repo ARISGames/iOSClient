@@ -11,4 +11,5 @@
 @end
 @interface NoteContentsViewController : ARISViewController
 - (id) initWithNoteContents:(NSArray  *)c delegate:(id<NoteContentsViewControllerDelegate>)d;
+- (void) setContents:(NSArray *)c;
 @end

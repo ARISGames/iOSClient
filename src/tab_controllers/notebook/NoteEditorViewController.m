@@ -8,6 +8,7 @@
 
 #import "NoteEditorViewController.h"
 #import "NoteContentsViewController.h"
+#import "NoteTagEditorViewController.h"
 #import "Note.h"
 #import "UIColor+ARISColors.h"
 
@@ -20,7 +21,7 @@
     UILabel *date;
     UITextView *description;
     UIButton *descriptionDoneButton;
-    UIView *tagView;
+    NoteTagEditorViewController *tagViewController;
     NoteContentsViewController *contentsViewController;
     UIButton *locationPickerButton;
     UIButton *imagePickerButton; 
@@ -73,7 +74,8 @@
     [descriptionDoneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     descriptionDoneButton.hidden = YES;
     
-    tagView = [[UIView alloc] initWithFrame:CGRectMake(0, 219+64, self.view.bounds.size.width, 20)];    
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags delegate:self];
+    tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 20);
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     contentsViewController.view.frame = CGRectMake(0, 239+64, self.view.bounds.size.width, self.view.bounds.size.height-239-44-64);     
     
@@ -100,7 +102,7 @@
     [self.view addSubview:owner];
     [self.view addSubview:description];
     [self.view addSubview:descriptionDoneButton];
-    [self.view addSubview:tagView];
+    [self.view addSubview:tagViewController.view];
     [self.view addSubview:contentsViewController.view];
     [self.view addSubview:bottombar]; 
     
@@ -128,6 +130,8 @@
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:[NSDate date]]; 
     owner.text = @"Phildo"; 
+    [contentsViewController setContents:note.contents];
+    [tagViewController setTags:note.tags];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
