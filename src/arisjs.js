@@ -61,7 +61,6 @@ var ARISJS = function(_ARIS)
     _ARIS.giveItemCount       = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/give/" + itemId + "/" + qty); }
     _ARIS.takeItemCount       = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/take/" + itemId + "/" + qty); }
     _ARIS.getPlayerName       = function()                { _ARIS.enqueueRequest("aris://player/name"); }
-    _ARIS.setBumpString       = function(bString)         { _ARIS.enqueueRequest("aris://bump/"+bString); }
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, callback, GETparams, POSTparams)
@@ -136,14 +135,6 @@ var ARISJS = function(_ARIS)
         _ARIS.didReceiveName = function(name)
         {
             alert("The player's name is "+name+". Override ARIS.didReceiveName(name) to handle this event however you want! (Or, just add 'ARIS.didReceiveName = function(name){return;};' to your code to just get rid of this messagea)");
-        }
-    }
-
-    if(typeof(_ARIS.bumpDetected) === 'undefined')
-    {
-        _ARIS.bumpDetected = function(bumpString)
-        {
-            alert("Just detected a successful bump with this information: '"+bumpString+"'. Override ARIS.bumpReceived(bumpString) to handle this event however you want! (Or, just add 'ARIS.bumpReceived = function(bumpString){return;};' to your code to just get rid of this message)");
         }
     }
 

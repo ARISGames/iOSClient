@@ -10,27 +10,20 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "ARISAppDelegate.h"
-#import "BumpClient.h"
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
 @interface ARISWebView()
 {
-    NSString *bumpSendString;
-    BOOL isConnectedToBump;
     NSMutableDictionary *audioPlayers;
     id<ARISWebViewDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
-@property (nonatomic, strong) NSString *bumpSendString;
-@property (nonatomic, assign) BOOL isConnectedToBump;
 @property (nonatomic, strong) NSMutableDictionary *audioPlayers;
 
 @end
 
 @implementation ARISWebView
 
-@synthesize bumpSendString;
-@synthesize isConnectedToBump;
 @synthesize audioPlayers;
 
 - (id) initWithFrame:(CGRect)frame delegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
@@ -56,7 +49,6 @@
 - (void) initialize
 {
     self.audioPlayers = [[NSMutableDictionary alloc] initWithCapacity:10];
-    self.isConnectedToBump = NO;
 }
 
 - (void) setDelegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
@@ -210,15 +202,6 @@
             [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
         }
     }
-    else if([mainCommand isEqualToString:@"bump"])
-    {
-        if([components count] > 1)
-        {
-            self.bumpSendString = [components objectAtIndex:1];
-            [self configureBump];
-            [BumpClient sharedClient].bumpable = YES;
-        }
-    }
     
     [self stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
     return YES;
@@ -329,47 +312,6 @@
     return newQty;
 }
 
-- (void) configureBump
-{
-    if(self.isConnectedToBump) return;
-    [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
-    
-    [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel)
-     {
-         NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]);
-         [[BumpClient sharedClient] confirmMatch:YES onChannel:channel];
-     }];
-    
-    [[BumpClient sharedClient] setChannelConfirmedBlock:^(BumpChannelID channel)
-     {
-         NSLog(@"Channel with %@ confirmed.", [[BumpClient sharedClient] userIDForChannel:channel]);
-         [[BumpClient sharedClient] sendData:[self.bumpSendString dataUsingEncoding:NSUTF8StringEncoding]
-                                   toChannel:channel];
-     }];
-    
-    [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data)
-     {
-         NSString *receipt = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-         NSLog(@"Data received:\n%@",receipt);
-         [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.bumpDetected(%@);",receipt]];
-     }];
-    
-    [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected)
-     {
-         if(connected) { NSLog(@"Bump connected...");    self.isConnectedToBump = YES; }
-         else          { NSLog(@"Bump disconnected..."); self.isConnectedToBump = NO;  }
-     }];
-    
-    [[BumpClient sharedClient] setBumpEventBlock:^(bump_event event)
-     {
-         switch(event)
-         {
-             case BUMP_EVENT_BUMP:     NSLog(@"Bump detected."); break;
-             case BUMP_EVENT_NO_MATCH: NSLog(@"No match.");      break;
-         }
-     }];
-}
-
 - (void) hookWithParams:(NSString *)params
 {
     [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.hook(%@);",params]];
@@ -379,7 +321,6 @@
 {
     [self stopLoading];
     [self loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
-    if(self.isConnectedToBump) [BumpClient sharedClient].bumpable = NO;
     [self.audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         AVPlayer *player = obj;
         [player pause];

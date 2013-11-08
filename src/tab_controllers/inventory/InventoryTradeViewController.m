@@ -22,7 +22,6 @@
 @synthesize itemsToTrade;
 @synthesize iconCache;
 @synthesize mediaCache;
-@synthesize isConnectedToBump;
 
 - (id) initWithDelegate:(id<InventoryTradeViewControllerDelegate>)d
 {
@@ -33,115 +32,8 @@
         self.title = NSLocalizedString(@"InventoryTradeViewTitleKey",@"");
         self.iconCache  = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.mediaCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
-        self.isConnectedToBump = NO;
     }
     return self;
-}
-
-- (void) configureBump
-{
-    [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Connecting to bump..."];
-    NSLog(@"ConfiguringBump");
-    [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
-    [[BumpClient sharedClient] connect];
-    
-    [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel) {
-        NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]); 
-        [[BumpClient sharedClient] confirmMatch:YES onChannel:channel];
-    }];
-    
-    [[BumpClient sharedClient] setChannelConfirmedBlock:^(BumpChannelID channel) {
-        NSLog(@"Channel with %@ confirmed.", [[BumpClient sharedClient] userIDForChannel:channel]);
-        [[BumpClient sharedClient] sendData:[[self generateTransactionJSON] dataUsingEncoding:NSUTF8StringEncoding]
-                                  toChannel:channel];
-    }];
-    
-    [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data)
-    {
-        int theirGameId;
-        int gameIdStartPos;
-        int gameIdEndPos;
-        int theirPlayerId;
-        int playerIdStartPos;
-        int playerIdEndPos;
-        NSRange charFinder;
-
-        NSString *receipt = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];//[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding];
-        NSLog(@"Data received:\n%@",receipt);
-        charFinder = [receipt rangeOfString:@"\"gameId\":"];
-        if(charFinder.location != NSNotFound)
-        {
-            gameIdStartPos = charFinder.location+9;
-            charFinder = [[receipt substringFromIndex:gameIdStartPos] rangeOfString:@","];
-            gameIdEndPos = gameIdStartPos+charFinder.location+1;
-            
-            charFinder = [receipt rangeOfString:@"\"playerId\":"];
-            playerIdStartPos = charFinder.location+11;
-            charFinder = [[receipt substringFromIndex:gameIdStartPos] rangeOfString:@","];
-            playerIdEndPos = playerIdStartPos+charFinder.location+1;
-            
-            theirGameId = [[receipt substringWithRange:NSMakeRange(gameIdStartPos,gameIdEndPos-gameIdStartPos)] intValue];
-            theirPlayerId = [[receipt substringWithRange:NSMakeRange(playerIdStartPos,playerIdEndPos-playerIdStartPos)] intValue];
-            
-            if(theirGameId == [AppModel sharedAppModel].currentGame.gameId)
-            {
-                if(theirPlayerId > [AppModel sharedAppModel].player.playerId)
-                {
-                    //You have the lower player Id. Commit the trade.
-                    [[AppServices sharedAppServices] commitInventoryTrade:[AppModel sharedAppModel].currentGame.gameId fromMe:[AppModel sharedAppModel].player.playerId toYou:theirPlayerId giving:[self generateTransactionJSON] receiving:receipt];
-                }
-                else
-                {
-                    //Do nothing- let lowest playerId Commit trade.
-                    ; 
-                }
-                for(int i = 0; i < [self.itemsToTrade count]; i++)
-                {
-                    //Decrement qty of traded items
-                    Item *itemDelta = (Item *)[self.itemsToTrade objectAtIndex:i];
-                    [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:itemDelta qtyToRemove:itemDelta.qty];
-                }
-                [delegate tradeDidComplete];
-                [self goBackToInventory];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Error" message:[NSString stringWithFormat:@"You must both be in the same game to trade- %d",theirGameId] delegate:nil cancelButtonTitle:@"K" otherButtonTitles:nil];
-                [alert show];
-            }
-        }
-        else
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Error" message:@"An error occurred." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            [alert show];
-        }
-    }];
-    
-    [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected)
-    {
-        if (connected)
-        {
-            [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
-            NSLog(@"Bump connected...");
-            self.isConnectedToBump = YES;
-        }
-        else
-        {
-            NSLog(@"Bump disconnected...");
-            self.isConnectedToBump = NO;
-        }
-    }];
-    
-    [[BumpClient sharedClient] setBumpEventBlock:^(bump_event event) {
-        switch(event) {
-            case BUMP_EVENT_BUMP:
-                NSLog(@"Bump detected.");
-                break;
-            case BUMP_EVENT_NO_MATCH:
-                NSLog(@"No match.");
-                break;
-        }
-    }];
 }
 
 - (void) viewDidLoad
@@ -172,13 +64,11 @@
     [super viewDidAppear:animated];
     
     [self.tradeTableView reloadData];
-    [self configureBump];
 }
 
 - (void) goBackToInventory
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [[BumpClient sharedClient] disconnect];
 }
 
 - (IBAction) backButtonTouchAction:(id)sender

@@ -144,7 +144,6 @@
 		AABC6FDF1727398B0074CC21 /* 96-book.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F581727398B0074CC21 /* 96-book.png */; };
 		AABC6FE01727398B0074CC21 /* 96-book@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F591727398B0074CC21 /* 96-book@2x.png */; };
 		AABC6FE11727398B0074CC21 /* blue_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F5A1727398B0074CC21 /* blue_button.png */; };
-		AABC6FE31727398B0074CC21 /* bump_logo_250x84.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F5C1727398B0074CC21 /* bump_logo_250x84.png */; };
 		AABC6FE41727398B0074CC21 /* Button-Play-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F5D1727398B0074CC21 /* Button-Play-icon.png */; };
 		AABC6FE51727398B0074CC21 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F5E1727398B0074CC21 /* buttonborder.png */; };
 		AABC6FE61727398B0074CC21 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F5F1727398B0074CC21 /* buttonborder2.png */; };
@@ -291,9 +290,6 @@
 		AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71A9172739D70074CC21 /* IconQuestsViewController.m */; };
 		AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */; };
 		AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B0172739D70074CC21 /* QuestsViewController.m */; };
-		AABC741F172739D80074CC21 /* BumpTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B8172739D70074CC21 /* BumpTestViewController.m */; };
-		AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC71B9172739D70074CC21 /* BumpTestViewController.xib */; };
-		AABC7421172739D80074CC21 /* libBump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABC71BA172739D70074CC21 /* libBump.a */; };
 		AABC742B172739D80074CC21 /* glues_error.c in Sources */ = {isa = PBXBuildFile; fileRef = AABC71D4172739D70074CC21 /* glues_error.c */; };
 		AABC742C172739D80074CC21 /* glues_mipmap.c in Sources */ = {isa = PBXBuildFile; fileRef = AABC71D6172739D70074CC21 /* glues_mipmap.c */; };
 		AABC742D172739D80074CC21 /* glues_project.c in Sources */ = {isa = PBXBuildFile; fileRef = AABC71D8172739D70074CC21 /* glues_project.c */; };
@@ -578,7 +574,6 @@
 		AABC6F581727398B0074CC21 /* 96-book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "96-book.png"; sourceTree = "<group>"; };
 		AABC6F591727398B0074CC21 /* 96-book@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "96-book@2x.png"; sourceTree = "<group>"; };
 		AABC6F5A1727398B0074CC21 /* blue_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_button.png; sourceTree = "<group>"; };
-		AABC6F5C1727398B0074CC21 /* bump_logo_250x84.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bump_logo_250x84.png; sourceTree = "<group>"; };
 		AABC6F5D1727398B0074CC21 /* Button-Play-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Button-Play-icon.png"; sourceTree = "<group>"; };
 		AABC6F5E1727398B0074CC21 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder.png; sourceTree = "<group>"; };
 		AABC6F5F1727398B0074CC21 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder2.png; sourceTree = "<group>"; };
@@ -800,11 +795,6 @@
 		AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; };
 		AABC71AF172739D70074CC21 /* QuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestsViewController.h; sourceTree = "<group>"; };
 		AABC71B0172739D70074CC21 /* QuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsViewController.m; sourceTree = "<group>"; };
-		AABC71B6172739D70074CC21 /* BumpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BumpClient.h; sourceTree = "<group>"; };
-		AABC71B7172739D70074CC21 /* BumpTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BumpTestViewController.h; sourceTree = "<group>"; };
-		AABC71B8172739D70074CC21 /* BumpTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BumpTestViewController.m; sourceTree = "<group>"; };
-		AABC71B9172739D70074CC21 /* BumpTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BumpTestViewController.xib; sourceTree = "<group>"; };
-		AABC71BA172739D70074CC21 /* libBump.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBump.a; sourceTree = "<group>"; };
 		AABC71D2172739D70074CC21 /* glu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glu.h; sourceTree = "<group>"; };
 		AABC71D3172739D70074CC21 /* glues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glues.h; sourceTree = "<group>"; };
 		AABC71D4172739D70074CC21 /* glues_error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glues_error.c; sourceTree = "<group>"; };
@@ -1018,7 +1008,6 @@
 				AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */,
 				AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */,
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
-				AABC7421172739D80074CC21 /* libBump.a in Frameworks */,
 				AABC7450172739D80074CC21 /* libPusher-combined.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1237,7 +1226,6 @@
 				AABC6F581727398B0074CC21 /* 96-book.png */,
 				AABC6F591727398B0074CC21 /* 96-book@2x.png */,
 				AABC6F5A1727398B0074CC21 /* blue_button.png */,
-				AABC6F5C1727398B0074CC21 /* bump_logo_250x84.png */,
 				AABC6F5D1727398B0074CC21 /* Button-Play-icon.png */,
 				AABC6F5E1727398B0074CC21 /* buttonborder.png */,
 				AABC6F5F1727398B0074CC21 /* buttonborder2.png */,
@@ -1828,24 +1816,11 @@
 				AB8873E3181B6F250042FD63 /* TestFlightSDK2.0.2 */,
 				AAF7115117B9579900262A37 /* PKRevealController */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
-				AABC71B5172739D70074CC21 /* bump */,
 				AABC71C0172739D70074CC21 /* JSON */,
 				AABC71D0172739D70074CC21 /* PanoramaGL */,
 				AABC7224172739D70074CC21 /* pusher */,
 			);
 			path = third_party;
-			sourceTree = "<group>";
-		};
-		AABC71B5172739D70074CC21 /* bump */ = {
-			isa = PBXGroup;
-			children = (
-				AABC71B6172739D70074CC21 /* BumpClient.h */,
-				AABC71B7172739D70074CC21 /* BumpTestViewController.h */,
-				AABC71B8172739D70074CC21 /* BumpTestViewController.m */,
-				AABC71B9172739D70074CC21 /* BumpTestViewController.xib */,
-				AABC71BA172739D70074CC21 /* libBump.a */,
-			);
-			path = bump;
 			sourceTree = "<group>";
 		};
 		AABC71C0172739D70074CC21 /* JSON */ = {
@@ -2254,7 +2229,6 @@
 				AABC6FE01727398B0074CC21 /* 96-book@2x.png in Resources */,
 				AABC6FE11727398B0074CC21 /* blue_button.png in Resources */,
 				AA942B9217CD4CF4004EDEA1 /* Default@2x.png in Resources */,
-				AABC6FE31727398B0074CC21 /* bump_logo_250x84.png in Resources */,
 				AABC6FE41727398B0074CC21 /* Button-Play-icon.png in Resources */,
 				AA2D214817DE560C00CF4198 /* star_unselected.png in Resources */,
 				AABC6FE51727398B0074CC21 /* buttonborder.png in Resources */,
@@ -2369,7 +2343,6 @@
 				AB8873EC181B6F250042FD63 /* release_notes.md in Resources */,
 				AA2D214217DE560C00CF4198 /* magnify_selected.png in Resources */,
 				ABE735E917D65C0100396CF5 /* arrowBack.png in Resources */,
-				AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */,
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,
 				AA2D215017DE560C00CF4198 /* todo.png in Resources */,
@@ -2500,7 +2473,6 @@
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
 				AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */,
-				AABC741F172739D80074CC21 /* BumpTestViewController.m in Sources */,
 				AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */,
 				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,
 				AABC742B172739D80074CC21 /* glues_error.c in Sources */,
