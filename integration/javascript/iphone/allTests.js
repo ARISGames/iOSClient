@@ -72,16 +72,18 @@ var loginTest = function(username,password){
 		assertEquals("Forgot Password?",window.buttons()["Forgot Password?"].name());
 		 		 
 		//TYPE USERNAME
-		window.textFields()[0].tap();
-		app.keyboard().typeString(username + "\n");
-			
+		 window.textFields()["Username Field"].textFields()["Username Field"].tap();
+		 app.keyboard().typeString(username);
+		 
 		// TYPE PASSWORD
-		window.secureTextFields()[0].tap();
-		app.keyboard().typeString(password);
+		 window.secureTextFields()["Password Field"].secureTextFields()["Password Field"].tap();
+		 app.keyboard().typeString(password);
 	
 		// CLICK LOGIN
 		 target.delay(3);
-		window.buttons()["arrowForward"].tap();		 
+		window.buttons()["Login"].tap();	
+		 
+		 
 		 
 	});
 	
@@ -223,7 +225,13 @@ var greetingCharacter = function(){
 		 
 		window.elements()["Greeting/Closing Character"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
-		UIALogger.message("Navigation says 'You'? ");		 
+		 
+		 
+		UIALogger.logMessage("Navigation says 'You'? ");	
+		 
+		 assertEquals("You", app.navigationBar().name());
+		 
+		 
 		 });	
 	
 	test("PC Character Test",function(target,app){
@@ -496,9 +504,12 @@ resetToLoginScreen();
 //Test Login Image 
  imageAsserter();
 
+ 
+
 //Login to account
 loginTest(username, password);
  
+
 
 //Search for Game
 searchGame(gameName);
@@ -508,31 +519,34 @@ selectGame();
 
 /////////////////////////////////////////////////////////////////// Begin In game Tests
 
+
 // Dismiss Initial Plaque
 initialPlaque();
+
 
 //Normal Item Test
 normalItem();
 
+ 
 
 //Plaque Test 
 plaque();
+ 
 
 
 // Greeting Character Dialogue Test
 greetingCharacter();
 
 
+
 // Has the Conversation Tester Dropped?
 enterConversationTester();
 
-window.logElementTree();
+
 
 // Test Normal Scripts
 normalScriptTests();
  
-window.logElementTree();
-
 //Test Exit to Scripts
 exitToScripts();
 
@@ -544,5 +558,6 @@ testDecoder();
 
 // Reset Back to Login Screen
 resetToLoginScreen();
+
 
 
