@@ -35,9 +35,14 @@
 - (void) loadView
 {
     [super loadView];
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,20)];
-    
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,30)];
     [self.view addSubview:scrollView];
+    [self refreshViewFromTags]; 
+}
+
+- (void) viewDidLayoutSubviews
+{
+    scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
 }
 
 - (void) setTags:(NSArray *)t
@@ -48,15 +53,14 @@
 
 - (UIView *) tagViewForTag:(Tag *)t
 {
-    int width = [t.tagName sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
-    UILabel *tagView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,width+20,20)];
+    int width = [[NSString stringWithFormat:@"  %@ x ",t.tagName] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
+    UILabel *tagView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,width,20)];
     tagView.font = [UIFont fontWithName:@"HelveticaNeue-Light"  size:18];
     tagView.textColor = [UIColor whiteColor];
     tagView.backgroundColor = [UIColor ARISColorLightBlue];
-    tagView.text = [NSString stringWithFormat:@"%@ x",t.tagName];
-    tagView.layer.cornerRadius = 4;
+    tagView.text = [NSString stringWithFormat:@"  %@ x",t.tagName];
+    tagView.layer.cornerRadius = 8;
     tagView.layer.masksToBounds = YES;
-    
     return tagView;
 }
 
@@ -69,11 +73,11 @@
     for(int i = 0; i < [tags count]; i++)
     {
         tv = [self tagViewForTag:[tags objectAtIndex:i]];
-        tv.frame = CGRectMake(x,0,tv.frame.size.width,tv.frame.size.height);
+        tv.frame = CGRectMake(x,5,tv.frame.size.width,tv.frame.size.height);
         x += tv.frame.size.width+10;
         [scrollView addSubview:tv];
     }
-    scrollView.contentSize = CGSizeMake(x,20);
+    scrollView.contentSize = CGSizeMake(x,30);
 }
 
 @end

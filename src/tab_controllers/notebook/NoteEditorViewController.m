@@ -10,9 +10,10 @@
 #import "NoteContentsViewController.h"
 #import "NoteTagEditorViewController.h"
 #import "Note.h"
+#import "Tag.h"
 #import "UIColor+ARISColors.h"
 
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteContentsViewControllerDelegate>
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate>
 {
     Note *note;
     
@@ -74,10 +75,21 @@
     [descriptionDoneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     descriptionDoneButton.hidden = YES;
     
-    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags delegate:self];
-    tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 20);
+    NSMutableArray *ts = [[NSMutableArray alloc] init];
+    Tag* t = [[Tag alloc] init];
+    t.tagName = @"Bob";
+    [ts addObject:t];
+    t = [[Tag alloc] init];
+    t.tagName = @"Abraham Lincoln";
+    [ts addObject:t]; 
+    t = [[Tag alloc] init];
+    t.tagName = @"William";
+    [ts addObject:t];
+    
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:ts delegate:self];
+    tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 30);
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
-    contentsViewController.view.frame = CGRectMake(0, 239+64, self.view.bounds.size.width, self.view.bounds.size.height-239-44-64);     
+    contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);     
     
     UIView *bottombar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
     locationPickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -131,7 +143,7 @@
     date.text = [format stringFromDate:[NSDate date]]; 
     owner.text = @"Phildo"; 
     [contentsViewController setContents:note.contents];
-    [tagViewController setTags:note.tags];
+    //[tagViewController setTags:note.tags];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField

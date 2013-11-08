@@ -39,7 +39,6 @@
     
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     [self refreshFromContents];
-    
     [self.view addSubview:scrollView];
 }
     
