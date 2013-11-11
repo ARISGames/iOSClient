@@ -59,10 +59,10 @@
     date = [[UILabel alloc] initWithFrame:CGRectMake(10, 35+64, 65, 14)];  
     date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
     date.textColor = [UIColor ARISColorDarkBlue];
-    date.adjustsFontSizeToFitWidth = NO;  
+    date.adjustsFontSizeToFitWidth = NO;
     
-    owner = [[UILabel alloc] initWithFrame:CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14)];  
-    owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+    owner = [[UILabel alloc] initWithFrame:CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14)];
+    owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
     owner.adjustsFontSizeToFitWidth = NO;
     
     description = [[UITextView alloc] initWithFrame:CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170)];   

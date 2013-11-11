@@ -16,9 +16,9 @@
 
 @property(nonatomic, strong) NSArray *currentAttributes;
 
--(void)clearData;
--(int)removeItemFromAttributes:(Item*)item qtyToRemove:(int)qty;
--(int)addItemToAttributes:(Item*)item qtyToAdd:(int)qty;
--(Item *)attributesItemForId:(int)itemId;
+- (void) clearData;
+- (int) removeItemFromAttributes:(Item*)item qtyToRemove:(int)qty;
+- (int) addItemToAttributes:(Item*)item qtyToAdd:(int)qty;
+- (Item *) attributesItemForId:(int)itemId;
 
 @end

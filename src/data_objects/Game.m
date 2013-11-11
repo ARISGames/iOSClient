@@ -13,6 +13,7 @@
 @implementation Game
 
 @synthesize gameId;
+@synthesize notesModel;
 @synthesize inventoryModel;
 @synthesize attributesModel;
 @synthesize questsModel;
@@ -61,6 +62,7 @@
 
 - (void) getReadyToPlay
 {
+    self.notesModel      = [[NotesModel      alloc] init];
     self.inventoryModel  = [[InventoryModel  alloc] init];
     self.attributesModel = [[AttributesModel alloc] init];
     self.questsModel     = [[QuestsModel     alloc] init];
@@ -86,6 +88,7 @@
 
 - (void) clearLocalModels
 {
+    [self.notesModel      clearData];
     [self.inventoryModel  clearData];
     [self.attributesModel clearData];
     [self.questsModel     clearData];

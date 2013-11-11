@@ -12,10 +12,9 @@
 
 @synthesize currentAttributes;
 
--(id)init
+- (id) init
 {
-    self = [super init];
-    if(self)
+    if(self = [super init])
     {
         [self clearData];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestPlayerAttributesReceived:) name:@"LatestPlayerAttributesReceived" object:nil];
@@ -23,22 +22,22 @@
     return self;
 }
 
--(void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)clearData
+- (void) clearData
 {
     [self updateAttributes:[[NSArray alloc] init]];
 }
 
--(void)latestPlayerAttributesReceived:(NSNotification *)notification
+- (void) latestPlayerAttributesReceived:(NSNotification *)notification
 {
     [self updateAttributes:[notification.userInfo objectForKey:@"attributes"]];
 }
 
--(void)updateAttributes:(NSArray *)attributes
+- (void) updateAttributes:(NSArray *)attributes
 {    
     NSMutableArray *newlyAcquiredAttributes = [[NSMutableArray alloc] initWithCapacity:5];
     NSMutableArray *newlyLostAttributes =     [[NSMutableArray alloc] initWithCapacity:5];
@@ -121,7 +120,7 @@
     }
 }
 
--(int)removeItemFromAttributes:(Item*)item qtyToRemove:(int)qty
+- (int)removeItemFromAttributes:(Item*)item qtyToRemove:(int)qty
 {
     NSMutableArray *newAttributes = [[NSMutableArray alloc] initWithCapacity:[self.currentAttributes count]];
     for(int i = 0; i < [self.currentAttributes count]; i++)
@@ -143,7 +142,7 @@
     return 0;
 }
 
--(int)addItemToAttributes:(Item*)item qtyToAdd:(int)qty
+- (int) addItemToAttributes:(Item*)item qtyToAdd:(int)qty
 {
     NSMutableArray *newAttributes = [[NSMutableArray alloc] initWithCapacity:[self.currentAttributes count]];
     for(int i = 0; i < [self.currentAttributes count]; i++)
@@ -170,7 +169,7 @@
     return item.qty;
 }
 
--(Item *)attributesItemForId:(int)itemId
+- (Item *) attributesItemForId:(int)itemId
 {
     for(int i = 0; i < [currentAttributes count]; i++)
         if(((Item *)[currentAttributes objectAtIndex:i]).itemId == itemId) return [currentAttributes objectAtIndex:i];

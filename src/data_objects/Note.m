@@ -24,7 +24,6 @@
 @synthesize contents;
 @synthesize tags;
 @synthesize numRatings;
-@synthesize shared;
 @synthesize dropped;
 @synthesize showOnMap;
 @synthesize showOnList;
@@ -48,7 +47,6 @@
         self.contents = [[NSMutableArray alloc] init];
         self.tags = [[NSMutableArray alloc] init];
         self.numRatings = 0;
-        self.shared = NO;
         self.dropped = NO;
         self.showOnMap = NO;
         self.showOnList = NO;

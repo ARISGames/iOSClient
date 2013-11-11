@@ -65,7 +65,7 @@ const int VIEW_MODE_ALL  = 1;
     [plus addTarget:self action:@selector(addNote) forControlEvents:UIControlEventTouchUpInside]; 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:plus]; 
     
-    [[AppServices sharedAppServices] fetchGameNoteList];
+    [[AppServices sharedAppServices] fetchNoteList];
 }
 
 - (void) newNoteListAvailable
@@ -80,8 +80,8 @@ const int VIEW_MODE_ALL  = 1;
 
 - (int) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
 {
-    if     (viewMode == VIEW_MODE_MINE) return [[[AppModel sharedAppModel] playerNoteList] count];
-    else if(viewMode == VIEW_MODE_ALL)  return [[[AppModel sharedAppModel] gameNoteList]   count]; 
+    if     (viewMode == VIEW_MODE_MINE) return [[[AppModel sharedAppModel].currentGame.notesModel playerNotes] count];
+    else if(viewMode == VIEW_MODE_ALL)  return [[[AppModel sharedAppModel].currentGame.notesModel listNotes]   count];
     return 0;
 }
 
@@ -93,8 +93,8 @@ const int VIEW_MODE_ALL  = 1;
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *noteList;
-    if     (viewMode == VIEW_MODE_MINE) noteList = [[[AppModel sharedAppModel] playerNoteList] allValues];
-    else if(viewMode == VIEW_MODE_ALL)  noteList = [[[AppModel sharedAppModel] gameNoteList]   allValues];  
+    if     (viewMode == VIEW_MODE_MINE) noteList = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
+    else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes]; 
     
     NoteCell *cell;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
@@ -107,8 +107,8 @@ const int VIEW_MODE_ALL  = 1;
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *noteList;
-    if     (viewMode == VIEW_MODE_MINE) noteList = [[[AppModel sharedAppModel] playerNoteList] allValues];
-    else if(viewMode == VIEW_MODE_ALL)  noteList = [[[AppModel sharedAppModel] gameNoteList]   allValues];
+    if     (viewMode == VIEW_MODE_MINE) noteList = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
+    else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes];  
     
     NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[noteList objectAtIndex:indexPath.row] delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];

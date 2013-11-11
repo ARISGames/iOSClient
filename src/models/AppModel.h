@@ -18,7 +18,6 @@
 #import "Media.h"
 #import "WebPage.h"
 #import "Panoramic.h"
-#import "Note.h"
 #import "MediaCache.h"
 #import "UploadMan.h"
 #import "Overlay.h"
@@ -56,8 +55,6 @@
 	NSMutableDictionary *gameNpcList;
     NSMutableDictionary *gameWebPageList;
     NSMutableDictionary *gamePanoramicList;
-    NSMutableDictionary *gameNoteList;
-    NSMutableDictionary *playerNoteList;
     NSMutableArray *gameTagList;
     NSMutableArray *overlayList;
 
@@ -109,8 +106,6 @@
 
 @property (nonatomic, strong) NSMutableArray *nearbyLocationsList;	
 
-@property (nonatomic, strong) NSMutableDictionary *gameNoteList;
-@property (nonatomic, strong) NSMutableDictionary *playerNoteList;
 @property (nonatomic, strong) NSMutableArray *gameTagList;
 @property (nonatomic, strong) NSMutableArray *overlayList;
 @property (nonatomic, strong) NSMutableDictionary *gameMediaList;
@@ -129,6 +124,9 @@
 
 + (AppModel *) sharedAppModel;
 
+- (void) resetAllGameLists;
+- (void) resetAllPlayerLists;
+
 - (void) commitPlayerLogin:(Player *)p;
 - (void) setPlayerLocation:(CLLocation *)newLocation;
 
@@ -143,6 +141,5 @@
 - (Npc *) npcForNpcId:(int)mId;
 - (WebPage *) webPageForWebPageId:(int)mId;
 - (Panoramic *) panoramicForPanoramicId:(int)mId;
-- (Note *) noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
 
 @end

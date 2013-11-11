@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "NotesModel.h"
 #import "InventoryModel.h"
 #import "AttributesModel.h"
 #import "QuestsModel.h"
@@ -24,7 +25,8 @@ typedef enum
 {
 	int gameId;
 
-    InventoryModel  *inventoryModel;
+    NotesModel      *notesModel;
+    InventoryModel  *inventoryModel; 
     AttributesModel *attributesModel;
     QuestsModel     *questsModel;
     LocationsModel  *locationsModel;
@@ -67,6 +69,7 @@ typedef enum
 
 @property (readwrite, assign) int gameId;
 
+@property (nonatomic, strong) NotesModel *notesModel;
 @property (nonatomic, strong) InventoryModel *inventoryModel;
 @property (nonatomic, strong) AttributesModel *attributesModel;
 @property (nonatomic, strong) QuestsModel *questsModel;

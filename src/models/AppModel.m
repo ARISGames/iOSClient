@@ -36,8 +36,6 @@
 @synthesize gameNpcList;
 @synthesize gameWebPageList;
 @synthesize gamePanoramicList;
-@synthesize gameNoteList;
-@synthesize playerNoteList;
 @synthesize overlayList;
 @synthesize overlayIsVisible;
 @synthesize nearbyLocationsList;
@@ -62,7 +60,6 @@
     return _sharedObject;
 }
 
-#pragma mark Init/dealloc
 - (id) init
 {
     if(self = [super init])
@@ -74,17 +71,28 @@
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
         overlayList   = [[NSMutableArray alloc] initWithCapacity:10];
         motionManager = [[CMMotionManager alloc] init];
-        
-        playerNoteList = [[NSMutableDictionary alloc] initWithCapacity:10];
-		gameNoteList   = [[NSMutableDictionary alloc] initWithCapacity:10];
 	}
     return self;
 }
 
-- (void) dealloc
+- (void) resetAllGameLists
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.currentGame clearLocalModels];
+    [self.gameItemList      removeAllObjects];
+    [self.gameNodeList      removeAllObjects];
+    [self.gameNpcList       removeAllObjects];
+    [self.gameMediaList     removeAllObjects];
+    [self.gameWebPageList   removeAllObjects];
+    [self.gamePanoramicList removeAllObjects];
 }
+
+- (void) resetAllPlayerLists
+{
+  self.nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
+  [self.currentGame clearLocalModels];
+  [self.overlayList removeAllObjects];
+}
+
 
 #pragma mark User Defaults
 
@@ -256,20 +264,6 @@
 	return [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
 }
 
-- (Note *) noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)checkPlayerList
-{
-	Note *note;
-    note = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
-	if(!note) note = [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
-    
-	if(!note)
-    {
-        if(checkPlayerList) [[AppServices sharedAppServices] fetchPlayerNoteList];
-        else                [[AppServices sharedAppServices] fetchGameNoteList];
-	}
-	return note;
-}
-
 - (NSManagedObjectContext *) managedObjectContext
 {
     if(!managedObjectContext)
@@ -312,6 +306,11 @@
             NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
 	}
     return persistentStoreCoordinator;
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

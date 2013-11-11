@@ -54,7 +54,6 @@
 - (void) fetchOneGameGameList:(int)gameId;
 
 //Fetch Player State
-- (void) resetAllPlayerLists;
 - (void) fetchAllPlayerLists;
 - (void) fetchPlayerLocationList;
 - (void) fetchPlayerQuestList;
@@ -63,7 +62,6 @@
 - (void) fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId;
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
-- (void) resetAllGameLists;
 - (void) fetchAllGameLists;
 - (void) fetchGameMediaList;
 - (void) fetchTabBarItems;
@@ -75,8 +73,7 @@
 - (void) fetchGamePanoramicList;
 - (void) fetchGameNoteTags;
 
-- (void) fetchGameNoteList;
-- (void) fetchPlayerNoteList;
+- (void) fetchNoteList;
 
 //Should only be called in the case of a media appearing in the game that didn't exist when the game was initially launched (eg- someone took a picture)
 - (void) fetchMedia:(int)mediaId;
@@ -130,8 +127,7 @@
 - (void) parseGameWebPageListFromJSON:     (ServiceResult *)result;
 - (void) parseGamePanoramicListFromJSON:   (ServiceResult *)result;
 - (void) parseGameTabListFromJSON:         (ServiceResult *)result;
-- (void) parseGameNoteListFromJSON:        (ServiceResult *)result;
-- (void) parsePlayerNoteListFromJSON:      (ServiceResult *)result;
+- (void) parseNoteListFromJSON:        (ServiceResult *)result;
 - (void) parseRecentGameListFromJSON:      (ServiceResult *)result;
 - (void) parseGameTagsListFromJSON:        (ServiceResult *)result;
 
@@ -143,7 +139,6 @@
 - (void) saveGameComment:(NSString*)comment game:(int)gameId starRating:(int)rating;
 - (void) sendNotificationToNoteViewer;
 - (void) sendNotificationToNotebookViewer;
-- (void) fetchPlayerNoteList;
 - (void) startOverGame:(int)gameId;
 
 @end

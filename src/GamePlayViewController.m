@@ -109,8 +109,8 @@
         self.gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         
         //PHIL UNAPPROVED
-        [[AppServices sharedAppServices] resetAllPlayerLists];
-        [[AppServices sharedAppServices] resetAllGameLists];
+        [[AppModel sharedAppModel] resetAllPlayerLists];
+        [[AppModel sharedAppModel] resetAllGameLists];
         [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewlyCompletedQuestsAvailable" object:nil];

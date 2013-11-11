@@ -101,6 +101,7 @@
 		AA527E4B17E0B6830040AB75 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4417E0B6830040AB75 /* camera.png */; };
 		AA527E4C17E0B6830040AB75 /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4517E0B6830040AB75 /* microphone.png */; };
 		AA527E4D17E0B6830040AB75 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4617E0B6830040AB75 /* note.png */; };
+		AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5F5ACE183147C00057AC1C /* NotesModel.m */; };
 		AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FDB17330947003A840D /* GamePlayViewController.m */; };
 		AA701FE117342169003A840D /* GamePickersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE017342169003A840D /* GamePickersViewController.m */; };
 		AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE4173428C3003A840D /* ARISAlertHandler.m */; };
@@ -520,6 +521,8 @@
 		AA527E4417E0B6830040AB75 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		AA527E4517E0B6830040AB75 /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphone.png; sourceTree = "<group>"; };
 		AA527E4617E0B6830040AB75 /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note.png; sourceTree = "<group>"; };
+		AA5F5ACD183147C00057AC1C /* NotesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesModel.h; sourceTree = "<group>"; };
+		AA5F5ACE183147C00057AC1C /* NotesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesModel.m; sourceTree = "<group>"; };
 		AA701FDA17330947003A840D /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		AA701FDB17330947003A840D /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
 		AA701FDF17342169003A840D /* GamePickersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickersViewController.h; sourceTree = "<group>"; };
@@ -1150,6 +1153,15 @@
 			path = notebook;
 			sourceTree = "<group>";
 		};
+		AA5F5ACA183147AC0057AC1C /* notes */ = {
+			isa = PBXGroup;
+			children = (
+				AA5F5ACD183147C00057AC1C /* NotesModel.h */,
+				AA5F5ACE183147C00057AC1C /* NotesModel.m */,
+			);
+			path = notes;
+			sourceTree = "<group>";
+		};
 		AA766D3417CBD811001F88D2 /* anywhere */ = {
 			isa = PBXGroup;
 			children = (
@@ -1544,6 +1556,7 @@
 			children = (
 				AABC70DC172739D60074CC21 /* AppModel.h */,
 				AABC70DD172739D60074CC21 /* AppModel.m */,
+				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70DE172739D60074CC21 /* attributes */,
 				AABC70E1172739D60074CC21 /* inventory */,
 				AABC70E4172739D60074CC21 /* locations */,
@@ -2539,6 +2552,7 @@
 				AA701FE117342169003A840D /* GamePickersViewController.m in Sources */,
 				AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */,
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
+				AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */,
 				AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
 				AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */,
