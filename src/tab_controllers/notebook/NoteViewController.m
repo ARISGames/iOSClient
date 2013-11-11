@@ -58,7 +58,7 @@
     date.adjustsFontSizeToFitWidth = NO;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
-    date.text = [format stringFromDate:[NSDate date]]; //currently no date! 
+    date.text = [format stringFromDate:note.created];
     
     owner = [[UILabel alloc] initWithFrame:CGRectMake(75,35,self.view.frame.size.width-85,14)];
     owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 

@@ -130,7 +130,7 @@
     title.text = note.name; 
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
-    date.text = [format stringFromDate:[NSDate date]]; 
+    date.text = [format stringFromDate:note.created]; 
     owner.text = note.displayname; 
     [contentsViewController setContents:note.contents];
     //[tagViewController setTags:note.tags];

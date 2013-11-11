@@ -31,6 +31,7 @@
 @synthesize parentRating;
 @synthesize latitude;
 @synthesize longitude;
+@synthesize created;
 
 - (Note *) init
 {
@@ -53,6 +54,7 @@
         self.parentRating = 0;
         self.latitude = 0.0;
         self.longitude = 0.0;
+        self.created = [[NSDate alloc] init];
     }
     return self;	
 }
@@ -75,6 +77,9 @@
         self.displayname   = [dict validStringForKey:@"displayname"];
         self.name          = [dict validStringForKey:@"title"];
         self.ndescription  = [dict validStringForKey:@"description"];
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        self.created = [df dateFromString:[dict validStringForKey:@"created"]];
         
         NSArray *contentDicts = [dict validObjectForKey:@"contents"];
         self.contents = [[NSMutableArray alloc] initWithCapacity:5];

@@ -28,6 +28,7 @@
     int parentRating;
     double latitude;
     double longitude;
+    NSDate *created;
 }
 
 @property (nonatomic, assign) int noteId;
@@ -47,6 +48,7 @@
 @property (nonatomic, assign) int parentRating;
 @property (nonatomic, assign) double latitude;
 @property (nonatomic, assign) double longitude;
+@property (nonatomic, strong) NSDate *created;
 
 -(BOOL)isUploading;
 

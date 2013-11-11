@@ -79,7 +79,7 @@
     [self setTitle:n.name];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
-    [self setDate:[format stringFromDate:[NSDate date]]]; //currently no date!
+    [self setDate:[format stringFromDate:n.created]];
     [self setOwner:n.displayname];
     [self setDescription:n.ndescription];
     
