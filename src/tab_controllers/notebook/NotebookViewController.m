@@ -35,7 +35,6 @@ const int VIEW_MODE_ALL  = 1;
         self.tabID = @"NOTE"; 
         self.tabIconName = @"";
         self.title = NSLocalizedString(@"NotebookTitleKey",@""); 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNoteListAvailable) name:@"NewNoteListReady" object:nil];
     }
     return self;
 }

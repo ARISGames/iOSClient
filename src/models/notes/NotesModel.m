@@ -27,7 +27,7 @@
     if(self = [super init])
     {
         [self clearData];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNotesReceived:) name:@"LatestNotesReceived" object:nil]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNotesReceived:) name:@"LatestNoteListReceived" object:nil]; 
     }
     return self;
 }
@@ -43,6 +43,7 @@
     listNotes = nil; 
     mapNotes = nil;  
     
+    currentNotes = [n.userInfo objectForKey:@"notes"];
 }
 
 - (NSArray *) playerNotes

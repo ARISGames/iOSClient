@@ -668,8 +668,6 @@ currentlyFetchingNoteList = NO;
   //if(description == NULL) description = @"filename";
 
   [[AppModel sharedAppModel].uploadManager contentFailedUploading];
-  NSLog(@"NSNotification: NewNoteListReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
 - (void) playerPicUploadDidFinish:(ARISUploader*)uploader
@@ -988,9 +986,6 @@ currentlyFetchingNoteList = NO;
     [tempTagsList addObject:t];
   }
   [AppModel sharedAppModel].gameTagList = tempTagsList;
-
-  NSLog(@"NSNotification: NewNoteListReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
 - (void)addTagToNote:(int)noteId tagName:(NSString *)tag
@@ -1105,23 +1100,19 @@ currentlyFetchingNoteList = NO;
 
 - (void)parseNoteListFromJSON:(ServiceResult *)jsonResult
 {
-  if(!currentlyFetchingNoteList) return;
-  currentlyFetchingNoteList = NO;
+    if(!currentlyFetchingNoteList) return;
+    currentlyFetchingNoteList = NO;
+        
+    NSArray *noteListArray = (NSArray *)jsonResult.data;
+    NSMutableArray *tempNoteList = [[NSMutableArray alloc] initWithCapacity:10];
     
+    NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
+    NSDictionary *dict;
+    while((dict = [enumerator nextObject]))
+      [tempNoteList addObject:[[Note alloc] initWithDictionary:dict]];
     
-  NSArray *noteListArray = (NSArray *)jsonResult.data;
-  NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc]init];
-
-  NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
-  NSDictionary *dict;
-  while((dict = [enumerator nextObject]))
-  {
-    Note *tmpNote = [[Note alloc] initWithDictionary:dict];
-    [tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
-  }
-
     NSLog(@"NSNotification: LatestNoteListReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestNoteListReceived" object:nil userInfo:tempNoteList]]; 
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestNoteListReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:tempNoteList, @"notes", nil]]]; 
 }
 
 - (void)parseConversationOptionsFromJSON:(ServiceResult *)jsonResult
