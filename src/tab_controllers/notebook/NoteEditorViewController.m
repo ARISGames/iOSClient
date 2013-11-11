@@ -11,6 +11,7 @@
 #import "NoteTagEditorViewController.h"
 #import "Note.h"
 #import "Tag.h"
+#import "AppModel.h"
 #import "UIColor+ARISColors.h"
 
 @interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate>
@@ -39,7 +40,14 @@
 {
     if(self = [super init])
     {
-        note = n;
+        if(!n)
+        {
+            n = [[Note alloc] init];
+            n.created = [NSDate date];
+            n.creatorId = [AppModel sharedAppModel].player.playerId;
+            n.displayname = [AppModel sharedAppModel].player.displayname; 
+        }
+        note = n; 
         delegate = d;
     }
     return self;
