@@ -50,30 +50,34 @@
     title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.view.frame.size.width-65,20)];
     title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
     title.adjustsFontSizeToFitWidth = NO; 
+    title.text = note.name;
+    
     date  = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
     date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
     date.textColor = [UIColor ARISColorDarkBlue];
     date.adjustsFontSizeToFitWidth = NO;  
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MM/dd/yy"];
+    date.text = [format stringFromDate:[NSDate date]]; //currently no date! 
+    
     owner = [[UILabel alloc] initWithFrame:CGRectMake(75,35,self.view.frame.size.width-85,14)];
     owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
     owner.textColor = [UIColor ARISColorDarkGray]; 
     owner.adjustsFontSizeToFitWidth = NO;  
+    owner.text = @"Phildo"; //currently no owner! 
     
-    desc  = [[UILabel alloc] initWithFrame:CGRectMake(10,54,self.view.frame.size.width-20,14)];
-    desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+    desc = [[UILabel alloc] initWithFrame:CGRectMake(10,54,self.view.frame.size.width-20,18)];
+    desc.lineBreakMode = NSLineBreakByWordWrapping;
+    desc.numberOfLines = 0;
+    desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18]; 
     desc.textColor = [UIColor ARISColorDarkGray];  
-    desc.adjustsFontSizeToFitWidth = NO;    
+    desc.text = @"Check out this bird! It's totally crazy like woah just look at it! Woah holy smokes I have to write a bunch more so I can correctly simulate what the note will look like with a lot of text craazy I know I guess I'll keep typing just a little more OK this should be enough.";
+    CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
+    desc.frame = CGRectMake(desc.frame.origin.x, desc.frame.origin.y, desc.frame.size.width, descSize.height);
     
     contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
-    contentsDisplay.view.frame = CGRectMake(0, 100, self.view.frame.size.width, 200);
+    contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200);
     [scrollView addSubview:contentsDisplay.view];
-    
-    title.text = note.name;
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"MM/dd/yy"];
-    date.text = [format stringFromDate:[NSDate date]]; //currently no date!
-    owner.text = @"Phildo"; //currently no owner!
-    desc.text = @"Check out this bird! It's totally crazy like woah just look at it!"; //Currently no description 
     
     [scrollView addSubview:title];
     [scrollView addSubview:owner]; 

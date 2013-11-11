@@ -67,6 +67,7 @@
     
     description = [[UITextView alloc] initWithFrame:CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170)];   
     description.delegate = self;
+    description.contentInset = UIEdgeInsetsZero; 
     description.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [descriptionDoneButton setTitle:@"Done" forState:UIControlStateNormal];
@@ -75,18 +76,7 @@
     [descriptionDoneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     descriptionDoneButton.hidden = YES;
     
-    NSMutableArray *ts = [[NSMutableArray alloc] init];
-    Tag* t = [[Tag alloc] init];
-    t.tagName = @"Bob";
-    [ts addObject:t];
-    t = [[Tag alloc] init];
-    t.tagName = @"Abraham Lincoln";
-    [ts addObject:t]; 
-    t = [[Tag alloc] init];
-    t.tagName = @"William";
-    [ts addObject:t];
-    
-    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:ts delegate:self];
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags delegate:self];
     tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 30);
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);     
