@@ -80,8 +80,8 @@
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
     [self setDate:[format stringFromDate:[NSDate date]]]; //currently no date!
-    [self setOwner:@"Phildo"]; //currently no owner!
-    [self setDescription:@"Check out this bird! It's totally crazy like woah just look at it!"]; //Currently no description
+    [self setOwner:n.displayname];
+    [self setDescription:n.ndescription];
     
     [self setHasImageIcon:NO];
     [self setHasAudioIcon:NO]; 

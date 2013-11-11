@@ -16,7 +16,7 @@
 
 @synthesize noteId;
 @synthesize name;
-@synthesize text;
+@synthesize ndescription;
 @synthesize creatorId;
 @synthesize username;
 @synthesize displayname;
@@ -24,7 +24,6 @@
 @synthesize contents;
 @synthesize tags;
 @synthesize numRatings;
-@synthesize dropped;
 @synthesize showOnMap;
 @synthesize showOnList;
 @synthesize userLiked;
@@ -39,7 +38,7 @@
     {
         self.noteId = 0;
         self.name = @"Note";
-        self.text = @"";
+        self.ndescription = @"";
         self.creatorId = 0;
         self.username = @"Owner";
         self.displayname = @"Owner";
@@ -47,7 +46,6 @@
         self.contents = [[NSMutableArray alloc] init];
         self.tags = [[NSMutableArray alloc] init];
         self.numRatings = 0;
-        self.dropped = NO;
         self.showOnMap = NO;
         self.showOnList = NO;
         self.userLiked = NO;
@@ -63,7 +61,6 @@
 {
     if(self = [super init])
     {
-        self.dropped       = [dict validBoolForKey:@"dropped"];
         self.showOnMap     = [dict validBoolForKey:@"public_to_map"];
         self.showOnList    = [dict validBoolForKey:@"public_to_notebook"];
         self.userLiked     = [dict validBoolForKey:@"player_liked"];
@@ -74,15 +71,19 @@
         self.creatorId     = [dict validIntForKey:@"owner_id"];
         self.latitude      = [dict validDoubleForKey:@"lat"];
         self.longitude     = [dict validDoubleForKey:@"lon"];
-        self.username      = [dict validObjectForKey:@"username"];
+        self.username      = [dict validStringForKey:@"username"];
         self.displayname   = [dict validStringForKey:@"displayname"];
-        self.name          = [dict validObjectForKey:@"title"];
-        self.text          = [dict validObjectForKey:@"text"];
+        self.name          = [dict validStringForKey:@"title"];
+        self.ndescription  = [dict validStringForKey:@"description"];
         
         NSArray *contentDicts = [dict validObjectForKey:@"contents"];
         self.contents = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *contentDict in contentDicts)
-             [self.contents addObject:[[NoteContent alloc] initWithDictionary:contentDict]];
+        {
+            NoteContent *nc = [[NoteContent alloc] initWithDictionary:contentDict];
+            if([nc.type isEqualToString:@"TEXT"]) self.ndescription = [NSString stringWithFormat:@"%@ %@",self.ndescription,nc.text];
+            else [self.contents addObject:nc];
+        }
                
         NSArray *tagDicts = [dict validObjectForKey:@"tags"];
         self.tags = [[NSMutableArray alloc] initWithCapacity:5];

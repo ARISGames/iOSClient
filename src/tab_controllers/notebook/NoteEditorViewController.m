@@ -131,7 +131,7 @@
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:[NSDate date]]; 
-    owner.text = @"Phildo"; 
+    owner.text = note.displayname; 
     [contentsViewController setContents:note.contents];
     //[tagViewController setTags:note.tags];
 }

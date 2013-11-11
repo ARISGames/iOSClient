@@ -64,14 +64,14 @@
     owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
     owner.textColor = [UIColor ARISColorDarkGray]; 
     owner.adjustsFontSizeToFitWidth = NO;  
-    owner.text = @"Phildo"; //currently no owner! 
+    owner.text = note.displayname;
     
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,54,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;
     desc.numberOfLines = 0;
     desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18]; 
     desc.textColor = [UIColor ARISColorDarkGray];  
-    desc.text = @"Check out this bird! It's totally crazy like woah just look at it! Woah holy smokes I have to write a bunch more so I can correctly simulate what the note will look like with a lot of text craazy I know I guess I'll keep typing just a little more OK this should be enough.";
+    desc.text = note.ndescription;
     CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
     desc.frame = CGRectMake(desc.frame.origin.x, desc.frame.origin.y, desc.frame.size.width, descSize.height);
     
