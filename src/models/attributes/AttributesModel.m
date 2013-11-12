@@ -22,11 +22,6 @@
     return self;
 }
 
-- (void) dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void) clearData
 {
     [self updateAttributes:[[NSArray alloc] init]];
@@ -174,6 +169,11 @@
     for(int i = 0; i < [currentAttributes count]; i++)
         if(((Item *)[currentAttributes objectAtIndex:i]).itemId == itemId) return [currentAttributes objectAtIndex:i];
     return nil;
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

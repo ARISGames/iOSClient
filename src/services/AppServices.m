@@ -568,7 +568,7 @@ currentlyFetchingNoteList = NO;
     NSArray *args = [NSArray arrayWithObjects:
       [NSString stringWithFormat:@"%d",contentId],
       nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNoteContent" arguments:args handler:self successSelector:@selector(sendNotificationToNoteViewer) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNoteContent" arguments:args handler:self successSelector:@selector(fetchNoteList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
   }
 }
 
@@ -589,22 +589,8 @@ currentlyFetchingNoteList = NO;
     NSArray *args = [NSArray arrayWithObjects:
       [NSString stringWithFormat:@"%d",noteId],
       nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(sendNotificationToNotebookViewer) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(fetchNoteList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
   }
-}
-
-- (void) sendNotificationToNoteViewer
-{
-  NSLog(@"NSNotification: NewContentListReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewContentListReady" object:nil]];
-  [self fetchNoteList];
-}
-
-- (void) sendNotificationToNotebookViewer
-{
-  NSLog(@"NSNotification: NoteDeleted");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDeleted" object:nil]];
-  [self fetchNoteList];
 }
 
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
@@ -767,7 +753,6 @@ currentlyFetchingNoteList = NO;
   [self fetchGamePanoramicList];
   [self fetchGameWebPageList];
   [self fetchGameOverlayList];
-  [self fetchNoteList];
 }
 
 - (void) fetchGameOverlayList
@@ -988,7 +973,7 @@ currentlyFetchingNoteList = NO;
   [AppModel sharedAppModel].gameTagList = tempTagsList;
 }
 
-- (void)addTagToNote:(int)noteId tagName:(NSString *)tag
+- (void) addTagToNote:(int)noteId tagName:(NSString *)tag
 {
   NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],tag, nil];
   [connection performAsynchronousRequestWithService:@"notes" method:@"addTagToNote" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
@@ -1017,7 +1002,7 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"locations" method:@"getLocationsForPlayer" arguments:args handler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchPlayerOverlayList
+- (void) fetchPlayerOverlayList
 {
   if(currentlyFetchingOverlayList)
   {
@@ -1032,7 +1017,7 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"overlays" method:@"getCurrentOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchPlayerInventory
+- (void) fetchPlayerInventory
 {    
   if(currentlyFetchingInventory)
   {
@@ -1050,7 +1035,7 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForPlayer" arguments:args handler:self successSelector:@selector(parseInventoryFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchPlayerQuestList
+- (void) fetchPlayerQuestList
 {
   if(currentlyFetchingQuestList)
   {
@@ -1066,7 +1051,7 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parseQuestListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchOneGameGameList:(int)gameId
+- (void) fetchOneGameGameList:(int)gameId
 {
   if(currentlyFetchingOneGame)
   {
@@ -1089,7 +1074,7 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"games" method:@"getOneGame" arguments:args handler:self successSelector:@selector(parseOneGameGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (Tab *)parseTabFromDictionary:(NSDictionary *)tabDictionary
+- (Tab *) parseTabFromDictionary:(NSDictionary *)tabDictionary
 {
   Tab *tab = [[Tab alloc] init];
   tab.tabIndex   = [tabDictionary validIntForKey:@"tab_index"];
@@ -1098,7 +1083,7 @@ currentlyFetchingNoteList = NO;
   return tab;
 }
 
-- (void)parseNoteListFromJSON:(ServiceResult *)jsonResult
+- (void) parseNoteListFromJSON:(ServiceResult *)jsonResult
 {
     if(!currentlyFetchingNoteList) return;
     currentlyFetchingNoteList = NO;
@@ -1115,12 +1100,10 @@ currentlyFetchingNoteList = NO;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestNoteListReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:tempNoteList, @"notes", nil]]]; 
 }
 
-- (void)parseConversationOptionsFromJSON:(ServiceResult *)jsonResult
+- (void) parseConversationOptionsFromJSON:(ServiceResult *)jsonResult
 {
   NSArray *conversationOptionsArray = (NSArray *)jsonResult.data;
-
   NSMutableArray *conversationOptions = [[NSMutableArray alloc] initWithCapacity:3];
-
   NSEnumerator *conversationOptionsEnumerator = [conversationOptionsArray objectEnumerator];
   NSDictionary *conversationDictionary;
 

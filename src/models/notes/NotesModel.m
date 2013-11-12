@@ -44,6 +44,8 @@
     mapNotes = nil;  
     
     currentNotes = [n.userInfo objectForKey:@"notes"];
+    NSLog(@"NSNotificaiton: NewNoteListAvailable");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteListAvailable" object:nil];
 }
 
 - (NSArray *) playerNotes
