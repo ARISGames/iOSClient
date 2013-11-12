@@ -11,10 +11,11 @@
 #import "ARISMediaView.h"
 #import "AppModel.h"
 
-@interface NoteContentsViewController () <ARISMediaViewDelegate>
+@interface NoteContentsViewController () <ARISMediaViewDelegate, UIScrollViewDelegate>
 {
     NSArray *contents;
     UIScrollView *scrollView;
+    UIPageControl *pageControl;
     id<NoteContentsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -38,8 +39,15 @@
     self.view.clipsToBounds = YES;
     
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    scrollView.pagingEnabled = YES;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsVerticalScrollIndicator = NO; 
+    scrollView.scrollsToTop = NO;
+    scrollView.delegate = self;
+    pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20)];
     [self refreshFromContents];
     [self.view addSubview:scrollView];
+    [self.view addSubview:pageControl]; 
 }
     
 - (void) viewDidLayoutSubviews
@@ -47,6 +55,8 @@
     [super viewDidLayoutSubviews];
     
     scrollView.frame = self.view.bounds;
+    pageControl.frame = CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20); 
+    
     int offset = 0;
     for(UIView *v in scrollView.subviews)
     {
@@ -77,6 +87,13 @@
         offset += self.view.bounds.size.width;
     }
     scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);  
+    pageControl.numberOfPages = [contents count]; 
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)s
+{
+    float percentScrolled = (scrollView.contentOffset.x+(0.5*scrollView.frame.size.width))/scrollView.contentSize.width;
+    pageControl.currentPage = floor(percentScrolled*pageControl.numberOfPages);
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
