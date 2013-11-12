@@ -1,4 +1,4 @@
-#import "tuneup_js/tuneup.js"
+#import "../tuneup_js/tuneup.js"
 
 var target = UIATarget.localTarget();
 var app = target.frontMostApp();
@@ -72,16 +72,17 @@ var loginTest = function(username,password){
 		assertEquals("Forgot Password?",window.buttons()["Forgot Password?"].name());
 		 		 
 		//TYPE USERNAME
-		 window.textFields()["Username Field"].textFields()["Username Field"].tap();
+		 window.textFields()["Username Field"].tap();
 		 app.keyboard().typeString(username);
 		 
 		// TYPE PASSWORD
-		 window.secureTextFields()["Password Field"].secureTextFields()["Password Field"].tap();
+		 window.secureTextFields()["Password Field"].tap();
 		 app.keyboard().typeString(password);
 	
 		// CLICK LOGIN
 		 target.delay(3);
 		window.buttons()["Login"].tap();	
+		 
 		 
 		 
 		 
@@ -116,6 +117,11 @@ var selectGame = function(gameName){
 	
 	test("Selecting Game", function(target,app) 
 	{
+	
+	/////
+	//assertScreenMatchesImageNamed("searchResults", "Images did not match");
+	
+	
 	
 		//Tap the top Game
 		target.frontMostApp().mainWindow().tableViews()["Empty list"].cells()[1].tap();
@@ -487,11 +493,12 @@ test("Decoder Plaque Item", function(target, app){
 // https://github.com/alexvollmer/tuneup_js/pull/49
 var imageAsserter = function(){
 		 
-	//	 createImageAsserter('integration/javascript/tuneup_js', 'integration/tmp/results', 'integration/ref_images');
+	createImageAsserter('integration/javascript/tuneup_js', 'integration/tmp/results', 'integration/ref_images', 3);
 		
-	// assertScreenMatchesImageNamed("login", "Login Image does not match");
+	
+	assertScreenMatchesImageNamed("login", "Images did not match");
 		 
-
+UIALogger.logMessage("Image Asserter Finished");
 };
 
 	
@@ -499,11 +506,11 @@ var imageAsserter = function(){
 
 
 // Reset the game from anywhere in the application
-resetToLoginScreen();
+//resetToLoginScreen();
  
+
 //Test Login Image 
  imageAsserter();
-
  
 
 //Login to account
@@ -558,6 +565,5 @@ testDecoder();
 
 // Reset Back to Login Screen
 resetToLoginScreen();
-
 
 
