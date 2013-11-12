@@ -54,7 +54,7 @@
     {
         NSMutableArray *constructPlayerNotes = [[NSMutableArray alloc] initWithCapacity:10];
         for(Note *n in currentNotes)
-            if(n.creatorId == [AppModel sharedAppModel].player.playerId) [constructPlayerNotes addObject:n];
+            if(n.owner.playerId == [AppModel sharedAppModel].player.playerId) [constructPlayerNotes addObject:n];
         playerNotes = constructPlayerNotes;
     }
     return playerNotes;

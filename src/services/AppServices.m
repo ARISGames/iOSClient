@@ -896,15 +896,9 @@ currentlyFetchingNoteList = NO;
   }
 
   currentlyFetchingNoteList = YES;
-    //PHIL SHOULD MIGRATE THIS TO NEW API
 
   NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],nil];
-  [connection performAsynchronousRequestWithService:@"notes" method:@"getNotesForGame" arguments:args handler:self successSelector:@selector(parseNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-    
-    /*
-  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-  [connection performAsynchronousRequestWithService:@"notes" method:@"getNotesForPlayer" arguments:args handler:self successSelector:@selector(parseNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-     */
+  [connection performAsynchronousRequestWithService:@"notebook" method:@"getStubNotesVisibleToPlayer" arguments:args handler:self successSelector:@selector(parseNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void)fetchGameWebPageList

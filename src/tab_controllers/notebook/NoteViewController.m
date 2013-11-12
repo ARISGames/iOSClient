@@ -64,7 +64,7 @@
     owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
     owner.textColor = [UIColor ARISColorDarkGray]; 
     owner.adjustsFontSizeToFitWidth = NO;  
-    owner.text = note.displayname;
+    owner.text = note.owner.displayname;
     
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,54,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;

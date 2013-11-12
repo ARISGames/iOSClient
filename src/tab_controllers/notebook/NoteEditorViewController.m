@@ -44,8 +44,7 @@
         {
             n = [[Note alloc] init];
             n.created = [NSDate date];
-            n.creatorId = [AppModel sharedAppModel].player.playerId;
-            n.displayname = [AppModel sharedAppModel].player.displayname; 
+            n.owner = [AppModel sharedAppModel].player;
         }
         note = n; 
         delegate = d;
@@ -139,7 +138,7 @@
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:note.created]; 
-    owner.text = note.displayname; 
+    owner.text = note.owner.displayname; 
     [contentsViewController setContents:note.contents];
     //[tagViewController setTags:note.tags];
 }

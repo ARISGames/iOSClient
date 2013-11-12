@@ -118,19 +118,6 @@
 - (void) updateServerAddInventoryItem:(int)itemId addQty:(int)qty;
 - (void) updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty;
 
-//Parse server responses
-- (NSMutableArray *) parseGameListFromJSON:(ServiceResult *)result;
-- (void) parseGameMediaListFromJSON:       (ServiceResult *)result;
-- (void) parseGameNpcListFromJSON:         (ServiceResult *)result;
-- (void) parseGameItemListFromJSON:        (ServiceResult *)result;
-- (void) parseGameNodeListFromJSON:        (ServiceResult *)result;
-- (void) parseGameWebPageListFromJSON:     (ServiceResult *)result;
-- (void) parseGamePanoramicListFromJSON:   (ServiceResult *)result;
-- (void) parseGameTabListFromJSON:         (ServiceResult *)result;
-- (void) parseNoteListFromJSON:        (ServiceResult *)result;
-- (void) parseRecentGameListFromJSON:      (ServiceResult *)result;
-- (void) parseGameTagsListFromJSON:        (ServiceResult *)result;
-
 //Parse individual pieces of server response
 - (Tab *) parseTabFromDictionary:(NSDictionary *)tabDictionary;
 

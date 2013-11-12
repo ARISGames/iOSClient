@@ -14,19 +14,16 @@
 
 @implementation Note
 
+@synthesize owner;
 @synthesize noteId;
 @synthesize name;
 @synthesize ndescription;
-@synthesize creatorId;
-@synthesize username;
-@synthesize displayname;
 @synthesize comments;
 @synthesize contents;
 @synthesize tags;
 @synthesize numRatings;
 @synthesize showOnMap;
 @synthesize showOnList;
-@synthesize userLiked;
 @synthesize parentNoteId;
 @synthesize parentRating;
 @synthesize latitude;
@@ -40,16 +37,13 @@
         self.noteId = 0;
         self.name = @"Note";
         self.ndescription = @"";
-        self.creatorId = 0;
-        self.username = @"Owner";
-        self.displayname = @"Owner";
+        self.owner = [[Player alloc] init];
         self.comments = [[NSMutableArray alloc] init];
         self.contents = [[NSMutableArray alloc] init];
         self.tags = [[NSMutableArray alloc] init];
         self.numRatings = 0;
         self.showOnMap = NO;
         self.showOnList = NO;
-        self.userLiked = NO;
         self.parentNoteId = 0;
         self.parentRating = 0;
         self.latitude = 0.0;
@@ -63,18 +57,17 @@
 {
     if(self = [super init])
     {
+        NSDictionary *ownerDict = [dict validObjectForKey:@"owner"]; 
+        if(ownerDict) self.owner = [[Player alloc] initWithDictionary:ownerDict];
+        
         self.showOnMap     = [dict validBoolForKey:@"public_to_map"];
-        self.showOnList    = [dict validBoolForKey:@"public_to_notebook"];
-        self.userLiked     = [dict validBoolForKey:@"player_liked"];
+        self.showOnList    = [dict validBoolForKey:@"public_to_list"];
         self.noteId        = [dict validIntForKey:@"note_id"];
         self.parentNoteId  = [dict validIntForKey:@"parent_note_id"];
         self.parentRating  = [dict validIntForKey:@"parent_rating"];
         self.numRatings    = [dict validIntForKey:@"likes"];
-        self.creatorId     = [dict validIntForKey:@"owner_id"];
         self.latitude      = [dict validDoubleForKey:@"lat"];
         self.longitude     = [dict validDoubleForKey:@"lon"];
-        self.username      = [dict validStringForKey:@"username"];
-        self.displayname   = [dict validStringForKey:@"displayname"];
         self.name          = [dict validStringForKey:@"title"];
         self.ndescription  = [dict validStringForKey:@"description"];
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
@@ -141,7 +134,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Note- Id:%d\tName:%@\tOwner:%@\t",self.noteId,self.name,self.username];
+    return [NSString stringWithFormat:@"Note- Id:%d\tName:%@\tOwner:%@\t",self.noteId,self.name,self.owner.username];
 }
 
 - (BOOL) isUploading

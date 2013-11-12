@@ -80,7 +80,7 @@
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
     [self setDate:[format stringFromDate:n.created]];
-    [self setOwner:n.displayname];
+    [self setOwner:n.owner.displayname];
     [self setDescription:n.ndescription];
     
     [self setHasImageIcon:NO];
