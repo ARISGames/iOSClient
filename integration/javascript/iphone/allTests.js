@@ -63,6 +63,11 @@ var loginTest = function(username,password){
 	//This is a tuneup_js test
 	test("Login Screen", function(target, app){
 		 		 
+		 		 
+		//Assert Screen
+		assertScreenMatchesImageNamed("login", "Login screen did not match");
+
+		 		 
 		//Check "Create Account" Message
 		UIALogger.logMessage("Check 'Create Account' Message");
 		assertEquals("Create Account", window.buttons()["Create Account"].name());
@@ -116,12 +121,7 @@ var searchGame = function(gameName){
 var selectGame = function(gameName){
 	
 	test("Selecting Game", function(target,app) 
-	{
-	
-	/////
-	//assertScreenMatchesImageNamed("searchResults", "Images did not match");
-	
-	
+	{	
 	
 		//Tap the top Game
 		target.frontMostApp().mainWindow().tableViews()["Empty list"].cells()[1].tap();
@@ -162,6 +162,10 @@ UIATarget.onAlert = function onAlert(alert) {
 
 var initialPlaque = function(){
 	test("Dismiss Initial Plaque the Go To Map", function(target,app){
+	
+		//COMPARE INITIAL PLAQUE
+		assertScreenMatchesImageNamed("initialPlaque", "Images did not match");
+
 	
 		// Initial plaque - press continue
 		window.staticTexts()["Continue"].tap();
@@ -209,6 +213,13 @@ var plaque = function(){
 		 
 		window.elements()["Plaque"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
+		
+		///COMPARE OBJECT PLAQUE IMAGE
+		UIALogger.logMessage('Assert Screenshot: Plaque Object');
+		target.delay(2);
+  		assertScreenMatchesImageNamed("plaqueObject", "Images did not match");
+		////
+		
 		 
 		UIALogger.logMessage("Navigation bar says 'Plaque' ?");
 		assertEquals("Plaque",target.frontMostApp().navigationBar().name());
@@ -345,6 +356,14 @@ var exitToScripts = function() {
 	test("Exit To Webpage", function(target,app){
 		// Webpage Tag
 		target.frontMostApp().mainWindow().scrollViews()[0].scrollViews()[2].webViews()[0].tap();
+		
+		////CAPTURE IMAGE TO TEST
+		UIALogger.logMessage('Assert Screenshot: Aris Website Loaded');
+		target.delay(2);
+		assertScreenMatchesImageNamed("arisWebsite", "Images did not match");
+		////
+		
+		
 		target.delay(2);
 		target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
 	});
@@ -494,10 +513,7 @@ test("Decoder Plaque Item", function(target, app){
 var imageAsserter = function(){
 		 
 	createImageAsserter('integration/javascript/tuneup_js', 'integration/tmp/results', 'integration/ref_images', 3);
-		
-	
-	assertScreenMatchesImageNamed("login", "Images did not match");
-		 
+				 
 UIALogger.logMessage("Image Asserter Finished");
 };
 
