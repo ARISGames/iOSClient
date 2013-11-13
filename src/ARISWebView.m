@@ -151,10 +151,20 @@
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
     else if([mainCommand isEqualToString:@"player"])
     {
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"name"])
-            [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.playerNameReceived(\"%@\");",[AppModel sharedAppModel].player.username]];
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"id"])
-            [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.setPlayerId(%d);",[AppModel sharedAppModel].player.playerId]];
+        Media *playerMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"];
+        NSString *playerJSON = [NSString stringWithFormat:
+                                @"{"
+                                "\"playerId\":%d," 
+                                "\"username\":\"%@\","
+                                "\"displayname\":\"%@\"," 
+                                "\"photoURL\":\"%@\"," 
+                                "]",
+                                [AppModel sharedAppModel].player.playerId,
+                                [AppModel sharedAppModel].player.username, 
+                                [AppModel sharedAppModel].player.displayname, 
+                                playerMedia.url];
+                                
+        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(\"%@\");",playerJSON]];
     }
     else if([mainCommand isEqualToString:@"inventory"])
     {

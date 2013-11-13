@@ -60,7 +60,7 @@ var ARISJS = function(_ARIS)
     _ARIS.setItemCount        = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/set/" + itemId + "/" + qty); }
     _ARIS.giveItemCount       = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/give/" + itemId + "/" + qty); }
     _ARIS.takeItemCount       = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/take/" + itemId + "/" + qty); }
-    _ARIS.getPlayerName       = function()                { _ARIS.enqueueRequest("aris://player/name"); }
+    _ARIS.getPlayerData       = function()                { _ARIS.enqueueRequest("aris://player"); }
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, callback, GETparams, POSTparams)
@@ -130,11 +130,11 @@ var ARISJS = function(_ARIS)
         }
     }
 
-    if(typeof(_ARIS.didReceiveName) === 'undefined')
+    if(typeof(_ARIS.didReceivePlayer) === 'undefined')
     {
-        _ARIS.didReceiveName = function(name)
+        _ARIS.didReceivePlayer = function(player)
         {
-            alert("The player's name is "+name+". Override ARIS.didReceiveName(name) to handle this event however you want! (Or, just add 'ARIS.didReceiveName = function(name){return;};' to your code to just get rid of this messagea)");
+            alert("The player's name is "+player.name+". Override ARIS.didReceivePlayer(player) to handle this event however you want! (Or, just add 'ARIS.didReceivePlayer = function(player){return;};' to your code to just get rid of this message)");
         }
     }
 
