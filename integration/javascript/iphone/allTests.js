@@ -54,8 +54,7 @@ test("Reset to Three bars in game.", function(target,app){
 			}
 	});	
 };
-
-							/*  ******* SIMULATE LOGIN ******* */
+						    /*  ******* SIMULATE LOGIN ******* */
 var loginTest = function(username,password){
 	
 
@@ -95,7 +94,7 @@ var loginTest = function(username,password){
 	
 };
 
-									/*  ******* SIMULATE LOGIN ******* */
+						    /*  ******* SIMULATE LOGIN ******* */
 var searchGame = function(gameName){
 	
 	test("Search Game Test", function(target,app){
@@ -116,8 +115,7 @@ var searchGame = function(gameName){
 	});
 };
 
-
-									/*  ******* SELECT GAME ******* */
+							/*  ******* SELECT GAME ******* */
 var selectGame = function(gameName){
 	
 	test("Selecting Game", function(target,app) 
@@ -145,8 +143,7 @@ var selectGame = function(gameName){
 
 };
 
-									/*  ******* ALERT FUNCTION ******* */
-
+							/*  ******* ALERT FUNCTION ******* */
 UIATarget.onAlert = function onAlert(alert) {
 
   	var title = alert.name();	
@@ -163,115 +160,129 @@ UIATarget.onAlert = function onAlert(alert) {
 var initialPlaque = function(){
 	test("Dismiss Initial Plaque the Go To Map", function(target,app){
 	
-		//COMPARE INITIAL PLAQUE
-		assertScreenMatchesImageNamed("initialPlaque", "Images did not match");
-
+		/*  ** Screen Assertions ** */
+		UIALogger.logMessage('Assert Screenshot: Initial Plaque Object');
+		assertScreenMatchesImageNamed("initialPlaque", "Initial plaque did not match.");
 	
+		/*  ** Exit initial Plaque Item ** */  
 		// Initial plaque - press continue
 		window.staticTexts()["Continue"].tap();
 		 
-		 
-		//GO TO MAP
+		/*  ** Exit initial plaque to map ** */ 
 		app.navigationBar().buttons()["threeLines"].tap();
 		window.tableViews()[0].cells()["Map"].tap();
 		 
 	});	
 };
 
-										/*  ******* NOARMAL ITEM TESTS ******* */
+							/*  ******* NOARMAL ITEM TESTS ******* */
 var normalItem = function(){
 	test ("Normal Item", function(target,app){
 	
-	
+		/*  ** Quick Travel to Item ** */
 		//TAP ON NORMAL ITEM AND QUICK TRAVEL  
 		window.elements()["Normal Item"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
+		
+		/*  ** Screen Assertions ** */
+		UIALogger.logMessage('Assert Screenshot: Normal Object'); 
+		target.delay(2);
+		assertScreenMatchesImageNamed("normalItem", "Normal Item screen did not match");
+  
 		  
-
+		/*  ** Text Assertions ** */
 		//Check "Navigation bar says 'Normal Item'?"
 		UIALogger.logMessage("Navigation bar says 'Normal Item' ?");
 		assertEquals("Normal Item", app.navigationBar().name());
 		    
-		  //Tap Three lines
+		//Tap Three lines
 		window.staticTexts()["..."].tap();	  
 		  
 		//Check "Item content says 'Normal Item' "
 		UIALogger.logMessage("Item content says 'Normal Item' ?");
 		assertEquals("Normal Item", window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["Normal Item"].name());
 		  
-
-		  app.navigationBar().buttons()["arrowBack"].tap();
+		  
+		/*  ** Exit Normal Item ** */  
+		app.navigationBar().buttons()["arrowBack"].tap();
 		
 	});
 };
 
-								/*  ******* PLAQUE TESTS ******* */
+							/*  ******* PLAQUE OBJECT TEST ******* */
 var plaque = function(){
 	test("Plaque", function(target,app){
-		//TAP ON PLAQUE ON MAP
-		target.delay(5);
-		 
+		
+		/*  ** Enter Plaque Item ** */ 
+		//TAP ON PLAQUE ON MAP 
 		window.elements()["Plaque"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		
-		///COMPARE OBJECT PLAQUE IMAGE
+		/*  ** Screen Assertions ** */   
+		target.delay(4);
 		UIALogger.logMessage('Assert Screenshot: Plaque Object');
-		target.delay(2);
-  		assertScreenMatchesImageNamed("plaqueObject", "Images did not match");
-		////
+  		assertScreenMatchesImageNamed("plaqueObject", "Plaque screen did not match");
 		
-		 
+		/*  ** Text Assertions ** */
 		UIALogger.logMessage("Navigation bar says 'Plaque' ?");
 		assertEquals("Plaque",target.frontMostApp().navigationBar().name());
 		 
-		 		// Plaque content name is "Plaque Content"
 		UIALogger.logMessage("Plaque content says 'Plaque Content' ");
 		assertEquals("Plaque Content", window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Plaque Content"].name());
 		 
- 
+ 		/*  ** Exit Plaque ** */  
 		window.staticTexts()["Continue"].tap();
 	
 	});	
 };
-
 
 							/*  ******* GREETING CHARACTER TESTS ******* */
 var greetingCharacter = function(){
 	// GREETING CHARACTER TEST
 	test("Enter Greeting Character", function(target,app){
 		 
+		 
+		/*  ** Enter Greeting Character ** */ 
 		window.elements()["Greeting/Closing Character"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		 
-		 
+		/*  ** Text Assertions ** */
 		UIALogger.logMessage("Navigation says 'You'? ");	
-		 
-		 assertEquals("You", app.navigationBar().name());
+		assertEquals("You", app.navigationBar().name());
 		 
 		 
 		 });	
 	
 	test("PC Character Test",function(target,app){
-		 //I AM THE PC CHARACTER
 		 
-		  assertEquals("I'm the PC",window.scrollViews()[3].scrollViews()[0].webViews()[0].staticTexts()["I'm the PC"].name())
+		//target.delay(2);
+		//UIATarget.localTarget().captureAppScreenWithName('normalItem'); 
+		
+		
+		 /*  ** Text Assertions ** */
+		assertEquals("I'm the PC",window.scrollViews()[3].scrollViews()[0].webViews()[0].staticTexts()["I'm the PC"].name())
 		 target.delay(1);
+		 
 		 window.staticTexts()["Continue"].tap();
+		 
 		 });
 	
 	test("NPC Character Test",function(target,app){
-		 // I AM THE NPC CHARACTER
 		 
-		 assertEquals("I'm the NPC",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["I'm the NPC"].name())
+		 /*  ** Text Assertions ** */
+		assertEquals("I'm the NPC",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["I'm the NPC"].name())
 		target.delay(1);
+		
 		window.staticTexts()["Continue"].tap();
+		
 		 });
 	
 	test("NOC With Custom Media Test",function(target,app){
-		 //NOC WITH CUSTOM MEDIA
-		 
+
+		 /*  ** Text Assertions ** */
 		 assertEquals("NOC with custom media",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["NOC with custom media"].name())
 		 target.delay(1);
+		 
 		 window.staticTexts()["Continue"].tap();
 		 });
 	
@@ -283,6 +294,7 @@ var greetingCharacter = function(){
 
 		 
 };
+
 							/*  ******* ENTER CONVERSATION TESTER ******* */
 var enterConversationTester = function(){
 	// TAP CONVERSATION TESTER TEST
@@ -292,7 +304,6 @@ var enterConversationTester = function(){
 		window.staticTexts()["Continue"].tap();
 	 });	
 };
-
 
 							/*  ******* NORMAL SCRIPTS TESTS ******* */
 var normalScriptTests = function(){
@@ -347,7 +358,7 @@ var normalScriptTests = function(){
 		// End Normal Script Tests	
 };
 
-									/*  ******* EXIT TO SCRIPTS TESTS ******* */
+							/*  ******* EXIT TO SCRIPTS TESTS ******* */
 var exitToScripts = function() {
 	
 
@@ -441,8 +452,7 @@ var exitToScripts = function() {
 
 };
 
-
-								/*  ******* DECODER TESTS ******* */
+							/*  ******* DECODER TESTS ******* */
 var testDecoder = function() {
 
 
@@ -506,10 +516,7 @@ test("Decoder Plaque Item", function(target, app){
 
 };
 
-
-
-//Added as noted in the tread below
-// https://github.com/alexvollmer/tuneup_js/pull/49
+							/*  ******* Create Image Asserter ******* */
 var imageAsserter = function(){
 		 
 	createImageAsserter('integration/javascript/tuneup_js', 'integration/tmp/results', 'integration/ref_images', 3);
@@ -518,11 +525,11 @@ UIALogger.logMessage("Image Asserter Finished");
 };
 
 	
-////////////////////////////Main
+								/*  ******* Main ******* */
 
 
 // Reset the game from anywhere in the application
-//resetToLoginScreen();
+resetToLoginScreen();
  
 
 //Test Login Image 
@@ -540,31 +547,24 @@ searchGame(gameName);
 // Select Game
 selectGame();
 
-/////////////////////////////////////////////////////////////////// Begin In game Tests
-
+								/*  ******* Begin In Game Test ******* */
 
 // Dismiss Initial Plaque
 initialPlaque();
 
-
 //Normal Item Test
 normalItem();
-
- 
 
 //Plaque Test 
 plaque();
  
 
-
 // Greeting Character Dialogue Test
 greetingCharacter();
 
 
-
 // Has the Conversation Tester Dropped?
 enterConversationTester();
-
 
 
 // Test Normal Scripts
@@ -576,9 +576,8 @@ exitToScripts();
 //Test Decoder
 testDecoder();
 
-
-/////////////////////////////////////////////////////////////////////// End In game Tests
-
+							/*  ******* End In Game Test and Reset ******* */
+							
 // Reset Back to Login Screen
 resetToLoginScreen();
 
