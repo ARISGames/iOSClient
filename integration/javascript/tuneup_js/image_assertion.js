@@ -32,11 +32,18 @@ var ImageAsserter = (function() {
         SUCCESS_EXIT_CODE = 0,
         TIMEOUT           = 5,
         args              = [this.outputPath, this.refImagesPath, imageName, threshold];
+        
+        UIALogger.logMessage("Image Location: " + this.refImagesPath);
 
     command     = this.tuneUpPath + '/image_asserter';
     taskResult  = this.host.performTaskWithPathArgumentsTimeout(command,
                                                                 args,
                                                                 TIMEOUT);
+
+
+UIALogger.logMessage("taskResult.exitCode: " + taskResult.exitCode);
+UIALogger.logMessage("Success Exit Code: " + SUCCESS_EXIT_CODE);
+
 
     assertSuccessfull = (taskResult.exitCode === SUCCESS_EXIT_CODE);
     if (!assertSuccessfull) UIALogger.logError(taskResult.stderr);
