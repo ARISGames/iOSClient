@@ -8,43 +8,38 @@
 
 #import <Foundation/Foundation.h>
 #import "GameObjectProtocol.h"
-#import "Player.h"
+@class Player;
+@class Location;
+@class Tag;
+@class NoteContent;
 
 @interface Note : NSObject <GameObjectProtocol>
 {
+    int noteId; 
     Player *owner;
-    int noteId;
     NSString *name;
     NSString *ndescription;
-    NSMutableArray *comments;
-    NSMutableArray *contents;
+    NSDate *created; 
+    Location *location; 
     NSMutableArray *tags;
-    int numRatings;
-    BOOL showOnMap;
-    BOOL showOnList;
-    int parentNoteId;
-    int parentRating;
-    double latitude;
-    double longitude;
-    NSDate *created;
+    NSMutableArray *contents;
+    NSMutableArray *comments; 
+    BOOL publicToList;
+    BOOL publicToMap; 
 }
 
-@property (nonatomic, strong) Player *owner;
 @property (nonatomic, assign) int noteId;
+@property (nonatomic, strong) Player *owner;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *ndescription;
-@property (nonatomic, strong) NSMutableArray *comments;
-@property (nonatomic, strong) NSMutableArray *contents;
-@property (nonatomic, strong) NSMutableArray *tags;
-@property (nonatomic, assign) int numRatings;
-@property (nonatomic, assign) BOOL showOnMap;
-@property (nonatomic, assign) BOOL showOnList;
-@property (nonatomic, assign) int parentNoteId;
-@property (nonatomic, assign) int parentRating;
-@property (nonatomic, assign) double latitude;
-@property (nonatomic, assign) double longitude;
 @property (nonatomic, strong) NSDate *created;
+@property (nonatomic, strong) Location *location;
+@property (nonatomic, strong) NSMutableArray *tags;
+@property (nonatomic, strong) NSMutableArray *contents;
+@property (nonatomic, strong) NSMutableArray *comments;
+@property (nonatomic, assign) BOOL publicToList;
+@property (nonatomic, assign) BOOL publicToMap;
 
--(BOOL)isUploading;
+-(BOOL) isUploading;
 
 @end

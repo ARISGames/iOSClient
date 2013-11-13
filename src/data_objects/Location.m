@@ -73,8 +73,8 @@
         
         if(self.gameObject.type == GameObjectNote)
         {
-            if(((Note *)self.gameObject).showOnList) self.allowsQuickTravel = YES;
-            else                                     self.allowsQuickTravel = NO;
+            if(((Note *)self.gameObject).publicToList) self.allowsQuickTravel = YES;
+            else                                       self.allowsQuickTravel = NO;
         }
     }
     return self;

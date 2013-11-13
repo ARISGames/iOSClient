@@ -9,6 +9,7 @@
 #import "NoteViewController.h"
 #import "NoteContentsViewController.h"
 #import "Note.h"
+#import "Player.h"
 #import "UIColor+ARISColors.h"
 
 @interface NoteViewController () <NoteContentsViewControllerDelegate>

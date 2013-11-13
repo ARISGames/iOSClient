@@ -66,7 +66,7 @@
     {
         NSMutableArray *constructListNotes = [[NSMutableArray alloc] initWithCapacity:10];
         for(Note *n in currentNotes)
-            if(n.showOnList) [constructListNotes addObject:n];
+            if(n.publicToList) [constructListNotes addObject:n];
         listNotes = constructListNotes;
     }
     return listNotes;
@@ -78,7 +78,7 @@
     {
         NSMutableArray *constructMapNotes = [[NSMutableArray alloc] initWithCapacity:10];
         for(Note *n in currentNotes)
-            if(n.showOnList) [constructMapNotes addObject:n];
+            if(n.publicToList) [constructMapNotes addObject:n];
         mapNotes = constructMapNotes;
     }
     return mapNotes;

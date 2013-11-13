@@ -7,48 +7,41 @@
 //
 
 #import "Note.h"
-#import "NoteContent.h"
+#import "Player.h"
+#import "Location.h"
 #import "Tag.h"
-//#import "NoteDetailsViewController.h"
+#import "NoteContent.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Note
 
-@synthesize owner;
 @synthesize noteId;
+@synthesize owner;
 @synthesize name;
 @synthesize ndescription;
-@synthesize comments;
-@synthesize contents;
-@synthesize tags;
-@synthesize numRatings;
-@synthesize showOnMap;
-@synthesize showOnList;
-@synthesize parentNoteId;
-@synthesize parentRating;
-@synthesize latitude;
-@synthesize longitude;
 @synthesize created;
+@synthesize location;
+@synthesize tags;
+@synthesize contents;
+@synthesize comments;
+@synthesize publicToList;
+@synthesize publicToMap;
 
 - (Note *) init
 {
     if (self = [super init])
     {
         self.noteId = 0;
+        self.owner = [[Player alloc] init]; 
         self.name = @"Note";
         self.ndescription = @"";
-        self.owner = [[Player alloc] init];
-        self.comments = [[NSMutableArray alloc] init];
-        self.contents = [[NSMutableArray alloc] init];
+        self.created = [[NSDate alloc] init]; 
+        self.location = [[Location alloc] init];
         self.tags = [[NSMutableArray alloc] init];
-        self.numRatings = 0;
-        self.showOnMap = NO;
-        self.showOnList = NO;
-        self.parentNoteId = 0;
-        self.parentRating = 0;
-        self.latitude = 0.0;
-        self.longitude = 0.0;
-        self.created = [[NSDate alloc] init];
+        self.contents = [[NSMutableArray alloc] init];
+        self.comments = [[NSMutableArray alloc] init];
+        self.publicToMap = NO;
+        self.publicToList = NO;
     }
     return self;	
 }
@@ -57,22 +50,25 @@
 {
     if(self = [super init])
     {
+        self.noteId        = [dict validIntForKey:@"note_id"]; 
+        
         NSDictionary *ownerDict = [dict validObjectForKey:@"owner"]; 
         if(ownerDict) self.owner = [[Player alloc] initWithDictionary:ownerDict];
-        
-        self.showOnMap     = [dict validBoolForKey:@"public_to_map"];
-        self.showOnList    = [dict validBoolForKey:@"public_to_list"];
-        self.noteId        = [dict validIntForKey:@"note_id"];
-        self.parentNoteId  = [dict validIntForKey:@"parent_note_id"];
-        self.parentRating  = [dict validIntForKey:@"parent_rating"];
-        self.numRatings    = [dict validIntForKey:@"likes"];
-        self.latitude      = [dict validDoubleForKey:@"lat"];
-        self.longitude     = [dict validDoubleForKey:@"lon"];
+       
         self.name          = [dict validStringForKey:@"title"];
         self.ndescription  = [dict validStringForKey:@"description"];
+        
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         self.created = [df dateFromString:[dict validStringForKey:@"created"]];
+               
+        NSDictionary *locationDict = [dict validObjectForKey:@"location"]; 
+        if(locationDict) self.location = [[Location alloc] initWithDictionary:locationDict];  
+                      
+        NSArray *tagDicts = [dict validObjectForKey:@"tags"];
+        self.tags = [[NSMutableArray alloc] initWithCapacity:5];
+        for(NSDictionary *tagDict in tagDicts)
+            [self.tags addObject:[[Tag alloc] initWithDictionary:tagDict]]; 
         
         NSArray *contentDicts = [dict validObjectForKey:@"contents"];
         self.contents = [[NSMutableArray alloc] initWithCapacity:5];
@@ -82,19 +78,17 @@
             if([nc.type isEqualToString:@"TEXT"]) self.ndescription = [NSString stringWithFormat:@"%@ %@",self.ndescription,nc.text];
             else [self.contents addObject:nc];
         }
-               
-        NSArray *tagDicts = [dict validObjectForKey:@"tags"];
-        self.tags = [[NSMutableArray alloc] initWithCapacity:5];
-        for(NSDictionary *tagDict in tagDicts)
-            [self.tags addObject:[[Tag alloc] initWithDictionary:tagDict]];
         
         NSArray *commentDicts = [dict validObjectForKey:@"comments"];
         self.comments = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *commentDict in commentDicts)
             [self.comments addObject:[[Note alloc] initWithDictionary:commentDict]];
-        
         NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"noteId" ascending:NO]];
-        self.comments = [[self.comments sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+        self.comments = [[self.comments sortedArrayUsingDescriptors:sortDescriptors] mutableCopy]; 
+               
+        self.publicToList    = [dict validBoolForKey:@"public_to_list"];
+        self.publicToMap     = [dict validBoolForKey:@"public_to_map"];   
+        
     }
     return self;
 }
@@ -113,6 +107,7 @@
 {
     return nil;
 }
+
 /*
 - (NoteDetailsViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
 {
