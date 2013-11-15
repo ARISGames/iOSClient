@@ -75,6 +75,7 @@
 - (void) loadRequest:(NSURLRequest *)request withAppendation:(NSString *)appendation
 {
     NSString *url = [[request URL] absoluteString];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];//PHIL REMOVING CACHES
     
     if([url rangeOfString:@"?"].location == NSNotFound)
         url = [url stringByAppendingString:[NSString stringWithFormat:@"?gameId=%d&playerId=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.playerId, appendation]];
@@ -157,13 +158,12 @@
                                 "\"playerId\":%d," 
                                 "\"username\":\"%@\","
                                 "\"displayname\":\"%@\"," 
-                                "\"photoURL\":\"%@\"," 
-                                "]",
+                                "\"photoURL\":\"%@\"" 
+                                "}",
                                 [AppModel sharedAppModel].player.playerId,
                                 [AppModel sharedAppModel].player.username, 
                                 [AppModel sharedAppModel].player.displayname, 
                                 playerMedia.url];
-                                
         [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(\"%@\");",playerJSON]];
     }
     else if([mainCommand isEqualToString:@"inventory"])
