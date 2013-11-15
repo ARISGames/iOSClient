@@ -38,7 +38,7 @@
     UIActivityIndicatorView *activityIndicator;
     
     id<GameObjectViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
-    id<ItemViewControllerSource> __unsafe_unretained source; 
+    id<ItemViewControllerSource> source; 
 }
 @end
 
