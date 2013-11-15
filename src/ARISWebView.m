@@ -164,7 +164,7 @@
                                 [AppModel sharedAppModel].player.username, 
                                 [AppModel sharedAppModel].player.displayname, 
                                 playerMedia.url];
-        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(\"%@\");",playerJSON]];
+        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
     else if([mainCommand isEqualToString:@"inventory"])
     {
