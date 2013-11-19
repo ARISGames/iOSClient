@@ -75,7 +75,7 @@
 - (void) loadRequest:(NSURLRequest *)request withAppendation:(NSString *)appendation
 {
     NSString *url = [[request URL] absoluteString];
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];//PHIL REMOVING CACHES
+    //[[NSURLCache sharedURLCache] removeAllCachedResponses];//PHIL REMOVING CACHES
     
     if([url rangeOfString:@"?"].location == NSNotFound)
         url = [url stringByAppendingString:[NSString stringWithFormat:@"?gameId=%d&playerId=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.playerId, appendation]];
