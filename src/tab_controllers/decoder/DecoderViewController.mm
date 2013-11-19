@@ -27,17 +27,9 @@
     ZXingWidgetController *widController;
     id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
-@property (nonatomic, strong) UITextField *codeTextField;
-@property (nonatomic, strong) UIButton *scanButton;
-@property (nonatomic, strong) ZXingWidgetController *widController;
-
 @end
 
 @implementation DecoderViewController
-
-@synthesize codeTextField;
-@synthesize scanButton;
-@synthesize widController;
 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d inMode:(int)m
 {
@@ -67,24 +59,24 @@
     if(textEnabled)
     {
         self.view.backgroundColor = [UIColor ARISColorWhite]; 
-        self.codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
-        self.codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
-        self.codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
-        self.codeTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        self.codeTextField.textAlignment = NSTextAlignmentCenter;
-        self.codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
-        self.codeTextField.delegate = self;
-        [self.view addSubview:self.codeTextField];
+        codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
+        codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+        codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+        codeTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        codeTextField.textAlignment = NSTextAlignmentCenter;
+        codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
+        codeTextField.delegate = self;
+        [self.view addSubview:codeTextField];
     }
     
     if(scanEnabled)
     {
-        self.scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.scanButton.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
-        self.scanButton.backgroundColor = [UIColor ARISColorDarkGray];
-        [self.scanButton setTitle:@"Scan" forState:UIControlStateNormal];
-        [self.scanButton addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-        if(textEnabled) [self.view addSubview:self.scanButton]; //else, don't bother adding it to view as it should always be open
+        scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        scanButton.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
+        scanButton.backgroundColor = [UIColor ARISColorDarkGray];
+        [scanButton setTitle:@"Scan" forState:UIControlStateNormal];
+        [scanButton addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+        if(textEnabled) [self.view addSubview:scanButton]; //else, don't bother adding it to view as it should always be open
     }
 }
 
@@ -104,10 +96,9 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self clearScreenActions]; 
     
-    if(!textEnabled || ![prompt isEqualToString:@""]) [self launchScanner];
-    if(!scanEnabled) [self.codeTextField becomeFirstResponder];
+    if(!widController && (!textEnabled || ![prompt isEqualToString:@""])) [self launchScanner];
+    if(!scanEnabled) [codeTextField becomeFirstResponder];
 }
 
 - (void) viewDidDisappear:(BOOL)animated
@@ -124,8 +115,8 @@
 
 - (void) clearScreenActions
 {
-    if(self.codeTextField) [self.codeTextField resignFirstResponder];
-    if(self.widController) [self hideWidController];
+    if(codeTextField) [codeTextField resignFirstResponder];
+    if(widController) [self hideWidController];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
@@ -134,7 +125,7 @@
 	
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
 	
-	[self loadResult:self.codeTextField.text];
+	[self loadResult:codeTextField.text];
 	return YES;
 }
 
@@ -146,17 +137,21 @@
 -  (void) setPrompt:(NSString *)p
 {
     prompt = p;
-    if(self.widController) { [self clearScreenActions]; [self launchScanner]; }
+    if(self.view) [self launchScanner]; //hack to ensure view is loaded
 }
 
 - (void) launchScanner
 {
     [self clearScreenActions];
-    self.widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:prompt];
-    self.widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
+    widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:prompt];
+    widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
     prompt = @"";
-    
-    [self.view addSubview:self.widController.view];
+    [self performSelector:@selector(addWidSubview) withObject:Nil afterDelay:0.1];
+}
+
+- (void) addWidSubview
+{
+    [self.view addSubview:widController.view];
 }
 
 - (void) scanButtonTouched
@@ -177,8 +172,8 @@
 
 - (void) hideWidController
 {
-    [self.widController.view removeFromSuperview];
-    self.widController = nil;
+    [widController.view removeFromSuperview];
+    widController = nil;
 }
 
 - (void) loadResult:(NSString *)code

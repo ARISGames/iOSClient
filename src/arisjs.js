@@ -60,7 +60,7 @@ var ARISJS = function(_ARIS)
     _ARIS.setItemCount        = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/set/" + itemId + "/" + qty); }
     _ARIS.giveItemCount       = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/give/" + itemId + "/" + qty); }
     _ARIS.takeItemCount       = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/take/" + itemId + "/" + qty); }
-    _ARIS.getPlayerData       = function()                { _ARIS.enqueueRequest("aris://player"); }
+    _ARIS.getPlayer           = function()                { _ARIS.enqueueRequest("aris://player"); } 
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, callback, GETparams, POSTparams)

@@ -232,6 +232,7 @@
         }
         else if([tmpTab.tabName isEqualToString:@"QR"])
         {
+            tmpTab.tabDetail1 = 0;
             DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:tmpTab.tabDetail1];
             self.decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             [gamePlayTabVCs addObject:self.decoderNavigationController];  

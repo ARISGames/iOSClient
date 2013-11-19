@@ -200,7 +200,7 @@
     self.player.delegate = self;
     
     if(err) NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
-    else [self.player play];
+    //else [self.player play];
 }
 
 - (void)stopAudio
