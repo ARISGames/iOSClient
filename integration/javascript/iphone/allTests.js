@@ -1,3 +1,9 @@
+/**
+* This is a script that tests the functionality of 
+* ARIS using Bwoken, Tuneup_js and Xcode Instruments Automation.
+*
+**/
+
 #import "../tuneup_js/tuneup.js"
 
 var target = UIATarget.localTarget();
@@ -13,31 +19,27 @@ var gameName = "ARIS-Tester";
 var resetToLoginScreen = function()
 {
 
-test("Reset to Three bars in game.", function(target,app){
-   
-   //Inside Character, Web Item, Normal Item
+	test("Reset to Three bars in game.", function(target,app){
+	
+   // IF - Inside Character, Web Item, Normal Item
    if (app.navigationBar().buttons()["arrowBack"].checkIsValid())
-   		 {
-		 app.navigationBar().buttons()["arrowBack"].tap();
-  		  } 
-   //Inside Plaque
+   		 {app.navigationBar().buttons()["arrowBack"].tap(); } 
+   //IF - Inside Plaque
    else if (window.staticTexts()["Continue"].checkIsValid())
     	 {
     	 window.staticTexts()["Continue"].tap();
-	 	app.navigationBar().buttons()["arrowBack"].tap();
+	 	 app.navigationBar().buttons()["arrowBack"].tap();
     	 }
-   // quick nav tapped or item tapped
+   // IF - quick nav tapped or item tapped
    else if (app.actionSheet().cancelButton().checkIsValid())
-   		  {
-   		 app.actionSheet().cancelButton().tap();
-    	 }
+   		  {app.actionSheet().cancelButton().tap(); }
   });
 		
 
 	test("Reset To Login Screen", function(target,app){
+		 	// LEAVE GAME
 		 	if (app.navigationBar().buttons()["threeLines"].checkIsValid())
 		 	{
-		 		
 		 		UIALogger.logMessage("Inside ThreeLines If Statement");
 				app.navigationBar().buttons()["threeLines"].tap();
 				target.delay(1);
@@ -45,12 +47,12 @@ test("Reset to Three bars in game.", function(target,app){
 				target.delay(1);
 				app.navigationBar().buttons()["arrowBack"].tap();
 			}
-		 
+			
+		 	// TAP ID CARD AND LOGOUT
 			if (app.navigationBar().buttons()["idcard"].checkIsValid())
 			{
 				app.navigationBar().buttons()["idcard"].tap();
 				window.staticTexts()["Logout"].tap();
-
 			}
 	});	
 };
@@ -63,10 +65,12 @@ var loginTest = function(username,password){
 	test("Login Screen", function(target, app){
 		 		 
 		 		 
-		//Assert Screen
+		/*  ** Screen Assertions ** */
+		UIALogger.logMessage('Assert Screenshot: Login Screen'); 
 		assertScreenMatchesImageNamed("login", "Login screen did not match");
-
-		 		 
+		
+		
+		/*  ** Text Assertions ** */
 		//Check "Create Account" Message
 		UIALogger.logMessage("Check 'Create Account' Message");
 		assertEquals("Create Account", window.buttons()["Create Account"].name());
@@ -74,7 +78,8 @@ var loginTest = function(username,password){
 		//Check "Forgot Password" Button
 		UIALogger.logMessage("Check 'Forgot Password?' Message");
 		assertEquals("Forgot Password?",window.buttons()["Forgot Password?"].name());
-		 		 
+		
+		/*  ** Login to ARIS ** */ 
 		//TYPE USERNAME
 		 window.textFields()["Username Field"].tap();
 		 app.keyboard().typeString(username);
@@ -87,9 +92,6 @@ var loginTest = function(username,password){
 		 target.delay(3);
 		window.buttons()["Login"].tap();	
 		 
-		 
-		 
-		 
 	});
 	
 };
@@ -98,14 +100,16 @@ var loginTest = function(username,password){
 var searchGame = function(gameName){
 	
 	test("Search Game Test", function(target,app){
-	
+		
+		/*  ** Tap Search Tab Bar Item ** */ 
 		//Tap "Search"
 		app.tabBar().buttons()["Search"].tap();	
 	
-		//Assertion empty list
+		/*  ** Text Assertions ** */ 
 		UIALogger.logMessage("Check that the list is empty before starting");
 		assertEquals("No results found", window.tableViews()["Empty list"].cells()["No results found"].name());	 
 	
+		/*  ** Input Game Name and Search ** */ 
 		//Tap Search Bar and Input Name
 		window.tableViews()["Empty list"].cells()["Cancel"].searchBars()[0].tap();
 		app.keyboard().typeString(gameName);
@@ -149,6 +153,8 @@ UIATarget.onAlert = function onAlert(alert) {
   	var title = alert.name();	
 	
   	UIALogger.logWarning("Alert with title '" + title + "' encountered.");
+  	
+  	/*  ** Reset Game Alert ** */ 
    	if (title == "Are you sure?")
    	{
     	alert.buttons()["Reset"].tap();
@@ -156,7 +162,7 @@ UIATarget.onAlert = function onAlert(alert) {
  	}
   	return false;
 }
-
+							/*  ******* INITIAL PLAQUE ******* */
 var initialPlaque = function(){
 	test("Dismiss Initial Plaque the Go To Map", function(target,app){
 	
@@ -238,9 +244,7 @@ var plaque = function(){
 
 							/*  ******* GREETING CHARACTER TESTS ******* */
 var greetingCharacter = function(){
-	// GREETING CHARACTER TEST
 	test("Enter Greeting Character", function(target,app){
-		 
 		 
 		/*  ** Enter Greeting Character ** */ 
 		window.elements()["Greeting/Closing Character"].tap();
@@ -250,19 +254,14 @@ var greetingCharacter = function(){
 		UIALogger.logMessage("Navigation says 'You'? ");	
 		assertEquals("You", app.navigationBar().name());
 		 
-		 
 		 });	
 	
-	test("PC Character Test",function(target,app){
-		 
-		//target.delay(2);
-		//UIATarget.localTarget().captureAppScreenWithName('normalItem'); 
-		
-		
+	test("PC Character Test",function(target,app){		
 		 /*  ** Text Assertions ** */
 		assertEquals("I'm the PC",window.scrollViews()[3].scrollViews()[0].webViews()[0].staticTexts()["I'm the PC"].name())
-		 target.delay(1);
 		 
+		 /*  ** Continue ** */
+		 target.delay(1);
 		 window.staticTexts()["Continue"].tap();
 		 
 		 });
@@ -271,8 +270,10 @@ var greetingCharacter = function(){
 		 
 		 /*  ** Text Assertions ** */
 		assertEquals("I'm the NPC",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["I'm the NPC"].name())
-		target.delay(1);
 		
+		
+		/*  ** Continue ** */
+		target.delay(1);
 		window.staticTexts()["Continue"].tap();
 		
 		 });
@@ -281,13 +282,15 @@ var greetingCharacter = function(){
 
 		 /*  ** Text Assertions ** */
 		 assertEquals("NOC with custom media",window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["NOC with custom media"].name())
-		 target.delay(1);
 		 
+		 /*  ** Continue ** */
+		 target.delay(1);
 		 window.staticTexts()["Continue"].tap();
 		 });
 	
 	test("Leaving Converstaion Tester", function(target,app){
-		 //Leave Conversation
+		/*  ** Exit Conversation Tester ** */
+		//Leave Conversation
 		target.delay(2);
 		window.scrollViews()[0].scrollViews()[0].webViews()[0].staticTexts()["Leave Conversation"].tap();
 		 });
@@ -527,6 +530,14 @@ UIALogger.logMessage("Image Asserter Finished");
 	
 								/*  ******* Main ******* */
 
+/* temp place for code
+
+		//target.delay(2);
+		//UIATarget.localTarget().captureAppScreenWithName('normalItem'); 
+
+
+*/
+
 
 // Reset the game from anywhere in the application
 resetToLoginScreen();
@@ -539,7 +550,6 @@ resetToLoginScreen();
 //Login to account
 loginTest(username, password);
  
-
 
 //Search for Game
 searchGame(gameName);
@@ -558,14 +568,11 @@ normalItem();
 //Plaque Test 
 plaque();
  
-
 // Greeting Character Dialogue Test
 greetingCharacter();
 
-
 // Has the Conversation Tester Dropped?
 enterConversationTester();
-
 
 // Test Normal Scripts
 normalScriptTests();
