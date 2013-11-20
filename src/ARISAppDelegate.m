@@ -43,7 +43,8 @@
     application.idleTimerDisabled = YES;
     
     [TestFlight takeOff:@"73157065-5a1d-42ab-800a-3925dd2ad5a3"];
-        
+    [Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];
+    
     //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist
 	[[AppModel sharedAppModel] initUserDefaults];
