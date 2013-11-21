@@ -102,7 +102,7 @@
 		AA527E4C17E0B6830040AB75 /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4517E0B6830040AB75 /* microphone.png */; };
 		AA527E4D17E0B6830040AB75 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4617E0B6830040AB75 /* note.png */; };
 		AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5F5ACE183147C00057AC1C /* NotesModel.m */; };
-		AA6D4094183E69B2009D72F9 /* ARISMediaLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D4093183E69B2009D72F9 /* ARISMediaLoader.m */; };
+		AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */; };
 		AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FDB17330947003A840D /* GamePlayViewController.m */; };
 		AA701FE117342169003A840D /* GamePickersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE017342169003A840D /* GamePickersViewController.m */; };
 		AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE4173428C3003A840D /* ARISAlertHandler.m */; };
@@ -524,8 +524,8 @@
 		AA527E4617E0B6830040AB75 /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note.png; sourceTree = "<group>"; };
 		AA5F5ACD183147C00057AC1C /* NotesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesModel.h; sourceTree = "<group>"; };
 		AA5F5ACE183147C00057AC1C /* NotesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesModel.m; sourceTree = "<group>"; };
-		AA6D4092183E69B2009D72F9 /* ARISMediaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaLoader.h; sourceTree = "<group>"; };
-		AA6D4093183E69B2009D72F9 /* ARISMediaLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaLoader.m; sourceTree = "<group>"; };
+		AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaLoader.h; sourceTree = "<group>"; };
+		AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaLoader.m; sourceTree = "<group>"; };
 		AA701FDA17330947003A840D /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		AA701FDB17330947003A840D /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
 		AA701FDF17342169003A840D /* GamePickersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickersViewController.h; sourceTree = "<group>"; };
@@ -1546,8 +1546,6 @@
 			children = (
 				AA49A25B17AAE6C200629C87 /* ARISMediaView.h */,
 				AA49A25C17AAE6C200629C87 /* ARISMediaView.m */,
-				AA6D4092183E69B2009D72F9 /* ARISMediaLoader.h */,
-				AA6D4093183E69B2009D72F9 /* ARISMediaLoader.m */,
 				AABC70D3172739D60074CC21 /* ARISMoviePlayerViewController.h */,
 				AABC70D4172739D60074CC21 /* ARISMoviePlayerViewController.m */,
 				AABC70D7172739D60074CC21 /* AsyncMediaPlayerButton.h */,
@@ -1708,6 +1706,8 @@
 			isa = PBXGroup;
 			children = (
 				AABC7120172739D60074CC21 /* AppServices.h */,
+				AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */,
+				AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */,
 				AABC7121172739D60074CC21 /* AppServices.m */,
 				AABC7122172739D60074CC21 /* ARISUploader.h */,
 				AABC7123172739D60074CC21 /* ARISUploader.m */,
@@ -2440,7 +2440,7 @@
 				AABC738E172739D80074CC21 /* Logger.m in Sources */,
 				AABC738F172739D80074CC21 /* Comment.m in Sources */,
 				AABC7390172739D80074CC21 /* CommentCell.m in Sources */,
-				AA6D4094183E69B2009D72F9 /* ARISMediaLoader.m in Sources */,
+				AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */,
 				AABC7392172739D80074CC21 /* CommentsFormCell.m in Sources */,
 				AABC7395172739D80074CC21 /* commentsViewController.m in Sources */,
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
