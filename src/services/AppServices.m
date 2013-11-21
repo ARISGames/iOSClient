@@ -132,7 +132,7 @@ currentlyFetchingNoteList = NO;
   if(playerId != 0)
   {
     NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",playerId], name, [NSString stringWithFormat:@"%d",mid], nil];
-    [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerNameMedia" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+      [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerNameMedia" arguments:args handler:self successSelector:@selector(updatedPlayer) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
   }
   else
     NSLog(@"Tried updating non-existent player! (playerId = 0)");
@@ -668,6 +668,12 @@ currentlyFetchingNoteList = NO;
 
   [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[uploader.userInfo validObjectForKey:@"url"]];
   [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
+}
+
+- (void) updatedPlayer:(ServiceResult *)result
+{
+    //Just immediately load playe pic into cache- but let appmodel do this so the hack is contained
+    [[AppModel sharedAppModel] commitPlayerLogin:[AppModel sharedAppModel].player];
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult

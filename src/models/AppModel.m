@@ -171,7 +171,6 @@
     else
         [playerMediaHack refreshWithFrame:CGRectMake(0,0,10,10) media:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];  
     
-    
     [[AppServices sharedAppServices] setShowPlayerOnMap];
     [[AppModel sharedAppModel] saveUserDefaults];
     //Subscribe to player channel
