@@ -16,6 +16,7 @@
 @interface AppServices()
 {
     JSONConnection *connection;
+    ARISMediaLoader *mediaLoader; 
 }
 
 @end
@@ -53,6 +54,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     if(self = [super init])
     {
         connection = [[JSONConnection alloc] initWithServer:[[AppModel sharedAppModel].serverURL absoluteString]];
+        mediaLoader = [[ARISMediaLoader alloc] init]; 
     }
     return self;
 }
@@ -68,7 +70,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   currentlyFetchingLocationList              = NO;
   currentlyFetchingOverlayList               = NO;
   currentlyFetchingQuestList                 = NO;
-currentlyFetchingNoteList = NO; 
+    currentlyFetchingNoteList = NO; 
   currentlyUpdatingServerWithInventoryViewed = NO;
   currentlyUpdatingServerWithMapViewed       = NO;
   currentlyUpdatingServerWithPlayerLocation  = NO;
@@ -899,14 +901,19 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPages" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void) fetchMedia:(int)mediaId
+- (void) fetchMediaMeta:(Media *)m
 {
   NSArray *args = [NSArray arrayWithObjects:
     (([AppModel sharedAppModel].currentGame.gameId != 0) ? [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId] : @"player"),
-    [NSString stringWithFormat:@"%d",mediaId],
+    [NSString stringWithFormat:@"%d",[m.uid intValue]],
     nil];
 
   [connection performAsynchronousRequestWithService:@"media" method:@"getMediaObject" arguments:args handler:self successSelector:@selector(parseSingleMediaFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+}
+
+- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d
+{
+    [mediaLoader loadMedia:m delegate:d];
 }
 
 - (void)fetchGameMediaList

@@ -23,7 +23,7 @@
     
     NSDate *start;
     NSTimeInterval time;
-    id <ARISMediaLoaderDelegate> __unsafe_unretained delegate; 
+    id <ARISMediaLoaderDelegate> delegate; //IS retained!!
 };
 @property (nonatomic, strong) Media *media;
 @property (nonatomic, strong) NSMutableData *data;
@@ -31,7 +31,7 @@
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSDate *start;
 @property (nonatomic, assign) NSTimeInterval time;
-@property (nonatomic, assign) id<ARISMediaLoaderDelegate> delegate;
+@property (nonatomic, strong) id<ARISMediaLoaderDelegate> delegate;
 
 - (void) cancelConnection;
 
@@ -39,8 +39,6 @@
 
 @interface ARISMediaLoader : NSObject
 
-- (id) init;
 - (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d;
-- (void) loadMediaFromId:(int)m ofType:(NSString *)t delegate:(id<ARISMediaLoaderDelegate>)d;
 
 @end

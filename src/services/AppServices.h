@@ -21,13 +21,14 @@
 #import "Panoramic.h"
 #import "Quest.h"
 #import "PanoramicMedia.h"
-#import "JSONConnection.h"
 #import "ARISAppDelegate.h"
 #import "Comment.h"
 #import "Note.h"
 #import "NoteContent.h"
 #import "Tag.h"
 #import "ARISUploader.h"
+#import "JSONConnection.h"
+#import "ARISMediaLoader.h"
 
 @interface AppServices : NSObject
 
@@ -76,7 +77,8 @@
 - (void) fetchNoteList;
 
 //Should only be called in the case of a media appearing in the game that didn't exist when the game was initially launched (eg- someone took a picture)
-- (void) fetchMedia:(int)mediaId;
+- (void) fetchMediaMeta:(Media *)m;
+- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d;
 
 //Note Stuff
 - (int) createNote;

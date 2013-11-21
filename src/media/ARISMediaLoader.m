@@ -9,7 +9,6 @@
 #import "ARISMediaLoader.h"
 #import "AppServices.h"
 #import "AppModel.h"
-#import "UIImage+animatedGIF.h"
 
 @interface ARISMediaLoader()
 {
@@ -26,14 +25,10 @@
     if(self = [super init])
     {
         dataConnections = [[NSMutableDictionary alloc] initWithCapacity:10];
+        metaConnections = [[NSMutableArray alloc] initWithCapacity:10]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryLoadingAllMedia) name:@"ReceivedMediaList" object:nil]; 
     }
     return self;
-}
-
-- (void) loadMediaFromId:(int)m ofType:(NSString *)t delegate:(id<ARISMediaLoaderDelegate>)d
-{
-    [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:m ofType:t] delegate:d];
 }
 
 - (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d
@@ -59,7 +54,7 @@
 - (void) loadMetaDataForMR:(MediaResult *)mr
 {
     [metaConnections addObject:mr];
-    [[AppServices sharedAppServices] fetchMedia:[mr.media.uid intValue]]; 
+    [[AppServices sharedAppServices] fetchMediaMeta:mr.media]; 
 }
 
 - (void) loadPhotoForMR:(MediaResult *)mr
@@ -103,8 +98,9 @@
     while([oldMetaConnections count] > 0)
     {
         mr = [oldMetaConnections objectAtIndex:0];
-        mr.media = [[AppModel sharedAppModel] mediaForMediaId:mr.media.uid ofType:mr.media.type];
+        mr.media = [[AppModel sharedAppModel] mediaForMediaId:[mr.media.uid intValue] ofType:mr.media.type];
         [oldMetaConnections removeObjectAtIndex:0];
+        [self loadMediaFromMR:mr];
     }
 }
 
@@ -121,34 +117,10 @@
     if(!mr) return; 
     [dataConnections removeObjectForKey:c.description]; 
     
-    UIImage *i;
-    if([[self contentTypeForImageData:mr.data] isEqualToString:@"image/gif"])
-        i = [UIImage animatedImageWithAnimatedGIFData:mr.data]; 
-    else
-        i = [UIImage imageWithData:mr.data];
-    if(i) mr.media.image = mr.data;
+    mr.media.image = mr.data;
     [mr cancelConnection];
-    [mr.delegate mediaLoaded:mr.media];
-}
-
-- (NSString *) contentTypeForImageData:(NSData *)d
-{
-    uint8_t c;
-    [d getBytes:&c length:1];
-    
-    switch(c)
-    {
-        case 0xFF:
-            return @"image/jpeg";
-        case 0x89:
-            return @"image/png";
-        case 0x47:
-            return @"image/gif";
-        case 0x49:
-        case 0x4D:
-            return @"image/tiff";
-    }
-    return nil;
+    if(mr.delegate) [mr.delegate mediaLoaded:mr.media];
+    mr.delegate = nil;
 }
 
 - (void) dealloc
