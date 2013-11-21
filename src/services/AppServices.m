@@ -659,8 +659,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void) updatedPlayer:(ServiceResult *)result
 {
-    //Just immediately load playe pic into cache- but let appmodel do this so the hack is contained
-    [[AppModel sharedAppModel] commitPlayerLogin:[AppModel sharedAppModel].player];
+    //immediately load new image into cache
+    [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] delegate:nil]; 
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult

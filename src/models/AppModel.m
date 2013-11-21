@@ -18,7 +18,6 @@
 //PHIL BAD
 @interface AppModel() <ARISMediaViewDelegate>
 {
-    ARISMediaView *playerMediaHack; //HACK. Need to separate media loader into own class. Using mediaView because the player image should be loaded immediately, even if not displayed.
 }
 
 @end
@@ -145,11 +144,8 @@
         self.player.groupname     = [defaults  objectForKey:@"groupName"];
         self.player.groupGameId   = [[defaults objectForKey:@"groupName"] intValue];
         
-        //PHIL BAD 
-        if(!playerMediaHack)
-            playerMediaHack = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,10,10) media:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
-        else
-            [playerMediaHack refreshWithFrame:CGRectMake(0,0,10,10) media:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self]; 
+        //load the player media immediately if possible
+        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] delegate:nil];
     }
     
     self.fallbackGameId = [defaults integerForKey:@"gameId"];
@@ -164,12 +160,6 @@
 - (void) commitPlayerLogin:(Player *)p
 {
     self.player = p;
-    
-    //PHIL BAD
-    if(!playerMediaHack)
-        playerMediaHack = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,10,10) media:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
-    else
-        [playerMediaHack refreshWithFrame:CGRectMake(0,0,10,10) media:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];  
     
     [[AppServices sharedAppServices] setShowPlayerOnMap];
     [[AppModel sharedAppModel] saveUserDefaults];
