@@ -445,21 +445,6 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"players" method:@"takeItemFromPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void) commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
-{
-  //  Gifts/Receipts json should be of following format:
-  //  {"items":[{"item_id":1,"qtyDelta":3},{"item_id":2,"qtyDelta":4}]}
-
-  NSArray *args = [NSArray arrayWithObjects:
-    [NSString stringWithFormat:@"%d",gameId],
-    [NSString stringWithFormat:@"%d",playerOneId],
-    [NSString stringWithFormat:@"%d",playerTwoId],
-    giftsJSON,
-    receiptsJSON,
-    nil];
-  [connection performAsynchronousRequestWithService:@"items" method:@"commitTradeTransaction" arguments:args handler:self successSelector:@selector(fetchPlayerInventory) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-}
-
 - (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh
 {
   NSArray *args = [NSArray arrayWithObjects:

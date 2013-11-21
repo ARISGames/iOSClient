@@ -78,8 +78,6 @@
 //Should only be called in the case of a media appearing in the game that didn't exist when the game was initially launched (eg- someone took a picture)
 - (void) fetchMedia:(int)mediaId;
 
-- (void) commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON;
-
 //Note Stuff
 - (int) createNote;
 - (int) createNoteStartIncomplete;
