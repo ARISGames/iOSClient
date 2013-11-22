@@ -134,7 +134,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   if(playerId != 0)
   {
     NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",playerId], name, [NSString stringWithFormat:@"%d",mid], nil];
-      [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerNameMedia" arguments:args handler:self successSelector:@selector(updatedPlayer) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+      [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerNameMedia" arguments:args handler:self successSelector:@selector(updatedPlayer:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
   }
   else
     NSLog(@"Tried updating non-existent player! (playerId = 0)");
