@@ -145,7 +145,8 @@
         self.player.groupGameId   = [[defaults objectForKey:@"groupName"] intValue];
         
         //load the player media immediately if possible
-        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] delegate:nil];
+        if(self.player.playerMediaId != 0)
+            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] delegate:nil];
     }
     
     self.fallbackGameId = [defaults integerForKey:@"gameId"];

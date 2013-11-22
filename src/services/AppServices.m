@@ -660,7 +660,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) updatedPlayer:(ServiceResult *)result
 {
     //immediately load new image into cache
-    [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] delegate:nil]; 
+    if([AppModel sharedAppModel].player.playerMediaId != 0)
+        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] delegate:nil]; 
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult
@@ -1620,4 +1621,3 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 }
 
 @end
-
