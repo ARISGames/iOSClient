@@ -19,6 +19,7 @@
 
 @interface AppModel() <ARISMediaViewDelegate>
 {
+   	NSUserDefaults *defaults; 
 }
 
 @end
@@ -52,7 +53,6 @@
 @synthesize hidePlayers;
 @synthesize uploadManager;
 @synthesize mediaCache;
-@synthesize fileToDeleteURL;
 @synthesize motionManager;
 
 + (id) sharedAppModel

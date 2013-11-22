@@ -356,7 +356,7 @@
         [self viewControllerRequestedDisplay:self.notesNavigationController];
     if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
         [self viewControllerRequestedDisplay:self.inventoryNavigationController];
-    if([localized isEqualToString:@"decoder"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
+    if([localized isEqualToString:@"scanner"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
         [self viewControllerRequestedDisplay:self.decoderNavigationController];
     if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
         [self viewControllerRequestedDisplay:self.attributesNavigationController];

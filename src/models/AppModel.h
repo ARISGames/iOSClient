@@ -27,7 +27,6 @@
 
 @interface AppModel : NSObject
 {
-	NSUserDefaults *defaults;
 	NSURL *serverURL;
     BOOL showGamesInDevelopment;
     BOOL showPlayerOnMap;
@@ -87,7 +86,6 @@
 @property (nonatomic, strong) Player *player;
 @property (nonatomic, strong) Game *currentGame;
 
-@property (nonatomic, strong) NSURL *fileToDeleteURL;
 @property (nonatomic, strong) NSMutableArray *oneGameGameList;
 @property (nonatomic, strong) NSMutableArray *nearbyGameList;
 @property (nonatomic, strong) NSMutableArray *anywhereGameList;
