@@ -9,6 +9,7 @@
 #import "ARISWebView.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "Player.h"
 #import "ARISAppDelegate.h"
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -130,8 +131,6 @@
             [delegate displayTab:token];
         else if([type isEqualToString:@"scanner"])
             [delegate displayScannerWithPrompt:token];
-        else if([type isEqualToString:@"trade"])
-            [delegate displayTrade]; 
         else if([type isEqualToString:@"plaque"])
             [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:[token intValue]]           fromSource:delegate];
         else if([type isEqualToString:@"webpage"])

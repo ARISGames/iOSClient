@@ -308,8 +308,4 @@
 {
 }
 
-- (void) displayTrade
-{
-}
-
 @end

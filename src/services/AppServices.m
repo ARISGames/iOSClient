@@ -12,6 +12,10 @@
 #import "NpcScriptOption.h"
 #import "ARISAlertHandler.h"
 #import "ARISMediaView.h"
+#import "UploadMan.h"
+#import "Player.h"
+#import "Overlay.h"
+#import "MediaCache.h"
 
 @interface AppServices()
 {
@@ -1171,7 +1175,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   game.allowShareNoteToList          = [gameSource validBoolForKey:@"allow_share_note_to_book"];
   game.allowNoteComments             = [gameSource validBoolForKey:@"allow_note_comments"];
   game.allowNoteLikes                = [gameSource validBoolForKey:@"allow_note_likes"];
-  game.allowTrading                  = [gameSource validBoolForKey:@"allow_trading"];
   if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"NONE"])                 game.noteTitleBehavior = None;
   else if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"FORCE_OVERWRITE"]) game.noteTitleBehavior = ForceOverwrite;
 

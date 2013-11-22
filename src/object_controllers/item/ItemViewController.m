@@ -344,11 +344,6 @@
     [delegate displayScannerWithPrompt:p];
 }
 
-- (void) displayTrade
-{
-    [delegate displayTrade];
-}
-
 - (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     if(wv == webView) return (![webView handleARISRequestIfApplicable:request]);

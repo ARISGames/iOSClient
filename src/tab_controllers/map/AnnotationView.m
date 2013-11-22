@@ -9,6 +9,7 @@
 #import "AnnotationView.h"
 #import "UIColor+ARISColors.h"
 #import "Media.h"
+#import "Location.h"
 
 @interface AnnotationView() <ARISMediaViewDelegate>
 @end

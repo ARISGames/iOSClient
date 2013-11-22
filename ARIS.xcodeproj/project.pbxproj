@@ -280,9 +280,6 @@
 		AABC73D8172739D80074CC21 /* UploadMan.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7131172739D60074CC21 /* UploadMan.m */; };
 		AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7143172739D60074CC21 /* AttributesViewController.m */; };
 		AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC714B172739D60074CC21 /* DecoderViewController.mm */; };
-		AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7152172739D60074CC21 /* InventoryTradeViewController.m */; };
-		AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7153172739D60074CC21 /* InventoryTradeViewController.xib */; };
-		AABC73EB172739D80074CC21 /* RoundedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7159172739D60074CC21 /* RoundedTableViewCell.m */; };
 		AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC715E172739D60074CC21 /* AnnotationView.m */; };
 		AABC73F1172739D80074CC21 /* TileOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7165172739D60074CC21 /* TileOverlay.m */; };
 		AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7167172739D60074CC21 /* TileOverlayView.m */; };
@@ -781,11 +778,6 @@
 		AABC7143172739D60074CC21 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		AABC714A172739D60074CC21 /* DecoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecoderViewController.h; sourceTree = "<group>"; };
 		AABC714B172739D60074CC21 /* DecoderViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DecoderViewController.mm; sourceTree = "<group>"; };
-		AABC7151172739D60074CC21 /* InventoryTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryTradeViewController.h; sourceTree = "<group>"; };
-		AABC7152172739D60074CC21 /* InventoryTradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryTradeViewController.m; sourceTree = "<group>"; };
-		AABC7153172739D60074CC21 /* InventoryTradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InventoryTradeViewController.xib; sourceTree = "<group>"; };
-		AABC7158172739D60074CC21 /* RoundedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedTableViewCell.h; sourceTree = "<group>"; };
-		AABC7159172739D60074CC21 /* RoundedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedTableViewCell.m; sourceTree = "<group>"; };
 		AABC715D172739D60074CC21 /* AnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationView.h; sourceTree = "<group>"; };
 		AABC715E172739D60074CC21 /* AnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationView.m; sourceTree = "<group>"; };
 		AABC7164172739D60074CC21 /* TileOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileOverlay.h; sourceTree = "<group>"; };
@@ -1761,11 +1753,6 @@
 			children = (
 				AAD298C717D1160C002A4C47 /* InventoryTagViewController.h */,
 				AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */,
-				AABC7151172739D60074CC21 /* InventoryTradeViewController.h */,
-				AABC7152172739D60074CC21 /* InventoryTradeViewController.m */,
-				AABC7153172739D60074CC21 /* InventoryTradeViewController.xib */,
-				AABC7158172739D60074CC21 /* RoundedTableViewCell.h */,
-				AABC7159172739D60074CC21 /* RoundedTableViewCell.m */,
 			);
 			path = inventory;
 			sourceTree = "<group>";
@@ -2356,7 +2343,6 @@
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
 				AA383B161829A8BD00612FFB /* audio.png in Resources */,
 				AA9A6D95182D75C3000CC323 /* lock.png in Resources */,
-				AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */,
 				AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */,
 				AA942B9017CD4CF4004EDEA1 /* Default-568h@2x.png in Resources */,
 				AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */,
@@ -2484,8 +2470,6 @@
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
 				AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */,
 				AA383B1B1829AD2F00612FFB /* NoteViewController.m in Sources */,
-				AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */,
-				AABC73EB172739D80074CC21 /* RoundedTableViewCell.m in Sources */,
 				AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */,
 				AABC73F1172739D80074CC21 /* TileOverlay.m in Sources */,
 				AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */,

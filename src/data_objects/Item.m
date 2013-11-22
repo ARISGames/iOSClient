@@ -28,7 +28,6 @@
 @synthesize weight;
 @synthesize dropable;
 @synthesize destroyable;
-@synthesize tradeable;
 @synthesize url;
 @synthesize tags;
 
@@ -47,7 +46,6 @@
         self.weight = 0;
         self.dropable = NO;
         self.destroyable = NO;
-        self.tradeable = NO;
         self.url = @"";
         self.tags = [[NSMutableArray alloc] init];
     }
@@ -71,7 +69,6 @@
         self.weight       = [dict validIntForKey:@"weight"];
         self.dropable     = [dict validBoolForKey:@"dropable"];
         self.destroyable  = [dict validBoolForKey:@"destroyable"];
-        self.tradeable    = [dict validBoolForKey:@"tradeable"];
         self.url          = [dict validObjectForKey:@"url"];
         self.tags = [[NSMutableArray alloc] initWithCapacity:10];
         NSArray *rawtags = [dict validObjectForKey:@"tags"];
@@ -111,7 +108,6 @@
     c.weight = self.weight;
     c.dropable = self.dropable;
     c.destroyable = self.destroyable;
-    c.tradeable = self.tradeable;
     c.url = self.url;
     c.tags = self.tags;
     return c;

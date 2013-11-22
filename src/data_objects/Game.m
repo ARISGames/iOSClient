@@ -44,7 +44,6 @@
 @synthesize allowNoteLikes;
 @synthesize allowShareNoteToMap;
 @synthesize allowShareNoteToList;
-@synthesize allowTrading;
 @synthesize noteTitleBehavior;
 @synthesize latitude;
 @synthesize longitude;

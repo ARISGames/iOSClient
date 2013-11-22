@@ -10,12 +10,13 @@
 #import "Player.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
+#import "UploadMan.h"
 #import "Quest.h"
+#import "MediaCache.h"
 #import "AppServices.h"
 #import "ARISAlertHandler.h"
 #import "ARISMediaView.h"
 
-//PHIL BAD
 @interface AppModel() <ARISMediaViewDelegate>
 {
 }
@@ -52,11 +53,7 @@
 @synthesize uploadManager;
 @synthesize mediaCache;
 @synthesize fileToDeleteURL;
-
 @synthesize motionManager;
-@synthesize averageAccelerometerReadingX;
-@synthesize averageAccelerometerReadingY;
-@synthesize averageAccelerometerReadingZ;
 
 + (id) sharedAppModel
 {

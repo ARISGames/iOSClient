@@ -10,9 +10,11 @@
 #import "ARISMediaView.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
+#import "Player.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
+#import "UploadMan.h"
 #import <ImageIO/ImageIO.h>
 
 @interface PlayerSettingsViewController()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, ARISMediaViewDelegate, UITextFieldDelegate>

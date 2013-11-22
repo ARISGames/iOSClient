@@ -15,5 +15,4 @@
 
 @interface InventoryTagViewController : ARISGamePlayTabBarViewController
 - (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, InventoryViewControllerDelegate, StateControllerProtocol>)d;
-- (void) launchTrade;
 @end

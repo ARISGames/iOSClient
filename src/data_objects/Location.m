@@ -9,8 +9,12 @@
 #import "Location.h"
 #import "NSDictionary+ValidParsers.h"
 #import "AppModel.h"
+#import "Game.h"
 #import "Item.h"
 #import "Node.h"
+#import "WebPage.h"
+#import "Note.h"
+#import "Player.h"
 #import "Npc.h"
 #import "Note.h"
 

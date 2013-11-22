@@ -14,6 +14,7 @@
 #import "ScriptElement.h"
 #import "ARISMediaView.h"
 #import "AppModel.h"
+#import "Player.h"
 #import "AppServices.h"
 #import "ARISMoviePlayerViewController.h"
 #import "UIColor+ARISColors.h"

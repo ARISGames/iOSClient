@@ -11,6 +11,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "Game.h"
+#import "Player.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 #import "ARISMediaView.h"

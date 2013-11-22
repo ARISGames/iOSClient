@@ -10,20 +10,22 @@
 #import <CoreLocation/CLLocation.h>
 #import <CoreMotion/CoreMotion.h>
 #import <CoreData/CoreData.h>
-#import "Game.h"
-#import "Location.h"
-#import "Item.h"
-#import "Node.h"
-#import "Npc.h"
-#import "Media.h"
-#import "WebPage.h"
-#import "Panoramic.h"
-#import "MediaCache.h"
-#import "UploadMan.h"
-#import "Overlay.h"
-#import "Player.h"
 
-@interface AppModel : NSObject <UIAccelerometerDelegate>
+@class Game;
+@class Player;
+@class Media;
+@class Location;
+@class Item;
+@class Node;
+@class Npc;
+@class WebPage;
+@class Panoramic;
+
+@class MediaCache;
+@class UploadMan;
+@class Overlay;
+
+@interface AppModel : NSObject
 {
 	NSUserDefaults *defaults;
 	NSURL *serverURL;
@@ -35,8 +37,6 @@
     
 	Game *currentGame;
     Player *player;
-
-    CMMotionManager *motionManager;
 
     int fallbackGameId;
     
@@ -59,12 +59,7 @@
     NSMutableArray *overlayList;
 
     BOOL overlayIsVisible;
-
-    //Accelerometer Data
-    float averageAccelerometerReadingX;
-    float averageAccelerometerReadingY;
-    float averageAccelerometerReadingZ;
-    
+ 
     BOOL hidePlayers;
     
     //CORE Data
@@ -73,6 +68,8 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     UploadMan *uploadManager;
     MediaCache *mediaCache;
+    
+    CMMotionManager *motionManager;
 }
 
 @property (nonatomic, strong) NSURL *serverURL;
@@ -81,15 +78,9 @@
 @property (readwrite) BOOL disableLeaveGame;
 @property (readwrite) int  skipGameDetails;
 
-@property (nonatomic, strong) CMMotionManager *motionManager;
-
 @property (readwrite) BOOL hidePlayers;
 
 @property (readwrite) BOOL overlayIsVisible;
-
-@property (readwrite) float averageAccelerometerReadingX;
-@property (readwrite) float averageAccelerometerReadingY;
-@property (readwrite) float averageAccelerometerReadingZ;
 
 @property (readwrite) int fallbackGameId;//Used only to recover from crashes
 
@@ -121,6 +112,8 @@
 @property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, strong) UploadMan *uploadManager;
 @property (nonatomic, strong) MediaCache *mediaCache;
+
+@property (nonatomic, strong) CMMotionManager *motionManager;
 
 + (AppModel *) sharedAppModel;
 

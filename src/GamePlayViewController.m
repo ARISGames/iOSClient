@@ -280,15 +280,6 @@
     }
 }
 
-- (void) displayTrade
-{
-    if(self.inventoryNavigationController)
-    {
-        [self viewControllerRequestedDisplay:self.inventoryNavigationController];
-        [(InventoryTagViewController *)[[self.inventoryNavigationController viewControllers] objectAtIndex:0] performSelector:@selector(launchTrade) withObject:nil afterDelay:0.1]; 
-    }
-}
-
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
