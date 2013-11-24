@@ -91,6 +91,7 @@
     settingsbutton.frame = CGRectMake(0, 0, 27, 27);
     [settingsbutton setImage:[UIImage imageNamed:@"idcard.png"] forState:UIControlStateNormal];
     [settingsbutton addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    settingsbutton.accessibilityLabel = @"Settings Button";
 	self.gamePickersTabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
     
     if(!currentChildViewController)

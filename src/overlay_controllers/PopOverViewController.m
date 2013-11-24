@@ -153,7 +153,8 @@
     {
         self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width-20, 44);
         self.continueButton.textAlignment = NSTextAlignmentRight;
-        self.continueButton.text = @"Dismiss > ";  
+        self.continueButton.text = @"Dismiss > ";
+        self.continueButton.accessibilityLabel = @"Dismiss";
         self.goButton.frame = CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, 0, 44);
         self.goButton.text = @"";
     }

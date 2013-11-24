@@ -115,6 +115,7 @@ static NSString * const OPTION_CELL = @"option";
     self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
     self.continueButton.backgroundColor = [UIColor ARISColorTextBackdrop];
     self.continueButton.userInteractionEnabled = YES;
+    self.continueButton.accessibilityLabel = @"Continue";
     UILabel *continueLbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)];
     continueLbl.textColor = [UIColor ARISColorText];
     continueLbl.textAlignment = NSTextAlignmentRight;
