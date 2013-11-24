@@ -38,7 +38,6 @@ typedef enum
     int weight;
 	BOOL dropable;
 	BOOL destroyable;
-    BOOL tradeable;
     NSString *url;
     NSMutableArray *tags;
 }
@@ -54,7 +53,6 @@ typedef enum
 @property (nonatomic, assign) int weight;
 @property (nonatomic, assign) BOOL dropable;
 @property (nonatomic, assign) BOOL destroyable;
-@property (nonatomic, assign) BOOL tradeable;
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, strong) NSMutableArray *tags;
 

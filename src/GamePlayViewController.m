@@ -280,15 +280,6 @@
     }
 }
 
-- (void) displayTrade
-{
-    if(self.inventoryNavigationController)
-    {
-        [self viewControllerRequestedDisplay:self.inventoryNavigationController];
-        [(InventoryTagViewController *)[[self.inventoryNavigationController viewControllers] objectAtIndex:0] performSelector:@selector(launchTrade) withObject:nil afterDelay:0.1]; 
-    }
-}
-
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
@@ -365,7 +356,7 @@
         [self viewControllerRequestedDisplay:self.notesNavigationController];
     if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
         [self viewControllerRequestedDisplay:self.inventoryNavigationController];
-    if([localized isEqualToString:@"decoder"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
+    if([localized isEqualToString:@"scanner"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
         [self viewControllerRequestedDisplay:self.decoderNavigationController];
     if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
         [self viewControllerRequestedDisplay:self.attributesNavigationController];

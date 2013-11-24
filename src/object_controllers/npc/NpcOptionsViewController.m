@@ -13,6 +13,7 @@
 #import "ARISWebView.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "Player.h"
 #import "UIColor+ARISColors.h"
 #import "StateControllerProtocol.h"
 
@@ -306,10 +307,6 @@
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p
-{
-}
-
-- (void) displayTrade
 {
 }
 

@@ -134,12 +134,6 @@
     [delegate displayScannerWithPrompt:p];
 }
 
-- (void) displayTrade
-{
-    [self dismissSelf];
-    [delegate displayTrade];
-}
-
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     [self dismissSelf];

@@ -24,6 +24,8 @@
     BOOL textEnabled;
     BOOL scanEnabled;
     NSString *prompt;
+    
+    NSDate *lastError;
     ZXingWidgetController *widController;
     id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -40,6 +42,7 @@
         
         textEnabled = (m == 0 || m == 1);
         scanEnabled = (m == 0 || m == 2);
+        lastError = [NSDate date];
         prompt = @""; 
         
         delegate = d;
@@ -198,14 +201,22 @@
     
 	if(!qrCodeObject)
     {
-		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
+       if([lastError timeIntervalSinceNow] < -3.0f)
+       { 
+           lastError = [NSDate date];
+           [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
+           [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
+       }
         if(!textEnabled) [self performSelector:@selector(scanButtonTouched) withObject:nil afterDelay:1]; 
 	}
 	else if([qrCodeObject isKindOfClass:[NSString class]])
     {
-        [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:(NSString *)qrCodeObject];
+        if([lastError timeIntervalSinceNow] < -3.0f)
+        {
+            lastError = [NSDate date]; 
+            [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
+            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:(NSString *)qrCodeObject];
+        }
         if(!textEnabled) [self performSelector:@selector(scanButtonTouched) withObject:nil afterDelay:1];  
     }
     else
