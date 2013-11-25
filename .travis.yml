@@ -1,4 +1,4 @@
 language: objective-c
 
 xcode_sdk: iphonesimulator7.0
-script: bwoken test --simulator --scheme=ARIS --verboseS
+script: bwoken test --simulator --scheme=ARIS --verbose
