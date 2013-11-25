@@ -19,7 +19,7 @@ var gameName = "ARIS-Tester";
 var resetToLoginScreen = function()
 {
 
-	test("Reset to In-Game Menu in game.", function(target,app){
+	test("Reset to In-Game Menu.", function(target,app){
 	
    // IF - Inside Character, Web Item, Normal Item
    if (app.navigationBar().buttons()["arrowBack"].checkIsValid())
@@ -148,11 +148,17 @@ UIATarget.onAlert = function onAlert(alert) {
   	
   	/*  ** Reset Game Alert ** */ 
    	if (title == "Are you sure?")
-   	{
-    	alert.buttons()["Reset"].tap();
+   	{  	alert.buttons()["Reset"].tap();
    		return true;  //alert handled, so bypass the default handler
  	}
-  	return false;
+  	
+	
+	if (title == "“ARIS” Would Like to Use Your Current Location'")
+	{	alert.buttons()["OK"].tap();
+		return true;
+	}
+	
+	return false;
 }
 							/*  ******* INITIAL PLAQUE ******* */
 var initialPlaque = function(){
@@ -164,9 +170,9 @@ var initialPlaque = function(){
 		// assertScreenMatchesImageNamed("initialPlaque", "Initial plaque did not match.");
 	
 		/*  ** UI Interaction ** */ 
-		UIALogger.logMessage('Dismiss New Quest Pop-up');
-		app.windows()[0].staticTexts()["Dismiss"].tap();
-		window.staticTexts()["Dismiss"].tap();
+		//UIALogger.logMessage('Dismiss New Quest Pop-up');
+		//app.windows()[0].staticTexts()["Dismiss"].tap();
+		//window.staticTexts()["Dismiss"].tap();
 		
 		//Exit initial Plaque Item
 		target.frontMostApp().mainWindow().staticTexts()["Continue"].tap();		 
@@ -204,8 +210,10 @@ var normalItem = function(){
 		UIALogger.logMessage("Item content says 'Normal Item' ?");
 		assertEquals("Normal Item", window.scrollViews()[1].scrollViews()[0].webViews()[0].staticTexts()["Normal Item"].name());
 		  
-		/*  ** Exit Normal Item ** */  
-		app.navigationBar().buttons()["Back to Map"].tap();		  
+		/*  ** Exit Normal Item ** */  		  
+		app.navigationBar().buttons()["Back Button"].tap();
+		  
+		
 		  
 		
 	});
@@ -331,10 +339,10 @@ var normalScriptTests = function(){
 	
 		// Item Tag
 		test("Item Tag", function(target,app){
-			target.delay(1);
-			window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
-			target.delay(1);
-			target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
+		target.delay(1);
+		window.scrollViews()[0].scrollViews()[0].webViews()[0].tap();
+		target.delay(1);
+		app.navigationBar().buttons()["Back Button"].tap();
 			 
 			 
 		});
@@ -410,8 +418,8 @@ var exitToScripts = function() {
 		target.delay(1);
 		window.staticTexts()["Continue"].tap();
 		target.delay(1);
-		target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
-	});
+		app.navigationBar().buttons()["Back Button"].tap();
+		 });
 	test("Back To Character", function(target,app){
 		//Back to Character
 		target.delay(2);
@@ -537,7 +545,7 @@ UIALogger.logMessage("Image Asserter Finished");
 resetToLoginScreen();
 
 //Test Login Image 
-//imageAsserter();
+imageAsserter();
 
 //Login to account
 loginTest(username, password);
