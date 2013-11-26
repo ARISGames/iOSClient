@@ -673,6 +673,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   if(jsonResult.data && [((NSDictionary *)jsonResult.data) validIntForKey:@"media_id"])
   {
     [AppModel sharedAppModel].player.playerMediaId = [((NSDictionary*)jsonResult.data) validIntForKey:@"media_id"];
+    //immediately load new image into cache 
+    if([AppModel sharedAppModel].player.playerMediaId != 0)
+        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] delegate:nil];  
     [[AppModel sharedAppModel] saveUserDefaults];
   }
 }
@@ -1558,9 +1561,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
   if(!currentlyFetchingQuestList) return;
   currentlyFetchingQuestList = NO;
-
-  NSLog(@"NSNotification: ReceivedQuestList");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedQuestList" object:nil]];
 
   NSDictionary *questListsDictionary = (NSDictionary *)jsonResult.data;
 
