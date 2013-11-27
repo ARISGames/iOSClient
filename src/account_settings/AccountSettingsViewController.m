@@ -68,6 +68,7 @@
     logoutLabel.text = NSLocalizedString(@"LogoutKey",@"");
     logoutLabel.textColor = [UIColor ARISColorText];
     UIImageView *leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
+    
     leaveGameArrow.frame = CGRectMake(6,13,19,19);
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
     line.backgroundColor = [UIColor ARISColorLightGray];

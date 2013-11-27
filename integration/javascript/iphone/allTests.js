@@ -22,13 +22,13 @@ var resetToLoginScreen = function()
 	test("Reset to In-Game Menu.", function(target,app){
 	
    // IF - Inside Character, Web Item, Normal Item
-   if (app.navigationBar().buttons()["arrowBack"].checkIsValid())
-   		 {app.navigationBar().buttons()["arrowBack"].tap(); } 
+   if (app.navigationBar().buttons()["Back Button"].checkIsValid())
+   		 {app.navigationBar().buttons()["Back Button"].tap(); } 
    //IF - Inside Plaque
    else if (window.staticTexts()["Continue"].checkIsValid())
     	 {
     	 window.staticTexts()["Continue"].tap();
-	 	 app.navigationBar().buttons()["arrowBack"].tap();
+	 	 app.navigationBar().buttons()["Back Button"].tap();
     	 }
    // IF - quick nav tapped or item tapped
    else if (app.actionSheet().cancelButton().checkIsValid())
@@ -44,7 +44,7 @@ var resetToLoginScreen = function()
 		 	UIALogger.logMessage("Inside In-Game Menu IF");
 				app.navigationBar().buttons()["In-Game Menu"].tap();
 				window.staticTexts()["Leave Game"].tap();
-				app.navigationBar().buttons()["arrowBack"].tap();
+				app.navigationBar().buttons()["Back Button"].tap();
 			}
 		 			
 			
@@ -383,7 +383,7 @@ var exitToScripts = function() {
 		
 		
 		target.delay(2);
-		target.frontMostApp().navigationBar().buttons()["arrowBack"].tap();
+		app.navigationBar().buttons()["Back Button"].tap();
 	});
 	
 	test("Exit To Map", function(target,app){
@@ -452,7 +452,7 @@ var exitToScripts = function() {
 		//EXIT TO WEBPAGE
 		window.scrollViews()[0].scrollViews()[2].webViews()[0].tap();
 		window.staticTexts()["Continue"].tap();
-		app.navigationBar().buttons()["arrowBack"].tap();
+		app.navigationBar().buttons()["Back Button"].tap();
 	});
 		// EXIT TO PANORAMIC -- this is broken
 
@@ -505,7 +505,7 @@ test("Decoder Plaque Item", function(target, app){
 	 
 	 //Entered Normal Item?
 	
-	 app.navigationBar().buttons()["arrowBack"].tap();
+	 app.navigationBar().buttons()["Back Button"].tap();
 		 
 	 // Clear text Field
 	 window.textFields()[0].tap();
