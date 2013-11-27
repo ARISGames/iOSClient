@@ -44,7 +44,7 @@ var resetToLoginScreen = function()
 		 	UIALogger.logMessage("Inside In-Game Menu IF");
 				app.navigationBar().buttons()["In-Game Menu"].tap();
 				window.staticTexts()["Leave Game"].tap();
-				app.navigationBar().buttons()["Back Button"].tap();
+				//app.navigationBar().buttons()["Leave Game"].tap();
 			}
 		 			
 			
@@ -166,8 +166,8 @@ var initialPlaque = function(){
 	
 		/*  ** Screen Assertions ** */
 		 target.delay(2);
-		// UIALogger.logMessage('Assert Screenshot: Initial Plaque Object');
-		// assertScreenMatchesImageNamed("initialPlaque", "Initial plaque did not match.");
+		 UIALogger.logMessage('Assert Screenshot: Initial Plaque Object');
+		 assertScreenMatchesImageNamed("initialPlaque", "Initial plaque did not match.");
 	
 		/*  ** UI Interaction ** */ 
 		//UIALogger.logMessage('Dismiss New Quest Pop-up');
@@ -194,8 +194,9 @@ var normalItem = function(){
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		
 		/*  ** Screen Assertions ** */
-		//UIALogger.logMessage('Assert Screenshot: Normal Object'); 
-		//assertScreenMatchesImageNamed("normalItem", "Normal Item screen did not match");
+		target.delay(2);
+		UIALogger.logMessage('Assert Screenshot: Normal Object'); 
+		assertScreenMatchesImageNamed("normalItem", "Normal Item screen did not match");
   
 		  
 		/*  ** Text Assertions ** */
@@ -228,9 +229,10 @@ var plaque = function(){
 		window.elements()["Plaque"].tap();
 		app.actionSheet().buttons()["Quick Travel"].tap();
 		
-		/*  ** Screen Assertions ** */   
-		//UIALogger.logMessage('Assert Screenshot: Plaque Object');
-  		//assertScreenMatchesImageNamed("plaqueObject", "Plaque screen did not match");
+		/*  ** Screen Assertions ** */  
+		target.delay(2); 
+		UIALogger.logMessage('Assert Screenshot: Plaque Object');
+  		assertScreenMatchesImageNamed("plaque", "Plaque screen did not match");
 		
 		/*  ** Text Assertions ** */
 		UIALogger.logMessage("Navigation bar says 'Plaque' ?");
@@ -376,10 +378,11 @@ var exitToScripts = function() {
 		target.frontMostApp().mainWindow().scrollViews()[0].scrollViews()[2].webViews()[0].tap();
 		
 		////CAPTURE IMAGE TO TEST
+		target.delay(2);
 		UIALogger.logMessage('Assert Screenshot: Aris Website Loaded');
 		target.delay(2);
-		//assertScreenMatchesImageNamed("arisWebsite", "Images did not match");
-		////
+		assertScreenMatchesImageNamed("arisWebsite", "Images did not match");
+		
 		
 		
 		target.delay(2);
@@ -459,7 +462,7 @@ var exitToScripts = function() {
 
 };
 
-							/*  ******* DECODER TESTS ******* */
+							/*  ******* Scanner TESTS ******* */
 var testDecoder = function() {
 
 
@@ -467,7 +470,7 @@ test("Decoder Plaque Item", function(target, app){
 	 
 	 //Go Into Decoder From MAP	
 	 app.navigationBar().buttons()["In-Game Menu"].tap();
-	 window.tableViews()["Empty list"].cells()["Decoder"].tap();
+	 window.tableViews()["Empty list"].cells()["Scanner"].tap();
 	 
 	 // Plaque Decoder
 	 window.textFields()[0].tap();
@@ -496,7 +499,7 @@ test("Decoder Plaque Item", function(target, app){
 		 
 	 //Go Into Decoder From MAP	
 	 app.navigationBar().buttons()["In-Game Menu"].tap();
-	 window.tableViews()["Empty list"].cells()["Decoder"].tap();
+	 window.tableViews()["Empty list"].cells()["Scanner"].tap();
 	 
 	// Normal Item Decoder
 	 window.textFields()[0].tap();
@@ -542,25 +545,25 @@ UIALogger.logMessage("Image Asserter Finished");
 */
 
 // Reset the game from anywhere in the application
-resetToLoginScreen();
+//resetToLoginScreen();
 
 //Test Login Image 
-imageAsserter();
+//imageAsserter();
 
 //Login to account
-loginTest(username, password);
+//loginTest(username, password);
  
 
 //Search for Game
-searchGame(gameName);
+//searchGame(gameName);
 
 
 // Select Game
-selectGame();
+//selectGame();
 
 								/*  ******* Begin In Game Test ******* */
 					
-
+/*
 // Dismiss Initial Plaque
 initialPlaque();
 
@@ -585,7 +588,7 @@ exitToScripts();
 
 //Test Decoder
 testDecoder();
- 
+ */
 
 							/*  ******* End In Game Test and Reset ******* */
 							
