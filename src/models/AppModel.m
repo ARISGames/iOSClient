@@ -186,6 +186,9 @@
         [defaults setObject:@"" forKey:@"displayName"];
     }
     [defaults synchronize];
+       
+    if(self.player.playerMediaId != 0)
+        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] delegate:nil];  
 }
 
 - (void) saveCOREData

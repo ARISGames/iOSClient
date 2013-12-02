@@ -21,7 +21,7 @@
     UIImageView *imageView;
     UIActivityIndicatorView *spinner;
         
-    id <ARISMediaViewDelegate> __unsafe_unretained delegate;
+    id <ARISMediaViewDelegate> delegate;
 }
 
 @property (nonatomic, assign) ARISMediaDisplayMode displayMode;
