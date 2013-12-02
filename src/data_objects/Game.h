@@ -57,7 +57,6 @@ typedef enum
     BOOL allowShareNoteToList;
     BOOL allowNoteComments;
     BOOL allowNoteLikes;
-    BOOL allowTrading;
     NoteTitleBehavior noteTitleBehavior;
     
     Media *iconMedia;
@@ -99,7 +98,6 @@ typedef enum
 @property (readwrite, assign) BOOL allowShareNoteToList;
 @property (readwrite, assign) BOOL allowNoteComments;
 @property (readwrite, assign) BOOL allowNoteLikes;
-@property (readwrite, assign) BOOL allowTrading;
 @property (readwrite, assign) NoteTitleBehavior noteTitleBehavior;
 
 @property (readwrite, assign) double latitude;

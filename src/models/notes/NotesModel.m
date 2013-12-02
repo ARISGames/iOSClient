@@ -8,6 +8,7 @@
 
 #import "AppModel.h"
 #import "NotesModel.h"
+#import "Player.h"
 
 @interface NotesModel()
 {

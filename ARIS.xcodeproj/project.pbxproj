@@ -102,6 +102,7 @@
 		AA527E4C17E0B6830040AB75 /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4517E0B6830040AB75 /* microphone.png */; };
 		AA527E4D17E0B6830040AB75 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E4617E0B6830040AB75 /* note.png */; };
 		AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5F5ACE183147C00057AC1C /* NotesModel.m */; };
+		AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */; };
 		AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FDB17330947003A840D /* GamePlayViewController.m */; };
 		AA701FE117342169003A840D /* GamePickersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE017342169003A840D /* GamePickersViewController.m */; };
 		AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE4173428C3003A840D /* ARISAlertHandler.m */; };
@@ -279,9 +280,6 @@
 		AABC73D8172739D80074CC21 /* UploadMan.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7131172739D60074CC21 /* UploadMan.m */; };
 		AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7143172739D60074CC21 /* AttributesViewController.m */; };
 		AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC714B172739D60074CC21 /* DecoderViewController.mm */; };
-		AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7152172739D60074CC21 /* InventoryTradeViewController.m */; };
-		AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7153172739D60074CC21 /* InventoryTradeViewController.xib */; };
-		AABC73EB172739D80074CC21 /* RoundedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7159172739D60074CC21 /* RoundedTableViewCell.m */; };
 		AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC715E172739D60074CC21 /* AnnotationView.m */; };
 		AABC73F1172739D80074CC21 /* TileOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7165172739D60074CC21 /* TileOverlay.m */; };
 		AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7167172739D60074CC21 /* TileOverlayView.m */; };
@@ -523,6 +521,8 @@
 		AA527E4617E0B6830040AB75 /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note.png; sourceTree = "<group>"; };
 		AA5F5ACD183147C00057AC1C /* NotesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesModel.h; sourceTree = "<group>"; };
 		AA5F5ACE183147C00057AC1C /* NotesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesModel.m; sourceTree = "<group>"; };
+		AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaLoader.h; sourceTree = "<group>"; };
+		AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaLoader.m; sourceTree = "<group>"; };
 		AA701FDA17330947003A840D /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		AA701FDB17330947003A840D /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
 		AA701FDF17342169003A840D /* GamePickersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickersViewController.h; sourceTree = "<group>"; };
@@ -778,11 +778,6 @@
 		AABC7143172739D60074CC21 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		AABC714A172739D60074CC21 /* DecoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecoderViewController.h; sourceTree = "<group>"; };
 		AABC714B172739D60074CC21 /* DecoderViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DecoderViewController.mm; sourceTree = "<group>"; };
-		AABC7151172739D60074CC21 /* InventoryTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryTradeViewController.h; sourceTree = "<group>"; };
-		AABC7152172739D60074CC21 /* InventoryTradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryTradeViewController.m; sourceTree = "<group>"; };
-		AABC7153172739D60074CC21 /* InventoryTradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InventoryTradeViewController.xib; sourceTree = "<group>"; };
-		AABC7158172739D60074CC21 /* RoundedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedTableViewCell.h; sourceTree = "<group>"; };
-		AABC7159172739D60074CC21 /* RoundedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedTableViewCell.m; sourceTree = "<group>"; };
 		AABC715D172739D60074CC21 /* AnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationView.h; sourceTree = "<group>"; };
 		AABC715E172739D60074CC21 /* AnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationView.m; sourceTree = "<group>"; };
 		AABC7164172739D60074CC21 /* TileOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileOverlay.h; sourceTree = "<group>"; };
@@ -1703,6 +1698,8 @@
 			isa = PBXGroup;
 			children = (
 				AABC7120172739D60074CC21 /* AppServices.h */,
+				AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */,
+				AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */,
 				AABC7121172739D60074CC21 /* AppServices.m */,
 				AABC7122172739D60074CC21 /* ARISUploader.h */,
 				AABC7123172739D60074CC21 /* ARISUploader.m */,
@@ -1756,11 +1753,6 @@
 			children = (
 				AAD298C717D1160C002A4C47 /* InventoryTagViewController.h */,
 				AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */,
-				AABC7151172739D60074CC21 /* InventoryTradeViewController.h */,
-				AABC7152172739D60074CC21 /* InventoryTradeViewController.m */,
-				AABC7153172739D60074CC21 /* InventoryTradeViewController.xib */,
-				AABC7158172739D60074CC21 /* RoundedTableViewCell.h */,
-				AABC7159172739D60074CC21 /* RoundedTableViewCell.m */,
 			);
 			path = inventory;
 			sourceTree = "<group>";
@@ -2351,7 +2343,6 @@
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
 				AA383B161829A8BD00612FFB /* audio.png in Resources */,
 				AA9A6D95182D75C3000CC323 /* lock.png in Resources */,
-				AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */,
 				AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */,
 				AA942B9017CD4CF4004EDEA1 /* Default-568h@2x.png in Resources */,
 				AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */,
@@ -2400,7 +2391,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 998e417813fdeb68d423930898cf8efc3001db1a";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2435,6 +2426,7 @@
 				AABC738E172739D80074CC21 /* Logger.m in Sources */,
 				AABC738F172739D80074CC21 /* Comment.m in Sources */,
 				AABC7390172739D80074CC21 /* CommentCell.m in Sources */,
+				AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */,
 				AABC7392172739D80074CC21 /* CommentsFormCell.m in Sources */,
 				AABC7395172739D80074CC21 /* commentsViewController.m in Sources */,
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
@@ -2478,8 +2470,6 @@
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
 				AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */,
 				AA383B1B1829AD2F00612FFB /* NoteViewController.m in Sources */,
-				AABC73E7172739D80074CC21 /* InventoryTradeViewController.m in Sources */,
-				AABC73EB172739D80074CC21 /* RoundedTableViewCell.m in Sources */,
 				AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */,
 				AABC73F1172739D80074CC21 /* TileOverlay.m in Sources */,
 				AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */,
@@ -2600,6 +2590,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2618,7 +2609,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
-					/Users/djgagnon/Development/ARISiOSClient/src/third_party/TestFlightSDK2.0.2,
+					"$(inherited)",
+					"$(SRCROOT)/src/third_party/TestFlightSDK2.0.2",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2626,7 +2618,8 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "6843AF32-0270-4606-9124-0B775C1E363A";
+				PROVISIONING_PROFILE = "387C618D-56A7-48E8-BE66-AFFC6964A595";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "387C618D-56A7-48E8-BE66-AFFC6964A595";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
@@ -2634,74 +2627,13 @@
 			};
 			name = Debug;
 		};
-		AB1CA8BB13C7D2B700131F81 /* Testflight Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD_32_BIT)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = "";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-v";
-				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv7 i386";
-			};
-			name = "Testflight Release";
-		};
-		AB1CA8BC13C7D2B700131F81 /* Testflight Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				"ARCHS[sdk=iphoneos*]" = armv7;
-				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: UW Division of Information Technology";
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = src/ARIS_Prefix.pch;
-				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GENERATE_PROFILING_CODE = NO;
-				HEADER_SEARCH_PATHS = (
-					"src/third_party/zxing/iphone/ZXingWidget/Classes/**",
-					src/third_party/zxing/cpp/core/src,
-				);
-				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/**",
-					/Users/djgagnon/Development/ARISiOSClient/src/third_party/TestFlightSDK2.0.2,
-				);
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-v",
-				);
-				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
-				RUN_CLANG_STATIC_ANALYZER = NO;
-				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Testflight Release";
-		};
-		AB1DDC64183D1A3300777AC4 /* AppStore Release */ = {
+		AB1CA8BB13C7D2B700131F81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD_32_BIT)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2712,12 +2644,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-v";
+				PROVISIONING_PROFILE = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 i386";
 			};
-			name = "AppStore Release";
+			name = Release;
 		};
-		AB1DDC65183D1A3300777AC4 /* AppStore Release */ = {
+		AB1CA8BC13C7D2B700131F81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2725,7 +2659,8 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: David Gagnon (VDP976Y25G)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2742,7 +2677,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
-					/Users/djgagnon/Development/ARISiOSClient/src/third_party/TestFlightSDK2.0.2,
+					"$(inherited)",
+					"$(SRCROOT)/src/third_party/TestFlightSDK2.0.2",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2750,14 +2686,15 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "38D78BF2-D5B6-4241-AB57-A8B1C872AF49";
+				PROVISIONING_PROFILE = "387C618D-56A7-48E8-BE66-AFFC6964A595";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "387C618D-56A7-48E8-BE66-AFFC6964A595";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "AppStore Release";
+			name = Release;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2766,6 +2703,7 @@
 				"ARCHS[sdk=iphoneos*]" = armv7;
 				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";
@@ -2775,7 +2713,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-v";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 i386";
 			};
@@ -2788,8 +2727,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
-				AB1CA8BC13C7D2B700131F81 /* Testflight Release */,
-				AB1DDC65183D1A3300777AC4 /* AppStore Release */,
+				AB1CA8BC13C7D2B700131F81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2798,8 +2736,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
-				AB1CA8BB13C7D2B700131F81 /* Testflight Release */,
-				AB1DDC64183D1A3300777AC4 /* AppStore Release */,
+				AB1CA8BB13C7D2B700131F81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

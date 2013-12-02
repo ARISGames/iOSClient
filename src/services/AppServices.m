@@ -12,10 +12,15 @@
 #import "NpcScriptOption.h"
 #import "ARISAlertHandler.h"
 #import "ARISMediaView.h"
+#import "UploadMan.h"
+#import "Player.h"
+#import "Overlay.h"
+#import "MediaCache.h"
 
 @interface AppServices()
 {
     JSONConnection *connection;
+    ARISMediaLoader *mediaLoader; 
 }
 
 @end
@@ -53,6 +58,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     if(self = [super init])
     {
         connection = [[JSONConnection alloc] initWithServer:[[AppModel sharedAppModel].serverURL absoluteString]];
+        mediaLoader = [[ARISMediaLoader alloc] init]; 
     }
     return self;
 }
@@ -68,7 +74,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   currentlyFetchingLocationList              = NO;
   currentlyFetchingOverlayList               = NO;
   currentlyFetchingQuestList                 = NO;
-currentlyFetchingNoteList = NO; 
+    currentlyFetchingNoteList = NO; 
   currentlyUpdatingServerWithInventoryViewed = NO;
   currentlyUpdatingServerWithMapViewed       = NO;
   currentlyUpdatingServerWithPlayerLocation  = NO;
@@ -132,7 +138,7 @@ currentlyFetchingNoteList = NO;
   if(playerId != 0)
   {
     NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",playerId], name, [NSString stringWithFormat:@"%d",mid], nil];
-    [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerNameMedia" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+      [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerNameMedia" arguments:args handler:self successSelector:@selector(updatedPlayer:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
   }
   else
     NSLog(@"Tried updating non-existent player! (playerId = 0)");
@@ -445,21 +451,6 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"players" method:@"takeItemFromPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void) commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
-{
-  //  Gifts/Receipts json should be of following format:
-  //  {"items":[{"item_id":1,"qtyDelta":3},{"item_id":2,"qtyDelta":4}]}
-
-  NSArray *args = [NSArray arrayWithObjects:
-    [NSString stringWithFormat:@"%d",gameId],
-    [NSString stringWithFormat:@"%d",playerOneId],
-    [NSString stringWithFormat:@"%d",playerTwoId],
-    giftsJSON,
-    receiptsJSON,
-    nil];
-  [connection performAsynchronousRequestWithService:@"items" method:@"commitTradeTransaction" arguments:args handler:self successSelector:@selector(fetchPlayerInventory) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-}
-
 - (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh
 {
   NSArray *args = [NSArray arrayWithObjects:
@@ -670,11 +661,21 @@ currentlyFetchingNoteList = NO;
   [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
 
+- (void) updatedPlayer:(ServiceResult *)result
+{
+    //immediately load new image into cache
+    if([AppModel sharedAppModel].player.playerMediaId != 0)
+        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] delegate:nil]; 
+}
+
 - (void) parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult
 {	   
   if(jsonResult.data && [((NSDictionary *)jsonResult.data) validIntForKey:@"media_id"])
   {
     [AppModel sharedAppModel].player.playerMediaId = [((NSDictionary*)jsonResult.data) validIntForKey:@"media_id"];
+    //immediately load new image into cache 
+    if([AppModel sharedAppModel].player.playerMediaId != 0)
+        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] delegate:nil];  
     [[AppModel sharedAppModel] saveUserDefaults];
   }
 }
@@ -908,14 +909,19 @@ currentlyFetchingNoteList = NO;
   [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPages" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void) fetchMedia:(int)mediaId
+- (void) fetchMediaMeta:(Media *)m
 {
   NSArray *args = [NSArray arrayWithObjects:
     (([AppModel sharedAppModel].currentGame.gameId != 0) ? [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId] : @"player"),
-    [NSString stringWithFormat:@"%d",mediaId],
+    [NSString stringWithFormat:@"%d",[m.uid intValue]],
     nil];
 
   [connection performAsynchronousRequestWithService:@"media" method:@"getMediaObject" arguments:args handler:self successSelector:@selector(parseSingleMediaFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+}
+
+- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d
+{
+    [mediaLoader loadMedia:m delegate:d];
 }
 
 - (void)fetchGameMediaList
@@ -1172,7 +1178,6 @@ currentlyFetchingNoteList = NO;
   game.allowShareNoteToList          = [gameSource validBoolForKey:@"allow_share_note_to_book"];
   game.allowNoteComments             = [gameSource validBoolForKey:@"allow_note_comments"];
   game.allowNoteLikes                = [gameSource validBoolForKey:@"allow_note_likes"];
-  game.allowTrading                  = [gameSource validBoolForKey:@"allow_trading"];
   if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"NONE"])                 game.noteTitleBehavior = None;
   else if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"FORCE_OVERWRITE"]) game.noteTitleBehavior = ForceOverwrite;
 
@@ -1557,9 +1562,6 @@ currentlyFetchingNoteList = NO;
   if(!currentlyFetchingQuestList) return;
   currentlyFetchingQuestList = NO;
 
-  NSLog(@"NSNotification: ReceivedQuestList");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedQuestList" object:nil]];
-
   NSDictionary *questListsDictionary = (NSDictionary *)jsonResult.data;
 
   //Active Quests
@@ -1622,4 +1624,3 @@ currentlyFetchingNoteList = NO;
 }
 
 @end
-

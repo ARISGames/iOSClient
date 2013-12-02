@@ -9,6 +9,7 @@
 #import "GameDetailsViewController.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "Player.h"
 #import "ARISAppDelegate.h"
 #import "commentsViewController.h"
 #import "CommentsFormCell.h"

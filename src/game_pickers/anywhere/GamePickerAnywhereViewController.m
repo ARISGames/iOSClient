@@ -13,6 +13,7 @@
 #import "Game.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
+#import "Player.h"
 
 @implementation GamePickerAnywhereViewController
 

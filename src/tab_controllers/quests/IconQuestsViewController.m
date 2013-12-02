@@ -45,7 +45,7 @@
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                         object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList"                      object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"LatestPlayerQuestListsReceived" object:nil]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyActiveQuestsAvailable"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyCompletedQuestsAvailable"          object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)         name:@"NewlyChangedQuestsGameNotificationSent" object:nil];
@@ -177,12 +177,6 @@
 {
     [self.navigationController popToViewController:self animated:NO];
     [delegate displayScannerWithPrompt:p];
-}
-
-- (void) displayTrade
-{
-    [self.navigationController popToViewController:self animated:NO];
-    [delegate displayTrade];
 }
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s

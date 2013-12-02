@@ -8,7 +8,6 @@
 
 #import "InventoryTagViewController.h"
 #import "StateControllerProtocol.h"
-#import "InventoryTradeViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "AppModel.h"
@@ -17,7 +16,7 @@
 #import "Item.h"
 #import "UIColor+ARISColors.h"
 
-@interface InventoryTagViewController ()<ARISMediaViewDelegate, InventoryTradeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface InventoryTagViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     UIScrollView *tagView;
     NSMutableArray *sortableTags;
@@ -26,14 +25,13 @@
     UITableView *inventoryTable;
     NSArray *inventory;
     
-    UIButton *tradeButton;
     UIProgressView *capBar;
     UILabel *capLabel;
     
     NSMutableDictionary *iconCache;
     NSMutableDictionary *viewedList;
     
-    id<GamePlayTabBarViewControllerDelegate, InventoryTradeViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<GamePlayTabBarViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) UIScrollView *tagView;
@@ -41,7 +39,6 @@
 @property (nonatomic, assign) int currentTagIndex;
 @property (nonatomic, strong) UITableView *inventoryTable;
 @property (nonatomic, strong) NSArray *inventory;
-@property (nonatomic, strong) UIButton *tradeButton;
 @property (nonatomic, strong) UIProgressView *capBar;
 @property (nonatomic, strong) UILabel *capLabel;
 @property (nonatomic, strong) NSMutableDictionary *iconCache;
@@ -56,13 +53,12 @@
 @synthesize currentTagIndex;
 @synthesize inventoryTable;
 @synthesize inventory;
-@synthesize tradeButton;
 @synthesize capBar;
 @synthesize capLabel;
 @synthesize iconCache;
 @synthesize viewedList;
 
-- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, InventoryTradeViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithDelegate:d])
     {
@@ -100,20 +96,6 @@
     self.inventoryTable.dataSource = self;
     self.inventoryTable.delegate = self;
     [self.view addSubview:self.inventoryTable];
-    
-    if([AppModel sharedAppModel].currentGame.allowTrading)
-    {
-        self.tradeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.tradeButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-        self.tradeButton.backgroundColor = [UIColor ARISColorWhite];
-        [self.tradeButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
-        [self.tradeButton setTitle:NSLocalizedString(@"InventoryTradeViewTitleKey", @"") forState:UIControlStateNormal];
-        [self.tradeButton addTarget:self action:@selector(tradeButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
-        line.backgroundColor = [UIColor ARISColorLightGray];
-        [self.tradeButton addSubview:line];
-        [self.view addSubview:self.tradeButton];
-    }
     
     if([AppModel sharedAppModel].currentGame.inventoryModel.weightCap > 0)
     {
@@ -154,13 +136,7 @@
 {
     self.tagView.frame = CGRectMake(0,64,self.view.bounds.size.width,100);
     self.inventoryTable.contentInset = UIEdgeInsetsMake(0,0,0,0);
-    if([AppModel sharedAppModel].currentGame.allowTrading)
-    {
-        self.inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-64-44);
-        self.tradeButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-    }
-    else
-        self.inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
+    self.inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
     
 }
     
@@ -168,13 +144,7 @@
 {
     self.tagView.frame = CGRectMake(0,0,self.view.bounds.size.width,0);
     self.inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
-    if([AppModel sharedAppModel].currentGame.allowTrading)
-    {
-        self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44);
-        self.tradeButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-    }
-    else
-        self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
+    self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
     
     self.currentTagIndex = 0;
 }
@@ -431,16 +401,6 @@
     return [NSString stringWithFormat:@"%@%@", qtyString, weightString];
 }
 
-- (void) tradeDidComplete
-{
-    [self refetch];
-}
-
-- (void) tradeCancelled
-{
-    [self refetch];
-}
-
 - (void) refetch
 {
     [[AppServices sharedAppServices] fetchPlayerInventory];
@@ -450,18 +410,6 @@
 {
     self.currentTagIndex = r.view.tag;
     [self refreshViews];
-}
-
-- (void) tradeButtonTouched
-{
-    [self launchTrade];
-}
-
-- (void) launchTrade
-{
-    InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithDelegate:self];
-    tradeVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:tradeVC animated:YES]; 
 }
 
 - (void) dealloc

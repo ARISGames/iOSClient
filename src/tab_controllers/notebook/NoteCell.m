@@ -9,6 +9,7 @@
 #import "NoteCell.h"
 #import "Note.h"
 #import "NoteContent.h"
+#import "Player.h"
 
 #import "UIColor+ARISColors.h"
 

@@ -12,6 +12,7 @@
 #import "Note.h"
 #import "Tag.h"
 #import "AppModel.h"
+#import "Player.h"
 #import "UIColor+ARISColors.h"
 
 @interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate>

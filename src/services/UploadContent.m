@@ -8,6 +8,7 @@
 
 #import "UploadContent.h"
 #import "AppModel.h"
+#import "MediaCache.h"
 
 @interface UploadContent (CoreDataGeneratedPrimitiveAccessors)
 

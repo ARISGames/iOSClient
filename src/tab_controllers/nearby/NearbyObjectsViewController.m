@@ -12,6 +12,7 @@
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "NearbyObjectCell.h"
+#import "Player.h"
 
 @interface NearbyObjectsViewController() <ARISMediaViewDelegate>
 {

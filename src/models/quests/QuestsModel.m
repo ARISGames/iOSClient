@@ -15,7 +15,7 @@
 @synthesize currentCompletedQuests;
 @synthesize totalQuestsInGame;
 
--(id)init
+- (id) init
 {
     self = [super init];
     if(self)
@@ -26,32 +26,32 @@
     return self;
 }
 
--(void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)clearData
+- (void) clearData
 {
     [self updateQuestListsActive:[[NSArray alloc] init] complete:[[NSArray alloc] init]];
 }
 
--(void)latestPlayerQuestListsReceived:(NSNotification *)notification
+- (void) latestPlayerQuestListsReceived:(NSNotification *)notification
 {
     [self updateQuestListsActive:[notification.userInfo objectForKey:@"active"] complete:[notification.userInfo objectForKey:@"completed"]];
 }
 
--(void)updateQuestListsActive:(NSArray *)activeQuests complete:(NSArray *)completedQuests;
+- (void) updateQuestListsActive:(NSArray *)activeQuests complete:(NSArray *)completedQuests;
 {
     //Completed Quests
     NSMutableArray *newlyCompletedQuests = [[NSMutableArray alloc] initWithCapacity:5];
-    for (Quest *newQuest in completedQuests)
+    for(Quest *newQuest in completedQuests)
     {
         BOOL match = NO;
-        for (Quest *existingQuest in self.currentCompletedQuests)
-            if (newQuest.questId == existingQuest.questId) match = YES;
+        for(Quest *existingQuest in self.currentCompletedQuests)
+            if(newQuest.questId == existingQuest.questId) match = YES;
         
-        if (!match)
+        if(!match)
             [newlyCompletedQuests addObject:newQuest];
     }
     BOOL questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
@@ -59,9 +59,9 @@
     {
         BOOL match = NO;
         for(Quest *newQuest in completedQuests)
-            if (newQuest.questId == existingQuest.questId) match = YES;
+            if(newQuest.questId == existingQuest.questId) match = YES;
         
-        if (!match)
+        if(!match)
             questLost = YES;
     }
     self.currentCompletedQuests = completedQuests;
@@ -77,13 +77,13 @@
     
     //Active Quests
     NSMutableArray *newlyActiveQuests = [[NSMutableArray alloc] initWithCapacity:5];
-    for (Quest *newQuest in activeQuests)
+    for(Quest *newQuest in activeQuests)
     {
         BOOL match = NO;
-        for (Quest *existingQuest in self.currentActiveQuests)
-            if (newQuest.questId == existingQuest.questId) match = YES;
+        for(Quest *existingQuest in self.currentActiveQuests)
+            if(newQuest.questId == existingQuest.questId) match = YES;
         
-        if (!match)
+        if(!match)
             [newlyActiveQuests addObject:newQuest];
     }
     questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
@@ -91,9 +91,9 @@
     {
         BOOL match = NO;
         for(Quest *newQuest in activeQuests) 
-            if (newQuest.questId == existingQuest.questId) match = YES;
+            if(newQuest.questId == existingQuest.questId) match = YES;
         
-        if (!match)
+        if(!match)
             questLost = YES;
     }
     self.currentActiveQuests = activeQuests;

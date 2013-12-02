@@ -168,6 +168,7 @@
     backButton.frame = CGRectMake(0, 0, 19, 19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
@@ -342,11 +343,6 @@
 - (void) displayScannerWithPrompt:(NSString *)p
 {
     [delegate displayScannerWithPrompt:p];
-}
-
-- (void) displayTrade
-{
-    [delegate displayTrade];
 }
 
 - (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

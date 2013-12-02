@@ -48,6 +48,7 @@
 #import "TileOverlay.h"
 #import "AppModel.h"
 #import "Overlay.h"
+#import "Media.h"
 
 #define TILE_SIZE 256.0
 

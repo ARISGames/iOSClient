@@ -102,6 +102,7 @@
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0,0,19,19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 

@@ -7,6 +7,7 @@
 //
 
 #import "NoteContent.h"
+#import "Media.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation NoteContent
