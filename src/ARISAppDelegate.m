@@ -144,16 +144,16 @@
 
 - (void) playAudio:(NSString*)wavFileName
 {
-	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
+	//NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
     
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    //[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+    //[[AVAudioSession sharedInstance] setActive:YES error:nil];
     
-    NSError* err;
-    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
-    self.player.delegate = self;
+    //NSError* err;
+    //self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    //self.player.delegate = self;
     
-    if(err) NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+    //if(err) NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
     //else [self.player play];
 }
 
