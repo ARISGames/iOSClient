@@ -44,6 +44,7 @@ NSString *const kAttrDefaultPcTitle              = @"pcTitle";
 NSString *const kAttrDefaultPcMediaId            = @"pcMediaId";
 
 NSString *const kAttrExitToTab                   = @"exitToTab";
+NSString *const kAttrExitToScannerWithPrompt     = @"exitToScannerWithPrompt";
 NSString *const kAttrExitToPlaque                = @"exitToPlaque";
 NSString *const kAttrExitToWebPage               = @"exitToWebPage";
 NSString *const kAttrExitToCharacter             = @"exitToCharacter";
@@ -105,6 +106,11 @@ didStartElement:(NSString *)elementName
             script.exitToType = @"tab";
             script.exitToTabTitle = [attributeDict validStringForKey:kAttrExitToTab];
         }
+        else if([attributeDict objectForKey:kAttrExitToScannerWithPrompt])
+        {
+            script.exitToType = @"scanner";
+            script.exitToTabTitle = [attributeDict validStringForKey:kAttrExitToScannerWithPrompt]; 
+        } 
         else if([attributeDict objectForKey:kAttrExitToPlaque])
         {
             script.exitToType = @"plaque";

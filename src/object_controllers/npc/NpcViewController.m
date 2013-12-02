@@ -120,6 +120,8 @@
         
         if([type isEqualToString:@"tab"])
             [delegate displayTab:title];
+        if([type isEqualToString:@"scanner"])
+            [delegate displayScannerWithPrompt:title]; 
         else if([type isEqualToString:@"plaque"])
             [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:typeId] fromSource:self];
         else if([type isEqualToString:@"webpage"])
