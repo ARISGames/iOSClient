@@ -69,6 +69,7 @@
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.backButton.frame = CGRectMake(0, 0, 19, 19);
     [self.backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    self.backButton.accessibilityLabel = @"Back Button";
     [self.backButton addTarget:self action:@selector(leaveConversationRequested) forControlEvents:UIControlEventTouchUpInside]; 
 }
 
