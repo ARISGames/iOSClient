@@ -545,25 +545,25 @@ UIALogger.logMessage("Image Asserter Finished");
 */
 
 // Reset the game from anywhere in the application
-//resetToLoginScreen();
+resetToLoginScreen();
 
 //Test Login Image 
-//imageAsserter();
+imageAsserter();
 
 //Login to account
-//loginTest(username, password);
+loginTest(username, password);
  
 
 //Search for Game
-//searchGame(gameName);
+searchGame(gameName);
 
 
 // Select Game
-//selectGame();
+selectGame();
 
 								/*  ******* Begin In Game Test ******* */
 					
-/*
+
 // Dismiss Initial Plaque
 initialPlaque();
 
@@ -588,7 +588,7 @@ exitToScripts();
 
 //Test Decoder
 testDecoder();
- */
+ 
 
 							/*  ******* End In Game Test and Reset ******* */
 							
