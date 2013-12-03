@@ -128,6 +128,7 @@
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor clearColor]; 
     
     for(UIView *view in [cell.contentView subviews])
         [view removeFromSuperview];
@@ -181,13 +182,13 @@
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
-    [self.navigationController popToViewController:self animated:YES];
+    [self.navigationController popToViewController:self animated:NO];
     return [delegate displayGameObject:g fromSource:s];
 }
 
 - (void) displayTab:(NSString *)t
 {
-    [self.navigationController popToViewController:self animated:YES];
+    [self.navigationController popToViewController:self animated:NO];
     [delegate displayTab:t];
 }
 

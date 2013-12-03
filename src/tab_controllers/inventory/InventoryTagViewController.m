@@ -217,6 +217,7 @@
         label.text = ((ItemTag *)[self.sortableTags objectAtIndex:i]).name;
         if(((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id != 0)
         {
+            tag.backgroundColor = [UIColor clearColor]; 
             ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) media:[[AppModel sharedAppModel] mediaForMediaId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
             [tag addSubview:amv];
         }

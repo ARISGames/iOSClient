@@ -362,17 +362,6 @@
         [self viewControllerRequestedDisplay:self.attributesNavigationController];
 }
 
-- (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(ARISViewController *)viewController 
-{
-    if(tabBarController.selectedIndex > 3 && [tabBarController.viewControllers count] > 5)
-    {
-        [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-        NSLog(@"GamePlayTabBarController: Selected tab- More");
-    }
-    else
-        NSLog(@"GamePlayTabBarController: Selected tab- %@", ((GamePlayViewController *)[tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex]).title);
-}
-
 - (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;

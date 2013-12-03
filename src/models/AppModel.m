@@ -15,9 +15,8 @@
 #import "MediaCache.h"
 #import "AppServices.h"
 #import "ARISAlertHandler.h"
-#import "ARISMediaView.h"
 
-@interface AppModel() <ARISMediaViewDelegate>
+@interface AppModel() 
 {
    	NSUserDefaults *defaults; 
 }
@@ -147,12 +146,6 @@
     }
     
     self.fallbackGameId = [defaults integerForKey:@"gameId"];
-}
-
-//PHIL BAD
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 - (void) commitPlayerLogin:(Player *)p

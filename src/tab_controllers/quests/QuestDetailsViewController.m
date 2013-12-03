@@ -20,6 +20,7 @@
     Quest *quest;
     ARISWebView *webView;
     ARISMediaView *mediaView;
+    BOOL hasAppeared;
     
     id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -46,6 +47,7 @@
         delegate = d;
         self.title = self.quest.name;
         self.hidesBottomBarWhenPushed = YES;
+        hasAppeared = NO;
     }
     return self;
 }
@@ -135,12 +137,17 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
+    if(hasAppeared) return;
+    hasAppeared = YES; 
+    
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
