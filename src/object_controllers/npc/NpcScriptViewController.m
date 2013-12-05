@@ -90,8 +90,10 @@
         continueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
         continueLabel.text = NSLocalizedString(@"ContinueKey",@"");
         continueLabel.textColor = [UIColor ARISColorText];
+        continueLabel.accessibilityLabel = @"Continue";
         UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
         continueArrow.frame = CGRectMake(self.view.bounds.size.width-25,13,19,19);
+        continueArrow.accessibilityLabel = @"Continue";
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
         line.backgroundColor = [UIColor ARISColorLightGray];
         [self.continueButton addSubview:line];
