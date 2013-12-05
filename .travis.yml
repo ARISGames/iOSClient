@@ -1,4 +1,7 @@
 language: objective-c
 
+env: 
+ - LANG="en_US.UTF-8"
+ - LC_ALL="en_US.UTF-8"
 xcode_sdk: iphonesimulator7.0
 script: bwoken test --simulator --family iphone
