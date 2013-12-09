@@ -12,7 +12,10 @@
 @interface NotesModel : NSObject
 
 - (void) clearData;
+
 - (void) getNextNotes;
+- (void) getDetailsForNote:(Note *)n;
+
 - (Note *) noteForId:(int)noteId;
 - (NSArray *) playerNotes;
 - (NSArray *) listNotes;

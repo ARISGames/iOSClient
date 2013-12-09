@@ -32,6 +32,7 @@
     {
         [self clearData];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNotesReceived:) name:@"LatestNoteListReceived" object:nil]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataReceived:)    name:@"NoteDataReceived"       object:nil];  
     }
     return self;
 }
@@ -59,6 +60,11 @@
         [[AppServices sharedAppServices] fetchNoteListPage:curServerPage];
 }
 
+- (void) getDetailsForNote:(Note *)n
+{
+    [[AppServices sharedAppServices] fetchNoteWithId:n.noteId]; 
+}
+
 - (void) latestNotesReceived:(NSNotification *)n
 {
     playerNotes = nil;
@@ -70,6 +76,19 @@
     if([[n.userInfo objectForKey:@"notes"] count] == 0) listComplete = 1;
     NSLog(@"NSNotificaiton: NewNoteListAvailable");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteListAvailable" object:nil];
+}
+
+- (void) noteDataReceived:(NSNotification *)n
+{
+    Note *note = [n.userInfo objectForKey:@"note"];
+    for(int i = 0; i < [currentNotes count]; i++)
+    {
+        if(((Note *)[currentNotes objectAtIndex:i]).noteId == note.noteId)
+            [currentNotes setObject:note atIndexedSubscript:i];
+    }
+        
+    NSLog(@"NSNotificaiton: NoteDataAvailable");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteDataAvailable" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:note,@"note",nil]];
 }
 
 - (NSArray *) playerNotes

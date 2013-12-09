@@ -75,6 +75,7 @@
 - (void) fetchGameNoteTags;
 
 - (void) fetchNoteListPage:(int)page;
+- (void) fetchNoteWithId:(int)noteId;
 
 //Should only be called in the case of a media appearing in the game that didn't exist when the game was initially launched (eg- someone took a picture)
 - (void) fetchMediaMeta:(Media *)m;

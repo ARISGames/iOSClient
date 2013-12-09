@@ -897,8 +897,15 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   }
   currentlyFetchingNoteList = YES;
 
-  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],[NSString stringWithFormat:@"%d",page],nil];
+    NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],[NSString stringWithFormat:@"%d",page],[NSString stringWithFormat:@"%d", 20],nil];
+      
   [connection performAsynchronousRequestWithService:@"notebook" method:@"getStubNotesVisibleToPlayer" arguments:args handler:self successSelector:@selector(parseNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+}
+
+- (void) fetchNoteWithId:(int)noteId
+{
+     NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],nil];
+    [connection performAsynchronousRequestWithService:@"notebook" method:@"getNote" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil userInfo:nil]; 
 }
 
 - (void) fetchGameWebPageList
@@ -1097,6 +1104,14 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     NSLog(@"NSNotification: LatestNoteListReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestNoteListReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:tempNoteList, @"notes", nil]]]; 
+}
+
+- (void) parseNoteFromJSON:(ServiceResult *)jsonResult
+{
+    Note *note = [[Note alloc] initWithDictionary:(NSDictionary *)jsonResult.data];
+    
+    NSLog(@"NSNotification: NoteDataReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDataReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:note, @"note", nil]]]; 
 }
 
 - (void) parseConversationOptionsFromJSON:(ServiceResult *)jsonResult

@@ -10,6 +10,8 @@
 #import "NoteContentsViewController.h"
 #import "Note.h"
 #import "Player.h"
+#import "AppModel.h"
+#import "Game.h"
 #import "UIColor+ARISColors.h"
 
 @interface NoteViewController () <NoteContentsViewControllerDelegate>
@@ -36,6 +38,8 @@
     {
         note = n;
         delegate = d;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:) name:@"NoteDataAvailable" object:nil];   
+        [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:note];
     }
     return self;
 }
@@ -97,6 +101,17 @@
     owner.frame = CGRectMake(75,35,self.view.frame.size.width-85,14); 
     desc.frame = CGRectMake(10,54,self.view.frame.size.width-20,18); 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
+}
+
+- (void) noteDataAvailable:(NSNotification *)n
+{
+    note = [n.userInfo objectForKey:@"note"];
+    [contentsDisplay setContents:note.contents];
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

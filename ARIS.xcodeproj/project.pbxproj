@@ -1698,9 +1698,9 @@
 			isa = PBXGroup;
 			children = (
 				AABC7120172739D60074CC21 /* AppServices.h */,
+				AABC7121172739D60074CC21 /* AppServices.m */,
 				AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */,
 				AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */,
-				AABC7121172739D60074CC21 /* AppServices.m */,
 				AABC7122172739D60074CC21 /* ARISUploader.h */,
 				AABC7123172739D60074CC21 /* ARISUploader.m */,
 				AABC7126172739D60074CC21 /* JSONConnection.h */,
