@@ -1,5 +1,8 @@
 language: objective-c
 
+before_script:
+ - brew update
+ - brew install imagemagick
 env: 
  - LANG="en_US.UTF-8"
 xcode_sdk: iphonesimulator7.0
