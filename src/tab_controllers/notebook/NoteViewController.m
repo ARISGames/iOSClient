@@ -46,7 +46,7 @@
     
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
     scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-    scrollView.backgroundColor =[UIColor whiteColor];
+    scrollView.backgroundColor = [UIColor whiteColor];
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.view.frame.size.width-65,20)];
     title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
@@ -90,7 +90,13 @@
     
 - (void) viewDidLayoutSubviews
 {
-    
+    [super viewDidLayoutSubviews];
+    scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
+    title.frame = CGRectMake(10,10,self.view.frame.size.width-65,20); 
+    date.frame  = CGRectMake(10,35,65,14); 
+    owner.frame = CGRectMake(75,35,self.view.frame.size.width-85,14); 
+    desc.frame = CGRectMake(10,54,self.view.frame.size.width-20,18); 
+    contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
 }
 
 @end

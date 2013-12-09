@@ -11,7 +11,7 @@
 #import "NoteEditorViewController.h"
 
 #import "AppModel.h"
-#import "AppServices.h"
+#import "Game.h"
 #import "NoteCell.h"
 
 const int VIEW_MODE_MINE = 0;
@@ -21,6 +21,7 @@ const int VIEW_MODE_ALL  = 1;
 {
     UITableView *table;
     int viewMode;
+    int loadingMore;
 }
 
 @end
@@ -32,6 +33,7 @@ const int VIEW_MODE_ALL  = 1;
     if(self = [super initWithDelegate:d])
     {
         viewMode = 1;
+        loadingMore = 1;
         self.tabID = @"NOTE"; 
         self.tabIconName = @"";
         self.title = NSLocalizedString(@"NotebookTitleKey",@""); 
@@ -65,7 +67,7 @@ const int VIEW_MODE_ALL  = 1;
     [plus addTarget:self action:@selector(addNote) forControlEvents:UIControlEventTouchUpInside]; 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:plus]; 
     
-    [[AppServices sharedAppServices] fetchNoteList];
+    [table reloadData];
 }
 
 - (void) newNoteListAvailable
@@ -80,8 +82,8 @@ const int VIEW_MODE_ALL  = 1;
 
 - (int) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
 {
-    if     (viewMode == VIEW_MODE_MINE) return [[[AppModel sharedAppModel].currentGame.notesModel playerNotes] count];
-    else if(viewMode == VIEW_MODE_ALL)  return [[[AppModel sharedAppModel].currentGame.notesModel listNotes]   count];
+    if     (viewMode == VIEW_MODE_MINE) return [[[AppModel sharedAppModel].currentGame.notesModel playerNotes] count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
+    else if(viewMode == VIEW_MODE_ALL)  return [[[AppModel sharedAppModel].currentGame.notesModel listNotes]   count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
     return 0;
 }
 
@@ -95,6 +97,15 @@ const int VIEW_MODE_ALL  = 1;
     NSArray *noteList;
     if     (viewMode == VIEW_MODE_MINE) noteList = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
     else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes]; 
+    
+    if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [noteList count])
+    {
+        [[AppModel sharedAppModel].currentGame.notesModel getNextNotes]; 
+        UITableViewCell *cell;
+        if(!(cell = [table dequeueReusableCellWithIdentifier:@"loadingCell"])) 
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadingCell"];
+        return cell;
+    }
     
     NoteCell *cell;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))

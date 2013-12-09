@@ -10,16 +10,14 @@
 #import "Note.h"
 
 @interface NotesModel : NSObject
-{
-    NSArray *currentNotes;
-}
-
-@property (nonatomic, strong) NSArray *currentNotes;
 
 - (void) clearData;
+- (void) getNextNotes;
 - (Note *) noteForId:(int)noteId;
 - (NSArray *) playerNotes;
 - (NSArray *) listNotes;
 - (NSArray *) mapNotes;
+
+- (int) listComplete;
 
 @end

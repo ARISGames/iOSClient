@@ -7,21 +7,24 @@
 //
 
 #import "AppModel.h"
+#import "AppServices.h"
 #import "NotesModel.h"
 #import "Player.h"
 
 @interface NotesModel()
 {
+    NSMutableArray *currentNotes; 
     NSArray *playerNotes;
     NSArray *listNotes;
     NSArray *mapNotes; 
+    
+    int curServerPage;
+    int listComplete;
 }
 
 @end
 
 @implementation NotesModel
-
-@synthesize currentNotes;
 
 - (id) init
 {
@@ -35,7 +38,25 @@
 
 - (void) clearData
 {
-    self.currentNotes = [[NSArray alloc] init];
+    currentNotes = [[NSMutableArray alloc] init];
+    curServerPage = 0;
+    listComplete = 0;
+}
+
+- (int) listComplete
+{
+    return listComplete;
+}
+
+- (void) getNextNotes
+{
+    if(listComplete)
+    {
+        NSLog(@"NSNotificaiton: NewNoteListAvailable");
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteListAvailable" object:nil]; 
+    }
+    else
+        [[AppServices sharedAppServices] fetchNoteListPage:curServerPage];
 }
 
 - (void) latestNotesReceived:(NSNotification *)n
@@ -44,7 +65,9 @@
     listNotes = nil; 
     mapNotes = nil;  
     
-    currentNotes = [n.userInfo objectForKey:@"notes"];
+    [currentNotes addObjectsFromArray:[n.userInfo objectForKey:@"notes"]];
+    curServerPage++;
+    if([[n.userInfo objectForKey:@"notes"] count] == 0) listComplete = 1;
     NSLog(@"NSNotificaiton: NewNoteListAvailable");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteListAvailable" object:nil];
 }

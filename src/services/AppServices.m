@@ -534,7 +534,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[result.userInfo validIntForKey:@"noteId"]
       andFileURL:[result.userInfo validObjectForKey:@"localURL"]];
   [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
-  [self fetchNoteList];
+    [[AppModel sharedAppModel].currentGame.notesModel clearData];
 }
 
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
@@ -888,21 +888,20 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcs" arguments:args handler:self successSelector:@selector(parseGameNpcListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchNoteList
+- (void) fetchNoteListPage:(int)page
 {
   if(currentlyFetchingNoteList)
   {
     NSLog(@"Skipping Request: already fetching player notes");
     return;
   }
-
   currentlyFetchingNoteList = YES;
 
-  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],nil];
+  NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],[NSString stringWithFormat:@"%d",page],nil];
   [connection performAsynchronousRequestWithService:@"notebook" method:@"getStubNotesVisibleToPlayer" arguments:args handler:self successSelector:@selector(parseNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void)fetchGameWebPageList
+- (void) fetchGameWebPageList
 {
   NSArray *args = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
 
