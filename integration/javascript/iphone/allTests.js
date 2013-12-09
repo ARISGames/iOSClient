@@ -124,11 +124,12 @@ var selectGame = function(gameName){
 		//Tap the top Game
 		target.frontMostApp().mainWindow().tableViews()["Empty list"].cells()[1].tap();
 		 
-		// TAP NEW GAME IF PRESENT
+		//RESET GAME IF "RESET" BUTTON IS THERE
 		if(window.tableViews()["Empty list"].cells()["Reset"].checkIsValid())
 		{ window.tableViews()["Empty list"].cells()["Reset"].tap();}
 		 
-		 //RESET GAME IF "RESET" BUTTON IS THERE
+		// TAP NEW GAME IF PRESENT 
+		target.delay(3);
 		window.tableViews()["Empty list"].cells()["New Game"].tap();
 		 
 	});
