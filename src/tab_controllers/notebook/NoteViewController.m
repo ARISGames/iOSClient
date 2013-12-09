@@ -7,6 +7,7 @@
 //
 
 #import "NoteViewController.h"
+#import "NoteTagEditorViewController.h"
 #import "NoteContentsViewController.h"
 #import "Note.h"
 #import "Player.h"
@@ -14,7 +15,7 @@
 #import "Game.h"
 #import "UIColor+ARISColors.h"
 
-@interface NoteViewController () <NoteContentsViewControllerDelegate>
+@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate>
 {
     Note *note;
     
@@ -22,6 +23,7 @@
     UILabel *title;
     UILabel *owner; 
     UILabel *date; 
+    NoteTagEditorViewController *tagsDisplay;
     UILabel *desc; 
     NoteContentsViewController *contentsDisplay;
     
@@ -70,8 +72,11 @@
     owner.textColor = [UIColor ARISColorDarkGray]; 
     owner.adjustsFontSizeToFitWidth = NO;  
     owner.text = note.owner.displayname;
+       
+    tagsDisplay = [[NoteTagEditorViewController alloc] initWithTags:note.tags delegate:self];
+    tagsDisplay.view.frame = CGRectMake(0, 54, self.view.frame.size.width, 30);
     
-    desc = [[UILabel alloc] initWithFrame:CGRectMake(10,54,self.view.frame.size.width-20,18)];
+    desc = [[UILabel alloc] initWithFrame:CGRectMake(10,84,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;
     desc.numberOfLines = 0;
     desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18]; 
@@ -82,12 +87,13 @@
     
     contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200);
-    [scrollView addSubview:contentsDisplay.view];
     
     [scrollView addSubview:title];
     [scrollView addSubview:owner]; 
     [scrollView addSubview:date]; 
+    [scrollView addSubview:tagsDisplay.view]; 
     [scrollView addSubview:desc];  
+    [scrollView addSubview:contentsDisplay.view];
     
     [self.view addSubview:scrollView];
 }
@@ -99,14 +105,23 @@
     title.frame = CGRectMake(10,10,self.view.frame.size.width-65,20); 
     date.frame  = CGRectMake(10,35,65,14); 
     owner.frame = CGRectMake(75,35,self.view.frame.size.width-85,14); 
-    desc.frame = CGRectMake(10,54,self.view.frame.size.width-20,18); 
+    tagsDisplay.view.frame = CGRectMake(0,54,self.view.frame.size.width,30);  
+    desc.frame = CGRectMake(10,84,self.view.frame.size.width-20,18); 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
 {
     note = [n.userInfo objectForKey:@"note"];
-    [contentsDisplay setContents:note.contents];
+    
+    [tagsDisplay setTags:note.tags];  
+    
+    desc.text = note.ndescription;
+    CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
+    desc.frame = CGRectMake(desc.frame.origin.x, desc.frame.origin.y, desc.frame.size.width, descSize.height);
+    
+    [contentsDisplay setContents:note.contents]; 
+    contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
 }
 
 - (void) dealloc
