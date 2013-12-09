@@ -73,7 +73,7 @@
     owner.adjustsFontSizeToFitWidth = NO;  
     owner.text = note.owner.displayname;
        
-    tagsDisplay = [[NoteTagEditorViewController alloc] initWithTags:note.tags delegate:self];
+    tagsDisplay = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:NO delegate:self];
     tagsDisplay.view.frame = CGRectMake(0, 54, self.view.frame.size.width, 30);
     
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,84,self.view.frame.size.width-20,18)];

@@ -18,17 +18,20 @@
     UILabel *plus;
     UIImageView *grad;
     
+    BOOL editable;
+    
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation NoteTagEditorViewController
 
-- (id) initWithTags:(NSArray *)t delegate:(id<NoteTagEditorViewControllerDelegate>)d
+- (id) initWithTags:(NSArray *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         tags = t;
+        editable = e;
         delegate = d;
     }
     return self;
@@ -56,7 +59,7 @@
     
     [self refreshViewFromTags];  
     [self.view addSubview:scrollView]; 
-    [self.view addSubview:plus]; 
+    if(editable) [self.view addSubview:plus]; 
     [self.view addSubview:grad]; 
 }
 
@@ -75,12 +78,15 @@
 
 - (UIView *) tagViewForTag:(Tag *)t
 {
-    int width = [[NSString stringWithFormat:@"  %@ x ",t.tagName] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
+    int width;
+    if(editable) width = [[NSString stringWithFormat:@" %@ x ",t.tagName] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
+    else         width = [[NSString stringWithFormat:@" %@ ",  t.tagName] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
     UILabel *tagView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,width,20)];
     tagView.font = [UIFont fontWithName:@"HelveticaNeue-Light"  size:18];
     tagView.textColor = [UIColor whiteColor];
     tagView.backgroundColor = [UIColor ARISColorLightBlue];
-    tagView.text = [NSString stringWithFormat:@"  %@ x",t.tagName];
+    if(editable) tagView.text = [NSString stringWithFormat:@" %@ x ",t.tagName];
+    else         tagView.text = [NSString stringWithFormat:@" %@ ",t.tagName]; 
     tagView.layer.cornerRadius = 8;
     tagView.layer.masksToBounds = YES;
     return tagView;

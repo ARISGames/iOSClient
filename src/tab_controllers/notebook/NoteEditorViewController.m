@@ -84,7 +84,7 @@
     [descriptionDoneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     descriptionDoneButton.hidden = YES;
     
-    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags delegate:self];
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:YES delegate:self];
     tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 30);
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);     
