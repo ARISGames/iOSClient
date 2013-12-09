@@ -99,7 +99,6 @@
 
 - (void) leaveGameButtonTouched
 {
-    [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) stopAudio];
     [delegate gameRequestsDismissal];
 }
 

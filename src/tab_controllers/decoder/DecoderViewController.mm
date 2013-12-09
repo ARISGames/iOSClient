@@ -14,6 +14,7 @@
 #import "AppServices.h"
 #import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
+#import "GamePlayTabSelectorViewController.h"
 #import "UIColor+ARISColors.h"
 
 @interface DecoderViewController() <ZXingDelegate, UITextFieldDelegate>
@@ -184,6 +185,7 @@
 {
     if([code isEqualToString:@"log-out"])
     {
+        [(id<GamePlayTabSelectorViewControllerDelegate>)delegate gameRequestsDismissal]; 
         NSLog(@"NSNotification: LogoutRequested");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
         return;

@@ -32,13 +32,11 @@
     int readingCountUpToOneHundredThousand;
     int steps;
 }
-@property (nonatomic, strong) AVAudioPlayer *player;
 @end
 
 @implementation ARISAppDelegate
 
 @synthesize window;
-@synthesize player;
 
 - (void) applicationDidFinishLaunching:(UIApplication *)application
 {    
@@ -142,24 +140,18 @@
 	[NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
 }
 
-- (void) playAudio:(NSString*)wavFileName
+- (void) playAudio:(NSString*)fileName
 {
-	//NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
+    NSString *soundFilePath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], fileName];
+    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
     
-    //[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-    //[[AVAudioSession sharedInstance] setActive:YES error:nil];
-    
-    //NSError* err;
-    //self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
-    //self.player.delegate = self;
-    
-    //if(err) NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
-    //else [self.player play];
+    player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
+    [player play];
 }
 
 - (void)stopAudio
 {
-    if(self.player) [self.player stop];
+    if(player) [player stop];
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
