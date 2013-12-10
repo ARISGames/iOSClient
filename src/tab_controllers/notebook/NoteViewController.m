@@ -114,7 +114,8 @@
     tagsDisplay.view.frame = CGRectMake(0,54,self.view.frame.size.width,30);  
     desc.frame = CGRectMake(10,84,self.view.frame.size.width-20,18); 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
-    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, 200);  
+    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height);
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -130,7 +131,9 @@
     [contentsDisplay setContents:note.contents]; 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
     [commentsDisplay setComments:note.comments]; 
-    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, 200);  
+    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
+    
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height); 
 }
 
 - (void) dealloc

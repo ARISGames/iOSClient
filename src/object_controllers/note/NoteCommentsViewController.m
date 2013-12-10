@@ -85,6 +85,8 @@
     
     UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(10, 27, self.view.bounds.size.width-20, 20)];
     text.text = c.name; 
+    text.lineBreakMode = NSLineBreakByWordWrapping;
+    text.numberOfLines = 0; 
     CGSize textSize = [text.text sizeWithFont:text.font constrainedToSize:CGSizeMake(text.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping];   
     text.frame = CGRectMake(text.frame.origin.x, text.frame.origin.y, text.frame.size.width, textSize.height);
     
