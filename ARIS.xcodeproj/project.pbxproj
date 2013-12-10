@@ -71,6 +71,7 @@
 		AA2D215717DE57F000CF4198 /* radar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215517DE57F000CF4198 /* radar@2x.png */; };
 		AA2D215B17DE593B00CF4198 /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215917DE593B00CF4198 /* book.png */; };
 		AA2D215C17DE593B00CF4198 /* book@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215A17DE593B00CF4198 /* book@2x.png */; };
+		AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC121857724600068667 /* NoteCommentsViewController.m */; };
 		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
 		AA383B161829A8BD00612FFB /* audio.png in Resources */ = {isa = PBXBuildFile; fileRef = AA383B131829A8BD00612FFB /* audio.png */; };
@@ -468,6 +469,8 @@
 		AA2D215517DE57F000CF4198 /* radar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radar@2x.png"; sourceTree = "<group>"; };
 		AA2D215917DE593B00CF4198 /* book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = book.png; sourceTree = "<group>"; };
 		AA2D215A17DE593B00CF4198 /* book@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "book@2x.png"; sourceTree = "<group>"; };
+		AA30AC111857724600068667 /* NoteCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentsViewController.h; sourceTree = "<group>"; };
+		AA30AC121857724600068667 /* NoteCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentsViewController.m; sourceTree = "<group>"; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
 		AA383B0C1828324F00612FFB /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
 		AA383B0D1828324F00612FFB /* NotebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookViewController.m; sourceTree = "<group>"; };
@@ -1059,6 +1062,8 @@
 				AA383B1A1829AD2F00612FFB /* NoteViewController.m */,
 				AA2B4A6B182AA6FF00A0D2A1 /* NoteContentsViewController.h */,
 				AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */,
+				AA30AC111857724600068667 /* NoteCommentsViewController.h */,
+				AA30AC121857724600068667 /* NoteCommentsViewController.m */,
 			);
 			path = note;
 			sourceTree = "<group>";
@@ -2483,6 +2488,7 @@
 				AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */,
 				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,
 				AABC742B172739D80074CC21 /* glues_error.c in Sources */,
+				AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */,
 				AA3B7FC1182037CB006C9715 /* SBJsonStreamWriter.m in Sources */,
 				AABC742C172739D80074CC21 /* glues_mipmap.c in Sources */,
 				AABC742D172739D80074CC21 /* glues_project.c in Sources */,

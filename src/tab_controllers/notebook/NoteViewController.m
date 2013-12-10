@@ -9,13 +9,14 @@
 #import "NoteViewController.h"
 #import "NoteTagEditorViewController.h"
 #import "NoteContentsViewController.h"
+#import "NoteCommentsViewController.h"
 #import "Note.h"
 #import "Player.h"
 #import "AppModel.h"
 #import "Game.h"
 #import "UIColor+ARISColors.h"
 
-@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate>
+@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentsViewControllerDelegate>
 {
     Note *note;
     
@@ -26,6 +27,7 @@
     NoteTagEditorViewController *tagsDisplay;
     UILabel *desc; 
     NoteContentsViewController *contentsDisplay;
+    NoteCommentsViewController *commentsDisplay;
     
     id<GameObjectViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -88,12 +90,16 @@
     contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200);
     
+    commentsDisplay = [[NoteCommentsViewController alloc] initWithNoteComments:note.comments delegate:self];
+    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, 200); 
+    
     [scrollView addSubview:title];
     [scrollView addSubview:owner]; 
     [scrollView addSubview:date]; 
     [scrollView addSubview:tagsDisplay.view]; 
     [scrollView addSubview:desc];  
     [scrollView addSubview:contentsDisplay.view];
+    [scrollView addSubview:commentsDisplay.view]; 
     
     [self.view addSubview:scrollView];
 }
@@ -108,6 +114,7 @@
     tagsDisplay.view.frame = CGRectMake(0,54,self.view.frame.size.width,30);  
     desc.frame = CGRectMake(10,84,self.view.frame.size.width-20,18); 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
+    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, 200);  
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -122,6 +129,8 @@
     
     [contentsDisplay setContents:note.contents]; 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
+    [commentsDisplay setComments:note.comments]; 
+    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, 200);  
 }
 
 - (void) dealloc
