@@ -72,6 +72,7 @@
 		AA2D215B17DE593B00CF4198 /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215917DE593B00CF4198 /* book.png */; };
 		AA2D215C17DE593B00CF4198 /* book@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D215A17DE593B00CF4198 /* book@2x.png */; };
 		AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC121857724600068667 /* NoteCommentsViewController.m */; };
+		AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */; };
 		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
 		AA383B161829A8BD00612FFB /* audio.png in Resources */ = {isa = PBXBuildFile; fileRef = AA383B131829A8BD00612FFB /* audio.png */; };
@@ -471,6 +472,8 @@
 		AA2D215A17DE593B00CF4198 /* book@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "book@2x.png"; sourceTree = "<group>"; };
 		AA30AC111857724600068667 /* NoteCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentsViewController.h; sourceTree = "<group>"; };
 		AA30AC121857724600068667 /* NoteCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentsViewController.m; sourceTree = "<group>"; };
+		AA30AC1618579C6B00068667 /* NoteCommentInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentInputViewController.h; sourceTree = "<group>"; };
+		AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentInputViewController.m; sourceTree = "<group>"; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
 		AA383B0C1828324F00612FFB /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
 		AA383B0D1828324F00612FFB /* NotebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookViewController.m; sourceTree = "<group>"; };
@@ -1064,6 +1067,8 @@
 				AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */,
 				AA30AC111857724600068667 /* NoteCommentsViewController.h */,
 				AA30AC121857724600068667 /* NoteCommentsViewController.m */,
+				AA30AC1618579C6B00068667 /* NoteCommentInputViewController.h */,
+				AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */,
 			);
 			path = note;
 			sourceTree = "<group>";
@@ -2551,6 +2556,7 @@
 				AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */,
 				AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
+				AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */,
 				AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */,
 				AA383B1118283B9F00612FFB /* NoteCell.m in Sources */,
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,

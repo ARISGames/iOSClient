@@ -10,6 +10,7 @@
 #import "NoteTagEditorViewController.h"
 #import "NoteContentsViewController.h"
 #import "NoteCommentsViewController.h"
+#import "NoteCommentInputViewController.h"
 #import "ARISMediaView.h"
 #import "Note.h"
 #import "Player.h"
@@ -17,7 +18,7 @@
 #import "Game.h"
 #import "UIColor+ARISColors.h"
 
-@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentsViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
+@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
     Note *note;
     
@@ -28,6 +29,7 @@
     NoteTagEditorViewController *tagsDisplay;
     UILabel *desc; 
     NoteContentsViewController *contentsDisplay;
+    NoteCommentInputViewController *commentInput; 
     NoteCommentsViewController *commentsDisplay;
     
     UIView *overlayView;
@@ -93,8 +95,11 @@
     contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200);
     
+    commentInput = [[NoteCommentInputViewController alloc] initWithDelegate:self];
+    commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height,self.view.frame.size.width,commentInput.view.frame.size.height);
+    
     commentsDisplay = [[NoteCommentsViewController alloc] initWithNoteComments:note.comments delegate:self];
-    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, 200); 
+    commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 200); 
     
     [scrollView addSubview:title];
     [scrollView addSubview:owner]; 
@@ -102,6 +107,7 @@
     [scrollView addSubview:tagsDisplay.view]; 
     [scrollView addSubview:desc];  
     [scrollView addSubview:contentsDisplay.view];
+    [scrollView addSubview:commentInput.view]; 
     [scrollView addSubview:commentsDisplay.view]; 
     
     [self.view addSubview:scrollView];
@@ -117,8 +123,9 @@
     tagsDisplay.view.frame = CGRectMake(0,54,self.view.frame.size.width,30);  
     desc.frame = CGRectMake(10,84,self.view.frame.size.width-20,desc.frame.size.height); 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
-    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height);
+    commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);  
+    commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -133,10 +140,11 @@
     
     [contentsDisplay setContents:note.contents]; 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
+    commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);   
     [commentsDisplay setComments:note.comments]; 
-    commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
+    commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
     
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height); 
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216); 
 }
 
 - (void) mediaWasSelected:(Media *)m
@@ -154,7 +162,7 @@
     [overlayView addSubview:scroll];
     [overlayView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTouched)]];
     overlayView.opaque = NO;
-    overlayView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.2];
+    overlayView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
     [self.view addSubview:overlayView];
 }
 
@@ -167,6 +175,27 @@
 - (UIView *) viewForZoomingInScrollView:(UIScrollView *)s
 {
     return [s.subviews objectAtIndex:0];
+}
+
+- (void) commentBeganEditing
+{
+    scrollView.contentOffset = CGPointMake(0,(commentInput.view.frame.origin.y+commentInput.view.frame.size.height)-(scrollView.frame.size.height-216));
+    commentsDisplay.view.frame = CGRectMake(commentsDisplay.view.frame.origin.x, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, commentsDisplay.view.frame.size.width, commentsDisplay.view.frame.size.height);
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);  
+}
+
+- (void) commentCancelled
+{
+    scrollView.contentOffset = CGPointMake(0,-64); 
+    commentsDisplay.view.frame = CGRectMake(commentsDisplay.view.frame.origin.x, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, commentsDisplay.view.frame.size.width, commentsDisplay.view.frame.size.height); 
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);  
+}
+
+- (void) commentConfirmed:(NSString *)c
+{
+    scrollView.contentOffset = CGPointMake(0,-64);  
+    commentsDisplay.view.frame = CGRectMake(commentsDisplay.view.frame.origin.x, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, commentsDisplay.view.frame.size.width, commentsDisplay.view.frame.size.height); 
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);   
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
