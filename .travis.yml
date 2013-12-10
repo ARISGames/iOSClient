@@ -1,5 +1,10 @@
 language: objective-c
 
+before_script:
+ - brew update
+ - brew install imagemagick
+ - security unlock-keychain -p travis "${HOME}/Library/Keychains/login.keychain"
+
 env: 
  - LANG="en_US.UTF-8"
 xcode_sdk: iphonesimulator7.0
