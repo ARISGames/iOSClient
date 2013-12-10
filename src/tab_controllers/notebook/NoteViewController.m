@@ -81,7 +81,6 @@
     owner.text = note.owner.displayname;
        
     tagsDisplay = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:NO delegate:self];
-    tagsDisplay.view.frame = CGRectMake(0, 54, self.view.frame.size.width, 30);
     
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,84,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;
@@ -89,17 +88,10 @@
     desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18]; 
     desc.textColor = [UIColor ARISColorDarkGray];  
     desc.text = note.ndescription;
-    CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
-    desc.frame = CGRectMake(desc.frame.origin.x, desc.frame.origin.y, desc.frame.size.width, descSize.height);
     
     contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
-    contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200);
-    
     commentInput = [[NoteCommentInputViewController alloc] initWithDelegate:self];
-    commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height,self.view.frame.size.width,commentInput.view.frame.size.height);
-    
     commentsDisplay = [[NoteCommentsViewController alloc] initWithNoteComments:note.comments delegate:self];
-    commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 200); 
     
     [scrollView addSubview:title];
     [scrollView addSubview:owner]; 
@@ -111,21 +103,42 @@
     [scrollView addSubview:commentsDisplay.view]; 
     
     [self.view addSubview:scrollView];
+    
+    [self formatSubviewFrames];
 }
     
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    [self formatSubviewFrames];
+}
+
+- (void) formatSubviewFrames
+{
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
     title.frame = CGRectMake(10,10,self.view.frame.size.width-65,20); 
-    date.frame  = CGRectMake(10,35,65,14); 
-    owner.frame = CGRectMake(75,35,self.view.frame.size.width-85,14); 
-    tagsDisplay.view.frame = CGRectMake(0,54,self.view.frame.size.width,30);  
-    desc.frame = CGRectMake(10,84,self.view.frame.size.width-20,desc.frame.size.height); 
-    contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
+    date.frame  = CGRectMake(10,title.frame.origin.y+title.frame.size.height+5,65,14); 
+    owner.frame = CGRectMake(75,title.frame.origin.y+title.frame.size.height+5,self.view.frame.size.width-85,14); 
+    
+    if([note.tags count] > 0) tagsDisplay.view.frame = CGRectMake(0,date.frame.origin.y+date.frame.size.height+5,self.view.frame.size.width,30);  
+    else                      tagsDisplay.view.frame = CGRectMake(0,date.frame.origin.y+date.frame.size.height+5,self.view.frame.size.width,0);   
+    
+    if([note.ndescription length] > 0) 
+    {
+        CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
+        desc.frame = CGRectMake(10,tagsDisplay.view.frame.origin.y+tagsDisplay.view.frame.size.height,self.view.frame.size.width-20,descSize.height); 
+    }
+    else desc.frame = CGRectMake(10,tagsDisplay.view.frame.origin.y+tagsDisplay.view.frame.size.height,self.view.frame.size.width-20,0);  
+    
+    if([note.contents count] > 0) contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
+    else                          contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 0);  
+    
     commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);  
-    commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);
+    
+    if([note.comments count] > 0) commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
+    else                          commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 0);   
+    
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216); 
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -135,16 +148,10 @@
     [tagsDisplay setTags:note.tags];  
     
     desc.text = note.ndescription;
-    CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
-    desc.frame = CGRectMake(desc.frame.origin.x, desc.frame.origin.y, desc.frame.size.width, descSize.height);
-    
     [contentsDisplay setContents:note.contents]; 
-    contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
-    commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);   
     [commentsDisplay setComments:note.comments]; 
-    commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
     
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216); 
+    [self formatSubviewFrames];
 }
 
 - (void) mediaWasSelected:(Media *)m
@@ -179,23 +186,20 @@
 
 - (void) commentBeganEditing
 {
+    [self formatSubviewFrames];
     scrollView.contentOffset = CGPointMake(0,(commentInput.view.frame.origin.y+commentInput.view.frame.size.height)-(scrollView.frame.size.height-216));
-    commentsDisplay.view.frame = CGRectMake(commentsDisplay.view.frame.origin.x, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, commentsDisplay.view.frame.size.width, commentsDisplay.view.frame.size.height);
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);  
 }
 
 - (void) commentCancelled
 {
+    [self formatSubviewFrames]; 
     scrollView.contentOffset = CGPointMake(0,-64); 
-    commentsDisplay.view.frame = CGRectMake(commentsDisplay.view.frame.origin.x, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, commentsDisplay.view.frame.size.width, commentsDisplay.view.frame.size.height); 
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);  
 }
 
 - (void) commentConfirmed:(NSString *)c
 {
+    [self formatSubviewFrames]; 
     scrollView.contentOffset = CGPointMake(0,-64);  
-    commentsDisplay.view.frame = CGRectMake(commentsDisplay.view.frame.origin.x, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, commentsDisplay.view.frame.size.width, commentsDisplay.view.frame.size.height); 
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);   
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv

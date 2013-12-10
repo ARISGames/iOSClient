@@ -44,7 +44,7 @@
     postButton.backgroundColor = [UIColor ARISColorDarkBlue];
     cancelButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
     [cancelButton addTarget:self action:@selector(cancelButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    cancelButton.frame = CGRectMake(self.view.frame.size.width-50, 30, 40, 20); 
+    cancelButton.frame = CGRectMake(self.view.frame.size.width-50, 40, 40, 20); 
     cancelButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
     
     [self.view addSubview:commentArea];
