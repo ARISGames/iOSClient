@@ -10,13 +10,14 @@
 #import "NoteTagEditorViewController.h"
 #import "NoteContentsViewController.h"
 #import "NoteCommentsViewController.h"
+#import "ARISMediaView.h"
 #import "Note.h"
 #import "Player.h"
 #import "AppModel.h"
 #import "Game.h"
 #import "UIColor+ARISColors.h"
 
-@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentsViewControllerDelegate>
+@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentsViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
     Note *note;
     
@@ -28,6 +29,8 @@
     UILabel *desc; 
     NoteContentsViewController *contentsDisplay;
     NoteCommentsViewController *commentsDisplay;
+    
+    UIView *overlayView;
     
     id<GameObjectViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -112,7 +115,7 @@
     date.frame  = CGRectMake(10,35,65,14); 
     owner.frame = CGRectMake(75,35,self.view.frame.size.width-85,14); 
     tagsDisplay.view.frame = CGRectMake(0,54,self.view.frame.size.width,30);  
-    desc.frame = CGRectMake(10,84,self.view.frame.size.width-20,18); 
+    desc.frame = CGRectMake(10,84,self.view.frame.size.width-20,desc.frame.size.height); 
     contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
     commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height);
@@ -134,6 +137,41 @@
     commentsDisplay.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height+10, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
     
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height); 
+}
+
+- (void) mediaWasSelected:(Media *)m
+{
+    //A bunch of construction- all should be contained to here, though
+    overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 74, self.view.frame.size.width-20, self.view.frame.size.height-84)];
+    ARISMediaView *media = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,scroll.frame.size.width,scroll.frame.size.height) media:m mode:ARISMediaDisplayModeAspectFit delegate:self];
+    [scroll addSubview:media];
+    scroll.contentSize = scroll.frame.size;
+    scroll.scrollEnabled = YES;
+    scroll.maximumZoomScale = 20;
+    scroll.minimumZoomScale = 1; 
+    scroll.delegate = self;
+    [overlayView addSubview:scroll];
+    [overlayView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTouched)]];
+    overlayView.opaque = NO;
+    overlayView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.2];
+    [self.view addSubview:overlayView];
+}
+
+- (void) overlayTouched
+{
+    [overlayView removeFromSuperview];
+    overlayView = nil;
+}
+
+- (UIView *) viewForZoomingInScrollView:(UIScrollView *)s
+{
+    return [s.subviews objectAtIndex:0];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 - (void) dealloc

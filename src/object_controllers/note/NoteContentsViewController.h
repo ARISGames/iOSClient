@@ -7,7 +7,9 @@
 //
 
 #import "ARISViewController.h"
+@class Media;
 @protocol NoteContentsViewControllerDelegate
+- (void) mediaWasSelected:(Media *)m;
 @end
 @interface NoteContentsViewController : ARISViewController
 - (id) initWithNoteContents:(NSArray  *)c delegate:(id<NoteContentsViewControllerDelegate>)d;

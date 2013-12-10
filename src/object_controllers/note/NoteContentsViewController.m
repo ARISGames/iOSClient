@@ -81,6 +81,7 @@
         c = (NoteContent *)[contents objectAtIndex:i];
         if([c.type isEqualToString:@"TEXT"]) continue;
         ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) media:[[AppModel sharedAppModel] mediaForMediaId:c.mediaId ofType:[c getType]] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ARISMediaViewTouched)]]; 
         amv.clipsToBounds = YES;
         
         [scrollView addSubview:amv];
@@ -99,6 +100,19 @@
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     
+}
+
+- (void) ARISMediaViewTouched //this is obnoxious- if only tap gestures would pass the thing that was tapped...
+{
+    int nonTextMediaIndex = 0;
+    for(int i = 0; i < [contents count]; i++) //need to iterate, becuase "TEXT" types are skipped :/
+    { 
+        NoteContent *c = (NoteContent *)[contents objectAtIndex:i];
+        if([c.type isEqualToString:@"TEXT"]) continue;
+        if(pageControl.currentPage == nonTextMediaIndex)
+            [delegate mediaWasSelected:[[AppModel sharedAppModel] mediaForMediaId:c.mediaId ofType:[c getType]]];
+        nonTextMediaIndex++; 
+    }
 }
 
 @end

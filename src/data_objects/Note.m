@@ -33,7 +33,7 @@
     {
         self.noteId = 0;
         self.owner = [[Player alloc] init]; 
-        self.name = @"Note";
+        self.name = @"";
         self.ndescription = @"";
         self.created = [[NSDate alloc] init]; 
         self.location = [[Location alloc] init];

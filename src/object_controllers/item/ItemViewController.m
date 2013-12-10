@@ -114,7 +114,7 @@
         if(numButtons > 0) scrollView.contentInset = UIEdgeInsetsMake(64,0,54,0);
         else               scrollView.contentInset = UIEdgeInsetsMake(64,0,10,0);
         scrollView.clipsToBounds    = NO;
-        scrollView.maximumZoomScale = 100;
+        scrollView.maximumZoomScale = 20;
         scrollView.minimumZoomScale = 1;
         scrollView.delegate = self;
         
