@@ -142,14 +142,6 @@
 @synthesize time;
 @synthesize delegate;
 
-- (id) init
-{
-    if(self = [super init])
-    {
-    }
-    return self;
-}
-
 - (void) cancelConnection
 {
     [self.connection cancel];
@@ -159,7 +151,7 @@
 
 - (void) dealloc
 {
-    [self.connection cancel];
+    [self cancelConnection];
 }
 
 @end

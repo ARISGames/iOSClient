@@ -27,7 +27,7 @@
 #import "NoteContent.h"
 #import "Tag.h"
 #import "ARISUploader.h"
-#import "JSONConnection.h"
+#import "ARISConnection.h"
 #import "ARISMediaLoader.h"
 
 @interface AppServices : NSObject

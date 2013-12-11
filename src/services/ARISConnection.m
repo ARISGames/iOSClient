@@ -1,58 +1,60 @@
 //
-//  JSONConnection.m
+//  ARISConnection.m
 //  ARIS
 //
 //  Created by David J Gagnon on 8/28/09.
 //  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import "JSONConnection.h"
+#import "ARISConnection.h"
 #import "SBJson.h"
 #import "ARISAlertHandler.h"
 
 NSString *const kARISServerServicePackage = @"v1";
 
-@interface JSONConnection() <NSURLConnectionDelegate>
+@interface ARISConnection() <NSURLConnectionDelegate>
 {
     SBJsonParser *jsonParser;
+    SBJsonWriter *jsonWriter;
     NSString *server;
     NSMutableDictionary *connections;
 }
 @end
 
-@implementation JSONConnection
+@implementation ARISConnection
 
 - (id) initWithServer:(NSString *)s
 {
     if(self = [super init])
     {
         jsonParser = [[SBJsonParser alloc] init]; 
+        jsonWriter = [[SBJsonWriter alloc] init];  
         server = s;
         connections = [[NSMutableDictionary alloc] initWithCapacity:20];
     }
     return self;
 }
 
-- (void) performAsynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict
+- (void) performAsynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict
 {
-    [self performAsyncRequestWithURL:[self createRequestURLFromService:service method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict]; 
+    [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:service method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict]; 
 }
 
-- (ServiceResult *) performSynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args userInfo:(NSDictionary *)dict
+- (ServiceResult *) performSynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
 {
-    return [self performSyncRequestWithURL :[self createRequestURLFromService:service method:m arguments:args] userInfo:dict];
+    return [self performSyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:service method:m arguments:args] userInfo:dict];
 }
 
-- (void) performAsyncRequestWithURL:(NSURL *)url handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)u
+- (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)u
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
-    NSLog(@"Req asynch URL: %@", url);
+    NSLog(@"Req asynch URL: %@", rURL.URL);
     
     ServiceResult *r = [[ServiceResult alloc] init];
     r.asyncData = [[NSMutableData alloc] initWithCapacity:2048]; 
     r.userInfo = u;
-    r.url = url;
-    r.connection = [[NSURLConnection alloc] initWithRequest:[NSURLRequest requestWithURL:url] delegate:self];
+    r.url = rURL.URL;
+    r.connection = [[NSURLConnection alloc] initWithRequest:rURL delegate:self];
     r.handler = h;
     r.successSelector = ss;
     r.failSelector = fs; 
@@ -62,20 +64,19 @@ NSString *const kARISServerServicePackage = @"v1";
 	[r.connection start];
 }
 
-- (ServiceResult *) performSyncRequestWithURL:(NSURL *)url userInfo:(NSDictionary *)u
+- (ServiceResult *) performSyncURLRequest:(NSURLRequest *)rURL userInfo:(NSDictionary *)u
 {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
-    NSLog(@"Req synchr URL: %@", url); 
+    NSLog(@"Req synchr URL: %@", rURL.URL); 
     
     ServiceResult *sr = [[ServiceResult alloc] init];
     sr.userInfo = u;
-    sr.url = url; 
+    sr.url = rURL.URL; 
     sr.start = [NSDate date];
     
-	NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSURLResponse *response = [[NSURLResponse alloc] init]; //why do we just throw these out?
     NSError *error = [[NSError alloc] init];                //why do we just throw these out?
-    NSData* result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData* result = [NSURLConnection sendSynchronousRequest:rURL returningResponse:&response error:&error];
     
     sr.time = -1*[sr.start timeIntervalSinceNow];
 	
@@ -83,7 +84,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
 	if(!result)
     {
-		NSLog(@"JSONConnection: performSynchronousRequest Error");
+		NSLog(@"ARISConnection: performSynchronousRequest Error");
         [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
 		return nil;
 	}
@@ -92,25 +93,53 @@ NSString *const kARISServerServicePackage = @"v1";
     return sr;
 }
 
-- (NSURL *) createRequestURLFromService:(NSString *)service method:(NSString *)method arguments:(NSArray *)args
+- (NSURLRequest *) createRequestURLWithHTTP:(NSString *)httpMethod fromService:(NSString *)service method:(NSString *)method arguments:(NSDictionary *)args
 {
-    NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"/json.php/%@.%@.%@", kARISServerServicePackage, service, method];	 
+    NSString *requestBaseString = [NSMutableString stringWithFormat:@"%@/json.php/%@.%@.%@/", server, kARISServerServicePackage, service, method];	 
     
-    NSEnumerator *argumentsEnumerator = [args objectEnumerator];
+    if([httpMethod isEqualToString:@"GET"])
+        return [self GETRequestWithURLString:requestBaseString arguments:[args allValues]];
+    else
+        return [self POSTRequestWithURLString:requestBaseString arguments:args]; 
+}
+
+- (NSURLRequest *) GETRequestWithURLString:(NSString *)baseString arguments:(NSArray *)args
+{    
+    NSMutableString *requestParameters = [[NSMutableString alloc] init];
     NSString *argument;
-    while(argument = [argumentsEnumerator nextObject])
+    for(int i = 0; i < [args count]; i++)
     {
-        [requestParameters appendString:@"/"];  
+        argument = [args objectAtIndex:i];
         
         // replace special characters
         // double encode slashes (CFURLCreateStringByAddingPercentEscapes doesn't handle them well)
         // actions.php on server side decodes them once before sending these arguments on to their respective functions. 
-        argument = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,(__bridge_retained CFStringRef)argument,NULL,(CFStringRef)@"!*'();:@&=+$,?%#",kCFStringEncodingUTF8 );
+        argument = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge_retained CFStringRef)argument, NULL, (CFStringRef)@"!*'();:@&=+$,?%#", kCFStringEncodingUTF8);
         argument = [argument stringByReplacingOccurrencesOfString:@"/" withString:@"%252F"]; 
+        argument = [argument stringByReplacingOccurrencesOfString:@" " withString:@"%20"];  
         
         [requestParameters appendString:argument];
+        [requestParameters appendString:@"/"];   
     }
-    return [NSURL URLWithString:[[server stringByAppendingString:requestParameters] stringByReplacingOccurrencesOfString:@" " withString:@"%20"]];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", baseString, requestParameters]];
+    return [NSURLRequest requestWithURL:url];  
+}
+
+- (NSURLRequest *) POSTRequestWithURLString:(NSString *)baseString arguments:(NSDictionary *)args
+{
+    NSStringEncoding enc = NSUTF8StringEncoding; 
+    
+    NSString *data = [jsonWriter stringWithObject:args];
+    
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:baseString]];
+    [urlRequest setHTTPMethod:@"POST"];
+    [urlRequest setValue:@"application/json"                              forHTTPHeaderField:@"Accept"]; 
+    [urlRequest setValue:@"application/json"                              forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"]; 
+    [urlRequest setHTTPBody:data];
+    
+    return urlRequest;
 }
 
 - (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
@@ -147,7 +176,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     NSLog(@"NSNotification: ConnectionLost");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConnectionLost" object:nil]];
-    NSLog(@"*** JSONConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+    NSLog(@"*** ARISConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
     
    	if(sr.handler && sr.failSelector)
 		[sr.handler performSelector:sr.failSelector withObject:error]; 

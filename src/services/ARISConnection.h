@@ -1,5 +1,5 @@
 //
-//  JSONConnection.h
+//  ARISConnection.h
 //  ARIS
 //
 //  Created by David J Gagnon on 8/28/09.
@@ -7,6 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+
+@class ServiceResult;
+
+@interface ARISConnection : NSObject  
+
+- (id) initWithServer:(NSString *)server;
+- (void) performAsynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict;
+- (ServiceResult *) performSynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict;
+
+@end
 
 @interface ServiceResult : NSObject
 {
@@ -32,16 +42,4 @@
 @property (nonatomic, assign) SEL failSelector;
 @property (nonatomic, strong) NSDate *start;
 @property (nonatomic, assign) NSTimeInterval time;
-@end
-
-@interface JSONConnection : NSObject  
-
-- (id) initWithServer:(NSString *)server;
-- (void) performAsynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict;
-- (ServiceResult *) performSynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSArray *)args userInfo:(NSDictionary *)dict;
-
-- (void) performAsyncRequestWithURL:(NSURL *)url handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict;
-- (ServiceResult *) performSyncRequestWithURL:(NSURL *)url userInfo:(NSDictionary *)dict;
-- (NSURL *) createRequestURLFromService:(NSString *)service method:(NSString *)method arguments:(NSArray *)args;
-
 @end

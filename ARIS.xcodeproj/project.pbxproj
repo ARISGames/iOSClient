@@ -276,8 +276,7 @@
 		AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7112172739D60074CC21 /* PopOverViewController.m */; };
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
 		AABC73D1172739D80074CC21 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7121172739D60074CC21 /* AppServices.m */; };
-		AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7123172739D60074CC21 /* ARISUploader.m */; };
-		AABC73D4172739D80074CC21 /* JSONConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7127172739D60074CC21 /* JSONConnection.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AABC73D4172739D80074CC21 /* ARISConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7127172739D60074CC21 /* ARISConnection.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC73D6172739D80074CC21 /* UploadContent.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC712B172739D60074CC21 /* UploadContent.m */; };
 		AABC73D7172739D80074CC21 /* UploadContent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AABC712C172739D60074CC21 /* UploadContent.xcdatamodeld */; };
 		AABC73D8172739D80074CC21 /* UploadMan.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7131172739D60074CC21 /* UploadMan.m */; };
@@ -772,10 +771,8 @@
 		AABC711E172739D60074CC21 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		AABC7120172739D60074CC21 /* AppServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppServices.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AABC7121172739D60074CC21 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppServices.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		AABC7122172739D60074CC21 /* ARISUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISUploader.h; sourceTree = "<group>"; };
-		AABC7123172739D60074CC21 /* ARISUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISUploader.m; sourceTree = "<group>"; };
-		AABC7126172739D60074CC21 /* JSONConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONConnection.h; sourceTree = "<group>"; };
-		AABC7127172739D60074CC21 /* JSONConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONConnection.m; sourceTree = "<group>"; };
+		AABC7126172739D60074CC21 /* ARISConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISConnection.h; sourceTree = "<group>"; };
+		AABC7127172739D60074CC21 /* ARISConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISConnection.m; sourceTree = "<group>"; };
 		AABC712A172739D60074CC21 /* UploadContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadContent.h; sourceTree = "<group>"; };
 		AABC712B172739D60074CC21 /* UploadContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadContent.m; sourceTree = "<group>"; };
 		AABC712D172739D60074CC21 /* UploadContent.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent.xcdatamodel; sourceTree = "<group>"; };
@@ -1714,10 +1711,8 @@
 				AABC7121172739D60074CC21 /* AppServices.m */,
 				AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */,
 				AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */,
-				AABC7122172739D60074CC21 /* ARISUploader.h */,
-				AABC7123172739D60074CC21 /* ARISUploader.m */,
-				AABC7126172739D60074CC21 /* JSONConnection.h */,
-				AABC7127172739D60074CC21 /* JSONConnection.m */,
+				AABC7126172739D60074CC21 /* ARISConnection.h */,
+				AABC7127172739D60074CC21 /* ARISConnection.m */,
 				AABC712A172739D60074CC21 /* UploadContent.h */,
 				AABC712B172739D60074CC21 /* UploadContent.m */,
 				AABC712C172739D60074CC21 /* UploadContent.xcdatamodeld */,
@@ -2475,8 +2470,7 @@
 				AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */,
 				AABC73D0172739D80074CC21 /* RootViewController.m in Sources */,
 				AABC73D1172739D80074CC21 /* AppServices.m in Sources */,
-				AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */,
-				AABC73D4172739D80074CC21 /* JSONConnection.m in Sources */,
+				AABC73D4172739D80074CC21 /* ARISConnection.m in Sources */,
 				AABC73D6172739D80074CC21 /* UploadContent.m in Sources */,
 				AABC73D7172739D80074CC21 /* UploadContent.xcdatamodeld in Sources */,
 				AABC73D8172739D80074CC21 /* UploadMan.m in Sources */,

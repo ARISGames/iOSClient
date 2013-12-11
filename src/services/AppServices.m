@@ -7,7 +7,6 @@
 //
 
 #import "AppServices.h"
-#import "ARISUploader.h"
 #import "NSDictionary+ValidParsers.h"
 #import "NpcScriptOption.h"
 #import "ARISAlertHandler.h"
@@ -19,7 +18,7 @@
 
 @interface AppServices()
 {
-    JSONConnection *connection;
+    ARISConnection *connection;
     ARISMediaLoader *mediaLoader; 
 }
 
@@ -57,7 +56,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
     if(self = [super init])
     {
-        connection = [[JSONConnection alloc] initWithServer:[[AppModel sharedAppModel].serverURL absoluteString]];
+        connection = [[ARISConnection alloc] initWithServer:[[AppModel sharedAppModel].serverURL absoluteString]];
         mediaLoader = [[ARISMediaLoader alloc] init]; 
     }
     return self;
@@ -119,18 +118,18 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
 {
-  ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidFinish:) errorSelector:@selector(playerPicUploadDidFail:)];
-
   NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
   [userInfo setValue:@"PHOTO" forKey: @"type"];
   [userInfo setValue:fileURL forKey:@"url"];
-  [uploader setUserInfo:userInfo];
-
-  //ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-  //[[[RootViewController sharedRootViewController] showWaitingIndicator:@"Uploading" displayProgressBar:YES];
-  //[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
-
-  [uploader upload];
+    
+  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+    @"object", @"key",
+    @"object", @"key", 
+    @"object", @"key", 
+    @"object", @"key", 
+                        nil];
+    
+  [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:@selector(playerPicUploadDidFail:) userInfo:userInfo];
 }
 
 - (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid
@@ -586,27 +585,29 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
 {
-  ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidFinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
-
-  NSNumber *nId = [[NSNumber alloc] initWithInt:noteId];
-
+  NSNumber *nId = [[NSNumber alloc] initWithInt:noteId]; 
   NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
   [userInfo setValue:name forKey:@"title"];
   [userInfo setValue:nId forKey:@"noteId"];
   [userInfo setValue:type forKey: @"type"];
   [userInfo setValue:fileURL forKey:@"url"];
-  [uploader setUserInfo:userInfo];
-
-  [uploader upload];
+    
+  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+    @"object", @"key",
+    @"object", @"key", 
+    @"object", @"key", 
+    @"object", @"key", 
+                           nil]; 
+  [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(noteContentUploadDidFinish:) failSelector:@selector(uploadNoteContentDidFail:) userInfo:userInfo]; 
 }
 
-- (void) noteContentUploadDidFinish:(ARISUploader*)uploader
+- (void) noteContentUploadDidFinish:(ServiceResult*)result
 {
-  int noteId      = [[uploader userInfo] validIntForKey:@"noteId"] ? [[uploader userInfo] validIntForKey:@"noteId"] : 0;
-  NSString *title = [[uploader userInfo] validObjectForKey:@"title"];
-  NSString *type  = [[uploader userInfo] validObjectForKey:@"type"];
-  NSURL *localUrl = [[uploader userInfo] validObjectForKey:@"url"];
-  NSString *newFileName = [uploader responseString];
+  int noteId      = [result.userInfo validIntForKey:@"noteId"];
+  NSString *title = [result.userInfo validObjectForKey:@"title"];
+  NSString *type  = [result.userInfo validObjectForKey:@"type"];
+  NSURL *localUrl = [result.userInfo validObjectForKey:@"url"];
+  NSString *newFileName = [result responseString];
 
   //TODO: Check that the response string is actually a new filename that was made on the server, not an error
 
@@ -632,22 +633,22 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   [self fetchAllPlayerLists];
 }
 
-- (void) uploadNoteContentDidFail:(ARISUploader *)uploader
+- (void) uploadNoteContentDidFail:(ServiceResult *)result
 {
-  NSError *error = uploader.error;
+  NSError *error = result.error;
   NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 
   [alert show];
 
   NSNumber *nId = [[NSNumber alloc]initWithInt:5];
-  nId = [[uploader userInfo] validObjectForKey:@"noteId"];
+  nId = [result.userInfo validObjectForKey:@"noteId"];
   //if(description == NULL) description = @"filename";
 
   [[AppModel sharedAppModel].uploadManager contentFailedUploading];
 }
 
-- (void) playerPicUploadDidFinish:(ARISUploader*)uploader
+- (void) playerPicUploadDidFinish:(ServiceResult*)result
 {        
   NSString *newFileName = [uploader responseString];
 
@@ -657,7 +658,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     nil];
   [connection performAsynchronousRequestWithService:@"players" method:@"addPlayerPicFromFilename" arguments:args handler:self successSelector:@selector(parseNewPlayerMediaResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 
-  [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[uploader.userInfo validObjectForKey:@"url"]];
+  [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[result.userInfo validObjectForKey:@"url"]];
   [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
 
@@ -680,9 +681,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
   }
 }
 
-- (void) playerPicUploadDidFail:(ARISUploader *)uploader
+- (void) playerPicUploadDidFail:(ServiceResult *)result
 {
-  NSError *error = uploader.error;
+  NSError *error = result.error;
   NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadFailedKey", @"") message:NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
 
