@@ -11,8 +11,8 @@
 @interface NoteCommentInputViewController () <UITextViewDelegate>
 {
     UITextView *commentArea;
-    UIButton *postButton;
-    UIButton *cancelButton; 
+    UILabel *postButton;
+    UILabel *cancelButton; 
     id<NoteCommentInputViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -38,14 +38,18 @@
     commentArea.layer.borderWidth = 0.5f;
     commentArea.layer.borderColor = [[UIColor ARISColorDarkGray] CGColor];
     commentArea.delegate = self;
-    postButton   = [UIButton buttonWithType:UIButtonTypeCustom];
-    [postButton addTarget:self action:@selector(postButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    postButton.frame = CGRectMake(self.view.frame.size.width-50, 10, 40, 20);
-    postButton.backgroundColor = [UIColor ARISColorDarkBlue];
-    cancelButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
-    [cancelButton addTarget:self action:@selector(cancelButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    cancelButton.frame = CGRectMake(self.view.frame.size.width-50, 40, 40, 20); 
-    cancelButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
+    
+    postButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 10, 50, 20)];
+    postButton.text = @"Post";
+    postButton.textColor = [UIColor ARISColorDarkBlue];  
+    [postButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postButtonTouched)]];
+    postButton.userInteractionEnabled = YES; 
+    
+    cancelButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 40, 50, 20)];
+    cancelButton.text = @"Don't";
+    cancelButton.textColor = [UIColor ARISColorDarkBlue];
+    [cancelButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonTouched)]]; 
+    cancelButton.userInteractionEnabled = YES;
     
     [self.view addSubview:commentArea];
 }
