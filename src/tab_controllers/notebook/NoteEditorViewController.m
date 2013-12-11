@@ -9,13 +9,41 @@
 #import "NoteEditorViewController.h"
 #import "NoteContentsViewController.h"
 #import "NoteTagEditorViewController.h"
+#import "NoteCameraViewController.h"
 #import "Note.h"
 #import "Tag.h"
 #import "AppModel.h"
+#import "UploadMan.h"
 #import "Player.h"
 #import "UIColor+ARISColors.h"
 
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate>
+@interface DataToUpload : NSObject
+{
+    NSString *title;
+    NSString *type;
+    NSURL *url;
+};
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSURL *url;
+@end
+@implementation DataToUpload
+@synthesize title;
+@synthesize type;
+@synthesize url;
+- (id) initWithTitle:(NSString *)t type:(NSString *)ty url:(NSURL *)u
+{
+    if(self = [super init])
+    {
+        self.title = t;
+        self.type = ty; 
+        self.url = u; 
+    }
+    return self;
+}
+@end
+
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate>
 {
     Note *note;
     
@@ -29,7 +57,9 @@
     UIButton *locationPickerButton;
     UIButton *imagePickerButton; 
     UIButton *audioPickerButton;  
-    UIButton *shareButton;   
+    UIButton *shareButton;
+    
+    NSMutableArray *datasToUpload;
     
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -49,6 +79,8 @@
         }
         note = n; 
         delegate = d;
+        
+        datasToUpload = [[NSMutableArray alloc] initWithCapacity:5];
     }
     return self;
 }
@@ -93,15 +125,19 @@
     locationPickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     locationPickerButton.frame = CGRectMake(10, 10, 24, 24);
+    [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     imagePickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [imagePickerButton setImage:[UIImage imageNamed:@"photo.png"] forState:UIControlStateNormal]; 
     imagePickerButton.frame = CGRectMake(44, 10, 24, 24); 
+    [imagePickerButton addTarget:self action:@selector(imagePickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     audioPickerButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
     [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
     audioPickerButton.frame = CGRectMake(78, 10, 24, 24); 
+    [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareButton setImage:[UIImage imageNamed:@"lock.png"] forState:UIControlStateNormal]; 
     shareButton.frame = CGRectMake(self.view.bounds.size.width-34, 10, 24, 24); 
+    [shareButton addTarget:self action:@selector(shareButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     [bottombar addSubview:locationPickerButton];
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:audioPickerButton]; 
@@ -169,6 +205,61 @@
 - (void) textViewDidEndEditing:(UITextView *)textView
 {
     descriptionDoneButton.hidden = YES; 
+}
+
+- (void) mediaWasSelected:(Media *)m
+{
+    
+}
+
+- (void) locationPickerButtonTouched
+{
+}
+
+- (void) imagePickerButtonTouched
+{
+    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithDelegate:self] animated:YES];
+}
+
+- (void) audioPickerButtonTouched
+{
+}
+
+- (void) shareButtonTouched
+{
+}
+
+- (void) imageChosenWithURL:(NSURL *)url
+{
+    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@", [NSDate date]] type:@"PHOTO" url:url]]; 
+    [self.navigationController popToViewController:self animated:YES];  
+}
+
+- (void) videoChosenWithURL:(NSURL *)url
+{
+    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@", [NSDate date]] type:@"VIDEO" url:url]];
+    [self.navigationController popToViewController:self animated:YES]; 
+}
+
+- (void) audioChosenWithURL:(NSURL *)url
+{
+    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@",[NSDate date]] type:@"AUDIO" url:url]];
+    [self.navigationController popToViewController:self animated:YES];  
+}
+
+- (void) cameraViewControllerCancelled
+{
+    [self.navigationController popToViewController:self animated:YES];
+}
+
+- (void) uploadAllDatas
+{
+    DataToUpload *d;
+    for(int i = 0; i < [datasToUpload count]; i++)
+    {
+        d = [datasToUpload objectAtIndex:i];
+        [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:note.noteId withTitle:d.title withText:nil withType:d.type withFileURL:d.url]; 
+    }
 }
 
 @end

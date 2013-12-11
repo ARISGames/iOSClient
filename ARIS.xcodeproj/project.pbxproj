@@ -112,6 +112,7 @@
 		AA74E79F176267EF005C279B /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA74E79E176267EF005C279B /* MainWindow-iPad.xib */; };
 		AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */; };
 		AA856FF517A9AFA900E9D451 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF317A9AFA900E9D451 /* qr.png */; };
+		AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */; };
 		AA942B9017CD4CF4004EDEA1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B8B17CD4CF4004EDEA1 /* Default-568h@2x.png */; };
 		AA942B9117CD4CF4004EDEA1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B8C17CD4CF4004EDEA1 /* Default.png */; };
 		AA942B9217CD4CF4004EDEA1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B8D17CD4CF4004EDEA1 /* Default@2x.png */; };
@@ -542,6 +543,8 @@
 		AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerAnywhereViewController.m; sourceTree = "<group>"; };
 		AA856FEF17A972B800E9D451 /* arisjs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = arisjs.js; sourceTree = "<group>"; };
 		AA856FF317A9AFA900E9D451 /* qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr.png; sourceTree = "<group>"; };
+		AA8C360C1858C827000A8F0B /* NoteCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCameraViewController.h; sourceTree = "<group>"; };
+		AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCameraViewController.m; sourceTree = "<group>"; };
 		AA942B8B17CD4CF4004EDEA1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		AA942B8C17CD4CF4004EDEA1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		AA942B8D17CD4CF4004EDEA1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -1806,6 +1809,8 @@
 				AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */,
 				AA9A6D96182D7ECA000CC323 /* NoteTagEditorViewController.h */,
 				AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */,
+				AA8C360C1858C827000A8F0B /* NoteCameraViewController.h */,
+				AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */,
 				AA383B0F18283B9F00612FFB /* NoteCell.h */,
 				AA383B1018283B9F00612FFB /* NoteCell.m */,
 			);
@@ -2485,6 +2490,7 @@
 				AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */,
 				AABC73F3172739D80074CC21 /* NearbyObjectCell.m in Sources */,
 				AABC73F5172739D80074CC21 /* NearbyObjectsViewController.m in Sources */,
+				AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */,
 				AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */,
 				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
