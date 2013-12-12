@@ -98,7 +98,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSString *requestBaseString = [NSMutableString stringWithFormat:@"%@/json.php/%@.%@.%@/", server, kARISServerServicePackage, service, method];	 
     
     if([httpMethod isEqualToString:@"GET"])
-        return [self GETRequestWithURLString:requestBaseString arguments:[args allValues]];
+        return [self GETRequestWithURLString:requestBaseString arguments:[self hackOrderedValuesOutOfDictionaryWithAlphabetizedKeys:args]];
     else
         return [self POSTRequestWithURLString:requestBaseString arguments:args]; 
 }
@@ -237,6 +237,27 @@ NSString *const kARISServerServicePackage = @"v1";
 		[dictionaryArray addObject:obj];
 	}
 	return dictionaryArray;
+}
+
+//Ok. So the goal of this class was a light, clean wrapper to pass arguments into an http connection with 
+//the aris server. The generalized way to pass arguments is a dictionary (eg "the 'gameId' is '5252'"). 
+//However, the aris server is currently set up in such a way that is requrires ordered arguments (eg a
+//request for the games available to user 570 when hes at this lat, that lon, and wants to see games in 
+// development looks something like this:
+// http://domain.com/stuff/570/43.0129345/89.123451/1 )
+// In other words, its completely illegible to a human, and very easy to mess up if you dont know the ordering
+// or if it changes. So EVENTUALLY, aris will switch away from this. But for NOW, so long as you pass a dictionary
+// with alphebetized keys (eg "aplayerId,blatitude,clongitude,dshowGamesInDev"), this will parse out the values
+// in the correct order.
+
+//But hey, at least it's isolated to this one clearly labeled hack function... ;)
+- (NSArray *) hackOrderedValuesOutOfDictionaryWithAlphabetizedKeys:(NSDictionary *)d
+{
+    NSArray *orderedKeys = [[d allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    NSMutableArray *orderedValues = [[NSMutableArray alloc] initWithCapacity:[orderedKeys count]];
+    for(int i = 0; i < [orderedKeys count]; i++)
+        [orderedValues addObject:[d objectForKey:[orderedKeys objectAtIndex:i]]];
+    return [NSArray arrayWithArray:orderedValues];
 }
 
 @end
