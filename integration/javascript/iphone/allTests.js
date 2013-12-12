@@ -447,6 +447,11 @@ test("Decoder Plaque Item", function(target, app){
 	 target.delay(1);
 	 app.keyboard().typeString('4982\n');
 	 
+	 /*  ** SCREEN ASSERTIONS ** */
+		target.delay(2);
+		UIALogger.logMessage('Assert Screenshot: Normal Object'); 
+		assertScreenMatchesImageNamed("normalItem", "Normal Item screen did not match");
+		
 	 //Entered plaque?
 	 target.frontMostApp().mainWindow().staticTexts()["Continue"].tap();
 	
@@ -466,7 +471,6 @@ test("Decoder Plaque Item", function(target, app){
 	test("Decoder Normal Item", function(target,app){
 		 
 		 
-		 
 	 //Go Into Decoder From MAP	
 	 app.navigationBar().buttons()["In-Game Menu"].tap();
 	 window.tableViews()["Empty list"].cells()["Scanner"].tap();
@@ -476,8 +480,12 @@ test("Decoder Plaque Item", function(target, app){
 	 target.delay(1);
 	 app.keyboard().typeString('8317\n');
 	 
+	 /*  ** SCREEN ASSERTIONS ** */
+		target.delay(2);
+	UIALogger.logMessage('Assert Screenshot: Normal Object'); 
+	assertScreenMatchesImageNamed("normalItem", "Normal Item screen did not match");
+	 
 	 //Entered Normal Item?
-	
 	 app.navigationBar().buttons()["Back Button"].tap();
 		 
 	 // Clear text Field
@@ -510,9 +518,7 @@ UIALogger.logMessage("Image Asserter Finished");
 		//UIATarget.localTarget().captureAppScreenWithName('normalItem'); 
 */
 
-
 							/*  ******* MAIN ******* */
-							
 							
 							/////////////// Reset Game and Create Image Asserter 
 // Reset the game from anywhere in the application
@@ -526,7 +532,6 @@ loginTest(username, password);
 
 //Search for Game
 searchGame(gameName);
-
 
 // Select Game
 selectGame();
