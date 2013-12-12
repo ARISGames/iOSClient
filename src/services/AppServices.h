@@ -26,7 +26,6 @@
 #import "Note.h"
 #import "NoteContent.h"
 #import "Tag.h"
-#import "ARISUploader.h"
 #import "ARISConnection.h"
 #import "ARISMediaLoader.h"
 

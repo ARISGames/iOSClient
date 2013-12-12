@@ -53,7 +53,9 @@
 
 - (void) loadMetaDataForMR:(MediaResult *)mr
 {
-    [metaConnections addObject:mr];
+    for(int i = 0; i < [metaConnections count]; i++)
+        if(((MediaResult *)[metaConnections objectAtIndex:i]).media.uid == mr.media.uid) return;
+    [metaConnections addObject:mr]; 
     [[AppServices sharedAppServices] fetchMediaMeta:mr.media]; 
 }
 

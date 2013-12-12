@@ -158,7 +158,7 @@
     //[RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
 }
 
--(void)saveUserDefaults
+- (void) saveUserDefaults
 {
 	NSLog(@"Model: Saving User Defaults");
     [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
