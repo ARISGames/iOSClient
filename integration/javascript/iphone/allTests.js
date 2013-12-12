@@ -178,6 +178,27 @@ var initialPlaque = function(){
 	});	
 };
 
+var quickTravelTest = function(){
+
+test ('QuickTravel Off',function(target,app){
+
+window.elements()["Item Quick Travel Off"].tap();
+assertFalse(app.actionSheet().buttons()["Quick Travel"].checkIsValid(),"Quick Travel OFF but button is present");
+app.actionSheet().cancelButton().tap();
+
+});
+
+test ('QuickTravel ON',function(target,app){
+
+window.elements()["Conversation Tester"].tap();
+assertTrue(app.actionSheet().buttons()["Quick Travel"].checkIsValid(),'Quick Travel On but button could not be tapped');
+app.actionSheet().cancelButton().tap();
+
+});
+
+
+}
+
 							/*  ******* NORMAL ITEM TESTS ******* */
 var normalItem = function(){
 	test ("Normal Item", function(target,app){
@@ -540,6 +561,8 @@ selectGame();
 // Dismiss Initial Plaque
 initialPlaque();
 
+//QuickTravel Test
+quickTravelTest();
 
 //Normal Item Test
 normalItem();
