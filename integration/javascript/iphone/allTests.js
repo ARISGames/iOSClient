@@ -151,9 +151,15 @@ UIATarget.onAlert = function onAlert(alert) {
  	
  	/*  ** ALERT: ARIS USE CURRENT LOCATION ** */
 	if (title == "“ARIS” Would Like to Use Your Current Location'")
-	{	alert.buttons()["OK"].tap();
+	{	alert.buttons()["Ok"].tap();
 		return true;
 	}
+	
+	if (title == 'Scan Successful, But...'){
+		UIALogger.logMessage('Requirements to see this item have not been met.');
+		alert.buttons()["Ok"].tap();
+		return true;
+		}
 	
 	
 	return false;
@@ -191,7 +197,7 @@ app.actionSheet().cancelButton().tap();
 test ('QuickTravel ON',function(target,app){
 
 window.elements()["Conversation Tester"].tap();
-assertTrue(app.actionSheet().buttons()["Quick Travel"].checkIsValid(),'Quick Travel On but button could not be tapped');
+assertTrue(app.actionSheet().buttons()["Quick Travel"].checkIsValid(),'Quick Travel On but button no present');
 app.actionSheet().cancelButton().tap();
 
 });
@@ -457,7 +463,7 @@ var exitToScripts = function() {
 var testDecoder = function() {
 
 
-test("Decoder Plaque Item", function(target, app){
+test("Decoder: Access Normal Item", function(target, app){
 	 
 	 //Go Into Decoder From MAP	
 	 app.navigationBar().buttons()["In-Game Menu"].tap();
@@ -466,7 +472,7 @@ test("Decoder Plaque Item", function(target, app){
 	 // Plaque Decoder
 	 window.textFields()[0].tap();
 	 target.delay(1);
-	 app.keyboard().typeString('4982\n');
+	 app.keyboard().typeString('8994\n');
 	 
 	 /*  ** SCREEN ASSERTIONS ** */
 		target.delay(2);
@@ -489,7 +495,7 @@ test("Decoder Plaque Item", function(target, app){
 	 
 	 });
 	 
-	test("Decoder Normal Item", function(target,app){
+test("Decoder: Requirements Not Met", function(target,app){
 		 
 		 
 	 //Go Into Decoder From MAP	
@@ -499,16 +505,9 @@ test("Decoder Plaque Item", function(target, app){
 	// Normal Item Decoder
 	 window.textFields()[0].tap();
 	 target.delay(1);
-	 app.keyboard().typeString('8317\n');
+	 app.keyboard().typeString('1472\n');
 	 
-	 /*  ** SCREEN ASSERTIONS ** */
-		target.delay(2);
-	UIALogger.logMessage('Assert Screenshot: Normal Object'); 
-	assertScreenMatchesImageNamed("normalItem", "Normal Item screen did not match");
-	 
-	 //Entered Normal Item?
-	 app.navigationBar().buttons()["Back Button"].tap();
-		 
+
 	 // Clear text Field
 	 window.textFields()[0].tap();
 		 target.delay(1);
@@ -561,6 +560,8 @@ selectGame();
 // Dismiss Initial Plaque
 initialPlaque();
 
+/*
+
 //QuickTravel Test
 quickTravelTest();
 
@@ -581,6 +582,7 @@ normalScriptTests();
  
 //Test Exit to Scripts
 exitToScripts();
+*/
 
 //Test Decoder
 testDecoder();
