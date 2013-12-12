@@ -560,8 +560,6 @@ selectGame();
 // Dismiss Initial Plaque
 initialPlaque();
 
-/*
-
 //QuickTravel Test
 quickTravelTest();
 
@@ -582,7 +580,7 @@ normalScriptTests();
  
 //Test Exit to Scripts
 exitToScripts();
-*/
+
 
 //Test Decoder
 testDecoder();
