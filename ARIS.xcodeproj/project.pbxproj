@@ -648,6 +648,7 @@
 		7152F66D177B9BCA001B0CAE /* magnifyTabBarUnselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magnifyTabBarUnselected@2x.png"; sourceTree = "<group>"; };
 		7152F66E177B9BCA001B0CAE /* microphoneTabBarUnselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "microphoneTabBarUnselected@2x.png"; sourceTree = "<group>"; };
 		7152F66F177B9BCB001B0CAE /* qrScannerTabBarUnselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrScannerTabBarUnselected@2x.png"; sourceTree = "<group>"; };
+		867DD495185CF5D300F5FE9B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8902C4A417AC09E700C80803 /* CRFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRFilter.h; sourceTree = "<group>"; };
 		8902C4A517AC09E700C80803 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
 		8902C4A617AC09E700C80803 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
@@ -2706,6 +2707,7 @@
 				en,
 				es,
 				fr,
+				de,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
 			projectDirPath = "";
@@ -3282,6 +3284,7 @@
 				AB0A5BA4120365420065CE68 /* en */,
 				AB0A5BA61203665C0065CE68 /* es */,
 				ABD24F59120A5BAD00D792F5 /* fr */,
+				867DD495185CF5D300F5FE9B /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
