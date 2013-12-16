@@ -13,6 +13,7 @@
 #import "Note.h"
 #import "Tag.h"
 #import "AppModel.h"
+#import "AppServices.h"
 #import "UploadMan.h"
 #import "Player.h"
 #import "UIColor+ARISColors.h"

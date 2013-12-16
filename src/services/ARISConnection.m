@@ -35,14 +35,22 @@ NSString *const kARISServerServicePackage = @"v1";
     return self;
 }
 
-- (void) performAsynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict
+- (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict
 {
-    [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:service method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict]; 
+    //PHIL TAKE THIS OUT
+    if([s isEqualToString:@"notebook"] && [m isEqualToString:@"uploadMedia"])
+    {
+        [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"POST" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict];  
+        return;
+    }
+    //OK STOP
+    
+    [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict]; 
 }
 
-- (ServiceResult *) performSynchronousRequestWithService:(NSString *)service method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
+- (ServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
 {
-    return [self performSyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:service method:m arguments:args] userInfo:dict];
+    return [self performSyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:s method:m arguments:args] userInfo:dict];
 }
 
 - (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)u
@@ -51,7 +59,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSLog(@"Req asynch URL: %@", rURL.URL);
     
     ServiceResult *r = [[ServiceResult alloc] init];
-    r.asyncData = [[NSMutableData alloc] initWithCapacity:2048]; 
+    r.asyncData = [[NSMutableData alloc] initWithCapacity:2048];
     r.userInfo = u;
     r.url = rURL.URL;
     r.connection = [[NSURLConnection alloc] initWithRequest:rURL delegate:self];
@@ -93,9 +101,9 @@ NSString *const kARISServerServicePackage = @"v1";
     return sr;
 }
 
-- (NSURLRequest *) createRequestURLWithHTTP:(NSString *)httpMethod fromService:(NSString *)service method:(NSString *)method arguments:(NSDictionary *)args
+- (NSURLRequest *) createRequestURLWithHTTP:(NSString *)httpMethod fromService:(NSString *)s method:(NSString *)method arguments:(NSDictionary *)args
 {
-    NSString *requestBaseString = [NSMutableString stringWithFormat:@"%@/json.php/%@.%@.%@/", server, kARISServerServicePackage, service, method];	 
+    NSString *requestBaseString = [NSMutableString stringWithFormat:@"%@/json.php/%@.%@.%@/", server, kARISServerServicePackage, s, method];	 
     
     if([httpMethod isEqualToString:@"GET"])
         return [self GETRequestWithURLString:requestBaseString arguments:[self hackOrderedValuesOutOfDictionaryWithAlphabetizedKeys:args]];
@@ -128,14 +136,13 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (NSURLRequest *) POSTRequestWithURLString:(NSString *)baseString arguments:(NSDictionary *)args
 {
-    NSStringEncoding enc = NSUTF8StringEncoding; 
-    
-    NSString *data = [jsonWriter stringWithObject:args];
+    NSString *sData = [jsonWriter stringWithObject:args];
+    NSData *data = [sData dataUsingEncoding:NSUTF8StringEncoding];
     
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:baseString]];
     [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest setValue:@"application/json"                              forHTTPHeaderField:@"Accept"]; 
-    [urlRequest setValue:@"application/json"                              forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"]; 
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [urlRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"]; 
     [urlRequest setHTTPBody:data];
     
@@ -169,19 +176,28 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void) connection:(NSURLConnection *)c didFailWithError:(NSError *)error
 {
     ServiceResult *sr = [connections objectForKey:c.description];
-    if(!sr) return; 
+    if(!sr) return;
     
     [connections removeObjectForKey:c.description];
-    if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;    
+    if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     NSLog(@"NSNotification: ConnectionLost");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConnectionLost" object:nil]];
     NSLog(@"*** ARISConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
     
    	if(sr.handler && sr.failSelector)
-		[sr.handler performSelector:sr.failSelector withObject:error]; 
+		[sr.handler performSelector:sr.failSelector withObject:error];
     
     [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
+}
+
+- (NSURLRequest *) connection:(NSURLConnection *)c willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response
+{
+    if(response)
+    {
+        NSLog(response);
+    }
+    return request;
 }
 
 - (NSObject *) parseJSONString:(NSString *)json
@@ -190,7 +206,7 @@ NSString *const kARISServerServicePackage = @"v1";
     if(!result)
     {
         NSLog(@"JSONResult: Error parsing JSON String: %@.", json);
-        [[ARISAlertHandler sharedAlertHandler] showServerAlertEmailWithTitle:NSLocalizedString(@"BadServerResponseTitleKey",@"") message:NSLocalizedString(@"BadServerResponseMessageKey",@"") details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@",json]];  
+        [[ARISAlertHandler sharedAlertHandler] showServerAlertEmailWithTitle:NSLocalizedString(@"BadServerResponseTitleKey",@"") message:NSLocalizedString(@"BadServerResponseMessageKey",@"") details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@",json]];
         return nil;
     }
     
