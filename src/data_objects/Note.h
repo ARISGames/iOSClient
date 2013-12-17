@@ -11,7 +11,6 @@
 @class Player;
 @class Location;
 @class Tag;
-@class NoteContent;
 
 @interface Note : NSObject <GameObjectProtocol>
 {
@@ -39,7 +38,5 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, assign) BOOL publicToList;
 @property (nonatomic, assign) BOOL publicToMap;
-
--(BOOL) isUploading;
 
 @end

@@ -10,7 +10,6 @@
 #import "Player.h"
 #import "Location.h"
 #import "Tag.h"
-#import "NoteContent.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Note
@@ -74,9 +73,11 @@
         self.contents = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *contentDict in contentDicts)
         {
-            NoteContent *nc = [[NoteContent alloc] initWithDictionary:contentDict];
-            if([nc.type isEqualToString:@"TEXT"]) self.ndescription = [NSString stringWithFormat:@"%@ %@",self.ndescription,nc.text];
-            else [self.contents addObject:nc];
+            //For compatibility with previous model where text was just a notecontent
+            if([[contentDict objectForKey:@"type"] isEqualToString:@"TEXT"])
+                self.ndescription = [NSString stringWithFormat:@"%@ %@",self.ndescription,[contentDict objectForKey:@"text"]];
+            //else
+                //[self.contents addObject:[[NoteContent alloc] initWithDictionary:contentDict]];
         }
         
         NSArray *commentDicts = [dict validObjectForKey:@"comments"];
@@ -115,31 +116,21 @@
 }
  */
 
--(Note *)copy
+- (Note *) copy
 {
     Note *c = [[Note alloc] init];
     //TODO
     return c;
 }
 
-- (int)compareTo:(Note *)ob
+- (int) compareTo:(Note *)ob
 {
 	return (ob.noteId == self.noteId);
 }
 
-- (NSString *)description
+- (NSString *) description
 {
     return [NSString stringWithFormat:@"Note- Id:%d\tName:%@\tOwner:%@\t",self.noteId,self.name,self.owner.username];
-}
-
-- (BOOL) isUploading
-{
-    for (int i = 0; i < [self.contents count]; i++)
-    {
-        if([[(NoteContent *)[self.contents objectAtIndex:i] type] isEqualToString:@"UPLOAD"])
-            return  YES;
-    }
-    return  NO;
 }
 
 @end

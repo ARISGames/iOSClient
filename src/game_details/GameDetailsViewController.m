@@ -114,8 +114,8 @@
     self.descriptionWebView = [[UIWebView alloc] initWithFrame:CGRectMake(15, 15, self.view.bounds.size.width-30, 10)];
     [descriptionWebView setBackgroundColor:[UIColor clearColor]];
     self.descriptionWebView.delegate = self;
-    if(![self.game.gdescription isEqualToString:@""])
-        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.game.gdescription] baseURL:nil];
+    if(![self.game.desc isEqualToString:@""])
+        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.game.desc] baseURL:nil];
     
     self.title = self.game.name;
 }

@@ -21,7 +21,7 @@
 @class WebPage;
 @class Panoramic;
 
-@class MediaCache;
+@class MediaModel;
 @class UploadMan;
 @class Overlay;
 
@@ -48,12 +48,6 @@
     
 	NSMutableArray *nearbyLocationsList;
 
-	NSMutableDictionary *gameMediaList;
-	NSMutableDictionary *gameItemList;
-	NSMutableDictionary *gameNodeList;
-	NSMutableDictionary *gameNpcList;
-    NSMutableDictionary *gameWebPageList;
-    NSMutableDictionary *gamePanoramicList;
     NSMutableArray *gameTagList;
     NSMutableArray *overlayList;
 
@@ -62,11 +56,10 @@
     BOOL hidePlayers;
     
     //CORE Data
-    NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     UploadMan *uploadManager;
-    MediaCache *mediaCache;
+    MediaModel *mediaModel;
     
     CMMotionManager *motionManager;
 }
@@ -97,19 +90,12 @@
 
 @property (nonatomic, strong) NSMutableArray *gameTagList;
 @property (nonatomic, strong) NSMutableArray *overlayList;
-@property (nonatomic, strong) NSMutableDictionary *gameMediaList;
-@property (nonatomic, strong) NSMutableDictionary *gameItemList;
-@property (nonatomic, strong) NSMutableDictionary *gameNodeList;
-@property (nonatomic, strong) NSMutableDictionary *gameNpcList;
-@property (nonatomic, strong) NSMutableDictionary *gameWebPageList;
-@property (nonatomic, strong) NSMutableDictionary *gamePanoramicList;
 
 // CORE Data
-@property (nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, strong) UploadMan *uploadManager;
-@property (nonatomic, strong) MediaCache *mediaCache;
+@property (nonatomic, strong) MediaModel *mediaModel;
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
 
@@ -126,11 +112,6 @@
 - (void) loadUserDefaults;
 - (void) saveCOREData;
 
-- (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type;
-- (Item *) itemForItemId:(int)mId;
-- (Node *) nodeForNodeId:(int)mId;
-- (Npc *) npcForNpcId:(int)mId;
-- (WebPage *) webPageForWebPageId:(int)mId;
-- (Panoramic *) panoramicForPanoramicId:(int)mId;
+- (Media *) mediaForMediaId:(int)mId;
 
 @end

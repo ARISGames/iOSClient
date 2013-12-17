@@ -35,7 +35,7 @@
 
 - (id) initWithFrame:(CGRect)frame mediaId:(int)mediaId presenter:(ARISViewController *)p preloadNow:(BOOL)preload
 {
-    return [self initWithFrame:frame mediaId:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil] presenter:p preloadNow:preload];
+    return [self initWithFrame:frame mediaId:[[AppModel sharedAppModel] mediaForMediaId:mediaId] presenter:p preloadNow:preload];
 }
 
 - (id) initWithFrame:(CGRect)frame media:(Media *)aMedia presenter:(ARISViewController *)p preloadNow:(BOOL)preload

@@ -2,17 +2,28 @@
 //  Media.h
 //  ARIS
 //
-//  Created by Kevin Harris on 9/25/09.
-//  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
+//  Created by Phil Dougherty on 12/17/13.
+//
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@class MediaCD;
 
-@interface Media : NSManagedObject
-@property (nonatomic, strong) NSNumber *gameid;
-@property (nonatomic, strong) NSString *url;
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSData *image;
-@property (nonatomic, strong) NSNumber *uid;
+@interface Media : NSObject
+{
+    int gameId;
+    int mediaId;
+    NSURL *localURL;
+    NSURL *remoteURL;
+    NSData *data; 
+}
+
+@property (readwrite, assign) int gameId;
+@property (readwrite, assign) int mediaId;
+@property (nonatomic, strong) NSURL *localURL;
+@property (nonatomic, strong) NSURL *remoteURL;
+@property (nonatomic, strong) NSData *data;
+
+- (id) initWithMediaCD:(MediaCD *)mcd;
+
 @end

@@ -82,7 +82,7 @@
         [self.playerNameField becomeFirstResponder];
 
     if(chosenMediaId > 0)
-        [self.playerPic refreshWithFrame:self.playerPic.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        [self.playerPic refreshWithFrame:self.playerPic.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] mode:ARISMediaDisplayModeAspectFill delegate:self];
     else if(chosenMediaId == 0)
         [self takePicture];
     //if chosenMediaId < 0, just leave the image as is

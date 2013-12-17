@@ -12,7 +12,7 @@
 #import "Media.h"
 #import "UploadMan.h"
 #import "Quest.h"
-#import "MediaCache.h"
+#import "MediaModel.h"
 #import "AppServices.h"
 #import "ARISAlertHandler.h"
 
@@ -39,19 +39,13 @@
 @synthesize recentGameList;
 @synthesize player;
 @synthesize currentGame;
-@synthesize gameMediaList;
-@synthesize gameItemList;
-@synthesize gameNodeList;
-@synthesize gameNpcList;
-@synthesize gameWebPageList;
-@synthesize gamePanoramicList;
 @synthesize overlayList;
 @synthesize overlayIsVisible;
 @synthesize nearbyLocationsList;
 @synthesize gameTagList;
 @synthesize hidePlayers;
 @synthesize uploadManager;
-@synthesize mediaCache;
+@synthesize mediaModel;
 @synthesize motionManager;
 
 + (id) sharedAppModel
@@ -72,7 +66,6 @@
         disableLeaveGame = NO;
         skipGameDetails  = 0;
 		defaults      = [NSUserDefaults standardUserDefaults];
-		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
         overlayList   = [[NSMutableArray alloc] initWithCapacity:10];
         motionManager = [[CMMotionManager alloc] init];
 	}
@@ -82,12 +75,6 @@
 - (void) resetAllGameLists
 {
     [self.currentGame clearLocalModels];
-    [self.gameItemList      removeAllObjects];
-    [self.gameNodeList      removeAllObjects];
-    [self.gameNpcList       removeAllObjects];
-    [self.gameMediaList     removeAllObjects];
-    [self.gameWebPageList   removeAllObjects];
-    [self.gamePanoramicList removeAllObjects];
 }
 
 - (void) resetAllPlayerLists
@@ -114,7 +101,7 @@
        (self.serverURL && ![currServ isEqual:self.serverURL]) ||
        [defaults boolForKey:@"clearCache"])
     {
-        [[AppModel sharedAppModel].mediaCache clearCache];
+        [[AppModel sharedAppModel].mediaModel clearCache];
         if([AppModel sharedAppModel].player)
         {
             NSLog(@"NSNotification: LogoutRequested");
@@ -226,7 +213,7 @@
 	[defaults synchronize];
     
     uploadManager = [[UploadMan alloc]  init];
-    mediaCache    = [[MediaCache alloc] init];
+    mediaModel    = [[MediaModel alloc] init];
 }
 
 - (void) setPlayerLocation:(CLLocation *)newLocation
@@ -242,37 +229,17 @@
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil userInfo:locDict]];
 }
 
-#pragma mark Retrieving Cashed Objects 
+#pragma mark Retrieving Cached Objects 
 
 - (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type// type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
 {
     if(mId == 0) return nil;
-	return [mediaCache mediaForMediaId:mId ofType:type];
+	return [mediaModel mediaForMediaId:mId];
 }
 
-- (Npc *) npcForNpcId:(int)mId
-{    
-	return [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
-}
-
-- (Node *) nodeForNodeId:(int)mId
+- (NSString *) applicationDocumentsDirectory
 {
-	return [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
-}
-
-- (WebPage *) webPageForWebPageId:(int)mId
-{
-	return [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
-}
-
-- (Panoramic *) panoramicForPanoramicId:(int)mId
-{
-    return [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];
-}
-
--(Item *) itemForItemId:(int)mId
-{
-	return [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
+	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
 - (NSManagedObjectContext *) managedObjectContext
@@ -289,31 +256,20 @@
     return managedObjectContext;
 }
 
-- (NSManagedObjectModel *) managedObjectModel
-{
-    if(!managedObjectModel) {
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"UploadContent" withExtension:@"momd"];
-        managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    }
-    return managedObjectModel;
-}
-
-- (NSString *) applicationDocumentsDirectory
-{
-	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-}
-
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator
 {
     if(!persistentStoreCoordinator)
     {
-        NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"UploadContent.sqlite"]];
+        NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"ARISCoreData.sqlite"]];
         NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+                                 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+        
+        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"ARISCoreData" withExtension:@"momd"];
+        NSManagedObjectModel *managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL]; 
+        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
         NSError *error;
-        if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
+        if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
             NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
 	}
     return persistentStoreCoordinator;

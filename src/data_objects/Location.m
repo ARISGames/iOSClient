@@ -59,10 +59,10 @@
         
         NSString *otype = [dict validObjectForKey:@"type"];
         int oid         = [dict validIntForKey:@"type_id"];
-        if([otype isEqualToString:@"Node"])       self.gameObject = [[AppModel sharedAppModel] nodeForNodeId:oid];
-        if([otype isEqualToString:@"Item"])       self.gameObject = [[AppModel sharedAppModel] itemForItemId:oid];
-        if([otype isEqualToString:@"Npc"])        self.gameObject = [[AppModel sharedAppModel] npcForNpcId:oid];
-        if([otype isEqualToString:@"WebPage"])    self.gameObject = [[AppModel sharedAppModel] webPageForWebPageId:oid];
+        if([otype isEqualToString:@"Node"])       self.gameObject = [[AppModel sharedAppModel].currentGame nodeForNodeId:oid];
+        if([otype isEqualToString:@"Item"])       self.gameObject = [[AppModel sharedAppModel].currentGame itemForItemId:oid];
+        if([otype isEqualToString:@"Npc"])        self.gameObject = [[AppModel sharedAppModel].currentGame npcForNpcId:oid];
+        if([otype isEqualToString:@"WebPage"])    self.gameObject = [[AppModel sharedAppModel].currentGame webpageForWebpageId:oid];
         if([otype isEqualToString:@"PlayerNote"]) self.gameObject = [[AppModel sharedAppModel].currentGame.notesModel noteForId:oid];
         if([otype isEqualToString:@"Player"])     self.gameObject = [[Player alloc] init];
         

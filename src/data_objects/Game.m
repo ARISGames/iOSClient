@@ -13,21 +13,28 @@
 @implementation Game
 
 @synthesize gameId;
+@synthesize name;
+@synthesize desc;
+
+@synthesize itemList;
+@synthesize nodeList;
+@synthesize npcList;
+@synthesize webpageList;
+@synthesize panoramicList;
+
 @synthesize notesModel;
 @synthesize inventoryModel;
 @synthesize attributesModel;
 @synthesize questsModel;
 @synthesize locationsModel;
+
 @synthesize mapType;
 @synthesize hasBeenPlayed;
-@synthesize name;
-@synthesize gdescription;
 @synthesize distanceFromPlayer;
 @synthesize rating;
 @synthesize comments;
 @synthesize authors;
 @synthesize pcMediaId;
-@synthesize numPlayers;
 @synthesize playerCount;
 @synthesize location;
 @synthesize launchNodeId;
@@ -44,14 +51,13 @@
 @synthesize allowNoteLikes;
 @synthesize allowShareNoteToMap;
 @synthesize allowShareNoteToList;
-@synthesize noteTitleBehavior;
 @synthesize latitude;
 @synthesize longitude;
 @synthesize zoomLevel;
 
 - (id)init
 {
-	if ((self = [super init]))
+	if(self = [super init])
     {
 		self.comments = [NSMutableArray arrayWithCapacity:5];
         self.reviewedByUser = NO;
@@ -85,6 +91,31 @@
     return [self.name compare:otherGame.name]; 
 }
 
+- (Npc *) npcForNpcId:(int)nId
+{    
+	return [self.npcList objectForKey:[NSNumber numberWithInt:nId]];
+}
+
+- (Node *) nodeForNodeId:(int)nId
+{
+	return [self.nodeList objectForKey:[NSNumber numberWithInt:nId]];
+}
+
+- (WebPage *) webpageForWebPageId:(int)wId
+{
+	return [self.webpageList objectForKey:[NSNumber numberWithInt:wId]];
+}
+
+- (Panoramic *) panoramicForPanoramicId:(int)pId
+{
+    return [self.panoramicList objectForKey:[NSNumber numberWithInt:pId]];
+}
+
+- (Item *) itemForItemId:(int)iId
+{
+	return [self.itemList objectForKey:[NSNumber numberWithInt:iId]];
+}
+
 - (void) clearLocalModels
 {
     [self.notesModel      clearData];
@@ -92,6 +123,11 @@
     [self.attributesModel clearData];
     [self.questsModel     clearData];
     [self.locationsModel  clearData];
+    [self.itemList      removeAllObjects];
+    [self.nodeList      removeAllObjects];
+    [self.npcList       removeAllObjects];
+    [self.webpageList   removeAllObjects];
+    [self.panoramicList removeAllObjects]; 
 }
 
 - (NSString *)description

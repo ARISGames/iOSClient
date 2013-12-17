@@ -17,6 +17,21 @@
 @synthesize currentUploadCount;
 @synthesize maxUploadCount;
 
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        currentUploadCount = 0;
+        maxUploadCount = 1;
+        uploadContentsForNotes = [[NSMutableDictionary alloc] initWithCapacity:5];
+        context = [AppModel sharedAppModel].managedObjectContext;
+        //[self deleteAllObjects:@"UploadContent"]; //UNCOMMENT TO DELETE ALL CORE DATA STUFF
+        [self getSavedUploadContents];
+    }
+    return self;
+}
+
 - (void) deleteAllObjects: (NSString *) entityDescription
 {
     NSLog(@"UploadMan: Deleting all CoreData Objects");
@@ -77,7 +92,7 @@
     }
 }
 
--(UploadContent *)saveUploadContentToCDWithTitle:(NSString *)title andText:(NSString *)text andType:(NSString *)type andNoteId:(int)noteId andFileURL:(NSURL *)fileURL inState:(NSString *)state
+-(UploadContent *)saveUploadContentToCDWithTitle:(NSString *)title andType:(NSString *)type andNoteId:(int)noteId andFileURL:(NSURL *)fileURL inState:(NSString *)state
 {    
     [self deleteUploadContentFromDictionaryFromNoteId:noteId andFileURL:fileURL];
     [self deleteUploadContentFromCDFromNoteId:noteId andFileURL:fileURL]; //Prevent Duplicates
@@ -86,7 +101,6 @@
                                       insertNewObjectForEntityForName:@"UploadContent" 
                                       inManagedObjectContext:self.context];
     
-    uploadContentCD.text = text;
     uploadContentCD.title = title;
     uploadContentCD.type = type;
     uploadContentCD.noteId = noteId;
@@ -107,7 +121,6 @@
     UploadContent *uploadContentCD = [NSEntityDescription
                                       insertNewObjectForEntityForName:@"UploadContent"
                                       inManagedObjectContext:self.context];
-    uploadContentCD.text = @"";
     uploadContentCD.title = @"";
     uploadContentCD.type = type;
     uploadContentCD.noteId = -1;
@@ -137,7 +150,7 @@
 }
 
 #pragma mark Header Implementations
-- (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
+- (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withType:(NSString *)type withFileURL:(NSURL *)aUrl
 {
     UploadContent *uc = nil;
     NSMutableDictionary *uploadContentsDictionary = [uploadContentsForNotes objectForKey:[NSNumber numberWithInt:noteId]];
@@ -149,23 +162,22 @@
     if(bytes > 500000 && ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] == NotReachable) && !uc)
     {
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"")];
-        uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateFAILED"];
+        uc = [self saveUploadContentToCDWithTitle:title andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateFAILED"];
         [self insertUploadContentIntoDictionary:uc];
     }
     else
     {
         if(self.currentUploadCount < self.maxUploadCount)
         {
-            uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"];
+            uc = [self saveUploadContentToCDWithTitle:title andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"];
             [self insertUploadContentIntoDictionary:uc];
             self.currentUploadCount++;
             
-            if(text) [[AppServices sharedAppServices] addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId andFileURL:aUrl];
-            else     [[AppServices sharedAppServices] uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
+            [[AppServices sharedAppServices] uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
         }
         else
         {
-            uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"];
+            uc = [self saveUploadContentToCDWithTitle:title andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"];
             [self insertUploadContentIntoDictionary:uc];
         }
     }
@@ -239,7 +251,7 @@
         for(int j=0; j < [contentIdKeyArray count]; j++) {
             UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
             if([uc.state isEqualToString:@"uploadStateFAILED"])
-                [self uploadContentForNoteId:uc.getNoteId withTitle:uc.getTitle withText:uc.getText withType:uc.getType withFileURL:[NSURL URLWithString:uc.getMedia.url]];
+                [self uploadContentForNoteId:uc.getNoteId withTitle:uc.getTitle withType:uc.getType withFileURL:[NSURL URLWithString:uc.getMedia.url]];
         }
     }
 }
@@ -255,7 +267,7 @@
             UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] objectForKey:[contentIdKeyArray objectAtIndex:j]];
             if([[uc getUploadState] isEqualToString:@"uploadStateQUEUED"])
             {
-                [self uploadContentForNoteId:uc.noteId withTitle:uc.title withText: uc.text withType:uc.type withFileURL:uc.fileURL];
+                [self uploadContentForNoteId:uc.noteId withTitle:uc.title withType:uc.type withFileURL:uc.fileURL];
                 return;
             }
         }
@@ -271,7 +283,7 @@
             UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[contentIdKeyArray objectAtIndex:j]];
             uc.state = @"uploadStateFAILED";
             
-            UploadContent * newuc = [self saveUploadContentToCDWithTitle:[uc getTitle] andText:[uc getText] andType:[uc getType] andNoteId:[uc getNoteId] andFileURL:uc.fileURL inState:@"uploadStateFAILED"];
+            UploadContent * newuc = [self saveUploadContentToCDWithTitle:[uc getTitle] andType:[uc getType] andNoteId:[uc getNoteId] andFileURL:uc.fileURL inState:@"uploadStateFAILED"];
             [self insertUploadContentIntoDictionary:newuc];
         }
     }
@@ -289,21 +301,6 @@
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     if ([fileMgr removeItemAtPath:[fileURL relativePath] error:&error] != YES)
         NSLog(@"Unable to delete file: %@", [error localizedDescription]);
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self)
-    {
-        currentUploadCount = 0;
-        maxUploadCount = 1;
-        uploadContentsForNotes = [[NSMutableDictionary alloc] initWithCapacity:5];
-        context = [AppModel sharedAppModel].managedObjectContext;
-        //[self deleteAllObjects:@"UploadContent"]; //UNCOMMENT TO DELETE ALL CORE DATA STUFF
-        [self getSavedUploadContents];
-    }
-    return self;
 }
 
 @end

@@ -94,7 +94,7 @@ static NSString * const OPTION_CELL = @"option";
         [self.scrollView addSubview:self.webView];
     }
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId ofType:nil];
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId];
     self.mediaSection = [[UIView alloc] init];
     if([media.type isEqualToString:@"PHOTO"] && media.url)
     {

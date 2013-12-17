@@ -1203,9 +1203,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     game.inventoryModel.weightCap = [gameSource validIntForKey:@"inventory_weight_cap"];
     game.rating                   = [gameSource validIntForKey:@"rating"];
     game.pcMediaId                = [gameSource validIntForKey:@"pc_media_id"];
-    game.numPlayers               = [gameSource validIntForKey:@"numPlayers"];
     game.playerCount              = [gameSource validIntForKey:@"count"];
-    game.gdescription             = [gameSource validStringForKey:@"description"];
+    game.desc                     = [gameSource validStringForKey:@"description"];
     game.name                     = [gameSource validStringForKey:@"name"];
     game.authors                  = [gameSource validStringForKey:@"editors"];
     game.mapType                  = [gameSource validObjectForKey:@"map_type"];
@@ -1422,48 +1421,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)startCachingMedia:(ServiceResult *)jsonResult
 {
-    NSArray *serverMediaArray = (NSArray *)jsonResult.data;
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(gameid = 0) OR (gameid = %d)", [AppModel sharedAppModel].currentGame.gameId];
-    NSArray *currentlyCachedMediaArray = [[AppModel sharedAppModel].mediaCache mediaForPredicate:predicate];
-    NSLog(@"%d total media for %d",[currentlyCachedMediaArray count], [AppModel sharedAppModel].currentGame.gameId);
-    
-    //Construct cached media map (dictionary with identical key/values of mediaId) to quickly check for existence of media
-    NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] initWithCapacity:currentlyCachedMediaArray.count];
-    for(int i = 0; i < [currentlyCachedMediaArray count]; i++)
-    {
-        if([[currentlyCachedMediaArray objectAtIndex:i] uid])
-            [currentlyCachedMediaMap setObject:[currentlyCachedMediaArray objectAtIndex:i] forKey:[[currentlyCachedMediaArray objectAtIndex:i] uid]];
-        else
-            NSLog(@"found broken coredata entry");
-    }
-    
-    Media *tmpMedia;
-    for(int i = 0; i < [serverMediaArray count]; i++)
-    {
-        NSDictionary *serverMediaDict = [serverMediaArray objectAtIndex:i];
-        int mediaId        = [serverMediaDict validIntForKey:@"media_id"];
-        NSString *fileName = [serverMediaDict validObjectForKey:@"file_path"];
-        
-        if(!(tmpMedia = [currentlyCachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]]))
-            tmpMedia = [[AppModel sharedAppModel].mediaCache addMediaToCache:mediaId];
-        
-        if(tmpMedia && (tmpMedia.url == nil || tmpMedia.type == nil || tmpMedia.gameid == nil))
-        {
-            tmpMedia.url = [NSString stringWithFormat:@"%@%@", [serverMediaDict validObjectForKey:@"url_path"], fileName];
-            if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Image"] || [[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Icon"])
-                tmpMedia.type = @"PHOTO";
-            else if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Audio"])
-                tmpMedia.type = @"AUDIO";
-            else if([[serverMediaDict validStringForKey:@"type"] isEqualToString:@"Video"])
-                tmpMedia.type = @"VIDEO";
-            tmpMedia.gameid = [NSNumber numberWithInt:[serverMediaDict validIntForKey:@"game_id"]];
-            NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.url);
-        }
-    }
-    NSError *error;
-    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    [[AppModel sharedAppModel].mediaModel syncMediaDataToCache:(NSArray *)jsonResult.data];
     
     NSLog(@"NSNotification: ReceivedMediaList");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];

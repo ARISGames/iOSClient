@@ -33,9 +33,6 @@
 
 - (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d
 {
-    //hack
-    m.url = [m.url stringByReplacingOccurrencesOfString:@"gamedata//" withString:@"gamedata/player/"]; 
-    
     MediaResult *mr = [[MediaResult alloc] init];
     mr.media = m;
     mr.delegate = d;
@@ -45,27 +42,25 @@
 
 - (void) loadMediaFromMR:(MediaResult *)mr
 {
-    if     (!mr.media.url || !mr.media.type)          [self loadMetaDataForMR:mr];
-    else if([mr.media.type isEqualToString:@"PHOTO"]) [self loadPhotoForMR:mr];
-    else if([mr.media.type isEqualToString:@"VIDEO"]) [self loadVideoFrameForMR:mr];
-    else if([mr.media.type isEqualToString:@"AUDIO"]) return;  
+    if(!mr.media.remoteURL) { [self loadMetaDataForMR:mr]; return; }
+    if(mr.media.data)       { [self mediaLoadedForMR:mr];  return; }
+
+    if(!mr.media.localURL)
+    {
+        NSURLRequest *request = [NSURLRequest requestWithURL:mr.media.remoteURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+        if(mr.connection) [mr.connection cancel];
+        mr.data = [[NSMutableData alloc] initWithCapacity:2048];
+        mr.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        [dataConnections setObject:mr forKey:mr.connection.description]; 
+    }
 }
 
 - (void) loadMetaDataForMR:(MediaResult *)mr
 {
     for(int i = 0; i < [metaConnections count]; i++)
-        if(((MediaResult *)[metaConnections objectAtIndex:i]).media.uid == mr.media.uid) return;
+        if(((MediaResult *)[metaConnections objectAtIndex:i]).media.mediaId == mr.media.mediaId) return;
     [metaConnections addObject:mr]; 
     [[AppServices sharedAppServices] fetchMediaMeta:mr.media]; 
-}
-
-- (void) loadPhotoForMR:(MediaResult *)mr
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:mr.media.url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    if(mr.connection) [mr.connection cancel];
-    mr.data = [[NSMutableData alloc] initWithCapacity:2048];
-    mr.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [dataConnections setObject:mr forKey:mr.connection.description];
 }
 
 - (void) loadVideoFrameForMR:(MediaResult *)mr
@@ -100,7 +95,7 @@
     while([oldMetaConnections count] > 0)
     {
         mr = [oldMetaConnections objectAtIndex:0];
-        mr.media = [[AppModel sharedAppModel] mediaForMediaId:[mr.media.uid intValue] ofType:mr.media.type];
+        mr.media = [[AppModel sharedAppModel] mediaForMediaId:mr.media.mediaId];
         [oldMetaConnections removeObjectAtIndex:0];
         [self loadMediaFromMR:mr];
     }
@@ -117,12 +112,16 @@
 {
     MediaResult *mr = [dataConnections objectForKey:c.description]; 
     if(!mr) return; 
-    [dataConnections removeObjectForKey:c.description]; 
-    
-    mr.media.image = mr.data;
-    [mr cancelConnection];
+    [dataConnections removeObjectForKey:c.description];  
+    [mr cancelConnection];   
+    mr.media.data = mr.data;
+    [self mediaLoadedForMR:mr];
+}
+
+- (void) mediaLoadedForMR:(MediaResult *)mr
+{
     if(mr.delegate) [mr.delegate mediaLoaded:mr.media];
-    mr.delegate = nil;
+    mr.delegate = nil; 
 }
 
 - (void) dealloc

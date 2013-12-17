@@ -259,7 +259,7 @@
     for(int i = 0; i < [datasToUpload count]; i++)
     {
         d = [datasToUpload objectAtIndex:i];
-        [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:note.noteId withTitle:d.title withText:nil withType:d.type withFileURL:d.url]; 
+        [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:note.noteId withTitle:d.title withType:d.type withFileURL:d.url]; 
     }
 }
 

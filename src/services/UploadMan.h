@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 UW Madison. All rights reserved.
 //
 
-#import "UploadContent.h"
 #import "Media.h"
 
 @interface UploadMan : NSObject
@@ -22,7 +21,7 @@
 @property (nonatomic) int currentUploadCount;
 @property (nonatomic) int maxUploadCount;
 
-- (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)url;
+- (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withType:(NSString *)type withFileURL:(NSURL *)url;
 - (void) uploadPlayerPicContentWithFileURL:(NSURL *)aUrl;
 - (void) contentFinishedUploading;
 - (void) contentFailedUploading;

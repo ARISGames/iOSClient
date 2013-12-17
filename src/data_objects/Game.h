@@ -15,16 +15,24 @@
 #import "LocationsModel.h"
 #import "Media.h"
 
-typedef enum
-{
-	None = 0,
-    ForceOverwrite = 1
-} NoteTitleBehavior;
+@class Item;
+@class Npc;
+@class Node;
+@class WebPage;
+@class Panoramic;
 
 @interface Game : NSObject
 {
 	int gameId;
+   	NSString *name;
+	NSString *desc; 
 
+    NSMutableDictionary *itemList;
+    NSMutableDictionary *nodeList;
+    NSMutableDictionary *npcList;
+    NSMutableDictionary *webpageList;
+    NSMutableDictionary *panoramicList;
+    
     NotesModel      *notesModel;
     InventoryModel  *inventoryModel; 
     AttributesModel *attributesModel;
@@ -32,15 +40,14 @@ typedef enum
     LocationsModel  *locationsModel;
     
     NSString *mapType;
+    Media *iconMedia;
+    Media *splashMedia; 
 
-	NSString *name;
-	NSString *gdescription;
 	NSString *authors;
     int rating;
     NSMutableArray *comments;
 	double distanceFromPlayer;
 	CLLocation *location;	
-	int numPlayers;	
     int playerCount;
 	int pcMediaId;
 	int iconMediaId;
@@ -57,16 +64,21 @@ typedef enum
     BOOL allowShareNoteToList;
     BOOL allowNoteComments;
     BOOL allowNoteLikes;
-    NoteTitleBehavior noteTitleBehavior;
     
-    Media *iconMedia;
-    Media *splashMedia;
     double latitude;
     double longitude; 
     double zoomLevel;  
 }
 
 @property (readwrite, assign) int gameId;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *desc;
+
+@property (nonatomic, strong) NSMutableDictionary *itemList;
+@property (nonatomic, strong) NSMutableDictionary *nodeList;
+@property (nonatomic, strong) NSMutableDictionary *npcList;
+@property (nonatomic, strong) NSMutableDictionary *webpageList;
+@property (nonatomic, strong) NSMutableDictionary *panoramicList;
 
 @property (nonatomic, strong) NotesModel *notesModel;
 @property (nonatomic, strong) InventoryModel *inventoryModel;
@@ -76,15 +88,12 @@ typedef enum
 
 @property (nonatomic, strong) NSString *mapType;
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *gdescription;
 @property (nonatomic, strong) NSString *authors;
 @property (readwrite, assign) int rating;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (readwrite, assign) double distanceFromPlayer;
 @property (nonatomic, strong) CLLocation *location;
 @property (readwrite, assign) int pcMediaId;
-@property (readwrite, assign) int numPlayers;
 @property (readwrite, assign) int playerCount;
 @property (readwrite, assign) int launchNodeId;
 @property (readwrite, assign) int completeNodeId;
@@ -98,7 +107,6 @@ typedef enum
 @property (readwrite, assign) BOOL allowShareNoteToList;
 @property (readwrite, assign) BOOL allowNoteComments;
 @property (readwrite, assign) BOOL allowNoteLikes;
-@property (readwrite, assign) NoteTitleBehavior noteTitleBehavior;
 
 @property (readwrite, assign) double latitude;
 @property (readwrite, assign) double longitude;
@@ -113,5 +121,11 @@ typedef enum
 - (NSComparisonResult)compareCalculatedScore:(Game*)otherGame;
 - (NSComparisonResult)compareTitle:(Game*)otherGame;
 - (void) clearLocalModels;
+
+- (Npc *) npcForNpcId:(int)mId;
+- (Node *) nodeForNodeId:(int)mId;
+- (WebPage *) webpageForWebpageId:(int)mId;
+- (Panoramic *) panoramicForPanoramicId:(int)mId;
+- (Item *) itemForItemId:(int)mId;
 
 @end
