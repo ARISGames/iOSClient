@@ -14,7 +14,6 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
-#import "UploadMan.h"
 #import <ImageIO/ImageIO.h>
 
 @interface PlayerSettingsViewController()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, ARISMediaViewDelegate, UITextFieldDelegate>
@@ -63,7 +62,7 @@
 {
     self.playerNameField.text = @"";
     chosenMediaId = 0;
-    [self.playerPic refreshWithFrame:self.playerPic.frame image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+    [self.playerPic setImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
 }
 
 - (void) syncLocalVars
@@ -82,7 +81,7 @@
         [self.playerNameField becomeFirstResponder];
 
     if(chosenMediaId > 0)
-        [self.playerPic refreshWithFrame:self.playerPic.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        [self.playerPic setMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId]];
     else if(chosenMediaId == 0)
         [self takePicture];
     //if chosenMediaId < 0, just leave the image as is
@@ -172,19 +171,15 @@
                 NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
                 [imageData writeToURL:imageURL atomically:YES];
                     
-                [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-                [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
+                [self.playerPic setImage:image];
             } failureBlock:^(NSError *error) {
-                [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-                [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
+                [self.playerPic setImage:image]; 
             }];
         }];
     }
     else
     {
-        // image from camera roll
-        [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-        [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
+        [self.playerPic setImage:image];
     }
 }
 

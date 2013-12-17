@@ -11,10 +11,9 @@
 #import "NpcScriptOption.h"
 #import "ARISAlertHandler.h"
 #import "ARISMediaView.h"
-#import "UploadMan.h"
 #import "Player.h"
 #import "Overlay.h"
-#import "MediaCache.h"
+#import "MediaModel.h"
 
 @interface AppServices()
 {
@@ -550,15 +549,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     return result.data ? [(NSDecimalNumber*)result.data intValue] : 0;
 }
 
-- (void) contentAddedToNoteWithText:(ServiceResult *)result
-{
-    if([result.userInfo validObjectForKey:@"noteId"])
-        [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[result.userInfo validIntForKey:@"noteId"]
-                                                              andFileURL:[result.userInfo validObjectForKey:@"localURL"]];
-    [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
-    [[AppModel sharedAppModel].currentGame.notesModel clearData];
-}
-
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
 {
        NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -621,51 +611,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(noteContentUploadDidFinish:) failSelector:@selector(uploadNoteContentDidFail:) userInfo:userInfo]; 
 }
 
-- (void) noteContentUploadDidFinish:(ServiceResult*)result
-{
-    int noteId      = [result.userInfo validIntForKey:@"noteId"];
-    NSString *title = [result.userInfo validObjectForKey:@"title"];
-    NSString *type  = [result.userInfo validObjectForKey:@"type"];
-    NSURL *localUrl = [result.userInfo validObjectForKey:@"url"];
-    NSString *newFileName = (NSString *)result.data;
-    
-    //TODO: Check that the response string is actually a new filename that was made on the server, not an error
-    
-    NoteContent *newContent = [[NoteContent alloc] init];
-    newContent.noteId = noteId;
-    newContent.title = @"Refreshing From Server...";
-    newContent.type = type;
-    newContent.contentId = 0;
-    
-    [[[[AppModel sharedAppModel].currentGame.notesModel noteForId:[NSNumber numberWithInt:noteId]] contents] addObject:newContent];
-    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:noteId andFileURL:localUrl];
-    [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
-    
-              NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
-                     [NSString stringWithFormat:@"%d",noteId],                                       @"bnoteId",
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],    @"cplayerId",
-                     newFileName,                                                                    @"dfileName",
-                     type,                                                                           @"etype",
-                     title,                                                                          @"ftitle",
-                     nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"addContentToNoteFromFileName" arguments:args handler:self successSelector:@selector(fetchNoteList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-    [self fetchAllPlayerLists];
-}
-
-- (void) uploadNoteContentDidFail:(ServiceResult *)result
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-    
-    [alert show];
-    
-    NSNumber *nId = [[NSNumber alloc]initWithInt:5];
-    nId = [result.userInfo validObjectForKey:@"noteId"];
-    //if(description == NULL) description = @"filename";
-    
-    [[AppModel sharedAppModel].uploadManager contentFailedUploading];
-}
-
 - (void) playerPicUploadDidFinish:(ServiceResult*)result
 {        
     NSString *newFileName = (NSString *)result.data;
@@ -676,15 +621,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"addPlayerPicFromFilename" arguments:args handler:self successSelector:@selector(parseNewPlayerMediaResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
     
-    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[result.userInfo validObjectForKey:@"url"]];
-    [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
 
 - (void) updatedPlayer:(ServiceResult *)result
 {
     //immediately load new image into cache
     if([AppModel sharedAppModel].player.playerMediaId != 0)
-        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] delegate:nil]; 
+        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] delegate:nil]; 
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult
@@ -694,7 +637,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [AppModel sharedAppModel].player.playerMediaId = [((NSDictionary*)jsonResult.data) validIntForKey:@"media_id"];
         //immediately load new image into cache 
         if([AppModel sharedAppModel].player.playerMediaId != 0)
-            [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] delegate:nil];  
+            [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] delegate:nil];  
         [[AppModel sharedAppModel] saveUserDefaults];
     }
 }
@@ -704,8 +647,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadFailedKey", @"") message:NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
     
     [alert show];
-    
-    [[AppModel sharedAppModel].uploadManager contentFailedUploading];
 }
 
 - (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList
@@ -827,7 +768,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
             [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
             [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"]];
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
             overlaysIndex += 1;
@@ -840,7 +781,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
             [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
             [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"]];
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
         }
@@ -859,10 +800,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             //also... what the heck is this doing? -Phil
         }
     }
-    
-    NSError *error;
-    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     
     NSLog(@"NSNotification: NewOverlayListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlayListReady" object:nil]];
@@ -957,7 +894,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
          (([AppModel sharedAppModel].currentGame.gameId != 0) ? [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId] : @"player"), @"apath",
-         [NSString stringWithFormat:@"%d",[m.uid intValue]],                                                                                                 @"bmediaId",
+         [NSString stringWithFormat:@"%d",m.mediaId], @"bmediaId",
          nil];
     
     [connection performAsynchronousRequestWithService:@"media" method:@"getMediaObject" arguments:args handler:self successSelector:@selector(parseSingleMediaFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
@@ -1224,20 +1161,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     else
         game.location = [[CLLocation alloc] init];
     
-    int iconMediaId;
-    if((iconMediaId = [gameSource validIntForKey:@"icon_media_id"]) > 0)
-    {
-        game.iconMedia = [[AppModel sharedAppModel] mediaForMediaId:iconMediaId ofType:@"PHOTO"];
-        game.iconMedia.type = @"PHOTO"; //Phil doesn't like this...
-    }
-    
-    
-    int mediaId;
-    if((mediaId = [gameSource validIntForKey:@"media_id"]) > 0)
-    {
-        game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:@"PHOTO"];
-        game.splashMedia.type = @"PHOTO"; //Phil doesn't like this...
-    }
+    game.iconMedia   = [[AppModel sharedAppModel] mediaForMediaId:[gameSource validIntForKey:@"icon_media_id"]];
+    game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:[gameSource validIntForKey:@"media_id"]];
     
     game.questsModel.totalQuestsInGame = [gameSource validIntForKey:@"totalQuests"];
     game.launchNodeId                  = [gameSource validIntForKey:@"on_launch_node_id"];
@@ -1249,8 +1174,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     game.allowShareNoteToList          = [gameSource validBoolForKey:@"allow_share_note_to_book"];
     game.allowNoteComments             = [gameSource validBoolForKey:@"allow_note_comments"];
     game.allowNoteLikes                = [gameSource validBoolForKey:@"allow_note_likes"];
-    if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"NONE"])                 game.noteTitleBehavior = None;
-    else if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"FORCE_OVERWRITE"]) game.noteTitleBehavior = ForceOverwrite;
     
     NSArray *comments = [gameSource validObjectForKey:@"comments"];
     for (NSDictionary *comment in comments)
@@ -1277,10 +1200,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     NSDictionary *gameDictionary;
     while ((gameDictionary = [gameListEnumerator nextObject]))
         [tempGameList addObject:[self parseGame:(gameDictionary)]];
-    
-    NSError *error;
-    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     
     return tempGameList;
 }
@@ -1362,10 +1281,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     [AppModel sharedAppModel].recentGameList = tempGameList;
     
-    NSError *error;
-    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    
     NSLog(@"NSNotification: NewRecentGameListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
 }
@@ -1443,7 +1358,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [tempItemList setObject:tmpItem forKey:[NSNumber numberWithInt:tmpItem.itemId]];
     }
     
-    [AppModel sharedAppModel].gameItemList = tempItemList;
+    [AppModel sharedAppModel].currentGame.itemList = tempItemList;
     
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
@@ -1461,7 +1376,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [tempNodeList setObject:tmpNode forKey:[NSNumber numberWithInt:tmpNode.nodeId]];
     }
     
-    [AppModel sharedAppModel].gameNodeList = tempNodeList;
+    [AppModel sharedAppModel].currentGame.nodeList = tempNodeList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
@@ -1495,7 +1410,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
     }
     
-    [AppModel sharedAppModel].gameNpcList = tempNpcList;
+    [AppModel sharedAppModel].currentGame.npcList = tempNpcList;
     
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
@@ -1514,7 +1429,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [tempWebPageList setObject:tmpWebPage forKey:[NSNumber numberWithInt:tmpWebPage.webPageId]];
     }
     
-    [AppModel sharedAppModel].gameWebPageList = tempWebPageList;
+    [AppModel sharedAppModel].currentGame.webpageList = tempWebPageList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
@@ -1532,7 +1447,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [tempPanoramicList setObject:tmpPan forKey:[NSNumber numberWithInt:tmpPan.panoramicId]];
     }
     
-    [AppModel sharedAppModel].gamePanoramicList = tempPanoramicList;
+    [AppModel sharedAppModel].currentGame.panoramicList = tempPanoramicList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
@@ -1551,7 +1466,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     while((itemDictionary = [inventoryEnumerator nextObject]))
     {
         Item *item = [[Item alloc] initWithDictionary:itemDictionary];
-        item.tags = [[AppModel sharedAppModel] itemForItemId:item.itemId].tags;
+        item.tags = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId].tags;
         if(item.itemType == ItemTypeAttribute) [tempAttributes addObject:item];
         else                                   [tempInventory  addObject:item];
     }

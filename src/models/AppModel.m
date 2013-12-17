@@ -10,7 +10,6 @@
 #import "Player.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "UploadMan.h"
 #import "Quest.h"
 #import "MediaModel.h"
 #import "AppServices.h"
@@ -44,7 +43,6 @@
 @synthesize nearbyLocationsList;
 @synthesize gameTagList;
 @synthesize hidePlayers;
-@synthesize uploadManager;
 @synthesize mediaModel;
 @synthesize motionManager;
 
@@ -129,7 +127,7 @@
         
         //load the player media immediately if possible
         if(self.player.playerMediaId != 0)
-            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] delegate:nil];
+            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegate:nil];
     }
     
     self.fallbackGameId = [defaults integerForKey:@"gameId"];
@@ -168,15 +166,15 @@
     [defaults synchronize];
        
     if(self.player.playerMediaId != 0)
-        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] delegate:nil];  
+        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegate:nil];  
 }
 
-- (void) saveCOREData
+- (void) commitCoreDataContext
 {
     NSError *error = nil;
-    if (managedObjectContext != nil)
+    if(managedObjectContext != nil)
     {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
+        if([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
         {
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
@@ -212,7 +210,6 @@
 	[defaults registerDefaults:appDefaults];
 	[defaults synchronize];
     
-    uploadManager = [[UploadMan alloc]  init];
     mediaModel    = [[MediaModel alloc] init];
 }
 
@@ -231,7 +228,7 @@
 
 #pragma mark Retrieving Cached Objects 
 
-- (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type// type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
+- (Media *) mediaForMediaId:(int)mId // type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
 {
     if(mId == 0) return nil;
 	return [mediaModel mediaForMediaId:mId];

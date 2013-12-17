@@ -14,7 +14,6 @@
 #import "Tag.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "UploadMan.h"
 #import "Player.h"
 #import "UIColor+ARISColors.h"
 
@@ -259,7 +258,6 @@
     for(int i = 0; i < [datasToUpload count]; i++)
     {
         d = [datasToUpload objectAtIndex:i];
-        [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:note.noteId withTitle:d.title withType:d.type withFileURL:d.url]; 
     }
 }
 

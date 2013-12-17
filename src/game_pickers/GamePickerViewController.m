@@ -164,8 +164,8 @@
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;
     
-    if(!gameForCell.iconMedia) [iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"icon.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
-    else                       [iconView refreshWithFrame:iconView.frame media:gameForCell.iconMedia            mode:ARISMediaDisplayModeAspectFill delegate:self];
+    if(!gameForCell.iconMedia) [iconView setImage:[UIImage imageNamed:@"icon.png"]];
+    else                       [iconView setMedia:gameForCell.iconMedia];
     
     if([cell.iconView.subviews count] > 0) [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
     [cell.iconView addSubview: iconView];

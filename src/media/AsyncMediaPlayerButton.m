@@ -53,8 +53,8 @@
         [self setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
         [self addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
         
-        if(self.media.image)
-            [self setBackgroundImage:[[UIImage imageWithData: self.media.image] scaleToSize:self.frame.size] forState:UIControlStateNormal];
+        if(self.media.data)
+            [self setBackgroundImage:[[UIImage imageWithData: self.media.data] scaleToSize:self.frame.size] forState:UIControlStateNormal];
         
         if([media.type isEqualToString:@"VIDEO"])
         {

@@ -71,9 +71,9 @@
     hasAppeared = YES;
     
     if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
-        pcImage = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        pcImage = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId] mode:ARISMediaDisplayModeAspectFill delegate:self];
     else if([AppModel sharedAppModel].player.playerMediaId != 0)
-        pcImage = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        pcImage = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] mode:ARISMediaDisplayModeAspectFill delegate:self];
 	else pcImage = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"profile.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
     [self.view addSubview:pcImage];
     
@@ -157,7 +157,7 @@
 	if(item.iconMediaId != 0)
     {
         if([self.iconCache count] <= indexPath.row)
-            [self.iconCache addObject:[[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"]];
+            [self.iconCache addObject:[[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId]];
         iconViewTemp = [[ARISMediaView alloc] initWithFrame:CGRectMake(5, 5, 50, 50) media:[self.iconCache objectAtIndex:indexPath.row] mode:ARISMediaDisplayModeAspectFit delegate:self];
 	}
 	[cell.contentView addSubview:iconViewTemp];

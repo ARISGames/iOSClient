@@ -96,19 +96,10 @@ static NSString * const OPTION_CELL = @"option";
     
     Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId];
     self.mediaSection = [[UIView alloc] init];
-    if([media.type isEqualToString:@"PHOTO"] && media.url)
+    if(media)
     {
         self.mediaSection.frame = CGRectMake(0,0,self.view.bounds.size.width,20);
         [self.mediaSection addSubview:[[ARISMediaView alloc] initWithFrame:self.mediaSection.frame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self]];
-        [self.scrollView addSubview:self.mediaSection];
-    }
-    else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
-    {
-        self.mediaSection.frame = CGRectMake(0,0,self.view.bounds.size.width,240);
-        if(self.webView)
-            self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height, self.view.bounds.size.width, self.webView.frame.size.height);
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
-        [self.mediaSection addSubview:mediaButton];
         [self.scrollView addSubview:self.mediaSection];
     }
     

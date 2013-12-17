@@ -73,7 +73,7 @@
     }
     
     self.imageLoader = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)
-                                                      media:[[AppModel sharedAppModel] mediaForMediaId:self.panoramic.mediaId ofType:@"PHOTO"]
+                                                      media:[[AppModel sharedAppModel] mediaForMediaId:self.panoramic.mediaId]
                                                        mode:ARISMediaDisplayModeStretchFill
                                                    delegate:self];
     
@@ -111,7 +111,7 @@
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    UIImage *image = amv.image;
+    UIImage *image;// = amv.image; //Don't use ARISMediaView just to get an image- we now have separate mediaLoader
     if([[[UIDevice currentDevice] platform] isEqualToString:@"iPhone2,1"] ||
        [[[UIDevice currentDevice] platform] isEqualToString:@"iPhone3,1"] ||
        [[[UIDevice currentDevice] platform] isEqualToString:@"iPad2,1"])

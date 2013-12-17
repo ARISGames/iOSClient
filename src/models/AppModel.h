@@ -22,7 +22,6 @@
 @class Panoramic;
 
 @class MediaModel;
-@class UploadMan;
 @class Overlay;
 
 @interface AppModel : NSObject
@@ -58,7 +57,6 @@
     //CORE Data
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
-    UploadMan *uploadManager;
     MediaModel *mediaModel;
     
     CMMotionManager *motionManager;
@@ -94,7 +92,6 @@
 // CORE Data
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, strong) UploadMan *uploadManager;
 @property (nonatomic, strong) MediaModel *mediaModel;
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
@@ -110,7 +107,8 @@
 - (void) initUserDefaults;
 - (void) saveUserDefaults;
 - (void) loadUserDefaults;
-- (void) saveCOREData;
+- (void) commitCoreDataContext;
+- (NSString *) applicationDocumentsDirectory;
 
 - (Media *) mediaForMediaId:(int)mId;
 

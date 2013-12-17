@@ -14,7 +14,6 @@
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
 #import "Player.h"
-#import "UploadMan.h"
 #import "TestFlight.h"
 #import <Crashlytics/Crashlytics.h>
 
@@ -98,8 +97,6 @@
     else if([AppModel sharedAppModel].player.playerId > 0)
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerAlreadyLoggedIn" object:nil]];
     
-    [[[AppModel sharedAppModel] uploadManager] checkForFailedContent];
-    
     [self startPollingLocation];
 }
 
@@ -121,7 +118,7 @@
 {
 	NSLog(@"ARIS: Terminating Application");
 	[[AppModel sharedAppModel] saveUserDefaults];
-    [[AppModel sharedAppModel] saveCOREData];
+    [[AppModel sharedAppModel] commitCoreDataContext];
 }
 
 - (void) startPollingLocation

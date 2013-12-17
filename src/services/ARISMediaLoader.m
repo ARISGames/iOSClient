@@ -115,6 +115,16 @@
     [dataConnections removeObjectForKey:c.description];  
     [mr cancelConnection];   
     mr.media.data = mr.data;
+    
+    NSString *mediaFolder   = [[[AppModel sharedAppModel] applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",mr.media.gameId]]; 
+    NSString *mediaFileName = [[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject];
+    NSURL *newFileURL = [NSURL URLWithString:[mediaFolder stringByAppendingPathComponent:mediaFileName]];
+    BOOL isDir;
+    if([[NSFileManager defaultManager] fileExistsAtPath:mediaFolder isDirectory:&isDir] && isDir)
+        [[NSFileManager defaultManager] createDirectoryAtPath:mediaFolder withIntermediateDirectories:YES attributes:nil error:nil];
+    [mr.media.data writeToFile:[newFileURL absoluteString] atomically:YES];
+    mr.media.localURL = newFileURL;
+    
     [self mediaLoadedForMR:mr];
 }
 

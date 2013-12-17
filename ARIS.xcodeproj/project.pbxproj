@@ -277,7 +277,6 @@
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
 		AABC73D1172739D80074CC21 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7121172739D60074CC21 /* AppServices.m */; };
 		AABC73D4172739D80074CC21 /* ARISConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7127172739D60074CC21 /* ARISConnection.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AABC73D8172739D80074CC21 /* UploadMan.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7131172739D60074CC21 /* UploadMan.m */; };
 		AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7143172739D60074CC21 /* AttributesViewController.m */; };
 		AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC714B172739D60074CC21 /* DecoderViewController.mm */; };
 		AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC715E172739D60074CC21 /* AnnotationView.m */; };
@@ -771,8 +770,6 @@
 		AABC7121172739D60074CC21 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppServices.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AABC7126172739D60074CC21 /* ARISConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISConnection.h; sourceTree = "<group>"; };
 		AABC7127172739D60074CC21 /* ARISConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISConnection.m; sourceTree = "<group>"; };
-		AABC7130172739D60074CC21 /* UploadMan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadMan.h; sourceTree = "<group>"; };
-		AABC7131172739D60074CC21 /* UploadMan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadMan.m; sourceTree = "<group>"; };
 		AABC7142172739D60074CC21 /* AttributesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesViewController.h; sourceTree = "<group>"; };
 		AABC7143172739D60074CC21 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		AABC714A172739D60074CC21 /* DecoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecoderViewController.h; sourceTree = "<group>"; };
@@ -1716,8 +1713,6 @@
 				AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */,
 				AABC7126172739D60074CC21 /* ARISConnection.h */,
 				AABC7127172739D60074CC21 /* ARISConnection.m */,
-				AABC7130172739D60074CC21 /* UploadMan.h */,
-				AABC7131172739D60074CC21 /* UploadMan.m */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -2470,7 +2465,6 @@
 				AABC73D0172739D80074CC21 /* RootViewController.m in Sources */,
 				AABC73D1172739D80074CC21 /* AppServices.m in Sources */,
 				AABC73D4172739D80074CC21 /* ARISConnection.m in Sources */,
-				AABC73D8172739D80074CC21 /* UploadMan.m in Sources */,
 				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */,
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
