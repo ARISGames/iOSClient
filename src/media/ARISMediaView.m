@@ -17,6 +17,7 @@
 {
     ARISMediaDisplayMode displayMode;
     Media *media;
+    UIImage *image; 
     
     UIImageView *imageView;
     UIActivityIndicatorView *spinner;
@@ -24,68 +25,73 @@
     id <ARISMediaViewDelegate> delegate;
 }
 
-@property (nonatomic, assign) ARISMediaDisplayMode displayMode;
-@property (nonatomic, strong) Media *media;
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIActivityIndicatorView *spinner;
-
 @end
 
 @implementation ARISMediaView
 
-@synthesize displayMode;
-@synthesize media;
-@synthesize imageView;
-@synthesize spinner;
-
-- (id) initWithFrame:(CGRect)frame media:(Media *)m mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d
+- (id) initWithDelegate:(id<ARISMediaViewDelegate>)d
 {
-    if(self = [super initWithFrame:frame])
+    if(self = [super initWithFrame:CGRectMake(0,0,64,64)])
     {
-        [self refreshWithFrame:frame media:m mode:dm delegate:d];
+        displayMode = ARISMediaDisplayModeAspectFit;
+        delegate = d;
     }
     return self;
 }
 
-- (id) initWithFrame:(CGRect)frame image:(UIImage *)i mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d
+- (id) initWithFrame:(CGRect)f media:(Media *)m mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d
 {
-    if(self = [super initWithFrame:frame])
+    if(self = [super initWithFrame:f])
     {
-        [self refreshWithFrame:frame image:i mode:dm delegate:d];
+        [self initializeWithFrame:f inMode:dm delegate:delegate]; 
+        [self displayMedia:m];
     }
     return self;
 }
 
-- (void) refreshWithFrame:(CGRect)f
+- (id) initWithFrame:(CGRect)f image:(UIImage *)i mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d
 {
-    [self initializeWithFrame:f inMode:self.displayMode delegate:delegate];
-    if(self.image)      [self displayImage:self.image];
-    else if(self.media) [self displayMedia:self.media];
+    if(self = [super initWithFrame:f])
+    {
+        [self initializeWithFrame:f inMode:dm delegate:delegate]; 
+        [self displayImage:i]; 
+    }
+    return self;
 }
 
-- (void) refreshWithFrame:(CGRect)f media:(Media *)m mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d
+- (void) setFrame:(CGRect)f withMode:(ARISMediaDisplayMode)dm
 {
-    [self initializeWithFrame:(CGRect)f inMode:dm delegate:d];
-    [self displayMedia:m];
+    [self initializeWithFrame:f inMode:dm delegate:delegate];
+    if     (media) [self displayMedia:media];
+    else if(image) [self displayImage:image]; 
 }
 
-- (void) refreshWithFrame:(CGRect)f image:(UIImage *)i mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d
+- (void) setMedia:(Media *)m
 {
-    [self initializeWithFrame:(CGRect)f inMode:dm delegate:d];
-    [self displayImage:i];
+    [self displayMedia:m]; 
+}
+
+- (void) setImage:(UIImage *)i
+{
+    [self displayImage:i]; 
+}
+
+- (void) setDelegate:(id<ARISMediaViewDelegate>)d
+{
+    delegate = d;
 }
 
 - (void) initializeWithFrame:(CGRect)f inMode:(ARISMediaDisplayMode)m delegate:(id<ARISMediaViewDelegate>)d
 {
-    self.imageView = nil;
-    if(self.spinner) [self removeSpinner];
+    imageView = nil;
+    if(spinner) [self removeSpinner];
     for(int i = 0; i < [self.subviews count]; i++)
         [[self.subviews objectAtIndex:0] removeFromSuperview];
     
     self.frame = f;
-    self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self addSubview:imageView];
-    self.displayMode = m;
+    displayMode = m;
     switch(m)
     {
         case ARISMediaDisplayModeDefault:
@@ -108,44 +114,46 @@
 - (void) mediaLoaded:(Media *)m
 {
     [self removeSpinner]; 
-    self.media = m;
+    media = m;
     [self displayMedia:m];
 }
 
 - (void) displayMedia:(Media *)m //results in calling displayImage
 {
-    self.media = m;
+    media = m;
     
-    if(!self.media.image)
+    if(!media.data)
     {
         [self addSpinner];
-        [[AppServices sharedAppServices] loadMedia:self.media delegate:self];
+        [[AppServices sharedAppServices] loadMedia:media delegate:self];
         return;//this function will be called upon media's return
     }
     
-    if(m.image)
+    if(m.data)
     { 
-        if([[self contentTypeForImageData:m.image] isEqualToString:@"image/gif"])
-            [self displayImage:[UIImage animatedImageWithAnimatedGIFData:m.image]];  
-        else
-            [self displayImage:[UIImage imageWithData:m.image]];
+        NSString *dataType = [self contentTypeForImageData:m.data];
+        if     ([dataType isEqualToString:@"image/gif"])
+            [self displayImage:[UIImage animatedImageWithAnimatedGIFData:m.data]];  
+        else if([dataType isEqualToString:@"image/jpeg"] ||
+                [dataType isEqualToString:@"image/png"]) 
+            [self displayImage:[UIImage imageWithData:m.data]];
     }
-    else if([m.type isEqualToString:@"AUDIO"]) [self displayImage:[UIImage imageNamed:@"microphoneBackground.jpg"]];
 }
 
 - (void) displayImage:(UIImage *)i
 {
-    [self.imageView setImage:i];
+    image = i;
+    [imageView setImage:i];
     
     float mult = self.frame.size.width/i.size.width;
-    switch(self.displayMode)
+    switch(displayMode)
     {
         case ARISMediaDisplayModeTopAlignAspectFitWidth:
-            self.imageView.frame = CGRectMake(0,0,self.frame.size.width,i.size.height*mult);
+            imageView.frame = CGRectMake(0,0,self.frame.size.width,i.size.height*mult);
             break;
         case ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight:
-            self.imageView.frame = CGRectMake(0,0,self.frame.size.width,i.size.height*mult);
-            self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.imageView.frame.size.height);
+            imageView.frame = CGRectMake(0,0,self.frame.size.width,i.size.height*mult);
+            self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,imageView.frame.size.height);
         default:
             break;
     }
@@ -153,24 +161,19 @@
         [delegate ARISMediaViewUpdated:self];
 }
 
-- (UIImage *) image
-{
-    return self.imageView.image;
-}
-
 - (void) addSpinner
 {
-    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.spinner.center = self.center;
-    [self addSubview:self.spinner];
-    [self.spinner startAnimating];
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.center;
+    [self addSubview:spinner];
+    [spinner startAnimating];
 }
 
 - (void) removeSpinner
 {
-	[self.spinner stopAnimating];
-    [self.spinner removeFromSuperview];
-    self.spinner = nil;
+	[spinner stopAnimating];
+    [spinner removeFromSuperview];
+    spinner = nil;
 }
 
 - (NSString *) contentTypeForImageData:(NSData *)d

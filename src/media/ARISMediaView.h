@@ -26,13 +26,12 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 
 @interface ARISMediaView : UIView
 
-- (id) initWithFrame:(CGRect)frame media:(Media *)m   mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
-- (id) initWithFrame:(CGRect)frame image:(UIImage *)i mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
-
-- (void) refreshWithFrame:(CGRect)f;
-- (void) refreshWithFrame:(CGRect)frame media:(Media *)m   mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
-- (void) refreshWithFrame:(CGRect)frame image:(UIImage *)i mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
-
-- (UIImage *) image;
+- (id) initWithDelegate:(id<ARISMediaViewDelegate>)d;
+- (id) initWithFrame:(CGRect)f media:(Media *)m   mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
+- (id) initWithFrame:(CGRect)f image:(UIImage *)i mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
+- (void) setFrame:(CGRect)f withMode:(ARISMediaDisplayMode)dm;
+- (void) setMedia:(Media *)m;
+- (void) setImage:(UIImage *)i;
+- (void) setDelegate:(id<ARISMediaViewDelegate>)d;
 
 @end
