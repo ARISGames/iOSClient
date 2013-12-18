@@ -786,6 +786,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         }
     }
     
+    /*
     [AppModel sharedAppModel].overlayList = tempOverlayList;
     
     for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++)
@@ -799,6 +800,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             //also... what the heck is this doing? -Phil
         }
     }
+     */
     
     NSLog(@"NSNotification: NewOverlayListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlayListReady" object:nil]];

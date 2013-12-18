@@ -65,6 +65,7 @@
 
 - (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
 {
+    /*
     NSArray *tilesInRect;
     for (int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++)
     {
@@ -74,11 +75,13 @@
     //Again (see comment below), why are we iterating? Are we asking "do ANY tilesInRect have > 0 count"? If so, why are we then
     //just using the final one (in drawMapRect:zoomScale:inContext:)? -Phil 3/6/13
 
+         */ 
     return false;    
 }
 
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context
 {
+    /*
     NSArray *tilesInRect;
     for (int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++) //count always > 0, otherwise this function wouldn't be called
         tilesInRect = [(TileOverlay *)self.overlay tilesInMapRect:mapRect zoomScale:zoomScale withIndex:i];
@@ -99,6 +102,7 @@
         CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), [image CGImage]);
         CGContextRestoreGState(context);
     }
+     */
 }
 
 @end

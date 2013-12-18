@@ -206,6 +206,7 @@
 
 - (void) updateOverlays
 {
+    /*
     [overlayArray removeAllObjects];
     [mapView removeOverlays:[mapView overlays]];
     
@@ -218,6 +219,7 @@
             [mapView addOverlay:overlay];
         }
     }
+     */
 }
 
 - (void) refresh

@@ -38,7 +38,6 @@
 @synthesize recentGameList;
 @synthesize player;
 @synthesize currentGame;
-@synthesize overlayList;
 @synthesize overlayIsVisible;
 @synthesize nearbyLocationsList;
 @synthesize gameTagList;
@@ -64,8 +63,8 @@
         disableLeaveGame = NO;
         skipGameDetails  = 0;
 		defaults      = [NSUserDefaults standardUserDefaults];
-        overlayList   = [[NSMutableArray alloc] initWithCapacity:10];
         motionManager = [[CMMotionManager alloc] init];
+        mediaModel    = [[MediaModel alloc] init]; 
 	}
     return self;
 }
@@ -79,7 +78,6 @@
 {
   self.nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
   [self.currentGame clearLocalModels];
-  [self.overlayList removeAllObjects];
 }
 
 
@@ -99,8 +97,8 @@
        (self.serverURL && ![currServ isEqual:self.serverURL]) ||
        [defaults boolForKey:@"clearCache"])
     {
-        [[AppModel sharedAppModel].mediaModel clearCache];
-        if([AppModel sharedAppModel].player)
+        [self.mediaModel clearCache];
+        if(self.player)
         {
             NSLog(@"NSNotification: LogoutRequested");
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
@@ -138,9 +136,9 @@
     self.player = p;
     
     [[AppServices sharedAppServices] setShowPlayerOnMap];
-    [[AppModel sharedAppModel] saveUserDefaults];
+    [self saveUserDefaults];
     //Subscribe to player channel
-    //[RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
+    //[RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",self.playerId]];
 }
 
 - (void) saveUserDefaults
@@ -209,8 +207,6 @@
 	
 	[defaults registerDefaults:appDefaults];
 	[defaults synchronize];
-    
-    mediaModel    = [[MediaModel alloc] init];
 }
 
 - (void) setPlayerLocation:(CLLocation *)newLocation

@@ -163,6 +163,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
 {
     if(self = [super init])
     {
+        /*
         // get all tiles for current overlay
         Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:ov_index];
         NSMutableArray* xArray = [[NSMutableArray alloc] init];
@@ -221,6 +222,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
         
         boundingMapRect = MKMapRectMake(x0, y0, x1 - x0, y1 - y0);
         
+         */
     }
     return self;
 }
@@ -238,6 +240,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
 
 - (NSArray *)tilesInMapRect:(MKMapRect)rect zoomScale:(MKZoomScale)scale withIndex:(int)ov_index
 {
+                                          /* PHIL COMMENTING OUT BECAUSE WHAT  
     NSInteger z = zoomScaleToZoomLevel(scale);
     
     // Number of tiles wide or high (but not wide * high)
@@ -268,7 +271,6 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
                     if (!tiles) {
                         tiles = [NSMutableArray array];
                     }
-                                       /* PHIL COMMENTING OUT BECAUSE WHAT 
                     
                     MKMapRect frame = MKMapRectMake((double)(x * TILE_SIZE) / scale,
                                                     (double)(y * TILE_SIZE) / scale,
@@ -301,13 +303,14 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
                     [tiles addObject:tile];                               
                      
                      
-                     */ //END PHIL COMMENTING OUT
                 }
             }
         }
     }
     
     return tiles;
+                             */ //END PHIL COMMENTING OUT  
+    return nil;
 }
 
 //Reading through this function- it will ALWAYS return an empty NSMutableArray. It won't do anything outside that either.
