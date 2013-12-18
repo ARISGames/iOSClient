@@ -15,8 +15,6 @@
 #import "ARISMediaView.h"
 #import "WebPageViewController.h"
 #import "WebPage.h"
-#import <AVFoundation/AVFoundation.h>
-#import "AsyncMediaPlayerButton.h"
 #import "UIImage+Scale.h"
 #import "Node.h"
 #import "UIColor+ARISColors.h"
@@ -59,7 +57,6 @@ static NSString * const OPTION_CELL = @"option";
     
         self.node = n;
         self.title = self.node.name;
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
     }
     
     return self;
@@ -172,11 +169,6 @@ static NSString * const OPTION_CELL = @"option";
 {
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
-}
-
-- (void)movieFinishedCallback:(NSNotification*) aNotification
-{
-	[self dismissMoviePlayerViewControllerAnimated];
 }
 
 - (void)dealloc

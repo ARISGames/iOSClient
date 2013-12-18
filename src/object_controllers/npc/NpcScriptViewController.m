@@ -68,15 +68,15 @@
         delegate = d;
         
         Media *pcMedia;
-        if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
-        else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
+        if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
+        else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId];
         
         if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
         else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
         [self.view addSubview:self.pcView];
         
         Media *npcMedia;
-        if(self.npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:self.npc.mediaId ofType:nil];
+        if(self.npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:self.npc.mediaId];
         
         if(npcMedia) self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:self.npc.name delegate:self];
         else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
@@ -136,16 +136,6 @@
     [self readyNextScriptElementForDisplay];
 }
 
-- (void) play
-{
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScriptElement.typeId];
-    ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-    mMoviePlayer.moviePlayer.shouldAutoplay = YES;
-    [mMoviePlayer.moviePlayer prepareToPlay];
-    [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-    
 - (void) readyNextScriptElementForDisplay
 {
     self.currentScriptElement = [self.currentScript nextScriptElement];
@@ -169,27 +159,26 @@
     else if([currentScriptElement.type isEqualToString:@"video"])
     {
         [self moveAllOut];
-        [self performSelector:@selector(play) withObject:nil afterDelay:1.0];
     }
     else if([currentScriptElement.type isEqualToString:@"panoramic"])
     {
         [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"webpage"])
     {
         [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame webpageForWebpageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"node"])
     {
         [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"item"])
     {
         [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     self.view.userInteractionEnabled = YES;
 }
@@ -203,11 +192,6 @@
 {
     [((ARISViewController *)delegate).navigationController popToViewController:((ARISViewController *)delegate) animated:YES];
     [self readyNextScriptElementForDisplay];
-}
-
-- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)audioPlayer successfully:(BOOL)flag
-{
-    [[AVAudioSession sharedInstance] setActive:NO error:nil];
 }
 
 - (void) scriptElementViewRequestsHideContinue:(BOOL)h

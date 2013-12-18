@@ -14,7 +14,6 @@
 #import "Item.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
-#import "AsyncMediaPlayerButton.h"
 #import "ARISCollapseView.h"
 #import "AppModel.h"
 #import "AppServices.h"
@@ -246,7 +245,7 @@
         int q = self.item.qty;
         
         Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
-        if(!invItem) { invItem = [[AppModel sharedAppModel] itemForItemId:item.itemId]; invItem.qty = 0; }
+        if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
         
         int maxPUAmt = invItem.maxQty == -1 ? 99999 : invItem.maxQty-invItem.qty;
         if(q < maxPUAmt) maxPUAmt = q;
@@ -267,7 +266,7 @@
 - (void) pickupItemQty:(int)q
 {
     Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
-    if(!invItem) { invItem = [[AppModel sharedAppModel] itemForItemId:item.itemId]; invItem.qty = 0; }
+    if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
     
     int maxPUAmt = invItem.maxQty == -1 ? 99999 : invItem.maxQty-invItem.qty;
     if(q < maxPUAmt) maxPUAmt = q;

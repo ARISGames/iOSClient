@@ -8,7 +8,7 @@
 
 #import "NoteCell.h"
 #import "Note.h"
-#import "NoteContent.h"
+#import "Media.h"
 #import "Player.h"
 
 #import "UIColor+ARISColors.h"
@@ -89,9 +89,9 @@
     [self setHasVideoIcon:NO]; 
     for(int i = 0; i < [n.contents count]; i++)
     {
-        if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"IMAGE"]) [self setHasImageIcon:YES];
-        if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"AUDIO"]) [self setHasAudioIcon:YES]; 
-        if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"VIDEO"]) [self setHasVideoIcon:YES]; 
+        if([((Media *)[n.contents objectAtIndex:i]).type isEqualToString:@"IMAGE"]) [self setHasImageIcon:YES];
+        if([((Media *)[n.contents objectAtIndex:i]).type isEqualToString:@"AUDIO"]) [self setHasAudioIcon:YES]; 
+        if([((Media *)[n.contents objectAtIndex:i]).type isEqualToString:@"VIDEO"]) [self setHasVideoIcon:YES]; 
     }
 }
 

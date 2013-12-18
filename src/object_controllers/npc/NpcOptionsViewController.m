@@ -80,8 +80,8 @@
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
     Media *pcMedia = 0;
-    if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
-    else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
+    if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
+    else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId];
     
     if(pcMedia) self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia                                    mode:ARISMediaDisplayModeAspectFill delegate:self];
     else        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
@@ -276,7 +276,7 @@
     else
     {
         NpcScriptOption *selectedOption = [optionList objectAtIndex:r.view.tag];
-        selectedOption.scriptText = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId].text;
+        selectedOption.scriptText = [[AppModel sharedAppModel].currentGame nodeForNodeId:selectedOption.nodeId].text;
         [delegate optionChosen:selectedOption];
     }
 }
@@ -288,7 +288,7 @@
 
 - (void) setDefaultMedia:(Media *)m
 {
-    [self.mediaView refreshWithFrame:self.mediaView.frame media:m mode:ARISMediaDisplayModeAspectFill delegate:self]; 
+    [self.mediaView setMedia:m]; 
 }
 
 - (void) setShowLeaveConversationButton:(BOOL)s

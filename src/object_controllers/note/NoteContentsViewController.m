@@ -7,7 +7,6 @@
 //
 
 #import "NoteContentsViewController.h"
-#import "NoteContent.h"
 #import "ARISMediaView.h"
 #import "AppModel.h"
 
@@ -74,13 +73,12 @@
 
 - (void) refreshFromContents
 {
-    NoteContent *c;
+    Media *m;
     int offset = 0;
     for(int i = 0; i < [contents count]; i++)
     {
-        c = (NoteContent *)[contents objectAtIndex:i];
-        if([c.type isEqualToString:@"TEXT"]) continue;
-        ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) media:[[AppModel sharedAppModel] mediaForMediaId:c.mediaId ofType:[c getType]] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        m = (Media *)[contents objectAtIndex:i];
+        ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) media:m mode:ARISMediaDisplayModeAspectFill delegate:self];
         [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ARISMediaViewTouched)]]; 
         amv.clipsToBounds = YES;
         
@@ -105,12 +103,12 @@
 - (void) ARISMediaViewTouched //this is obnoxious- if only tap gestures would pass the thing that was tapped...
 {
     int nonTextMediaIndex = 0;
+    Media *m;
     for(int i = 0; i < [contents count]; i++) //need to iterate, becuase "TEXT" types are skipped :/
     { 
-        NoteContent *c = (NoteContent *)[contents objectAtIndex:i];
-        if([c.type isEqualToString:@"TEXT"]) continue;
+        m = (Media *)[contents objectAtIndex:i];
         if(pageControl.currentPage == nonTextMediaIndex)
-            [delegate mediaWasSelected:[[AppModel sharedAppModel] mediaForMediaId:c.mediaId ofType:[c getType]]];
+            [delegate mediaWasSelected:m];
         nonTextMediaIndex++; 
     }
 }

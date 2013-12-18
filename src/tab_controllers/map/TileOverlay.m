@@ -268,6 +268,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
                     if (!tiles) {
                         tiles = [NSMutableArray array];
                     }
+                                       /* PHIL COMMENTING OUT BECAUSE WHAT 
                     
                     MKMapRect frame = MKMapRectMake((double)(x * TILE_SIZE) / scale,
                                                     (double)(y * TILE_SIZE) / scale,
@@ -284,6 +285,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
                     
                     //NSString *path = [currentOverlay.tilePath objectAtIndex:i];
                     // MG: load image from file system if offline
+                    
                     UIImage *image;
                     if(media.image)
                         image = [UIImage imageWithData:media.image];
@@ -297,6 +299,9 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
                     ImageTile *tile = [[ImageTile alloc] initWithFrame:frame image:image];
                     
                     [tiles addObject:tile];                               
+                     
+                     
+                     */ //END PHIL COMMENTING OUT
                 }
             }
         }

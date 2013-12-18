@@ -132,15 +132,15 @@
         else if([type isEqualToString:@"scanner"])
             [delegate displayScannerWithPrompt:token];
         else if([type isEqualToString:@"plaque"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:[token intValue]]           fromSource:delegate];
+            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame nodeForNodeId:[token intValue]]           fromSource:delegate];
         else if([type isEqualToString:@"webpage"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageId:[token intValue]]     fromSource:delegate];
+            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame webpageForWebpageId:[token intValue]]     fromSource:delegate];
         else if([type isEqualToString:@"item"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] itemForItemId:[token intValue]]           fromSource:delegate];
+            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame itemForItemId:[token intValue]]           fromSource:delegate];
         else if([type isEqualToString:@"character"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] npcForNpcId:[token intValue]]             fromSource:delegate];
+            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:[token intValue]]             fromSource:delegate];
         else if([type isEqualToString:@"panoramic"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] panoramicForPanoramicId:[token intValue]] fromSource:delegate];
+            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:[token intValue]] fromSource:delegate];
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {
@@ -162,7 +162,7 @@
                                 [AppModel sharedAppModel].player.playerId,
                                 [AppModel sharedAppModel].player.username, 
                                 [AppModel sharedAppModel].player.displayname, 
-                                playerMedia.url];
+                                playerMedia.remoteURL];
         [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
     else if([mainCommand isEqualToString:@"inventory"])
@@ -218,9 +218,8 @@
 
 - (void) loadAudioFromMediaId:(int)mediaId
 {
-    Media* media = [[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:@"AUDIO"];
-    NSURL* url = [NSURL URLWithString:media.url];
-    AVPlayer *player = [AVPlayer playerWithURL:url];
+    Media* media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+    AVPlayer *player = [AVPlayer playerWithURL:media.localURL];
     [audioPlayers setObject:player forKey:[NSNumber numberWithInt:mediaId]];
 }
 
@@ -277,7 +276,7 @@
     if(qty < 1) qty = 0;
     [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
     
-    Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
+    Item *i = [[AppModel sharedAppModel].currentGame itemForItemId:itemId];
     int newQty = 0;
     if(i.itemType != ItemTypeAttribute)
     {
@@ -300,7 +299,7 @@
 {
     [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
     
-    Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
+    Item *i = [[AppModel sharedAppModel].currentGame itemForItemId:itemId];
     int newQty = 0;
     if(i.itemType != ItemTypeAttribute) newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i   qtyToAdd:qty];
     else                                newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty];
@@ -312,7 +311,7 @@
 {
     [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
     
-    Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
+    Item *i = [[AppModel sharedAppModel].currentGame itemForItemId:itemId];
     int newQty = 0;
     if(i.itemType != ItemTypeAttribute) newQty = [[AppModel sharedAppModel].currentGame.inventoryModel  removeItemFromInventory:i  qtyToRemove:qty];
     else                                newQty = [[AppModel sharedAppModel].currentGame.attributesModel removeItemFromAttributes:i qtyToRemove:qty];
