@@ -184,29 +184,30 @@
 {
 	//Load the settings bundle data into an array
 	NSDictionary *settingsDict  = [NSDictionary dictionaryWithContentsOfFile:[[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Settings.bundle"] stringByAppendingPathComponent:@"Root.plist"]];
-	NSArray *prefSpecifierArray = [settingsDict objectForKey:@"PreferenceSpecifiers"];
+	NSArray *prefDictArray = [settingsDict objectForKey:@"PreferenceSpecifiers"];
 	
-	//Find the Defaults
-	NSString *baseAppURLDefault             = @"Unknown Default";
-    NSNumber *showGamesInDevelopmentDefault = [NSNumber numberWithInt:0];
-    NSNumber *showPlayerOnMapDefault        = [NSNumber numberWithInt:1];
+	//Find the Default values for each preference
+	NSString *baseServerURLDefault   = @"http://arisgames.org/server";
+    NSNumber *showGamesInDevDefault  = [NSNumber numberWithInt:0];
+    NSNumber *showPlayerOnMapDefault = [NSNumber numberWithInt:1];
 	NSDictionary *prefItem;
-	for(prefItem in prefSpecifierArray)
+	for(prefItem in prefDictArray)
 	{
-		if([[prefItem objectForKey:@"Key"] isEqualToString:@"baseServerString"])       baseAppURLDefault             = [prefItem objectForKey:@"DefaultValue"];
-        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showGamesInDevelopment"]) showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
-        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showPlayerOnMap"])        showPlayerOnMapDefault        = [prefItem objectForKey:@"DefaultValue"];
+		if([[prefItem objectForKey:@"Key"] isEqualToString:@"baseServerString"]) baseServerURLDefault   = [prefItem objectForKey:@"DefaultValue"];
+        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showGamesInDev"])   showGamesInDevDefault  = [prefItem objectForKey:@"DefaultValue"];
+        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showPlayerOnMap"])  showPlayerOnMapDefault = [prefItem objectForKey:@"DefaultValue"];
     }
 	
 	// since no default values have been set (i.e. no preferences file created), create it here
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
-								 baseAppURLDefault,             @"baseServerString",
-                                 showGamesInDevelopmentDefault, @"showGamesInDevelopment",
-                                 showPlayerOnMapDefault,        @"showPlayerOnMap",
+                                 baseServerURLDefault,   @"baseServerString",
+                                 showGamesInDevDefault,  @"showGamesInDev",
+                                 showPlayerOnMapDefault, @"showPlayerOnMap",
 								 nil];
 	
 	[defaults registerDefaults:appDefaults];
 	[defaults synchronize];
+    [self loadUserDefaults];
 }
 
 - (void) setPlayerLocation:(CLLocation *)newLocation

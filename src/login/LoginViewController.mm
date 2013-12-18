@@ -154,10 +154,8 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self.view addSubview:changePassButton];
     
     //PHIL HACK
-    /*
     philisusingthistodebugifyouseethispleasedeleteit = [[ARISMediaView alloc] initWithFrame:CGRectMake(100,100,50,50) media:[[AppModel sharedAppModel] mediaForMediaId:12345] mode:ARISMediaDisplayModeAspectFill delegate:self];
     [self.view addSubview:philisusingthistodebugifyouseethispleasedeleteit];
-     */
     
     [self resetState];
 }
