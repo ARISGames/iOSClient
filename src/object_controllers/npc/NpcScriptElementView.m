@@ -7,12 +7,10 @@
 //
 
 #import "NpcScriptElementView.h"
-#import <AVFoundation/AVFoundation.h>
 #import "ScriptElement.h"
 #import "ARISMediaView.h"
 #import "ARISWebView.h"
 #import "ARISAppDelegate.h"
-#import "ARISMoviePlayerViewController.h"
 #import "ARISCollapseView.h"
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
@@ -26,8 +24,6 @@
     ARISMediaView *mediaView;
     ARISCollapseView *textSection;
     ARISWebView *textWebView;
-    
-    ARISMoviePlayerViewController *ARISMoviePlayer;
     
     NSString *defaultTitle;
     Media *defaultMedia;
@@ -43,7 +39,6 @@
 @property (nonatomic, strong) ARISCollapseView *textSection;
 @property (nonatomic, strong) ARISWebView *textWebView;
 
-@property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
 
 @property (nonatomic, strong) NSString *defaultTitle;
 @property (nonatomic, strong) Media *defaultMedia;
@@ -59,8 +54,6 @@
 @synthesize mediaView;
 @synthesize textSection;
 @synthesize textWebView;
-
-@synthesize ARISMoviePlayer;
 
 @synthesize defaultTitle;
 @synthesize defaultMedia;
@@ -129,8 +122,6 @@
 
 - (void) loadScriptElement:(ScriptElement *)s
 {
-    if(self.ARISMoviePlayer) { [self.ARISMoviePlayer.view removeFromSuperview]; self.ARISMoviePlayer = nil; }
-        
     self.scriptElement = s;
     
     if(self.scriptElement.vibrate) [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) vibrate];
@@ -139,15 +130,13 @@
     
     if(self.scriptElement.mediaId != 0)
     {
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.scriptElement.mediaId ofType:@"PHOTO"];//if it can't find a media, assume it is a photo
-        [self.mediaView refreshWithFrame:self.mediaView.frame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
-        if([media.type isEqualToString:@"VIDEO"]) [self playAudioOrVideoFromMedia:media andHidden:NO];
-        if([media.type isEqualToString:@"AUDIO"]) [self playAudioOrVideoFromMedia:media andHidden:YES];
+        Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.scriptElement.mediaId];
+        [self.mediaView setMedia:media];
     }
     else if(self.defaultImage)
-        [self.mediaView refreshWithFrame:self.mediaView.frame image:self.defaultImage mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+        [self.mediaView setImage:self.defaultImage];
     else if(self.defaultMedia)
-        [self.mediaView refreshWithFrame:self.mediaView.frame media:self.defaultMedia mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+        [self.mediaView setMedia:self.defaultMedia];
     
     //Try resetting the text view height to 0 each time for proper content height calculation
     CGRect wvFrame = [self.textWebView frame];
@@ -201,20 +190,10 @@
     [UIView setAnimationDidStopSelector:s];
     self.textWebView.alpha  = 0;
     [UIView commitAnimations];
-    
-    //[ARISMoviePlayer.moviePlayer.view removeFromSuperview];
-    //[self.npcVideoView removeFromSuperview];
-    //[ARISMoviePlayer.moviePlayer stop];
-    
-    //if(audioPlayer.isPlaying) [audioPlayer stop];
-    
-    //[[AVAudioSession sharedInstance] setActive:NO error:nil];
-    //audioPlayer = nil;
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    //education.mnhs.org/playthepast/qr?2005
 }
 
 - (void) webViewDidFinishLoad:(UIWebView *)webView
@@ -235,52 +214,6 @@
     [UIView setAnimationDuration:0.25];
     self.textWebView.alpha = 1.0;
     [UIView commitAnimations];
-}
-
-- (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden
-{
-    if(media.image != nil && [media.type isEqualToString:@"AUDIO"])
-    {
-        NSLog(@"NpcViewController: Playing through AVAudioPlayer");
-        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
-        [[AVAudioSession sharedInstance] setActive: YES error: nil];
-        NSError* err;
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:media.image error:&err];
-        //[audioPlayer setDelegate:self];
-        
-        if(err) NSLog(@"NpcViewController: Playing Audio: Failed with reason: %@", [err localizedDescription]);
-        else [audioPlayer play];
-    }
-    else
-    {
-        NSLog(@"NpcViewController: Playing through MPMoviePlayerController");
-        self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
-        self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
-        self.ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
-        [self.ARISMoviePlayer.moviePlayer setContentURL:[NSURL URLWithString:media.url]];
-        [self.ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
-        [self.ARISMoviePlayer.moviePlayer setFullscreen:NO];
-        [self.ARISMoviePlayer.moviePlayer prepareToPlay];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerLoadStateDidChangeNotification:) name:MPMoviePlayerLoadStateDidChangeNotification object:self.ARISMoviePlayer.moviePlayer];
-        if(!hidden)
-        {
-            [self.mediaSection addSubview:self.ARISMoviePlayer.view];
-            self.ARISMoviePlayer.view.frame = CGRectMake(0,0,self.bounds.size.width,self.bounds.size.height-64);
-        }
-    }
-}
-
-- (void) MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
-{
-    if(self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled)
-        [self.ARISMoviePlayer.moviePlayer pause];
-    else if(self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable)
-        [self.ARISMoviePlayer.moviePlayer play];
-}
-
-- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)audioPlayer successfully:(BOOL)flag
-{
-    [[AVAudioSession sharedInstance] setActive:NO error:nil];
 }
 
 - (void) displayTab:(NSString *)t

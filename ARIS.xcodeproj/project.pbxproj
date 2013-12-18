@@ -227,7 +227,6 @@
 		AABC7385172739D80074CC21 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7085172739D60074CC21 /* Npc.m */; };
 		AABC7386172739D80074CC21 /* Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7087172739D60074CC21 /* Overlay.m */; };
 		AABC7387172739D80074CC21 /* Panoramic.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7089172739D60074CC21 /* Panoramic.m */; };
-		AABC7388172739D80074CC21 /* PanoramicMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708B172739D60074CC21 /* PanoramicMedia.m */; };
 		AABC7389172739D80074CC21 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708D172739D60074CC21 /* Player.m */; };
 		AABC738A172739D80074CC21 /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708F172739D60074CC21 /* Quest.m */; };
 		AABC738B172739D80074CC21 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7091172739D60074CC21 /* Tab.m */; };
@@ -677,8 +676,6 @@
 		AABC7087172739D60074CC21 /* Overlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Overlay.m; sourceTree = "<group>"; };
 		AABC7088172739D60074CC21 /* Panoramic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panoramic.h; sourceTree = "<group>"; };
 		AABC7089172739D60074CC21 /* Panoramic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Panoramic.m; sourceTree = "<group>"; };
-		AABC708A172739D60074CC21 /* PanoramicMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramicMedia.h; sourceTree = "<group>"; };
-		AABC708B172739D60074CC21 /* PanoramicMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanoramicMedia.m; sourceTree = "<group>"; };
 		AABC708C172739D60074CC21 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		AABC708D172739D60074CC21 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		AABC708E172739D60074CC21 /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
@@ -1416,8 +1413,6 @@
 				AABC7087172739D60074CC21 /* Overlay.m */,
 				AABC7088172739D60074CC21 /* Panoramic.h */,
 				AABC7089172739D60074CC21 /* Panoramic.m */,
-				AABC708A172739D60074CC21 /* PanoramicMedia.h */,
-				AABC708B172739D60074CC21 /* PanoramicMedia.m */,
 				AABC708C172739D60074CC21 /* Player.h */,
 				AABC708D172739D60074CC21 /* Player.m */,
 				AABC708E172739D60074CC21 /* Quest.h */,
@@ -2419,7 +2414,6 @@
 				AABC7385172739D80074CC21 /* Npc.m in Sources */,
 				AABC7386172739D80074CC21 /* Overlay.m in Sources */,
 				AABC7387172739D80074CC21 /* Panoramic.m in Sources */,
-				AABC7388172739D80074CC21 /* PanoramicMedia.m in Sources */,
 				AABC7389172739D80074CC21 /* Player.m in Sources */,
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,

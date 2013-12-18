@@ -25,5 +25,7 @@
 @property (nonatomic, strong) NSData *data;
 
 - (id) initWithMediaCD:(MediaCD *)mcd;
+- (NSString *) fileExtension;
+- (NSString *) type;
 
 @end

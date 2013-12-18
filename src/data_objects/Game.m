@@ -101,7 +101,7 @@
 	return [self.nodeList objectForKey:[NSNumber numberWithInt:nId]];
 }
 
-- (WebPage *) webpageForWebPageId:(int)wId
+- (WebPage *) webpageForWebpageId:(int)wId
 {
 	return [self.webpageList objectForKey:[NSNumber numberWithInt:wId]];
 }

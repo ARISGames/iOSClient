@@ -84,14 +84,10 @@
     [self.webViewSpinner startAnimating];
     [self.webView addSubview:self.webViewSpinner];
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
-    if(media && [media.type isEqualToString:@"PHOTO"] && media.url)
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId];
+    if(media)
     {
         self.mediaView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
-    }
-    else if(media && ([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
-    {
-        //[self.view addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) media:media presenter:self preloadNow:NO]];
     }
 }
 
@@ -103,10 +99,11 @@
     mainFrame.origin.y = 64;
     mainFrame.size.height = mainFrame.size.height-64;
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId];
     if(media)
     {
-        [self.mediaView refreshWithFrame:mainFrame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
+        [self.mediaView setFrame:mainFrame withMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
+        [self.mediaView setMedia:media]; 
         [self.view addSubview:self.mediaView];
     } 
     

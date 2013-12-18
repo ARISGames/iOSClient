@@ -132,7 +132,7 @@
     if(s.hideLeaveConversationButtonSpecified) [delegate scriptRequestsHideLeaveConversation:s.hideLeaveConversationButton];
     if(s.leaveConversationButtonTitle)         [delegate scriptRequestsLeaveConversationTitle:s.leaveConversationButtonTitle];
     if(s.defaultPcTitle)                       [delegate scriptRequestsOptionsPcTitle:s.defaultPcTitle];
-    if(s.defaultPcMediaId)                     [delegate scriptRequestsOptionsPcMedia:[[AppModel sharedAppModel] mediaForMediaId:s.defaultPcMediaId ofType:@"PHOTO"]]; 
+    if(s.defaultPcMediaId)                     [delegate scriptRequestsOptionsPcMedia:[[AppModel sharedAppModel] mediaForMediaId:s.defaultPcMediaId]]; 
     
     self.currentScript = s;
     [self readyNextScriptElementForDisplay];
@@ -140,7 +140,7 @@
 
 - (void) play
 {
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScriptElement.typeId ofType:@"VIDEO"];
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScriptElement.typeId];
     ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
     mMoviePlayer.moviePlayer.shouldAutoplay = YES;
     [mMoviePlayer.moviePlayer prepareToPlay];

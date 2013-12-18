@@ -89,7 +89,7 @@
     [self setHasVideoIcon:NO]; 
     for(int i = 0; i < [n.contents count]; i++)
     {
-        if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"PHOTO"]) [self setHasImageIcon:YES];
+        if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"IMAGE"]) [self setHasImageIcon:YES];
         if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"AUDIO"]) [self setHasAudioIcon:YES]; 
         if([[((NoteContent *)[n.contents objectAtIndex:i]) getType] isEqualToString:@"VIDEO"]) [self setHasVideoIcon:YES]; 
     }

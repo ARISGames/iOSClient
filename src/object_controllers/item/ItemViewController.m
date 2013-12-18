@@ -119,19 +119,14 @@
         scrollView.delegate = self;
         
         Media *media;
-        if(self.item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:self.item.mediaId     ofType:@"PHOTO"];
-        else                  media = [[AppModel sharedAppModel] mediaForMediaId:self.item.iconMediaId ofType:@"PHOTO"];
+        if(self.item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:self.item.mediaId];
+        else                  media = [[AppModel sharedAppModel] mediaForMediaId:self.item.iconMediaId];
         
-        if([media.type isEqualToString:@"PHOTO"] && media.url)
+        if(media)
         {
             imageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,scrollView.frame.size.width,scrollView.frame.size.height-64) media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
             [scrollView addSubview:imageView];
             [scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToDescription:)]];
-        }
-        else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
-        {        
-            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
-            [scrollView addSubview:mediaButton];
         }
     }
     

@@ -218,7 +218,7 @@
         if(((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id != 0)
         {
             tag.backgroundColor = [UIColor clearColor]; 
-            ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) media:[[AppModel sharedAppModel] mediaForMediaId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+            ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) media:[[AppModel sharedAppModel] mediaForMediaId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id] mode:ARISMediaDisplayModeAspectFill delegate:self];
             [tag addSubview:amv];
         }
         [tag addSubview:label];
@@ -332,18 +332,18 @@
     Media *iconMedia;
     if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
     {
-        if (item.iconMediaId != 0) iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
-        else if(item.mediaId != 0) iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId     ofType:@"PHOTO"];
+        if (item.iconMediaId != 0) iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId];
+        else if(item.mediaId != 0) iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId];
     }
-    if(iconMedia && [iconMedia.type isEqualToString:@"PHOTO"])
+    if(iconMedia && [iconMedia.type isEqualToString:@"IMAGE"])
     {
         [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.itemId]];
-        [iconView refreshWithFrame:iconView.frame media:iconMedia mode:ARISMediaDisplayModeAspectFit delegate:self];
+        [iconView setMedia:iconMedia];
     }
     else if(iconMedia)
     {
-        if([iconMedia.type isEqualToString:@"AUDIO"]) [iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"defaultAudioIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
-        if([iconMedia.type isEqualToString:@"VIDEO"]) [iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"defaultVideoIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+        if([iconMedia.type isEqualToString:@"AUDIO"]) [iconView setImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
+        if([iconMedia.type isEqualToString:@"VIDEO"]) [iconView setImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
     }
     
     return cell;

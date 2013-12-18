@@ -19,24 +19,16 @@
 
 @interface DataToUpload : NSObject
 {
-    NSString *title;
-    NSString *type;
     NSURL *url;
 };
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSURL *url;
 @end
 @implementation DataToUpload
-@synthesize title;
-@synthesize type;
 @synthesize url;
-- (id) initWithTitle:(NSString *)t type:(NSString *)ty url:(NSURL *)u
+- (id) initWithUrl:(NSURL *)u
 {
     if(self = [super init])
     {
-        self.title = t;
-        self.type = ty; 
         self.url = u; 
     }
     return self;
@@ -231,19 +223,19 @@
 
 - (void) imageChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@", [NSDate date]] type:@"PHOTO" url:url]]; 
+    [datasToUpload addObject:[[DataToUpload alloc] initWithUrl:url]]; 
     [self.navigationController popToViewController:self animated:YES];  
 }
 
 - (void) videoChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@", [NSDate date]] type:@"VIDEO" url:url]];
+    [datasToUpload addObject:[[DataToUpload alloc] initWithUrl:url]];
     [self.navigationController popToViewController:self animated:YES]; 
 }
 
 - (void) audioChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@",[NSDate date]] type:@"AUDIO" url:url]];
+    [datasToUpload addObject:[[DataToUpload alloc] initWithUrl:url]];
     [self.navigationController popToViewController:self animated:YES];  
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "PanoramicViewController.h"
-#import "PanoramicMedia.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "ARISAppDelegate.h"

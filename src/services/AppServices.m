@@ -129,7 +129,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
 {
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [userInfo setValue:@"PHOTO" forKey: @"type"];
     [userInfo setValue:fileURL forKey:@"url"];
     
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:

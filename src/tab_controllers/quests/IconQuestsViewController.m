@@ -150,7 +150,7 @@
     CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width);
     ARISMediaView *icon;
     if(q.iconMediaId != 0)
-        icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+        icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId] mode:ARISMediaDisplayModeAspectFit delegate:self];
     else
         icon = [[ARISMediaView alloc] initWithFrame:iconFrame image:[UIImage imageNamed:@"item.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
     

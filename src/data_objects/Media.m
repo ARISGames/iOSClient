@@ -77,4 +77,34 @@
     mediaCD.remoteURL = [rURL absoluteString];
 }
 
+- (NSString *) fileExtension
+{
+    return [mediaCD.remoteURL pathExtension];
+}
+
+- (NSString *) type
+{
+    NSString *ext = [self fileExtension];
+    if([ext isEqualToString:@"jpg"]  ||
+       [ext isEqualToString:@"jpeg"] ||
+       [ext isEqualToString:@"png"]  || 
+       [ext isEqualToString:@"gif"])
+    {
+        return @"IMAGE";
+    }
+    else if([ext isEqualToString:@"mov"] ||
+            [ext isEqualToString:@"avi"] ||
+            [ext isEqualToString:@"mp4"])
+    {
+        return @"VIDEO";
+    } 
+    else if([ext isEqualToString:@"mp3"] ||
+            [ext isEqualToString:@"wav"] ||
+            [ext isEqualToString:@"ogg"])
+    {
+        return @"AUDIO";
+    }  
+    else return @"";
+}
+
 @end

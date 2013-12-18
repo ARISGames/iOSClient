@@ -20,7 +20,6 @@
 #import "WebPage.h"
 #import "Panoramic.h"
 #import "Quest.h"
-#import "PanoramicMedia.h"
 #import "ARISAppDelegate.h"
 #import "Comment.h"
 #import "Note.h"
