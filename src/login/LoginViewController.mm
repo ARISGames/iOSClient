@@ -39,7 +39,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     BOOL newPlayer;
     BOOL disableLeaveGame;
     
-    //For holding on to the player's location before he exists (/ is logged in)
+    //For holding on to the player's location before he/she exists (/ is logged in)
     CLLocation *location;
     
     BOOL viewHasAppeared;
