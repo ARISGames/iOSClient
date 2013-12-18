@@ -16,9 +16,7 @@
 #import "AppModel.h"
 #import "Player.h"
 #import "AppServices.h"
-#import "ARISMoviePlayerViewController.h"
 #import "UIColor+ARISColors.h"
-#import <AVFoundation/AVFoundation.h>
 
 @interface NpcScriptViewController() <ScriptParserDelegate, NpcScriptElementViewDelegate, GameObjectViewControllerDelegate>
 {

@@ -19,7 +19,6 @@
 #import "AsyncMediaPlayerButton.h"
 #import "UIImage+Scale.h"
 #import "Node.h"
-#import "ARISMoviePlayerViewController.h"
 #import "UIColor+ARISColors.h"
 
 static NSString * const OPTION_CELL = @"option";

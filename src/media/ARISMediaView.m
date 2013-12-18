@@ -12,6 +12,7 @@
 #import "AppServices.h"
 #import "UIImage+animatedGIF.h"
 #import "ARISMediaLoader.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface ARISMediaView() <ARISMediaLoaderDelegate>
 {
@@ -20,6 +21,7 @@
     UIImage *image; 
     
     UIImageView *imageView;
+    MPMoviePlayerViewController *avVC;
     UIActivityIndicatorView *spinner;
         
     id <ARISMediaViewDelegate> delegate;
@@ -129,8 +131,9 @@
         return;//this function will be called upon media's return
     }
     
-    if(m.data)
-    { 
+    NSString *type;
+    if([type isEqualToString:@"IMAGE"])
+    {
         NSString *dataType = [self contentTypeForImageData:m.data];
         if     ([dataType isEqualToString:@"image/gif"])
             [self displayImage:[UIImage animatedImageWithAnimatedGIFData:m.data]];  
@@ -138,6 +141,14 @@
                 [dataType isEqualToString:@"image/png"]) 
             [self displayImage:[UIImage imageWithData:m.data]];
     }
+    else if([type isEqualToString:@"VIDEO"])
+    {
+        [self displayVideo:media];
+    }
+    else if([type isEqualToString:@"AUDIO"])
+    {
+        
+    } 
 }
 
 - (void) displayImage:(UIImage *)i
@@ -159,6 +170,33 @@
     }
     if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewUpdated:)])
         [delegate ARISMediaViewUpdated:self];
+}
+
+- (void) displayVideo:(Media *)m
+{
+    if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; }
+    
+    avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
+    avVC.moviePlayer.shouldAutoplay = NO;
+    [avVC.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayVideoThumbLoaded:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:avVC.moviePlayer]; 
+}
+- (void) displayVideoThumbLoaded:(NSNotification*)notification
+{
+    [self displayImage:[UIImage imageWithData:UIImageJPEGRepresentation([notification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey], 1.0)]];
+    avVC.view.frame = imageView.frame;
+    [self addSubview:avVC.view]; 
+    
+    [avVC.moviePlayer play];
+}
+
+- (void) displayAudio:(Media *)m
+{
+    if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; } 
+       avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
+    avVC.moviePlayer.shouldAutoplay = NO;
+    [self displayImage:[UIImage imageNamed:@"audio.png"]];
+    [avVC.moviePlayer play]; 
 }
 
 - (void) addSpinner
@@ -198,6 +236,8 @@
 
 - (void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];  
+    if(avVC) [avVC.moviePlayer cancelAllThumbnailImageRequests]; 
 }
 
 @end

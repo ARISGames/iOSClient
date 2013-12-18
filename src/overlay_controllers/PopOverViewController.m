@@ -11,7 +11,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ARISMediaView.h"
 #import "ARISWebView.h"
-#import "ARISMoviePlayerViewController.h"
 #import "AppModel.h"
 #import "Media.h"
 #import "UIColor+ARISColors.h"

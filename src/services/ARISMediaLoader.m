@@ -12,7 +12,6 @@
 
 @interface ARISMediaLoader()
 {
-    //ARISMoviePlayerViewController *movieViewController; //Only required to get thumbnail for video
     NSMutableDictionary *dataConnections; 
     NSMutableArray *metaConnections;
 }
@@ -65,40 +64,6 @@
 
 - (void) loadVideoFrameForMR:(MediaResult *)mr
 {
-    /* 
-    NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
-    NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
-    
-    movieViewController = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:m.url]];
-    movieViewController.moviePlayer.shouldAutoplay = NO;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:movieViewController.moviePlayer];
-    [movieViewController.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
-     */
-}
-
-/*
-- (void) movieThumbDidFinish:(NSNotification*)n
-{
-    UIImage *i = [n.userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
-    media.image = UIImageJPEGRepresentation(i, 1.0);
-}
- */ 
- 
-- (void) retryLoadingAllMedia
-{
-    MediaResult *mr;
-    
-    //do the ol' switcheroo so we wont get into an infinite loop of adding, removing, readding, etc...
-    NSMutableArray *oldMetaConnections = metaConnections;
-    metaConnections = [[NSMutableArray alloc] initWithCapacity:10];
-    
-    while([oldMetaConnections count] > 0)
-    {
-        mr = [oldMetaConnections objectAtIndex:0];
-        mr.media = [[AppModel sharedAppModel] mediaForMediaId:mr.media.mediaId];
-        [oldMetaConnections removeObjectAtIndex:0];
-        [self loadMediaFromMR:mr];
-    }
 }
 
 - (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
