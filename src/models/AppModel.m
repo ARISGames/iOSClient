@@ -260,10 +260,16 @@
         NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"ARISCoreData.sqlite"]];
         NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                                 nil];
         
+        /*
         NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"ARISCoreData" withExtension:@"momd"];
+
         NSManagedObjectModel *managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL]; 
+         */
+        NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
+
         persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
         NSError *error;
         if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])

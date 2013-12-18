@@ -35,7 +35,7 @@
 {
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MediaCD" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     NSArray *cachedMediaArray = [context executeFetchRequest:fetchRequest error:&error] ;
@@ -98,7 +98,7 @@
 
 - (void) syncMediaDataToCache:(NSArray *)mediaDataToCache
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(gameid = 0) OR (gameid = %d)", [AppModel sharedAppModel].currentGame.gameId]; 
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(gameId = 0) OR (gameId = %d)", [AppModel sharedAppModel].currentGame.gameId]; 
     NSArray *currentlyCachedMediaArray = [self mediaForPredicate:predicate]; 
     
     //For quick check of existence in cache
@@ -115,7 +115,7 @@
         
         if(!(tmpMedia = [currentlyCachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]]))
         {
-            tmpMedia = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
+            tmpMedia = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
             tmpMedia.mediaId = [NSNumber numberWithInt:mediaId];
         }
         

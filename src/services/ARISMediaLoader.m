@@ -62,8 +62,21 @@
     [[AppServices sharedAppServices] fetchMediaMeta:mr.media]; 
 }
 
-- (void) loadVideoFrameForMR:(MediaResult *)mr
+- (void) retryLoadingAllMedia
 {
+    MediaResult *mr;
+    
+    //do the ol' switcheroo so we wont get into an infinite loop of adding, removing, readding, etc...
+    NSMutableArray *oldMetaConnections = metaConnections;
+    metaConnections = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    while([oldMetaConnections count] > 0)
+    {
+        mr = [oldMetaConnections objectAtIndex:0];
+        mr.media = [[AppModel sharedAppModel] mediaForMediaId:mr.media.mediaId];
+        [oldMetaConnections removeObjectAtIndex:0];
+        [self loadMediaFromMR:mr];
+    }
 }
 
 - (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d

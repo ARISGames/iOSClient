@@ -4,6 +4,7 @@
         <attribute name="gameId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="MediaCD" syncable="YES">
+        <attribute name="gameId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="localURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mediaId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="remoteURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -11,6 +12,7 @@
     <entity name="NoteCD" syncable="YES">
         <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gameId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="noteId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
