@@ -22,11 +22,11 @@
 
 @implementation MediaModel
 
-- (id) init
+- (id) initWithContext:(NSManagedObjectContext *)c
 {
     if(self = [super init])
     {
-        context = [AppModel sharedAppModel].managedObjectContext;
+        context = c;
     }
     return self;
 }

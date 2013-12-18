@@ -39,13 +39,13 @@
 {    
     application.idleTimerDisabled = YES;
     
-    //[TestFlight takeOff:@"71a0800e-c39f-43b7-9308-1d4b6a4d9f73"];
-    //[Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];
+    [TestFlight takeOff:@"71a0800e-c39f-43b7-9308-1d4b6a4d9f73"];
+    [Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];
     
     //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist
-	//[[AppModel sharedAppModel] initUserDefaults];
-    //[[AppServices sharedAppServices] resetCurrentlyFetchingVars];  
+	[[AppModel sharedAppModel] initUserDefaults];
+    [[AppServices sharedAppServices] resetCurrentlyFetchingVars];  
     
     [self setApplicationUITemplates];
     

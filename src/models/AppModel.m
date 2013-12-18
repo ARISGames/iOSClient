@@ -64,7 +64,7 @@
         skipGameDetails  = 0;
 		defaults      = [NSUserDefaults standardUserDefaults];
         motionManager = [[CMMotionManager alloc] init];
-        mediaModel    = [[MediaModel alloc] init]; 
+        mediaModel    = [[MediaModel alloc] initWithContext:[self managedObjectContext]]; 
 	}
     return self;
 }
