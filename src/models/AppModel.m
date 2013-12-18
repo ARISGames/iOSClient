@@ -104,6 +104,7 @@
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
         }
         self.serverURL = currServ;
+        [defaults setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"appVersion"];
         [defaults setBool:NO forKey:@"clearCache"];
         [defaults synchronize];
         return;

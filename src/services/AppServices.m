@@ -1327,12 +1327,12 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     //Just convert the data into an array and pretend it is a full game list, so same thing as 'parseGameMediaListFromJSON'
     NSArray * data = [[NSArray alloc] initWithObjects:jsonResult.data, nil];
     jsonResult.data = data;
-    [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread
+    [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread //Phil thinks this is fishy/stupid... 12/13
 }
 
 - (void)parseGameMediaListFromJSON:(ServiceResult *)jsonResult
 {
-    [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread
+    [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread //Phil thinks this is fishy/stupid... 12/13
 }
 
 - (void)startCachingMedia:(ServiceResult *)jsonResult

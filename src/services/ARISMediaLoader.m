@@ -59,7 +59,7 @@
     for(int i = 0; i < [metaConnections count]; i++)
         if(((MediaResult *)[metaConnections objectAtIndex:i]).media.mediaId == mr.media.mediaId) return;
     [metaConnections addObject:mr]; 
-    [[AppServices sharedAppServices] fetchMediaMeta:mr.media]; 
+    [[AppServices sharedAppServices] fetchMediaMeta:mr.media];
 }
 
 - (void) retryLoadingAllMedia
@@ -91,14 +91,16 @@
     MediaResult *mr = [dataConnections objectForKey:c.description]; 
     if(!mr) return; 
     [dataConnections removeObjectForKey:c.description];  
-    [mr cancelConnection];   
-    mr.media.data = mr.data;
+    mr.media.data = mr.data; 
+    [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media 
     
     NSString *mediaFolder   = [[[AppModel sharedAppModel] applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",mr.media.gameId]]; 
+    mediaFolder = [mediaFolder stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *mediaFileName = [[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject];
+    mediaFileName = [mediaFileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; 
     NSURL *newFileURL = [NSURL URLWithString:[mediaFolder stringByAppendingPathComponent:mediaFileName]];
     BOOL isDir;
-    if([[NSFileManager defaultManager] fileExistsAtPath:mediaFolder isDirectory:&isDir] && isDir)
+    if(!([[NSFileManager defaultManager] fileExistsAtPath:mediaFolder isDirectory:&isDir] && isDir))
         [[NSFileManager defaultManager] createDirectoryAtPath:mediaFolder withIntermediateDirectories:YES attributes:nil error:nil];
     [mr.media.data writeToFile:[newFileURL absoluteString] atomically:YES];
     mr.media.localURL = newFileURL;

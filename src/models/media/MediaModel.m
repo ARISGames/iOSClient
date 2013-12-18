@@ -47,7 +47,7 @@
 {
     NSError *error; 
     if(![[AppModel sharedAppModel].managedObjectContext save:&error])
-        NSLog(@"Error deleting Media - error:%@",error); 
+        NSLog(@"Error saving media context - error:%@",error); 
 }
 
 - (void) clearCache
@@ -90,6 +90,7 @@
     //Media Not found; you should try fetching a new list from the server
     MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
     mediaCD.mediaId = [NSNumber numberWithInt:mediaId];
+    mediaCD.gameId = [NSNumber numberWithInt:0]; 
     
     [self commitContext];
     
