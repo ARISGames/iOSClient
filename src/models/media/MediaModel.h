@@ -16,4 +16,6 @@
 - (void) syncMediaDataToCache:(NSArray *)mediaDataToCache;
 - (void) clearCache;
 
+- (void) saveAlteredMedia:(Media *)m; //don't like this...
+
 @end

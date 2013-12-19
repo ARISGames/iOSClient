@@ -9,6 +9,7 @@
 #import "ARISMediaLoader.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 
 @interface ARISMediaLoader()
 {
@@ -104,6 +105,8 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:mediaFolder withIntermediateDirectories:YES attributes:nil error:nil];
     [mr.media.data writeToFile:[newFileURL absoluteString] atomically:YES];
     mr.media.localURL = newFileURL;
+    
+    [[AppModel sharedAppModel].mediaModel saveAlteredMedia:mr.media];//not as elegant as I'd like...
     
     [self mediaLoadedForMR:mr];
 }

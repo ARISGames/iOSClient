@@ -134,4 +134,9 @@
     [self commitContext];
 }
 
+- (void) saveAlteredMedia:(Media *)m //yuck
+{
+    [self commitContext];
+}
+
 @end

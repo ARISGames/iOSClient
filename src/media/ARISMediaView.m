@@ -8,7 +8,6 @@
 
 #import "ARISMediaView.h"
 #import "Media.h"
-#import "AppModel.h"
 #import "AppServices.h"
 #import "UIImage+animatedGIF.h"
 #import "ARISMediaLoader.h"
@@ -131,7 +130,7 @@
         return;//this function will be called upon media's return
     }
     
-    NSString *type;
+    NSString *type = m.type;
     if([type isEqualToString:@"IMAGE"])
     {
         NSString *dataType = [self contentTypeForImageData:m.data];
