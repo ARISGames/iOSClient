@@ -53,6 +53,11 @@
         mr.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         [dataConnections setObject:mr forKey:mr.connection.description]; 
     }
+    else
+    {
+        mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL];
+        [self mediaLoadedForMR:mr]; 
+    }
 }
 
 - (void) loadMetaDataForMR:(MediaResult *)mr
@@ -89,23 +94,20 @@
 
 - (void) connectionDidFinishLoading:(NSURLConnection*)c
 {
-    MediaResult *mr = [dataConnections objectForKey:c.description]; 
-    if(!mr) return; 
-    [dataConnections removeObjectForKey:c.description];  
-    mr.media.data = mr.data; 
-    [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media 
+    MediaResult *mr = [dataConnections objectForKey:c.description];
+    if(!mr) return;
+    [dataConnections removeObjectForKey:c.description];
+    mr.media.data = mr.data;
+    [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
     
-    NSString *mediaFolder   = [[[AppModel sharedAppModel] applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",mr.media.gameId]]; 
-    mediaFolder = [mediaFolder stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *mediaFileName = [[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject];
-    mediaFileName = [mediaFileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; 
-    NSURL *newFileURL = [NSURL URLWithString:[mediaFolder stringByAppendingPathComponent:mediaFileName]];
-    BOOL isDir;
-    if(!([[NSFileManager defaultManager] fileExistsAtPath:mediaFolder isDirectory:&isDir] && isDir))
-        [[NSFileManager defaultManager] createDirectoryAtPath:mediaFolder withIntermediateDirectories:YES attributes:nil error:nil];
-    [mr.media.data writeToFile:[newFileURL absoluteString] atomically:YES];
-    mr.media.localURL = newFileURL;
-    
+    NSString *newFileFolder   = [NSString stringWithFormat:@"%@/%d",[[AppModel sharedAppModel] applicationDocumentsDirectory],mr.media.gameId]; 
+    NSError *e;
+    if(![[NSFileManager defaultManager] fileExistsAtPath:newFileFolder isDirectory:nil])
+        [[NSFileManager defaultManager] createDirectoryAtPath:newFileFolder withIntermediateDirectories:YES attributes:nil error:&e];
+    NSString *newFileFullPath = [NSString stringWithFormat:@"%@/%@",newFileFolder,[[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject]];
+    [mr.media.data writeToFile:newFileFullPath options:nil error:&e];
+    mr.media.localURL = [NSURL URLWithString:[[NSString stringWithFormat:@"file://%@",newFileFullPath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+
     [[AppModel sharedAppModel].mediaModel saveAlteredMedia:mr.media];//not as elegant as I'd like...
     
     [self mediaLoadedForMR:mr];

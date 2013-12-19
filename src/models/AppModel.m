@@ -234,7 +234,7 @@
 
 - (NSString *) applicationDocumentsDirectory
 {
-	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+	return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
 - (NSManagedObjectContext *) managedObjectContext
@@ -261,11 +261,6 @@
                                  [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
                                  nil];
         
-        /*
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"ARISCoreData" withExtension:@"momd"];
-
-        NSManagedObjectModel *managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL]; 
-         */
         NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
 
         persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];

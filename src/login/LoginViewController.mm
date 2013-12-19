@@ -23,9 +23,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "UIColor+ARISColors.h"
 #import "ARISAlertHandler.h"
 
-#import "ARISMediaView.h" //PHIL HACK using this to debug, please delete
-
-@interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate, ARISMediaViewDelegate>
+@interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate>
 {
     UITextField *usernameField;
 	UITextField *passwordField;
@@ -45,9 +43,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     CLLocation *location;
     
     BOOL viewHasAppeared;
-    
-    //PHIL HACK
-    ARISMediaView *philisusingthistodebugifyouseethispleasedeleteit;
 }
 
 @end
@@ -152,10 +147,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
     [changePassButton addTarget:self action:@selector(changePassTouch) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:changePassButton];
-    
-    //PHIL HACK
-    philisusingthistodebugifyouseethispleasedeleteit = [[ARISMediaView alloc] initWithFrame:CGRectMake(100,100,50,50) media:[[AppModel sharedAppModel] mediaForMediaId:12345] mode:ARISMediaDisplayModeAspectFill delegate:self];
-    [self.view addSubview:philisusingthistodebugifyouseethispleasedeleteit];
     
     [self resetState];
 }
