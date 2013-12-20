@@ -11,6 +11,7 @@
 #import "Location.h"
 #import "Tag.h"
 #import "NSDictionary+ValidParsers.h"
+#import "AppModel.h"
 
 @implementation Note
 
@@ -76,8 +77,8 @@
             //For compatibility with previous model where text was just a notecontent
             if([[contentDict objectForKey:@"type"] isEqualToString:@"TEXT"])
                 self.ndescription = [NSString stringWithFormat:@"%@ %@",self.ndescription,[contentDict objectForKey:@"text"]];
-            //else
-                //[self.contents addObject:[[NoteContent alloc] initWithDictionary:contentDict]];
+            else
+                [self.contents addObject:[[AppModel sharedAppModel] mediaForMediaId:[contentDict validIntForKey:@"media_id"]]];
         }
         
         NSArray *commentDicts = [dict validObjectForKey:@"comments"];

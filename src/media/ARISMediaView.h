@@ -21,7 +21,9 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 
 @class ARISMediaView;
 @protocol ARISMediaViewDelegate
+@optional
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv;
+- (void) ARISMediaViewFinishedPlayback:(ARISMediaView *)amv;
 @end
 
 @interface ARISMediaView : UIView
@@ -33,5 +35,6 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 - (void) setMedia:(Media *)m;
 - (void) setImage:(UIImage *)i;
 - (void) setDelegate:(id<ARISMediaViewDelegate>)d;
+- (void) play;
 
 @end

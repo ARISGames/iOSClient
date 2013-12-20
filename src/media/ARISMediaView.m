@@ -133,6 +133,16 @@
     else if(image) [self displayImage];  
 }
 
+- (void) play
+{
+    if(!media || !([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"])) return;
+    if(avVC)
+    {
+        [self addSubview:avVC.view]; 
+        [avVC.moviePlayer play]; 
+    }
+}
+
 - (void) mediaLoaded:(Media *)m
 {
     [self removeSpinner]; 
@@ -192,6 +202,7 @@
     if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; }
     
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil]; 
     avVC.moviePlayer.shouldAutoplay = NO;
     [avVC.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayVideoThumbLoaded:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:avVC.moviePlayer]; 
@@ -202,9 +213,6 @@
     image = [UIImage imageWithData:UIImageJPEGRepresentation([notification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey], 1.0)];
     [self displayImage];
     avVC.view.frame = imageView.frame;
-    [self addSubview:avVC.view]; 
-    
-    [avVC.moviePlayer play];
 }
 
 - (void) displayAudio:(Media *)m
@@ -215,6 +223,13 @@
     image = [UIImage imageNamed:@"audio.png"];
     [self displayImage];
     [avVC.moviePlayer play]; 
+}
+
+- (void) playbackFinished:(NSNotification *)n
+{
+    if([[n.userInfo objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue] == MPMovieFinishReasonUserExited)
+        if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewFinishedPlayback:)])
+            [delegate ARISMediaViewFinishedPlayback:self];
 }
 
 - (void) addSpinner

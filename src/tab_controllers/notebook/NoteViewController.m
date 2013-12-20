@@ -148,10 +148,10 @@
     [tagsDisplay setTags:note.tags];  
     
     desc.text = note.ndescription;
+    [self formatSubviewFrames]; 
+    
     [contentsDisplay setContents:note.contents]; 
     [commentsDisplay setComments:note.comments]; 
-    
-    [self formatSubviewFrames];
 }
 
 - (void) mediaWasSelected:(Media *)m
@@ -171,6 +171,9 @@
     overlayView.opaque = NO;
     overlayView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
     [self.view addSubview:overlayView];
+    
+    if([m.type isEqualToString:@"VIDEO"] || [m.type isEqualToString:@"AUDIO"]) 
+        [media performSelector:@selector(play) withObject:nil afterDelay:1];
 }
 
 - (void) overlayTouched
@@ -205,6 +208,11 @@
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     
+}
+
+- (void) ARISMediaViewFinishedPlayback:(ARISMediaView *)amv
+{
+    [self overlayTouched];
 }
 
 - (void) dealloc
