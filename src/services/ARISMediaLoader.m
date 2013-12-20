@@ -101,11 +101,10 @@
     [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
     
     NSString *newFileFolder   = [NSString stringWithFormat:@"%@/%d",[[AppModel sharedAppModel] applicationDocumentsDirectory],mr.media.gameId]; 
-    NSError *e;
     if(![[NSFileManager defaultManager] fileExistsAtPath:newFileFolder isDirectory:nil])
-        [[NSFileManager defaultManager] createDirectoryAtPath:newFileFolder withIntermediateDirectories:YES attributes:nil error:&e];
+        [[NSFileManager defaultManager] createDirectoryAtPath:newFileFolder withIntermediateDirectories:YES attributes:nil error:nil];
     NSString *newFileFullPath = [NSString stringWithFormat:@"%@/%@",newFileFolder,[[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject]];
-    [mr.media.data writeToFile:newFileFullPath options:nil error:&e];
+    [mr.media.data writeToFile:newFileFullPath options:nil error:nil];
     mr.media.localURL = [NSURL URLWithString:[[NSString stringWithFormat:@"file://%@",newFileFullPath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
     [[AppModel sharedAppModel].mediaModel saveAlteredMedia:mr.media];//not as elegant as I'd like...

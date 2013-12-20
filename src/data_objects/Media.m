@@ -94,6 +94,7 @@
     }
     else if([ext isEqualToString:@"mov"] ||
             [ext isEqualToString:@"avi"] ||
+            [ext isEqualToString:@"3gp"] || 
             [ext isEqualToString:@"mp4"])
     {
         return @"VIDEO";
