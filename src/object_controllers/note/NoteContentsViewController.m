@@ -102,15 +102,7 @@
 
 - (void) ARISMediaViewTouched //this is obnoxious- if only tap gestures would pass the thing that was tapped...
 {
-    int nonTextMediaIndex = 0;
-    Media *m;
-    for(int i = 0; i < [contents count]; i++) //need to iterate, becuase "TEXT" types are skipped :/
-    { 
-        m = (Media *)[contents objectAtIndex:i];
-        if(pageControl.currentPage == nonTextMediaIndex)
-            [delegate mediaWasSelected:m];
-        nonTextMediaIndex++; 
-    }
+    [delegate mediaWasSelected:(Media *)[contents objectAtIndex:pageControl.currentPage]];
 }
 
 @end

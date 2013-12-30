@@ -21,6 +21,7 @@
     
     UIImageView *imageView;
     MPMoviePlayerViewController *avVC;
+    UIImageView *playIcon; 
     UIActivityIndicatorView *spinner;
         
     id <ARISMediaViewDelegate> delegate;
@@ -106,7 +107,8 @@
 - (void) refreshFrameWithFrame:(CGRect)f
 {
     imageView = nil;
-    if(spinner) [self removeSpinner];
+    if(spinner)   [self removeSpinner];
+    if(playIcon)  [self removePlayIcon]; 
     for(int i = 0; i < [self.subviews count]; i++)
         [[self.subviews objectAtIndex:0] removeFromSuperview];
     
@@ -212,6 +214,7 @@
 {
     image = [UIImage imageWithData:UIImageJPEGRepresentation([notification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey], 1.0)];
     [self displayImage];
+    [self addPlayIcon];
     avVC.view.frame = imageView.frame;
 }
 
@@ -234,6 +237,7 @@
 
 - (void) addSpinner
 {
+    if(spinner) [self removeSpinner];
     spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = self.center;
     [self addSubview:spinner];
@@ -245,6 +249,25 @@
 	[spinner stopAnimating];
     [spinner removeFromSuperview];
     spinner = nil;
+}
+
+- (void) addPlayIcon
+{
+    if(playIcon) [self removePlayIcon];
+    playIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play.png"]];
+    double h = self.frame.size.height;
+    double w = self.frame.size.width; 
+    if(h > 60) h = 60;
+    if(w > 60) w = 60; 
+    playIcon.frame = CGRectMake((self.frame.size.width-w)/2,(self.frame.size.height-h)/2,w,h);
+    playIcon.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:playIcon];
+}
+
+- (void) removePlayIcon
+{
+    [playIcon removeFromSuperview];
+    playIcon = nil;
 }
 
 - (NSString *) contentTypeForImageData:(NSData *)d
