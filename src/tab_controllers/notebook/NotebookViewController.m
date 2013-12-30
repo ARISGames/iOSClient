@@ -122,9 +122,9 @@ const int VIEW_MODE_ALL  = 1;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
         cell = [[NoteCell alloc] initWithDelegate:self]; 
     Note *n = [noteList objectAtIndex:indexPath.row];
-    [cell populateWithNote:n]; 
-    if(![contentLoadedFlagMap objectForKey:[NSString stringWithFormat:@"%d", n.noteId]])
-        [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];  
+    BOOL loaded = [contentLoadedFlagMap objectForKey:[NSString stringWithFormat:@"%d", n.noteId]];
+    if(!loaded) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
+    [cell populateWithNote:n loading:!loaded]; 
 
     return cell;
 }

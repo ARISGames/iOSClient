@@ -23,6 +23,8 @@
     UIImageView *videoIcon; 
     UIImageView *audioIcon; 
     
+    UIActivityIndicatorView *spinner;
+    
     id<NoteCellDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -75,7 +77,7 @@
     [super setSelected:selected animated:animated];
 }
 
-- (void) populateWithNote:(Note *)n
+- (void) populateWithNote:(Note *)n loading:(BOOL)l
 {
     [self setTitle:n.name];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -93,6 +95,25 @@
         if([((Media *)[n.contents objectAtIndex:i]).type isEqualToString:@"AUDIO"]) [self setHasAudioIcon:YES]; 
         if([((Media *)[n.contents objectAtIndex:i]).type isEqualToString:@"VIDEO"]) [self setHasVideoIcon:YES]; 
     }
+    
+    if(l) [self addSpinner];
+    else  [self removeSpinner];
+}
+
+- (void) addSpinner
+{
+    if(spinner) [self removeSpinner];
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.frame = CGRectMake(self.frame.size.width-65, 15, 60, 15);
+    [self addSubview:spinner];
+    [spinner startAnimating];
+}
+
+- (void) removeSpinner
+{
+	[spinner stopAnimating];
+    [spinner removeFromSuperview];
+    spinner = nil;
 }
 
 - (void) setTitle:(NSString *)t
