@@ -35,6 +35,7 @@
     
 	Game *currentGame;
     Player *player;
+    CLLocation *deviceLocation;
 
     int fallbackGameId;
     
@@ -75,6 +76,7 @@
 
 @property (nonatomic, strong) Player *player;
 @property (nonatomic, strong) Game *currentGame;
+@property (nonatomic, strong) CLLocation *deviceLocation;
 
 @property (nonatomic, strong) NSMutableArray *oneGameGameList;
 @property (nonatomic, strong) NSMutableArray *nearbyGameList;

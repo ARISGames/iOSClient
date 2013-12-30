@@ -33,7 +33,7 @@
 {
     [super requestNewGameList];
     
-    if([AppModel sharedAppModel].player.location && [[AppModel sharedAppModel] player])
+    if([AppModel sharedAppModel].deviceLocation && [AppModel sharedAppModel].player) 
     {
         [[AppServices sharedAppServices] fetchAnywhereGameList];
         [self showLoadingIndicator];

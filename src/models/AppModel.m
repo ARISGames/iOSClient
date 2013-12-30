@@ -37,6 +37,7 @@
 @synthesize popularGameList;
 @synthesize recentGameList;
 @synthesize player;
+@synthesize deviceLocation;
 @synthesize currentGame;
 @synthesize overlayIsVisible;
 @synthesize nearbyLocationsList;
@@ -135,6 +136,7 @@
 - (void) commitPlayerLogin:(Player *)p
 {
     self.player = p;
+    if(!self.player.location) self.player.location = deviceLocation;
     
     [[AppServices sharedAppServices] setShowPlayerOnMap];
     [self saveUserDefaults];
@@ -211,15 +213,19 @@
     [self loadUserDefaults];
 }
 
-- (void) setPlayerLocation:(CLLocation *)newLocation
+- (void) setDeviceLocation:(CLLocation *)l
 {
-    if(player)
-    {
-        player.location = newLocation;
-        [[AppServices sharedAppServices] updateServerWithPlayerLocation];
-    }
+    deviceLocation = l;
+    [self setPlayerLocation:l];
+}
+
+- (void) setPlayerLocation:(CLLocation *)l
+{
+    if(!player) player = [[Player alloc] init];
+    player.location = l;
+    [[AppServices sharedAppServices] updateServerWithPlayerLocation];
 	
-    NSDictionary *locDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:newLocation,nil] forKeys:[[NSArray alloc] initWithObjects:@"location",nil]];
+    NSDictionary *locDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:l,nil] forKeys:[[NSArray alloc] initWithObjects:@"location",nil]];
     NSLog(@"NSNotification: PlayerMoved");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil userInfo:locDict]];
 }
