@@ -17,7 +17,7 @@
     int noteId; 
     Player *owner;
     NSString *name;
-    NSString *ndescription;
+    NSString *desc;
     NSDate *created; 
     Location *location; 
     NSMutableArray *tags;
@@ -30,7 +30,7 @@
 @property (nonatomic, assign) int noteId;
 @property (nonatomic, strong) Player *owner;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *ndescription;
+@property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSDate *created;
 @property (nonatomic, strong) Location *location;
 @property (nonatomic, strong) NSMutableArray *tags;
@@ -38,5 +38,7 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, assign) BOOL publicToList;
 @property (nonatomic, assign) BOOL publicToMap;
+
+- (void) mergeDataFromNote:(Note *)n;
 
 @end

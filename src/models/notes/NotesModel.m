@@ -84,7 +84,7 @@
     for(int i = 0; i < [currentNotes count]; i++)
     {
         if(((Note *)[currentNotes objectAtIndex:i]).noteId == note.noteId)
-            [currentNotes setObject:note atIndexedSubscript:i];
+            [(Note *)[currentNotes objectAtIndex:i] mergeDataFromNote:note];
     }
         
     NSLog(@"NSNotificaiton: NoteDataAvailable");

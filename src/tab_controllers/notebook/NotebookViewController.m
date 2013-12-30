@@ -22,6 +22,8 @@ const int VIEW_MODE_ALL  = 1;
     UITableView *table;
     int viewMode;
     int loadingMore;
+    
+    NSMutableDictionary *contentLoadedFlagMap;
 }
 
 @end
@@ -38,6 +40,8 @@ const int VIEW_MODE_ALL  = 1;
         self.tabIconName = @"";
         self.title = NSLocalizedString(@"NotebookTitleKey",@""); 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNoteListAvailable) name:@"NewNoteListAvailable" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:)   name:@"NoteDataAvailable"    object:nil];   
+        contentLoadedFlagMap = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -75,6 +79,13 @@ const int VIEW_MODE_ALL  = 1;
     [table reloadData]; 
 }
 
+- (void) noteDataAvailable:(NSNotification *)n
+{
+    Note *note = [n.userInfo objectForKey:@"note"];
+    [contentLoadedFlagMap setValue:@"YES" forKey:[NSString stringWithFormat:@"%d",note.noteId]];
+    [table reloadData];  
+}
+
 - (int) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -110,7 +121,10 @@ const int VIEW_MODE_ALL  = 1;
     NoteCell *cell;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
         cell = [[NoteCell alloc] initWithDelegate:self]; 
-    [cell populateWithNote:[noteList objectAtIndex:indexPath.row]]; 
+    Note *n = [noteList objectAtIndex:indexPath.row];
+    [cell populateWithNote:n]; 
+    if(![contentLoadedFlagMap objectForKey:[NSString stringWithFormat:@"%d", n.noteId]])
+        [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];  
 
     return cell;
 }
@@ -134,6 +148,11 @@ const int VIEW_MODE_ALL  = 1;
 {
     NoteEditorViewController *nevc = [[NoteEditorViewController alloc] initWithNote:nil delegate:self];
     [self.navigationController pushViewController:nevc animated:YES]; 
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

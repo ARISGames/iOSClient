@@ -87,7 +87,7 @@
     desc.numberOfLines = 0;
     desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18]; 
     desc.textColor = [UIColor ARISColorDarkGray];  
-    desc.text = note.ndescription;
+    desc.text = note.desc;
     
     contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     commentInput = [[NoteCommentInputViewController alloc] initWithDelegate:self];
@@ -123,7 +123,7 @@
     if([note.tags count] > 0) tagsDisplay.view.frame = CGRectMake(0,date.frame.origin.y+date.frame.size.height+5,self.view.frame.size.width,30);  
     else                      tagsDisplay.view.frame = CGRectMake(0,date.frame.origin.y+date.frame.size.height+5,self.view.frame.size.width,0);   
     
-    if([note.ndescription length] > 0) 
+    if([note.desc length] > 0) 
     {
         CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
         desc.frame = CGRectMake(10,tagsDisplay.view.frame.origin.y+tagsDisplay.view.frame.size.height,self.view.frame.size.width-20,descSize.height); 
@@ -143,11 +143,13 @@
 
 - (void) noteDataAvailable:(NSNotification *)n
 {
+    if(((Note *)[n.userInfo objectForKey:@"note"]).noteId != note.noteId) return;
+    
     note = [n.userInfo objectForKey:@"note"];
     
     [tagsDisplay setTags:note.tags];  
     
-    desc.text = note.ndescription;
+    desc.text = note.desc;
     [self formatSubviewFrames]; 
     
     [contentsDisplay setContents:note.contents]; 

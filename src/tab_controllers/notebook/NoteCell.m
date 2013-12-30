@@ -82,7 +82,7 @@
     [format setDateFormat:@"MM/dd/yy"];
     [self setDate:[format stringFromDate:n.created]];
     [self setOwner:n.owner.displayname];
-    [self setDescription:n.ndescription];
+    [self setDescription:n.desc];
     
     [self setHasImageIcon:NO];
     [self setHasAudioIcon:NO]; 

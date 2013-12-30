@@ -18,7 +18,7 @@
 @synthesize noteId;
 @synthesize owner;
 @synthesize name;
-@synthesize ndescription;
+@synthesize desc;
 @synthesize created;
 @synthesize location;
 @synthesize tags;
@@ -34,7 +34,7 @@
         self.noteId = 0;
         self.owner = [[Player alloc] init]; 
         self.name = @"";
-        self.ndescription = @"";
+        self.desc = @"";
         self.created = [[NSDate alloc] init]; 
         self.location = [[Location alloc] init];
         self.tags = [[NSMutableArray alloc] init];
@@ -56,7 +56,7 @@
         if(ownerDict) self.owner = [[Player alloc] initWithDictionary:ownerDict];
        
         self.name          = [dict validStringForKey:@"title"];
-        self.ndescription  = [dict validStringForKey:@"description"];
+        self.desc  = [dict validStringForKey:@"description"];
         
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -76,7 +76,7 @@
         {
             //For compatibility with previous model where text was just a notecontent
             if([[contentDict objectForKey:@"type"] isEqualToString:@"TEXT"])
-                self.ndescription = [NSString stringWithFormat:@"%@ %@",self.ndescription,[contentDict objectForKey:@"text"]];
+                self.desc = [NSString stringWithFormat:@"%@ %@",self.desc,[contentDict objectForKey:@"text"]];
             else
                 [self.contents addObject:[[AppModel sharedAppModel] mediaForMediaId:[contentDict validIntForKey:@"media_id"]]];
         }
@@ -93,6 +93,24 @@
         
     }
     return self;
+}
+
+- (void) mergeDataFromNote:(Note *)n //allows for notes to be updated easily- all things with this note pointer now have access to latest note data
+{
+    self.owner = n.owner;
+    
+    self.name = n.name;
+    self.desc = n.desc;
+    
+    self.created = n.created;
+    self.location = n.location;
+    
+    self.tags = n.tags;
+    self.contents = n.contents;
+    self.comments = n.comments;
+    
+    self.publicToList = n.publicToList;
+    self.publicToMap = n.publicToMap;
 }
 
 - (GameObjectType) type
