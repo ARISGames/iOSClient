@@ -33,6 +33,7 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+    [self presentCamera];
 }
 
 - (void) presentCamera
@@ -98,14 +99,12 @@
                   {
                       //exists, save to roll worked
                       [delegate imageChosenWithURL:imageURL];
-                      [self.navigationController popViewControllerAnimated:NO];
                   }
                     failureBlock:^(NSError *error)
                   {
                       //doesn't exist, save to roll failed
                       [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Warning" message:@"Your privacy settings are disallowing us from saving to your camera roll. Go into System Settings to turn these settings off."];
                       [delegate imageChosenWithURL:imageURL];
-                      [self.navigationController popViewControllerAnimated:NO];
                   }];
              }];
         }
@@ -113,24 +112,19 @@
         {
             // image from camera roll
             [delegate imageChosenWithURL:imageURL];
-            [self.navigationController popViewControllerAnimated:NO];
         }
 	}
 	else if([mediaType isEqualToString:@"public.movie"])
     {
 		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];        
         [delegate videoChosenWithURL:videoURL];
-        [self.navigationController popViewControllerAnimated:NO];
     }
-    else
-        [self.navigationController popViewControllerAnimated:NO]; //shouldn't get here, but if it does we at least need to get back
 }
 
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
 {
     [aPicker dismissViewControllerAnimated:NO completion:nil];
     [delegate cameraViewControllerCancelled];
-    [self.navigationController popViewControllerAnimated:NO];
 }
 
 @end
