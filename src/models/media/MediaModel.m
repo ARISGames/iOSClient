@@ -97,6 +97,12 @@
     return [[Media alloc] initWithMediaCD:mediaCD]; 
 }
 
+- (Media *) newMedia
+{
+    MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
+    return [[Media alloc] initWithMediaCD:mediaCD]; 
+}
+
 - (void) syncMediaDataToCache:(NSArray *)mediaDataToCache
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(gameId = 0) OR (gameId = %d)", [AppModel sharedAppModel].currentGame.gameId]; 

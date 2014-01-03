@@ -95,6 +95,7 @@
 - (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh;
 - (void) likeNote:(int)noteId;
 - (void) unLikeNote:(int)noteId;
+- (void) uploadNote:(Note *)n;
 
 //Tell server of state
 - (void) updateServerWithPlayerLocation;

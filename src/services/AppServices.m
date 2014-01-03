@@ -12,6 +12,7 @@
 #import "ARISAlertHandler.h"
 #import "ARISMediaView.h"
 #import "Player.h"
+#import "Note.h"
 #import "Overlay.h"
 #import "MediaModel.h"
 
@@ -593,6 +594,39 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                          nil];
         [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(fetchNoteList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
     }
+}
+
+- (void) uploadNote:(Note *)n
+{
+    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [userInfo setValue:[NSNumber numberWithInt:[AppModel sharedAppModel].currentGame.gameId] forKey:@"gameId"];
+    [userInfo setValue:[NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId] forKey:@"playerId"]; 
+    
+    NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys: 
+                              [NSNumber numberWithBool:n.location.latlon.coordinate.latitude],  @"latitude",
+                              [NSNumber numberWithBool:n.location.latlon.coordinate.longitude], @"longitude", 
+                              nil];
+    NSMutableArray *media = [[NSMutableArray alloc] initWithCapacity:n.contents];
+    for(int i = 0; i < [n.contents count]; i++)
+    {
+        NSDictionary *m = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"path",
+                           ((Media *)[n.contents objectAtIndex:i]).localURL,@"filename", 
+                           [((Media *)[n.contents objectAtIndex:i]).data base64Encoding],@"data", 
+                           nil];
+        [media addObject:m];
+    }
+    
+    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+                          [NSNumber numberWithInt:[AppModel sharedAppModel].currentGame.gameId], @"gameId", 
+                          [NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId],    @"playerId",  
+                          n.name,                                                                @"title",
+                          n.desc,                                                                @"description", 
+                          n.publicToMap,                                                         @"publicToMap",  
+                          n.publicToList,                                                        @"publicToBook",  
+                          location,                                                              @"publicToBook",   
+                          nil]; 
+    [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:nil failSelector:nil userInfo:userInfo]; 
 }
 
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type

@@ -38,7 +38,7 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict
 {
     //PHIL TAKE THIS OUT
-    if([s isEqualToString:@"notebook"] && [m isEqualToString:@"uploadMedia"])
+    if([s isEqualToString:@"notebook"] && [m isEqualToString:@"addNoteFromJSON"])
     {
         [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"POST" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict];  
         return;

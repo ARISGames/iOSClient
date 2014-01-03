@@ -13,6 +13,7 @@
 
 - (id) initWithContext:(NSManagedObjectContext *)c;
 - (Media *) mediaForMediaId:(int)mediaId;
+- (Media *) newMedia;
 - (void) syncMediaDataToCache:(NSArray *)mediaDataToCache;
 - (void) clearCache;
 

@@ -13,6 +13,7 @@
 #import "Note.h"
 #import "Tag.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "AppServices.h"
 #import "Player.h"
 #import "UIColor+ARISColors.h"
@@ -49,7 +50,7 @@
     UIButton *locationPickerButton;
     UIButton *imagePickerButton; 
     UIButton *audioPickerButton;  
-    UIButton *shareButton;
+    UIButton *saveButton;
     
     NSMutableArray *datasToUpload;
     
@@ -126,14 +127,14 @@
     [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
     audioPickerButton.frame = CGRectMake(78, 10, 24, 24); 
     [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shareButton setImage:[UIImage imageNamed:@"lock.png"] forState:UIControlStateNormal]; 
-    shareButton.frame = CGRectMake(self.view.bounds.size.width-34, 10, 24, 24); 
-    [shareButton addTarget:self action:@selector(shareButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
+    saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [saveButton setImage:[UIImage imageNamed:@"lock.png"] forState:UIControlStateNormal]; 
+    saveButton.frame = CGRectMake(self.view.bounds.size.width-34, 10, 24, 24); 
+    [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     [bottombar addSubview:locationPickerButton];
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:audioPickerButton]; 
-    [bottombar addSubview:shareButton]; 
+    [bottombar addSubview:saveButton]; 
     
     [self.view addSubview:title];
     [self.view addSubview:date];
@@ -217,8 +218,22 @@
 {
 }
 
-- (void) shareButtonTouched
+- (void) saveButtonTouched
 {
+    Note *n = [[Note alloc] init];
+    n.name = title.text;
+    n.desc = description.text;
+    
+    n.contents = [[NSMutableArray alloc] initWithCapacity:[datasToUpload count]];
+    
+    for(int i = 0; i < [datasToUpload count]; i++)
+    {
+        Media *m = [[AppModel sharedAppModel].mediaModel newMedia];
+        m.localURL = ((DataToUpload *)[datasToUpload objectAtIndex:i]).url;
+        m.data = [NSData dataWithContentsOfFile:[m.localURL absoluteString]];
+    } 
+    
+    [[AppServices sharedAppServices] uploadNote:n];
 }
 
 - (void) imageChosenWithURL:(NSURL *)url
@@ -242,15 +257,6 @@
 - (void) cameraViewControllerCancelled
 {
     [self.navigationController popToViewController:self animated:YES];
-}
-
-- (void) uploadAllDatas
-{
-    DataToUpload *d;
-    for(int i = 0; i < [datasToUpload count]; i++)
-    {
-        d = [datasToUpload objectAtIndex:i];
-    }
 }
 
 @end
