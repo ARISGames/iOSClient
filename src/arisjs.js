@@ -153,6 +153,13 @@ var ARISJS = function(_ARIS)
         }
     }
 
+    if(typeof(_ARIS.callbacksEnabled) !== 'undefined' && !_ARIS.callbacksEnabled)
+    {
+      _ARIS.didUpdateItemQty = function(updatedItemId,qty) {};
+      _ARIS.didReceivePlayer = function(player)            {};
+      _ARIS.hook             = function(paramsJSON)        {};
+    }
+
     return _ARIS;
 }
 

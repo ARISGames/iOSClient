@@ -13,6 +13,7 @@
 #import "ARISAppDelegate.h"
 #import "Media.h"
 #import "ARISMediaView.h"
+#import "ARISWebView.h"
 #import "WebPageViewController.h"
 #import "WebPage.h"
 #import "UIImage+Scale.h"
@@ -21,11 +22,11 @@
 
 static NSString * const OPTION_CELL = @"option";
 
-@interface NodeViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISMediaViewDelegate>
+@interface NodeViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
 {
     UIScrollView *scrollView;
     UIView *mediaSection;
-    UIWebView *webView;
+    ARISWebView *webView;
     UIView *continueButton;
     
     UIActivityIndicatorView *webViewSpinner;
@@ -34,7 +35,7 @@ static NSString * const OPTION_CELL = @"option";
 @property (readwrite, strong) Node *node;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *mediaSection;
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) ARISWebView *webView;
 @property (nonatomic, strong) UIView *continueButton;
 @property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
 
@@ -74,8 +75,7 @@ static NSString * const OPTION_CELL = @"option";
     
     if(![self.node.text isEqualToString:@""])
     {
-        self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)]; //Needs correct width, otherwise "height" is calculated wrong because only 1 character can fit per line
-        self.webView.delegate = self;
+        self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1) delegate:self]; //Needs correct width, otherwise "height" is calculated wrong because only 1 character can fit per line
         self.webView.backgroundColor = [UIColor clearColor];
         self.webView.scrollView.bounces = NO;
         self.webView.scrollView.scrollEnabled = NO;
@@ -139,13 +139,13 @@ static NSString * const OPTION_CELL = @"option";
 {
     NSString *url = [req URL].absoluteString;
     if([url isEqualToString:@"about:blank"]) return YES;
+    if([webView handleARISRequestIfApplicable:req]) return NO;
     
     [delegate gameObjectViewControllerRequestsDismissal:self];
     WebPage *w = [[WebPage alloc] init];
     w.webPageId = self.node.nodeId;
     w.url = url;
     [(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
-    //PHIL TODO- convert to ARIS WebView (but first, create ARIS WebView)
 
     return NO;
 }

@@ -168,7 +168,10 @@
 
 - (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    return YES;
+    NSString *url = [request URL].absoluteString;
+    if([url isEqualToString:@"about:blank"]) return YES;
+    if([(ARISWebView *)webView handleARISRequestIfApplicable:request]) return NO;
+    return NO; 
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv

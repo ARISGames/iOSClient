@@ -20,7 +20,7 @@
 
 #import "UIColor+ARISColors.h"
 
-@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
+@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, UIWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
 {
     //Labels as buttons (easier formatting)
     UILabel *dropBtn;
@@ -341,7 +341,8 @@
 
 - (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    if(wv == webView) return (![webView handleARISRequestIfApplicable:request]);
+    if(wv == descriptionView) return (![descriptionView handleARISRequestIfApplicable:request]);  
+    else if(wv == webView)    return (![webView         handleARISRequestIfApplicable:request]);
     else if(![[[request URL] absoluteString] isEqualToString:@"about:blank"])
     {
         WebPage *tempWebPage = [[WebPage alloc] init];

@@ -238,6 +238,14 @@
     
 }
 
+- (BOOL) webView:(UIWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString *url = [req URL].absoluteString;
+    if([url isEqualToString:@"about:blank"]) return YES;
+    if([(ARISWebView *)wv handleARISRequestIfApplicable:req]) return NO;
+    return NO;
+}
+
 - (void) webViewDidFinishLoad:(UIWebView *)webView
 {
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
