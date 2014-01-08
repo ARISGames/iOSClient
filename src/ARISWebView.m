@@ -14,18 +14,16 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface ARISWebView()
+@interface ARISWebView() <UIWebViewDelegate>
 {
+    UIWebView *webView;
     NSMutableDictionary *audioPlayers;
     id<ARISWebViewDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
-@property (nonatomic, strong) NSMutableDictionary *audioPlayers;
 
 @end
 
 @implementation ARISWebView
-
-@synthesize audioPlayers;
 
 - (id) initWithFrame:(CGRect)frame delegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
 {
@@ -34,6 +32,15 @@
         [self initialize];
         [self setDelegate:d];
     }
+    return self;
+}
+
+- (id) initWithFrame:(CGRect)frame
+{
+    if(self = [super initWithFrame:frame])
+    {
+        [self initialize];
+    } 
     return self;
 }
 
@@ -49,48 +56,109 @@
 
 - (void) initialize
 {
-    self.audioPlayers = [[NSMutableDictionary alloc] initWithCapacity:10];
+    self.backgroundColor = [UIColor clearColor];
+    self.opaque = NO;
+    webView = [[UIWebView alloc] initWithFrame:self.bounds];
+    webView.delegate = self; 
+    webView.backgroundColor = [UIColor clearColor];
+    webView.opaque = NO; 
+    [self addSubview:webView];
+    audioPlayers = [[NSMutableDictionary alloc] initWithCapacity:10];
+}
+
+- (void) setFrame:(CGRect)f
+{
+    [super setFrame:f];
+    webView.frame = self.bounds;
 }
 
 - (void) setDelegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
 {
-    [super setDelegate:d];
     delegate = d;
-}
-
-- (void) loadData:(NSData *)data MIMEType:(NSString *)MIMEType textEncodingName:(NSString *)textEncodingName baseURL:(NSURL *)baseURL
-{
-    [super loadData:data MIMEType:MIMEType textEncodingName:textEncodingName baseURL:baseURL];
 }
 
 - (void) loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL
 {
-    [super loadHTMLString:string baseURL:baseURL];
+    [webView loadHTMLString:string baseURL:baseURL];
+}
+
+- (NSString *) stringByEvaluatingJavaScriptFromString:(NSString *)s;
+{
+    return [webView stringByEvaluatingJavaScriptFromString:s];
+}
+
+- (void) stopLoading
+{
+    [webView stopLoading];
+}
+
+- (UIScrollView *) scrollView
+{
+    return webView.scrollView;
+}
+
+- (void) setScalesPageToFit:(BOOL)s
+{
+    webView.scalesPageToFit = s;
+}
+
+- (void) setAllowsInlineMediaPlayback:(BOOL)a
+{
+    webView.allowsInlineMediaPlayback = a; 
+}
+
+- (void) setMediaPlaybackRequiresUserAction:(BOOL)m
+{
+    webView.mediaPlaybackRequiresUserAction = m; 
 }
 
 - (void) loadRequest:(NSURLRequest *)request
 {
-    [self loadRequest:request withAppendation:@""];
+    NSLog(@"ARISWebView loadingRequest: %@",request);
+    //[[NSURLCache sharedURLCache] removeAllCachedResponses];//Uncomment to clear cache
+    [webView loadRequest:request]; 
 }
 
 - (void) loadRequest:(NSURLRequest *)request withAppendation:(NSString *)appendation
 {
     NSString *url = [[request URL] absoluteString];
-    //[[NSURLCache sharedURLCache] removeAllCachedResponses];//PHIL REMOVING CACHES
     
     if([url rangeOfString:@"?"].location == NSNotFound)
         url = [url stringByAppendingString:[NSString stringWithFormat:@"?gameId=%d&playerId=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.playerId, appendation]];
     else
         url = [url stringByAppendingString:[NSString stringWithFormat:@"&gameId=%d&playerId=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.playerId, appendation]];
     
-    NSLog(@"ARISWebView loadingRequest: %@",url);
-    [super loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]]; 
+}
+
+- (BOOL) webView:(UIWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
+{
+    NSString *url = [r URL].absoluteString;
+    if([url isEqualToString:@"about:blank"]) return YES;
+    if([self isARISRequest:r]) { [self handleARISRequest:r]; return NO; }
+    
+    if([delegate respondsToSelector:@selector(ARISWebView:shouldStartLoadWithRequest:navigationType:)])  
+        return [delegate ARISWebView:self shouldStartLoadWithRequest:r navigationType:nt];
+    return NO;
+}
+    
+- (void) webViewDidStartLoad:(UIWebView *)webView
+{
+    if([delegate respondsToSelector:@selector(ARISWebViewDidStartLoad:)])
+        [delegate ARISWebViewDidStartLoad:self];
+}
+
+- (void) webViewDidFinishLoad:(UIWebView *)wv
+{
+    [self injectHTMLWithARISjs];
+    if([delegate respondsToSelector:@selector(ARISWebViewDidFinishLoad:)]) 
+        [delegate ARISWebViewDidFinishLoad:self];
 }
 
 - (void) injectHTMLWithARISjs
 {
     NSString *arisjs = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"arisjs" ofType:@"js"] encoding:NSASCIIStringEncoding error:NULL];
-    [self stringByEvaluatingJavaScriptFromString:arisjs];
+    [webView stringByEvaluatingJavaScriptFromString:arisjs];
 }
 
 - (BOOL) isARISRequest:(NSURLRequest *)request
@@ -98,12 +166,10 @@
     return [[[[request URL] scheme] lowercaseString] isEqualToString:@"aris"];
 }
 
-- (BOOL) handleARISRequestIfApplicable:(NSURLRequest *)request
+- (void) handleARISRequest:(NSURLRequest *)request
 {
     NSLog(@"ARISWebView received: %@",[[request URL] absoluteString]);
-    if(![self isARISRequest:request]) return NO;
-    
-    [self stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
+    [webView stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
     
     NSString *mainCommand = [[request URL] host];
     NSArray *components   = [[request URL] pathComponents];
@@ -111,12 +177,14 @@
     if([mainCommand isEqualToString:@"closeMe"])
     {
         [self clear];
-        [delegate ARISWebViewRequestsDismissal:self];
+        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])   
+            [delegate ARISWebViewRequestsDismissal:self];
     }
     else if([mainCommand isEqualToString:@"leaveButton"])
     {
         if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"disable"])
-            [delegate ARISWebViewRequestsHideButton:self];
+            if([delegate respondsToSelector:@selector(ARISWebViewRequestsHideButton:)])    
+                [delegate ARISWebViewRequestsHideButton:self];
     }
     else if([mainCommand isEqualToString:@"exitTo"])
     {
@@ -128,24 +196,46 @@
         if([components count] > 2) token = [components objectAtIndex:2];
         
         if([type isEqualToString:@"tab"])
-            [delegate displayTab:token];
+        {
+            if([delegate respondsToSelector:@selector(displayTab:)])     
+                [delegate displayTab:token];
+        }
         else if([type isEqualToString:@"scanner"])
-            [delegate displayScannerWithPrompt:token];
+        {
+            if([delegate respondsToSelector:@selector(displayScannerWithPrompt:)])      
+                [delegate displayScannerWithPrompt:token];
+        }
         else if([type isEqualToString:@"plaque"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame nodeForNodeId:[token intValue]]           fromSource:delegate];
+        {
+            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])       
+                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame nodeForNodeId:[token intValue]]           fromSource:delegate];
+        }
         else if([type isEqualToString:@"webpage"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame webpageForWebpageId:[token intValue]]     fromSource:delegate];
+        {
+            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
+                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame webpageForWebpageId:[token intValue]]     fromSource:delegate];
+        }
         else if([type isEqualToString:@"item"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame itemForItemId:[token intValue]]           fromSource:delegate];
+        {
+            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
+                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame itemForItemId:[token intValue]]           fromSource:delegate];
+        }
         else if([type isEqualToString:@"character"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:[token intValue]]             fromSource:delegate];
+        {
+            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
+                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:[token intValue]]             fromSource:delegate];
+        }
         else if([type isEqualToString:@"panoramic"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:[token intValue]] fromSource:delegate];
+        {
+            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])         
+                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:[token intValue]] fromSource:delegate];
+        }
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {
         [[AppServices sharedAppServices] fetchAllPlayerLists];
-        [delegate ARISWebViewRequestsRefresh:self];
+        if([delegate respondsToSelector:@selector(ARISWebViewRequestsRefresh:)])
+            [delegate ARISWebViewRequestsRefresh:self];
     }
     else if([mainCommand isEqualToString:@"vibrate"])
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
@@ -163,7 +253,7 @@
                                 [AppModel sharedAppModel].player.username, 
                                 [AppModel sharedAppModel].player.displayname, 
                                 playerMedia.remoteURL];
-        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
     else if([mainCommand isEqualToString:@"inventory"])
     {
@@ -171,28 +261,28 @@
         {
             int itemId = [[components objectAtIndex:2] intValue];
             int qty = [self getQtyInInventoryOfItem:itemId];
-            [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,qty]];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,qty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
         {
             int itemId = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
             int newQty = [self setQtyInInventoryOfItem:itemId toQty:qty];
-            [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
         {
             int itemId = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
             int newQty = [self giveQtyInInventoryToItem:itemId ofQty:qty];
-            [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
         {
             int itemId = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
             int newQty = [self takeQtyInInventoryFromItem:itemId ofQty:qty];
-            [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
         }
     }
     else if([mainCommand isEqualToString:@"media"])
@@ -212,8 +302,7 @@
         }
     }
     
-    [self stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
-    return YES;
+    [webView stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
 }
 
 - (void) loadAudioFromMediaId:(int)mediaId
@@ -322,14 +411,14 @@
 
 - (void) hookWithParams:(NSString *)params
 {
-    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.hook(%@);",params]];
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.hook(%@);",params]];
 }
 
 - (void) clear
 {
-    [self stopLoading];
-    [self loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
-    [self.audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
+    [webView stopLoading];
+    [webView loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
+    [audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         AVPlayer *player = obj;
         [player pause];
     }];

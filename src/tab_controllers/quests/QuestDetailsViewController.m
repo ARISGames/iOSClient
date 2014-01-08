@@ -14,7 +14,7 @@
 #import "ARISMediaView.h"
 #import "UIColor+ARISColors.h"
 
-@interface QuestDetailsViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
+@interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
 {
     Quest *quest;
     ARISWebView *webView;
@@ -150,9 +150,8 @@
 {
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)theWebView
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    [self.webView injectHTMLWithARISjs];
     self.webView.alpha = 1.00;
     
     float newHeight = [[self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]+5;
@@ -161,9 +160,9 @@
     [self.webViewSpinner removeFromSuperview];
 }
 
-- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
-    return ![self.webView handleARISRequestIfApplicable:request];
+    return NO;
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv

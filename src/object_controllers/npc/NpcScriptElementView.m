@@ -16,7 +16,7 @@
 #import "AppModel.h"
 #import "UIColor+ARISColors.h"
 
-@interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIWebViewDelegate, UIWebViewDelegate, UIScrollViewDelegate>
+@interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIScrollViewDelegate>
 {
     ScriptElement *scriptElement;
     
@@ -166,11 +166,8 @@
      */
 }
 
-- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
-    NSString *url = [request URL].absoluteString;
-    if([url isEqualToString:@"about:blank"]) return YES;
-    if([(ARISWebView *)webView handleARISRequestIfApplicable:request]) return NO;
     return NO; 
 }
 
@@ -199,12 +196,12 @@
 {
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)webView
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
 	//Size the webView
-	CGRect wvFrame = [webView frame];
-    CGFloat wvHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-    BOOL emptyText = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML;"] isEqualToString:@""];
+	CGRect wvFrame = [wv frame];
+    CGFloat wvHeight = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    BOOL emptyText = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML;"] isEqualToString:@""];
     
     if(wvHeight+54+64 > self.bounds.size.height) [self.textSection setFrameHeight:self.bounds.size.height-64];
     else if(emptyText)                           [self.textSection setFrameHeight:44];

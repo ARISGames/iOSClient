@@ -22,7 +22,7 @@
 
 static NSString * const OPTION_CELL = @"option";
 
-@interface NodeViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
+@interface NodeViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
 {
     UIScrollView *scrollView;
     UIView *mediaSection;
@@ -135,22 +135,18 @@ static NSString * const OPTION_CELL = @"option";
         self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.mediaSection.frame.size.height);
 }
 
-- (BOOL) webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
 {
-    NSString *url = [req URL].absoluteString;
-    if([url isEqualToString:@"about:blank"]) return YES;
-    if([webView handleARISRequestIfApplicable:req]) return NO;
-    
     [delegate gameObjectViewControllerRequestsDismissal:self];
     WebPage *w = [[WebPage alloc] init];
     w.webPageId = self.node.nodeId;
-    w.url = url;
+    w.url = [r.URL absoluteString];
     [(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
 
     return NO;
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)theWebView
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     self.webView.alpha = 1.00;
     

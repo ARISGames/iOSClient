@@ -13,7 +13,7 @@
 #import "NpcViewController.h"
 #import "ARISWebView.h"
 
-@interface WebPageViewController() <ARISWebViewDelegate,StateControllerProtocol,UIWebViewDelegate>
+@interface WebPageViewController() <ARISWebViewDelegate,StateControllerProtocol>
 {
     WebPage *webPage;
     ARISWebView *webView;
@@ -99,9 +99,8 @@
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)wv
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    [self.webView injectHTMLWithARISjs];
     [self.activityIndicator removeFromSuperview];
     [self.activityIndicator stopAnimating];
     self.activityIndicator = nil;
@@ -109,9 +108,9 @@
     [self.view addSubview:self.webView];
 }
 
-- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
-    return ![self.webView handleARISRequestIfApplicable:request];
+    return YES;
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv

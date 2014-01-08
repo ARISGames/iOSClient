@@ -17,7 +17,7 @@
 #import "UIColor+ARISColors.h"
 #import "StateControllerProtocol.h"
 
-@interface NpcOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, UIWebViewDelegate, StateControllerProtocol>
+@interface NpcOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, StateControllerProtocol>
 {
     ARISMediaView *mediaView;
     
@@ -238,15 +238,12 @@
     
 }
 
-- (BOOL) webView:(UIWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) ARISWebView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
 {
-    NSString *url = [req URL].absoluteString;
-    if([url isEqualToString:@"about:blank"]) return YES;
-    if([(ARISWebView *)wv handleARISRequestIfApplicable:req]) return NO;
     return NO;
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)webView
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)webView
 {
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     float newOffset = 0.0;

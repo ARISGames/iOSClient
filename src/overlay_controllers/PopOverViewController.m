@@ -15,7 +15,7 @@
 #import "Media.h"
 #import "UIColor+ARISColors.h"
 
-@interface PopOverViewController() <ARISMediaViewDelegate,ARISWebViewDelegate,StateControllerProtocol,UIWebViewDelegate>
+@interface PopOverViewController() <ARISMediaViewDelegate,ARISWebViewDelegate,StateControllerProtocol>
 {
     UIView *popOverView;
     UIView *contentView;
@@ -176,17 +176,16 @@
     }
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)webView
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    [self.descriptionView injectHTMLWithARISjs];
     float newHeight = [[self.descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     
     self.descriptionView.frame = CGRectMake(0, self.descriptionView.frame.origin.y, self.contentView.frame.size.width, newHeight);
 }
 
-- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
-    return ![self.descriptionView handleARISRequestIfApplicable:request];
+    return NO;
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv

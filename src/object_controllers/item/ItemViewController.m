@@ -20,7 +20,7 @@
 
 #import "UIColor+ARISColors.h"
 
-@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, UIWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
+@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
 {
     //Labels as buttons (easier formatting)
     UILabel *dropBtn;
@@ -339,31 +339,23 @@
     [delegate displayScannerWithPrompt:p];
 }
 
-- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
-    if(wv == descriptionView) return (![descriptionView handleARISRequestIfApplicable:request]);  
-    else if(wv == webView)    return (![webView         handleARISRequestIfApplicable:request]);
-    else if(![[[request URL] absoluteString] isEqualToString:@"about:blank"])
-    {
-        WebPage *tempWebPage = [[WebPage alloc] init];
-        tempWebPage.url = [[request URL] absoluteString];
-        [delegate displayGameObject:tempWebPage fromSource:self];
-        return NO;
-    }
-    return YES;
+    WebPage *tempWebPage = [[WebPage alloc] init];
+    tempWebPage.url = [[r URL] absoluteString];
+    [delegate displayGameObject:tempWebPage fromSource:self];
+    return NO;
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)wv
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     if(wv == webView)
     {
-        [webView injectHTMLWithARISjs];
         webView.hidden = NO;
         [self dismissWaitingIndicator];
     }
     if(wv == descriptionView)
     {
-        [descriptionView injectHTMLWithARISjs];
         float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
         [collapseView setContentFrameHeight:newHeight];
         
@@ -376,7 +368,7 @@
     }
 }
 
-- (void) webViewDidStartLoad:(UIWebView *)wv
+- (void) ARISWebViewDidStartLoad:(ARISWebView *)wv
 {
     if(wv == webView) [self showWaitingIndicator];
 }

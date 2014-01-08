@@ -37,6 +37,7 @@
 		AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */; };
 		AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */; };
 		AA2B4A72182ABC4000A0D2A1 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2B4A71182ABC4000A0D2A1 /* plus.png */; };
+		AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B833E187DAB5300D92A28 /* ARISWebView.m */; };
 		AA2D213617DE560C00CF4198 /* arrow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211717DE560C00CF4198 /* arrow_selected.png */; };
 		AA2D213717DE560C00CF4198 /* arrow_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */; };
 		AA2D213817DE560C00CF4198 /* arrow_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211917DE560C00CF4198 /* arrow_unselected.png */; };
@@ -91,7 +92,6 @@
 		AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB8182037CB006C9715 /* SBJsonStreamWriterState.m */; };
 		AA3B7FC4182037CB006C9715 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */; };
 		AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */; };
-		AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3F493117A828B300FF4C80 /* ARISWebView.m */; };
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
 		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
@@ -432,6 +432,8 @@
 		AA2B4A6E182AB84500A0D2A1 /* NoteEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteEditorViewController.h; sourceTree = "<group>"; };
 		AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteEditorViewController.m; sourceTree = "<group>"; };
 		AA2B4A71182ABC4000A0D2A1 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
+		AA2B833D187DAB5300D92A28 /* ARISWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISWebView.h; sourceTree = "<group>"; };
+		AA2B833E187DAB5300D92A28 /* ARISWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISWebView.m; sourceTree = "<group>"; };
 		AA2D211717DE560C00CF4198 /* arrow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_selected.png; sourceTree = "<group>"; };
 		AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_selected@2x.png"; sourceTree = "<group>"; };
 		AA2D211917DE560C00CF4198 /* arrow_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_unselected.png; sourceTree = "<group>"; };
@@ -505,8 +507,6 @@
 		AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
-		AA3F493017A828B300FF4C80 /* ARISWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISWebView.h; sourceTree = "<group>"; };
-		AA3F493117A828B300FF4C80 /* ARISWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISWebView.m; sourceTree = "<group>"; };
 		AA49A25B17AAE6C200629C87 /* ARISMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaView.h; sourceTree = "<group>"; };
 		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
 		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
@@ -1341,8 +1341,6 @@
 				AA856FEF17A972B800E9D451 /* arisjs.js */,
 				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
 				AAF7116517B971ED00262A37 /* ARISCollapseView.m */,
-				AA3F493017A828B300FF4C80 /* ARISWebView.h */,
-				AA3F493117A828B300FF4C80 /* ARISWebView.m */,
 				AA701FDF17342169003A840D /* GamePickersViewController.h */,
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
@@ -1368,6 +1366,8 @@
 				AABC7096172739D60074CC21 /* debug */,
 				AABC7362172739D80074CC21 /* utils */,
 				AABC71B1172739D70074CC21 /* third_party */,
+				AA2B833D187DAB5300D92A28 /* ARISWebView.h */,
+				AA2B833E187DAB5300D92A28 /* ARISWebView.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -2409,6 +2409,7 @@
 				AABC7386172739D80074CC21 /* Overlay.m in Sources */,
 				AABC7387172739D80074CC21 /* Panoramic.m in Sources */,
 				AABC7389172739D80074CC21 /* Player.m in Sources */,
+				AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */,
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,
 				AABC738B172739D80074CC21 /* Tab.m in Sources */,
@@ -2543,7 +2544,6 @@
 				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
 				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,
 				AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */,
-				AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,
 				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,
 				AAFA93DD17F9F143000E4319 /* ARISViewController.m in Sources */,
