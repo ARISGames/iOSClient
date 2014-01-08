@@ -15,7 +15,7 @@
 #import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
 #import "GamePlayTabSelectorViewController.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface DecoderViewController() <ZXingDelegate, UITextFieldDelegate>
 {

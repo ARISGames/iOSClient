@@ -17,7 +17,7 @@
 #import "Media.h"
 
 #import "ARISAlertHandler.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -115,7 +115,7 @@
     [descriptionWebView setBackgroundColor:[UIColor clearColor]];
     self.descriptionWebView.delegate = self;
     if(![self.game.desc isEqualToString:@""])
-        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.game.desc] baseURL:nil];
+        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], self.game.desc] baseURL:nil];
     
     self.title = self.game.name;
 }
@@ -199,7 +199,7 @@
         {
             if(self.game.hasBeenPlayed) cell.textLabel.text = NSLocalizedString(@"GameDetailsResumeKey", @"");
             else                        cell.textLabel.text = NSLocalizedString(@"GameDetailsNewGameKey", @""); 
-            cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+            cell.textLabel.font = [ARISTemplate ARISButtonFont];
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
         }
         else if (indexPath.row ==1)
@@ -207,7 +207,7 @@
             if(self.game.hasBeenPlayed)
             {
                 cell.textLabel.text = NSLocalizedString(@"GameDetailsResetKey", @"");
-                cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+                cell.textLabel.font = [ARISTemplate ARISButtonFont];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
             } 
             else
@@ -347,11 +347,6 @@
     [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewUserSelected];
     
     return cell;
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 - (void) dealloc

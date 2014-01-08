@@ -14,7 +14,7 @@
 #import "ARISMediaView.h"
 #import "Media.h"
 #import "Item.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface InventoryTagViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
@@ -264,14 +264,14 @@
     //Initialize Label with tag 1.
     lblTemp = [[UILabel alloc] initWithFrame:label1Frame];
     lblTemp.tag = 1;
-    lblTemp.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    lblTemp.font = [ARISTemplate ARISCellTitleFont];
     lblTemp.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:lblTemp];
     
     //Initialize Label with tag 2.
     lblTemp = [[UILabel alloc] initWithFrame:label2Frame];
     lblTemp.tag = 2;
-    lblTemp.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11];
+    lblTemp.font = [ARISTemplate ARISCellSubtextFont]; 
     lblTemp.textColor = [UIColor darkGrayColor];
     lblTemp.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:lblTemp];
@@ -371,11 +371,6 @@
     [delegate displayGameObject:item fromSource:self];
     
     [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[self.inventory objectAtIndex:[indexPath row]]).itemId]];
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 //Removes all content after first <br> or </br> or <br /> tags, then removes all html

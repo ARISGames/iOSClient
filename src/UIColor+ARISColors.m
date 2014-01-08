@@ -25,45 +25,4 @@
 + (UIColor *) ARISColorTranslucentBlack { return [UIColor colorWithRed:( 16.0/255.0) green:(  8.0/255.0) blue:(  2.0/255.0) alpha:0.8]; }
 + (UIColor *) ARISColorTranslucentWhite { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0) blue:(255.0/255.0) alpha:0.9]; }
 
-// Should put following in own class ARISTemplate or something
-+ (UIColor *) ARISColorNavBarTint               { return [UIColor ARISColorTranslucentWhite]; }
-+ (UIColor *) ARISColorNavBarText               { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorTabBarTint               { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorTabBarText               { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorToolBarTint              { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorBarButtonTint            { return [UIColor ARISColorLightBlue]; }
-+ (UIColor *) ARISColorSegmentedControlTint     { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorSearchBarTint            { return [UIColor ARISColorWhite]; }
-
-+ (UIColor *) ARISColorTextBackdrop             { return [UIColor ARISColorTranslucentWhite]; }
-+ (UIColor *) ARISColorText                     { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorContentBackdrop          { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorNpcContentBackdrop       { return [UIColor blackColor]; }
-+ (UIColor *) ARISColorViewBackdrop             { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorViewText                 { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorSideNaviagtionBackdrop   { return [UIColor ARISColorTranslucentWhite];  }
-+ (UIColor *) ARISColorSideNaviagtionText       { return [UIColor ARISColorBlack]; }
-
-
-+ (NSString *) ARISHtmlTemplate
-{
-    return 
-    @"<html>"
-    @"<head>"
-    @"	<style type='text/css'><!--"
-    @"  html { margin:0; padding:0; }"
-    @"	body {"
-    @"      color:#000000;"
-    @"		font-size:15px;"
-    @"      font-family:HelveticaNeue-Light;"
-    @"      margin:0;"
-    @"      padding:10;"
-    @"	}"
-    @"	a { color: #FFFFFF; text-decoration: underline; }"
-    @"	--></style>"
-    @"</head>"
-    @"<body>%@</body>"
-    @"</html>";
-}
-
 @end

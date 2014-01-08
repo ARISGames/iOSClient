@@ -16,7 +16,7 @@
 #import "Player.h"
 #import "AppModel.h"
 #import "Game.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
@@ -62,12 +62,12 @@
     scrollView.backgroundColor = [UIColor whiteColor];
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.view.frame.size.width-65,20)];
-    title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
+    title.font = [ARISTemplate ARISTitleFont];
     title.adjustsFontSizeToFitWidth = NO; 
     title.text = note.name;
     
     date  = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
-    date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+    date.font = [ARISTemplate ARISSubtextFont]; 
     date.textColor = [UIColor ARISColorDarkBlue];
     date.adjustsFontSizeToFitWidth = NO;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -75,7 +75,7 @@
     date.text = [format stringFromDate:note.created];
     
     owner = [[UILabel alloc] initWithFrame:CGRectMake(75,35,self.view.frame.size.width-85,14)];
-    owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+    owner.font = [ARISTemplate ARISSubtextFont]; 
     owner.textColor = [UIColor ARISColorDarkGray]; 
     owner.adjustsFontSizeToFitWidth = NO;  
     owner.text = note.owner.displayname;
@@ -85,7 +85,7 @@
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,84,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;
     desc.numberOfLines = 0;
-    desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18]; 
+    desc.font = [ARISTemplate ARISBodyFont]; 
     desc.textColor = [UIColor ARISColorDarkGray];  
     desc.text = note.desc;
     
@@ -205,11 +205,6 @@
 {
     [self formatSubviewFrames]; 
     scrollView.contentOffset = CGPointMake(0,-64);  
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 - (void) ARISMediaViewFinishedPlayback:(ARISMediaView *)amv

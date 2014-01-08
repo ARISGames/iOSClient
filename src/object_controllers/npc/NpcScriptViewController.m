@@ -16,7 +16,7 @@
 #import "AppModel.h"
 #import "Player.h"
 #import "AppServices.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface NpcScriptViewController() <ScriptParserDelegate, NpcScriptElementViewDelegate, GameObjectViewControllerDelegate>
 {
@@ -85,9 +85,9 @@
         self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44)];
         UILabel *continueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)]; //frame is set later
         continueLabel.textAlignment = NSTextAlignmentRight;
-        continueLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+        continueLabel.font = [ARISTemplate ARISButtonFont];
         continueLabel.text = NSLocalizedString(@"ContinueKey",@"");
-        continueLabel.textColor = [UIColor ARISColorText];
+        continueLabel.textColor = [ARISTemplate ARISColorText];
         continueLabel.accessibilityLabel = @"Continue";
         UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
         continueArrow.frame = CGRectMake(self.view.bounds.size.width-25,13,19,19);

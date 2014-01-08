@@ -18,7 +18,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
 {
@@ -63,8 +63,8 @@
     btn.userInteractionEnabled = YES;
     btn.textAlignment = NSTextAlignmentCenter;
     btn.text = t;
-    btn.backgroundColor = [UIColor ARISColorTextBackdrop];
-    btn.textColor       = [UIColor ARISColorText];
+    btn.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+    btn.textColor       = [ARISTemplate ARISColorText];
     [btn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:s]];
     [btn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
     
@@ -74,7 +74,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     int numButtons = 0;
     /*
@@ -137,7 +137,7 @@
         descriptionView.scrollView.bounces       = NO;
         descriptionView.opaque                   = NO;
         descriptionView.backgroundColor = [UIColor clearColor];
-        [descriptionView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.item.idescription] baseURL:nil];
+        [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], self.item.idescription] baseURL:nil];
         collapseView = [[ARISCollapseView alloc] initWithContentView:descriptionView frame:CGRectMake(0,self.view.bounds.size.height-(10+((numButtons > 0)*44)),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     }
     
@@ -385,11 +385,6 @@
 {
     [activityIndicator stopAnimating];
     [activityIndicator removeFromSuperview];
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 - (void) dismissSelf

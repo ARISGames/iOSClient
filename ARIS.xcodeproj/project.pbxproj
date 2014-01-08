@@ -38,6 +38,7 @@
 		AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */; };
 		AA2B4A72182ABC4000A0D2A1 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2B4A71182ABC4000A0D2A1 /* plus.png */; };
 		AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B833E187DAB5300D92A28 /* ARISWebView.m */; };
+		AA2B8342187DDC1200D92A28 /* ARISTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B8341187DDC1200D92A28 /* ARISTemplate.m */; };
 		AA2D213617DE560C00CF4198 /* arrow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211717DE560C00CF4198 /* arrow_selected.png */; };
 		AA2D213717DE560C00CF4198 /* arrow_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */; };
 		AA2D213817DE560C00CF4198 /* arrow_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2D211917DE560C00CF4198 /* arrow_unselected.png */; };
@@ -434,6 +435,8 @@
 		AA2B4A71182ABC4000A0D2A1 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		AA2B833D187DAB5300D92A28 /* ARISWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISWebView.h; sourceTree = "<group>"; };
 		AA2B833E187DAB5300D92A28 /* ARISWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISWebView.m; sourceTree = "<group>"; };
+		AA2B8340187DDC1200D92A28 /* ARISTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARISTemplate.h; path = src/ARISTemplate.h; sourceTree = SOURCE_ROOT; };
+		AA2B8341187DDC1200D92A28 /* ARISTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARISTemplate.m; path = src/ARISTemplate.m; sourceTree = SOURCE_ROOT; };
 		AA2D211717DE560C00CF4198 /* arrow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_selected.png; sourceTree = "<group>"; };
 		AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_selected@2x.png"; sourceTree = "<group>"; };
 		AA2D211917DE560C00CF4198 /* arrow_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_unselected.png; sourceTree = "<group>"; };
@@ -1322,6 +1325,8 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				AA2B8340187DDC1200D92A28 /* ARISTemplate.h */,
+				AA2B8341187DDC1200D92A28 /* ARISTemplate.m */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
 				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC70D1172739D60074CC21 /* MainWindow.xib */,
@@ -2477,6 +2482,7 @@
 				AABC742C172739D80074CC21 /* glues_mipmap.c in Sources */,
 				AABC742D172739D80074CC21 /* glues_project.c in Sources */,
 				AABC742E172739D80074CC21 /* glues_quad.c in Sources */,
+				AA2B8342187DDC1200D92A28 /* ARISTemplate.m in Sources */,
 				AABC742F172739D80074CC21 /* glues_registry.c in Sources */,
 				AABC7431172739D80074CC21 /* dict.c in Sources */,
 				AA9A6D98182D7ECA000CC323 /* NoteTagEditorViewController.m in Sources */,

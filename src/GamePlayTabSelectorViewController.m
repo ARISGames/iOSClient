@@ -11,7 +11,7 @@
 #import "ARISGamePlayTabBarViewController.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -51,7 +51,7 @@
     self.tableView.dataSource = self;
     self.tableView.opaque = NO;
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor ARISColorSideNaviagtionBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorSideNaviagtionBackdrop];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -71,9 +71,9 @@
         self.leaveGameButton = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44)];
         UILabel *leaveGameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30,0,self.view.bounds.size.width-30,44)];
         leaveGameLabel.textAlignment = NSTextAlignmentLeft;
-        leaveGameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+        leaveGameLabel.font = [ARISTemplate ARISButtonFont];
         leaveGameLabel.text = @"Leave Game";
-        leaveGameLabel.textColor = [UIColor ARISColorText];
+        leaveGameLabel.textColor = [ARISTemplate ARISColorText];
         UIImageView *leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
         leaveGameLabel.accessibilityLabel = @"Leave Game";
         leaveGameArrow.frame = CGRectMake(6,13,19,19);
@@ -83,7 +83,7 @@
         [self.leaveGameButton addSubview:leaveGameLabel];
         [self.leaveGameButton addSubview:leaveGameArrow];
         self.leaveGameButton.userInteractionEnabled = YES;
-        self.leaveGameButton.backgroundColor = [UIColor ARISColorTextBackdrop];
+        self.leaveGameButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
         self.leaveGameButton.opaque = NO;
         [self.leaveGameButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leaveGameButtonTouched)]];
         
@@ -127,7 +127,7 @@
     UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     c.opaque = NO;
     c.backgroundColor = [UIColor clearColor];
-    c.textLabel.textColor = [UIColor ARISColorSideNaviagtionText];
+    c.textLabel.textColor = [ARISTemplate ARISColorSideNaviagtionText];
     
     ARISNavigationController *anc = (ARISNavigationController *)[self.viewControllers objectAtIndex:indexPath.row];
     ARISGamePlayTabBarViewController *agptbvc = [anc.viewControllers objectAtIndex:0];

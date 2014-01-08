@@ -7,7 +7,7 @@
 //
 
 #import "ARISCollapseView.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 const int HANDLE_HEIGHT = 10;
 const int TOUCH_BUFFER_HEIGHT = 20;
@@ -73,7 +73,7 @@ const int TOUCH_BUFFER_HEIGHT = 20;
         [self addSubview:self.contentContainerView];
         [self.contentContainerView addSubview:self.content];
         
-        [self setBackgroundColor:[UIColor ARISColorTextBackdrop]];
+        [self setBackgroundColor:[ARISTemplate ARISColorTextBackdrop]];
         
         if(t) [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapped:)]];
         if(d) [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanned:)]];

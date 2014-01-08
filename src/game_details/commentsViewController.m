@@ -13,7 +13,7 @@
 #import "ARISAppDelegate.h"
 #import "commentsViewController.h"
 #import "CommentsFormCell.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @implementation commentsViewController
 @synthesize tableView;

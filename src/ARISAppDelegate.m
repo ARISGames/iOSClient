@@ -17,7 +17,7 @@
 #import "TestFlight.h"
 #import <Crashlytics/Crashlytics.h>
 
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 #import "AppModel.h"
 #import "AppServices.h"
@@ -60,24 +60,24 @@
     
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont,
-      [UIColor ARISColorNavBarText],                          UITextAttributeTextColor,
-      [UIColor clearColor],                                   UITextAttributeTextShadowColor,
+      [ARISTemplate ARISNavTitleFont],     UITextAttributeFont,
+      [ARISTemplate ARISColorNavBarText],  UITextAttributeTextColor,
+      [UIColor clearColor],                UITextAttributeTextShadowColor,
       nil]
      ];
     
     [[UITabBarItem appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,
-      [UIColor ARISColorTabBarText],                         UITextAttributeTextColor,
+      [ARISTemplate ARISTabTitleFont],    UITextAttributeFont, 
+      [ARISTemplate ARISColorTabBarText], UITextAttributeTextColor,
       nil] 
                                              forState:UIControlStateNormal];
     
     [[UISegmentedControl appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
-      [UIColor ARISColorTabBarText],                        UITextAttributeTextColor,
-      [UIColor clearColor],                                 UITextAttributeTextShadowColor,
+      [ARISTemplate ARISButtonFont],      UITextAttributeFont,
+      [ARISTemplate ARISColorTabBarText], UITextAttributeTextColor,
+      [UIColor clearColor],               UITextAttributeTextShadowColor,
       nil]
                                                    forState:UIControlStateNormal];
 }

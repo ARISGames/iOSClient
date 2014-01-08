@@ -12,7 +12,7 @@
 #import "Quest.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
 {
@@ -54,7 +54,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     self.navigationItem.title = self.quest.name;
     
     self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width, 1) delegate:self];
@@ -70,7 +70,7 @@
     @"</script>"
     @"Yo yo yo you're a hunter blah blah hey cool quest do it."
      */
-    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:[UIColor ARISHtmlTemplate], text];
+    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], text];
 
     self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
     self.webView.opaque = NO;
@@ -114,9 +114,9 @@
         
         UIButton *goButton = [UIButton buttonWithType:UIButtonTypeCustom];
         goButton.frame = CGRectMake(0, mainFrame.origin.y+mainFrame.size.height, mainFrame.size.width, 44);
-        [goButton setBackgroundColor:[UIColor ARISColorTextBackdrop]];
+        [goButton setBackgroundColor:[ARISTemplate ARISColorTextBackdrop]];
         goButton.titleEdgeInsets = UIEdgeInsetsMake(0,0,0,30);
-        [goButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
+        [goButton setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
         [goButton setTitle:@"Begin Quest" forState:UIControlStateNormal];
         [goButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
         [goButton addTarget:self action:@selector(goButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -146,10 +146,6 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-}
-
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     self.webView.alpha = 1.00;
@@ -160,19 +156,9 @@
     [self.webViewSpinner removeFromSuperview];
 }
 
-- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
-{
-    return NO;
-}
-
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
     [delegate questDetailsRequestsDismissal];
-}
-
-- (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
-{
-    //Ignore refresh requests...
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p

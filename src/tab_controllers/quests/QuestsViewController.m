@@ -13,6 +13,7 @@
 #import "Media.h"
 #import "WebPage.h"
 #import "WebPageViewController.h"
+#import "ARISWebView.h"
 
 static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
@@ -68,7 +69,7 @@ NSString *const kQuestsHtmlTemplate =
 @"</body>"
 @"</html>";
 
-@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>
+@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, StateControllerProtocol>
 {
     NSArray *sortedActiveQuests;
     NSArray *sortedCompletedQuests;
@@ -198,19 +199,15 @@ NSString *const kQuestsHtmlTemplate =
     [tableView reloadData];
 }
 
-- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
-    if(![[[request URL] absoluteString] isEqualToString:@"about:blank"])
-    {
-        WebPage *tempWebPage = [[WebPage alloc] init];
-        tempWebPage.url = [[request URL] absoluteString];
-        //PHIL [[RootViewController sharedRootViewController] displayGameObject:tempWebPage];
-        return NO;
-    }
-    return YES;
+    WebPage *tempWebPage = [[WebPage alloc] init];
+    tempWebPage.url = [[r URL] absoluteString];
+    //PHIL [[RootViewController sharedRootViewController] displayGameObject:tempWebPage];
+    return NO;
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)webView
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
 	cellsLoaded++;
 	int cellTotal = [sortedActiveQuests count]+[sortedCompletedQuests count];
@@ -242,7 +239,7 @@ NSString *const kQuestsHtmlTemplate =
 
 -(void) updateCellSize:(UITableViewCell*)cell
 {
-	UIWebView *descriptionView = (UIWebView *)[cell viewWithTag:1];
+	ARISWebView *descriptionView = (ARISWebView *)[cell viewWithTag:1];
 	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
 
 	CGRect descriptionFrame = [descriptionView frame];
@@ -262,7 +259,7 @@ NSString *const kQuestsHtmlTemplate =
     cell.backgroundColor = [UIColor clearColor];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIWebView *descriptionView = [[UIWebView alloc] initWithFrame:CGRectMake(5, 10, 310, 50)];
+	ARISWebView *descriptionView = [[ARISWebView alloc] initWithFrame:CGRectMake(5, 10, 310, 50)];
     descriptionView.scrollView.scrollEnabled = NO;
 	descriptionView.delegate = self;
 	descriptionView.tag = 1;

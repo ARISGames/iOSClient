@@ -7,7 +7,7 @@
 //
 
 #import "AnnotationView.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 #import "Media.h"
 #import "Location.h"
 
@@ -42,8 +42,8 @@
         if(loc.gameObject.type == GameObjectItem && loc.qty > 1 && loc.title)
             loc.subtitle = [NSString stringWithFormat:@"x %d",loc.qty];
         
-        self.titleFont    = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-        self.subtitleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+        self.titleFont    = [ARISTemplate ARISLabelFont];
+        self.subtitleFont = [ARISTemplate ARISSubtextFont];
         
         self.showTitle = (loc.showTitle && loc.title) ? YES : NO;
         self.shouldWiggle = loc.wiggle;
@@ -99,11 +99,6 @@
         self.opaque = NO; 
     }
     return self;
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 - (void)drawRect:(CGRect)rect {

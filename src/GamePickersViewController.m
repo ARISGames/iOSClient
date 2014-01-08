@@ -17,7 +17,7 @@
 #import "PKRevealController.h"
 #import "AccountSettingsViewController.h"
 #import "ARISNavigationController.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, GameDetailsViewControllerDelegate, AccountSettingsViewControllerDelegate>
 {

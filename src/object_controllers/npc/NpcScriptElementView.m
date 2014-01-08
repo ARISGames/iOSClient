@@ -14,7 +14,7 @@
 #import "ARISCollapseView.h"
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIScrollViewDelegate>
 {
@@ -142,7 +142,7 @@
     CGRect wvFrame = [self.textWebView frame];
     [self.textWebView setFrame:CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, 10)];
     //Load content
-    [self.textWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.scriptElement.text] baseURL:nil];
+    [self.textWebView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], self.scriptElement.text] baseURL:nil];
     
     //PHIL
     /*
@@ -166,21 +166,6 @@
      */
 }
 
-- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
-{
-    return NO; 
-}
-
-- (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
-{
-    
-}
-
-- (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
-{
-    
-}
-
 - (void) fadeWithCallback:(SEL)s
 {
     [UIView beginAnimations:@"dialog" context:nil];
@@ -190,10 +175,6 @@
     [UIView setAnimationDidStopSelector:s];
     self.textWebView.alpha  = 0;
     [UIView commitAnimations];
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv

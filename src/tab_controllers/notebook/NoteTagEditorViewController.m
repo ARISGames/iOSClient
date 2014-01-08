@@ -7,7 +7,7 @@
 //
 
 #import "NoteTagEditorViewController.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 #import "Tag.h"
 
 @interface NoteTagEditorViewController ()
@@ -42,11 +42,11 @@
     [super loadView];
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
     
-    int width = [@" + " sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
+    int width = [@" + " sizeWithFont:[ARISTemplate ARISBodyFont]].width;
     
     //make "plus" in similar way to tags
     plus = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,width,20)];
-    plus.font = [UIFont fontWithName:@"HelveticaNeue-Light"  size:18];
+    plus.font = [ARISTemplate ARISBodyFont];
     plus.textColor = [UIColor whiteColor];
     plus.backgroundColor = [UIColor ARISColorLightBlue];
     plus.text = @" + ";
@@ -79,10 +79,10 @@
 - (UIView *) tagViewForTag:(Tag *)t
 {
     int width;
-    if(editable) width = [[NSString stringWithFormat:@" %@ x ",t.tagName] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
-    else         width = [[NSString stringWithFormat:@" %@ ",  t.tagName] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
+    if(editable) width = [[NSString stringWithFormat:@" %@ x ",t.tagName] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
+    else         width = [[NSString stringWithFormat:@" %@ ",  t.tagName] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
     UILabel *tagView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,width,20)];
-    tagView.font = [UIFont fontWithName:@"HelveticaNeue-Light"  size:18];
+    tagView.font = [ARISTemplate ARISBodyFont];
     tagView.textColor = [UIColor whiteColor];
     tagView.backgroundColor = [UIColor ARISColorLightBlue];
     if(editable) tagView.text = [NSString stringWithFormat:@" %@ x ",t.tagName];

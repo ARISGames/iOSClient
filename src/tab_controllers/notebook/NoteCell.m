@@ -11,7 +11,7 @@
 #import "Media.h"
 #import "Player.h"
 
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface NoteCell()
 {
@@ -40,18 +40,18 @@
         delegate = d;
         
         title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.frame.size.width-65,20)];
-        title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
+        title.font = [ARISTemplate ARISCellTitleFont];
         title.adjustsFontSizeToFitWidth = NO;
         date = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
-        date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+        date.font = [ARISTemplate ARISCellSubtextFont]; 
         date.textColor = [UIColor ARISColorDarkBlue];
         date.adjustsFontSizeToFitWidth = NO; 
         owner = [[UILabel alloc] initWithFrame:CGRectMake(75,35,self.frame.size.width-85,14)];
-        owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+        owner.font = [ARISTemplate ARISCellSubtextFont]; 
         owner.textColor = [UIColor ARISColorDarkGray]; 
         owner.adjustsFontSizeToFitWidth = NO; 
         desc = [[UILabel alloc] initWithFrame:CGRectMake(10,54,self.frame.size.width-20,14)];
-        desc.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+        desc.font = [ARISTemplate ARISCellSubtextFont]; 
         desc.textColor = [UIColor ARISColorDarkGray];  
         desc.adjustsFontSizeToFitWidth = NO;   
         imageIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-65,15,15,15)];

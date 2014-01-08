@@ -20,7 +20,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 
 #import "Player.h"
 
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 #import "ARISAlertHandler.h"
 
 @interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate>
@@ -84,7 +84,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self.navigationController.navigationBar layoutIfNeeded];
     
     usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
-    usernameField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    usernameField.font = [ARISTemplate ARISInputFont];
     usernameField.delegate = self;
     usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -99,7 +99,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self.view addSubview:line];
 
     passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20)];
-    passwordField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    passwordField.font = [ARISTemplate ARISInputFont]; 
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
     passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
@@ -115,7 +115,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     loginButton.backgroundColor = [UIColor clearColor];
     [loginButton setBackgroundImage:[UIImage imageNamed:@"arrowForward"] forState:UIControlStateNormal];
     [loginButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    [loginButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
+    [loginButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     loginButton.accessibilityLabel = @"Login";
     loginButton.frame = CGRectMake(self.view.frame.size.width-50, navOffset+100, 20, 20);
     [loginButton addTarget:self action:@selector(loginButtonTouched) forControlEvents:UIControlEventTouchUpInside];
@@ -134,7 +134,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     newAccountButton.backgroundColor = [UIColor clearColor];
     [newAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
     [newAccountButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    [newAccountButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
+    [newAccountButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     newAccountButton.frame = CGRectMake(0, self.view.frame.size.height-60, self.view.frame.size.width, 20);
     [newAccountButton addTarget:self action:@selector(newAccountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newAccountButton];
@@ -143,7 +143,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     changePassButton.backgroundColor = [UIColor clearColor];
     [changePassButton setTitle:@"Forgot Password?" forState:UIControlStateNormal];
     [changePassButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    [changePassButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
+    [changePassButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
     [changePassButton addTarget:self action:@selector(changePassTouch) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:changePassButton];

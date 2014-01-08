@@ -9,7 +9,7 @@
 #import "SelfRegistrationViewController.h"
 #import "AppServices.h"
 #import "ARISAlertHandler.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface SelfRegistrationViewController() <UITextFieldDelegate, UITextViewDelegate>
 {
@@ -68,7 +68,7 @@
     [self.navigationController.navigationBar layoutIfNeeded];
     
     usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
-    usernameField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    usernameField.font = [ARISTemplate ARISInputFont];
     usernameField.delegate = self;
     usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -82,7 +82,7 @@
     [self.view addSubview:line];
 
     passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20)];
-    passwordField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    passwordField.font = [ARISTemplate ARISInputFont];
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
 	passwordField.placeholder = NSLocalizedString(@"PasswordKey",@"");
@@ -94,7 +94,7 @@
     [self.view addSubview:line];
 
     emailField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20+20+20,self.view.frame.size.width-40,20)];
-    emailField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    emailField.font = [ARISTemplate ARISInputFont];
     emailField.delegate = self;
 	emailField.placeholder = NSLocalizedString(@"EmailKey",@"");
     emailField.keyboardType = UIKeyboardTypeEmailAddress;
@@ -109,7 +109,7 @@
     createAccountButton.backgroundColor = [UIColor clearColor];
     [createAccountButton setTitle:@">" forState:UIControlStateNormal];
     [createAccountButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    [createAccountButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
+    [createAccountButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     createAccountButton.frame = CGRectMake(self.view.frame.size.width-60,navOffset+20+20+20+20+20+20, 40, 40);
     [createAccountButton addTarget:self action:@selector(createAccountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:createAccountButton];

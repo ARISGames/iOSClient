@@ -35,7 +35,7 @@
 
 #import "ARISAlertHandler.h"
 #import "ARISNavigationController.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate>
 {

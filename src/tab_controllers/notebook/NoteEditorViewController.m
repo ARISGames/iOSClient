@@ -16,7 +16,7 @@
 #import "MediaModel.h"
 #import "AppServices.h"
 #import "Player.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface DataToUpload : NSObject
 {
@@ -85,23 +85,23 @@
     
     title = [[UITextField alloc] initWithFrame:CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20)];
     title.delegate = self;
-    title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20]; 
+    title.font = [ARISTemplate ARISTitleFont]; 
     title.placeholder = @"Title";
     title.returnKeyType = UIReturnKeyDone;
     
     date = [[UILabel alloc] initWithFrame:CGRectMake(10, 35+64, 65, 14)];  
-    date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+    date.font = [ARISTemplate ARISSubtextFont]; 
     date.textColor = [UIColor ARISColorDarkBlue];
     date.adjustsFontSizeToFitWidth = NO;
     
     owner = [[UILabel alloc] initWithFrame:CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14)];
-    owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+    owner.font = [ARISTemplate ARISSubtextFont];
     owner.adjustsFontSizeToFitWidth = NO;
     
     description = [[UITextView alloc] initWithFrame:CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170)];   
     description.delegate = self;
     description.contentInset = UIEdgeInsetsZero; 
-    description.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    description.font = [ARISTemplate ARISBodyFont];
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [descriptionDoneButton setTitle:@"Done" forState:UIControlStateNormal];
     [descriptionDoneButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];

@@ -14,7 +14,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "StateControllerProtocol.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface NpcViewController() <NpcOptionsViewControllerDelegate, NpcScriptViewControllerDelegate, AVAudioPlayerDelegate>
 {
@@ -59,7 +59,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorNpcContentBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorNpcContentBackdrop];
     
     self.optionsViewController = [[NpcOptionsViewController alloc] initWithFrame:self.view.bounds delegate:self];
     self.optionsViewController.view.alpha = 0.0; 

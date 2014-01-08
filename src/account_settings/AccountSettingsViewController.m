@@ -8,7 +8,7 @@
 
 #import "AccountSettingsViewController.h"
 #import "ForgotPasswordViewController.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface AccountSettingsViewController()
 {
@@ -33,7 +33,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -60,13 +60,12 @@
     [passButton addTarget:self action:@selector(passButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:passButton];
     
-    
     UIView *logoutButton = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44)];
     UILabel *logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(30,0,self.view.bounds.size.width-30,44)];
     logoutLabel.textAlignment = NSTextAlignmentLeft;
-    logoutLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    logoutLabel.font = [ARISTemplate ARISButtonFont];
     logoutLabel.text = NSLocalizedString(@"LogoutKey",@"");
-    logoutLabel.textColor = [UIColor ARISColorText];
+    logoutLabel.textColor = [ARISTemplate ARISColorText];
     UIImageView *leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
     
     leaveGameArrow.frame = CGRectMake(6,13,19,19);
@@ -76,7 +75,7 @@
     [logoutButton addSubview:logoutLabel];
     [logoutButton addSubview:leaveGameArrow];
     logoutButton.userInteractionEnabled = YES;
-    logoutButton.backgroundColor = [UIColor ARISColorTextBackdrop];
+    logoutButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
     logoutButton.opaque = NO;
     [logoutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoutButtonTouched)]];
     

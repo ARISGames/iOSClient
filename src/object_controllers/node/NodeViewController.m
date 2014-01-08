@@ -18,7 +18,7 @@
 #import "WebPage.h"
 #import "UIImage+Scale.h"
 #import "Node.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 static NSString * const OPTION_CELL = @"option";
 
@@ -65,12 +65,12 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) viewWillAppearFirstTime:(BOOL)animated
 {
-    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
     self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44); 
-    self.scrollView.backgroundColor = [UIColor ARISColorContentBackdrop];
+    self.scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     self.scrollView.clipsToBounds = NO;
     
     if(![self.node.text isEqualToString:@""])
@@ -80,7 +80,7 @@ static NSString * const OPTION_CELL = @"option";
         self.webView.scrollView.bounces = NO;
         self.webView.scrollView.scrollEnabled = NO;
         self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
-        [self.webView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.node.text] baseURL:nil];
+        [self.webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], self.node.text] baseURL:nil];
         
         self.webViewSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         self.webViewSpinner.center = self.webView.center;
@@ -100,14 +100,14 @@ static NSString * const OPTION_CELL = @"option";
     }
     
     self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
-    self.continueButton.backgroundColor = [UIColor ARISColorTextBackdrop];
+    self.continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
     self.continueButton.userInteractionEnabled = YES;
     self.continueButton.accessibilityLabel = @"Continue";
     UILabel *continueLbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)];
-    continueLbl.textColor = [UIColor ARISColorText];
+    continueLbl.textColor = [ARISTemplate ARISColorText];
     continueLbl.textAlignment = NSTextAlignmentRight;
     continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
-    continueLbl.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    continueLbl.font = [ARISTemplate ARISButtonFont];
     [self.continueButton addSubview:continueLbl];
     [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouchAction)]];
     

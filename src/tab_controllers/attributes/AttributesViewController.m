@@ -15,7 +15,7 @@
 #import "ARISAppDelegate.h"
 #import "Item.h"
 #import "ItemViewController.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface AttributesViewController() <ARISMediaViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
@@ -178,11 +178,6 @@
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 60;
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 @end

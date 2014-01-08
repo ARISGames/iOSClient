@@ -95,11 +95,6 @@
     pageControl.currentPage = floor(percentScrolled*pageControl.numberOfPages);
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
-}
-
 - (void) ARISMediaViewTouched //this is obnoxious- if only tap gestures would pass the thing that was tapped...
 {
     [delegate mediaWasSelected:(Media *)[contents objectAtIndex:pageControl.currentPage]];

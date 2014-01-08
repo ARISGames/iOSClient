@@ -183,9 +183,4 @@
     }
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
-}
-
 @end

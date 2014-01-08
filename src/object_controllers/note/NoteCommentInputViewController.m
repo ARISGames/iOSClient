@@ -6,7 +6,7 @@
 //
 
 #import "NoteCommentInputViewController.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface NoteCommentInputViewController () <UITextViewDelegate>
 {

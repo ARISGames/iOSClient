@@ -13,7 +13,7 @@
 #import "ARISMediaView.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
 {
@@ -56,7 +56,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorViewBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorViewBackdrop];
 }
 
 - (void) viewDidLoad
@@ -140,11 +140,11 @@
     CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-20), cell.contentView.frame.size.width, 20);
     UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
     iconTitleLabel.text = q.name;
-    iconTitleLabel.textColor = [UIColor ARISColorViewText];
+    iconTitleLabel.textColor = [ARISTemplate ARISColorViewText];
     iconTitleLabel.backgroundColor = [UIColor clearColor];
     iconTitleLabel.textAlignment = NSTextAlignmentCenter;
     iconTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
-    iconTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+    iconTitleLabel.font = [ARISTemplate ARISSubtextFont];
     [cell.contentView addSubview:iconTitleLabel];
     
     CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width);
@@ -158,11 +158,6 @@
     [cell.contentView addSubview:icon];
     
     return cell;
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

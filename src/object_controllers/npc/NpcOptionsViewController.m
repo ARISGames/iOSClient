@@ -14,7 +14,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "Player.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 #import "StateControllerProtocol.h"
 
 @interface NpcOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, StateControllerProtocol>
@@ -77,7 +77,7 @@
     [super loadView];
      
     self.view.bounds = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     Media *pcMedia = 0;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
@@ -145,9 +145,9 @@
         NpcScriptOption *option = [optionList objectAtIndex:i];
         
         if(!option.hasViewed)
-            [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], option.optionText] baseURL:nil];
+            [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], option.optionText] baseURL:nil];
         else
-            [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], [NSString stringWithFormat:@"<div style=\"color:#555555;\">%@</div>",option.optionText]] baseURL:nil];
+            [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], [NSString stringWithFormat:@"<div style=\"color:#555555;\">%@</div>",option.optionText]] baseURL:nil];
         
         arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
         arrow.frame = CGRectMake(textFrame.size.width, 10, 19, 19);
@@ -173,7 +173,7 @@
         text.backgroundColor = [UIColor clearColor];
         text.opaque = NO;
         cell.tag = -1;
-        [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.currentLeaveConversationTitle] baseURL:nil];
+        [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], self.currentLeaveConversationTitle] baseURL:nil];
         
         arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
         arrow.frame = CGRectMake(textFrame.size.width, 10, 19, 19);
@@ -196,7 +196,7 @@
     text.scrollView.bounces = NO;
     text.backgroundColor = [UIColor clearColor];
     text.opaque = NO;
-    [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], @"<div style=\"color:#BBBBBB; font-size:14px; text-align:center;\">(Make a Selection)</div>"] baseURL:nil];
+    [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], @"<div style=\"color:#BBBBBB; font-size:14px; text-align:center;\">(Make a Selection)</div>"] baseURL:nil];
     
     [cell addSubview:text];
     [self.optionsView addSubview:cell];
@@ -226,21 +226,6 @@
     [self.loadingIndicator removeFromSuperview];
 	[self.loadingIndicator stopAnimating];
     self.optionsView.hidden = NO;
-}
-
-- (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
-{
-    
-}
-
-- (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
-{
-    
-}
-
-- (BOOL) ARISWebView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
-{
-    return NO;
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)webView
@@ -306,22 +291,9 @@
     self.currentLeaveConversationTitle = t;
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    //No need to do anything
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-}
-
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     return NO;
-}
-
-- (void) displayTab:(NSString *)t
-{
 }
 
 @end

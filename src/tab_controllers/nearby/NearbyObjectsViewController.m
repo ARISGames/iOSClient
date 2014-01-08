@@ -162,9 +162,4 @@
 	[delegate displayGameObject:l.gameObject fromSource:l];
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
-}
-
 @end

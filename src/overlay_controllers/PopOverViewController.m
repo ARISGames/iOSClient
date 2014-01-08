@@ -13,7 +13,7 @@
 #import "ARISWebView.h"
 #import "AppModel.h"
 #import "Media.h"
-#import "UIColor+ARISColors.h"
+#import "ARISTemplate.h"
 
 @interface PopOverViewController() <ARISMediaViewDelegate,ARISWebViewDelegate,StateControllerProtocol>
 {
@@ -81,15 +81,15 @@
     self.view.userInteractionEnabled = YES;
     
     self.popOverView = [[UIView alloc] initWithFrame:CGRectMake(10,self.view.bounds.size.height/2-214,self.view.bounds.size.width-20,428)];
-    self.popOverView.backgroundColor = [UIColor ARISColorTextBackdrop];
+    self.popOverView.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
     self.popOverView.layer.cornerRadius = 10;
     self.popOverView.layer.masksToBounds = YES;
     
     self.title    = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.popOverView.bounds.size.width-20,24)];
-    self.title.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+    self.title.font = [ARISTemplate ARISTitleFont];
     self.title.backgroundColor = [UIColor clearColor];
     self.subtitle = [[UILabel alloc] initWithFrame:CGRectMake(10,34,self.popOverView.bounds.size.width-20,20)];
-    self.subtitle.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    self.subtitle.font = [ARISTemplate ARISSubtextFont];
     self.subtitle.backgroundColor = [UIColor clearColor];
     
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0,44+20,self.popOverView.bounds.size.width,320)];
@@ -136,7 +136,7 @@
         self.descriptionView.scrollView.scrollEnabled = NO;
         self.descriptionView.backgroundColor = [UIColor clearColor];
         self.descriptionView.opaque = NO;
-        wvt = [NSString stringWithFormat:[UIColor ARISHtmlTemplate], wvt];
+        wvt = [NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], wvt];
         [self.descriptionView loadHTMLString:wvt baseURL:nil];
         [self.contentView addSubview:self.descriptionView];
     }
@@ -181,11 +181,6 @@
     float newHeight = [[self.descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     
     self.descriptionView.frame = CGRectMake(0, self.descriptionView.frame.origin.y, self.contentView.frame.size.width, newHeight);
-}
-
-- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
-{
-    return NO;
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
