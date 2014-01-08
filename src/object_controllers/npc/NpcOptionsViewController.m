@@ -291,9 +291,21 @@
     self.currentLeaveConversationTitle = t;
 }
 
+- (void) displayTab:(NSString *)t
+{
+    //nope
+}
+
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    //nope
+}
+
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     return NO;
 }
+
+
 
 @end

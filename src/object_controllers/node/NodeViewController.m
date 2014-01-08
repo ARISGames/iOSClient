@@ -30,6 +30,8 @@ static NSString * const OPTION_CELL = @"option";
     UIView *continueButton;
     
     UIActivityIndicatorView *webViewSpinner;
+    
+    id <GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @property (readwrite, strong) Node *node;
@@ -50,7 +52,7 @@ static NSString * const OPTION_CELL = @"option";
 @synthesize continueButton;
 @synthesize webViewSpinner;
 
-- (id) initWithNode:(Node *)n delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d
+- (id) initWithNode:(Node *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
     if((self = [super init]))
     {
@@ -159,6 +161,21 @@ static NSString * const OPTION_CELL = @"option";
     scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.webView.frame.origin.y+self.webView.frame.size.height+10);
     
     [self.webViewSpinner removeFromSuperview];
+}
+
+- (void) displayTab:(NSString *)t
+{
+    [delegate displayTab:t];
+}
+
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    [delegate displayScannerWithPrompt:p]; 
+}
+
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+{
+    return [delegate displayGameObject:g fromSource:s];  
 }
 
 - (void) continueButtonTouchAction

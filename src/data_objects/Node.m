@@ -49,7 +49,7 @@
     return GameObjectNode;
 }
 
-- (NodeViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
+- (NodeViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d fromSource:(id)s
 {
     return [[NodeViewController alloc] initWithNode:self delegate:d];
 }

@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "GameObjectViewController.h"
 
+@protocol StateControllerProtocol;
 @class Node;
 @interface NodeViewController : GameObjectViewController
 {
 	Node *node;
 }
-- (id) initWithNode:(Node *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d;
+- (id) initWithNode:(Node *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
 @end

@@ -82,7 +82,7 @@ NSString *const kQuestsHtmlTemplate =
 	IBOutlet UILabel *progressLabel;
     IBOutlet UISegmentedControl *activeQuestsSwitch;
     
-    id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
+    id<QuestsViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 
 }
 
@@ -96,7 +96,7 @@ NSString *const kQuestsHtmlTemplate =
 
 @implementation QuestsViewController
 
-- (id) initWithDelegate:(id<QuestsViewControllerDelegate>)d
+- (id) initWithDelegate:(id<QuestsViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"QuestsViewController" bundle:nil delegate:d])
     {
@@ -251,8 +251,6 @@ NSString *const kQuestsHtmlTemplate =
 	[cell setFrame:cellFrame];
 }
 
-#pragma mark PickerViewDelegate selectors
-
 - (UITableViewCell *) getCellContentViewForQuest:(Quest *)quest
 {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
@@ -297,6 +295,21 @@ NSString *const kQuestsHtmlTemplate =
         return ((UITableViewCell *)[activeQuestCells objectAtIndex:indexPath.row]).frame.size.height;
     else
         return ((UITableViewCell *)[completedQuestCells objectAtIndex:indexPath.row]).frame.size.height;
+}
+
+- (void) displayTab:(NSString *)t
+{
+    [delegate displayTab:t];
+}
+
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    [delegate displayScannerWithPrompt:p];
+}
+
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+{
+    return [delegate displayGameObject:g fromSource:s]; 
 }
 
 - (void)dealloc
