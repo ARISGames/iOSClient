@@ -136,7 +136,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                           @"object", @"key",
                           nil];
     
-    [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:@selector(playerPicUploadDidFail:) userInfo:userInfo];
+    //[connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:@selector(playerPicUploadDidFail:) userInfo:userInfo];
 }
 
 - (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid
@@ -598,10 +598,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void) uploadNote:(Note *)n
 {
-    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [userInfo setValue:[NSNumber numberWithInt:[AppModel sharedAppModel].currentGame.gameId] forKey:@"gameId"];
-    [userInfo setValue:[NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId] forKey:@"playerId"]; 
-    
     NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys: 
                               [NSNumber numberWithBool:n.location.latlon.coordinate.latitude],  @"latitude",
                               [NSNumber numberWithBool:n.location.latlon.coordinate.longitude], @"longitude", 
@@ -611,7 +607,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     {
         NSDictionary *m = [[NSDictionary alloc] initWithObjectsAndKeys:
                            [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"path",
-                           ((Media *)[n.contents objectAtIndex:i]).localURL,@"filename", 
+                           [((Media *)[n.contents objectAtIndex:i]).localURL absoluteString],@"filename", 
                            [((Media *)[n.contents objectAtIndex:i]).data base64Encoding],@"data", 
                            nil];
         [media addObject:m];
@@ -622,11 +618,12 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                           [NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId],    @"playerId",  
                           n.name,                                                                @"title",
                           n.desc,                                                                @"description", 
-                          n.publicToMap,                                                         @"publicToMap",  
-                          n.publicToList,                                                        @"publicToBook",  
-                          location,                                                              @"publicToBook",   
+                          [NSNumber numberWithBool:n.publicToMap],                               @"publicToMap",  
+                          [NSNumber numberWithBool:n.publicToList],                              @"publicToBook",  
+                          location,                                                              @"location",   
+                          media,                                                                 @"media",    
                           nil]; 
-    [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:nil failSelector:nil userInfo:userInfo]; 
+    [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:nil failSelector:nil userInfo:nil]; 
 }
 
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type

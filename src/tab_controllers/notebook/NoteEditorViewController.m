@@ -230,7 +230,8 @@
     {
         Media *m = [[AppModel sharedAppModel].mediaModel newMedia];
         m.localURL = ((DataToUpload *)[datasToUpload objectAtIndex:i]).url;
-        m.data = [NSData dataWithContentsOfFile:[m.localURL absoluteString]];
+        m.data = [NSData dataWithContentsOfURL:m.localURL];
+        [n.contents addObject:m];
     } 
     
     [[AppServices sharedAppServices] uploadNote:n];
