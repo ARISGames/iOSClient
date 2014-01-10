@@ -4,7 +4,6 @@
 //
 //  Created by Phil Dougherty on 8/1/13.
 //
-//
 
 #import "ARISMediaView.h"
 #import "Media.h"
@@ -17,13 +16,13 @@
 {
     ARISMediaDisplayMode displayMode;
     Media *media;
-    UIImage *image; 
+    UIImage *image;
     
     UIImageView *imageView;
     MPMoviePlayerViewController *avVC;
-    UIImageView *playIcon; 
+    UIImageView *playIcon;
     UIActivityIndicatorView *spinner;
-        
+    
     id <ARISMediaViewDelegate> delegate;
 }
 
@@ -87,16 +86,16 @@
         [self addSpinner];
         [[AppServices sharedAppServices] loadMedia:m delegate:self];
         return;//this function will be called upon media's return
-    } 
+    }
     media = m;
-    [self displayMedia]; 
+    [self displayMedia];
 }
 
 - (void) setImage:(UIImage *)i
 {
     media = nil;
     image = i;
-    [self displayImage]; 
+    [self displayImage];
 }
 
 - (void) setDelegate:(id<ARISMediaViewDelegate>)d
@@ -203,6 +202,8 @@
 {
     if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; }
     
+    [self addPlayIcon]; 
+    
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil]; 
     avVC.moviePlayer.shouldAutoplay = NO;
@@ -255,6 +256,8 @@
 {
     if(playIcon) [self removePlayIcon];
     playIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play.png"]];
+    [playIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playIconTouched)]];
+    playIcon.userInteractionEnabled = YES;
     double h = self.frame.size.height;
     double w = self.frame.size.width; 
     if(h > 60) h = 60;
@@ -268,6 +271,17 @@
 {
     [playIcon removeFromSuperview];
     playIcon = nil;
+}
+
+- (void) playIconTouched
+{
+    if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewShouldPlayButtonTouched:)])
+    {
+        if([delegate ARISMediaViewShouldPlayButtonTouched:self])
+            [self play];
+    }
+    else
+        [self play];
 }
 
 - (NSString *) contentTypeForImageData:(NSData *)d
