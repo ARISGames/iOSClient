@@ -97,6 +97,7 @@
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
 {
+    [self ARISMediaViewTouched];
     return NO;
 }
 

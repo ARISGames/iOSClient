@@ -101,6 +101,7 @@
     } 
     else if([ext isEqualToString:@"mp3"] ||
             [ext isEqualToString:@"wav"] ||
+            [ext isEqualToString:@"m4a"] || 
             [ext isEqualToString:@"ogg"])
     {
         return @"AUDIO";

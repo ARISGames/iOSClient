@@ -136,12 +136,9 @@
 
 - (void) play
 {
-    if(!media || !([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"])) return;
-    if(avVC)
-    {
-        [self addSubview:avVC.view]; 
-        [avVC.moviePlayer play]; 
-    }
+    if(!media || [media.type isEqualToString:@"IMAGE"] || !avVC) return;
+    [self addSubview:avVC.view];  
+    [avVC.moviePlayer play]; 
 }
 
 - (void) mediaLoaded:(Media *)m
@@ -174,7 +171,7 @@
     }
     else if([type isEqualToString:@"AUDIO"])
     {
-        
+        [self displayAudio:media];
     } 
 }
 
@@ -215,18 +212,20 @@
 {
     image = [UIImage imageWithData:UIImageJPEGRepresentation([notification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey], 1.0)];
     [self displayImage];
-    [self addPlayIcon];
     avVC.view.frame = imageView.frame;
 }
 
 - (void) displayAudio:(Media *)m
 {
     if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; } 
-       avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
+    
+    [self addPlayIcon];
+    
+    avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];  
     avVC.moviePlayer.shouldAutoplay = NO;
     image = [UIImage imageNamed:@"audio.png"];
     [self displayImage];
-    [avVC.moviePlayer play]; 
 }
 
 - (void) playbackFinished:(NSNotification *)n
