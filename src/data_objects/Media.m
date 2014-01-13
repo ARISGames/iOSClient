@@ -79,7 +79,8 @@
 
 - (NSString *) fileExtension
 {
-    return [mediaCD.remoteURL pathExtension];
+    if(mediaCD.remoteURL) return [mediaCD.remoteURL pathExtension];
+    return [mediaCD.localURL pathExtension];
 }
 
 - (NSString *) type
