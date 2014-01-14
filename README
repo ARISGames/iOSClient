@@ -1,6 +1,13 @@
-Compiling ARIS
+CLoning and Compiling ARIS
 
 git clone git@github.com:ARISGames/iOSClient.git ARISiOSClient
 cd ARISiOSClient
 git submodule init
 git submodule update
+
+
+Configuring and Running automated Tests
+
+1. Install bwoken - See https://github.com/bendyworks/bwoken
+2. Install imagemagick: brew install imagemagick
+3. Run the tests: bwoken test
