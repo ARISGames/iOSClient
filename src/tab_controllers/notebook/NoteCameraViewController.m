@@ -4,7 +4,6 @@
 //
 //  Created by Phil Dougherty on 12/11/13.
 //
-//
 
 #import "NoteCameraViewController.h"
 #import "UIImage+Scale.h"
