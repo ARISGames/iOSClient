@@ -10,4 +10,6 @@ Configuring and Running automated Tests
 
 1. Install bwoken - See https://github.com/bendyworks/bwoken
 2. Install imagemagick: brew install imagemagick
-3. Run the tests: bwoken test
+3. Compile and Run the tests: bwoken test
+
+Note, once you have compiled, you can quickly re-run the tests by running: bwoken test --skip-build
