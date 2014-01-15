@@ -10,6 +10,7 @@
 #import "NoteContentsViewController.h"
 #import "NoteTagEditorViewController.h"
 #import "NoteCameraViewController.h"
+#import "NoteRecorderViewController.h"
 #import "Note.h"
 #import "Tag.h"
 #import "AppModel.h"
@@ -18,7 +19,7 @@
 #import "Player.h"
 #import "ARISTemplate.h"
 
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate>
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate>
 {
     Note *note;
     
@@ -184,6 +185,7 @@
 
 - (void) mediaWasSelected:(Media *)m
 {
+    
 }
 
 - (void) locationPickerButtonTouched
@@ -197,6 +199,7 @@
 
 - (void) audioPickerButtonTouched
 {
+    [self.navigationController pushViewController:[[NoteRecorderViewController alloc] initWithDelegate:self] animated:YES]; 
 }
 
 - (void) saveButtonTouched
@@ -243,7 +246,13 @@
 
 - (void) cameraViewControllerCancelled
 {
-    [self.navigationController popToViewController:self animated:YES];
+    [self.navigationController popToViewController:self animated:YES];   
 }
+
+- (void) recorderViewControllerCancelled
+{
+    [self.navigationController popToViewController:self animated:YES];   
+}
+
 
 @end

@@ -351,6 +351,7 @@
 		AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116517B971ED00262A37 /* ARISCollapseView.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
 		AAF9231E1885968B0026A4FC /* NoteRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF9231C1885968B0026A4FC /* NoteRecorderViewController.m */; };
+		AAF923241885D7580026A4FC /* AudioVisualizerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF923231885D7580026A4FC /* AudioVisualizerViewController.m */; };
 		AAFA93DD17F9F143000E4319 /* ARISViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFA93DC17F9F143000E4319 /* ARISViewController.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */; };
@@ -932,6 +933,8 @@
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AAF9231C1885968B0026A4FC /* NoteRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteRecorderViewController.m; sourceTree = "<group>"; };
 		AAF9231D1885968B0026A4FC /* NoteRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRecorderViewController.h; sourceTree = "<group>"; };
+		AAF923221885D7580026A4FC /* AudioVisualizerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerViewController.h; sourceTree = "<group>"; };
+		AAF923231885D7580026A4FC /* AudioVisualizerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerViewController.m; sourceTree = "<group>"; };
 		AAFA93DB17F9F143000E4319 /* ARISViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISViewController.h; sourceTree = "<group>"; };
 		AAFA93DC17F9F143000E4319 /* ARISViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISViewController.m; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1798,6 +1801,8 @@
 				AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */,
 				AAF9231D1885968B0026A4FC /* NoteRecorderViewController.h */,
 				AAF9231C1885968B0026A4FC /* NoteRecorderViewController.m */,
+				AAF923221885D7580026A4FC /* AudioVisualizerViewController.h */,
+				AAF923231885D7580026A4FC /* AudioVisualizerViewController.m */,
 				AA383B0F18283B9F00612FFB /* NoteCell.h */,
 				AA383B1018283B9F00612FFB /* NoteCell.m */,
 			);
@@ -2404,6 +2409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */,
+				AAF923241885D7580026A4FC /* AudioVisualizerViewController.m in Sources */,
 				AABC7375172739D80074CC21 /* AccountSettingsViewController.m in Sources */,
 				AABC7378172739D80074CC21 /* ForgotPasswordViewController.m in Sources */,
 				AABC737A172739D80074CC21 /* PlayerSettingsViewController.m in Sources */,

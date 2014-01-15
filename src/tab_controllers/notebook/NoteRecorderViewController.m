@@ -8,6 +8,7 @@
 #import "NoteRecorderViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
+#import "ARISTemplate.h"
 //#import "AudioVisualizerViewController.h"
 
 @interface NoteRecorderViewController() <AVAudioSessionDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
@@ -60,6 +61,7 @@
 - (void) loadView
 {
     [super loadView];
+    
     recordButton  = [UIButton buttonWithType:UIButtonTypeCustom];
     finishButton  = [UIButton buttonWithType:UIButtonTypeCustom];  
     playButton    = [UIButton buttonWithType:UIButtonTypeCustom]; 
@@ -67,6 +69,22 @@
     editButton    = [UIButton buttonWithType:UIButtonTypeCustom]; 
     discardButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
     saveButton    = [UIButton buttonWithType:UIButtonTypeCustom]; 
+       
+    recordButton.frame  = CGRectMake(10,74, self.view.bounds.size.width-20,30);
+    finishButton.frame  = CGRectMake(10,74, self.view.bounds.size.width-20,30);  
+    playButton.frame    = CGRectMake(10,74, self.view.bounds.size.width-20,30); 
+    stopButton.frame    = CGRectMake(10,74, self.view.bounds.size.width-20,30);  
+    editButton.frame    = CGRectMake(10,114, self.view.bounds.size.width-20,30); 
+    discardButton.frame = CGRectMake(10,154, self.view.bounds.size.width-20,30); 
+    saveButton.frame    = CGRectMake(10,194,self.view.bounds.size.width-20,30); 
+          
+    //[recordButton  setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    //[finishButton  setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    //[playButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    //[stopButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    //[editButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    //[discardButton setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    //[saveButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
     
     [recordButton  setTitle:NSLocalizedString(@"BeginRecordingKey",@"") forState:UIControlStateNormal];
     [finishButton  setTitle:NSLocalizedString(@"FinishKey",@"")         forState:UIControlStateNormal]; 
@@ -83,6 +101,14 @@
     [editButton    addTarget:self action:@selector(editButtonTouched)    forControlEvents:UIControlEventTouchUpInside];
    	[discardButton addTarget:self action:@selector(discardButtonTouched) forControlEvents:UIControlEventTouchUpInside];
    	[saveButton    addTarget:self action:@selector(saveButtonTouched)    forControlEvents:UIControlEventTouchUpInside]; 
+}
+
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouched)];
+    
+    [self refreshViewFromState];
 }
 
 - (void) refreshViewFromState
@@ -110,19 +136,14 @@
         [self.view addSubview:discardButton]; 
         [self.view addSubview:saveButton]; 
     }
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouched)];
-    
-    [self refreshViewFromState];
+    else
+    {
+        [self.view addSubview:recordButton]; 
+    }
 }
 
 - (void) backButtonTouched
 {
-    [self.navigationController popViewControllerAnimated:NO];
     [delegate recorderViewControllerCancelled]; 
 }
 
@@ -197,7 +218,7 @@
     [session setCategory: AVAudioSessionCategoryPlayback error: nil];
     [session setActive: YES error: nil];
     
-    player =[[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:nil];
+    player = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL error:nil];
     [player prepareToPlay];
     [player setDelegate: self];
     [player play]; 
@@ -223,7 +244,6 @@
 {
     recorder = nil;
     [delegate audioChosenWithURL:audioFileURL];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) fileWasTrimmed
@@ -233,7 +253,7 @@
 
 - (void) dealloc
 {
-    [session setDelegate:nil];
+    session.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

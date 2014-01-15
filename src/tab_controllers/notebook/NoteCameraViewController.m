@@ -127,7 +127,7 @@
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
 {
     [aPicker dismissViewControllerAnimated:NO completion:nil];
-    [delegate cameraViewControllerCancelled];
+    [delegate cameraViewControllerCancelled]; 
 }
 
 @end
