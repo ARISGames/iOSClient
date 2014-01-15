@@ -1,6 +1,7 @@
 language: objective-c
 
 before_script:
+ - open -a iPhone\ Simulator
  - brew update
  - brew install imagemagick
  - security unlock-keychain -p travis "${HOME}/Library/Keychains/login.keychain"
