@@ -43,7 +43,7 @@
 {
     if(self = [super initWithFrame:f])
     {
-        [self refreshFrameWithFrame:f]; 
+        self.frame = f; 
     } 
     return self;
 }
@@ -54,7 +54,7 @@
     {
         delegate = d; 
         displayMode = dm;
-        [self refreshFrameWithFrame:f];  
+        self.frame = f;  
         [self setMedia:m];
     }
     return self;
@@ -66,7 +66,7 @@
     {
         delegate = d;
         displayMode = dm;
-        [self refreshFrameWithFrame:f];   
+        self.frame = f;   
         [self setImage:i]; 
     }
     return self;
@@ -75,7 +75,7 @@
 - (void) setFrame:(CGRect)f withMode:(ARISMediaDisplayMode)dm
 {
     displayMode = dm;
-    [self refreshFrameWithFrame:f];
+    self.frame = f;
 }
 
 - (void) setMedia:(Media *)m
@@ -103,7 +103,7 @@
     delegate = d;
 }
 
-- (void) refreshFrameWithFrame:(CGRect)f
+- (void) setFrame:(CGRect)f
 {
     imageView = nil;
     if(spinner)   [self removeSpinner];
@@ -111,7 +111,7 @@
     for(int i = 0; i < [self.subviews count]; i++)
         [[self.subviews objectAtIndex:0] removeFromSuperview];
     
-    self.frame = f;
+    super.frame = f;
     imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self addSubview:imageView];
     switch(displayMode)
@@ -187,7 +187,9 @@
             break;
         case ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight:
             imageView.frame = CGRectMake(0,0,self.frame.size.width,image.size.height*mult);
-            self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,imageView.frame.size.height);
+            //instead of getting in infinite loop with "setFrame", just handle silent cleanup here 
+            super.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,imageView.frame.size.height);
+            if(playIcon) [self addPlayIcon]; //re-add play icon for sizing considerations
         default:
             break;
     }

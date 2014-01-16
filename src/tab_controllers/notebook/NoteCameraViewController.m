@@ -4,7 +4,6 @@
 //
 //  Created by Phil Dougherty on 12/11/13.
 //
-//
 
 #import "NoteCameraViewController.h"
 #import "UIImage+Scale.h"
@@ -84,7 +83,11 @@
         }
         
         NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
-        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
+        
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"];
+        
+        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_image.jpg", [outputFormatter stringFromDate:[NSDate date]]]]];
         [imageData writeToURL:imageURL atomically:YES];
         
         // If image not selected from camera roll, save image with metadata to camera roll
@@ -124,7 +127,7 @@
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
 {
     [aPicker dismissViewControllerAnimated:NO completion:nil];
-    [delegate cameraViewControllerCancelled];
+    [delegate cameraViewControllerCancelled]; 
 }
 
 @end

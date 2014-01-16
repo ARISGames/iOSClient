@@ -350,6 +350,14 @@
 		AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */; };
 		AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116517B971ED00262A37 /* ARISCollapseView.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
+		AAF9231E1885968B0026A4FC /* NoteRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF9231C1885968B0026A4FC /* NoteRecorderViewController.m */; };
+		AAF923241885D7580026A4FC /* AudioVisualizerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF923231885D7580026A4FC /* AudioVisualizerViewController.m */; };
+		AAF92338188715C20026A4FC /* AudioSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF9232C188715C20026A4FC /* AudioSlider.m */; };
+		AAF92339188715C20026A4FC /* AudioTint.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF9232E188715C20026A4FC /* AudioTint.m */; };
+		AAF9233A188715C20026A4FC /* FreqHistogramControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92330188715C20026A4FC /* FreqHistogramControl.m */; };
+		AAF9233B188715C20026A4FC /* Playhead.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92332188715C20026A4FC /* Playhead.m */; };
+		AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92334188715C20026A4FC /* WaveformControl.m */; };
+		AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92336188715C20026A4FC /* WaveSampleProvider.m */; };
 		AAFA93DD17F9F143000E4319 /* ARISViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFA93DC17F9F143000E4319 /* ARISViewController.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */; };
@@ -929,6 +937,22 @@
 		AAF7116417B971ED00262A37 /* ARISCollapseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISCollapseView.h; sourceTree = "<group>"; };
 		AAF7116517B971ED00262A37 /* ARISCollapseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISCollapseView.m; sourceTree = "<group>"; };
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
+		AAF9231C1885968B0026A4FC /* NoteRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteRecorderViewController.m; sourceTree = "<group>"; };
+		AAF9231D1885968B0026A4FC /* NoteRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRecorderViewController.h; sourceTree = "<group>"; };
+		AAF923221885D7580026A4FC /* AudioVisualizerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerViewController.h; sourceTree = "<group>"; };
+		AAF923231885D7580026A4FC /* AudioVisualizerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerViewController.m; sourceTree = "<group>"; };
+		AAF9232B188715C20026A4FC /* AudioSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSlider.h; sourceTree = "<group>"; };
+		AAF9232C188715C20026A4FC /* AudioSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSlider.m; sourceTree = "<group>"; };
+		AAF9232D188715C20026A4FC /* AudioTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTint.h; sourceTree = "<group>"; };
+		AAF9232E188715C20026A4FC /* AudioTint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTint.m; sourceTree = "<group>"; };
+		AAF9232F188715C20026A4FC /* FreqHistogramControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreqHistogramControl.h; sourceTree = "<group>"; };
+		AAF92330188715C20026A4FC /* FreqHistogramControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramControl.m; sourceTree = "<group>"; };
+		AAF92331188715C20026A4FC /* Playhead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playhead.h; sourceTree = "<group>"; };
+		AAF92332188715C20026A4FC /* Playhead.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Playhead.m; sourceTree = "<group>"; };
+		AAF92333188715C20026A4FC /* WaveformControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformControl.h; sourceTree = "<group>"; };
+		AAF92334188715C20026A4FC /* WaveformControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformControl.m; sourceTree = "<group>"; };
+		AAF92335188715C20026A4FC /* WaveSampleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProvider.h; sourceTree = "<group>"; };
+		AAF92336188715C20026A4FC /* WaveSampleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveSampleProvider.m; sourceTree = "<group>"; };
 		AAFA93DB17F9F143000E4319 /* ARISViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISViewController.h; sourceTree = "<group>"; };
 		AAFA93DC17F9F143000E4319 /* ARISViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISViewController.m; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1793,6 +1817,11 @@
 				AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */,
 				AA8C360C1858C827000A8F0B /* NoteCameraViewController.h */,
 				AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */,
+				AAF9231D1885968B0026A4FC /* NoteRecorderViewController.h */,
+				AAF9231C1885968B0026A4FC /* NoteRecorderViewController.m */,
+				AAF923221885D7580026A4FC /* AudioVisualizerViewController.h */,
+				AAF923231885D7580026A4FC /* AudioVisualizerViewController.m */,
+				AAF92328188715AB0026A4FC /* AudioVisHelpers */,
 				AA383B0F18283B9F00612FFB /* NoteCell.h */,
 				AA383B1018283B9F00612FFB /* NoteCell.m */,
 			);
@@ -2056,6 +2085,25 @@
 				AAF81FA2174BC73C0003D848 /* ZXingTests.octest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AAF92328188715AB0026A4FC /* AudioVisHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				AAF9232B188715C20026A4FC /* AudioSlider.h */,
+				AAF9232C188715C20026A4FC /* AudioSlider.m */,
+				AAF9232D188715C20026A4FC /* AudioTint.h */,
+				AAF9232E188715C20026A4FC /* AudioTint.m */,
+				AAF9232F188715C20026A4FC /* FreqHistogramControl.h */,
+				AAF92330188715C20026A4FC /* FreqHistogramControl.m */,
+				AAF92331188715C20026A4FC /* Playhead.h */,
+				AAF92332188715C20026A4FC /* Playhead.m */,
+				AAF92333188715C20026A4FC /* WaveformControl.h */,
+				AAF92334188715C20026A4FC /* WaveformControl.m */,
+				AAF92335188715C20026A4FC /* WaveSampleProvider.h */,
+				AAF92336188715C20026A4FC /* WaveSampleProvider.m */,
+			);
+			name = AudioVisHelpers;
 			sourceTree = "<group>";
 		};
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
@@ -2399,6 +2447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */,
+				AAF923241885D7580026A4FC /* AudioVisualizerViewController.m in Sources */,
 				AABC7375172739D80074CC21 /* AccountSettingsViewController.m in Sources */,
 				AABC7378172739D80074CC21 /* ForgotPasswordViewController.m in Sources */,
 				AABC737A172739D80074CC21 /* PlayerSettingsViewController.m in Sources */,
@@ -2413,6 +2462,7 @@
 				AABC7385172739D80074CC21 /* Npc.m in Sources */,
 				AABC7386172739D80074CC21 /* Overlay.m in Sources */,
 				AABC7387172739D80074CC21 /* Panoramic.m in Sources */,
+				AAF9233A188715C20026A4FC /* FreqHistogramControl.m in Sources */,
 				AABC7389172739D80074CC21 /* Player.m in Sources */,
 				AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */,
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
@@ -2435,6 +2485,7 @@
 				AABC73A2172739D80074CC21 /* GamePickerRecentViewController.m in Sources */,
 				AABC73A4172739D80074CC21 /* GamePickerSearchViewController.m in Sources */,
 				AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */,
+				AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */,
 				AABC73AA172739D80074CC21 /* LoginViewController.mm in Sources */,
 				AABC73AC172739D80074CC21 /* SelfRegistrationViewController.m in Sources */,
 				AABC73AD172739D80074CC21 /* main.mm in Sources */,
@@ -2479,6 +2530,7 @@
 				AA33A72A1860C0CE00D48789 /* Media.m in Sources */,
 				AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */,
 				AA3B7FC1182037CB006C9715 /* SBJsonStreamWriter.m in Sources */,
+				AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */,
 				AABC742C172739D80074CC21 /* glues_mipmap.c in Sources */,
 				AABC742D172739D80074CC21 /* glues_project.c in Sources */,
 				AABC742E172739D80074CC21 /* glues_quad.c in Sources */,
@@ -2487,6 +2539,7 @@
 				AABC7431172739D80074CC21 /* dict.c in Sources */,
 				AA9A6D98182D7ECA000CC323 /* NoteTagEditorViewController.m in Sources */,
 				AABC7432172739D80074CC21 /* geom.c in Sources */,
+				AAF92338188715C20026A4FC /* AudioSlider.m in Sources */,
 				AABC7433172739D80074CC21 /* memalloc.c in Sources */,
 				AABC7434172739D80074CC21 /* mesh.c in Sources */,
 				AABC7435172739D80074CC21 /* normal.c in Sources */,
@@ -2511,6 +2564,7 @@
 				AABC7444172739D80074CC21 /* PLMath.m in Sources */,
 				AABC7445172739D80074CC21 /* PLObject.m in Sources */,
 				AABC7446172739D80074CC21 /* PLRenderer.m in Sources */,
+				AAF92339188715C20026A4FC /* AudioTint.m in Sources */,
 				AABC7447172739D80074CC21 /* PLResources.m in Sources */,
 				AABC7448172739D80074CC21 /* PLScene.m in Sources */,
 				AABC7449172739D80074CC21 /* PLSceneElement.m in Sources */,
@@ -2527,6 +2581,7 @@
 				AABC74DE172739D80074CC21 /* UIImage+Alpha.m in Sources */,
 				AABC74DF172739D80074CC21 /* UIImage+fixOrientation.m in Sources */,
 				AABC74E0172739D80074CC21 /* UIImage+Resize.m in Sources */,
+				AAF9231E1885968B0026A4FC /* NoteRecorderViewController.m in Sources */,
 				AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */,
 				AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */,
 				AABC75001728600B0074CC21 /* MapViewController.m in Sources */,
@@ -2556,6 +2611,7 @@
 				AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */,
 				AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */,
 				AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */,
+				AAF9233B188715C20026A4FC /* Playhead.m in Sources */,
 				AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */,
 				AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */,
 			);

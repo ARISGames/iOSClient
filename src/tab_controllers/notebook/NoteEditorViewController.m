@@ -10,6 +10,7 @@
 #import "NoteContentsViewController.h"
 #import "NoteTagEditorViewController.h"
 #import "NoteCameraViewController.h"
+#import "NoteRecorderViewController.h"
 #import "Note.h"
 #import "Tag.h"
 #import "AppModel.h"
@@ -18,25 +19,7 @@
 #import "Player.h"
 #import "ARISTemplate.h"
 
-@interface DataToUpload : NSObject
-{
-    NSURL *url;
-};
-@property (nonatomic, strong) NSURL *url;
-@end
-@implementation DataToUpload
-@synthesize url;
-- (id) initWithUrl:(NSURL *)u
-{
-    if(self = [super init])
-    {
-        self.url = u; 
-    }
-    return self;
-}
-@end
-
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate>
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate>
 {
     Note *note;
     
@@ -52,7 +35,7 @@
     UIButton *audioPickerButton;  
     UIButton *saveButton;
     
-    NSMutableArray *datasToUpload;
+    NSMutableArray *mediaToUpload;
     
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -73,7 +56,7 @@
         note = n; 
         delegate = d;
         
-        datasToUpload = [[NSMutableArray alloc] initWithCapacity:5];
+        mediaToUpload = [[NSMutableArray alloc] initWithCapacity:5];
     }
     return self;
 }
@@ -216,6 +199,7 @@
 
 - (void) audioPickerButtonTouched
 {
+    [self.navigationController pushViewController:[[NoteRecorderViewController alloc] initWithDelegate:self] animated:YES]; 
 }
 
 - (void) saveButtonTouched
@@ -224,39 +208,51 @@
     n.name = title.text;
     n.desc = description.text;
     
-    n.contents = [[NSMutableArray alloc] initWithCapacity:[datasToUpload count]];
+    n.contents = [[NSMutableArray alloc] initWithCapacity:[mediaToUpload count]];
     
-    for(int i = 0; i < [datasToUpload count]; i++)
-    {
-        Media *m = [[AppModel sharedAppModel].mediaModel newMedia];
-        m.localURL = ((DataToUpload *)[datasToUpload objectAtIndex:i]).url;
-        m.data = [NSData dataWithContentsOfFile:[m.localURL absoluteString]];
-    } 
+    for(int i = 0; i < [mediaToUpload count]; i++)
+        [n.contents addObject:[mediaToUpload objectAtIndex:i]];
     
     [[AppServices sharedAppServices] uploadNote:n];
 }
 
 - (void) imageChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithUrl:url]]; 
+    [self addMediaToUploadFromURL:url];  
     [self.navigationController popToViewController:self animated:YES];  
 }
 
 - (void) videoChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithUrl:url]];
+    [self addMediaToUploadFromURL:url]; 
     [self.navigationController popToViewController:self animated:YES]; 
 }
 
 - (void) audioChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithUrl:url]];
+    [self addMediaToUploadFromURL:url];
     [self.navigationController popToViewController:self animated:YES];  
+}
+
+- (void) addMediaToUploadFromURL:(NSURL *)url
+{
+    Media *m = [[AppModel sharedAppModel].mediaModel newMedia];
+    m.localURL = url;
+    m.data = [NSData dataWithContentsOfURL:m.localURL]; 
+    [mediaToUpload addObject:m];   
+    
+    [contentsViewController setContents:[mediaToUpload arrayByAddingObjectsFromArray:note.contents]];  
 }
 
 - (void) cameraViewControllerCancelled
 {
-    [self.navigationController popToViewController:self animated:YES];
+    [self.navigationController popToViewController:self animated:YES];   
 }
+
+- (void) recorderViewControllerCancelled
+{
+    [self.navigationController popToViewController:self animated:YES];   
+}
+
 
 @end
