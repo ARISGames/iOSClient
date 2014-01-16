@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Justin Moeller. All rights reserved.
 //
 
-/*
 #import "AudioVisualizerViewController.h"
 
 #import "WaveSampleProvider.h"
@@ -47,6 +46,11 @@
     UILabel *timeLabel;
     UIBarButtonItem *timeButton;
     Float64 duration;
+    CGPoint *sampleData;
+    float playProgress;
+    float endTime; 
+    int sampleLength; 
+    int lengthInSeconds;  
 
     UILabel *freqLabel;
     UIBarButtonItem *freqButton;
@@ -297,9 +301,11 @@
     [freqControl setNeedsDisplay];
 }
 
-- (CGPoint *) getSampleData
-{
-}
+- (CGPoint *) getSampleData            { return sampleData; }
+- (int) getSampleLength                { return sampleLength; }
+- (float) getPlayProgress              { return playProgress; }
+- (float) getEndTime                   { return endTime; }
+- (void) setAudioLength:(float)seconds { lengthInSeconds = seconds; }
 
 - (void) statusUpdated:(WaveSampleProvider *)provider
 {
@@ -319,11 +325,6 @@
         timeLabel.text = [NSString stringWithFormat:@"--:--/%02d:%02d",dmin,dsec]; 
 		[self start];
 	}
-}
-
-- (void) setAudioLength:(float)seconds
-{
-    lengthInSeconds = seconds;
 }
 
 - (void) playheadControl:(Playhead *)playhead wasTouched:(NSSet *)touches
@@ -391,11 +392,11 @@
     float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
     float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
     
-    NSURL *audioFileOutput = [NSURL fileURLWithPath:[intermediatePathString stringByAppendingString:@"trimmed.m4a"]];
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"]; 
+    NSURL *tmpOutFile = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_audio_trimmed.m4a", [outputFormatter stringFromDate:[NSDate date]]]]];      
     
-    if(!audioFileInput || !audioFileOutput) return NO;
-    
-    [[NSFileManager defaultManager] removeItemAtURL:audioFileOutput error:NULL];
+    [[NSFileManager defaultManager] removeItemAtURL:tmpOutFile error:NULL];
     AVAsset *asset = [AVAsset assetWithURL:audioURL];
     
     AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset
@@ -413,15 +414,14 @@
     CMTime stopTime = CMTimeMake(vocalEndMarker , 1);
     CMTimeRange exportTimeRange = CMTimeRangeFromTimeToTime(startTime, stopTime);
     
-    exportSession.outputURL = audioFileOutput;
+    exportSession.outputURL = tmpOutFile;
     exportSession.outputFileType = AVFileTypeAppleM4A;
     exportSession.timeRange = exportTimeRange;
     
     [exportSession exportAsynchronouslyWithCompletionHandler:^
      {
-         if (AVAssetExportSessionStatusCompleted == exportSession.status)
+         if(AVAssetExportSessionStatusCompleted == exportSession.status)
          {
-             // It worked!
              [[NSFileManager defaultManager] removeItemAtURL:audioURL error: nil];
              
              [[NSNotificationCenter defaultCenter]
@@ -430,9 +430,6 @@
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
-             // Failed :'[
-             NSLog(@"Save didn't work right :'[");
-             
              UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"SaveErrorTitleKey", nil)
                                                                         message:NSLocalizedString(@"SaveErrorKey", nil)
                                                                        delegate:self
@@ -527,14 +524,13 @@
     UInt32 loadedPackets = 1024;
     
     err = ExtAudioFileRead(extAFRef, &loadedPackets, &bufList);
-    if(err != noErr) {
+    if(err != noErr)
+    {
 		NSLog(@"Error in reading the file");
 		return;
 	}
-    
     freqControl.fourierData = [self computeFFTForData:returnData forSampleSize:1024];
     [freqControl setNeedsDisplay];
-    
 }
 
 - (float *) computeFFTForData:(float *)data forSampleSize:(int)bufferFrames
@@ -590,4 +586,3 @@
 }
 
 @end
-*/

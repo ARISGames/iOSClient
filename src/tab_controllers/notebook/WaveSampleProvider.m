@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 DroidZONE. All rights reserved.
 //
 
-/*
 #import "WaveSampleProvider.h"
 #import <Accelerate/Accelerate.h>
 
@@ -305,4 +304,3 @@
 }
 
 @end
- */ 

@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Justin Moeller. All rights reserved.
 //
 
-/*
 #import "WaveformControl.h"
 #import "UIColor+ARISColors.h"
 
@@ -88,13 +87,14 @@
     [self drawSquareRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
 	
 	
-	if([self.delegate getSampleLength] > 0) {
+	if([delegate getSampleLength] > 0)
+    {
 		CGMutablePathRef halfPath = CGPathCreateMutable();
-		CGPathAddLines( halfPath, NULL,[self.delegate getSampleData], [self.delegate getSampleLength]); // magic!
+		CGPathAddLines( halfPath, NULL,[delegate getSampleData], [delegate getSampleLength]); // magic!
 		
 		CGMutablePathRef path = CGPathCreateMutable();
 		
-		double xscale = (CGRectGetWidth(waveRect)) / (float)[self.delegate getSampleLength];
+		double xscale = (CGRectGetWidth(waveRect)) / (float)[delegate getSampleLength];
 		// Transform to fit the waveform ([0,1] range) into the vertical space
 		// ([halfHeight,height] range)
 		double halfHeight = floor( CGRectGetHeight(waveRect) / 2.0 );//waveRect.size.height / 2.0;
@@ -137,4 +137,3 @@
 }
 
 @end
- */
