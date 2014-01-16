@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Justin Moeller. All rights reserved.
 //
 
+/*
 #import "WaveformControl.h"
 #import "UIColor+ARISColors.h"
 
@@ -136,3 +137,4 @@
 }
 
 @end
+ */

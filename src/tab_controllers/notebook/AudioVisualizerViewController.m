@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Justin Moeller. All rights reserved.
 //
 
+/*
 #import "AudioVisualizerViewController.h"
 
 #import "WaveSampleProvider.h"
@@ -589,3 +590,4 @@
 }
 
 @end
+*/
