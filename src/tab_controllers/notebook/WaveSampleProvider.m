@@ -24,10 +24,10 @@
     {
         delegate = d;
 		extAFNumChannels = 2;
-		[self status:LOADING message:@"Processing"];
 		binSize = 50;
 		audioURL = u;
 		title = [[u lastPathComponent] copy];
+        [self status:LOADING message:@"Processing"]; 
 	}
 	return self;
 }
@@ -40,7 +40,6 @@
 - (void) status:(WaveSampleStatus)theStatus message:(NSString *)desc;
 {
 	status = theStatus;
-	//[statusMessage release];
 	statusMessage = [desc copy];
 	[self performSelectorOnMainThread:@selector(informDelegateOfStatusChange) withObject:nil waitUntilDone:NO];
 }
@@ -69,14 +68,14 @@
 	[self performSelectorOnMainThread:@selector(informDelegateOfFinish) withObject:nil waitUntilDone:NO];
 }
 
-//this function does the actual processing of the audio file
 - (void) processSample
 {
 	extAFReachedEOF = NO;
 	OSStatus err;
 	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
 	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
-	if(err != noErr) {
+	if(err != noErr)
+    {
 		[self status:ERROR message:@"Cannot open audio file"];
 		return;
 	}
@@ -86,26 +85,23 @@
 	UInt32 size = 0;
 	UInt32 writable;
 	OSStatus error = AudioFileGetPropertyInfo(afid, kAudioFilePropertyInfoDictionary, &size, &writable);
-	if ( error == noErr ) {
+	if(error == noErr)
+    {
 		CFDictionaryRef info = NULL;
 		error = AudioFileGetProperty(afid, kAudioFilePropertyInfoDictionary, &size, &info);
-		if ( error == noErr ) {
+		if(error == noErr)
+        {
 			NSLog(@"file properties: %@", (__bridge NSDictionary *)info);
 			NSDictionary *dict = (__bridge NSDictionary *)info;
 			NSString *idTitle = [dict valueForKey:@"title"];
 			NSString *idArtist = [dict valueForKey:@"artist"];
-			if(idTitle != nil && idArtist != nil) {
-				//[title release];
+			if(idTitle && idArtist)
 				title = [NSString stringWithFormat:@"%@ - %@",idArtist, idTitle];
-			} else if(idTitle != nil) {
-				//[title release];
+			else if(idTitle)
 				title = [idTitle copy];
-				
-			}
 		}
-	} else {
-		NSLog(@"Error reading tags");
 	}
+    else NSLog(@"Error reading tags");
 	AudioFileClose(afid);
 	
 	AudioStreamBasicDescription fileFormat;
@@ -114,7 +110,8 @@
     memset(&fileFormat, 0, sizeof(AudioStreamBasicDescription));
 	
     err = ExtAudioFileGetProperty(extAFRef, kExtAudioFileProperty_FileDataFormat, &propSize, &fileFormat);
-	if(err != noErr) {
+	if(err != noErr)
+    {
 		[self status:ERROR message:@"Cannot get audio file properties"];
 		return;
 	}
@@ -137,7 +134,8 @@
 //    clientFormat.mReserved           = 0;
 	
     err = ExtAudioFileSetProperty(extAFRef, kExtAudioFileProperty_ClientDataFormat, propSize, &clientFormat);
-	if(err != noErr) {
+	if(err != noErr)
+    {
 		[self status:ERROR message:@"Cannot convert audio file to PCM format"];
 		return;
 	}

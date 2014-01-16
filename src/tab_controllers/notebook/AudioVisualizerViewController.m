@@ -24,13 +24,14 @@
 {
     UIToolbar *toolbar;
     
-    UIButton *withoutBorderButtonPlay;
-    UIButton *withoutBorderButtonStop;
-    UIButton *withoutBorderButtonSwap;
+    UIButton *playButton;
+    UIButton *pauseButton; 
+    UIButton *stopButton;
+    UIButton *swapButton;
     
-    UIBarButtonItem *playButton;
-    UIBarButtonItem *stopButton;
-    UIBarButtonItem *swapButton;
+    UIBarButtonItem *playPauseBarButton;
+    UIBarButtonItem *stopBarButton;
+    UIBarButtonItem *swapBarButton;
     
     AudioSlider *leftSlider;
     AudioSlider *rightSlider;
@@ -57,7 +58,6 @@
 	WaveSampleProvider *wsp;
 	AVPlayer *player;
 	NSString *infoString;
-	NSString *timeString;
     
     id<AudioVisualizerViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -130,23 +130,29 @@
     
     toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, wfControl.bounds.size.height, ms.width, 44)];
     
-    withoutBorderButtonPlay = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButtonPlay setImage:[UIImage imageNamed:@"30-circle-play"] forState:UIControlStateNormal];
-    [withoutBorderButtonPlay addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
-    playButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButtonPlay];
     
-    withoutBorderButtonStop = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButtonStop setImage:[UIImage imageNamed:@"35-circle-stop"] forState:UIControlStateNormal];
-    [withoutBorderButtonStop addTarget:self action:@selector(stop) forControlEvents:UIControlEventTouchUpInside];
-    stopButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButtonStop];
+    playButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)]; 
+    pauseButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)]; 
+    stopButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)]; 
+    swapButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     
-    withoutBorderButtonSwap = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButtonSwap setImage:[UIImage imageNamed:@"05-shuffle"] forState:UIControlStateNormal];
-    [withoutBorderButtonSwap addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
-    swapButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButtonSwap];
+    [playButton  setImage:[UIImage imageNamed:@"30-circle-play"]  forState:UIControlStateNormal]; 
+    [pauseButton setImage:[UIImage imageNamed:@"29-circle-pause"] forState:UIControlStateNormal]; 
+    [stopButton  setImage:[UIImage imageNamed:@"35-circle-stop"]  forState:UIControlStateNormal]; 
+    [swapButton  setImage:[UIImage imageNamed:@"05-shuffle"]      forState:UIControlStateNormal];
+    
+    [playButton  addTarget:self action:@selector(play)     forControlEvents:UIControlEventTouchUpInside];
+    [pauseButton addTarget:self action:@selector(pause)    forControlEvents:UIControlEventTouchUpInside];
+    [stopButton  addTarget:self action:@selector(stop)     forControlEvents:UIControlEventTouchUpInside]; 
+    [swapButton  addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
+    
+    playPauseBarButton = [[UIBarButtonItem alloc] initWithCustomView:playButton];  
+    stopBarButton      = [[UIBarButtonItem alloc] initWithCustomView:stopButton]; 
+    swapBarButton      = [[UIBarButtonItem alloc] initWithCustomView:swapButton];
     
     timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 125, 25)];
-    [timeLabel setText:timeString];
+    [timeLabel setText:@""];
+    [timeLabel setTextColor:[UIColor blackColor]]; 
     [timeLabel setBackgroundColor:[UIColor clearColor]];
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
@@ -161,7 +167,7 @@
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = (ss.height - 352)/4;
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, stopButton, fixedSpace, timeButton, fixedSpace, freqButton, fixedSpace, swapButton, nil];
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playPauseBarButton, stopBarButton, fixedSpace, timeButton, fixedSpace, freqButton, fixedSpace, swapBarButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
     
@@ -184,62 +190,20 @@
     {
         if([c isEqual:leftSlider])
         {
-            if(rightSlider.center.x - point.x > SLIDER_BUFFER)
-                c.center = CGPointMake(point.x, c.center.y);
-            else
-                c.center = CGPointMake(rightSlider.center.x - SLIDER_BUFFER, c.center.y);
-            if(player.rate == 0.0)
-                [self setPlayHeadToLeftSlider];
+            if(rightSlider.center.x - point.x > SLIDER_BUFFER) c.center = CGPointMake(point.x, c.center.y);
+            else                                               c.center = CGPointMake(rightSlider.center.x - SLIDER_BUFFER, c.center.y);
+            
+            [self setPlayHeadToLeftSlider];
             leftTint.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, leftSlider.center.x, self.view.bounds.size.height);
-            [leftTint setNeedsDisplay];
         }
         else
         {
-            if(leftSlider.center.x - point.x < -SLIDER_BUFFER)
-                c.center = CGPointMake(point.x, c.center.y);
-            else
-                c.center = CGPointMake(leftSlider.center.x + SLIDER_BUFFER, c.center.y);
+            if(leftSlider.center.x - point.x < -SLIDER_BUFFER) c.center = CGPointMake(point.x, c.center.y);
+            else                                               c.center = CGPointMake(leftSlider.center.x + SLIDER_BUFFER, c.center.y);
+            
+            [self setPlayHeadToLeftSlider]; 
             rightTint.frame = CGRectMake(rightSlider.center.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
-            [rightTint setNeedsDisplay];
-
-            CGFloat x = rightSlider.center.x - self.view.bounds.origin.x;
-            float sel = x / self.view.bounds.size.width;
-            endTime = sel;
-            if(endTime <= playProgress)
-                [self setPlayHeadToLeftSlider];
         }
-    }
-}
-
-- (void) play
-{
-    if(player.rate == 0.0)
-    {
-        [withoutBorderButtonPlay setImage:[UIImage imageNamed:@"29-circle-pause"] forState:UIControlStateNormal];
-        [withoutBorderButtonPlay addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
-        playButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButtonPlay];
-    }
-    else
-    {
-        [withoutBorderButtonPlay setImage:[UIImage imageNamed:@"30-circle-play"] forState:UIControlStateNormal];
-        [withoutBorderButtonPlay addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
-        playButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButtonPlay];
-    }
-    [self pause];
-    [self updateTimeString];
-}
-
-- (void) stop
-{
-    if(player.rate != 0.0)
-    {
-        [self pause];
-        [withoutBorderButtonPlay setImage:[UIImage imageNamed:@"30-circle-play"] forState:UIControlStateNormal];
-        [withoutBorderButtonPlay addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
-        playButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButtonPlay];
-        [player removeTimeObserver:timeObserver];
-        [self addTimeObserver];
-        [self setPlayHeadToLeftSlider];
     }
 }
 
@@ -261,61 +225,55 @@
     int dsec = duration - (dmin * 60);
     int cmin = currentTime / 60;
     int csec = currentTime - (cmin * 60);
-    [self setTimeString:[NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec]];
+    timeLabel.text = [NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec];
     playProgress = currentTime/duration;
-}
-
-- (void) setTimeString:(NSString *)newTime
-{
-	timeString = newTime;
-    [timeLabel setText:timeString];
-    [timeLabel setBackgroundColor:[UIColor clearColor]];
-    [timeLabel setTextColor:[UIColor blackColor]];
-    [timeLabel setTextAlignment:NSTextAlignmentCenter];
-    timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
-}
-
-- (void) pause
-{
-	if(player == nil)
-    {
-		[self start];
-		[player play];
-	}
-    else if(player.rate == 0.0) [player play];
-    else [player pause];
 }
 
 - (void) start
 {
-	if(wsp.status == LOADED)
-    {
-		player = [[AVPlayer alloc] initWithURL:wsp.audioURL];
-		[self addTimeObserver];
-	}
+	if(wsp.status != LOADED) return;
+    
+    player = [[AVPlayer alloc] initWithURL:wsp.audioURL];
+    [self addTimeObserver];
 }
 
--(void)addTimeObserver{
+- (void) play
+{
+    [player play]; 
+    [playPauseBarButton setCustomView:pauseButton];
+    [self updateTimeString];
+}
+
+- (void) pause
+{
+    [player pause];
+    [playPauseBarButton setCustomView:playButton]; 
+}
+
+- (void) stop
+{
+    [self pause];
+    [player removeTimeObserver:timeObserver];
+    [self addTimeObserver];
+    [self setPlayHeadToLeftSlider];
+}
+
+- (void) addTimeObserver
+{
     CMTime tm = CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC);
     __weak id weakSelf = self;
     __weak id weakPlayHead = playHead;
     __weak id weakWf = wfControl;
-    timeObserver = [player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    timeObserver = [player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time)
+    {
         [weakSelf updateTimeString];
-        if(![weakPlayHead isHidden]){
-            [weakPlayHead setNeedsDisplay];
-        }
-        if([weakWf isHidden]){
-            [weakSelf loadAudio];
-        }
-        if([weakSelf getPlayProgress] >= [weakSelf getEndTime]){
-            [weakSelf clipOver];
-        }
+        if(![weakPlayHead isHidden])                            [weakPlayHead setNeedsDisplay];
+        if([weakWf isHidden])                                   [weakSelf     loadAudio];
+        if([weakSelf getPlayProgress] >= [weakSelf getEndTime]) [weakSelf     clipOver];
     }];
 }
 
-
-- (void) setSampleData:(float *)theSampleData length:(int)length
+- (void) setSampleData:(float *)sd length:(int)length
 {
 	sampleLength = 0;
 	
@@ -323,22 +281,23 @@
 	CGPoint *tempData = (CGPoint *)calloc(sizeof(CGPoint),length);
 	tempData[0] = CGPointMake(0.0,0.0);
 	tempData[length-1] = CGPointMake(length-1,0.0);
-	for(int i = 1; i < length-1;i++) {
-		tempData[i] = CGPointMake(i, theSampleData[i]);
-	}
+	for(int i = 1; i < length-1;i++)
+		tempData[i] = CGPointMake(i, sd[i]);
 	
 	CGPoint *oldData = sampleData;
 	
 	sampleData = tempData;
 	sampleLength = length;
 	
-	if(oldData != nil) {
-		free(oldData);
-	}
-	
-	free(theSampleData);
+	if(oldData != nil) free(oldData);
+	free(sd);
+    
 	[wfControl setNeedsDisplay];
     [freqControl setNeedsDisplay];
+}
+
+- (CGPoint *) getSampleData
+{
 }
 
 - (void) statusUpdated:(WaveSampleProvider *)provider
@@ -351,19 +310,19 @@
 	if(wsp.status == LOADED)
     {
 		int sdl = 0;
-		//		float *sd = [wsp dataForResolution:[self waveRect].size.width lenght:&sdl];
+		//float *sd = [wsp dataForResolution:[self waveRect].size.width lenght:&sdl];
 		float *sd = [wsp dataForResolution:8000 lenght:&sdl];
 		[self setSampleData:sd length:sdl];
 		int dmin = wsp.minute;
 		int dsec = wsp.sec;
-		[self setTimeString:[NSString stringWithFormat:@"--:--/%02d:%02d",dmin,dsec]];
+        timeLabel.text = [NSString stringWithFormat:@"--:--/%02d:%02d",dmin,dsec]; 
 		[self start];
 	}
 }
 
 - (void) setAudioLength:(float)seconds
 {
-    self.lengthInSeconds = seconds;
+    lengthInSeconds = seconds;
 }
 
 - (void) playheadControl:(Playhead *)playhead wasTouched:(NSSet *)touches
@@ -384,9 +343,7 @@
 - (void) clipOver
 {
     [self pause];
-    [withoutBorderButtonPlay setImage:[UIImage imageNamed:@"30-circle-play"] forState:UIControlStateNormal];
-    [withoutBorderButtonPlay addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
-    playButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButtonPlay];
+    [playPauseBarButton setCustomView:playButton];
     [player removeTimeObserver:timeObserver];
     [self addTimeObserver];
     [self setPlayHeadToLeftSlider];
@@ -411,8 +368,6 @@
     freqButton = [[UIBarButtonItem alloc] initWithCustomView:freqLabel];
 }
 
-#pragma mark Saving Data
-
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 1) [self saveAudio];
@@ -435,13 +390,12 @@
     float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
     float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
     
-    NSURL *audioFileInput = audioURL;
     NSURL *audioFileOutput = [NSURL fileURLWithPath:[intermediatePathString stringByAppendingString:@"trimmed.m4a"]];
     
     if(!audioFileInput || !audioFileOutput) return NO;
     
     [[NSFileManager defaultManager] removeItemAtURL:audioFileOutput error:NULL];
-    AVAsset *asset = [AVAsset assetWithURL:audioFileInput];
+    AVAsset *asset = [AVAsset assetWithURL:audioURL];
     
     AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset
                                                                         presetName:AVAssetExportPresetAppleM4A];
@@ -467,7 +421,7 @@
          if (AVAssetExportSessionStatusCompleted == exportSession.status)
          {
              // It worked!
-             [[NSFileManager defaultManager] removeItemAtURL:audioFileInput error: nil];
+             [[NSFileManager defaultManager] removeItemAtURL:audioURL error: nil];
              
              [[NSNotificationCenter defaultCenter]
               postNotificationName:@"AudioWasTrimmedNotification"
@@ -532,9 +486,7 @@
     memset(&fileFormat, 0, sizeof(AudioStreamBasicDescription));
     
     err = ExtAudioFileGetProperty(extAFRef, kExtAudioFileProperty_FileDataFormat, &propSize, &fileFormat);
-	if(err != noErr) {
-		NSLog(@"Cannot get audio file properties");
-	}
+	if(err != noErr) NSLog(@"Cannot get audio file properties");
     
     float startingSample = (sampleRate * playProgress * lengthInSeconds);
     

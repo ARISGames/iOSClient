@@ -14,7 +14,7 @@
 @protocol WaveSampleProviderDelegate <NSObject>
 - (void) sampleProcessed:(WaveSampleProvider *)provider;
 - (void) statusUpdated:(WaveSampleProvider *)provider;
-- (void)setAudioLength:(float)seconds;
+- (void) setAudioLength:(float)seconds;
 @end
 
 typedef enum {
