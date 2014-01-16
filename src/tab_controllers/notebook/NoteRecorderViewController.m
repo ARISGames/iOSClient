@@ -244,8 +244,9 @@
     [delegate audioChosenWithURL:audioFileURL];
 }
 
-- (void) fileWasTrimmed
+- (void) fileWasTrimmed:(NSURL *)u
 {
+    audioFileURL = u;
     [self.navigationController popToViewController:self animated:YES];
 }
 

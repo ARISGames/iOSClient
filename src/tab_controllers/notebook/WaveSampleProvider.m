@@ -82,19 +82,7 @@
     {
 		CFDictionaryRef info = NULL;
 		error = AudioFileGetProperty(afid, kAudioFilePropertyInfoDictionary, &size, &info);
-		if(error == noErr)
-        {
-			NSLog(@"file properties: %@", (__bridge NSDictionary *)info);
-			NSDictionary *dict = (__bridge NSDictionary *)info;
-			NSString *idTitle = [dict valueForKey:@"title"];
-			NSString *idArtist = [dict valueForKey:@"artist"];
-			if(idTitle && idArtist)
-				title = [NSString stringWithFormat:@"%@ - %@",idArtist, idTitle];
-			else if(idTitle)
-				title = [idTitle copy];
-		}
 	}
-    else NSLog(@"Error reading tags");
 	AudioFileClose(afid);
 	
 	AudioStreamBasicDescription fileFormat;

@@ -111,6 +111,7 @@
 - (void) loadView
 {
     [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     CGSize ss = [UIScreen mainScreen].bounds.size;
     CGSize ms = self.view.bounds.size; 
@@ -176,7 +177,7 @@
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
     
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveAudioConfirmation)];
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveAudio)];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
 }
 
@@ -355,45 +356,22 @@
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
 }
 
-- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+- (void) saveAudio
 {
-    if(buttonIndex == 1) [self saveAudio];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void) saveAudioConfirmation
-{
-    [player pause];
-    UIAlertView *confirmationAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"SaveConfirmationKey", nil)
-                                                               message:nil
-                                                              delegate:self
-                                                     cancelButtonTitle:NSLocalizedString(@"DiscardChangesKey", nil)
-                                                     otherButtonTitles:NSLocalizedString(@"SaveKey", nil), nil];
-    [confirmationAlert show];
-}
-
-- (BOOL) saveAudio
-{
-    float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
-    float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
+    [player pause]; 
     
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"]; 
     NSURL *tmpOutFile = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_audio_trimmed.m4a", [outputFormatter stringFromDate:[NSDate date]]]]];      
     
-    [[NSFileManager defaultManager] removeItemAtURL:tmpOutFile error:NULL];
     AVAsset *asset = [AVAsset assetWithURL:audioURL];
     
-    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset
-                                                                        presetName:AVAssetExportPresetAppleM4A];
-    
-    if(exportSession == nil) return NO;
-    NSLog(@"Left: %f Right: %f",vocalStartMarker,vocalEndMarker);
+    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset presetName:AVAssetExportPresetAppleM4A];
     
     duration = CMTimeGetSeconds(player.currentItem.duration);
     
-    vocalStartMarker *= duration;
-    vocalEndMarker *= duration;
+    float vocalStartMarker  = (leftSlider.center.x  / self.view.frame.size.width) * duration;
+    float vocalEndMarker    = (rightSlider.center.x / self.view.frame.size.width) * duration; 
 
     CMTime startTime = CMTimeMake(vocalStartMarker , 1);
     CMTime stopTime = CMTimeMake(vocalEndMarker , 1);
@@ -408,10 +386,7 @@
          if(AVAssetExportSessionStatusCompleted == exportSession.status)
          {
              [[NSFileManager defaultManager] removeItemAtURL:audioURL error: nil];
-             
-             [[NSNotificationCenter defaultCenter]
-              postNotificationName:@"AudioWasTrimmedNotification"
-              object:self];
+             [delegate fileWasTrimmed:tmpOutFile];
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
@@ -423,8 +398,6 @@
              [errorAlert show];
          }
      }];
-    
-    return YES;
 }
 
 - (void) flipView

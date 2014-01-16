@@ -10,7 +10,7 @@
 #import "ARISViewController.h"
 
 @protocol AudioVisualizerViewControllerDelegate
-- (void) fileWasTrimmed;
+- (void) fileWasTrimmed:(NSURL *)u;
 @end
 
 @interface AudioVisualizerViewController : ARISViewController 
