@@ -41,7 +41,6 @@
 {
 	status = theStatus;
 	statusMessage = [desc copy];
-	[self performSelectorOnMainThread:@selector(informDelegateOfStatusChange) withObject:nil waitUntilDone:NO];
 }
 
 - (void) createSampleData
@@ -54,12 +53,6 @@
 {
 	if(delegate != nil && [delegate respondsToSelector:@selector(sampleProcessed:)]) 
         [delegate sampleProcessed:self];
-}
-
-- (void) informDelegateOfStatusChange
-{
-	if(delegate != nil && [delegate respondsToSelector:@selector(statusUpdated:)])
-        [delegate statusUpdated:self];
 }
 
 - (void) loadSample

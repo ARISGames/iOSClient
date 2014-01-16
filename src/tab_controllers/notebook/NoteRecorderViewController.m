@@ -9,9 +9,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
 #import "ARISTemplate.h"
-//#import "AudioVisualizerViewController.h"
+#import "AudioVisualizerViewController.h"
 
-@interface NoteRecorderViewController() <AVAudioSessionDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
+@interface NoteRecorderViewController() <AVAudioSessionDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioVisualizerViewControllerDelegate>
 {
     AVAudioSession *session;
 	AVAudioRecorder *recorder;
@@ -19,7 +19,6 @@
     
     NSURL *audioFileURL;
     BOOL hasFile;
-    BOOL isTrimmedFile;
     
     UIButton *recordButton;
     UIButton *finishButton;   
@@ -52,7 +51,6 @@
         session.delegate = self; 
         
         hasFile = NO; 
-        isTrimmedFile = NO;
         
     }
     return self;
@@ -236,8 +234,8 @@
 
 - (void) editAudio
 {
-    //AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithAudioURL:audioFileURL Delegate:self];
-    //[self.navigationController pushViewController:audioVC animated:YES];
+    AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithAudioURL:audioFileURL delegate:self];
+    [self.navigationController pushViewController:audioVC animated:YES];
 }
 
 - (void) saveAudio
@@ -248,7 +246,7 @@
 
 - (void) fileWasTrimmed
 {
-    isTrimmedFile = YES;
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (void) dealloc

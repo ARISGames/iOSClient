@@ -33,6 +33,11 @@
     UIBarButtonItem *stopBarButton;
     UIBarButtonItem *swapBarButton;
     
+    UILabel *timeLabel; 
+    UIBarButtonItem *timeBarButton; 
+    UILabel *freqLabel;   
+    UIBarButtonItem *freqBarButton; 
+    
     AudioSlider *leftSlider;
     AudioSlider *rightSlider;
     AudioTint *leftTint;
@@ -43,8 +48,6 @@
     Playhead *playHead;
     
     id timeObserver;
-    UILabel *timeLabel;
-    UIBarButtonItem *timeButton;
     Float64 duration;
     CGPoint *sampleData;
     float playProgress;
@@ -52,9 +55,6 @@
     int sampleLength; 
     int lengthInSeconds;  
 
-    UILabel *freqLabel;
-    UIBarButtonItem *freqButton;
-    
     int extAFNumChannels;
     NSURL *audioURL;
     Float64 sampleRate;
@@ -94,17 +94,18 @@
 {
     //this is a giant hack that causes the current view controller to re-evaluate the orientation its in.
     //change if a better way is found for forcing the orientation to initially be in landscape
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    UIView *view = [window.subviews objectAtIndex:0];
+    [view removeFromSuperview];
+    [window addSubview:view];
+    
+    /*
     UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
     ARISViewController *root = (ARISViewController *)window.rootViewController;
     window.rootViewController = nil;
     window.rootViewController = root;
     [ARISViewController attemptRotationToDeviceOrientation];
-      
-    CGRect frame = self.navigationController.navigationBar.frame;
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if(orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight)
-        frame.size.height = 32;
-    self.navigationController.navigationBar.frame = frame; 
+     */
 }
 
 - (void) loadView
@@ -114,27 +115,26 @@
     CGSize ss = [UIScreen mainScreen].bounds.size;
     CGSize ms = self.view.bounds.size; 
 
-    freqControl = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, ss.height, ms.height + 12) delegate:self];
-    wfControl   = [[WaveformControl      alloc] initWithFrame:CGRectMake(0, 0, ss.height, ms.height + 12) delegate:self]; 
-    playHead    = [[Playhead             alloc] initWithFrame:CGRectMake(0, 0, ss.height, ms.height + 12) delegate:self]; 
+    freqControl = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 64, ms.width, ms.height - 64) delegate:self];
+    wfControl   = [[WaveformControl      alloc] initWithFrame:CGRectMake(0, 64, ms.width, ms.height - 64) delegate:self]; 
+    playHead    = [[Playhead             alloc] initWithFrame:CGRectMake(0, 64, ms.width, ms.height - 64) delegate:self];  
     [self.view addSubview:freqControl];
     [self.view addSubview:wfControl];
     [self.view addSubview:playHead];
 
-    leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(         -17.5, 0, 35.0, ms.height + 12)];
-    rightSlider = [[AudioSlider alloc] initWithFrame:CGRectMake(ss.height-17.5, 0, 35.0, ms.height + 12)]; 
+    leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(        -17.5, 64, 35, ms.height - 64)];
+    rightSlider = [[AudioSlider alloc] initWithFrame:CGRectMake(ms.width-17.5, 64, 35, ms.height - 64)]; 
     [leftSlider  addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
     [self.view addSubview:leftSlider]; 
     [self.view addSubview:rightSlider];
     
-    leftTint  = [[AudioTint alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, 12, leftSlider.center.x, ms.height)];
-    rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(     rightSlider.center.x, 12,            ms.width, ms.height)];   
+    leftTint  = [[AudioTint alloc] initWithFrame:CGRectMake(                   0, 64, leftSlider.center.x, ms.height-64)];
+    rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, 64,            ms.width, ms.height-64)];   
     [self.view addSubview:leftTint];
     [self.view addSubview:rightTint]; 
     
-    toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, wfControl.bounds.size.height, ms.width, 44)];
-    
+    toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, ms.height-44, ms.width, 44)];
     
     playButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)]; 
     pauseButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)]; 
@@ -160,19 +160,19 @@
     [timeLabel setTextColor:[UIColor blackColor]]; 
     [timeLabel setBackgroundColor:[UIColor clearColor]];
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
-    timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
+    timeBarButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
     freqLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 125, 25)];
     [freqLabel setText:@""];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor blackColor]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
-    freqButton = [[UIBarButtonItem alloc] initWithCustomView:freqLabel];
+    freqBarButton = [[UIBarButtonItem alloc] initWithCustomView:freqLabel];
     
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace.width = (ss.height - 352)/4;
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playPauseBarButton, stopBarButton, fixedSpace, timeButton, fixedSpace, freqButton, fixedSpace, swapBarButton, nil];
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playPauseBarButton, stopBarButton, fixedSpace, timeBarButton, fixedSpace, freqBarButton, fixedSpace, swapBarButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
     
@@ -180,10 +180,10 @@
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    [self orientationHack]; 
+    [super viewDidAppear:animated];
+    //[self orientationHack]; 
 }
 
 - (void) draggedOut:(UIControl *)c withEvent:(UIEvent *)ev
@@ -274,7 +274,7 @@
         [weakSelf updateTimeString];
         if(![weakPlayHead isHidden])                            [weakPlayHead setNeedsDisplay];
         if([weakWf isHidden])                                   [weakSelf     loadAudio];
-        if([weakSelf getPlayProgress] >= [weakSelf getEndTime]) [weakSelf     clipOver];
+        if([weakSelf getPlayProgress] >= [weakSelf getEndTime]) [weakSelf     stop];
     }];
 }
 
@@ -307,11 +307,6 @@
 - (float) getEndTime                   { return endTime; }
 - (void) setAudioLength:(float)seconds { lengthInSeconds = seconds; }
 
-- (void) statusUpdated:(WaveSampleProvider *)provider
-{
-	//[self setInfoString:wsp.statusMessage];
-}
-
 - (void) sampleProcessed:(WaveSampleProvider *)provider
 {
 	if(wsp.status == LOADED)
@@ -342,15 +337,6 @@
 	}
 }
 
-- (void) clipOver
-{
-    [self pause];
-    [playPauseBarButton setCustomView:playButton];
-    [player removeTimeObserver:timeObserver];
-    [self addTimeObserver];
-    [self setPlayHeadToLeftSlider];
-}
-
 - (void) freqHistogramControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches
 {
     UITouch *touch = [touches anyObject];
@@ -367,7 +353,6 @@
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor blackColor]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
-    freqButton = [[UIBarButtonItem alloc] initWithCustomView:freqLabel];
 }
 
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -459,7 +444,6 @@
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor blackColor]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
-    freqButton = [[UIBarButtonItem alloc] initWithCustomView:freqLabel];
     [leftSlider setHidden:![leftSlider isHidden]];
     [rightSlider setHidden:![rightSlider isHidden]];
     [leftTint setHidden:![leftTint isHidden]];
@@ -546,35 +530,19 @@
     vDSP_ctoz((COMPLEX *)data, 2, &out, 1, bufferFrames / 2);
     vDSP_fft_zrip(fftSetup, &out, 1, bufferLog2, FFT_FORWARD);
     
-    //print out data
-    //    for(int i = 1; i < bufferFrames / 2; i++){
-    //        float frequency = (i * sampleRate)/bufferFrames;
-    //        float magnitude = sqrtf((out.realp[i] * out.realp[i]) + (out.imagp[i] * out.imagp[i]));
-    //        float magnitudeDB = 10 * log10(out.realp[i] * out.realp[i] + (out.imagp[i] * out.imagp[i]));
-    //        NSLog(@"Bin %i: Magnitude: %f Magnitude DB: %f  Frequency: %f Hz", i, magnitude, magnitudeDB, frequency);
-    //    }
-    
-    //NSLog(@"\nSpectrum\n");
-    //    for(int k = 0; k < bufferFrames / 2; k++){
-    //        NSLog(@"Frequency %f Real: %f Imag: %f", (k * sampleRate)/bufferFrames, out.realp[k], out.imagp[k]);
-    //    }
-    
-    float *mag = (float *)malloc(sizeof(float) * bufferFrames/2);
+    float *mag   = (float *)malloc(sizeof(float) * bufferFrames/2);
     float *phase = (float *)malloc(sizeof(float) * bufferFrames/2);
     float *magDB = (float *)malloc(sizeof(float) * bufferFrames/2);
     
     vDSP_zvabs(&out, 1, mag, 1, bufferFrames/2);
     vDSP_zvphas(&out, 1, phase, 1, bufferFrames/2);
     
-    //NSLog(@"\nMag / Phase\n");
-    for(int k = 1; k < bufferFrames/2; k++){
+    for(int k = 1; k < bufferFrames/2; k++)
+    {
         float magnitudeDB = 10 * log10(out.realp[k] * out.realp[k] + (out.imagp[k] * out.imagp[k]));
         magDB[k] = magnitudeDB;
-        //NSLog(@"Frequency: %f Magnitude DB: %f", (k * sampleRate)/bufferFrames, magnitudeDB);
-        if(magDB[k] > freqControl.largestMag){
+        if(magDB[k] > freqControl.largestMag)
             freqControl.largestMag = magDB[k];
-        }
-        //NSLog(@"Frequency: %f Mag: %f Phase: %f", (k * sampleRate)/bufferFrames, mag[k], phase[k]);
     }
     
     return magDB;
