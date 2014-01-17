@@ -10,6 +10,7 @@
 #import "ARISMediaView.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "Player.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AssetsLibrary/AssetsLibrary.h"
@@ -28,8 +29,8 @@
 @property (nonatomic) IBOutlet ARISMediaView *playerPic;
 @property (nonatomic) IBOutlet UITextField *playerNameField;
 
-- (IBAction)saveButtonTouched:(id)sender;
-- (IBAction)playerPicCamButtonTouched:(id)sender;
+- (IBAction) saveButtonTouched:(id)sender;
+- (IBAction) playerPicCamButtonTouched:(id)sender;
 
 @end
 
@@ -109,8 +110,7 @@
     [AppModel sharedAppModel].player.displayname = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
 
     [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].player.playerId
-                                         withName:[AppModel sharedAppModel].player.displayname
-                                         andImage:[AppModel sharedAppModel].player.playerMediaId];
+                                         withName:[AppModel sharedAppModel].player.displayname];
 
     [[AppModel sharedAppModel] saveUserDefaults];
 
@@ -154,33 +154,41 @@
     [aPicker dismissViewControllerAnimated:NO completion:nil];
 
     UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaleToSize:CGSizeMake(1024,1024)];
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
-    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
-    [imageData writeToURL:imageURL atomically:YES];
 
     // If image not selected from camera roll, save image with metadata to camera roll
     if([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
     {
         ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-        [al writeImageDataToSavedPhotosAlbum:imageData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+        [al writeImageDataToSavedPhotosAlbum:UIImageJPEGRepresentation(image, 1.0) metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
             // once image is saved, get asset from assetURL
             [al assetForURL:assetURL resultBlock:^(ALAsset *asset) {
                 // save image to temporary directory to be able to upload it
-                UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage]];
-                NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
-                NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
-                [imageData writeToURL:imageURL atomically:YES];
-                    
-                [self.playerPic setImage:image];
+                [self uploadImage:[UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage]]];
             } failureBlock:^(NSError *error) {
-                [self.playerPic setImage:image]; 
+                [self uploadImage:image]; 
             }];
         }];
     }
     else
     {
-        [self.playerPic setImage:image];
+        [self uploadImage:image];  
     }
+}
+
+- (void) uploadImage:(UIImage *)i
+{
+    //Save to tmp dir
+    NSData *imageData = UIImageJPEGRepresentation(i, 0.4);
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"];
+    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_image.jpg", [outputFormatter stringFromDate:[NSDate date]]]]]; 
+    [imageData writeToURL:imageURL atomically:YES]; 
+    
+    Media *m = [[AppModel sharedAppModel].mediaModel newMedia];
+    m.localURL = imageURL;
+    m.data = imageData; 
+    [self.playerPic setImage:i]; 
+    [[AppServices sharedAppServices] uploadPlayerPic:m];
 }
 
 @end

@@ -38,6 +38,8 @@
 - (void) registerNewUser:(NSString*)userName password:(NSString*)pass firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;
 - (void) createUserAndLoginWithGroup:(NSString *)groupName;
 - (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL;
+- (void) uploadPlayerPic:(Media *)m;
+- (void) updatePlayer:(int)playerId withName:(NSString *)name;
 - (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid;
 - (void) resetAndEmailNewPassword:(NSString *)email;
 - (void) setShowPlayerOnMap;

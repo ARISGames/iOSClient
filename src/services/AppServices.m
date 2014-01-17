@@ -139,6 +139,20 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     //[connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:@selector(playerPicUploadDidFail:) userInfo:userInfo];
 }
 
+- (void) updatePlayer:(int)playerId withName:(NSString *)name
+{
+    if(playerId != 0)
+    {
+           NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 [NSString stringWithFormat:@"%d",playerId], @"aplayerId",
+                                 name,                                       @"bname",
+                                 nil]; 
+        [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerName" arguments:args handler:self successSelector:@selector(updatedPlayer:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
+    }
+    else
+        NSLog(@"Tried updating non-existent player! (playerId = 0)");
+}
+
 - (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid
 {
     if(playerId != 0)
@@ -626,6 +640,20 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:nil failSelector:nil userInfo:nil]; 
 }
 
+- (void) uploadPlayerPic:(Media *)m
+{
+    NSDictionary *mdict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           [m.localURL absoluteString],@"filename", 
+                           [m.data base64Encoding],@"data", 
+                           nil];
+    
+    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+                          [NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId],    @"playerId",  
+                          mdict,                                                                 @"media",    
+                          nil]; 
+    [connection performAsynchronousRequestWithService:@"players" method:@"uploadPlayerMediaFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:nil userInfo:nil];    
+}
+
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
 {
     NSNumber *nId = [[NSNumber alloc] initWithInt:noteId]; 
@@ -643,14 +671,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void) playerPicUploadDidFinish:(ServiceResult*)result
 {        
-    NSString *newFileName = (NSString *)result.data;
-    
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-            [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], @"aplayerId",
-            newFileName,                                                                 @"bfileName",
-            nil];
-    [connection performAsynchronousRequestWithService:@"players" method:@"addPlayerPicFromFilename" arguments:args handler:self successSelector:@selector(parseNewPlayerMediaResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-    
+    NSDictionary *m = (NSDictionary *)result.data;
+    [AppModel sharedAppModel].player.playerMediaId = [m validIntForKey:@"media_id"];
 }
 
 - (void) updatedPlayer:(ServiceResult *)result
