@@ -10,7 +10,6 @@
 
 @implementation ARISTemplate
 
-// Should put following in own class ARISTemplate or something
 + (UIColor *) ARISColorNavBarTint               { return [UIColor ARISColorTranslucentWhite]; }
 + (UIColor *) ARISColorNavBarText               { return [UIColor ARISColorBlack]; }
 + (UIColor *) ARISColorTabBarTint               { return [UIColor ARISColorWhite]; }

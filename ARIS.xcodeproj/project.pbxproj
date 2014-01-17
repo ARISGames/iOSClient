@@ -353,7 +353,6 @@
 		AAF9231E1885968B0026A4FC /* NoteRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF9231C1885968B0026A4FC /* NoteRecorderViewController.m */; };
 		AAF923241885D7580026A4FC /* AudioVisualizerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF923231885D7580026A4FC /* AudioVisualizerViewController.m */; };
 		AAF92338188715C20026A4FC /* AudioSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF9232C188715C20026A4FC /* AudioSlider.m */; };
-		AAF92339188715C20026A4FC /* AudioTint.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF9232E188715C20026A4FC /* AudioTint.m */; };
 		AAF9233A188715C20026A4FC /* FreqHistogramControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92330188715C20026A4FC /* FreqHistogramControl.m */; };
 		AAF9233B188715C20026A4FC /* Playhead.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92332188715C20026A4FC /* Playhead.m */; };
 		AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92334188715C20026A4FC /* WaveformControl.m */; };
@@ -943,8 +942,6 @@
 		AAF923231885D7580026A4FC /* AudioVisualizerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVisualizerViewController.m; sourceTree = "<group>"; };
 		AAF9232B188715C20026A4FC /* AudioSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSlider.h; sourceTree = "<group>"; };
 		AAF9232C188715C20026A4FC /* AudioSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSlider.m; sourceTree = "<group>"; };
-		AAF9232D188715C20026A4FC /* AudioTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTint.h; sourceTree = "<group>"; };
-		AAF9232E188715C20026A4FC /* AudioTint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTint.m; sourceTree = "<group>"; };
 		AAF9232F188715C20026A4FC /* FreqHistogramControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreqHistogramControl.h; sourceTree = "<group>"; };
 		AAF92330188715C20026A4FC /* FreqHistogramControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreqHistogramControl.m; sourceTree = "<group>"; };
 		AAF92331188715C20026A4FC /* Playhead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Playhead.h; sourceTree = "<group>"; };
@@ -2092,8 +2089,6 @@
 			children = (
 				AAF9232B188715C20026A4FC /* AudioSlider.h */,
 				AAF9232C188715C20026A4FC /* AudioSlider.m */,
-				AAF9232D188715C20026A4FC /* AudioTint.h */,
-				AAF9232E188715C20026A4FC /* AudioTint.m */,
 				AAF9232F188715C20026A4FC /* FreqHistogramControl.h */,
 				AAF92330188715C20026A4FC /* FreqHistogramControl.m */,
 				AAF92331188715C20026A4FC /* Playhead.h */,
@@ -2564,7 +2559,6 @@
 				AABC7444172739D80074CC21 /* PLMath.m in Sources */,
 				AABC7445172739D80074CC21 /* PLObject.m in Sources */,
 				AABC7446172739D80074CC21 /* PLRenderer.m in Sources */,
-				AAF92339188715C20026A4FC /* AudioTint.m in Sources */,
 				AABC7447172739D80074CC21 /* PLResources.m in Sources */,
 				AABC7448172739D80074CC21 /* PLScene.m in Sources */,
 				AABC7449172739D80074CC21 /* PLSceneElement.m in Sources */,

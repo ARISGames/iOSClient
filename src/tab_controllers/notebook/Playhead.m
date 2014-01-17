@@ -38,8 +38,8 @@
     CGContextSetLineCap(context, kCGLineCapSquare);
     CGContextSetStrokeColorWithColor(context, color);
     CGContextSetLineWidth(context, 1.0);
-    CGContextMoveToPoint(context, startPoint.x + .5, startPoint.y + .5);
-    CGContextAddLineToPoint(context, endPoint.x + .5, endPoint.y + .5);
+    CGContextMoveToPoint(   context, startPoint.x+.5, startPoint.y+.5);
+    CGContextAddLineToPoint(context,   endPoint.x+.5,   endPoint.y+.5);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
 }

@@ -11,7 +11,6 @@
 #import "WaveSampleProvider.h"
 #import "WaveformControl.h"
 #import "FreqHistogramControl.h"
-#import "AudioTint.h"
 #import "AudioSlider.h"
 #import "Playhead.h"
 
@@ -40,8 +39,8 @@
     
     AudioSlider *leftSlider;
     AudioSlider *rightSlider;
-    AudioTint *leftTint;
-    AudioTint *rightTint;
+    UIView *leftTint;
+    UIView *rightTint;
     
     WaveformControl *wfControl;
     FreqHistogramControl *freqControl;
@@ -127,13 +126,16 @@
     rightSlider = [[AudioSlider alloc] initWithFrame:CGRectMake(ms.width-17.5, 64, 35, ms.height - 64)]; 
     [leftSlider  addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
-    [self.view addSubview:leftSlider]; 
-    [self.view addSubview:rightSlider];
-    
-    leftTint  = [[AudioTint alloc] initWithFrame:CGRectMake(                   0, 64, leftSlider.center.x, ms.height-64)];
-    rightTint = [[AudioTint alloc] initWithFrame:CGRectMake(rightSlider.center.x, 64,            ms.width, ms.height-64)];   
+    leftTint  = [[UIView alloc] initWithFrame:CGRectMake(                   0, 64, leftSlider.center.x, ms.height-64)];
+    rightTint = [[UIView alloc] initWithFrame:CGRectMake(rightSlider.center.x, 64,            ms.width, ms.height-64)];   
+    leftTint.backgroundColor  = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f];
+    rightTint.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f]; 
+    leftTint.opaque  = NO;
+    rightTint.opaque = NO; 
     [self.view addSubview:leftTint];
     [self.view addSubview:rightTint]; 
+    [self.view addSubview:leftSlider]; 
+    [self.view addSubview:rightSlider]; 
     
     toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, ms.height-44, ms.width, 44)];
     
@@ -196,19 +198,19 @@
     {
         if([c isEqual:leftSlider])
         {
-            if(rightSlider.center.x - point.x > SLIDER_BUFFER) c.center = CGPointMake(point.x, c.center.y);
-            else                                               c.center = CGPointMake(rightSlider.center.x - SLIDER_BUFFER, c.center.y);
+            if(rightSlider.center.x - point.x > SLIDER_BUFFER) leftSlider.center = CGPointMake(point.x, c.center.y);
+            else                                               leftSlider.center = CGPointMake(rightSlider.center.x - SLIDER_BUFFER, c.center.y);
             
             [self setPlayHeadToLeftSlider];
-            leftTint.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, leftSlider.center.x, self.view.bounds.size.height);
+            leftTint.frame = CGRectMake(0, 64, leftSlider.center.x, self.view.bounds.size.height);
         }
         else
         {
-            if(leftSlider.center.x - point.x < -SLIDER_BUFFER) c.center = CGPointMake(point.x, c.center.y);
-            else                                               c.center = CGPointMake(leftSlider.center.x + SLIDER_BUFFER, c.center.y);
+            if(leftSlider.center.x - point.x < -SLIDER_BUFFER) rightSlider.center = CGPointMake(point.x, c.center.y);
+            else                                               rightSlider.center = CGPointMake(leftSlider.center.x + SLIDER_BUFFER, c.center.y);
             
             [self setPlayHeadToLeftSlider]; 
-            rightTint.frame = CGRectMake(rightSlider.center.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
+            rightTint.frame = CGRectMake(rightSlider.center.x, 64, self.view.bounds.size.width, self.view.bounds.size.height);
         }
     }
 }
@@ -232,7 +234,8 @@
     int cmin = currentTime / 60;
     int csec = currentTime - (cmin * 60);
     timeLabel.text = [NSString stringWithFormat:@"%02d:%02d/%02d:%02d",cmin,csec,dmin,dsec];
-    playProgress = currentTime/duration;
+    if(duration > 0) playProgress = currentTime/duration;
+    else             playProgress = 0;
 }
 
 - (void) start
@@ -391,10 +394,10 @@
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
              UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"SaveErrorTitleKey", nil)
-                                                                        message:NSLocalizedString(@"SaveErrorKey", nil)
-                                                                       delegate:self
-                                                              cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
-                                                              otherButtonTitles:nil];
+                                                                  message:NSLocalizedString(@"SaveErrorKey", nil)
+                                                                 delegate:self
+                                                        cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
+                                                        otherButtonTitles:nil];
              [errorAlert show];
          }
      }];
