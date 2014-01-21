@@ -81,7 +81,6 @@
   [self.currentGame clearLocalModels];
 }
 
-
 #pragma mark User Defaults
 
 - (void) loadUserDefaults
@@ -170,19 +169,6 @@
         [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegate:nil];  
 }
 
-- (void) commitCoreDataContext
-{
-    NSError *error = nil;
-    if(managedObjectContext != nil)
-    {
-        if([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
-        {
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
-        }
-    }
-}
-
 - (void) initUserDefaults
 {
 	//Load the settings bundle data into an array
@@ -230,9 +216,7 @@
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil userInfo:locDict]];
 }
 
-#pragma mark Retrieving Cached Objects 
-
-- (Media *) mediaForMediaId:(int)mId // type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
+- (Media *) mediaForMediaId:(int)mId
 {
     if(mId == 0) return nil;
 	return [mediaModel mediaForMediaId:mId];
@@ -275,6 +259,19 @@
             NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
 	}
     return persistentStoreCoordinator;
+}
+
+- (void) commitCoreDataContext
+{
+    NSError *error = nil;
+    if(managedObjectContext != nil)
+    {
+        if([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
+        {
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
+        }
+    }
 }
 
 - (void) dealloc

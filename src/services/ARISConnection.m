@@ -196,7 +196,7 @@ NSString *const kARISServerServicePackage = @"v1";
 {
     if(response)
     {
-        NSLog(response);
+        NSLog(@"%@",response);
     }
     return request;
 }
