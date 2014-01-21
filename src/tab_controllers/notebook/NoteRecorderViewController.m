@@ -10,8 +10,9 @@
 #import <CoreAudio/CoreAudioTypes.h>
 #import "ARISTemplate.h"
 #import "AudioVisualizerViewController.h"
+#import "AudioMeter.h"
 
-@interface NoteRecorderViewController() <AVAudioSessionDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioVisualizerViewControllerDelegate>
+@interface NoteRecorderViewController() <AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioMeterDelegate, AudioVisualizerViewControllerDelegate>
 {
     AVAudioSession *session;
 	AVAudioRecorder *recorder;
@@ -27,6 +28,8 @@
     UIButton *editButton;
    	UIButton *discardButton; 
    	UIButton *saveButton; 
+    
+    AudioMeter *meter;
     
     id<NoteRecorderViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -48,7 +51,6 @@
         audioFileURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_audio.m4a", [outputFormatter stringFromDate:[NSDate date]]]]];     
         
         session = [AVAudioSession sharedInstance];
-        session.delegate = self; 
         
         hasFile = NO; 
         
@@ -59,6 +61,11 @@
 - (void) loadView
 {
     [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    meter = [[AudioMeter alloc] initWithDelegate:self];
+    meter.frame = self.view.bounds;
+    [self.view addSubview:meter];
     
     recordButton  = [UIButton buttonWithType:UIButtonTypeCustom];
     finishButton  = [UIButton buttonWithType:UIButtonTypeCustom];  
@@ -67,7 +74,7 @@
     editButton    = [UIButton buttonWithType:UIButtonTypeCustom]; 
     discardButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
     saveButton    = [UIButton buttonWithType:UIButtonTypeCustom]; 
-       
+    
     recordButton.frame  = CGRectMake(10,74, self.view.bounds.size.width-20,30);
     finishButton.frame  = CGRectMake(10,74, self.view.bounds.size.width-20,30);  
     playButton.frame    = CGRectMake(10,74, self.view.bounds.size.width-20,30); 
@@ -75,14 +82,14 @@
     editButton.frame    = CGRectMake(10,114, self.view.bounds.size.width-20,30); 
     discardButton.frame = CGRectMake(10,154, self.view.bounds.size.width-20,30); 
     saveButton.frame    = CGRectMake(10,194,self.view.bounds.size.width-20,30); 
-          
-    //[recordButton  setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
-    //[finishButton  setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
-    //[playButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
-    //[stopButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
-    //[editButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
-    //[discardButton setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
-    //[saveButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    
+    [recordButton  setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    [finishButton  setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    [playButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    [stopButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    [editButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    [discardButton setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
+    [saveButton    setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
     
     [recordButton  setTitle:NSLocalizedString(@"BeginRecordingKey",@"") forState:UIControlStateNormal];
     [finishButton  setTitle:NSLocalizedString(@"FinishKey",@"")         forState:UIControlStateNormal]; 
@@ -196,6 +203,7 @@
     [recorder prepareToRecord];
     [session setActive:YES error:nil];
     [recorder record];
+    [meter startRequestingLevels];
     
     [self refreshViewFromState];
 }
@@ -207,6 +215,7 @@
     [session setCategory:AVAudioSessionCategoryPlayback error: nil];
     recorder = nil; 
     hasFile = YES;
+    [meter stopRequestingLevels];
     
     [self refreshViewFromState]; 
 }
@@ -220,6 +229,7 @@
     [player prepareToPlay];
     [player setDelegate: self];
     [player play]; 
+    [meter startRequestingLevels];
     
     [self refreshViewFromState];  
 }
@@ -228,6 +238,7 @@
 {
     [player stop]; 
     player = nil;
+    [meter stopRequestingLevels]; 
     
     [self refreshViewFromState];   
 }
@@ -244,6 +255,22 @@
     [delegate audioChosenWithURL:audioFileURL];
 }
 
+- (double) meterRequestsLevel:(AudioMeter *)m
+{
+    float levelInDb = 0.0f;
+    if(player)
+    {
+        [player updateMeters];
+         levelInDb = [player averagePowerForChannel:0]; 
+    }
+    else if(recorder)
+    {
+        [recorder updateMeters];
+        levelInDb = [recorder averagePowerForChannel:0];
+    }
+    return MAX((levelInDb+50.0)/60.0,0.0); //Normalizes -50 through 10 to 0.0 through 1.0
+}
+
 - (void) fileWasTrimmed:(NSURL *)u
 {
     audioFileURL = u;
@@ -252,7 +279,6 @@
 
 - (void) dealloc
 {
-    session.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

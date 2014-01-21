@@ -76,6 +76,7 @@
 		AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC121857724600068667 /* NoteCommentsViewController.m */; };
 		AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */; };
 		AA33A72A1860C0CE00D48789 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33A7291860C0CE00D48789 /* Media.m */; };
+		AA372A90188F2319005528D5 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA372A8E188F2319005528D5 /* AudioMeter.m */; };
 		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
 		AA383B161829A8BD00612FFB /* audio.png in Resources */ = {isa = PBXBuildFile; fileRef = AA383B131829A8BD00612FFB /* audio.png */; };
@@ -485,6 +486,8 @@
 		AA33A7281860C0CE00D48789 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
 		AA33A7291860C0CE00D48789 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
+		AA372A8E188F2319005528D5 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
+		AA372A8F188F2319005528D5 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
 		AA383B0C1828324F00612FFB /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
 		AA383B0D1828324F00612FFB /* NotebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookViewController.m; sourceTree = "<group>"; };
 		AA383B0F18283B9F00612FFB /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
@@ -2087,6 +2090,8 @@
 		AAF92328188715AB0026A4FC /* AudioVisHelpers */ = {
 			isa = PBXGroup;
 			children = (
+				AA372A8F188F2319005528D5 /* AudioMeter.h */,
+				AA372A8E188F2319005528D5 /* AudioMeter.m */,
 				AAF9232B188715C20026A4FC /* AudioSlider.h */,
 				AAF9232C188715C20026A4FC /* AudioSlider.m */,
 				AAF9232F188715C20026A4FC /* FreqHistogramControl.h */,
@@ -2583,6 +2588,7 @@
 				AABC750A172860690074CC21 /* NpcViewController.m in Sources */,
 				AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */,
 				AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */,
+				AA372A90188F2319005528D5 /* AudioMeter.m in Sources */,
 				AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */,
 				AA701FE117342169003A840D /* GamePickersViewController.m in Sources */,
 				AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */,

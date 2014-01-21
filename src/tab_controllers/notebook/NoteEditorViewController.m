@@ -37,6 +37,7 @@
     
     NSMutableArray *mediaToUpload;
     
+    BOOL newNote;
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -47,7 +48,8 @@
 {
     if(self = [super init])
     {
-        if(!n)
+        newNote = (!n);
+        if(newNote)
         {
             n = [[Note alloc] init];
             n.created = [NSDate date];
@@ -131,11 +133,6 @@
     [self refreshViewFromNote];
 }
 
-- (void) viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-}
-
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -153,7 +150,7 @@
     date.text = [format stringFromDate:note.created]; 
     owner.text = note.owner.displayname; 
     [contentsViewController setContents:note.contents];
-    //[tagViewController setTags:note.tags];
+    [tagViewController setTags:note.tags];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
@@ -204,16 +201,13 @@
 
 - (void) saveButtonTouched
 {
-    Note *n = [[Note alloc] init];
-    n.name = title.text;
-    n.desc = description.text;
-    
-    n.contents = [[NSMutableArray alloc] initWithCapacity:[mediaToUpload count]];
+    note.name = title.text;
+    note.desc = description.text;
     
     for(int i = 0; i < [mediaToUpload count]; i++)
-        [n.contents addObject:[mediaToUpload objectAtIndex:i]];
+        [note.contents addObject:[mediaToUpload objectAtIndex:i]];
     
-    [[AppServices sharedAppServices] uploadNote:n];
+    if(newNote) [[AppServices sharedAppServices] uploadNote:note];
 }
 
 - (void) imageChosenWithURL:(NSURL *)url
