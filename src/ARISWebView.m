@@ -417,6 +417,7 @@
 - (void) clear
 {
     [webView stopLoading];
+    webView.delegate = nil; 
     [webView loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
     [audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         AVPlayer *player = obj;
