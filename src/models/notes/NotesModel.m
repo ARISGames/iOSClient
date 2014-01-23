@@ -67,11 +67,8 @@
 
 - (void) latestNotesReceived:(NSNotification *)n
 {
-    playerNotes = nil;
-    listNotes = nil; 
-    mapNotes = nil;  
+    [self mergeInNotesArray:[n.userInfo objectForKey:@"notes"]];
     
-    [currentNotes addObjectsFromArray:[n.userInfo objectForKey:@"notes"]];
     curServerPage++;
     if([[n.userInfo objectForKey:@"notes"] count] == 0) listComplete = 1;
     NSLog(@"NSNotificaiton: NewNoteListAvailable");
@@ -80,15 +77,39 @@
 
 - (void) noteDataReceived:(NSNotification *)n
 {
-    Note *note = [n.userInfo objectForKey:@"note"];
-    for(int i = 0; i < [currentNotes count]; i++)
-    {
-        if(((Note *)[currentNotes objectAtIndex:i]).noteId == note.noteId)
-            [(Note *)[currentNotes objectAtIndex:i] mergeDataFromNote:note];
-    }
+    [self mergeInNotesArray:[[NSArray alloc] initWithObjects:[n.userInfo objectForKey:@"note"], nil]];
         
     NSLog(@"NSNotificaiton: NoteDataAvailable");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteDataAvailable" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:note,@"note",nil]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteDataAvailable" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:[n.userInfo objectForKey:@"note"],@"note",nil]];
+}
+
+- (void) mergeInNotesArray:(NSArray *)newNotes
+{
+    BOOL noteExists = NO;
+    for(int i = 0; i < [newNotes count]; i++)
+    { 
+        noteExists = NO;
+        for(int j = 0; j < [currentNotes count] && !noteExists; j++)
+        {
+            if(((Note *)[newNotes objectAtIndex:i]).noteId == ((Note *)[currentNotes objectAtIndex:j]).noteId)
+            {
+                noteExists = YES;
+                [((Note *)[newNotes objectAtIndex:i]) mergeDataFromNote:((Note *)[currentNotes objectAtIndex:j])];
+            }
+        }
+        if(!noteExists) 
+        {
+            [currentNotes addObject:[newNotes objectAtIndex:i]];
+            [self invalidateCaches];   
+        }
+    }
+}
+
+- (void) invalidateCaches
+{
+    playerNotes = nil;
+    listNotes = nil; 
+    mapNotes = nil;  
 }
 
 - (NSArray *) playerNotes

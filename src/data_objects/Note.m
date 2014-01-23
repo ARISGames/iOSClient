@@ -90,7 +90,6 @@
                
         self.publicToList    = [dict validBoolForKey:@"public_to_list"];
         self.publicToMap     = [dict validBoolForKey:@"public_to_map"];   
-        
     }
     return self;
 }

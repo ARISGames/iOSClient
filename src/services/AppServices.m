@@ -637,7 +637,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                           location,                                                              @"location",   
                           media,                                                                 @"media",    
                           nil]; 
-    [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:nil failSelector:nil userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil userInfo:nil]; 
 }
 
 - (void) uploadPlayerPic:(Media *)m
