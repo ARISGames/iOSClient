@@ -9,7 +9,11 @@
 #import "ARISViewController.h"
 
 @class Note;
+@class NoteEditorViewController;
+
 @protocol NoteEditorViewControllerDelegate
+- (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne;
+- (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n;
 @end
 
 @interface NoteEditorViewController : ARISViewController

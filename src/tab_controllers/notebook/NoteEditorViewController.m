@@ -208,6 +208,8 @@
         [note.contents addObject:[mediaToUpload objectAtIndex:i]];
     
     if(newNote) [[AppServices sharedAppServices] uploadNote:note];
+    
+    [delegate noteEditorConfirmedNoteEdit:self note:note]; 
 }
 
 - (void) imageChosenWithURL:(NSURL *)url

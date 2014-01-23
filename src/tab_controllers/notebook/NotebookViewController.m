@@ -150,6 +150,18 @@ const int VIEW_MODE_ALL  = 1;
     [self.navigationController pushViewController:nevc animated:YES]; 
 }
 
+- (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne
+{
+    [self.navigationController popToViewController:self animated:YES];
+}
+
+- (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n
+{
+    [[AppModel sharedAppModel].currentGame.notesModel clearData];   
+    [[AppModel sharedAppModel].currentGame.notesModel getNextNotes];    
+    [self.navigationController popToViewController:self animated:YES]; 
+}
+
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
