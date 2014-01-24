@@ -81,9 +81,6 @@
 - (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d;
 
 //Note Stuff
-- (int) createNote;
-- (int) createNoteStartIncomplete;
-- (void) setNoteCompleteForNoteId:(int)noteId;
 - (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList;
 - (void) deleteNoteWithNoteId:(int)noteId;
 - (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate;
@@ -97,7 +94,9 @@
 - (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh;
 - (void) likeNote:(int)noteId;
 - (void) unLikeNote:(int)noteId;
+
 - (void) uploadNote:(Note *)n;
+- (void) addComment:(NSString *)c fromPlayer:(Player *)p toNote:(Note *)n;
 
 //Tell server of state
 - (void) updateServerWithPlayerLocation;

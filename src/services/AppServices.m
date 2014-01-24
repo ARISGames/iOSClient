@@ -527,42 +527,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     return result.data ? [(NSDecimalNumber*)result.data intValue] : 0;
 }
 
-- (void) setNoteCompleteForNoteId:(int)noteId
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-            [NSString stringWithFormat:@"%d",noteId], @"anoteId",
-            nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"setNoteComplete" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-}
-
-- (int) createNote
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],                  @"agameId",
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],                     @"bplayerId",
-                     [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude], @"clatitude",
-                     [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],@"dlongitude",
-                     nil];
-    ServiceResult *result =[connection performSynchronousRequestWithService:@"notes" method:@"createNewNote" arguments:args userInfo:nil];
-    [self fetchAllPlayerLists];
-    
-    return result.data ? [(NSDecimalNumber*)result.data intValue] : 0;
-}
-
-- (int) createNoteStartIncomplete
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],                  @"agameId",
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],                     @"bplayerId",
-                     [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude], @"clatitude",
-                     [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],@"dlongitude",
-                     nil];
-    ServiceResult *result = [connection performSynchronousRequestWithService:@"notes" method:@"createNewNoteStartIncomplete" arguments:args userInfo:nil];
-    [self fetchAllPlayerLists];
-    
-    return result.data ? [(NSDecimalNumber*)result.data intValue] : 0;
-}
-
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
 {
        NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:

@@ -7,6 +7,7 @@
 //
 
 #import "Note.h"
+#import "NoteComment.h"
 #import "Player.h"
 #import "Location.h"
 #import "Tag.h"
@@ -50,13 +51,13 @@
 {
     if(self = [super init])
     {
-        self.noteId        = [dict validIntForKey:@"note_id"]; 
+        self.noteId = [dict validIntForKey:@"note_id"]; 
         
         NSDictionary *ownerDict = [dict validObjectForKey:@"owner"]; 
         if(ownerDict) self.owner = [[Player alloc] initWithDictionary:ownerDict];
        
-        self.name          = [dict validStringForKey:@"title"];
-        self.desc  = [dict validStringForKey:@"description"];
+        self.name = [dict validStringForKey:@"title"];
+        self.desc = [dict validStringForKey:@"description"];
         
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -84,12 +85,12 @@
         NSArray *commentDicts = [dict validObjectForKey:@"comments"];
         self.comments = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *commentDict in commentDicts)
-            [self.comments addObject:[[Note alloc] initWithDictionary:commentDict]];
+            [self.comments addObject:[[NoteComment alloc] initWithDictionary:commentDict]];
         NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"noteId" ascending:NO]];
         self.comments = [[self.comments sortedArrayUsingDescriptors:sortDescriptors] mutableCopy]; 
                
-        self.publicToList    = [dict validBoolForKey:@"public_to_list"];
-        self.publicToMap     = [dict validBoolForKey:@"public_to_map"];   
+        self.publicToList = [dict validBoolForKey:@"public_to_list"];
+        self.publicToMap  = [dict validBoolForKey:@"public_to_map"];   
     }
     return self;
 }

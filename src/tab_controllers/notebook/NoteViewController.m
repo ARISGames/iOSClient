@@ -7,6 +7,7 @@
 //
 
 #import "NoteViewController.h"
+#import "NoteComment.h"
 #import "NoteTagEditorViewController.h"
 #import "NoteContentsViewController.h"
 #import "NoteCommentsViewController.h"
@@ -15,6 +16,7 @@
 #import "Note.h"
 #import "Player.h"
 #import "AppModel.h"
+#import "AppServices.h"
 #import "Game.h"
 #import "ARISTemplate.h"
 
@@ -204,6 +206,9 @@
 - (void) commentConfirmed:(NSString *)c
 {
     [self formatSubviewFrames]; 
+    [[AppServices sharedAppServices] addComment:c fromPlayer:[AppModel sharedAppModel].player toNote:note];
+    NoteComment *nc = [[NoteComment alloc] init];
+    [note.comments addObject:nc];
     scrollView.contentOffset = CGPointMake(0,-64);  
 }
 
