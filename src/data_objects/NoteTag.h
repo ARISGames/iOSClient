@@ -1,5 +1,5 @@
 //
-//  Tag.h
+//  NoteTag.h
 //  ARIS
 //
 //  Created by Brian Thiel on 1/16/12.
@@ -8,17 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Tag : NSObject
+@interface NoteTag : NSObject
 {
-    NSString *tagName;
+    int noteTagId; 
+    NSString *text;
     BOOL playerCreated;
-    int tagId;
 }
 
-@property (nonatomic, assign) int tagId;
-@property (nonatomic, strong) NSString *tagName;
+@property (nonatomic, assign) int noteTagId;
+@property (nonatomic, strong) NSString *text;
 @property (readwrite, assign) BOOL playerCreated;
 
-- (Tag *) initWithDictionary:(NSDictionary *)dict;
+- (NoteTag *) initWithDictionary:(NSDictionary *)dict;
 
 @end

@@ -486,15 +486,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"players" method:@"takeItemFromPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",noteId], @"anoteId",
-                     title,                                    @"btitle",
-                     nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"updateComment" arguments:args handler:self successSelector:@selector(fetchNoteList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-}
-
 - (void) likeNote:(int)noteId
 {
        NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -537,16 +528,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                         nil];
         [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNoteContent" arguments:args handler:self successSelector:@selector(fetchNoteList) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
     }
-}
-
-- (void) deleteNoteLocationWithNoteId:(int)noteId
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
-                     @"PlayerNote",                                                                  @"blocationType",
-                     [NSString stringWithFormat:@"%d",noteId],                                       @"cnoteId",
-                     nil];
-    [connection performAsynchronousRequestWithService:@"locations" method:@"deleteLocationsForObject" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
 - (void) deleteNoteWithNoteId:(int)noteId
@@ -969,10 +950,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     NSDictionary *tagDictionary;
     while ((tagDictionary = [gameTagEnumerator nextObject]))
     {
-        Tag *t = [[Tag alloc]init];
-        t.tagName = [tagDictionary validObjectForKey:@"tag"];
+        NoteTag *t = [[NoteTag alloc]init];
+        t.text = [tagDictionary validObjectForKey:@"tag"];
         t.playerCreated = [tagDictionary validBoolForKey:@"player_created"];
-        t.tagId = [tagDictionary validIntForKey:@"tag_id"];
+        t.noteTagId = [tagDictionary validIntForKey:@"tag_id"];
         [tempTagsList addObject:t];
     }
     [AppModel sharedAppModel].gameTagList = tempTagsList;

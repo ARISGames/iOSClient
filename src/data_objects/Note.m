@@ -10,7 +10,7 @@
 #import "NoteComment.h"
 #import "Player.h"
 #import "Location.h"
-#import "Tag.h"
+#import "NoteTag.h"
 #import "NSDictionary+ValidParsers.h"
 #import "AppModel.h"
 
@@ -69,7 +69,7 @@
         NSArray *tagDicts = [dict validObjectForKey:@"tags"];
         self.tags = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *tagDict in tagDicts)
-            [self.tags addObject:[[Tag alloc] initWithDictionary:tagDict]]; 
+            [self.tags addObject:[[NoteTag alloc] initWithDictionary:tagDict]]; 
         
         NSArray *contentDicts = [dict validObjectForKey:@"contents"];
         self.contents = [[NSMutableArray alloc] initWithCapacity:5];

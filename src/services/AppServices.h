@@ -23,7 +23,7 @@
 #import "ARISAppDelegate.h"
 #import "Comment.h"
 #import "Note.h"
-#import "Tag.h"
+#import "NoteTag.h"
 #import "ARISConnection.h"
 #import "ARISMediaLoader.h"
 
@@ -87,10 +87,8 @@
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *)type mediaId:(int)mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int)noteId type:(NSString *)type;
 - (void) deleteNoteContentWithContentId:(int)contentId;
-- (void) deleteNoteLocationWithNoteId:(int)noteId;
 - (void) addTagToNote:(int)noteId tagName:(NSString *)tag;
 - (void) deleteTagFromNote:(int)noteId tagId:(int)tagId;
-- (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh;
 - (void) likeNote:(int)noteId;
 - (void) unLikeNote:(int)noteId;
 

@@ -8,7 +8,7 @@
 
 #import "NoteTagEditorViewController.h"
 #import "ARISTemplate.h"
-#import "Tag.h"
+#import "NoteTag.h"
 
 @interface NoteTagEditorViewController ()
 {
@@ -52,6 +52,7 @@
     plus.text = @" + ";
     plus.layer.cornerRadius = 8;
     plus.layer.masksToBounds = YES;
+    plus.userInteractionEnabled = YES;
     [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
     
     grad = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_white_gradient"]];
@@ -76,17 +77,17 @@
     [self refreshViewFromTags];
 }
 
-- (UIView *) tagViewForTag:(Tag *)t
+- (UIView *) tagViewForTag:(NoteTag *)t
 {
     int width;
-    if(editable) width = [[NSString stringWithFormat:@" %@ x ",t.tagName] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
-    else         width = [[NSString stringWithFormat:@" %@ ",  t.tagName] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
+    if(editable) width = [[NSString stringWithFormat:@" %@ x ",t.text] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
+    else         width = [[NSString stringWithFormat:@" %@ ",  t.text] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
     UILabel *tagView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,width,20)];
     tagView.font = [ARISTemplate ARISBodyFont];
     tagView.textColor = [UIColor whiteColor];
     tagView.backgroundColor = [UIColor ARISColorLightBlue];
-    if(editable) tagView.text = [NSString stringWithFormat:@" %@ x ",t.tagName];
-    else         tagView.text = [NSString stringWithFormat:@" %@ ",t.tagName]; 
+    if(editable) tagView.text = [NSString stringWithFormat:@" %@ x ",t.text];
+    else         tagView.text = [NSString stringWithFormat:@" %@ ",t.text]; 
     tagView.layer.cornerRadius = 8;
     tagView.layer.masksToBounds = YES;
     return tagView;
@@ -113,7 +114,7 @@
     
 }
 
-- (void) deleteTagButtonTouched:(Tag *)t
+- (void) deleteTagButtonTouched:(NoteTag *)t
 {
     
 }

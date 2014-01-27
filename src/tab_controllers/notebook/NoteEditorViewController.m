@@ -12,7 +12,7 @@
 #import "NoteCameraViewController.h"
 #import "NoteRecorderViewController.h"
 #import "Note.h"
-#import "Tag.h"
+#import "NoteTag.h"
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "AppServices.h"
