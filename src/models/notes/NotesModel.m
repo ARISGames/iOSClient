@@ -94,7 +94,7 @@
             if(((Note *)[newNotes objectAtIndex:i]).noteId == ((Note *)[currentNotes objectAtIndex:j]).noteId)
             {
                 noteExists = YES;
-                [((Note *)[newNotes objectAtIndex:i]) mergeDataFromNote:((Note *)[currentNotes objectAtIndex:j])];
+                [((Note *)[currentNotes objectAtIndex:j]) mergeDataFromNote:((Note *)[newNotes objectAtIndex:i])];
             }
         }
         if(!noteExists) 

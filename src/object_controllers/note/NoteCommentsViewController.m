@@ -8,6 +8,7 @@
 
 #import "NoteCommentsViewController.h"
 #import "Note.h"
+#import "NoteComment.h"
 #import "Player.h"
 #import "ARISTemplate.h"
 
@@ -57,7 +58,7 @@
     
     for(int i = 0; i < [comments count]; i++)
     {
-        cell = [self cellForComment:(Note *)[comments objectAtIndex:i]];
+        cell = [self cellForComment:[comments objectAtIndex:i]];
         cell.frame = CGRectMake(0, yOffset, cell.frame.size.width, cell.frame.size.height);
         yOffset += cell.frame.size.height;
         [self.view addSubview:cell];
@@ -65,7 +66,7 @@
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, yOffset);
 }
 
-- (UIView *) cellForComment:(Note *)c
+- (UIView *) cellForComment:(NoteComment *)c
 {
     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 40)];
     
@@ -85,7 +86,7 @@
     date.text = [format stringFromDate:c.created]; 
     
     UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(10, 17, self.view.bounds.size.width-20, 20)];
-    text.text = c.name; 
+    text.text = c.text; 
     text.lineBreakMode = NSLineBreakByWordWrapping;
     text.numberOfLines = 0; 
     CGSize textSize = [text.text sizeWithFont:text.font constrainedToSize:CGSizeMake(text.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping];   
