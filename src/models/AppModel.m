@@ -41,7 +41,6 @@
 @synthesize currentGame;
 @synthesize overlayIsVisible;
 @synthesize nearbyLocationsList;
-@synthesize gameTagList;
 @synthesize hidePlayers;
 @synthesize mediaModel;
 @synthesize motionManager;

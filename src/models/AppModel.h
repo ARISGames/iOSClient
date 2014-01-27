@@ -48,8 +48,6 @@
     
 	NSMutableArray *nearbyLocationsList;
 
-    NSMutableArray *gameTagList;
-
     BOOL overlayIsVisible;
  
     BOOL hidePlayers;
@@ -86,8 +84,6 @@
 @property (nonatomic, strong) NSMutableArray *recentGameList;	
 
 @property (nonatomic, strong) NSMutableArray *nearbyLocationsList;	
-
-@property (nonatomic, strong) NSMutableArray *gameTagList;
 
 // CORE Data
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;

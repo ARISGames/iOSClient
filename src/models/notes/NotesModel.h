@@ -14,13 +14,17 @@
 - (void) clearData;
 
 - (void) getNextNotes;
-- (void) getDetailsForNote:(Note *)n;
+- (int) listComplete;
+- (void) getNoteTags;
 
 - (Note *) noteForId:(int)noteId;
+- (void) getDetailsForNote:(Note *)n;
+
 - (NSArray *) playerNotes;
 - (NSArray *) listNotes;
 - (NSArray *) mapNotes;
 
-- (int) listComplete;
+- (NSArray *) gameNoteTags;
+- (NSArray *) playerNoteTags;
 
 @end

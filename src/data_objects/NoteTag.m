@@ -26,4 +26,10 @@
     return self;
 }
 
+- (void) mergeDataFromNoteTag:(NoteTag *)nt
+{
+    self.text = nt.text;
+    self.playerCreated = nt.playerCreated;
+}
+
 @end

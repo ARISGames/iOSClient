@@ -20,5 +20,6 @@
 @property (readwrite, assign) BOOL playerCreated;
 
 - (NoteTag *) initWithDictionary:(NSDictionary *)dict;
+- (void) mergeDataFromNoteTag:(NoteTag *)nt;
 
 @end

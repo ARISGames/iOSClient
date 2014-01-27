@@ -14,9 +14,15 @@
 @interface NotesModel()
 {
     NSMutableArray *currentNotes; 
+    
     NSArray *playerNotes;
     NSArray *listNotes;
     NSArray *mapNotes; 
+    
+    NSMutableArray *currentNoteTags;
+    
+    NSArray *gameNoteTags;
+    NSArray *playerNoteTags;  
     
     int curServerPage;
     int listComplete;
@@ -32,6 +38,7 @@
     {
         [self clearData];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNotesReceived:) name:@"LatestNoteListReceived" object:nil]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNoteTagsReceived:) name:@"LatestNoteTagListReceived" object:nil];  
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataReceived:)    name:@"NoteDataReceived"       object:nil];  
     }
     return self;
@@ -39,14 +46,12 @@
 
 - (void) clearData
 {
-    currentNotes = [[NSMutableArray alloc] init];
+    currentNotes     = [[NSMutableArray alloc] init];
+    currentNoteTags  = [[NSMutableArray alloc] init]; 
     curServerPage = 0;
-    listComplete = 0;
-}
-
-- (int) listComplete
-{
-    return listComplete;
+    listComplete  = 0;
+    [self invalidateNoteCaches];
+    [self invalidateNoteTagCaches]; 
 }
 
 - (void) getNextNotes
@@ -58,6 +63,16 @@
     }
     else
         [[AppServices sharedAppServices] fetchNoteListPage:curServerPage];
+}
+
+- (int) listComplete
+{
+    return listComplete;
+}
+
+- (void) getNoteTags
+{
+    [[AppServices sharedAppServices] fetchNoteTagLists]; 
 }
 
 - (void) getDetailsForNote:(Note *)n
@@ -100,12 +115,42 @@
         if(!noteExists) 
         {
             [currentNotes addObject:[newNotes objectAtIndex:i]];
-            [self invalidateCaches];   
+            [self invalidateNoteCaches];   
         }
     }
 }
 
-- (void) invalidateCaches
+- (void) latestNoteTagsReceived:(NSNotification *)n
+{
+    [self mergeInNoteTagsArray:[n.userInfo objectForKey:@"noteTags"]];
+    
+    NSLog(@"NSNotificaiton: NewNoteTagsListAvailable");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteTagsListAvailable" object:nil];
+}
+
+- (void) mergeInNoteTagsArray:(NSArray *)newNoteTags
+{
+    BOOL noteTagExists = NO;
+    for(int i = 0; i < [newNoteTags count]; i++)
+    { 
+        noteTagExists = NO;
+        for(int j = 0; j < [currentNotes count] && !noteTagExists; j++)
+        {
+            if(((NoteTag *)[newNoteTags objectAtIndex:i]).noteTagId == ((NoteTag *)[currentNotes objectAtIndex:j]).noteTagId)
+            {
+                noteTagExists = YES;
+                [((NoteTag *)[currentNotes objectAtIndex:j]) mergeDataFromNoteTag:((NoteTag *)[newNoteTags objectAtIndex:i])];
+            }
+        }
+        if(!noteTagExists) 
+        {
+            [currentNoteTags addObject:[newNoteTags objectAtIndex:i]];
+            [self invalidateNoteTagCaches];   
+        }
+    }
+}
+
+- (void) invalidateNoteCaches
 {
     playerNotes = nil;
     listNotes = nil; 
@@ -146,6 +191,36 @@
         mapNotes = constructMapNotes;
     }
     return mapNotes;
+}
+
+- (void) invalidateNoteTagCaches
+{
+    gameNoteTags = nil;
+    playerNoteTags = nil; 
+}
+
+- (NSArray *) gameNoteTags
+{
+    if(!gameNoteTags)
+    {
+        NSMutableArray *constructGameNoteTags = [[NSMutableArray alloc] initWithCapacity:10];
+        for(NoteTag *nt in currentNoteTags)
+            if(!nt.playerCreated) [constructGameNoteTags addObject:nt];
+        gameNoteTags = constructGameNoteTags;
+    }
+    return gameNoteTags;
+}
+
+- (NSArray *) playerNoteTags
+{
+    if(!playerNoteTags)
+    {
+        NSMutableArray *constructPlayerNoteTags = [[NSMutableArray alloc] initWithCapacity:10];
+        for(NoteTag *nt in currentNoteTags)
+            if(nt.playerCreated) [constructPlayerNoteTags addObject:nt];
+        playerNoteTags = constructPlayerNoteTags;
+    }
+    return playerNoteTags;
 }
 
 - (Note *) noteForId:(int)noteId

@@ -710,6 +710,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchGamePanoramicList];
     [self fetchGameWebPageList];
     [self fetchGameOverlayList];
+    
+    [self fetchNoteTagLists];
 }
 
 - (void) fetchGameOverlayList
@@ -868,6 +870,25 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"notebook" method:@"getStubNotesVisibleToPlayer" arguments:args handler:self successSelector:@selector(parseNoteListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
+- (void) fetchNoteTagLists
+{
+    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+                    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
+                    nil];
+    [connection performAsynchronousRequestWithService:@"notebook" method:@"getGameTags" arguments:args handler:self successSelector:@selector(parseNoteTagsListFromJSON:) failSelector:nil userInfo:nil];
+}
+
+- (void) parseNoteTagsListFromJSON:(ServiceResult *)jsonResult
+{    
+    NSArray *noteTagDictList = (NSArray *)jsonResult.data;
+    NSMutableArray *tempNoteTagList = [[NSMutableArray alloc] initWithCapacity:noteTagDictList.count];
+    for(int i = 0; i < noteTagDictList.count; i++)
+        [tempNoteTagList addObject:[[NoteTag alloc] initWithDictionary:[noteTagDictList objectAtIndex:i]]];
+    
+    NSLog(@"NSNotification: LatestNoteTagListReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestNoteTagListReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:tempNoteTagList, @"noteTags", nil]]]; 
+}
+
 - (void) fetchNoteWithId:(int)noteId
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -930,33 +951,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
                                  nil];
     [connection performAsynchronousRequestWithService:@"nodes" method:@"getNodes" arguments:args handler:self successSelector:@selector(parseGameNodeListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-}
-
-- (void)fetchGameNoteTags
-{
-           NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
-                                 nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"getAllTagsInGame" arguments:args handler:self successSelector:@selector(parseGameTagsListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
-}
-
-- (void)parseGameTagsListFromJSON:(ServiceResult *)jsonResult
-{    
-    NSArray *gameTagsArray = (NSArray *)jsonResult.data;
-    
-    NSMutableArray *tempTagsList = [[NSMutableArray alloc] initWithCapacity:10];
-    
-    NSEnumerator *gameTagEnumerator = [gameTagsArray objectEnumerator];
-    NSDictionary *tagDictionary;
-    while ((tagDictionary = [gameTagEnumerator nextObject]))
-    {
-        NoteTag *t = [[NoteTag alloc]init];
-        t.text = [tagDictionary validObjectForKey:@"tag"];
-        t.playerCreated = [tagDictionary validBoolForKey:@"player_created"];
-        t.noteTagId = [tagDictionary validIntForKey:@"tag_id"];
-        [tempTagsList addObject:t];
-    }
-    [AppModel sharedAppModel].gameTagList = tempTagsList;
 }
 
 - (void) addTagToNote:(int)noteId tagName:(NSString *)tag
@@ -1084,13 +1078,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     if(!currentlyFetchingNoteList) return;
     currentlyFetchingNoteList = NO;
     
-    NSArray *noteListArray = (NSArray *)jsonResult.data;
-    NSMutableArray *tempNoteList = [[NSMutableArray alloc] initWithCapacity:10];
-    
-    NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
-    NSDictionary *dict;
-    while((dict = [enumerator nextObject]))
-        [tempNoteList addObject:[[Note alloc] initWithDictionary:dict]];
+    NSArray *noteDictList = (NSArray *)jsonResult.data;
+    NSMutableArray *tempNoteList = [[NSMutableArray alloc] initWithCapacity:noteDictList.count];
+    for(int i = 0; i < noteDictList.count; i++)
+        [tempNoteList addObject:[[Note alloc] initWithDictionary:[noteDictList objectAtIndex:i]]];
     
     NSLog(@"NSNotification: LatestNoteListReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestNoteListReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:tempNoteList, @"notes", nil]]]; 
