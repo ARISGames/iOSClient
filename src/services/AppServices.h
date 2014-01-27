@@ -90,7 +90,6 @@
 - (void) deleteNoteLocationWithNoteId:(int)noteId;
 - (void) addTagToNote:(int)noteId tagName:(NSString *)tag;
 - (void) deleteTagFromNote:(int)noteId tagId:(int)tagId;
-- (int) addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title;
 - (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh;
 - (void) likeNote:(int)noteId;
 - (void) unLikeNote:(int)noteId;

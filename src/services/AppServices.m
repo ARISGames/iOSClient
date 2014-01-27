@@ -513,20 +513,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"notes" method:@"unlikeNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) userInfo:nil];
 }
 
-- (int) addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],    @"bplayerId",
-                     [NSString stringWithFormat:@"%d",noteId],                                       @"cnoteId",
-                     title,                                                                          @"dtitle",
-                     nil];
-    ServiceResult *result = [connection performSynchronousRequestWithService:@"notes" method:@"addCommentToNote" arguments:args userInfo:nil];
-    [self fetchAllPlayerLists];
-    
-    return result.data ? [(NSDecimalNumber*)result.data intValue] : 0;
-}
-
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
 {
        NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -602,6 +588,16 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                           media,                                                                 @"media",    
                           nil]; 
     [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil userInfo:nil]; 
+}
+
+- (void) addComment:(NSString *)c fromPlayer:(Player *)p toNote:(Note *)n
+{
+    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+                          [NSString stringWithFormat:@"%d",n.noteId],   @"anoteId",   
+                          [NSString stringWithFormat:@"%d",p.playerId], @"bplayerId",  
+                          c,                                            @"ctext",
+                          nil]; 
+    [connection performAsynchronousRequestWithService:@"notebook" method:@"addCommentToNote" arguments:args handler:self successSelector:nil failSelector:nil userInfo:nil];  
 }
 
 - (void) uploadPlayerPic:(Media *)m

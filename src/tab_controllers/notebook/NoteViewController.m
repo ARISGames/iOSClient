@@ -208,8 +208,12 @@
     [self formatSubviewFrames]; 
     [[AppServices sharedAppServices] addComment:c fromPlayer:[AppModel sharedAppModel].player toNote:note];
     NoteComment *nc = [[NoteComment alloc] init];
+    nc.noteId = note.noteId; 
+    nc.owner = [AppModel sharedAppModel].player;
+    nc.text = c;
     [note.comments addObject:nc];
-    scrollView.contentOffset = CGPointMake(0,-64);  
+    [commentsDisplay setComments:note.comments];  
+    scrollView.contentOffset = CGPointMake(0,-64);   
 }
 
 - (void) ARISMediaViewFinishedPlayback:(ARISMediaView *)amv

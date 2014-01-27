@@ -57,13 +57,15 @@
 - (void) postButtonTouched
 {
     [commentArea resignFirstResponder]; 
-    [delegate commentConfirmed:commentArea.text];  
+    [delegate commentConfirmed:commentArea.text];
+    commentArea.text = @"";
 }
 
 - (void) cancelButtonTouched
 {
     [commentArea resignFirstResponder];  
     [delegate commentCancelled];   
+    commentArea.text = @""; 
 }
 
 - (void) textViewDidBeginEditing:(UITextView *)textView
