@@ -110,12 +110,14 @@
             {
                 noteExists = YES;
                 [((Note *)[currentNotes objectAtIndex:j]) mergeDataFromNote:((Note *)[newNotes objectAtIndex:i])];
+                [self mergeInNoteTagsArray:((Note *)[currentNotes objectAtIndex:j]).tags]; //if new/modified tags, this will handle it
             }
         }
         if(!noteExists) 
         {
             [currentNotes addObject:[newNotes objectAtIndex:i]];
-            [self invalidateNoteCaches];   
+            [self mergeInNoteTagsArray:((Note *)[newNotes objectAtIndex:i]).tags]; //if new/modified tags, this will handle it 
+            [self invalidateNoteCaches];    
         }
     }
 }
@@ -134,12 +136,12 @@
     for(int i = 0; i < [newNoteTags count]; i++)
     { 
         noteTagExists = NO;
-        for(int j = 0; j < [currentNotes count] && !noteTagExists; j++)
+        for(int j = 0; j < [currentNoteTags count] && !noteTagExists; j++)
         {
-            if(((NoteTag *)[newNoteTags objectAtIndex:i]).noteTagId == ((NoteTag *)[currentNotes objectAtIndex:j]).noteTagId)
+            if(((NoteTag *)[newNoteTags objectAtIndex:i]).noteTagId == ((NoteTag *)[currentNoteTags objectAtIndex:j]).noteTagId)
             {
                 noteTagExists = YES;
-                [((NoteTag *)[currentNotes objectAtIndex:j]) mergeDataFromNoteTag:((NoteTag *)[newNoteTags objectAtIndex:i])];
+                [((NoteTag *)[currentNoteTags objectAtIndex:j]) mergeDataFromNoteTag:((NoteTag *)[newNoteTags objectAtIndex:i])];
             }
         }
         if(!noteTagExists) 
