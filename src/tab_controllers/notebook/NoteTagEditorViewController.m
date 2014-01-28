@@ -144,13 +144,14 @@
         x += tv.frame.size.width+10;
         [existingTagsScrollView addSubview:tv];
     }
-    existingTagsScrollView.contentSize = CGSizeMake(x+20,30);
+    existingTagsScrollView.contentSize = CGSizeMake(x+10,30);
 }
 
 - (void) addTagButtonTouched
 {
     [self.view addSubview:tagInputField];
     [self.view addSubview:tagPredictionViewController.view]; 
+    [tagPredictionViewController queryString:@""];
     
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
        [delegate noteTagEditorWillBeginEditing];  
@@ -170,7 +171,7 @@
     self.view.frame = CGRectMake(0,self.view.frame.origin.y-100,self.view.frame.size.width,self.view.frame.size.height+100);
     
     tagPredictionViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,100);
-    existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x,existingTagsScrollView.frame.origin.y+100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
+    existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x-existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.origin.y+100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
     plus.frame  = CGRectMake( plus.frame.origin.x, plus.frame.origin.y+100, plus.frame.size.width, plus.frame.size.height); 
     minus.frame = CGRectMake(minus.frame.origin.x,minus.frame.origin.y+100,minus.frame.size.width,minus.frame.size.height); 
     grad.frame  = CGRectMake( grad.frame.origin.x, grad.frame.origin.y+100, grad.frame.size.width, grad.frame.size.height); 
@@ -183,7 +184,7 @@
 {
     self.view.frame = CGRectMake(0,self.view.frame.origin.y+100,self.view.frame.size.width,self.view.frame.size.height-100);
     
-    existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x,existingTagsScrollView.frame.origin.y-100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
+    existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x+existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.origin.y-100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
     plus.frame = CGRectMake(plus.frame.origin.x,plus.frame.origin.y-100,plus.frame.size.width,plus.frame.size.height); 
     minus.frame = CGRectMake(minus.frame.origin.x,minus.frame.origin.y-100,minus.frame.size.width,minus.frame.size.height); 
     grad.frame = CGRectMake(grad.frame.origin.x,grad.frame.origin.y-100,grad.frame.size.width,grad.frame.size.height); 
