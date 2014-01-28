@@ -152,8 +152,15 @@
     [self.view addSubview:tagInputField];
     [self.view addSubview:tagPredictionViewController.view]; 
     
+    [delegate noteTagEditorWillBeginEditing];  
     [tagInputField becomeFirstResponder]; 
     [self expandView];
+}
+
+- (void) stopEditing
+{
+   if(self.view.frame.size.height > 100)  //totally bs guess
+     [self textFieldShouldReturn:tagInputField];
 }
 
 - (void) expandView
@@ -162,9 +169,9 @@
     
     tagPredictionViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,100);
     existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x,existingTagsScrollView.frame.origin.y+100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
-    plus.frame = CGRectMake(plus.frame.origin.x,plus.frame.origin.y+100,plus.frame.size.width,plus.frame.size.height); 
+    plus.frame  = CGRectMake( plus.frame.origin.x, plus.frame.origin.y+100, plus.frame.size.width, plus.frame.size.height); 
     minus.frame = CGRectMake(minus.frame.origin.x,minus.frame.origin.y+100,minus.frame.size.width,minus.frame.size.height); 
-    grad.frame = CGRectMake(grad.frame.origin.x,grad.frame.origin.y+100,grad.frame.size.width,grad.frame.size.height); 
+    grad.frame  = CGRectMake( grad.frame.origin.x, grad.frame.origin.y+100, grad.frame.size.width, grad.frame.size.height); 
     tagInputField.frame = CGRectMake(tagInputField.frame.origin.x,tagInputField.frame.origin.y+100,tagInputField.frame.size.width,tagInputField.frame.size.height); 
     
     appleStopTryingToDoStuffWithoutMyPermission = YES;
@@ -200,6 +207,11 @@
 }
 
 - (void) deleteTagButtonTouched:(NoteTag *)t
+{
+    
+}
+
+- (void) existingTagChosen:(NoteTag *)nt
 {
     
 }

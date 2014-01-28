@@ -159,6 +159,11 @@
     return NO; //prevents \n from being added to description
 }
 
+- (void) textFieldWillBeginEditing:(UITextField *)textField
+{
+    [tagViewController stopEditing]; 
+}
+
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
     if([description.text isEqualToString:@""])
@@ -167,7 +172,14 @@
 
 - (void) textViewDidBeginEditing:(UITextView *)textView
 {
+    [tagViewController stopEditing];
     descriptionDoneButton.hidden = NO; 
+}
+
+- (void) noteTagEditorWillBeginEditing
+{
+    [title resignFirstResponder]; 
+    [description resignFirstResponder];
 }
 
 - (void) doneButtonPressed

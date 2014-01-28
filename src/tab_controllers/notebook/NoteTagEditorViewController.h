@@ -8,9 +8,11 @@
 
 #import "ARISViewController.h"
 @protocol NoteTagEditorViewControllerDelegate
+- (void) noteTagEditorWillBeginEditing;
 @end
 
 @interface NoteTagEditorViewController : ARISViewController
 - (id) initWithTags:(NSArray *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d;
 - (void) setTags:(NSArray *)t;
+- (void) stopEditing;
 @end
