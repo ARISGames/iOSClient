@@ -160,7 +160,8 @@
 
 - (void) stopEditing
 {
-   if(self.view.frame.size.height > 100) //totally bs guess
+    tagInputField.text = @"";
+    if(self.view.frame.size.height > 100) //totally bs guess
      [self textFieldShouldReturn:tagInputField];
 }
 
