@@ -8,10 +8,11 @@
 
 #import "NoteTagPredictionViewController.h"
 #import "NoteTag.h"
+#import "SelectableNoteTagCellView.h"
 
 #define CELL_HEIGHT 30
 
-@interface NoteTagPredictionViewController()
+@interface NoteTagPredictionViewController() <SelectableNoteTagCellViewDelegate>
 {
     NSArray *gameNoteTags;
     NSArray *playerNoteTags; 
@@ -103,11 +104,12 @@
 
 - (UIView *) cellForTag:(NoteTag *)nt
 {
-    UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, CELL_HEIGHT)];
-    UILabel *tagText = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, self.view.frame.size.width, CELL_HEIGHT-10)];
-    tagText.text = nt.text;
-    [cell addSubview:tagText];
-    return cell;
+    return [[SelectableNoteTagCellView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, CELL_HEIGHT) noteTag:nt delegate:self];
+}
+
+- (void) noteTagSelected:(NoteTag *)nt
+{
+    [delegate existingTagChosen:nt];
 }
 
 @end

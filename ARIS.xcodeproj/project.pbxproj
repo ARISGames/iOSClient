@@ -130,6 +130,7 @@
 		AA9A6D95182D75C3000CC323 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9A6D94182D75C3000CC323 /* lock.png */; };
 		AA9A6D98182D7ECA000CC323 /* NoteTagEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */; };
 		AA9A6D9A182DA3EB000CC323 /* left_white_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9A6D99182DA3EB000CC323 /* left_white_gradient.png */; };
+		AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */; };
 		AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1CE2C1891C1C20005F4DC /* NoteComment.m */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
@@ -572,6 +573,8 @@
 		AA9A6D96182D7ECA000CC323 /* NoteTagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagEditorViewController.h; sourceTree = "<group>"; };
 		AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagEditorViewController.m; sourceTree = "<group>"; };
 		AA9A6D99182DA3EB000CC323 /* left_white_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_white_gradient.png; sourceTree = "<group>"; };
+		AAA179D518985CAB004B82EE /* SelectableNoteTagCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectableNoteTagCellView.h; sourceTree = "<group>"; };
+		AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectableNoteTagCellView.m; sourceTree = "<group>"; };
 		AAA1CE2B1891C1C20005F4DC /* NoteComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteComment.h; sourceTree = "<group>"; };
 		AAA1CE2C1891C1C20005F4DC /* NoteComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteComment.m; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -1825,6 +1828,8 @@
 				AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */,
 				AA39FEC418970E15001F723D /* NoteTagPredictionViewController.h */,
 				AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */,
+				AAA179D518985CAB004B82EE /* SelectableNoteTagCellView.h */,
+				AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */,
 				AA8C360C1858C827000A8F0B /* NoteCameraViewController.h */,
 				AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */,
 				AAF9231D1885968B0026A4FC /* NoteRecorderViewController.h */,
@@ -2492,6 +2497,7 @@
 				AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */,
 				AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */,
 				AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */,
+				AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */,
 				AABC73A2172739D80074CC21 /* GamePickerRecentViewController.m in Sources */,
 				AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */,
 				AABC73A4172739D80074CC21 /* GamePickerSearchViewController.m in Sources */,

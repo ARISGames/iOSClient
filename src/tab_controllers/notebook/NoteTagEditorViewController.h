@@ -7,7 +7,12 @@
 //
 
 #import "ARISViewController.h"
+
+@class NoteTag;
+
 @protocol NoteTagEditorViewControllerDelegate
+@optional
+- (void) noteTagEditorCreatedTag:(NoteTag *)nt;
 - (void) noteTagEditorWillBeginEditing;
 @end
 

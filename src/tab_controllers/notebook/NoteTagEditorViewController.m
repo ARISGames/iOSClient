@@ -144,7 +144,7 @@
         x += tv.frame.size.width+10;
         [existingTagsScrollView addSubview:tv];
     }
-    existingTagsScrollView.contentSize = CGSizeMake(x,30);
+    existingTagsScrollView.contentSize = CGSizeMake(x+20,30);
 }
 
 - (void) addTagButtonTouched
@@ -152,14 +152,15 @@
     [self.view addSubview:tagInputField];
     [self.view addSubview:tagPredictionViewController.view]; 
     
-    [delegate noteTagEditorWillBeginEditing];  
+    if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
+       [delegate noteTagEditorWillBeginEditing];  
     [tagInputField becomeFirstResponder]; 
     [self expandView];
 }
 
 - (void) stopEditing
 {
-   if(self.view.frame.size.height > 100)  //totally bs guess
+   if(self.view.frame.size.height > 100) //totally bs guess
      [self textFieldShouldReturn:tagInputField];
 }
 
@@ -213,7 +214,9 @@
 
 - (void) existingTagChosen:(NoteTag *)nt
 {
-    
+    [self stopEditing];
+    if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorCreatedTag:)]) 
+        [delegate noteTagEditorCreatedTag:nt];
 }
 
 @end

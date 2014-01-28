@@ -182,6 +182,12 @@
     [description resignFirstResponder];
 }
 
+- (void) noteTagEditorCreatedTag:(NoteTag *)nt
+{
+    [note.tags addObject:nt];
+    [tagViewController setTags:note.tags];
+}
+
 - (void) doneButtonPressed
 {
     [description resignFirstResponder];
