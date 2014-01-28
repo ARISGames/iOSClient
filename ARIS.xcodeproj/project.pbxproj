@@ -83,6 +83,7 @@
 		AA383B171829A8BD00612FFB /* video.png in Resources */ = {isa = PBXBuildFile; fileRef = AA383B141829A8BD00612FFB /* video.png */; };
 		AA383B181829A8BD00612FFB /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = AA383B151829A8BD00612FFB /* photo.png */; };
 		AA383B1B1829AD2F00612FFB /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1A1829AD2F00612FFB /* NoteViewController.m */; };
+		AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */; };
 		AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FA8182037CB006C9715 /* SBJsonParser.m */; };
 		AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAA182037CB006C9715 /* SBJsonStreamParser.m */; };
 		AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAC182037CB006C9715 /* SBJsonStreamParserAccumulator.m */; };
@@ -498,6 +499,8 @@
 		AA383B151829A8BD00612FFB /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
 		AA383B191829AD2F00612FFB /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteViewController.h; path = ../../tab_controllers/notebook/NoteViewController.h; sourceTree = "<group>"; };
 		AA383B1A1829AD2F00612FFB /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteViewController.m; path = ../../tab_controllers/notebook/NoteViewController.m; sourceTree = "<group>"; };
+		AA39FEC418970E15001F723D /* NoteTagPredictionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagPredictionViewController.h; sourceTree = "<group>"; };
+		AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagPredictionViewController.m; sourceTree = "<group>"; };
 		AA3B7FA6182037CB006C9715 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
 		AA3B7FA7182037CB006C9715 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		AA3B7FA8182037CB006C9715 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
@@ -1820,6 +1823,8 @@
 				AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */,
 				AA9A6D96182D7ECA000CC323 /* NoteTagEditorViewController.h */,
 				AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */,
+				AA39FEC418970E15001F723D /* NoteTagPredictionViewController.h */,
+				AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */,
 				AA8C360C1858C827000A8F0B /* NoteCameraViewController.h */,
 				AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */,
 				AAF9231D1885968B0026A4FC /* NoteRecorderViewController.h */,
@@ -2609,6 +2614,7 @@
 				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
 				AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */,
 				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
+				AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */,
 				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,
 				AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,

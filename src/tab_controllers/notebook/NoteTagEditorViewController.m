@@ -7,18 +7,28 @@
 //
 
 #import "NoteTagEditorViewController.h"
+#import "NoteTagPredictionViewController.h"
 #import "ARISTemplate.h"
 #import "NoteTag.h"
+#import "AppModel.h"
+#import "NotesModel.h"
+#import "Game.h"
 
-@interface NoteTagEditorViewController ()
+@interface NoteTagEditorViewController() <UITextFieldDelegate, NoteTagPredictionViewControllerDelegate>
 {
     NSArray *tags;
     
-    UIScrollView *scrollView;
+    UIScrollView *existingTagsScrollView;
     UILabel *plus;
+    UILabel *minus; 
     UIImageView *grad;
     
+    UITextField *tagInputField;
+    NoteTagPredictionViewController *tagPredictionViewController;
+    
     BOOL editable;
+    
+    BOOL appleStopTryingToDoStuffWithoutMyPermission;
     
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -33,6 +43,7 @@
         tags = t;
         editable = e;
         delegate = d;
+        appleStopTryingToDoStuffWithoutMyPermission = NO;
     }
     return self;
 }
@@ -40,7 +51,7 @@
 - (void) loadView
 {
     [super loadView];
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
+    existingTagsScrollView  = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
     
     int width = [@" + " sizeWithFont:[ARISTemplate ARISBodyFont]].width;
     
@@ -55,20 +66,47 @@
     plus.userInteractionEnabled = YES;
     [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
     
+    //make "minus" in similar way to tags
+    minus = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,width,20)];
+    minus.font = [ARISTemplate ARISBodyFont];
+    minus.textColor = [UIColor whiteColor];
+    minus.backgroundColor = [UIColor ARISColorLightBlue];
+    minus.text = @" - ";
+    minus.layer.cornerRadius = 8;
+    minus.layer.masksToBounds = YES;
+    minus.userInteractionEnabled = YES;
+    [minus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
+    
     grad = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_white_gradient"]];
     grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30);
     
     [self refreshViewFromTags];  
-    [self.view addSubview:scrollView]; 
+    [self.view addSubview:existingTagsScrollView];
     if(editable) [self.view addSubview:plus]; 
     [self.view addSubview:grad]; 
+    
+    tagInputField = [[UITextField alloc] init];
+    tagInputField.delegate = self;
+    tagInputField.font = [ARISTemplate ARISTitleFont]; 
+    tagInputField.placeholder = @" tag";
+    tagInputField.returnKeyType = UIReturnKeyDone; 
+    tagPredictionViewController = [[NoteTagPredictionViewController alloc] 
+                                   initWithGameNoteTags:[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags
+                                   playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags 
+                                   delegate:self];  
 }
 
-- (void) viewDidLayoutSubviews
+- (void) viewWillLayoutSubviews
 {
-    plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
-    scrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,self.view.frame.size.height); 
-    grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
+    if(!appleStopTryingToDoStuffWithoutMyPermission)
+    {
+        plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
+        grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
+        existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
+        tagInputField.frame = CGRectMake(10, 0, self.view.frame.size.width-20,30);
+        tagPredictionViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,100);  
+    }
+    appleStopTryingToDoStuffWithoutMyPermission = NO; 
 }
 
 - (void) setTags:(NSArray *)t
@@ -95,7 +133,7 @@
 
 - (void) refreshViewFromTags
 {
-    while([[scrollView subviews] count] != 0) [[[scrollView subviews] objectAtIndex:0] removeFromSuperview];
+    while([[existingTagsScrollView subviews] count] != 0) [[[existingTagsScrollView subviews] objectAtIndex:0] removeFromSuperview];
     
     UIView *tv;
     int x = 10;
@@ -104,14 +142,61 @@
         tv = [self tagViewForTag:[tags objectAtIndex:i]];
         tv.frame = CGRectMake(x,5,tv.frame.size.width,tv.frame.size.height);
         x += tv.frame.size.width+10;
-        [scrollView addSubview:tv];
+        [existingTagsScrollView addSubview:tv];
     }
-    scrollView.contentSize = CGSizeMake(x,30);
+    existingTagsScrollView.contentSize = CGSizeMake(x,30);
 }
 
 - (void) addTagButtonTouched
 {
+    [self.view addSubview:tagInputField];
+    [self.view addSubview:tagPredictionViewController.view]; 
     
+    [tagInputField becomeFirstResponder]; 
+    [self expandView];
+}
+
+- (void) expandView
+{
+    self.view.frame = CGRectMake(0,self.view.frame.origin.y-100,self.view.frame.size.width,self.view.frame.size.height+100);
+    
+    tagPredictionViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,100);
+    existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x,existingTagsScrollView.frame.origin.y+100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
+    plus.frame = CGRectMake(plus.frame.origin.x,plus.frame.origin.y+100,plus.frame.size.width,plus.frame.size.height); 
+    minus.frame = CGRectMake(minus.frame.origin.x,minus.frame.origin.y+100,minus.frame.size.width,minus.frame.size.height); 
+    grad.frame = CGRectMake(grad.frame.origin.x,grad.frame.origin.y+100,grad.frame.size.width,grad.frame.size.height); 
+    tagInputField.frame = CGRectMake(tagInputField.frame.origin.x,tagInputField.frame.origin.y+100,tagInputField.frame.size.width,tagInputField.frame.size.height); 
+    
+    appleStopTryingToDoStuffWithoutMyPermission = YES;
+}
+
+- (void) retractView
+{
+    self.view.frame = CGRectMake(0,self.view.frame.origin.y+100,self.view.frame.size.width,self.view.frame.size.height-100);
+    
+    existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x,existingTagsScrollView.frame.origin.y-100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
+    plus.frame = CGRectMake(plus.frame.origin.x,plus.frame.origin.y-100,plus.frame.size.width,plus.frame.size.height); 
+    minus.frame = CGRectMake(minus.frame.origin.x,minus.frame.origin.y-100,minus.frame.size.width,minus.frame.size.height); 
+    grad.frame = CGRectMake(grad.frame.origin.x,grad.frame.origin.y-100,grad.frame.size.width,grad.frame.size.height); 
+    tagInputField.frame = CGRectMake(tagInputField.frame.origin.x,tagInputField.frame.origin.y-100,tagInputField.frame.size.width,tagInputField.frame.size.height); 
+    
+    appleStopTryingToDoStuffWithoutMyPermission = YES; 
+}
+
+// totally convoluted function- essentially "textFieldDidChange"
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    [tagPredictionViewController queryString:[textField.text stringByReplacingCharactersInRange:range withString:string]];
+    return YES;
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    [tagInputField removeFromSuperview];
+    [tagPredictionViewController.view removeFromSuperview];  
+    [self retractView];
+    return YES;
 }
 
 - (void) deleteTagButtonTouched:(NoteTag *)t
