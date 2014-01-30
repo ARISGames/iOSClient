@@ -203,6 +203,7 @@
 - (void) doneButtonPressed
 {
     [description resignFirstResponder];
+    if(note.tags.count == 0) [tagViewController beginEditing];
 }
 
 - (void) textViewDidEndEditing:(UITextView *)textView

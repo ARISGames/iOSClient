@@ -89,7 +89,7 @@
     tagInputField = [[UITextField alloc] init];
     tagInputField.delegate = self;
     tagInputField.font = [ARISTemplate ARISTitleFont]; 
-    tagInputField.placeholder = @" tag";
+    tagInputField.placeholder = @" choose a tag";
     tagInputField.returnKeyType = UIReturnKeyDone; 
     tagPredictionViewController = [[NoteTagPredictionViewController alloc] 
                                    initWithGameNoteTags:[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags
@@ -139,6 +139,11 @@
 
 - (void) addTagButtonTouched
 {
+    [self beginEditing];
+}
+
+- (void) beginEditing
+{
     [self.view addSubview:tagInputField];
     [self.view addSubview:tagPredictionViewController.view]; 
     [tagPredictionViewController queryString:@""];
@@ -146,7 +151,7 @@
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
        [delegate noteTagEditorWillBeginEditing];  
     [tagInputField becomeFirstResponder]; 
-    [self expandView];
+    [self expandView];   
 }
 
 - (void) stopEditing

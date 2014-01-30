@@ -21,5 +21,6 @@
 @interface NoteTagEditorViewController : ARISViewController
 - (id) initWithTags:(NSArray *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d;
 - (void) setTags:(NSArray *)t;
+- (void) beginEditing;
 - (void) stopEditing;
 @end
