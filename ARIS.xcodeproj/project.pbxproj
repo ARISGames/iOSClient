@@ -95,6 +95,7 @@
 		AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB8182037CB006C9715 /* SBJsonStreamWriterState.m */; };
 		AA3B7FC4182037CB006C9715 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */; };
 		AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */; };
+		AA45A3B3189ABA160016E391 /* NoteTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA45A3B2189ABA160016E391 /* NoteTagView.m */; };
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
 		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
@@ -525,6 +526,8 @@
 		AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
+		AA45A3B1189ABA160016E391 /* NoteTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagView.h; sourceTree = "<group>"; };
+		AA45A3B2189ABA160016E391 /* NoteTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagView.m; sourceTree = "<group>"; };
 		AA49A25B17AAE6C200629C87 /* ARISMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaView.h; sourceTree = "<group>"; };
 		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
 		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
@@ -1826,6 +1829,8 @@
 				AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */,
 				AA9A6D96182D7ECA000CC323 /* NoteTagEditorViewController.h */,
 				AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */,
+				AA45A3B1189ABA160016E391 /* NoteTagView.h */,
+				AA45A3B2189ABA160016E391 /* NoteTagView.m */,
 				AA39FEC418970E15001F723D /* NoteTagPredictionViewController.h */,
 				AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */,
 				AAA179D518985CAB004B82EE /* SelectableNoteTagCellView.h */,
@@ -2550,6 +2555,7 @@
 				AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */,
 				AABC742C172739D80074CC21 /* glues_mipmap.c in Sources */,
 				AABC742D172739D80074CC21 /* glues_project.c in Sources */,
+				AA45A3B3189ABA160016E391 /* NoteTagView.m in Sources */,
 				AABC742E172739D80074CC21 /* glues_quad.c in Sources */,
 				AA2B8342187DDC1200D92A28 /* ARISTemplate.m in Sources */,
 				AABC742F172739D80074CC21 /* glues_registry.c in Sources */,

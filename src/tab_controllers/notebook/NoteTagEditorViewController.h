@@ -14,6 +14,7 @@
 @optional
 - (void) noteTagEditorAddedTag:(NoteTag *)nt;
 - (void) noteTagEditorCreatedTag:(NoteTag *)nt;
+- (void) noteTagEditorDeletedTag:(NoteTag *)nt;
 - (void) noteTagEditorWillBeginEditing;
 @end
 
