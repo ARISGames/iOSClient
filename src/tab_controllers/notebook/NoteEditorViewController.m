@@ -197,12 +197,6 @@
 - (void) noteTagEditorDeletedTag:(NoteTag *)nt
 {
     [note.tags removeObject:nt]; 
-    /*
-    for(int i = 0; i < note.tags.count; i++)
-    {
-        if([note.tags objectAtIndex:i] == nt)
-    }
-     */
     [tagViewController setTags:note.tags]; 
 }
 

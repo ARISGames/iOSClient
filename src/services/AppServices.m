@@ -13,6 +13,7 @@
 #import "ARISMediaView.h"
 #import "Player.h"
 #import "Note.h"
+#import "NoteTag.h"
 #import "Overlay.h"
 #import "MediaModel.h"
 
@@ -558,6 +559,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [media addObject:m];
     }
     
+    NSMutableArray *tags = [[NSMutableArray alloc] initWithCapacity:n.tags];
+    for(int i = 0; i < [n.tags count]; i++)
+        [tags addObject:((NoteTag *)[n.tags objectAtIndex:i]).text];
+    
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSNumber numberWithInt:[AppModel sharedAppModel].currentGame.gameId], @"gameId", 
                           [NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId],    @"playerId",  
@@ -567,6 +572,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                           [NSNumber numberWithBool:n.publicToList],                              @"publicToBook",  
                           location,                                                              @"location",   
                           media,                                                                 @"media",    
+                          tags,                                                                  @"tags",     
                           nil]; 
     [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil userInfo:nil]; 
 }
