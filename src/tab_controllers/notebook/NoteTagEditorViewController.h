@@ -12,6 +12,7 @@
 
 @protocol NoteTagEditorViewControllerDelegate
 @optional
+- (void) noteTagEditorAddedTag:(NoteTag *)nt;
 - (void) noteTagEditorCreatedTag:(NoteTag *)nt;
 - (void) noteTagEditorWillBeginEditing;
 @end

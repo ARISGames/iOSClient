@@ -196,14 +196,58 @@
 // totally convoluted function- essentially "textFieldDidChange"
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    [tagPredictionViewController queryString:[textField.text stringByReplacingCharactersInRange:range withString:string]];
+    //if backspace with already highlighted text... I know... weird
+    if(range.location != 0 && range.length > 0 && string.length == 0) { range.location--; range.length++; }
+    
+    NSString *updatedInput = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    NSDictionary *matchedTags = [tagPredictionViewController queryString:updatedInput];
+    
+    NSArray *gnt = [matchedTags objectForKey:@"game"];
+    NSArray *pnt = [matchedTags objectForKey:@"player"]; 
+    NoteTag *nt;
+    //If there's only one matched tag...
+    if((gnt.count == 1 && pnt.count == 0 && (nt = [gnt objectAtIndex:0])) ||
+       (gnt.count == 0 && pnt.count == 1 && (nt = [pnt objectAtIndex:0])))
+    {
+        //If curent input matches said tag FROM BEGINNING of string...
+        if([nt.text rangeOfString:[NSString stringWithFormat:@"^%@.*",tagInputField.text] options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)  
+        {
+            //Set input to prediction with deltas highlighted for quick deletion
+            NSString *hijackedInput = nt.text;
+            tagInputField.text = hijackedInput; 
+            UITextPosition *start = [tagInputField positionFromPosition:tagInputField.beginningOfDocument offset:updatedInput.length];
+            UITextPosition *end = [tagInputField positionFromPosition:start offset:hijackedInput.length-updatedInput.length];
+            [tagInputField setSelectedTextRange:[tagInputField textRangeFromPosition:start toPosition:end]];
+            return NO;
+        }
+    }
+    
     return YES;
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    NSArray *allValidTags = [[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags arrayByAddingObjectsFromArray: [AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];
+    BOOL tagExists = NO;
+    for(int i = 0; i < allValidTags.count; i++)
+    {
+        if([[((NoteTag *)[allValidTags objectAtIndex:i]).text lowercaseString] isEqualToString:[tagInputField.text lowercaseString]])
+        {
+            tagExists = YES;
+            [delegate noteTagEditorAddedTag:[allValidTags objectAtIndex:i]];
+            break;
+        }
+    }
+    if(!tagExists && ![tagInputField.text isEqualToString:@""])
+    {
+        NoteTag *newNoteTag = [[NoteTag alloc] init];
+        newNoteTag.text = tagInputField.text;
+        newNoteTag.playerCreated = YES;
+        [delegate noteTagEditorCreatedTag:newNoteTag]; 
+    }
+    [tagInputField resignFirstResponder];
     [tagInputField removeFromSuperview];
+    tagInputField.text = @"";
     [tagPredictionViewController.view removeFromSuperview];  
     [self retractView];
     return YES;
@@ -217,8 +261,8 @@
 - (void) existingTagChosen:(NoteTag *)nt
 {
     [self stopEditing];
-    if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorCreatedTag:)]) 
-        [delegate noteTagEditorCreatedTag:nt];
+    if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorAddedTag:)]) 
+        [delegate noteTagEditorAddedTag:nt];
 }
 
 @end
