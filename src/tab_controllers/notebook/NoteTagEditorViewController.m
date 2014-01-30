@@ -200,7 +200,7 @@
        (gnt.count == 0 && pnt.count == 1 && (nt = [pnt objectAtIndex:0])))
     {
         //If curent input matches said tag FROM BEGINNING of string...
-        if([nt.text rangeOfString:[NSString stringWithFormat:@"^%@.*",tagInputField.text] options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)  
+        if([nt.text rangeOfString:[NSString stringWithFormat:@"^%@.*",updatedInput] options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)  
         {
             //Set input to prediction with deltas highlighted for quick deletion
             NSString *hijackedInput = nt.text;
