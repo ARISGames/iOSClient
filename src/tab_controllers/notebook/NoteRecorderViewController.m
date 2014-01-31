@@ -274,7 +274,7 @@
 - (void) fileWasTrimmed:(NSURL *)u
 {
     audioFileURL = u;
-    [self.navigationController popToViewController:self animated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) dealloc

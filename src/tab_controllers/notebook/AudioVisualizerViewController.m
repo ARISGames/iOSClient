@@ -389,7 +389,9 @@
          if(AVAssetExportSessionStatusCompleted == exportSession.status)
          {
              [[NSFileManager defaultManager] removeItemAtURL:audioURL error: nil];
-             [delegate fileWasTrimmed:tmpOutFile];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [delegate fileWasTrimmed:tmpOutFile];
+             });
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
@@ -402,6 +404,7 @@
          }
      }];
 }
+
 
 - (void) flipView
 {
