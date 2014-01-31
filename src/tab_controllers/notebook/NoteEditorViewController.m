@@ -11,6 +11,7 @@
 #import "NoteTagEditorViewController.h"
 #import "NoteCameraViewController.h"
 #import "NoteRecorderViewController.h"
+#import "NoteLocationPickerController.h"
 #import "Note.h"
 #import "NoteTag.h"
 #import "AppModel.h"
@@ -19,7 +20,7 @@
 #import "Player.h"
 #import "ARISTemplate.h"
 
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate>
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate>
 {
     Note *note;
     
@@ -218,6 +219,7 @@
 
 - (void) locationPickerButtonTouched
 {
+    [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:[AppModel sharedAppModel].player.location delegate:self] animated:YES]; 
 }
 
 - (void) imagePickerButtonTouched
