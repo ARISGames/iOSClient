@@ -27,8 +27,9 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
-    self.view.frame = [UIScreen mainScreen].bounds;
+    //forces the frame to be in landscape mode, results in weird frame when changing orientations
+    //[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
+    //self.view.frame = [UIScreen mainScreen].bounds;
 }
 
 // Container VC Functions pulled from Apple Docs 5/6/13

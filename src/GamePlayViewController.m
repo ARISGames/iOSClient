@@ -14,6 +14,9 @@
 
 //#import "Location.h"
 
+//needed for orientation hack
+#import "AudioVisualizerViewController.h"
+
 //PHIL APPROVED IMPORTS
 #import "GamePlayViewController.h"
 #import "StateControllerProtocol.h"
@@ -364,7 +367,13 @@
 
 - (NSUInteger) supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    //BAD BAD HACK
+    if ([[self.notesNavigationController topViewController] isKindOfClass:[AudioVisualizerViewController class]]) {
+        return UIInterfaceOrientationMaskLandscape;
+    }
+    else{
+        return UIInterfaceOrientationMaskPortrait;
+    }
 }
 
 @end

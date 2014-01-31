@@ -17,6 +17,8 @@
 #import <Accelerate/Accelerate.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import "objc/message.h"
+
 #define SLIDER_BUFFER 35
 
 @interface AudioVisualizerViewController () <WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate, PlayheadControlDelegate, UIAlertViewDelegate>
@@ -89,15 +91,18 @@
     return self;
 }
 
-- (void) orientationHack
+- (void) orientationHack:(UIInterfaceOrientation)orientation
 {
+    NSLog(@"Orientation Hack called");
     //this is a giant hack that causes the current view controller to re-evaluate the orientation its in.
     //change if a better way is found for forcing the orientation to initially be in landscape
+    /*
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIView *view = [window.subviews objectAtIndex:0];
     [view removeFromSuperview];
     [window addSubview:view];
-    
+    */
+     
     /*
     UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
     ARISViewController *root = (ARISViewController *)window.rootViewController;
@@ -105,6 +110,8 @@
     window.rootViewController = root;
     [ARISViewController attemptRotationToDeviceOrientation];
      */
+    
+    objc_msgSend([UIDevice currentDevice], @selector(setOrientation:), orientation);
 }
 
 - (void) loadView
@@ -183,11 +190,23 @@
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
 }
 
+
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //[self orientationHack]; 
+    //[self orientationHack];
 }
+
+- (void) viewDidLoad
+{
+    [self orientationHack:UIInterfaceOrientationLandscapeRight];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [self orientationHack:UIInterfaceOrientationPortrait];
+}
+
 
 - (void) draggedOut:(UIControl *)c withEvent:(UIEvent *)ev
 {
@@ -526,6 +545,7 @@
     
     return magDB;
 }
+
 
 - (NSUInteger) supportedInterfaceOrientations
 {
