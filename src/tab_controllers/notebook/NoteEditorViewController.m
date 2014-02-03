@@ -219,7 +219,10 @@
 
 - (void) locationPickerButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:[AppModel sharedAppModel].player.location delegate:self] animated:YES]; 
+    if(note.location && note.location.latlon)
+        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:note.location.coordinate delegate:self] animated:YES];
+    else
+        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:[AppModel sharedAppModel].player.location.coordinate delegate:self] animated:YES]; 
 }
 
 - (void) imagePickerButtonTouched
@@ -243,6 +246,14 @@
     if(newNote) [[AppServices sharedAppServices] uploadNote:note];
     
     [delegate noteEditorConfirmedNoteEdit:self note:note]; 
+}
+
+- (void) newLocationPicked:(CLLocationCoordinate2D)l
+{
+    note.location = [[Location alloc] init];
+    note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
+    note.location.coordinate = l;
+    [self.navigationController popToViewController:self animated:YES];   
 }
 
 - (void) imageChosenWithURL:(NSURL *)url

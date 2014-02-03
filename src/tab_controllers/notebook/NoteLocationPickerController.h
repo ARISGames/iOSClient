@@ -10,7 +10,8 @@
 #import <MapKit/MapKit.h>
 
 @protocol NoteLocationPickerControllerDelegate
+- (void) newLocationPicked:(CLLocationCoordinate2D)l;
 @end
 @interface NoteLocationPickerController : UIViewController
-- (id) initWithInitialLocation:(CLLocation *)l delegate:(id<NoteLocationPickerControllerDelegate>)d;
+- (id) initWithInitialLocation:(CLLocationCoordinate2D)l delegate:(id<NoteLocationPickerControllerDelegate>)d;
 @end
