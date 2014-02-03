@@ -21,21 +21,27 @@
     return self;
 }
 
+- (void) setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self setNeedsDisplay];
+}
+
 - (void) drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-    CGPoint mid = CGPointMake(rect.origin.x+(rect.size.width/2),rect.origin.y+(rect.size.height/2));
+    CGPoint mid = CGPointMake(self.bounds.origin.x+(self.bounds.size.width/2),self.bounds.origin.y+(self.bounds.size.height/2));
     
     CGMutablePathRef path = CGPathCreateMutable(); 
     CGPathMoveToPoint(path, NULL, mid.x, mid.y);
-    CGPathAddLineToPoint(path, NULL, mid.x, rect.origin.y                 );
-    CGPathAddLineToPoint(path, NULL, mid.x, rect.origin.y+rect.size.height); 
+    CGPathAddLineToPoint(path, NULL, mid.x, self.bounds.origin.y                       );
+    CGPathAddLineToPoint(path, NULL, mid.x, self.bounds.origin.y+self.bounds.size.height); 
     CGPathAddLineToPoint(path, NULL, mid.x, mid.y); 
-    CGPathAddLineToPoint(path, NULL, rect.origin.x                , mid.y);
-    CGPathAddLineToPoint(path, NULL, rect.origin.x+rect.size.width, mid.y); 
+    CGPathAddLineToPoint(path, NULL, self.bounds.origin.x                      , mid.y);
+    CGPathAddLineToPoint(path, NULL, self.bounds.origin.x+self.bounds.size.width, mid.y); 
     CGPathCloseSubpath(path);
     
-    [[UIColor ARISColorTranslucentBlack] set];   
+    [[UIColor ARISColorTranslucentBlack] set];
     CGContextAddPath(UIGraphicsGetCurrentContext(), path);
     CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 2.0); 
     CGContextStrokePath(UIGraphicsGetCurrentContext());

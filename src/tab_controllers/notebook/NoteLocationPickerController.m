@@ -56,8 +56,9 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    mapView.frame    = self.view.bounds;
-    crossHairs.frame = self.view.bounds;
+    //mapView.frame    = self.view.bounds;
+    mapView.frame    = CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64);
+    crossHairs.frame = CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64); 
     saveButton.frame = CGRectMake(self.view.bounds.size.width-100, self.view.bounds.size.height-60, 80, 40); 
 }
 
@@ -69,11 +70,10 @@
     //mapView.mapType = MKMapTypeHybrid;
     //mapView.mapType = MKMapTypeStandard;
     
-    //[mapView setShowsUserLocation:NO];
-    [self zoomAndCenterMap];
+    [mapView setCenterCoordinate:location animated:NO]; 
 }
 
-- (void) changeMapType:(id)sender
+- (void) changeMapType
 {
     switch(mapView.mapType)
     {
@@ -81,28 +81,6 @@
         case MKMapTypeSatellite:mapView.mapType = MKMapTypeHybrid;    break;
         case MKMapTypeHybrid:   mapView.mapType = MKMapTypeStandard;  break;
     }
-}
-
-- (void) zoomAndCenterMap
-{	
-	MKCoordinateRegion region = mapView.region;
-	region.center = location;
-	region.span = MKCoordinateSpanMake(0.001f, 0.001f);
-    
-	[mapView setRegion:region animated:YES];
-}
-
-- (double) getZoomLevel:(MKMapView *)mV
-{
-    //Copied and pasted from who knows where
-    double MERCATOR_RADIUS = 85445659.44705395;
-    double MAX_GOOGLE_LEVELS  = 20;
-    CLLocationDegrees longitudeDelta = mV.region.span.longitudeDelta;
-    CGFloat mapWidthInPixels = mV.bounds.size.width;
-    double zoomScale = longitudeDelta * MERCATOR_RADIUS * M_PI / (180.0 * mapWidthInPixels);
-    double zoomer = MAX_GOOGLE_LEVELS - log2(zoomScale);
-    if(zoomer < 0) zoomer = 0;
-    return zoomer;
 }
 
 - (void) saveButtonTouched
