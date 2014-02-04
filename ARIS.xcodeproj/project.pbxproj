@@ -343,7 +343,6 @@
 		AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7373172739D80074CC21 /* UIImage+Scale.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FB17285FF70074CC21 /* QuestsViewController.xib */; };
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
-		AABC75011728600B0074CC21 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FF1728600B0074CC21 /* MapViewController.xib */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
 		AABC750A172860690074CC21 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7508172860690074CC21 /* NpcViewController.m */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
@@ -936,7 +935,6 @@
 		AABC74FB17285FF70074CC21 /* QuestsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestsViewController.xib; sourceTree = "<group>"; };
 		AABC74FD1728600B0074CC21 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		AABC74FE1728600B0074CC21 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
-		AABC74FF1728600B0074CC21 /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		AABC75021728604E0074CC21 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageViewController.h; sourceTree = "<group>"; };
 		AABC75031728604E0074CC21 /* WebPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPageViewController.m; sourceTree = "<group>"; };
 		AABC7507172860690074CC21 /* NpcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcViewController.h; sourceTree = "<group>"; };
@@ -1808,7 +1806,6 @@
 			children = (
 				AABC74FD1728600B0074CC21 /* MapViewController.h */,
 				AABC74FE1728600B0074CC21 /* MapViewController.m */,
-				AABC74FF1728600B0074CC21 /* MapViewController.xib */,
 				AABC715D172739D60074CC21 /* AnnotationView.h */,
 				AABC715E172739D60074CC21 /* AnnotationView.m */,
 				AABC7164172739D60074CC21 /* TileOverlay.h */,
@@ -2441,7 +2438,6 @@
 				AABC7438172739D80074CC21 /* README in Resources */,
 				AA2D215017DE560C00CF4198 /* todo.png in Resources */,
 				AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */,
-				AABC75011728600B0074CC21 /* MapViewController.xib in Resources */,
 				AA2D214F17DE560C00CF4198 /* qr_small@2x.png in Resources */,
 				AA527E4917E0B6830040AB75 /* threelines.png in Resources */,
 				AA74E79F176267EF005C279B /* MainWindow-iPad.xib in Resources */,
