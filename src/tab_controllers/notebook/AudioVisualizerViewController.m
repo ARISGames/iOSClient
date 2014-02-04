@@ -68,6 +68,10 @@
 	NSString *infoString;
     
     id<AudioVisualizerViewControllerDelegate> __unsafe_unretained delegate;
+    
+    CGFloat navBarSize;
+    CGFloat statusBarSize;
+    CGFloat navAndStatusBarSize;
 }
 
 @end
@@ -124,9 +128,10 @@
     CGSize ms = self.view.bounds.size;
 
     //32 is the nav bar in landscape, 20 is the status bar
-    CGFloat navBarSize = 32;
-    CGFloat statusBarSize = 20;
-    CGFloat navAndStatusBarSize = navBarSize + statusBarSize;
+    navBarSize = 32;
+    statusBarSize = 20;
+    navAndStatusBarSize = navBarSize + statusBarSize;
+    CGFloat sliderWidth = 35;
     
     //height and width are switch around because we are in landscape mode now
     //freqControl = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
@@ -136,22 +141,23 @@
     [self.view addSubview:wfControl];
     [self.view addSubview:playHead];
 
-    /*
-    leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(        -17.5, 64, 35, ms.height - 64)];
-    rightSlider = [[AudioSlider alloc] initWithFrame:CGRectMake(ms.width-17.5, 64, 35, ms.height - 64)]; 
-    [leftSlider  addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
+    
+    //must subtract an addition nav bar here because of the toolbar at the bottom
+    //leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(        -17.5, 64, 35, ms.height - 64)];
+    rightSlider = [[AudioSlider alloc] initWithFrame:CGRectMake(ms.height-(sliderWidth / 2), navAndStatusBarSize, sliderWidth, ms.width - navAndStatusBarSize - navBarSize)];
+    //[leftSlider  addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
-    leftTint  = [[UIView alloc] initWithFrame:CGRectMake(                   0, 64, leftSlider.center.x, ms.height-64)];
-    rightTint = [[UIView alloc] initWithFrame:CGRectMake(rightSlider.center.x, 64,            ms.width, ms.height-64)];   
-    leftTint.backgroundColor  = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f];
+    //leftTint  = [[UIView alloc] initWithFrame:CGRectMake(                   0, 64, leftSlider.center.x, ms.height-64)];
+    rightTint = [[UIView alloc] initWithFrame:CGRectMake(rightSlider.center.x, navAndStatusBarSize,            ms.width, ms.width - navAndStatusBarSize - navBarSize)];
+    //leftTint.backgroundColor  = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f];
     rightTint.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f]; 
-    leftTint.opaque  = NO;
+    //leftTint.opaque  = NO;
     rightTint.opaque = NO; 
-    [self.view addSubview:leftTint];
+    //[self.view addSubview:leftTint];
     [self.view addSubview:rightTint]; 
-    [self.view addSubview:leftSlider]; 
+    //[self.view addSubview:leftSlider];
     [self.view addSubview:rightSlider]; 
-    */
+    
      
     toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, ms.width-navBarSize, ms.height, navBarSize)];
     
@@ -241,7 +247,7 @@
             else                                               rightSlider.center = CGPointMake(leftSlider.center.x + SLIDER_BUFFER, c.center.y);
             
             [self setPlayHeadToLeftSlider]; 
-            rightTint.frame = CGRectMake(rightSlider.center.x, 64, self.view.bounds.size.width, self.view.bounds.size.height);
+            rightTint.frame = CGRectMake(rightSlider.center.x, navAndStatusBarSize, self.view.bounds.size.width, self.view.bounds.size.height - navAndStatusBarSize - navBarSize);
         }
     }
 }
