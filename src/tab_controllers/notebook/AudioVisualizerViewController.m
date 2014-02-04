@@ -249,6 +249,8 @@
             
             [self setPlayHeadToLeftSlider]; 
             rightTint.frame = CGRectMake(rightSlider.center.x, navAndStatusBarSize, self.view.bounds.size.width, self.view.bounds.size.height - navAndStatusBarSize - navBarSize);
+            CGFloat percentScreen = rightSlider.center.x / self.view.bounds.size.width;
+            endTime = percentScreen;
         }
     }
 }
@@ -261,6 +263,7 @@
     float timeSelected = duration * sel;
     CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
     [player seekToTime:tm];
+    [self loadAudio];
 }
 
 - (void) updateTimeString
@@ -403,7 +406,7 @@
     [player pause]; 
     
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
-    [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"]; 
+    [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm_ss"]; 
     NSURL *tmpOutFile = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_audio_trimmed.m4a", [outputFormatter stringFromDate:[NSDate date]]]]];      
     
     AVAsset *asset = [AVAsset assetWithURL:audioURL];
@@ -412,8 +415,8 @@
     
     duration = CMTimeGetSeconds(player.currentItem.duration);
     
-    float vocalStartMarker  = (leftSlider.center.x  / self.view.frame.size.width) * duration;
-    float vocalEndMarker    = (rightSlider.center.x / self.view.frame.size.width) * duration; 
+    float vocalStartMarker  = (leftSlider.center.x  / self.view.bounds.size.width) * duration;
+    float vocalEndMarker    = (rightSlider.center.x / self.view.bounds.size.width) * duration;
 
     CMTime startTime = CMTimeMake(vocalStartMarker , 1);
     CMTime stopTime = CMTimeMake(vocalEndMarker , 1);
@@ -427,9 +430,9 @@
      {
          if(AVAssetExportSessionStatusCompleted == exportSession.status)
          {
-             [[NSFileManager defaultManager] removeItemAtURL:audioURL error: nil];
              dispatch_async(dispatch_get_main_queue(), ^{
                  [delegate fileWasTrimmed:tmpOutFile];
+                 [[NSFileManager defaultManager] removeItemAtURL:audioURL error: nil];
              });
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
