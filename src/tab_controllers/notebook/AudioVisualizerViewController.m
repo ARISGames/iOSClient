@@ -143,19 +143,19 @@
 
     
     //must subtract an addition nav bar here because of the toolbar at the bottom
-    //leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(        -17.5, 64, 35, ms.height - 64)];
+    leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(        100, navAndStatusBarSize, sliderWidth, ms.width - navAndStatusBarSize - navBarSize)];
     rightSlider = [[AudioSlider alloc] initWithFrame:CGRectMake(ms.height-(sliderWidth / 2), navAndStatusBarSize, sliderWidth, ms.width - navAndStatusBarSize - navBarSize)];
-    //[leftSlider  addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
+    [leftSlider  addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
-    //leftTint  = [[UIView alloc] initWithFrame:CGRectMake(                   0, 64, leftSlider.center.x, ms.height-64)];
+    leftTint  = [[UIView alloc] initWithFrame:CGRectMake(                   0, navAndStatusBarSize, leftSlider.center.x, ms.width- navAndStatusBarSize - navBarSize)];
     rightTint = [[UIView alloc] initWithFrame:CGRectMake(rightSlider.center.x, navAndStatusBarSize,            ms.width, ms.width - navAndStatusBarSize - navBarSize)];
-    //leftTint.backgroundColor  = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f];
+    leftTint.backgroundColor  = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f];
     rightTint.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f]; 
-    //leftTint.opaque  = NO;
+    leftTint.opaque  = NO;
     rightTint.opaque = NO; 
-    //[self.view addSubview:leftTint];
+    [self.view addSubview:leftTint];
     [self.view addSubview:rightTint]; 
-    //[self.view addSubview:leftSlider];
+    [self.view addSubview:leftSlider];
     [self.view addSubview:rightSlider]; 
     
      
@@ -239,7 +239,7 @@
             else                                               leftSlider.center = CGPointMake(rightSlider.center.x - SLIDER_BUFFER, c.center.y);
             
             [self setPlayHeadToLeftSlider];
-            leftTint.frame = CGRectMake(0, 64, leftSlider.center.x, self.view.bounds.size.height);
+            leftTint.frame = CGRectMake(0, navAndStatusBarSize, leftSlider.center.x, self.view.bounds.size.height - navAndStatusBarSize - navBarSize);
         }
         else
         {
