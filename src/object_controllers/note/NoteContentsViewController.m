@@ -8,11 +8,13 @@
 
 #import "NoteContentsViewController.h"
 #import "ARISMediaView.h"
+#import "ARISTemplate.h"
 #import "AppModel.h"
 
 @interface NoteContentsViewController () <ARISMediaViewDelegate, UIScrollViewDelegate>
 {
     NSArray *contents;
+    UILabel *noMediaNotice;
     UIScrollView *scrollView;
     UIPageControl *pageControl;
     id<NoteContentsViewControllerDelegate> __unsafe_unretained delegate;
@@ -37,22 +39,30 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.view.clipsToBounds = YES;
     
+    noMediaNotice = [[UILabel alloc] init];
+    noMediaNotice.text = @"(no media added)";
+    noMediaNotice.font = [ARISTemplate ARISBodyFont];
+    noMediaNotice.textColor = [UIColor whiteColor];
+    noMediaNotice.textAlignment = NSTextAlignmentCenter;
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.pagingEnabled = YES;
     scrollView.showsHorizontalScrollIndicator = NO;
-    scrollView.showsVerticalScrollIndicator = NO; 
+    scrollView.showsVerticalScrollIndicator = NO;
     scrollView.scrollsToTop = NO;
     scrollView.delegate = self;
     pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20)];
     [self refreshFromContents];
+    
+    [self.view addSubview:noMediaNotice];
     [self.view addSubview:scrollView];
-    [self.view addSubview:pageControl]; 
+    [self.view addSubview:pageControl];
 }
     
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
     
+    noMediaNotice.frame = CGRectMake(self.view.bounds.size.width/2-60,self.view.bounds.size.height/2-15,120,30);
     scrollView.frame = self.view.bounds;
     pageControl.frame = CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20); 
     
