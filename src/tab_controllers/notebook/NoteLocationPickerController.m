@@ -15,8 +15,9 @@
 @interface NoteLocationPickerController() <MKMapViewDelegate>
 {
     CLLocationCoordinate2D location;
+    CLLocationCoordinate2D initialLocation; 
     MKMapView *mapView; 
-    UIButton *saveButton;
+    UIButton *resetButton;
     NoteLocationPickerCrosshairsView *crossHairs;
     id<NoteLocationPickerControllerDelegate> __unsafe_unretained delegate;
 }
@@ -30,6 +31,7 @@
     if(self = [super init])
     {
         location = l;
+        initialLocation = l; 
         delegate = d;
         
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
@@ -40,26 +42,31 @@
 - (void) loadView
 {
     [super loadView];
+          
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveButtonTouched)];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;    
+    
     mapView = [[MKMapView alloc] init];
 	mapView.delegate = self;
     crossHairs = [[NoteLocationPickerCrosshairsView alloc] init];
-    saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveButton setTitle:@"Save" forState:UIControlStateNormal];
-    [saveButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
-    [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    
+    resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [resetButton setTitle:@"Reset" forState:UIControlStateNormal];
+    [resetButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
+    resetButton.titleLabel.textAlignment = NSTextAlignmentRight; 
+    [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:mapView]; 
     [self.view addSubview:crossHairs];  
-    [self.view addSubview:saveButton];   
+    [self.view addSubview:resetButton];   
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    //mapView.frame    = self.view.bounds;
-    mapView.frame    = CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64);
-    crossHairs.frame = CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64); 
-    saveButton.frame = CGRectMake(self.view.bounds.size.width-100, self.view.bounds.size.height-60, 80, 40); 
+    mapView.frame     = CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64);
+    crossHairs.frame  = CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64); 
+    resetButton.frame = CGRectMake(self.view.bounds.size.width-100, self.view.bounds.size.height-30, 95, 30); 
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -81,6 +88,11 @@
         case MKMapTypeSatellite:mapView.mapType = MKMapTypeHybrid;    break;
         case MKMapTypeHybrid:   mapView.mapType = MKMapTypeStandard;  break;
     }
+}
+
+- (void) resetButtonTouched
+{
+    [mapView setCenterCoordinate:location animated:YES];  
 }
 
 - (void) saveButtonTouched

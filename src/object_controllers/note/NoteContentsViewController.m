@@ -62,7 +62,7 @@
 {
     [super viewDidLayoutSubviews];
     
-    noMediaNotice.frame = CGRectMake(self.view.bounds.size.width/2-60,self.view.bounds.size.height/2-15,120,30);
+    noMediaNotice.frame = CGRectMake(0,self.view.bounds.size.height/2-15,self.view.bounds.size.width,30);
     scrollView.frame = self.view.bounds;
     pageControl.frame = CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20); 
     

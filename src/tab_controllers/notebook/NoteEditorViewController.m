@@ -68,6 +68,9 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
+       
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveButtonTouched)];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;   
     
     title = [[UITextField alloc] initWithFrame:CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20)];
     title.delegate = self;
@@ -237,6 +240,13 @@
 
 - (void) saveButtonTouched
 {
+    if([title.text isEqualToString:@""])
+        [title becomeFirstResponder];
+    else [self saveNote];
+}
+
+- (void) saveNote
+{
     note.name = title.text;
     note.desc = description.text;
     
@@ -245,7 +255,7 @@
     
     if(newNote) [[AppServices sharedAppServices] uploadNote:note];
     
-    [delegate noteEditorConfirmedNoteEdit:self note:note]; 
+    [delegate noteEditorConfirmedNoteEdit:self note:note];    
 }
 
 - (void) newLocationPicked:(CLLocationCoordinate2D)l
