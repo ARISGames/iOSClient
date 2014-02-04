@@ -8,6 +8,7 @@
 
 #import <UIKit/UIActionSheet.h>
 #import <MapKit/MapKit.h>
+#import "ARISTemplate.h"
 #import "AppModel.h"
 #import "Location.h"
 #import "TileOverlay.h"
@@ -193,8 +194,19 @@
 
 - (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)overlay
 {
-    if(!crumbView) crumbView = [[CrumbPathView alloc] initWithOverlay:overlay];
-    return crumbView;
+    if([overlay isKindOfClass:[CrumbPath class]])
+    {
+        if(!crumbView) crumbView = [[CrumbPathView alloc] initWithOverlay:overlay];
+        return crumbView;
+    }
+    if([overlay isKindOfClass:[MKCircle class]])
+    {
+        MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
+        circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.4];
+        circleView.opaque = NO;
+        return circleView;
+    }
+    return nil;
     /*
     TileOverlayView *view = [[TileOverlayView alloc] initWithOverlay:overlay];
     //view.tileAlpha = 1;
@@ -336,6 +348,7 @@
         {
             if([loc compareTo:((Location *)[locationsToRemove objectAtIndex:j])])
             {
+                [mapView removeOverlay:loc.nearbyOverlay]; 
                 [mapView removeAnnotation:annotation];
                 i--;
             }
@@ -349,7 +362,10 @@
     {
         tmpLocation = (Location *)[locationsToAdd objectAtIndex:i];
         if(tmpLocation.hidden == NO && !(tmpLocation.gameObject.type == GameObjectPlayer && [AppModel sharedAppModel].hidePlayers))
+        {
+            [mapView addOverlay:tmpLocation.nearbyOverlay];
             [mapView addAnnotation:tmpLocation];
+        }
     }
     [locationsToAdd removeAllObjects];
 }
@@ -379,10 +395,10 @@
     int cancelButtonIndex = 0;
     if(location.allowsQuickTravel)
     {
-        [buttonTitles addObject: NSLocalizedString(@"GPSViewQuickTravelKey", @"")];
+        [buttonTitles addObject:NSLocalizedString(@"GPSViewQuickTravelKey", @"")];
         cancelButtonIndex = 1;
     }
-    [buttonTitles addObject: NSLocalizedString(@"CancelKey", @"")];
+    [buttonTitles addObject:NSLocalizedString(@"CancelKey", @"")];
 
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name
                                                             delegate:self
@@ -400,7 +416,7 @@
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
 {
-    for (AnnotationView *aView in views)
+    for(AnnotationView *aView in views)
     {
         //Drop animation
         CGRect endFrame = aView.frame;
