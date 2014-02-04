@@ -136,6 +136,8 @@
 		AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1CE2C1891C1C20005F4DC /* NoteComment.m */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
+		AABC064718A1896500315FB5 /* CrumbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064418A1896500315FB5 /* CrumbPath.m */; };
+		AABC064818A1896500315FB5 /* CrumbPathView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064618A1896500315FB5 /* CrumbPathView.m */; };
 		AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F3A172738CD0074CC21 /* Settings.bundle */; };
 		AABC6FCB1727398B0074CC21 /* 14-gear-white.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F441727398B0074CC21 /* 14-gear-white.png */; };
 		AABC6FCC1727398B0074CC21 /* 14-gear-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F451727398B0074CC21 /* 14-gear-white@2x.png */; };
@@ -591,6 +593,10 @@
 		AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObjectViewController.m; sourceTree = "<group>"; };
 		AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateControllerProtocol.h; sourceTree = "<group>"; };
 		AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsViewController.h; sourceTree = "<group>"; };
+		AABC064318A1896500315FB5 /* CrumbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrumbPath.h; sourceTree = "<group>"; };
+		AABC064418A1896500315FB5 /* CrumbPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrumbPath.m; sourceTree = "<group>"; };
+		AABC064518A1896500315FB5 /* CrumbPathView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrumbPathView.h; sourceTree = "<group>"; };
+		AABC064618A1896500315FB5 /* CrumbPathView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrumbPathView.m; sourceTree = "<group>"; };
 		AABC6F3A172738CD0074CC21 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		AABC6F441727398B0074CC21 /* 14-gear-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "14-gear-white.png"; sourceTree = "<group>"; };
 		AABC6F451727398B0074CC21 /* 14-gear-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "14-gear-white@2x.png"; sourceTree = "<group>"; };
@@ -1809,6 +1815,10 @@
 				AABC7165172739D60074CC21 /* TileOverlay.m */,
 				AABC7166172739D60074CC21 /* TileOverlayView.h */,
 				AABC7167172739D60074CC21 /* TileOverlayView.m */,
+				AABC064318A1896500315FB5 /* CrumbPath.h */,
+				AABC064418A1896500315FB5 /* CrumbPath.m */,
+				AABC064518A1896500315FB5 /* CrumbPathView.h */,
+				AABC064618A1896500315FB5 /* CrumbPathView.m */,
 			);
 			path = map;
 			sourceTree = "<group>";
@@ -2523,6 +2533,7 @@
 				AABC73AA172739D80074CC21 /* LoginViewController.mm in Sources */,
 				AABC73AC172739D80074CC21 /* SelfRegistrationViewController.m in Sources */,
 				AABC73AD172739D80074CC21 /* main.mm in Sources */,
+				AABC064718A1896500315FB5 /* CrumbPath.m in Sources */,
 				AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */,
 				AABC73B3172739D80074CC21 /* AppModel.m in Sources */,
 				AABC73B4172739D80074CC21 /* AttributesModel.m in Sources */,
@@ -2582,6 +2593,7 @@
 				AABC7437172739D80074CC21 /* priorityq.c in Sources */,
 				AA3B7FC4182037CB006C9715 /* SBJsonWriter.m in Sources */,
 				AA3B7FBE182037CB006C9715 /* SBJsonStreamParserAdapter.m in Sources */,
+				AABC064818A1896500315FB5 /* CrumbPathView.m in Sources */,
 				AABC7439172739D80074CC21 /* render.c in Sources */,
 				AABC743A172739D80074CC21 /* sweep.c in Sources */,
 				AA2A8AC417F1DF5C002DA8C4 /* UIImage+animatedGIF.m in Sources */,
