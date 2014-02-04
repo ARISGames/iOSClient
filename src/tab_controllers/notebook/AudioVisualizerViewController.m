@@ -17,7 +17,9 @@
 #import <Accelerate/Accelerate.h>
 #import <AVFoundation/AVFoundation.h>
 
-#import "objc/message.h"
+#import "objc/message.h" //needed to change the orientation
+
+#import "PKRevealController.h"
 
 #define SLIDER_BUFFER 35
 
@@ -93,7 +95,6 @@
 
 - (void) orientationHack:(UIInterfaceOrientation)orientation
 {
-    NSLog(@"Orientation Hack called");
     //this is a giant hack that causes the current view controller to re-evaluate the orientation its in.
     //change if a better way is found for forcing the orientation to initially be in landscape
     /*
@@ -120,15 +121,23 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     CGSize ss = [UIScreen mainScreen].bounds.size;
-    CGSize ms = self.view.bounds.size; 
+    CGSize ms = self.view.bounds.size;
 
-    freqControl = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 64, ms.width, ms.height - 64) delegate:self];
-    wfControl   = [[WaveformControl      alloc] initWithFrame:CGRectMake(0, 64, ms.width, ms.height - 64) delegate:self]; 
-    playHead    = [[Playhead             alloc] initWithFrame:CGRectMake(0, 64, ms.width, ms.height - 64) delegate:self];  
-    [self.view addSubview:freqControl];
+    //32 is the nav bar in landscape, 20 is the status bar
+    CGFloat navBarSize = 32;
+    CGFloat statusBarSize = 20;
+    CGFloat navAndStatusBarSize = navBarSize + statusBarSize;
+    
+    
+    //freqControl = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
+    
+    wfControl   = [[WaveformControl      alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
+    playHead    = [[Playhead             alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.width, ms.height - navAndStatusBarSize) delegate:self];
+    //[self.view addSubview:freqControl];
     [self.view addSubview:wfControl];
     [self.view addSubview:playHead];
 
+    /*
     leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(        -17.5, 64, 35, ms.height - 64)];
     rightSlider = [[AudioSlider alloc] initWithFrame:CGRectMake(ms.width-17.5, 64, 35, ms.height - 64)]; 
     [leftSlider  addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
@@ -143,8 +152,9 @@
     [self.view addSubview:rightTint]; 
     [self.view addSubview:leftSlider]; 
     [self.view addSubview:rightSlider]; 
-    
-    toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, ms.height-44, ms.width, 44)];
+    */
+     
+    toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, ms.width-navBarSize, ms.height, navBarSize)];
     
     playButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)]; 
     pauseButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)]; 
@@ -194,7 +204,10 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //[self orientationHack];
+    //disable the PK Reveal Controller for right now
+    self.navigationController.revealController.recognizesPanningOnFrontView = NO;
+    self.navigationController.revealController.recognizesResetTapOnFrontView = NO;
+    self.navigationController.revealController.disablesFrontViewInteraction = YES;
 }
 
 - (void) viewDidLoad
