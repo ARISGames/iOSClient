@@ -144,7 +144,7 @@
 
     
     //must subtract an addition nav bar here because of the toolbar at the bottom
-    leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(        100, navAndStatusBarSize, sliderWidth, ms.width - navAndStatusBarSize - navBarSize)];
+    leftSlider  = [[AudioSlider alloc] initWithFrame:CGRectMake(        -(sliderWidth/2), navAndStatusBarSize, sliderWidth, ms.width - navAndStatusBarSize - navBarSize)];
     rightSlider = [[AudioSlider alloc] initWithFrame:CGRectMake(ms.height-(sliderWidth / 2), navAndStatusBarSize, sliderWidth, ms.width - navAndStatusBarSize - navBarSize)];
     [leftSlider  addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:) forControlEvents:(UIControlEventTouchDragOutside | UIControlEventTouchDragInside)];
@@ -210,10 +210,11 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //disable the PK Reveal Controller for right now
+    //disable swipe to go back and the ph reveal controller
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
     self.navigationController.revealController.recognizesPanningOnFrontView = NO;
-    self.navigationController.revealController.recognizesResetTapOnFrontView = NO;
-    self.navigationController.revealController.disablesFrontViewInteraction = YES;
 }
 
 - (void) viewDidLoad
@@ -224,6 +225,11 @@
 - (void) viewWillDisappear:(BOOL)animated
 {
     [self orientationHack:UIInterfaceOrientationPortrait];
+    //enable the pk reveal controller and the swipe to go back
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+    self.navigationController.revealController.recognizesPanningOnFrontView = YES;
 }
 
 
@@ -406,7 +412,7 @@
     [player pause]; 
     
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
-    [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm_ss"]; 
+    [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm_ss"];
     NSURL *tmpOutFile = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_audio_trimmed.m4a", [outputFormatter stringFromDate:[NSDate date]]]]];      
     
     AVAsset *asset = [AVAsset assetWithURL:audioURL];
