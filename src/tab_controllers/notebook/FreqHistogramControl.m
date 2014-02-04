@@ -29,6 +29,7 @@
         fourierData = nil;
         largestMag = FLT_MIN;
         currentFreqX = 0;
+        delegate = d;
     }
     return self;
 }
