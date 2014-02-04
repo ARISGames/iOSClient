@@ -134,10 +134,11 @@
     CGFloat sliderWidth = 35;
     
     //height and width are switch around because we are in landscape mode now
-    //freqControl = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
+    freqControl = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
     wfControl   = [[WaveformControl      alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
     playHead    = [[Playhead             alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
-    //[self.view addSubview:freqControl];
+    [freqControl setHidden:YES];
+    [self.view addSubview:freqControl];
     [self.view addSubview:wfControl];
     [self.view addSubview:playHead];
 
@@ -445,8 +446,9 @@
 
 - (void) flipView
 {
-    [self.view.subviews[0] setHidden:[self.view.subviews[2] isHidden]];
-    [self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];
+    
+    [wfControl setHidden:![wfControl isHidden]];
+    [freqControl setHidden:![freqControl isHidden]];
     
     if([wfControl isHidden])
     {
@@ -455,7 +457,10 @@
         [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * sampleRate)/numBins)]];
     }
     else
+    {
         [freqLabel setText:@""];
+    }
+    
     
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor blackColor]];
