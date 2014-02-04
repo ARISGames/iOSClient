@@ -376,6 +376,7 @@
         float timeSelected = duration * sel;
         CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
         [player seekToTime:tm];
+        [self loadAudio];
 	}
 }
 
