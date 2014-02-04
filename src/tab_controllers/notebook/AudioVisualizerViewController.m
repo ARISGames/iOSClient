@@ -128,11 +128,10 @@
     CGFloat statusBarSize = 20;
     CGFloat navAndStatusBarSize = navBarSize + statusBarSize;
     
-    
+    //height and width are switch around because we are in landscape mode now
     //freqControl = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
-    
     wfControl   = [[WaveformControl      alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
-    playHead    = [[Playhead             alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.width, ms.height - navAndStatusBarSize) delegate:self];
+    playHead    = [[Playhead             alloc] initWithFrame:CGRectMake(0, navAndStatusBarSize, ms.height, ms.width - navAndStatusBarSize) delegate:self];
     //[self.view addSubview:freqControl];
     [self.view addSubview:wfControl];
     [self.view addSubview:playHead];
