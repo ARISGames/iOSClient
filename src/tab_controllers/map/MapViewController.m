@@ -348,7 +348,7 @@
         {
             if([loc compareTo:((Location *)[locationsToRemove objectAtIndex:j])])
             {
-                [mapView removeOverlay:loc.nearbyOverlay]; 
+                if(loc.nearbyOverlay) [mapView removeOverlay:loc.nearbyOverlay]; 
                 [mapView removeAnnotation:annotation];
                 i--;
             }
@@ -363,7 +363,7 @@
         tmpLocation = (Location *)[locationsToAdd objectAtIndex:i];
         if(tmpLocation.hidden == NO && !(tmpLocation.gameObject.type == GameObjectPlayer && [AppModel sharedAppModel].hidePlayers))
         {
-            [mapView addOverlay:tmpLocation.nearbyOverlay];
+            if(tmpLocation.nearbyOverlay) [mapView addOverlay:tmpLocation.nearbyOverlay];
             [mapView addAnnotation:tmpLocation];
         }
     }

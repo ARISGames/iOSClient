@@ -82,7 +82,8 @@
         }
         
         self.coordinate = self.latlon.coordinate;
-        self.nearbyOverlay = [MKCircle circleWithCenterCoordinate:self.coordinate radius:self.errorRange];  
+        if(!self.hidden && self.errorRange > 0)
+            self.nearbyOverlay = [MKCircle circleWithCenterCoordinate:self.coordinate radius:self.errorRange];  
     }
     return self;
 }
