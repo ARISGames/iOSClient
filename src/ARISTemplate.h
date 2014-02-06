@@ -19,6 +19,7 @@
 + (UIColor *) ARISColorBarButtonTint;
 + (UIColor *) ARISColorSegmentedControlTint;
 + (UIColor *) ARISColorSearchBarTint;
++ (UIColor *) ARISColorHighlightedText;
 
 + (UIColor *) ARISColorContentBackdrop; //behind fullscreen content
 + (UIColor *) ARISColorNpcContentBackdrop; //behind npc media

@@ -49,17 +49,30 @@
     matchingPlayerNoteTagsScrollView.scrollEnabled = YES;
     matchingGameNoteTagsScrollView.contentInset   = UIEdgeInsetsMake(0,0,0,0);
     matchingPlayerNoteTagsScrollView.contentInset = UIEdgeInsetsMake(0,0,0,0); 
-    [self.view addSubview:matchingGameNoteTagsScrollView];
-    [self.view addSubview:matchingPlayerNoteTagsScrollView]; 
+    if(gameNoteTags.count   > 0) [self.view addSubview:matchingGameNoteTagsScrollView];
+    if(playerNoteTags.count > 0) [self.view addSubview:matchingPlayerNoteTagsScrollView]; 
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    matchingGameNoteTagsScrollView.frame   = CGRectMake(0,                            0,self.view.bounds.size.width/2,self.view.bounds.size.height);
-    matchingPlayerNoteTagsScrollView.frame = CGRectMake(self.view.bounds.size.width/2,0,self.view.bounds.size.width/2,self.view.bounds.size.height); 
-    matchingGameNoteTagsScrollView.contentSize   = CGSizeMake(self.view.bounds.size.width/2,self.view.bounds.size.height);
-    matchingPlayerNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width/2,self.view.bounds.size.height); 
+    if(gameNoteTags.count > 0 && playerNoteTags.count > 0)
+    {
+        matchingGameNoteTagsScrollView.frame   = CGRectMake(0,                            0,self.view.bounds.size.width/2,self.view.bounds.size.height);
+        matchingPlayerNoteTagsScrollView.frame = CGRectMake(self.view.bounds.size.width/2,0,self.view.bounds.size.width/2,self.view.bounds.size.height); 
+        matchingGameNoteTagsScrollView.contentSize   = CGSizeMake(self.view.bounds.size.width/2,self.view.bounds.size.height);
+        matchingPlayerNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width/2,self.view.bounds.size.height); 
+    }
+    else if(gameNoteTags.count > 0)
+    {
+        matchingGameNoteTagsScrollView.frame       = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height); 
+        matchingGameNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height); 
+    }
+    else if(playerNoteTags.count > 0)
+    {
+        matchingPlayerNoteTagsScrollView.frame       = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height); 
+        matchingPlayerNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height); 
+    } 
     [self refreshMatchingTags];
 }
 

@@ -18,6 +18,7 @@
 + (UIColor *) ARISColorBarButtonTint            { return [UIColor ARISColorLightBlue]; }
 + (UIColor *) ARISColorSegmentedControlTint     { return [UIColor ARISColorWhite]; }
 + (UIColor *) ARISColorSearchBarTint            { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorHighlightedText          { return [UIColor ARISColorLightBlue]; }
 
 + (UIColor *) ARISColorTextBackdrop             { return [UIColor ARISColorTranslucentWhite]; }
 + (UIColor *) ARISColorText                     { return [UIColor ARISColorBlack]; }

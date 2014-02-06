@@ -30,6 +30,9 @@
     CLLocationCoordinate2D coordinate;
 	NSString *title;
 	NSString *subtitle;
+    
+    //Overlay stuff- really really need to clean up this class.
+    MKCircle *nearbyOverlay;
 }
 
 @property (nonatomic, assign) int locationId;
@@ -49,6 +52,7 @@
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
+@property (nonatomic, strong) MKCircle *nearbyOverlay;
 
 - (Location *) initWithDictionary:(NSDictionary *)dict;
 - (BOOL) compareTo:(Location *)other;

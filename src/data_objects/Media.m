@@ -85,7 +85,7 @@
 
 - (NSString *) type
 {
-    NSString *ext = [self fileExtension];
+    NSString *ext = [[self fileExtension] lowercaseString];
     if([ext isEqualToString:@"jpg"]  ||
        [ext isEqualToString:@"jpeg"] ||
        [ext isEqualToString:@"png"]  || 

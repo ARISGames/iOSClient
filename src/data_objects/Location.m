@@ -37,6 +37,7 @@
 @synthesize coordinate;
 @synthesize title;
 @synthesize subtitle;
+@synthesize nearbyOverlay;
 
 - (Location *) init
 {
@@ -55,7 +56,6 @@
         self.name       = [dict validObjectForKey:@"name"];
         self.latlon     = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"]
                                                             longitude:[dict validDoubleForKey:@"longitude"]];
-        self.coordinate = self.latlon.coordinate;
         
         NSString *otype = [dict validObjectForKey:@"type"];
         int oid         = [dict validIntForKey:@"type_id"];
@@ -80,6 +80,10 @@
             if(((Note *)self.gameObject).publicToList) self.allowsQuickTravel = YES;
             else                                       self.allowsQuickTravel = NO;
         }
+        
+        self.coordinate = self.latlon.coordinate;
+        if(!self.hidden && self.errorRange > 0)
+            self.nearbyOverlay = [MKCircle circleWithCenterCoordinate:self.coordinate radius:self.errorRange];  
     }
     return self;
 }

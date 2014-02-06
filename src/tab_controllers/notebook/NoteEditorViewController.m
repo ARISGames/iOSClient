@@ -11,6 +11,7 @@
 #import "NoteTagEditorViewController.h"
 #import "NoteCameraViewController.h"
 #import "NoteRecorderViewController.h"
+#import "NoteLocationPickerController.h"
 #import "Note.h"
 #import "NoteTag.h"
 #import "AppModel.h"
@@ -19,7 +20,7 @@
 #import "Player.h"
 #import "ARISTemplate.h"
 
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate>
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate>
 {
     Note *note;
     
@@ -67,6 +68,9 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
+       
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveButtonTouched)];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;   
     
     title = [[UITextField alloc] initWithFrame:CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20)];
     title.delegate = self;
@@ -218,6 +222,10 @@
 
 - (void) locationPickerButtonTouched
 {
+    if(note.location && note.location.latlon)
+        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:note.location.coordinate delegate:self] animated:YES];
+    else
+        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:[AppModel sharedAppModel].player.location.coordinate delegate:self] animated:YES]; 
 }
 
 - (void) imagePickerButtonTouched
@@ -232,6 +240,13 @@
 
 - (void) saveButtonTouched
 {
+    if([title.text isEqualToString:@""])
+        [title becomeFirstResponder];
+    else [self saveNote];
+}
+
+- (void) saveNote
+{
     note.name = title.text;
     note.desc = description.text;
     
@@ -240,7 +255,15 @@
     
     if(newNote) [[AppServices sharedAppServices] uploadNote:note];
     
-    [delegate noteEditorConfirmedNoteEdit:self note:note]; 
+    [delegate noteEditorConfirmedNoteEdit:self note:note];    
+}
+
+- (void) newLocationPicked:(CLLocationCoordinate2D)l
+{
+    note.location = [[Location alloc] init];
+    note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
+    note.location.coordinate = l;
+    [self.navigationController popToViewController:self animated:YES];   
 }
 
 - (void) imageChosenWithURL:(NSURL *)url

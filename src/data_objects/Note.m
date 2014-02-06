@@ -65,6 +65,7 @@
                
         NSDictionary *locationDict = [dict validObjectForKey:@"location"]; 
         if(locationDict) self.location = [[Location alloc] initWithDictionary:locationDict];  
+        else             self.location = [[Location alloc] init];
                       
         NSArray *tagDicts = [dict validObjectForKey:@"tags"];
         self.tags = [[NSMutableArray alloc] initWithCapacity:5];
