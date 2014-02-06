@@ -35,7 +35,7 @@ NSString *const kARISServerServicePackage = @"v1";
     return self;
 }
 
-- (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict
+- (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict
 {
     //PHIL TAKE THIS OUT
     if(([s isEqualToString:@"notebook"] && [m isEqualToString:@"addNoteFromJSON"]) ||
