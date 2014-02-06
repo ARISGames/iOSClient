@@ -134,6 +134,7 @@
 		AA9A6D9A182DA3EB000CC323 /* left_white_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9A6D99182DA3EB000CC323 /* left_white_gradient.png */; };
 		AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */; };
 		AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1CE2C1891C1C20005F4DC /* NoteComment.m */; };
+		AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA2F8C718A3F85B00B77249 /* MapHUD.m */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
 		AABC064718A1896500315FB5 /* CrumbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064418A1896500315FB5 /* CrumbPath.m */; };
@@ -585,6 +586,8 @@
 		AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectableNoteTagCellView.m; sourceTree = "<group>"; };
 		AAA1CE2B1891C1C20005F4DC /* NoteComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteComment.h; sourceTree = "<group>"; };
 		AAA1CE2C1891C1C20005F4DC /* NoteComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteComment.m; sourceTree = "<group>"; };
+		AAA2F8C618A3F85B00B77249 /* MapHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapHUD.h; sourceTree = "<group>"; };
+		AAA2F8C718A3F85B00B77249 /* MapHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapHUD.m; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAAB7635173AB6E6007B5A75 /* ARISGamePlayTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISGamePlayTabBarViewController.h; sourceTree = "<group>"; };
 		AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISGamePlayTabBarViewController.m; sourceTree = "<group>"; };
@@ -1806,6 +1809,8 @@
 			children = (
 				AABC74FD1728600B0074CC21 /* MapViewController.h */,
 				AABC74FE1728600B0074CC21 /* MapViewController.m */,
+				AAA2F8C618A3F85B00B77249 /* MapHUD.h */,
+				AAA2F8C718A3F85B00B77249 /* MapHUD.m */,
 				AABC715D172739D60074CC21 /* AnnotationView.h */,
 				AABC715E172739D60074CC21 /* AnnotationView.m */,
 				AABC7164172739D60074CC21 /* TileOverlay.h */,
@@ -2561,6 +2566,7 @@
 				AABC73F5172739D80074CC21 /* NearbyObjectsViewController.m in Sources */,
 				AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */,
 				AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */,
+				AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */,
 				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
