@@ -491,6 +491,13 @@
     [delegate displayScannerWithPrompt:p];
 }
 
+#pragma mark MapHUD delegate methods
+
+- (void) dismissHUD
+{
+    [hud.view removeFromSuperview];
+}
+
 //THIS IS A HACK-
 /*
  When the action sheet comes up, if you look closely, it fades out the buttons underneath (not the tab bar ones, the buttons above that).

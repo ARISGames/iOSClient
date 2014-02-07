@@ -19,6 +19,7 @@
     ARISMediaView *iconView;
     CGRect frame;
     Location *location;
+    UIButton *dismissButton;
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -43,9 +44,11 @@
     title = [[UILabel alloc] init]; 
     descriptionView = [[ARISWebView alloc] initWithDelegate:self];
     iconView = [[ARISMediaView alloc] initWithDelegate:self];
+    dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:title];
     [self.view addSubview:descriptionView];
     [self.view addSubview:iconView];
+    [self.view addSubview:dismissButton];
 }
 
 - (void) viewWillLayoutSubviews
@@ -54,7 +57,6 @@
     
     self.view.frame = frame;
     self.view.backgroundColor = [UIColor whiteColor];
-    
     
     //hard code most of the positioning for now
     title.frame = CGRectMake(10, self.view.bounds.origin.y + 10, self.view.bounds.size.width-70, 20);
@@ -66,6 +68,12 @@
     NSString *locationTitle = location.title;
     NSString *locationDescription = location.description;
     
+    UIImage *btnImage = [UIImage imageNamed:@"298-circlex-white.png"];
+    [dismissButton setImage:btnImage forState:UIControlStateNormal];
+    dismissButton.frame = CGRectMake(self.view.bounds.size.width - 30, self.view.bounds.size.height - 30, 20, 20);
+    [dismissButton addTarget:self action:@selector(dismissHUD) forControlEvents:UIControlEventTouchUpInside];
+    dismissButton.backgroundColor = [UIColor redColor];
+    
     [self setTitle:locationTitle description:locationDescription icon:locationMedia];
 }
 
@@ -76,6 +84,10 @@
     [iconView setMedia:m];
 }
 
+- (void) dismissHUD
+{
+    [delegate dismissHUD];
+}
 
 #pragma mark StateControlProtocol delegate methods
 
