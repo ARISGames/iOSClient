@@ -46,7 +46,7 @@
 - (void) commitContext
 {
     NSError *error; 
-    if(![[AppModel sharedAppModel].managedObjectContext save:&error])
+    if(![context save:&error])
         NSLog(@"Error saving media context - error:%@",error); 
 }
 
@@ -56,7 +56,7 @@
     
     for(NSManagedObject *managedObject in cachedMediaArray)
     {
-        [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
+        [context deleteObject:managedObject];
         NSLog(@"Media object deleted"); //this is really only useful because this potentially takes a while, and this shows that its not frozen
     }
     
@@ -70,7 +70,7 @@
     
     for(NSManagedObject *managedObject in cachedMediaArray)
     {
-        [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
+        [context deleteObject:managedObject];
         NSLog(@"Media object deleted");
     }
     [self commitContext];

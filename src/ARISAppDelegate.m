@@ -117,7 +117,7 @@
 {
 	NSLog(@"ARIS: Terminating Application");
 	[[AppModel sharedAppModel] saveUserDefaults];
-    [[AppModel sharedAppModel] commitCoreDataContext];
+    [[AppModel sharedAppModel] commitCoreDataContexts];
 }
 
 - (void) startPollingLocation

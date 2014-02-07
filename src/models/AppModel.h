@@ -21,6 +21,7 @@
 @class WebPage;
 @class Panoramic;
 
+@class ARISServiceGraveyard;
 @class MediaModel;
 @class Overlay;
 
@@ -36,7 +37,7 @@
 	Game *currentGame;
     Player *player;
     CLLocation *deviceLocation;
-
+    
     int fallbackGameId;
     
     NSMutableArray *oneGameGameList;
@@ -47,14 +48,16 @@
     NSMutableArray *searchGameList;
     
 	NSMutableArray *nearbyLocationsList;
-
+    
     BOOL overlayIsVisible;
- 
+    
     BOOL hidePlayers;
     
     //CORE Data
-    NSManagedObjectContext *managedObjectContext;	    
+    NSManagedObjectContext *mediaManagedObjectContext;
+    NSManagedObjectContext *requestsManagedObjectContext;
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    ARISServiceGraveyard *servicesGraveyard;
     MediaModel *mediaModel;
     
     CMMotionManager *motionManager;
@@ -86,8 +89,10 @@
 @property (nonatomic, strong) NSMutableArray *nearbyLocationsList;	
 
 // CORE Data
-@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, readonly) NSManagedObjectContext *mediaManagedObjectContext;
+@property (nonatomic, readonly) NSManagedObjectContext *requestsManagedObjectContext;
 @property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong) ARISServiceGraveyard *servicesGraveyard;
 @property (nonatomic, strong) MediaModel *mediaModel;
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
@@ -103,7 +108,7 @@
 - (void) initUserDefaults;
 - (void) saveUserDefaults;
 - (void) loadUserDefaults;
-- (void) commitCoreDataContext;
+- (void) commitCoreDataContexts;
 - (NSString *) applicationDocumentsDirectory;
 
 - (Media *) mediaForMediaId:(int)mId;

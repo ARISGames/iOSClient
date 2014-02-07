@@ -14,6 +14,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "QRCodeReader.h"
 
 #import "AppServices.h"
+#import "ARISServiceResult.h"
 
 #import "SelfRegistrationViewController.h"
 #import "ForgotPasswordViewController.h"
@@ -192,12 +193,12 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (void) loginResponseReady:(NSNotification *)n
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LoginResponseReady" object:nil];
-    ServiceResult *r = (ServiceResult *)[n.userInfo objectForKey:@"result"];
-    if(!r.data || r.data == [NSNull null])
+    ARISServiceResult *r = (ARISServiceResult *)[n.userInfo objectForKey:@"result"];
+    if(!r.resultData || r.resultData == [NSNull null])
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Login Unsuccessful" message:@"Username/Password not found"];
     else
     {
-        Player *p = [[Player alloc] initWithDictionary:(NSMutableDictionary *)r.data];
+        Player *p = [[Player alloc] initWithDictionary:(NSMutableDictionary *)r.resultData];
         if(location) p.location = location;
         [delegate loginCredentialsApprovedForPlayer:p toGame:gameId newPlayer:newPlayer disableLeaveGame:disableLeaveGame];
     }

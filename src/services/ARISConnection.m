@@ -8,6 +8,9 @@
 
 #import "ARISConnection.h"
 #import "SBJson.h"
+#import "ARISServiceResult.h"
+#import "RequestCD.h"
+#import "ARISServiceGraveyard.h"
 #import "ARISAlertHandler.h"
 
 NSString *const kARISServerServicePackage = @"v1";
@@ -16,6 +19,7 @@ NSString *const kARISServerServicePackage = @"v1";
 {
     SBJsonParser *jsonParser;
     SBJsonWriter *jsonWriter;
+    ARISServiceGraveyard *graveyard;
     NSString *server;
     NSMutableDictionary *connections;
 }
@@ -23,13 +27,14 @@ NSString *const kARISServerServicePackage = @"v1";
 
 @implementation ARISConnection
 
-- (id) initWithServer:(NSString *)s
+- (id) initWithServer:(NSString *)s graveyard:(ARISServiceGraveyard *)g
 {
     if(self = [super init])
     {
         jsonParser = [[SBJsonParser alloc] init]; 
         jsonWriter = [[SBJsonWriter alloc] init];  
         server = s;
+        graveyard = g;
         connections = [[NSMutableDictionary alloc] initWithCapacity:20];
     }
     return self;
@@ -41,46 +46,52 @@ NSString *const kARISServerServicePackage = @"v1";
     if(([s isEqualToString:@"notebook"] && [m isEqualToString:@"addNoteFromJSON"]) ||
        ([s isEqualToString:@"players"]  && [m isEqualToString:@"uploadPlayerMediaFromJSON"]))
     {
-        [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"POST" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict];  
+        [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"POST" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r userInfo:dict];  
         return;
     }
     //OK STOP
     
-    [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs userInfo:dict]; 
+    [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r userInfo:dict]; 
 }
 
-- (ServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
+- (ARISServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
 {
     return [self performSyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:s method:m arguments:args] userInfo:dict];
 }
 
-- (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)u
+- (void) performRevivalWithRequest:(RequestCD *)r
+{
+    [self performAsyncURLRequest:[self createRequestURLWithRequest:r] handler:nil successSelector:nil failSelector:nil retryOnFail:YES userInfo:nil];   
+}
+
+- (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)u
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
     NSLog(@"Req asynch URL: %@", rURL.URL);
     
-    ServiceResult *r = [[ServiceResult alloc] init];
-    r.asyncData = [[NSMutableData alloc] initWithCapacity:2048];
-    r.userInfo = u;
-    r.url = rURL.URL;
-    r.connection = [[NSURLConnection alloc] initWithRequest:rURL delegate:self];
-    r.handler = h;
-    r.successSelector = ss;
-    r.failSelector = fs; 
-    r.start = [NSDate date];
+    ARISServiceResult *rs = [[ARISServiceResult alloc] init];
+    rs.asyncData = [[NSMutableData alloc] initWithCapacity:2048];
+    rs.userInfo = u;
+    rs.urlRequest = rURL;
+    rs.connection = [[NSURLConnection alloc] initWithRequest:rURL delegate:self];
+    rs.handler = h;
+    rs.successSelector = ss;
+    rs.failSelector = fs; 
+    rs.retryOnFail = r;
+    rs.start = [NSDate date];
 	
-    [connections setObject:r forKey:r.connection.description];
-	[r.connection start];
+    [connections setObject:rs forKey:rs.connection.description];
+	[rs.connection start];
 }
 
-- (ServiceResult *) performSyncURLRequest:(NSURLRequest *)rURL userInfo:(NSDictionary *)u
+- (ARISServiceResult *) performSyncURLRequest:(NSURLRequest *)rURL userInfo:(NSDictionary *)u
 {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
     NSLog(@"Req synchr URL: %@", rURL.URL); 
     
-    ServiceResult *sr = [[ServiceResult alloc] init];
+    ARISServiceResult *sr = [[ARISServiceResult alloc] init];
     sr.userInfo = u;
-    sr.url = rURL.URL; 
+    sr.urlRequest = rURL; 
     sr.start = [NSDate date];
     
     NSURLResponse *response = [[NSURLResponse alloc] init]; //why do we just throw these out?
@@ -97,7 +108,7 @@ NSString *const kARISServerServicePackage = @"v1";
         [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
 		return nil;
 	}
-    sr.data = [self parseJSONString:[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding]];
+    sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding]];
     
     return sr;
 }
@@ -110,6 +121,22 @@ NSString *const kARISServerServicePackage = @"v1";
         return [self GETRequestWithURLString:requestBaseString arguments:[self hackOrderedValuesOutOfDictionaryWithAlphabetizedKeys:args]];
     else
         return [self POSTRequestWithURLString:requestBaseString arguments:args]; 
+}
+
+- (NSURLRequest *) createRequestURLWithRequest:(RequestCD *)r
+{
+    if([r.method isEqualToString:@"GET"])
+        return [NSURLRequest requestWithURL:[NSURL URLWithString:r.url]];
+    else if([r.method isEqualToString:@"POST"])
+    {
+        NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:r.url]];
+        [urlRequest setHTTPMethod:@"POST"];
+        [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"]; 
+        [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [urlRequest setValue:[NSString stringWithFormat:@"%d", [r.body length]] forHTTPHeaderField:@"Content-Length"]; 
+        [urlRequest setHTTPBody:r.body];
+        return urlRequest;
+    } 
 }
 
 - (NSURLRequest *) GETRequestWithURLString:(NSString *)baseString arguments:(NSArray *)args
@@ -152,19 +179,19 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
 {
-    ServiceResult *sr = [connections objectForKey:c.description];
+    ARISServiceResult *sr = [connections objectForKey:c.description];
     if(sr) [sr.asyncData appendData:d];
 }
 
 - (void) connectionDidFinishLoading:(NSURLConnection*)c
 {
-    ServiceResult *sr = [connections objectForKey:c.description];
+    ARISServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
     
     sr.time = -1*[sr.start timeIntervalSinceNow]; 
-    NSLog(@"Fin asynch URL: %@\t(%f)", sr.url, sr.time); 
+    NSLog(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time); 
     
-    sr.data = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];  
+    sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];  
     [connections removeObjectForKey:c.description];
     if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
     sr.connection = nil;
@@ -176,7 +203,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void) connection:(NSURLConnection *)c didFailWithError:(NSError *)error
 {
-    ServiceResult *sr = [connections objectForKey:c.description];
+    ARISServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
     
     [connections removeObjectForKey:c.description];
@@ -186,6 +213,10 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConnectionLost" object:nil]];
     NSLog(@"*** ARISConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
     
+    if(sr.retryOnFail)
+    {
+        [graveyard addServiceResult:sr];
+    }
    	if(sr.handler && sr.failSelector)
 		[sr.handler performSelector:sr.failSelector withObject:error];
     
@@ -277,22 +308,4 @@ NSString *const kARISServerServicePackage = @"v1";
     return [NSArray arrayWithArray:orderedValues];
 }
 
-@end
-
-@implementation ServiceResult
-@synthesize data;
-@synthesize userInfo;
-@synthesize asyncData; 
-@synthesize url; 
-@synthesize connection; 
-@synthesize handler;
-@synthesize successSelector; 
-@synthesize failSelector;  
-@synthesize start;  
-@synthesize time;  
-
-- (void) dealloc
-{
-    [self.connection cancel];
-}
 @end

@@ -8,6 +8,7 @@
 
 #import "SelfRegistrationViewController.h"
 #import "AppServices.h"
+#import "ARISServiceResult.h"
 #import "ARISAlertHandler.h"
 #import "ARISTemplate.h"
 
@@ -138,9 +139,9 @@
 - (void) registrationResponseReady:(NSNotification *)n
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RegistrationResponseReady" object:nil];
-    ServiceResult *r = (ServiceResult *)[n.userInfo objectForKey:@"result"];
+    ARISServiceResult *r = (ARISServiceResult *)[n.userInfo objectForKey:@"result"];
 
-	if([(NSDecimalNumber*)r.data intValue] > 0) //There exists a new playerId
+	if([(NSDecimalNumber*)r.resultData intValue] > 0) //There exists a new playerId
         [delegate registrationSucceededWithUsername:usernameField.text password:passwordField.text];
     else
     {

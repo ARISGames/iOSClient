@@ -11,6 +11,7 @@
 #import "ARISAppDelegate.h"
 #import "Media.h"
 #import "Quest.h"
+#import "ARISServiceGraveyard.h"
 #import "MediaModel.h"
 #import "AppServices.h"
 #import "ARISAlertHandler.h"
@@ -42,6 +43,7 @@
 @synthesize overlayIsVisible;
 @synthesize nearbyLocationsList;
 @synthesize hidePlayers;
+@synthesize servicesGraveyard;
 @synthesize mediaModel;
 @synthesize motionManager;
 
@@ -64,7 +66,8 @@
         skipGameDetails  = 0;
 		defaults      = [NSUserDefaults standardUserDefaults];
         motionManager = [[CMMotionManager alloc] init];
-        mediaModel    = [[MediaModel alloc] initWithContext:[self managedObjectContext]]; 
+        servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
+        mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]]; 
 	}
     return self;
 }
@@ -226,18 +229,32 @@
 	return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
-- (NSManagedObjectContext *) managedObjectContext
+- (NSManagedObjectContext *) mediaManagedObjectContext
 {
-    if(!managedObjectContext)
+    if(!mediaManagedObjectContext)
     {
         NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
         if(coordinator)
         {
-            managedObjectContext = [[NSManagedObjectContext alloc] init];
-            [managedObjectContext setPersistentStoreCoordinator:coordinator];
+            mediaManagedObjectContext = [[NSManagedObjectContext alloc] init];
+            [mediaManagedObjectContext setPersistentStoreCoordinator:coordinator];
         }
     }
-    return managedObjectContext;
+    return mediaManagedObjectContext;
+}
+
+- (NSManagedObjectContext *) requestsManagedObjectContext
+{
+    if(!requestsManagedObjectContext)
+    {
+        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+        if(coordinator)
+        {
+            requestsManagedObjectContext = [[NSManagedObjectContext alloc] init];
+            [requestsManagedObjectContext setPersistentStoreCoordinator:coordinator];
+        }
+    }
+    return requestsManagedObjectContext;
 }
 
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator
@@ -260,12 +277,20 @@
     return persistentStoreCoordinator;
 }
 
-- (void) commitCoreDataContext
+- (void) commitCoreDataContexts
 {
     NSError *error = nil;
-    if(managedObjectContext != nil)
+    if(mediaManagedObjectContext != nil)
     {
-        if([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
+        if([mediaManagedObjectContext hasChanges] && ![mediaManagedObjectContext save:&error])
+        {
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
+        }
+    }
+    if(requestsManagedObjectContext != nil) 
+    {
+        if([requestsManagedObjectContext hasChanges] && ![requestsManagedObjectContext save:&error])
         {
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];

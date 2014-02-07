@@ -117,6 +117,8 @@
 		AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE7173443FB003A840D /* ARISPusherHandler.m */; };
 		AA74E79F176267EF005C279B /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA74E79E176267EF005C279B /* MainWindow-iPad.xib */; };
 		AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */; };
+		AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83EEA118A43CB70077FF0E /* ARISServiceGraveyard.m */; };
+		AA83EEA718A43EE30077FF0E /* RequestCD.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83EEA618A43EE30077FF0E /* RequestCD.m */; };
 		AA856FF517A9AFA900E9D451 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF317A9AFA900E9D451 /* qr.png */; };
 		AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */; };
 		AA942B9017CD4CF4004EDEA1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B8B17CD4CF4004EDEA1 /* Default-568h@2x.png */; };
@@ -349,6 +351,7 @@
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
 		AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */; };
 		AAC6573C187200940063EAF7 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC6573B187200940063EAF7 /* play.png */; };
+		AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */; };
 		AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */; };
 		AAE2851D1810461700E2534A /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE2851C1810461700E2534A /* ItemViewController.m */; };
@@ -564,6 +567,10 @@
 		AA74E79E176267EF005C279B /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		AA766D3517CBD811001F88D2 /* GamePickerAnywhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerAnywhereViewController.h; sourceTree = "<group>"; };
 		AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerAnywhereViewController.m; sourceTree = "<group>"; };
+		AA83EEA018A43CB70077FF0E /* ARISServiceGraveyard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISServiceGraveyard.h; sourceTree = "<group>"; };
+		AA83EEA118A43CB70077FF0E /* ARISServiceGraveyard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISServiceGraveyard.m; sourceTree = "<group>"; };
+		AA83EEA518A43EE30077FF0E /* RequestCD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestCD.h; sourceTree = "<group>"; };
+		AA83EEA618A43EE30077FF0E /* RequestCD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestCD.m; sourceTree = "<group>"; };
 		AA856FEF17A972B800E9D451 /* arisjs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = arisjs.js; sourceTree = "<group>"; };
 		AA856FF317A9AFA900E9D451 /* qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr.png; sourceTree = "<group>"; };
 		AA8C360C1858C827000A8F0B /* NoteCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCameraViewController.h; sourceTree = "<group>"; };
@@ -946,6 +953,8 @@
 		AABC750F172860860074CC21 /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
 		AAC3C323185F7D67001430BE /* ARISCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ARISCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		AAC6573B187200940063EAF7 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		AAC8290D18A53A68000EA4C7 /* ARISServiceResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISServiceResult.h; sourceTree = "<group>"; };
+		AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISServiceResult.m; sourceTree = "<group>"; };
 		AACE25E0189C1EF000E6A680 /* NoteLocationPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteLocationPickerController.h; sourceTree = "<group>"; };
 		AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteLocationPickerController.m; sourceTree = "<group>"; };
 		AAD298C717D1160C002A4C47 /* InventoryTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryTagViewController.h; sourceTree = "<group>"; };
@@ -1162,6 +1171,8 @@
 			children = (
 				AABC707A172739D60074CC21 /* MediaCD.h */,
 				AABC707B172739D60074CC21 /* MediaCD.m */,
+				AA83EEA518A43EE30077FF0E /* RequestCD.h */,
+				AA83EEA618A43EE30077FF0E /* RequestCD.m */,
 			);
 			name = cd_data_objects;
 			sourceTree = "<group>";
@@ -1757,6 +1768,10 @@
 				AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */,
 				AABC7126172739D60074CC21 /* ARISConnection.h */,
 				AABC7127172739D60074CC21 /* ARISConnection.m */,
+				AA83EEA018A43CB70077FF0E /* ARISServiceGraveyard.h */,
+				AA83EEA118A43CB70077FF0E /* ARISServiceGraveyard.m */,
+				AAC8290D18A53A68000EA4C7 /* ARISServiceResult.h */,
+				AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -2488,6 +2503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */,
+				AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */,
 				AAF923241885D7580026A4FC /* AudioVisualizerViewController.m in Sources */,
 				AABC7375172739D80074CC21 /* AccountSettingsViewController.m in Sources */,
 				AABC7378172739D80074CC21 /* ForgotPasswordViewController.m in Sources */,
@@ -2549,6 +2565,7 @@
 				AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */,
 				AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */,
 				AABC73C4172739D80074CC21 /* PanoramicViewController.m in Sources */,
+				AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */,
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
 				AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */,
 				AABC73D0172739D80074CC21 /* RootViewController.m in Sources */,
@@ -2578,6 +2595,7 @@
 				AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */,
 				AA3B7FC1182037CB006C9715 /* SBJsonStreamWriter.m in Sources */,
 				AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */,
+				AA83EEA718A43EE30077FF0E /* RequestCD.m in Sources */,
 				AABC742C172739D80074CC21 /* glues_mipmap.c in Sources */,
 				AABC742D172739D80074CC21 /* glues_project.c in Sources */,
 				AA45A3B3189ABA160016E391 /* NoteTagView.m in Sources */,
