@@ -186,7 +186,7 @@ const int VIEW_MODE_ALL  = 1;
     NSLog(@"%d",n.noteId);
     NSString *loaded = [contentLoadedFlagMap objectForKey:[NSString stringWithFormat:@"%d", n.noteId]];
     if(!loaded) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
-    [cell populateWithNote:n loading:!loaded]; 
+    [cell populateWithNote:n loading:!loaded editable:(viewMode == VIEW_MODE_MINE)]; 
 
     return cell;
 }
@@ -244,6 +244,12 @@ const int VIEW_MODE_ALL  = 1;
     [allNotesButton setTitleColor:[ARISTemplate ARISColorText] forState:UIControlStateNormal];
     [myNotesButton setTitleColor:[ARISTemplate ARISColorHighlightedText] forState:UIControlStateNormal];  
     [table reloadData];
+}
+
+- (void) editRequestedForNote:(Note *)n
+{
+    NoteEditorViewController *nevc = [[NoteEditorViewController alloc] initWithNote:n delegate:self];
+    [self.navigationController pushViewController:nevc animated:YES];  
 }
 
 - (void) dealloc

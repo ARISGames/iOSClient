@@ -149,6 +149,7 @@
     if(!self.view) [self loadView];
     
     title.text = note.name; 
+    description.text = note.desc;
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:note.created]; 

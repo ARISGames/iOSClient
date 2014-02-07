@@ -23,7 +23,11 @@
     UIImageView *videoIcon; 
     UIImageView *audioIcon; 
     
+    UILabel *edit;
+    
     UIActivityIndicatorView *spinner;
+    
+    Note *note;
     
     id<NoteCellDelegate> __unsafe_unretained delegate;
 }
@@ -61,6 +65,13 @@
         audioIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-25,15,15,15)];
         [audioIcon setImage:[UIImage imageNamed:@"audio.png"]]; 
         
+        edit = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-40,10,40,20)];
+        edit.font = [ARISTemplate ARISCellTitleFont]; 
+        edit.textColor = [UIColor ARISColorDarkGray];
+        edit.text = @"Edit";
+        edit.userInteractionEnabled = YES;
+        [edit addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editButtonTouched)]];
+        
         [self addSubview:title];
         [self addSubview:date]; 
         [self addSubview:owner]; 
@@ -68,6 +79,7 @@
         [self addSubview:imageIcon]; 
         [self addSubview:videoIcon];  
         [self addSubview:audioIcon];  
+        [self addSubview:edit];
     }
     return self;
 }
@@ -77,8 +89,10 @@
     [super setSelected:selected animated:animated];
 }
 
-- (void) populateWithNote:(Note *)n loading:(BOOL)l
+- (void) populateWithNote:(Note *)n loading:(BOOL)l editable:(BOOL)e
 {
+    note = n;
+    
     [self setTitle:n.name];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
@@ -98,6 +112,9 @@
     
     if(l) [self addSpinner];
     else  [self removeSpinner];
+    
+    if(e) [self addSubview:edit];
+    else  [edit removeFromSuperview];
 }
 
 - (void) addSpinner
@@ -152,6 +169,11 @@
 {
     if(a) [self addSubview:audioIcon];
     else  [audioIcon removeFromSuperview]; 
+}
+
+- (void) editButtonTouched
+{
+    [delegate editRequestedForNote:note];
 }
 
 @end
