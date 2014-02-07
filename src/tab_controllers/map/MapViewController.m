@@ -205,8 +205,8 @@
     if([overlay isKindOfClass:[MKCircle class]])
     {
         MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
-        //circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.4];
-        circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.0];
+        circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.4];
+        //circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.0];
         circleView.opaque = NO;
         return circleView;
     }
