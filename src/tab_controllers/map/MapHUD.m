@@ -61,12 +61,6 @@
     [self.view addSubview:iconView];
     [self.view addSubview:dismissButton];
     
-    /*
-    NSNumber *latitude = [[NSNumber alloc] initWithDouble:44.81890];
-    NSNumber *longitude = [[NSNumber alloc] initWithDouble:-93.166777];
-    CLLocation *eagan = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
-    [AppModel sharedAppModel].player.location = eagan;
-    */
      
     CLLocation *annotationLocation = location.latlon;
     CLLocation *userLocation = [[AppModel sharedAppModel] player].location;
@@ -95,13 +89,14 @@
     
     //hard code most of the positioning for now
     title.frame = CGRectMake(10, self.view.bounds.origin.y + 10, self.view.bounds.size.width-130, 20);
-    title.textAlignment = NSTextAlignmentCenter;
     
     [iconView setFrame:CGRectMake(self.view.bounds.size.width-100,10,mediaSize,mediaSize) withMode:ARISMediaDisplayModeAspectFill];
     
     interactButton.frame = CGRectMake(10, title.frame.origin.y + title.frame.size.height + 10, title.frame.size.width, 50);
+    interactButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [interactButton setTitle:@"Interact" forState:UIControlStateNormal];
     [interactButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside];
+    
     
     walklabel.frame = interactButton.frame;
     walklabel.text = [NSString stringWithFormat:@"You need to walk %.1f meters to interact with this object!", distanceToWalk];
