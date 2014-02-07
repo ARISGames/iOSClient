@@ -25,6 +25,7 @@
 
 @interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate>
 {
+    Reachability *reachability; 
     NSTimer *locationPoller;
     AVAudioPlayer *player;
     
@@ -46,11 +47,16 @@
 	//To set these defaults, edit Settings.bundle->Root.plist
 	[[AppModel sharedAppModel] initUserDefaults];
     [[AppServices sharedAppServices] resetCurrentlyFetchingVars];  
+    [[AppServices sharedAppServices] retryFailedRequests];
     
     [self setApplicationUITemplates];
     
     [self.window setRootViewController:[RootViewController sharedRootViewController]];
     [self.window makeKeyAndVisible];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];  
 }
 
 - (void) setApplicationUITemplates
@@ -173,6 +179,21 @@
         [[AppServices sharedAppServices] fetchOneGameGameList:[gameID intValue]];
     }
     return YES;
+}
+
+- (void) reachabilityChanged:(NSNotification *)notice
+{
+    switch ([reachability currentReachabilityStatus])
+    {
+        case NotReachable: { }
+        case ReachableViaWWAN: { } 
+        case ReachableViaWiFi:
+        {
+            NSLog(@"NSNotification: WifiConnected");
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"WifiConnected" object:self]]; 
+            break;            
+        }
+    }    
 }
 
 - (void)dealloc

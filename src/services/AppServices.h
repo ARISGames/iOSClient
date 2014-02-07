@@ -32,6 +32,7 @@
 + (AppServices *)sharedAppServices;
 
 - (void) resetCurrentlyFetchingVars;
+- (void) retryFailedRequests;
 
 //Player
 - (void) loginUserName:(NSString *)username password:(NSString *)password userInfo:(NSMutableDictionary *)dict;

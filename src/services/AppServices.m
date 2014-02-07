@@ -61,6 +61,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     {
         connection = [[ARISConnection alloc] initWithServer:[[AppModel sharedAppModel].serverURL absoluteString] graveyard:[AppModel sharedAppModel].servicesGraveyard];
         mediaLoader = [[ARISMediaLoader alloc] init]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryFailedRequests) name:@"WifiConnected" object:nil];
     }
     return self;
 }
@@ -581,7 +582,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                           media,                                                                 @"media",    
                           tags,                                                                  @"tags",     
                           nil]; 
-    [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil]; 
 }
 
 - (void) addComment:(NSString *)c fromPlayer:(Player *)p toNote:(Note *)n
