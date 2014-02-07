@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISWebView.h"
+#import "Location.h"
+
 @protocol MapHUDDelegate
 
 @end
 @interface MapHUD : UIViewController
-- (id) initWithDelegate:(id<MapHUDDelegate>)d;
+- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f withLocation:(Location *)l;
 @end

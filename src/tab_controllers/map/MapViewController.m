@@ -26,7 +26,9 @@
 #import "CrumbPath.h"
 #import "CrumbPathView.h"
 
-@interface MapViewController() <MKMapViewDelegate, UIActionSheetDelegate>
+#import "MapHUD.h"
+
+@interface MapViewController() <MKMapViewDelegate, UIActionSheetDelegate, MapHUDDelegate, StateControllerProtocol>
 {
     NSMutableArray *locations;
     NSMutableArray *locationsToAdd;
@@ -37,6 +39,7 @@
     BOOL appSetNextRegionChange;
     BOOL isViewLoaded;
 
+    MapHUD *hud;
     MKMapView *mapView;
     UIToolbar *toolBar;
     UIBarButtonItem *mapTypeButton;
@@ -202,7 +205,8 @@
     if([overlay isKindOfClass:[MKCircle class]])
     {
         MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
-        circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.4];
+        //circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.4];
+        circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.0];
         circleView.opaque = NO;
         return circleView;
     }
@@ -264,7 +268,16 @@
 }
 
 - (void) zoomAndCenterMap
-{	
+{
+    /*
+    //create fake location for testing REMOVE BEFORE COMMIT
+    NSNumber *latitude = [[NSNumber alloc] initWithDouble:44.8178];
+    NSNumber *longitude = [[NSNumber alloc] initWithDouble:-93.1669];
+    CLLocation *eagan = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
+    [AppModel sharedAppModel].player.location = eagan;
+    */
+    
+    
 	appSetNextRegionChange = YES;
 	
 	//Center the map on the player
@@ -388,6 +401,8 @@
 
 - (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
 {
+    [self displayHUDWithLocation:(Location *)view.annotation];
+    /*
     if(view.annotation == aMapView.userLocation) return;
     Location *location = (Location *)view.annotation;
 
@@ -412,6 +427,15 @@
         [actionSheet addButtonWithTitle:title];
 
     [actionSheet showInView:view];
+     */
+}
+
+- (void) displayHUDWithLocation:(Location *)location
+{
+    CGFloat navAndStatusBar = 64;
+    CGRect frame = CGRectMake(0, (self.view.bounds.size.height+navAndStatusBar) / 2, self.view.bounds.size.width, (self.view.bounds.size.height-navAndStatusBar) / 2);
+    hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame withLocation:location];
+    [self.view addSubview:hud.view];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -448,6 +472,23 @@
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"click" shouldVibrate:NO];
         [self performSelector:@selector(quickTravelToLastSelectedAnnotation) withObject:nil afterDelay:0.5];
     }
+}
+
+#pragma mark StateControlProtocol delegate methods
+
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+{
+    return [delegate displayGameObject:g fromSource:s];
+}
+
+- (void) displayTab:(NSString *)t
+{
+    [delegate displayTab:t];
+}
+
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    [delegate displayScannerWithPrompt:p];
 }
 
 //THIS IS A HACK-
