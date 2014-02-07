@@ -269,15 +269,6 @@
 
 - (void) zoomAndCenterMap
 {
-    /*
-    //create fake location for testing REMOVE BEFORE COMMIT
-    NSNumber *latitude = [[NSNumber alloc] initWithDouble:44.8178];
-    NSNumber *longitude = [[NSNumber alloc] initWithDouble:-93.1669];
-    CLLocation *eagan = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
-    [AppModel sharedAppModel].player.location = eagan;
-    */
-    
-    
 	appSetNextRegionChange = YES;
 	
 	//Center the map on the player
@@ -433,7 +424,7 @@
 - (void) displayHUDWithLocation:(Location *)location
 {
     CGFloat navAndStatusBar = 64;
-    CGRect frame = CGRectMake(0, (self.view.bounds.size.height+navAndStatusBar) / 2, self.view.bounds.size.width, (self.view.bounds.size.height-navAndStatusBar) / 2);
+    CGRect frame = CGRectMake(0, navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75), self.view.bounds.size.width, (self.view.bounds.size.height-navAndStatusBar) * .25);
     hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame withLocation:location];
     [self.view addSubview:hud.view];
 }
