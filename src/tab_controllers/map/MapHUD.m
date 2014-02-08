@@ -66,7 +66,7 @@
     CLLocation *userLocation = [[AppModel sharedAppModel] player].location;
     CLLocationDistance distance = [userLocation distanceFromLocation:annotationLocation];
     
-    if (distance <= location.errorRange) {
+    if (distance <= location.errorRange || location.allowsQuickTravel) {
         distanceToWalk = 0;
         [self.view addSubview:interactButton];
     }
