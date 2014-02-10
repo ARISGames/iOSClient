@@ -16,5 +16,6 @@
 
 
 @interface MapHUD : UIViewController
-- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f withLocation:(Location *)l;
+- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f;
+- (void) setLocation:(Location *)l;
 @end

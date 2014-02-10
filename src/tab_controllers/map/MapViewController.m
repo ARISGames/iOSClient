@@ -6,7 +6,6 @@
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-#import <UIKit/UIActionSheet.h>
 #import <MapKit/MapKit.h>
 #import "ARISTemplate.h"
 #import "AppModel.h"
@@ -28,7 +27,7 @@
 
 #import "MapHUD.h"
 
-@interface MapViewController() <MKMapViewDelegate, UIActionSheetDelegate, MapHUDDelegate, StateControllerProtocol>
+@interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
     NSMutableArray *locations;
     NSMutableArray *locationsToAdd;
@@ -393,39 +392,14 @@
 - (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     [self displayHUDWithLocation:(Location *)view.annotation];
-    /*
-    if(view.annotation == aMapView.userLocation) return;
-    Location *location = (Location *)view.annotation;
-
-    NSMutableArray *buttonTitles = [NSMutableArray arrayWithCapacity:1];
-    int cancelButtonIndex = 0;
-    if(location.allowsQuickTravel)
-    {
-        [buttonTitles addObject:NSLocalizedString(@"GPSViewQuickTravelKey", @"")];
-        cancelButtonIndex = 1;
-    }
-    [buttonTitles addObject:NSLocalizedString(@"CancelKey", @"")];
-
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name
-                                                            delegate:self
-                                                   cancelButtonTitle:nil
-                                              destructiveButtonTitle:nil
-                                                   otherButtonTitles:nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-    actionSheet.cancelButtonIndex = cancelButtonIndex;
-
-    for(NSString *title in buttonTitles)
-        [actionSheet addButtonWithTitle:title];
-
-    [actionSheet showInView:view];
-     */
 }
 
 - (void) displayHUDWithLocation:(Location *)location
 {
     CGFloat navAndStatusBar = 64;
     CGRect frame = CGRectMake(0, navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75), self.view.bounds.size.width, (self.view.bounds.size.height-navAndStatusBar) * .25);
-    hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame withLocation:location];
+    if(!hud) hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame];
+    [hud setLocation:location];
     [self.view addSubview:hud.view];
 }
 
@@ -452,19 +426,6 @@
     return zoomer;
 }
 
-- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    currentAnnotation = [mapView.selectedAnnotations lastObject];
-
-    [mapView deselectAnnotation:currentAnnotation animated:NO];
-
-    if(buttonIndex != actionSheet.cancelButtonIndex)
-    {
-        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"click" shouldVibrate:NO];
-        [self performSelector:@selector(quickTravelToLastSelectedAnnotation) withObject:nil afterDelay:0.5];
-    }
-}
-
 #pragma mark StateControlProtocol delegate methods
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
@@ -487,18 +448,6 @@
 - (void) dismissHUD
 {
     [hud.view removeFromSuperview];
-}
-
-//THIS IS A HACK-
-/*
- When the action sheet comes up, if you look closely, it fades out the buttons underneath (not the tab bar ones, the buttons above that).
- If you hit cancel, it will re-fade them back in. However, if you immediately launch a view over them, it thinks it doesn't have to re-animate
- them in, and they stay alpha = 0. So, I created this no-argument function such that it can be called "after a delay", allowing the animation 
- to begin. Stupid apple.
- */
-- (void) quickTravelToLastSelectedAnnotation
-{
-    [delegate displayGameObject:((Location *)currentAnnotation).gameObject fromSource:((Location *)currentAnnotation)];
 }
 
 - (void) dealloc

@@ -33,6 +33,8 @@
 
 - (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d
 {
+    if(!m) return;
+    
     MediaResult *mr = [[MediaResult alloc] init];
     mr.media = m;
     mr.delegate = d;

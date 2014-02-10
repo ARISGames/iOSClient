@@ -20,7 +20,6 @@
 #import "Panoramic.h"
 #import "Note.h"
 
-
 @interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol>
 {
     UILabel *title;
@@ -38,15 +37,41 @@
 @end
 @implementation MapHUD
 
-- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f withLocation:(Location *)l
+- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f
 {
     if(self = [super init])
     {
         delegate = d;
         frame = f;
-        location = l;
     }
     return self;
+}
+
+- (void) setLocation:(Location *)l
+{
+    location = l; 
+    
+    CLLocation *annotationLocation = location.latlon;
+    CLLocation *userLocation = [[AppModel sharedAppModel] player].location;
+    CLLocationDistance distance = [userLocation distanceFromLocation:annotationLocation];
+    
+    [interactButton removeFromSuperview];
+    [walklabel removeFromSuperview]; 
+    
+    if (distance <= location.errorRange || location.allowsQuickTravel) {
+        distanceToWalk = 0;
+        [self.view addSubview:interactButton];
+    }
+    else{
+        distanceToWalk = distance - location.errorRange;
+        [self.view addSubview:walklabel];
+    }
+       
+    Media *locationMedia = [[AppModel sharedAppModel] mediaForMediaId:location.gameObject.iconMediaId];
+    //Media *locationMedia = [self getMediaForLocation:location];
+    NSString *locationTitle = location.title;
+    
+    [self setTitle:locationTitle icon:locationMedia]; 
 }
 
 - (void) loadView
@@ -60,21 +85,6 @@
     [self.view addSubview:title];
     [self.view addSubview:iconView];
     [self.view addSubview:dismissButton];
-    
-     
-    CLLocation *annotationLocation = location.latlon;
-    CLLocation *userLocation = [[AppModel sharedAppModel] player].location;
-    CLLocationDistance distance = [userLocation distanceFromLocation:annotationLocation];
-    
-    if (distance <= location.errorRange || location.allowsQuickTravel) {
-        distanceToWalk = 0;
-        [self.view addSubview:interactButton];
-    }
-    else{
-        distanceToWalk = distance - location.errorRange;
-        [self.view addSubview:walklabel];
-    }
-    
 }
 
 - (void) viewWillLayoutSubviews
@@ -97,7 +107,6 @@
     [interactButton setTitle:@"Interact" forState:UIControlStateNormal];
     [interactButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside];
     
-    
     walklabel.frame = interactButton.frame;
     walklabel.text = [NSString stringWithFormat:@"You need to walk %.1f meters to interact with this object!", distanceToWalk];
     walklabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -109,12 +118,6 @@
     dismissButton.frame = CGRectMake(280, self.view.bounds.size.height - 30, dismissSize, dismissSize);
     [dismissButton addTarget:self action:@selector(dismissHUD) forControlEvents:UIControlEventTouchUpInside];
     dismissButton.backgroundColor = [UIColor redColor];
-    
-    Media *locationMedia = [[AppModel sharedAppModel] mediaForMediaId:location.gameObject.iconMediaId];
-    //Media *locationMedia = [self getMediaForLocation:location];
-    NSString *locationTitle = location.title;
-    
-    [self setTitle:locationTitle icon:locationMedia];
 }
 
 - (Media *) getMediaForLocation:(Location *)l
