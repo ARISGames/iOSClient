@@ -251,10 +251,13 @@
     note.name = title.text;
     note.desc = description.text;
     
-    for(int i = 0; i < [mediaToUpload count]; i++)
-        [note.contents addObject:[mediaToUpload objectAtIndex:i]];
+    //for(int i = 0; i < [mediaToUpload count]; i++)
+        //[note.contents addObject:[mediaToUpload objectAtIndex:i]];
     
-    if(newNote) [[AppServices sharedAppServices] uploadNote:note];
+    //feel icky about this... 
+    note.contents = mediaToUpload;
+    
+    [[AppServices sharedAppServices] uploadNote:note];
     
     [delegate noteEditorConfirmedNoteEdit:self note:note];    
 }
@@ -304,6 +307,5 @@
 {
     [self.navigationController popToViewController:self animated:YES];   
 }
-
 
 @end

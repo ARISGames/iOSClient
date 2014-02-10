@@ -573,6 +573,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSNumber numberWithInt:[AppModel sharedAppModel].currentGame.gameId], @"gameId", 
+                          [NSNumber numberWithInt:n.noteId],                                     @"noteId",  
                           [NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId],    @"playerId",  
                           n.name,                                                                @"title",
                           n.desc,                                                                @"description", 
