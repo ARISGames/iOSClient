@@ -62,54 +62,26 @@
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) Game *game;
-@property (nonatomic, strong) LoadingViewController *loadingViewController;
-@property (nonatomic, strong) PKRevealController *gamePlayRevealController;
-@property (nonatomic, strong) GamePlayTabSelectorViewController *gamePlayTabSelectorController;
-@property (nonatomic, strong) GameNotificationViewController *gameNotificationViewController;
-@property (nonatomic, strong) ARISNavigationController *nearbyObjectsNavigationController;
-@property (nonatomic, strong) ARISNavigationController *arNavigationController;
-@property (nonatomic, strong) ARISNavigationController *questsNavigationController;
-@property (nonatomic, strong) ARISNavigationController *mapNavigationController;
-@property (nonatomic, strong) ARISNavigationController *inventoryNavigationController;
-@property (nonatomic, strong) ARISNavigationController *attributesNavigationController;
-@property (nonatomic, strong) ARISNavigationController *notesNavigationController;
-@property (nonatomic, strong) ARISNavigationController *decoderNavigationController;
-
 @end
 
 @implementation GamePlayViewController
-
-@synthesize game;
-@synthesize loadingViewController;
-@synthesize gamePlayRevealController;
-@synthesize gamePlayTabSelectorController;
-@synthesize gameNotificationViewController;
-@synthesize nearbyObjectsNavigationController;
-@synthesize arNavigationController;
-@synthesize questsNavigationController;
-@synthesize mapNavigationController;
-@synthesize inventoryNavigationController;
-@synthesize attributesNavigationController;
-@synthesize notesNavigationController;
-@synthesize decoderNavigationController;
 
 - (id) initWithGame:(Game *)g delegate:(id<GamePlayViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         delegate = d;
-        self.game = g;
+        game = g;
         
         //PHIL HATES THIS CHUNK
-        [AppModel sharedAppModel].currentGame = self.game;
-        [AppModel sharedAppModel].fallbackGameId = self.game.gameId;
+        [AppModel sharedAppModel].currentGame = game;
+        [AppModel sharedAppModel].fallbackGameId = game.gameId;
         [[AppModel sharedAppModel] saveUserDefaults];
         //PHIL DONE HATING CHUNK
         
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
 
-        self.gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
+        gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         
         //PHIL UNAPPROVED
         [[AppModel sharedAppModel] resetAllPlayerLists];
@@ -126,8 +98,8 @@
 - (void) loadView
 {
     [super loadView];
-    self.gameNotificationViewController.view.frame = self.view.frame;
-    [self.view addSubview:self.gameNotificationViewController.view];
+    gameNotificationViewController.view.frame = self.view.frame;
+    [self.view addSubview:gameNotificationViewController.view];
     self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight);
 }
 
@@ -137,15 +109,15 @@
     
     if(!currentChildViewController)
     {
-        self.loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
-        [self displayContentController:self.loadingViewController];
+        loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
+        [self displayContentController:loadingViewController];
         [self startLoadingGame];
     }
 }
 
 - (void) startLoadingGame
 {
-    [self.game getReadyToPlay];
+    [game getReadyToPlay];
     [[AppServices sharedAppServices] fetchAllGameLists];
     
     //PHIL HATES THIS CHUNK
@@ -165,8 +137,8 @@
 
 - (void) loadingViewControllerFinishedLoadingData
 {
-    [self displayContentController:self.gamePlayRevealController];
-    self.loadingViewController = nil;
+    [self displayContentController:gamePlayRevealController];
+    loadingViewController = nil;
     [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
     
     //PHIL UNAPPROVED -
@@ -175,9 +147,9 @@
 
 - (void) gameRequestsDismissal
 {
-    [self.gameNotificationViewController stopListeningToModel];
-    [self.gameNotificationViewController cutOffGameNotifications];
-    [self.game clearLocalModels];
+    [gameNotificationViewController stopListeningToModel];
+    [gameNotificationViewController cutOffGameNotifications];
+    [game clearLocalModels];
     //PHIL UNAPPROVED - 
     [AppModel sharedAppModel].currentGame = nil;
     [delegate gameplayWasDismissed];
@@ -196,7 +168,7 @@
 
     //Special case- always should get inited (yet not added to the gameplay tabbar until specified)
     NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc] initWithDelegate:self];
-    self.nearbyObjectsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
+    nearbyObjectsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
     
     NSMutableArray *gamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
     Tab *tmpTab;
@@ -211,75 +183,75 @@
             if((BOOL)tmpTab.tabDetail1)
             {
                 IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:self];
-                self.questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
-                [gamePlayTabVCs addObject:self.questsNavigationController];
+                questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
+                [gamePlayTabVCs addObject:questsNavigationController];
             }
             else
             {
                 QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:self];
-                self.questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
-                [gamePlayTabVCs addObject:self.questsNavigationController];
+                questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
+                [gamePlayTabVCs addObject:questsNavigationController];
             }
         }
         else if([tmpTab.tabName isEqualToString:@"GPS"])
         {
             MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:self];
-            self.mapNavigationController = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
-            [gamePlayTabVCs addObject:self.mapNavigationController];
+            mapNavigationController = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
+            [gamePlayTabVCs addObject:mapNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"])
         {
             InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:self];
-            self.inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
-            [gamePlayTabVCs addObject:self.inventoryNavigationController];
+            inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
+            [gamePlayTabVCs addObject:inventoryNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"QR"])
         {
             DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:tmpTab.tabDetail1];
-            self.decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
-            [gamePlayTabVCs addObject:self.decoderNavigationController];  
+            decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
+            [gamePlayTabVCs addObject:decoderNavigationController];  
         }
         else if([tmpTab.tabName isEqualToString:@"PLAYER"])
         {
             AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:self];
-            self.attributesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
-            [gamePlayTabVCs addObject:self.attributesNavigationController];
+            attributesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
+            [gamePlayTabVCs addObject:attributesNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"NOTE"])
         {
             NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:self];
-            self.notesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
-            [gamePlayTabVCs addObject:self.notesNavigationController];
+            notesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
+            [gamePlayTabVCs addObject:notesNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"AR"])
         {
             //ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
-            //self.arNavigationController = [[ARISNavigationController alloc] initWithRootViewController: arViewController];
-            //[gamePlayTabVCs addObject:self.arNavigationController];
+            //arNavigationController = [[ARISNavigationController alloc] initWithRootViewController: arViewController];
+            //[gamePlayTabVCs addObject:arNavigationController];
         }
     }
     
-    self.gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
-    self.gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:self.gamePlayTabSelectorController options:nil];
+    gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
+    gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:gamePlayTabSelectorController options:nil];
 }
 
 - (void) gamePlayTabBarViewControllerRequestsNav
 {
-    [self.gamePlayRevealController showViewController:self.gamePlayTabSelectorController];
+    [gamePlayRevealController showViewController:gamePlayTabSelectorController];
 }
 
 - (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc
 {
-    [self.gamePlayRevealController setFrontViewController:avc];
-    [self.gamePlayRevealController showViewController:avc];
+    [gamePlayRevealController setFrontViewController:avc];
+    [gamePlayRevealController showViewController:avc];
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
-    if(self.decoderNavigationController)
+    if(decoderNavigationController)
     {
-        [(DecoderViewController *)[[self.decoderNavigationController viewControllers] objectAtIndex:0] setPrompt:p]; 
-        [self viewControllerRequestedDisplay:self.decoderNavigationController];
+        [(DecoderViewController *)[[decoderNavigationController viewControllers] objectAtIndex:0] setPrompt:p]; 
+        [self viewControllerRequestedDisplay:decoderNavigationController];
     }
 }
 
@@ -290,11 +262,11 @@
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self fromSource:s]];
     [self presentViewController:nav animated:NO completion:nil];
     //Phil hates that the frame changes depending on what view you add it to...
-    self.gameNotificationViewController.view.frame = CGRectMake(self.gameNotificationViewController.view.frame.origin.x, 
-                                                                self.gameNotificationViewController.view.frame.origin.y+20,
-                                                                self.gameNotificationViewController.view.frame.size.width,
-                                                                self.gameNotificationViewController.view.frame.size.height);
-    [nav.view addSubview:self.gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+    gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x, 
+                                                                gameNotificationViewController.view.frame.origin.y+20,
+                                                                gameNotificationViewController.view.frame.size.width,
+                                                                gameNotificationViewController.view.frame.size.height);
+    [nav.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
     
     if([s isKindOfClass:[Location class]])
     {
@@ -311,11 +283,11 @@
 {
     [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
     //Phil hates that the frame changes depending on what view you add it to...
-    self.gameNotificationViewController.view.frame = CGRectMake(self.gameNotificationViewController.view.frame.origin.x,
-                                                                self.gameNotificationViewController.view.frame.origin.y-20,
-                                                                self.gameNotificationViewController.view.frame.size.width,
-                                                                self.gameNotificationViewController.view.frame.size.height);
-    [self.view addSubview:self.gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+    gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
+                                                                gameNotificationViewController.view.frame.origin.y-20,
+                                                                gameNotificationViewController.view.frame.size.width,
+                                                                gameNotificationViewController.view.frame.size.height);
+    [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
 }
 
 - (void) dealloc
@@ -328,9 +300,9 @@
 - (void) beginGamePlay
 {
     NSLog(@"GamePlayViewController: beginGamePlay");
-    self.gameNotificationViewController.view.frame = CGRectMake(0,0,0,0);
-    [self.view addSubview:self.gameNotificationViewController.view];
-    [self.gameNotificationViewController startListeningToModel];
+    gameNotificationViewController.view.frame = CGRectMake(0,0,0,0);
+    [self.view addSubview:gameNotificationViewController.view];
+    [gameNotificationViewController startListeningToModel];
         
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
     if(nodeId && nodeId != 0 && [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
@@ -352,23 +324,23 @@
 {
     NSString *localized = [t lowercaseString];
     if([localized isEqualToString:@"map"]       || [localized isEqualToString:[NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:self.mapNavigationController];
+        [self viewControllerRequestedDisplay:mapNavigationController];
     if([localized isEqualToString:@"quests"]    || [localized isEqualToString:[NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:self.questsNavigationController];
+        [self viewControllerRequestedDisplay:questsNavigationController];
     if([localized isEqualToString:@"notebook"]  || [localized isEqualToString:[NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:self.notesNavigationController];
+        [self viewControllerRequestedDisplay:notesNavigationController];
     if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:self.inventoryNavigationController];
+        [self viewControllerRequestedDisplay:inventoryNavigationController];
     if([localized isEqualToString:@"scanner"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:self.decoderNavigationController];
+        [self viewControllerRequestedDisplay:decoderNavigationController];
     if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:self.attributesNavigationController];
+        [self viewControllerRequestedDisplay:attributesNavigationController];
 }
 
 - (NSUInteger) supportedInterfaceOrientations
 {
     //BAD BAD HACK
-    if ([[self.notesNavigationController topViewController] isKindOfClass:[AudioVisualizerViewController class]]) {
+    if ([[notesNavigationController topViewController] isKindOfClass:[AudioVisualizerViewController class]]) {
         return UIInterfaceOrientationMaskLandscape;
     }
     else{

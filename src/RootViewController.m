@@ -25,24 +25,14 @@
 @interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, GamePickersViewControllerDelegate, GamePlayViewControllerDelegate>
 {
     ARISNavigationController *loginNavigationController;
-    ARISNavigationController *playerSettingsViewNavigationController;
+    ARISNavigationController *playerSettingsNavigationController;
     GamePickersViewController *gamePickersViewController;
     GamePlayViewController *gamePlayViewController;
 }
 
-@property (nonatomic, strong) ARISNavigationController *loginNavigationController;
-@property (nonatomic, strong) ARISNavigationController *playerSettingsNavigationController;
-@property (nonatomic, strong) GamePickersViewController *gamePickersViewController;
-@property (nonatomic, strong) GamePlayViewController *gamePlayViewController;
-
 @end
 
 @implementation RootViewController
-
-@synthesize loginNavigationController;
-@synthesize playerSettingsNavigationController;
-@synthesize gamePickersViewController;
-@synthesize gamePlayViewController;
 
 + (id) sharedRootViewController
 {
@@ -59,10 +49,10 @@
     if(self = [super init])
     {
         LoginViewController* loginViewController = [[LoginViewController alloc] initWithDelegate:self];
-        self.loginNavigationController = [[ARISNavigationController alloc] initWithRootViewController:loginViewController];
+        loginNavigationController = [[ARISNavigationController alloc] initWithRootViewController:loginViewController];
         
         PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithDelegate:self];
-        self.playerSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:playerSettingsViewController];
+        playerSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:playerSettingsViewController];
         
         //PHIL HATES THIS
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutWasRequested) name:@"LogoutRequested" object:nil];
@@ -76,7 +66,7 @@
     [super viewWillAppear:animated];
 
     if(!currentChildViewController)
-        [self displayContentController:self.loginNavigationController];
+        [self displayContentController:loginNavigationController];
 }
 
 - (void) loginCredentialsApprovedForPlayer:(Player *)p toGame:(int)gameId newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
@@ -88,8 +78,8 @@
     [AppModel sharedAppModel].disableLeaveGame = disableLeaveGame;
     if(newPlayer)
     {
-        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController resetState];
-        [self displayContentController:self.playerSettingsNavigationController];
+        [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
+        [self displayContentController:playerSettingsNavigationController];
     }
     if(gameId)
     {
@@ -103,17 +93,17 @@
     }
     //PHIL DONE HATING CHUNK
     
-    self.gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
+    gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
     
     if(!newPlayer && !gameId)
-        [self displayContentController:self.gamePickersViewController];
+        [self displayContentController:gamePickersViewController];
 }
 
 - (void) playerSettingsRequested
 {
     //PHIL HATES THIS NEXT CHUNK
-    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController resetState];
-    [self displayContentController:self.playerSettingsNavigationController];
+    [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
+    [self displayContentController:playerSettingsNavigationController];
     //PHIL DONE HATING CHUNK
 }
 
@@ -128,7 +118,7 @@
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Confirming..."];
     }
     else
-        [self displayContentController:self.gamePickersViewController];
+        [self displayContentController:gamePickersViewController];
     //PHIL DONE HATING THIS CHUNK
 }
 
@@ -146,21 +136,21 @@
     [[ARISAlertHandler sharedAlertHandler] removeNetworkAlert];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListFailed" object:nil];
-    [self displayContentController:self.gamePickersViewController];
+    [self displayContentController:gamePickersViewController];
 }
 
 - (void) gamePickedForPlay:(Game *)g
 {
     [[ARISPusherHandler sharedPusherHandler] loginGame:g.gameId]; 
-    self.gamePlayViewController = [[GamePlayViewController alloc] initWithGame:g delegate:self];
-    [self displayContentController:self.gamePlayViewController];
+    gamePlayViewController = [[GamePlayViewController alloc] initWithGame:g delegate:self];
+    [self displayContentController:gamePlayViewController];
 }
 
 - (void) gameplayWasDismissed
 {
     [[ARISPusherHandler sharedPusherHandler] logoutGame];  
-    self.gamePlayViewController = nil;
-    [self displayContentController:self.gamePickersViewController];
+    [self displayContentController:gamePickersViewController];
+    gamePlayViewController = nil; 
     
     //PHIL HATES THIS CHUNK
     [AppModel sharedAppModel].fallbackGameId = 0;
@@ -173,8 +163,8 @@
     [[ARISPusherHandler sharedPusherHandler] logoutPlayer];   
     [AppModel sharedAppModel].player = nil;
     [[AppModel sharedAppModel] saveUserDefaults];
-    [(LoginViewController *)[[self.loginNavigationController viewControllers] objectAtIndex:0] resetState];
-    [self displayContentController:self.loginNavigationController];
+    [(LoginViewController *)[[loginNavigationController viewControllers] objectAtIndex:0] resetState];
+    [self displayContentController:loginNavigationController];
 }
 
 @end

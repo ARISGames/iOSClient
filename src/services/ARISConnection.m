@@ -105,7 +105,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	if(!result)
     {
 		NSLog(@"ARISConnection: performSynchronousRequest Error");
-        [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
+        ///* silently handle errors */[[ARISAlertHandler sharedAlertHandler] showNetworkAlert]; 
 		return nil;
 	}
     sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding]];
@@ -220,7 +220,7 @@ NSString *const kARISServerServicePackage = @"v1";
    	if(sr.handler && sr.failSelector)
 		[sr.handler performSelector:sr.failSelector withObject:error];
     
-    [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
+    ///* silently handle errors */ [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
 }
 
 - (NSURLRequest *) connection:(NSURLConnection *)c willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response
@@ -238,7 +238,9 @@ NSString *const kARISServerServicePackage = @"v1";
     if(!result)
     {
         NSLog(@"JSONResult: Error parsing JSON String: %@.", json);
+        /* no need to show error to user
         [[ARISAlertHandler sharedAlertHandler] showServerAlertEmailWithTitle:NSLocalizedString(@"BadServerResponseTitleKey",@"") message:NSLocalizedString(@"BadServerResponseMessageKey",@"") details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@",json]];
+         */
         return nil;
     }
     

@@ -25,7 +25,7 @@
     BOOL showingDropDown;
     BOOL showingPopOver;
     
-    id<StateControllerProtocol> delegate;
+    id<StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
 

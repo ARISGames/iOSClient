@@ -20,6 +20,7 @@
 #import "objc/message.h" //needed to change the orientation
 
 #import "PKRevealController.h"
+#import "ARISAlertHandler.h"
 
 #define SLIDER_BUFFER 35
 
@@ -443,12 +444,7 @@
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
-             UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"SaveErrorTitleKey", nil)
-                                                                  message:NSLocalizedString(@"SaveErrorKey", nil)
-                                                                 delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
-                                                        otherButtonTitles:nil];
-             [errorAlert show];
+             [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"SaveErrorTitleKey", nil) message:NSLocalizedString(@"SaveErrorKey", nil)]; 
          }
      }];
 }

@@ -136,18 +136,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"players" method:@"createPlayerAndGetLoginPlayerObject" arguments:args handler:self successSelector:@selector(parseLoginResponseFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
-{
-    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [userInfo setValue:fileURL forKey:@"url"];
-    
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"object", @"key",
-                          nil];
-    
-    //[connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:@selector(playerPicUploadDidFail:) retryOnFail:NO userInfo:userInfo];
-}
-
 - (void) updatePlayer:(int)playerId withName:(NSString *)name
 {
     if(playerId != 0)
@@ -648,13 +636,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] delegate:nil];  
         [[AppModel sharedAppModel] saveUserDefaults];
     }
-}
-
-- (void) playerPicUploadDidFail:(ARISServiceResult *)result
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadFailedKey", @"") message:NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-    
-    [alert show];
 }
 
 - (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList

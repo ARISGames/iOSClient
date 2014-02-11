@@ -203,12 +203,12 @@
     
 	if(!qrCodeObject)
     {
-       if([lastError timeIntervalSinceNow] < -3.0f)
-       { 
-           lastError = [NSDate date];
-           [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
-           [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
-       }
+        if([lastError timeIntervalSinceNow] < -3.0f)
+        { 
+            lastError = [NSDate date];
+            [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
+            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
+        }
         if(!textEnabled) [self performSelector:@selector(scanButtonTouched) withObject:nil afterDelay:1]; 
 	}
 	else if([qrCodeObject isKindOfClass:[NSString class]])

@@ -146,4 +146,9 @@
     [delegate viewControllerRequestedDisplay:[self.viewControllers objectAtIndex:indexPath.row]];
 }
 
+- (void) dealloc
+{
+    
+}
+
 @end

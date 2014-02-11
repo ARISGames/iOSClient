@@ -14,7 +14,6 @@
 @synthesize textField;
 @synthesize saveButton;
 @synthesize game,commentsVC;
-@synthesize alert;
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
@@ -35,25 +34,18 @@
 
 - (IBAction) saveComment:(id)sender {
 /*    if([self.textField.text length] == 0){
-        self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
-                                                message: NSLocalizedString(@"Please add a comment", @"")
-                                               delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-        [self.alert show];
-        [self.alert release];
     }
     else*/ if(self.ratingView.userRating == 0){
-        UIAlertView *alertAlloc = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ErrorKey", @"")
+        UIAlertView *alert= [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ErrorKey", @"")
                                                              message: NSLocalizedString(@"CommentsFormNumberOfStarsRatingKey", @"")
                                                             delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-        self.alert = alertAlloc;
-        [self.alert show];
+        [alert show];
     }
     else{
-        UIAlertView *alertAlloc = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"CommentsFormSuccessKey", @"a")
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"CommentsFormSuccessKey", @"a")
                                                              message: NSLocalizedString(@"CommentsFormSuccessMessageKey", @"")
                                                             delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-        self.alert = alertAlloc;
-        [self.alert show];
+        [alert show];
         [[AppServices sharedAppServices] saveGameComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
         
         self.commentsVC.defaultRating = self.ratingView.userRating;

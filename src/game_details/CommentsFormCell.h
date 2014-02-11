@@ -18,12 +18,8 @@
     Game *game;
 
     commentsViewController *commentsVC;
-
-    UIAlertView *alert;
-
 }
 
-@property (nonatomic) UIAlertView *alert;
 @property(nonatomic) IBOutlet SCRRatingView *ratingView;
 @property(nonatomic) IBOutlet UITextView *textField;
 @property(nonatomic) IBOutlet UIButton *saveButton;
