@@ -250,16 +250,16 @@
 {
     note.name = title.text;
     note.desc = description.text;
-    
+
     //for(int i = 0; i < [mediaToUpload count]; i++)
         //[note.contents addObject:[mediaToUpload objectAtIndex:i]];
-    
-    //feel icky about this... 
+
+    //feel icky about this...
     note.contents = mediaToUpload;
-    
+
     [[AppServices sharedAppServices] uploadNote:note];
-    
-    [delegate noteEditorConfirmedNoteEdit:self note:note];    
+
+    [delegate noteEditorConfirmedNoteEdit:self note:note];
 }
 
 - (void) newLocationPicked:(CLLocationCoordinate2D)l
@@ -267,7 +267,7 @@
     note.location = [[Location alloc] init];
     note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
     note.location.coordinate = l;
-    [self.navigationController popToViewController:self animated:YES];   
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (void) imageChosenWithURL:(NSURL *)url

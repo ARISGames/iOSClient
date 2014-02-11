@@ -35,9 +35,9 @@
 {
     if(self = [super init])
     {
-        self.noteId = [dict validIntForKey:@"note_id"];
+        self.noteId    = [dict validIntForKey:@"note_id"];
         self.commentId = [dict validIntForKey:@"comment_id"]; 
-        self.text = [dict validStringForKey:@"text"]; 
+        self.text      = [dict validStringForKey:@"text"]; 
         
         NSDictionary *ownerDict = [dict validObjectForKey:@"owner"];
         if(ownerDict) self.owner = [[Player alloc] initWithDictionary:ownerDict];  
