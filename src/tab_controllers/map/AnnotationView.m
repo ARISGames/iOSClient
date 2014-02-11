@@ -139,4 +139,9 @@
     }
 }	
 
+- (void) dealloc
+{
+    self.iconView.delegate = nil;
+}
+
 @end

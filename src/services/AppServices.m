@@ -12,7 +12,6 @@
 #import "ARISServiceResult.h"
 #import "ARISServiceGraveyard.h"
 #import "ARISAlertHandler.h"
-#import "ARISMediaView.h"
 #import "Player.h"
 #import "Note.h"
 #import "NoteTag.h"
