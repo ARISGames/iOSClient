@@ -89,6 +89,7 @@
     text.text = c.text; 
     text.lineBreakMode = NSLineBreakByWordWrapping;
     text.numberOfLines = 0; 
+    text.font = [ARISTemplate ARISInputFont];
     CGSize textSize = [text.text sizeWithFont:text.font constrainedToSize:CGSizeMake(text.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping];   
     text.frame = CGRectMake(text.frame.origin.x, text.frame.origin.y, text.frame.size.width, textSize.height);
     
