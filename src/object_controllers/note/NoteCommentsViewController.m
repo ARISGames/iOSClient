@@ -60,7 +60,7 @@
     {
         cell = [self cellForComment:[comments objectAtIndex:i]];
         cell.frame = CGRectMake(0, yOffset, cell.frame.size.width, cell.frame.size.height);
-        yOffset += cell.frame.size.height;
+        yOffset += cell.frame.size.height+10;
         [self.view addSubview:cell];
     }
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, yOffset);
