@@ -268,6 +268,12 @@
 
 - (void) zoomAndCenterMap
 {
+    CLLocationDegrees latitude = 44.8178;
+    CLLocationDegrees longitude = -93.1669;
+    CLLocation *eagan = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+    [AppModel sharedAppModel].player.location = eagan;
+    
+    
 	appSetNextRegionChange = YES;
 	
 	//Center the map on the player
@@ -391,15 +397,15 @@
 
 - (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    [self displayHUDWithLocation:(Location *)view.annotation];
+    [self displayHUDWithLocation:(Location *)view.annotation andAnnotation:view];
 }
 
-- (void) displayHUDWithLocation:(Location *)location
+- (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
 {
     CGFloat navAndStatusBar = 64;
     CGRect frame = CGRectMake(0, navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75), self.view.bounds.size.width, (self.view.bounds.size.height-navAndStatusBar) * .25);
     if(!hud) hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame];
-    [hud setLocation:location];
+    [hud setLocation:location withAnnotation:annotation];
     [self.view addSubview:hud.view];
 }
 
@@ -445,9 +451,10 @@
 
 #pragma mark MapHUD delegate methods
 
-- (void) dismissHUD
+- (void) dismissHUDWithAnnotation:(MKAnnotationView *)annotation
 {
     [hud.view removeFromSuperview];
+    [mapView deselectAnnotation:[annotation annotation] animated:NO];
 }
 
 - (void) dealloc

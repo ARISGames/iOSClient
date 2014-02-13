@@ -30,6 +30,7 @@
     UIButton *dismissButton;
     UIButton *interactButton;
     float distanceToWalk;
+    MKAnnotationView *annotation;
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -47,9 +48,10 @@
     return self;
 }
 
-- (void) setLocation:(Location *)l
+- (void) setLocation:(Location *)l withAnnotation:(MKAnnotationView *)a
 {
-    location = l; 
+    location = l;
+    annotation = a;
     
     CLLocation *annotationLocation = location.latlon;
     CLLocation *userLocation = [[AppModel sharedAppModel] player].location;
@@ -160,7 +162,7 @@
 
 - (void) dismissHUD
 {
-    [delegate dismissHUD];
+    [delegate dismissHUDWithAnnotation:annotation];
 }
 
 - (void) interactWithLocation
