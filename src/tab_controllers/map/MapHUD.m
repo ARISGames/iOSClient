@@ -105,7 +105,7 @@
     [hudView addSubview:title];
     [hudView addSubview:iconView];
     
-    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:self.view.bounds open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
     
     [self.view addSubview:collapseView];
 }
@@ -146,6 +146,7 @@
 
 - (void) dismissHUD
 {
+    //[collapseView close];
     [delegate dismissHUDWithAnnotation:annotation];
 }
 
@@ -176,7 +177,11 @@
 - (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
 {
     if(!o){
+        [interactButton setAlpha:0.0];
         [self dismissHUD];
+    }
+    else{
+        [interactButton setAlpha:1.0];
     }
 }
 

@@ -18,6 +18,7 @@
 @interface MapHUD : UIViewController
 - (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f;
 - (void) setLocation:(Location *)l withAnnotation:(MKAnnotationView *)a;
+- (void) dismissHUD;
 
 @property (nonatomic, readwrite) MKAnnotationView *annotation;
 @end

@@ -431,7 +431,7 @@
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (!annotationPressed) {
-        [self dismissHUDWithAnnotation:hud.annotation];
+        [hud dismissHUD];
     }
     annotationPressed = NO;
 }
@@ -457,7 +457,6 @@
 
 - (void) dismissHUDWithAnnotation:(MKAnnotationView *)annotation
 {
-    [hud.view removeFromSuperview];
     [mapView deselectAnnotation:[annotation annotation] animated:NO];
 }
 
