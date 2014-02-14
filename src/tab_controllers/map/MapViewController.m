@@ -39,6 +39,7 @@
     BOOL isViewLoaded;
 
     MapHUD *hud;
+    BOOL annotationPressed;
     MKMapView *mapView;
     UIToolbar *toolBar;
     UIBarButtonItem *mapTypeButton;
@@ -391,6 +392,7 @@
 
 - (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
 {
+    annotationPressed = YES;
     [self displayHUDWithLocation:(Location *)view.annotation andAnnotation:view];
 }
 
@@ -424,6 +426,14 @@
     double zoomer = MAX_GOOGLE_LEVELS - log2( zoomScale );
     if ( zoomer < 0 ) zoomer = 0;
     return zoomer;
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (!annotationPressed) {
+        [self dismissHUDWithAnnotation:hud.annotation];
+    }
+    annotationPressed = NO;
 }
 
 #pragma mark StateControlProtocol delegate methods

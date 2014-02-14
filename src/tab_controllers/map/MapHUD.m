@@ -40,6 +40,7 @@
 
 @end
 @implementation MapHUD
+@synthesize annotation;
 
 - (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f
 {
