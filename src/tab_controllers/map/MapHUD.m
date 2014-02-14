@@ -11,7 +11,6 @@
 #import "ARISTemplate.h"
 #import "AppModel.h"
 #import "GameObjectProtocol.h"
-#import "ARISCollapseView.h"
 
 #import "Player.h"
 #import "Npc.h"
@@ -41,6 +40,7 @@
 @end
 @implementation MapHUD
 @synthesize annotation;
+@synthesize collapseView;
 
 - (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f
 {
@@ -146,7 +146,6 @@
 
 - (void) dismissHUD
 {
-    //[collapseView close];
     [delegate dismissHUDWithAnnotation:annotation];
 }
 

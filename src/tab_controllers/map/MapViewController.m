@@ -431,7 +431,7 @@
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (!annotationPressed) {
-        [hud dismissHUD];
+        [hud.collapseView close];
     }
     annotationPressed = NO;
 }
