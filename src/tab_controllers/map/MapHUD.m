@@ -11,6 +11,7 @@
 #import "ARISTemplate.h"
 #import "AppModel.h"
 #import "GameObjectProtocol.h"
+#import "ARISCollapseView.h"
 
 #import "Player.h"
 #import "Npc.h"
@@ -20,17 +21,19 @@
 #import "Panoramic.h"
 #import "Note.h"
 
-@interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol>
+@interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISCollapseViewDelegate>
 {
     UILabel *title;
     UILabel *walklabel;
     ARISMediaView *iconView;
     CGRect frame;
     Location *location;
-    UIButton *dismissButton;
     UIButton *interactButton;
     float distanceToWalk;
     MKAnnotationView *annotation;
+    ARISCollapseView *collapseView;
+    UIView *hudView;
+    UIImageView *warningImage;
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -58,106 +61,86 @@
     CLLocationDistance distance = [userLocation distanceFromLocation:annotationLocation];
     
     [interactButton removeFromSuperview];
-    [walklabel removeFromSuperview]; 
+    [walklabel removeFromSuperview];
+    [warningImage removeFromSuperview];
     
     if (distance <= location.errorRange || location.allowsQuickTravel) {
         distanceToWalk = 0;
-        [self.view addSubview:interactButton];
+        interactButton.enabled = YES;
     }
     else{
+        interactButton.enabled = NO;
         distanceToWalk = distance - location.errorRange;
-        [self.view addSubview:walklabel];
+        [hudView addSubview:walklabel];
+        [hudView addSubview:warningImage];
     }
-       
-    Media *locationMedia = [[AppModel sharedAppModel] mediaForMediaId:location.gameObject.iconMediaId];
-    //Media *locationMedia = [self getMediaForLocation:location];
-    NSString *locationTitle = location.title;
     
-    [self setTitle:locationTitle icon:locationMedia]; 
+    //add the interact button to the collapse view instead of the hudView to overlap the ... on the collapse view
+    [collapseView addSubview:interactButton];
+    
+    Media *locationMedia = [[AppModel sharedAppModel] mediaForMediaId:location.gameObject.iconMediaId];
+    NSString *locationTitle = location.title;
+    title.text = locationTitle;
+    [iconView setMedia:locationMedia];
+    
+    [collapseView open];
 }
 
 - (void) loadView
 {
     [super loadView];
+    
+    self.view.frame = frame;
+    
+    hudView = [[UIView alloc] init];
     title = [[UILabel alloc] init];
-    walklabel = [[UILabel alloc] init];
     iconView = [[ARISMediaView alloc] initWithDelegate:self];
-    dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    walklabel = [[UILabel alloc] init];
     interactButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.view addSubview:title];
-    [self.view addSubview:iconView];
-    [self.view addSubview:dismissButton];
+    warningImage = [[UIImageView alloc] init];
+    [warningImage setImage:[UIImage imageNamed:@"walkerWarning.png"]];
+    
+    [hudView addSubview:title];
+    [hudView addSubview:iconView];
+    
+    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:self.view.bounds open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    
+    [self.view addSubview:collapseView];
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     
-    self.view.frame = frame;
-    self.view.backgroundColor = [UIColor whiteColor];
+    hudView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-10);
     
     int mediaSize = 80;
-    int dismissSize = 20;
+    title.frame = CGRectMake(20, 69, self.view.bounds.size.width-130, 33);
+    title.font = [title.font fontWithSize:25];
     
-    //hard code most of the positioning for now
-    title.frame = CGRectMake(10, self.view.bounds.origin.y + 10, self.view.bounds.size.width-130, 20);
+    [iconView setFrame:CGRectMake(frame.size.width - 100, frame.size.height - 110, mediaSize, mediaSize) withMode:ARISMediaDisplayModeAspectFill];
     
-    [iconView setFrame:CGRectMake(self.view.bounds.size.width-100,10,mediaSize,mediaSize) withMode:ARISMediaDisplayModeAspectFill];
-    
-    interactButton.frame = CGRectMake(10, title.frame.origin.y + title.frame.size.height + 10, title.frame.size.width, 50);
+    interactButton.frame = CGRectMake((frame.size.width / 2) - (60/2), 5, 60, 30);
+    interactButton.layer.cornerRadius = 5;
+    interactButton.layer.borderWidth = 1;
+    interactButton.layer.borderColor = [UIColor blueColor].CGColor;
     interactButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [interactButton setTitle:@"Interact" forState:UIControlStateNormal];
+    //TODO change label here and change to NSLocalized string
+    [interactButton setTitle:@" Interact" forState:UIControlStateNormal];
     [interactButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside];
+    interactButton.backgroundColor = [UIColor whiteColor];
     
-    walklabel.frame = interactButton.frame;
-    walklabel.text = [NSString stringWithFormat:@"You need to walk %.1f meters to interact with this object!", distanceToWalk];
+    walklabel.frame = CGRectMake(65, 36, 140, 35);
+    //TODO change this string
+    float roundedDistance = lroundf(distanceToWalk);
+    walklabel.text = [NSString stringWithFormat:@"Out of range\nWalk %.0fm", roundedDistance];
+    walklabel.textColor = [UIColor redColor];
     walklabel.lineBreakMode = NSLineBreakByWordWrapping;
     walklabel.numberOfLines = 0;
     walklabel.font = [walklabel.font fontWithSize:10];
     
-    UIImage *btnImage = [UIImage imageNamed:@"298-circlex-white.png"];
-    [dismissButton setImage:btnImage forState:UIControlStateNormal];
-    dismissButton.frame = CGRectMake(280, self.view.bounds.size.height - 30, dismissSize, dismissSize);
-    [dismissButton addTarget:self action:@selector(dismissHUD) forControlEvents:UIControlEventTouchUpInside];
-    dismissButton.backgroundColor = [UIColor redColor];
-}
-
-- (Media *) getMediaForLocation:(Location *)l
-{
-    if ([l.gameObject isKindOfClass:[Player class]]) {
-        Player *otherPlayer = (Player *)l.gameObject;
-        return [[AppModel sharedAppModel] mediaForMediaId:otherPlayer.playerMediaId];
-    }
-    else if([l.gameObject isKindOfClass:[Npc class]]){
-        Npc *npc = (Npc *)l.gameObject;
-        return [[AppModel sharedAppModel] mediaForMediaId:npc.mediaId];
-    }
-    else if([l.gameObject isKindOfClass:[Item class]]){
-        Item *item = (Item *)l.gameObject;
-        return [[AppModel sharedAppModel] mediaForMediaId:item.mediaId];
-    }
-    else if([l.gameObject isKindOfClass:[Node class]]){
-        Node *node = (Node *)l.gameObject;
-        return [[AppModel sharedAppModel] mediaForMediaId:node.mediaId];
-    }
-    else if([l.gameObject isKindOfClass:[WebPage class]]){
-        WebPage *webPage = (WebPage *)l.gameObject;
-        return [[AppModel sharedAppModel] mediaForMediaId:webPage.iconMediaId];
-    }
-    else if ([l.gameObject isKindOfClass:[Panoramic class]]){
-        Panoramic *pan = (Panoramic *)l.gameObject;
-        return [[AppModel sharedAppModel] mediaForMediaId:pan.mediaId];
-    }
-    else if ([l.gameObject isKindOfClass:[Note class]]){
-        return [[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId];
-    }
-    return nil;
-}
-
-- (void) setTitle:(NSString *)t icon:(Media *)m
-{
-    title.text = t;
-    [iconView setMedia:m];
+    warningImage.frame = CGRectMake(20, 31, 40, 40);
 }
 
 - (void) dismissHUD
@@ -185,6 +168,15 @@
 - (void) displayScannerWithPrompt:(NSString *)p
 {
     [delegate displayScannerWithPrompt:p];
+}
+
+#pragma mark ARISCollapseView Delegate Methods
+
+- (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
+{
+    if(!o){
+        [self dismissHUD];
+    }
 }
 
 @end

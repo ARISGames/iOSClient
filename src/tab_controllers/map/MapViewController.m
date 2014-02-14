@@ -268,12 +268,6 @@
 
 - (void) zoomAndCenterMap
 {
-    CLLocationDegrees latitude = 44.8178;
-    CLLocationDegrees longitude = -93.1669;
-    CLLocation *eagan = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-    [AppModel sharedAppModel].player.location = eagan;
-    
-    
 	appSetNextRegionChange = YES;
 	
 	//Center the map on the player
@@ -405,8 +399,8 @@
     CGFloat navAndStatusBar = 64;
     CGRect frame = CGRectMake(0, navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75), self.view.bounds.size.width, (self.view.bounds.size.height-navAndStatusBar) * .25);
     if(!hud) hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame];
-    [hud setLocation:location withAnnotation:annotation];
     [self.view addSubview:hud.view];
+    [hud setLocation:location withAnnotation:annotation];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
