@@ -13,6 +13,8 @@
 #import "ARISAppDelegate.h"
 #import "ARISTemplate.h"
 
+#import "MapViewController.h"
+
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
     UITableView *tableView;
@@ -135,7 +137,12 @@
     while([c.contentView.subviews count] > 0)
         [[c.contentView.subviews objectAtIndex:0] removeFromSuperview];
     
-    c.textLabel.text = agptbvc.title;
+    if ([agptbvc isKindOfClass:[MapViewController class]]) {
+        c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
+    }
+    else{
+        c.textLabel.text = agptbvc.title;
+    }
     c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
     
     return c;

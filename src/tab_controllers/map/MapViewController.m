@@ -41,10 +41,12 @@
     MapHUD *hud;
     BOOL annotationPressed;
     MKMapView *mapView;
-    UIToolbar *toolBar;
+    
     UIBarButtonItem *mapTypeButton;
     UIBarButtonItem *playerButton;
     UIBarButtonItem *playerTrackingButton;
+    
+    UIButton *centerButton;
     
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
@@ -66,8 +68,6 @@
         self.tabIconName = @"map";
         
         delegate = d;
-        
-        self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         
         tracking = YES;
         isViewLoaded = NO;
@@ -96,18 +96,21 @@
     else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
     
-    playerTrackingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"74-location.png"] style:UIBarButtonItemStylePlain target:self action:@selector(refreshButtonAction)];
-    playerButton         = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"player.png"] style:UIBarButtonItemStylePlain target:self action:@selector(playerButtonTouch)];
-    UIBarButtonItem *flexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(refreshButtonAction)];
-    mapTypeButton        = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"MapTypeKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(changeMapType:)];
-    
-    toolBar = [[UIToolbar alloc] init];
-    [toolBar setItems:[NSArray arrayWithObjects:playerTrackingButton, playerButton, flexible, mapTypeButton, nil]];
+
+    centerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
+    [centerButton setImage:[UIImage imageNamed:@"74-location-white.png"] forState:UIControlStateNormal];
     
     [self.view addSubview:mapView];
-    [self.view addSubview:toolBar]; 
+    [self.view addSubview:centerButton];
     
     isViewLoaded = YES;
+    
+    //make the navigation bar transparent
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
     
     [self updateOverlays];
     [self refresh];
@@ -117,7 +120,7 @@
 {
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
-    toolBar.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+    centerButton.frame = CGRectMake(self.view.bounds.size.width - 60, self.view.bounds.size.height - 40, 20, 20);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -399,10 +402,15 @@
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
 {
     CGFloat navAndStatusBar = 64;
-    CGRect frame = CGRectMake(0, navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75), self.view.bounds.size.width, (self.view.bounds.size.height-navAndStatusBar) * .25);
+    CGRect frame = CGRectMake(0, (navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75)), self.view.bounds.size.width, ((self.view.bounds.size.height-navAndStatusBar) * .25));
     if(!hud) hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame];
     [self.view addSubview:hud.view];
     [hud setLocation:location withAnnotation:annotation];
+    
+    //re-add the zoom in button and zoom to fit button
+    [centerButton removeFromSuperview];
+    [centerButton setAlpha:0.0];
+    [self.view addSubview:centerButton];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -457,6 +465,7 @@
 
 - (void) dismissHUDWithAnnotation:(MKAnnotationView *)annotation
 {
+    [centerButton setAlpha:1.0];
     [mapView deselectAnnotation:[annotation annotation] animated:NO];
 }
 

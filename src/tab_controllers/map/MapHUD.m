@@ -34,6 +34,8 @@
     UIView *hudView;
     UIImageView *warningImage;
     
+    CLLocation *userLocation;
+    
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
@@ -58,14 +60,14 @@
     annotation = a;
     
     CLLocation *annotationLocation = location.latlon;
-    CLLocation *userLocation = [[AppModel sharedAppModel] player].location;
+    userLocation = [[AppModel sharedAppModel] player].location;
     CLLocationDistance distance = [userLocation distanceFromLocation:annotationLocation];
     
     [interactButton removeFromSuperview];
     [walklabel removeFromSuperview];
     [warningImage removeFromSuperview];
     
-    if (distance <= location.errorRange || location.allowsQuickTravel) {
+    if ((distance <= location.errorRange || location.allowsQuickTravel) && userLocation != nil) {
         distanceToWalk = 0;
         interactButton.enabled = YES;
     }
@@ -75,6 +77,15 @@
         [hudView addSubview:walklabel];
         [hudView addSubview:warningImage];
     }
+    
+    //TODO change label here and change to NSLocalized string
+    if ([location.gameObject isKindOfClass:[Item class]]) {
+        [interactButton setTitle:@"Pick up" forState:UIControlStateNormal];
+    }
+    else{
+        [interactButton setTitle:@"View" forState:UIControlStateNormal];
+    }
+    
     
     //add the interact button to the collapse view instead of the hudView to overlap the ... on the collapse view
     [collapseView addSubview:interactButton];
@@ -105,7 +116,7 @@
     [hudView addSubview:title];
     [hudView addSubview:iconView];
     
-    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
+    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:NO delegate:self];
     
     [self.view addSubview:collapseView];
 }
@@ -126,16 +137,20 @@
     interactButton.layer.cornerRadius = 5;
     interactButton.layer.borderWidth = 1;
     interactButton.layer.borderColor = [UIColor blueColor].CGColor;
-    interactButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    //TODO change label here and change to NSLocalized string
-    [interactButton setTitle:@" Interact" forState:UIControlStateNormal];
+    [interactButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [interactButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside];
     interactButton.backgroundColor = [UIColor whiteColor];
     
     walklabel.frame = CGRectMake(65, 36, 140, 35);
-    //TODO change this string
+    //TODO change this string to NSLocalized String
     float roundedDistance = lroundf(distanceToWalk);
-    walklabel.text = [NSString stringWithFormat:@"Out of range\nWalk %.0fm", roundedDistance];
+    if (userLocation != nil) {
+        walklabel.text = [NSString stringWithFormat:@"Out of range\nWalk %.0fm", roundedDistance];
+    }
+    else{
+        walklabel.text = @"Out of range";
+    }
+    
     walklabel.textColor = [UIColor redColor];
     walklabel.lineBreakMode = NSLineBreakByWordWrapping;
     walklabel.numberOfLines = 0;
