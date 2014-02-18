@@ -47,6 +47,7 @@
     UIBarButtonItem *playerTrackingButton;
     
     UIButton *centerButton;
+    UIButton *fitToAnnotationButton;
     
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
@@ -101,8 +102,13 @@
     [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
     [centerButton setImage:[UIImage imageNamed:@"74-location-white.png"] forState:UIControlStateNormal];
     
+    fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png"] forState:UIControlStateNormal];
+    
     [self.view addSubview:mapView];
     [self.view addSubview:centerButton];
+    [self.view addSubview:fitToAnnotationButton];
     
     isViewLoaded = YES;
     
@@ -121,6 +127,7 @@
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
     centerButton.frame = CGRectMake(self.view.bounds.size.width - 60, self.view.bounds.size.height - 40, 20, 20);
+    fitToAnnotationButton.frame = CGRectMake(self.view.bounds.size.width - 30, self.view.bounds.size.height - 40, 20, 20);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -282,6 +289,37 @@
 	[mapView setRegion:region animated:YES];
 }
 
+-(void)zoomToFitAnnotations
+{
+    if([mapView.annotations count] == 0){
+        return;
+    }
+    CLLocationCoordinate2D topLeftCoord;
+    topLeftCoord.latitude = -90;
+    topLeftCoord.longitude = 180;
+    
+    CLLocationCoordinate2D bottomRightCoord;
+    bottomRightCoord.latitude = 90;
+    bottomRightCoord.longitude = -180;
+    
+    for (Location *annotationLocation in mapView.annotations) {
+        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotationLocation.coordinate.longitude);
+        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotationLocation.coordinate.latitude);
+        
+        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotationLocation.coordinate.longitude);
+        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotationLocation.coordinate.latitude);
+    }
+    
+    MKCoordinateRegion region;
+    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
+    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
+    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.2;
+    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.2;
+    
+    region = [mapView regionThatFits:region];
+    [mapView setRegion:region animated:YES];
+}
+
 - (void) showLoadingIndicator
 {
 	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -411,6 +449,10 @@
     [centerButton removeFromSuperview];
     [centerButton setAlpha:0.0];
     [self.view addSubview:centerButton];
+    
+    [fitToAnnotationButton removeFromSuperview];
+    [fitToAnnotationButton setAlpha:0.0];
+    [self.view addSubview:fitToAnnotationButton];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -466,6 +508,7 @@
 - (void) dismissHUDWithAnnotation:(MKAnnotationView *)annotation
 {
     [centerButton setAlpha:1.0];
+    [fitToAnnotationButton setAlpha:1.0];
     [mapView deselectAnnotation:[annotation annotation] animated:NO];
 }
 

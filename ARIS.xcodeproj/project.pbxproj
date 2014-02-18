@@ -389,6 +389,7 @@
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
+		F96A35B118B40D9A00F3F35E /* 246-route.png in Resources */ = {isa = PBXBuildFile; fileRef = F96A35B018B40D9A00F3F35E /* 246-route.png */; };
 		F9C4231718AE9793002D7EED /* walkerWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = F9C4231618AE9793002D7EED /* walkerWarning.png */; };
 /* End PBXBuildFile section */
 
@@ -1010,6 +1011,7 @@
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		F96A35B018B40D9A00F3F35E /* 246-route.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "246-route.png"; sourceTree = "<group>"; };
 		F9C4231618AE9793002D7EED /* walkerWarning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walkerWarning.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1253,6 +1255,7 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F96A35B018B40D9A00F3F35E /* 246-route.png */,
 				F9C4231618AE9793002D7EED /* walkerWarning.png */,
 				AAC6573B187200940063EAF7 /* play.png */,
 				AA527E3E17E0B6830040AB75 /* navbar */,
@@ -2285,6 +2288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F96A35B118B40D9A00F3F35E /* 246-route.png in Resources */,
 				AA9A6D9A182DA3EB000CC323 /* left_white_gradient.png in Resources */,
 				AA49A25817AAC75200629C87 /* arisjs.js in Resources */,
 				AA2D214B17DE560C00CF4198 /* id_card@2x.png in Resources */,
