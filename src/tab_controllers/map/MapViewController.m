@@ -440,7 +440,7 @@
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
 {
     CGFloat navAndStatusBar = 64;
-    CGRect frame = CGRectMake(0, (navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75)), self.view.bounds.size.width, ((self.view.bounds.size.height-navAndStatusBar) * .25));
+    CGRect frame = CGRectMake(0, (navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75) + 20), self.view.bounds.size.width, ((self.view.bounds.size.height-navAndStatusBar) * .25));
     if(!hud) hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame];
     [self.view addSubview:hud.view];
     [hud setLocation:location withAnnotation:annotation];

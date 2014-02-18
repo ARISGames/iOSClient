@@ -116,7 +116,7 @@
     [hudView addSubview:title];
     [hudView addSubview:iconView];
     
-    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:NO delegate:self];
+    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
     
     [self.view addSubview:collapseView];
 }
