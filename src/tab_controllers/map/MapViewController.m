@@ -151,6 +151,8 @@
 	
 	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+    
+    [self zoomToFitAnnotations];
 }
 
 - (void) changeMapType:(id)sender
