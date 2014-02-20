@@ -129,7 +129,7 @@
     
     int mediaSize = 80;
     title.frame = CGRectMake(20, 69, self.view.bounds.size.width-130, 33);
-    title.font = [title.font fontWithSize:25];
+    title.font = [title.font fontWithSize:18];
     
     [iconView setFrame:CGRectMake(frame.size.width - 100, frame.size.height - 110, mediaSize, mediaSize) withMode:ARISMediaDisplayModeAspectFill];
     
