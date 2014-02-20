@@ -67,7 +67,7 @@
     [walklabel removeFromSuperview];
     [warningImage removeFromSuperview];
     
-    if ((distance <= location.errorRange || location.allowsQuickTravel) && userLocation != nil) {
+    if ((distance <= location.errorRange && userLocation != nil) || location.allowsQuickTravel) {
         distanceToWalk = 0;
         interactButton.enabled = YES;
     }
