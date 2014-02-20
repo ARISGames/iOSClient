@@ -102,7 +102,7 @@
 {
     [super loadView];
     
-    self.view.frame = frame;
+    self.view.frame = CGRectMake(frame.origin.x, frame.origin.y - 20, frame.size.width, frame.size.height + 20);
     
     hudView = [[UIView alloc] init];
     title = [[UILabel alloc] init];
@@ -116,7 +116,8 @@
     [hudView addSubview:title];
     [hudView addSubview:iconView];
     
-    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
+    CGRect collapseViewFrame = CGRectMake(0, 20, frame.size.width, frame.size.height);
+    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
     
     [self.view addSubview:collapseView];
 }
@@ -125,10 +126,10 @@
 {
     [super viewWillLayoutSubviews];
     
-    hudView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-10);
+    hudView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height-10);
     
     int mediaSize = 80;
-    title.frame = CGRectMake(20, 69, self.view.bounds.size.width-130, 33);
+    title.frame = CGRectMake(20, 69, frame.size.width-130, 33);
     title.font = [title.font fontWithSize:18];
     
     [iconView setFrame:CGRectMake(frame.size.width - 100, frame.size.height - 110, mediaSize, mediaSize) withMode:ARISMediaDisplayModeAspectFill];
@@ -173,6 +174,8 @@
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
+    [collapseView close];
+    [self dismissHUD];
     return [delegate displayGameObject:g fromSource:s];
 }
 
