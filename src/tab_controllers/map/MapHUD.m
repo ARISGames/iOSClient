@@ -193,9 +193,11 @@
     if(!o){
         [interactButton setAlpha:0.0];
         [self dismissHUD];
+        self.view.userInteractionEnabled = NO;
     }
     else{
         [interactButton setAlpha:1.0];
+        self.view.userInteractionEnabled = YES;
     }
 }
 
