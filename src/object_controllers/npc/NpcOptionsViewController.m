@@ -213,11 +213,11 @@
 {
   if(!self.loadingIndicator)
   {
-    self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.loadingIndicator.center = self.optionsView.center;
   }
   self.optionsView.hidden = YES;
-  [self.optionsView addSubview:self.loadingIndicator];
+  [self.optionsCollapseView addSubview:self.loadingIndicator];
   [self.loadingIndicator startAnimating];
 }
 
