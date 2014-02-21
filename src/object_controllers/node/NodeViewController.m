@@ -20,6 +20,8 @@
 #import "Node.h"
 #import "ARISTemplate.h"
 
+#import <MediaPlayer/MediaPlayer.h>
+
 static NSString * const OPTION_CELL = @"option";
 
 @interface NodeViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
@@ -135,6 +137,14 @@ static NSString * const OPTION_CELL = @"option";
     }
     else
         self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.mediaSection.frame.size.height);
+}
+
+- (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
+{
+    MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:amv.media.localURL];
+    //error message that is logged after this line is possibly an ios 7 simulator bug...
+    [self presentMoviePlayerViewControllerAnimated:movieViewController];
+    return NO;
 }
 
 - (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
