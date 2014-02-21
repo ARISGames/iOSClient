@@ -39,11 +39,15 @@
     BOOL isViewLoaded;
 
     MapHUD *hud;
+    BOOL annotationPressed;
     MKMapView *mapView;
-    UIToolbar *toolBar;
+    
     UIBarButtonItem *mapTypeButton;
     UIBarButtonItem *playerButton;
     UIBarButtonItem *playerTrackingButton;
+    
+    UIButton *centerButton;
+    UIButton *fitToAnnotationButton;
     
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
@@ -65,8 +69,6 @@
         self.tabIconName = @"map";
         
         delegate = d;
-        
-        self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         
         tracking = YES;
         isViewLoaded = NO;
@@ -95,18 +97,26 @@
     else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
     
-    playerTrackingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"74-location.png"] style:UIBarButtonItemStylePlain target:self action:@selector(refreshButtonAction)];
-    playerButton         = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"player.png"] style:UIBarButtonItemStylePlain target:self action:@selector(playerButtonTouch)];
-    UIBarButtonItem *flexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:@selector(refreshButtonAction)];
-    mapTypeButton        = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"MapTypeKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(changeMapType:)];
+
+    centerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
+    [centerButton setImage:[UIImage imageNamed:@"74-location-white.png"] forState:UIControlStateNormal];
     
-    toolBar = [[UIToolbar alloc] init];
-    [toolBar setItems:[NSArray arrayWithObjects:playerTrackingButton, playerButton, flexible, mapTypeButton, nil]];
+    fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png"] forState:UIControlStateNormal];
     
     [self.view addSubview:mapView];
-    [self.view addSubview:toolBar]; 
+    [self.view addSubview:centerButton];
+    [self.view addSubview:fitToAnnotationButton];
     
     isViewLoaded = YES;
+    
+    //make the navigation bar transparent
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
     
     [self updateOverlays];
     [self refresh];
@@ -116,7 +126,8 @@
 {
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
-    toolBar.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+    centerButton.frame = CGRectMake(self.view.bounds.size.width - 60, self.view.bounds.size.height - 40, 20, 20);
+    fitToAnnotationButton.frame = CGRectMake(self.view.bounds.size.width - 30, self.view.bounds.size.height - 40, 20, 20);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -140,6 +151,8 @@
 	
 	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+    
+    [self zoomToFitAnnotations];
 }
 
 - (void) changeMapType:(id)sender
@@ -278,6 +291,37 @@
 	[mapView setRegion:region animated:YES];
 }
 
+-(void)zoomToFitAnnotations
+{
+    if([mapView.annotations count] == 0){
+        return;
+    }
+    CLLocationCoordinate2D topLeftCoord;
+    topLeftCoord.latitude = -90;
+    topLeftCoord.longitude = 180;
+    
+    CLLocationCoordinate2D bottomRightCoord;
+    bottomRightCoord.latitude = 90;
+    bottomRightCoord.longitude = -180;
+    
+    for (Location *annotationLocation in mapView.annotations) {
+        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotationLocation.coordinate.longitude);
+        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotationLocation.coordinate.latitude);
+        
+        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotationLocation.coordinate.longitude);
+        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotationLocation.coordinate.latitude);
+    }
+    
+    MKCoordinateRegion region;
+    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
+    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
+    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.2;
+    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.2;
+    
+    region = [mapView regionThatFits:region];
+    [mapView setRegion:region animated:YES];
+}
+
 - (void) showLoadingIndicator
 {
 	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -391,16 +435,26 @@
 
 - (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    [self displayHUDWithLocation:(Location *)view.annotation];
+    annotationPressed = YES;
+    [self displayHUDWithLocation:(Location *)view.annotation andAnnotation:view];
 }
 
-- (void) displayHUDWithLocation:(Location *)location
+- (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
 {
     CGFloat navAndStatusBar = 64;
-    CGRect frame = CGRectMake(0, navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75), self.view.bounds.size.width, (self.view.bounds.size.height-navAndStatusBar) * .25);
+    CGRect frame = CGRectMake(0, (navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75)), self.view.bounds.size.width, ((self.view.bounds.size.height-navAndStatusBar) * .25));
     if(!hud) hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame];
-    [hud setLocation:location];
     [self.view addSubview:hud.view];
+    [hud setLocation:location withAnnotation:annotation];
+    
+    //re-add the zoom in button and zoom to fit button
+    [centerButton removeFromSuperview];
+    [centerButton setAlpha:0.0];
+    [self.view addSubview:centerButton];
+    
+    [fitToAnnotationButton removeFromSuperview];
+    [fitToAnnotationButton setAlpha:0.0];
+    [self.view addSubview:fitToAnnotationButton];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -426,6 +480,14 @@
     return zoomer;
 }
 
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (!annotationPressed) {
+        [hud.collapseView close];
+    }
+    annotationPressed = NO;
+}
+
 #pragma mark StateControlProtocol delegate methods
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
@@ -445,9 +507,11 @@
 
 #pragma mark MapHUD delegate methods
 
-- (void) dismissHUD
+- (void) dismissHUDWithAnnotation:(MKAnnotationView *)annotation
 {
-    [hud.view removeFromSuperview];
+    [centerButton setAlpha:1.0];
+    [fitToAnnotationButton setAlpha:1.0];
+    [mapView deselectAnnotation:[annotation annotation] animated:NO];
 }
 
 - (void) dealloc
