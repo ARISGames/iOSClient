@@ -33,6 +33,8 @@ static NSString * const OPTION_CELL = @"option";
     
     UIActivityIndicatorView *webViewSpinner;
     
+    Media *media;
+    
     id <GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
@@ -94,7 +96,7 @@ static NSString * const OPTION_CELL = @"option";
         [self.scrollView addSubview:self.webView];
     }
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId];
+    media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId];
     self.mediaSection = [[UIView alloc] init];
     if(media)
     {
@@ -141,7 +143,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
 {
-    MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:amv.media.localURL];
+    MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     //error message that is logged after this line is possibly an ios 7 simulator bug...
     [self presentMoviePlayerViewControllerAnimated:movieViewController];
     return NO;

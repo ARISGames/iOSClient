@@ -29,7 +29,6 @@
 @end
 
 @implementation ARISMediaView
-@synthesize media;
 
 - (id) initWithDelegate:(id<ARISMediaViewDelegate>)d
 {

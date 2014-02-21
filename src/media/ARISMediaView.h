@@ -38,6 +38,4 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 - (void) setDelegate:(id<ARISMediaViewDelegate>)d;
 - (void) play;
 
-@property (nonatomic, readwrite) Media *media;
-
 @end
