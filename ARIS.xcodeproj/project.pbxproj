@@ -350,7 +350,6 @@
 		AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */; };
 		AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */; };
-		AAD663F018BBA8C9008C4234 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAD663EF18BBA8C9008C4234 /* MainWindow.xib */; };
 		AAE2851D1810461700E2534A /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE2851C1810461700E2534A /* ItemViewController.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
@@ -955,7 +954,6 @@
 		AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteLocationPickerController.m; sourceTree = "<group>"; };
 		AAD298C717D1160C002A4C47 /* InventoryTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryTagViewController.h; sourceTree = "<group>"; };
 		AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryTagViewController.m; sourceTree = "<group>"; };
-		AAD663EF18BBA8C9008C4234 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		AAE2851B1810461700E2534A /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AAE2851C1810461700E2534A /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -1390,7 +1388,6 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				AAD663EF18BBA8C9008C4234 /* MainWindow.xib */,
 				AA2B8340187DDC1200D92A28 /* ARISTemplate.h */,
 				AA2B8341187DDC1200D92A28 /* ARISTemplate.m */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
@@ -2452,7 +2449,6 @@
 				AAF7115B17B9579900262A37 /* .gitignore in Resources */,
 				5B1D998A178CC3A700661453 /* 05-shuffle.png in Resources */,
 				AA2D213C17DE560C00CF4198 /* clock_unselected.png in Resources */,
-				AAD663F018BBA8C9008C4234 /* MainWindow.xib in Resources */,
 				5B1D998B178CC3A700661453 /* 05-shuffle@2x.png in Resources */,
 				AA527E4A17E0B6830040AB75 /* threeLines@2x.png in Resources */,
 				AA2D214917DE560C00CF4198 /* star_unselected@2x.png in Resources */,
