@@ -76,6 +76,7 @@
 		AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC121857724600068667 /* NoteCommentsViewController.m */; };
 		AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */; };
 		AA33A72A1860C0CE00D48789 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33A7291860C0CE00D48789 /* Media.m */; };
+		AA33AE8818BBC573000954C6 /* ForceDisplayQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */; };
 		AA372A90188F2319005528D5 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA372A8E188F2319005528D5 /* AudioMeter.m */; };
 		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
@@ -287,10 +288,6 @@
 		AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC715E172739D60074CC21 /* AnnotationView.m */; };
 		AABC73F1172739D80074CC21 /* TileOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7165172739D60074CC21 /* TileOverlay.m */; };
 		AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7167172739D60074CC21 /* TileOverlayView.m */; };
-		AABC73F3172739D80074CC21 /* NearbyObjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC716A172739D60074CC21 /* NearbyObjectCell.m */; };
-		AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC716B172739D60074CC21 /* NearbyObjectCell.xib */; };
-		AABC73F5172739D80074CC21 /* NearbyObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC716E172739D60074CC21 /* NearbyObjectsViewController.m */; };
-		AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC716F172739D60074CC21 /* NearbyObjectsViewController.xib */; };
 		AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71A9172739D70074CC21 /* IconQuestsViewController.m */; };
 		AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */; };
 		AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B0172739D70074CC21 /* QuestsViewController.m */; };
@@ -492,6 +489,8 @@
 		AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentInputViewController.m; sourceTree = "<group>"; };
 		AA33A7281860C0CE00D48789 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
 		AA33A7291860C0CE00D48789 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
+		AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceDisplayQueue.h; sourceTree = "<group>"; };
+		AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceDisplayQueue.m; sourceTree = "<group>"; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
 		AA372A8E188F2319005528D5 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
 		AA372A8F188F2319005528D5 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
@@ -811,12 +810,6 @@
 		AABC7165172739D60074CC21 /* TileOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileOverlay.m; sourceTree = "<group>"; };
 		AABC7166172739D60074CC21 /* TileOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileOverlayView.h; sourceTree = "<group>"; };
 		AABC7167172739D60074CC21 /* TileOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileOverlayView.m; sourceTree = "<group>"; };
-		AABC7169172739D60074CC21 /* NearbyObjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectCell.h; sourceTree = "<group>"; };
-		AABC716A172739D60074CC21 /* NearbyObjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectCell.m; sourceTree = "<group>"; };
-		AABC716B172739D60074CC21 /* NearbyObjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyObjectCell.xib; sourceTree = "<group>"; };
-		AABC716D172739D60074CC21 /* NearbyObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectsViewController.h; sourceTree = "<group>"; };
-		AABC716E172739D60074CC21 /* NearbyObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectsViewController.m; sourceTree = "<group>"; };
-		AABC716F172739D60074CC21 /* NearbyObjectsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyObjectsViewController.xib; sourceTree = "<group>"; };
 		AABC71A9172739D70074CC21 /* IconQuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconQuestsViewController.m; sourceTree = "<group>"; };
 		AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailsViewController.h; sourceTree = "<group>"; };
 		AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; };
@@ -1411,6 +1404,8 @@
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
+				AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */,
+				AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */,
 				AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */,
 				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
@@ -1787,7 +1782,6 @@
 				AABC7148172739D60074CC21 /* decoder */,
 				AABC714D172739D60074CC21 /* inventory */,
 				AABC715A172739D60074CC21 /* map */,
-				AABC7168172739D60074CC21 /* nearby */,
 				AABC7170172739D60074CC21 /* notebook */,
 			);
 			path = tab_controllers;
@@ -1839,19 +1833,6 @@
 				AABC064618A1896500315FB5 /* CrumbPathView.m */,
 			);
 			path = map;
-			sourceTree = "<group>";
-		};
-		AABC7168172739D60074CC21 /* nearby */ = {
-			isa = PBXGroup;
-			children = (
-				AABC716D172739D60074CC21 /* NearbyObjectsViewController.h */,
-				AABC716E172739D60074CC21 /* NearbyObjectsViewController.m */,
-				AABC716F172739D60074CC21 /* NearbyObjectsViewController.xib */,
-				AABC7169172739D60074CC21 /* NearbyObjectCell.h */,
-				AABC716A172739D60074CC21 /* NearbyObjectCell.m */,
-				AABC716B172739D60074CC21 /* NearbyObjectCell.xib */,
-			);
-			path = nearby;
 			sourceTree = "<group>";
 		};
 		AABC7170172739D60074CC21 /* notebook */ = {
@@ -2433,8 +2414,6 @@
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
 				AA383B161829A8BD00612FFB /* audio.png in Resources */,
 				AA9A6D95182D75C3000CC323 /* lock.png in Resources */,
-				AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */,
-				AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */,
 				AA2D213D17DE560C00CF4198 /* clock_unselected@2x.png in Resources */,
 				AA2D214217DE560C00CF4198 /* magnify_selected.png in Resources */,
 				ABE735E917D65C0100396CF5 /* arrowBack.png in Resources */,
@@ -2563,14 +2542,13 @@
 				AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */,
 				AABC73F1172739D80074CC21 /* TileOverlay.m in Sources */,
 				AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */,
-				AABC73F3172739D80074CC21 /* NearbyObjectCell.m in Sources */,
-				AABC73F5172739D80074CC21 /* NearbyObjectsViewController.m in Sources */,
 				AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */,
 				AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */,
 				AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */,
 				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
+				AA33AE8818BBC573000954C6 /* ForceDisplayQueue.m in Sources */,
 				AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */,
 				AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */,
 				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,
