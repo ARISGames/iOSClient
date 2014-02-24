@@ -153,8 +153,7 @@
 {
     [super viewWillAppear:animated];
     
-    if(item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
-    else self.title = item.name;
+    [self refreshTitle];
     
     [self updateViewButtons];
     
@@ -164,6 +163,12 @@
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
+
+- (void) refreshTitle
+{
+    if(item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
+    else self.title = item.name; 
 }
 
 - (void) updateViewButtons
@@ -208,7 +213,7 @@
 {	
     if(self.item.qty > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Drop" qty:self.item.qty delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Drop" positive:NO qty:self.item.qty delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else 
@@ -225,7 +230,7 @@
 {
     if(self.item.qty > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Destroy" qty:self.item.qty delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Destroy" positive:NO qty:self.item.qty delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else 
@@ -236,6 +241,8 @@
 {
     [[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:q];
     [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q];
+    item.qty -= q;
+    [self refreshTitle];   
 }
 
 - (void) pickupButtonTouched
@@ -256,7 +263,7 @@
         
         if(maxPUAmt < q) q = maxPUAmt;
         
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Pick Up" qty:q delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Pick Up" positive:YES qty:q delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else 
@@ -297,11 +304,16 @@
             [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:q];
         item.qty -= q;
     }
+    [self refreshTitle];  
 }
 
-- (void) amtChosen:(int)amt
+- (void) amtChosen:(int)amt positive:(BOOL)p
 {
     [[self navigationController] popToViewController:self animated:YES]; 
+    if(p)
+        [self pickupItemQty:amt];
+    else
+        [self destroyItemQty:amt];
 }
 
 - (void) movieFinishedCallback:(NSNotification*) aNotification
