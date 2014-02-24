@@ -218,7 +218,7 @@
         if(((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id != 0)
         {
             tag.backgroundColor = [UIColor clearColor]; 
-            ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) media:[[AppModel sharedAppModel] mediaForMediaId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id] mode:ARISMediaDisplayModeAspectFill delegate:self];
+            ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) media:[[AppModel sharedAppModel] mediaForMediaId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id] mode:ARISMediaDisplayModeAspectFit delegate:self];
             [tag addSubview:amv];
         }
         [tag addSubview:label];

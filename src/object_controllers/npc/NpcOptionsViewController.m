@@ -34,29 +34,9 @@
   id<NpcOptionsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) ARISMediaView *mediaView;
-@property (nonatomic, strong) ARISCollapseView *optionsCollapseView;
-@property (nonatomic, strong) UIView *optionsView;
-@property (nonatomic, strong) UIActivityIndicatorView *loadingIndicator;
-
-@property (nonatomic, strong) NSArray *optionList;
-
-@property (nonatomic, strong) NSString *playerTitle;
-@property (nonatomic, strong) NSString *currentLeaveConversationTitle;
-@property (nonatomic, assign) BOOL currentlyHidingLeaveConversationButton;
-
 @end
 
 @implementation NpcOptionsViewController
-
-@synthesize mediaView;
-@synthesize optionsCollapseView;
-@synthesize optionsView;
-@synthesize loadingIndicator;
-@synthesize optionList;
-@synthesize playerTitle;
-@synthesize currentLeaveConversationTitle;
-@synthesize currentlyHidingLeaveConversationButton;
 
 - (id) initWithFrame:(CGRect)f delegate:(id<NpcOptionsViewControllerDelegate>)d
 {
@@ -83,28 +63,28 @@
   if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
   else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId];
 
-  if(pcMedia) self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia                                    mode:ARISMediaDisplayModeAspectFill delegate:self];
-  else        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
-  [self.mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToOptions:)]];
+  if(pcMedia) mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia                                    mode:ARISMediaDisplayModeAspectFill delegate:self];
+  else        mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+  [mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToOptions:)]];
 
-  self.optionsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 128)];
-  self.optionsView.userInteractionEnabled = YES;
-  self.optionsView.opaque = NO;
+  optionsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 128)];
+  optionsView.userInteractionEnabled = YES;
+  optionsView.opaque = NO;
 
-  self.optionsCollapseView = [[ARISCollapseView alloc] initWithContentView:self.optionsView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+  optionsCollapseView = [[ARISCollapseView alloc] initWithContentView:optionsView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
 
-  [self.view addSubview:self.mediaView];
-  [self.view addSubview:self.optionsCollapseView];
+  [self.view addSubview:mediaView];
+  [self.view addSubview:optionsCollapseView];
 }
 
 - (void) passTapToOptions:(UITapGestureRecognizer *)r
 {
-  [self.optionsCollapseView handleTapped:r];
+  [optionsCollapseView handleTapped:r];
 }
 
 - (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o
 {
-  [delegate optionsRequestsTitle:self.playerTitle];
+  [delegate optionsRequestsTitle:playerTitle];
   [[AppServices sharedAppServices] fetchNpcConversations:n.npcId afterViewingNode:o.nodeId];
   [self showWaitingIndicatorForPlayerOptions];
 }
@@ -117,16 +97,16 @@
 
 - (void) showPlayerOptions:(NSArray *)options
 {
-  while([[self.optionsView subviews] count] > 0)
-    [[[self.optionsView subviews] objectAtIndex:0] removeFromSuperview];
+  while([[optionsView subviews] count] > 0)
+    [[[optionsView subviews] objectAtIndex:0] removeFromSuperview];
 
-  self.optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
+  optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
   UIView *cell;
   ARISWebView * text;
   UIImageView *arrow;
   CGRect cellFrame;
   CGRect textFrame;
-  for(int i = 0; i < [self.optionList count]; i++)
+  for(int i = 0; i < [optionList count]; i++)
   {
     cellFrame = CGRectMake(0, 43*i, self.view.bounds.size.width, 43);
     cell = [[UIView alloc] initWithFrame:cellFrame];
@@ -154,12 +134,12 @@
 
     [cell addSubview:text];
     [cell addSubview:arrow];
-    [self.optionsView addSubview:cell];
+    [optionsView addSubview:cell];
   }
 
-  if(!self.currentlyHidingLeaveConversationButton)
+  if(!currentlyHidingLeaveConversationButton)
   {
-    cellFrame = CGRectMake(0, 43*[self.optionList count], self.view.bounds.size.width, 43);
+    cellFrame = CGRectMake(0, 43*[optionList count], self.view.bounds.size.width, 43);
     cell = [[UIView alloc] initWithFrame:cellFrame];
     [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
 
@@ -173,7 +153,7 @@
     text.backgroundColor = [UIColor clearColor];
     text.opaque = NO;
     cell.tag = -1;
-    [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], self.currentLeaveConversationTitle] baseURL:nil];
+    [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], currentLeaveConversationTitle] baseURL:nil];
 
     arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
     arrow.frame = CGRectMake(textFrame.size.width, 10, 19, 19);
@@ -181,10 +161,10 @@
     [cell addSubview:text];
     [cell addSubview:arrow];
 
-    [self.optionsView addSubview:cell];
+    [optionsView addSubview:cell];
   }
 
-  cellFrame = CGRectMake(0, 43*([self.optionList count]+(!self.currentlyHidingLeaveConversationButton)), self.view.bounds.size.width, 40);
+  cellFrame = CGRectMake(0, 43*([optionList count]+(!currentlyHidingLeaveConversationButton)), self.view.bounds.size.width, 40);
   cell = [[UIView alloc] initWithFrame:cellFrame];
 
   textFrame = cellFrame;
@@ -199,45 +179,45 @@
   [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], @"<div style=\"color:#BBBBBB; font-size:14px; text-align:center;\">(Make a Selection)</div>"] baseURL:nil];
 
   [cell addSubview:text];
-  [self.optionsView addSubview:cell];
+  [optionsView addSubview:cell];
 
-  CGFloat newHeight = 43*[self.optionList count]+(43*(1+(!self.currentlyHidingLeaveConversationButton)));
-  [self.optionsCollapseView setContentFrame:CGRectMake(0, 0, self.optionsView.frame.size.width, newHeight)];
+  CGFloat newHeight = 43*[optionList count]+(43*(1+(!currentlyHidingLeaveConversationButton)));
+  [optionsCollapseView setContentFrame:CGRectMake(0, 0, optionsView.frame.size.width, newHeight)];
   if((newHeight+10) < self.view.bounds.size.height-64)
-    [self.optionsCollapseView setFrameHeight:newHeight+10];
+    [optionsCollapseView setFrameHeight:newHeight+10];
   else
-    [self.optionsCollapseView setFrameHeight:self.view.bounds.size.height-64];
+    [optionsCollapseView setFrameHeight:self.view.bounds.size.height-64];
 }
 
 - (void) showWaitingIndicatorForPlayerOptions
 {
-  if(!self.loadingIndicator)
+  if(!loadingIndicator)
   {
-    self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.loadingIndicator.center = self.optionsView.center;
+    loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    loadingIndicator.center = optionsView.center;
   }
-  self.optionsView.hidden = YES;
-  [self.optionsCollapseView addSubview:self.loadingIndicator];
-  [self.loadingIndicator startAnimating];
+  optionsView.hidden = YES;
+  [optionsCollapseView addSubview:loadingIndicator];
+  [loadingIndicator startAnimating];
 }
 
 - (void) dismissWaitingIndicatorForPlayerOptions
 {
-  [self.loadingIndicator removeFromSuperview];
-  [self.loadingIndicator stopAnimating];
-  self.optionsView.hidden = NO;
+  [loadingIndicator removeFromSuperview];
+  [loadingIndicator stopAnimating];
+  optionsView.hidden = NO;
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)webView
 {
   float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
   float newOffset = 0.0;
-  for(int i = 0; i < [[self.optionsView subviews] count]-1; i++)
+  for(int i = 0; i < [[optionsView subviews] count]-1; i++)
   {
-    CGRect superFrame = ((UIView *)[[self.optionsView subviews] objectAtIndex:i]).frame;
+    CGRect superFrame = ((UIView *)[[optionsView subviews] objectAtIndex:i]).frame;
     superFrame.origin.y += newOffset;
-    ((UIView *)[[self.optionsView subviews] objectAtIndex:i]).frame = superFrame;
-    if([[self.optionsView subviews] objectAtIndex:i] == [webView superview])
+    ((UIView *)[[optionsView subviews] objectAtIndex:i]).frame = superFrame;
+    if([[optionsView subviews] objectAtIndex:i] == [webView superview])
     {
       newOffset = newHeight - webView.superview.frame.size.height;
       webView.frame             = CGRectMake(0,                               0,          webView.frame.size.width,newHeight);
@@ -249,14 +229,14 @@
     }
   }
 
-  UIView *masCell = [[self.optionsView subviews] objectAtIndex:[self.optionsView.subviews count]-1];
+  UIView *masCell = [[optionsView subviews] objectAtIndex:[optionsView.subviews count]-1];
   masCell.frame = CGRectMake(masCell.frame.origin.x, masCell.frame.origin.y+newOffset, masCell.frame.size.width, masCell.frame.size.height);
 
-  [self.optionsCollapseView setContentFrameHeight:self.optionsView.frame.size.height+newOffset];
-  if(self.optionsView.frame.size.height+newOffset < self.view.bounds.size.height-64)
-    [self.optionsCollapseView setFrameHeight:self.optionsView.frame.size.height+10];
+  [optionsCollapseView setContentFrameHeight:optionsView.frame.size.height+newOffset];
+  if(optionsView.frame.size.height+newOffset < self.view.bounds.size.height-64)
+    [optionsCollapseView setFrameHeight:optionsView.frame.size.height+10];
   else 
-    [self.optionsCollapseView setFrameHeight:self.view.bounds.size.height-64];
+    [optionsCollapseView setFrameHeight:self.view.bounds.size.height-64];
 }
 
 - (void) optionSelected:(UITapGestureRecognizer *)r
@@ -273,22 +253,22 @@
 
 - (void) setDefaultTitle:(NSString *)t
 {
-  self.playerTitle = t;
+  playerTitle = t;
 }
 
 - (void) setDefaultMedia:(Media *)m
 {
-  [self.mediaView setMedia:m]; 
+  [mediaView setMedia:m]; 
 }
 
 - (void) setShowLeaveConversationButton:(BOOL)s
 {
-  self.currentlyHidingLeaveConversationButton = !s;
+  currentlyHidingLeaveConversationButton = !s;
 }
 
 - (void) setLeaveConversationTitle:(NSString *)t
 {
-  self.currentLeaveConversationTitle = t;
+  currentLeaveConversationTitle = t;
 }
 
 - (void) displayTab:(NSString *)t
@@ -305,7 +285,5 @@
 {
   return NO;
 }
-
-
 
 @end

@@ -34,36 +34,16 @@
     id<NpcScriptViewControllerDelegate> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) Npc *npc;
-
-@property (nonatomic, strong) ScriptParser *parser;
-@property (nonatomic, strong) NpcScriptOption *currentScriptOption;
-@property (nonatomic, strong) Script *currentScript;
-@property (nonatomic, strong) ScriptElement *currentScriptElement;
-
-@property (nonatomic, strong) NpcScriptElementView *npcView;
-@property (nonatomic, strong) NpcScriptElementView *pcView;
-@property (nonatomic, strong) UIView *continueButton;
-
 @end
 
 @implementation NpcScriptViewController
-
-@synthesize npc;
-@synthesize parser;
-@synthesize currentScriptOption;
-@synthesize currentScript;
-@synthesize currentScriptElement;
-@synthesize npcView;
-@synthesize pcView;
-@synthesize continueButton;
 
 - (id) initWithNpc:(Npc *)n frame:(CGRect)f delegate:(id<NpcScriptViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        self.npc = n;
-        self.parser = [[ScriptParser  alloc] initWithDelegate:self];
+        npc = n;
+        parser = [[ScriptParser  alloc] initWithDelegate:self];
         
         delegate = d;
         
@@ -71,18 +51,18 @@
         if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
         else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId];
         
-        if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
-        else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
-        [self.view addSubview:self.pcView];
+        if(pcMedia) pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+        else        pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+        [self.view addSubview:pcView];
         
         Media *npcMedia;
-        if(self.npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:self.npc.mediaId];
+        if(npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:npc.mediaId];
         
-        if(npcMedia) self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:self.npc.name delegate:self];
-        else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
-        [self.view addSubview:self.npcView];
+        if(npcMedia) npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:npc.name delegate:self];
+        else         npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:npc.name delegate:self];
+        [self.view addSubview:npcView];
         
-        self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44)];
+        continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44)];
         UILabel *continueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)]; //frame is set later
         continueLabel.textAlignment = NSTextAlignmentRight;
         continueLabel.font = [ARISTemplate ARISButtonFont];
@@ -94,15 +74,15 @@
         continueArrow.accessibilityLabel = @"Continue";
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
         line.backgroundColor = [UIColor ARISColorLightGray];
-        [self.continueButton addSubview:line];
-        [self.continueButton addSubview:continueLabel];
-        [self.continueButton addSubview:continueArrow];
-        self.continueButton.userInteractionEnabled = YES;
-        self.continueButton.backgroundColor = [UIColor clearColor];
-        self.continueButton.opaque = NO;
-        [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+        [continueButton addSubview:line];
+        [continueButton addSubview:continueLabel];
+        [continueButton addSubview:continueArrow];
+        continueButton.userInteractionEnabled = YES;
+        continueButton.backgroundColor = [UIColor clearColor];
+        continueButton.opaque = NO;
+        [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
         
-        [self.view addSubview:self.continueButton];
+        [self.view addSubview:continueButton];
         
         [self movePcIn];
         
@@ -120,8 +100,8 @@
 
 - (void) loadScriptOption:(NpcScriptOption *)o
 {
-    self.currentScriptOption = o;
-    [self.parser parseText:o.scriptText];
+    currentScriptOption = o;
+    [parser parseText:o.scriptText];
 }
 
 - (void) scriptDidFinishParsing:(Script *)s
@@ -132,28 +112,28 @@
     if(s.defaultPcTitle)                       [delegate scriptRequestsOptionsPcTitle:s.defaultPcTitle];
     if(s.defaultPcMediaId)                     [delegate scriptRequestsOptionsPcMedia:[[AppModel sharedAppModel] mediaForMediaId:s.defaultPcMediaId]]; 
     
-    self.currentScript = s;
+    currentScript = s;
     [self readyNextScriptElementForDisplay];
 }
 
 - (void) readyNextScriptElementForDisplay
 {
-    self.currentScriptElement = [self.currentScript nextScriptElement];
-    if(!self.currentScriptElement)
+    currentScriptElement = [currentScript nextScriptElement];
+    if(!currentScriptElement)
     {
         [self movePcIn];
-        [delegate scriptEndedExitToType:self.currentScript.exitToType title:self.currentScript.exitToTabTitle id:self.currentScript.exitToTypeId];
+        [delegate scriptEndedExitToType:currentScript.exitToType title:currentScript.exitToTabTitle id:currentScript.exitToTypeId];
         return;
     }
     
-    if([self.currentScriptElement.type isEqualToString:@"pc"])
+    if([currentScriptElement.type isEqualToString:@"pc"])
     {
-        [self.pcView loadScriptElement:self.currentScriptElement];
+        [pcView loadScriptElement:currentScriptElement];
         [self movePcIn];
     }
-    else if([self.currentScriptElement.type isEqualToString:@"npc"])
+    else if([currentScriptElement.type isEqualToString:@"npc"])
     {
-        [self.npcView loadScriptElement:self.currentScriptElement];
+        [npcView loadScriptElement:currentScriptElement];
         [self moveNpcIn];
     }
     else if([currentScriptElement.type isEqualToString:@"video"])
@@ -201,7 +181,7 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.1];
-        self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
         [UIView commitAnimations];
     }
     if(h)
@@ -209,7 +189,7 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.1];
-        self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44);
+        continueButton.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44);
         [UIView commitAnimations];
     }
 }
@@ -217,13 +197,13 @@
 - (void) continueButtonTouched
 {
     self.view.userInteractionEnabled = NO;
-    if     (self.pcView.frame.origin.x == 0)  [self.pcView  fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
-    else if(self.npcView.frame.origin.x == 0) [self.npcView fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    if     (pcView.frame.origin.x == 0)  [pcView  fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    else if(npcView.frame.origin.x == 0) [npcView fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
     else [self readyNextScriptElementForDisplay];
 }
 
-#define pcOffscreenRect  CGRectMake(  self.pcView.frame.size.width, self.pcView.frame.origin.y, self.pcView.frame.size.width, self.pcView.frame.size.height)
-#define npcOffscreenRect CGRectMake(0-self.npcView.frame.size.width,self.npcView.frame.origin.y,self.npcView.frame.size.width,self.npcView.frame.size.height)
+#define pcOffscreenRect  CGRectMake(  pcView.frame.size.width, pcView.frame.origin.y, pcView.frame.size.width, pcView.frame.size.height)
+#define npcOffscreenRect CGRectMake(0-npcView.frame.size.width,npcView.frame.origin.y,npcView.frame.size.width,npcView.frame.size.height)
 - (void) movePcIn
 {
 	[self movePcTo:self.view.frame  withAlpha:1.0
