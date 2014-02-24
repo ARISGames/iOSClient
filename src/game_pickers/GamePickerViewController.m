@@ -164,7 +164,7 @@
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;
     
-    if(!gameForCell.iconMedia) [iconView setImage:[UIImage imageNamed:@"icon.png"]];
+    if(!gameForCell.iconMedia) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
     else                       [iconView setMedia:gameForCell.iconMedia];
     
     if([cell.iconView.subviews count] > 0) [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
