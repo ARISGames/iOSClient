@@ -32,15 +32,16 @@
 #import "AttributesViewController.h"
 #import "NotebookViewController.h"
 #import "DecoderViewController.h"
-#import "NearbyObjectsViewController.h"
 #import "GamePlayTabSelectorViewController.h"
 #import "PKRevealController.h"
+
+#import "ForceDisplayQueue.h"
 
 #import "ARISAlertHandler.h"
 #import "ARISNavigationController.h"
 #import "ARISTemplate.h"
 
-@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate>
 {
     Game *game;
 
@@ -50,7 +51,6 @@
     
     GameNotificationViewController *gameNotificationViewController;
     
-    ARISNavigationController *nearbyObjectsNavigationController;
     ARISNavigationController *arNavigationController;
     ARISNavigationController *questsNavigationController;
     ARISNavigationController *mapNavigationController;
@@ -58,6 +58,8 @@
     ARISNavigationController *attributesNavigationController;
     ARISNavigationController *notesNavigationController;
     ARISNavigationController *decoderNavigationController;
+    
+    ForceDisplayQueue *forceDisplayQueue;
 
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -87,6 +89,8 @@
         [[AppModel sharedAppModel] resetAllPlayerLists];
         [[AppModel sharedAppModel] resetAllGameLists];
         [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
+        
+        forceDisplayQueue = [[ForceDisplayQueue alloc] initWithDelegate:self];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewlyCompletedQuestsAvailable" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameTabListRecieved:)        name:@"ReceivedTabList"               object:nil];
@@ -166,10 +170,6 @@
 {
     gamePlayTabs = [gamePlayTabs sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"tabIndex" ascending:YES]]];
 
-    //Special case- always should get inited (yet not added to the gameplay tabbar until specified)
-    NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc] initWithDelegate:self];
-    nearbyObjectsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
-    
     NSMutableArray *gamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
     Tab *tmpTab;
     for(int i = 0; i < [gamePlayTabs count]; i++)
@@ -288,6 +288,7 @@
                                                                 gameNotificationViewController.view.frame.size.width,
                                                                 gameNotificationViewController.view.frame.size.height);
     [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+    [forceDisplayQueue forceDisplayEligibleLocations];
 }
 
 - (void) dealloc

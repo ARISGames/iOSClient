@@ -76,6 +76,7 @@
 		AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC121857724600068667 /* NoteCommentsViewController.m */; };
 		AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */; };
 		AA33A72A1860C0CE00D48789 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33A7291860C0CE00D48789 /* Media.m */; };
+		AA33AE8818BBC573000954C6 /* ForceDisplayQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */; };
 		AA372A90188F2319005528D5 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA372A8E188F2319005528D5 /* AudioMeter.m */; };
 		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
@@ -131,6 +132,9 @@
 		AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */; };
 		AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1CE2C1891C1C20005F4DC /* NoteComment.m */; };
 		AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA2F8C718A3F85B00B77249 /* MapHUD.m */; };
+		AAA318E118B7C7280000E71A /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA318DB18B7C7280000E71A /* libTestFlight.a */; };
+		AAA318E218B7C7280000E71A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AAA318DC18B7C7280000E71A /* README.md */; };
+		AAA318E318B7C7280000E71A /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = AAA318DD18B7C7280000E71A /* release_notes.md */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
 		AABC064718A1896500315FB5 /* CrumbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064418A1896500315FB5 /* CrumbPath.m */; };
@@ -284,10 +288,6 @@
 		AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC715E172739D60074CC21 /* AnnotationView.m */; };
 		AABC73F1172739D80074CC21 /* TileOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7165172739D60074CC21 /* TileOverlay.m */; };
 		AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7167172739D60074CC21 /* TileOverlayView.m */; };
-		AABC73F3172739D80074CC21 /* NearbyObjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC716A172739D60074CC21 /* NearbyObjectCell.m */; };
-		AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC716B172739D60074CC21 /* NearbyObjectCell.xib */; };
-		AABC73F5172739D80074CC21 /* NearbyObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC716E172739D60074CC21 /* NearbyObjectsViewController.m */; };
-		AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC716F172739D60074CC21 /* NearbyObjectsViewController.xib */; };
 		AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71A9172739D70074CC21 /* IconQuestsViewController.m */; };
 		AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */; };
 		AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B0172739D70074CC21 /* QuestsViewController.m */; };
@@ -372,9 +372,6 @@
 		AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB70F39313153BB500BD06CD /* MessageUI.framework */; };
 		AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277713C7556100F10AD5 /* AddressBookUI.framework */; };
 		AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277913C7559800F10AD5 /* CoreMedia.framework */; };
-		AB8873EA181B6F250042FD63 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8873E4181B6F250042FD63 /* libTestFlight.a */; };
-		AB8873EB181B6F250042FD63 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AB8873E5181B6F250042FD63 /* README.md */; };
-		AB8873EC181B6F250042FD63 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = AB8873E6181B6F250042FD63 /* release_notes.md */; };
 		AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9BA24813DFBAB1007470E3 /* libz.dylib */; };
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
@@ -492,6 +489,8 @@
 		AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentInputViewController.m; sourceTree = "<group>"; };
 		AA33A7281860C0CE00D48789 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
 		AA33A7291860C0CE00D48789 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
+		AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceDisplayQueue.h; sourceTree = "<group>"; };
+		AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceDisplayQueue.m; sourceTree = "<group>"; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
 		AA372A8E188F2319005528D5 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
 		AA372A8F188F2319005528D5 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
@@ -585,6 +584,12 @@
 		AAA1CE2C1891C1C20005F4DC /* NoteComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteComment.m; sourceTree = "<group>"; };
 		AAA2F8C618A3F85B00B77249 /* MapHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapHUD.h; sourceTree = "<group>"; };
 		AAA2F8C718A3F85B00B77249 /* MapHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapHUD.m; sourceTree = "<group>"; };
+		AAA318DB18B7C7280000E71A /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		AAA318DC18B7C7280000E71A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		AAA318DD18B7C7280000E71A /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		AAA318DE18B7C7280000E71A /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		AAA318DF18B7C7280000E71A /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		AAA318E018B7C7280000E71A /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAAB7635173AB6E6007B5A75 /* ARISGamePlayTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISGamePlayTabBarViewController.h; sourceTree = "<group>"; };
 		AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISGamePlayTabBarViewController.m; sourceTree = "<group>"; };
@@ -805,12 +810,6 @@
 		AABC7165172739D60074CC21 /* TileOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileOverlay.m; sourceTree = "<group>"; };
 		AABC7166172739D60074CC21 /* TileOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileOverlayView.h; sourceTree = "<group>"; };
 		AABC7167172739D60074CC21 /* TileOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileOverlayView.m; sourceTree = "<group>"; };
-		AABC7169172739D60074CC21 /* NearbyObjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectCell.h; sourceTree = "<group>"; };
-		AABC716A172739D60074CC21 /* NearbyObjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectCell.m; sourceTree = "<group>"; };
-		AABC716B172739D60074CC21 /* NearbyObjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyObjectCell.xib; sourceTree = "<group>"; };
-		AABC716D172739D60074CC21 /* NearbyObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectsViewController.h; sourceTree = "<group>"; };
-		AABC716E172739D60074CC21 /* NearbyObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectsViewController.m; sourceTree = "<group>"; };
-		AABC716F172739D60074CC21 /* NearbyObjectsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyObjectsViewController.xib; sourceTree = "<group>"; };
 		AABC71A9172739D70074CC21 /* IconQuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconQuestsViewController.m; sourceTree = "<group>"; };
 		AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailsViewController.h; sourceTree = "<group>"; };
 		AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; };
@@ -990,12 +989,6 @@
 		AB70F39313153BB500BD06CD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AB7D277713C7556100F10AD5 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		AB7D277913C7559800F10AD5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		AB8873E4181B6F250042FD63 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		AB8873E5181B6F250042FD63 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		AB8873E6181B6F250042FD63 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		AB8873E7181B6F250042FD63 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
-		AB8873E8181B6F250042FD63 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
-		AB8873E9181B6F250042FD63 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		AB9BA24813DFBAB1007470E3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		ABB2CDC313C7497400F051E4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		ABB2CDC513C7498A00F051E4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -1039,13 +1032,13 @@
 				ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */,
 				A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */,
 				ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */,
+				AAA318E118B7C7280000E71A /* libTestFlight.a in Frameworks */,
 				AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */,
 				A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */,
 				ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */,
 				11BE779F13B0FCC7000D037B /* OpenGLES.framework in Frameworks */,
 				A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */,
 				ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */,
-				AB8873EA181B6F250042FD63 /* libTestFlight.a in Frameworks */,
 				AA1E2D501652CC7500219535 /* Security.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */,
@@ -1243,6 +1236,19 @@
 			path = logo;
 			sourceTree = "<group>";
 		};
+		AAA318DA18B7C7280000E71A /* TestFlightSDK3.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				AAA318DB18B7C7280000E71A /* libTestFlight.a */,
+				AAA318DC18B7C7280000E71A /* README.md */,
+				AAA318DD18B7C7280000E71A /* release_notes.md */,
+				AAA318DE18B7C7280000E71A /* TestFlight+AsyncLogging.h */,
+				AAA318DF18B7C7280000E71A /* TestFlight+ManualSessions.h */,
+				AAA318E018B7C7280000E71A /* TestFlight.h */,
+			);
+			path = TestFlightSDK3.0.0;
+			sourceTree = "<group>";
+		};
 		AABC6F3C1727398B0074CC21 /* assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1398,6 +1404,8 @@
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
+				AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */,
+				AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */,
 				AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */,
 				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
@@ -1774,7 +1782,6 @@
 				AABC7148172739D60074CC21 /* decoder */,
 				AABC714D172739D60074CC21 /* inventory */,
 				AABC715A172739D60074CC21 /* map */,
-				AABC7168172739D60074CC21 /* nearby */,
 				AABC7170172739D60074CC21 /* notebook */,
 			);
 			path = tab_controllers;
@@ -1828,19 +1835,6 @@
 			path = map;
 			sourceTree = "<group>";
 		};
-		AABC7168172739D60074CC21 /* nearby */ = {
-			isa = PBXGroup;
-			children = (
-				AABC716D172739D60074CC21 /* NearbyObjectsViewController.h */,
-				AABC716E172739D60074CC21 /* NearbyObjectsViewController.m */,
-				AABC716F172739D60074CC21 /* NearbyObjectsViewController.xib */,
-				AABC7169172739D60074CC21 /* NearbyObjectCell.h */,
-				AABC716A172739D60074CC21 /* NearbyObjectCell.m */,
-				AABC716B172739D60074CC21 /* NearbyObjectCell.xib */,
-			);
-			path = nearby;
-			sourceTree = "<group>";
-		};
 		AABC7170172739D60074CC21 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
@@ -1891,8 +1885,8 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
+				AAA318DA18B7C7280000E71A /* TestFlightSDK3.0.0 */,
 				AB5EC6E21820DC4D00FF49A6 /* Crashlytics.framework */,
-				AB8873E3181B6F250042FD63 /* TestFlightSDK2.0.2 */,
 				AAF7115117B9579900262A37 /* PKRevealController */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71C0172739D70074CC21 /* JSON */,
@@ -2189,19 +2183,6 @@
 			name = "Frameworks and Dependancies";
 			sourceTree = "<group>";
 		};
-		AB8873E3181B6F250042FD63 /* TestFlightSDK2.0.2 */ = {
-			isa = PBXGroup;
-			children = (
-				AB8873E4181B6F250042FD63 /* libTestFlight.a */,
-				AB8873E5181B6F250042FD63 /* README.md */,
-				AB8873E6181B6F250042FD63 /* release_notes.md */,
-				AB8873E7181B6F250042FD63 /* TestFlight+AsyncLogging.h */,
-				AB8873E8181B6F250042FD63 /* TestFlight+ManualSessions.h */,
-				AB8873E9181B6F250042FD63 /* TestFlight.h */,
-			);
-			path = TestFlightSDK2.0.2;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2339,6 +2320,7 @@
 				AABC6FEB1727398B0074CC21 /* check.png in Resources */,
 				AABC6FEC1727398B0074CC21 /* clickToPlay.png in Resources */,
 				AABC6FED1727398B0074CC21 /* comment.png in Resources */,
+				AAA318E218B7C7280000E71A /* README.md in Resources */,
 				AA2D215617DE57F000CF4198 /* radar.png in Resources */,
 				AABC6FEF1727398B0074CC21 /* defaultAudioIcon.png in Resources */,
 				AA2D215317DE560C00CF4198 /* toolbox@2x.png in Resources */,
@@ -2363,6 +2345,7 @@
 				AABC70171727398B0074CC21 /* Pin.png in Resources */,
 				AA2D213F17DE560C00CF4198 /* globe_selected@2x.png in Resources */,
 				AABC70181727398B0074CC21 /* PinDown1.png in Resources */,
+				AAA318E318B7C7280000E71A /* release_notes.md in Resources */,
 				AABC70191727398B0074CC21 /* PinDown2.png in Resources */,
 				AABC701A1727398B0074CC21 /* PinDown3.png in Resources */,
 				AABC701B1727398B0074CC21 /* PinFloating.png in Resources */,
@@ -2431,11 +2414,7 @@
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
 				AA383B161829A8BD00612FFB /* audio.png in Resources */,
 				AA9A6D95182D75C3000CC323 /* lock.png in Resources */,
-				AABC73F4172739D80074CC21 /* NearbyObjectCell.xib in Resources */,
-				AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */,
 				AA2D213D17DE560C00CF4198 /* clock_unselected@2x.png in Resources */,
-				AB8873EB181B6F250042FD63 /* README.md in Resources */,
-				AB8873EC181B6F250042FD63 /* release_notes.md in Resources */,
 				AA2D214217DE560C00CF4198 /* magnify_selected.png in Resources */,
 				ABE735E917D65C0100396CF5 /* arrowBack.png in Resources */,
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
@@ -2563,14 +2542,13 @@
 				AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */,
 				AABC73F1172739D80074CC21 /* TileOverlay.m in Sources */,
 				AABC73F2172739D80074CC21 /* TileOverlayView.m in Sources */,
-				AABC73F3172739D80074CC21 /* NearbyObjectCell.m in Sources */,
-				AABC73F5172739D80074CC21 /* NearbyObjectsViewController.m in Sources */,
 				AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */,
 				AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */,
 				AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */,
 				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
+				AA33AE8818BBC573000954C6 /* ForceDisplayQueue.m in Sources */,
 				AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */,
 				AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */,
 				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,
@@ -2695,8 +2673,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2717,6 +2694,8 @@
 					"$(SRCROOT)/**",
 					"$(inherited)",
 					"$(SRCROOT)/src/third_party/TestFlightSDK2.0.2",
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/TestFlightSDK2.2.1,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/TestFlightSDK3.0.0,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2725,7 +2704,6 @@
 				);
 				PRODUCT_NAME = ARIS;
 				PROVISIONING_PROFILE = "6843AF32-0270-4606-9124-0B775C1E363A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6843AF32-0270-4606-9124-0B775C1E363A";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
@@ -2767,9 +2745,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				COPY_PHASE_STRIP = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: UW Division of Information Technology";
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = src/ARIS_Prefix.pch;
@@ -2787,6 +2764,8 @@
 					"$(SRCROOT)/**",
 					"$(inherited)",
 					"$(SRCROOT)/src/third_party/TestFlightSDK2.0.2",
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/TestFlightSDK2.2.1,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/TestFlightSDK3.0.0,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2795,7 +2774,6 @@
 				);
 				PRODUCT_NAME = ARIS;
 				PROVISIONING_PROFILE = "6843AF32-0270-4606-9124-0B775C1E363A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "387C618D-56A7-48E8-BE66-AFFC6964A595";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;

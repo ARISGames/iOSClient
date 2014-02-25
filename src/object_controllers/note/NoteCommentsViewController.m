@@ -60,7 +60,7 @@
     {
         cell = [self cellForComment:[comments objectAtIndex:i]];
         cell.frame = CGRectMake(0, yOffset, cell.frame.size.width, cell.frame.size.height);
-        yOffset += cell.frame.size.height;
+        yOffset += cell.frame.size.height+10;
         [self.view addSubview:cell];
     }
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, yOffset);
@@ -89,6 +89,7 @@
     text.text = c.text; 
     text.lineBreakMode = NSLineBreakByWordWrapping;
     text.numberOfLines = 0; 
+    text.font = [ARISTemplate ARISInputFont];
     CGSize textSize = [text.text sizeWithFont:text.font constrainedToSize:CGSizeMake(text.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping];   
     text.frame = CGRectMake(text.frame.origin.x, text.frame.origin.y, text.frame.size.width, textSize.height);
     

@@ -183,7 +183,6 @@ const int VIEW_MODE_ALL  = 1;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
         cell = [[NoteCell alloc] initWithDelegate:self]; 
     Note *n = [noteList objectAtIndex:indexPath.row];
-    NSLog(@"%d",n.noteId);
     NSString *loaded = [contentLoadedFlagMap objectForKey:[NSString stringWithFormat:@"%d", n.noteId]];
     if(!loaded) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
     [cell populateWithNote:n loading:!loaded editable:(viewMode == VIEW_MODE_MINE)]; 

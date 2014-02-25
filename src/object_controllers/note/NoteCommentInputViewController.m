@@ -11,6 +11,8 @@
 @interface NoteCommentInputViewController () <UITextViewDelegate>
 {
     UITextView *commentArea;
+    UIImageView *commentPromptImg; 
+    UILabel *commentPromptText;
     UILabel *postButton;
     UILabel *cancelButton; 
     id<NoteCommentInputViewControllerDelegate> __unsafe_unretained delegate;
@@ -37,7 +39,15 @@
     commentArea = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width-20, 30)];
     commentArea.layer.borderWidth = 0.5f;
     commentArea.layer.borderColor = [[UIColor ARISColorDarkGray] CGColor];
+    commentArea.font = [ARISTemplate ARISInputFont];
     commentArea.delegate = self;
+    
+    commentPromptImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 20, 20)];
+    commentPromptImg.image = [UIImage imageNamed:@"comment.png"];
+    commentPromptText = [[UILabel alloc] initWithFrame:CGRectMake(40, 15, 200, 20)];
+    commentPromptText.textColor = [UIColor lightGrayColor];
+    commentPromptText.font = [ARISTemplate ARISInputFont];
+    commentPromptText.text = @"Comment";
     
     postButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 10, 50, 20)];
     postButton.text = @"Post";
@@ -52,6 +62,8 @@
     cancelButton.userInteractionEnabled = YES;
     
     [self.view addSubview:commentArea];
+    [self.view addSubview:commentPromptImg]; 
+    [self.view addSubview:commentPromptText]; 
 }
 
 - (void) postButtonTouched
@@ -75,6 +87,9 @@
     [self.view addSubview:postButton]; 
     [self.view addSubview:cancelButton];  
     [delegate commentBeganEditing];
+    
+    [commentPromptImg removeFromSuperview]; 
+    [commentPromptText removeFromSuperview];   
 }
 
 - (void) textViewDidEndEditing:(UITextView *)textView
@@ -83,6 +98,9 @@
     commentArea.frame = CGRectMake(10,10,self.view.frame.size.width-20,30); 
     [postButton removeFromSuperview];
     [cancelButton removeFromSuperview]; 
+    
+    [self.view addSubview:commentPromptImg]; 
+    [self.view addSubview:commentPromptText];  
 }
 
 @end
