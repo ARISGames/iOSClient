@@ -17,6 +17,7 @@
 #import "Player.h"
 #import "AppServices.h"
 #import "ARISTemplate.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface NpcScriptViewController() <ScriptParserDelegate, NpcScriptElementViewDelegate, GameObjectViewControllerDelegate>
 {
@@ -139,6 +140,7 @@
     else if([currentScriptElement.type isEqualToString:@"video"])
     {
         [self moveAllOut];
+        [self scriptDisplayVideo:currentScriptElement];
     }
     else if([currentScriptElement.type isEqualToString:@"panoramic"])
     {
@@ -161,6 +163,31 @@
         [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     self.view.userInteractionEnabled = YES;
+}
+
+- (void) scriptDisplayVideo:(ScriptElement *)scriptElement
+{
+    if (scriptElement.typeId != 0) {
+        Media *media = [[AppModel sharedAppModel] mediaForMediaId:scriptElement.typeId];
+        MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
+        //remove the movie player notification so we can override it with our own
+        [[NSNotificationCenter defaultCenter] removeObserver:movieViewController name:MPMoviePlayerPlaybackDidFinishNotification object:movieViewController.moviePlayer];
+        //register our callback
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:movieViewController.moviePlayer];
+        [((ARISViewController *)delegate).navigationController presentMoviePlayerViewControllerAnimated:movieViewController];
+    }
+    else{
+        //no media to display, just go to the next script
+        [self continueButtonTouched];
+    }
+}
+
+- (void) movieFinishedCallback:(NSNotification *)notification
+{
+    MPMoviePlayerController *moviePlayer = [notification object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:moviePlayer];
+    [((ARISViewController *)delegate).navigationController dismissMoviePlayerViewControllerAnimated];
+    [self continueButtonTouched];
 }
 
 - (void) scriptElementViewRequestsTitle:(NSString *)t
