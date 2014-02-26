@@ -242,16 +242,10 @@
 		AABC738C172739D80074CC21 /* NoteTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7093172739D60074CC21 /* NoteTag.m */; };
 		AABC738D172739D80074CC21 /* WebPage.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7095172739D60074CC21 /* WebPage.m */; };
 		AABC738E172739D80074CC21 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7098172739D60074CC21 /* Logger.m */; };
-		AABC738F172739D80074CC21 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709B172739D60074CC21 /* Comment.m */; };
-		AABC7390172739D80074CC21 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709D172739D60074CC21 /* CommentCell.m */; };
-		AABC7391172739D80074CC21 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC709E172739D60074CC21 /* CommentCell.xib */; };
-		AABC7392172739D80074CC21 /* CommentsFormCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A0172739D60074CC21 /* CommentsFormCell.m */; };
-		AABC7393172739D80074CC21 /* CommentsFormCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70A1172739D60074CC21 /* CommentsFormCell.xib */; };
-		AABC7394172739D80074CC21 /* commentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70A2172739D60074CC21 /* commentsView.xib */; };
-		AABC7395172739D80074CC21 /* commentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A4172739D60074CC21 /* commentsViewController.m */; };
+		AABC738F172739D80074CC21 /* GameComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709B172739D60074CC21 /* GameComment.m */; };
+		AABC7390172739D80074CC21 /* GameCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709D172739D60074CC21 /* GameCommentCell.m */; };
+		AABC7395172739D80074CC21 /* GameCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A4172739D60074CC21 /* GameCommentsViewController.m */; };
 		AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A7172739D60074CC21 /* GameDetailsViewController.m */; };
-		AABC7398172739D80074CC21 /* RatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A9172739D60074CC21 /* RatingCell.m */; };
-		AABC7399172739D80074CC21 /* RatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70AA172739D60074CC21 /* RatingCell.xib */; };
 		AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B3172739D60074CC21 /* GamePickerViewController.m */; };
 		AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B6172739D60074CC21 /* GamePickerNearbyViewController.m */; };
 		AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70BA172739D60074CC21 /* GamePickerPopularViewController.m */; };
@@ -723,22 +717,14 @@
 		AABC7095172739D60074CC21 /* WebPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPage.m; sourceTree = "<group>"; };
 		AABC7097172739D60074CC21 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		AABC7098172739D60074CC21 /* Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
-		AABC709A172739D60074CC21 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
-		AABC709B172739D60074CC21 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		AABC709C172739D60074CC21 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
-		AABC709D172739D60074CC21 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
-		AABC709E172739D60074CC21 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
-		AABC709F172739D60074CC21 /* CommentsFormCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsFormCell.h; sourceTree = "<group>"; };
-		AABC70A0172739D60074CC21 /* CommentsFormCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsFormCell.m; sourceTree = "<group>"; };
-		AABC70A1172739D60074CC21 /* CommentsFormCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsFormCell.xib; sourceTree = "<group>"; };
-		AABC70A2172739D60074CC21 /* commentsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = commentsView.xib; sourceTree = "<group>"; };
-		AABC70A3172739D60074CC21 /* commentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commentsViewController.h; sourceTree = "<group>"; };
-		AABC70A4172739D60074CC21 /* commentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = commentsViewController.m; sourceTree = "<group>"; };
+		AABC709A172739D60074CC21 /* GameComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameComment.h; sourceTree = "<group>"; };
+		AABC709B172739D60074CC21 /* GameComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameComment.m; sourceTree = "<group>"; };
+		AABC709C172739D60074CC21 /* GameCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCommentCell.h; sourceTree = "<group>"; };
+		AABC709D172739D60074CC21 /* GameCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCommentCell.m; sourceTree = "<group>"; };
+		AABC70A3172739D60074CC21 /* GameCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCommentsViewController.h; sourceTree = "<group>"; };
+		AABC70A4172739D60074CC21 /* GameCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCommentsViewController.m; sourceTree = "<group>"; };
 		AABC70A6172739D60074CC21 /* GameDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDetailsViewController.h; sourceTree = "<group>"; };
 		AABC70A7172739D60074CC21 /* GameDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDetailsViewController.m; sourceTree = "<group>"; };
-		AABC70A8172739D60074CC21 /* RatingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingCell.h; sourceTree = "<group>"; };
-		AABC70A9172739D60074CC21 /* RatingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingCell.m; sourceTree = "<group>"; };
-		AABC70AA172739D60074CC21 /* RatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingCell.xib; sourceTree = "<group>"; };
 		AABC70B2172739D60074CC21 /* GamePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerViewController.h; sourceTree = "<group>"; };
 		AABC70B3172739D60074CC21 /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerViewController.m; sourceTree = "<group>"; };
 		AABC70B5172739D60074CC21 /* GamePickerNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerNearbyViewController.h; sourceTree = "<group>"; };
@@ -1493,20 +1479,12 @@
 			children = (
 				AABC70A6172739D60074CC21 /* GameDetailsViewController.h */,
 				AABC70A7172739D60074CC21 /* GameDetailsViewController.m */,
-				AABC709A172739D60074CC21 /* Comment.h */,
-				AABC709B172739D60074CC21 /* Comment.m */,
-				AABC709C172739D60074CC21 /* CommentCell.h */,
-				AABC709D172739D60074CC21 /* CommentCell.m */,
-				AABC709E172739D60074CC21 /* CommentCell.xib */,
-				AABC709F172739D60074CC21 /* CommentsFormCell.h */,
-				AABC70A0172739D60074CC21 /* CommentsFormCell.m */,
-				AABC70A1172739D60074CC21 /* CommentsFormCell.xib */,
-				AABC70A2172739D60074CC21 /* commentsView.xib */,
-				AABC70A3172739D60074CC21 /* commentsViewController.h */,
-				AABC70A4172739D60074CC21 /* commentsViewController.m */,
-				AABC70A8172739D60074CC21 /* RatingCell.h */,
-				AABC70A9172739D60074CC21 /* RatingCell.m */,
-				AABC70AA172739D60074CC21 /* RatingCell.xib */,
+				AABC709A172739D60074CC21 /* GameComment.h */,
+				AABC709B172739D60074CC21 /* GameComment.m */,
+				AABC709C172739D60074CC21 /* GameCommentCell.h */,
+				AABC709D172739D60074CC21 /* GameCommentCell.m */,
+				AABC70A3172739D60074CC21 /* GameCommentsViewController.h */,
+				AABC70A4172739D60074CC21 /* GameCommentsViewController.m */,
 			);
 			path = game_details;
 			sourceTree = "<group>";
@@ -2388,11 +2366,7 @@
 				AABC70601727399C0074CC21 /* Science Hall.gpx in Resources */,
 				AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */,
 				AABC737B172739D80074CC21 /* PlayerSettingsViewController.xib in Resources */,
-				AABC7391172739D80074CC21 /* CommentCell.xib in Resources */,
-				AABC7393172739D80074CC21 /* CommentsFormCell.xib in Resources */,
 				AA8E9EA518BE422E00F343A2 /* star_gray.png in Resources */,
-				AABC7394172739D80074CC21 /* commentsView.xib in Resources */,
-				AABC7399172739D80074CC21 /* RatingCell.xib in Resources */,
 				AA2D213617DE560C00CF4198 /* arrow_selected.png in Resources */,
 				AA527E4717E0B6830040AB75 /* idcard.png in Resources */,
 				AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */,
@@ -2478,13 +2452,11 @@
 				AABC738C172739D80074CC21 /* NoteTag.m in Sources */,
 				AABC738D172739D80074CC21 /* WebPage.m in Sources */,
 				AABC738E172739D80074CC21 /* Logger.m in Sources */,
-				AABC738F172739D80074CC21 /* Comment.m in Sources */,
-				AABC7390172739D80074CC21 /* CommentCell.m in Sources */,
+				AABC738F172739D80074CC21 /* GameComment.m in Sources */,
+				AABC7390172739D80074CC21 /* GameCommentCell.m in Sources */,
 				AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */,
-				AABC7392172739D80074CC21 /* CommentsFormCell.m in Sources */,
-				AABC7395172739D80074CC21 /* commentsViewController.m in Sources */,
+				AABC7395172739D80074CC21 /* GameCommentsViewController.m in Sources */,
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
-				AABC7398172739D80074CC21 /* RatingCell.m in Sources */,
 				AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */,
 				AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */,
 				AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */,

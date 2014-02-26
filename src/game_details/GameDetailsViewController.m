@@ -9,8 +9,7 @@
 #import "GameDetailsViewController.h"
 #import "AppServices.h"
 #import "AppModel.h"
-#import "commentsViewController.h"
-#import "RatingCell.h"
+#import "GameCommentsViewController.h"
 #import "Game.h"
 
 #import "ARISAlertHandler.h"
@@ -23,7 +22,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface GameDetailsViewController() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, UIWebViewDelegate>
+@interface GameDetailsViewController() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, GameCommentsViewControllerDelegate, UIWebViewDelegate>
 {
     ARISMediaView *mediaView;
     ARISWebView *descriptionView;
@@ -177,8 +176,7 @@
 
 - (void) rateButtonTouched
 {
-    commentsViewController *commentsVC = [[commentsViewController alloc] initWithNibName:@"commentsView" bundle:nil];
-    commentsVC.game = game;
+    GameCommentsViewController *commentsVC = [[GameCommentsViewController alloc] initWithGame:game delegate:self];
     [self.navigationController pushViewController:commentsVC animated:YES]; 
 }
 

@@ -130,7 +130,7 @@
     }
     
     GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:@"GameCell"];
-    if(cell == nil) cell = [[GamePickerCell alloc] init];
+    if(cell == nil) cell = [[GamePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GameCell"];
     
 	[cell setGame:[self.gameList objectAtIndex:indexPath.row]];
     
