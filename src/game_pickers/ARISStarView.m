@@ -31,4 +31,15 @@
     }
 }
 
+- (int) rating
+{
+    return rating;
+}
+
+- (void) setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self setRating:rating];//essentially refreshes views
+}
+
 @end

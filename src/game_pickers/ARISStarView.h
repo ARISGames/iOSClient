@@ -10,4 +10,5 @@
 
 @interface ARISStarView : UIView
 - (void) setRating:(int)r;
+- (int) rating;
 @end

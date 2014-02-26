@@ -7,6 +7,7 @@
 //
 
 #import "GameCommentsViewController.h"
+#import "GameCommentsReviewViewController.h"
 
 #import "AppServices.h"
 #import "AppModel.h"
@@ -18,7 +19,7 @@
 
 #import "ARISTemplate.h"
 
-@interface GameCommentsViewController () <UITableViewDelegate,UITableViewDataSource,GameCommentCellDelegate>
+@interface GameCommentsViewController () <UITableViewDelegate,UITableViewDataSource,GameCommentsReviewViewcontrollerDelegate, GameCommentCellDelegate>
 {
     UIButton *writeAReviewButton;
 	UITableView *commentsTable;
@@ -52,6 +53,7 @@
     [writeAReviewButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
     [writeAReviewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
     writeAReviewButton.titleLabel.font = [ARISTemplate ARISButtonFont]; 
+    [writeAReviewButton addTarget:self action:@selector(writeAReviewButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
     commentsTable = [[UITableView alloc] init]; 
     commentsTable.dataSource = self;
@@ -101,8 +103,17 @@
 
 - (void) heightCalculated:(int)h forComment:(GameComment *)gc inCell:(GameCommentCell *)gcc
 {
-    [cellSizes setValue:[NSNumber numberWithInt:h] forKey:[gc description]]; 
-    [commentsTable reloadData];
+    if(![cellSizes objectForKey:[gc description]])
+    {
+        [cellSizes setValue:[NSNumber numberWithInt:h] forKey:[gc description]]; 
+        [commentsTable reloadData];
+    }
+}
+
+- (void) writeAReviewButtonTouched
+{
+    GameCommentsReviewViewController *gcrvc = [[GameCommentsReviewViewController alloc] initWithDelegate:self];
+    [self.navigationController pushViewController:gcrvc animated:YES];
 }
 
 @end

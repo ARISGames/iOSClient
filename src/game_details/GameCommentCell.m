@@ -89,4 +89,9 @@
     [delegate heightCalculated:commentView.frame.origin.y+commentView.frame.size.height forComment:gameComment inCell:self];
 }
 
+//implement statecontrol stuff for webpage, but ignore any requests
+- (void) displayTab:(NSString *)t {}
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s {return NO;}
+- (void) displayScannerWithPrompt:(NSString *)p {}
+
 @end

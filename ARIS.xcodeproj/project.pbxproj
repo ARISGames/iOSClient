@@ -123,6 +123,7 @@
 		AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */; };
 		AA8E9EA118BE3FED00F343A2 /* ARISStarView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8E9EA018BE3FED00F343A2 /* ARISStarView.m */; };
 		AA8E9EA518BE422E00F343A2 /* star_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = AA8E9EA418BE422E00F343A2 /* star_gray.png */; };
+		AA8E9EAE18BE8DE000F343A2 /* GameCommentsReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8E9EAD18BE8DE000F343A2 /* GameCommentsReviewViewController.m */; };
 		AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9617CD4F86004EDEA1 /* logo_full.png */; };
 		AA942B9B17CD4F86004EDEA1 /* logo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9717CD4F86004EDEA1 /* logo_icon.png */; };
 		AA942B9C17CD4F86004EDEA1 /* logo_text_nav.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9817CD4F86004EDEA1 /* logo_text_nav.png */; };
@@ -563,6 +564,8 @@
 		AA8E9E9F18BE3FED00F343A2 /* ARISStarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISStarView.h; sourceTree = "<group>"; };
 		AA8E9EA018BE3FED00F343A2 /* ARISStarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISStarView.m; sourceTree = "<group>"; };
 		AA8E9EA418BE422E00F343A2 /* star_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_gray.png; sourceTree = "<group>"; };
+		AA8E9EAA18BE847600F343A2 /* GameCommentsReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCommentsReviewViewController.h; sourceTree = "<group>"; };
+		AA8E9EAD18BE8DE000F343A2 /* GameCommentsReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCommentsReviewViewController.m; sourceTree = "<group>"; };
 		AA942B9617CD4F86004EDEA1 /* logo_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_full.png; sourceTree = "<group>"; };
 		AA942B9717CD4F86004EDEA1 /* logo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_icon.png; sourceTree = "<group>"; };
 		AA942B9817CD4F86004EDEA1 /* logo_text_nav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text_nav.png; sourceTree = "<group>"; };
@@ -1485,6 +1488,8 @@
 				AABC709D172739D60074CC21 /* GameCommentCell.m */,
 				AABC70A3172739D60074CC21 /* GameCommentsViewController.h */,
 				AABC70A4172739D60074CC21 /* GameCommentsViewController.m */,
+				AA8E9EAA18BE847600F343A2 /* GameCommentsReviewViewController.h */,
+				AA8E9EAD18BE8DE000F343A2 /* GameCommentsReviewViewController.m */,
 			);
 			path = game_details;
 			sourceTree = "<group>";
@@ -2443,6 +2448,7 @@
 				AABC7385172739D80074CC21 /* Npc.m in Sources */,
 				AABC7386172739D80074CC21 /* Overlay.m in Sources */,
 				AABC7387172739D80074CC21 /* Panoramic.m in Sources */,
+				AA8E9EAE18BE8DE000F343A2 /* GameCommentsReviewViewController.m in Sources */,
 				AAF9233A188715C20026A4FC /* FreqHistogramControl.m in Sources */,
 				AABC7389172739D80074CC21 /* Player.m in Sources */,
 				AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */,
