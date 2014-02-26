@@ -9,33 +9,26 @@
 #import "CommentsFormCell.h"
 #import "AppServices.h"
 
+@interface CommentsFormCell ()
+{
+    UITextView *textField;
+    UIButton *saveButton;
+    Game *game;
+
+    commentsViewController *commentsVC;
+}
+
+@end
+
 @implementation CommentsFormCell
-@synthesize ratingView;
-@synthesize textField;
-@synthesize saveButton;
-@synthesize game,commentsVC;
 
-- (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code.
-    }
-    return self;
+- (void) setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    //do nothing
 }
-
-
-- (void) setSelected:(BOOL)selected animated:(BOOL)animated {
-    
-    //[super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state.
-}
-
+/*
 - (IBAction) saveComment:(id)sender {
-/*    if([self.textField.text length] == 0){
-    }
-    else*/ if(self.ratingView.userRating == 0){
+    if(self.ratingView.userRating == 0){
         UIAlertView *alert= [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ErrorKey", @"")
                                                              message: NSLocalizedString(@"CommentsFormNumberOfStarsRatingKey", @"")
                                                             delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
@@ -62,10 +55,10 @@
         //End client side manipulation
     }
 }
+ */
+
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     [textView setText:@""];
 }
-
-
 
 @end

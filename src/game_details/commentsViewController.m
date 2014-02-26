@@ -75,6 +75,8 @@
         cell = tempCell;
     }
      */
+    
+           /* 
     if(indexPath.row == 0)
     {
         ARISViewController *temporaryController = [[ARISViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
@@ -126,6 +128,7 @@
         [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewSelected];
         [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewUserSelected];
     }
+         */
     
     cell.textLabel.backgroundColor = [UIColor clearColor]; 
     cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 

@@ -7,16 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SCRRatingView.h"
 
-
-@interface RatingCell : UITableViewCell {
-    SCRRatingView *ratingView;
-    UILabel *reviewsLabel;
-}
-
-@property (nonatomic) IBOutlet SCRRatingView *ratingView;
-@property (nonatomic) IBOutlet UILabel *reviewsLabel;
-
-
+@interface RatingCell : UITableViewCell 
 @end

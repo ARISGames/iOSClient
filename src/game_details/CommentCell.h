@@ -7,16 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SCRRatingView.h"
 
-@interface CommentCell : UITableViewCell {
-	UITextView *commentLabel;
-	UILabel *authorLabel;
-	SCRRatingView *starView;
-}
-
-@property(nonatomic) IBOutlet UITextView *commentLabel;
-@property(nonatomic) IBOutlet UILabel *authorLabel;
-@property(nonatomic) IBOutlet SCRRatingView *starView;
-
+@interface CommentCell : UITableViewCell 
 @end
