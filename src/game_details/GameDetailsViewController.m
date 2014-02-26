@@ -17,6 +17,7 @@
 #import "ARISTemplate.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
+#import "ARISStarView.h"
 
 #import "StateControllerProtocol.h"
 
@@ -54,12 +55,33 @@
 - (void) loadView
 {
     [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     descriptionView = [[ARISWebView alloc] initWithDelegate:self];
-    
+     
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal]; 
+    [startButton setBackgroundColor:[UIColor ARISColorLightBlue]];
+    [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    startButton.titleLabel.font = [ARISTemplate ARISButtonFont];
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
-    rateButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
+    [resetButton setTitle:NSLocalizedString(@"GameDetailsResetKey", nil) forState:UIControlStateNormal];
+    [resetButton setBackgroundColor:[UIColor ARISColorRed]];
+    [resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
+    resetButton.titleLabel.font = [ARISTemplate ARISButtonFont]; 
+    rateButton  = [UIButton buttonWithType:UIButtonTypeCustom]; 
+    [rateButton setBackgroundColor:[UIColor ARISColorOffWhite]]; 
+    ARISStarView *starView = [[ARISStarView alloc] initWithFrame:CGRectMake(10,10,100,20)];
+    starView.rating = game.rating;
+    UILabel *reviewsTextView = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-110,12,100,15)];
+    reviewsTextView.font = [ARISTemplate ARISButtonFont];
+    reviewsTextView.text = [NSString stringWithFormat:@"%d %@",game.numReviews, NSLocalizedString(@"ReviewsKey", @"")];
+    [rateButton addSubview:starView]; 
+    [rateButton addSubview:reviewsTextView];  
+    
+    [startButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
+    [rateButton  addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside]; 
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0,0,19,19);
@@ -69,15 +91,30 @@
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
     [self.view addSubview:mediaView];
+    [self.view addSubview:startButton]; 
+    [self.view addSubview:resetButton];  
+    [self.view addSubview:rateButton]; 
     [self.view addSubview:descriptionView]; 
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,200) withMode:ARISMediaDisplayModeAspectFit];
-    descriptionView.frame = CGRectMake(15, 15, self.view.bounds.size.width-30, 10); 
-         
+    [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200) withMode:ARISMediaDisplayModeAspectFit];
+    startButton.frame = CGRectMake(0,200+64,self.view.bounds.size.width,40);
+    if(game.hasBeenPlayed)
+    {
+        [self.view addSubview:resetButton];
+        resetButton.frame = CGRectMake(0,240+64,self.view.bounds.size.width,40); 
+        rateButton.frame  = CGRectMake(0,280+64,self.view.bounds.size.width,40);  
+        descriptionView.frame = CGRectMake(0,320+64,self.view.bounds.size.width,self.view.bounds.size.height-(320+64));   
+    }
+    else
+    {
+        [resetButton removeFromSuperview];
+        rateButton.frame = CGRectMake(0,240+64,self.view.bounds.size.width,40); 
+        descriptionView.frame = CGRectMake(0,280+64,self.view.bounds.size.width,self.view.bounds.size.height-(280+64));  
+    }
 }
 
 - (void) refreshFromGame
@@ -89,6 +126,17 @@
     
     if(game.splashMedia) [mediaView setMedia:game.splashMedia];
     else                 [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]]; 
+    
+    if(game.hasBeenPlayed) [startButton setTitle:NSLocalizedString(@"GameDetailsResumeKey", @"")  forState:UIControlStateNormal];
+    else                   [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal]; 
+    
+    [self viewWillLayoutSubviews]; //let that take care of adding/removing reset
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated]; 
+    [self refreshFromGame]; 
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -98,15 +146,9 @@
     if([AppModel sharedAppModel].skipGameDetails)
     {
         [AppModel sharedAppModel].skipGameDetails = 0;
-        [self playGame];
+        game.hasBeenPlayed = YES;
+        [delegate gameDetailsWereConfirmed:game];  
     }
-}
-
-- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
-{
-    float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-    [wv setFrame:CGRectMake(wv.frame.origin.x, wv.frame.origin.y, wv.frame.size.width, newHeight)];
-    [tableView reloadData];
 }
 
 - (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -121,118 +163,23 @@
     return YES;  
 } 
 
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 3;
-}
-
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    switch(section)
-    {
-        case 0:
-            return 1;
-            break;
-        case 1:
-            if(game.hasBeenPlayed) return 3;
-            else return 2;
-            break;
-        case 2:
-            return 1;
-            break;
-        case 3:
-            return 1;
-            break;
-    }
-    return 0; //Should never get here
-}
-
-- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return @""; 
-}
-
-- (UITableViewCell *) tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{    
-	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if(cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];;
-	
-    if(indexPath.section == 0 && indexPath.row == 0)
-    {
-        cell.backgroundView = mediaView;
-        cell.userInteractionEnabled = NO;
-    }
-    else if(indexPath.section == 1)
-    {
-        if (indexPath.row == 0)
-        {
-            if(game.hasBeenPlayed) cell.textLabel.text = NSLocalizedString(@"GameDetailsResumeKey", @"");
-            else                        cell.textLabel.text = NSLocalizedString(@"GameDetailsNewGameKey", @""); 
-            cell.textLabel.font = [ARISTemplate ARISButtonFont];
-            cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        }
-        else if (indexPath.row ==1)
-        {
-            if(game.hasBeenPlayed)
-            {
-                cell.textLabel.text = NSLocalizedString(@"GameDetailsResetKey", @"");
-                cell.textLabel.font = [ARISTemplate ARISButtonFont];
-                cell.textLabel.textAlignment = NSTextAlignmentCenter;
-            } 
-            else
-                cell = [self constructReviewCell];
-        }
-        else if (indexPath.row ==2)
-            cell = [self constructReviewCell];
-    }
-    else if(indexPath.section == 2)
-    {
-        descriptionIndexPath = [indexPath copy];
-        cell.userInteractionEnabled = NO;
-        descriptionView.opaque = NO;
-        descriptionView.backgroundColor = [UIColor clearColor];
-        [cell.contentView addSubview:descriptionView];
-    }
-    else if (indexPath.section == 3)
-    {
-        // MG:
-        cell.textLabel.text = NSLocalizedString(@"Download Game", @"");
-    }
-    
-    return cell;
-}
-
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 1)
-    {
-        if(indexPath.row == 0)//Start/Resume
-        {
-            cell.backgroundColor = [UIColor ARISColorLightBlue];
-            cell.textLabel.textColor = [UIColor whiteColor];
-        }
-        else if(indexPath.row == 1 && game.hasBeenPlayed)//Reset
-        {
-            cell.backgroundColor = [UIColor ARISColorRed];
-            cell.textLabel.textColor = [UIColor whiteColor];
-        }
-        else if((indexPath.row == 1 && !game.hasBeenPlayed) || indexPath.row == 2)//Ratings
-        {
-            cell.backgroundColor = [UIColor ARISColorOffWhite];
-        }
-    }
-}
-
-- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section //hides empty cells at bottom
-{
-    return 0.01f;
-}
-
-- (void) playGame
+- (void) startButtonTouched
 {
     game.hasBeenPlayed = YES;
-    [delegate gameDetailsWereConfirmed:game];
+    [delegate gameDetailsWereConfirmed:game]; 
+}
+
+- (void) resetButtonTouched
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles:NSLocalizedString(@"GameDetailsResetKey", @""), nil];
+    [alert show];	 
+}
+
+- (void) rateButtonTouched
+{
+    commentsViewController *commentsVC = [[commentsViewController alloc] initWithNibName:@"commentsView" bundle:nil];
+    commentsVC.game = game;
+    [self.navigationController pushViewController:commentsVC animated:YES]; 
 }
 
 - (void) backButtonTouched
@@ -240,86 +187,14 @@
     [delegate gameDetailsWereCanceled:game];
 }
 
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(indexPath.section == 1)
-    {
-        if(indexPath.row == 0)
-        {
-            [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            [self playGame];
-            [tableView reloadData];
-        }
-        else if(indexPath.row ==1)
-        {
-            if(game.hasBeenPlayed)
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles:NSLocalizedString(@"GameDetailsResetKey", @""), nil];
-                [alert show];	
-                [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            }
-            else
-            {
-                commentsViewController *commentsVC = [[commentsViewController alloc] initWithNibName:@"commentsView" bundle:nil];
-                commentsVC.game = game;
-                [tableView deselectRowAtIndexPath:indexPath animated:NO];
-                [self.navigationController pushViewController:commentsVC animated:YES];
-            }
-        }
-        else if(indexPath.row == 2)
-        {
-            commentsViewController *commentsVC = [[commentsViewController alloc] initWithNibName:@"commentsView" bundle:nil];
-            commentsVC.game = game;
-            [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            [self.navigationController pushViewController:commentsVC animated:YES];     
-        }
-    }
-}
-
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	NSString *title = [alertView title];
-    
-    if([title isEqualToString:NSLocalizedString(@"GameDetailsResetTitleKey", nil)])
+    if(buttonIndex == 1)
     {
-        if (buttonIndex == 1)
-        {
-            [[AppServices sharedAppServices] startOverGame:game.gameId];
-            game.hasBeenPlayed = NO;
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-        }
+        [[AppServices sharedAppServices] startOverGame:game.gameId];
+        game.hasBeenPlayed = NO;
+        [self refreshFromGame];
     }
-}
-
-- (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if     (indexPath.section == 0 && indexPath.row == 0)                   return 220;
-    else if(indexPath.section == 2 && indexPath.row == 0 && newHeight) return newHeight+30;
-    
-    return 40;
-}
-
-- (UITableViewCell *) constructReviewCell
-{
-    /*
-    UITableViewCell *cell = (RatingCell *)[[ARISViewController alloc] initWithNibName:@"RatingCell" bundle:nil].view;
-    
-    RatingCell *ratingCell = (RatingCell *)cell;
-
-    ratingCell.ratingView.rating = game.rating;
-    ratingCell.ratingView.userInteractionEnabled = NO;
-    ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d %@",game.numReviews, NSLocalizedString(@"ReviewsKey", @"")];
-    [ratingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewHighlighted];
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewHot];
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewNonSelected];
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewSelected];
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewUserSelected];
-    
-    return cell;
-         */ 
-    return nil;
 }
 
 - (void) dealloc
