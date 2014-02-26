@@ -15,9 +15,14 @@
 {
     ARISStarView *rateView;
     UITextView *commentArea;
-    UIImageView *commentPromptImg; 
-    UILabel *commentPromptText;
     UILabel *postButton;
+    
+    UIButton *rate1;
+    UIButton *rate2; 
+    UIButton *rate3; 
+    UIButton *rate4; 
+    UIButton *rate5; 
+    
     id<GameCommentsReviewViewcontrollerDelegate> __unsafe_unretained delegate;
 }
 
@@ -40,19 +45,24 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    //Holy hack. This is hilarious. But at least it's contained.
+    rate1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rate1 addTarget:self action:@selector(rateOneStar) forControlEvents:UIControlEventTouchDown];
+    rate2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rate2 addTarget:self action:@selector(rateTwoStar) forControlEvents:UIControlEventTouchDown]; 
+    rate3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rate3 addTarget:self action:@selector(rateThreeStar) forControlEvents:UIControlEventTouchDown]; 
+    rate4 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rate4 addTarget:self action:@selector(rateFourStar) forControlEvents:UIControlEventTouchDown]; 
+    rate5 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rate5 addTarget:self action:@selector(rateFiveStar) forControlEvents:UIControlEventTouchDown]; 
+    
     rateView = [[ARISStarView alloc] init];
     rateView.rating = 0;
     
     commentArea = [[UITextView alloc] init];
     commentArea.font = [ARISTemplate ARISInputFont];
     commentArea.delegate = self;
-    
-    commentPromptImg = [[UIImageView alloc] init];
-    commentPromptImg.image = [UIImage imageNamed:@"comment.png"];
-    commentPromptText = [[UILabel alloc] init];
-    commentPromptText.textColor = [UIColor lightGrayColor];
-    commentPromptText.font = [ARISTemplate ARISInputFont];
-    commentPromptText.text = @"Comment";
     
     postButton = [[UILabel alloc] init];
     postButton.text = @"Post";
@@ -62,8 +72,13 @@
     
     [self.view addSubview:rateView]; 
     [self.view addSubview:commentArea];
-    [self.view addSubview:commentPromptImg]; 
-    [self.view addSubview:commentPromptText]; 
+    [self.view addSubview:postButton];
+    
+    [self.view addSubview:rate1];
+    [self.view addSubview:rate2]; 
+    [self.view addSubview:rate3]; 
+    [self.view addSubview:rate4]; 
+    [self.view addSubview:rate5]; 
 }
 
 - (void) viewWillLayoutSubviews
@@ -72,9 +87,14 @@
     
     rateView.frame = CGRectMake(10, 74, self.view.frame.size.width-20, 50);
     commentArea.frame = CGRectMake(0, 134, self.view.frame.size.width, 100);
-    commentPromptImg.frame = CGRectMake(15, 15, 20, 20);
-    commentPromptText.frame = CGRectMake(40, 15, 200, 20);
-    postButton.frame = CGRectMake(self.view.frame.size.width-55, 10, 50, 20);
+    postButton.frame = CGRectMake(self.view.frame.size.width-55, self.view.frame.size.height-300, 50, 20);
+    
+    float starWidth = (self.view.frame.size.width-20)/5;
+    rate1.frame = CGRectMake(10+(0*starWidth),74,starWidth,50);
+    rate2.frame = CGRectMake(10+(1*starWidth),74,starWidth,50); 
+    rate3.frame = CGRectMake(10+(2*starWidth),74,starWidth,50); 
+    rate4.frame = CGRectMake(10+(3*starWidth),74,starWidth,50); 
+    rate5.frame = CGRectMake(10+(4*starWidth),74,starWidth,50); 
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -90,20 +110,11 @@
     commentArea.text = @"";
 }
 
-- (void) textViewDidBeginEditing:(UITextView *)textView
-{
-    [self.view addSubview:postButton]; 
-    
-    [commentPromptImg removeFromSuperview]; 
-    [commentPromptText removeFromSuperview];   
-}
-
-- (void) textViewDidEndEditing:(UITextView *)textView
-{
-    [postButton removeFromSuperview];
-    
-    [self.view addSubview:commentPromptImg]; 
-    [self.view addSubview:commentPromptText];  
-}
+//haaaaaccckkkk
+- (void) rateOneStar   { rateView.rating = 1; }
+- (void) rateTwoStar   { rateView.rating = 2; }
+- (void) rateThreeStar { rateView.rating = 3; }
+- (void) rateFourStar  { rateView.rating = 4; }
+- (void) rateFiveStar  { rateView.rating = 5; }
 
 @end

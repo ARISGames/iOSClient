@@ -18,6 +18,7 @@
 
 - (void) setRating:(int)r
 {
+    rating = r;
     while(self.subviews.count > 0) [[self.subviews objectAtIndex:0] removeFromSuperview];
     
     float sWidth = self.frame.size.width/5;

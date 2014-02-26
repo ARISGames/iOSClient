@@ -116,4 +116,17 @@
     [self.navigationController pushViewController:gcrvc animated:YES];
 }
 
+- (void) reviewCreatedWithRating:(int)r text:(NSString *)s
+{
+    [[AppServices sharedAppServices] saveGameComment:s game:game.gameId starRating:r];
+    
+    GameComment *gc = [[GameComment alloc] init];
+    gc.text = s;
+    gc.rating = r;
+    gc.playerName = [AppModel sharedAppModel].player.username;
+    [game.comments addObject:gc];
+    [commentsTable reloadData];
+    [self.navigationController popToViewController:self animated:YES];  
+}
+
 @end
