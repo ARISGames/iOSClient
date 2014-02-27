@@ -100,6 +100,7 @@
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
 		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
+		AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
 		AA527E4717E0B6830040AB75 /* idcard.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E3F17E0B6830040AB75 /* idcard.png */; };
@@ -329,7 +330,6 @@
 		AABC74E0172739D80074CC21 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC736F172739D80074CC21 /* UIImage+Resize.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7371172739D80074CC21 /* UIImage+RoundedCorner.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7373172739D80074CC21 /* UIImage+Scale.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FB17285FF70074CC21 /* QuestsViewController.xib */; };
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
 		AABC750A172860690074CC21 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7508172860690074CC21 /* NpcViewController.m */; };
@@ -526,6 +526,8 @@
 		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
 		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
 		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
+		AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCell.h; sourceTree = "<group>"; };
+		AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestCell.m; sourceTree = "<group>"; };
 		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
 		AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISContainerViewController.m; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
@@ -912,7 +914,6 @@
 		AABC7372172739D80074CC21 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
 		AABC7373172739D80074CC21 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		AABC74E317273A0F0074CC21 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AABC74FB17285FF70074CC21 /* QuestsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestsViewController.xib; sourceTree = "<group>"; };
 		AABC74FD1728600B0074CC21 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		AABC74FE1728600B0074CC21 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		AABC75021728604E0074CC21 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageViewController.h; sourceTree = "<group>"; };
@@ -1845,7 +1846,8 @@
 				AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */,
 				AABC71AF172739D70074CC21 /* QuestsViewController.h */,
 				AABC71B0172739D70074CC21 /* QuestsViewController.m */,
-				AABC74FB17285FF70074CC21 /* QuestsViewController.xib */,
+				AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */,
+				AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */,
 				AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */,
 				AABC71A9172739D70074CC21 /* IconQuestsViewController.m */,
 				AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */,
@@ -2385,7 +2387,6 @@
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,
 				AA2D215017DE560C00CF4198 /* todo.png in Resources */,
-				AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */,
 				F9C4231718AE9793002D7EED /* walkerWarning.png in Resources */,
 				AA2D214F17DE560C00CF4198 /* qr_small@2x.png in Resources */,
 				AA527E4917E0B6830040AB75 /* threelines.png in Resources */,
@@ -2465,6 +2466,7 @@
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
 				AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */,
 				AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */,
+				AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */,
 				AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */,
 				AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */,
 				AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */,
