@@ -20,6 +20,8 @@
 #import "Panoramic.h"
 #import "Note.h"
 
+#import "CircleButton.h"
+
 @interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISCollapseViewDelegate>
 {
     UILabel *title;
@@ -27,7 +29,7 @@
     ARISMediaView *iconView;
     CGRect frame;
     Location *location;
-    UIButton *interactButton;
+    CircleButton *circleButton;
     float distanceToWalk;
     MKAnnotationView *annotation;
     ARISCollapseView *collapseView;
@@ -63,16 +65,16 @@
     userLocation = [[AppModel sharedAppModel] player].location;
     CLLocationDistance distance = [userLocation distanceFromLocation:annotationLocation];
     
-    [interactButton removeFromSuperview];
+    [circleButton removeFromSuperview];
     [walklabel removeFromSuperview];
     [warningImage removeFromSuperview];
     
     if ((distance <= location.errorRange && userLocation != nil) || location.allowsQuickTravel) {
         distanceToWalk = 0;
-        interactButton.enabled = YES;
+        circleButton.enabled = YES;
     }
     else{
-        interactButton.enabled = NO;
+        circleButton.enabled = NO;
         distanceToWalk = distance - location.errorRange;
         [hudView addSubview:walklabel];
         [hudView addSubview:warningImage];
@@ -80,15 +82,15 @@
     
     //TODO change label here and change to NSLocalized string
     if ([location.gameObject isKindOfClass:[Item class]]) {
-        [interactButton setTitle:@"Pick up" forState:UIControlStateNormal];
+        [circleButton setTitle:@"Pick up" forState:UIControlStateNormal];
     }
     else{
-        [interactButton setTitle:@"View" forState:UIControlStateNormal];
+        [circleButton setTitle:@"View" forState:UIControlStateNormal];
     }
     
     
-    //add the interact button to the collapse view instead of the hudView to overlap the ... on the collapse view
-    [collapseView addSubview:interactButton];
+    //add the circle button to the collapse view instead of the hudView to overlap the ... on the collapse view
+    [collapseView addSubview:circleButton];
     
     Media *locationMedia = [[AppModel sharedAppModel] mediaForMediaId:location.gameObject.iconMediaId];
     NSString *locationTitle = location.title;
@@ -102,22 +104,25 @@
 {
     [super loadView];
     
-    self.view.frame = CGRectMake(frame.origin.x, frame.origin.y - 20, frame.size.width, frame.size.height + 20);
+    self.view.frame = frame;
     
     hudView = [[UIView alloc] init];
     title = [[UILabel alloc] init];
     iconView = [[ARISMediaView alloc] initWithDelegate:self];
     
     walklabel = [[UILabel alloc] init];
-    interactButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    circleButton = [[CircleButton alloc] init];
     warningImage = [[UIImageView alloc] init];
     [warningImage setImage:[UIImage imageNamed:@"walkerWarning.png"]];
     
     [hudView addSubview:title];
     [hudView addSubview:iconView];
     
-    CGRect collapseViewFrame = CGRectMake(0, 20, frame.size.width, frame.size.height);
+    
+    CGRect collapseViewFrame = CGRectMake(0, 50, frame.size.width, frame.size.height);
     collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
+    
+    collapseView.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:collapseView];
 }
@@ -128,21 +133,21 @@
     
     hudView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height-10);
     
-    int mediaSize = 80;
-    title.frame = CGRectMake(20, 69, frame.size.width-130, 33);
+    int mediaSize = 60;
+    [iconView setFrame:CGRectMake(frame.size.width - 100, frame.size.height - 150, mediaSize, mediaSize) withMode:ARISMediaDisplayModeAspectFill];
+    
+    int titleWidth = frame.size.width-160;
+    title.frame = CGRectMake((iconView.frame.origin.x + (iconView.frame.size.width / 2)) - (titleWidth / 2), 114, titleWidth, 33);
     title.font = [title.font fontWithSize:18];
+    UIFont* boldFont = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
+    [title setFont:boldFont];
+    title.textAlignment = NSTextAlignmentCenter;
     
-    [iconView setFrame:CGRectMake(frame.size.width - 100, frame.size.height - 110, mediaSize, mediaSize) withMode:ARISMediaDisplayModeAspectFill];
+    circleButton.frame = CGRectMake((frame.size.width / 2) - (60/2), 5, 80, 80);
+    [circleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [circleButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside];
     
-    interactButton.frame = CGRectMake((frame.size.width / 2) - (60/2), 5, 60, 30);
-    interactButton.layer.cornerRadius = 5;
-    interactButton.layer.borderWidth = 1;
-    interactButton.layer.borderColor = [UIColor blueColor].CGColor;
-    [interactButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [interactButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside];
-    interactButton.backgroundColor = [UIColor whiteColor];
-    
-    walklabel.frame = CGRectMake(65, 36, 140, 35);
+    walklabel.frame = CGRectMake(65, 66, 140, 35);
     //TODO change this string to NSLocalized String
     float roundedDistance = lroundf(distanceToWalk);
     if (userLocation != nil) {
@@ -155,9 +160,9 @@
     walklabel.textColor = [UIColor redColor];
     walklabel.lineBreakMode = NSLineBreakByWordWrapping;
     walklabel.numberOfLines = 0;
-    walklabel.font = [walklabel.font fontWithSize:10];
+    walklabel.font = [UIFont boldSystemFontOfSize:20];
     
-    warningImage.frame = CGRectMake(20, 31, 40, 40);
+    warningImage.frame = CGRectMake(20, 61, 40, 40);
 }
 
 - (void) dismissHUD
@@ -194,12 +199,12 @@
 - (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
 {
     if(!o){
-        [interactButton setAlpha:0.0];
+        [circleButton setAlpha:0.0];
         [self dismissHUD];
         self.view.userInteractionEnabled = NO;
     }
     else{
-        [interactButton setAlpha:1.0];
+        [circleButton setAlpha:1.0];
         self.view.userInteractionEnabled = YES;
     }
 }

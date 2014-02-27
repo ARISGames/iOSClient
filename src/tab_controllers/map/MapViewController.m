@@ -126,8 +126,9 @@
 {
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
-    centerButton.frame = CGRectMake(self.view.bounds.size.width - 60, self.view.bounds.size.height - 40, 20, 20);
-    fitToAnnotationButton.frame = CGRectMake(self.view.bounds.size.width - 30, self.view.bounds.size.height - 40, 20, 20);
+    int buttonWidthHeight = 60;
+    centerButton.frame = CGRectMake(0, 64, buttonWidthHeight, buttonWidthHeight);
+    fitToAnnotationButton.frame = CGRectMake(0, 124, buttonWidthHeight, buttonWidthHeight);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -442,18 +443,16 @@
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
 {
     CGFloat navAndStatusBar = 64;
-    CGRect frame = CGRectMake(0, (navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .75)), self.view.bounds.size.width, ((self.view.bounds.size.height-navAndStatusBar) * .25));
+    CGRect frame = CGRectMake(0, (navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .6)), self.view.bounds.size.width, ((self.view.bounds.size.height-navAndStatusBar) * .4));
     if(!hud) hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame];
     [self.view addSubview:hud.view];
     [hud setLocation:location withAnnotation:annotation];
     
     //re-add the zoom in button and zoom to fit button
     [centerButton removeFromSuperview];
-    [centerButton setAlpha:0.0];
     [self.view addSubview:centerButton];
     
     [fitToAnnotationButton removeFromSuperview];
-    [fitToAnnotationButton setAlpha:0.0];
     [self.view addSubview:fitToAnnotationButton];
 }
 
@@ -509,8 +508,6 @@
 
 - (void) dismissHUDWithAnnotation:(MKAnnotationView *)annotation
 {
-    [centerButton setAlpha:1.0];
-    [fitToAnnotationButton setAlpha:1.0];
     [mapView deselectAnnotation:[annotation annotation] animated:NO];
 }
 
