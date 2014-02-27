@@ -115,6 +115,9 @@
     else if(defaultMedia)
         [mediaView setMedia:defaultMedia];
     
+    //will only play if the media is a video
+    [mediaView play];
+    
     //Try resetting the text view height to 0 each time for proper content height calculation
     CGRect wvFrame = [textWebView frame];
     [textWebView setFrame:CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, 10)];
@@ -141,6 +144,11 @@
     }
     completion:nil];
      */
+}
+
+- (void) stopVideoIfPlaying
+{
+    [mediaView stop];
 }
 
 - (void) fadeWithCallback:(SEL)s

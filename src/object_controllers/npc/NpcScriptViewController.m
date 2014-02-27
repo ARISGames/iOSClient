@@ -223,6 +223,9 @@
 
 - (void) continueButtonTouched
 {
+    //stop the movie in the npc view if it is playing
+    [npcView stopVideoIfPlaying];
+    
     self.view.userInteractionEnabled = NO;
     if     (pcView.frame.origin.x == 0)  [pcView  fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
     else if(npcView.frame.origin.x == 0) [npcView fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
