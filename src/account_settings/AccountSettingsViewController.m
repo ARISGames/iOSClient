@@ -12,7 +12,12 @@
 
 @interface AccountSettingsViewController()
 {
-    BOOL hasAppeared;
+    UIButton *profileButton;
+    UIButton *passButton; 
+    UIView *logoutButton;
+    UILabel *logoutLabel;
+    UIView *line;
+    UIImageView *leaveGameArrow;
     id<AccountSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -23,7 +28,6 @@
 {
     if(self = [super init])
     {
-        hasAppeared = NO;
         delegate = d;
         self.title = @"Account Settings";
     }
@@ -34,52 +38,65 @@
 {
     [super loadView];
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if(hasAppeared) return;
-    hasAppeared = YES;
     
-    UIView *logoContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
+    UIView *logoContainer = [[UIView alloc] init];
+    logoContainer.frame = self.navigationItem.titleView.frame;
     UIImageView *logoText  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
     logoText.frame = CGRectMake(logoContainer.frame.size.width/2-50, logoContainer.frame.size.height/2-15, 100, 30);
     [logoContainer addSubview:logoText];
     self.navigationItem.titleView = logoContainer;
     
-    UIButton *profileButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 84, self.view.bounds.size.width, 40)];
+    profileButton = [[UIButton alloc] init];
 	[profileButton setTitle:@"Public Name and Image" forState:UIControlStateNormal];
 	[profileButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
     [profileButton addTarget:self action:@selector(profileButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    profileButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    profileButton.titleLabel.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:profileButton];
     
-    UIButton *passButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 144, self.view.bounds.size.width, 40)];
+    passButton = [[UIButton alloc] init];
 	[passButton setTitle:@"Change Password" forState:UIControlStateNormal];
 	[passButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
     [passButton addTarget:self action:@selector(passButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    passButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft; 
+    passButton.titleLabel.textAlignment = NSTextAlignmentLeft; 
     [self.view addSubview:passButton];
     
-    UIView *logoutButton = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44)];
-    UILabel *logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(30,0,self.view.bounds.size.width-30,44)];
+    //Logout button \/
+    logoutButton = [[UIView alloc] init];
+    logoutLabel = [[UILabel alloc] init];
+    leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
+    line = [[UIView alloc] init]; 
+    
     logoutLabel.textAlignment = NSTextAlignmentLeft;
     logoutLabel.font = [ARISTemplate ARISButtonFont];
     logoutLabel.text = NSLocalizedString(@"LogoutKey",@"");
     logoutLabel.textColor = [ARISTemplate ARISColorText];
-    UIImageView *leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
     
-    leaveGameArrow.frame = CGRectMake(6,13,19,19);
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
+    
     [logoutButton addSubview:line];
     [logoutButton addSubview:logoutLabel];
     [logoutButton addSubview:leaveGameArrow];
+    
     logoutButton.userInteractionEnabled = YES;
     logoutButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
     logoutButton.opaque = NO;
     [logoutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoutButtonTouched)]];
     
-    [self.view addSubview:logoutButton];
+    [self.view addSubview:logoutButton]; 
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    profileButton.frame = CGRectMake(20, 84, self.view.bounds.size.width-20, 40);
+    passButton.frame = CGRectMake(20, 144, self.view.bounds.size.width-20, 40);
+    
+    logoutButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+    logoutLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
+    line.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
+    leaveGameArrow.frame = CGRectMake(6,13,19,19); 
 }
 
 - (void) logoutButtonTouched
