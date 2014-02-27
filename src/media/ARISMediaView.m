@@ -95,7 +95,7 @@
 {
     media = nil;
     image = i;
-    [self displayImage];
+    [self displayImage:NO];
 }
 
 - (void) setDelegate:(id<ARISMediaViewDelegate>)d
@@ -131,15 +131,26 @@
     }
     
     if     (media) [self displayMedia];
-    else if(image) [self displayImage];  
+    else if(image) [self displayImage:NO];
 }
 
 - (void) play
 {
     if(!media || [media.type isEqualToString:@"IMAGE"] || !avVC) return;
+    [self removePlayIcon];
     [self addSubview:avVC.view];  
     [avVC.moviePlayer play]; 
 }
+
+- (void) stop
+{
+    if(!media || [media.type isEqualToString:@"IMAGE"] || !avVC) return;
+    [self addPlayIcon];
+    [avVC.moviePlayer stop];
+    [avVC.view removeFromSuperview];
+}
+
+//implement STOP here and call it when continue is pressed
 
 - (void) mediaLoaded:(Media *)m
 {
@@ -147,7 +158,7 @@
     [self setMedia:m];
 }
 
-- (void) displayMedia //results in calling displayImage
+- (void) displayMedia //results in calling displayImage, displayVideo, or displayAudio
 {
     NSString *type = media.type;
     if([type isEqualToString:@"IMAGE"])
@@ -156,13 +167,13 @@
         if     ([dataType isEqualToString:@"image/gif"])
         {
             image = [UIImage animatedImageWithAnimatedGIFData:media.data];
-            [self displayImage];  
+            [self displayImage:NO];
         }
         else if([dataType isEqualToString:@"image/jpeg"] ||
                 [dataType isEqualToString:@"image/png"]) 
         {
             image = [UIImage imageWithData:media.data];
-            [self displayImage]; 
+            [self displayImage:NO];
         }
     }
     else if([type isEqualToString:@"VIDEO"])
@@ -175,8 +186,13 @@
     } 
 }
 
-- (void) displayImage
+- (void) displayImage:(BOOL)isVideoThumbnail
 {
+    //if the video thumbnail is displaying, we dont want to deallocate the movieplayerviewcontroller
+    if (!isVideoThumbnail) {
+        if(avVC) {[avVC.view removeFromSuperview]; avVC = nil; [self removePlayIcon];}
+    }
+    
     [imageView setImage:image];
     
     float mult = self.frame.size.width/image.size.width;
@@ -199,9 +215,9 @@
 
 - (void) displayVideo:(Media *)m
 {
-    if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; }
+    if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; [self removePlayIcon];}
     
-    [self addPlayIcon]; 
+    [self addPlayIcon];
     
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil]; 
@@ -214,13 +230,13 @@
 - (void) displayVideoThumbLoaded:(NSNotification*)notification
 {
     image = [UIImage imageWithData:UIImageJPEGRepresentation([notification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey], 1.0)];
-    [self displayImage];
+    [self displayImage:YES];
     avVC.view.frame = imageView.frame;
 }
 
 - (void) displayAudio:(Media *)m
 {
-    if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; } 
+    if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; [self removePlayIcon];}
     
     [self addPlayIcon];
     
@@ -228,7 +244,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];  
     avVC.moviePlayer.shouldAutoplay = NO;
     image = [UIImage imageNamed:@"audio.png"];
-    [self displayImage];
+    [self displayImage:NO];
 }
 
 - (void) playbackFinished:(NSNotification *)n

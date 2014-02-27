@@ -22,4 +22,5 @@
 - (id) initWithFrame:(CGRect)f image:(UIImage *)i title:(NSString *)t delegate:(id)d;
 - (void) loadScriptElement:(ScriptElement *)s;
 - (void) fadeWithCallback:(SEL)s;
+- (void) stopVideoIfPlaying;
 @end

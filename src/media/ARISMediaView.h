@@ -37,5 +37,6 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 - (void) setImage:(UIImage *)i;
 - (void) setDelegate:(id<ARISMediaViewDelegate>)d;
 - (void) play;
+- (void) stop;
 
 @end
