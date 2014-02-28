@@ -76,6 +76,14 @@
     else{
         circleButton.enabled = NO;
         distanceToWalk = distance - location.errorRange;
+        //TODO change this string to NSLocalized String
+        float roundedDistance = lroundf(distanceToWalk);
+        if (userLocation != nil) {
+            walklabel.text = [NSString stringWithFormat:@"Out of range\nWalk %.0fm", roundedDistance];
+        }
+        else{
+            walklabel.text = @"Out of range";
+        }
         [hudView addSubview:walklabel];
         [hudView addSubview:warningImage];
     }
@@ -122,7 +130,7 @@
     CGRect collapseViewFrame = CGRectMake(0, 50, frame.size.width, frame.size.height);
     collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
     
-    collapseView.backgroundColor = [UIColor clearColor];
+    collapseView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f];
     
     [self.view addSubview:collapseView];
 }
@@ -147,22 +155,13 @@
     [circleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [circleButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside];
     
-    walklabel.frame = CGRectMake(65, 66, 140, 35);
-    //TODO change this string to NSLocalized String
-    float roundedDistance = lroundf(distanceToWalk);
-    if (userLocation != nil) {
-        walklabel.text = [NSString stringWithFormat:@"Out of range\nWalk %.0fm", roundedDistance];
-    }
-    else{
-        walklabel.text = @"Out of range";
-    }
-    
+    walklabel.frame = CGRectMake(65, 66, 140, 65);
     walklabel.textColor = [UIColor redColor];
     walklabel.lineBreakMode = NSLineBreakByWordWrapping;
     walklabel.numberOfLines = 0;
     walklabel.font = [UIFont boldSystemFontOfSize:20];
     
-    warningImage.frame = CGRectMake(20, 61, 40, 40);
+    warningImage.frame = CGRectMake(20, 76, 40, 55);
 }
 
 - (void) dismissHUD
