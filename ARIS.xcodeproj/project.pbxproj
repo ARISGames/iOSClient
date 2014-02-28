@@ -1381,6 +1381,8 @@
 				AA856FEF17A972B800E9D451 /* arisjs.js */,
 				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
 				AAF7116517B971ED00262A37 /* ARISCollapseView.m */,
+				AA2B833D187DAB5300D92A28 /* ARISWebView.h */,
+				AA2B833E187DAB5300D92A28 /* ARISWebView.m */,
 				AA701FDF17342169003A840D /* GamePickersViewController.h */,
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
@@ -1408,8 +1410,6 @@
 				AABC7096172739D60074CC21 /* debug */,
 				AABC7362172739D80074CC21 /* utils */,
 				AABC71B1172739D70074CC21 /* third_party */,
-				AA2B833D187DAB5300D92A28 /* ARISWebView.h */,
-				AA2B833E187DAB5300D92A28 /* ARISWebView.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
