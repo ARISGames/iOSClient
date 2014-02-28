@@ -16,11 +16,12 @@
 
 @interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
 {
-    Quest *quest;
+    UIScrollView *scrollView;
+    UIView *mediaSection;
     ARISWebView *webView;
-    ARISMediaView *mediaView;
-    BOOL hasAppeared;
+    UIView *continueButton; 
     
+    Quest *quest; 
     id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
     
@@ -46,7 +47,6 @@
         delegate = d;
         self.title = self.quest.name;
         self.hidesBottomBarWhenPushed = YES;
-        hasAppeared = NO;
     }
     return self;
 }
@@ -63,13 +63,6 @@
     self.webView.scrollView.scrollEnabled = NO;
     
     NSString *text = self.quest.qdescription;
-    /*
-    @"<script type='text/javascript'>"
-    @"var ARIS = {};"
-    @"ARIS.hook = function(params) { ARIS.exitToScanner('woohoo'); };"
-    @"</script>"
-    @"Yo yo yo you're a hunter blah blah hey cool quest do it."
-     */
     if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], text];
 
     self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
@@ -134,9 +127,6 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if(hasAppeared) return;
-    hasAppeared = YES; 
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
