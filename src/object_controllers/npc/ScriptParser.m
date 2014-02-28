@@ -83,13 +83,25 @@ NSString *const kAttrNotification                = @"notification";
 - (void) parseText:(NSString *)text
 {
 	sourceText = text;
+    script = [[Script alloc] init];
+    
+    //This is a hack. NSXMLParser refuses to call any delegate methods with a string < 3 length.
+    if(text.length <= 3)
+    {
+        ScriptElement *s = [[ScriptElement alloc] init];
+        s.type = @"npc";
+        s.text = sourceText;
+        [script.scriptElementArray addObject:s]; 
+        
+       	[delegate scriptDidFinishParsing:script]; 
+        return;
+    }
 	
 	NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
+    
 	parser = [[NSXMLParser alloc] initWithData:data];
 	parser.delegate = self;
 	
-    script = [[Script alloc] init];
-    
 	[parser parse];
 }
 
