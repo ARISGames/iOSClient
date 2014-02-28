@@ -26,6 +26,7 @@
 #import "CrumbPathView.h"
 
 #import "MapHUD.h"
+#import "UIImage+Color.h"
 
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
@@ -100,11 +101,11 @@
 
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
-    [centerButton setImage:[UIImage imageNamed:@"74-location-white.png"] forState:UIControlStateNormal];
+    [centerButton setImage:[UIImage imageNamed:@"74-location-white.png" withColor:[UIColor blackColor]] forState:UIControlStateNormal];
     
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
-    [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png"] forState:UIControlStateNormal];
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png" withColor:[UIColor blackColor]] forState:UIControlStateNormal];
     
     [self.view addSubview:mapView];
     [self.view addSubview:centerButton];
