@@ -98,11 +98,11 @@
     else                                                                                  mapView.mapType = MKMapTypeStandard;
     
 
-    centerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
     [centerButton setImage:[UIImage imageNamed:@"74-location-white.png"] forState:UIControlStateNormal];
     
-    fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
     [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png"] forState:UIControlStateNormal];
     
@@ -219,7 +219,6 @@
     {
         MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
         circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.4];
-        //circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.0];
         circleView.opaque = NO;
         return circleView;
     }
