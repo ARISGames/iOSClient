@@ -117,12 +117,11 @@
     if(![quest.goFunction isEqualToString:@"NONE"])
     {
         scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0); 
-        scrollView.contentOffset = CGPointMake(0,0);
         [self.view addSubview:goButton];
         [self.view addSubview:arrow];
         [self.view addSubview:line]; 
     } 
-    else 
+    else
         scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);    
 }
 
