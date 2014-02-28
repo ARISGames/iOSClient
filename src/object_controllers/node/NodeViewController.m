@@ -60,6 +60,7 @@ static NSString * const OPTION_CELL = @"option";
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     scrollView = [[UIScrollView alloc] init];
+    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);   
     scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop]; 
     scrollView.clipsToBounds = NO; 
 
@@ -81,7 +82,7 @@ static NSString * const OPTION_CELL = @"option";
     continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
     continueLbl.font = [ARISTemplate ARISButtonFont];
     [continueButton addSubview:continueLbl];
-    [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouchAction)]];
+    [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
     
     arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
     line = [[UIView alloc] init];
@@ -130,7 +131,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    if(webView)
+    if(![node.text isEqualToString:@""])
     {
         webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
         scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
@@ -187,7 +188,7 @@ static NSString * const OPTION_CELL = @"option";
     return [delegate displayGameObject:g fromSource:s];  
 }
 
-- (void) continueButtonTouchAction
+- (void) continueButtonTouched
 {
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
@@ -195,11 +196,8 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void)dealloc
 {
-    if(webView)
-    {
-        webView.delegate = nil;
-        [webView stopLoading];
-    }
+    webView.delegate = nil;
+    [webView stopLoading];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
