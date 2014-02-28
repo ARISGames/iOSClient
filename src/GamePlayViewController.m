@@ -58,6 +58,7 @@
     ARISNavigationController *attributesNavigationController;
     ARISNavigationController *notesNavigationController;
     ARISNavigationController *decoderNavigationController;
+    ARISNavigationController *scannerNavigationController; 
     
     ForceDisplayQueue *forceDisplayQueue;
 
@@ -205,12 +206,18 @@
             inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
             [gamePlayTabVCs addObject:inventoryNavigationController];
         }
-        else if([tmpTab.tabName isEqualToString:@"QR"])
+        else if([tmpTab.tabName isEqualToString:@"DECODER"]) //text only
         {
-            DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:tmpTab.tabDetail1];
+            DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:1];
             decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             [gamePlayTabVCs addObject:decoderNavigationController];  
         }
+        else if([tmpTab.tabName isEqualToString:@"QR"]) //will be scanner only- supports both for legacy
+        {
+            DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:tmpTab.tabDetail1];
+            scannerNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
+            [gamePlayTabVCs addObject:scannerNavigationController];  
+        } 
         else if([tmpTab.tabName isEqualToString:@"PLAYER"])
         {
             AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:self];
@@ -248,10 +255,10 @@
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
-    if(decoderNavigationController)
+    if(scannerNavigationController)
     {
-        [(DecoderViewController *)[[decoderNavigationController viewControllers] objectAtIndex:0] setPrompt:p]; 
-        [self viewControllerRequestedDisplay:decoderNavigationController];
+        [(DecoderViewController *)[[scannerNavigationController viewControllers] objectAtIndex:0] setPrompt:p]; 
+        [self viewControllerRequestedDisplay:scannerNavigationController];
     }
 }
 
@@ -324,17 +331,19 @@
 - (void) displayTab:(NSString *)t
 {
     NSString *localized = [t lowercaseString];
-    if([localized isEqualToString:@"map"]       || [localized isEqualToString:[NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString]])
+         if([localized isEqualToString:@"map"]       || [localized isEqualToString:[NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString]])
         [self viewControllerRequestedDisplay:mapNavigationController];
-    if([localized isEqualToString:@"quests"]    || [localized isEqualToString:[NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString]])
+    else if([localized isEqualToString:@"quests"]    || [localized isEqualToString:[NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString]])
         [self viewControllerRequestedDisplay:questsNavigationController];
-    if([localized isEqualToString:@"notebook"]  || [localized isEqualToString:[NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString]])
+    else if([localized isEqualToString:@"notebook"]  || [localized isEqualToString:[NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString]])
         [self viewControllerRequestedDisplay:notesNavigationController];
-    if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
+    else if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
         [self viewControllerRequestedDisplay:inventoryNavigationController];
-    if([localized isEqualToString:@"scanner"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:decoderNavigationController];
-    if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
+    else if([localized isEqualToString:@"scanner"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
+        [self viewControllerRequestedDisplay:scannerNavigationController];
+    else if([localized isEqualToString:@"decoder"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
+        [self viewControllerRequestedDisplay:decoderNavigationController]; 
+    else if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
         [self viewControllerRequestedDisplay:attributesNavigationController];
 }
 

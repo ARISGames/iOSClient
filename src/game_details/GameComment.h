@@ -1,5 +1,5 @@
 //
-//  Comment.h
+//  GameComment.h
 //  ARIS
 //
 //  Created by Philip Dougherty on 6/7/11.
@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface Comment : NSObject {
+@interface GameComment : NSObject
+{
     NSString *text;
     NSString *playerName;
     int rating;

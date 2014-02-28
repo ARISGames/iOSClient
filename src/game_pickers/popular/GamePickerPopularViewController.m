@@ -101,7 +101,7 @@
     {
         GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
         Game *gameForCell = [self.gameList objectAtIndex:(indexPath.row-1)];
-        cell.distanceLabel.text = [NSString stringWithFormat:@"%d Players",gameForCell.playerCount];
+        [cell setCustomLabelText:[NSString stringWithFormat:@"%d Players",gameForCell.playerCount]];
         return cell;
     }
     else

@@ -40,7 +40,6 @@
 @synthesize launchNodeId;
 @synthesize completeNodeId;
 @synthesize numReviews;
-@synthesize reviewedByUser;
 @synthesize calculatedScore;
 @synthesize isLocational;
 @synthesize showPlayerLocation;
@@ -60,7 +59,6 @@
 	if(self = [super init])
     {
 		self.comments = [NSMutableArray arrayWithCapacity:5];
-        self.reviewedByUser = NO;
 	}
 	return self;
 }

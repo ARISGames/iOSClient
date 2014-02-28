@@ -20,26 +20,20 @@
     UITableView *tableView;
     UIView *leaveGameButton;
     NSMutableArray *viewControllers;
-    
-    BOOL hasAppeared;
+    UILabel *leaveGameLabel;
+    UIImageView *leaveGameArrow;
+    UIView *leaveGameLine;
     id<GamePlayTabSelectorViewControllerDelegate> __unsafe_unretained delegate;
 }
-@property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic, retain) UIView *leaveGameButton;
-@property (nonatomic, retain) NSMutableArray *viewControllers;
 @end
 
 @implementation GamePlayTabSelectorViewController
-@synthesize tableView;
-@synthesize leaveGameButton;
-@synthesize viewControllers;
 
 - (id) initWithViewControllers:(NSMutableArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        hasAppeared = NO;
-        self.viewControllers = vcs;
+        viewControllers = vcs;
         delegate = d;
     }
     return self;
@@ -48,55 +42,61 @@
 - (void) loadView
 {
     [super loadView];
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.opaque = NO;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [ARISTemplate ARISColorSideNaviagtionBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorSideNavigationBackdrop]; 
+    
+    tableView = [[UITableView alloc] init];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.opaque = NO;
+    tableView.backgroundColor = [UIColor clearColor];
+    
+    leaveGameButton = [[UIView alloc] init];
+    leaveGameButton.userInteractionEnabled = YES;
+    leaveGameButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+    leaveGameButton.opaque = NO;
+    [leaveGameButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leaveGameButtonTouched)]];  
+    
+    leaveGameLabel = [[UILabel alloc] init];  
+    leaveGameLabel.textAlignment = NSTextAlignmentLeft;
+    leaveGameLabel.font = [ARISTemplate ARISButtonFont];
+    leaveGameLabel.text = @"Leave Game";
+    leaveGameLabel.textColor = [ARISTemplate ARISColorText]; 
+    leaveGameLabel.accessibilityLabel = @"Leave Game";  
+    
+    leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
+       
+    leaveGameLine = [[UIView alloc] init];
+    leaveGameLine.backgroundColor = [UIColor ARISColorLightGray]; 
+    
+    [leaveGameButton addSubview:leaveGameLine];
+    [leaveGameButton addSubview:leaveGameLabel];
+    [leaveGameButton addSubview:leaveGameArrow]; 
+    
+    [self.view addSubview:tableView]; 
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) viewWillLayoutSubviews
 {
-    [super viewWillAppear:animated];
-    if(hasAppeared) return;
-    hasAppeared = YES;
+    [super viewWillLayoutSubviews];
+    tableView.frame = self.view.bounds;
+    tableView.contentInset = UIEdgeInsetsMake(20,0,0,0); 
     
-    self.tableView.frame = self.view.bounds;
-    self.tableView.contentInset = UIEdgeInsetsMake(64,0,0,0);
-    [self.view addSubview:self.tableView];
+    leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44); 
+    leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
+    leaveGameArrow.frame = CGRectMake(6,13,19,19); 
+    leaveGameLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
     
     if(![AppModel sharedAppModel].disableLeaveGame)
     {
-        self.tableView.contentInset = UIEdgeInsetsMake(64,0,44,0);
-        
-        self.leaveGameButton = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44)];
-        UILabel *leaveGameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30,0,self.view.bounds.size.width-30,44)];
-        leaveGameLabel.textAlignment = NSTextAlignmentLeft;
-        leaveGameLabel.font = [ARISTemplate ARISButtonFont];
-        leaveGameLabel.text = @"Leave Game";
-        leaveGameLabel.textColor = [ARISTemplate ARISColorText];
-        UIImageView *leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
-        leaveGameLabel.accessibilityLabel = @"Leave Game";
-        leaveGameArrow.frame = CGRectMake(6,13,19,19);
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
-        line.backgroundColor = [UIColor ARISColorLightGray];
-        [self.leaveGameButton addSubview:line];
-        [self.leaveGameButton addSubview:leaveGameLabel];
-        [self.leaveGameButton addSubview:leaveGameArrow];
-        self.leaveGameButton.userInteractionEnabled = YES;
-        self.leaveGameButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
-        self.leaveGameButton.opaque = NO;
-        [self.leaveGameButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leaveGameButtonTouched)]];
-        
-        [self.view addSubview:self.leaveGameButton];
-    }
+        tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
+        [self.view addSubview:leaveGameButton];
+    } 
 }
 
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView reloadData];
+    [tableView reloadData];
 }
 
 - (void) leaveGameButtonTouched
@@ -112,26 +112,24 @@
     return nil;
 }
 
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.viewControllers count];
-}
-
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return @"TOOLS";
 }
 
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [viewControllers count];
+}
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     c.opaque = NO;
     c.backgroundColor = [UIColor clearColor];
-    c.textLabel.textColor = [ARISTemplate ARISColorSideNaviagtionText];
+    c.textLabel.textColor = [ARISTemplate ARISColorSideNavigationText];
     
-    ARISNavigationController *anc = (ARISNavigationController *)[self.viewControllers objectAtIndex:indexPath.row];
+    ARISNavigationController *anc = (ARISNavigationController *)[viewControllers objectAtIndex:indexPath.row];
     ARISGamePlayTabBarViewController *agptbvc = [anc.viewControllers objectAtIndex:0];
     
     while([c.contentView.subviews count] > 0)
@@ -150,7 +148,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [delegate viewControllerRequestedDisplay:[self.viewControllers objectAtIndex:indexPath.row]];
+    [delegate viewControllerRequestedDisplay:[viewControllers objectAtIndex:indexPath.row]];
 }
 
 - (void) dealloc

@@ -17,6 +17,7 @@
 #import "NoteTag.h"
 #import "Overlay.h"
 #import "MediaModel.h"
+#import "GameComment.h"
 
 @interface AppServices()
 {
@@ -1160,7 +1161,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     for (NSDictionary *comment in comments)
     {
         //This is returning an object with playerId,tex, and rating. Right now, we just want the text
-        Comment *c = [[Comment alloc] init];
+        GameComment *c = [[GameComment alloc] init];
         c.text = [comment validObjectForKey:@"text"];
         c.playerName = [comment validObjectForKey:@"username"];
         NSString *cRating = [comment validObjectForKey:@"rating"];

@@ -54,7 +54,6 @@
 	int launchNodeId;
 	int completeNodeId;
 	int numReviews;
-    BOOL reviewedByUser;
     int calculatedScore;
     BOOL hasBeenPlayed;
     BOOL isLocational;
@@ -98,7 +97,6 @@
 @property (readwrite, assign) int launchNodeId;
 @property (readwrite, assign) int completeNodeId;
 @property (readwrite, assign) int numReviews;
-@property (readwrite, assign) BOOL reviewedByUser;
 @property (readwrite, assign) BOOL hasBeenPlayed;
 @property (readwrite, assign) BOOL isLocational;
 @property (readwrite, assign) BOOL showPlayerLocation;

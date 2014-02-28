@@ -100,6 +100,7 @@
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
 		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
+		AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
 		AA527E4717E0B6830040AB75 /* idcard.png in Resources */ = {isa = PBXBuildFile; fileRef = AA527E3F17E0B6830040AB75 /* idcard.png */; };
@@ -121,6 +122,9 @@
 		AA83EEA718A43EE30077FF0E /* RequestCD.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83EEA618A43EE30077FF0E /* RequestCD.m */; };
 		AA856FF517A9AFA900E9D451 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF317A9AFA900E9D451 /* qr.png */; };
 		AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */; };
+		AA8E9EA118BE3FED00F343A2 /* ARISStarView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8E9EA018BE3FED00F343A2 /* ARISStarView.m */; };
+		AA8E9EA518BE422E00F343A2 /* star_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = AA8E9EA418BE422E00F343A2 /* star_gray.png */; };
+		AA8E9EAE18BE8DE000F343A2 /* GameCommentsReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8E9EAD18BE8DE000F343A2 /* GameCommentsReviewViewController.m */; };
 		AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9617CD4F86004EDEA1 /* logo_full.png */; };
 		AA942B9B17CD4F86004EDEA1 /* logo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9717CD4F86004EDEA1 /* logo_icon.png */; };
 		AA942B9C17CD4F86004EDEA1 /* logo_text_nav.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9817CD4F86004EDEA1 /* logo_text_nav.png */; };
@@ -195,10 +199,7 @@
 		AABC701F1727398B0074CC21 /* play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F981727398B0074CC21 /* play_button.png */; };
 		AABC70201727398B0074CC21 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F991727398B0074CC21 /* player.png */; };
 		AABC70231727398B0074CC21 /* profpic.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F9C1727398B0074CC21 /* profpic.png */; };
-		AABC702D1727398B0074CC21 /* small-star-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6FA61727398B0074CC21 /* small-star-highlighted.png */; };
-		AABC70301727398B0074CC21 /* small-star-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6FA91727398B0074CC21 /* small-star-selected.png */; };
-		AABC70321727398B0074CC21 /* star-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6FAB1727398B0074CC21 /* star-highlighted.png */; };
-		AABC70351727398B0074CC21 /* star-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6FAE1727398B0074CC21 /* star-selected.png */; };
+		AABC70351727398B0074CC21 /* star_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6FAE1727398B0074CC21 /* star_blue.png */; };
 		AABC70371727398B0074CC21 /* stop_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AABC6FB01727398B0074CC21 /* stop_button.png */; };
 		AABC70401727398B0074CC21 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = AABC6FBA1727398B0074CC21 /* click.wav */; };
 		AABC70411727398B0074CC21 /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = AABC6FBB1727398B0074CC21 /* drop.wav */; };
@@ -243,18 +244,10 @@
 		AABC738C172739D80074CC21 /* NoteTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7093172739D60074CC21 /* NoteTag.m */; };
 		AABC738D172739D80074CC21 /* WebPage.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7095172739D60074CC21 /* WebPage.m */; };
 		AABC738E172739D80074CC21 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7098172739D60074CC21 /* Logger.m */; };
-		AABC738F172739D80074CC21 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709B172739D60074CC21 /* Comment.m */; };
-		AABC7390172739D80074CC21 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709D172739D60074CC21 /* CommentCell.m */; };
-		AABC7391172739D80074CC21 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC709E172739D60074CC21 /* CommentCell.xib */; };
-		AABC7392172739D80074CC21 /* CommentsFormCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A0172739D60074CC21 /* CommentsFormCell.m */; };
-		AABC7393172739D80074CC21 /* CommentsFormCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70A1172739D60074CC21 /* CommentsFormCell.xib */; };
-		AABC7394172739D80074CC21 /* commentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70A2172739D60074CC21 /* commentsView.xib */; };
-		AABC7395172739D80074CC21 /* commentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A4172739D60074CC21 /* commentsViewController.m */; };
+		AABC738F172739D80074CC21 /* GameComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709B172739D60074CC21 /* GameComment.m */; };
+		AABC7390172739D80074CC21 /* GameCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709D172739D60074CC21 /* GameCommentCell.m */; };
+		AABC7395172739D80074CC21 /* GameCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A4172739D60074CC21 /* GameCommentsViewController.m */; };
 		AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A7172739D60074CC21 /* GameDetailsViewController.m */; };
-		AABC7398172739D80074CC21 /* RatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A9172739D60074CC21 /* RatingCell.m */; };
-		AABC7399172739D80074CC21 /* RatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70AA172739D60074CC21 /* RatingCell.xib */; };
-		AABC739A172739D80074CC21 /* SCRRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70AD172739D60074CC21 /* SCRRatingView.m */; };
-		AABC739C172739D80074CC21 /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70B1172739D60074CC21 /* GamePickerCell.xib */; };
 		AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B3172739D60074CC21 /* GamePickerViewController.m */; };
 		AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B6172739D60074CC21 /* GamePickerNearbyViewController.m */; };
 		AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70BA172739D60074CC21 /* GamePickerPopularViewController.m */; };
@@ -337,7 +330,6 @@
 		AABC74E0172739D80074CC21 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC736F172739D80074CC21 /* UIImage+Resize.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7371172739D80074CC21 /* UIImage+RoundedCorner.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7373172739D80074CC21 /* UIImage+Scale.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FB17285FF70074CC21 /* QuestsViewController.xib */; };
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
 		AABC750A172860690074CC21 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7508172860690074CC21 /* NpcViewController.m */; };
@@ -536,6 +528,8 @@
 		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
 		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
 		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
+		AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCell.h; sourceTree = "<group>"; };
+		AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestCell.m; sourceTree = "<group>"; };
 		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
 		AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISContainerViewController.m; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
@@ -571,6 +565,11 @@
 		AA856FF317A9AFA900E9D451 /* qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr.png; sourceTree = "<group>"; };
 		AA8C360C1858C827000A8F0B /* NoteCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCameraViewController.h; sourceTree = "<group>"; };
 		AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCameraViewController.m; sourceTree = "<group>"; };
+		AA8E9E9F18BE3FED00F343A2 /* ARISStarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISStarView.h; sourceTree = "<group>"; };
+		AA8E9EA018BE3FED00F343A2 /* ARISStarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISStarView.m; sourceTree = "<group>"; };
+		AA8E9EA418BE422E00F343A2 /* star_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_gray.png; sourceTree = "<group>"; };
+		AA8E9EAA18BE847600F343A2 /* GameCommentsReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCommentsReviewViewController.h; sourceTree = "<group>"; };
+		AA8E9EAD18BE8DE000F343A2 /* GameCommentsReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCommentsReviewViewController.m; sourceTree = "<group>"; };
 		AA942B9617CD4F86004EDEA1 /* logo_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_full.png; sourceTree = "<group>"; };
 		AA942B9717CD4F86004EDEA1 /* logo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_icon.png; sourceTree = "<group>"; };
 		AA942B9817CD4F86004EDEA1 /* logo_text_nav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text_nav.png; sourceTree = "<group>"; };
@@ -659,10 +658,7 @@
 		AABC6F981727398B0074CC21 /* play_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_button.png; sourceTree = "<group>"; };
 		AABC6F991727398B0074CC21 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		AABC6F9C1727398B0074CC21 /* profpic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profpic.png; sourceTree = "<group>"; };
-		AABC6FA61727398B0074CC21 /* small-star-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-star-highlighted.png"; sourceTree = "<group>"; };
-		AABC6FA91727398B0074CC21 /* small-star-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-star-selected.png"; sourceTree = "<group>"; };
-		AABC6FAB1727398B0074CC21 /* star-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-highlighted.png"; sourceTree = "<group>"; };
-		AABC6FAE1727398B0074CC21 /* star-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-selected.png"; sourceTree = "<group>"; };
+		AABC6FAE1727398B0074CC21 /* star_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_blue.png; sourceTree = "<group>"; };
 		AABC6FB01727398B0074CC21 /* stop_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop_button.png; sourceTree = "<group>"; };
 		AABC6FBA1727398B0074CC21 /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 		AABC6FBB1727398B0074CC21 /* drop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drop.wav; sourceTree = "<group>"; };
@@ -728,26 +724,14 @@
 		AABC7095172739D60074CC21 /* WebPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPage.m; sourceTree = "<group>"; };
 		AABC7097172739D60074CC21 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		AABC7098172739D60074CC21 /* Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
-		AABC709A172739D60074CC21 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
-		AABC709B172739D60074CC21 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		AABC709C172739D60074CC21 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
-		AABC709D172739D60074CC21 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
-		AABC709E172739D60074CC21 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
-		AABC709F172739D60074CC21 /* CommentsFormCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsFormCell.h; sourceTree = "<group>"; };
-		AABC70A0172739D60074CC21 /* CommentsFormCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsFormCell.m; sourceTree = "<group>"; };
-		AABC70A1172739D60074CC21 /* CommentsFormCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsFormCell.xib; sourceTree = "<group>"; };
-		AABC70A2172739D60074CC21 /* commentsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = commentsView.xib; sourceTree = "<group>"; };
-		AABC70A3172739D60074CC21 /* commentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commentsViewController.h; sourceTree = "<group>"; };
-		AABC70A4172739D60074CC21 /* commentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = commentsViewController.m; sourceTree = "<group>"; };
+		AABC709A172739D60074CC21 /* GameComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameComment.h; sourceTree = "<group>"; };
+		AABC709B172739D60074CC21 /* GameComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameComment.m; sourceTree = "<group>"; };
+		AABC709C172739D60074CC21 /* GameCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCommentCell.h; sourceTree = "<group>"; };
+		AABC709D172739D60074CC21 /* GameCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCommentCell.m; sourceTree = "<group>"; };
+		AABC70A3172739D60074CC21 /* GameCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCommentsViewController.h; sourceTree = "<group>"; };
+		AABC70A4172739D60074CC21 /* GameCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCommentsViewController.m; sourceTree = "<group>"; };
 		AABC70A6172739D60074CC21 /* GameDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDetailsViewController.h; sourceTree = "<group>"; };
 		AABC70A7172739D60074CC21 /* GameDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDetailsViewController.m; sourceTree = "<group>"; };
-		AABC70A8172739D60074CC21 /* RatingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingCell.h; sourceTree = "<group>"; };
-		AABC70A9172739D60074CC21 /* RatingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingCell.m; sourceTree = "<group>"; };
-		AABC70AA172739D60074CC21 /* RatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingCell.xib; sourceTree = "<group>"; };
-		AABC70AB172739D60074CC21 /* SCRMemoryManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRMemoryManagement.h; sourceTree = "<group>"; };
-		AABC70AC172739D60074CC21 /* SCRRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRRatingView.h; sourceTree = "<group>"; };
-		AABC70AD172739D60074CC21 /* SCRRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCRRatingView.m; sourceTree = "<group>"; };
-		AABC70B1172739D60074CC21 /* GamePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerCell.xib; sourceTree = "<group>"; };
 		AABC70B2172739D60074CC21 /* GamePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerViewController.h; sourceTree = "<group>"; };
 		AABC70B3172739D60074CC21 /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerViewController.m; sourceTree = "<group>"; };
 		AABC70B5172739D60074CC21 /* GamePickerNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerNearbyViewController.h; sourceTree = "<group>"; };
@@ -932,7 +916,6 @@
 		AABC7372172739D80074CC21 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
 		AABC7373172739D80074CC21 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		AABC74E317273A0F0074CC21 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AABC74FB17285FF70074CC21 /* QuestsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestsViewController.xib; sourceTree = "<group>"; };
 		AABC74FD1728600B0074CC21 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		AABC74FE1728600B0074CC21 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		AABC75021728604E0074CC21 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageViewController.h; sourceTree = "<group>"; };
@@ -1267,6 +1250,7 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AA8E9EA418BE422E00F343A2 /* star_gray.png */,
 				F96A35B018B40D9A00F3F35E /* 246-route.png */,
 				F9C4231618AE9793002D7EED /* walkerWarning.png */,
 				AAC6573B187200940063EAF7 /* play.png */,
@@ -1339,10 +1323,7 @@
 				AABC6F981727398B0074CC21 /* play_button.png */,
 				AABC6F991727398B0074CC21 /* player.png */,
 				AABC6F9C1727398B0074CC21 /* profpic.png */,
-				AABC6FA61727398B0074CC21 /* small-star-highlighted.png */,
-				AABC6FA91727398B0074CC21 /* small-star-selected.png */,
-				AABC6FAB1727398B0074CC21 /* star-highlighted.png */,
-				AABC6FAE1727398B0074CC21 /* star-selected.png */,
+				AABC6FAE1727398B0074CC21 /* star_blue.png */,
 				AABC6FB01727398B0074CC21 /* stop_button.png */,
 			);
 			path = images;
@@ -1406,6 +1387,8 @@
 				AA856FEF17A972B800E9D451 /* arisjs.js */,
 				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
 				AAF7116517B971ED00262A37 /* ARISCollapseView.m */,
+				AA2B833D187DAB5300D92A28 /* ARISWebView.h */,
+				AA2B833E187DAB5300D92A28 /* ARISWebView.m */,
 				AA701FDF17342169003A840D /* GamePickersViewController.h */,
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
@@ -1433,8 +1416,6 @@
 				AABC7096172739D60074CC21 /* debug */,
 				AABC7362172739D80074CC21 /* utils */,
 				AABC71B1172739D70074CC21 /* third_party */,
-				AA2B833D187DAB5300D92A28 /* ARISWebView.h */,
-				AA2B833E187DAB5300D92A28 /* ARISWebView.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1508,23 +1489,14 @@
 			children = (
 				AABC70A6172739D60074CC21 /* GameDetailsViewController.h */,
 				AABC70A7172739D60074CC21 /* GameDetailsViewController.m */,
-				AABC709A172739D60074CC21 /* Comment.h */,
-				AABC709B172739D60074CC21 /* Comment.m */,
-				AABC709C172739D60074CC21 /* CommentCell.h */,
-				AABC709D172739D60074CC21 /* CommentCell.m */,
-				AABC709E172739D60074CC21 /* CommentCell.xib */,
-				AABC709F172739D60074CC21 /* CommentsFormCell.h */,
-				AABC70A0172739D60074CC21 /* CommentsFormCell.m */,
-				AABC70A1172739D60074CC21 /* CommentsFormCell.xib */,
-				AABC70A2172739D60074CC21 /* commentsView.xib */,
-				AABC70A3172739D60074CC21 /* commentsViewController.h */,
-				AABC70A4172739D60074CC21 /* commentsViewController.m */,
-				AABC70A8172739D60074CC21 /* RatingCell.h */,
-				AABC70A9172739D60074CC21 /* RatingCell.m */,
-				AABC70AA172739D60074CC21 /* RatingCell.xib */,
-				AABC70AB172739D60074CC21 /* SCRMemoryManagement.h */,
-				AABC70AC172739D60074CC21 /* SCRRatingView.h */,
-				AABC70AD172739D60074CC21 /* SCRRatingView.m */,
+				AABC709A172739D60074CC21 /* GameComment.h */,
+				AABC709B172739D60074CC21 /* GameComment.m */,
+				AABC709C172739D60074CC21 /* GameCommentCell.h */,
+				AABC709D172739D60074CC21 /* GameCommentCell.m */,
+				AABC70A3172739D60074CC21 /* GameCommentsViewController.h */,
+				AABC70A4172739D60074CC21 /* GameCommentsViewController.m */,
+				AA8E9EAA18BE847600F343A2 /* GameCommentsReviewViewController.h */,
+				AA8E9EAD18BE8DE000F343A2 /* GameCommentsReviewViewController.m */,
 			);
 			path = game_details;
 			sourceTree = "<group>";
@@ -1536,7 +1508,8 @@
 				AABC70B3172739D60074CC21 /* GamePickerViewController.m */,
 				AA522B8C17AC225200C8A72B /* GamePickerCell.h */,
 				AA522B8D17AC225200C8A72B /* GamePickerCell.m */,
-				AABC70B1172739D60074CC21 /* GamePickerCell.xib */,
+				AA8E9E9F18BE3FED00F343A2 /* ARISStarView.h */,
+				AA8E9EA018BE3FED00F343A2 /* ARISStarView.m */,
 				AABC70B4172739D60074CC21 /* nearby */,
 				AA766D3417CBD811001F88D2 /* anywhere */,
 				AABC70B8172739D60074CC21 /* popular */,
@@ -1881,7 +1854,8 @@
 				AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */,
 				AABC71AF172739D70074CC21 /* QuestsViewController.h */,
 				AABC71B0172739D70074CC21 /* QuestsViewController.m */,
-				AABC74FB17285FF70074CC21 /* QuestsViewController.xib */,
+				AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */,
+				AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */,
 				AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */,
 				AABC71A9172739D70074CC21 /* IconQuestsViewController.m */,
 				AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */,
@@ -2369,14 +2343,11 @@
 				AA942B9C17CD4F86004EDEA1 /* logo_text_nav.png in Resources */,
 				ABE735F517D65FBD00396CF5 /* 74-location.png in Resources */,
 				AA2D214C17DE560C00CF4198 /* map.png in Resources */,
-				AABC702D1727398B0074CC21 /* small-star-highlighted.png in Resources */,
 				AA2D213B17DE560C00CF4198 /* clock_selected@2x.png in Resources */,
-				AABC70301727398B0074CC21 /* small-star-selected.png in Resources */,
 				AA2D215217DE560C00CF4198 /* toolbox.png in Resources */,
 				AA2D214517DE560C00CF4198 /* magnify_unselected@2x.png in Resources */,
-				AABC70321727398B0074CC21 /* star-highlighted.png in Resources */,
 				AAC6573C187200940063EAF7 /* play.png in Resources */,
-				AABC70351727398B0074CC21 /* star-selected.png in Resources */,
+				AABC70351727398B0074CC21 /* star_blue.png in Resources */,
 				AA2D214E17DE560C00CF4198 /* qr_small.png in Resources */,
 				AABC70371727398B0074CC21 /* stop_button.png in Resources */,
 				AABC70401727398B0074CC21 /* click.wav in Resources */,
@@ -2412,13 +2383,9 @@
 				AABC70601727399C0074CC21 /* Science Hall.gpx in Resources */,
 				AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */,
 				AABC737B172739D80074CC21 /* PlayerSettingsViewController.xib in Resources */,
-				AABC7391172739D80074CC21 /* CommentCell.xib in Resources */,
-				AABC7393172739D80074CC21 /* CommentsFormCell.xib in Resources */,
-				AABC7394172739D80074CC21 /* commentsView.xib in Resources */,
-				AABC7399172739D80074CC21 /* RatingCell.xib in Resources */,
+				AA8E9EA518BE422E00F343A2 /* star_gray.png in Resources */,
 				AA2D213617DE560C00CF4198 /* arrow_selected.png in Resources */,
 				AA527E4717E0B6830040AB75 /* idcard.png in Resources */,
-				AABC739C172739D80074CC21 /* GamePickerCell.xib in Resources */,
 				AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */,
 				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
@@ -2430,7 +2397,6 @@
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,
 				AA2D215017DE560C00CF4198 /* todo.png in Resources */,
-				AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */,
 				F9C4231718AE9793002D7EED /* walkerWarning.png in Resources */,
 				AA2D214F17DE560C00CF4198 /* qr_small@2x.png in Resources */,
 				AA527E4917E0B6830040AB75 /* threelines.png in Resources */,
@@ -2482,6 +2448,7 @@
 				AABC7378172739D80074CC21 /* ForgotPasswordViewController.m in Sources */,
 				AABC737A172739D80074CC21 /* PlayerSettingsViewController.m in Sources */,
 				AABC737C172739D80074CC21 /* ARISAppDelegate.m in Sources */,
+				AA8E9EA118BE3FED00F343A2 /* ARISStarView.m in Sources */,
 				AABC737D172739D80074CC21 /* Game.m in Sources */,
 				AABC737E172739D80074CC21 /* Item.m in Sources */,
 				AABC737F172739D80074CC21 /* Location.m in Sources */,
@@ -2492,6 +2459,7 @@
 				AABC7385172739D80074CC21 /* Npc.m in Sources */,
 				AABC7386172739D80074CC21 /* Overlay.m in Sources */,
 				AABC7387172739D80074CC21 /* Panoramic.m in Sources */,
+				AA8E9EAE18BE8DE000F343A2 /* GameCommentsReviewViewController.m in Sources */,
 				AAF9233A188715C20026A4FC /* FreqHistogramControl.m in Sources */,
 				AABC7389172739D80074CC21 /* Player.m in Sources */,
 				AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */,
@@ -2501,16 +2469,14 @@
 				AABC738C172739D80074CC21 /* NoteTag.m in Sources */,
 				AABC738D172739D80074CC21 /* WebPage.m in Sources */,
 				AABC738E172739D80074CC21 /* Logger.m in Sources */,
-				AABC738F172739D80074CC21 /* Comment.m in Sources */,
-				AABC7390172739D80074CC21 /* CommentCell.m in Sources */,
+				AABC738F172739D80074CC21 /* GameComment.m in Sources */,
+				AABC7390172739D80074CC21 /* GameCommentCell.m in Sources */,
 				AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */,
-				AABC7392172739D80074CC21 /* CommentsFormCell.m in Sources */,
-				AABC7395172739D80074CC21 /* commentsViewController.m in Sources */,
+				AABC7395172739D80074CC21 /* GameCommentsViewController.m in Sources */,
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
-				AABC7398172739D80074CC21 /* RatingCell.m in Sources */,
-				AABC739A172739D80074CC21 /* SCRRatingView.m in Sources */,
 				AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */,
 				AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */,
+				AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */,
 				AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */,
 				AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */,
 				AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */,

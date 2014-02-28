@@ -123,52 +123,16 @@
 {
     if([self.gameList count] == 0)
     {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"OffCell"];
         cell.textLabel.text = NSLocalizedString(@"GamePickerNoGamesKey", @"");
         cell.detailTextLabel.text = NSLocalizedString(@"GamePickerMakeOneGameKey", @"");
         return cell;
     }
     
-    GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if(![cell respondsToSelector:@selector(starView)]) cell = nil;
+    GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:@"GameCell"];
+    if(cell == nil) cell = [[GamePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GameCell"];
     
-    if(cell == nil)
-    {
-		cell = (GamePickerCell *)[[ARISViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil].view;
-        cell.starView.backgroundColor = [UIColor clearColor];
-        
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewHighlighted];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewHot];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewNonSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewUserSelected];
-    }
-    
-	Game *gameForCell = [self.gameList objectAtIndex:indexPath.row];
-    
-	cell.titleLabel.text      = gameForCell.name;
-    [cell.titleLabel setFont:[ARISTemplate ARISCellTitleFont]];
-    
-	cell.authorLabel.text     = gameForCell.authors;
-    [cell.authorLabel setFont:[ARISTemplate ARISSubtextFont]];
-    
-    cell.starView.rating      = gameForCell.rating;
-    
-    cell.distanceLabel.text   = [NSString stringWithFormat:@"%1.1f %@", gameForCell.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")];
-    [cell.distanceLabel setFont:[ARISTemplate ARISCellSubtextFont]];
-    
-	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:gameForCell.numReviews] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
-    [cell.numReviewsLabel setFont:[ARISTemplate ARISCellSubtextFont]];
-    
-    ARISMediaView *iconView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    iconView.layer.masksToBounds = YES;
-    iconView.layer.cornerRadius = 10.0;
-    
-    if(!gameForCell.iconMedia) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
-    else                       [iconView setMedia:gameForCell.iconMedia];
-    
-    if([cell.iconView.subviews count] > 0) [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
-    [cell.iconView addSubview: iconView];
+	[cell setGame:[self.gameList objectAtIndex:indexPath.row]];
     
     return cell;
 }

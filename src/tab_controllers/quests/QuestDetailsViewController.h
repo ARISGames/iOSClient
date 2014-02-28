@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISViewController.h"
 
 @class Quest;
 @protocol StateControllerProtocol;
 @protocol QuestDetailsViewControllerDelegate
 - (void) questDetailsRequestsDismissal;
 @end
-@interface QuestDetailsViewController : UIViewController
+@interface QuestDetailsViewController : ARISViewController
 - (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d;
 @end

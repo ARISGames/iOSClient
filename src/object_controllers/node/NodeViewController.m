@@ -27,34 +27,18 @@ static NSString * const OPTION_CELL = @"option";
 @interface NodeViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
 {
     UIScrollView *scrollView;
-    UIView *mediaSection;
+    ARISMediaView  *mediaView;
     ARISWebView *webView;
     UIView *continueButton;
-    
-    UIActivityIndicatorView *webViewSpinner;
-    
-    Media *media;
-    
+    UILabel *continueLbl; 
+    UIImageView *arrow;
+    UIView *line;
     id <GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
-
-@property (readwrite, strong) Node *node;
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView *mediaSection;
-@property (nonatomic, strong) ARISWebView *webView;
-@property (nonatomic, strong) UIView *continueButton;
-@property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
 
 @end
 
 @implementation NodeViewController
-
-@synthesize node;
-@synthesize scrollView;
-@synthesize mediaSection;
-@synthesize webView;
-@synthesize continueButton;
-@synthesize webViewSpinner;
 
 - (id) initWithNode:(Node *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
@@ -62,87 +46,103 @@ static NSString * const OPTION_CELL = @"option";
     {
         delegate = d;
     
-        self.node = n;
-        self.title = self.node.name;
+        node = n;
+        self.title = node.name;
     }
     
     return self;
 }
 
-- (void) viewWillAppearFirstTime:(BOOL)animated
+- (void) loadView
 {
+    [super loadView];
+    
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
-    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    self.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
-    self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44); 
-    self.scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
-    self.scrollView.clipsToBounds = NO;
+    scrollView = [[UIScrollView alloc] init];
+    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);   
+    scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop]; 
+    scrollView.clipsToBounds = NO; 
+
+    webView = [[ARISWebView alloc] initWithDelegate:self];
+    webView.backgroundColor = [UIColor clearColor];
+    webView.scrollView.bounces = NO;
+    webView.scrollView.scrollEnabled = NO;
+    webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
     
-    if(![self.node.text isEqualToString:@""])
-    {
-        self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1) delegate:self]; //Needs correct width, otherwise "height" is calculated wrong because only 1 character can fit per line
-        self.webView.backgroundColor = [UIColor clearColor];
-        self.webView.scrollView.bounces = NO;
-        self.webView.scrollView.scrollEnabled = NO;
-        self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
-        [self.webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], self.node.text] baseURL:nil];
-        
-        self.webViewSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        self.webViewSpinner.center = self.webView.center;
-        [self.webViewSpinner startAnimating];
-        self.webViewSpinner.backgroundColor = [UIColor clearColor];
-        [self.webView addSubview:self.webViewSpinner];
-        [self.scrollView addSubview:self.webView];
-    }
+    mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     
-    media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId];
-    self.mediaSection = [[UIView alloc] init];
-    if(media)
-    {
-        self.mediaSection.frame = CGRectMake(0,0,self.view.bounds.size.width,20);
-        [self.mediaSection addSubview:[[ARISMediaView alloc] initWithFrame:self.mediaSection.frame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self]];
-        [self.scrollView addSubview:self.mediaSection];
-    }
-    
-    self.continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
-    self.continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
-    self.continueButton.userInteractionEnabled = YES;
-    self.continueButton.accessibilityLabel = @"Continue";
-    UILabel *continueLbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width-30,44)];
+    continueButton = [[UIView alloc] init];
+    continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+    continueButton.userInteractionEnabled = YES;
+    continueButton.accessibilityLabel = @"Continue";
+    continueLbl = [[UILabel alloc] init];
     continueLbl.textColor = [ARISTemplate ARISColorText];
     continueLbl.textAlignment = NSTextAlignmentRight;
     continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
     continueLbl.font = [ARISTemplate ARISButtonFont];
-    [self.continueButton addSubview:continueLbl];
-    [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouchAction)]];
+    [continueButton addSubview:continueLbl];
+    [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
     
-    UIImageView *arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
-    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19);
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
+    arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    line = [[UIView alloc] init];
     line.backgroundColor = [UIColor ARISColorLightGray];
     
-    [self.view addSubview:self.scrollView];
-    [self.view addSubview:self.continueButton];
+    [self.view addSubview:scrollView];
+    [self.view addSubview:continueButton];
     [self.view addSubview:arrow];
     [self.view addSubview:line];
+    
+    [self loadNode];
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    scrollView.frame = self.view.bounds;
+    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
+    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);  
+    
+    webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 1);
+    
+    continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+    continueLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,44);
+    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19); 
+    line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
+}
+
+- (void) loadNode
+{
+    if(![node.text isEqualToString:@""])
+    {
+        [scrollView addSubview:webView]; 
+        webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
+        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], node.text] baseURL:nil]; 
+    }
+    
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:node.mediaId];  
+    if(media)
+    {
+        [scrollView addSubview:mediaView];   
+        [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20) withMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight]; //Nees correct width to calc height
+        [mediaView setMedia:media];
+    } 
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    self.mediaSection.frame = amv.frame;
-    if(self.webView)
+    if(![node.text isEqualToString:@""])
     {
-        self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height, self.view.bounds.size.width, self.webView.frame.size.height);
-        self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.webView.frame.origin.y+self.webView.frame.size.height+10);
+        webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
+        scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
     }
     else
-        self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.mediaSection.frame.size.height);
+        scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,mediaView.frame.size.height);
 }
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
 {
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:node.mediaId];   
     MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     //error message that is logged after this line is possibly an ios 7 simulator bug...
     [self presentMoviePlayerViewControllerAnimated:movieViewController];
@@ -153,7 +153,7 @@ static NSString * const OPTION_CELL = @"option";
 {
     [delegate gameObjectViewControllerRequestsDismissal:self];
     WebPage *w = [[WebPage alloc] init];
-    w.webPageId = self.node.nodeId;
+    w.webPageId = node.nodeId;
     w.url = [r.URL absoluteString];
     [(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
 
@@ -162,17 +162,15 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    self.webView.alpha = 1.00;
+    webView.alpha = 1.00;
     
     //Calculate the height of the web content
-    float newHeight = [[self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-    [self.webView setFrame:CGRectMake(self.webView.frame.origin.x,
-                                      self.webView.frame.origin.y,
-                                      self.webView.frame.size.width,
+    float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    [webView setFrame:CGRectMake(webView.frame.origin.x,
+                                      webView.frame.origin.y,
+                                      webView.frame.size.width,
                                       newHeight)];
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.webView.frame.origin.y+self.webView.frame.size.height+10);
-    
-    [self.webViewSpinner removeFromSuperview];
+    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
 }
 
 - (void) displayTab:(NSString *)t
@@ -190,7 +188,7 @@ static NSString * const OPTION_CELL = @"option";
     return [delegate displayGameObject:g fromSource:s];  
 }
 
-- (void) continueButtonTouchAction
+- (void) continueButtonTouched
 {
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
@@ -198,11 +196,8 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void)dealloc
 {
-    if(self.webView)
-    {
-        self.webView.delegate = nil;
-        [self.webView stopLoading];
-    }
+    webView.delegate = nil;
+    [webView stopLoading];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

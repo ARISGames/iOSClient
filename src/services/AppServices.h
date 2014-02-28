@@ -21,7 +21,6 @@
 #import "Panoramic.h"
 #import "Quest.h"
 #import "ARISAppDelegate.h"
-#import "Comment.h"
 #import "Note.h"
 #import "NoteTag.h"
 #import "ARISConnection.h"

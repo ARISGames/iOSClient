@@ -10,87 +10,31 @@
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "Quest.h"
+#import "QuestCell.h"
 #import "Media.h"
 #import "WebPage.h"
 #import "WebPageViewController.h"
 #import "ARISWebView.h"
+#import "ARISTemplate.h"
 
-static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
 static int const COMPLETED_SECTION = 1;
 
-NSString *const kQuestsHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<title>Aris</title>"
-@"	<style type='text/css'><!--"
-@"	body {"
-@"		background-color: #E9E9E9;"
-@"		color: #000000;"
-@"      color:#000000;"
-@"      font-family:HelveticaNeue-Light;"
-@"		font-size: 13px;"
-@"		margin: 0;"
-@"	}"
-@"	h1 {"
-@"		color: #000000;"
-@"      font-family:HelveticaNeue;"
-@"		font-size: 13px;"
-@"		font-weight:bold;"
-@"		margin: 0 0 20 10;"
-@"	}"
-@"  ul,ol"
-@"  {"
-@"      text-align:left;"
-@"  }"
-@"  #cell {"
-@"      position:relative;"
-@"      top:0px;"
-@"      background-color:#FFFFFF;"
-@"      border-style:ridge;"
-@"      border-width:1px;"
-@"      border-radius:2px;"
-@"      border-color:#888888;"
-@"      padding:15px;"
-@"  }"
-@"	#title {"
-@"		display:block;"
-@"		margin:0px auto;"
-@"	}"
-@"	--></style>"
-@"</head>"
-@"<body>"
-@"<div id=\"cell\">"
-@"<h1 id=\"title\">"
-@"%@"
-@"</h1>"
-@"%@"
-@"</div>"
-@"</body>"
-@"</html>";
-
-@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, StateControllerProtocol>
+@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, StateControllerProtocol, QuestCellDelegate>
 {
     NSArray *sortedActiveQuests;
     NSArray *sortedCompletedQuests;
-    NSMutableArray *activeQuestCells;
-    NSMutableArray *completedQuestCells;
-    int cellsLoaded;
+    NSMutableDictionary *activeQuestCellHeights;
+    NSMutableDictionary *completedQuestCellHeights; 
     
-	IBOutlet UITableView *tableView;
-	IBOutlet UIProgressView *progressView;
-	IBOutlet UILabel *progressLabel;
-    IBOutlet UISegmentedControl *activeQuestsSwitch;
+	UITableView *questsTable;
+    UIButton *activeButton;
+    UIButton *completeButton; 
+    
+    int questTypeShown;
     
     id<QuestsViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
-
 }
-
-- (void)refresh;
-- (void)refreshViewFromModel;
-- (void)showLoadingIndicator;
-- (void)removeLoadingIndicator;
-- (IBAction)sortQuestsButtonTouched;
 
 @end
 
@@ -98,15 +42,19 @@ NSString *const kQuestsHtmlTemplate =
 
 - (id) initWithDelegate:(id<QuestsViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"QuestsViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.tabID = @"QUESTS";
         self.tabIconName = @"todo";
+        self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
+        
+        questTypeShown = ACTIVE_SECTION;
+        sortedActiveQuests = [[NSArray alloc] init];
+        sortedCompletedQuests = [[NSArray alloc] init];
+        activeQuestCellHeights = [[NSMutableDictionary alloc] initWithCapacity:10];
+        completedQuestCellHeights = [[NSMutableDictionary alloc] initWithCapacity:10];  
+        
         delegate = d;
-        
-		cellsLoaded = 0;
-        
-        self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"LatestPlayerQuestListsReceived" object:nil];  
@@ -117,17 +65,53 @@ NSString *const kQuestsHtmlTemplate =
     return self;
 }
 
+- (void) loadView
+{
+    [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    questsTable = [[UITableView alloc]  init];
+    questsTable.dataSource = self;
+    questsTable.delegate = self; 
+    
+    activeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [activeButton setTitle:@"Active Quests" forState:UIControlStateNormal];
+    [activeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
+    activeButton.backgroundColor = [UIColor ARISColorDarkBlue];
+    activeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    [activeButton addTarget:self action:@selector(activeButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+       
+    completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [completeButton setTitle:@"Complete Quests" forState:UIControlStateNormal];
+    [completeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
+    completeButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
+    completeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    [completeButton addTarget:self action:@selector(completeButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
+    
+    [self.view addSubview:questsTable];
+    [self.view addSubview:activeButton]; 
+    [self.view addSubview:completeButton]; 
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    //apple. so dumb.
+    questsTable.frame = self.view.bounds;
+    questsTable.contentInset = UIEdgeInsetsMake(64,0,40,0);
+    [questsTable setContentOffset:CGPointMake(0,-64)]; 
+    
+    activeButton.frame   = CGRectMake(0, self.view.bounds.size.height-40, self.view.bounds.size.width/2, 40);
+    completeButton.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-40, self.view.bounds.size.width/2, 40); 
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
 	[[AppServices sharedAppServices] updateServerQuestsViewed];
     [self refreshViewFromModel];
 	[self refresh];
-}
-
-- (IBAction) sortQuestsButtonTouched
-{
-    [self refreshViewFromModel];
 }
 
 - (void) refresh
@@ -144,10 +128,26 @@ NSString *const kQuestsHtmlTemplate =
     sortedActiveQuests    = [[AppModel sharedAppModel].currentGame.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
     sortedCompletedQuests = [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
     
-    [self constructCells];
+    if([sortedActiveQuests count] == 0)   
+    {
+        Quest *nullQuest = [[Quest alloc] init];
+        nullQuest.questId = -1;
+        //nullQuest.name = @"<span style='color:#555555;'>Empty</span>"; 
+        nullQuest.name = @"Empty";  
+        nullQuest.qdescription = @"<span style='color:#555555;'>(there are no quests available at this time)</span>";   
+        sortedActiveQuests = [NSArray arrayWithObjects:nullQuest, nil]; 
+    }
+    if([sortedCompletedQuests count] == 0)  
+    {
+        Quest *nullQuest = [[Quest alloc] init];
+        nullQuest.questId = -1;
+        //nullQuest.name = @"<span style='color:#555555;'>Empty</span>"; 
+        nullQuest.name = @"Empty";   
+        nullQuest.qdescription = @"<span style='color:#555555;'>(you have not completed any quests)</span>";  
+        sortedCompletedQuests = [NSArray arrayWithObjects:nullQuest, nil];
+    }
     
-    progressLabel.text = [NSString stringWithFormat:@"%d %@ %d %@", [sortedCompletedQuests count], NSLocalizedString(@"OfKey", @"Number of Number"), [AppModel sharedAppModel].currentGame.questsModel.totalQuestsInGame, NSLocalizedString(@"QuestsCompleteKey", @"")];
-    progressView.progress = (float)[sortedCompletedQuests count] / (float)[AppModel sharedAppModel].currentGame.questsModel.totalQuestsInGame;
+    [questsTable reloadData];
 }
 
 -(void)showLoadingIndicator
@@ -163,138 +163,75 @@ NSString *const kQuestsHtmlTemplate =
 	[[self navigationItem] setRightBarButtonItem:nil];
 }
 
--(void)constructCells
-{	
-	NSEnumerator *e;
-	Quest *quest;
-    
-    //Active
-    activeQuestCells = [NSMutableArray arrayWithCapacity:10];
-    e = [sortedActiveQuests objectEnumerator];
-    while ((quest = (Quest*)[e nextObject]))
-        [activeQuestCells addObject:[self getCellContentViewForQuest:quest]];
-    if([activeQuestCells count] == 0)
-    {
-        Quest *nullQuest = [[Quest alloc] init];
-        nullQuest.questId = -1;
-        nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
-        nullQuest.qdescription = @"<span style='color:#555555;'>(there are no quests available at this time)</span>";
-        [activeQuestCells addObject:[self getCellContentViewForQuest:nullQuest]];
-    }
-    
-    //Completed
-    completedQuestCells = [NSMutableArray arrayWithCapacity:10];
-    e = [sortedCompletedQuests objectEnumerator];
-    while((quest = (Quest*)[e nextObject]))
-        [completedQuestCells addObject:[self getCellContentViewForQuest:quest]];
-    if([completedQuestCells count] == 0)
-    {
-        Quest *nullQuest = [[Quest alloc] init];
-        nullQuest.questId = -1;
-        nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
-        nullQuest.qdescription = @"<span style='color:#555555;'>(you have not completed any quests)</span>";
-        [completedQuestCells addObject:[self getCellContentViewForQuest:nullQuest]];
-    }
-	
-    [tableView reloadData];
-}
-
-- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
-{
-    WebPage *tempWebPage = [[WebPage alloc] init];
-    tempWebPage.url = [[r URL] absoluteString];
-    //PHIL [[RootViewController sharedRootViewController] displayGameObject:tempWebPage];
-    return NO;
-}
-
-- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
-{
-	cellsLoaded++;
-	int cellTotal = [sortedActiveQuests count]+[sortedCompletedQuests count];
-    if([sortedActiveQuests    count] == 0) cellTotal++; //For 'null quest'
-    if([sortedCompletedQuests count] == 0) cellTotal++; //For 'null quest'
-	    
-	if(cellsLoaded >= cellTotal)
-	{
-		cellsLoaded = 0;
-		[self performSelector:@selector(updateCellSizes) withObject:nil afterDelay:0.1];
-	}
-}
-
--(void)updateCellSizes
-{
-	NSEnumerator *e;
-	UITableViewCell *cell;
-    
-	e = [activeQuestCells objectEnumerator];
-	while ((cell = (UITableViewCell*)[e nextObject]))
-		[self updateCellSize:cell];
-	
-	e = [completedQuestCells objectEnumerator];
-	while ((cell = (UITableViewCell*)[e nextObject]))
-		[self updateCellSize:cell];
-	
-	[tableView reloadData];
-}
-
--(void) updateCellSize:(UITableViewCell*)cell
-{
-	ARISWebView *descriptionView = (ARISWebView *)[cell viewWithTag:1];
-	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-
-	CGRect descriptionFrame = [descriptionView frame];
-	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
-	descriptionView.frame = descriptionFrame;
-
-	CGRect cellFrame = [cell frame];
-	cellFrame.size = CGSizeMake(cell.frame.size.width,newHeight + 25);
-	[cell setFrame:cellFrame];
-}
-
-- (UITableViewCell *) getCellContentViewForQuest:(Quest *)quest
-{
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-    cell.backgroundColor = [UIColor clearColor];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	ARISWebView *descriptionView = [[ARISWebView alloc] initWithFrame:CGRectMake(5, 10, 310, 50)];
-    descriptionView.scrollView.scrollEnabled = NO;
-	descriptionView.delegate = self;
-	descriptionView.tag = 1;
-	descriptionView.backgroundColor = [UIColor clearColor];
-	[descriptionView loadHTMLString:[NSString stringWithFormat:kQuestsHtmlTemplate, quest.name, quest.qdescription] baseURL:nil];
-    
-	[cell.contentView addSubview:descriptionView];
-	return cell;
-}
-
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(activeQuestsSwitch.selectedSegmentIndex == 0)
-        return [activeQuestCells count];
-    else
-        return [completedQuestCells count];
+    if(questTypeShown == ACTIVE_SECTION)    return [sortedActiveQuests count];
+    if(questTypeShown == COMPLETED_SECTION) return [sortedCompletedQuests count];
+    return 0;
 }
 
-- (UITableViewCell *) tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(activeQuestsSwitch.selectedSegmentIndex == 0)
-        return [activeQuestCells objectAtIndex:indexPath.row];
-    else
-        return [completedQuestCells objectAtIndex:indexPath.row];
+    QuestCell *cell = [questsTable dequeueReusableCellWithIdentifier:@"QuestCell"];
+    if(!cell) cell = [[QuestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"QuestCell"];
+    
+    if(questTypeShown == ACTIVE_SECTION)
+        [cell setQuest:[sortedActiveQuests objectAtIndex:indexPath.row]]; 
+    if(questTypeShown == COMPLETED_SECTION)
+        [cell setQuest:[sortedCompletedQuests objectAtIndex:indexPath.row]]; 
+    
+    [cell setDelegate:self];
+    
+    return cell;
 }
 
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(activeQuestsSwitch.selectedSegmentIndex == 0)
-        return ((UITableViewCell *)[activeQuestCells objectAtIndex:indexPath.row]).frame.size.height;
-    else
-        return ((UITableViewCell *)[completedQuestCells objectAtIndex:indexPath.row]).frame.size.height;
+    Quest *q;
+    NSArray *quests;
+    NSDictionary *heights;
+    if(questTypeShown == ACTIVE_SECTION) 
+    {
+        quests = sortedActiveQuests;
+        heights = activeQuestCellHeights;
+    }
+    if(questTypeShown == COMPLETED_SECTION) 
+    {
+        quests = sortedCompletedQuests;
+        heights = completedQuestCellHeights; 
+    }
+    
+    q = [quests objectAtIndex:indexPath.row];
+    if([heights objectForKey:[q description]])
+        return [((NSNumber *)[heights objectForKey:[q description]])intValue];  
+    
+	CGSize calcSize = [q.qdescription sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:CGSizeMake(self.view.bounds.size.width, 2000000) lineBreakMode:NSLineBreakByWordWrapping];
+	return calcSize.height+30; 
+}
+
+- (void) heightCalculated:(int)h forQuest:(Quest *)q inCell:(QuestCell *)qc
+{
+    NSDictionary *heights; 
+    if(questTypeShown == ACTIVE_SECTION)    heights = activeQuestCellHeights;
+    if(questTypeShown == COMPLETED_SECTION) heights = completedQuestCellHeights; 
+    
+    if(![heights objectForKey:[q description]])
+    {
+        [heights setValue:[NSNumber numberWithInt:h] forKey:[q description]]; 
+        [questsTable reloadData];
+    }
+}
+
+- (void) activeButtonTouched
+{
+    questTypeShown = ACTIVE_SECTION;
+    [questsTable reloadData];
+}
+
+- (void) completeButtonTouched
+{
+    questTypeShown = COMPLETED_SECTION;
+    [questsTable reloadData];
 }
 
 - (void) displayTab:(NSString *)t

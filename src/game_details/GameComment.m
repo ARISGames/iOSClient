@@ -6,10 +6,9 @@
 //  Copyright 2011 UW Madison. All rights reserved.
 //
 
-#import "Comment.h"
+#import "GameComment.h"
 
-
-@implementation Comment
+@implementation GameComment
 
 @synthesize playerName;
 @synthesize rating;

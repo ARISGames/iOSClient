@@ -26,8 +26,8 @@
 + (UIColor *) ARISColorNpcContentBackdrop       { return [UIColor blackColor]; }
 + (UIColor *) ARISColorViewBackdrop             { return [UIColor ARISColorWhite]; }
 + (UIColor *) ARISColorViewText                 { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorSideNaviagtionBackdrop   { return [UIColor ARISColorTranslucentWhite];  }
-+ (UIColor *) ARISColorSideNaviagtionText       { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorSideNavigationBackdrop   { return [UIColor ARISColorTranslucentWhite];  }
++ (UIColor *) ARISColorSideNavigationText       { return [UIColor ARISColorBlack]; }
 
 + (UIFont *) ARISDefaultFont     { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
 + (UIFont *) ARISNavTitleFont    { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
