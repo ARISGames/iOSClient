@@ -130,7 +130,7 @@
     CGRect collapseViewFrame = CGRectMake(0, 50, frame.size.width, frame.size.height);
     collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
     
-    collapseView.backgroundColor = [UIColor colorWithRed:.6f green:.6f blue:.6f alpha:0.0f];
+    collapseView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f];
     
     [self.view addSubview:collapseView];
 }
