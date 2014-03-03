@@ -77,17 +77,9 @@
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     int numButtons = 0;
-    /*
-     //What it SHOULD be \/
-     if([source supportsDestroying] && self.item.destroyable) { destroyBtn = [self createItemButtonWithText:@"Destroy" selector:@selector(destroyButtonTouched)]; numButtons++; }
-     if([source supportsDropping]   && self.item.dropable)    { dropBtn    = [self createItemButtonWithText:@"Drop" selector:@selector(DropButtonTouched)];       numButtons++; }
-     if([source supportsPickingUp]  && self.item.qty > 0)     { pickupBtn  = [self createItemButtonWithText:@"Pick Up" selector:@selector(pickupButtonTouched)];  numButtons++; }
-     */
-    
-    //What it IS
     if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.destroyable) { destroyBtn = [self createItemButtonWithText:@"Destroy" selector:@selector(destroyButtonTouched)]; numButtons++; }
     if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.dropable)    { dropBtn    = [self createItemButtonWithText:@"Drop" selector:@selector(DropButtonTouched)];       numButtons++; }
-    if([(NSObject *)source isKindOfClass:[Location class]] && self.item.qty != 0)     { pickupBtn  = [self createItemButtonWithText:@"Pick Up" selector:@selector(pickupButtonTouched)];  numButtons++; } 
+    if([(NSObject *)source isKindOfClass:[Location class]] && self.item.qty != 0)                      { pickupBtn  = [self createItemButtonWithText:@"Pick Up" selector:@selector(pickupButtonTouched)];  numButtons++; } 
     
     line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
@@ -153,9 +145,8 @@
 {
     [super viewWillAppear:animated];
     
-    [self refreshTitle];
-    
     [self updateViewButtons];
+    [self refreshTitle]; 
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
@@ -178,7 +169,7 @@
     if(pickupBtn)  [pickupBtn  removeFromSuperview]; 
     if(line)       [line       removeFromSuperview]; 
     
-    if(item.qty == 0)
+    if(item.qty <= 0)
     {
         destroyBtn = nil;
         dropBtn    = nil; 
@@ -224,6 +215,8 @@
 {
     [[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:q];
     [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q];
+    [self updateViewButtons]; 
+    [self refreshTitle];   
 }
 
 - (void) destroyButtonTouched
@@ -242,6 +235,7 @@
     [[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:q];
     [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q];
     item.qty -= q;
+    [self updateViewButtons];  
     [self refreshTitle];   
 }
 
@@ -304,7 +298,8 @@
             [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:q];
         item.qty -= q;
     }
-    [self refreshTitle];  
+    [self updateViewButtons];   
+    [self refreshTitle];   
 }
 
 - (void) amtChosen:(int)amt positive:(BOOL)p

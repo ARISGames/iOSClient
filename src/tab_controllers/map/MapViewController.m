@@ -55,7 +55,6 @@
 
     NSTimer *refreshTimer;
 
-    id<MKAnnotation> currentAnnotation; //PHIL HATES this...
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
