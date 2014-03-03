@@ -146,7 +146,6 @@
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
-    [self dismiss];
     return [delegate displayGameObject:g fromSource:s];
 }
 

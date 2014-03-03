@@ -399,7 +399,12 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(!annotationPressed) [hud dismiss];
+    if(!annotationPressed)
+    {
+        for(int i = 0; i < [mapView.selectedAnnotations count]; i++)
+            [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:i] animated:NO];
+        [hud dismiss];
+    }
     annotationPressed = NO;
 }
 
@@ -407,6 +412,7 @@
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
+    [hud dismiss];
     return [delegate displayGameObject:g fromSource:s];
 }
 
