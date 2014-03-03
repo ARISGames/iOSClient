@@ -9,39 +9,27 @@
 #import "CircleButton.h"
 #import "UIColor+ARISColors.h"
 
-@interface CircleButton (){
-    CAShapeLayer *circleLayer;
-    UIColor *color;
-}
-@end
-
 @implementation CircleButton
-
-- (void)drawCircleButton:(UIColor *)c
-{
-    color = c;
-    circleLayer = [CAShapeLayer layer];
-    [circleLayer setBounds:CGRectMake(0.0f, 0.0f, self.bounds.size.width, self.bounds.size.height)];
-    [circleLayer setPosition:CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))];
-    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
-    [circleLayer setPath:[path CGPath]];
-    [circleLayer setStrokeColor:[color CGColor]];
-    [circleLayer setLineWidth:2.0f];
-    [circleLayer setFillColor:[[UIColor blueColor] CGColor]];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [[self layer] addSublayer:circleLayer];
-    if (self.enabled) {
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }
-    else{
-        [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    }
-    [self bringSubviewToFront:self.titleLabel];
-}
 
 - (void) drawRect:(CGRect)rect
 {
-    [self drawCircleButton:[UIColor blueColor]];
+    CGMutablePathRef circlePath = CGPathCreateMutable(); 
+    CGPathAddArc(circlePath,nil,self.bounds.origin.x+self.bounds.size.height/2,self.bounds.origin.y+self.bounds.size.width/2,(self.bounds.size.width/2)-2,0,2*M_PI,YES);
+    CGPathCloseSubpath(circlePath);
+    
+    CGContextAddPath(UIGraphicsGetCurrentContext(), circlePath);
+    if(self.enabled) [[UIColor ARISColorDarkBlue] set];  
+    else             [[UIColor ARISColorLightBlue] set];  
+    CGContextFillPath(UIGraphicsGetCurrentContext());
+    
+    CGContextAddPath(UIGraphicsGetCurrentContext(), circlePath); 
+    if(self.enabled) [[UIColor whiteColor] set];  
+    else             [[UIColor grayColor] set];   
+    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 2.0f);
+    CGContextStrokePath(UIGraphicsGetCurrentContext()); 
+    
+    if(self.enabled) [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
+    else             [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal]; 
 }
 
 @end

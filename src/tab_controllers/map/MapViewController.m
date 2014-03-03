@@ -35,17 +35,11 @@
     NSMutableArray *locationsToRemove;
     NSMutableArray *overlayArray;
     
-    BOOL tracking;
-    BOOL appSetNextRegionChange;
     BOOL isViewLoaded;
 
     MapHUD *hud;
     BOOL annotationPressed;
     MKMapView *mapView;
-    
-    UIBarButtonItem *mapTypeButton;
-    UIBarButtonItem *playerButton;
-    UIBarButtonItem *playerTrackingButton;
     
     UIButton *centerButton;
     UIButton *fitToAnnotationButton;
@@ -70,7 +64,6 @@
         
         delegate = d;
         
-        tracking = YES;
         isViewLoaded = NO;
         locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
         locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
@@ -92,12 +85,14 @@
     
     mapView = [[MKMapView alloc] init];
 	mapView.delegate = self;
+    mapView.showsUserLocation = [AppModel sharedAppModel].currentGame.showPlayerLocation; 
     
     if     ([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
     
-
+    hud = [[MapHUD alloc] initWithDelegate:self];
+    
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
     [centerButton setImage:[UIImage imageNamed:@"74-location-white.png" withColor:[UIColor blackColor]] forState:UIControlStateNormal];
@@ -109,13 +104,13 @@
     [self.view addSubview:mapView];
     [self.view addSubview:centerButton];
     [self.view addSubview:fitToAnnotationButton];
+    [self.view addSubview:hud.view];   
     
     isViewLoaded = YES;
     
     //make the navigation bar transparent
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     self.navigationController.navigationBar.translucent = YES;
     
     [self updateOverlays];
@@ -126,19 +121,12 @@
 {
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
-    int buttonWidthHeight = 60;
-    centerButton.frame = CGRectMake(0, 64, buttonWidthHeight, buttonWidthHeight);
-    fitToAnnotationButton.frame = CGRectMake(0, 124, buttonWidthHeight, buttonWidthHeight);
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
-    if([AppModel sharedAppModel].currentGame.showPlayerLocation) [mapView setShowsUserLocation:YES];
-    else [mapView setShowsUserLocation:NO];
+    int buttonSize = 60;
+    centerButton.frame          = CGRectMake(0,  64, buttonSize, buttonSize);
+    fitToAnnotationButton.frame = CGRectMake(0, 124, buttonSize, buttonSize);
     
-    [self hideOrShowPlayerLocations];
+    hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80); 
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -152,60 +140,7 @@
 	
 	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-    
-    [self zoomToFitAnnotations];
-}
-
-- (void) changeMapType:(id)sender
-{
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
-
-    switch(mapView.mapType)
-    {
-        case MKMapTypeStandard:  mapView.mapType = MKMapTypeSatellite; break;
-        case MKMapTypeSatellite: mapView.mapType = MKMapTypeHybrid;    break;
-        case MKMapTypeHybrid:    mapView.mapType = MKMapTypeStandard;  break;
-    }
-}
-
-- (void) refreshButtonAction
-{
-	tracking = YES;
-	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
-	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
-    
-	[self refresh];
-}
-
-- (void) playerButtonTouch
-{
-    [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
-    [self hideOrShowPlayerLocations];
-}
-
-- (void) hideOrShowPlayerLocations
-{
-    if([AppModel sharedAppModel].hidePlayers)
-    {
-        if(mapView)
-        {
-            NSEnumerator *existingAnnotationsEnumerator = [[mapView annotations] objectEnumerator];
-            NSObject<MKAnnotation> *annotation;
-            while(annotation = [existingAnnotationsEnumerator nextObject])
-            {
-                if(annotation != mapView.userLocation && [annotation isKindOfClass:[Location class]] && [((Location *)annotation).gameObject type] == GameObjectPlayer)
-                    [mapView removeAnnotation:annotation];
-            }
-        }
-    }
-    else
-
-    [[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
-    [[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
-
-    tracking = NO;
-    [self refresh];
+    [self zoomToFitAnnotations];  
 }
 
 - (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)overlay
@@ -223,14 +158,6 @@
         return circleView;
     }
     return nil;
-    /*
-    TileOverlayView *view = [[TileOverlayView alloc] initWithOverlay:overlay];
-    //view.tileAlpha = 1;
-    
-    [AppModel sharedAppModel].overlayIsVisible = true;
-    
-    return view;
-     */
 }
 
 - (void) updateOverlays
@@ -253,15 +180,14 @@
 
 - (void) refresh
 {
+    //the fact that we need to check this here means we're doing something wrong with our architecture... 
+    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.playerId == 0 || [AppModel sharedAppModel].currentGame.gameId == 0)  return;
+    
     if(mapView)
     {
-        if([AppModel sharedAppModel].player && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].player.playerId != 0))
-        {
-            [[AppServices sharedAppServices] fetchPlayerLocationList];
-            [[AppServices sharedAppServices] fetchPlayerOverlayList];
-            [self showLoadingIndicator];
-        }
-        if(tracking) [self zoomAndCenterMap];
+        [[AppServices sharedAppServices] fetchPlayerLocationList];
+        [[AppServices sharedAppServices] fetchPlayerOverlayList];
+        [self showLoadingIndicator];
     }
 }
 
@@ -274,14 +200,12 @@
     }
     else [crumbs addCoordinate:[AppModel sharedAppModel].player.location.coordinate]; 
     [crumbView setNeedsDisplay];
-    
-    if(mapView && tracking && [AppModel sharedAppModel].player && [AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].player.playerId != 0)
-        [self zoomAndCenterMap];
 }
 
 - (void) zoomAndCenterMap
 {
-	appSetNextRegionChange = YES;
+    //the fact that we need to check this here means we're doing something wrong with our architecture...
+    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.playerId == 0 || [AppModel sharedAppModel].currentGame.gameId == 0) return;
 	
 	//Center the map on the player
 	MKCoordinateRegion region = mapView.region;
@@ -291,11 +215,10 @@
 	[mapView setRegion:region animated:YES];
 }
 
--(void)zoomToFitAnnotations
+-(void) zoomToFitAnnotations
 {
-    if([mapView.annotations count] == 0){
-        return;
-    }
+    if([mapView.annotations count] == 0) return;
+    
     CLLocationCoordinate2D topLeftCoord;
     topLeftCoord.latitude = -90;
     topLeftCoord.longitude = 180;
@@ -304,7 +227,8 @@
     bottomRightCoord.latitude = 90;
     bottomRightCoord.longitude = -180;
     
-    for (Location *annotationLocation in mapView.annotations) {
+    for(Location *annotationLocation in mapView.annotations)
+    {
         topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotationLocation.coordinate.longitude);
         topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotationLocation.coordinate.latitude);
         
@@ -417,16 +341,6 @@
     [locationsToAdd removeAllObjects];
 }
 
-- (void) mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
-{
-    if(!appSetNextRegionChange)
-    {
-        tracking = NO;
-    }
-
-    appSetNextRegionChange = NO;
-}
-
 - (MKAnnotationView *) mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     if(annotation == mapView.userLocation) return nil;
@@ -435,24 +349,16 @@
 
 - (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    annotationPressed = YES;
-    [self displayHUDWithLocation:(Location *)view.annotation andAnnotation:view];
+    if(view.annotation && [view.annotation class] == [Location class])
+    {
+        annotationPressed = YES;
+        [self displayHUDWithLocation:(Location *)view.annotation andAnnotation:view];
+    }
 }
 
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
 {
-    CGFloat navAndStatusBar = 64;
-    CGRect frame = CGRectMake(0, (navAndStatusBar + ((self.view.bounds.size.height-navAndStatusBar) * .6)), self.view.bounds.size.width, ((self.view.bounds.size.height-navAndStatusBar) * .4));
-    if(!hud) hud = [[MapHUD alloc] initWithDelegate:self withFrame:frame];
-    [self.view addSubview:hud.view];
     [hud setLocation:location withAnnotation:annotation];
-    
-    //re-add the zoom in button and zoom to fit button
-    [centerButton removeFromSuperview];
-    [self.view addSubview:centerButton];
-    
-    [fitToAnnotationButton removeFromSuperview];
-    [self.view addSubview:fitToAnnotationButton];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views

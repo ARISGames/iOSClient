@@ -24,19 +24,14 @@
 
 @interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISCollapseViewDelegate>
 {
-    UILabel *title;
+    ARISCollapseView *collapseView; 
+    CircleButton *circleButton; 
+    UIView *hudView; 
     UILabel *walklabel;
-    ARISMediaView *iconView;
-    CGRect frame;
-    Location *location;
-    CircleButton *circleButton;
-    float distanceToWalk;
-    MKAnnotationView *annotation;
-    ARISCollapseView *collapseView;
-    UIView *hudView;
-    UIImageView *warningImage;
+    UIImageView *warningImage; 
     
-    CLLocation *userLocation;
+    Location *location; 
+    MKAnnotationView *annotation; 
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -46,14 +41,52 @@
 @synthesize annotation;
 @synthesize collapseView;
 
-- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d withFrame:(CGRect)f
+- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d
 {
     if(self = [super init])
     {
         delegate = d;
-        frame = f;
     }
     return self;
+}
+
+- (void) loadView
+{
+    [super loadView];
+    
+    hudView = [[UIView alloc] init];
+    hudView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.6f];  
+    
+    walklabel = [[UILabel alloc] init];
+    circleButton = [[CircleButton alloc] init];
+    warningImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"walkerWarning.png"]];
+    
+    CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:NO showHandle:NO draggable:YES tappable:YES delegate:self];
+    collapseView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];    
+    [collapseView addSubview:circleButton];  
+    
+    [self.view addSubview:collapseView];
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    [collapseView setFrame:self.view.bounds];
+    hudView.frame = CGRectMake(0, 40, self.view.frame.size.width, self.view.frame.size.height-40);
+       
+    circleButton.frame = CGRectMake(0, 20, 80, 80);
+    [circleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [circleButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside]; 
+    
+    walklabel.frame = CGRectMake(85, 5, self.view.frame.size.width-85, 35);
+    walklabel.font = [ARISTemplate ARISButtonFont]; 
+    walklabel.textColor = [UIColor redColor];
+    walklabel.lineBreakMode = NSLineBreakByWordWrapping;
+    walklabel.numberOfLines = 0;
+    
+    warningImage.frame = CGRectMake(self.view.frame.size.width-40, 5, 30, 30);
 }
 
 - (void) setLocation:(Location *)l withAnnotation:(MKAnnotationView *)a
@@ -62,14 +95,13 @@
     annotation = a;
     
     CLLocation *annotationLocation = location.latlon;
-    userLocation = [[AppModel sharedAppModel] player].location;
-    CLLocationDistance distance = [userLocation distanceFromLocation:annotationLocation];
+    CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:annotationLocation];
     
-    [circleButton removeFromSuperview];
     [walklabel removeFromSuperview];
     [warningImage removeFromSuperview];
     
-    if ((distance <= location.errorRange && userLocation != nil) || location.allowsQuickTravel) {
+    float distanceToWalk; 
+    if ((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel) {
         distanceToWalk = 0;
         circleButton.enabled = YES;
     }
@@ -78,7 +110,7 @@
         distanceToWalk = distance - location.errorRange;
         //TODO change this string to NSLocalized String
         float roundedDistance = lroundf(distanceToWalk);
-        if (userLocation != nil) {
+        if ([[AppModel sharedAppModel] player].location != nil) {
             walklabel.text = [NSString stringWithFormat:@"Out of range\nWalk %.0fm", roundedDistance];
         }
         else{
@@ -96,72 +128,7 @@
         [circleButton setTitle:@"View" forState:UIControlStateNormal];
     }
     
-    
-    //add the circle button to the collapse view instead of the hudView to overlap the ... on the collapse view
-    [collapseView addSubview:circleButton];
-    
-    Media *locationMedia = [[AppModel sharedAppModel] mediaForMediaId:location.gameObject.iconMediaId];
-    NSString *locationTitle = location.title;
-    title.text = locationTitle;
-    [iconView setMedia:locationMedia];
-    
     [collapseView open];
-}
-
-- (void) loadView
-{
-    [super loadView];
-    
-    self.view.frame = frame;
-    
-    hudView = [[UIView alloc] init];
-    title = [[UILabel alloc] init];
-    iconView = [[ARISMediaView alloc] initWithDelegate:self];
-    
-    walklabel = [[UILabel alloc] init];
-    circleButton = [[CircleButton alloc] init];
-    warningImage = [[UIImageView alloc] init];
-    [warningImage setImage:[UIImage imageNamed:@"walkerWarning.png"]];
-    
-    [hudView addSubview:title];
-    [hudView addSubview:iconView];
-    
-    
-    CGRect collapseViewFrame = CGRectMake(0, 50, frame.size.width, frame.size.height);
-    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
-    
-    collapseView.backgroundColor = [UIColor colorWithRed:.6f green:.6f blue:.6f alpha:0.0f];
-    
-    [self.view addSubview:collapseView];
-}
-
-- (void) viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-    
-    hudView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height-10);
-    
-    int mediaSize = 60;
-    [iconView setFrame:CGRectMake(frame.size.width - 100, frame.size.height - 150, mediaSize, mediaSize) withMode:ARISMediaDisplayModeAspectFill];
-    
-    int titleWidth = frame.size.width-160;
-    title.frame = CGRectMake((iconView.frame.origin.x + (iconView.frame.size.width / 2)) - (titleWidth / 2), 114, titleWidth, 33);
-    title.font = [title.font fontWithSize:18];
-    UIFont* boldFont = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
-    [title setFont:boldFont];
-    title.textAlignment = NSTextAlignmentCenter;
-    
-    circleButton.frame = CGRectMake((frame.size.width / 2) - (60/2), 5, 80, 80);
-    [circleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [circleButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside];
-    
-    walklabel.frame = CGRectMake(65, 66, 140, 65);
-    walklabel.textColor = [UIColor redColor];
-    walklabel.lineBreakMode = NSLineBreakByWordWrapping;
-    walklabel.numberOfLines = 0;
-    walklabel.font = [UIFont boldSystemFontOfSize:20];
-    
-    warningImage.frame = CGRectMake(20, 76, 40, 55);
 }
 
 - (void) dismissHUD
@@ -198,12 +165,10 @@
 - (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
 {
     if(!o){
-        [circleButton setAlpha:0.0];
         [self dismissHUD];
         self.view.userInteractionEnabled = NO;
     }
     else{
-        [circleButton setAlpha:1.0];
         self.view.userInteractionEnabled = YES;
     }
 }

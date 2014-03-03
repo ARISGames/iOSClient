@@ -9,7 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface CircleButton : UIButton
-
-- (void)drawCircleButton:(UIColor *)c;
-
 @end
