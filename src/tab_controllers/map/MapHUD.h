@@ -12,13 +12,11 @@
 #import "ARISCollapseView.h"
 
 @protocol MapHUDDelegate
-- (void) dismissHUDWithAnnotation:(MKAnnotationView *)annotation;
 @end
 
 @interface MapHUD : UIViewController
 - (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d;
 - (void) setLocation:(Location *)l withAnnotation:(MKAnnotationView *)a;
-
-@property (nonatomic, readwrite) MKAnnotationView *annotation;
-@property (nonatomic, readwrite) ARISCollapseView *collapseView;
+- (void) open;
+- (void) dismiss;
 @end

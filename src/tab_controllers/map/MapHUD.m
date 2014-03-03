@@ -35,11 +35,9 @@
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
-
 @end
+
 @implementation MapHUD
-@synthesize annotation;
-@synthesize collapseView;
 
 - (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d
 {
@@ -127,13 +125,16 @@
     else{
         [circleButton setTitle:@"View" forState:UIControlStateNormal];
     }
-    
+}
+
+- (void) open
+{
     [collapseView open];
 }
 
-- (void) dismissHUD
+- (void) dismiss
 {
-    [delegate dismissHUDWithAnnotation:annotation];
+    [collapseView close]; 
 }
 
 - (void) interactWithLocation
@@ -145,8 +146,7 @@
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
-    [collapseView close];
-    [self dismissHUD];
+    [self dismiss];
     return [delegate displayGameObject:g fromSource:s];
 }
 
@@ -165,7 +165,6 @@
 - (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
 {
     if(!o){
-        [self dismissHUD];
         self.view.userInteractionEnabled = NO;
     }
     else{

@@ -95,11 +95,23 @@
     
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
-    [centerButton setImage:[UIImage imageNamed:@"74-location-white.png" withColor:[UIColor blackColor]] forState:UIControlStateNormal];
+    [centerButton setImage:[UIImage imageNamed:@"74-location-white.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    centerButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
+    centerButton.backgroundColor = [UIColor ARISColorDarkBlue];
+    centerButton.layer.cornerRadius = 5;
+    centerButton.clipsToBounds = YES; 
+    centerButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    centerButton.layer.borderWidth = 1.0f;  
     
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
-    [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png" withColor:[UIColor blackColor]] forState:UIControlStateNormal];
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4); 
+    fitToAnnotationButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
+    fitToAnnotationButton.layer.cornerRadius = 5;
+    fitToAnnotationButton.clipsToBounds = YES;
+    fitToAnnotationButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    fitToAnnotationButton.layer.borderWidth = 1.0f; 
     
     [self.view addSubview:mapView];
     [self.view addSubview:centerButton];
@@ -122,9 +134,9 @@
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
     
-    int buttonSize = 60;
-    centerButton.frame          = CGRectMake(0,  64, buttonSize, buttonSize);
-    fitToAnnotationButton.frame = CGRectMake(0, 124, buttonSize, buttonSize);
+    int buttonSize = 30;
+    centerButton.frame          = CGRectMake(self.view.bounds.size.width-80,  self.view.bounds.size.height-40, buttonSize, buttonSize);
+    fitToAnnotationButton.frame = CGRectMake(self.view.bounds.size.width-40,  self.view.bounds.size.height-40, buttonSize, buttonSize); 
     
     hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80); 
 }
@@ -359,6 +371,7 @@
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
 {
     [hud setLocation:location withAnnotation:annotation];
+    [hud open];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -386,9 +399,7 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (!annotationPressed) {
-        [hud.collapseView close];
-    }
+    if(!annotationPressed) [hud dismiss];
     annotationPressed = NO;
 }
 
@@ -407,13 +418,6 @@
 - (void) displayScannerWithPrompt:(NSString *)p
 {
     [delegate displayScannerWithPrompt:p];
-}
-
-#pragma mark MapHUD delegate methods
-
-- (void) dismissHUDWithAnnotation:(MKAnnotationView *)annotation
-{
-    [mapView deselectAnnotation:[annotation annotation] animated:NO];
 }
 
 - (void) dealloc
