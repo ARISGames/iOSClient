@@ -12,7 +12,8 @@
 #import "ARISAppDelegate.h"
 #import "ARISMediaView.h"
 
-#define POINTER_LENGTH 10
+#define POINTER_LENGTH 10.0f
+#define POINTER_WIDTH 10.0f
 #define WIGGLE_DISTANCE 3.0
 #define WIGGLE_SPEED 0.3
 #define WIGGLE_FRAMELENGTH 0.05 //<-The lower = the faster
@@ -25,7 +26,7 @@
 {
 	CGRect titleRect;
 	CGRect subtitleRect;
-	CGRect contentRect;
+	CGRect textRect;
 	UIFont *titleFont;
 	UIFont *subtitleFont;
 	NSMutableData *asyncData;
@@ -40,7 +41,7 @@
 
 @property (readwrite) CGRect titleRect;
 @property (readwrite) CGRect subtitleRect;
-@property (readwrite) CGRect contentRect;
+@property (readwrite) CGRect textRect;
 @property (readwrite) UIFont *titleFont;
 @property (readwrite) UIFont *subtitleFont;
 @property (readwrite) UIImage *icon;

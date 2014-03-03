@@ -18,7 +18,7 @@
 
 @synthesize titleRect;
 @synthesize subtitleRect;
-@synthesize contentRect;
+@synthesize textRect;
 @synthesize titleFont;
 @synthesize subtitleFont;
 @synthesize icon;
@@ -29,7 +29,7 @@
 @synthesize incrementalWiggleOffset;
 @synthesize xOnSinWave;
 
-- (id)initWithAnnotation:(id<MKAnnotation>)location reuseIdentifier:(NSString *)reuseIdentifier
+- (id) initWithAnnotation:(id<MKAnnotation>)location reuseIdentifier:(NSString *)reuseIdentifier
 {
 	if (self = [super initWithAnnotation:location reuseIdentifier:reuseIdentifier])
     {
@@ -51,44 +51,42 @@
         self.incrementalWiggleOffset = 0;
         self.xOnSinWave = 0;
 
-        CGRect imageViewFrame;
+        CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT); 
+        titleRect    = CGRectMake(0,0,0,0);
+        subtitleRect = CGRectMake(0,0,0,0);  
         
-        if(self.showTitle) //TODO || annotation.kind == NearbyObjectPlayer)
+        if(self.showTitle)
         {
-            //Find width of annotation
-            CGSize titleSize    = [loc.title    sizeWithFont:titleFont];
-            CGSize subtitleSize = [loc.subtitle sizeWithFont:subtitleFont];
+            CGSize titleSize    = CGSizeMake(0.0f,0.0f);
+            CGSize subtitleSize = CGSizeMake(0.0f,0.0f); 
+            if(loc.title)    titleSize    = [[loc.title uppercaseString] sizeWithFont:titleFont];
+            if(loc.subtitle) subtitleSize = [loc.subtitle                sizeWithFont:subtitleFont];
+            
             int maxWidth = titleSize.width > subtitleSize.width ? titleSize.width : subtitleSize.width;
             if(maxWidth > ANNOTATION_MAX_WIDTH) maxWidth = ANNOTATION_MAX_WIDTH;
             
-            titleRect = CGRectMake(0, 0, maxWidth, titleSize.height);
-            if(loc.subtitle)
-                subtitleRect = CGRectMake(0, titleRect.origin.y+titleRect.size.height, maxWidth, subtitleSize.height);
+            if(loc.title)    titleRect    = CGRectMake(0,                                        0, maxWidth,    titleSize.height);
+            if(loc.subtitle) subtitleRect = CGRectMake(0, titleRect.origin.y+titleRect.size.height, maxWidth, subtitleSize.height);
+            
+            titleRect    = CGRectOffset(titleRect,    ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
+            subtitleRect = CGRectOffset(subtitleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
+            
+            textRect=CGRectUnion(titleRect, subtitleRect);
+            textRect.origin.x    -= ANNOTATION_PADDING;  
+            textRect.origin.y    -= ANNOTATION_PADDING; 
+            textRect.size.width  += ANNOTATION_PADDING*2;
+            textRect.size.height += ANNOTATION_PADDING*2;
+            
+            if(IMAGE_WIDTH < textRect.size.width)
+                self.centerOffset = CGPointMake((textRect.size.width-IMAGE_WIDTH)/2, (textRect.size.height+POINTER_LENGTH)/2); 
             else
-                subtitleRect = CGRectMake(0,0,0,0);
+                self.centerOffset = CGPointMake(0, (textRect.size.height+POINTER_LENGTH)/2);  
             
-            contentRect=CGRectUnion(titleRect, subtitleRect);
-            contentRect.size.width += ANNOTATION_PADDING*2;
-            contentRect.size.height += ANNOTATION_PADDING*2;
-            
-            titleRect=CGRectOffset(titleRect, ANNOTATION_PADDING, ANNOTATION_PADDING);
-            if(loc.subtitle) subtitleRect=CGRectOffset(subtitleRect, ANNOTATION_PADDING, ANNOTATION_PADDING);
-            
-            imageViewFrame = CGRectMake((contentRect.size.width/2)-(IMAGE_WIDTH/2), 
-                                        contentRect.size.height+POINTER_LENGTH, 
-                                        IMAGE_WIDTH, 
-                                        IMAGE_HEIGHT);
-            self.centerOffset = CGPointMake(0, ((contentRect.size.height+POINTER_LENGTH+IMAGE_HEIGHT)/-2)+(IMAGE_HEIGHT/2));
+            [self setFrame:CGRectUnion(textRect, imageViewFrame)]; 
         }
         else
-        {
-            contentRect=CGRectMake(0,0,0,0);
-            imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-            //self.centerOffset = CGPointMake(IMAGE_WIDTH/-2.0, IMAGE_HEIGHT/-2.0);
-        }
+            [self setFrame:imageViewFrame];  
         
-        [self setFrame: CGRectUnion(contentRect, imageViewFrame)];
-
         if(loc.gameObject.iconMediaId != 0)
             self.iconView = [[ARISMediaView alloc] initWithFrame:imageViewFrame media:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId] mode:ARISMediaDisplayModeAspectFit delegate:self];
         else
@@ -101,28 +99,36 @@
     return self;
 }
 
-- (void)drawRect:(CGRect)rect {
-    if (self.showTitle) {
-        CGMutablePathRef calloutPath = CGPathCreateMutable();
-        CGPoint pointerPoint = CGPointMake(self.contentRect.origin.x + 0.5 * self.contentRect.size.width,  self.contentRect.origin.y + self.contentRect.size.height + POINTER_LENGTH);
-        CGFloat radius = 7.0;
-        CGPathMoveToPoint(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMinY(self.contentRect));
-        CGPathAddArc(calloutPath, NULL, CGRectGetMaxX(self.contentRect) - radius, CGRectGetMinY(self.contentRect) + radius, radius, 3 * M_PI / 2, 0, 0);
-        CGPathAddArc(calloutPath, NULL, CGRectGetMaxX(self.contentRect) - radius, CGRectGetMaxY(self.contentRect) - radius, radius, 0, M_PI / 2, 0);
+- (void)drawRect:(CGRect)rect
+{
+    if(self.showTitle)
+    {
+        CGFloat minx = self.textRect.origin.x;
+        CGFloat maxx = self.textRect.origin.x+self.textRect.size.width; 
+        CGFloat miny = self.textRect.origin.y; 
+        CGFloat maxy = self.textRect.origin.y+self.textRect.size.height; 
+        CGPoint pointerPoint = CGPointMake(minx+(IMAGE_HEIGHT/2), miny-POINTER_LENGTH);
         
-        CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x + 10.0, CGRectGetMaxY(self.contentRect));
-        CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x, pointerPoint.y);
-        CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x - 10.0,  CGRectGetMaxY(self.contentRect));
+        CGMutablePathRef calloutPath = CGPathCreateMutable(); 
         
-        CGPathAddArc(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMaxY(self.contentRect) - radius, radius, M_PI / 2, M_PI, 0);
-        CGPathAddArc(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMinY(self.contentRect) + radius, radius, M_PI, 3 * M_PI / 2, 0);	
+        CGPathMoveToPoint(   calloutPath, NULL, pointerPoint.x, pointerPoint.y); //tip of point
+        CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)-POINTER_WIDTH/2, miny);  
+        
+        CGPathAddLineToPoint(calloutPath, NULL, minx, miny); //top-left
+        CGPathAddLineToPoint(calloutPath, NULL, minx, maxy); //bottom-left
+        CGPathAddLineToPoint(calloutPath, NULL, maxx, maxy); //bottom-right
+        CGPathAddLineToPoint(calloutPath, NULL, maxx, miny); //top-right
+        
+        CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)+POINTER_WIDTH/2, miny);   
+        CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x, pointerPoint.y); //tip of point
+        
         CGPathCloseSubpath(calloutPath);
         
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-        [[UIColor ARISColorTranslucentBlack] set];
+        [[UIColor ARISColorRed] set]; 
         CGContextFillPath(UIGraphicsGetCurrentContext());
         [[UIColor ARISColorWhite] set];
-        [self.annotation.title drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+        [[self.annotation.title uppercaseString] drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         [self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
