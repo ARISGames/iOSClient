@@ -37,9 +37,10 @@
     
     BOOL isViewLoaded;
 
-    MapHUD *hud;
-    BOOL annotationPressed;
     MKMapView *mapView;
+    MapHUD *hud;
+    UIView *blackout;
+    BOOL annotationPressed; 
     
     UIButton *centerButton;
     UIButton *fitToAnnotationButton;
@@ -92,6 +93,10 @@
     else                                                                                  mapView.mapType = MKMapTypeStandard;
     
     hud = [[MapHUD alloc] initWithDelegate:self];
+    blackout = [[UIView alloc] init];
+    blackout.frame = self.view.bounds;
+    [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+    blackout.userInteractionEnabled = NO; 
     
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
@@ -116,6 +121,7 @@
     [self.view addSubview:mapView];
     [self.view addSubview:centerButton];
     [self.view addSubview:fitToAnnotationButton];
+    [self.view addSubview:blackout]; 
     [self.view addSubview:hud.view];   
     
     isViewLoaded = YES;
@@ -370,8 +376,20 @@
 
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
 {
+    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.4f]];
+    [blackout setUserInteractionEnabled:YES];
     [hud setLocation:location withAnnotation:annotation];
     [hud open];
+}
+
+- (void) dismissSelection
+{
+    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]]; 
+    [blackout setUserInteractionEnabled:NO];
+    
+    for(int i = 0; i < [mapView.selectedAnnotations count]; i++)
+        [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:i] animated:NO];
+    [hud dismiss];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -397,14 +415,14 @@
     return zoomer;
 }
 
+- (void) blackoutTouched
+{
+    [self dismissSelection];
+}
+
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(!annotationPressed)
-    {
-        for(int i = 0; i < [mapView.selectedAnnotations count]; i++)
-            [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:i] animated:NO];
-        [hud dismiss];
-    }
+    if(!annotationPressed) [self dismissSelection];
     annotationPressed = NO;
 }
 
@@ -412,7 +430,7 @@
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
-    [hud dismiss];
+    [self dismissSelection];
     return [delegate displayGameObject:g fromSource:s];
 }
 
