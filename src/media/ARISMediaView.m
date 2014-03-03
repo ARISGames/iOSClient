@@ -95,7 +95,7 @@
 {
     media = nil;
     image = i;
-    [self displayImage:NO];
+    [self displayImage];
 }
 
 - (void) setDelegate:(id<ARISMediaViewDelegate>)d
@@ -131,7 +131,7 @@
     }
     
     if     (media) [self displayMedia];
-    else if(image) [self displayImage:NO];
+    else if(image) [self displayImage];
 }
 
 - (void) play
@@ -161,19 +161,20 @@
 - (void) displayMedia //results in calling displayImage, displayVideo, or displayAudio
 {
     NSString *type = media.type;
+    if(avVC) {[avVC.view removeFromSuperview]; avVC = nil; [self removePlayIcon];}   
     if([type isEqualToString:@"IMAGE"])
     {
         NSString *dataType = [self contentTypeForImageData:media.data];
         if     ([dataType isEqualToString:@"image/gif"])
         {
             image = [UIImage animatedImageWithAnimatedGIFData:media.data];
-            [self displayImage:NO];
+            [self displayImage];
         }
         else if([dataType isEqualToString:@"image/jpeg"] ||
                 [dataType isEqualToString:@"image/png"]) 
         {
             image = [UIImage imageWithData:media.data];
-            [self displayImage:NO];
+            [self displayImage];
         }
     }
     else if([type isEqualToString:@"VIDEO"])
@@ -186,13 +187,8 @@
     } 
 }
 
-- (void) displayImage:(BOOL)isVideoThumbnail
+- (void) displayImage
 {
-    //if the video thumbnail is displaying, we dont want to deallocate the movieplayerviewcontroller
-    if (!isVideoThumbnail) {
-        if(avVC) {[avVC.view removeFromSuperview]; avVC = nil; [self removePlayIcon];}
-    }
-    
     [imageView setImage:image];
     
     float mult = self.frame.size.width/image.size.width;
@@ -230,7 +226,7 @@
 - (void) displayVideoThumbLoaded:(NSNotification*)notification
 {
     image = [UIImage imageWithData:UIImageJPEGRepresentation([notification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey], 1.0)];
-    [self displayImage:YES];
+    [self displayImage];
     avVC.view.frame = imageView.frame;
 }
 
@@ -244,7 +240,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];  
     avVC.moviePlayer.shouldAutoplay = NO;
     image = [UIImage imageNamed:@"audio.png"];
-    [self displayImage:NO];
+    [self displayImage];
 }
 
 - (void) playbackFinished:(NSNotification *)n
