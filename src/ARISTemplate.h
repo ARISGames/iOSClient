@@ -44,5 +44,6 @@
 + (UIFont *) ARISLabelFont;
 + (UIFont *) ARISSubtextFont;
 + (UIFont *) ARISInputFont;
++ (UIFont *) ARISAnnotFont;
 
 @end

@@ -42,7 +42,7 @@
         if(loc.gameObject.type == GameObjectItem && loc.qty > 1 && loc.title)
             loc.subtitle = [NSString stringWithFormat:@"x %d",loc.qty];
         
-        self.titleFont    = [ARISTemplate ARISLabelFont];
+        self.titleFont    = [ARISTemplate ARISAnnotFont];
         self.subtitleFont = [ARISTemplate ARISSubtextFont];
         
         self.showTitle = (loc.showTitle && loc.title) ? YES : NO;
@@ -95,6 +95,7 @@
         [self addSubview:self.iconView];
         
         self.opaque = NO; 
+        self.clipsToBounds = NO;
     }
     return self;
 }
@@ -103,10 +104,10 @@
 {
     if(self.showTitle)
     {
-        CGFloat minx = self.textRect.origin.x;
-        CGFloat maxx = self.textRect.origin.x+self.textRect.size.width; 
-        CGFloat miny = self.textRect.origin.y; 
-        CGFloat maxy = self.textRect.origin.y+self.textRect.size.height; 
+        CGFloat minx = self.textRect.origin.x+1;
+        CGFloat maxx = self.textRect.origin.x+self.textRect.size.width-1; 
+        CGFloat miny = self.textRect.origin.y+1; 
+        CGFloat maxy = self.textRect.origin.y+self.textRect.size.height-1; 
         CGPoint pointerPoint = CGPointMake(minx+(IMAGE_HEIGHT/2), miny-POINTER_LENGTH);
         
         CGMutablePathRef calloutPath = CGPathCreateMutable(); 
@@ -122,6 +123,10 @@
         CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)+POINTER_WIDTH/2, miny);   
         CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x, pointerPoint.y); //tip of point
         
+        //loop around to add line between triangle and rect- comment out/delete next lines, and drawing should still be consistent, just without this line
+        CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)-POINTER_WIDTH/2, miny);   
+        CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)+POINTER_WIDTH/2, miny);    
+        
         CGPathCloseSubpath(calloutPath);
         
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
@@ -131,6 +136,7 @@
         [[self.annotation.title uppercaseString] drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         [self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 2.0f);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
     }
     
