@@ -23,33 +23,6 @@
 #define IMAGE_WIDTH 30
 
 @interface AnnotationView : MKAnnotationView
-{
-	CGRect titleRect;
-	CGRect subtitleRect;
-	CGRect textRect;
-	UIFont *titleFont;
-	UIFont *subtitleFont;
-	NSMutableData *asyncData;
-	UIImage *icon;
-	ARISMediaView *iconView;
-    bool showTitle;
-    bool shouldWiggle;
-    float totalWiggleOffsetFromOriginalPosition;
-    float incrementalWiggleOffset;
-    float xOnSinWave;
-}
 
-@property (readwrite) CGRect titleRect;
-@property (readwrite) CGRect subtitleRect;
-@property (readwrite) CGRect textRect;
-@property (readwrite) UIFont *titleFont;
-@property (readwrite) UIFont *subtitleFont;
-@property (readwrite) UIImage *icon;
-@property (readwrite) ARISMediaView *iconView;
-@property (readwrite) bool showTitle;
-@property (readwrite) bool shouldWiggle;
-@property (readwrite) float totalWiggleOffsetFromOriginalPosition;
-@property (readwrite) float incrementalWiggleOffset;
-@property (readwrite) float xOnSinWave;
 
 @end

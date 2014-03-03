@@ -12,22 +12,21 @@
 #import "Location.h"
 
 @interface AnnotationView() <ARISMediaViewDelegate>
+{
+	CGRect titleRect;
+	CGRect subtitleRect;
+	CGRect textRect;
+	UIView *iconBorderView;
+   	ARISMediaView *iconView; 
+    bool showTitle;
+    bool shouldWiggle;
+    float totalWiggleOffsetFromOriginalPosition;
+    float incrementalWiggleOffset;
+    float xOnSinWave;
+}
 @end
 
 @implementation AnnotationView
-
-@synthesize titleRect;
-@synthesize subtitleRect;
-@synthesize textRect;
-@synthesize titleFont;
-@synthesize subtitleFont;
-@synthesize icon;
-@synthesize showTitle;
-@synthesize iconView;
-@synthesize shouldWiggle;
-@synthesize totalWiggleOffsetFromOriginalPosition;
-@synthesize incrementalWiggleOffset;
-@synthesize xOnSinWave;
 
 - (id) initWithAnnotation:(id<MKAnnotation>)location reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -42,25 +41,22 @@
         if(loc.gameObject.type == GameObjectItem && loc.qty > 1 && loc.title)
             loc.subtitle = [NSString stringWithFormat:@"x %d",loc.qty];
         
-        self.titleFont    = [ARISTemplate ARISAnnotFont];
-        self.subtitleFont = [ARISTemplate ARISSubtextFont];
-        
-        self.showTitle = (loc.showTitle && loc.title) ? YES : NO;
-        self.shouldWiggle = loc.wiggle;
-        self.totalWiggleOffsetFromOriginalPosition = 0;
-        self.incrementalWiggleOffset = 0;
-        self.xOnSinWave = 0;
+        showTitle = (loc.showTitle && loc.title) ? YES : NO;
+        shouldWiggle = loc.wiggle;
+        totalWiggleOffsetFromOriginalPosition = 0;
+        incrementalWiggleOffset = 0;
+        xOnSinWave = 0;
 
         CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT); 
         titleRect    = CGRectMake(0,0,0,0);
         subtitleRect = CGRectMake(0,0,0,0);  
         
-        if(self.showTitle)
+        if(showTitle)
         {
             CGSize titleSize    = CGSizeMake(0.0f,0.0f);
             CGSize subtitleSize = CGSizeMake(0.0f,0.0f); 
-            if(loc.title)    titleSize    = [[loc.title uppercaseString] sizeWithFont:titleFont];
-            if(loc.subtitle) subtitleSize = [loc.subtitle                sizeWithFont:subtitleFont];
+            if(loc.title)    titleSize    = [[loc.title uppercaseString] sizeWithFont:[ARISTemplate ARISAnnotFont]];
+            if(loc.subtitle) subtitleSize = [loc.subtitle                sizeWithFont:[ARISTemplate ARISSubtextFont]];
             
             int maxWidth = titleSize.width > subtitleSize.width ? titleSize.width : subtitleSize.width;
             if(maxWidth > ANNOTATION_MAX_WIDTH) maxWidth = ANNOTATION_MAX_WIDTH;
@@ -87,12 +83,24 @@
         else
             [self setFrame:imageViewFrame];  
         
-        if(loc.gameObject.iconMediaId != 0)
-            self.iconView = [[ARISMediaView alloc] initWithFrame:imageViewFrame media:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId] mode:ARISMediaDisplayModeAspectFit delegate:self];
-        else
-            self.iconView = [[ARISMediaView alloc] initWithFrame:imageViewFrame image:[UIImage imageNamed:@"logo.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+        iconBorderView = [[UIView alloc] initWithFrame:imageViewFrame];
+        iconBorderView.backgroundColor = [UIColor whiteColor];
+        iconBorderView.layer.borderColor = [UIColor ARISColorDarkBlue].CGColor;
+        iconBorderView.layer.borderWidth = 1.0f;
         
-        [self addSubview:self.iconView];
+        CGRect imageInnerFrame = imageViewFrame;
+        imageInnerFrame.origin.x += 2.0f;
+        imageInnerFrame.origin.y += 2.0f; 
+        imageInnerFrame.size.width -= 4.0f;
+        imageInnerFrame.size.height -= 4.0f;  
+        
+        if(loc.gameObject.iconMediaId != 0)
+            iconView = [[ARISMediaView alloc] initWithFrame:imageInnerFrame media:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId] mode:ARISMediaDisplayModeAspectFit delegate:self];
+        else
+            iconView = [[ARISMediaView alloc] initWithFrame:imageInnerFrame image:[UIImage imageNamed:@"logo.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+        
+        [iconBorderView addSubview:iconView];
+        [self addSubview:iconBorderView];
         
         self.opaque = NO; 
         self.clipsToBounds = NO;
@@ -102,12 +110,12 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    if(self.showTitle)
+    if(showTitle)
     {
-        CGFloat minx = self.textRect.origin.x+1;
-        CGFloat maxx = self.textRect.origin.x+self.textRect.size.width-1; 
-        CGFloat miny = self.textRect.origin.y+1; 
-        CGFloat maxy = self.textRect.origin.y+self.textRect.size.height-1; 
+        CGFloat minx = textRect.origin.x+1;
+        CGFloat maxx = textRect.origin.x+textRect.size.width-1; 
+        CGFloat miny = textRect.origin.y+1; 
+        CGFloat maxy = textRect.origin.y+textRect.size.height-1; 
         CGPoint pointerPoint = CGPointMake(minx+(IMAGE_HEIGHT/2), miny-POINTER_LENGTH);
         
         CGMutablePathRef calloutPath = CGPathCreateMutable(); 
@@ -133,27 +141,27 @@
         [[UIColor ARISColorRed] set]; 
         CGContextFillPath(UIGraphicsGetCurrentContext());
         [[UIColor ARISColorWhite] set];
-        [[self.annotation.title uppercaseString] drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
-        [self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+        [[self.annotation.title uppercaseString] drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+        [self.annotation.subtitle drawInRect:subtitleRect withFont:[ARISTemplate ARISSubtextFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 2.0f);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
     }
     
-    if(self.shouldWiggle)
+    if(shouldWiggle)
     {
-        self.xOnSinWave += WIGGLE_SPEED;
+        xOnSinWave += WIGGLE_SPEED;
         float oldTotal = totalWiggleOffsetFromOriginalPosition;
-        self.totalWiggleOffsetFromOriginalPosition = sin(xOnSinWave) * WIGGLE_DISTANCE;
-        self.incrementalWiggleOffset = totalWiggleOffsetFromOriginalPosition-oldTotal;
-        self.iconView.frame = CGRectOffset(self.iconView.frame, 0.0f, self.incrementalWiggleOffset);
+        totalWiggleOffsetFromOriginalPosition = sin(xOnSinWave) * WIGGLE_DISTANCE;
+        incrementalWiggleOffset = totalWiggleOffsetFromOriginalPosition-oldTotal;
+        iconBorderView.frame = CGRectOffset(iconBorderView.frame, 0.0f, incrementalWiggleOffset);
         [self performSelector:@selector(setNeedsDisplay) withObject:nil afterDelay:WIGGLE_FRAMELENGTH];
     }
 }	
 
 - (void) dealloc
 {
-    self.iconView.delegate = nil;
+    iconView.delegate = nil;
 }
 
 @end
