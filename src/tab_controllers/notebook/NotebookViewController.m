@@ -49,7 +49,7 @@ const int VIEW_MODE_ALL  = 1;
         viewMode = 1;
         loadingMore = 1;
         self.tabID = @"NOTE"; 
-        self.tabIconName = @"";
+        self.tabIconName = @"notebook";
         self.title = NSLocalizedString(@"NotebookTitleKey",@""); 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNoteListAvailable) name:@"NewNoteListAvailable" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:)   name:@"NoteDataAvailable"    object:nil];   
