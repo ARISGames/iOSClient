@@ -116,7 +116,7 @@
     
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
-    [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4); 
     fitToAnnotationButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
     fitToAnnotationButton.layer.cornerRadius = 5;

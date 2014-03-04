@@ -141,6 +141,7 @@
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
 		AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */; };
+		AAB62FD518C6670C00030F48 /* expand.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB62FD418C6670C00030F48 /* expand.png */; };
 		AABC064718A1896500315FB5 /* CrumbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064418A1896500315FB5 /* CrumbPath.m */; };
 		AABC064818A1896500315FB5 /* CrumbPathView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064618A1896500315FB5 /* CrumbPathView.m */; };
 		AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F3A172738CD0074CC21 /* Settings.bundle */; };
@@ -600,6 +601,7 @@
 		AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObjectViewController.m; sourceTree = "<group>"; };
 		AAB62FC518C64D0F00030F48 /* ARISDelegateHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARISDelegateHandle.h; path = src/ARISDelegateHandle.h; sourceTree = SOURCE_ROOT; };
 		AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARISDelegateHandle.m; path = src/ARISDelegateHandle.m; sourceTree = SOURCE_ROOT; };
+		AAB62FD418C6670C00030F48 /* expand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expand.png; sourceTree = "<group>"; };
 		AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateControllerProtocol.h; sourceTree = "<group>"; };
 		AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsViewController.h; sourceTree = "<group>"; };
 		AABC064318A1896500315FB5 /* CrumbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrumbPath.h; sourceTree = "<group>"; };
@@ -1259,6 +1261,7 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AAB62FD418C6670C00030F48 /* expand.png */,
 				AA8E9EA418BE422E00F343A2 /* star_gray.png */,
 				F96A35B018B40D9A00F3F35E /* 246-route.png */,
 				F9C4231618AE9793002D7EED /* walkerWarning.png */,
@@ -2431,6 +2434,7 @@
 				AA2D214117DE560C00CF4198 /* globe_unselected@2x.png in Resources */,
 				5B1D9991178CC3A700661453 /* 35-circle-stop@2x.png in Resources */,
 				AA856FF517A9AFA900E9D451 /* qr.png in Resources */,
+				AAB62FD518C6670C00030F48 /* expand.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

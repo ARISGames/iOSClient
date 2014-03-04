@@ -57,14 +57,15 @@
         {
             CGSize titleSize    = CGSizeMake(0.0f,0.0f);
             CGSize subtitleSize = CGSizeMake(0.0f,0.0f); 
-            if(loc.title)    titleSize    = [[loc.title uppercaseString] sizeWithFont:[ARISTemplate ARISAnnotFont]];
+            //if(loc.title)    titleSize    = [[loc.title uppercaseString] sizeWithFont:[ARISTemplate ARISAnnotFont]];
+            if(loc.title)    titleSize    = [loc.title sizeWithFont:[ARISTemplate ARISAnnotFont]]; 
             if(loc.subtitle) subtitleSize = [loc.subtitle                sizeWithFont:[ARISTemplate ARISSubtextFont]];
             
             int maxWidth = titleSize.width > subtitleSize.width ? titleSize.width : subtitleSize.width;
             if(maxWidth > ANNOTATION_MAX_WIDTH) maxWidth = ANNOTATION_MAX_WIDTH;
             
-            if(loc.title)    titleRect    = CGRectMake(0,                                        0, maxWidth,    titleSize.height);
-            if(loc.subtitle) subtitleRect = CGRectMake(0, titleRect.origin.y+titleRect.size.height, maxWidth, subtitleSize.height);
+            if(loc.title)    titleRect    = CGRectMake(0,                                        0, maxWidth,    titleSize.height-6);
+            if(loc.subtitle) subtitleRect = CGRectMake(0, titleRect.origin.y+titleRect.size.height, maxWidth, subtitleSize.height-6);
             
             titleRect    = CGRectOffset(titleRect,    ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
             subtitleRect = CGRectOffset(subtitleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
@@ -74,6 +75,8 @@
             textRect.origin.y    -= ANNOTATION_PADDING; 
             textRect.size.width  += ANNOTATION_PADDING*2;
             textRect.size.height += ANNOTATION_PADDING*2;
+            
+            titleRect.origin.y -= 3;
             
             if(IMAGE_WIDTH < textRect.size.width)
                 self.centerOffset = CGPointMake((textRect.size.width-IMAGE_WIDTH)/2, (textRect.size.height+POINTER_LENGTH)/2); 
@@ -87,8 +90,8 @@
         
         iconBorderView = [[UIView alloc] initWithFrame:imageViewFrame];
         iconBorderView.backgroundColor = [UIColor whiteColor];
-        iconBorderView.layer.borderColor = [UIColor ARISColorDarkBlue].CGColor;
-        iconBorderView.layer.borderWidth = 1.0f;
+        iconBorderView.layer.borderColor = [UIColor ARISColorLightBlue].CGColor;
+        iconBorderView.layer.borderWidth = 2.0f;
         
         CGRect imageInnerFrame = imageViewFrame;
         imageInnerFrame.origin.x += 2.0f;
@@ -140,13 +143,14 @@
         CGPathCloseSubpath(calloutPath);
         
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-        [[UIColor ARISColorRed] set]; 
+        [[UIColor ARISColorLightBlue] set]; 
         CGContextFillPath(UIGraphicsGetCurrentContext());
         [[UIColor ARISColorWhite] set];
-        [[self.annotation.title uppercaseString] drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+        //[[self.annotation.title uppercaseString] drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+        [self.annotation.title drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter]; 
         [self.annotation.subtitle drawInRect:subtitleRect withFont:[ARISTemplate ARISSubtextFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 2.0f);
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 1.0f);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
     }
     

@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 
 #define POINTER_LENGTH 10.0f
-#define POINTER_WIDTH 10.0f
+#define POINTER_WIDTH 18.0f
 #define WIGGLE_DISTANCE 3.0
 #define WIGGLE_SPEED 0.3
 #define WIGGLE_FRAMELENGTH 0.05 //<-The lower = the faster
