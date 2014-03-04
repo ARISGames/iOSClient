@@ -16,7 +16,7 @@
 
 @interface MapHUD : UIViewController
 - (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d;
-- (void) setLocation:(Location *)l withAnnotation:(MKAnnotationView *)a;
+- (void) setLocation:(Location *)l;
 - (void) open;
 - (void) dismiss;
 @end

@@ -45,6 +45,8 @@
     UIButton *centerButton;
     UIButton *fitToAnnotationButton;
     
+    MKAnnotationView *currentlyEnlargedAnnot; //ugh. ugly.
+    
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
 
@@ -99,7 +101,7 @@
     blackout.userInteractionEnabled = NO; 
     
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [centerButton addTarget:self action:@selector(zoomAndCenterMap) forControlEvents:UIControlEventTouchDown];
+    [centerButton addTarget:self action:@selector(centerMapOnPlayer) forControlEvents:UIControlEventTouchDown];
     [centerButton setImage:[UIImage imageNamed:@"74-location-white.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     centerButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
     centerButton.backgroundColor = [UIColor ARISColorDarkBlue];
@@ -220,17 +222,22 @@
     [crumbView setNeedsDisplay];
 }
 
-- (void) zoomAndCenterMap
+- (void) centerMapOnPlayer
 {
     //the fact that we need to check this here means we're doing something wrong with our architecture...
     if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.playerId == 0 || [AppModel sharedAppModel].currentGame.gameId == 0) return;
 	
 	//Center the map on the player
-	MKCoordinateRegion region = mapView.region;
-	region.center = [AppModel sharedAppModel].player.location.coordinate;
-	region.span = MKCoordinateSpanMake(0.001f, 0.001f);
+    [self centerMapOnLoc:[AppModel sharedAppModel].player.location.coordinate];
+}
+
+- (void) centerMapOnLoc:(CLLocationCoordinate2D)loc
+{
+   	MKCoordinateRegion region = mapView.region;
+	region.center = loc;
+	//region.span = MKCoordinateSpanMake(0.001f, 0.001f);
     
-	[mapView setRegion:region animated:YES];
+	[mapView setRegion:region animated:YES]; 
 }
 
 -(void) zoomToFitAnnotations
@@ -365,12 +372,12 @@
     else return [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
 }
 
-- (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
+- (void) mapView:(MKMapView *)mv didSelectAnnotationView:(MKAnnotationView *)av
 {
-    if(view.annotation && [view.annotation class] == [Location class])
+    if(av.annotation && [av.annotation class] == [Location class])
     {
         annotationPressed = YES;
-        [self displayHUDWithLocation:(Location *)view.annotation andAnnotation:view];
+        [self displayHUDWithLocation:(Location *)av.annotation andAnnotation:av];
     }
 }
 
@@ -378,8 +385,15 @@
 {
     [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.4f]];
     [blackout setUserInteractionEnabled:YES];
-    [hud setLocation:location withAnnotation:annotation];
+    currentlyEnlargedAnnot = annotation;
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:.2];
+    annotation.transform = CGAffineTransformMakeScale(4,4); 
+    [UIView commitAnimations]; 
+    [hud setLocation:location];
     [hud open];
+    [self centerMapOnLoc:location.latlon.coordinate];
 }
 
 - (void) dismissSelection
@@ -390,6 +404,16 @@
     for(int i = 0; i < [mapView.selectedAnnotations count]; i++)
         [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:i] animated:NO];
     [hud dismiss];
+    
+    if(currentlyEnlargedAnnot)
+    {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:.2];
+        currentlyEnlargedAnnot.transform = CGAffineTransformMakeScale(1,1); 
+        [UIView commitAnimations];  
+    }
+    currentlyEnlargedAnnot = nil;
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -422,8 +446,8 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(!annotationPressed) [self dismissSelection];
-    annotationPressed = NO;
+    //if(!annotationPressed) [self dismissSelection];
+    //annotationPressed = NO;
 }
 
 #pragma mark StateControlProtocol delegate methods

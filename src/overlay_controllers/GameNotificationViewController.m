@@ -399,4 +399,10 @@
     return [delegate displayGameObject:g fromSource:s];
 }
 
+- (void) dealloc
+{
+    
+}
+
+
 @end

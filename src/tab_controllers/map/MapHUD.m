@@ -31,7 +31,6 @@
     UIImageView *warningImage; 
     
     Location *location; 
-    MKAnnotationView *annotation; 
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -60,7 +59,7 @@
     warningImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"walkerWarning.png"]];
     
     CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:NO showHandle:NO draggable:YES tappable:YES delegate:self];
+    collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:NO showHandle:NO draggable:YES tappable:NO delegate:self];
     collapseView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];    
     [collapseView addSubview:circleButton];  
     
@@ -87,10 +86,9 @@
     warningImage.frame = CGRectMake(self.view.frame.size.width-40, 5, 30, 30);
 }
 
-- (void) setLocation:(Location *)l withAnnotation:(MKAnnotationView *)a
+- (void) setLocation:(Location *)l
 {
     location = l;
-    annotation = a;
     
     CLLocation *annotationLocation = location.latlon;
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:annotationLocation];

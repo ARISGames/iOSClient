@@ -23,7 +23,7 @@
     UIImageView *playIcon;
     UIActivityIndicatorView *spinner;
     
-    id <ARISMediaViewDelegate> delegate;
+    id<ARISMediaViewDelegate> delegate;
 }
 
 @end
