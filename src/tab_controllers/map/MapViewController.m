@@ -241,6 +241,8 @@
 	
 	//Center the map on the player
     [self centerMapOnLoc:[AppModel sharedAppModel].player.location.coordinate];
+    MKCoordinateRegion region = mapView.region;
+    region.span = MKCoordinateSpanMake(0.001f, 0.001f);
 }
 
 - (void) centerMapOnLoc:(CLLocationCoordinate2D)loc

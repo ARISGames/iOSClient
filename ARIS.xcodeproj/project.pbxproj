@@ -383,6 +383,9 @@
 		F92B5E2018C1452000D1D1A7 /* PVPark.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E1F18C1452000D1D1A7 /* PVPark.m */; };
 		F92B5E2518C657DF00D1D1A7 /* PVParkMapOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E2418C657DF00D1D1A7 /* PVParkMapOverlay.m */; };
 		F92B5E2818C6597A00D1D1A7 /* PVParkMapOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E2718C6597A00D1D1A7 /* PVParkMapOverlayView.m */; };
+		F92B5E3118C66DEB00D1D1A7 /* globe-512.png in Resources */ = {isa = PBXBuildFile; fileRef = F92B5E3018C66DEB00D1D1A7 /* globe-512.png */; };
+		F92B5E3318C66EE800D1D1A7 /* 728-clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F92B5E3218C66EE800D1D1A7 /* 728-clock@2x.png */; };
+		F92B5E3518C66EF000D1D1A7 /* 708-search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F92B5E3418C66EF000D1D1A7 /* 708-search@2x.png */; };
 		F96A35B118B40D9A00F3F35E /* 246-route.png in Resources */ = {isa = PBXBuildFile; fileRef = F96A35B018B40D9A00F3F35E /* 246-route.png */; };
 		F9C4231718AE9793002D7EED /* walkerWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = F9C4231618AE9793002D7EED /* walkerWarning.png */; };
 /* End PBXBuildFile section */
@@ -1003,6 +1006,9 @@
 		F92B5E2418C657DF00D1D1A7 /* PVParkMapOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVParkMapOverlay.m; sourceTree = "<group>"; };
 		F92B5E2618C6597A00D1D1A7 /* PVParkMapOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVParkMapOverlayView.h; sourceTree = "<group>"; };
 		F92B5E2718C6597A00D1D1A7 /* PVParkMapOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVParkMapOverlayView.m; sourceTree = "<group>"; };
+		F92B5E3018C66DEB00D1D1A7 /* globe-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "globe-512.png"; sourceTree = "<group>"; };
+		F92B5E3218C66EE800D1D1A7 /* 728-clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "728-clock@2x.png"; sourceTree = "<group>"; };
+		F92B5E3418C66EF000D1D1A7 /* 708-search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "708-search@2x.png"; sourceTree = "<group>"; };
 		F96A35B018B40D9A00F3F35E /* 246-route.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "246-route.png"; sourceTree = "<group>"; };
 		F9C4231618AE9793002D7EED /* walkerWarning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walkerWarning.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1105,6 +1111,9 @@
 		AA2D211617DE560C00CF4198 /* gamepicker_tabbar */ = {
 			isa = PBXGroup;
 			children = (
+				F92B5E3418C66EF000D1D1A7 /* 708-search@2x.png */,
+				F92B5E3218C66EE800D1D1A7 /* 728-clock@2x.png */,
+				F92B5E3018C66DEB00D1D1A7 /* globe-512.png */,
 				AA2D211717DE560C00CF4198 /* arrow_selected.png */,
 				AA2D211817DE560C00CF4198 /* arrow_selected@2x.png */,
 				AA2D211917DE560C00CF4198 /* arrow_unselected.png */,
@@ -2286,6 +2295,7 @@
 				AABC6FCD1727398B0074CC21 /* 16-tag-white.png in Resources */,
 				AABC6FCE1727398B0074CC21 /* 16-tag-white@2x.png in Resources */,
 				AABC6FCF1727398B0074CC21 /* 193-location-arrow-white.png in Resources */,
+				F92B5E3518C66EF000D1D1A7 /* 708-search@2x.png in Resources */,
 				ABD4E31418A6798200D014EA /* Images.xcassets in Resources */,
 				AABC6FD01727398B0074CC21 /* 193-location-arrow-white@2x.png in Resources */,
 				AABC6FD11727398B0074CC21 /* 213-reply-white.png in Resources */,
@@ -2326,6 +2336,7 @@
 				AABC6FEF1727398B0074CC21 /* defaultAudioIcon.png in Resources */,
 				AA2D215317DE560C00CF4198 /* toolbox@2x.png in Resources */,
 				AABC6FF01727398B0074CC21 /* defaultCharacter.png in Resources */,
+				F92B5E3118C66DEB00D1D1A7 /* globe-512.png in Resources */,
 				AABC6FF11727398B0074CC21 /* DefaultGameSplash.png in Resources */,
 				AA527E4817E0B6830040AB75 /* idcard@2x.png in Resources */,
 				AABC6FF21727398B0074CC21 /* defaultImageIcon.png in Resources */,
@@ -2344,6 +2355,7 @@
 				AABC70131727398B0074CC21 /* notebook2.png in Resources */,
 				AABC70151727398B0074CC21 /* npc.png in Resources */,
 				AABC70171727398B0074CC21 /* Pin.png in Resources */,
+				F92B5E3318C66EE800D1D1A7 /* 728-clock@2x.png in Resources */,
 				AA2D213F17DE560C00CF4198 /* globe_selected@2x.png in Resources */,
 				AABC70181727398B0074CC21 /* PinDown1.png in Resources */,
 				AAA318E318B7C7280000E71A /* release_notes.md in Resources */,
