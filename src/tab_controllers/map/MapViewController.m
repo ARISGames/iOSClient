@@ -106,7 +106,7 @@
     
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(centerMapOnPlayer) forControlEvents:UIControlEventTouchDown];
-    [centerButton setImage:[UIImage imageNamed:@"74-location-white.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [centerButton setImage:[UIImage imageNamed:@"location" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     centerButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
     centerButton.backgroundColor = [UIColor ARISColorDarkBlue];
     centerButton.layer.cornerRadius = 5;
@@ -116,7 +116,7 @@
     
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
-    [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4); 
     fitToAnnotationButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
     fitToAnnotationButton.layer.cornerRadius = 5;
