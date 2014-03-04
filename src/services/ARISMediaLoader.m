@@ -10,6 +10,7 @@
 #import "AppServices.h"
 #import "AppModel.h"
 #import "MediaModel.h"
+#import "ARISDelegateHandle.h"
 
 @interface ARISMediaLoader()
 {
@@ -31,13 +32,13 @@
     return self;
 }
 
-- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d
+- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh
 {
     if(!m) return;
     
     MediaResult *mr = [[MediaResult alloc] init];
     mr.media = m;
-    mr.delegate = d;
+    mr.delegateHandle = dh;
     
     [self loadMediaFromMR:mr];
 }
@@ -116,8 +117,10 @@
 
 - (void) mediaLoadedForMR:(MediaResult *)mr
 {
-    if(mr.delegate) [mr.delegate mediaLoaded:mr.media];
-    mr.delegate = nil; 
+    //This is so ugly. See comments in ARISDelegateHandle.h for reasoning
+    if(mr.delegateHandle.delegate && [[mr.delegateHandle.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
+        [mr.delegateHandle.delegate mediaLoaded:mr.media];
+    [mr.delegateHandle invalidate]; 
 }
 
 - (void) dealloc
@@ -137,7 +140,7 @@
 @synthesize connection;
 @synthesize start;
 @synthesize time;
-@synthesize delegate;
+@synthesize delegateHandle;
 
 - (void) cancelConnection
 {

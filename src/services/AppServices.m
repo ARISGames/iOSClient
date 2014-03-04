@@ -623,7 +623,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
     //immediately load new image into cache
     if([AppModel sharedAppModel].player.playerMediaId != 0)
-        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] delegate:nil]; 
+        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] delegateHandle:nil]; 
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ARISServiceResult *)jsonResult
@@ -633,7 +633,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [AppModel sharedAppModel].player.playerMediaId = [((NSDictionary*)jsonResult.resultData) validIntForKey:@"media_id"];
         //immediately load new image into cache 
         if([AppModel sharedAppModel].player.playerMediaId != 0)
-            [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] delegate:nil];  
+            [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId] delegateHandle:nil];  
         [[AppModel sharedAppModel] saveUserDefaults];
     }
 }
@@ -912,9 +912,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"media" method:@"getMediaObject" arguments:args handler:self successSelector:@selector(parseSingleMediaFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d
+//Delegate handle must be of type id<ARISMediaLoaderDelegate>
+- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh
 {
-    [mediaLoader loadMedia:m delegate:d];
+    [mediaLoader loadMedia:m delegateHandle:dh];
 }
 
 - (void)fetchGameMediaList

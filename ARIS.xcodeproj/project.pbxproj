@@ -140,6 +140,7 @@
 		AAA318E318B7C7280000E71A /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = AAA318DD18B7C7280000E71A /* release_notes.md */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
+		AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */; };
 		AABC064718A1896500315FB5 /* CrumbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064418A1896500315FB5 /* CrumbPath.m */; };
 		AABC064818A1896500315FB5 /* CrumbPathView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064618A1896500315FB5 /* CrumbPathView.m */; };
 		AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F3A172738CD0074CC21 /* Settings.bundle */; };
@@ -594,6 +595,8 @@
 		AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISGamePlayTabBarViewController.m; sourceTree = "<group>"; };
 		AAAC4352172EDDB300C92DF0 /* GameObjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectViewController.h; sourceTree = "<group>"; };
 		AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObjectViewController.m; sourceTree = "<group>"; };
+		AAB62FC518C64D0F00030F48 /* ARISDelegateHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARISDelegateHandle.h; path = src/ARISDelegateHandle.h; sourceTree = SOURCE_ROOT; };
+		AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARISDelegateHandle.m; path = src/ARISDelegateHandle.m; sourceTree = SOURCE_ROOT; };
 		AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateControllerProtocol.h; sourceTree = "<group>"; };
 		AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsViewController.h; sourceTree = "<group>"; };
 		AABC064318A1896500315FB5 /* CrumbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrumbPath.h; sourceTree = "<group>"; };
@@ -1578,6 +1581,8 @@
 			children = (
 				AA49A25B17AAE6C200629C87 /* ARISMediaView.h */,
 				AA49A25C17AAE6C200629C87 /* ARISMediaView.m */,
+				AAB62FC518C64D0F00030F48 /* ARISDelegateHandle.h */,
+				AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */,
 			);
 			path = media;
 			sourceTree = "<group>";
@@ -2508,6 +2513,7 @@
 				AABC73D4172739D80074CC21 /* ARISConnection.m in Sources */,
 				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */,
+				AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */,
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
 				AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */,
 				AA383B1B1829AD2F00612FFB /* NoteViewController.m in Sources */,

@@ -10,6 +10,8 @@
 #import "ARISTemplate.h"
 #import "Media.h"
 #import "Location.h"
+#import "AppModel.h"
+#import "ARISMediaView.h"
 
 @interface AnnotationView() <ARISMediaViewDelegate>
 {

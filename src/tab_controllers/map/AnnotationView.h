@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "AppModel.h"
-#import "ARISAppDelegate.h"
-#import "ARISMediaView.h"
 
 #define POINTER_LENGTH 10.0f
 #define POINTER_WIDTH 10.0f

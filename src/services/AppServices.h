@@ -77,7 +77,7 @@
 
 //Should only be called in the case of a media appearing in the game that didn't exist when the game was initially launched (eg- someone took a picture)
 - (void) fetchMediaMeta:(Media *)m;
-- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d;
+- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh;
 
 //Note Stuff
 - (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList;

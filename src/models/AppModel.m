@@ -128,7 +128,7 @@
         
         //load the player media immediately if possible
         if(self.player.playerMediaId != 0)
-            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegate:nil];
+            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegateHandle:nil];
     }
     
     self.fallbackGameId = [defaults integerForKey:@"gameId"];
@@ -168,7 +168,7 @@
     [defaults synchronize];
        
     if(self.player.playerMediaId != 0)
-        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegate:nil];  
+        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegateHandle:nil];  
 }
 
 - (void) initUserDefaults

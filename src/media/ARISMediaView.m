@@ -23,7 +23,8 @@
     UIImageView *playIcon;
     UIActivityIndicatorView *spinner;
     
-    id<ARISMediaViewDelegate> delegate;
+    ARISDelegateHandle *selfDelegateHandle;
+    id<ARISMediaViewDelegate> __unsafe_unretained delegate;
 }
 
 @end
@@ -81,10 +82,14 @@
 - (void) setMedia:(Media *)m
 {
     image = nil;
+    if(selfDelegateHandle) [selfDelegateHandle invalidate]; 
     if(!m.data)
     {
         [self addSpinner];
-        [[AppServices sharedAppServices] loadMedia:m delegate:self];
+        
+        selfDelegateHandle = [[ARISDelegateHandle alloc] initWithDelegate:self];
+        
+        [[AppServices sharedAppServices] loadMedia:m delegateHandle:selfDelegateHandle];
         return;//this function will be called upon media's return
     }
     media = m;
@@ -149,8 +154,6 @@
     [avVC.moviePlayer stop];
     [avVC.view removeFromSuperview];
 }
-
-//implement STOP here and call it when continue is pressed
 
 - (void) mediaLoaded:(Media *)m
 {
@@ -321,6 +324,7 @@
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];  
+    if(selfDelegateHandle) [selfDelegateHandle invalidate];
     if(avVC) [avVC.moviePlayer cancelAllThumbnailImageRequests]; 
 }
 
