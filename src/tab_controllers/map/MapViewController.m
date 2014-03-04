@@ -27,6 +27,7 @@
 
 #import "MapHUD.h"
 #import "UIImage+Color.h"
+#import "PVPark.h"
 
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
@@ -57,6 +58,9 @@
 
     id<MKAnnotation> currentAnnotation; //PHIL HATES this...
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    
+    
+    PVPark *park;
 }
 @end
 
@@ -121,6 +125,14 @@
     
     [self updateOverlays];
     [self refresh];
+    
+    
+    //test for map overlay
+    park = [[PVPark alloc] initWithConstants];
+    CLLocationDegrees latDelta = park.overlayTopLeftCoordinate.latitude - park.overlayBottomRightCoordinate.latitude;
+    MKCoordinateSpan span = MKCoordinateSpanMake(fabs(latDelta), 0.0);
+    MKCoordinateRegion region = MKCoordinateRegionMake(park.midCoordinate, span);
+    mapView.region = region;
 }
 
 - (void) viewWillLayoutSubviews
@@ -154,7 +166,7 @@
 	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     
-    [self zoomToFitAnnotations];
+    //[self zoomToFitAnnotations];
 }
 
 - (void) changeMapType:(id)sender
