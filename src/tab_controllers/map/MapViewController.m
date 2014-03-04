@@ -27,7 +27,8 @@
 
 #import "MapHUD.h"
 #import "UIImage+Color.h"
-#import "PVPark.h"
+#import "MapOverlay.h"
+#import "MapOverlayView.h"
 
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
@@ -54,9 +55,6 @@
     NSTimer *refreshTimer;
 
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
-    
-    
-    PVPark *park;
 }
 @end
 
@@ -140,13 +138,8 @@
     [self updateOverlays];
     [self refresh];
     
-    
-    //test for map overlay
-    park = [[PVPark alloc] initWithConstants];
-    CLLocationDegrees latDelta = park.overlayTopLeftCoordinate.latitude - park.overlayBottomRightCoordinate.latitude;
-    MKCoordinateSpan span = MKCoordinateSpanMake(fabs(latDelta), 0.0);
-    MKCoordinateRegion region = MKCoordinateRegionMake(park.midCoordinate, span);
-    mapView.region = region;
+    MapOverlay *mapOverlay = [[MapOverlay alloc] init];
+    [mapView addOverlay:(id<MKOverlay>)mapOverlay];
 }
 
 - (void) viewWillLayoutSubviews
@@ -188,6 +181,11 @@
         circleView.fillColor = [[UIColor ARISColorLightBlue] colorWithAlphaComponent:0.4];
         circleView.opaque = NO;
         return circleView;
+    }
+    if ([overlay isKindOfClass:[MapOverlay class]]) {
+        MapOverlayView *mapOverlayView = [[MapOverlayView alloc] initWithOverlay:overlay];
+        mapOverlayView.backgroundColor = [UIColor redColor];
+        return mapOverlayView;
     }
     return nil;
 }
