@@ -170,7 +170,6 @@
     self.transform = CGAffineTransformMakeScale(1,1);  
     iconBorderView.transform = CGAffineTransformMakeScale(1,1);   
     [UIView commitAnimations];   
-    
 }
 
 - (void) dealloc

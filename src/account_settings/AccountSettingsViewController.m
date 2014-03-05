@@ -17,7 +17,7 @@
     UIView *logoutButton;
     UILabel *logoutLabel;
     UIView *line;
-    UIImageView *leaveGameArrow;
+    UIImageView *logoutArrow;
     id<AccountSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -65,7 +65,7 @@
     //Logout button \/
     logoutButton = [[UIView alloc] init];
     logoutLabel = [[UILabel alloc] init];
-    leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
+    logoutArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
     line = [[UIView alloc] init]; 
     
     logoutLabel.textAlignment = NSTextAlignmentLeft;
@@ -77,7 +77,7 @@
     
     [logoutButton addSubview:line];
     [logoutButton addSubview:logoutLabel];
-    [logoutButton addSubview:leaveGameArrow];
+    [logoutButton addSubview:logoutArrow];
     
     logoutButton.userInteractionEnabled = YES;
     logoutButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
@@ -96,7 +96,7 @@
     logoutButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
     logoutLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
     line.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
-    leaveGameArrow.frame = CGRectMake(6,13,19,19); 
+    logoutArrow.frame = CGRectMake(6,13,19,19); 
 }
 
 - (void) logoutButtonTouched

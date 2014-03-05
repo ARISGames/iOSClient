@@ -17,8 +17,7 @@
 
 - (id) init
 {
-    self = [super init];
-    if(self)
+    if(self = [super init])
     {
         [self clearData];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestPlayerQuestListsReceived:) name:@"LatestPlayerQuestListsReceived" object:nil];
@@ -64,7 +63,7 @@
         if(!match)
             questLost = YES;
     }
-    self.currentCompletedQuests = completedQuests;
+    self.currentCompletedQuests = [NSArray arrayWithArray:completedQuests];
     if([newlyCompletedQuests count] > 0 || questLost)
     {
         NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -96,7 +95,7 @@
         if(!match)
             questLost = YES;
     }
-    self.currentActiveQuests = activeQuests;
+    self.currentActiveQuests = [NSArray arrayWithArray:activeQuests]; 
     if([newlyActiveQuests count] > 0 || questLost)
     {
         NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:

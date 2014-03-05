@@ -155,6 +155,7 @@
     [gameNotificationViewController stopListeningToModel];
     [gameNotificationViewController cutOffGameNotifications];
     [game clearLocalModels];
+    [game endPlay]; 
     //PHIL UNAPPROVED - 
     [AppModel sharedAppModel].currentGame = nil;
     [delegate gameplayWasDismissed];

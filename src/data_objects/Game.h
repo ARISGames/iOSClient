@@ -119,6 +119,7 @@
 - (NSComparisonResult)compareCalculatedScore:(Game*)otherGame;
 - (NSComparisonResult)compareTitle:(Game*)otherGame;
 - (void) clearLocalModels;
+- (void) endPlay;
 
 - (Npc *) npcForNpcId:(int)mId;
 - (Node *) nodeForNodeId:(int)mId;

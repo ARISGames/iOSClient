@@ -214,9 +214,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSLog(@"*** ARISConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
     
     if(sr.retryOnFail)
-    {
         [graveyard addServiceResult:sr];
-    }
    	if(sr.handler && sr.failSelector)
 		[sr.handler performSelector:sr.failSelector withObject:error];
     

@@ -1112,7 +1112,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationOptionsReady" object:conversationOptions]];
 }
 
-- (Game *)parseGame:(NSDictionary *)gameSource
+- (Game *) parseGame:(NSDictionary *)gameSource
 {
     Game *game = [[Game alloc] init];
     
