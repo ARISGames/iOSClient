@@ -153,8 +153,10 @@
     mapView.frame = self.view.bounds;
     
     int buttonSize = 30;
-    centerButton.frame          = CGRectMake(self.view.bounds.size.width-80,  self.view.bounds.size.height-40, buttonSize, buttonSize);
-    fitToAnnotationButton.frame = CGRectMake(self.view.bounds.size.width-40,  self.view.bounds.size.height-40, buttonSize, buttonSize); 
+    //centerButton.frame          = CGRectMake(self.view.bounds.size.width-80,  self.view.bounds.size.height-40, buttonSize, buttonSize);
+    //fitToAnnotationButton.frame = CGRectMake(self.view.bounds.size.width-40,  self.view.bounds.size.height-40, buttonSize, buttonSize); 
+    centerButton.frame          = CGRectMake(15, 64,  buttonSize, buttonSize);
+    fitToAnnotationButton.frame = CGRectMake(15, 104, buttonSize, buttonSize);  
     
     hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80); 
 }
@@ -393,7 +395,7 @@
 
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(AnnotationView *)annotation
 {
-    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.4f]];
+    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.01f]];
     [blackout setUserInteractionEnabled:YES];
     [annotation enlarge];
     [hud setLocation:location];
