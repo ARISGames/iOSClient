@@ -157,7 +157,8 @@
     [UIView setAnimationDuration:.2];
     self.transform = CGAffineTransformMakeScale(2,2); 
     CGAffineTransform e = CGAffineTransformMakeScale(2,2);
-    iconBorderView.transform = CGAffineTransformTranslate(e,IMAGE_WIDTH/4,-IMAGE_HEIGHT/4);    
+    if(showTitle) e = CGAffineTransformTranslate(e,IMAGE_WIDTH/4,-IMAGE_HEIGHT/4);
+    iconBorderView.transform = e;
     [UIView commitAnimations];  
 }
 
