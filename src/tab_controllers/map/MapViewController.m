@@ -46,8 +46,6 @@
     UIButton *centerButton;
     UIButton *fitToAnnotationButton;
     
-    MKAnnotationView *currentlyEnlargedAnnot; //ugh. ugly.
-    
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
 
@@ -386,23 +384,18 @@
 
 - (void) mapView:(MKMapView *)mv didSelectAnnotationView:(MKAnnotationView *)av
 {
-    if(av.annotation && [av.annotation class] == [Location class])
+    if(av.annotation && [av class] == [AnnotationView class] && [av.annotation class] == [Location class])
     {
         annotationPressed = YES;
-        [self displayHUDWithLocation:(Location *)av.annotation andAnnotation:av];
+        [self displayHUDWithLocation:(Location *)av.annotation andAnnotation:(AnnotationView *)av];
     }
 }
 
-- (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
+- (void) displayHUDWithLocation:(Location *)location andAnnotation:(AnnotationView *)annotation
 {
     [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.4f]];
     [blackout setUserInteractionEnabled:YES];
-    currentlyEnlargedAnnot = annotation;
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:.2];
-    annotation.transform = CGAffineTransformMakeScale(4,4); 
-    [UIView commitAnimations]; 
+    [annotation enlarge];
     [hud setLocation:location];
     [hud open];
     [self centerMapOnLoc:location.latlon.coordinate];
@@ -413,19 +406,13 @@
     [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]]; 
     [blackout setUserInteractionEnabled:NO];
     
-    for(int i = 0; i < [mapView.selectedAnnotations count]; i++)
-        [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:i] animated:NO];
-    [hud dismiss];
-    
-    if(currentlyEnlargedAnnot)
+    while([mapView.selectedAnnotations count] > 0)
     {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:.2];
-        currentlyEnlargedAnnot.transform = CGAffineTransformMakeScale(1,1); 
-        [UIView commitAnimations];  
+        if([[mapView.selectedAnnotations objectAtIndex:0] class] == [Location class])
+            [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) shrinkToNormal]; 
+        [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:0] animated:NO];
     }
-    currentlyEnlargedAnnot = nil;
+    [hud dismiss];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views

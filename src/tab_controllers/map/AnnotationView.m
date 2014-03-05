@@ -16,8 +16,7 @@
 @interface AnnotationView() <ARISMediaViewDelegate>
 {
 	CGRect titleRect;
-	CGRect subtitleRect;
-	CGRect textRect;
+	CGRect bubbleRect;
 	UIView *iconBorderView;
    	ARISMediaView *iconView; 
     bool showTitle;
@@ -37,11 +36,8 @@
         Location *loc = (Location *)location;
         
         loc.title = nil;
-        loc.subtitle = nil;
         if(![loc.name isEqualToString:@""])
             loc.title = loc.name;
-        if(loc.gameObject.type == GameObjectItem && loc.qty > 1 && loc.title)
-            loc.subtitle = [NSString stringWithFormat:@"x %d",loc.qty];
         
         showTitle = (loc.showTitle && loc.title) ? YES : NO;
         shouldWiggle = loc.wiggle;
@@ -50,40 +46,31 @@
         xOnSinWave = 0;
 
         CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT); 
-        titleRect    = CGRectMake(0,0,0,0);
-        subtitleRect = CGRectMake(0,0,0,0);  
+        CGSize titleSize = CGSizeMake(0.0f,0.0f); 
+        titleRect = CGRectMake(0,0,0,0);
         
         if(showTitle)
         {
-            CGSize titleSize    = CGSizeMake(0.0f,0.0f);
-            CGSize subtitleSize = CGSizeMake(0.0f,0.0f); 
-            //if(loc.title)    titleSize    = [[loc.title uppercaseString] sizeWithFont:[ARISTemplate ARISAnnotFont]];
-            if(loc.title)    titleSize    = [loc.title sizeWithFont:[ARISTemplate ARISAnnotFont]]; 
-            if(loc.subtitle) subtitleSize = [loc.subtitle                sizeWithFont:[ARISTemplate ARISSubtextFont]];
+            if(loc.title) titleSize = [loc.title sizeWithFont:[ARISTemplate ARISAnnotFont]]; 
+            int maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
+            if(loc.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
             
-            int maxWidth = titleSize.width > subtitleSize.width ? titleSize.width : subtitleSize.width;
-            if(maxWidth > ANNOTATION_MAX_WIDTH) maxWidth = ANNOTATION_MAX_WIDTH;
+            titleRect = CGRectOffset(titleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
             
-            if(loc.title)    titleRect    = CGRectMake(0,                                        0, maxWidth,    titleSize.height-6);
-            if(loc.subtitle) subtitleRect = CGRectMake(0, titleRect.origin.y+titleRect.size.height, maxWidth, subtitleSize.height-6);
+            bubbleRect = titleRect;
+            bubbleRect.origin.x    -= ANNOTATION_PADDING;  
+            bubbleRect.origin.y    -= ANNOTATION_PADDING; 
+            bubbleRect.size.width  += ANNOTATION_PADDING*2;
+            bubbleRect.size.height += ANNOTATION_PADDING*2;
             
-            titleRect    = CGRectOffset(titleRect,    ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
-            subtitleRect = CGRectOffset(subtitleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
+            titleRect.origin.y -=3;
             
-            textRect=CGRectUnion(titleRect, subtitleRect);
-            textRect.origin.x    -= ANNOTATION_PADDING;  
-            textRect.origin.y    -= ANNOTATION_PADDING; 
-            textRect.size.width  += ANNOTATION_PADDING*2;
-            textRect.size.height += ANNOTATION_PADDING*2;
-            
-            titleRect.origin.y -= 3;
-            
-            if(IMAGE_WIDTH < textRect.size.width)
-                self.centerOffset = CGPointMake((textRect.size.width-IMAGE_WIDTH)/2, (textRect.size.height+POINTER_LENGTH)/2); 
+            if(IMAGE_WIDTH < bubbleRect.size.width)
+                self.centerOffset = CGPointMake((bubbleRect.size.width-IMAGE_WIDTH)/2, (bubbleRect.size.height+POINTER_LENGTH)/2); 
             else
-                self.centerOffset = CGPointMake(0, (textRect.size.height+POINTER_LENGTH)/2);  
+                self.centerOffset = CGPointMake(0, (bubbleRect.size.height+POINTER_LENGTH)/2);  
             
-            [self setFrame:CGRectUnion(textRect, imageViewFrame)]; 
+            [self setFrame:CGRectUnion(bubbleRect, imageViewFrame)]; 
         }
         else
             [self setFrame:imageViewFrame];  
@@ -117,10 +104,10 @@
 {
     if(showTitle)
     {
-        CGFloat minx = textRect.origin.x+1;
-        CGFloat maxx = textRect.origin.x+textRect.size.width-1; 
-        CGFloat miny = textRect.origin.y+1; 
-        CGFloat maxy = textRect.origin.y+textRect.size.height-1; 
+        CGFloat minx = bubbleRect.origin.x+1;
+        CGFloat maxx = bubbleRect.origin.x+bubbleRect.size.width-1; 
+        CGFloat miny = bubbleRect.origin.y+1; 
+        CGFloat maxy = bubbleRect.origin.y+bubbleRect.size.height-1; 
         CGPoint pointerPoint = CGPointMake(minx+(IMAGE_HEIGHT/2), miny-POINTER_LENGTH);
         
         CGMutablePathRef calloutPath = CGPathCreateMutable(); 
@@ -146,9 +133,7 @@
         [[UIColor ARISColorLightBlue] set]; 
         CGContextFillPath(UIGraphicsGetCurrentContext());
         [[UIColor ARISColorWhite] set];
-        //[[self.annotation.title uppercaseString] drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         [self.annotation.title drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter]; 
-        [self.annotation.subtitle drawInRect:subtitleRect withFont:[ARISTemplate ARISSubtextFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 1.0f);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
@@ -164,6 +149,28 @@
         [self performSelector:@selector(setNeedsDisplay) withObject:nil afterDelay:WIGGLE_FRAMELENGTH];
     }
 }	
+
+- (void) enlarge
+{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:.2];
+    self.transform = CGAffineTransformMakeScale(2,2); 
+    CGAffineTransform e = CGAffineTransformMakeScale(2,2);
+    iconBorderView.transform = CGAffineTransformTranslate(e,IMAGE_WIDTH/4,-IMAGE_HEIGHT/4);    
+    [UIView commitAnimations];  
+}
+
+- (void) shrinkToNormal
+{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:.2];
+    self.transform = CGAffineTransformMakeScale(1,1);  
+    iconBorderView.transform = CGAffineTransformMakeScale(1,1);   
+    [UIView commitAnimations];   
+    
+}
 
 - (void) dealloc
 {

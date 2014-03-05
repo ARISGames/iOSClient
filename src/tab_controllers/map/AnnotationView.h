@@ -21,5 +21,7 @@
 
 @interface AnnotationView : MKAnnotationView
 
+- (void) enlarge;
+- (void) shrinkToNormal;
 
 @end
