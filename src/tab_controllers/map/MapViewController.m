@@ -27,8 +27,8 @@
 
 #import "MapHUD.h"
 #import "UIImage+Color.h"
-#import "MapOverlay.h"
-#import "MapOverlayView.h"
+#import "CustomMapOverlay.h"
+#import "CustomMapOverlayView.h"
 
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
@@ -138,7 +138,10 @@
     [self updateOverlays];
     [self refresh];
     
-    MapOverlay *mapOverlay = [[MapOverlay alloc] init];
+    CLLocationCoordinate2D upperLeft = CLLocationCoordinate2DMake(34.4311, -118.6012);
+    CLLocationCoordinate2D upperRight = CLLocationCoordinate2DMake(34.4311, -118.5912);
+    CLLocationCoordinate2D bottomLeft = CLLocationCoordinate2DMake(34.4194, -118.6012);
+    CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:upperLeft upperRightCoordinate:upperRight bottomLeftCoordinate:bottomLeft];
     [mapView addOverlay:(id<MKOverlay>)mapOverlay];
 }
 
@@ -182,9 +185,8 @@
         circleView.opaque = NO;
         return circleView;
     }
-    if ([overlay isKindOfClass:[MapOverlay class]]) {
-        MapOverlayView *mapOverlayView = [[MapOverlayView alloc] initWithOverlay:overlay];
-        mapOverlayView.backgroundColor = [UIColor redColor];
+    if ([overlay isKindOfClass:[CustomMapOverlay class]]) {
+        CustomMapOverlayView *mapOverlayView = [[CustomMapOverlayView alloc] initWithOverlay:overlay];
         return mapOverlayView;
     }
     return nil;

@@ -8,6 +8,6 @@
 
 #import <MapKit/MapKit.h>
 
-@interface MapOverlayView : MKOverlayView
+@interface CustomMapOverlayView : MKOverlayView
 
 @end
