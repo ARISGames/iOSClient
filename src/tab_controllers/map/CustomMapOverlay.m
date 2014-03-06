@@ -17,6 +17,8 @@
 @end
 
 @implementation CustomMapOverlay
+@synthesize boundingMapRect;
+@synthesize coordinate;
 
 -(id)initWithUpperLeftCoordinate:(CLLocationCoordinate2D)upperLeftCoord upperRightCoordinate:(CLLocationCoordinate2D)upperRightCoord bottomLeftCoordinate:(CLLocationCoordinate2D)bottomLeftCoord
 {
@@ -27,6 +29,11 @@
         bottomLeftCoordinate = bottomLeftCoord;
     }
     return self;
+}
+
+- (CLLocationCoordinate2D)coordinate
+{
+    return upperLeftCoordinate;
 }
 
 - (MKMapRect)boundingMapRect
