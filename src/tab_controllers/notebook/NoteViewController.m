@@ -161,9 +161,12 @@
     
     note = [n.userInfo objectForKey:@"note"];
     
+    //really should move the following to like "refreshviewfromnote" or something...
     [tagsDisplay setTags:note.tags];  
     
+    title.text = note.name;
     desc.text = note.desc;
+    owner.text = note.owner.displayname; 
     [self formatSubviewFrames]; 
     
     [contentsDisplay setContents:note.contents]; 
