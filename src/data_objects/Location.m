@@ -54,8 +54,7 @@
     {
         self.locationId = [dict validIntForKey:@"location_id"];
         self.name       = [dict validObjectForKey:@"name"];
-        self.latlon     = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"]
-                                                            longitude:[dict validDoubleForKey:@"longitude"]];
+        self.latlon     = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
         
         NSString *otype = [dict validObjectForKey:@"type"];
         int oid         = [dict validIntForKey:@"type_id"];

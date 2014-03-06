@@ -202,7 +202,7 @@ const int VIEW_MODE_ALL  = 1;
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
-    
+    [self.navigationController popToViewController:self animated:YES];    
 }
 
 - (void) addNote

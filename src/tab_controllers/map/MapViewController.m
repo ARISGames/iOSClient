@@ -41,7 +41,6 @@
     MKMapView *mapView;
     MapHUD *hud;
     UIView *blackout;
-    BOOL annotationPressed; 
     
     UIButton *centerButton;
     UIButton *fitToAnnotationButton;
@@ -386,7 +385,6 @@
 {
     if(av.annotation && [av class] == [AnnotationView class] && [av.annotation class] == [Location class])
     {
-        annotationPressed = YES;
         [self displayHUDWithLocation:(Location *)av.annotation andAnnotation:(AnnotationView *)av];
     }
 }
@@ -441,12 +439,6 @@
 - (void) blackoutTouched
 {
     [self dismissSelection];
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //if(!annotationPressed) [self dismissSelection];
-    //annotationPressed = NO;
 }
 
 #pragma mark StateControlProtocol delegate methods

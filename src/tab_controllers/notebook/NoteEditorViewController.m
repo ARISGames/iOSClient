@@ -218,7 +218,7 @@
 
 - (void) mediaWasSelected:(Media *)m
 {
-    
+    //do nothing
 }
 
 - (void) locationPickerButtonTouched

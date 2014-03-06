@@ -541,8 +541,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) uploadNote:(Note *)n
 {
     NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys: 
-                              [NSNumber numberWithBool:n.location.latlon.coordinate.latitude],  @"latitude",
-                              [NSNumber numberWithBool:n.location.latlon.coordinate.longitude], @"longitude", 
+                              [NSNumber numberWithFloat:n.location.latlon.coordinate.latitude],  @"latitude",
+                              [NSNumber numberWithFloat:n.location.latlon.coordinate.longitude], @"longitude", 
                               nil];
     NSMutableArray *media = [[NSMutableArray alloc] initWithCapacity:n.contents];
     for(int i = 0; i < [n.contents count]; i++)
