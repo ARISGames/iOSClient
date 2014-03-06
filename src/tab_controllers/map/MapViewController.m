@@ -153,8 +153,6 @@
     mapView.frame = self.view.bounds;
     
     int buttonSize = 30;
-    //centerButton.frame          = CGRectMake(self.view.bounds.size.width-80,  self.view.bounds.size.height-40, buttonSize, buttonSize);
-    //fitToAnnotationButton.frame = CGRectMake(self.view.bounds.size.width-40,  self.view.bounds.size.height-40, buttonSize, buttonSize); 
     centerButton.frame          = CGRectMake(15, 64,  buttonSize, buttonSize);
     fitToAnnotationButton.frame = CGRectMake(15, 104, buttonSize, buttonSize);  
     
