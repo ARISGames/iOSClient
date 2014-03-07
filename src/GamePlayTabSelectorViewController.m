@@ -19,10 +19,11 @@
 {
     UITableView *tableView;
     UIView *leaveGameButton;
-    NSMutableArray *viewControllers;
     UILabel *leaveGameLabel;
     UIImageView *leaveGameArrow;
     UIView *leaveGameLine;
+    
+    NSMutableArray *viewControllers; 
     id<GamePlayTabSelectorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
