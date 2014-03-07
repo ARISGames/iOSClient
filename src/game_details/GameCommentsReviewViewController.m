@@ -49,9 +49,9 @@
     
     ratePrompt = [[UILabel alloc] init];
     ratePrompt.text = @"(Tap a Star to Rate)";
-    ratePrompt.font = [ARISTemplate ARISBodyFont]; 
+    ratePrompt.font = [ARISTemplate ARISCellSubtextFont]; 
     ratePrompt.textAlignment = NSTextAlignmentCenter;
-    ratePrompt.textColor = [UIColor ARISColorLightGray]; 
+    ratePrompt.textColor = [UIColor ARISColorDarkGray]; 
     
     //Holy hack. This is hilarious. But at least it's contained.
     rate1 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -72,7 +72,7 @@
     commentPrompt = [[UILabel alloc] init];
     commentPrompt.text = @"Write a Review (Optional)";
     commentPrompt.font = [ARISTemplate ARISBodyFont];  
-    commentPrompt.textColor = [UIColor ARISColorLightGray];
+    commentPrompt.textColor = [UIColor ARISColorDarkGray];
     
     commentArea = [[UITextView alloc] init];
     commentArea.font = [ARISTemplate ARISInputFont];
