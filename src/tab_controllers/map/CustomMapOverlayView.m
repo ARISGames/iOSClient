@@ -7,15 +7,37 @@
 //
 
 #import "CustomMapOverlayView.h"
+#import "CustomMapOverlay.h"
+#import "ARISMediaView.h"
+
+@interface CustomMapOverlayView(){
+    CustomMapOverlay *overlay;
+    ARISMediaView *media;
+    UIImage *imageOverlay;
+}
+
+@end
 
 @implementation CustomMapOverlayView
 
+
+- (id)initWithCustomOverlay:(CustomMapOverlay *)customOverlay
+{
+    self = [super init];
+    if (self) {
+        overlay = customOverlay;
+        media = customOverlay.mediaOverlay;
+        UIImageView *imageView = ([media.subviews[0] isKindOfClass:[UIImageView class]]) ? media.subviews[0] : nil;
+        imageOverlay = imageView.image;
+    }
+    return self;
+}
+
 - (void) drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context
 {
-    UIImage *image = [UIImage imageNamed:@"overlay_park-351x500.png"];
-    CGImageRef imageReference = image.CGImage;
+    CGImageRef imageReference = imageOverlay.CGImage;
     
-    MKMapRect theMapRect = [self.overlay boundingMapRect];
+    MKMapRect theMapRect = [overlay boundingMapRect];
     CGRect theRect = [self rectForMapRect:theMapRect];
     
     CGContextScaleCTM(context, 1.0, -1.0);

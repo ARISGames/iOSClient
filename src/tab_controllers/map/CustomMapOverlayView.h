@@ -7,7 +7,10 @@
 //
 
 #import <MapKit/MapKit.h>
+#import "CustomMapOverlay.h"
 
 @interface CustomMapOverlayView : MKOverlayView
+
+- (id)initWithCustomOverlay:(CustomMapOverlay *)customOverlay;
 
 @end

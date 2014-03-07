@@ -35,7 +35,6 @@
     NSMutableArray *locations;
     NSMutableArray *locationsToAdd;
     NSMutableArray *locationsToRemove;
-    NSMutableArray *overlayArray;
     
     BOOL isViewLoaded;
 
@@ -76,7 +75,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"                               object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"                                  object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList"                         object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateOverlays)             name:@"NewOverlayListReady"                          object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToNewQueue:)    name:@"NewlyAvailableLocationsAvailable"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToRemoveQueue:) name:@"NewlyUnavailableLocationsAvailable"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)             name:@"NewlyChangedLocationsGameNotificationSent"    object:nil];
@@ -135,13 +133,16 @@
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     self.navigationController.navigationBar.translucent = YES;
     
-    [self updateOverlays];
     [self refresh];
     
+    //hardcoded for now, need to get from the server later
     CLLocationCoordinate2D upperLeft = CLLocationCoordinate2DMake(34.4311, -118.6012);
     CLLocationCoordinate2D upperRight = CLLocationCoordinate2DMake(34.4311, -118.5912);
     CLLocationCoordinate2D bottomLeft = CLLocationCoordinate2DMake(34.4194, -118.6012);
-    CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:upperLeft upperRightCoordinate:upperRight bottomLeftCoordinate:bottomLeft];
+    ARISMediaView *mediaOverlay = [[ARISMediaView alloc] init];
+    UIImage *image = [UIImage imageNamed:@"overlay_park-351x500.png"];
+    [mediaOverlay setImage:image];
+    CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:upperLeft upperRightCoordinate:upperRight bottomLeftCoordinate:bottomLeft overlayMedia:mediaOverlay];
     [mapView addOverlay:(id<MKOverlay>)mapOverlay];
 }
 
@@ -186,29 +187,12 @@
         return circleView;
     }
     if ([overlay isKindOfClass:[CustomMapOverlay class]]) {
-        CustomMapOverlayView *mapOverlayView = [[CustomMapOverlayView alloc] initWithOverlay:overlay];
+        CustomMapOverlayView *mapOverlayView = [[CustomMapOverlayView alloc] initWithCustomOverlay:overlay];
         return mapOverlayView;
     }
     return nil;
 }
 
-- (void) updateOverlays
-{
-    /*
-    [overlayArray removeAllObjects];
-    [mapView removeOverlays:[mapView overlays]];
-    
-    for(int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++)
-    {
-        TileOverlay *overlay = [[TileOverlay alloc] initWithIndex: i];
-        if(overlay != NULL)
-        {
-            [overlayArray addObject:overlay];
-            [mapView addOverlay:overlay];
-        }
-    }
-     */
-}
 
 - (void) refresh
 {
