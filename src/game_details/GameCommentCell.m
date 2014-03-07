@@ -51,6 +51,8 @@
 
 - (void) initializeViews
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+
     ratingView = [[ARISStarView alloc] init];  
     authorView = [[UILabel alloc] init];
     dateView = [[UILabel alloc] init]; 

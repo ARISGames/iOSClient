@@ -10,6 +10,7 @@
 
 @interface ARISStarView ()
 {
+    int spacing;
     float rating;
 }
 @end
@@ -26,8 +27,8 @@
     for(int i = 0; i < 5; i++)
     {
         if(i <= r-1) s = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"star_blue.png"]];
-        else       s = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"star_gray.png"]]; 
-        s.frame = CGRectMake(i*sWidth, 0, sWidth, self.frame.size.height);
+        else         s = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"star_gray.png"]]; 
+        s.frame = CGRectMake(i*sWidth+(spacing*i/5), 0, sWidth-(spacing*4/5), self.frame.size.height); //<- boy I'm clever...
         [self addSubview:s];
     }
 }
@@ -35,6 +36,12 @@
 - (int) rating
 {
     return rating;
+}
+
+- (void) setSpacing:(int)s
+{
+    spacing = s;
+    [self setRating:rating];//essentially refreshes views 
 }
 
 - (void) setFrame:(CGRect)frame

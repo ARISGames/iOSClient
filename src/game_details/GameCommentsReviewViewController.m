@@ -13,7 +13,9 @@
 
 @interface GameCommentsReviewViewController () <UITextViewDelegate>
 {
+    UILabel *ratePrompt;  
     ARISStarView *rateView;
+    UILabel *commentPrompt; 
     UITextView *commentArea;
     UILabel *postButton;
     
@@ -45,6 +47,12 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    ratePrompt = [[UILabel alloc] init];
+    ratePrompt.text = @"(Tap a Star to Rate)";
+    ratePrompt.font = [ARISTemplate ARISBodyFont]; 
+    ratePrompt.textAlignment = NSTextAlignmentCenter;
+    ratePrompt.textColor = [UIColor ARISColorLightGray]; 
+    
     //Holy hack. This is hilarious. But at least it's contained.
     rate1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [rate1 addTarget:self action:@selector(rateOneStar) forControlEvents:UIControlEventTouchDown];
@@ -58,7 +66,13 @@
     [rate5 addTarget:self action:@selector(rateFiveStar) forControlEvents:UIControlEventTouchDown]; 
     
     rateView = [[ARISStarView alloc] init];
+    rateView.spacing = 30;
     rateView.rating = 0;
+    
+    commentPrompt = [[UILabel alloc] init];
+    commentPrompt.text = @"Write a Review (Optional)";
+    commentPrompt.font = [ARISTemplate ARISBodyFont];  
+    commentPrompt.textColor = [UIColor ARISColorLightGray];
     
     commentArea = [[UITextView alloc] init];
     commentArea.font = [ARISTemplate ARISInputFont];
@@ -70,9 +84,10 @@
     [postButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postButtonTouched)]];
     postButton.userInteractionEnabled = YES; 
     
-    [self.view addSubview:rateView]; 
+    [self.view addSubview:rateView];  
+    [self.view addSubview:ratePrompt];   
     [self.view addSubview:commentArea];
-    [self.view addSubview:postButton];
+    [self.view addSubview:commentPrompt];  
     
     [self.view addSubview:rate1];
     [self.view addSubview:rate2]; 
@@ -85,9 +100,11 @@
 {
     [super viewWillLayoutSubviews];
     
-    rateView.frame = CGRectMake(10, 74, self.view.frame.size.width-20, 50);
+    ratePrompt.frame = CGRectMake(20,110,self.view.frame.size.width-40,20);
+    rateView.frame = CGRectMake(20, 74, self.view.frame.size.width-40, 30);
+    commentPrompt.frame = CGRectMake(10,140,self.view.frame.size.width-40,20);   
     commentArea.frame = CGRectMake(0, 134, self.view.frame.size.width, 100);
-    postButton.frame = CGRectMake(self.view.frame.size.width-55, self.view.frame.size.height-300, 50, 20);
+    postButton.frame = CGRectMake(0, 0, 40, 27); 
     
     float starWidth = (self.view.frame.size.width-20)/5;
     rate1.frame = CGRectMake(10+(0*starWidth),74,starWidth,50);
@@ -95,6 +112,8 @@
     rate3.frame = CGRectMake(10+(2*starWidth),74,starWidth,50); 
     rate4.frame = CGRectMake(10+(3*starWidth),74,starWidth,50); 
     rate5.frame = CGRectMake(10+(4*starWidth),74,starWidth,50); 
+       
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:postButton];    
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -108,6 +127,11 @@
     [commentArea resignFirstResponder]; 
     [delegate reviewCreatedWithRating:rateView.rating text:commentArea.text];
     commentArea.text = @"";
+}
+
+- (void) textViewDidChange:(UITextView *)textView
+{
+    commentPrompt.hidden = YES;
 }
 
 //haaaaaccckkkk
