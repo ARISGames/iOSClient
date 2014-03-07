@@ -125,6 +125,7 @@
 		AAA318E218B7C7280000E71A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AAA318DC18B7C7280000E71A /* README.md */; };
 		AAA318E318B7C7280000E71A /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = AAA318DD18B7C7280000E71A /* release_notes.md */; };
 		AAA3FAA118CA28B500C8D016 /* ARISSelectorHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */; };
+		AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA518CA733000C8D016 /* CircleView.m */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
 		AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */; };
@@ -523,6 +524,8 @@
 		AAA318E018B7C7280000E71A /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		AAA3FA9F18CA28B500C8D016 /* ARISSelectorHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISSelectorHandle.h; sourceTree = "<group>"; };
 		AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISSelectorHandle.m; sourceTree = "<group>"; };
+		AAA3FAA418CA733000C8D016 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
+		AAA3FAA518CA733000C8D016 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAAB7635173AB6E6007B5A75 /* ARISGamePlayTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISGamePlayTabBarViewController.h; sourceTree = "<group>"; };
 		AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISGamePlayTabBarViewController.m; sourceTree = "<group>"; };
@@ -1253,6 +1256,8 @@
 				AABC71B1172739D70074CC21 /* third_party */,
 				AAA3FA9F18CA28B500C8D016 /* ARISSelectorHandle.h */,
 				AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */,
+				AAA3FAA418CA733000C8D016 /* CircleView.h */,
+				AAA3FAA518CA733000C8D016 /* CircleView.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -2243,6 +2248,7 @@
 				AABC7382172739D80074CC21 /* NpcScriptOption.m in Sources */,
 				AABC7383172739D80074CC21 /* Note.m in Sources */,
 				AABC7385172739D80074CC21 /* Npc.m in Sources */,
+				AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */,
 				AABC7386172739D80074CC21 /* Overlay.m in Sources */,
 				AABC7387172739D80074CC21 /* Panoramic.m in Sources */,
 				AA8E9EAE18BE8DE000F343A2 /* GameCommentsReviewViewController.m in Sources */,

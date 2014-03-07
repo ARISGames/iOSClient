@@ -1506,17 +1506,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     {
         Quest *quest = [[Quest alloc] init];
         quest.questId                  = [activeQuestDict validIntForKey:@"quest_id"];
+        quest.name                     = [activeQuestDict validStringForKey:@"name"]; 
         quest.mediaId                  = [activeQuestDict validIntForKey:@"active_media_id"];
         quest.iconMediaId              = [activeQuestDict validIntForKey:@"active_icon_media_id"];
-        quest.notificationMediaId      = [activeQuestDict validIntForKey:@"active_notification_media_id"];  
-        quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"];
-        quest.name                     = [activeQuestDict validStringForKey:@"name"];
         quest.qdescription             = [activeQuestDict validStringForKey:@"description"];
-        quest.qdescriptionNotification = [activeQuestDict validStringForKey:@"description_notification"]; 
         quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
         quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
-        quest.notifGoFunction          = [activeQuestDict validStringForKey:@"notif_go_function"]; 
-        quest.showDismiss              = [activeQuestDict validBoolForKey:@"active_notif_show_dismiss"]; 
+        quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"]; 
         
         [activeQuestObjects addObject:quest];
     }
@@ -1530,17 +1526,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     {
         Quest *quest = [[Quest alloc] init];
         quest.questId                  = [completedQuestDict validIntForKey:@"quest_id"];
+        quest.name                     = [completedQuestDict validStringForKey:@"name"]; 
         quest.mediaId                  = [completedQuestDict validIntForKey:@"complete_media_id"];
         quest.iconMediaId              = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
-        quest.notificationMediaId      = [completedQuestDict validIntForKey:@"complete_notification_media_id"]; 
-        quest.sortNum                  = [completedQuestDict validIntForKey:@"sort_index"];
-        quest.name                     = [completedQuestDict validStringForKey:@"name"];
         quest.qdescription             = [completedQuestDict validStringForKey:@"text_when_complete"];
-        quest.qdescriptionNotification = [completedQuestDict validStringForKey:@"text_when_complete_notification"];  
         quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"complete_full_screen_notify"]; 
         quest.goFunction               = [completedQuestDict validStringForKey:@"complete_go_function"];
-        quest.notifGoFunction          = [completedQuestDict validStringForKey:@"complete_notif_go_function"]; 
-        quest.showDismiss              = [completedQuestDict validBoolForKey:@"complete_notif_show_dismiss"];
+        quest.sortNum                  = [completedQuestDict validIntForKey:@"sort_index"]; 
         
         [completedQuestObjects addObject:quest];
     }

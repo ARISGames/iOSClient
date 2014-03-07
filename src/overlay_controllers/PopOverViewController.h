@@ -11,12 +11,12 @@
 
 @protocol StateControllerProtocol;
 @protocol PopOverViewDelegate
-- (void) popOverContinueButtonPressed;
+- (void) popOverRequestsDismiss;
 @end
 
 @interface PopOverViewController : ARISViewController
 
-- (id) initWithDelegate:(id <PopOverViewDelegate,StateControllerProtocol>)poDelegate;
-- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt mediaId:(int)m function:(NSString *)f showDismiss:(BOOL)sd;
+- (id) initWithDelegate:(id <PopOverViewDelegate>)d;
+- (void) setHeader:(NSString *)h prompt:(NSString *)p iconMediaId:(int)m;
 
 @end

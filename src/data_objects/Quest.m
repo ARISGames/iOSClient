@@ -12,20 +12,19 @@
 @implementation Quest
 
 @synthesize questId;
-@synthesize name, sortNum;
+@synthesize name;
+@synthesize sortNum;
 @synthesize qdescription;
-@synthesize qdescriptionNotification;
 @synthesize goFunction;
-@synthesize notifGoFunction;
 @synthesize mediaId;
 @synthesize iconMediaId;
-@synthesize notificationMediaId;
 @synthesize fullScreenNotification;
-@synthesize showDismiss;
 @synthesize isNullQuest;
 
-- (Quest *) init {
-    if (self = [super init]) {
+- (Quest *) init
+{
+    if(self = [super init])
+    {
 		sortNum = 0;
     }
     return self;	
