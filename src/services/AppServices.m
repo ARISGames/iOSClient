@@ -15,9 +15,9 @@
 #import "Player.h"
 #import "Note.h"
 #import "NoteTag.h"
-#import "Overlay.h"
 #import "MediaModel.h"
 #import "GameComment.h"
+#import "CustomMapOverlay.h"
 
 @interface AppServices()
 {
@@ -710,102 +710,54 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchNoteTagLists];
 }
 
-- (void) fetchGameOverlayList
+- (void)fetchGameOverlayList
 {
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-            [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
-            [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],   @"bplayerId",
-            nil];
-    
-    [connection performAsynchronousRequestWithService:@"overlays" method:@"getCurrentOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
+    //probably gonna need player ID here soon
+   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId], @"agameId", nil];
+    [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForGame" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
 - (void) parseOverlayListFromJSON:(ARISServiceResult *)jsonResult
 {
-    if(!currentlyFetchingOverlayList) return;
-    currentlyFetchingOverlayList = NO;
-    
-    NSLog(@"NSNotification: ReceivedOverlayList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedOverlayList" object:nil]];
-    
-    [AppModel sharedAppModel].overlayIsVisible = false;
-    
+    NSMutableArray *newOverlayList = [[NSMutableArray alloc] init];
     NSArray *overlayListArray = (NSArray *)jsonResult.resultData;
-    
-    NSMutableArray *tempOverlayList = [[NSMutableArray alloc] init];
-    Overlay *tempOverlay = [[Overlay alloc] init];
-    
-    NSEnumerator *overlayListEnumerator = [overlayListArray objectEnumerator];
+    NSEnumerator *overlayEnumerator = [overlayListArray objectEnumerator];
     NSDictionary *overlayDictionary;
-    // step through results and create overlays
-    int currentOverlayID = -1;
-    int overlaysIndex = 0;
-    while(overlayDictionary = [overlayListEnumerator nextObject])
-    {
-        // if new overlay in database
-        if(currentOverlayID != [overlayDictionary validIntForKey:@"overlay_id"])
-        {
-            // add previous overlay to overlay list
-            [tempOverlayList addObject:tempOverlay];
-            
-            // create new overlay
-            tempOverlay.index = overlaysIndex;
-            tempOverlay.overlayId = [overlayDictionary validIntForKey:@"overlay_id"];;
-            tempOverlay.num_tiles = [overlayDictionary validIntForKey:@"num_tiles"];;
-            //tempOverlay.alpha = [[overlayDictionary validObjectForKey:@"alpha"] floatValue] ;
-            tempOverlay.alpha = 1.0;
-            [tempOverlay.tileFileName addObject:[overlayDictionary validObjectForKey:@"file_path"]];
-            [tempOverlay.tileMediaID addObject:[overlayDictionary validObjectForKey:@"media_id"]];
-            [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
-            [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
-            [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"]];
-            [tempOverlay.tileImage addObject:media];
-            currentOverlayID = tempOverlay.overlayId;
-            overlaysIndex += 1;
-        }
-        else
-        {
-            // add tiles to existing overlay
-            [tempOverlay.tileFileName addObject:[overlayDictionary validObjectForKey:@"file_path"]];
-            [tempOverlay.tileMediaID addObject:[overlayDictionary validObjectForKey:@"media_id"]];
-            [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
-            [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
-            [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"]];
-            [tempOverlay.tileImage addObject:media];
-            currentOverlayID = tempOverlay.overlayId;
-        }
+    //loop through and create the array of overlay objects
+    while (overlayDictionary = [overlayEnumerator nextObject]) {
+        double topLeftLat = [overlayDictionary validDoubleForKey:@"top_left_latitude"];
+        double topLeftLong = [overlayDictionary validDoubleForKey:@"top_left_longitude"];
+        double topRightLat = [overlayDictionary validDoubleForKey:@"top_right_latitude"];
+        double topRightLong = [overlayDictionary validDoubleForKey:@"top_right_longitude"];
+        double bottomLeftLat = [overlayDictionary validDoubleForKey:@"bottom_left_latitude"];
+        double bottomRightLong = [overlayDictionary validDoubleForKey:@"bottom_left_longitude"];
+        int mediaId = [overlayDictionary validIntForKey:@"media_id"];
+        CLLocationCoordinate2D topLeft = CLLocationCoordinate2DMake(topLeftLat, topLeftLong);
+        CLLocationCoordinate2D topRight = CLLocationCoordinate2DMake(topRightLat, topRightLong);
+        CLLocationCoordinate2D bottomLeft = CLLocationCoordinate2DMake(bottomLeftLat, bottomRightLong);
+        Media *media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+        ARISMediaView *mediaView = [[ARISMediaView alloc] init];
+        [mediaView setMedia:media];
+        CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:topLeft upperRightCoordinate:topRight bottomLeftCoordinate:bottomLeft overlayMedia:mediaView];
+        [newOverlayList addObject:mapOverlay];
     }
+    NSMutableDictionary *overlayDictionaryToSend = [[NSMutableDictionary alloc] init];
+    [overlayDictionaryToSend setObject:newOverlayList forKey:@"overlays"];
     
-    /*
-    [AppModel sharedAppModel].overlayList = tempOverlayList;
-    
-    for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++)
-    {
-        Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
-        int iTiles = [currentOverlay.tileX count];
-        for (int iTile = 0; iTile < iTiles; iTile++)
-        {
-            //SHOULD NOT MANIPULATE VIEWS IN APPSERVICES!!! -Phil
-            //ARISMediaView *aImageView = [[ARISMediaView alloc] initWithFrame:CGRectZero media:[currentOverlay.tileImage objectAtIndex:iTile] mode:ARISMediaDisplayModeAspectFit delegate:nil];
-            //also... what the heck is this doing? -Phil
-        }
-    }
-     */
-    
-    NSLog(@"NSNotification: NewOverlayListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlayListReady" object:nil]];
-    NSLog(@"NSNotification: PlayerPieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+    NSLog(@"NSNotification: OverlaysReceived");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"OverlaysReceived" object:self userInfo:overlayDictionaryToSend];
+    NSLog(@"NSNotification: GamePieceReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
+
 
 - (void)fetchAllPlayerLists
 {
     [self fetchPlayerLocationList];
     [self fetchPlayerQuestList];
     [self fetchPlayerInventory];
-    [self fetchPlayerOverlayList];
+    //[self fetchPlayerOverlayList];
 }
 
 - (void)fetchTabBarItems
@@ -986,22 +938,22 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"locations" method:@"getLocationsForPlayer" arguments:args handler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void) fetchPlayerOverlayList
-{
-    if(currentlyFetchingOverlayList)
-    {
-        NSLog(@"Skipping Request: already fetching overlays or interacting with object");
-        return;
-    }
-    
-    currentlyFetchingOverlayList = YES;
-    
-              NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
-                                    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],    @"bplayerId",
-                                    nil];
-    [connection performAsynchronousRequestWithService:@"overlays" method:@"getCurrentOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-}
+//- (void) fetchPlayerOverlayList
+//{
+//    if(currentlyFetchingOverlayList)
+//    {
+//        NSLog(@"Skipping Request: already fetching overlays or interacting with object");
+//        return;
+//    }
+//    
+//    currentlyFetchingOverlayList = YES;
+//    
+//              NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                                    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
+//                                    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],    @"bplayerId",
+//                                    nil];
+//    [connection performAsynchronousRequestWithService:@"overlays" method:@"getCurrentOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
+//}
 
 - (void) fetchPlayerInventory
 {    

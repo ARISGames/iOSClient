@@ -135,15 +135,11 @@
     
     [self refresh];
     
-    //hardcoded for now, need to get from the server later
-    CLLocationCoordinate2D upperLeft = CLLocationCoordinate2DMake(34.4311, -118.6012);
-    CLLocationCoordinate2D upperRight = CLLocationCoordinate2DMake(34.4311, -118.5912);
-    CLLocationCoordinate2D bottomLeft = CLLocationCoordinate2DMake(34.4194, -118.6012);
-    ARISMediaView *mediaOverlay = [[ARISMediaView alloc] init];
-    UIImage *image = [UIImage imageNamed:@"overlay_park-351x500.png"];
-    [mediaOverlay setImage:image];
-    CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:upperLeft upperRightCoordinate:upperRight bottomLeftCoordinate:bottomLeft overlayMedia:mediaOverlay];
-    [mapView addOverlay:(id<MKOverlay>)mapOverlay];
+    
+    //add the overlays to the map
+    for (CustomMapOverlay *mapOverlay in [AppModel sharedAppModel].currentGame.overlaysModel.overlays) {
+        [mapView addOverlay:(id<MKOverlay>)mapOverlay];
+    }
 }
 
 - (void) viewWillLayoutSubviews
@@ -202,7 +198,7 @@
     if(mapView)
     {
         [[AppServices sharedAppServices] fetchPlayerLocationList];
-        [[AppServices sharedAppServices] fetchPlayerOverlayList];
+        //[[AppServices sharedAppServices] fetchPlayerOverlayList];
         [self showLoadingIndicator];
     }
 }

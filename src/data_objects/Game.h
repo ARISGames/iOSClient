@@ -14,6 +14,7 @@
 #import "QuestsModel.h"
 #import "LocationsModel.h"
 #import "Media.h"
+#import "OverlaysModel.h"
 
 @class Item;
 @class Npc;
@@ -38,6 +39,7 @@
     AttributesModel *attributesModel;
     QuestsModel     *questsModel;
     LocationsModel  *locationsModel;
+    OverlaysModel   *overlaysModel;
     
     NSString *mapType;
     Media *iconMedia;
@@ -84,6 +86,7 @@
 @property (nonatomic, strong) AttributesModel *attributesModel;
 @property (nonatomic, strong) QuestsModel *questsModel;
 @property (nonatomic, strong) LocationsModel *locationsModel;
+@property (nonatomic, strong) OverlaysModel *overlaysModel;
 
 @property (nonatomic, strong) NSString *mapType;
 

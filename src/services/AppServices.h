@@ -57,7 +57,7 @@
 - (void) fetchPlayerLocationList;
 - (void) fetchPlayerQuestList;
 - (void) fetchPlayerInventory;
-- (void) fetchPlayerOverlayList;
+//- (void) fetchPlayerOverlayList;
 - (void) fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId;
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)

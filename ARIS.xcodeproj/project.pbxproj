@@ -386,6 +386,7 @@
 		F92B5E3A18C68AD500D1D1A7 /* CustomMapOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E3918C68AD500D1D1A7 /* CustomMapOverlay.m */; };
 		F92B5E3D18C68C5800D1D1A7 /* CustomMapOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E3C18C68C5800D1D1A7 /* CustomMapOverlayView.m */; };
 		F92B5E3F18C9010900D1D1A7 /* overlay_park-351x500.png in Resources */ = {isa = PBXBuildFile; fileRef = F92B5E3E18C9010900D1D1A7 /* overlay_park-351x500.png */; };
+		F92B5E4418CA72C800D1D1A7 /* OverlaysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E4318CA72C800D1D1A7 /* OverlaysModel.m */; };
 		F96A35B118B40D9A00F3F35E /* 246-route.png in Resources */ = {isa = PBXBuildFile; fileRef = F96A35B018B40D9A00F3F35E /* 246-route.png */; };
 		F9C4231718AE9793002D7EED /* walkerWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = F9C4231618AE9793002D7EED /* walkerWarning.png */; };
 /* End PBXBuildFile section */
@@ -1008,6 +1009,8 @@
 		F92B5E3B18C68C5800D1D1A7 /* CustomMapOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMapOverlayView.h; sourceTree = "<group>"; };
 		F92B5E3C18C68C5800D1D1A7 /* CustomMapOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMapOverlayView.m; sourceTree = "<group>"; };
 		F92B5E3E18C9010900D1D1A7 /* overlay_park-351x500.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overlay_park-351x500.png"; sourceTree = "<group>"; };
+		F92B5E4218CA72C800D1D1A7 /* OverlaysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlaysModel.h; sourceTree = "<group>"; };
+		F92B5E4318CA72C800D1D1A7 /* OverlaysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlaysModel.m; sourceTree = "<group>"; };
 		F96A35B018B40D9A00F3F35E /* 246-route.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "246-route.png"; sourceTree = "<group>"; };
 		F9C4231618AE9793002D7EED /* walkerWarning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walkerWarning.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1617,6 +1620,7 @@
 				AABC70E4172739D60074CC21 /* locations */,
 				AABC70E7172739D60074CC21 /* media */,
 				AABC70EA172739D60074CC21 /* quests */,
+				F92B5E4118CA72AE00D1D1A7 /* overlays */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -2191,6 +2195,15 @@
 			name = "Frameworks and Dependancies";
 			sourceTree = "<group>";
 		};
+		F92B5E4118CA72AE00D1D1A7 /* overlays */ = {
+			isa = PBXGroup;
+			children = (
+				F92B5E4218CA72C800D1D1A7 /* OverlaysModel.h */,
+				F92B5E4318CA72C800D1D1A7 /* OverlaysModel.m */,
+			);
+			path = overlays;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2551,6 +2564,7 @@
 				AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */,
 				AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */,
 				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
+				F92B5E4418CA72C800D1D1A7 /* OverlaysModel.m in Sources */,
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
 				AA33AE8818BBC573000954C6 /* ForceDisplayQueue.m in Sources */,

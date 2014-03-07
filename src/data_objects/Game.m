@@ -27,6 +27,7 @@
 @synthesize attributesModel;
 @synthesize questsModel;
 @synthesize locationsModel;
+@synthesize overlaysModel;
 
 @synthesize mapType;
 @synthesize hasBeenPlayed;
@@ -70,6 +71,7 @@
     self.attributesModel = [[AttributesModel alloc] init];
     self.questsModel     = [[QuestsModel     alloc] init];
     self.locationsModel  = [[LocationsModel  alloc] init];
+    self.overlaysModel   = [[OverlaysModel   alloc] init];
 }
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame{
@@ -121,6 +123,7 @@
     [self.attributesModel clearData];
     [self.questsModel     clearData];
     [self.locationsModel  clearData];
+    [self.overlaysModel   clearData];
     [self.itemList      removeAllObjects];
     [self.nodeList      removeAllObjects];
     [self.npcList       removeAllObjects];

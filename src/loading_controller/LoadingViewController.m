@@ -53,7 +53,7 @@
         receivedGameData = 0;
         gameDataReceived = NO;
         
-        playerDatasToReceive = 4;
+        playerDatasToReceive = 3;
         receivedPlayerData = 0;
         playerDataReceived = NO;
         
