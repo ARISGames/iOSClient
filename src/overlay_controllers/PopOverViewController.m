@@ -75,7 +75,7 @@
     [super viewWillLayoutSubviews];
     float radius = (self.view.bounds.size.width-40)/2;
     popOverView.frame = CGRectMake(20,self.view.bounds.size.height/2-radius,radius*2,radius*2);
-    [iconMediaView setFrame:CGRectMake(radius-64,radius-44,128,128) withMode:ARISMediaDisplayModeAspectFit];
+    [iconMediaView setFrame:CGRectMake(radius-64,radius-84,128,128) withMode:ARISMediaDisplayModeAspectFit];
     header.frame = CGRectMake(20,radius+60,2*radius-40,24);
     prompt.frame = CGRectMake(20,radius+80,2*radius-40,24); 
 }
