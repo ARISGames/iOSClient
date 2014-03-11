@@ -28,6 +28,7 @@
     UILabel *owner;
     UILabel *date;
     UITextView *description;
+    UILabel *descriptionPrompt;
     NoteTagEditorViewController *tagViewController;
     NoteContentsViewController *contentsViewController;
     UIButton *locationPickerButton;
@@ -90,6 +91,11 @@
     description.contentInset = UIEdgeInsetsZero; 
     description.font = [ARISTemplate ARISBodyFont];
     
+    descriptionPrompt = [[UILabel alloc] initWithFrame:CGRectMake(16, 49+64+5, self.view.bounds.size.width-20, 24)];
+    descriptionPrompt.text = @"Note Description";
+    descriptionPrompt.textColor = [UIColor ARISColorLightGray];
+    descriptionPrompt.hidden = YES;
+    
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [descriptionDoneButton setTitle:@"Done" forState:UIControlStateNormal];
     [descriptionDoneButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
@@ -129,6 +135,7 @@
     [self.view addSubview:date];
     [self.view addSubview:owner];
     [self.view addSubview:description];
+    [self.view addSubview:descriptionPrompt]; 
     [self.view addSubview:tagViewController.view];
     [self.view addSubview:contentsViewController.view];
     [self.view addSubview:bottombar]; 
@@ -187,6 +194,7 @@
 
 - (void) textViewDidBeginEditing:(UITextView *)textView
 {
+    if([description.text isEqualToString:@""]) descriptionPrompt.hidden = NO;
     [tagViewController stopEditing];
     
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:descriptionDoneButton];
@@ -221,6 +229,11 @@
 {
     [description resignFirstResponder];
     if(note.tags.count == 0) [tagViewController beginEditing];
+}
+
+- (void) textViewDidChange:(UITextView *)textView
+{
+    descriptionPrompt.hidden = YES;
 }
 
 - (void) textViewDidEndEditing:(UITextView *)textView
