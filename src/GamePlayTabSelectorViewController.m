@@ -14,6 +14,7 @@
 #import "ARISTemplate.h"
 
 #import "MapViewController.h"
+#import "Game.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -115,7 +116,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"TOOLS";
+    return [AppModel sharedAppModel].currentGame.name;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

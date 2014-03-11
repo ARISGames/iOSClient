@@ -114,6 +114,13 @@
     rate5.frame = CGRectMake(10+(4*starWidth),74,starWidth,50); 
        
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:postButton];    
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0,0,19,19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    backButton.accessibilityLabel = @"Back Button";
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -132,6 +139,11 @@
 - (void) textViewDidChange:(UITextView *)textView
 {
     commentPrompt.hidden = YES;
+}
+
+- (void) backButtonTouched
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 //haaaaaccckkkk

@@ -84,7 +84,7 @@ static int const COMPLETED_SECTION = 1;
     completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [completeButton setTitle:@"Complete Quests" forState:UIControlStateNormal];
     [completeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
-    completeButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
+    completeButton.backgroundColor = [UIColor ARISColorLightBlue]; 
     completeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
     [completeButton addTarget:self action:@selector(completeButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
@@ -97,13 +97,13 @@ static int const COMPLETED_SECTION = 1;
 {
     [super viewWillLayoutSubviews];
     
+    activeButton.frame   = CGRectMake(0, 64, self.view.bounds.size.width/2, 40);
+    completeButton.frame = CGRectMake(self.view.bounds.size.width/2, 64, self.view.bounds.size.width/2, 40);  
+    
     //apple. so dumb.
     questsTable.frame = self.view.bounds;
-    questsTable.contentInset = UIEdgeInsetsMake(64,0,40,0);
-    [questsTable setContentOffset:CGPointMake(0,-64)]; 
-    
-    activeButton.frame   = CGRectMake(0, self.view.bounds.size.height-40, self.view.bounds.size.width/2, 40);
-    completeButton.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-40, self.view.bounds.size.width/2, 40); 
+    questsTable.contentInset = UIEdgeInsetsMake(104,0,40,0);
+    [questsTable setContentOffset:CGPointMake(0,-104)]; 
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -225,12 +225,16 @@ static int const COMPLETED_SECTION = 1;
 - (void) activeButtonTouched
 {
     questTypeShown = ACTIVE_SECTION;
+    [activeButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
+    [completeButton setBackgroundColor:[UIColor ARISColorLightBlue]];   
     [questsTable reloadData];
 }
 
 - (void) completeButtonTouched
 {
     questTypeShown = COMPLETED_SECTION;
+    [completeButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
+    [activeButton setBackgroundColor:[UIColor ARISColorLightBlue]];  
     [questsTable reloadData];
 }
 

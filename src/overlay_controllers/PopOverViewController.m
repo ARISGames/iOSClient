@@ -9,6 +9,7 @@
 #import "PopOverViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
+#import "UIImage+Color.h"
 #import "ARISMediaView.h"
 #import "CircleView.h"
 #import "Media.h"
@@ -43,10 +44,10 @@
     
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)]];
 
-    self.view.backgroundColor = [UIColor ARISColorTranslucentBlack];
+    self.view.backgroundColor = [[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.4];
     self.view.userInteractionEnabled = YES;
     
-    popOverView = [[CircleView alloc] initWithBackgroundColor:[UIColor ARISColorTranslucentBlack] strokeColor:[UIColor ARISColorWhite]];
+    popOverView = [[CircleView alloc] initWithBackgroundColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.4] strokeColor:[UIColor ARISColorWhite]];
     popOverView.opaque = NO;
     
     header = [[UILabel alloc] init];
@@ -73,8 +74,8 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    float radius = (self.view.bounds.size.width-40)/2;
-    popOverView.frame = CGRectMake(20,self.view.bounds.size.height/2-radius,radius*2,radius*2);
+    float radius = (self.view.bounds.size.width-60)/2;
+    popOverView.frame = CGRectMake((self.view.bounds.size.width-(2*radius))/2,self.view.bounds.size.height/2-radius,radius*2,radius*2);
     [iconMediaView setFrame:CGRectMake(radius-64,radius-84,128,128) withMode:ARISMediaDisplayModeAspectFit];
     header.frame = CGRectMake(20,radius+60,2*radius-40,24);
     prompt.frame = CGRectMake(20,radius+80,2*radius-40,24); 
@@ -88,7 +89,7 @@
     prompt.text = p;
     
     if(m != 0) [iconMediaView setMedia:[[AppModel sharedAppModel] mediaForMediaId:m]];
-    else [iconMediaView setImage:[UIImage imageNamed:@"todo"]];
+    else [iconMediaView setImage:[UIImage imageNamed:@"todo" withColor:[UIColor whiteColor]]];
 }
 
 - (void) dismiss

@@ -66,8 +66,15 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    writeAReviewButton.frame = CGRectMake(0,64,self.view.bounds.size.width,40);
+    writeAReviewButton.frame = CGRectMake(0+4,64+4,self.view.bounds.size.width-8,40-8);
     commentsTable.frame = CGRectMake(0,104,self.view.bounds.size.width,self.view.bounds.size.height-104); 
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0,0,19,19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    backButton.accessibilityLabel = @"Back Button";
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -127,6 +134,11 @@
     [game.comments addObject:gc];
     [commentsTable reloadData];
     [self.navigationController popToViewController:self animated:YES];  
+}
+
+- (void) backButtonTouched
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
