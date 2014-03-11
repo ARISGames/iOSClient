@@ -52,7 +52,6 @@
 
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
     
-    
     PVPark *park;
 }
 @end
@@ -222,6 +221,8 @@
 
 - (void) playerMoved
 {
+    /*
+     Pen Down
     if(!crumbs)
     {
         crumbs = [[CrumbPath alloc] initWithCenterCoordinate:[AppModel sharedAppModel].player.location.coordinate];
@@ -229,6 +230,7 @@
     }
     else [crumbs addCoordinate:[AppModel sharedAppModel].player.location.coordinate]; 
     [crumbView setNeedsDisplay];
+     */
 }
 
 - (void) centerMapOnPlayer

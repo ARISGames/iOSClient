@@ -28,13 +28,14 @@
     UILabel *owner;
     UILabel *date;
     UITextView *description;
-    UIButton *descriptionDoneButton;
     NoteTagEditorViewController *tagViewController;
     NoteContentsViewController *contentsViewController;
     UIButton *locationPickerButton;
     UIButton *imagePickerButton; 
     UIButton *audioPickerButton;  
-    UIButton *saveButton;
+    
+    UIButton *descriptionDoneButton; 
+    UIButton *saveNoteButton;
     
     NSMutableArray *mediaToUpload;
     
@@ -68,9 +69,6 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-       
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveButtonTouched)];
-    self.navigationItem.rightBarButtonItem = rightNavBarButton;   
     
     title = [[UITextField alloc] initWithFrame:CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20)];
     title.delegate = self;
@@ -91,12 +89,18 @@
     description.delegate = self;
     description.contentInset = UIEdgeInsetsZero; 
     description.font = [ARISTemplate ARISBodyFont];
+    
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [descriptionDoneButton setTitle:@"Done" forState:UIControlStateNormal];
     [descriptionDoneButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    descriptionDoneButton.frame = CGRectMake(self.view.bounds.size.width-80, 219+64-18, 70, 18);
-    [descriptionDoneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    descriptionDoneButton.hidden = YES;
+    descriptionDoneButton.frame = CGRectMake(0, 0, 70, 24); 
+    [descriptionDoneButton addTarget:self action:@selector(doneButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+       
+    saveNoteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [saveNoteButton setTitle:@"Save" forState:UIControlStateNormal];
+    [saveNoteButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    saveNoteButton.frame = CGRectMake(0, 0, 70, 24);
+    [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
     tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:YES delegate:self];
     tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 30);
@@ -116,20 +120,15 @@
     [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
     audioPickerButton.frame = CGRectMake(78, 10, 24, 24); 
     [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveButton setImage:[UIImage imageNamed:@"lock.png"] forState:UIControlStateNormal]; 
-    saveButton.frame = CGRectMake(self.view.bounds.size.width-34, 10, 24, 24); 
-    [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
+    
     [bottombar addSubview:locationPickerButton];
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:audioPickerButton]; 
-    [bottombar addSubview:saveButton]; 
     
     [self.view addSubview:title];
     [self.view addSubview:date];
     [self.view addSubview:owner];
     [self.view addSubview:description];
-    [self.view addSubview:descriptionDoneButton];
     [self.view addSubview:tagViewController.view];
     [self.view addSubview:contentsViewController.view];
     [self.view addSubview:bottombar]; 
@@ -140,8 +139,19 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     if([title.text isEqualToString:@""])
         [title becomeFirstResponder];
+             
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;     
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0,0,19,19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    backButton.accessibilityLabel = @"Back Button";
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
 }
 
 - (void) refreshViewFromNote
@@ -178,7 +188,9 @@
 - (void) textViewDidBeginEditing:(UITextView *)textView
 {
     [tagViewController stopEditing];
-    descriptionDoneButton.hidden = NO; 
+    
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:descriptionDoneButton];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;      
 }
 
 - (void) noteTagEditorWillBeginEditing
@@ -205,7 +217,7 @@
     [tagViewController setTags:note.tags]; 
 }
 
-- (void) doneButtonPressed
+- (void) doneButtonTouched
 {
     [description resignFirstResponder];
     if(note.tags.count == 0) [tagViewController beginEditing];
@@ -213,7 +225,8 @@
 
 - (void) textViewDidEndEditing:(UITextView *)textView
 {
-    descriptionDoneButton.hidden = YES; 
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;       
 }
 
 - (void) mediaWasSelected:(Media *)m
