@@ -40,6 +40,8 @@
 - (void) updateOverlays:(NSArray *)newOverlays
 {
     overlays = newOverlays;
+    NSLog(@"NSNotification: NewOverlaysAvailable");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlaysAvailable" object:self userInfo:nil]];
 }
 
 @end

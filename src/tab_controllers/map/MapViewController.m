@@ -78,6 +78,9 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToNewQueue:)    name:@"NewlyAvailableLocationsAvailable"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToRemoveQueue:) name:@"NewlyUnavailableLocationsAvailable"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)             name:@"NewlyChangedLocationsGameNotificationSent"    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector
+         (addOverlaysToMap)              name:@"NewOverlaysAvailable"
+            object:nil];
     }
     return self;
 }
@@ -135,8 +138,13 @@
     
     [self refresh];
     
-    
+    [self addOverlaysToMap];
+}
+
+- (void) addOverlaysToMap
+{
     //add the overlays to the map
+    [mapView removeOverlays:mapView.overlays];
     for (CustomMapOverlay *mapOverlay in [AppModel sharedAppModel].currentGame.overlaysModel.overlays) {
         [mapView addOverlay:(id<MKOverlay>)mapOverlay];
     }
@@ -199,6 +207,8 @@
     {
         [[AppServices sharedAppServices] fetchPlayerLocationList];
         //[[AppServices sharedAppServices] fetchPlayerOverlayList];
+        //this call will likely need to change to a player call for requirements
+        [[AppServices sharedAppServices] fetchGameOverlayList];
         [self showLoadingIndicator];
     }
 }

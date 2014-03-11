@@ -712,7 +712,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchGameOverlayList
 {
-    //probably gonna need player ID here soon
+    if (currentlyFetchingOverlayList) {
+        NSLog(@"Skipping Request: already fetching game overlays");
+        return;
+    }
+    
+    currentlyFetchingOverlayList = YES;
+    
    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId], @"agameId", nil];
     [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForGame" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
@@ -720,6 +726,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void) parseOverlayListFromJSON:(ARISServiceResult *)jsonResult
 {
+    if(!currentlyFetchingOverlayList) return;
+    currentlyFetchingOverlayList = NO;
+    
     NSMutableArray *newOverlayList = [[NSMutableArray alloc] init];
     NSArray *overlayListArray = (NSArray *)jsonResult.resultData;
     NSEnumerator *overlayEnumerator = [overlayListArray objectEnumerator];
