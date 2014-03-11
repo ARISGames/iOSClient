@@ -31,6 +31,8 @@
     UILabel *descriptionPrompt;
     NoteTagEditorViewController *tagViewController;
     NoteContentsViewController *contentsViewController;
+    
+    UIView *bottombar;
     UIButton *locationPickerButton;
     UIButton *imagePickerButton; 
     UIButton *audioPickerButton;  
@@ -71,27 +73,27 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    title = [[UITextField alloc] initWithFrame:CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20)];
+    title = [[UITextField alloc] init];
     title.delegate = self;
     title.font = [ARISTemplate ARISTitleFont]; 
     title.placeholder = @"Title";
     title.returnKeyType = UIReturnKeyDone;
     
-    date = [[UILabel alloc] initWithFrame:CGRectMake(10, 35+64, 65, 14)];  
+    date = [[UILabel alloc] init];  
     date.font = [ARISTemplate ARISSubtextFont]; 
     date.textColor = [UIColor ARISColorDarkBlue];
     date.adjustsFontSizeToFitWidth = NO;
     
-    owner = [[UILabel alloc] initWithFrame:CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14)];
+    owner = [[UILabel alloc] init];
     owner.font = [ARISTemplate ARISSubtextFont];
     owner.adjustsFontSizeToFitWidth = NO;
     
-    description = [[UITextView alloc] initWithFrame:CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170)];   
+    description = [[UITextView alloc] init];   
     description.delegate = self;
     description.contentInset = UIEdgeInsetsZero; 
     description.font = [ARISTemplate ARISBodyFont];
     
-    descriptionPrompt = [[UILabel alloc] initWithFrame:CGRectMake(16, 49+64+5, self.view.bounds.size.width-20, 24)];
+    descriptionPrompt = [[UILabel alloc] init];
     descriptionPrompt.text = @"Note Description";
     descriptionPrompt.textColor = [UIColor ARISColorLightGray];
     descriptionPrompt.hidden = YES;
@@ -109,11 +111,9 @@
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
     tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:YES delegate:self];
-    tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 30);
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
-    contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);     
     
-    UIView *bottombar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
+    bottombar = [[UIView alloc] init];
     locationPickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     locationPickerButton.frame = CGRectMake(10, 10, 24, 24);
@@ -143,6 +143,32 @@
     [self refreshViewFromNote];
 }
 
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    title.frame = CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20);
+    date.frame = CGRectMake(10, 35+64, 65, 14);
+    owner.frame = CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14);
+    description.frame = CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170);
+    descriptionPrompt.frame = CGRectMake(16, 49+64+5, self.view.bounds.size.width-20, 24);
+    if(tagViewController.view.frame.origin.y != (219+64-100)) //hack- if tagvc altered itself (-100), leave it be
+        tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 30);  
+    contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
+    bottombar.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0,0,19,19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    backButton.accessibilityLabel = @"Back Button";
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];   
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -152,13 +178,6 @@
              
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;     
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0,0,19,19);
-    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    backButton.accessibilityLabel = @"Back Button";
-    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
 }
 
 - (void) refreshViewFromNote
@@ -332,6 +351,11 @@
 - (void) recorderViewControllerCancelled
 {
     [self.navigationController popToViewController:self animated:YES];   
+}
+
+- (void) backButtonTouched
+{
+    [delegate noteEditorCancelledNoteEdit:self];
 }
 
 @end
