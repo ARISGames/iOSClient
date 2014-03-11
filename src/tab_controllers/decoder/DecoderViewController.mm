@@ -148,7 +148,7 @@
 - (void) launchScanner
 {
     [self clearScreenActions];
-    widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:prompt];
+    widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO withPrompt:prompt];
     widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
     prompt = @"";
     [self performSelector:@selector(addWidSubview) withObject:Nil afterDelay:0.1];
