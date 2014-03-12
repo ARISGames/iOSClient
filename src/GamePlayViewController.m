@@ -332,20 +332,22 @@
 - (void) displayTab:(NSString *)t
 {
     NSString *localized = [t lowercaseString];
+    ARISNavigationController *tab;
          if([localized isEqualToString:@"map"]       || [localized isEqualToString:[NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:mapNavigationController];
+        tab = mapNavigationController;
     else if([localized isEqualToString:@"quests"]    || [localized isEqualToString:[NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:questsNavigationController];
+        tab = questsNavigationController;
     else if([localized isEqualToString:@"notebook"]  || [localized isEqualToString:[NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:notesNavigationController];
+        tab = notesNavigationController;
     else if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:inventoryNavigationController];
+        tab = inventoryNavigationController;
     else if([localized isEqualToString:@"scanner"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:scannerNavigationController];
+        tab = scannerNavigationController;
     else if([localized isEqualToString:@"decoder"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:decoderNavigationController]; 
+        tab = decoderNavigationController; 
     else if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
-        [self viewControllerRequestedDisplay:attributesNavigationController];
+        tab = attributesNavigationController;
+    if(tab) [self viewControllerRequestedDisplay:tab]; 
 }
 
 - (NSUInteger) supportedInterfaceOrientations
