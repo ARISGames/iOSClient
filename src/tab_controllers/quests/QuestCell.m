@@ -57,6 +57,9 @@
     titleView.frame = CGRectMake(10,10,self.frame.size.width-20,20);  
     descriptionView.frame = CGRectMake(0, 20, self.frame.size.width, 15);
     
+    titleView.userInteractionEnabled = NO;  
+    descriptionView.userInteractionEnabled = NO;   
+    
     [self addSubview:titleView];
     [self addSubview:descriptionView];
 }
@@ -65,7 +68,8 @@
 {
     quest = q;
     titleView.text = quest.name; 
-    [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], q.qdescription] baseURL:nil]; 
+    descriptionView.frame = CGRectMake(0,20,self.frame.size.width,15);
+    [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], q.qdescription] baseURL:nil];   
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv

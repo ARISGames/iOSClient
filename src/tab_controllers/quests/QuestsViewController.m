@@ -11,6 +11,7 @@
 #import "AppServices.h"
 #import "Quest.h"
 #import "QuestCell.h"
+#import "QuestDetailsViewController.h"
 #import "Media.h"
 #import "WebPage.h"
 #import "WebPageViewController.h"
@@ -20,7 +21,7 @@
 static int const ACTIVE_SECTION = 0;
 static int const COMPLETED_SECTION = 1;
 
-@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, StateControllerProtocol, QuestCellDelegate>
+@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, StateControllerProtocol, QuestCellDelegate, QuestDetailsViewControllerDelegate>
 {
     NSArray *sortedActiveQuests;
     NSArray *sortedCompletedQuests;
@@ -220,6 +221,22 @@ static int const COMPLETED_SECTION = 1;
         [heights setValue:[NSNumber numberWithInt:h] forKey:[q description]]; 
         [questsTable reloadData];
     }
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Quest *q;
+    if(questTypeShown == ACTIVE_SECTION)
+        q = [sortedActiveQuests objectAtIndex:indexPath.row];
+    if(questTypeShown == COMPLETED_SECTION)
+        q = [sortedCompletedQuests objectAtIndex:indexPath.row]; 
+    
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self] animated:YES]; 
+}
+
+- (void) questDetailsRequestsDismissal
+{
+    [[self navigationController] popToViewController:self animated:YES];
 }
 
 - (void) activeButtonTouched
