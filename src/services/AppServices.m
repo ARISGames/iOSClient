@@ -729,12 +729,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     if(!currentlyFetchingOverlayList) return;
     currentlyFetchingOverlayList = NO;
     
-    NSMutableArray *newOverlayList = [[NSMutableArray alloc] init];
+    NSMutableDictionary *newOverlayList = [[NSMutableDictionary alloc] init];
     NSArray *overlayListArray = (NSArray *)jsonResult.resultData;
     NSEnumerator *overlayEnumerator = [overlayListArray objectEnumerator];
     NSDictionary *overlayDictionary;
     //loop through and create the array of overlay objects
     while (overlayDictionary = [overlayEnumerator nextObject]) {
+        int overlayId = [overlayDictionary validIntForKey:@"overlay_id"];
         double topLeftLat = [overlayDictionary validDoubleForKey:@"top_left_latitude"];
         double topLeftLong = [overlayDictionary validDoubleForKey:@"top_left_longitude"];
         double topRightLat = [overlayDictionary validDoubleForKey:@"top_right_latitude"];
@@ -749,7 +750,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         ARISMediaView *mediaView = [[ARISMediaView alloc] init];
         [mediaView setMedia:media];
         CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:topLeft upperRightCoordinate:topRight bottomLeftCoordinate:bottomLeft overlayMedia:mediaView];
-        [newOverlayList addObject:mapOverlay];
+        [newOverlayList setObject:mapOverlay forKey:[NSNumber numberWithInt:overlayId]];
     }
     NSMutableDictionary *overlayDictionaryToSend = [[NSMutableDictionary alloc] init];
     [overlayDictionaryToSend setObject:newOverlayList forKey:@"overlays"];
@@ -766,7 +767,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchPlayerLocationList];
     [self fetchPlayerQuestList];
     [self fetchPlayerInventory];
-    //[self fetchPlayerOverlayList];
+    [self fetchPlayerOverlayList];
 }
 
 - (void)fetchTabBarItems
@@ -947,22 +948,45 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"locations" method:@"getLocationsForPlayer" arguments:args handler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-//- (void) fetchPlayerOverlayList
-//{
-//    if(currentlyFetchingOverlayList)
-//    {
-//        NSLog(@"Skipping Request: already fetching overlays or interacting with object");
-//        return;
-//    }
-//    
-//    currentlyFetchingOverlayList = YES;
-//    
-//              NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-//                                    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
-//                                    [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],    @"bplayerId",
-//                                    nil];
-//    [connection performAsynchronousRequestWithService:@"overlays" method:@"getCurrentOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-//}
+
+- (void) fetchPlayerOverlayList
+{
+    if (currentlyFetchingOverlayList) {
+        NSLog(@"Skipping Request: already fetching overlays or interacting with object");
+        return;
+    }
+    
+    currentlyFetchingOverlayList = YES;
+    
+    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId], @"agameId",
+                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], @"bplayerId", nil];
+    [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerOverlayListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
+}
+
+- (void) parsePlayerOverlayListFromJSON:(ARISServiceResult *)jsonResult
+{
+    if(!currentlyFetchingOverlayList) return;
+    currentlyFetchingOverlayList = NO;
+    
+    NSArray *overlayIdArray = (NSArray *)jsonResult.resultData;
+    NSMutableArray *ids = [[NSMutableArray alloc] init];
+    NSEnumerator *overlayEnumerator = [overlayIdArray objectEnumerator];
+    NSDictionary *overlayDictionary;
+    while (overlayDictionary = [overlayEnumerator nextObject])
+    {
+        int overlayId = [overlayDictionary validIntForKey:@"overlay_id"];
+        NSInteger intToAdd = overlayId;
+        [ids addObject:[NSNumber numberWithInt:intToAdd]];
+    }
+    
+    NSMutableDictionary *overlayDictionaryToSend = [[NSMutableDictionary alloc] init];
+    [overlayDictionaryToSend setObject:ids forKey:@"overlayIds"];
+    NSLog(@"NSNotification: OverlayIdsReceived");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"OverlayIdsReceived" object:self userInfo:overlayDictionaryToSend];
+    NSLog(@"NSNotification: PlayerPieceReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+}
+
 
 - (void) fetchPlayerInventory
 {    

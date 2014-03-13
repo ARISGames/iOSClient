@@ -8,8 +8,9 @@
 
 #import "OverlaysModel.h"
 
+
 @implementation OverlaysModel
-@synthesize overlays;
+@synthesize overlayIds;
 
 - (id) init
 {
@@ -17,6 +18,7 @@
     if (self) {
         [self clearData];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(overlaysReceived:) name:@"OverlaysReceived" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(overlayIdsReceived:) name:@"OverlayIdsReceived" object:nil];
     }
     return self;
 }
@@ -28,20 +30,29 @@
 
 - (void) overlaysReceived:(NSNotification *)notification
 {
-    NSArray *newOverlays = [notification.userInfo objectForKey:@"overlays"];
-    [self updateOverlays:newOverlays];
+    NSDictionary *newOverlays = [notification.userInfo objectForKey:@"overlays"];
+    allOverlays = newOverlays;
 }
 
 - (void) clearData
 {
-    [self updateOverlays:[[NSArray alloc] init]];
+    allOverlays = [[NSDictionary alloc] init];
+    overlayIds = [[NSArray alloc] init];
 }
 
-- (void) updateOverlays:(NSArray *)newOverlays
+- (void) overlayIdsReceived:(NSNotification *)notification
 {
-    overlays = newOverlays;
+    NSArray *ids = [notification.userInfo objectForKey:@"overlayIds"];
+    overlayIds = ids;
     NSLog(@"NSNotification: NewOverlaysAvailable");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlaysAvailable" object:self userInfo:nil]];
 }
+
+- (CustomMapOverlay *) overlayForOverlayId:(int)overlayId
+{
+    return [allOverlays objectForKey:[NSNumber numberWithInt:overlayId]];
+}
+
+
 
 @end

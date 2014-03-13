@@ -7,14 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CustomMapOverlay.h"
 
 @interface OverlaysModel : NSObject
 {
-    NSArray *overlays;
+    NSDictionary *allOverlays;
+    NSArray *overlayIds;
 }
 
-@property (nonatomic, strong) NSArray *overlays;
+@property (nonatomic, strong) NSArray *overlayIds;
 
 - (void) clearData;
+- (CustomMapOverlay *) overlayForOverlayId:(int)overlayId;
 
 @end

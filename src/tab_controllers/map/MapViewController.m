@@ -149,8 +149,10 @@
         }
     }
     
-    for (CustomMapOverlay *mapOverlay in [AppModel sharedAppModel].currentGame.overlaysModel.overlays) {
-        [mapView addOverlay:(id<MKOverlay>)mapOverlay];
+    for (NSNumber *overlayId in [AppModel sharedAppModel].currentGame.overlaysModel.overlayIds) {
+        int integerId = [overlayId intValue];
+        id<MKOverlay> mapOverlay = [[AppModel sharedAppModel].currentGame.overlaysModel overlayForOverlayId:integerId];
+        [mapView addOverlay:mapOverlay];
     }
 }
 
@@ -210,9 +212,7 @@
     if(mapView)
     {
         [[AppServices sharedAppServices] fetchPlayerLocationList];
-        //[[AppServices sharedAppServices] fetchPlayerOverlayList];
-        //this call will likely need to change to a player call for requirements
-        [[AppServices sharedAppServices] fetchGameOverlayList];
+        [[AppServices sharedAppServices] fetchPlayerOverlayList];
         [self showLoadingIndicator];
     }
 }
