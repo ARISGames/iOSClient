@@ -10,8 +10,10 @@
 
 @implementation GameComment
 
-@synthesize playerName;
-@synthesize rating;
+@synthesize title;
 @synthesize text;
+@synthesize playerName;
+@synthesize date;
+@synthesize rating;
 
 @end

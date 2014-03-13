@@ -1163,10 +1163,15 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     {
         //This is returning an object with playerId,tex, and rating. Right now, we just want the text
         GameComment *c = [[GameComment alloc] init];
-        c.text = [comment validObjectForKey:@"text"];
-        c.playerName = [comment validObjectForKey:@"username"];
-        NSString *cRating = [comment validObjectForKey:@"rating"];
-        if(cRating) c.rating = [cRating intValue];
+        c.text = [comment validStringForKey:@"text"];
+        c.title = [comment validStringForKey:@"title"]; 
+        c.playerName = [comment validStringForKey:@"username"];
+        
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        c.date = [df dateFromString:[comment validStringForKey:@"timestamp"]];  
+        
+        c.rating = [comment validIntForKey:@"rating"];
         [game.comments addObject:c];
     }
     

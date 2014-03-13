@@ -15,6 +15,7 @@
 @interface GameCommentCell () <ARISWebViewDelegate, StateControllerProtocol>
 {
     ARISStarView *ratingView; 
+   	UILabel *titleView; 
 	UILabel *authorView;
    	UILabel *dateView; 
    	ARISWebView *commentView; 
@@ -54,10 +55,12 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 
     ratingView = [[ARISStarView alloc] init];  
+    titleView = [[UILabel alloc] init]; 
     authorView = [[UILabel alloc] init];
     dateView = [[UILabel alloc] init]; 
     commentView = [[ARISWebView alloc] initWithDelegate:self]; 
     
+    titleView.font = [ARISTemplate ARISCellTitleFont];
     authorView.font = [ARISTemplate ARISCellSubtextFont];
     authorView.textAlignment = NSTextAlignmentRight;
     dateView.font = [ARISTemplate ARISCellSubtextFont]; 
@@ -65,11 +68,13 @@
     commentView.scrollView.scrollEnabled = NO;
     
     ratingView.frame = CGRectMake(10,10,60,12);
+    titleView.frame = CGRectMake(10,0,self.frame.size.width-10,24);
     authorView.frame = CGRectMake(80,10,self.frame.size.width-70-80,15);  
     dateView.frame = CGRectMake(self.frame.size.width-70,10,60,15); 
     commentView.frame = CGRectMake(0, 20, self.frame.size.width, 15);
     
     [self addSubview:ratingView];
+    [self addSubview:titleView]; 
     [self addSubview:authorView];
     [self addSubview:dateView];
     [self addSubview:commentView];
@@ -79,8 +84,13 @@
 {
     gameComment = gc;
     ratingView.rating = gc.rating;
+    titleView.text = gc.title; 
     authorView.text = gc.playerName;
-    dateView.text = @"- 10/1/04"; //uh oh
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MM/dd/yy"];
+    dateView.text = [format stringFromDate:gc.date]; 
+    
     [commentView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], gc.text] baseURL:nil]; 
 }
 
