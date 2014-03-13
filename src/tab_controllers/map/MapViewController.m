@@ -143,8 +143,12 @@
 
 - (void) addOverlaysToMap
 {
-    //add the overlays to the map
-    [mapView removeOverlays:mapView.overlays];
+    for (int i = 0; i < mapView.overlays.count; i++) {
+        if ([mapView.overlays[i] isKindOfClass:[CustomMapOverlay class]]) {
+            [mapView removeOverlay:mapView.overlays[i]];
+        }
+    }
+    
     for (CustomMapOverlay *mapOverlay in [AppModel sharedAppModel].currentGame.overlaysModel.overlays) {
         [mapView addOverlay:(id<MKOverlay>)mapOverlay];
     }
