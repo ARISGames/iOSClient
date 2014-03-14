@@ -408,8 +408,13 @@
     [hud setLocation:location];
     [hud open];
     [self centerMapOnLoc:location.latlon.coordinate];
+    [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [viewAnnotationButton setLocation:location];
     [self.view addSubview:viewAnnotationButton];
-    [self.view addSubview:pickUpButton];
+    if ([location.gameObject isKindOfClass:[Item class]]) {
+        [self.view addSubview:pickUpButton];
+    }
+    
 }
 
 - (void) dismissSelection
@@ -454,6 +459,11 @@
 - (void) blackoutTouched
 {
     [self dismissSelection];
+}
+
+- (void)interactWithLocation:(TriangleButton*)sender{
+    Location *currLocation = sender.location;
+    [self displayGameObject:currLocation.gameObject fromSource:currLocation];
 }
 
 #pragma mark StateControlProtocol delegate methods
