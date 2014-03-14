@@ -152,7 +152,9 @@
     for (NSNumber *overlayId in [AppModel sharedAppModel].currentGame.overlaysModel.overlayIds) {
         int integerId = [overlayId intValue];
         id<MKOverlay> mapOverlay = [[AppModel sharedAppModel].currentGame.overlaysModel overlayForOverlayId:integerId];
-        [mapView addOverlay:mapOverlay];
+        if (mapOverlay) {
+            [mapView addOverlay:mapOverlay];
+        }
     }
 }
 
