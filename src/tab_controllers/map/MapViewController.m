@@ -171,10 +171,6 @@
     fitToAnnotationButton.frame = CGRectMake(15, 104, buttonSize, buttonSize);  
     
     hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80);
-    viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 65, (self.view.bounds.size.height / 2) - 15, 75, 100);
-    [viewAnnotationButton setTitle:@"View" forState:UIControlStateNormal];
-    pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
-    [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -408,10 +404,16 @@
     [hud setLocation:location];
     [hud open];
     [self centerMapOnLoc:location.latlon.coordinate];
+    
+    viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 65, (self.view.bounds.size.height / 2) - 15, 75, 100);
+    [viewAnnotationButton setTitle:@"View" forState:UIControlStateNormal];
     [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
     [viewAnnotationButton setLocation:location];
+    
     [self.view addSubview:viewAnnotationButton];
     if ([location.gameObject isKindOfClass:[Item class]]) {
+        pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
+        [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
         [self.view addSubview:pickUpButton];
     }
     
