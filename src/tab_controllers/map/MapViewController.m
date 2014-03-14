@@ -29,6 +29,7 @@
 #import "UIImage+Color.h"
 #import "CustomMapOverlay.h"
 #import "CustomMapOverlayView.h"
+#import "TriangleButton.h"
 
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
@@ -49,6 +50,8 @@
     CrumbPathView *crumbView;
 
     NSTimer *refreshTimer;
+    TriangleButton *viewAnnotationButton;
+    TriangleButton *pickUpButton;
 
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -118,7 +121,10 @@
     fitToAnnotationButton.layer.cornerRadius = 5;
     fitToAnnotationButton.clipsToBounds = YES;
     fitToAnnotationButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    fitToAnnotationButton.layer.borderWidth = 1.0f; 
+    fitToAnnotationButton.layer.borderWidth = 1.0f;
+    
+    viewAnnotationButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorDarkBlue] isPointingLeft:NO];
+    pickUpButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorRed] isPointingLeft:YES];
     
     [self.view addSubview:mapView];
     [self.view addSubview:centerButton];
@@ -164,7 +170,11 @@
     centerButton.frame          = CGRectMake(15, 64,  buttonSize, buttonSize);
     fitToAnnotationButton.frame = CGRectMake(15, 104, buttonSize, buttonSize);  
     
-    hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80); 
+    hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80);
+    viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 65, (self.view.bounds.size.height / 2) - 15, 75, 100);
+    [viewAnnotationButton setTitle:@"View" forState:UIControlStateNormal];
+    pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
+    [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -398,10 +408,14 @@
     [hud setLocation:location];
     [hud open];
     [self centerMapOnLoc:location.latlon.coordinate];
+    [self.view addSubview:viewAnnotationButton];
+    [self.view addSubview:pickUpButton];
 }
 
 - (void) dismissSelection
 {
+    [viewAnnotationButton removeFromSuperview];
+    [pickUpButton removeFromSuperview];
     [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]]; 
     [blackout setUserInteractionEnabled:NO];
     
