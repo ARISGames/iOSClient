@@ -117,7 +117,7 @@
 
 - (void) updateServerGameSelected;
 - (void) fetchQRCode:(NSString*)QRcodeId;
-- (void) saveGameComment:(NSString*)comment game:(int)gameId starRating:(int)rating;
+- (void) saveGameComment:(NSString*)comment titled:(NSString*)t game:(int)gameId starRating:(int)rating;
 - (void) startOverGame:(int)gameId;
 
 @end

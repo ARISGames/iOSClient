@@ -41,12 +41,9 @@
     MKMapView *mapView;
     MapHUD *hud;
     UIView *blackout;
-    BOOL annotationPressed; 
     
     UIButton *centerButton;
     UIButton *fitToAnnotationButton;
-    
-    MKAnnotationView *currentlyEnlargedAnnot; //ugh. ugly.
     
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
@@ -105,7 +102,7 @@
     
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(centerMapOnPlayer) forControlEvents:UIControlEventTouchDown];
-    [centerButton setImage:[UIImage imageNamed:@"74-location-white.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [centerButton setImage:[UIImage imageNamed:@"location" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     centerButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
     centerButton.backgroundColor = [UIColor ARISColorDarkBlue];
     centerButton.layer.cornerRadius = 5;
@@ -115,7 +112,7 @@
     
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
-    [fitToAnnotationButton setImage:[UIImage imageNamed:@"246-route.png" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4); 
     fitToAnnotationButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
     fitToAnnotationButton.layer.cornerRadius = 5;
@@ -164,8 +161,8 @@
     mapView.frame = self.view.bounds;
     
     int buttonSize = 30;
-    centerButton.frame          = CGRectMake(self.view.bounds.size.width-80,  self.view.bounds.size.height-40, buttonSize, buttonSize);
-    fitToAnnotationButton.frame = CGRectMake(self.view.bounds.size.width-40,  self.view.bounds.size.height-40, buttonSize, buttonSize); 
+    centerButton.frame          = CGRectMake(15, 64,  buttonSize, buttonSize);
+    fitToAnnotationButton.frame = CGRectMake(15, 104, buttonSize, buttonSize);  
     
     hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80); 
 }
@@ -221,6 +218,8 @@
 
 - (void) playerMoved
 {
+    /*
+     Pen Down
     if(!crumbs)
     {
         crumbs = [[CrumbPath alloc] initWithCenterCoordinate:[AppModel sharedAppModel].player.location.coordinate];
@@ -228,6 +227,7 @@
     }
     else [crumbs addCoordinate:[AppModel sharedAppModel].player.location.coordinate]; 
     [crumbView setNeedsDisplay];
+     */
 }
 
 - (void) centerMapOnPlayer
@@ -384,23 +384,17 @@
 
 - (void) mapView:(MKMapView *)mv didSelectAnnotationView:(MKAnnotationView *)av
 {
-    if(av.annotation && [av.annotation class] == [Location class])
+    if(av.annotation && [av class] == [AnnotationView class] && [av.annotation class] == [Location class])
     {
-        annotationPressed = YES;
-        [self displayHUDWithLocation:(Location *)av.annotation andAnnotation:av];
+        [self displayHUDWithLocation:(Location *)av.annotation andAnnotation:(AnnotationView *)av];
     }
 }
 
-- (void) displayHUDWithLocation:(Location *)location andAnnotation:(MKAnnotationView *)annotation
+- (void) displayHUDWithLocation:(Location *)location andAnnotation:(AnnotationView *)annotation
 {
-    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.4f]];
+    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.01f]];
     [blackout setUserInteractionEnabled:YES];
-    currentlyEnlargedAnnot = annotation;
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:.2];
-    annotation.transform = CGAffineTransformMakeScale(4,4); 
-    [UIView commitAnimations]; 
+    [annotation enlarge];
     [hud setLocation:location];
     [hud open];
     [self centerMapOnLoc:location.latlon.coordinate];
@@ -411,19 +405,13 @@
     [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]]; 
     [blackout setUserInteractionEnabled:NO];
     
-    for(int i = 0; i < [mapView.selectedAnnotations count]; i++)
-        [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:i] animated:NO];
-    [hud dismiss];
-    
-    if(currentlyEnlargedAnnot)
+    while([mapView.selectedAnnotations count] > 0)
     {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:.2];
-        currentlyEnlargedAnnot.transform = CGAffineTransformMakeScale(1,1); 
-        [UIView commitAnimations];  
+        if([[mapView.selectedAnnotations objectAtIndex:0] class] == [Location class])
+            [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) shrinkToNormal]; 
+        [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:0] animated:NO];
     }
-    currentlyEnlargedAnnot = nil;
+    [hud dismiss];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -452,12 +440,6 @@
 - (void) blackoutTouched
 {
     [self dismissSelection];
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //if(!annotationPressed) [self dismissSelection];
-    //annotationPressed = NO;
 }
 
 #pragma mark StateControlProtocol delegate methods

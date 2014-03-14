@@ -66,8 +66,15 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    writeAReviewButton.frame = CGRectMake(0,64,self.view.bounds.size.width,40);
+    writeAReviewButton.frame = CGRectMake(0+4,64+4,self.view.bounds.size.width-8,40-8);
     commentsTable.frame = CGRectMake(0,104,self.view.bounds.size.width,self.view.bounds.size.height-104); 
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0,0,19,19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    backButton.accessibilityLabel = @"Back Button";
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -116,17 +123,23 @@
     [self.navigationController pushViewController:gcrvc animated:YES];
 }
 
-- (void) reviewCreatedWithRating:(int)r text:(NSString *)s
+- (void) reviewCreatedWithRating:(int)r title:(NSString *)t text:(NSString *)s
 {
-    [[AppServices sharedAppServices] saveGameComment:s game:game.gameId starRating:r];
+    [[AppServices sharedAppServices] saveGameComment:s titled:t game:game.gameId starRating:r];
     
     GameComment *gc = [[GameComment alloc] init];
-    gc.text = s;
+    gc.title = t;
+    gc.text = s; 
     gc.rating = r;
     gc.playerName = [AppModel sharedAppModel].player.username;
     [game.comments addObject:gc];
     [commentsTable reloadData];
     [self.navigationController popToViewController:self animated:YES];  
+}
+
+- (void) backButtonTouched
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

@@ -15,9 +15,8 @@
 #import "Item.h"
 #import "Quest.h"
 
-@interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate, StateControllerProtocol>
+@interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate>
 {
-    UIWebView *dropDownView;
     PopOverViewController *popOverVC;
 
     NSMutableArray *notifArray;
@@ -25,13 +24,13 @@
     BOOL showingDropDown;
     BOOL showingPopOver;
     
-    id<StateControllerProtocol> __unsafe_unretained delegate;
+    id<GameNotificationViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation GameNotificationViewController
 
-- (id) initWithDelegate:(id<StateControllerProtocol>)d
+- (id) initWithDelegate:(id<GameNotificationViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -56,7 +55,6 @@
     self.view.userInteractionEnabled = NO;
     
     popOverVC = [[PopOverViewController alloc] initWithDelegate:self];
-    //dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28.0, [UIScreen mainScreen].bounds.size.width, 28)];
 }
 
 - (void) viewWillAppear:(BOOL)animated //first time view should be 'correct' frame
@@ -66,85 +64,12 @@
     popOverVC.view.frame = self.view.frame;
 }
 
-- (void) lowerDropDownFrame
-{
-    /*
-    [self.view addSubview:dropDownView];
-
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:.5];
-
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
-    [UIView commitAnimations];
-     */
-}
-
-- (void) raiseDropDownFrame
-{
-    /*
-    [dropDownView removeFromSuperview];
-
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-    [UIView setAnimationDuration:.5];
-
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-
-    [UIView commitAnimations];
-     */
-}
-
-- (void) dequeueDropDown
-{
-    /*
-    showingDropDown = YES;
-
-    dropDownView.alpha = 0.0;
-    NSString* str = [notifArray objectAtIndex:0];
-     
-    NSString* htmlContentString = [NSString stringWithFormat:
-        @"<html>"
-        "<style type=\"text/css\">"
-        "body{background-color:black;vertical-align:text-top;text-align:center;font:16px Arial,Helvetica,sans-serif;color:white;}"
-        "</style>"
-        "<body>%@</body>"
-        "</html>", str];
-
-    [dropDownView loadHTMLString:htmlContentString baseURL:nil];
-
-    [UIView animateWithDuration:3.0 delay:0.0
-                        options:UIViewAnimationCurveEaseOut
-                     animations:^{ dropDownView.alpha = 1.0; }
-                     completion:^(BOOL finished){
-                        [UIView animateWithDuration:3.0
-                                              delay:0.0
-                                            options:UIViewAnimationCurveEaseIn
-                                         animations:^{ dropDownView.alpha = 0.0; }
-                                         completion:^(BOOL finished){
-                                             showingDropDown = NO;
-                                             if([notifArray count] > 0)
-                                                 [self dequeueDropDown];
-                                             else
-                                                 [self raiseDropDownFrame];
-                                         }];
-                     }];
-    [notifArray removeObjectAtIndex:0];
-     */
-}
-
 - (void) dequeuePopOver
 {
     showingPopOver = YES;
     
     NSMutableDictionary *poDict = [popOverArray objectAtIndex:0];
-    [popOverVC setTitle:[poDict objectForKey:@"title"]
-            description:[poDict objectForKey:@"description"]
-            webViewText:[poDict objectForKey:@"text"]
-                mediaId:[[poDict objectForKey:@"mediaId"] intValue] 
-               function:[poDict objectForKey:@"function"]
-            showDismiss:[poDict objectForKey:@"showdismiss"]];
+    [popOverVC setHeader:[poDict objectForKey:@"header"] prompt:[poDict objectForKey:@"prompt"] iconMediaId:[[poDict objectForKey:@"iconMediaId"] intValue]];
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
@@ -152,7 +77,7 @@
         [self viewWillAppear:NO];//to ensure a non-zero rect. Not sure why necessary- short term fix
 }
 
-- (void) popOverContinueButtonPressed
+- (void) popOverRequestsDismiss
 {
     showingPopOver = NO;
     self.view.userInteractionEnabled = NO;
@@ -166,19 +91,11 @@
 - (void) enqueueDropDownNotificationWithString:(NSString *)string
 {
     [[MTStatusBarOverlay sharedInstance] postMessage:string duration:3.0];
-    /*
-    [notifArray addObject:string];
-    if(!showingDropDown)
-    {
-        [self lowerDropDownFrame];
-        [self dequeueDropDown];
-    }
-     */
 }
 
-- (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text mediaId:(int)mediaId function:(NSString *)function showDismiss:(BOOL)sd
+- (void) enqueuePopOverNotificationWithHeader:(NSString *)header prompt:(NSString *)prompt iconMediaId:(int)iconMediaId
 {
-    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId",function,@"function",[NSNumber numberWithBool:sd],@"showdismiss",nil]];
+    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:header,@"header",prompt,@"prompt",[NSNumber numberWithInt:iconMediaId],@"iconMediaId",nil]];
     if(!showingPopOver) [self dequeuePopOver];
 }
 
@@ -191,7 +108,7 @@
         Quest *activeQuest = [activeQuests objectAtIndex:i];
         
         if(activeQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:activeQuest.name webViewText:activeQuest.qdescriptionNotification mediaId:activeQuest.notificationMediaId function:activeQuest.notifGoFunction showDismiss:activeQuest.showDismiss];
+            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name iconMediaId:activeQuest.iconMediaId];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
         
@@ -211,7 +128,7 @@
         Quest *completedQuest = [completedQuests objectAtIndex:i];      
     
         if(completedQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:completedQuest.name webViewText:completedQuest.qdescriptionNotification mediaId:completedQuest.notificationMediaId function:completedQuest.notifGoFunction showDismiss:completedQuest.showDismiss];
+            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name iconMediaId:completedQuest.iconMediaId];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
         
@@ -339,7 +256,6 @@
     [popOverArray removeAllObjects];
     showingDropDown  = NO;
     showingPopOver   = NO;
-    //[self raiseDropDownFrame];
 }
 
 - (void) startListeningToModel
@@ -382,21 +298,6 @@
 - (void)stopListeningToModel
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void) displayTab:(NSString *)t
-{
-    [delegate displayTab:t];
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [delegate displayScannerWithPrompt:p];
-}
-
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
-{
-    return [delegate displayGameObject:g fromSource:s];
 }
 
 - (void) dealloc

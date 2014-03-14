@@ -39,7 +39,7 @@
     if(self = [super initWithDelegate:d])
     {
         self.tabID = @"QR";
-        self.tabIconName = @"qr_small";
+        self.tabIconName = @"barcode";
         
         textEnabled = (m == 0 || m == 1);
         scanEnabled = (m == 0 || m == 2);
@@ -148,7 +148,7 @@
 - (void) launchScanner
 {
     [self clearScreenActions];
-    widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:prompt];
+    widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO withPrompt:prompt];
     widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
     prompt = @"";
     [self performSelector:@selector(addWidSubview) withObject:Nil afterDelay:0.1];

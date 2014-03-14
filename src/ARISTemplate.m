@@ -41,7 +41,7 @@
 + (UIFont *) ARISLabelFont       { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
 + (UIFont *) ARISSubtextFont     { return [UIFont fontWithName:@"HelveticaNeue-Light" size:12]; }
 + (UIFont *) ARISInputFont       { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
-+ (UIFont *) ARISAnnotFont       { return [UIFont fontWithName:@"HelveticaNeue-Bold" size:16]; }
++ (UIFont *) ARISAnnotFont       { return [UIFont fontWithName:@"HelveticaNeue-Light" size:12]; }
 
 + (NSString *) ARISHtmlTemplate
 {

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ARISStarView : UIView
+- (void) setSpacing:(int)s;
 - (void) setRating:(int)r;
 - (int) rating;
 @end

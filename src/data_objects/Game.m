@@ -74,6 +74,15 @@
     self.overlaysModel   = [[OverlaysModel   alloc] init];
 }
 
+- (void) endPlay //to remove models while retaining the game stub for lists and such
+{
+    self.notesModel      = nil;
+    self.inventoryModel  = nil;
+    self.attributesModel = nil;
+    self.questsModel     = nil;
+    self.locationsModel  = nil; 
+}
+
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame{
 	if      (self.distanceFromPlayer < otherGame.distanceFromPlayer) return NSOrderedAscending;
 	else if (self.distanceFromPlayer > otherGame.distanceFromPlayer) return NSOrderedDescending;
@@ -134,6 +143,11 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"Game- Id:%d\tName:%@",self.gameId,self.name];
+}
+
+- (void) dealloc
+{
+    
 }
 
 @end

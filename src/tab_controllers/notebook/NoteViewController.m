@@ -115,6 +115,18 @@
     [self formatSubviewFrames];
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 19, 19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    backButton.accessibilityLabel = @"Back Button";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
+}
+
 - (void) formatSubviewFrames
 {
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
@@ -149,9 +161,12 @@
     
     note = [n.userInfo objectForKey:@"note"];
     
+    //really should move the following to like "refreshviewfromnote" or something...
     [tagsDisplay setTags:note.tags];  
     
+    title.text = note.name;
     desc.text = note.desc;
+    owner.text = note.owner.displayname; 
     [self formatSubviewFrames]; 
     
     [contentsDisplay setContents:note.contents]; 
@@ -219,6 +234,16 @@
 - (void) ARISMediaViewFinishedPlayback:(ARISMediaView *)amv
 {
     [self overlayTouched];
+}
+
+- (void) backButtonTouched
+{
+    [self dismissSelf];
+}
+
+- (void) dismissSelf
+{
+    [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
 - (void) dealloc

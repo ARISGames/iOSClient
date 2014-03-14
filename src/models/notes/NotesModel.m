@@ -117,9 +117,9 @@
         {
             [currentNotes addObject:[newNotes objectAtIndex:i]];
             [self mergeInNoteTagsArray:((Note *)[newNotes objectAtIndex:i]).tags]; //if new/modified tags, this will handle it 
-            [self invalidateNoteCaches];    
         }
     }
+    [self invalidateNoteCaches];      
 }
 
 - (void) latestNoteTagsReceived:(NSNotification *)n
@@ -227,9 +227,14 @@
 
 - (Note *) noteForId:(int)noteId
 {
-   for(int i = 0; i < [currentNotes count]; i++)
-       if(((Note *)[currentNotes objectAtIndex:i]).noteId == noteId) return [currentNotes objectAtIndex:i]; 
-    return nil;
+    for(int i = 0; i < [currentNotes count]; i++)
+        if(((Note *)[currentNotes objectAtIndex:i]).noteId == noteId) return [currentNotes objectAtIndex:i]; 
+    Note *n = [[Note alloc] init];
+    n.noteId = noteId;
+    n.publicToList = YES; //assume it's accessible if it's being accessed
+    n.publicToMap = YES; //assume it's accessible if it's being accessed 
+    [self mergeInNotesArray:[NSArray arrayWithObject:n]]; //when data arrives, it will be merged into placeholder note
+    return n;
 }
 
 - (void) dealloc

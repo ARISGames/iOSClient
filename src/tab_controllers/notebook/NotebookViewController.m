@@ -11,6 +11,7 @@
 #import "NoteEditorViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
+#import "UIImage+Color.h"
 
 #import "AppModel.h"
 #import "Game.h"
@@ -23,6 +24,7 @@ const int VIEW_MODE_ALL  = 1;
 @interface NotebookViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate>
 {
     UITableView *table;
+    UIButton *bigNewButton;  
     
     UIView *navTitleView;
     UILabel *navTitleLabel;
@@ -49,7 +51,7 @@ const int VIEW_MODE_ALL  = 1;
         viewMode = 1;
         loadingMore = 1;
         self.tabID = @"NOTE"; 
-        self.tabIconName = @"";
+        self.tabIconName = @"notebook";
         self.title = NSLocalizedString(@"NotebookTitleKey",@""); 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNoteListAvailable) name:@"NewNoteListAvailable" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:)   name:@"NoteDataAvailable"    object:nil];   
@@ -61,6 +63,7 @@ const int VIEW_MODE_ALL  = 1;
 - (void) loadView
 {
     [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     navTitleView = [[UIView alloc] init];
     
@@ -107,6 +110,12 @@ const int VIEW_MODE_ALL  = 1;
     table = [[UITableView alloc] initWithFrame:self.view.frame];
     table.delegate   = self;
     table.dataSource = self;
+    
+    bigNewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [bigNewButton setImage:[UIImage imageNamed:@"plus" withColor:[UIColor whiteColor]] forState:UIControlStateNormal]; 
+    [bigNewButton addTarget:self action:@selector(addNote) forControlEvents:UIControlEventTouchUpInside];  
+    [bigNewButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
+    
     [self.view addSubview:table];
 }
 
@@ -121,6 +130,7 @@ const int VIEW_MODE_ALL  = 1;
     myNotesButton.frame  = CGRectMake(filterSelector.frame.size.width/2, 0, filterSelector.frame.size.width/2, 30); 
        
     table.frame = self.view.frame;
+    bigNewButton.frame = CGRectMake(20, 164, self.view.frame.size.width-40, self.view.frame.size.height-264);
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -137,7 +147,22 @@ const int VIEW_MODE_ALL  = 1;
 
 - (void) newNoteListAvailable
 {
-    [table reloadData]; 
+    if(viewMode == VIEW_MODE_MINE && [[[AppModel sharedAppModel].currentGame.notesModel playerNotes] count] == 0)
+    {
+        [table removeFromSuperview];
+        [self.view addSubview:bigNewButton];
+    }
+    else if(viewMode == VIEW_MODE_ALL && [[[AppModel sharedAppModel].currentGame.notesModel listNotes]   count] == 0)
+    {
+        [table removeFromSuperview];
+        [self.view addSubview:bigNewButton]; 
+    }
+    else
+    {
+        [bigNewButton removeFromSuperview];
+        [self.view addSubview:table];
+        [table reloadData]; 
+    }
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -202,7 +227,7 @@ const int VIEW_MODE_ALL  = 1;
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
-    
+    [self.navigationController popToViewController:self animated:YES];    
 }
 
 - (void) addNote

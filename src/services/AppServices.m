@@ -182,7 +182,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"players" method:@"setShowPlayerOnMap" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
+- (void) fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
 {
     if(currentlyFetchingNearbyGamesList)
     {
@@ -243,7 +243,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"games" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGameListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)fetchPopularGameListForTime:(int)time
+- (void) fetchPopularGameListForTime:(int)time
 {
     if(currentlyFetchingPopularGamesList)
     {
@@ -414,7 +414,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"players" method:@"pickupItemFromLocation" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)updateServerDropItemHere:(int)itemId qty:(int)qty
+- (void) updateServerDropItemHere:(int)itemId qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                      [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],                   @"agameId",
@@ -541,8 +541,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) uploadNote:(Note *)n
 {
     NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys: 
-                              [NSNumber numberWithBool:n.location.latlon.coordinate.latitude],  @"latitude",
-                              [NSNumber numberWithBool:n.location.latlon.coordinate.longitude], @"longitude", 
+                              [NSNumber numberWithFloat:n.location.latlon.coordinate.latitude],  @"latitude",
+                              [NSNumber numberWithFloat:n.location.latlon.coordinate.longitude], @"longitude", 
                               nil];
     NSMutableArray *media = [[NSMutableArray alloc] initWithCapacity:n.contents];
     for(int i = 0; i < [n.contents count]; i++)
@@ -659,7 +659,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"notes" method:@"updateContentTitle" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)updateNoteContent:(int)contentId text:(NSString *)text
+- (void) updateNoteContent:(int)contentId text:(NSString *)text
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
         [NSString stringWithFormat:@"%d",contentId],@"acontentId",
@@ -668,7 +668,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"notes" method:@"updateContent" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)updateServerWithPlayerLocation
+- (void) updateServerWithPlayerLocation
 {
     if(![AppModel sharedAppModel].player)
     {
@@ -761,8 +761,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
-
-- (void)fetchAllPlayerLists
+- (void) fetchAllPlayerLists
 {
     [self fetchPlayerLocationList];
     [self fetchPlayerQuestList];
@@ -770,7 +769,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchPlayerOverlayList];
 }
 
-- (void)fetchTabBarItems
+- (void) fetchTabBarItems
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
             [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
@@ -779,7 +778,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGame" arguments:args handler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)fetchQRCode:(NSString*)code
+- (void) fetchQRCode:(NSString*)code
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
         [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
@@ -789,7 +788,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"qrcodes" method:@"getQRCodeNearbyObjectForPlayer" arguments:args handler:self successSelector:@selector(parseQRCodeObjectFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId
+- (void) fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
             [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
@@ -800,7 +799,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcConversationsForPlayerAfterViewingNode" arguments:args handler:self successSelector:@selector(parseConversationOptionsFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)fetchGameNpcList
+- (void) fetchGameNpcList
 {
               NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                      [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
@@ -880,7 +879,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [mediaLoader loadMedia:m delegateHandle:dh];
 }
 
-- (void)fetchGameMediaList
+- (void) fetchGameMediaList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
             [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
@@ -888,7 +887,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)fetchGamePanoramicList
+- (void) fetchGamePanoramicList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
         [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
@@ -896,7 +895,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"augbubbles" method:@"getAugBubbles" arguments:args handler:self successSelector:@selector(parseGamePanoramicListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)fetchGameItemList
+- (void) fetchGameItemList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
             [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
@@ -904,7 +903,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [connection performAsynchronousRequestWithService:@"items" method:@"getFullItems" arguments:args handler:self successSelector:@selector(parseGameItemListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)fetchGameNodeList
+- (void) fetchGameNodeList
 {
            NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                                  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
@@ -1097,7 +1096,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationOptionsReady" object:conversationOptions]];
 }
 
-- (Game *)parseGame:(NSDictionary *)gameSource
+- (Game *) parseGame:(NSDictionary *)gameSource
 {
     Game *game = [[Game alloc] init];
     
@@ -1148,12 +1147,18 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     {
         //This is returning an object with playerId,tex, and rating. Right now, we just want the text
         GameComment *c = [[GameComment alloc] init];
-        c.text = [comment validObjectForKey:@"text"];
-        c.playerName = [comment validObjectForKey:@"username"];
-        NSString *cRating = [comment validObjectForKey:@"rating"];
-        if(cRating) c.rating = [cRating intValue];
+        c.text = [comment validStringForKey:@"text"];
+        c.title = [comment validStringForKey:@"title"]; 
+        c.playerName = [comment validStringForKey:@"username"];
+        
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        c.date = [df dateFromString:[comment validStringForKey:@"timestamp"]];  
+        
+        c.rating = [comment validIntForKey:@"rating"];
         [game.comments addObject:c];
     }
+    game.numReviews = [game.comments count];
     
     return game;
 }
@@ -1193,7 +1198,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     }
 }
 
-- (void)parseNearbyGameListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseNearbyGameListFromJSON:(ARISServiceResult *)jsonResult
 {
     if(!currentlyFetchingNearbyGamesList) return;
     currentlyFetchingNearbyGamesList = NO;
@@ -1203,7 +1208,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNearbyGameListReady" object:nil]];
 }
 
-- (void)parseAnywhereGameListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseAnywhereGameListFromJSON:(ARISServiceResult *)jsonResult
 {
     if(!currentlyFetchingAnywhereGamesList) return;
     currentlyFetchingAnywhereGamesList = NO;
@@ -1213,7 +1218,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewAnywhereGameListReady" object:nil]];
 }
 
-- (void)parseSearchGameListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseSearchGameListFromJSON:(ARISServiceResult *)jsonResult
 {
     if(!currentlyFetchingSearchGamesList) return;
     currentlyFetchingSearchGamesList = NO;
@@ -1223,7 +1228,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewSearchGameListReady" object:nil]];
 }
 
-- (void)parsePopularGameListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parsePopularGameListFromJSON:(ARISServiceResult *)jsonResult
 {
     if(!currentlyFetchingPopularGamesList) return;
     currentlyFetchingPopularGamesList = NO;
@@ -1233,7 +1238,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewPopularGameListReady" object:nil]];
 }
 
-- (void)parseRecentGameListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseRecentGameListFromJSON:(ARISServiceResult *)jsonResult
 {
     if(!currentlyFetchingRecentGamesList) return;
     currentlyFetchingRecentGamesList = NO;
@@ -1253,18 +1258,19 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
 }
 
-- (void)saveGameComment:(NSString*)comment game:(int)gameId starRating:(int)rating
+- (void) saveGameComment:(NSString*)comment titled:(NSString *)t game:(int)gameId starRating:(int)rating
 {
            NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                                  [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], @"aplayerId",
                                  [NSString stringWithFormat:@"%d", gameId],                                    @"bgameId",
                                  [NSString stringWithFormat:@"%d", rating],                                    @"crating",
                                  comment,                                                                      @"dcomment",
+                                 t,                                                                      @"etitle", 
                                  nil];
     [connection performAsynchronousRequestWithService: @"games" method:@"saveComment" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
 
-- (void)parseLocationListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseLocationListFromJSON:(ARISServiceResult *)jsonResult
 {
     if(!currentlyFetchingLocationList) return;
     currentlyFetchingLocationList = NO;
@@ -1289,7 +1295,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
-- (void)parseSingleMediaFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseSingleMediaFromJSON:(ARISServiceResult *)jsonResult
 {
     //Just convert the data into an array and pretend it is a full game list, so same thing as 'parseGameMediaListFromJSON'
     NSArray * data = [[NSArray alloc] initWithObjects:jsonResult.resultData, nil];
@@ -1297,12 +1303,12 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread //Phil thinks this is fishy/stupid... 12/13
 }
 
-- (void)parseGameMediaListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseGameMediaListFromJSON:(ARISServiceResult *)jsonResult
 {
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread //Phil thinks this is fishy/stupid... 12/13
 }
 
-- (void)startCachingMedia:(ARISServiceResult *)jsonResult
+- (void) startCachingMedia:(ARISServiceResult *)jsonResult
 {
     [[AppModel sharedAppModel].mediaModel syncMediaDataToCache:(NSArray *)jsonResult.resultData];
     
@@ -1349,7 +1355,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
-- (void)parseGameTabListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseGameTabListFromJSON:(ARISServiceResult *)jsonResult
 {
     NSArray *tabListArray = (NSArray *)jsonResult.resultData;
     NSMutableArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
@@ -1365,7 +1371,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
-- (void)parseGameNpcListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseGameNpcListFromJSON:(ARISServiceResult *)jsonResult
 {
     NSArray *npcListArray = (NSArray *)jsonResult.resultData;
     
@@ -1449,7 +1455,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
-- (void)parseQRCodeObjectFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseQRCodeObjectFromJSON:(ARISServiceResult *)jsonResult
 {
     NSObject *qrCodeObject;
     
@@ -1469,13 +1475,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
 }
 
-- (void)parseUpdateServerWithPlayerLocationFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseUpdateServerWithPlayerLocationFromJSON:(ARISServiceResult *)jsonResult
 {
     if(!currentlyUpdatingServerWithPlayerLocation) return;
     currentlyUpdatingServerWithPlayerLocation = NO;
 }
 
-- (void)parseQuestListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseQuestListFromJSON:(ARISServiceResult *)jsonResult
 {
     if(!currentlyFetchingQuestList) return;
     currentlyFetchingQuestList = NO;
@@ -1491,17 +1497,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     {
         Quest *quest = [[Quest alloc] init];
         quest.questId                  = [activeQuestDict validIntForKey:@"quest_id"];
+        quest.name                     = [activeQuestDict validStringForKey:@"name"]; 
         quest.mediaId                  = [activeQuestDict validIntForKey:@"active_media_id"];
         quest.iconMediaId              = [activeQuestDict validIntForKey:@"active_icon_media_id"];
-        quest.notificationMediaId      = [activeQuestDict validIntForKey:@"active_notification_media_id"];  
-        quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"];
-        quest.name                     = [activeQuestDict validStringForKey:@"name"];
         quest.qdescription             = [activeQuestDict validStringForKey:@"description"];
-        quest.qdescriptionNotification = [activeQuestDict validStringForKey:@"description_notification"]; 
         quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
         quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
-        quest.notifGoFunction          = [activeQuestDict validStringForKey:@"notif_go_function"]; 
-        quest.showDismiss              = [activeQuestDict validBoolForKey:@"active_notif_show_dismiss"]; 
+        quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"]; 
         
         [activeQuestObjects addObject:quest];
     }
@@ -1515,17 +1517,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     {
         Quest *quest = [[Quest alloc] init];
         quest.questId                  = [completedQuestDict validIntForKey:@"quest_id"];
+        quest.name                     = [completedQuestDict validStringForKey:@"name"]; 
         quest.mediaId                  = [completedQuestDict validIntForKey:@"complete_media_id"];
         quest.iconMediaId              = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
-        quest.notificationMediaId      = [completedQuestDict validIntForKey:@"complete_notification_media_id"]; 
-        quest.sortNum                  = [completedQuestDict validIntForKey:@"sort_index"];
-        quest.name                     = [completedQuestDict validStringForKey:@"name"];
         quest.qdescription             = [completedQuestDict validStringForKey:@"text_when_complete"];
-        quest.qdescriptionNotification = [completedQuestDict validStringForKey:@"text_when_complete_notification"];  
         quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"complete_full_screen_notify"]; 
         quest.goFunction               = [completedQuestDict validStringForKey:@"complete_go_function"];
-        quest.notifGoFunction          = [completedQuestDict validStringForKey:@"complete_notif_go_function"]; 
-        quest.showDismiss              = [completedQuestDict validBoolForKey:@"complete_notif_show_dismiss"];
+        quest.sortNum                  = [completedQuestDict validIntForKey:@"sort_index"]; 
         
         [completedQuestObjects addObject:quest];
     }

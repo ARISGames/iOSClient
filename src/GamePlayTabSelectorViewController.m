@@ -14,15 +14,17 @@
 #import "ARISTemplate.h"
 
 #import "MapViewController.h"
+#import "Game.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
     UITableView *tableView;
     UIView *leaveGameButton;
-    NSMutableArray *viewControllers;
     UILabel *leaveGameLabel;
     UIImageView *leaveGameArrow;
     UIView *leaveGameLine;
+    
+    NSMutableArray *viewControllers; 
     id<GamePlayTabSelectorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -114,7 +116,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"TOOLS";
+    return [AppModel sharedAppModel].currentGame.name;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

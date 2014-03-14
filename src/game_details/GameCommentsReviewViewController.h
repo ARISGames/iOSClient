@@ -10,8 +10,7 @@
 
 @class GameComment;
 @protocol GameCommentsReviewViewcontrollerDelegate
-- (void) gameReviewCreated:(GameComment *)gc;
-- (void) reviewCreatedWithRating:(int)r text:(NSString *)s;
+- (void) reviewCreatedWithRating:(int)r title:(NSString *)t text:(NSString *)s;
 @end
 @interface GameCommentsReviewViewController : ARISViewController
 - (id) initWithDelegate:(id<GameCommentsReviewViewcontrollerDelegate>)d;
