@@ -1174,6 +1174,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         c.rating = [comment validIntForKey:@"rating"];
         [game.comments addObject:c];
     }
+    game.numReviews = [game.comments count];
     
     return game;
 }
@@ -1273,13 +1274,14 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
 }
 
-- (void) saveGameComment:(NSString*)comment game:(int)gameId starRating:(int)rating
+- (void) saveGameComment:(NSString*)comment titled:(NSString *)t game:(int)gameId starRating:(int)rating
 {
            NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                                  [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], @"aplayerId",
                                  [NSString stringWithFormat:@"%d", gameId],                                    @"bgameId",
                                  [NSString stringWithFormat:@"%d", rating],                                    @"crating",
                                  comment,                                                                      @"dcomment",
+                                 t,                                                                      @"etitle", 
                                  nil];
     [connection performAsynchronousRequestWithService: @"games" method:@"saveComment" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }

@@ -27,35 +27,17 @@
 
 @implementation GameCommentCell
 
-- (id) init
-{
-    if(self = [super init])
-    {
-        [self initializeViews];
-    }
-    return self;
-}
-
-- (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
-    {
-        [self initializeViews]; 
-    }
-    return self;
-}
-
 - (void) setDelegate:(id<GameCommentCellDelegate>)d
 {
     delegate = d;
 }
 
-- (void) initializeViews
+- (void) initViews
 {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    ratingView = [[ARISStarView alloc] init];  
+    self.selectionStyle = UITableViewCellSelectionStyleNone; 
+    
     titleView = [[UILabel alloc] init]; 
+    ratingView = [[ARISStarView alloc] init];   
     authorView = [[UILabel alloc] init];
     dateView = [[UILabel alloc] init]; 
     commentView = [[ARISWebView alloc] initWithDelegate:self]; 
@@ -65,23 +47,31 @@
     authorView.textAlignment = NSTextAlignmentRight;
     dateView.font = [ARISTemplate ARISCellSubtextFont]; 
     dateView.textAlignment = NSTextAlignmentRight; 
-    commentView.scrollView.scrollEnabled = NO;
+    commentView.scrollView.scrollEnabled = NO; 
     
-    ratingView.frame = CGRectMake(10,10,60,12);
-    titleView.frame = CGRectMake(10,0,self.frame.size.width-10,24);
-    authorView.frame = CGRectMake(80,10,self.frame.size.width-70-80,15);  
-    dateView.frame = CGRectMake(self.frame.size.width-70,10,60,15); 
-    commentView.frame = CGRectMake(0, 20, self.frame.size.width, 15);
+    [self.contentView addSubview:ratingView];
+    [self.contentView addSubview:titleView]; 
+    [self.contentView addSubview:authorView];
+    [self.contentView addSubview:dateView];
+    [self.contentView addSubview:commentView]; 
+}
+
+- (void) layoutViews:(BOOL)hasTitle
+{
+    if(!titleView) [self initViews];
     
-    [self addSubview:ratingView];
-    [self addSubview:titleView]; 
-    [self addSubview:authorView];
-    [self addSubview:dateView];
-    [self addSubview:commentView];
+    titleView.frame = CGRectMake(10,5,self.frame.size.width-10,24); 
+    int offset = 0;
+    if(hasTitle) offset = 20; 
+    ratingView.frame = CGRectMake(10,10+offset,60,12);
+    authorView.frame = CGRectMake(80,10+offset,self.frame.size.width-70-80,15);  
+    dateView.frame = CGRectMake(self.frame.size.width-70,10+offset,60,15);  
+    commentView.frame = CGRectMake(0, 20+offset, self.frame.size.width, 15);
 }
 
 - (void) setComment:(GameComment *)gc
 {
+    [self layoutViews:![titleView.text isEqualToString:@""]];
     gameComment = gc;
     ratingView.rating = gc.rating;
     titleView.text = gc.title; 
@@ -97,7 +87,7 @@
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     float newHeight = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]; 
-    commentView.frame = CGRectMake(0,20,self.frame.size.width,newHeight);
+    commentView.frame = CGRectMake(0,20+([titleView.text isEqualToString:@""] ? 0 : 20),self.frame.size.width,newHeight);
     [delegate heightCalculated:commentView.frame.origin.y+commentView.frame.size.height forComment:gameComment inCell:self];
 }
 

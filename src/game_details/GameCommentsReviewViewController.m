@@ -11,11 +11,12 @@
 #import "ARISStarView.h"
 #import "ARISTemplate.h"
 
-@interface GameCommentsReviewViewController () <UITextViewDelegate>
+@interface GameCommentsReviewViewController () <UITextViewDelegate, UITextFieldDelegate>
 {
     UILabel *ratePrompt;  
     ARISStarView *rateView;
     UILabel *commentPrompt; 
+    UITextField *titleField; 
     UITextView *commentArea;
     UILabel *postButton;
     
@@ -69,6 +70,12 @@
     rateView.spacing = 30;
     rateView.rating = 0;
     
+    titleField = [[UITextField alloc] init];
+    titleField.font = [ARISTemplate ARISInputFont];
+    titleField.placeholder = @"Title";
+    titleField.returnKeyType = UIReturnKeyDone;
+    titleField.delegate = self;
+    
     commentPrompt = [[UILabel alloc] init];
     commentPrompt.text = @"Write a Review (Optional)";
     commentPrompt.font = [ARISTemplate ARISBodyFont];  
@@ -86,7 +93,8 @@
     
     [self.view addSubview:rateView];  
     [self.view addSubview:ratePrompt];   
-    [self.view addSubview:commentArea];
+    [self.view addSubview:titleField];
+    [self.view addSubview:commentArea]; 
     [self.view addSubview:commentPrompt];  
     
     [self.view addSubview:rate1];
@@ -102,8 +110,9 @@
     
     ratePrompt.frame = CGRectMake(20,110,self.view.frame.size.width-40,20);
     rateView.frame = CGRectMake(20, 74, self.view.frame.size.width-40, 30);
-    commentPrompt.frame = CGRectMake(10,140,self.view.frame.size.width-40,20);   
-    commentArea.frame = CGRectMake(0, 134, self.view.frame.size.width, 100);
+    titleField.frame = CGRectMake(10, 134, self.view.frame.size.width-20, 20); 
+    commentPrompt.frame = CGRectMake(10,160,self.view.frame.size.width-40,20);    
+    commentArea.frame = CGRectMake(0, 154, self.view.frame.size.width, 100);
     postButton.frame = CGRectMake(0, 0, 40, 27); 
     
     float starWidth = (self.view.frame.size.width-20)/5;
@@ -126,19 +135,32 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [commentArea becomeFirstResponder];
+    [titleField becomeFirstResponder];
 }
 
 - (void) postButtonTouched
 {
+    [titleField resignFirstResponder];   
     [commentArea resignFirstResponder]; 
-    [delegate reviewCreatedWithRating:rateView.rating text:commentArea.text];
-    commentArea.text = @"";
+    [delegate reviewCreatedWithRating:rateView.rating title:titleField.text text:commentArea.text];
+    titleField.text = @"";
+    commentArea.text = @""; 
 }
 
 - (void) textViewDidChange:(UITextView *)textView
 {
     commentPrompt.hidden = YES;
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    [titleField resignFirstResponder];
+    return NO;
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField
+{
+    [commentArea becomeFirstResponder];
 }
 
 - (void) backButtonTouched
