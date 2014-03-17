@@ -24,9 +24,8 @@
 {
     if(self = [super initWithDelegate:d])
     {
-        [[UIImage imageNamed:@"Globe.png" withColor:[UIColor ARISColorRed]] resizedImage:CGSizeMake(48, 48) interpolationQuality:kCGInterpolationHigh];
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"globe-512.png" withColor:[UIColor ARISColorRed]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh] withFinishedUnselectedImage:[[UIImage imageNamed:@"globe-512.png" withColor:[UIColor ARISColorDarkGray]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh]];
+        [self.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"globe.png" withColor:[UIColor ARISColorRed]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh] withFinishedUnselectedImage:[[UIImage imageNamed:@"globe.png" withColor:[UIColor ARISColorDarkGray]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewAnywhereGameListReady" object:nil];
     }

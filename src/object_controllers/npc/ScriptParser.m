@@ -60,11 +60,21 @@ NSString *const kAttrZoomTime                    = @"zoomTime";
 NSString *const kAttrVibrate                     = @"vibrate";
 NSString *const kAttrNotification                = @"notification";
 
-@implementation ScriptParser
+@interface ScriptParser () <NSXMLParserDelegate>
 {
+    NSXMLParser	*parser;
+    NSString	*sourceText;
+    
     ScriptElement *tempScriptElement;
-    NSMutableString *tempText;
+    NSMutableString *tempText; 
+
+    Script *script;
+    
+	id<ScriptParserDelegate> __unsafe_unretained delegate;
 }
+@end
+
+@implementation ScriptParser
 
 @synthesize script;
 
