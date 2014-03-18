@@ -91,6 +91,7 @@
 		AA701FE117342169003A840D /* GamePickersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE017342169003A840D /* GamePickersViewController.m */; };
 		AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE4173428C3003A840D /* ARISAlertHandler.m */; };
 		AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE7173443FB003A840D /* ARISPusherHandler.m */; };
+		AA714F1C18D8E23900E91682 /* NotebookNotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA714F1B18D8E23900E91682 /* NotebookNotesViewController.m */; };
 		AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */; };
 		AA7DBAEE18D74A1300092B75 /* clock.png in Resources */ = {isa = PBXBuildFile; fileRef = F92B5E3218C66EE800D1D1A7 /* clock.png */; };
 		AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83EEA118A43CB70077FF0E /* ARISServiceGraveyard.m */; };
@@ -467,6 +468,8 @@
 		AA701FE4173428C3003A840D /* ARISAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISAlertHandler.m; sourceTree = "<group>"; };
 		AA701FE6173443FB003A840D /* ARISPusherHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISPusherHandler.h; sourceTree = "<group>"; };
 		AA701FE7173443FB003A840D /* ARISPusherHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISPusherHandler.m; sourceTree = "<group>"; };
+		AA714F1A18D8E23900E91682 /* NotebookNotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookNotesViewController.h; sourceTree = "<group>"; };
+		AA714F1B18D8E23900E91682 /* NotebookNotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookNotesViewController.m; sourceTree = "<group>"; };
 		AA766D3517CBD811001F88D2 /* GamePickerAnywhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerAnywhereViewController.h; sourceTree = "<group>"; };
 		AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerAnywhereViewController.m; sourceTree = "<group>"; };
 		AA83EEA018A43CB70077FF0E /* ARISServiceGraveyard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISServiceGraveyard.h; sourceTree = "<group>"; };
@@ -1648,6 +1651,8 @@
 			children = (
 				AA383B0C1828324F00612FFB /* NotebookViewController.h */,
 				AA383B0D1828324F00612FFB /* NotebookViewController.m */,
+				AA714F1A18D8E23900E91682 /* NotebookNotesViewController.h */,
+				AA714F1B18D8E23900E91682 /* NotebookNotesViewController.m */,
 				AA2B4A6E182AB84500A0D2A1 /* NoteEditorViewController.h */,
 				AA2B4A6F182AB84500A0D2A1 /* NoteEditorViewController.m */,
 				AA66CABC18A005150011FE97 /* NoteLocationPickerCrosshairsView.h */,
@@ -2394,6 +2399,7 @@
 				AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */,
 				AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */,
 				AAF9233B188715C20026A4FC /* Playhead.m in Sources */,
+				AA714F1C18D8E23900E91682 /* NotebookNotesViewController.m in Sources */,
 				AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */,
 				AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */,
 			);
