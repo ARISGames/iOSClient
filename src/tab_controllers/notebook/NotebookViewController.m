@@ -24,7 +24,6 @@ const int VIEW_MODE_ALL  = 1;
 @interface NotebookViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate>
 {
     UITableView *table;
-    UIButton *bigNewButton;  
     
     UIView *navTitleView;
     UILabel *navTitleLabel;
@@ -111,11 +110,6 @@ const int VIEW_MODE_ALL  = 1;
     table.delegate   = self;
     table.dataSource = self;
     
-    bigNewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [bigNewButton setImage:[UIImage imageNamed:@"plus" withColor:[UIColor whiteColor]] forState:UIControlStateNormal]; 
-    [bigNewButton addTarget:self action:@selector(addNote) forControlEvents:UIControlEventTouchUpInside];  
-    [bigNewButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
-    
     [self.view addSubview:table];
 }
 
@@ -130,7 +124,6 @@ const int VIEW_MODE_ALL  = 1;
     myNotesButton.frame  = CGRectMake(filterSelector.frame.size.width/2, 0, filterSelector.frame.size.width/2, 30); 
        
     table.frame = self.view.frame;
-    bigNewButton.frame = CGRectMake(20, 164, self.view.frame.size.width-40, self.view.frame.size.height-264);
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -147,22 +140,7 @@ const int VIEW_MODE_ALL  = 1;
 
 - (void) newNoteListAvailable
 {
-    if(viewMode == VIEW_MODE_MINE && [[[AppModel sharedAppModel].currentGame.notesModel playerNotes] count] == 0)
-    {
-        [table removeFromSuperview];
-        [self.view addSubview:bigNewButton];
-    }
-    else if(viewMode == VIEW_MODE_ALL && [[[AppModel sharedAppModel].currentGame.notesModel listNotes]   count] == 0)
-    {
-        [table removeFromSuperview];
-        [self.view addSubview:bigNewButton]; 
-    }
-    else
-    {
-        [bigNewButton removeFromSuperview];
-        [self.view addSubview:table];
-        [table reloadData]; 
-    }
+    [table reloadData]; 
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -243,8 +221,6 @@ const int VIEW_MODE_ALL  = 1;
 
 - (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n
 {
-    [[AppModel sharedAppModel].currentGame.notesModel clearData];   
-    [[AppModel sharedAppModel].currentGame.notesModel getNextNotes];    
     [self.navigationController popToViewController:self animated:YES]; 
 }
 

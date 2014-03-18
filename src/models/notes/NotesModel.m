@@ -46,8 +46,8 @@
 
 - (void) clearData
 {
-    currentNotes     = [[NSMutableArray alloc] init];
-    currentNoteTags  = [[NSMutableArray alloc] init]; 
+    currentNotes    = [[NSMutableArray alloc] init];
+    currentNoteTags = [[NSMutableArray alloc] init]; 
     curServerPage = 0;
     listComplete  = 0;
     [self invalidateNoteCaches];
