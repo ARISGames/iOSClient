@@ -14,15 +14,7 @@
 - (void) scriptDidFinishParsing:(Script *)s;
 @end
 
-@interface ScriptParser : NSObject <NSXMLParserDelegate>
-{
-    NSXMLParser		*parser;
-    NSString		*sourceText;
-
-    Script *script;
-    
-	id<ScriptParserDelegate> __unsafe_unretained delegate;
-}
+@interface ScriptParser : NSObject 
 
 @property (nonatomic,strong) Script *script;
 
