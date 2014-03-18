@@ -29,6 +29,7 @@
     BOOL editable;
     
     BOOL appleStopTryingToDoStuffWithoutMyPermission;
+    BOOL editing;
     
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -44,6 +45,7 @@
         editable = e;
         delegate = d;
         appleStopTryingToDoStuffWithoutMyPermission = NO;
+        editing = NO; 
     }
     return self;
 }
@@ -77,7 +79,7 @@
                                    playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags 
                                    delegate:self];  
     
-    [self refreshViewFromTags];  
+    [self refreshView];  
 }
 
 - (void) viewWillLayoutSubviews
@@ -96,11 +98,13 @@
 - (void) setTags:(NSArray *)t
 {
     tags = t;
-    [self refreshViewFromTags];
+    [self refreshView];
 }
 
-- (void) refreshViewFromTags
+- (void) refreshView
 {
+    //remove subviews
+    while([[self.view subviews] count] != 0) [[[self.view subviews] objectAtIndex:0] removeFromSuperview]; 
     while([[existingTagsScrollView subviews] count] != 0) [[[existingTagsScrollView subviews] objectAtIndex:0] removeFromSuperview];
     
     UIView *tv;
@@ -114,66 +118,50 @@
     }
     existingTagsScrollView.contentSize = CGSizeMake(x+10,30);
     
-    if([tags count] == 0 && editable)
-    {
-        [self.view addSubview:tagInputField]; 
-        [existingTagsScrollView removeFromSuperview];         
-    }
-    else
-    {
-        [self.view addSubview:existingTagsScrollView];          
-        [tagInputField removeFromSuperview];  
-    }
-    
-    if(editable) [self.view addSubview:plus]; 
-    
+    if(editable && (editing || [tags count] == 0)) [self.view addSubview:tagInputField]; 
+    else                                           [self.view addSubview:existingTagsScrollView];          
+    if(editable && !editing)                       [self.view addSubview:plus]; 
+    if(editing)                                    [self.view addSubview:tagPredictionViewController.view];   
+    if(editing) [tagInputField becomeFirstResponder];
     [self.view addSubview:grad];  
 }
 
 - (void) addTagButtonTouched
 {
-    [self beginEditing];
+    [self beginEditing];//[tagInputField becomeFirstResponder];   
 }
 
 - (void) beginEditing
 {
-    [self.view addSubview:tagInputField];
-    [existingTagsScrollView removeFromSuperview];          
-    
-    [self.view addSubview:tagPredictionViewController.view]; 
+    editing = YES; 
     [tagPredictionViewController queryString:@""];
     
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
        [delegate noteTagEditorWillBeginEditing];  
     
-    [tagInputField becomeFirstResponder]; 
     [self expandView];   
+    [self refreshView];    
 }
 
 - (void) stopEditing
 {
+    editing = NO;  
     [tagInputField resignFirstResponder]; 
     tagInputField.text = @"";
-    [tagPredictionViewController.view removeFromSuperview];
+    
     [self retractView];  
-    [self refreshViewFromTags];
+    [self refreshView];
 }
 
 - (void) expandView
 {
     self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height+100);
-    
-    tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,100);
-    
     appleStopTryingToDoStuffWithoutMyPermission = YES;
 }
 
 - (void) retractView
 {
     self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height-100);
-    
-    existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x+existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.origin.y-100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
-    
     appleStopTryingToDoStuffWithoutMyPermission = YES; 
 }
 
@@ -209,6 +197,11 @@
     return YES;
 }
 
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    if(!editing) [self beginEditing];
+}
+
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     NSArray *allValidTags = [[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags arrayByAddingObjectsFromArray:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];
@@ -236,6 +229,7 @@
 - (void) noteTagDeleteSelected:(NoteTag *)nt
 {
     [delegate noteTagEditorDeletedTag:nt];
+    [self refreshView];
 }
 
 - (void) existingTagChosen:(NoteTag *)nt
