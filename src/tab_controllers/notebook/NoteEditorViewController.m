@@ -27,9 +27,9 @@
     UITextField *title;
     UILabel *owner;
     UILabel *date;
+    NoteTagEditorViewController *tagViewController;  
     UITextView *description;
     UILabel *descriptionPrompt;
-    NoteTagEditorViewController *tagViewController;
     NoteContentsViewController *contentsViewController;
     
     UIView *bottombar;
@@ -93,10 +93,11 @@
     description.contentInset = UIEdgeInsetsZero; 
     description.font = [ARISTemplate ARISBodyFont];
     
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:YES delegate:self]; 
+    
     descriptionPrompt = [[UILabel alloc] init];
     descriptionPrompt.text = @"Note Description";
     descriptionPrompt.textColor = [UIColor ARISColorLightGray];
-    descriptionPrompt.hidden = YES;
     
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [descriptionDoneButton setTitle:@"Done" forState:UIControlStateNormal];
@@ -110,7 +111,6 @@
     saveNoteButton.frame = CGRectMake(0, 0, 70, 24);
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
-    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:YES delegate:self];
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
     bottombar = [[UIView alloc] init];
@@ -126,7 +126,7 @@
     [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
     audioPickerButton.frame = CGRectMake(78, 10, 24, 24); 
     [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    
+   
     [bottombar addSubview:locationPickerButton];
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:audioPickerButton]; 
@@ -134,9 +134,9 @@
     [self.view addSubview:title];
     [self.view addSubview:date];
     [self.view addSubview:owner];
+    [self.view addSubview:tagViewController.view]; 
     [self.view addSubview:description];
     [self.view addSubview:descriptionPrompt]; 
-    [self.view addSubview:tagViewController.view];
     [self.view addSubview:contentsViewController.view];
     [self.view addSubview:bottombar]; 
     
@@ -149,10 +149,11 @@
     title.frame = CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20);
     date.frame = CGRectMake(10, 35+64, 65, 14);
     owner.frame = CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14);
-    description.frame = CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170);
-    descriptionPrompt.frame = CGRectMake(16, 49+64+5, self.view.bounds.size.width-20, 24);
-    if(tagViewController.view.frame.origin.y != (219+64-100)) //hack- if tagvc altered itself (-100), leave it be
-        tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 30);  
+    
+    tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, 30);   
+    description.frame = CGRectMake(10, 79+64, self.view.bounds.size.width-20, 170);
+    descriptionPrompt.frame = CGRectMake(16, 79+64+5, self.view.bounds.size.width-20, 24); 
+    
     contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
     bottombar.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
 }

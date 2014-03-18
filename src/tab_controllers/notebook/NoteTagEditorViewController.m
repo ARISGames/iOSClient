@@ -21,7 +21,6 @@
     
     UIScrollView *existingTagsScrollView;
     UILabel *plus;
-    UILabel *minus; 
     UIImageView *grad;
     
     UITextField *tagInputField;
@@ -54,10 +53,7 @@
     [super loadView];
     existingTagsScrollView  = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
     
-    int width = [@" + " sizeWithFont:[ARISTemplate ARISBodyFont]].width;
-    
-    //make "plus" in similar way to tags
-    plus = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,width,20)];
+    plus = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,[@" + " sizeWithFont:[ARISTemplate ARISBodyFont]].width,20)];
     plus.font = [ARISTemplate ARISBodyFont];
     plus.textColor = [UIColor whiteColor];
     plus.backgroundColor = [UIColor ARISColorLightBlue];
@@ -67,34 +63,21 @@
     plus.userInteractionEnabled = YES;
     [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
     
-    //make "minus" in similar way to tags
-    minus = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,width,20)];
-    minus.font = [ARISTemplate ARISBodyFont];
-    minus.textColor = [UIColor whiteColor];
-    minus.backgroundColor = [UIColor ARISColorLightBlue];
-    minus.text = @" - ";
-    minus.layer.cornerRadius = 8;
-    minus.layer.masksToBounds = YES;
-    minus.userInteractionEnabled = YES;
-    [minus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
-    
     grad = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_white_gradient"]];
     grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30);
-    
-    [self refreshViewFromTags];  
-    [self.view addSubview:existingTagsScrollView];
-    if(editable) [self.view addSubview:plus]; 
-    [self.view addSubview:grad]; 
     
     tagInputField = [[UITextField alloc] init];
     tagInputField.delegate = self;
     tagInputField.font = [ARISTemplate ARISTitleFont]; 
     tagInputField.placeholder = @" choose a tag";
     tagInputField.returnKeyType = UIReturnKeyDone; 
+    
     tagPredictionViewController = [[NoteTagPredictionViewController alloc] 
                                    initWithGameNoteTags:[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags
                                    playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags 
                                    delegate:self];  
+    
+    [self refreshViewFromTags];  
 }
 
 - (void) viewWillLayoutSubviews
@@ -105,7 +88,7 @@
         grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
         existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
         tagInputField.frame = CGRectMake(10, 0, self.view.frame.size.width-20,30);
-        tagPredictionViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,100);  
+        tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,100);  
     }
     appleStopTryingToDoStuffWithoutMyPermission = NO; 
 }
@@ -116,11 +99,6 @@
     [self refreshViewFromTags];
 }
 
-- (UIView *) tagViewForTag:(NoteTag *)t
-{
-    return [[NoteTagView alloc] initWithNoteTag:t editable:editable delegate:self];
-}
-
 - (void) refreshViewFromTags
 {
     while([[existingTagsScrollView subviews] count] != 0) [[[existingTagsScrollView subviews] objectAtIndex:0] removeFromSuperview];
@@ -129,12 +107,27 @@
     int x = 10;
     for(int i = 0; i < [tags count]; i++)
     {
-        tv = [self tagViewForTag:[tags objectAtIndex:i]];
+        tv = [[NoteTagView alloc] initWithNoteTag:[tags objectAtIndex:i] editable:editable delegate:self];
         tv.frame = CGRectMake(x,5,tv.frame.size.width,tv.frame.size.height);
         x += tv.frame.size.width+10;
         [existingTagsScrollView addSubview:tv];
     }
     existingTagsScrollView.contentSize = CGSizeMake(x+10,30);
+    
+    if([tags count] == 0 && editable)
+    {
+        [self.view addSubview:tagInputField]; 
+        [existingTagsScrollView removeFromSuperview];         
+    }
+    else
+    {
+        [self.view addSubview:existingTagsScrollView];          
+        [tagInputField removeFromSuperview];  
+    }
+    
+    if(editable) [self.view addSubview:plus]; 
+    
+    [self.view addSubview:grad];  
 }
 
 - (void) addTagButtonTouched
@@ -145,11 +138,14 @@
 - (void) beginEditing
 {
     [self.view addSubview:tagInputField];
+    [existingTagsScrollView removeFromSuperview];          
+    
     [self.view addSubview:tagPredictionViewController.view]; 
     [tagPredictionViewController queryString:@""];
     
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
        [delegate noteTagEditorWillBeginEditing];  
+    
     [tagInputField becomeFirstResponder]; 
     [self expandView];   
 }
@@ -159,31 +155,24 @@
     tagInputField.text = @"";
     if(self.view.frame.size.height > 100) //totally bs guess
      [self textFieldShouldReturn:tagInputField];
+    [tagPredictionViewController.view removeFromSuperview];
+    [self refreshViewFromTags];
 }
 
 - (void) expandView
 {
-    self.view.frame = CGRectMake(0,self.view.frame.origin.y-100,self.view.frame.size.width,self.view.frame.size.height+100);
+    self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height+100);
     
-    tagPredictionViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,100);
-    existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x-existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.origin.y+100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
-    plus.frame  = CGRectMake( plus.frame.origin.x, plus.frame.origin.y+100, plus.frame.size.width, plus.frame.size.height); 
-    minus.frame = CGRectMake(minus.frame.origin.x,minus.frame.origin.y+100,minus.frame.size.width,minus.frame.size.height); 
-    grad.frame  = CGRectMake( grad.frame.origin.x, grad.frame.origin.y+100, grad.frame.size.width, grad.frame.size.height); 
-    tagInputField.frame = CGRectMake(tagInputField.frame.origin.x,tagInputField.frame.origin.y+100,tagInputField.frame.size.width,tagInputField.frame.size.height); 
+    tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,100);
     
     appleStopTryingToDoStuffWithoutMyPermission = YES;
 }
 
 - (void) retractView
 {
-    self.view.frame = CGRectMake(0,self.view.frame.origin.y+100,self.view.frame.size.width,self.view.frame.size.height-100);
+    self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height-100);
     
     existingTagsScrollView.frame = CGRectMake(existingTagsScrollView.frame.origin.x+existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.origin.y-100,existingTagsScrollView.frame.size.width,existingTagsScrollView.frame.size.height);
-    plus.frame = CGRectMake(plus.frame.origin.x,plus.frame.origin.y-100,plus.frame.size.width,plus.frame.size.height); 
-    minus.frame = CGRectMake(minus.frame.origin.x,minus.frame.origin.y-100,minus.frame.size.width,minus.frame.size.height); 
-    grad.frame = CGRectMake(grad.frame.origin.x,grad.frame.origin.y-100,grad.frame.size.width,grad.frame.size.height); 
-    tagInputField.frame = CGRectMake(tagInputField.frame.origin.x,tagInputField.frame.origin.y-100,tagInputField.frame.size.width,tagInputField.frame.size.height); 
     
     appleStopTryingToDoStuffWithoutMyPermission = YES; 
 }
@@ -222,7 +211,7 @@
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-    NSArray *allValidTags = [[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags arrayByAddingObjectsFromArray: [AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];
+    NSArray *allValidTags = [[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags arrayByAddingObjectsFromArray:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];
     BOOL tagExists = NO;
     for(int i = 0; i < allValidTags.count; i++)
     {
