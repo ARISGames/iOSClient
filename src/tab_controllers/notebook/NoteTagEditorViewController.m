@@ -152,10 +152,10 @@
 
 - (void) stopEditing
 {
+    [tagInputField resignFirstResponder]; 
     tagInputField.text = @"";
-    if(self.view.frame.size.height > 100) //totally bs guess
-     [self textFieldShouldReturn:tagInputField];
     [tagPredictionViewController.view removeFromSuperview];
+    [self retractView];  
     [self refreshViewFromTags];
 }
 
@@ -229,11 +229,7 @@
         newNoteTag.playerCreated = YES;
         [delegate noteTagEditorCreatedTag:newNoteTag]; 
     }
-    [tagInputField resignFirstResponder];
-    [tagInputField removeFromSuperview];
-    tagInputField.text = @"";
-    [tagPredictionViewController.view removeFromSuperview];  
-    [self retractView];
+    [self stopEditing];
     return YES;
 }
 
