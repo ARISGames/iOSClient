@@ -134,11 +134,11 @@
     [self.view addSubview:title];
     [self.view addSubview:date];
     [self.view addSubview:owner];
-    [self.view addSubview:tagViewController.view]; 
     [self.view addSubview:description];
     [self.view addSubview:descriptionPrompt]; 
     [self.view addSubview:contentsViewController.view];
     [self.view addSubview:bottombar]; 
+    [self.view addSubview:tagViewController.view];  
     
     [self refreshViewFromNote];
 }
@@ -150,7 +150,10 @@
     date.frame = CGRectMake(10, 35+64, 65, 14);
     owner.frame = CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14);
     
-    tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, 30);   
+    if(tagViewController.view.frame.size.height < 30)
+        tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, 30);   
+    else
+        tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, tagViewController.view.frame.size.height);    
     description.frame = CGRectMake(10, 79+64, self.view.bounds.size.width-20, 170);
     descriptionPrompt.frame = CGRectMake(16, 79+64+5, self.view.bounds.size.width-20, 24); 
     

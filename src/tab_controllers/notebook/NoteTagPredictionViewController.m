@@ -43,6 +43,7 @@
 - (void) loadView
 {
     [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
     matchingGameNoteTagsScrollView   = [[UIScrollView alloc] init];
     matchingPlayerNoteTagsScrollView = [[UIScrollView alloc] init]; 
     matchingGameNoteTagsScrollView.scrollEnabled   = YES;

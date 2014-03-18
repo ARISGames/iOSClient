@@ -27,8 +27,6 @@
     NoteTagPredictionViewController *tagPredictionViewController;
     
     BOOL editable;
-    
-    BOOL appleStopTryingToDoStuffWithoutMyPermission;
     BOOL editing;
     
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
@@ -44,7 +42,6 @@
         tags = t;
         editable = e;
         delegate = d;
-        appleStopTryingToDoStuffWithoutMyPermission = NO;
         editing = NO; 
     }
     return self;
@@ -84,15 +81,11 @@
 
 - (void) viewWillLayoutSubviews
 {
-    if(!appleStopTryingToDoStuffWithoutMyPermission)
-    {
         plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
         grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
         existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
         tagInputField.frame = CGRectMake(10, 0, self.view.frame.size.width-20,30);
         tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,100);  
-    }
-    appleStopTryingToDoStuffWithoutMyPermission = NO; 
 }
 
 - (void) setTags:(NSArray *)t
@@ -122,7 +115,7 @@
     else                                           [self.view addSubview:existingTagsScrollView];          
     if(editable && !editing)                       [self.view addSubview:plus]; 
     if(editing)                                    [self.view addSubview:tagPredictionViewController.view];   
-    if(editing) [tagInputField becomeFirstResponder];
+    if(editing)                                    [tagInputField becomeFirstResponder];
     [self.view addSubview:grad];  
 }
 
@@ -139,7 +132,7 @@
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
        [delegate noteTagEditorWillBeginEditing];  
     
-    [self expandView];   
+    self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,130); 
     [self refreshView];    
 }
 
@@ -149,20 +142,8 @@
     [tagInputField resignFirstResponder]; 
     tagInputField.text = @"";
     
-    [self retractView];  
+    self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,30); 
     [self refreshView];
-}
-
-- (void) expandView
-{
-    self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height+100);
-    appleStopTryingToDoStuffWithoutMyPermission = YES;
-}
-
-- (void) retractView
-{
-    self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,self.view.frame.size.height-100);
-    appleStopTryingToDoStuffWithoutMyPermission = YES; 
 }
 
 // totally convoluted function- essentially "textFieldDidChange"
