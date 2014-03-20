@@ -31,6 +31,7 @@
 		AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */; };
 		AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */; };
 		AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807F17B015A00002A81C /* NpcScriptViewController.m */; };
+		AA0DF0A918DA2DE200D4122B /* NoteTagSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */; };
 		AA12E8AB18C8D08A00C083EA /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = AA12E8AA18C8D08A00C083EA /* plus.png */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
@@ -369,6 +370,8 @@
 		AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcOptionsViewController.m; sourceTree = "<group>"; };
 		AA0D807E17B015A00002A81C /* NpcScriptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptViewController.h; sourceTree = "<group>"; };
 		AA0D807F17B015A00002A81C /* NpcScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptViewController.m; sourceTree = "<group>"; };
+		AA0DF0A718DA2DE200D4122B /* NoteTagSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagSelectorViewController.h; sourceTree = "<group>"; };
+		AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagSelectorViewController.m; sourceTree = "<group>"; };
 		AA12E8AA18C8D08A00C083EA /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -1651,6 +1654,8 @@
 			children = (
 				AA383B0C1828324F00612FFB /* NotebookViewController.h */,
 				AA383B0D1828324F00612FFB /* NotebookViewController.m */,
+				AA0DF0A718DA2DE200D4122B /* NoteTagSelectorViewController.h */,
+				AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */,
 				AA714F1A18D8E23900E91682 /* NotebookNotesViewController.h */,
 				AA714F1B18D8E23900E91682 /* NotebookNotesViewController.m */,
 				AA2B4A6E182AB84500A0D2A1 /* NoteEditorViewController.h */,
@@ -2221,6 +2226,7 @@
 				AABC737A172739D80074CC21 /* PlayerSettingsViewController.m in Sources */,
 				AABC737C172739D80074CC21 /* ARISAppDelegate.m in Sources */,
 				AA8E9EA118BE3FED00F343A2 /* ARISStarView.m in Sources */,
+				AA0DF0A918DA2DE200D4122B /* NoteTagSelectorViewController.m in Sources */,
 				AABC737D172739D80074CC21 /* Game.m in Sources */,
 				AABC737E172739D80074CC21 /* Item.m in Sources */,
 				AABC737F172739D80074CC21 /* Location.m in Sources */,

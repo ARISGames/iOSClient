@@ -66,7 +66,7 @@
     leaveGameLabel.accessibilityLabel = @"Leave Game";  
     
     leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
-       
+    
     leaveGameLine = [[UIView alloc] init];
     leaveGameLine.backgroundColor = [UIColor ARISColorLightGray]; 
     
@@ -130,6 +130,7 @@
     c.opaque = NO;
     c.backgroundColor = [UIColor clearColor];
     c.textLabel.textColor = [ARISTemplate ARISColorSideNavigationText];
+    c.textLabel.font = [ARISTemplate ARISButtonFont];
     
     ARISNavigationController *anc = (ARISNavigationController *)[viewControllers objectAtIndex:indexPath.row];
     ARISGamePlayTabBarViewController *agptbvc = [anc.viewControllers objectAtIndex:0];
@@ -137,12 +138,10 @@
     while([c.contentView.subviews count] > 0)
         [[c.contentView.subviews objectAtIndex:0] removeFromSuperview];
     
-    if ([agptbvc isKindOfClass:[MapViewController class]]) {
+    if([agptbvc isKindOfClass:[MapViewController class]])
         c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
-    }
-    else{
+    else
         c.textLabel.text = agptbvc.title;
-    }
     c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
     
     return c;

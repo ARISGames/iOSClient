@@ -26,6 +26,7 @@
     UITextField *tagInputField;
     NoteTagPredictionViewController *tagPredictionViewController;
     
+    int expandHeight;
     BOOL editable;
     BOOL editing;
     
@@ -42,6 +43,7 @@
         tags = t;
         editable = e;
         delegate = d;
+        expandHeight = 100;
         editing = NO; 
     }
     return self;
@@ -85,7 +87,12 @@
         grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
         existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
         tagInputField.frame = CGRectMake(10, 0, self.view.frame.size.width-20,30);
-        tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,100);  
+        tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,expandHeight);  
+}
+
+- (void) setExpandHeight:(int)h
+{
+    expandHeight = h;
 }
 
 - (void) setTags:(NSArray *)t

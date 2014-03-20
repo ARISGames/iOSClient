@@ -10,6 +10,7 @@
 #import "NotebookNotesViewController.h"
 #import "NoteViewController.h"
 #import "NoteEditorViewController.h"
+#import "NoteTagSelectorViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Color.h"
@@ -18,14 +19,16 @@
 #import "Game.h"
 #import "ARISTemplate.h"
 
-@interface NotebookViewController() <GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate>
+@interface NotebookViewController() <GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>
 {
     UIView *navTitleView;
     UILabel *navTitleLabel;
     
-    UIButton *allNotesButton;
-    UIButton *myNotesButton; 
+    UILabel *allNotesButton;
+    UILabel *myNotesButton; 
+    UILabel *labelSelectorButton;  
     NotebookNotesViewController *notesViewController;
+    NoteTagSelectorViewController *noteTagSelectorViewController; 
 }
 
 @end
@@ -56,33 +59,56 @@
     
     [navTitleView addSubview:navTitleLabel];
     self.navigationItem.titleView = navTitleView;  
-       
-    allNotesButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
-    [allNotesButton setTitle:@"All" forState:UIControlStateNormal]; 
-    [allNotesButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [allNotesButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
-    allNotesButton.titleLabel.textAlignment = NSTextAlignmentLeft;  
-    [allNotesButton addTarget:self action:@selector(allNotesButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+                         
+    allNotesButton = [[UILabel alloc] init]; 
+    allNotesButton.text = @"All";
+    allNotesButton.font = [ARISTemplate ARISButtonFont]; 
+    allNotesButton.userInteractionEnabled = YES;
+    [allNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(allNotesButtonTouched)]]; 
     [self.view addSubview:allNotesButton];
     
-    myNotesButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [myNotesButton setTitle:@"Mine" forState:UIControlStateNormal];
-    [myNotesButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal]; 
-    [myNotesButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
-    myNotesButton.titleLabel.textAlignment = NSTextAlignmentRight;
-    [myNotesButton addTarget:self action:@selector(myNotesButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
+    myNotesButton = [[UILabel alloc] init];
+    myNotesButton.text = @"Mine";
+    myNotesButton.font = [ARISTemplate ARISButtonFont];
+    myNotesButton.userInteractionEnabled = YES; 
+    [myNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myNotesButtonTouched)]];
     [self.view addSubview:myNotesButton]; 
     
+    labelSelectorButton = [[UILabel alloc] init];
+    labelSelectorButton.text = @"Labels";
+    labelSelectorButton.font = [ARISTemplate ARISButtonFont];
+    labelSelectorButton.userInteractionEnabled = YES; 
+    [labelSelectorButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelSelectorButtonTouched)]];
+    [self.view addSubview:labelSelectorButton];  
+    
     notesViewController = [[NotebookNotesViewController alloc] initWithDelegate:self];
+    noteTagSelectorViewController = [[NoteTagSelectorViewController alloc] initWithDelegate:self]; 
 }
 
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    navTitleView.frame   = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
-    navTitleLabel.frame  = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height); 
-    allNotesButton.frame = CGRectMake(10, 84, self.view.frame.size.width-20, 30); 
-    myNotesButton.frame  = CGRectMake(10, 124, self.view.frame.size.width-20, 30); 
+    navTitleView.frame        = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
+    navTitleLabel.frame       = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height); 
+    
+    allNotesButton.frame      = CGRectMake(10, 84, self.view.frame.size.width-20, 30); 
+    myNotesButton.frame       = CGRectMake(10, 124, self.view.frame.size.width-20, 30); 
+    labelSelectorButton.frame = CGRectMake(10, 164, self.view.frame.size.width-20, 30);  
+    
+    while([allNotesButton.subviews count]      > 0) [[allNotesButton.subviews      objectAtIndex:0] removeFromSuperview];
+    while([myNotesButton.subviews count]       > 0) [[myNotesButton.subviews       objectAtIndex:0] removeFromSuperview]; 
+    while([labelSelectorButton.subviews count] > 0) [[labelSelectorButton.subviews objectAtIndex:0] removeFromSuperview]; 
+       
+    UIImageView *i;
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    i.frame = CGRectMake(self.view.frame.size.width-20-20,10,20,20); 
+    [allNotesButton addSubview:i];
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    i.frame = CGRectMake(self.view.frame.size.width-20-20,10,20,20); 
+    [myNotesButton addSubview:i]; 
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    i.frame = CGRectMake(self.view.frame.size.width-20-20,10,20,20); 
+    [labelSelectorButton addSubview:i]; 
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
@@ -118,9 +144,19 @@
     [self.navigationController pushViewController:notesViewController animated:YES];
 }
 
+- (void) labelSelectorButtonTouched
+{
+    [self.navigationController pushViewController:noteTagSelectorViewController animated:YES];
+}
+
 - (void) notesViewControllerRequestsDismissal:(NotebookNotesViewController *)n
 {
     [self.navigationController popToViewController:self animated:YES]; 
+}
+
+- (void) noteTagSelectorViewControllerRequestsDismissal:(NoteTagSelectorViewController *)n
+{
+    [self.navigationController popToViewController:self animated:YES];  
 }
 
 - (void) dealloc

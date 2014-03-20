@@ -16,9 +16,9 @@
 {
     NSArray *gameNoteTags;
     NSArray *playerNoteTags; 
+    NSArray *noteTags;  
     
-    UIScrollView *matchingGameNoteTagsScrollView;
-    UIScrollView *matchingPlayerNoteTagsScrollView; 
+    UIScrollView *matchingNoteTagsScrollView;
     
     NSString *queryString;
     
@@ -34,6 +34,7 @@
     {
         gameNoteTags = gnt;
         playerNoteTags = pnt; 
+        noteTags = [gameNoteTags arrayByAddingObjectsFromArray:playerNoteTags];
         queryString = @"";
         delegate = d;
     }
@@ -44,36 +45,17 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    matchingGameNoteTagsScrollView   = [[UIScrollView alloc] init];
-    matchingPlayerNoteTagsScrollView = [[UIScrollView alloc] init]; 
-    matchingGameNoteTagsScrollView.scrollEnabled   = YES;
-    matchingPlayerNoteTagsScrollView.scrollEnabled = YES;
-    matchingGameNoteTagsScrollView.contentInset   = UIEdgeInsetsMake(0,0,0,0);
-    matchingPlayerNoteTagsScrollView.contentInset = UIEdgeInsetsMake(0,0,0,0); 
-    if(gameNoteTags.count   > 0) [self.view addSubview:matchingGameNoteTagsScrollView];
-    if(playerNoteTags.count > 0) [self.view addSubview:matchingPlayerNoteTagsScrollView]; 
+    matchingNoteTagsScrollView   = [[UIScrollView alloc] init];
+    matchingNoteTagsScrollView.scrollEnabled   = YES;
+    matchingNoteTagsScrollView.contentInset   = UIEdgeInsetsMake(0,0,0,0);
+    [self.view addSubview:matchingNoteTagsScrollView];
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    if(gameNoteTags.count > 0 && playerNoteTags.count > 0)
-    {
-        matchingGameNoteTagsScrollView.frame   = CGRectMake(0,                            0,self.view.bounds.size.width/2,self.view.bounds.size.height);
-        matchingPlayerNoteTagsScrollView.frame = CGRectMake(self.view.bounds.size.width/2,0,self.view.bounds.size.width/2,self.view.bounds.size.height); 
-        matchingGameNoteTagsScrollView.contentSize   = CGSizeMake(self.view.bounds.size.width/2,self.view.bounds.size.height);
-        matchingPlayerNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width/2,self.view.bounds.size.height); 
-    }
-    else if(gameNoteTags.count > 0)
-    {
-        matchingGameNoteTagsScrollView.frame       = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height); 
-        matchingGameNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height); 
-    }
-    else if(playerNoteTags.count > 0)
-    {
-        matchingPlayerNoteTagsScrollView.frame       = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height); 
-        matchingPlayerNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height); 
-    } 
+    matchingNoteTagsScrollView.frame       = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height); 
+    matchingNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height); 
     [self refreshMatchingTags];
 }
 
@@ -85,8 +67,7 @@
 
 - (NSDictionary *) refreshMatchingTags
 {
-    while(matchingGameNoteTagsScrollView.subviews.count   > 0) [[matchingGameNoteTagsScrollView.subviews   objectAtIndex:0] removeFromSuperview];
-    while(matchingPlayerNoteTagsScrollView.subviews.count > 0) [[matchingPlayerNoteTagsScrollView.subviews objectAtIndex:0] removeFromSuperview]; 
+    while(matchingNoteTagsScrollView.subviews.count   > 0) [[matchingNoteTagsScrollView.subviews   objectAtIndex:0] removeFromSuperview];
     
     NSMutableArray *matchedGameTags   = [[NSMutableArray alloc] init];
     NSMutableArray *matchedPlayerTags = [[NSMutableArray alloc] init]; 
@@ -95,47 +76,27 @@
     NSString *regex = [NSString stringWithFormat:@".*%@.*",queryString];
     NSString *tagTest;
     UIView *tagCell;
-    for(int i = 0; i < gameNoteTags.count; i++)
+    for(int i = 0; i < noteTags.count; i++)
     {
-        tagTest = ((NoteTag *)[gameNoteTags objectAtIndex:i]).text;
+        tagTest = ((NoteTag *)[noteTags objectAtIndex:i]).text;
         if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
         {
-            [matchedGameTags addObject:((NoteTag *)[gameNoteTags objectAtIndex:i])];
-            tagCell = [self cellForTag:((NoteTag *)[gameNoteTags objectAtIndex:i])];
-            tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingGameNoteTagsScrollView.subviews.count, matchingGameNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
-            [matchingGameNoteTagsScrollView addSubview:tagCell];
+            [matchedGameTags addObject:((NoteTag *)[noteTags objectAtIndex:i])];
+            tagCell = [self cellForTag:((NoteTag *)[noteTags objectAtIndex:i])];
+            tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
+            [matchingNoteTagsScrollView addSubview:tagCell];
         }
     }
-    if(matchingGameNoteTagsScrollView.subviews.count == 0)
+    
+    if(matchingNoteTagsScrollView.subviews.count == 0)
     {
-        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingGameNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(10,5,matchingGameNoteTagsScrollView.bounds.size.width, CELL_HEIGHT-10)];
+        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(10,5,matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT-10)];
         noTagsText.text = @"(no game tags)";
         [tagCell addSubview:noTagsText];
-        [matchingGameNoteTagsScrollView addSubview:tagCell]; 
+        [matchingNoteTagsScrollView addSubview:tagCell]; 
     } 
-    matchingGameNoteTagsScrollView.contentSize = CGSizeMake(matchingGameNoteTagsScrollView.bounds.size.width, CELL_HEIGHT*matchingGameNoteTagsScrollView.subviews.count);
-    
-    for(int i = 0; i < playerNoteTags.count; i++)
-    {
-        tagTest = ((NoteTag *)[playerNoteTags objectAtIndex:i]).text;
-        if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)  
-        {
-            [matchedPlayerTags addObject:((NoteTag *)[playerNoteTags objectAtIndex:i])]; 
-            tagCell = [self cellForTag:((NoteTag *)[playerNoteTags objectAtIndex:i])];
-            tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingPlayerNoteTagsScrollView.subviews.count, matchingPlayerNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
-            [matchingPlayerNoteTagsScrollView addSubview:tagCell];
-        }
-    }
-    if(matchingPlayerNoteTagsScrollView.subviews.count == 0)
-    {
-        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingPlayerNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(10,5,matchingPlayerNoteTagsScrollView.bounds.size.width, CELL_HEIGHT-10)];
-        noTagsText.text = @"(no player tags)";
-        [tagCell addSubview:noTagsText];
-        [matchingPlayerNoteTagsScrollView addSubview:tagCell]; 
-    }
-    matchingPlayerNoteTagsScrollView.contentSize = CGSizeMake(matchingPlayerNoteTagsScrollView.bounds.size.width, CELL_HEIGHT*matchingPlayerNoteTagsScrollView.subviews.count);
+    matchingNoteTagsScrollView.contentSize = CGSizeMake(matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count);
     
     return matchedTags;
 }
