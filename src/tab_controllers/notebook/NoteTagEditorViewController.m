@@ -21,6 +21,7 @@
     
     UIScrollView *existingTagsScrollView;
     UILabel *plus;
+    UILabel *ex; 
     UIImageView *grad;
     
     UITextField *tagInputField;
@@ -64,13 +65,23 @@
     plus.userInteractionEnabled = YES;
     [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
     
+    ex = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,plus.frame.size.width,20)];//make same size as plus, even though dimensions differ slightly
+    ex.font = [ARISTemplate ARISBodyFont];
+    ex.textColor = [UIColor whiteColor];
+    ex.backgroundColor = [UIColor ARISColorLightBlue];
+    ex.text = @" x ";
+    ex.layer.cornerRadius = 8;
+    ex.layer.masksToBounds = YES;
+    ex.userInteractionEnabled = YES;
+    [ex addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissEditButtonTouched)]]; 
+    
     grad = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_white_gradient"]];
     grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30);
     
     tagInputField = [[UITextField alloc] init];
     tagInputField.delegate = self;
     tagInputField.font = [ARISTemplate ARISTitleFont]; 
-    tagInputField.placeholder = @" choose a tag";
+    tagInputField.placeholder = @" choose a label";
     tagInputField.returnKeyType = UIReturnKeyDone; 
     
     tagPredictionViewController = [[NoteTagPredictionViewController alloc] 
@@ -78,12 +89,14 @@
                                    playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags 
                                    delegate:self];  
     
+    [self stopEditing];
     [self refreshView];  
 }
 
 - (void) viewWillLayoutSubviews
 {
         plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
+        ex.frame = CGRectMake(self.view.frame.size.width-25, 5, ex.frame.size.width, ex.frame.size.height);  
         grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
         existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
         tagInputField.frame = CGRectMake(10, 0, self.view.frame.size.width-20,30);
@@ -92,7 +105,7 @@
 
 - (void) setExpandHeight:(int)h
 {
-    expandHeight = h;
+    expandHeight = h-30; //(subtract 30 for text field)
 }
 
 - (void) setTags:(NSArray *)t
@@ -121,14 +134,23 @@
     if(editable && (editing || [tags count] == 0)) [self.view addSubview:tagInputField]; 
     else                                           [self.view addSubview:existingTagsScrollView];          
     if(editable && !editing)                       [self.view addSubview:plus]; 
-    if(editing)                                    [self.view addSubview:tagPredictionViewController.view];   
-    if(editing)                                    [tagInputField becomeFirstResponder];
+    if(editing)
+    {
+        [self.view addSubview:tagPredictionViewController.view];   
+        [tagInputField becomeFirstResponder];
+        [self.view addSubview:ex];
+    }
     [self.view addSubview:grad];  
 }
 
 - (void) addTagButtonTouched
 {
-    [self beginEditing];//[tagInputField becomeFirstResponder];   
+    [self beginEditing];
+}
+
+- (void) dismissEditButtonTouched
+{
+    [self stopEditing];
 }
 
 - (void) beginEditing

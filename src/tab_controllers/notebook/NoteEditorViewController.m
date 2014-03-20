@@ -150,10 +150,11 @@
     date.frame = CGRectMake(10, 35+64, 65, 14);
     owner.frame = CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14);
     
-    if(tagViewController.view.frame.size.height < 30)
+    [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216]; 
+    if(tagViewController.view.frame.size.height <= 30)
         tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, 30);   
     else
-        tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, tagViewController.view.frame.size.height);    
+        tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
     description.frame = CGRectMake(10, 79+64, self.view.bounds.size.width-20, 170);
     descriptionPrompt.frame = CGRectMake(16, 79+64+5, self.view.bounds.size.width-20, 24); 
     
@@ -190,6 +191,7 @@
     
     title.text = note.name; 
     description.text = note.desc;
+    if(![description.text isEqualToString:@""]) descriptionPrompt.hidden = YES;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:note.created]; 
