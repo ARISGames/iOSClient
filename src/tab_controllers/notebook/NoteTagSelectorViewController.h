@@ -9,8 +9,10 @@
 #import "ARISViewController.h"
 
 @class NoteTagSelectorViewController;
+@class NoteTag;
 
 @protocol NoteTagSelectorViewControllerDelegate
+- (void) noteTagSelectorViewControllerSelectedTag:(NoteTag *)t;
 - (void) noteTagSelectorViewControllerRequestsDismissal:(NoteTagSelectorViewController *)n;
 @end
 

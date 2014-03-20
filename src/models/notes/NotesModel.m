@@ -18,6 +18,7 @@
     NSArray *playerNotes;
     NSArray *listNotes;
     NSArray *mapNotes; 
+    NSMutableDictionary *notesMatchingTags;
     
     NSMutableArray *currentNoteTags;
     
@@ -157,6 +158,7 @@
     playerNotes = nil;
     listNotes = nil; 
     mapNotes = nil;  
+    notesMatchingTags = [[NSMutableDictionary alloc] init];  
 }
 
 - (NSArray *) playerNotes
@@ -193,6 +195,22 @@
         mapNotes = constructMapNotes;
     }
     return mapNotes;
+}
+
+- (NSArray *) notesMatchingTag:(NoteTag *)t
+{
+    if(![notesMatchingTags objectForKey:t.text])
+    {
+        NSMutableArray *constructListNotes = [[NSMutableArray alloc] initWithCapacity:10];
+        for(Note *n in currentNotes)
+        {
+            for(int i = 0; i < [n.tags count]; i++)
+                if(((NoteTag *)[n.tags objectAtIndex:i]).text == t.text)
+                    [constructListNotes addObject:n];
+        }
+        [notesMatchingTags setObject:constructListNotes forKey:t.text];
+    }
+    return [notesMatchingTags objectForKey:t.text];
 }
 
 - (void) invalidateNoteTagCaches

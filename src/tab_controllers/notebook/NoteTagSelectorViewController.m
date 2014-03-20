@@ -57,7 +57,7 @@
 
 - (void) noteTagEditorAddedTag:(NoteTag *)nt
 {
-    
+    [delegate noteTagSelectorViewControllerSelectedTag:nt];
 }
 
 - (void) noteTagEditorCreatedTag:(NoteTag *)nt

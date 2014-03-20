@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Note.h"
 
+@class NoteTag;
+
 @interface NotesModel : NSObject
 
 - (void) clearData;
@@ -23,6 +25,7 @@
 - (NSArray *) playerNotes;
 - (NSArray *) listNotes;
 - (NSArray *) mapNotes;
+- (NSArray *) notesMatchingTag:(NoteTag *)t;
 
 - (NSArray *) gameNoteTags;
 - (NSArray *) playerNoteTags;

@@ -45,9 +45,9 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    matchingNoteTagsScrollView   = [[UIScrollView alloc] init];
-    matchingNoteTagsScrollView.scrollEnabled   = YES;
-    matchingNoteTagsScrollView.contentInset   = UIEdgeInsetsMake(0,0,0,0);
+    matchingNoteTagsScrollView = [[UIScrollView alloc] init];
+    matchingNoteTagsScrollView.scrollEnabled = YES;
+    matchingNoteTagsScrollView.contentInset = UIEdgeInsetsMake(0,0,0,0);
     [self.view addSubview:matchingNoteTagsScrollView];
 }
 

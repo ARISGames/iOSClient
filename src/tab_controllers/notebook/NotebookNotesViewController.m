@@ -20,6 +20,7 @@
 
 const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
+const int VIEW_MODE_TAG  = 2;
 
 @interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate>
 {
@@ -27,6 +28,7 @@ const int VIEW_MODE_ALL  = 1;
     
     int viewMode;
     int loadingMore;
+    NoteTag *filterTag;
     
     NSMutableDictionary *contentLoadedFlagMap;
     
@@ -106,6 +108,7 @@ const int VIEW_MODE_ALL  = 1;
 {
     if     (viewMode == VIEW_MODE_MINE) return [[[AppModel sharedAppModel].currentGame.notesModel playerNotes] count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
     else if(viewMode == VIEW_MODE_ALL)  return [[[AppModel sharedAppModel].currentGame.notesModel listNotes]   count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
+    else if(viewMode == VIEW_MODE_TAG)  return [[[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag]   count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
     return 0;
 }
 
@@ -119,6 +122,7 @@ const int VIEW_MODE_ALL  = 1;
     NSArray *noteList;
     if     (viewMode == VIEW_MODE_MINE) noteList = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
     else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes]; 
+    else if(viewMode == VIEW_MODE_TAG)  noteList = [[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag];  
     
     if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [noteList count])
     {
@@ -145,6 +149,7 @@ const int VIEW_MODE_ALL  = 1;
     NSArray *noteList;
     if     (viewMode == VIEW_MODE_MINE) noteList = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
     else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes];  
+    else if(viewMode == VIEW_MODE_TAG)  noteList = [[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag];   
     
     NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[noteList objectAtIndex:indexPath.row] delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];
@@ -174,6 +179,13 @@ const int VIEW_MODE_ALL  = 1;
 - (void) setModeMine
 {
     viewMode = VIEW_MODE_MINE;
+    [table reloadData];
+}
+
+- (void) setModeTag:(NoteTag *)t
+{
+    viewMode = VIEW_MODE_TAG;
+    filterTag = t;
     [table reloadData];
 }
 
