@@ -28,6 +28,7 @@
 @synthesize comments;
 @synthesize publicToList;
 @synthesize publicToMap;
+@synthesize stubbed;
 
 - (Note *) init
 {
@@ -44,6 +45,7 @@
         self.comments = [[NSMutableArray alloc] init];
         self.publicToMap = NO;
         self.publicToList = NO;
+        self.stubbed = YES;
     }
     return self;	
 }
@@ -79,7 +81,7 @@
         {
             //For compatibility with previous model where text was just a notecontent
             if([[contentDict objectForKey:@"type"] isEqualToString:@"TEXT"])
-                self.desc = [NSString stringWithFormat:@"%@ %@",self.desc,[contentDict objectForKey:@"text"]];
+                self.desc = [NSString stringWithFormat:@"%@%@",self.desc,[contentDict objectForKey:@"text"]];
             else
                 [self.contents addObject:[[AppModel sharedAppModel] mediaForMediaId:[contentDict validIntForKey:@"media_id"]]];
         }
@@ -93,6 +95,8 @@
                
         self.publicToList = [dict validBoolForKey:@"public_to_list"];
         self.publicToMap  = [dict validBoolForKey:@"public_to_map"];   
+        
+        self.stubbed = YES; 
     }
     return self;
 }
@@ -107,12 +111,14 @@
     self.created = n.created;
     self.location = n.location;
     
+    self.publicToList = n.publicToList;
+    self.publicToMap = n.publicToMap; 
+    
+    if(n.stubbed) return; 
     self.tags = n.tags;
     self.contents = n.contents;
     self.comments = n.comments;
-    
-    self.publicToList = n.publicToList;
-    self.publicToMap = n.publicToMap;
+    self.stubbed = NO;
 }
 
 - (GameObjectType) type

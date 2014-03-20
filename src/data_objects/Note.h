@@ -24,7 +24,9 @@
     NSMutableArray *contents;
     NSMutableArray *comments; 
     BOOL publicToList;
-    BOOL publicToMap; 
+    BOOL publicToMap;
+    
+    BOOL stubbed;
 }
 
 @property (nonatomic, assign) int noteId;
@@ -38,6 +40,7 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, assign) BOOL publicToList;
 @property (nonatomic, assign) BOOL publicToMap;
+@property (nonatomic, assign) BOOL stubbed;
 
 - (void) mergeDataFromNote:(Note *)n;
 

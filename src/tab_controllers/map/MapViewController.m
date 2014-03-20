@@ -410,11 +410,12 @@
     [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
     [viewAnnotationButton setLocation:location];
     
-    [self.view addSubview:viewAnnotationButton];
+    //[self.view addSubview:viewAnnotationButton]; removing until feature complete- Phil
+    
     if ([location.gameObject isKindOfClass:[Item class]]) {
         pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
         [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
-        [self.view addSubview:pickUpButton];
+        //[self.view addSubview:pickUpButton]; removing until feature complete- Phil
     }
     
 }

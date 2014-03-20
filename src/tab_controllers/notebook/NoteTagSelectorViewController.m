@@ -47,6 +47,12 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 19, 19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    backButton.accessibilityLabel = @"Back Button";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];   
     [tagViewController beginEditing]; 
 }
 
@@ -60,6 +66,11 @@
     //disallow creation (doesn't make sense in this context)
     [tagViewController stopEditing];  
     [tagViewController beginEditing]; 
+}
+
+- (void) backButtonTouched
+{
+    [delegate noteTagSelectorViewControllerRequestsDismissal:self];
 }
 
 @end

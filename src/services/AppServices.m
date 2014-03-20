@@ -1071,6 +1071,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) parseNoteFromJSON:(ARISServiceResult *)jsonResult
 {
     Note *note = [[Note alloc] initWithDictionary:(NSDictionary *)jsonResult.resultData];
+    note.stubbed = NO;
     
     NSLog(@"NSNotification: NoteDataReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDataReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:note, @"note", nil]]]; 

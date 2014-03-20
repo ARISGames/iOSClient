@@ -17,6 +17,7 @@
 #import "Game.h"
 #import "NoteCell.h"
 #import "ARISTemplate.h"
+#import "NoteTag.h"
 
 const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
@@ -27,10 +28,10 @@ const int VIEW_MODE_TAG  = 2;
     UITableView *table;
     
     int viewMode;
-    int loadingMore;
     NoteTag *filterTag;
     
-    NSMutableDictionary *contentLoadedFlagMap;
+    UILabel *navTitleLabel;
+    UIView *navTitleView; 
     
     id <NotebookNotesViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -44,11 +45,9 @@ const int VIEW_MODE_TAG  = 2;
     if(self = [super init])
     {
         viewMode = 1;
-        loadingMore = 1;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNoteListAvailable) name:@"NewNoteListAvailable" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:)   name:@"NoteDataAvailable"    object:nil];   
-        contentLoadedFlagMap = [[NSMutableDictionary alloc] init];
         
         delegate = d;
     }
@@ -59,6 +58,20 @@ const int VIEW_MODE_TAG  = 2;
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    navTitleView = [[UIView alloc] init];
+    
+    navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.textAlignment = NSTextAlignmentCenter;
+    switch(viewMode)
+    {
+        case VIEW_MODE_MINE: navTitleLabel.text = @"My Notes";    break;
+        case VIEW_MODE_ALL:  navTitleLabel.text = @"All Notes";   break; 
+        case VIEW_MODE_TAG:  navTitleLabel.text = filterTag.text; break; 
+    }
+    
+    [navTitleView addSubview:navTitleLabel];
+    self.navigationItem.titleView = navTitleView;
     
     table = [[UITableView alloc] initWithFrame:self.view.frame];
     table.contentInset = UIEdgeInsetsMake(64,0,49,0);
@@ -72,6 +85,9 @@ const int VIEW_MODE_TAG  = 2;
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    navTitleView.frame        = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
+    navTitleLabel.frame       = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);  
+    
     table.frame = self.view.frame;
 }
 
@@ -94,8 +110,6 @@ const int VIEW_MODE_TAG  = 2;
 
 - (void) noteDataAvailable:(NSNotification *)n
 {
-    Note *note = [n.userInfo objectForKey:@"note"];
-    [contentLoadedFlagMap setValue:@"YES" forKey:[NSString stringWithFormat:@"%d",note.noteId]];
     [table reloadData];  
 }
 
@@ -129,7 +143,14 @@ const int VIEW_MODE_TAG  = 2;
         [[AppModel sharedAppModel].currentGame.notesModel getNextNotes]; 
         UITableViewCell *cell;
         if(!(cell = [table dequeueReusableCellWithIdentifier:@"loadingCell"])) 
+        {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadingCell"];
+                             
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            spinner.frame = CGRectMake(cell.frame.size.width-65, 15, 60, 15);
+            [cell addSubview:spinner];
+            [spinner startAnimating]; 
+        }
         return cell;
     }
     
@@ -137,9 +158,8 @@ const int VIEW_MODE_TAG  = 2;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
         cell = [[NoteCell alloc] initWithDelegate:self]; 
     Note *n = [noteList objectAtIndex:indexPath.row];
-    NSString *loaded = [contentLoadedFlagMap objectForKey:[NSString stringWithFormat:@"%d", n.noteId]];
-    if(!loaded) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
-    [cell populateWithNote:n loading:!loaded editable:(viewMode == VIEW_MODE_MINE)]; 
+    if(n.stubbed) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
+    [cell populateWithNote:n loading:n.stubbed editable:(viewMode == VIEW_MODE_MINE)]; 
 
     return cell;
 }
@@ -148,8 +168,10 @@ const int VIEW_MODE_TAG  = 2;
 {
     NSArray *noteList;
     if     (viewMode == VIEW_MODE_MINE) noteList = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
-    else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes];  
+    else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes]; 
     else if(viewMode == VIEW_MODE_TAG)  noteList = [[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag];   
+    
+    if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [noteList count])  return;
     
     NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[noteList objectAtIndex:indexPath.row] delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];
@@ -173,12 +195,14 @@ const int VIEW_MODE_TAG  = 2;
 - (void) setModeAll
 {
     viewMode = VIEW_MODE_ALL; 
+    navTitleLabel.text = @"All Notes"; 
     [table reloadData]; 
 }
 
 - (void) setModeMine
 {
     viewMode = VIEW_MODE_MINE;
+    navTitleLabel.text = @"My Notes";  
     [table reloadData];
 }
 
@@ -186,6 +210,7 @@ const int VIEW_MODE_TAG  = 2;
 {
     viewMode = VIEW_MODE_TAG;
     filterTag = t;
+    navTitleLabel.text = filterTag.text;    
     [table reloadData];
 }
 

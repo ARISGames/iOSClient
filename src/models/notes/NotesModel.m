@@ -151,6 +151,7 @@
             [self invalidateNoteTagCaches];   
         }
     }
+    [self invalidateNotesMatchingTagsCache]; 
 }
 
 - (void) invalidateNoteCaches
@@ -158,7 +159,12 @@
     playerNotes = nil;
     listNotes = nil; 
     mapNotes = nil;  
-    notesMatchingTags = [[NSMutableDictionary alloc] init];  
+    [self invalidateNotesMatchingTagsCache];
+}
+
+- (void) invalidateNotesMatchingTagsCache
+{
+    notesMatchingTags = [[NSMutableDictionary alloc] init];   
 }
 
 - (NSArray *) playerNotes
@@ -204,6 +210,7 @@
         NSMutableArray *constructListNotes = [[NSMutableArray alloc] initWithCapacity:10];
         for(Note *n in currentNotes)
         {
+            if(n.stubbed) [self getDetailsForNote:n];
             for(int i = 0; i < [n.tags count]; i++)
                 if(((NoteTag *)[n.tags objectAtIndex:i]).text == t.text)
                     [constructListNotes addObject:n];
