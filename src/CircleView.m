@@ -7,11 +7,10 @@
 //
 
 #import "CircleView.h"
-#import "UIColor+ARISColors.h"
 
 @interface CircleView()
 {
-    UIColor *backgroundColor;
+    UIColor *fillColor;
     UIColor *strokeColor; 
     int strokeWidth;
 }
@@ -19,13 +18,13 @@
 
 @implementation CircleView
 
-- (id) initWithBackgroundColor:(UIColor *)b strokeColor:(UIColor *)s
+- (id) initWithFillColor:(UIColor *)fc strokeColor:(UIColor *)sc strokeWidth:(int)sw
 {
     if(self = [super init])
     {
-        backgroundColor = b;
-        strokeColor = s; 
-        strokeWidth = 2; 
+        fillColor = fc;
+        strokeColor = sc; 
+        strokeWidth = sw; 
     }
     return self;
 }
@@ -37,11 +36,11 @@
     CGPathCloseSubpath(circlePath);
     
     CGContextAddPath(UIGraphicsGetCurrentContext(), circlePath);
-    [backgroundColor set];  
+    [fillColor set];  
     CGContextFillPath(UIGraphicsGetCurrentContext());
     
     CGContextAddPath(UIGraphicsGetCurrentContext(), circlePath); 
-    [strokeColor set];   
+    [strokeColor set];  
     CGContextSetLineWidth(UIGraphicsGetCurrentContext(), strokeWidth);
     CGContextStrokePath(UIGraphicsGetCurrentContext()); 
 }

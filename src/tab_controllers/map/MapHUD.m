@@ -55,7 +55,7 @@
     hudView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.6f];  
     
     walklabel = [[UILabel alloc] init];
-    circleButton = [[CircleButton alloc] init];
+    circleButton = [[CircleButton alloc] initWithFillColor:[UIColor ARISColorDarkBlue] strokeColor:[UIColor ARISColorWhite] titleColor:[UIColor ARISColorWhite] disabledFillColor:[UIColor ARISColorLightBlue] disabledStrokeColor:[UIColor ARISColorLightGray] disabledtitleColor:[UIColor ARISColorLightGray] strokeWidth:2];
     warningImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"walkerWarning.png"]];
     
     CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);

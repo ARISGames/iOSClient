@@ -47,7 +47,7 @@
     self.view.backgroundColor = [[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.4];
     self.view.userInteractionEnabled = YES;
     
-    popOverView = [[CircleView alloc] initWithBackgroundColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.4] strokeColor:[UIColor ARISColorWhite]];
+    popOverView = [[CircleView alloc] initWithFillColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.4] strokeColor:[UIColor ARISColorWhite] strokeWidth:4];
     popOverView.opaque = NO;
     
     header = [[UILabel alloc] init];

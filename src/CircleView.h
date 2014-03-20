@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CircleView : UIView
-- (id) initWithBackgroundColor:(UIColor *)b strokeColor:(UIColor *)s;
+- (id) initWithFillColor:(UIColor *)fc strokeColor:(UIColor *)sc strokeWidth:(int)sw;
 @end

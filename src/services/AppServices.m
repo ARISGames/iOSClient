@@ -560,16 +560,16 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [tags addObject:((NoteTag *)[n.tags objectAtIndex:i]).text];
     
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSNumber numberWithInt:[AppModel sharedAppModel].currentGame.gameId], @"gameId", 
-                          [NSNumber numberWithInt:n.noteId],                                     @"noteId",  
-                          [NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId],    @"playerId",  
+                          [NSNumber numberWithInt:[AppModel sharedAppModel].currentGame.gameId], @"gameId",
+                          [NSNumber numberWithInt:n.noteId],                                     @"noteId",
+                          [NSNumber numberWithInt:[AppModel sharedAppModel].player.playerId],    @"playerId",
                           n.name,                                                                @"title",
-                          n.desc,                                                                @"description", 
-                          [NSNumber numberWithBool:n.publicToMap],                               @"publicToMap",  
-                          [NSNumber numberWithBool:n.publicToList],                              @"publicToBook",  
-                          location,                                                              @"location",   
-                          media,                                                                 @"media",    
-                          tags,                                                                  @"tags",     
+                          n.desc,                                                                @"description",
+                          [NSNumber numberWithBool:n.publicToMap],                               @"publicToMap",
+                          [NSNumber numberWithBool:n.publicToList],                              @"publicToBook",
+                          location,                                                              @"location",
+                          media,                                                                 @"media",
+                          tags,                                                                  @"tags",
                           nil]; 
     [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil]; 
 }

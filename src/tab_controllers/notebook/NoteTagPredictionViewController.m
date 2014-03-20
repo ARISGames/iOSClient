@@ -92,7 +92,7 @@
     {
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(10,5,matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT-10)];
-        noTagsText.text = @"(no game tags)";
+        noTagsText.text = @"(no labels available)";
         [tagCell addSubview:noTagsText];
         [matchingNoteTagsScrollView addSubview:tagCell]; 
     } 

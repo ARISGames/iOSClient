@@ -90,7 +90,6 @@
                                    delegate:self];  
     
     [self stopEditing];
-    [self refreshView];  
 }
 
 - (void) viewWillLayoutSubviews

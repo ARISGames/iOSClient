@@ -7,9 +7,35 @@
 //
 
 #import "CircleButton.h"
-#import "UIColor+ARISColors.h"
+
+@interface CircleButton()
+{
+    UIColor *fillColor;
+    UIColor *strokeColor; 
+    UIColor *titleColor; 
+    UIColor *disabledFillColor;
+    UIColor *disabledStrokeColor;  
+    UIColor *disabledTitleColor;  
+    int strokeWidth;
+}
+@end
 
 @implementation CircleButton
+
+- (id) initWithFillColor:(UIColor *)fc strokeColor:(UIColor *)sc titleColor:(UIColor *)tc disabledFillColor:(UIColor *)dfc disabledStrokeColor:(UIColor *)dsc disabledtitleColor:(UIColor *)dtc strokeWidth:(int)sw
+{
+    if(self = [super init])
+    {
+        fillColor = fc;
+        strokeColor = sc; 
+        titleColor = tc;  
+        disabledFillColor = dfc;
+        disabledStrokeColor = dsc;  
+        disabledTitleColor = dtc;   
+        strokeWidth = sw; 
+    }
+    return self;
+}
 
 - (void) drawRect:(CGRect)rect
 {
@@ -18,18 +44,18 @@
     CGPathCloseSubpath(circlePath);
     
     CGContextAddPath(UIGraphicsGetCurrentContext(), circlePath);
-    if(self.enabled) [[UIColor ARISColorDarkBlue] set];  
-    else             [[UIColor ARISColorLightBlue] set];  
+    if(self.enabled) [fillColor set];  
+    else             [disabledFillColor set];  
     CGContextFillPath(UIGraphicsGetCurrentContext());
     
     CGContextAddPath(UIGraphicsGetCurrentContext(), circlePath); 
-    if(self.enabled) [[UIColor whiteColor] set];  
-    else             [[UIColor grayColor] set];   
-    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 2.0f);
+    if(self.enabled) [strokeColor set];  
+    else             [disabledStrokeColor set];   
+    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), strokeWidth);
     CGContextStrokePath(UIGraphicsGetCurrentContext()); 
     
-    if(self.enabled) [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
-    else             [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal]; 
+    if(self.enabled) [self setTitleColor:titleColor forState:UIControlStateNormal]; 
+    else             [self setTitleColor:disabledTitleColor forState:UIControlStateNormal]; 
 }
 
 @end
