@@ -16,5 +16,6 @@
 
 @interface NoteTagPredictionViewController : UIViewController
 - (id) initWithGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt delegate:(id<NoteTagPredictionViewControllerDelegate>)d;
+- (void) setGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt;
 - (NSDictionary *) queryString:(NSString *)qs;
 @end

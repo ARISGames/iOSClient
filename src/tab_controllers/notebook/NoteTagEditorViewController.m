@@ -135,6 +135,7 @@
     if(editable && !editing)                       [self.view addSubview:plus]; 
     if(editing)
     {
+        [tagPredictionViewController setGameNoteTags:[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];
         [self.view addSubview:tagPredictionViewController.view];   
         [tagInputField becomeFirstResponder];
         [self.view addSubview:ex];

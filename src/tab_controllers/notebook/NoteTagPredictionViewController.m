@@ -59,6 +59,14 @@
     [self refreshMatchingTags];
 }
 
+- (void) setGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt
+{
+    gameNoteTags = gnt;
+    playerNoteTags = pnt; 
+    noteTags = [gameNoteTags arrayByAddingObjectsFromArray:playerNoteTags]; 
+    [self refreshMatchingTags];
+}
+
 - (NSDictionary *) queryString:(NSString *)qs
 {
     queryString = qs;
