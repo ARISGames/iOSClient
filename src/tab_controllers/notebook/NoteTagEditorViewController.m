@@ -94,12 +94,12 @@
 
 - (void) viewWillLayoutSubviews
 {
-        plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
-        ex.frame = CGRectMake(self.view.frame.size.width-25, 5, ex.frame.size.width, ex.frame.size.height);  
-        grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
-        existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
-        tagInputField.frame = CGRectMake(10, 0, self.view.frame.size.width-20,30);
-        tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,expandHeight);  
+    plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
+    ex.frame = CGRectMake(self.view.frame.size.width-25, 5, ex.frame.size.width, ex.frame.size.height);  
+    grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
+    existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
+    tagInputField.frame = CGRectMake(10, 0, self.view.frame.size.width-20,30);
+    tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,expandHeight);  
 }
 
 - (void) setExpandHeight:(int)h
@@ -130,9 +130,9 @@
     }
     existingTagsScrollView.contentSize = CGSizeMake(x+10,30);
     
-    if(editable && (editing || [tags count] == 0)) [self.view addSubview:tagInputField]; 
-    else                                           [self.view addSubview:existingTagsScrollView];          
-    if(editable && !editing)                       [self.view addSubview:plus]; 
+    if(editable && (editing || [tags count] == 0)) [self.view addSubview:tagInputField];
+    else                                           [self.view addSubview:existingTagsScrollView];
+    if(editable && !editing)                       [self.view addSubview:plus];
     if(editing)
     {
         [tagPredictionViewController setGameNoteTags:[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];

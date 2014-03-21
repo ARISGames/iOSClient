@@ -42,6 +42,8 @@
     
     NSMutableArray *mediaToUpload;
     
+    NoteEditorMode mode;
+    
     BOOL newNote;
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -49,7 +51,7 @@
 
 @implementation NoteEditorViewController
 
-- (id) initWithNote:(Note *)n delegate:(id<NoteEditorViewControllerDelegate>)d
+- (id) initWithNote:(Note *)n mode:(NoteEditorMode)m delegate:(id<NoteEditorViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -61,6 +63,7 @@
             n.owner = [AppModel sharedAppModel].player;
         }
         note = n; 
+        mode = m;
         delegate = d;
         
         mediaToUpload = [[NSMutableArray alloc] initWithCapacity:5];
@@ -178,11 +181,23 @@
 {
     [super viewDidAppear:animated];
     
-    if([title.text isEqualToString:@""])
-        [title becomeFirstResponder];
-             
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;     
+    
+         if(mode == NOTE_EDITOR_MODE_AUDIO) [self audioPickerButtonTouched];
+    else if(mode == NOTE_EDITOR_MODE_IMAGE) [self imagePickerButtonTouched];
+    else if(mode == NOTE_EDITOR_MODE_VIDEO) [self videoPickerButtonTouched];
+    else [self guideNextEdit];
+    
+    mode = NOTE_EDITOR_MODE_TEXT;
+}
+
+- (void) guideNextEdit
+{
+    if([title.text isEqualToString:@""] && !title.isEditing)
+        [title becomeFirstResponder]; 
+    else if(note.tags.count == 0)
+        [tagViewController beginEditing];  
 }
 
 - (void) refreshViewFromNote
@@ -213,8 +228,7 @@
 
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
-    if([description.text isEqualToString:@""])
-        [description becomeFirstResponder];
+    [self guideNextEdit];
 }
 
 - (void) textViewDidBeginEditing:(UITextView *)textView
@@ -253,7 +267,7 @@
 - (void) doneButtonTouched
 {
     [description resignFirstResponder];
-    if(note.tags.count == 0) [tagViewController beginEditing];
+    [self guideNextEdit];
 }
 
 - (void) textViewDidChange:(UITextView *)textView
@@ -263,6 +277,7 @@
 
 - (void) textViewDidEndEditing:(UITextView *)textView
 {
+    if([description.text isEqualToString:@""]) descriptionPrompt.hidden = NO; 
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;       
 }
@@ -290,10 +305,15 @@
     [self.navigationController pushViewController:[[NoteRecorderViewController alloc] initWithDelegate:self] animated:YES]; 
 }
 
+- (void) videoPickerButtonTouched
+{
+    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithDelegate:self] animated:YES]; 
+}
+
 - (void) saveButtonTouched
 {
     if([title.text isEqualToString:@""])
-        [title becomeFirstResponder];
+        [self guideNextEdit];
     else [self saveNote];
 }
 

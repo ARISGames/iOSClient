@@ -417,7 +417,6 @@
         [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
         //[self.view addSubview:pickUpButton]; removing until feature complete- Phil
     }
-    
 }
 
 - (void) dismissSelection

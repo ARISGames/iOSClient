@@ -157,12 +157,6 @@
     [self.navigationController popToViewController:self animated:YES];    
 }
 
-- (void) addNote
-{
-    NoteEditorViewController *nevc = [[NoteEditorViewController alloc] initWithNote:nil delegate:self];
-    [self.navigationController pushViewController:nevc animated:YES]; 
-}
-
 - (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne
 {
     [self.navigationController popToViewController:self animated:YES];
@@ -175,22 +169,22 @@
 
 - (void) newTextButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_TEXT delegate:self] animated:YES];
 }
 
 - (void) newAudioButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_AUDIO delegate:self] animated:YES]; 
 }
 
 - (void) newImageButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_IMAGE delegate:self] animated:YES]; 
 }
 
 - (void) newVideoButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_VIDEO delegate:self] animated:YES]; 
 }
 
 - (void) allNotesButtonTouched

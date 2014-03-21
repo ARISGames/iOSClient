@@ -216,7 +216,7 @@ const int VIEW_MODE_TAG  = 2;
 
 - (void) editRequestedForNote:(Note *)n
 {
-    NoteEditorViewController *nevc = [[NoteEditorViewController alloc] initWithNote:n delegate:self];
+    NoteEditorViewController *nevc = [[NoteEditorViewController alloc] initWithNote:n mode:NOTE_EDITOR_MODE_TEXT delegate:self];
     [self.navigationController pushViewController:nevc animated:YES];  
 }
 
