@@ -44,6 +44,7 @@
     
     NoteEditorMode mode;
     
+    BOOL blockKeyboard;
     BOOL newNote;
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -168,6 +169,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    blockKeyboard = NO;
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0,0,19,19);
@@ -192,8 +194,15 @@
     mode = NOTE_EDITOR_MODE_TEXT;
 }
 
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [self resignFirstResponder];
+    blockKeyboard = YES;
+}
+
 - (void) guideNextEdit
 {
+    if(blockKeyboard) return;
     if([title.text isEqualToString:@""] && !title.isEditing)
         [title becomeFirstResponder]; 
     else if(note.tags.count == 0)
