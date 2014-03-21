@@ -248,6 +248,7 @@
 
 - (void) noteTagEditorAddedTag:(NoteTag *)nt
 {
+    [note.tags removeAllObjects];
     [note.tags addObject:nt];
     [tagViewController setTags:note.tags];
 }
