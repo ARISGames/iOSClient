@@ -27,8 +27,7 @@
     ARISCollapseView *collapseView; 
     CircleButton *circleButton; 
     UIView *hudView; 
-    UILabel *walklabel;
-    UIImageView *warningImage; 
+    UILabel *prompt;
     
     Location *location; 
     
@@ -54,9 +53,8 @@
     hudView = [[UIView alloc] init];
     hudView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.6f];  
     
-    walklabel = [[UILabel alloc] init];
+    prompt = [[UILabel alloc] init];
     circleButton = [[CircleButton alloc] initWithFillColor:[UIColor ARISColorDarkBlue] strokeColor:[UIColor ARISColorWhite] titleColor:[UIColor ARISColorWhite] disabledFillColor:[UIColor ARISColorLightBlue] disabledStrokeColor:[UIColor ARISColorLightGray] disabledtitleColor:[UIColor ARISColorLightGray] strokeWidth:2];
-    warningImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"walkerWarning.png"]];
     
     CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:NO showHandle:NO draggable:YES tappable:NO delegate:self];
@@ -77,52 +75,48 @@
     [circleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [circleButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside]; 
     
-    walklabel.frame = CGRectMake(85, 5, self.view.frame.size.width-85, 35);
-    walklabel.font = [ARISTemplate ARISButtonFont]; 
-    walklabel.textColor = [UIColor redColor];
-    walklabel.lineBreakMode = NSLineBreakByWordWrapping;
-    walklabel.numberOfLines = 0;
+    prompt.frame = CGRectMake(85, 2, self.view.frame.size.width-85, 35);
+    prompt.font = [ARISTemplate ARISButtonFont]; 
+    prompt.lineBreakMode = NSLineBreakByWordWrapping;
+    prompt.numberOfLines = 0;
     
-    warningImage.frame = CGRectMake(self.view.frame.size.width-40, 5, 30, 30);
+    [hudView addSubview:prompt];   
 }
 
 - (void) setLocation:(Location *)l
 {
     location = l;
     
-    CLLocation *annotationLocation = location.latlon;
-    CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:annotationLocation];
+    CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
     
-    [walklabel removeFromSuperview];
-    [warningImage removeFromSuperview];
-    
+    prompt.text = @"";
     float distanceToWalk; 
-    if ((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel) {
+    if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel)
+    {
         distanceToWalk = 0;
         circleButton.enabled = YES;
+        
+        prompt.textColor = [UIColor blackColor];   
+        prompt.text = location.name;
     }
-    else{
+    else
+    {
         circleButton.enabled = NO;
         distanceToWalk = distance - location.errorRange;
         //TODO change this string to NSLocalized String
         float roundedDistance = lroundf(distanceToWalk);
-        if ([[AppModel sharedAppModel] player].location != nil) {
-            walklabel.text = [NSString stringWithFormat:@"Out of range\nWalk %.0fm", roundedDistance];
-        }
-        else{
-            walklabel.text = @"Out of range";
-        }
-        [hudView addSubview:walklabel];
-        [hudView addSubview:warningImage];
+        prompt.textColor = [UIColor redColor];    
+        if([[AppModel sharedAppModel] player].location != nil)
+            prompt.text = [NSString stringWithFormat:@"%@- Out of range\nWalk %.0fm", location.name, roundedDistance];
+        else
+            prompt.text = [NSString stringWithFormat:@"%@- Out of range", location.name];
     }
     
     //TODO change label here and change to NSLocalized string
-    if ([location.gameObject isKindOfClass:[Item class]]) {
+    if([location.gameObject isKindOfClass:[Item class]])
         [circleButton setTitle:@"Pick up" forState:UIControlStateNormal];
-    }
-    else{
+    else
         [circleButton setTitle:@"View" forState:UIControlStateNormal];
-    }
 }
 
 - (void) open
@@ -161,12 +155,7 @@
 
 - (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
 {
-    if(!o){
-        self.view.userInteractionEnabled = NO;
-    }
-    else{
-        self.view.userInteractionEnabled = YES;
-    }
+    self.view.userInteractionEnabled = o;
 }
 
 @end
