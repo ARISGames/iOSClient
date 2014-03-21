@@ -103,7 +103,7 @@ static NSString * const OPTION_CELL = @"option";
     scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
     scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);  
     
-    webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 1);
+    webView.frame = CGRectMake(0, mediaView.frame.origin.y+mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height > 10 ? webView.frame.size.height : 10);
     
     continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
     continueLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,44);
