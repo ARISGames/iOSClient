@@ -43,6 +43,7 @@
     MapHUD *hud;
     UIView *blackout;
     
+    UIButton *threeLinesButton; 
     UIButton *centerButton;
     UIButton *fitToAnnotationButton;
     
@@ -103,6 +104,16 @@
     [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackout.userInteractionEnabled = NO; 
     
+    threeLinesButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [threeLinesButton addTarget:self action:@selector(threeLinesButtonTouched) forControlEvents:UIControlEventTouchDown];
+    [threeLinesButton setImage:[UIImage imageNamed:@"threelines" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    threeLinesButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
+    threeLinesButton.backgroundColor = [UIColor ARISColorDarkBlue];
+    threeLinesButton.layer.cornerRadius = 5;
+    threeLinesButton.clipsToBounds = YES; 
+    threeLinesButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    threeLinesButton.layer.borderWidth = 1.0f;   
+    
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(centerMapOnPlayer) forControlEvents:UIControlEventTouchDown];
     [centerButton setImage:[UIImage imageNamed:@"location" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
@@ -127,6 +138,7 @@
     pickUpButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorRed] isPointingLeft:YES];
     
     [self.view addSubview:mapView];
+    [self.view addSubview:threeLinesButton]; 
     [self.view addSubview:centerButton];
     [self.view addSubview:fitToAnnotationButton];
     [self.view addSubview:blackout]; 
@@ -138,6 +150,7 @@
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.userInteractionEnabled = NO; 
     
     [self refresh];
     
@@ -167,10 +180,17 @@
     mapView.frame = self.view.bounds;
     
     int buttonSize = 30;
+    threeLinesButton.frame      = CGRectMake(15, 24,  buttonSize, buttonSize); 
     centerButton.frame          = CGRectMake(15, 64,  buttonSize, buttonSize);
     fitToAnnotationButton.frame = CGRectMake(15, 104, buttonSize, buttonSize);  
     
     hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80);
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationItem.leftBarButtonItem = nil;  //get rid of it from super
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -466,6 +486,11 @@
 - (void)interactWithLocation:(TriangleButton*)sender{
     Location *currLocation = sender.location;
     [self displayGameObject:currLocation.gameObject fromSource:currLocation];
+}
+
+- (void) threeLinesButtonTouched
+{
+    [super showNav];
 }
 
 #pragma mark StateControlProtocol delegate methods
