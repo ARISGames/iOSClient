@@ -126,15 +126,16 @@
     navTitleView.frame        = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
     navTitleLabel.frame       = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height); 
     
-    int buttonPadding = ((self.view.frame.size.width/4)-30)/2; 
-    newTextButton.frame  = CGRectMake(buttonPadding*1+30*0, 84, 30, 30);
-    newAudioButton.frame = CGRectMake(buttonPadding*3+30*1, 84, 30, 30); 
-    newImageButton.frame = CGRectMake(buttonPadding*5+30*2, 84, 30, 30); 
-    newVideoButton.frame = CGRectMake(buttonPadding*7+30*3, 84, 30, 30); 
+    int buttonDiameter = 40;
+    int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
+    newTextButton.frame  = CGRectMake(buttonPadding*1+buttonDiameter*0, 84, buttonDiameter, buttonDiameter);
+    newAudioButton.frame = CGRectMake(buttonPadding*3+buttonDiameter*1, 84, buttonDiameter, buttonDiameter); 
+    newImageButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 84, buttonDiameter, buttonDiameter); 
+    newVideoButton.frame = CGRectMake(buttonPadding*7+buttonDiameter*3, 84, buttonDiameter, buttonDiameter); 
     
-    allNotesButton.frame      = CGRectMake(10, 124, self.view.frame.size.width-20, 30); 
-    myNotesButton.frame       = CGRectMake(10, 164, self.view.frame.size.width-20, 30); 
-    labelSelectorButton.frame = CGRectMake(10, 204, self.view.frame.size.width-20, 30);  
+    allNotesButton.frame      = CGRectMake(10, 134, self.view.frame.size.width-20, 30); 
+    myNotesButton.frame       = CGRectMake(10, 174, self.view.frame.size.width-20, 30); 
+    labelSelectorButton.frame = CGRectMake(10, 214, self.view.frame.size.width-20, 30);  
     
     while([allNotesButton.subviews count]      > 0) [[allNotesButton.subviews      objectAtIndex:0] removeFromSuperview];
     while([myNotesButton.subviews count]       > 0) [[myNotesButton.subviews       objectAtIndex:0] removeFromSuperview]; 
