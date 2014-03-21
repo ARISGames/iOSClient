@@ -28,6 +28,7 @@
     CircleButton *circleButton; 
     UIView *hudView; 
     UILabel *prompt;
+    UILabel *warning; 
     
     Location *location; 
     
@@ -54,6 +55,17 @@
     hudView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.6f];  
     
     prompt = [[UILabel alloc] init];
+    prompt.font = [ARISTemplate ARISButtonFont]; 
+    prompt.lineBreakMode = NSLineBreakByWordWrapping;
+    prompt.numberOfLines = 0; 
+    prompt.textColor = [UIColor blackColor];     
+    
+    warning = [[UILabel alloc] init]; 
+    warning.font = [ARISTemplate ARISCellSubtextFont]; 
+    warning.lineBreakMode = NSLineBreakByWordWrapping;
+    warning.numberOfLines = 0;  
+    warning.textColor = [UIColor redColor];      
+    
     circleButton = [[CircleButton alloc] initWithFillColor:[UIColor ARISColorDarkBlue] strokeColor:[UIColor ARISColorWhite] titleColor:[UIColor ARISColorWhite] disabledFillColor:[UIColor ARISColorLightBlue] disabledStrokeColor:[UIColor ARISColorLightGray] disabledtitleColor:[UIColor ARISColorLightGray] strokeWidth:2];
     
     CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -62,6 +74,9 @@
     [collapseView addSubview:circleButton];  
     
     [self.view addSubview:collapseView];
+    
+    [hudView addSubview:prompt];   
+    [hudView addSubview:warning];    
 }
 
 - (void) viewWillLayoutSubviews
@@ -69,18 +84,14 @@
     [super viewWillLayoutSubviews];
     
     [collapseView setFrame:self.view.bounds];
-    hudView.frame = CGRectMake(0, 40, self.view.frame.size.width, self.view.frame.size.height-40);
+    hudView.frame = CGRectMake(0, 23, self.view.frame.size.width, self.view.frame.size.height-23);
        
     circleButton.frame = CGRectMake(0, 20, 80, 80);
     [circleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [circleButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside]; 
     
     prompt.frame = CGRectMake(85, 2, self.view.frame.size.width-85, 35);
-    prompt.font = [ARISTemplate ARISButtonFont]; 
-    prompt.lineBreakMode = NSLineBreakByWordWrapping;
-    prompt.numberOfLines = 0;
-    
-    [hudView addSubview:prompt];   
+    warning.frame = CGRectMake(85, 20, self.view.frame.size.width-85, 35); 
 }
 
 - (void) setLocation:(Location *)l
@@ -89,15 +100,13 @@
     
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
     
-    prompt.text = @"";
+    prompt.text = location.name;
     float distanceToWalk; 
     if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel)
     {
         distanceToWalk = 0;
         circleButton.enabled = YES;
-        
-        prompt.textColor = [UIColor blackColor];   
-        prompt.text = location.name;
+        warning.text = @"";
     }
     else
     {
@@ -105,11 +114,10 @@
         distanceToWalk = distance - location.errorRange;
         //TODO change this string to NSLocalized String
         float roundedDistance = lroundf(distanceToWalk);
-        prompt.textColor = [UIColor redColor];    
         if([[AppModel sharedAppModel] player].location != nil)
-            prompt.text = [NSString stringWithFormat:@"%@- Out of range\nWalk %.0fm", location.name, roundedDistance];
+            warning.text = [NSString stringWithFormat:@"Out of range- walk %.0fm", roundedDistance];
         else
-            prompt.text = [NSString stringWithFormat:@"%@- Out of range", location.name];
+            warning.text = @"Out of range";
     }
     
     //TODO change label here and change to NSLocalized string
