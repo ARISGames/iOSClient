@@ -23,15 +23,19 @@ const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 const int VIEW_MODE_TAG  = 2;
 
-@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate>
+@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, UISearchBarDelegate>
 {
     UITableView *table;
+    UISearchBar *searchBar;
+    NSString *filterText;
     
     int viewMode;
     NoteTag *filterTag;
     
+    NSArray *filteredNotes;
+    
     UILabel *navTitleLabel;
-    UIView *navTitleView; 
+    UIView *navTitleView;
     
     id <NotebookNotesViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -45,9 +49,10 @@ const int VIEW_MODE_TAG  = 2;
     if(self = [super init])
     {
         viewMode = 1;
+        filterText = @"";
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNoteListAvailable) name:@"NewNoteListAvailable" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:)   name:@"NoteDataAvailable"    object:nil];   
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:)   name:@"NoteDataAvailable"    object:nil];
         
         delegate = d;
     }
@@ -58,6 +63,10 @@ const int VIEW_MODE_TAG  = 2;
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    searchBar = [[UISearchBar alloc] init];
+    searchBar.delegate = self;
+    searchBar.showsCancelButton = YES;
     
     navTitleView = [[UIView alloc] init];
     
@@ -74,19 +83,22 @@ const int VIEW_MODE_TAG  = 2;
     self.navigationItem.titleView = navTitleView;
     
     table = [[UITableView alloc] initWithFrame:self.view.frame];
-    table.contentInset = UIEdgeInsetsMake(64,0,49,0);
-    [table setContentOffset:CGPointMake(0,-64)];  
+    table.contentInset = UIEdgeInsetsMake(94,0,49,0);
+    [table setContentOffset:CGPointMake(0,-94)];  
     table.delegate   = self;
     table.dataSource = self;
     
     [self.view addSubview:table];
+    [self.view addSubview:searchBar];   
 }
 
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    navTitleView.frame        = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
-    navTitleLabel.frame       = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);  
+    navTitleView.frame  = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
+    navTitleLabel.frame = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);  
+    
+    searchBar.frame = CGRectMake(0,64,self.view.bounds.size.width,30);
     
     table.frame = self.view.frame;
 }
@@ -120,10 +132,27 @@ const int VIEW_MODE_TAG  = 2;
 
 - (int) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
 {
-    if     (viewMode == VIEW_MODE_MINE) return [[[AppModel sharedAppModel].currentGame.notesModel playerNotes] count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
-    else if(viewMode == VIEW_MODE_ALL)  return [[[AppModel sharedAppModel].currentGame.notesModel listNotes]   count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
-    else if(viewMode == VIEW_MODE_TAG)  return [[[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag]   count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
-    return 0;
+    NSArray *typeFilteredNotes;
+    if     (viewMode == VIEW_MODE_MINE) typeFilteredNotes = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
+    else if(viewMode == VIEW_MODE_ALL)  typeFilteredNotes = [[AppModel sharedAppModel].currentGame.notesModel listNotes];
+    else if(viewMode == VIEW_MODE_TAG)  typeFilteredNotes = [[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag];
+    
+    if([filterText isEqualToString:@""])
+        filteredNotes = typeFilteredNotes;
+    else
+    {
+        NSMutableArray *textFilteredNotes = [[NSMutableArray alloc] initWithCapacity:[typeFilteredNotes count]];
+        Note *n;
+        
+        for(int i = 0; i < [typeFilteredNotes count]; i++)
+        {
+            n = [typeFilteredNotes objectAtIndex:i];
+            if([n.name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)    
+                [textFilteredNotes addObject:n];
+        }
+        filteredNotes = textFilteredNotes; 
+    }
+    return [filteredNotes count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
 }
 
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -133,12 +162,7 @@ const int VIEW_MODE_TAG  = 2;
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *noteList;
-    if     (viewMode == VIEW_MODE_MINE) noteList = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
-    else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes]; 
-    else if(viewMode == VIEW_MODE_TAG)  noteList = [[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag];  
-    
-    if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [noteList count])
+    if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [filteredNotes count])
     {
         [[AppModel sharedAppModel].currentGame.notesModel getNextNotes]; 
         UITableViewCell *cell;
@@ -157,7 +181,7 @@ const int VIEW_MODE_TAG  = 2;
     NoteCell *cell;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
         cell = [[NoteCell alloc] initWithDelegate:self]; 
-    Note *n = [noteList objectAtIndex:indexPath.row];
+    Note *n = [filteredNotes objectAtIndex:indexPath.row];
     if(n.stubbed) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
     [cell populateWithNote:n loading:n.stubbed editable:(viewMode == VIEW_MODE_MINE)]; 
 
@@ -166,14 +190,9 @@ const int VIEW_MODE_TAG  = 2;
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *noteList;
-    if     (viewMode == VIEW_MODE_MINE) noteList = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
-    else if(viewMode == VIEW_MODE_ALL)  noteList = [[AppModel sharedAppModel].currentGame.notesModel listNotes]; 
-    else if(viewMode == VIEW_MODE_TAG)  noteList = [[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag];   
+    if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [filteredNotes count])  return;
     
-    if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [noteList count])  return;
-    
-    NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[noteList objectAtIndex:indexPath.row] delegate:self];
+    NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[filteredNotes objectAtIndex:indexPath.row] delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];
 }
 
@@ -190,6 +209,26 @@ const int VIEW_MODE_TAG  = 2;
 - (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n
 {
     [self.navigationController popToViewController:self animated:YES]; 
+}
+
+- (void) searchBar:(UISearchBar *)s textDidChange:(NSString *)t
+{
+    filterText = t;
+    [table reloadData];   
+}
+
+- (void) searchBarCancelButtonClicked:(UISearchBar *)s
+{
+    filterText = @"";
+    searchBar.text = @"";
+    [searchBar resignFirstResponder]; 
+    [table reloadData]; 
+}
+
+- (void) searchBarSearchButtonClicked:(UISearchBar *)s
+{
+    [searchBar resignFirstResponder];
+    [table reloadData];  
 }
 
 - (void) setModeAll
