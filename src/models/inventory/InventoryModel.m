@@ -129,7 +129,7 @@
     }
 }
 
--(int)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty
+- (int) removeItemFromInventory:(Item*)item qtyToRemove:(int)qty
 {
     NSMutableArray *newInventory = [[NSMutableArray alloc] initWithCapacity:[self.currentInventory count]];
     for(int i = 0; i < [self.currentInventory count]; i++)
@@ -151,7 +151,7 @@
     return 0;
 }
 
--(int)addItemToInventory:(Item*)item qtyToAdd:(int)qty
+- (int) addItemToInventory:(Item*)item qtyToAdd:(int)qty
 {
     NSMutableArray *newInventory = [[NSMutableArray alloc] initWithCapacity:[self.currentInventory count]];
     for(int i = 0; i < [self.currentInventory count]; i++)

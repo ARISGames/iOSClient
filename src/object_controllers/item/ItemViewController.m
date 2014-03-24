@@ -214,9 +214,15 @@
 - (void) dropItemQty:(int)q
 {
     [[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:q];
-    [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q];
-    [self updateViewButtons]; 
-    [self refreshTitle];   
+    if([[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0)
+    {
+        [self dismissSelf];
+    }
+    else
+    {
+        [self updateViewButtons]; 
+        [self refreshTitle];
+    }
 }
 
 - (void) destroyButtonTouched
