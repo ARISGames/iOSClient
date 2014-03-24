@@ -35,6 +35,7 @@ typedef enum
 	int iconMediaId;
 	int qty;
 	int maxQty;
+    BOOL infiniteQty;
     int weight;
 	BOOL dropable;
 	BOOL destroyable;
@@ -50,6 +51,7 @@ typedef enum
 @property (nonatomic, assign) int iconMediaId;
 @property (nonatomic, assign) int qty;
 @property (nonatomic, assign) int maxQty;
+@property (nonatomic, assign) BOOL infiniteQty;
 @property (nonatomic, assign) int weight;
 @property (nonatomic, assign) BOOL dropable;
 @property (nonatomic, assign) BOOL destroyable;

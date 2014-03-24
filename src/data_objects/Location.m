@@ -26,6 +26,7 @@
 @synthesize gameObject;
 @synthesize errorRange;
 @synthesize qty;
+@synthesize infiniteQty;
 @synthesize hidden;
 @synthesize forcedDisplay;
 @synthesize allowsQuickTravel;
@@ -66,6 +67,7 @@
         if([otype isEqualToString:@"Player"])     self.gameObject = [[Player alloc] init];
         
         self.qty               = [dict validIntForKey:@"item_qty"];
+        self.infiniteQty       = self.qty < 0;
         self.hidden            = [dict validBoolForKey:@"hidden"];
         self.forcedDisplay     = [dict validBoolForKey:@"force_view"];
         self.showTitle         = [dict validBoolForKey:@"show_title"];
@@ -96,6 +98,7 @@
     self.gameObject.type             == ob.gameObject.type &&
     self.errorRange                  == ob.errorRange &&
     self.qty                         == ob.qty &&
+    self.infiniteQty                 == ob.infiniteQty && 
     self.hidden                      == ob.hidden &&
     self.forcedDisplay               == ob.forcedDisplay &&
     self.allowsQuickTravel           == ob.allowsQuickTravel &&
@@ -107,11 +110,13 @@
 - (Location *)copy
 {
     Location *c = [[Location alloc] init];
+    c.name              = self.name;
     c.latlon            = self.latlon;
     c.locationId        = self.locationId;
     c.gameObject        = self.gameObject;
     c.errorRange        = self.errorRange;
     c.qty               = self.qty;
+    c.infiniteQty       = self.infiniteQty; 
     c.hidden            = self.hidden;
     c.forcedDisplay     = self.forcedDisplay;
     c.allowsQuickTravel = self.allowsQuickTravel;

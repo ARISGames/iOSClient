@@ -498,6 +498,12 @@
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     [self dismissSelection];
+    //ugh this is bad...
+    if(g.type == GameObjectItem && [s isKindOfClass:[Location class]])
+    {
+        ((Item *)g).qty = ((Location *)s).qty;
+        ((Item *)g).infiniteQty = ((Location *)s).infiniteQty; 
+    }
     return [delegate displayGameObject:g fromSource:s];
 }
 

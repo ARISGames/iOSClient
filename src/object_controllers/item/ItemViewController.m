@@ -77,9 +77,9 @@
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     int numButtons = 0;
-    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.destroyable) { destroyBtn = [self createItemButtonWithText:@"Destroy" selector:@selector(destroyButtonTouched)]; numButtons++; }
-    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.dropable)    { dropBtn    = [self createItemButtonWithText:@"Drop" selector:@selector(DropButtonTouched)];       numButtons++; }
-    if([(NSObject *)source isKindOfClass:[Location class]] && self.item.qty != 0)                      { pickupBtn  = [self createItemButtonWithText:@"Pick Up" selector:@selector(pickupButtonTouched)];  numButtons++; } 
+    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.destroyable)      { destroyBtn = [self createItemButtonWithText:@"Destroy" selector:@selector(destroyButtonTouched)]; numButtons++; }
+    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.dropable)         { dropBtn    = [self createItemButtonWithText:@"Drop"    selector:@selector(dropButtonTouched)];    numButtons++; }
+    if([(NSObject *)source isKindOfClass:[Location class]] && (self.item.qty > 0 || self.item.infiniteQty)) { pickupBtn  = [self createItemButtonWithText:@"Pick Up" selector:@selector(pickupButtonTouched)];  numButtons++; } 
     
     line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
@@ -158,8 +158,8 @@
 
 - (void) refreshTitle
 {
-    if(item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
-    else self.title = item.name; 
+    if(item.qty < 2 || self.item.infiniteQty) self.title = item.name; 
+    else self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 }
 
 - (void) updateViewButtons
@@ -169,7 +169,7 @@
     if(pickupBtn)  [pickupBtn  removeFromSuperview]; 
     if(line)       [line       removeFromSuperview]; 
     
-    if(item.qty <= 0)
+    if(item.qty < 1 && !self.item.infiniteQty)
     {
         destroyBtn = nil;
         dropBtn    = nil; 
@@ -202,7 +202,7 @@
 
 - (void) dropButtonTouched
 {	
-    if(self.item.qty > 1)
+    if(self.item.qty > 1 && !self.item.infiniteQty)
     {
         ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Drop" positive:NO qty:self.item.qty delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
@@ -214,10 +214,7 @@
 - (void) dropItemQty:(int)q
 {
     [[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:q];
-    if([[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0)
-    {
-        [self dismissSelf];
-    }
+    if([[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
         [self updateViewButtons]; 
@@ -227,7 +224,7 @@
 
 - (void) destroyButtonTouched
 {
-    if(self.item.qty > 1)
+    if(self.item.qty > 1 && !self.item.infiniteQty)
     {
         ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Destroy" positive:NO qty:self.item.qty delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
@@ -239,22 +236,24 @@
 - (void) destroyItemQty:(int)q
 {
     [[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:q];
-    [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q];
-    item.qty -= q;
-    [self updateViewButtons];  
-    [self refreshTitle];   
+    if([[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
+    else
+    {
+        [self updateViewButtons];  
+        [self refreshTitle];   
+    }
 }
 
 - (void) pickupButtonTouched
 {
-    if(self.item.qty > 1)
+    if(self.item.qty > 1 && !self.item.infiniteQty)
     {
         int q = self.item.qty;
         
         Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
         if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
         
-        int maxPUAmt = invItem.maxQty == -1 ? 99999 : invItem.maxQty-invItem.qty;
+        int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
         if(q < maxPUAmt) maxPUAmt = q;
         
         int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
@@ -275,7 +274,7 @@
     Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
     if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
     
-    int maxPUAmt = invItem.maxQty == -1 ? 99999 : invItem.maxQty-invItem.qty;
+    int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
     if(q < maxPUAmt) maxPUAmt = q;
     
     int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
@@ -418,4 +417,3 @@
 }
 
 @end
-

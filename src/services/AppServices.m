@@ -1412,7 +1412,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) parseGamePanoramicListFromJSON:(ARISServiceResult *)jsonResult
 {
     NSArray *panListArray = (NSArray *)jsonResult.resultData;
-    
+
     NSMutableDictionary *tempPanoramicList = [[NSMutableDictionary alloc] init];
     NSEnumerator *enumerator = [((NSArray *)panListArray) objectEnumerator];
     NSDictionary *dict;
@@ -1421,7 +1421,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         Panoramic *tmpPan = [[Panoramic alloc] initWithDictionary:dict];
         [tempPanoramicList setObject:tmpPan forKey:[NSNumber numberWithInt:tmpPan.panoramicId]];
     }
-    
+
     [AppModel sharedAppModel].currentGame.panoramicList = tempPanoramicList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
@@ -1431,7 +1431,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
     if(!currentlyFetchingInventory) return;
     currentlyFetchingInventory = NO;
-    
+
     NSMutableArray *tempInventory = [[NSMutableArray alloc] initWithCapacity:10];
     NSMutableArray *tempAttributes = [[NSMutableArray alloc] initWithCapacity:10];
     
@@ -1459,7 +1459,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) parseQRCodeObjectFromJSON:(ARISServiceResult *)jsonResult
 {
     NSObject *qrCodeObject;
-    
+
     if(jsonResult.resultData && jsonResult.resultData != [NSNull null])
     {
         NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.resultData;
@@ -1471,7 +1471,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         }
         else qrCodeObject = qrCodeDictionary;
     }
-    
+
     NSLog(@"NSNotification: QRCodeObjectReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
 }
@@ -1486,9 +1486,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
     if(!currentlyFetchingQuestList) return;
     currentlyFetchingQuestList = NO;
-    
+
     NSDictionary *questListsDictionary = (NSDictionary *)jsonResult.resultData;
-    
+
     //Active Quests
     NSArray *activeQuestDicts = [questListsDictionary validObjectForKey:@"active"];
     NSEnumerator *activeQuestDictsEnumerator = [activeQuestDicts objectEnumerator];

@@ -25,6 +25,7 @@
 @synthesize iconMediaId;
 @synthesize qty;
 @synthesize maxQty;
+@synthesize infiniteQty;
 @synthesize weight;
 @synthesize dropable;
 @synthesize destroyable;
@@ -42,6 +43,7 @@
         self.mediaId = 0;
         self.iconMediaId = 0;
         self.qty = 0;
+        self.infiniteQty = NO; 
         self.maxQty = 1;
         self.weight = 0;
         self.dropable = NO;
@@ -65,6 +67,7 @@
         self.mediaId      = [dict validIntForKey:@"media_id"];
         self.iconMediaId  = [dict validIntForKey:@"icon_media_id"];
         self.qty          = [dict validIntForKey:@"qty"];
+        self.infiniteQty  = self.qty < 0;
         self.maxQty       = [dict validIntForKey:@"max_qty_in_inventory"];
         self.weight       = [dict validIntForKey:@"weight"];
         self.dropable     = [dict validBoolForKey:@"dropable"];
@@ -104,6 +107,7 @@
     c.mediaId = self.mediaId;
     c.iconMediaId = self.iconMediaId;
     c.qty = self.qty;
+    c.infiniteQty = self.infiniteQty; 
     c.maxQty = self.maxQty;
     c.weight = self.weight;
     c.dropable = self.dropable;

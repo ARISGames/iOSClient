@@ -60,7 +60,7 @@
 {
     [super viewDidLoad];
     
-    self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(5,5,self.view.bounds.size.width-10,30)];
+    self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
     self.theSearchBar.delegate = self;
     [self.theSearchBar becomeFirstResponder];
     

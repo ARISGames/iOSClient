@@ -19,6 +19,7 @@
     id<GameObjectProtocol> gameObject;
 	int errorRange;
     int qty;
+    BOOL infiniteQty; 
 	BOOL hidden;
 	BOOL forcedDisplay;
 	BOOL allowsQuickTravel;
@@ -41,6 +42,7 @@
 @property (nonatomic, strong) id<GameObjectProtocol> gameObject;
 @property (nonatomic, assign) int errorRange;
 @property (nonatomic, assign) int qty;
+@property (nonatomic, assign) BOOL infiniteQty;
 @property (nonatomic, assign) BOOL hidden;
 @property (nonatomic, assign) BOOL forcedDisplay;
 @property (nonatomic, assign) BOOL allowsQuickTravel;
