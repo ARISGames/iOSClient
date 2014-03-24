@@ -97,7 +97,7 @@
     self.locationId                  == ob.locationId &&
     self.gameObject.type             == ob.gameObject.type &&
     self.errorRange                  == ob.errorRange &&
-    self.qty                         == ob.qty &&
+    (self.qty == ob.qty || (self.qty < 0 && ob.qty < 0)) &&
     self.infiniteQty                 == ob.infiniteQty && 
     self.hidden                      == ob.hidden &&
     self.forcedDisplay               == ob.forcedDisplay &&

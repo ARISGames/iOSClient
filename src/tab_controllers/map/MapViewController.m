@@ -375,7 +375,6 @@
         if(![[[mapView annotations] objectAtIndex:i] isKindOfClass:[Location class]]) continue;
         annotation = [[mapView annotations] objectAtIndex:i];
         loc = (Location *)annotation; 
-        if(loc.gameObject.type == GameObjectItem) ((Item *)loc.gameObject).qty = loc.qty;  
         for(int j = 0; j < [locationsToRemove count]; j++)
         {
             if([loc compareTo:((Location *)[locationsToRemove objectAtIndex:j])])

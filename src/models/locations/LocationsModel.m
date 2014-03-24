@@ -124,9 +124,13 @@
 	for (int i = 0; i < [newLocations count]; i++)
     {
         tmpLocation = (Location *)[newLocations objectAtIndex:i];
-		if (tmpLocation.locationId == locationId && tmpLocation.gameObject.type == GameObjectItem)
+        if(tmpLocation.locationId == locationId && tmpLocation.gameObject.type == GameObjectItem)
 			tmpLocation.qty += quantityModifier;
-        if(tmpLocation.qty == 0) { [newLocations removeObjectAtIndex:i]; i--; }
+        if(tmpLocation.qty == 0 && !tmpLocation.infiniteQty) 
+        {
+            [newLocations removeObjectAtIndex:i];
+            i--;
+        }
 	}
     
     [self updateLocations:newLocations];
