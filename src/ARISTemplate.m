@@ -33,7 +33,7 @@
 + (UIFont *) ARISNavTitleFont    { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
 + (UIFont *) ARISNavButtonFont   { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
 + (UIFont *) ARISTabTitleFont    { return [UIFont fontWithName:@"HelveticaNeue-Light" size:0]; }
-+ (UIFont *) ARISCellTitleFont   { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
++ (UIFont *) ARISCellTitleFont   { return [UIFont fontWithName:@"HelveticaNeue" size:16]; }
 + (UIFont *) ARISCellSubtextFont { return [UIFont fontWithName:@"HelveticaNeue-Light" size:12]; }
 + (UIFont *) ARISButtonFont      { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
 + (UIFont *) ARISTitleFont       { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }

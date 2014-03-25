@@ -61,11 +61,6 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.userInteractionEnabled = NO; 
-    
     navTitleView = [[UIView alloc] init];
     
     navTitleLabel = [[UILabel alloc] init];
@@ -197,6 +192,22 @@
     line2.frame = CGRectMake(0,169,self.view.bounds.size.width,1);   
     line3.frame = CGRectMake(0,209,self.view.bounds.size.width,1);   
     line4.frame = CGRectMake(0,249,self.view.bounds.size.width,1);       
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated]; 
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    self.navigationController.navigationBar.translucent = YES;
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = nil;
+    self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc

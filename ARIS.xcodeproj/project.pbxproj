@@ -34,6 +34,8 @@
 		AA09B8E918E1EB5500A45562 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E318E1EB5500A45562 /* camera@2x.png */; };
 		AA09B8EA18E1EB5500A45562 /* microphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E418E1EB5500A45562 /* microphone@2x.png */; };
 		AA09B8EB18E1EB5500A45562 /* cabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E518E1EB5500A45562 /* cabinet@2x.png */; };
+		AA09B8F118E20AB500A45562 /* sound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F018E20AB500A45562 /* sound@2x.png */; };
+		AA09B8F518E20D7300A45562 /* sound_with_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F418E20D7300A45562 /* sound_with_bg@2x.png */; };
 		AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */; };
 		AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */; };
 		AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807F17B015A00002A81C /* NpcScriptViewController.m */; };
@@ -362,6 +364,8 @@
 		AA09B8E318E1EB5500A45562 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
 		AA09B8E418E1EB5500A45562 /* microphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "microphone@2x.png"; sourceTree = "<group>"; };
 		AA09B8E518E1EB5500A45562 /* cabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cabinet@2x.png"; sourceTree = "<group>"; };
+		AA09B8F018E20AB500A45562 /* sound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound@2x.png"; sourceTree = "<group>"; };
+		AA09B8F418E20D7300A45562 /* sound_with_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound_with_bg@2x.png"; sourceTree = "<group>"; };
 		AA0D807817B00E7E0002A81C /* NpcScriptElementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptElementView.h; sourceTree = "<group>"; };
 		AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptElementView.m; sourceTree = "<group>"; };
 		AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcOptionsViewController.h; sourceTree = "<group>"; };
@@ -1021,6 +1025,8 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				AA09B8F418E20D7300A45562 /* sound_with_bg@2x.png */,
+				AA09B8F018E20AB500A45562 /* sound@2x.png */,
 				AA09B8E018E1EB5500A45562 /* video@2x.png */,
 				AA09B8E118E1EB5500A45562 /* notebook@2x.png */,
 				AA09B8E218E1EB5500A45562 /* tags@2x.png */,
@@ -2089,6 +2095,7 @@
 				AAA318E218B7C7280000E71A /* README.md in Resources */,
 				AABC6FEF1727398B0074CC21 /* defaultAudioIcon.png in Resources */,
 				AA2D215317DE560C00CF4198 /* toolbox@2x.png in Resources */,
+				AA09B8F118E20AB500A45562 /* sound@2x.png in Resources */,
 				AABC6FF01727398B0074CC21 /* defaultCharacter.png in Resources */,
 				F92B5E3118C66DEB00D1D1A7 /* globe@2x.png in Resources */,
 				AAB62FE118C689DD00030F48 /* barcode@2x.png in Resources */,
@@ -2147,6 +2154,7 @@
 				AA2D214F17DE560C00CF4198 /* qr_small@2x.png in Resources */,
 				AAF7115B17B9579900262A37 /* .gitignore in Resources */,
 				5B1D998A178CC3A700661453 /* 05-shuffle.png in Resources */,
+				AA09B8F518E20D7300A45562 /* sound_with_bg@2x.png in Resources */,
 				5B1D998B178CC3A700661453 /* 05-shuffle@2x.png in Resources */,
 				AA2D214917DE560C00CF4198 /* star@2x.png in Resources */,
 				5B1D998C178CC3A700661453 /* 29-circle-pause.png in Resources */,

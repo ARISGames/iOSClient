@@ -50,7 +50,7 @@
         date.font = [ARISTemplate ARISCellSubtextFont]; 
         date.textColor = [UIColor ARISColorDarkBlue];
         date.adjustsFontSizeToFitWidth = NO; 
-        owner = [[UILabel alloc] initWithFrame:CGRectMake(75,35,self.frame.size.width-85,14)];
+        owner = [[UILabel alloc] initWithFrame:CGRectMake(65,35,self.frame.size.width-85,14)];
         owner.font = [ARISTemplate ARISCellSubtextFont]; 
         owner.textColor = [UIColor ARISColorDarkGray]; 
         owner.adjustsFontSizeToFitWidth = NO; 
