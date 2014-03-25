@@ -242,7 +242,7 @@
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];  
     avVC.moviePlayer.shouldAutoplay = NO;
-    image = [UIImage imageNamed:@"audio.png"];
+    image = [UIImage imageNamed:@"microphone.png"];
     [self displayImage];
 }
 

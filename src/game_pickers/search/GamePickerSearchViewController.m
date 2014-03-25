@@ -14,8 +14,6 @@
 #import "Player.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#import "UIImage+Color.h"
-#import "UIImage+Resize.h"
 #import "UIColor+ARISColors.h"
 
 @interface GamePickerSearchViewController() <UISearchDisplayDelegate, UISearchBarDelegate>
@@ -49,7 +47,7 @@
         
         self.title = NSLocalizedString(@"GamePickerSearchTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"search.png" withColor:[UIColor ARISColorRed]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh] withFinishedUnselectedImage:[[UIImage imageNamed:@"search.png" withColor:[UIColor ARISColorDarkGray]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"search.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"search.png"]];    
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewSearchGameListReady" object:nil];
     }

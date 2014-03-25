@@ -15,9 +15,7 @@
 #import "Location.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#import "UIImage+Resize.h"
 #import "UIColor+ARISColors.h"
-#import "UIImage+Color.h"
 
 @implementation GamePickerRecentViewController
 
@@ -27,7 +25,7 @@
     {
         self.title = NSLocalizedString(@"GamePickerRecentTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"clock.png" withColor:[UIColor ARISColorRed]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh] withFinishedUnselectedImage:[[UIImage imageNamed:@"clock.png" withColor:[UIColor ARISColorDarkGray]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh]]; 
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock.png"]];   
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
     }
     return self;

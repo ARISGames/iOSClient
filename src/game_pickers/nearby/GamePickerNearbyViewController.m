@@ -14,8 +14,6 @@
 #import "Player.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#import "UIImage+Resize.h"
-#import "UIImage+Color.h"
 #import "UIColor+ARISColors.h"
 
 @implementation GamePickerNearbyViewController
@@ -26,7 +24,7 @@
     {
         self.title = NSLocalizedString(@"GamePickerNearbyTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"arrow_unselected.png" withColor:[UIColor ARISColorRed]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh] withFinishedUnselectedImage:[[UIImage imageNamed:@"arrow_unselected.png" withColor:[UIColor ARISColorDarkGray]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationarrow.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationarrow.png"]]; 
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
     }

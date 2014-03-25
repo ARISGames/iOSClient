@@ -59,11 +59,11 @@
         desc.textColor = [UIColor ARISColorDarkGray];  
         desc.adjustsFontSizeToFitWidth = NO;   
         imageIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-65,15,15,15)];
-        [imageIcon setImage:[UIImage imageNamed:@"photo.png"]];
+        [imageIcon setImage:[UIImage imageNamed:@"camera.png"]];
         videoIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-45,15,15,15)];
         [videoIcon setImage:[UIImage imageNamed:@"video.png"]]; 
         audioIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-25,15,15,15)];
-        [audioIcon setImage:[UIImage imageNamed:@"audio.png"]]; 
+        [audioIcon setImage:[UIImage imageNamed:@"microphone.png"]]; 
         
         edit = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-40,10,40,20)];
         edit.font = [ARISTemplate ARISCellTitleFont]; 

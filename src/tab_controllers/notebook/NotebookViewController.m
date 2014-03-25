@@ -13,7 +13,6 @@
 #import "NoteTagSelectorViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
-#import "UIImage+Color.h"
 
 #import "AppModel.h"
 #import "Game.h"
@@ -34,6 +33,12 @@
     UILabel *labelSelectorButton;  
     NotebookNotesViewController *notesViewController;
     NoteTagSelectorViewController *noteTagSelectorViewController; 
+    
+    UIView *fakeNavBG;
+    UIView *line1;
+    UIView *line2; 
+    UIView *line3; 
+    UIView *line4; 
 }
 
 @end
@@ -56,37 +61,60 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.userInteractionEnabled = NO; 
+    
     navTitleView = [[UIView alloc] init];
     
     navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.font = [ARISTemplate ARISTitleFont];
     navTitleLabel.text = @"Notebook";
     navTitleLabel.textAlignment = NSTextAlignmentCenter; 
     
     [navTitleView addSubview:navTitleLabel];
     self.navigationItem.titleView = navTitleView;  
                          
+    fakeNavBG = [[UIView alloc] init]; fakeNavBG.backgroundColor = [UIColor colorWithRed:0xF8/(float)0xFF green:0xF8/(float)0xFF blue:0xF8/(float)0xFF alpha:1.0];  
+    line1 = [[UIView alloc] init]; line1.backgroundColor = [UIColor ARISColorLightGray]; 
+    line2 = [[UIView alloc] init]; line2.backgroundColor = [UIColor ARISColorLightGray]; 
+    line3 = [[UIView alloc] init]; line3.backgroundColor = [UIColor ARISColorLightGray]; 
+    line4 = [[UIView alloc] init]; line4.backgroundColor = [UIColor ARISColorLightGray]; 
+    
+    [self.view addSubview:fakeNavBG]; 
+    [self.view addSubview:line1];
+    [self.view addSubview:line2]; 
+    [self.view addSubview:line3]; 
+    [self.view addSubview:line4]; 
+    
+    
     UIColor *fc = [UIColor whiteColor];
     UIColor *sc = [UIColor blackColor]; 
     UIColor *tc = [UIColor blackColor]; 
-    int sw = 2;
+    int sw = 1;
     
     newTextButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
-    [newTextButton setTitle:@"t" forState:UIControlStateNormal];
+    //[newTextButton setTitle:@"t" forState:UIControlStateNormal];
+    [newTextButton setImage:[UIImage imageNamed:@"notebook.png"] forState:UIControlStateNormal];
     [newTextButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     [newTextButton addTarget:self action:@selector(newTextButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
     newAudioButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    [newAudioButton setTitle:@"a" forState:UIControlStateNormal]; 
+    //[newAudioButton setTitle:@"a" forState:UIControlStateNormal]; 
+    [newAudioButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
     [newAudioButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newAudioButton addTarget:self action:@selector(newAudioButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
     newImageButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    [newImageButton setTitle:@"i" forState:UIControlStateNormal]; 
+    //[newImageButton setTitle:@"i" forState:UIControlStateNormal]; 
+    [newImageButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];  
     [newImageButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newImageButton addTarget:self action:@selector(newImageButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     
     newVideoButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    [newVideoButton setTitle:@"v" forState:UIControlStateNormal]; 
+    //[newVideoButton setTitle:@"v" forState:UIControlStateNormal]; 
+    [newVideoButton setImage:[UIImage imageNamed:@"video.png"] forState:UIControlStateNormal];   
     [newVideoButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newVideoButton addTarget:self action:@selector(newVideoButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     
@@ -96,25 +124,26 @@
     [self.view addSubview:newVideoButton];  
     
     allNotesButton = [[UILabel alloc] init]; 
-    allNotesButton.text = @"All";
+    allNotesButton.text = @"        All Notes";
     allNotesButton.font = [ARISTemplate ARISButtonFont]; 
     allNotesButton.userInteractionEnabled = YES;
     [allNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(allNotesButtonTouched)]]; 
-    [self.view addSubview:allNotesButton];
     
     myNotesButton = [[UILabel alloc] init];
-    myNotesButton.text = @"Mine";
+    myNotesButton.text = @"        My Notes";
     myNotesButton.font = [ARISTemplate ARISButtonFont];
     myNotesButton.userInteractionEnabled = YES; 
     [myNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myNotesButtonTouched)]];
-    [self.view addSubview:myNotesButton]; 
     
     labelSelectorButton = [[UILabel alloc] init];
-    labelSelectorButton.text = @"Labels";
+    labelSelectorButton.text = @"        Labels";
     labelSelectorButton.font = [ARISTemplate ARISButtonFont];
     labelSelectorButton.userInteractionEnabled = YES; 
     [labelSelectorButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelSelectorButtonTouched)]];
-    [self.view addSubview:labelSelectorButton];  
+    
+    [self.view addSubview:allNotesButton];
+    [self.view addSubview:myNotesButton]; 
+    [self.view addSubview:labelSelectorButton];     
     
     notesViewController = [[NotebookNotesViewController alloc] initWithDelegate:self];
     noteTagSelectorViewController = [[NoteTagSelectorViewController alloc] initWithDelegate:self]; 
@@ -126,12 +155,12 @@
     navTitleView.frame        = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
     navTitleLabel.frame       = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height); 
     
-    int buttonDiameter = 40;
+    int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
-    newTextButton.frame  = CGRectMake(buttonPadding*1+buttonDiameter*0, 84, buttonDiameter, buttonDiameter);
-    newAudioButton.frame = CGRectMake(buttonPadding*3+buttonDiameter*1, 84, buttonDiameter, buttonDiameter); 
-    newImageButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 84, buttonDiameter, buttonDiameter); 
-    newVideoButton.frame = CGRectMake(buttonPadding*7+buttonDiameter*3, 84, buttonDiameter, buttonDiameter); 
+    newTextButton.frame  = CGRectMake(buttonPadding*1+buttonDiameter*0, 69, buttonDiameter, buttonDiameter);
+    newAudioButton.frame = CGRectMake(buttonPadding*3+buttonDiameter*1, 69, buttonDiameter, buttonDiameter); 
+    newImageButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 69, buttonDiameter, buttonDiameter); 
+    newVideoButton.frame = CGRectMake(buttonPadding*7+buttonDiameter*3, 69, buttonDiameter, buttonDiameter); 
     
     allNotesButton.frame      = CGRectMake(10, 134, self.view.frame.size.width-20, 30); 
     myNotesButton.frame       = CGRectMake(10, 174, self.view.frame.size.width-20, 30); 
@@ -142,15 +171,32 @@
     while([labelSelectorButton.subviews count] > 0) [[labelSelectorButton.subviews objectAtIndex:0] removeFromSuperview]; 
        
     UIImageView *i;
-    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward"]];
-    i.frame = CGRectMake(self.view.frame.size.width-20-20,10,20,20); 
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward.png"]];
+    i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [allNotesButton addSubview:i];
-    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward"]];
-    i.frame = CGRectMake(self.view.frame.size.width-20-20,10,20,20); 
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cabinet.png"]];
+    i.frame = CGRectMake(5,7,20,20);  
+    [allNotesButton addSubview:i]; 
+    
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward.png"]];
+    i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [myNotesButton addSubview:i]; 
-    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward"]];
-    i.frame = CGRectMake(self.view.frame.size.width-20-20,10,20,20); 
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"notebook.png"]];
+    i.frame = CGRectMake(5,7,20,20);   
+    [myNotesButton addSubview:i];  
+    
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward.png"]];
+    i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [labelSelectorButton addSubview:i]; 
+    i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tags.png"]];
+    i.frame = CGRectMake(5,7,20,20);    
+    [labelSelectorButton addSubview:i];  
+    
+    fakeNavBG.frame = CGRectMake(0,0,self.view.bounds.size.width,129);   
+    line1.frame = CGRectMake(0,129,self.view.bounds.size.width,1);  
+    line2.frame = CGRectMake(0,169,self.view.bounds.size.width,1);   
+    line3.frame = CGRectMake(0,209,self.view.bounds.size.width,1);   
+    line4.frame = CGRectMake(0,249,self.view.bounds.size.width,1);       
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc

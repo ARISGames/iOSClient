@@ -14,9 +14,7 @@
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 #import "Player.h"
-#import "UIImage+Color.h"
 #import "UIColor+ARISColors.h"
-#import "UIImage+Resize.h"
 
 @implementation GamePickerAnywhereViewController
 
@@ -25,7 +23,7 @@
     if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"globe.png" withColor:[UIColor ARISColorRed]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh] withFinishedUnselectedImage:[[UIImage imageNamed:@"globe.png" withColor:[UIColor ARISColorDarkGray]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe.png"]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewAnywhereGameListReady" object:nil];
     }

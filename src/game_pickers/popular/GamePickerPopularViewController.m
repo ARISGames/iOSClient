@@ -14,8 +14,6 @@
 #import "Player.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#import "UIImage+Color.h"
-#import "UIImage+Resize.h"
 #import "UIColor+ARISColors.h"
 
 @interface GamePickerPopularViewController()
@@ -38,7 +36,7 @@
         
         self.title = NSLocalizedString(@"GamePickerPopularTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[[UIImage imageNamed:@"star_unselected.png" withColor:[UIColor ARISColorRed]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh] withFinishedUnselectedImage:[[UIImage imageNamed:@"star_unselected.png" withColor:[UIColor ARISColorDarkGray]] resizedImage:CGSizeMake(24, 24) interpolationQuality:kCGInterpolationHigh]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"star.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"star.png"]];  
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
     }

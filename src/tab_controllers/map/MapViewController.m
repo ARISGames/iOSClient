@@ -26,7 +26,6 @@
 #import "CrumbPathView.h"
 
 #import "MapHUD.h"
-#import "UIImage+Color.h"
 #import "CustomMapOverlay.h"
 #import "CustomMapOverlayView.h"
 #import "TriangleButton.h"
@@ -106,7 +105,7 @@
     
     threeLinesButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [threeLinesButton addTarget:self action:@selector(threeLinesButtonTouched) forControlEvents:UIControlEventTouchDown];
-    [threeLinesButton setImage:[UIImage imageNamed:@"threelines" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [threeLinesButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
     threeLinesButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
     threeLinesButton.backgroundColor = [UIColor ARISColorDarkBlue];
     threeLinesButton.layer.cornerRadius = 5;
@@ -116,7 +115,7 @@
     
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(centerMapOnPlayer) forControlEvents:UIControlEventTouchDown];
-    [centerButton setImage:[UIImage imageNamed:@"location" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [centerButton setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
     centerButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
     centerButton.backgroundColor = [UIColor ARISColorDarkBlue];
     centerButton.layer.cornerRadius = 5;
@@ -126,7 +125,7 @@
     
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
-    [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand" withColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand"] forState:UIControlStateNormal];
     fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4); 
     fitToAnnotationButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
     fitToAnnotationButton.layer.cornerRadius = 5;

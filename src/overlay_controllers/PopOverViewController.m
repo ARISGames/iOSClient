@@ -9,7 +9,6 @@
 #import "PopOverViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
-#import "UIImage+Color.h"
 #import "ARISMediaView.h"
 #import "CircleView.h"
 #import "Media.h"
@@ -89,7 +88,7 @@
     prompt.text = p;
     
     if(m != 0) [iconMediaView setMedia:[[AppModel sharedAppModel] mediaForMediaId:m]];
-    else [iconMediaView setImage:[UIImage imageNamed:@"todo" withColor:[UIColor whiteColor]]];
+    else [iconMediaView setImage:[UIImage imageNamed:@"todo"]];
 }
 
 - (void) dismiss

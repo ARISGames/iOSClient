@@ -11,7 +11,6 @@
 #import "NoteEditorViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
-#import "UIImage+Color.h"
 
 #import "AppModel.h"
 #import "Game.h"
