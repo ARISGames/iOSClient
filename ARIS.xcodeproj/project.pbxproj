@@ -36,6 +36,7 @@
 		AA09B8EB18E1EB5500A45562 /* cabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E518E1EB5500A45562 /* cabinet@2x.png */; };
 		AA09B8F118E20AB500A45562 /* sound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F018E20AB500A45562 /* sound@2x.png */; };
 		AA09B8F518E20D7300A45562 /* sound_with_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F418E20D7300A45562 /* sound_with_bg@2x.png */; };
+		AA09B8F718E21A7C00A45562 /* user@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F618E21A7C00A45562 /* user@2x.png */; };
 		AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */; };
 		AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */; };
 		AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807F17B015A00002A81C /* NpcScriptViewController.m */; };
@@ -366,6 +367,7 @@
 		AA09B8E518E1EB5500A45562 /* cabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cabinet@2x.png"; sourceTree = "<group>"; };
 		AA09B8F018E20AB500A45562 /* sound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound@2x.png"; sourceTree = "<group>"; };
 		AA09B8F418E20D7300A45562 /* sound_with_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound_with_bg@2x.png"; sourceTree = "<group>"; };
+		AA09B8F618E21A7C00A45562 /* user@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user@2x.png"; sourceTree = "<group>"; };
 		AA0D807817B00E7E0002A81C /* NpcScriptElementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptElementView.h; sourceTree = "<group>"; };
 		AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptElementView.m; sourceTree = "<group>"; };
 		AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcOptionsViewController.h; sourceTree = "<group>"; };
@@ -1025,6 +1027,7 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				AA09B8F618E21A7C00A45562 /* user@2x.png */,
 				AA09B8F418E20D7300A45562 /* sound_with_bg@2x.png */,
 				AA09B8F018E20AB500A45562 /* sound@2x.png */,
 				AA09B8E018E1EB5500A45562 /* video@2x.png */,
@@ -2164,6 +2167,7 @@
 				5B1D9990178CC3A700661453 /* 35-circle-stop.png in Resources */,
 				5B1D9991178CC3A700661453 /* 35-circle-stop@2x.png in Resources */,
 				AA856FF517A9AFA900E9D451 /* qr.png in Resources */,
+				AA09B8F718E21A7C00A45562 /* user@2x.png in Resources */,
 				AAB62FD518C6670C00030F48 /* expand.png in Resources */,
 				AA09B8E818E1EB5500A45562 /* tags@2x.png in Resources */,
 			);

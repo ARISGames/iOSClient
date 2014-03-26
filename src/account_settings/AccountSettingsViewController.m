@@ -91,7 +91,6 @@
     logoText.frame = CGRectMake(logoContainer.frame.size.width/2-50, logoContainer.frame.size.height/2-15, 100, 30);
     [logoContainer addSubview:logoText];
     self.navigationItem.titleView = logoContainer; 
-    
 }
 
 - (void) viewWillLayoutSubviews
@@ -104,7 +103,6 @@
     logoutLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
     logoutArrow.frame = CGRectMake(6,13,19,19); 
     logoutLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
-    
 }
 
 - (void) viewDidLoad

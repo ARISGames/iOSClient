@@ -70,6 +70,7 @@ const int VIEW_MODE_TAG  = 2;
     navTitleView = [[UIView alloc] init];
     
     navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.font = [ARISTemplate ARISTitleFont];
     navTitleLabel.textAlignment = NSTextAlignmentCenter;
     switch(viewMode)
     {

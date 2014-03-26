@@ -25,16 +25,21 @@
     Note *note;
     
     UIScrollView *scrollView;
-    UILabel *title;
+    UIImageView *ownerIcon;    
     UILabel *owner; 
     UILabel *date; 
-    NoteTagEditorViewController *tagsDisplay;
+    UIImageView *tagsIcon;    
+    UILabel *tag; 
     UILabel *desc; 
     NoteContentsViewController *contentsDisplay;
     NoteCommentInputViewController *commentInput; 
     NoteCommentsViewController *commentsDisplay;
     
     UIView *overlayView;
+    
+    UIView *navView;
+    UILabel *navTitleLabel; 
+    UIView *navTagView;  
     
     id<GameObjectViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -59,46 +64,65 @@
 {
     [super loadView];
     
+    navView = [[UIView alloc] init];
+    
+    navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.font = [ARISTemplate ARISBodyFont]; 
+    navTitleLabel.textColor = [UIColor ARISColorLightGray]; 
+    navTitleLabel.adjustsFontSizeToFitWidth = NO;  
+    navTitleLabel.textAlignment = NSTextAlignmentCenter;
+    
+    navTagView = [[UIView alloc] init];
+    tagsIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tags.png"]]; 
+    tag = [[UILabel alloc] init];
+    tag.font = [ARISTemplate ARISBodyFont]; 
+    tag.textColor = [UIColor ARISColorLightGray]; 
+    tag.adjustsFontSizeToFitWidth = NO;  
+    tag.textAlignment = NSTextAlignmentCenter; 
+    
+    [navTagView addSubview:tagsIcon];
+    [navTagView addSubview:tag];
+    
+    [navView addSubview:navTitleLabel];
+    [navView addSubview:navTagView]; 
+    
+    //need to predict format here otherwise label jumps around
+    navView.frame = CGRectMake(0, 0, 200, 64);
+    navTitleLabel.frame = CGRectMake(0,0,200,30);
+    navTagView.frame = CGRectMake(0,30,200,30);
+    tagsIcon.frame = CGRectMake(0,0,20,20);
+    tag.frame = CGRectMake(22,0,160,20);  
+    self.navigationItem.titleView = navView;   
+    
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
     scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     scrollView.backgroundColor = [UIColor whiteColor];
     
-    title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.view.frame.size.width-65,20)];
-    title.font = [ARISTemplate ARISTitleFont];
-    title.adjustsFontSizeToFitWidth = NO; 
-    title.text = note.name;
-    
-    date  = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
-    date.font = [ARISTemplate ARISSubtextFont]; 
-    date.textColor = [UIColor ARISColorDarkBlue];
-    date.adjustsFontSizeToFitWidth = NO;  
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"MM/dd/yy"];
-    date.text = [format stringFromDate:note.created];
+    ownerIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"user.png"]]; 
     
     owner = [[UILabel alloc] initWithFrame:CGRectMake(75,35,self.view.frame.size.width-85,14)];
-    owner.font = [ARISTemplate ARISSubtextFont]; 
-    owner.textColor = [UIColor ARISColorDarkGray]; 
+    owner.font = [ARISTemplate ARISBodyFont]; 
+    owner.textColor = [UIColor ARISColorLightGray]; 
     owner.adjustsFontSizeToFitWidth = NO;  
-    owner.text = note.owner.displayname;
-       
-    tagsDisplay = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:NO delegate:self];
+    
+    date = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
+    owner.font = [ARISTemplate ARISBodyFont];  
+    date.textColor = [UIColor ARISColorLightBlue];
+    date.adjustsFontSizeToFitWidth = NO;  
     
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,84,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;
     desc.numberOfLines = 0;
     desc.font = [ARISTemplate ARISBodyFont]; 
     desc.textColor = [UIColor ARISColorDarkGray];  
-    desc.text = note.desc;
     
     contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     commentInput = [[NoteCommentInputViewController alloc] initWithDelegate:self];
     commentsDisplay = [[NoteCommentsViewController alloc] initWithNoteComments:note.comments delegate:self];
     
-    [scrollView addSubview:title];
+    [scrollView addSubview:ownerIcon];  
     [scrollView addSubview:owner]; 
     [scrollView addSubview:date]; 
-    [scrollView addSubview:tagsDisplay.view]; 
     [scrollView addSubview:desc];  
     [scrollView addSubview:contentsDisplay.view];
     [scrollView addSubview:commentInput.view]; 
@@ -106,9 +130,9 @@
     
     [self.view addSubview:scrollView];
     
-    [self formatSubviewFrames];
+    [self displayDataFromNote];
 }
-    
+
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -129,20 +153,24 @@
 
 - (void) formatSubviewFrames
 {
+    navView.frame = CGRectMake(0, 0, 200, 64);
+    navTitleLabel.frame = CGRectMake(0,0,200,30);
+    navTagView.frame = CGRectMake(0,30,200,30);
+    tagsIcon.frame = CGRectMake(0,0,20,20);
+    tag.frame = CGRectMake(22,0,160,20); 
+    
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
-    title.frame = CGRectMake(10,10,self.view.frame.size.width-65,20); 
-    date.frame  = CGRectMake(10,title.frame.origin.y+title.frame.size.height+5,65,14); 
-    owner.frame = CGRectMake(75,title.frame.origin.y+title.frame.size.height+5,self.view.frame.size.width-85,14); 
+    ownerIcon.frame = CGRectMake(4,4,20,20);
+    owner.frame = CGRectMake(30,10,self.view.frame.size.width-30,14); 
+    float ownerwidth = [owner.text sizeWithAttributes:@{NSFontAttributeName:owner.font}].width; 
+    date.frame  = CGRectMake(30+5+ownerwidth,10,self.view.frame.size.width-(35+ownerwidth),14);  
     
-    if([note.tags count] > 0) tagsDisplay.view.frame = CGRectMake(0,date.frame.origin.y+date.frame.size.height+5,self.view.frame.size.width,30);  
-    else                      tagsDisplay.view.frame = CGRectMake(0,date.frame.origin.y+date.frame.size.height+5,self.view.frame.size.width,0);   
-    
-    if([note.desc length] > 0) 
+    if([note.desc length] > 0)
     {
         CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
-        desc.frame = CGRectMake(10,tagsDisplay.view.frame.origin.y+tagsDisplay.view.frame.size.height,self.view.frame.size.width-20,descSize.height); 
+        desc.frame = CGRectMake(10,35,self.view.frame.size.width-20,descSize.height); 
     }
-    else desc.frame = CGRectMake(10,tagsDisplay.view.frame.origin.y+tagsDisplay.view.frame.size.height,self.view.frame.size.width-20,0);  
+    else desc.frame = CGRectMake(10,35,self.view.frame.size.width-20,0);  
     
     if([note.contents count] > 0) contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
     else                          contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 0);  
@@ -155,22 +183,29 @@
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216); 
 }
 
-- (void) noteDataAvailable:(NSNotification *)n
+- (void) displayDataFromNote
 {
-    if(((Note *)[n.userInfo objectForKey:@"note"]).noteId != note.noteId) return;
-    
-    note = [n.userInfo objectForKey:@"note"];
-    
-    //really should move the following to like "refreshviewfromnote" or something...
-    [tagsDisplay setTags:note.tags];  
-    
-    title.text = note.name;
-    desc.text = note.desc;
+    if([note.tags count] > 0) tag.text = ((NoteTag*)[note.tags objectAtIndex:0]).text;
+    navTitleLabel.text = note.name;  
     owner.text = note.owner.displayname; 
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MM/dd/yy"];
+    date.text = [format stringFromDate:note.created]; 
+    
+    desc.text = note.desc;  
+    
     [self formatSubviewFrames]; 
     
     [contentsDisplay setContents:note.contents]; 
-    [commentsDisplay setComments:note.comments]; 
+    [commentsDisplay setComments:note.comments];  
+}
+
+- (void) noteDataAvailable:(NSNotification *)n
+{
+    if(((Note *)[n.userInfo objectForKey:@"note"]).noteId != note.noteId) return;
+    note = [n.userInfo objectForKey:@"note"]; 
+    [self displayDataFromNote];
 }
 
 - (void) mediaWasSelected:(Media *)m
