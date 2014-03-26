@@ -170,6 +170,7 @@
     i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [allNotesButton addSubview:i];
     i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cabinet.png"]];
+    i.contentMode = UIViewContentModeScaleAspectFit; 
     i.frame = CGRectMake(5,7,20,20);  
     [allNotesButton addSubview:i]; 
     
@@ -177,6 +178,7 @@
     i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [myNotesButton addSubview:i]; 
     i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"notebook.png"]];
+    i.contentMode = UIViewContentModeScaleAspectFit;  
     i.frame = CGRectMake(5,7,20,20);   
     [myNotesButton addSubview:i];  
     
@@ -184,6 +186,7 @@
     i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [labelSelectorButton addSubview:i]; 
     i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tags.png"]];
+    i.contentMode = UIViewContentModeScaleAspectFit;   
     i.frame = CGRectMake(5,7,20,20);    
     [labelSelectorButton addSubview:i];  
     

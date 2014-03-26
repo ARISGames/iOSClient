@@ -59,10 +59,13 @@
         desc.textColor = [UIColor ARISColorDarkGray];  
         desc.adjustsFontSizeToFitWidth = NO;   
         imageIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-65,15,15,15)];
+        imageIcon.contentMode = UIViewContentModeScaleAspectFit;    
         [imageIcon setImage:[UIImage imageNamed:@"camera.png"]];
         videoIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-45,15,15,15)];
+        videoIcon.contentMode = UIViewContentModeScaleAspectFit;     
         [videoIcon setImage:[UIImage imageNamed:@"video.png"]]; 
         audioIcon = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-25,15,15,15)];
+        audioIcon.contentMode = UIViewContentModeScaleAspectFit;     
         [audioIcon setImage:[UIImage imageNamed:@"microphone.png"]]; 
         
         edit = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-40,10,40,20)];
