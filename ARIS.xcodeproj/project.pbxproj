@@ -77,6 +77,10 @@
 		AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB8182037CB006C9715 /* SBJsonStreamWriterState.m */; };
 		AA3B7FC4182037CB006C9715 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */; };
 		AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */; };
+		AA41A35F18E4CCAE006CB373 /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A35D18E4CCAE006CB373 /* checkmark@2x.png */; };
+		AA41A36018E4CCAE006CB373 /* pencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A35E18E4CCAE006CB373 /* pencil@2x.png */; };
+		AA41A36418E4CD2F006CB373 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A36318E4CD2F006CB373 /* save@2x.png */; };
+		AA41A36618E4CE64006CB373 /* overarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A36518E4CE64006CB373 /* overarrow@2x.png */; };
 		AA45A3B3189ABA160016E391 /* NoteTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA45A3B2189ABA160016E391 /* NoteTagView.m */; };
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
@@ -439,6 +443,10 @@
 		AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
+		AA41A35D18E4CCAE006CB373 /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
+		AA41A35E18E4CCAE006CB373 /* pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pencil@2x.png"; sourceTree = "<group>"; };
+		AA41A36318E4CD2F006CB373 /* save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
+		AA41A36518E4CE64006CB373 /* overarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overarrow@2x.png"; sourceTree = "<group>"; };
 		AA45A3B1189ABA160016E391 /* NoteTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagView.h; sourceTree = "<group>"; };
 		AA45A3B2189ABA160016E391 /* NoteTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagView.m; sourceTree = "<group>"; };
 		AA49A25B17AAE6C200629C87 /* ARISMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaView.h; sourceTree = "<group>"; };
@@ -1027,6 +1035,10 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				AA41A36518E4CE64006CB373 /* overarrow@2x.png */,
+				AA41A36318E4CD2F006CB373 /* save@2x.png */,
+				AA41A35D18E4CCAE006CB373 /* checkmark@2x.png */,
+				AA41A35E18E4CCAE006CB373 /* pencil@2x.png */,
 				AA09B8F618E21A7C00A45562 /* user@2x.png */,
 				AA09B8F418E20D7300A45562 /* sound_with_bg@2x.png */,
 				AA09B8F018E20AB500A45562 /* sound@2x.png */,
@@ -2114,6 +2126,7 @@
 				AABC701D1727398B0074CC21 /* plaque.png in Resources */,
 				AA12E8AB18C8D08A00C083EA /* plus.png in Resources */,
 				AA942B9C17CD4F86004EDEA1 /* logo_text_nav.png in Resources */,
+				AA41A35F18E4CCAE006CB373 /* checkmark@2x.png in Resources */,
 				AAC6573C187200940063EAF7 /* play.png in Resources */,
 				AABC70351727398B0074CC21 /* star_blue.png in Resources */,
 				AA2D214E17DE560C00CF4198 /* qr_small.png in Resources */,
@@ -2125,6 +2138,7 @@
 				AABC70441727398B0074CC21 /* inventoryChange.wav in Resources */,
 				AABC70451727398B0074CC21 /* mapChange.wav in Resources */,
 				AABC70461727398B0074CC21 /* nearbyObject.wav in Resources */,
+				AA41A36418E4CD2F006CB373 /* save@2x.png in Resources */,
 				AABC70471727398B0074CC21 /* pingtone.wav in Resources */,
 				AABC70481727398B0074CC21 /* questChange.wav in Resources */,
 				AABC70491727398B0074CC21 /* swish.wav in Resources */,
@@ -2158,6 +2172,7 @@
 				AAF7115B17B9579900262A37 /* .gitignore in Resources */,
 				5B1D998A178CC3A700661453 /* 05-shuffle.png in Resources */,
 				AA09B8F518E20D7300A45562 /* sound_with_bg@2x.png in Resources */,
+				AA41A36618E4CE64006CB373 /* overarrow@2x.png in Resources */,
 				5B1D998B178CC3A700661453 /* 05-shuffle@2x.png in Resources */,
 				AA2D214917DE560C00CF4198 /* star@2x.png in Resources */,
 				5B1D998C178CC3A700661453 /* 29-circle-pause.png in Resources */,
@@ -2168,6 +2183,7 @@
 				5B1D9991178CC3A700661453 /* 35-circle-stop@2x.png in Resources */,
 				AA856FF517A9AFA900E9D451 /* qr.png in Resources */,
 				AA09B8F718E21A7C00A45562 /* user@2x.png in Resources */,
+				AA41A36018E4CCAE006CB373 /* pencil@2x.png in Resources */,
 				AAB62FD518C6670C00030F48 /* expand.png in Resources */,
 				AA09B8E818E1EB5500A45562 /* tags@2x.png in Resources */,
 			);

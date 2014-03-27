@@ -132,7 +132,8 @@
     
     if(editable && (editing || [tags count] == 0)) [self.view addSubview:tagInputField];
     else                                           [self.view addSubview:existingTagsScrollView];
-    if(editable && !editing)                       [self.view addSubview:plus];
+    if(editable && !editing && [tags count] == 0)  [self.view addSubview:plus];
+    if(editable && !editing && [tags count] > 0)   [self.view addSubview:ex]; 
     if(editing)
     {
         [tagPredictionViewController setGameNoteTags:[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];
@@ -150,6 +151,7 @@
 
 - (void) dismissEditButtonTouched
 {
+    if([tags count] > 0) [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; 
     [self stopEditing];
 }
 

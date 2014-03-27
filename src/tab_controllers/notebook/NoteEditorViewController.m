@@ -104,15 +104,13 @@
     descriptionPrompt.textColor = [UIColor ARISColorLightGray];
     
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [descriptionDoneButton setTitle:@"Done" forState:UIControlStateNormal];
-    [descriptionDoneButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    descriptionDoneButton.frame = CGRectMake(0, 0, 70, 24); 
+    [descriptionDoneButton setImage:[UIImage imageNamed:@"overarrow.png"] forState:UIControlStateNormal]; 
+    descriptionDoneButton.frame = CGRectMake(0, 0, 24, 24); 
     [descriptionDoneButton addTarget:self action:@selector(doneButtonTouched) forControlEvents:UIControlEventTouchUpInside];
        
     saveNoteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveNoteButton setTitle:@"Save" forState:UIControlStateNormal];
-    [saveNoteButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    saveNoteButton.frame = CGRectMake(0, 0, 70, 24);
+    [saveNoteButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];
+    saveNoteButton.frame = CGRectMake(0, 0, 24, 24);
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];

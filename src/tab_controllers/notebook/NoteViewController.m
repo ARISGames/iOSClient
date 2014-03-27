@@ -143,12 +143,13 @@
 {
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
     
+    NSLog(@"%d",note.desc.length); 
     if([note.desc length] > 0)
     {
         CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
-        desc.frame = CGRectMake(10,35,self.view.frame.size.width-20,descSize.height); 
+        desc.frame = CGRectMake(10,10,self.view.frame.size.width-20,descSize.height); 
     }
-    else desc.frame = CGRectMake(10,35,self.view.frame.size.width-20,0);  
+    else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);  
     
     if([note.contents count] > 0) contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
     else                          contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 0);  
