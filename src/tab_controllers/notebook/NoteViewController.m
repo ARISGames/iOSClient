@@ -88,7 +88,7 @@
     navView.frame = CGRectMake(0, 0, 200, 64);
     title.frame = CGRectMake(0,0,200,35);
     ownerdate.frame = CGRectMake(0,0,200,62); 
-    tag.frame = CGRectMake(0,0,200,84);  
+    tag.frame = CGRectMake(0,0,200,86);  
     self.navigationItem.titleView = navView;   
     
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
@@ -101,9 +101,9 @@
     desc.font = [ARISTemplate ARISBodyFont]; 
     desc.textColor = [UIColor ARISColorDarkGray];  
     
-    contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
-    commentInput = [[NoteCommentInputViewController alloc] initWithDelegate:self];
-    commentsDisplay = [[NoteCommentsViewController alloc] initWithNoteComments:note.comments delegate:self];
+    contentsDisplay = [[NoteContentsViewController     alloc] initWithNoteContents:note.contents delegate:self];
+    commentInput    = [[NoteCommentInputViewController alloc] initWithDelegate:self];
+    commentsDisplay = [[NoteCommentsViewController     alloc] initWithNoteComments:note.comments delegate:self];
     
     [scrollView addSubview:desc];  
     [scrollView addSubview:contentsDisplay.view];
@@ -135,7 +135,7 @@
     navView.frame = CGRectMake(0, 0, 200, 64);
     title.frame = CGRectMake(0,0,200,35);
     ownerdate.frame = CGRectMake(0,0,200,62); 
-    tag.frame = CGRectMake(0,0,200,84); 
+    tag.frame = CGRectMake(0,0,200,86); 
     self.navigationItem.titleView = navView;       
 }
 
@@ -143,16 +143,16 @@
 {
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
     
-    NSLog(@"%d",note.desc.length); 
     if([note.desc length] > 0)
     {
+        NSLog(@"oogaly boogaly %d",note.desc.length);  
         CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
-        desc.frame = CGRectMake(10,10,self.view.frame.size.width-20,descSize.height); 
+        desc.frame = CGRectMake(10,10,self.view.frame.size.width-20,descSize.height+10); 
     }
     else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);  
     
-    if([note.contents count] > 0) contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
-    else                          contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 0);  
+    if([note.contents count] > 0) contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height, self.view.frame.size.width, 200); 
+    else                          contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height, self.view.frame.size.width, 0);  
     
     commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);  
     

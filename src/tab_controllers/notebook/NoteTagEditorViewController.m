@@ -81,7 +81,7 @@
     tagInputField = [[UITextField alloc] init];
     tagInputField.delegate = self;
     tagInputField.font = [ARISTemplate ARISTitleFont]; 
-    tagInputField.placeholder = @" choose a label";
+    tagInputField.placeholder = @"choose a label";
     tagInputField.returnKeyType = UIReturnKeyDone; 
     
     tagPredictionViewController = [[NoteTagPredictionViewController alloc] 

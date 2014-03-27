@@ -28,7 +28,7 @@
         delegate = d;
         
         int width;
-        width = [[NSString stringWithFormat:@" %@ ",  nt.text] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
+        width = [nt.text sizeWithFont:[ARISTemplate ARISBodyFont]].width;
         
         self.frame = CGRectMake(0,0,width,20);
         //self.backgroundColor = [UIColor ARISColorLightBlue]; 
@@ -38,7 +38,7 @@
         UILabel *tagText = [[UILabel alloc] initWithFrame:self.bounds];
         tagText.font = [ARISTemplate ARISBodyFont];
         //tagText.textColor = [UIColor whiteColor];
-        tagText.text = [NSString stringWithFormat:@" %@ ",nt.text]; 
+        tagText.text = nt.text; 
         [self addSubview:tagText];   
         
         if(editable)
