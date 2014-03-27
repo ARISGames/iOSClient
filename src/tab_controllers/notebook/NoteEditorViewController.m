@@ -123,7 +123,7 @@
     locationPickerButton.frame = CGRectMake(10, 10, 24, 24);
     [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     imagePickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [imagePickerButton setImage:[UIImage imageNamed:@"photo.png"] forState:UIControlStateNormal]; 
+    [imagePickerButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal]; 
     imagePickerButton.frame = CGRectMake(44, 10, 24, 24); 
     [imagePickerButton addTarget:self action:@selector(imagePickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     audioPickerButton = [UIButton buttonWithType:UIButtonTypeCustom]; 

@@ -25,10 +25,7 @@
     Note *note;
     
     UIScrollView *scrollView;
-    UIImageView *ownerIcon;    
-    UILabel *owner; 
-    UILabel *date; 
-    UIImageView *tagsIcon;    
+    UILabel *ownerdate; 
     UILabel *tag; 
     UILabel *desc; 
     NoteContentsViewController *contentsDisplay;
@@ -38,8 +35,7 @@
     UIView *overlayView;
     
     UIView *navView;
-    UILabel *navTitleLabel; 
-    UIView *navTagView;  
+    UILabel *title; 
     
     id<GameObjectViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -66,49 +62,38 @@
     
     navView = [[UIView alloc] init];
     
-    navTitleLabel = [[UILabel alloc] init];
-    navTitleLabel.font = [ARISTemplate ARISBodyFont]; 
-    navTitleLabel.textColor = [UIColor ARISColorLightGray]; 
-    navTitleLabel.adjustsFontSizeToFitWidth = NO;  
-    navTitleLabel.textAlignment = NSTextAlignmentCenter;
+    title = [[UILabel alloc] init];
+    title.font = [ARISTemplate ARISCellTitleFont]; 
+    title.textColor = [UIColor ARISColorBlack]; 
+    title.adjustsFontSizeToFitWidth = NO;  
+    title.textAlignment = NSTextAlignmentCenter;
+       
+    ownerdate = [[UILabel alloc] init];
+    ownerdate.font = [ARISTemplate ARISSubtextFont]; 
+    ownerdate.textColor = [UIColor ARISColorGray]; 
+    ownerdate.adjustsFontSizeToFitWidth = NO;  
+    ownerdate.textAlignment = NSTextAlignmentCenter; 
     
-    navTagView = [[UIView alloc] init];
-    tagsIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tags.png"]]; 
     tag = [[UILabel alloc] init];
-    tag.font = [ARISTemplate ARISBodyFont]; 
-    tag.textColor = [UIColor ARISColorLightGray]; 
+    tag.font = [ARISTemplate ARISSubtextFont]; 
+    tag.textColor = [UIColor ARISColorGray];  
     tag.adjustsFontSizeToFitWidth = NO;  
     tag.textAlignment = NSTextAlignmentCenter; 
     
-    [navTagView addSubview:tagsIcon];
-    [navTagView addSubview:tag];
-    
-    [navView addSubview:navTitleLabel];
-    [navView addSubview:navTagView]; 
+    [navView addSubview:title];
+    [navView addSubview:ownerdate]; 
+    [navView addSubview:tag]; 
     
     //need to predict format here otherwise label jumps around
     navView.frame = CGRectMake(0, 0, 200, 64);
-    navTitleLabel.frame = CGRectMake(0,0,200,30);
-    navTagView.frame = CGRectMake(0,30,200,30);
-    tagsIcon.frame = CGRectMake(0,0,20,20);
-    tag.frame = CGRectMake(22,0,160,20);  
+    title.frame = CGRectMake(0,0,200,35);
+    ownerdate.frame = CGRectMake(0,0,200,62); 
+    tag.frame = CGRectMake(0,0,200,84);  
     self.navigationItem.titleView = navView;   
     
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
     scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     scrollView.backgroundColor = [UIColor whiteColor];
-    
-    ownerIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"user.png"]]; 
-    
-    owner = [[UILabel alloc] initWithFrame:CGRectMake(75,35,self.view.frame.size.width-85,14)];
-    owner.font = [ARISTemplate ARISBodyFont]; 
-    owner.textColor = [UIColor ARISColorLightGray]; 
-    owner.adjustsFontSizeToFitWidth = NO;  
-    
-    date = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
-    owner.font = [ARISTemplate ARISBodyFont];  
-    date.textColor = [UIColor ARISColorLightBlue];
-    date.adjustsFontSizeToFitWidth = NO;  
     
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,84,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;
@@ -120,9 +105,6 @@
     commentInput = [[NoteCommentInputViewController alloc] initWithDelegate:self];
     commentsDisplay = [[NoteCommentsViewController alloc] initWithNoteComments:note.comments delegate:self];
     
-    [scrollView addSubview:ownerIcon];  
-    [scrollView addSubview:owner]; 
-    [scrollView addSubview:date]; 
     [scrollView addSubview:desc];  
     [scrollView addSubview:contentsDisplay.view];
     [scrollView addSubview:commentInput.view]; 
@@ -149,21 +131,17 @@
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
+    
+    navView.frame = CGRectMake(0, 0, 200, 64);
+    title.frame = CGRectMake(0,0,200,35);
+    ownerdate.frame = CGRectMake(0,0,200,62); 
+    tag.frame = CGRectMake(0,0,200,84); 
+    self.navigationItem.titleView = navView;       
 }
 
 - (void) formatSubviewFrames
 {
-    navView.frame = CGRectMake(0, 0, 200, 64);
-    navTitleLabel.frame = CGRectMake(0,0,200,30);
-    navTagView.frame = CGRectMake(0,30,200,30);
-    tagsIcon.frame = CGRectMake(0,0,20,20);
-    tag.frame = CGRectMake(22,0,160,20); 
-    
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
-    ownerIcon.frame = CGRectMake(4,4,20,20);
-    owner.frame = CGRectMake(30,10,self.view.frame.size.width-30,14); 
-    float ownerwidth = [owner.text sizeWithAttributes:@{NSFontAttributeName:owner.font}].width; 
-    date.frame  = CGRectMake(30+5+ownerwidth,10,self.view.frame.size.width-(35+ownerwidth),14);  
     
     if([note.desc length] > 0)
     {
@@ -186,12 +164,11 @@
 - (void) displayDataFromNote
 {
     if([note.tags count] > 0) tag.text = ((NoteTag*)[note.tags objectAtIndex:0]).text;
-    navTitleLabel.text = note.name;  
-    owner.text = note.owner.displayname; 
-    
+    title.text = note.name;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
-    date.text = [format stringFromDate:note.created]; 
+    ownerdate.text = [NSString stringWithFormat:@"%@ %@",note.owner.displayname,[format stringFromDate:note.created]]; 
+    
     
     desc.text = note.desc;  
     
