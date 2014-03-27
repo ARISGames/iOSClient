@@ -145,9 +145,8 @@
     
     if([note.desc length] > 0)
     {
-        NSLog(@"oogaly boogaly %d",note.desc.length);  
         CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
-        desc.frame = CGRectMake(10,10,self.view.frame.size.width-20,descSize.height+10); 
+        desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,descSize.height+10); 
     }
     else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);  
     
