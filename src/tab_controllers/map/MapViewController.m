@@ -30,6 +30,8 @@
 #import "CustomMapOverlayView.h"
 #import "TriangleButton.h"
 
+#import "LocationsModel.h"
+
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
     NSMutableArray *locations;
@@ -428,12 +430,12 @@
     [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
     [viewAnnotationButton setLocation:location];
     
-    //[self.view addSubview:viewAnnotationButton]; removing until feature complete- Phil
+    [self.view addSubview:viewAnnotationButton];
     
     if ([location.gameObject isKindOfClass:[Item class]]) {
         pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
         [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
-        //[self.view addSubview:pickUpButton]; removing until feature complete- Phil
+        //[self.view addSubview:pickUpButton];
     }
 }
 
@@ -446,8 +448,9 @@
     
     while([mapView.selectedAnnotations count] > 0)
     {
-        if([[mapView.selectedAnnotations objectAtIndex:0] class] == [Location class])
-            [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) shrinkToNormal]; 
+        if([[mapView.selectedAnnotations objectAtIndex:0] class] == [Location class]){
+            [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) shrinkToNormal];
+        }
         [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:0] animated:NO];
     }
     [hud dismiss];

@@ -24,6 +24,11 @@
     float totalWiggleOffsetFromOriginalPosition;
     float incrementalWiggleOffset;
     float xOnSinWave;
+    bool turnTitleBackOn;
+    Location *loc;
+    CGRect imageViewFrame;
+    CGSize titleSize;
+    CLLocationCoordinate2D coordinates;
 }
 @end
 
@@ -33,7 +38,7 @@
 {
 	if (self = [super initWithAnnotation:location reuseIdentifier:reuseIdentifier])
     {
-        Location *loc = (Location *)location;
+        loc = (Location *)location;
         
         loc.title = nil;
         if(![loc.name isEqualToString:@""])
@@ -44,60 +49,79 @@
         totalWiggleOffsetFromOriginalPosition = 0;
         incrementalWiggleOffset = 0;
         xOnSinWave = 0;
+        turnTitleBackOn = NO;
+        
+        iconBorderView = [[UIView alloc] init];
+        iconView = [[ARISMediaView alloc] init];
+        
+        self.backgroundColor = [UIColor orangeColor];
 
-        CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT); 
-        CGSize titleSize = CGSizeMake(0.0f,0.0f); 
-        titleRect = CGRectMake(0,0,0,0);
-        
-        if(showTitle)
-        {
-            if(loc.title) titleSize = [loc.title sizeWithFont:[ARISTemplate ARISAnnotFont]]; 
-            int maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
-            if(loc.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
-            
-            titleRect = CGRectOffset(titleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
-            
-            bubbleRect = titleRect;
-            bubbleRect.origin.x    -= ANNOTATION_PADDING;  
-            bubbleRect.origin.y    -= ANNOTATION_PADDING; 
-            bubbleRect.size.width  += ANNOTATION_PADDING*2;
-            bubbleRect.size.height += ANNOTATION_PADDING*2;
-            
-            titleRect.origin.y -=3;
-            
-            if(IMAGE_WIDTH < bubbleRect.size.width)
-                self.centerOffset = CGPointMake((bubbleRect.size.width-IMAGE_WIDTH)/2, (bubbleRect.size.height+POINTER_LENGTH)/2); 
-            else
-                self.centerOffset = CGPointMake(0, (bubbleRect.size.height+POINTER_LENGTH)/2);  
-            
-            [self setFrame:CGRectUnion(bubbleRect, imageViewFrame)]; 
-        }
-        else
-            [self setFrame:imageViewFrame];  
-        
-        iconBorderView = [[UIView alloc] initWithFrame:imageViewFrame];
-        iconBorderView.backgroundColor = [UIColor whiteColor];
-        iconBorderView.layer.borderColor = [UIColor ARISColorLightBlue].CGColor;
-        iconBorderView.layer.borderWidth = 2.0f;
-        
-        CGRect imageInnerFrame = imageViewFrame;
-        imageInnerFrame.origin.x += 2.0f;
-        imageInnerFrame.origin.y += 2.0f; 
-        imageInnerFrame.size.width -= 4.0f;
-        imageInnerFrame.size.height -= 4.0f;  
-        
-        if(loc.gameObject.iconMediaId != 0)
-            iconView = [[ARISMediaView alloc] initWithFrame:imageInnerFrame media:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId] mode:ARISMediaDisplayModeAspectFit delegate:self];
-        else
-            iconView = [[ARISMediaView alloc] initWithFrame:imageInnerFrame image:[UIImage imageNamed:@"logo.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
-        
-        [iconBorderView addSubview:iconView];
-        [self addSubview:iconBorderView];
-        
-        self.opaque = NO; 
-        self.clipsToBounds = NO;
+        [self formatFrame];
     }
     return self;
+}
+
+
+- (void) formatFrame
+{
+    imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+    
+    titleSize = CGSizeMake(0.0f,0.0f);
+    titleRect = CGRectMake(0,0,0,0);
+    
+    if (showTitle) {
+        if(loc.title) titleSize = [loc.title sizeWithFont:[ARISTemplate ARISAnnotFont]];
+        int maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
+        if(loc.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
+        
+        titleRect = CGRectOffset(titleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
+        
+        bubbleRect = titleRect;
+        bubbleRect.origin.x    -= ANNOTATION_PADDING;
+        bubbleRect.origin.y    -= ANNOTATION_PADDING;
+        bubbleRect.size.width  += ANNOTATION_PADDING*2;
+        bubbleRect.size.height += ANNOTATION_PADDING*2;
+        
+        titleRect.origin.y -=3;
+        
+        if(IMAGE_WIDTH < bubbleRect.size.width)
+            self.centerOffset = CGPointMake((bubbleRect.size.width-IMAGE_WIDTH)/2, (bubbleRect.size.height+POINTER_LENGTH)/2);
+        else
+            self.centerOffset = CGPointMake(0, (bubbleRect.size.height+POINTER_LENGTH)/2);
+        
+        [self setFrame:CGRectUnion(bubbleRect, imageViewFrame)];
+    }
+    else{
+        [self setFrame:imageViewFrame];
+    }
+    
+    iconBorderView.frame = imageViewFrame;
+    iconBorderView.backgroundColor = [UIColor whiteColor];
+    iconBorderView.layer.borderColor = [UIColor ARISColorLightBlue].CGColor;
+    iconBorderView.layer.borderWidth = 2.0f;
+    
+    CGRect imageInnerFrame = imageViewFrame;
+    imageInnerFrame.origin.x += 2.0f;
+    imageInnerFrame.origin.y += 2.0f;
+    imageInnerFrame.size.width -= 4.0f;
+    imageInnerFrame.size.height -= 4.0f;
+    
+    [iconView setFrame:imageInnerFrame withMode:ARISMediaDisplayModeAspectFit];
+    [iconView setDelegate:self];
+    if (loc.gameObject.iconMediaId != 0) {
+        [iconView setMedia:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId]];
+    }
+    else{
+        [iconView setImage:[UIImage imageNamed:@"logo.png"]];
+    }
+    
+
+    [iconBorderView addSubview:iconView];
+    [self addSubview:iconBorderView];
+    
+    self.opaque = NO;
+    self.clipsToBounds = NO;
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -124,8 +148,8 @@
         CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x, pointerPoint.y); //tip of point
         
         //loop around to add line between triangle and rect- comment out/delete next lines, and drawing should still be consistent, just without this line
-        CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)-POINTER_WIDTH/2, miny);   
-        CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)+POINTER_WIDTH/2, miny);    
+        CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)-POINTER_WIDTH/2, miny);
+        CGPathAddLineToPoint(calloutPath, NULL, minx+(IMAGE_HEIGHT/2)+POINTER_WIDTH/2, miny);
         
         CGPathCloseSubpath(calloutPath);
         
@@ -148,18 +172,36 @@
         iconBorderView.frame = CGRectOffset(iconBorderView.frame, 0.0f, incrementalWiggleOffset);
         [self performSelector:@selector(setNeedsDisplay) withObject:nil afterDelay:WIGGLE_FRAMELENGTH];
     }
-}	
+}
+
+- (void) turnOffTitle
+{
+    if (showTitle) {
+        self.centerOffset = CGPointMake(0.0f, 0.0f);
+        showTitle = NO;
+        [self formatFrame];
+        turnTitleBackOn = YES;
+    }
+}
+
+- (void) turnOnTitle
+{
+    if (turnTitleBackOn) {
+        showTitle = YES;
+        [self formatFrame];
+    }
+}
 
 - (void) enlarge
 {
+    [self turnOffTitle];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.2];
     self.transform = CGAffineTransformMakeScale(2,2); 
     CGAffineTransform e = CGAffineTransformMakeScale(2,2);
-    if(showTitle) e = CGAffineTransformTranslate(e,IMAGE_WIDTH/4,-IMAGE_HEIGHT/4);
     iconBorderView.transform = e;
-    [UIView commitAnimations];  
+    [UIView commitAnimations];
 }
 
 - (void) shrinkToNormal
@@ -168,8 +210,9 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.2];
     self.transform = CGAffineTransformMakeScale(1,1);  
-    iconBorderView.transform = CGAffineTransformMakeScale(1,1);   
-    [UIView commitAnimations];   
+    iconBorderView.transform = CGAffineTransformMakeScale(1,1);
+    [self turnOnTitle];
+    [UIView commitAnimations];
 }
 
 - (void) dealloc
