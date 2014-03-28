@@ -64,7 +64,7 @@ const int VIEW_MODE_TAG  = 2;
     
     searchBar = [[UISearchBar alloc] init];
     searchBar.delegate = self;
-    searchBar.showsCancelButton = YES;
+    searchBar.showsCancelButton = NO;
     
     navTitleView = [[UIView alloc] init];
     
@@ -82,8 +82,8 @@ const int VIEW_MODE_TAG  = 2;
     self.navigationItem.titleView = navTitleView;
     
     table = [[UITableView alloc] initWithFrame:self.view.frame];
-    table.contentInset = UIEdgeInsetsMake(94,0,49,0);
-    [table setContentOffset:CGPointMake(0,-94)];  
+    table.contentInset = UIEdgeInsetsMake(100,0,49,0);
+    [table setContentOffset:CGPointMake(0,-100)];  
     table.delegate   = self;
     table.dataSource = self;
     
@@ -97,7 +97,7 @@ const int VIEW_MODE_TAG  = 2;
     navTitleView.frame  = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
     navTitleLabel.frame = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);  
     
-    searchBar.frame = CGRectMake(0,64,self.view.bounds.size.width,30);
+    searchBar.frame = CGRectMake(-4,64,self.view.bounds.size.width+8,36);//weird width/height because apple
     
     table.frame = self.view.frame;
 }
@@ -203,6 +203,7 @@ const int VIEW_MODE_TAG  = 2;
 - (void) searchBar:(UISearchBar *)s textDidChange:(NSString *)t
 {
     filterText = t;
+    searchBar.showsCancelButton = YES; 
     [table reloadData];   
 }
 
@@ -211,12 +212,14 @@ const int VIEW_MODE_TAG  = 2;
     filterText = @"";
     searchBar.text = @"";
     [searchBar resignFirstResponder]; 
+    searchBar.showsCancelButton = NO;  
     [table reloadData]; 
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)s
 {
     [searchBar resignFirstResponder];
+    searchBar.showsCancelButton = NO;  
     [table reloadData];  
 }
 
