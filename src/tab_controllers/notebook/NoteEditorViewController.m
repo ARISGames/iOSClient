@@ -38,6 +38,9 @@
     CircleButton *imagePickerButton; 
     CircleButton *audioPickerButton;  
     
+    UIView *line1;
+    UIView *line2; 
+    
     UIButton *descriptionDoneButton; 
     UIButton *saveNoteButton;
     
@@ -116,6 +119,10 @@
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
+    line1 = [[UIView alloc] init];
+    line1.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
+    line2 = [[UIView alloc] init];
+    line2.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
     
     UIColor *fc = [UIColor whiteColor];
     UIColor *sc = [UIColor blackColor]; 
@@ -135,7 +142,8 @@
     [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
     locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
-    [locationPickerButton setImage:[UIImage imageNamed:@"notebook.png"] forState:UIControlStateNormal];
+    [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+    [locationPickerButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     [locationPickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
@@ -151,6 +159,8 @@
     [self.view addSubview:contentsViewController.view];
     [self.view addSubview:bottombar]; 
     [self.view addSubview:tagViewController.view];  
+    [self.view addSubview:line1];  
+    [self.view addSubview:line2];   
     
     [self refreshViewFromNote];
 }
@@ -167,9 +177,12 @@
     
     [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216]; 
     if(tagViewController.view.frame.size.height <= 30)
-        tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, 30);   
+        tagViewController.view.frame = CGRectMake(0, 49+64+3, self.view.bounds.size.width, 30);   
     else
-        tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
+        tagViewController.view.frame = CGRectMake(0, 49+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
+    
+    line1.frame = CGRectMake(0, owner.frame.origin.y+owner.frame.size.height+3, self.view.frame.size.width, 1);
+    line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
     
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/3)-buttonDiameter)/2; 
@@ -182,7 +195,7 @@
     contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-250, self.view.bounds.size.width, 250);       
     
     description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentsViewController.view.frame.size.height);
-    descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y, self.view.bounds.size.width, 24);  
+    descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y+5, self.view.bounds.size.width, 24);  
 }
 
 - (void) viewWillAppear:(BOOL)animated
