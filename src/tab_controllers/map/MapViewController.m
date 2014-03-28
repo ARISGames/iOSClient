@@ -103,19 +103,23 @@
     [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackout.userInteractionEnabled = NO; 
     
+    
+    UIColor *buttonBGColor = [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1]; 
+    
     threeLinesButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [threeLinesButton addTarget:self action:@selector(threeLinesButtonTouched) forControlEvents:UIControlEventTouchDown];
-    [threeLinesButton setImage:[UIImage imageNamed:@"threelines_white.png"] forState:UIControlStateNormal];
+    [threeLinesButton setImage:[UIImage imageNamed:@"threelines.png"] forState:UIControlStateNormal];
     threeLinesButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
-    threeLinesButton.backgroundColor = [UIColor ARISColorGray];
+    threeLinesButton.backgroundColor = buttonBGColor;
     threeLinesButton.layer.borderColor = [UIColor whiteColor].CGColor;
     threeLinesButton.layer.borderWidth = 2.0f;   
     
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(centerMapOnPlayer) forControlEvents:UIControlEventTouchDown];
-    [centerButton setImage:[UIImage imageNamed:@"location_white.png"] forState:UIControlStateNormal];
+    [centerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     centerButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
-    centerButton.backgroundColor = [UIColor ARISColorGray];
+    
+    centerButton.backgroundColor = buttonBGColor;
     centerButton.layer.borderColor = [UIColor whiteColor].CGColor;
     centerButton.layer.borderWidth = 2.0f;  
     
@@ -123,7 +127,7 @@
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
     [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
     fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6); 
-    fitToAnnotationButton.backgroundColor = [UIColor ARISColorGray]; 
+    fitToAnnotationButton.backgroundColor = buttonBGColor; 
     fitToAnnotationButton.layer.borderColor = [UIColor whiteColor].CGColor;
     fitToAnnotationButton.layer.borderWidth = 2.0f;
     
