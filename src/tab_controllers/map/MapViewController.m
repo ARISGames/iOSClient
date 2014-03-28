@@ -29,8 +29,9 @@
 #import "CustomMapOverlay.h"
 #import "CustomMapOverlayView.h"
 #import "TriangleButton.h"
-
 #import "LocationsModel.h"
+#import "ItemActionViewController.h"
+
 
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
@@ -425,21 +426,28 @@
     [hud open];
     [self centerMapOnLoc:location.latlon.coordinate];
     
-    viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 65, (self.view.bounds.size.height / 2) - 15, 75, 100);
-    [viewAnnotationButton setTitle:@"View" forState:UIControlStateNormal];
-    [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
-    [viewAnnotationButton setLocation:location];
-    [viewAnnotationButton setAlpha:0.0f];
-    [self.view addSubview:viewAnnotationButton];
-    
-    [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
-    
-    if ([location.gameObject isKindOfClass:[Item class]]) {
-        pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
-        [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
-        [pickUpButton setAlpha:0.0f];
-        [self.view addSubview:pickUpButton];
+    CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
+    if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel){
+        viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 65, (self.view.bounds.size.height / 2) - 15, 75, 100);
+        [viewAnnotationButton setTitle:@"View" forState:UIControlStateNormal];
+        [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
+        [viewAnnotationButton setLocation:location];
+        [viewAnnotationButton setAlpha:0.0f];
+        [self.view addSubview:viewAnnotationButton];
+        
+        [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
+        
+        if ([location.gameObject isKindOfClass:[Item class]]) {
+            pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
+            [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
+            [pickUpButton setAlpha:0.0f];
+            [pickUpButton setLocation:location];
+            [pickUpButton addTarget:self action:@selector(pickUpItem:) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:pickUpButton];
+        }
     }
+    
+
 }
 
 - (void) animateInButtons
@@ -450,6 +458,67 @@
     [viewAnnotationButton setAlpha:1.0f];
     [pickUpButton setAlpha:1.0f];
     [UIView commitAnimations];
+}
+
+- (void) pickUpItem:(TriangleButton*)sender
+{
+    Location *currLocation = sender.location;
+    if ([currLocation.gameObject isKindOfClass:[Item class]]) {
+        Item *item = (Item *)currLocation.gameObject;
+        [self pickUpButtonTouched:item location:currLocation];
+        [self dismissSelection];
+    }
+}
+
+- (void) pickUpButtonTouched:(Item *)item location:(Location *)location
+{
+    //this code is taken straight from ItemViewController
+    if(item.qty > 1 && !item.infiniteQty)
+    {
+        int q = item.qty;
+        
+        Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
+        if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
+        
+        int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
+        if(q < maxPUAmt) maxPUAmt = q;
+        
+        int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
+        int cw = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
+        while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
+        
+        if(maxPUAmt < q) q = maxPUAmt;
+        
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Pick Up" positive:YES qty:q delegate:self];
+        [[self navigationController] pushViewController:itemActionVC animated:YES];
+    }
+    else
+        [self pickupItemQty:1 item:item location:location];
+}
+
+- (void) pickupItemQty:(int)q item:(Item *)item location:(Location *)location
+{
+    //this code was taken straight from ItemViewController
+    Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
+    if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
+    
+    int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
+    if(q < maxPUAmt) maxPUAmt = q;
+    
+    int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
+    int cw = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
+    while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
+    
+    if(maxPUAmt < q)
+    {
+        q = maxPUAmt;
+    }
+    else if(q > 0)
+    {
+        [[AppServices sharedAppServices] updateServerPickupItem:item.itemId fromLocation:location.locationId qty:q];
+        [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-q forLocationId:location.locationId];
+        item.qty -= q;
+    }
 }
 
 - (void) dismissSelection

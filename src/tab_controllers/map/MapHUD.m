@@ -50,10 +50,10 @@
     [super loadView];
     
     hudView = [[UIView alloc] init];
-    hudView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.6f];  
+    hudView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.8f];
     
     prompt = [[UILabel alloc] init];
-    prompt.font = [ARISTemplate ARISButtonFont]; 
+    prompt.font = [ARISTemplate ARISButtonFont];
     prompt.lineBreakMode = NSLineBreakByWordWrapping;
     prompt.numberOfLines = 0; 
     prompt.textColor = [UIColor blackColor];     
@@ -83,8 +83,8 @@
     hudView.frame = CGRectMake(0, 23, self.view.frame.size.width, self.view.frame.size.height-23);
        
     
-    prompt.frame = CGRectMake(120, 2, self.view.frame.size.width-85, 35);
-    warning.frame = CGRectMake(85, 20, self.view.frame.size.width-85, 35); 
+    prompt.frame = CGRectMake(10, 2, self.view.frame.size.width-85, 35);
+    warning.frame = CGRectMake(240, 2, self.view.frame.size.width-85, 35);
 }
 
 - (void) setLocation:(Location *)l
