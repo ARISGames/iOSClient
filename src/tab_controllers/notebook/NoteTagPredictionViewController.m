@@ -61,9 +61,13 @@
 
 - (void) setGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt
 {
+    NoteTag *unlabeled = [[NoteTag alloc] init];
+    unlabeled.text = @"Unlabeled";
+    unlabeled.noteTagId = -1;
+    unlabeled.playerCreated = NO;
     gameNoteTags = gnt;
     playerNoteTags = pnt; 
-    noteTags = [gameNoteTags arrayByAddingObjectsFromArray:playerNoteTags]; 
+    noteTags = [@[unlabeled] arrayByAddingObjectsFromArray:[gameNoteTags arrayByAddingObjectsFromArray:playerNoteTags]]; 
     [self refreshMatchingTags];
 }
 
