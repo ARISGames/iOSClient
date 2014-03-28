@@ -429,14 +429,27 @@
     [viewAnnotationButton setTitle:@"View" forState:UIControlStateNormal];
     [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
     [viewAnnotationButton setLocation:location];
-    
+    [viewAnnotationButton setAlpha:0.0f];
     [self.view addSubview:viewAnnotationButton];
+    
+    [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
     
     if ([location.gameObject isKindOfClass:[Item class]]) {
         pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
         [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
+        [pickUpButton setAlpha:0.0f];
         [self.view addSubview:pickUpButton];
     }
+}
+
+- (void) animateInButtons
+{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:.7f];
+    [viewAnnotationButton setAlpha:1.0f];
+    [pickUpButton setAlpha:1.0f];
+    [UIView commitAnimations];
 }
 
 - (void) dismissSelection
