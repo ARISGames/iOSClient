@@ -8,7 +8,6 @@
 
 #import "NotebookNotesViewController.h"
 #import "NoteViewController.h"
-#import "NoteEditorViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -22,7 +21,7 @@ const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 const int VIEW_MODE_TAG  = 2;
 
-@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, UISearchBarDelegate>
+@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, UISearchBarDelegate>
 {
     UITableView *table;
     UISearchBar *searchBar;
@@ -183,7 +182,7 @@ const int VIEW_MODE_TAG  = 2;
         cell = [[NoteCell alloc] initWithDelegate:self]; 
     Note *n = [filteredNotes objectAtIndex:indexPath.row];
     if(n.stubbed) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
-    [cell populateWithNote:n loading:n.stubbed editable:(viewMode == VIEW_MODE_MINE)]; 
+    [cell populateWithNote:n loading:n.stubbed]; 
 
     return cell;
 }
@@ -199,16 +198,6 @@ const int VIEW_MODE_TAG  = 2;
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
     [self.navigationController popToViewController:self animated:YES];    
-}
-
-- (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne
-{
-    [self.navigationController popToViewController:self animated:YES];
-}
-
-- (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n
-{
-    [self.navigationController popToViewController:self animated:YES]; 
 }
 
 - (void) searchBar:(UISearchBar *)s textDidChange:(NSString *)t
@@ -251,12 +240,6 @@ const int VIEW_MODE_TAG  = 2;
     filterTag = t;
     navTitleLabel.text = filterTag.text;    
     [table reloadData];
-}
-
-- (void) editRequestedForNote:(Note *)n
-{
-    NoteEditorViewController *nevc = [[NoteEditorViewController alloc] initWithNote:n mode:NOTE_EDITOR_MODE_TEXT delegate:self];
-    [self.navigationController pushViewController:nevc animated:YES];  
 }
 
 - (void) backButtonTouched

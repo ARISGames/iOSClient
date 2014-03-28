@@ -11,11 +11,10 @@
 @class Note;
 
 @protocol NoteCellDelegate
-- (void) editRequestedForNote:(Note *)n;
 @end
 
 @interface NoteCell : UITableViewCell
 + (NSString *) cellIdentifier;
 - (id) initWithDelegate:(id<NoteCellDelegate>)d;
-- (void) populateWithNote:(Note *)n loading:(BOOL)l editable:(BOOL)e;
+- (void) populateWithNote:(Note *)n loading:(BOOL)l;
 @end

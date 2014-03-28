@@ -59,31 +59,31 @@
 - (void) loadView
 {
     [super loadView];
-    
+
     navView = [[UIView alloc] init];
-    
+
     title = [[UILabel alloc] init];
     title.font = [ARISTemplate ARISCellTitleFont]; 
     title.textColor = [UIColor ARISColorBlack]; 
     title.adjustsFontSizeToFitWidth = NO;  
     title.textAlignment = NSTextAlignmentCenter;
-       
+
     ownerdate = [[UILabel alloc] init];
     ownerdate.font = [ARISTemplate ARISSubtextFont]; 
     ownerdate.textColor = [UIColor ARISColorGray]; 
     ownerdate.adjustsFontSizeToFitWidth = NO;  
     ownerdate.textAlignment = NSTextAlignmentCenter; 
-    
+
     tag = [[UILabel alloc] init];
     tag.font = [ARISTemplate ARISSubtextFont]; 
     tag.textColor = [UIColor ARISColorGray];  
     tag.adjustsFontSizeToFitWidth = NO;  
     tag.textAlignment = NSTextAlignmentCenter; 
-    
+
     [navView addSubview:title];
-    [navView addSubview:ownerdate]; 
-    [navView addSubview:tag]; 
-    
+    [navView addSubview:ownerdate];
+    [navView addSubview:tag];
+
     //need to predict format here otherwise label jumps around
     navView.frame = CGRectMake(0, 0, 200, 64);
     title.frame = CGRectMake(0,0,200,35);
@@ -131,7 +131,7 @@
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
-    
+
     navView.frame = CGRectMake(0, 0, 200, 64);
     title.frame = CGRectMake(0,0,200,35);
     ownerdate.frame = CGRectMake(0,0,200,62); 
