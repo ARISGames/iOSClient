@@ -15,4 +15,5 @@
 @end
 @interface NoteCommentInputViewController : UIViewController
 - (id)initWithDelegate:(id<NoteCommentInputViewControllerDelegate>)d;
+- (void) dismissKeyboard;
 @end

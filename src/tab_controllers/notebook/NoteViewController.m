@@ -196,6 +196,8 @@
 
 - (void) mediaWasSelected:(Media *)m
 {
+    [commentInput dismissKeyboard];
+    
     //A bunch of construction- all should be contained to here, though
     overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 74, self.view.frame.size.width-20, self.view.frame.size.height-84)];
