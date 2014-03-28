@@ -40,11 +40,11 @@
         cellSelectors = [[NSMutableArray alloc] initWithCapacity:5]; 
         
         [cellTitles addObject:@"Public Name and Image"];
-        [cellIcons addObject:[UIImage imageNamed:@"id_card"]];
+        [cellIcons addObject:[UIImage imageNamed:@"id_card.png"]];
         [cellSelectors addObject:[[ARISSelectorHandle alloc] initWithHandler:self selector:@selector(profileButtonTouched)]];
         
-        [cellTitles addObject:@"Change Password"];
-        [cellIcons addObject:[UIImage imageNamed:@"toolbox"]];
+        [cellTitles addObject:@"  Change Password"];
+        [cellIcons addObject:[UIImage imageNamed:@"lock.png"]];
         [cellSelectors addObject:[[ARISSelectorHandle alloc] initWithHandler:self selector:@selector(passButtonTouched)]]; 
     }
     return self;
@@ -122,6 +122,7 @@
     c.opaque = NO;
     c.backgroundColor = [UIColor clearColor];
     c.textLabel.textColor = [ARISTemplate ARISColorSideNavigationText];
+    c.textLabel.font = [ARISTemplate ARISButtonFont]; 
     c.textLabel.text = [cellTitles objectAtIndex:indexPath.row];
     c.imageView.image = [cellIcons objectAtIndex:indexPath.row];
     

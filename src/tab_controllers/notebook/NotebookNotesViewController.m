@@ -17,6 +17,8 @@
 #import "ARISTemplate.h"
 #import "NoteTag.h"
 
+#import "Player.h"
+
 const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 const int VIEW_MODE_TAG  = 2;
@@ -111,6 +113,7 @@ const int VIEW_MODE_TAG  = 2;
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
+    
     [table reloadData];
 }
 

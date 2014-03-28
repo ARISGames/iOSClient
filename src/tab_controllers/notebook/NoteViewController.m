@@ -12,6 +12,7 @@
 #import "NoteContentsViewController.h"
 #import "NoteCommentsViewController.h"
 #import "NoteCommentInputViewController.h"
+#import "NoteEditorViewController.h"
 #import "ARISMediaView.h"
 #import "Note.h"
 #import "Player.h"
@@ -20,7 +21,7 @@
 #import "Game.h"
 #import "ARISTemplate.h"
 
-@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
+@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
     Note *note;
     
@@ -44,7 +45,7 @@
 
 @implementation NoteViewController
 
-- (id) initWithNote:(Note *)n delegate:(id<GameObjectViewControllerDelegate, NoteViewControllerDelegate>)d
+- (id) initWithNote:(Note *)n delegate:(id<GameObjectViewControllerDelegate, NoteViewControllerDelegate>)d;
 {
     if(self = [super init])
     {
@@ -131,7 +132,15 @@
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
-
+    
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    editButton.frame = CGRectMake(0, 0, 19, 19);
+    [editButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal]; 
+    [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    editButton.accessibilityLabel = @"Edit Button";
+    if([AppModel sharedAppModel].player.playerId == note.owner.playerId)
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];   
+       
     navView.frame = CGRectMake(0, 0, 200, 64);
     title.frame = CGRectMake(0,0,200,35);
     ownerdate.frame = CGRectMake(0,0,200,62); 
@@ -253,9 +262,26 @@
     [self dismissSelf];
 }
 
+- (void) editButtonTouched
+{
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:note mode:NOTE_EDITOR_MODE_TEXT delegate:self] animated:YES];
+}
+
 - (void) dismissSelf
 {
     [delegate gameObjectViewControllerRequestsDismissal:self];
+}
+
+- (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne
+{
+    [self.navigationController popToViewController:self animated:YES];
+}
+
+- (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n
+{
+    [self.navigationController popToViewController:self animated:YES]; 
+    note = n;
+    [self displayDataFromNote];
 }
 
 - (void) dealloc

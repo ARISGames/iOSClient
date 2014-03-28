@@ -22,7 +22,6 @@
     UIScrollView *existingTagsScrollView;
     UIImageView *plus;
     UIImageView *ex; 
-    UIImageView *grad;
     
     UITextField *tagInputField;
     NoteTagPredictionViewController *tagPredictionViewController;
@@ -56,17 +55,14 @@
     existingTagsScrollView  = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
     
     plus = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"plus.png"]];
-    plus.frame = CGRectMake(self.view.frame.size.width-25,10,15,15);
+    plus.frame = CGRectMake(self.view.frame.size.width-35,10,15,15);
     plus.userInteractionEnabled = YES;
     [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
     
     ex = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"delete.png"]];
-    ex.frame = CGRectMake(self.view.frame.size.width-25,10,15,15);
+    ex.frame = CGRectMake(self.view.frame.size.width-35,10,15,15);
     ex.userInteractionEnabled = YES;
     [ex addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissEditButtonTouched)]]; 
-    
-    grad = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_white_gradient"]];
-    grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30);
     
     tagInputField = [[UITextField alloc] init];
     tagInputField.delegate = self;
@@ -84,9 +80,8 @@
 
 - (void) viewWillLayoutSubviews
 {
-    plus.frame = CGRectMake(self.view.frame.size.width-25, 10, plus.frame.size.width, plus.frame.size.height); 
-    ex.frame = CGRectMake(self.view.frame.size.width-25, 10, ex.frame.size.width, ex.frame.size.height);  
-    grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
+    plus.frame = CGRectMake(self.view.frame.size.width-35, 10, plus.frame.size.width, plus.frame.size.height); 
+    ex.frame = CGRectMake(self.view.frame.size.width-35, 10, ex.frame.size.width, ex.frame.size.height);  
     existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
     tagInputField.frame = CGRectMake(10, 2, self.view.frame.size.width-20,30);
     tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,expandHeight);  
@@ -131,7 +126,6 @@
         [tagInputField becomeFirstResponder];
         [self.view addSubview:ex];
     }
-    [self.view addSubview:grad];  
 }
 
 - (void) addTagButtonTouched
