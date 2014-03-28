@@ -28,6 +28,7 @@
 		A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7955B920F73E095005148E4 /* AudioToolbox.framework */; };
 		A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */; };
 		A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */; };
+		AA04E32C18E5FF3200621F0C /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E32B18E5FF3200621F0C /* delete@2x.png */; };
 		AA09B8E618E1EB5500A45562 /* video@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E018E1EB5500A45562 /* video@2x.png */; };
 		AA09B8E718E1EB5500A45562 /* notebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E118E1EB5500A45562 /* notebook@2x.png */; };
 		AA09B8E818E1EB5500A45562 /* tags@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E218E1EB5500A45562 /* tags@2x.png */; };
@@ -363,6 +364,7 @@
 		A7A172720F4F26280017E865 /* ARIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AA04E32B18E5FF3200621F0C /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
 		AA09B8E018E1EB5500A45562 /* video@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video@2x.png"; sourceTree = "<group>"; };
 		AA09B8E118E1EB5500A45562 /* notebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notebook@2x.png"; sourceTree = "<group>"; };
 		AA09B8E218E1EB5500A45562 /* tags@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tags@2x.png"; sourceTree = "<group>"; };
@@ -1035,6 +1037,7 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				AA04E32B18E5FF3200621F0C /* delete@2x.png */,
 				AA41A36518E4CE64006CB373 /* overarrow@2x.png */,
 				AA41A36318E4CD2F006CB373 /* save@2x.png */,
 				AA41A35D18E4CCAE006CB373 /* checkmark@2x.png */,
@@ -2158,6 +2161,7 @@
 				AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */,
 				AABC737B172739D80074CC21 /* PlayerSettingsViewController.xib in Resources */,
 				AA8E9EA518BE422E00F343A2 /* star_gray.png in Resources */,
+				AA04E32C18E5FF3200621F0C /* delete@2x.png in Resources */,
 				AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */,
 				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,

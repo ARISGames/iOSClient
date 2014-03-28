@@ -20,8 +20,8 @@
     NSArray *tags;
     
     UIScrollView *existingTagsScrollView;
-    UILabel *plus;
-    UILabel *ex; 
+    UIImageView *plus;
+    UIImageView *ex; 
     UIImageView *grad;
     
     UITextField *tagInputField;
@@ -55,23 +55,13 @@
     [super loadView];
     existingTagsScrollView  = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
     
-    plus = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,[@" + " sizeWithFont:[ARISTemplate ARISBodyFont]].width,20)];
-    plus.font = [ARISTemplate ARISBodyFont];
-    plus.textColor = [UIColor whiteColor];
-    plus.backgroundColor = [UIColor ARISColorLightBlue];
-    plus.text = @" + ";
-    plus.layer.cornerRadius = 8;
-    plus.layer.masksToBounds = YES;
+    plus = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"plus.png"]];
+    plus.frame = CGRectMake(self.view.frame.size.width-25,5,15,15);
     plus.userInteractionEnabled = YES;
     [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
     
-    ex = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,plus.frame.size.width,20)];//make same size as plus, even though dimensions differ slightly
-    ex.font = [ARISTemplate ARISBodyFont];
-    ex.textColor = [UIColor whiteColor];
-    ex.backgroundColor = [UIColor ARISColorLightBlue];
-    ex.text = @" x ";
-    ex.layer.cornerRadius = 8;
-    ex.layer.masksToBounds = YES;
+    ex = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"delete.png"]];
+    ex.frame = CGRectMake(self.view.frame.size.width-25,5,15,15);
     ex.userInteractionEnabled = YES;
     [ex addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissEditButtonTouched)]]; 
     
