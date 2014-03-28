@@ -19,6 +19,7 @@
 #import "AppServices.h"
 #import "Player.h"
 #import "ARISTemplate.h"
+#import "CircleButton.h"
 
 @interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate>
 {
@@ -33,9 +34,9 @@
     NoteContentsViewController *contentsViewController;
     
     UIView *bottombar;
-    UIButton *locationPickerButton;
-    UIButton *imagePickerButton; 
-    UIButton *audioPickerButton;  
+    CircleButton *locationPickerButton;
+    CircleButton *imagePickerButton; 
+    CircleButton *audioPickerButton;  
     
     UIButton *descriptionDoneButton; 
     UIButton *saveNoteButton;
@@ -115,23 +116,32 @@
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
-    bottombar = [[UIView alloc] init];
-    locationPickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
-    locationPickerButton.frame = CGRectMake(10, 10, 24, 24);
-    [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    imagePickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [imagePickerButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal]; 
-    imagePickerButton.frame = CGRectMake(44, 10, 24, 24); 
-    [imagePickerButton addTarget:self action:@selector(imagePickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    audioPickerButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
+    
+    UIColor *fc = [UIColor whiteColor];
+    UIColor *sc = [UIColor blackColor]; 
+    UIColor *tc = [UIColor blackColor]; 
+    int sw = 1; 
+    
+    bottombar = [[UIView alloc] init]; 
+    
+    imagePickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    [imagePickerButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];  
+    [imagePickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
+    [imagePickerButton addTarget:self action:@selector(imagePickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
+    
+    audioPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
     [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
-    audioPickerButton.frame = CGRectMake(78, 10, 24, 24); 
+    [audioPickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-   
-    [bottombar addSubview:locationPickerButton];
+    
+    locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
+    [locationPickerButton setImage:[UIImage imageNamed:@"notebook.png"] forState:UIControlStateNormal];
+    [locationPickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
+    [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:audioPickerButton]; 
+    [bottombar addSubview:locationPickerButton]; 
     
     [self.view addSubview:title];
     [self.view addSubview:date];
@@ -148,6 +158,9 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    
+    //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
+    
     title.frame = CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20);
     date.frame = CGRectMake(10, 35+64, 65, 14);
     owner.frame = CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14);
@@ -157,11 +170,19 @@
         tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, 30);   
     else
         tagViewController.view.frame = CGRectMake(0, 49+64, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
-    description.frame = CGRectMake(10, 79+64, self.view.bounds.size.width-20, 170);
-    descriptionPrompt.frame = CGRectMake(16, 79+64+5, self.view.bounds.size.width-20, 24); 
     
-    contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
-    bottombar.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+    int buttonDiameter = 50;
+    int buttonPadding = ((self.view.frame.size.width/3)-buttonDiameter)/2; 
+    imagePickerButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, 5, buttonDiameter, buttonDiameter);
+    audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter); 
+    locationPickerButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 5, buttonDiameter, buttonDiameter); 
+    bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-10, self.view.bounds.size.width, buttonDiameter+10); 
+    
+    //contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
+    contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-250, self.view.bounds.size.width, 250);       
+    
+    description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentsViewController.view.frame.size.height);
+    descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y, self.view.bounds.size.width, 24);  
 }
 
 - (void) viewWillAppear:(BOOL)animated

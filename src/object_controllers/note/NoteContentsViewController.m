@@ -36,7 +36,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.view.clipsToBounds = YES;
     
     noMediaNotice = [[UILabel alloc] init];
