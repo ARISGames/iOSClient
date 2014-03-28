@@ -435,7 +435,7 @@
     if ([location.gameObject isKindOfClass:[Item class]]) {
         pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
         [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
-        //[self.view addSubview:pickUpButton];
+        [self.view addSubview:pickUpButton];
     }
 }
 

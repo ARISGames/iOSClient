@@ -18,7 +18,7 @@
 	CGRect titleRect;
 	CGRect bubbleRect;
 	UIView *iconBorderView;
-   	ARISMediaView *iconView; 
+   	ARISMediaView *iconView;
     bool showTitle;
     bool shouldWiggle;
     float totalWiggleOffsetFromOriginalPosition;
@@ -29,6 +29,7 @@
     CGRect imageViewFrame;
     CGSize titleSize;
     CLLocationCoordinate2D coordinates;
+    CGPoint prevOffset;
 }
 @end
 
@@ -54,8 +55,31 @@
         iconBorderView = [[UIView alloc] init];
         iconView = [[ARISMediaView alloc] init];
         
-        self.backgroundColor = [UIColor orangeColor];
-
+        imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+        titleSize = CGSizeMake(0.0f,0.0f);
+        titleRect = CGRectMake(0,0,0,0);
+        
+        if (showTitle) {
+            if(loc.title) titleSize = [loc.title sizeWithFont:[ARISTemplate ARISAnnotFont]];
+            int maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
+            if(loc.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
+            
+            titleRect = CGRectOffset(titleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
+            
+            bubbleRect = titleRect;
+            bubbleRect.origin.x    -= ANNOTATION_PADDING;
+            bubbleRect.origin.y    -= ANNOTATION_PADDING;
+            bubbleRect.size.width  += ANNOTATION_PADDING*2;
+            bubbleRect.size.height += ANNOTATION_PADDING*2;
+            
+            titleRect.origin.y -=3;
+            
+            if(IMAGE_WIDTH < bubbleRect.size.width)
+                self.centerOffset = CGPointMake((bubbleRect.size.width-IMAGE_WIDTH)/2, (bubbleRect.size.height+POINTER_LENGTH)/2);
+            else
+                self.centerOffset = CGPointMake(0, (bubbleRect.size.height+POINTER_LENGTH)/2);
+        }
+        
         [self formatFrame];
     }
     return self;
@@ -64,35 +88,12 @@
 
 - (void) formatFrame
 {
-    imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-    
-    titleSize = CGSizeMake(0.0f,0.0f);
-    titleRect = CGRectMake(0,0,0,0);
-    
     if (showTitle) {
-        if(loc.title) titleSize = [loc.title sizeWithFont:[ARISTemplate ARISAnnotFont]];
-        int maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
-        if(loc.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
-        
-        titleRect = CGRectOffset(titleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
-        
-        bubbleRect = titleRect;
-        bubbleRect.origin.x    -= ANNOTATION_PADDING;
-        bubbleRect.origin.y    -= ANNOTATION_PADDING;
-        bubbleRect.size.width  += ANNOTATION_PADDING*2;
-        bubbleRect.size.height += ANNOTATION_PADDING*2;
-        
-        titleRect.origin.y -=3;
-        
-        if(IMAGE_WIDTH < bubbleRect.size.width)
-            self.centerOffset = CGPointMake((bubbleRect.size.width-IMAGE_WIDTH)/2, (bubbleRect.size.height+POINTER_LENGTH)/2);
-        else
-            self.centerOffset = CGPointMake(0, (bubbleRect.size.height+POINTER_LENGTH)/2);
-        
-        [self setFrame:CGRectUnion(bubbleRect, imageViewFrame)];
+        [self setFrame:CGRectUnion(bubbleRect, imageViewFrame)] ;
     }
     else{
-        [self setFrame:imageViewFrame];
+        //NSLog(@"CurrOffset: X: %f Y: %f", self.centerOffset.x, self.centerOffset.y);
+        [self setFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, imageViewFrame.size.width, imageViewFrame.size.height)];
     }
     
     iconBorderView.frame = imageViewFrame;
@@ -121,7 +122,6 @@
     
     self.opaque = NO;
     self.clipsToBounds = NO;
-    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -177,10 +177,12 @@
 - (void) turnOffTitle
 {
     if (showTitle) {
-        self.centerOffset = CGPointMake(0.0f, 0.0f);
         showTitle = NO;
         [self formatFrame];
+        prevOffset = self.centerOffset;
+        self.centerOffset = CGPointMake(0.0f, 0.0f);
         turnTitleBackOn = YES;
+        [self setNeedsLayout];
     }
 }
 
@@ -189,6 +191,7 @@
     if (turnTitleBackOn) {
         showTitle = YES;
         [self formatFrame];
+        self.centerOffset = prevOffset;
     }
 }
 
@@ -211,8 +214,8 @@
     [UIView setAnimationDuration:.2];
     self.transform = CGAffineTransformMakeScale(1,1);  
     iconBorderView.transform = CGAffineTransformMakeScale(1,1);
-    [self turnOnTitle];
     [UIView commitAnimations];
+    [self turnOnTitle];
 }
 
 - (void) dealloc

@@ -20,13 +20,11 @@
 #import "Panoramic.h"
 #import "Note.h"
 
-#import "CircleButton.h"
 
 @interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISCollapseViewDelegate>
 {
     ARISCollapseView *collapseView; 
-    CircleButton *circleButton; 
-    UIView *hudView; 
+    UIView *hudView;
     UILabel *prompt;
     UILabel *warning; 
     
@@ -66,12 +64,10 @@
     warning.numberOfLines = 0;  
     warning.textColor = [UIColor redColor];      
     
-    circleButton = [[CircleButton alloc] initWithFillColor:[UIColor ARISColorDarkBlue] strokeColor:[UIColor ARISColorWhite] titleColor:[UIColor ARISColorWhite] disabledFillColor:[UIColor ARISColorLightBlue] disabledStrokeColor:[UIColor ARISColorLightGray] disabledtitleColor:[UIColor ARISColorLightGray] strokeWidth:2];
     
     CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:NO showHandle:NO draggable:YES tappable:NO delegate:self];
     collapseView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];    
-    [collapseView addSubview:circleButton];  
     
     [self.view addSubview:collapseView];
     
@@ -86,11 +82,8 @@
     [collapseView setFrame:self.view.bounds];
     hudView.frame = CGRectMake(0, 23, self.view.frame.size.width, self.view.frame.size.height-23);
        
-    circleButton.frame = CGRectMake(0, 20, 80, 80);
-    [circleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [circleButton addTarget:self action:@selector(interactWithLocation) forControlEvents:UIControlEventTouchUpInside]; 
     
-    prompt.frame = CGRectMake(85, 2, self.view.frame.size.width-85, 35);
+    prompt.frame = CGRectMake(120, 2, self.view.frame.size.width-85, 35);
     warning.frame = CGRectMake(85, 20, self.view.frame.size.width-85, 35); 
 }
 
@@ -105,12 +98,10 @@
     if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel)
     {
         distanceToWalk = 0;
-        circleButton.enabled = YES;
         warning.text = @"";
     }
     else
     {
-        circleButton.enabled = NO;
         distanceToWalk = distance - location.errorRange;
         //TODO change this string to NSLocalized String
         float roundedDistance = lroundf(distanceToWalk);
@@ -119,12 +110,6 @@
         else
             warning.text = @"Out of range";
     }
-    
-    //TODO change label here and change to NSLocalized string
-    if([location.gameObject isKindOfClass:[Item class]])
-        [circleButton setTitle:@"Pick up" forState:UIControlStateNormal];
-    else
-        [circleButton setTitle:@"View" forState:UIControlStateNormal];
 }
 
 - (void) open
