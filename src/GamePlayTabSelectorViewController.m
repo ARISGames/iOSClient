@@ -14,6 +14,7 @@
 #import "ARISTemplate.h"
 
 #import "MapViewController.h"
+#import "NotebookViewController.h"
 #import "Game.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -140,9 +141,15 @@
     
     if([agptbvc isKindOfClass:[MapViewController class]])
         c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
+    else if([agptbvc isKindOfClass:[NotebookViewController class]])
+           c.textLabel.text = [NSString stringWithFormat:@" %@",agptbvc.title]; 
     else
         c.textLabel.text = agptbvc.title;
     c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
+    
+    //DOESNT WORK \/
+    c.imageView.frame = CGRectMake(5,5,c.frame.size.height-10,c.frame.size.height-10); 
+    c.textLabel.frame = CGRectMake(c.frame.size.height,5,c.frame.size.width-c.frame.size.height,c.frame.size.height-10);  
     
     return c;
 }
