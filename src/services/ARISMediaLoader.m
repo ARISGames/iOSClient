@@ -26,7 +26,7 @@
     if(self = [super init])
     {
         dataConnections = [[NSMutableDictionary alloc] initWithCapacity:10];
-        metaConnections = [[NSMutableArray alloc] initWithCapacity:10]; 
+        metaConnections = [[NSMutableArray      alloc] initWithCapacity:10]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryLoadingAllMedia) name:@"ReceivedMediaList" object:nil]; 
     }
     return self;

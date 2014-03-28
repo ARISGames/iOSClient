@@ -21,6 +21,8 @@
     UILabel *owner; 
     UILabel *desc; 
     ARISMediaView *preview;
+    CGRect previewFrameFull;
+    CGRect previewFrameSmall; 
     
     UIActivityIndicatorView *spinner;
     
@@ -56,8 +58,8 @@
         desc.textColor = [UIColor ARISColorDarkGray];  
         desc.adjustsFontSizeToFitWidth = NO;   
         preview = [[ARISMediaView alloc] initWithDelegate:self];
-        [preview setFrame:CGRectMake(self.frame.size.width-self.frame.size.height-4, 4, self.frame.size.height-4, self.frame.size.height-8)]; 
         preview.clipsToBounds = YES; 
+        preview.userInteractionEnabled = NO;
         
         [self addSubview:title];
         [self addSubview:date]; 
@@ -77,7 +79,8 @@
     date.frame = CGRectMake(10,35,65,14); 
     owner.frame = CGRectMake(65,35,self.frame.size.width-85,14); 
     desc.frame = CGRectMake(10,54,self.frame.size.width-self.frame.size.height-20,14); 
-    [preview setFrame:CGRectMake(self.frame.size.width-self.frame.size.height-4, 4, self.frame.size.height-4, self.frame.size.height-8)];  
+    previewFrameFull = CGRectMake(self.frame.size.width-(self.frame.size.height-4), 4, self.frame.size.height-8, self.frame.size.height-8);
+    previewFrameSmall = CGRectMake(self.frame.size.width-(self.frame.size.height-24), 24, self.frame.size.height-48, self.frame.size.height-48); 
 }
 
 - (void) setSelected:(BOOL)selected animated:(BOOL)animated
@@ -96,8 +99,15 @@
     [self setOwner:n.owner.displayname];
     [self setDescription:n.desc];
     
-    if([n.contents count] > 0) [self setPreviewMedia:[n.contents objectAtIndex:0]];
-    else                       [self setPreviewMedia:nil];
+    Media *bestContentForDisplay;
+    for(int i = 0; i < [n.contents count]; i++)
+    {
+        if(!bestContentForDisplay || [bestContentForDisplay.type isEqualToString:@"AUDIO"])
+            bestContentForDisplay = [n.contents objectAtIndex:i];
+        else if([bestContentForDisplay.type isEqualToString:@"VIDEO"] && [((Media *)[n.contents objectAtIndex:i]).type isEqualToString:@"IMAGE"])
+            bestContentForDisplay = [n.contents objectAtIndex:i];
+    }
+    [self setPreviewMedia:bestContentForDisplay];
     
     if(l) [self addSpinner];
     else  [self removeSpinner];
@@ -143,9 +153,15 @@
 {
     if(!m) { [preview setImage:nil]; return; }
     
-    if([m.type isEqualToString:@"IMAGE"]) { [preview setFrame:preview.frame withMode:ARISMediaDisplayModeAspectFill]; [preview setMedia:m]; }
-    if([m.type isEqualToString:@"AUDIO"]) { [preview setFrame:preview.frame withMode:ARISMediaDisplayModeAspectFit]; [preview setImage:[UIImage imageNamed:@"microphone.png"]]; }
-    if([m.type isEqualToString:@"VIDEO"]) { [preview setFrame:preview.frame withMode:ARISMediaDisplayModeAspectFit]; [preview setImage:[UIImage imageNamed:@"video.png"]]; }
+    if([m.type isEqualToString:@"IMAGE"]) { [preview setFrame:previewFrameFull withMode:ARISMediaDisplayModeAspectFill]; [preview setMedia:m]; }
+    //if([m.type isEqualToString:@"VIDEO"]) { [preview setFrame:previewFrameFull withMode:ARISMediaDisplayModeAspectFill]; [preview setMedia:m]; } 
+    if([m.type isEqualToString:@"VIDEO"]) { [preview setFrame:previewFrameSmall withMode:ARISMediaDisplayModeAspectFit]; [preview setImage:[UIImage imageNamed:@"video.png"]]; }  
+    if([m.type isEqualToString:@"AUDIO"]) { [preview setFrame:previewFrameSmall withMode:ARISMediaDisplayModeAspectFit]; [preview setImage:[UIImage imageNamed:@"microphone.png"]]; }
+}
+
+- (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
+{
+    return NO;
 }
 
 @end
