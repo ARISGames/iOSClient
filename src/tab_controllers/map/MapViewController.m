@@ -176,7 +176,7 @@
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
     
-    int buttonSize = 30;
+    int buttonSize = 40;
     threeLinesButton.frame      = CGRectMake(15, 24,  buttonSize, buttonSize); 
     centerButton.frame          = CGRectMake(15, 69,  buttonSize, buttonSize);
     fitToAnnotationButton.frame = CGRectMake(15, 114, buttonSize, buttonSize);  
