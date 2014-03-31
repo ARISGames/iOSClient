@@ -235,10 +235,12 @@
 - (void) guideNextEdit
 {
     if(blockKeyboard) return;
-    if([title.text isEqualToString:@""] && !title.isEditing)
+    if([title.text isEqualToString:@""] && !title.isFirstResponder)
         [title becomeFirstResponder]; 
     else if(note.tags.count == 0)
-        [tagViewController beginEditing];  
+        [tagViewController beginEditing];
+    else if(title.isFirstResponder)
+        [title resignFirstResponder];
 }
 
 - (void) refreshViewFromNote
@@ -258,18 +260,13 @@
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
 {
-    [title resignFirstResponder];
-    return NO; //prevents \n from being added to description
+    [self guideNextEdit];
+    return NO;
 }
 
-- (void) textFieldWillBeginEditing:(UITextField *)textField
+- (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [tagViewController stopEditing]; 
-}
-
-- (void) textFieldDidEndEditing:(UITextField *)textField
-{
-    [self guideNextEdit];
 }
 
 - (void) textViewDidBeginEditing:(UITextView *)textView
