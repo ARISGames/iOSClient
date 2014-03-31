@@ -155,6 +155,9 @@ const int VIEW_MODE_TAG  = 2;
             //Search description
             else if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n]; 
+            //Search owner
+            else if([n.owner.displayname rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+                [textFilteredNotes addObject:n];  
             //Search tags
             else
             {
