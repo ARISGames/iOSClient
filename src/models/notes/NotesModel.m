@@ -94,6 +94,7 @@
 - (void) noteDataReceived:(NSNotification *)n
 {
     [self mergeInNotesArray:[[NSArray alloc] initWithObjects:[n.userInfo objectForKey:@"note"], nil]];
+    [self invalidateNotesMatchingTagsCache];  
         
     NSLog(@"NSNotificaiton: NoteDataAvailable");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteDataAvailable" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:[n.userInfo objectForKey:@"note"],@"note",nil]];
@@ -151,7 +152,6 @@
             [self invalidateNoteTagCaches];   
         }
     }
-    [self invalidateNotesMatchingTagsCache]; 
 }
 
 - (void) invalidateNoteCaches
@@ -212,7 +212,7 @@
         {
             if(n.stubbed) [self getDetailsForNote:n];
             for(int i = 0; i < [n.tags count]; i++)
-                if(((NoteTag *)[n.tags objectAtIndex:i]).text == t.text)
+                if([((NoteTag *)[n.tags objectAtIndex:i]).text isEqualToString:t.text])
                     [constructListNotes addObject:n];
         }
         [notesMatchingTags setObject:constructListNotes forKey:t.text];
