@@ -151,7 +151,8 @@
 
 - (void) setPreviewMedia:(Media *)m
 {
-    if(!m) { [preview setImage:nil]; return; }
+    [preview setImage:nil];
+    if(!m) return;
     
     if([m.type isEqualToString:@"IMAGE"]) { [preview setFrame:previewFrameFull withMode:ARISMediaDisplayModeAspectFill]; [preview setMedia:m]; }
     //if([m.type isEqualToString:@"VIDEO"]) { [preview setFrame:previewFrameFull withMode:ARISMediaDisplayModeAspectFill]; [preview setMedia:m]; } 

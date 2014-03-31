@@ -68,6 +68,17 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r allowDuplicates:(BOOL)d userInfo:(NSDictionary *)u
 {
+    if(!d)
+    {
+        if([requestDupMap objectForKey:[rURL.URL absoluteString]])
+        {
+            NSLog(@"Dup req abort: %@",rURL.URL.absoluteString);
+            return;
+        }
+        else [requestDupMap setObject:[rURL.URL absoluteString] forKey:[rURL.URL absoluteString]];
+    } 
+    
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
     NSLog(@"Req asynch URL: %@", rURL.URL);
     
@@ -82,8 +93,6 @@ NSString *const kARISServerServicePackage = @"v1";
     rs.retryOnFail = r;
     rs.start = [NSDate date];
 	
-    if([connections objectForKey:rs.connection.description])
-        return;
     [connections setObject:rs forKey:rs.connection.description];
 	[rs.connection start];
 }
@@ -191,6 +200,8 @@ NSString *const kARISServerServicePackage = @"v1";
 {
     ARISServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
+    
+    [requestDupMap removeObjectForKey:[sr.urlRequest.URL absoluteString]];
     
     sr.time = -1*[sr.start timeIntervalSinceNow]; 
     NSLog(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time); 
