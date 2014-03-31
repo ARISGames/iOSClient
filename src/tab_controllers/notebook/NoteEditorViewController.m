@@ -21,7 +21,7 @@
 #import "ARISTemplate.h"
 #import "CircleButton.h"
 
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate>
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate, UIActionSheetDelegate>
 {
     Note *note;
     
@@ -29,6 +29,7 @@
     UILabel *owner;
     UILabel *date;
     NoteTagEditorViewController *tagViewController;  
+    NoteTag *newTag;
     UITextView *description;
     UILabel *descriptionPrompt;
     NoteContentsViewController *contentsViewController;
@@ -43,6 +44,8 @@
     
     UIButton *descriptionDoneButton; 
     UIButton *saveNoteButton;
+    
+    UIActionSheet *confirmPrompt;
     
     NSMutableArray *mediaToUpload;
     
@@ -68,6 +71,7 @@
             n.owner = [AppModel sharedAppModel].player;
         }
         note = n; 
+        if([n.tags count] > 0) newTag = [n.tags objectAtIndex:0]; 
         mode = m;
         delegate = d;
         
@@ -116,6 +120,8 @@
     [saveNoteButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];
     saveNoteButton.frame = CGRectMake(0, 0, 24, 24);
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
+    
+    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Save Anyway" otherButtonTitles:nil];
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
@@ -255,7 +261,9 @@
     date.text = [format stringFromDate:note.created]; 
     owner.text = note.owner.displayname; 
     [contentsViewController setContents:note.contents];
-    [tagViewController setTags:note.tags];
+    newTag = nil; if([note.tags count] > 0) newTag = [note.tags objectAtIndex:0];   
+    if(newTag) [tagViewController setTags:@[newTag]];
+    else       [tagViewController setTags:nil];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
@@ -286,21 +294,22 @@
 
 - (void) noteTagEditorAddedTag:(NoteTag *)nt
 {
-    [note.tags removeAllObjects];
-    [note.tags addObject:nt];
-    [tagViewController setTags:note.tags];
+    newTag = nt;   
+    if(nt) [tagViewController setTags:@[nt]];
+    else   [tagViewController setTags:nil];
 }
 
 - (void) noteTagEditorCreatedTag:(NoteTag *)nt
 {
-    [note.tags addObject:nt];
-    [tagViewController setTags:note.tags];
+    newTag = nt;   
+    if(nt) [tagViewController setTags:@[nt]];
+    else   [tagViewController setTags:nil]; 
 }
 
 - (void) noteTagEditorDeletedTag:(NoteTag *)nt
 {
-    [note.tags removeObject:nt]; 
-    [tagViewController setTags:note.tags]; 
+    newTag = nil;   
+    [tagViewController setTags:nil];  
 }
 
 - (void) doneButtonTouched
@@ -352,7 +361,15 @@
 - (void) saveButtonTouched
 {
     if([title.text isEqualToString:@""])
-        [self guideNextEdit];
+    {
+        confirmPrompt.title = @"Your note has no title!";
+        [confirmPrompt showInView:self.view];
+    }
+    else if(!newTag)
+    {
+        confirmPrompt.title = @"Your note isn't labeled!";
+        [confirmPrompt showInView:self.view];
+    } 
     else [self saveNote];
 }
 
@@ -360,6 +377,8 @@
 {
     note.name = title.text;
     note.desc = description.text;
+    if(newTag) note.tags = [NSMutableArray arrayWithArray:@[newTag]];
+    else note.tags = [[NSMutableArray alloc] init];
 
     //for(int i = 0; i < [mediaToUpload count]; i++)
         //[note.contents addObject:[mediaToUpload objectAtIndex:i]];
@@ -406,6 +425,12 @@
     [mediaToUpload addObject:m];   
     
     [contentsViewController setContents:[mediaToUpload arrayByAddingObjectsFromArray:note.contents]];  
+}
+
+- (void) actionSheet:(UIActionSheet *)a clickedButtonAtIndex:(NSInteger)b
+{
+    if(b == 0) //save anyway
+        [self saveNote];
 }
 
 - (void) cameraViewControllerCancelled
