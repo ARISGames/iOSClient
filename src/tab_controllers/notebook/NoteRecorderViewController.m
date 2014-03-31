@@ -27,8 +27,8 @@
     CircleButton *playButton; 
     CircleButton *stopButton;  
     CircleButton *editButton;
-   	CircleButton *discardButton; 
-   	CircleButton *saveButton; 
+   	UIButton *discardButton; 
+   	UIButton *saveButton; 
     
     AudioMeter *meter;
     
@@ -43,8 +43,7 @@
 {
     if(self = [super init])
     {
-        self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"microphoneTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"microphoneTabBarSelected"]]; 
+        self.title = @"Audio Note";
         delegate = d;
         
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
@@ -70,7 +69,6 @@
     int sw = 1;
     
     meter = [[AudioMeter alloc] initWithDelegate:self];
-    meter.frame = self.view.bounds;
     [self.view addSubview:meter];
     
     recordButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
@@ -93,19 +91,20 @@
     [editButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal];   
     [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
     
-    discardButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    discardButton = [[UIButton alloc] init]; 
     [discardButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];   
     [discardButton addTarget:self action:@selector(discardButtonTouched) forControlEvents:UIControlEventTouchUpInside];     
+    discardButton.frame = CGRectMake(0,0, 20, 20);      
     
-    saveButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    saveButton = [[UIButton alloc] init];
     [saveButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];   
     [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
+    saveButton.frame    = CGRectMake(0,0, 24, 24);    
 }
 
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouched)];
     
     [self refreshViewFromState];
 }
@@ -114,17 +113,17 @@
 {
     [super viewWillLayoutSubviews];
     
+    meter.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-64);
+    
     int buttonDiameter = 50; 
     int buttonPadding = (self.view.frame.size.width-buttonDiameter)/2; 
-    recordButton.frame  = CGRectMake(buttonPadding, 69, buttonDiameter, buttonDiameter); 
-    finishButton.frame  = CGRectMake(buttonPadding, 69, buttonDiameter, buttonDiameter);  
-    stopButton.frame    = CGRectMake(buttonPadding, 69, buttonDiameter, buttonDiameter);    
+    recordButton.frame  = CGRectMake(buttonPadding, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter); 
+    finishButton.frame  = CGRectMake(buttonPadding, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);  
+    stopButton.frame    = CGRectMake(buttonPadding, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);    
     
-    buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
-    discardButton.frame = CGRectMake(buttonPadding*1+buttonDiameter*0, 69, buttonDiameter, buttonDiameter);    
-    playButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 69, buttonDiameter, buttonDiameter); 
-    editButton.frame    = CGRectMake(buttonPadding*5+buttonDiameter*2, 69, buttonDiameter, buttonDiameter);   
-    saveButton.frame    = CGRectMake(buttonPadding*7+buttonDiameter*3, 69, buttonDiameter, buttonDiameter);   
+    buttonPadding = ((self.view.frame.size.width/3)-buttonDiameter)/2; 
+    editButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);    
+    playButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter); 
 }
 
 - (void) refreshViewFromState
@@ -134,8 +133,14 @@
     [playButton    removeFromSuperview]; 
     [stopButton    removeFromSuperview]; 
     [editButton    removeFromSuperview]; 
-    [discardButton removeFromSuperview];  
-    [saveButton    removeFromSuperview];   
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0,0,19,19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    backButton.accessibilityLabel = @"Back Button";
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];    
+    self.navigationItem.rightBarButtonItem = nil;       
     
     if(recorder)
     {
@@ -144,13 +149,15 @@
     else if(player)
     {
         [self.view addSubview:stopButton];
+        self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithCustomView:discardButton];      
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];      
     }
     else if(hasFile)
     {
         [self.view addSubview:playButton]; 
         [self.view addSubview:editButton]; 
-        [self.view addSubview:discardButton]; 
-        [self.view addSubview:saveButton]; 
+        self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithCustomView:discardButton];      
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];     
     }
     else
     {
