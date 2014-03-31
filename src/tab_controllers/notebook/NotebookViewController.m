@@ -90,27 +90,19 @@
     int sw = 1;
     
     newTextButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
-    //[newTextButton setTitle:@"t" forState:UIControlStateNormal];
     [newTextButton setImage:[UIImage imageNamed:@"notebook.png"] forState:UIControlStateNormal];
-    [newTextButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     [newTextButton addTarget:self action:@selector(newTextButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
     newAudioButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    //[newAudioButton setTitle:@"a" forState:UIControlStateNormal]; 
     [newAudioButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
-    [newAudioButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newAudioButton addTarget:self action:@selector(newAudioButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
     newImageButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    //[newImageButton setTitle:@"i" forState:UIControlStateNormal]; 
     [newImageButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];  
-    [newImageButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newImageButton addTarget:self action:@selector(newImageButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     
     newVideoButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    //[newVideoButton setTitle:@"v" forState:UIControlStateNormal]; 
     [newVideoButton setImage:[UIImage imageNamed:@"video.png"] forState:UIControlStateNormal];   
-    [newVideoButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newVideoButton addTarget:self action:@selector(newVideoButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     
     [self.view addSubview:newTextButton];  
