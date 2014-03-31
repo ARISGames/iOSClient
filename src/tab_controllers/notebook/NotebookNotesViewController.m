@@ -149,8 +149,22 @@ const int VIEW_MODE_TAG  = 2;
         for(int i = 0; i < [typeFilteredNotes count]; i++)
         {
             n = [typeFilteredNotes objectAtIndex:i];
-            if([n.name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)    
+            //Search title
+            if([n.name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n];
+            //Search description
+            else if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+                [textFilteredNotes addObject:n]; 
+            //Search tags
+            else
+            {
+                for(int j = 0; j < [n.tags count]; j++)
+                    if([((NoteTag*)[n.tags objectAtIndex:j]).text rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)    
+                    {
+                        [textFilteredNotes addObject:n]; 
+                        break; //must break so we don't add same note multiple times
+                    }
+            }
         }
         filteredNotes = textFilteredNotes; 
     }
