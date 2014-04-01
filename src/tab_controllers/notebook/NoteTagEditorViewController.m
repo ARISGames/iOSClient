@@ -135,8 +135,12 @@
 
 - (void) dismissEditButtonTouched
 {
-    if([tags count] > 0) [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; 
-    [self stopEditing];
+    NoteTag *unlabeled = [[NoteTag alloc] init];
+    unlabeled.text = @"Unlabeled";
+    unlabeled.noteTagId = -1;
+    unlabeled.playerCreated = NO; 
+    if([tags count] > 0) { [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; [self beginEditing]; }
+    else                 { [self stopEditing]; [self existingTagChosen:unlabeled]; }
 }
 
 - (void) beginEditing
@@ -217,6 +221,14 @@
         newNoteTag.text = tagInputField.text;
         newNoteTag.playerCreated = YES;
         [delegate noteTagEditorCreatedTag:newNoteTag]; 
+    }
+    else if(!tagExists)
+    {
+        NoteTag *unlabeled = [[NoteTag alloc] init];
+        unlabeled.text = @"Unlabeled";
+        unlabeled.noteTagId = -1;
+        unlabeled.playerCreated = NO;  
+        [delegate noteTagEditorCreatedTag:unlabeled];  
     }
     [self stopEditing];
     return YES;

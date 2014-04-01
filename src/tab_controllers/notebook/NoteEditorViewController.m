@@ -315,7 +315,6 @@
 - (void) doneButtonTouched
 {
     [description resignFirstResponder];
-    [self guideNextEdit];
 }
 
 - (void) textViewDidChange:(UITextView *)textView
