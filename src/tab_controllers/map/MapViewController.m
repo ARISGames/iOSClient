@@ -444,15 +444,13 @@
             [self.view addSubview:pickUpButton];
         }
     }
-    
-
 }
 
 - (void) animateInButtons
 {
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:.7f];
+    [UIView setAnimationDuration:.4f];
     [viewAnnotationButton setAlpha:1.0f];
     [pickUpButton setAlpha:1.0f];
     [UIView commitAnimations];
