@@ -98,9 +98,8 @@
     
     iconBorderView.frame = imageViewFrame;
     iconBorderView.backgroundColor = [UIColor whiteColor];
-    //iconBorderView.layer.borderColor = [UIColor ARISColorLightBlue].CGColor;
-    //iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
-    //iconBorderView.layer.borderWidth = 1.0f;
+    iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
+    iconBorderView.layer.borderWidth = 1.0f;
     
     CGRect imageInnerFrame = imageViewFrame;
     imageInnerFrame.origin.x += 2.0f;
@@ -203,6 +202,7 @@
 - (void) enlarge
 {
     [self turnOffTitle];
+    iconBorderView.layer.borderColor = [UIColor clearColor].CGColor;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.2];
