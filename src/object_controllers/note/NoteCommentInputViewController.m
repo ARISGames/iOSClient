@@ -14,7 +14,7 @@
     UIImageView *commentPromptImg; 
     UILabel *commentPromptText;
     UILabel *postButton;
-    UILabel *cancelButton; 
+    UIImageView *cancelButton; 
     id<NoteCommentInputViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -43,21 +43,20 @@
     commentArea.delegate = self;
     
     commentPromptImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 20, 20)];
-    commentPromptImg.image = [UIImage imageNamed:@"comment.png"];
+    commentPromptImg.image = [UIImage imageNamed:@"speech_bubble.png"];
     commentPromptText = [[UILabel alloc] initWithFrame:CGRectMake(40, 15, 200, 20)];
     commentPromptText.textColor = [UIColor lightGrayColor];
     commentPromptText.font = [ARISTemplate ARISInputFont];
     commentPromptText.text = @"Comment";
     
-    postButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 10, 50, 20)];
+    postButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 24, 50, 20)];
     postButton.text = @"Post";
     postButton.textColor = [UIColor ARISColorDarkBlue];  
     [postButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postButtonTouched)]];
     postButton.userInteractionEnabled = YES; 
     
-    cancelButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 40, 50, 20)];
-    cancelButton.text = @"Don't";
-    cancelButton.textColor = [UIColor ARISColorDarkBlue];
+    cancelButton = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-80, 28, 15, 15)];
+    [cancelButton setImage:[UIImage imageNamed:@"delete.png"]];
     [cancelButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonTouched)]]; 
     cancelButton.userInteractionEnabled = YES;
     
@@ -75,9 +74,14 @@
 
 - (void) cancelButtonTouched
 {
-    [commentArea resignFirstResponder];  
-    [delegate commentCancelled];   
+    //[commentArea resignFirstResponder];  
+    //[delegate commentCancelled];   
     commentArea.text = @""; 
+}
+
+- (void) dismissKeyboard
+{
+    [commentArea resignFirstResponder];
 }
 
 - (void) textViewDidBeginEditing:(UITextView *)textView

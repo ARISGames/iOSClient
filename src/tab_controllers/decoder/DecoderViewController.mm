@@ -39,7 +39,7 @@
     if(self = [super initWithDelegate:d])
     {
         self.tabID = @"QR";
-        self.tabIconName = @"barcode";
+        self.tabIconName = @"qr_icon.png";
         
         textEnabled = (m == 0 || m == 1);
         scanEnabled = (m == 0 || m == 2);

@@ -207,7 +207,7 @@
             inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
             [gamePlayTabVCs addObject:inventoryNavigationController];
         }
-        else if([tmpTab.tabName isEqualToString:@"QR"]) //text only
+        else if([tmpTab.tabName isEqualToString:@"DECODER"]) //text only
         {
             DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:1];
             decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];

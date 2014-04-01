@@ -40,11 +40,11 @@
         cellSelectors = [[NSMutableArray alloc] initWithCapacity:5]; 
         
         [cellTitles addObject:@"Public Name and Image"];
-        [cellIcons addObject:[UIImage imageNamed:@"id_card"]];
+        [cellIcons addObject:[UIImage imageNamed:@"id_card.png"]];
         [cellSelectors addObject:[[ARISSelectorHandle alloc] initWithHandler:self selector:@selector(profileButtonTouched)]];
         
-        [cellTitles addObject:@"Change Password"];
-        [cellIcons addObject:[UIImage imageNamed:@"toolbox"]];
+        [cellTitles addObject:@"  Change Password"];
+        [cellIcons addObject:[UIImage imageNamed:@"lock.png"]];
         [cellSelectors addObject:[[ARISSelectorHandle alloc] initWithHandler:self selector:@selector(passButtonTouched)]]; 
     }
     return self;
@@ -91,7 +91,6 @@
     logoText.frame = CGRectMake(logoContainer.frame.size.width/2-50, logoContainer.frame.size.height/2-15, 100, 30);
     [logoContainer addSubview:logoText];
     self.navigationItem.titleView = logoContainer; 
-    
 }
 
 - (void) viewWillLayoutSubviews
@@ -104,7 +103,6 @@
     logoutLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
     logoutArrow.frame = CGRectMake(6,13,19,19); 
     logoutLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
-    
 }
 
 - (void) viewDidLoad
@@ -124,6 +122,7 @@
     c.opaque = NO;
     c.backgroundColor = [UIColor clearColor];
     c.textLabel.textColor = [ARISTemplate ARISColorSideNavigationText];
+    c.textLabel.font = [ARISTemplate ARISButtonFont]; 
     c.textLabel.text = [cellTitles objectAtIndex:indexPath.row];
     c.imageView.image = [cellIcons objectAtIndex:indexPath.row];
     

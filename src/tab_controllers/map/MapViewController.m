@@ -106,35 +106,33 @@
     [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackout.userInteractionEnabled = NO; 
     
+    
+    UIColor *buttonBGColor = [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1]; 
+    
     threeLinesButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [threeLinesButton addTarget:self action:@selector(threeLinesButtonTouched) forControlEvents:UIControlEventTouchDown];
-    [threeLinesButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    threeLinesButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
-    threeLinesButton.backgroundColor = [UIColor ARISColorDarkBlue];
-    threeLinesButton.layer.cornerRadius = 5;
-    threeLinesButton.clipsToBounds = YES; 
+    [threeLinesButton setImage:[UIImage imageNamed:@"threelines.png"] forState:UIControlStateNormal];
+    threeLinesButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
+    threeLinesButton.backgroundColor = buttonBGColor;
     threeLinesButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    threeLinesButton.layer.borderWidth = 1.0f;   
+    threeLinesButton.layer.borderWidth = 2.0f;   
     
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(centerMapOnPlayer) forControlEvents:UIControlEventTouchDown];
-    [centerButton setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
-    centerButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4);
-    centerButton.backgroundColor = [UIColor ARISColorDarkBlue];
-    centerButton.layer.cornerRadius = 5;
-    centerButton.clipsToBounds = YES; 
+    [centerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+    centerButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
+    
+    centerButton.backgroundColor = buttonBGColor;
     centerButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    centerButton.layer.borderWidth = 1.0f;  
+    centerButton.layer.borderWidth = 2.0f;  
     
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
-    [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand"] forState:UIControlStateNormal];
-    fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(4,4,4,4); 
-    fitToAnnotationButton.backgroundColor = [UIColor ARISColorDarkBlue]; 
-    fitToAnnotationButton.layer.cornerRadius = 5;
-    fitToAnnotationButton.clipsToBounds = YES;
+    [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
+    fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6); 
+    fitToAnnotationButton.backgroundColor = buttonBGColor; 
     fitToAnnotationButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    fitToAnnotationButton.layer.borderWidth = 1.0f;
+    fitToAnnotationButton.layer.borderWidth = 2.0f;
     
     viewAnnotationButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorDarkBlue] isPointingLeft:NO];
     pickUpButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorRed] isPointingLeft:YES];
@@ -181,10 +179,10 @@
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
     
-    int buttonSize = 30;
+    int buttonSize = 40;
     threeLinesButton.frame      = CGRectMake(15, 24,  buttonSize, buttonSize); 
-    centerButton.frame          = CGRectMake(15, 64,  buttonSize, buttonSize);
-    fitToAnnotationButton.frame = CGRectMake(15, 104, buttonSize, buttonSize);  
+    centerButton.frame          = CGRectMake(15, 69,  buttonSize, buttonSize);
+    fitToAnnotationButton.frame = CGRectMake(15, 114, buttonSize, buttonSize);  
     
     hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80);
 }

@@ -8,7 +8,6 @@
 
 #import "NotebookNotesViewController.h"
 #import "NoteViewController.h"
-#import "NoteEditorViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -18,11 +17,13 @@
 #import "ARISTemplate.h"
 #import "NoteTag.h"
 
+#import "Player.h"
+
 const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 const int VIEW_MODE_TAG  = 2;
 
-@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, UISearchBarDelegate>
+@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, GameObjectViewControllerDelegate, NoteViewControllerDelegate, UISearchBarDelegate>
 {
     UITableView *table;
     UISearchBar *searchBar;
@@ -65,11 +66,12 @@ const int VIEW_MODE_TAG  = 2;
     
     searchBar = [[UISearchBar alloc] init];
     searchBar.delegate = self;
-    searchBar.showsCancelButton = YES;
+    searchBar.showsCancelButton = NO;
     
     navTitleView = [[UIView alloc] init];
     
     navTitleLabel = [[UILabel alloc] init];
+    navTitleLabel.font = [ARISTemplate ARISTitleFont];
     navTitleLabel.textAlignment = NSTextAlignmentCenter;
     switch(viewMode)
     {
@@ -82,8 +84,8 @@ const int VIEW_MODE_TAG  = 2;
     self.navigationItem.titleView = navTitleView;
     
     table = [[UITableView alloc] initWithFrame:self.view.frame];
-    table.contentInset = UIEdgeInsetsMake(94,0,49,0);
-    [table setContentOffset:CGPointMake(0,-94)];  
+    table.contentInset = UIEdgeInsetsMake(100,0,49,0);
+    [table setContentOffset:CGPointMake(0,-100)];  
     table.delegate   = self;
     table.dataSource = self;
     
@@ -97,7 +99,7 @@ const int VIEW_MODE_TAG  = 2;
     navTitleView.frame  = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
     navTitleLabel.frame = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);  
     
-    searchBar.frame = CGRectMake(0,64,self.view.bounds.size.width,30);
+    searchBar.frame = CGRectMake(-4,64,self.view.bounds.size.width+8,36);//weird width/height because apple
     
     table.frame = self.view.frame;
 }
@@ -111,6 +113,7 @@ const int VIEW_MODE_TAG  = 2;
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
+    
     [table reloadData];
 }
 
@@ -146,8 +149,25 @@ const int VIEW_MODE_TAG  = 2;
         for(int i = 0; i < [typeFilteredNotes count]; i++)
         {
             n = [typeFilteredNotes objectAtIndex:i];
-            if([n.name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)    
+            //Search title
+            if([n.name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n];
+            //Search description
+            else if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+                [textFilteredNotes addObject:n]; 
+            //Search owner
+            else if([n.owner.displayname rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+                [textFilteredNotes addObject:n];  
+            //Search tags
+            else
+            {
+                for(int j = 0; j < [n.tags count]; j++)
+                    if([((NoteTag*)[n.tags objectAtIndex:j]).text rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)    
+                    {
+                        [textFilteredNotes addObject:n]; 
+                        break; //must break so we don't add same note multiple times
+                    }
+            }
         }
         filteredNotes = textFilteredNotes; 
     }
@@ -182,7 +202,7 @@ const int VIEW_MODE_TAG  = 2;
         cell = [[NoteCell alloc] initWithDelegate:self]; 
     Note *n = [filteredNotes objectAtIndex:indexPath.row];
     if(n.stubbed) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
-    [cell populateWithNote:n loading:n.stubbed editable:(viewMode == VIEW_MODE_MINE)]; 
+    [cell populateWithNote:n loading:n.stubbed]; 
 
     return cell;
 }
@@ -200,19 +220,10 @@ const int VIEW_MODE_TAG  = 2;
     [self.navigationController popToViewController:self animated:YES];    
 }
 
-- (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne
-{
-    [self.navigationController popToViewController:self animated:YES];
-}
-
-- (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n
-{
-    [self.navigationController popToViewController:self animated:YES]; 
-}
-
 - (void) searchBar:(UISearchBar *)s textDidChange:(NSString *)t
 {
     filterText = t;
+    searchBar.showsCancelButton = YES; 
     [table reloadData];   
 }
 
@@ -221,12 +232,14 @@ const int VIEW_MODE_TAG  = 2;
     filterText = @"";
     searchBar.text = @"";
     [searchBar resignFirstResponder]; 
+    searchBar.showsCancelButton = NO;  
     [table reloadData]; 
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)s
 {
     [searchBar resignFirstResponder];
+    searchBar.showsCancelButton = NO;  
     [table reloadData];  
 }
 
@@ -250,12 +263,6 @@ const int VIEW_MODE_TAG  = 2;
     filterTag = t;
     navTitleLabel.text = filterTag.text;    
     [table reloadData];
-}
-
-- (void) editRequestedForNote:(Note *)n
-{
-    NoteEditorViewController *nevc = [[NoteEditorViewController alloc] initWithNote:n mode:NOTE_EDITOR_MODE_TEXT delegate:self];
-    [self.navigationController pushViewController:nevc animated:YES];  
 }
 
 - (void) backButtonTouched

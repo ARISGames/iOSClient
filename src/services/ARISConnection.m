@@ -22,6 +22,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISServiceGraveyard *graveyard;
     NSString *server;
     NSMutableDictionary *connections;
+    NSMutableDictionary *requestDupMap; 
 }
 @end
 
@@ -35,23 +36,24 @@ NSString *const kARISServerServicePackage = @"v1";
         jsonWriter = [[SBJsonWriter alloc] init];  
         server = s;
         graveyard = g;
-        connections = [[NSMutableDictionary alloc] initWithCapacity:20];
+        connections   = [[NSMutableDictionary alloc] initWithCapacity:20];
+        requestDupMap = [[NSMutableDictionary alloc] initWithCapacity:20]; 
     }
     return self;
 }
 
 - (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict
 {
-    //PHIL TAKE THIS OUT
+    NSURLRequest *req;
+    //PHIL TAKE THIS OUT ONCE WE CAN SPECIFY POST OR ONCE EVERYTHING IS POST
     if(([s isEqualToString:@"notebook"] && [m isEqualToString:@"addNoteFromJSON"]) ||
        ([s isEqualToString:@"players"]  && [m isEqualToString:@"uploadPlayerMediaFromJSON"]))
-    {
-        [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"POST" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r userInfo:dict];  
-        return;
-    }
+        req = [self createRequestURLWithHTTP:@"POST" fromService:s method:m arguments:args];
+    else
     //OK STOP
+        req = [self createRequestURLWithHTTP:@"GET" fromService:s method:m arguments:args];
     
-    [self performAsyncURLRequest:[self createRequestURLWithHTTP:@"GET" fromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r userInfo:dict]; 
+    [self performAsyncURLRequest:req handler:h successSelector:ss failSelector:fs retryOnFail:r allowDuplicates:NO userInfo:dict];   
 }
 
 - (ARISServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
@@ -61,11 +63,22 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void) performRevivalWithRequest:(RequestCD *)r
 {
-    [self performAsyncURLRequest:[self createRequestURLWithRequest:r] handler:nil successSelector:nil failSelector:nil retryOnFail:YES userInfo:nil];   
+    [self performAsyncURLRequest:[self createRequestURLWithRequest:r] handler:nil successSelector:nil failSelector:nil retryOnFail:YES allowDuplicates:NO userInfo:nil];   
 }
 
-- (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)u
+- (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r allowDuplicates:(BOOL)d userInfo:(NSDictionary *)u
 {
+    if(!d)
+    {
+        if([requestDupMap objectForKey:[rURL.URL absoluteString]])
+        {
+            NSLog(@"Dup req abort: %@",rURL.URL.absoluteString);
+            return;
+        }
+        else [requestDupMap setObject:[rURL.URL absoluteString] forKey:[rURL.URL absoluteString]];
+    } 
+    
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
     NSLog(@"Req asynch URL: %@", rURL.URL);
     
@@ -187,6 +200,8 @@ NSString *const kARISServerServicePackage = @"v1";
 {
     ARISServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
+    
+    [requestDupMap removeObjectForKey:[sr.urlRequest.URL absoluteString]];
     
     sr.time = -1*[sr.start timeIntervalSinceNow]; 
     NSLog(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time); 

@@ -61,11 +61,6 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.userInteractionEnabled = NO; 
-    
     navTitleView = [[UIView alloc] init];
     
     navTitleLabel = [[UILabel alloc] init];
@@ -95,27 +90,19 @@
     int sw = 1;
     
     newTextButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
-    //[newTextButton setTitle:@"t" forState:UIControlStateNormal];
     [newTextButton setImage:[UIImage imageNamed:@"notebook.png"] forState:UIControlStateNormal];
-    [newTextButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     [newTextButton addTarget:self action:@selector(newTextButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
     newAudioButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    //[newAudioButton setTitle:@"a" forState:UIControlStateNormal]; 
     [newAudioButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
-    [newAudioButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newAudioButton addTarget:self action:@selector(newAudioButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
     newImageButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    //[newImageButton setTitle:@"i" forState:UIControlStateNormal]; 
     [newImageButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];  
-    [newImageButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newImageButton addTarget:self action:@selector(newImageButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     
     newVideoButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    //[newVideoButton setTitle:@"v" forState:UIControlStateNormal]; 
     [newVideoButton setImage:[UIImage imageNamed:@"video.png"] forState:UIControlStateNormal];   
-    [newVideoButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [newVideoButton addTarget:self action:@selector(newVideoButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     
     [self.view addSubview:newTextButton];  
@@ -175,6 +162,7 @@
     i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [allNotesButton addSubview:i];
     i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cabinet.png"]];
+    i.contentMode = UIViewContentModeScaleAspectFit; 
     i.frame = CGRectMake(5,7,20,20);  
     [allNotesButton addSubview:i]; 
     
@@ -182,6 +170,7 @@
     i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [myNotesButton addSubview:i]; 
     i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"notebook.png"]];
+    i.contentMode = UIViewContentModeScaleAspectFit;  
     i.frame = CGRectMake(5,7,20,20);   
     [myNotesButton addSubview:i];  
     
@@ -189,6 +178,7 @@
     i.frame = CGRectMake(self.view.frame.size.width-20-20,7,20,20); 
     [labelSelectorButton addSubview:i]; 
     i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tags.png"]];
+    i.contentMode = UIViewContentModeScaleAspectFit;   
     i.frame = CGRectMake(5,7,20,20);    
     [labelSelectorButton addSubview:i];  
     
@@ -197,6 +187,22 @@
     line2.frame = CGRectMake(0,169,self.view.bounds.size.width,1);   
     line3.frame = CGRectMake(0,209,self.view.bounds.size.width,1);   
     line4.frame = CGRectMake(0,249,self.view.bounds.size.width,1);       
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated]; 
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    self.navigationController.navigationBar.translucent = YES;
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = nil;
+    self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc

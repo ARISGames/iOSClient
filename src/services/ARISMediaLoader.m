@@ -26,7 +26,7 @@
     if(self = [super init])
     {
         dataConnections = [[NSMutableDictionary alloc] initWithCapacity:10];
-        metaConnections = [[NSMutableArray alloc] initWithCapacity:10]; 
+        metaConnections = [[NSMutableArray      alloc] initWithCapacity:10]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryLoadingAllMedia) name:@"ReceivedMediaList" object:nil]; 
     }
     return self;
@@ -102,7 +102,7 @@
     [dataConnections removeObjectForKey:c.description];
     mr.media.data = mr.data;
     [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
-    
+
     NSString *newFileFolder   = [NSString stringWithFormat:@"%@/%d",[[AppModel sharedAppModel] applicationDocumentsDirectory],mr.media.gameId]; 
     if(![[NSFileManager defaultManager] fileExistsAtPath:newFileFolder isDirectory:nil])
         [[NSFileManager defaultManager] createDirectoryAtPath:newFileFolder withIntermediateDirectories:YES attributes:nil error:nil];
@@ -120,7 +120,7 @@
     //This is so ugly. See comments in ARISDelegateHandle.h for reasoning
     if(mr.delegateHandle.delegate && [[mr.delegateHandle.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
         [mr.delegateHandle.delegate mediaLoaded:mr.media];
-    [mr.delegateHandle invalidate]; 
+    [mr.delegateHandle invalidate];
 }
 
 - (void) dealloc

@@ -36,7 +36,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.view.clipsToBounds = YES;
     
     noMediaNotice = [[UILabel alloc] init];
@@ -51,6 +51,8 @@
     scrollView.scrollsToTop = NO;
     scrollView.delegate = self;
     pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20)];
+    pageControl.currentPageIndicatorTintColor = [UIColor ARISColorDarkBlue];
+    pageControl.pageIndicatorTintColor = [UIColor ARISColorLightBlue]; 
     [self refreshFromContents];
     
     [self.view addSubview:noMediaNotice];

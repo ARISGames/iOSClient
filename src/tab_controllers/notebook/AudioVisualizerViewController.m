@@ -168,10 +168,10 @@
     stopButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)]; 
     swapButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     
-    [playButton  setImage:[UIImage imageNamed:@"30-circle-play"]  forState:UIControlStateNormal]; 
-    [pauseButton setImage:[UIImage imageNamed:@"29-circle-pause"] forState:UIControlStateNormal]; 
-    [stopButton  setImage:[UIImage imageNamed:@"35-circle-stop"]  forState:UIControlStateNormal]; 
-    [swapButton  setImage:[UIImage imageNamed:@"05-shuffle"]      forState:UIControlStateNormal];
+    [playButton  setImage:[UIImage imageNamed:@"dark_play.png"]  forState:UIControlStateNormal]; 
+    [pauseButton setImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal]; 
+    [stopButton  setImage:[UIImage imageNamed:@"stop.png"]  forState:UIControlStateNormal]; 
+    [swapButton  setImage:[UIImage imageNamed:@"shuffle.png"]      forState:UIControlStateNormal];
     
     [playButton  addTarget:self action:@selector(play)     forControlEvents:UIControlEventTouchUpInside];
     [pauseButton addTarget:self action:@selector(pause)    forControlEvents:UIControlEventTouchUpInside];

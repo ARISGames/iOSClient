@@ -12,6 +12,7 @@
 #import "NoteContentsViewController.h"
 #import "NoteCommentsViewController.h"
 #import "NoteCommentInputViewController.h"
+#import "NoteEditorViewController.h"
 #import "ARISMediaView.h"
 #import "Note.h"
 #import "Player.h"
@@ -20,21 +21,22 @@
 #import "Game.h"
 #import "ARISTemplate.h"
 
-@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
+@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
     Note *note;
     
     UIScrollView *scrollView;
-    UILabel *title;
-    UILabel *owner; 
-    UILabel *date; 
-    NoteTagEditorViewController *tagsDisplay;
+    UILabel *ownerdate; 
+    UILabel *tag; 
     UILabel *desc; 
     NoteContentsViewController *contentsDisplay;
     NoteCommentInputViewController *commentInput; 
     NoteCommentsViewController *commentsDisplay;
     
     UIView *overlayView;
+    
+    UIView *navView;
+    UILabel *title; 
     
     id<GameObjectViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -43,7 +45,7 @@
 
 @implementation NoteViewController
 
-- (id) initWithNote:(Note *)n delegate:(id<GameObjectViewControllerDelegate, NoteViewControllerDelegate>)d
+- (id) initWithNote:(Note *)n delegate:(id<GameObjectViewControllerDelegate, NoteViewControllerDelegate>)d;
 {
     if(self = [super init])
     {
@@ -58,47 +60,52 @@
 - (void) loadView
 {
     [super loadView];
+
+    navView = [[UIView alloc] init];
+
+    title = [[UILabel alloc] init];
+    title.font = [ARISTemplate ARISCellTitleFont]; 
+    title.textColor = [UIColor ARISColorBlack]; 
+    title.adjustsFontSizeToFitWidth = NO;  
+    title.textAlignment = NSTextAlignmentCenter;
+
+    ownerdate = [[UILabel alloc] init];
+    ownerdate.font = [ARISTemplate ARISSubtextFont]; 
+    ownerdate.textColor = [UIColor ARISColorGray]; 
+    ownerdate.adjustsFontSizeToFitWidth = NO;  
+    ownerdate.textAlignment = NSTextAlignmentCenter; 
+
+    tag = [[UILabel alloc] init];
+    tag.font = [ARISTemplate ARISSubtextFont]; 
+    tag.textColor = [UIColor ARISColorGray];  
+    tag.adjustsFontSizeToFitWidth = NO;  
+    tag.textAlignment = NSTextAlignmentCenter; 
+
+    [navView addSubview:title];
+    [navView addSubview:ownerdate];
+    [navView addSubview:tag];
+
+    //need to predict format here otherwise label jumps around
+    navView.frame = CGRectMake(0, 0, 200, 64);
+    title.frame = CGRectMake(0,0,200,35);
+    ownerdate.frame = CGRectMake(0,0,200,62); 
+    tag.frame = CGRectMake(0,0,200,86);  
+    self.navigationItem.titleView = navView;   
     
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
     scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     scrollView.backgroundColor = [UIColor whiteColor];
-    
-    title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.view.frame.size.width-65,20)];
-    title.font = [ARISTemplate ARISTitleFont];
-    title.adjustsFontSizeToFitWidth = NO; 
-    title.text = note.name;
-    
-    date  = [[UILabel alloc] initWithFrame:CGRectMake(10,35,65,14)];
-    date.font = [ARISTemplate ARISSubtextFont]; 
-    date.textColor = [UIColor ARISColorDarkBlue];
-    date.adjustsFontSizeToFitWidth = NO;  
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"MM/dd/yy"];
-    date.text = [format stringFromDate:note.created];
-    
-    owner = [[UILabel alloc] initWithFrame:CGRectMake(75,35,self.view.frame.size.width-85,14)];
-    owner.font = [ARISTemplate ARISSubtextFont]; 
-    owner.textColor = [UIColor ARISColorDarkGray]; 
-    owner.adjustsFontSizeToFitWidth = NO;  
-    owner.text = note.owner.displayname;
-       
-    tagsDisplay = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:NO delegate:self];
     
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,84,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;
     desc.numberOfLines = 0;
     desc.font = [ARISTemplate ARISBodyFont]; 
     desc.textColor = [UIColor ARISColorDarkGray];  
-    desc.text = note.desc;
     
-    contentsDisplay = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
-    commentInput = [[NoteCommentInputViewController alloc] initWithDelegate:self];
-    commentsDisplay = [[NoteCommentsViewController alloc] initWithNoteComments:note.comments delegate:self];
+    contentsDisplay = [[NoteContentsViewController     alloc] initWithNoteContents:note.contents delegate:self];
+    commentInput    = [[NoteCommentInputViewController alloc] initWithDelegate:self];
+    commentsDisplay = [[NoteCommentsViewController     alloc] initWithNoteComments:note.comments delegate:self];
     
-    [scrollView addSubview:title];
-    [scrollView addSubview:owner]; 
-    [scrollView addSubview:date]; 
-    [scrollView addSubview:tagsDisplay.view]; 
     [scrollView addSubview:desc];  
     [scrollView addSubview:contentsDisplay.view];
     [scrollView addSubview:commentInput.view]; 
@@ -106,9 +113,9 @@
     
     [self.view addSubview:scrollView];
     
-    [self formatSubviewFrames];
+    [self displayDataFromNote];
 }
-    
+
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -125,27 +132,35 @@
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
+    
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    editButton.frame = CGRectMake(0, 0, 19, 19);
+    [editButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal]; 
+    [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    editButton.accessibilityLabel = @"Edit Button";
+    if([AppModel sharedAppModel].player.playerId == note.owner.playerId)
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];   
+       
+    navView.frame = CGRectMake(0, 0, 200, 64);
+    title.frame = CGRectMake(0,0,200,35);
+    ownerdate.frame = CGRectMake(0,0,200,62); 
+    tag.frame = CGRectMake(0,0,200,86); 
+    self.navigationItem.titleView = navView;       
 }
 
 - (void) formatSubviewFrames
 {
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
-    title.frame = CGRectMake(10,10,self.view.frame.size.width-65,20); 
-    date.frame  = CGRectMake(10,title.frame.origin.y+title.frame.size.height+5,65,14); 
-    owner.frame = CGRectMake(75,title.frame.origin.y+title.frame.size.height+5,self.view.frame.size.width-85,14); 
     
-    if([note.tags count] > 0) tagsDisplay.view.frame = CGRectMake(0,date.frame.origin.y+date.frame.size.height+5,self.view.frame.size.width,30);  
-    else                      tagsDisplay.view.frame = CGRectMake(0,date.frame.origin.y+date.frame.size.height+5,self.view.frame.size.width,0);   
-    
-    if([note.desc length] > 0) 
+    if([note.desc length] > 0)
     {
         CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping]; 
-        desc.frame = CGRectMake(10,tagsDisplay.view.frame.origin.y+tagsDisplay.view.frame.size.height,self.view.frame.size.width-20,descSize.height); 
+        desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,descSize.height+10); 
     }
-    else desc.frame = CGRectMake(10,tagsDisplay.view.frame.origin.y+tagsDisplay.view.frame.size.height,self.view.frame.size.width-20,0);  
+    else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);  
     
-    if([note.contents count] > 0) contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 200); 
-    else                          contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height+10, self.view.frame.size.width, 0);  
+    if([note.contents count] > 0) contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height, self.view.frame.size.width, 200); 
+    else                          contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height, self.view.frame.size.width, 0);  
     
     commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);  
     
@@ -155,26 +170,34 @@
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216); 
 }
 
-- (void) noteDataAvailable:(NSNotification *)n
+- (void) displayDataFromNote
 {
-    if(((Note *)[n.userInfo objectForKey:@"note"]).noteId != note.noteId) return;
+    if([note.tags count] > 0) tag.text = ((NoteTag*)[note.tags objectAtIndex:0]).text;
+    title.text = note.name;  
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MM/dd/yy"];
+    ownerdate.text = [NSString stringWithFormat:@"%@ %@",note.owner.displayname,[format stringFromDate:note.created]]; 
     
-    note = [n.userInfo objectForKey:@"note"];
     
-    //really should move the following to like "refreshviewfromnote" or something...
-    [tagsDisplay setTags:note.tags];  
+    desc.text = note.desc;  
     
-    title.text = note.name;
-    desc.text = note.desc;
-    owner.text = note.owner.displayname; 
     [self formatSubviewFrames]; 
     
     [contentsDisplay setContents:note.contents]; 
-    [commentsDisplay setComments:note.comments]; 
+    [commentsDisplay setComments:note.comments];  
+}
+
+- (void) noteDataAvailable:(NSNotification *)n
+{
+    if(((Note *)[n.userInfo objectForKey:@"note"]).noteId != note.noteId) return;
+    note = [n.userInfo objectForKey:@"note"]; 
+    [self displayDataFromNote];
 }
 
 - (void) mediaWasSelected:(Media *)m
 {
+    [commentInput dismissKeyboard];
+    
     //A bunch of construction- all should be contained to here, though
     overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 74, self.view.frame.size.width-20, self.view.frame.size.height-84)];
@@ -241,9 +264,26 @@
     [self dismissSelf];
 }
 
+- (void) editButtonTouched
+{
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:note mode:NOTE_EDITOR_MODE_TEXT delegate:self] animated:YES];
+}
+
 - (void) dismissSelf
 {
     [delegate gameObjectViewControllerRequestsDismissal:self];
+}
+
+- (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne
+{
+    [self.navigationController popToViewController:self animated:YES];
+}
+
+- (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n
+{
+    [self.navigationController popToViewController:self animated:YES]; 
+    note = n;
+    [self displayDataFromNote];
 }
 
 - (void) dealloc

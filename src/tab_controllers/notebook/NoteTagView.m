@@ -28,19 +28,17 @@
         delegate = d;
         
         int width;
-        if(editable) width = [[NSString stringWithFormat:@" %@ x ",nt.text] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
-        else         width = [[NSString stringWithFormat:@" %@ ",  nt.text] sizeWithFont:[ARISTemplate ARISBodyFont]].width;
+        width = [nt.text sizeWithFont:[ARISTemplate ARISBodyFont]].width;
         
         self.frame = CGRectMake(0,0,width,20);
-        self.backgroundColor = [UIColor ARISColorLightBlue]; 
-        self.layer.cornerRadius = 8;
-        self.layer.masksToBounds = YES;
+        //self.backgroundColor = [UIColor ARISColorLightBlue]; 
+        //self.layer.cornerRadius = 8;
+        //self.layer.masksToBounds = YES;
         
         UILabel *tagText = [[UILabel alloc] initWithFrame:self.bounds];
         tagText.font = [ARISTemplate ARISBodyFont];
-        tagText.textColor = [UIColor whiteColor];
-        if(editable) tagText.text = [NSString stringWithFormat:@" %@ x ",nt.text];
-        else         tagText.text = [NSString stringWithFormat:@" %@ ",nt.text]; 
+        //tagText.textColor = [UIColor whiteColor];
+        tagText.text = nt.text; 
         [self addSubview:tagText];   
         
         if(editable)

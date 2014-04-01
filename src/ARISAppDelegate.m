@@ -65,6 +65,8 @@
     self.window.rootViewController.edgesForExtendedLayout = UIRectEdgeAll;
     self.window.rootViewController.extendedLayoutIncludesOpaqueBars = NO;
     
+    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTintColor:[UIColor whiteColor]];
+
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [ARISTemplate ARISNavTitleFont],     UITextAttributeFont,
