@@ -463,42 +463,16 @@
     Location *currLocation = sender.location;
     if ([currLocation.gameObject isKindOfClass:[Item class]]) {
         Item *item = (Item *)currLocation.gameObject;
-        [self pickUpButtonTouched:item location:currLocation];
+        [self pickupItemQty:1 item:item location:currLocation]; 
         [self dismissSelection];
     }
-}
-
-- (void) pickUpButtonTouched:(Item *)item location:(Location *)location
-{
-    //this code is taken straight from ItemViewController
-    if(item.qty > 1 && !item.infiniteQty)
-    {
-        int q = item.qty;
-        
-        Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
-        if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
-        
-        int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
-        if(q < maxPUAmt) maxPUAmt = q;
-        
-        int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
-        int cw = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
-        while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
-        
-        if(maxPUAmt < q) q = maxPUAmt;
-        
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Pick Up" positive:YES qty:q delegate:self];
-        [[self navigationController] pushViewController:itemActionVC animated:YES];
-    }
-    else
-        [self pickupItemQty:1 item:item location:location];
 }
 
 - (void) pickupItemQty:(int)q item:(Item *)item location:(Location *)location
 {
     //this code was taken straight from ItemViewController
     Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
-    if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
+    if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; invItem.infiniteQty = NO; }
     
     int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
     if(q < maxPUAmt) maxPUAmt = q;
@@ -515,7 +489,6 @@
     {
         [[AppServices sharedAppServices] updateServerPickupItem:item.itemId fromLocation:location.locationId qty:q];
         [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-q forLocationId:location.locationId];
-        item.qty -= q;
     }
 }
 
