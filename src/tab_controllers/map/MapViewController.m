@@ -485,6 +485,11 @@
         [viewAnnotationButton setAlpha:0.0f];
         [self.view addSubview:viewAnnotationButton];
         
+        [blackout setAlpha:0.0f];
+        [blackoutLeft setAlpha:0.0f];
+        [blackoutRight setAlpha:0.0f];
+        [blackoutBottom setAlpha:0.0f];
+        
         [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
         
         if ([location.gameObject isKindOfClass:[Item class]]) {
@@ -506,6 +511,10 @@
     [UIView setAnimationDuration:.4f];
     [viewAnnotationButton setAlpha:1.0f];
     [pickUpButton setAlpha:1.0f];
+    [blackout setAlpha:1.0f];
+    [blackoutBottom setAlpha:1.0f];
+    [blackoutLeft setAlpha:1.0f];
+    [blackoutRight setAlpha:1.0f];
     [UIView commitAnimations];
 }
 
