@@ -44,6 +44,9 @@
     MKMapView *mapView;
     MapHUD *hud;
     UIView *blackout;
+    UIView *blackoutRight;
+    UIView *blackoutLeft;
+    UIView *blackoutBottom;
     
     UIButton *threeLinesButton; 
     UIButton *centerButton;
@@ -102,9 +105,25 @@
     
     hud = [[MapHUD alloc] initWithDelegate:self];
     blackout = [[UIView alloc] init];
-    blackout.frame = self.view.bounds;
+    //blackout.frame = self.view.bounds;
+    blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, 256);
     [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackout.userInteractionEnabled = NO; 
+    blackout.userInteractionEnabled = NO;
+    
+    blackoutRight = [[UIView alloc] init];
+    blackoutRight.frame = CGRectMake(220, 256, 100, 255);
+    [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+    blackoutRight.userInteractionEnabled = NO;
+    
+    blackoutLeft = [[UIView alloc] init];
+    blackoutLeft.frame = CGRectMake(0, 256, 100, 255);
+    [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+    blackoutLeft.userInteractionEnabled = NO;
+    
+    blackoutBottom = [[UIView alloc] init];
+    blackoutBottom.frame = CGRectMake(100, 376, 120, 135);
+    [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+    blackoutBottom.userInteractionEnabled = NO;
     
     
     UIColor *buttonBGColor = [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1]; 
@@ -134,14 +153,17 @@
     fitToAnnotationButton.layer.borderColor = [UIColor whiteColor].CGColor;
     fitToAnnotationButton.layer.borderWidth = 2.0f;
     
-    viewAnnotationButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorDarkBlue] isPointingLeft:NO];
-    pickUpButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorRed] isPointingLeft:YES];
+    viewAnnotationButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorLightBlue] isPointingLeft:NO];
+    pickUpButton = [[TriangleButton alloc] initWithColor:[UIColor colorWithRed:229.0f/255.0f green:127.0f/255.0f blue:134.0f/255.0f alpha:1.0f] isPointingLeft:YES];
     
     [self.view addSubview:mapView];
     [self.view addSubview:threeLinesButton]; 
     [self.view addSubview:centerButton];
     [self.view addSubview:fitToAnnotationButton];
-    [self.view addSubview:blackout]; 
+    [self.view addSubview:blackout];
+    [self.view addSubview:blackoutRight];
+    [self.view addSubview:blackoutLeft];
+    [self.view addSubview:blackoutBottom];
     [self.view addSubview:hud.view];   
     
     isViewLoaded = YES;
@@ -181,8 +203,8 @@
     
     int buttonSize = 40;
     threeLinesButton.frame      = CGRectMake(15, 24,  buttonSize, buttonSize); 
-    centerButton.frame          = CGRectMake(15, 69,  buttonSize, buttonSize);
-    fitToAnnotationButton.frame = CGRectMake(15, 114, buttonSize, buttonSize);  
+    centerButton.frame          = CGRectMake(15, 74,  buttonSize, buttonSize);
+    fitToAnnotationButton.frame = CGRectMake(15, 124, buttonSize, buttonSize);
     
     hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80);
 }
@@ -415,19 +437,49 @@
     }
 }
 
+- (void) enableAnnotations
+{
+    for (int i = 0; i < mapView.annotations.count; i++) {
+        [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.annotations objectAtIndex:i])]) setEnabled:YES];
+    }
+}
+
+- (void) disableAnnotations
+{
+    for (int i = 0; i < mapView.annotations.count; i++) {
+        [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.annotations objectAtIndex:i])]) setEnabled:NO];
+    }
+}
+
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(AnnotationView *)annotation
 {
-    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.01f]];
+    UIColor *blackoutColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.60f];
+    [blackout setBackgroundColor:blackoutColor];
+    [blackoutRight setBackgroundColor:blackoutColor];
+    [blackoutLeft setBackgroundColor:blackoutColor];
+    [blackoutBottom setBackgroundColor:blackoutColor];
+    
     [blackout setUserInteractionEnabled:YES];
+    [blackoutBottom setUserInteractionEnabled:YES];
+    [blackoutRight setUserInteractionEnabled:YES];
+    [blackoutLeft setUserInteractionEnabled:YES];
+    
+    mapView.zoomEnabled = NO;
+    mapView.scrollEnabled = NO;
+    mapView.userInteractionEnabled = NO;
+    [self disableAnnotations];
+    
     [annotation enlarge];
     [hud setLocation:location];
     [hud open];
     [self centerMapOnLoc:location.latlon.coordinate];
     
+    //TODO Localize all of these strings
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
     if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel){
-        viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 65, (self.view.bounds.size.height / 2) - 15, 75, 100);
+        viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 60, (self.view.bounds.size.height / 2) - 28, 75, 120);
         [viewAnnotationButton setTitle:@"View" forState:UIControlStateNormal];
+        [viewAnnotationButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
         [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
         [viewAnnotationButton setLocation:location];
         [viewAnnotationButton setAlpha:0.0f];
@@ -436,8 +488,9 @@
         [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
         
         if ([location.gameObject isKindOfClass:[Item class]]) {
-            pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 140, (self.view.bounds.size.height / 2) - 15, 75, 100);
-            [pickUpButton setTitle:@"Pick up" forState:UIControlStateNormal];
+            pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 135, (self.view.bounds.size.height / 2) - 28, 75, 120);
+            [pickUpButton setTitle:@"PickUp" forState:UIControlStateNormal];
+            [pickUpButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
             [pickUpButton setAlpha:0.0f];
             [pickUpButton setLocation:location];
             [pickUpButton addTarget:self action:@selector(pickUpItem:) forControlEvents:UIControlEventTouchUpInside];
@@ -494,8 +547,19 @@
 {
     [viewAnnotationButton removeFromSuperview];
     [pickUpButton removeFromSuperview];
-    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]]; 
+    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
     [blackout setUserInteractionEnabled:NO];
+    [blackoutRight setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+    [blackoutRight setUserInteractionEnabled:NO];
+    [blackoutLeft setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+    [blackoutLeft setUserInteractionEnabled:NO];
+    [blackoutBottom setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+    [blackoutBottom setUserInteractionEnabled:NO];
+    
+    mapView.zoomEnabled = YES;
+    mapView.scrollEnabled = YES;
+    mapView.userInteractionEnabled = YES;
+    [self enableAnnotations];
     
     while([mapView.selectedAnnotations count] > 0)
     {

@@ -98,8 +98,9 @@
     
     iconBorderView.frame = imageViewFrame;
     iconBorderView.backgroundColor = [UIColor whiteColor];
-    iconBorderView.layer.borderColor = [UIColor ARISColorLightBlue].CGColor;
-    iconBorderView.layer.borderWidth = 2.0f;
+    //iconBorderView.layer.borderColor = [UIColor ARISColorLightBlue].CGColor;
+    //iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
+    //iconBorderView.layer.borderWidth = 1.0f;
     
     CGRect imageInnerFrame = imageViewFrame;
     imageInnerFrame.origin.x += 2.0f;
@@ -154,10 +155,14 @@
         CGPathCloseSubpath(calloutPath);
         
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-        [[UIColor ARISColorLightBlue] set]; 
+        //[[UIColor ARISColorLightBlue] set];
+        //UIColor *buttonBGColor = [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1];
+        //[buttonBGColor set];
+        [[UIColor whiteColor] set];
         CGContextFillPath(UIGraphicsGetCurrentContext());
-        [[UIColor ARISColorWhite] set];
-        [self.annotation.title drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter]; 
+        //[[UIColor ARISColorWhite] set];
+        [[UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f] set];
+        [self.annotation.title drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 1.0f);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
