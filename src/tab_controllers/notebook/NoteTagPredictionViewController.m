@@ -100,13 +100,16 @@
     //Game Tag Title
     if([gameNoteTags count] > 0 && [playerNoteTags count] > 0)
     {
-        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        tagCell.userInteractionEnabled = NO;  
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];  
         noTagsText.text = @"Game Tags";
         noTagsText.textColor = [UIColor ARISColorDarkGray];
         noTagsText.font = [ARISTemplate ARISCellTitleFont];
-        tagCell.userInteractionEnabled = NO;   
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,28,1000,1)];
+        line.backgroundColor = [UIColor ARISColorLightGray];
         [tagCell addSubview:noTagsText];
+        [tagCell addSubview:line]; 
         [matchingNoteTagsScrollView addSubview:tagCell];  
     }
     //Game Tags
@@ -124,13 +127,16 @@
     //Player Tag Title
     if([gameNoteTags count] > 0 && [playerNoteTags count] > 0)
     {
-        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)]; 
+        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        tagCell.userInteractionEnabled = NO;  
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)]; 
         noTagsText.text = @"Player Created Tags";
         noTagsText.textColor = [UIColor ARISColorDarkGray]; 
         noTagsText.font = [ARISTemplate ARISCellTitleFont]; 
-        tagCell.userInteractionEnabled = NO; 
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,28,1000,1)];
+        line.backgroundColor = [UIColor ARISColorLightGray];
         [tagCell addSubview:noTagsText];
+        [tagCell addSubview:line];  
         [matchingNoteTagsScrollView addSubview:tagCell];  
     } 
     //Player Tags
@@ -148,9 +154,13 @@
     //No Tags Title
     if(matchingNoteTagsScrollView.subviews.count == 0)
     {
-        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(10,5,matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT-10)];
+        
+        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        tagCell.userInteractionEnabled = NO;  
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];  
         noTagsText.text = @"(no labels available)";
+        noTagsText.textColor = [UIColor ARISColorDarkGray]; 
+        noTagsText.font = [ARISTemplate ARISCellTitleFont];  
         [tagCell addSubview:noTagsText];
         [matchingNoteTagsScrollView addSubview:tagCell]; 
     } 
