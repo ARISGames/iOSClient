@@ -9,6 +9,11 @@
 #import "NoteTagPredictionViewController.h"
 #import "NoteTag.h"
 #import "SelectableNoteTagCellView.h"
+#import "AppModel.h"
+#import "Game.h"
+#import "NotesModel.h"
+#import "ARISTemplate.h"
+#import "UIColor+ARISColors.h"
 
 #define CELL_HEIGHT 30
 
@@ -16,7 +21,6 @@
 {
     NSArray *gameNoteTags;
     NSArray *playerNoteTags; 
-    NSArray *noteTags;  
     
     UIScrollView *matchingNoteTagsScrollView;
     
@@ -34,7 +38,6 @@
     {
         gameNoteTags = gnt;
         playerNoteTags = pnt; 
-        noteTags = [gameNoteTags arrayByAddingObjectsFromArray:playerNoteTags];
         queryString = @"";
         delegate = d;
     }
@@ -61,13 +64,9 @@
 
 - (void) setGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt
 {
-    NoteTag *unlabeled = [[NoteTag alloc] init];
-    unlabeled.text = @"Unlabeled";
-    unlabeled.noteTagId = -1;
-    unlabeled.playerCreated = NO;
-    gameNoteTags = gnt;
-    playerNoteTags = pnt; 
-    noteTags = [@[unlabeled] arrayByAddingObjectsFromArray:[gameNoteTags arrayByAddingObjectsFromArray:playerNoteTags]]; 
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"text" ascending:YES], nil];
+    gameNoteTags = [gnt sortedArrayUsingDescriptors:sortDescriptors];
+    playerNoteTags = [pnt sortedArrayUsingDescriptors:sortDescriptors]; 
     [self refreshMatchingTags];
 }
 
@@ -88,18 +87,65 @@
     NSString *regex = [NSString stringWithFormat:@".*%@.*",queryString];
     NSString *tagTest;
     UIView *tagCell;
-    for(int i = 0; i < noteTags.count; i++)
+    
+    //Unlabeled
+    tagTest = [AppModel sharedAppModel].currentGame.notesModel.unlabeledTag.text;
+    if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
     {
-        tagTest = ((NoteTag *)[noteTags objectAtIndex:i]).text;
+        [matchedGameTags addObject:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag];
+        tagCell = [self cellForTag:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag];
+        tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
+        [matchingNoteTagsScrollView addSubview:tagCell];
+    } 
+    //Game Tag Title
+    if([gameNoteTags count] > 0 && [playerNoteTags count] > 0)
+    {
+        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        noTagsText.text = @"Game Tags";
+        noTagsText.textColor = [UIColor ARISColorDarkGray];
+        noTagsText.font = [ARISTemplate ARISCellTitleFont];
+        tagCell.userInteractionEnabled = NO;   
+        [tagCell addSubview:noTagsText];
+        [matchingNoteTagsScrollView addSubview:tagCell];  
+    }
+    //Game Tags
+    for(int i = 0; i < gameNoteTags.count; i++)
+    {
+        tagTest = ((NoteTag *)[gameNoteTags objectAtIndex:i]).text;
         if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
         {
-            [matchedGameTags addObject:((NoteTag *)[noteTags objectAtIndex:i])];
-            tagCell = [self cellForTag:((NoteTag *)[noteTags objectAtIndex:i])];
+            [matchedGameTags addObject:((NoteTag *)[gameNoteTags objectAtIndex:i])];
+            tagCell = [self cellForTag:((NoteTag *)[gameNoteTags objectAtIndex:i])];
+            tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
+            [matchingNoteTagsScrollView addSubview:tagCell];
+        }
+    } 
+    //Player Tag Title
+    if([gameNoteTags count] > 0 && [playerNoteTags count] > 0)
+    {
+        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)]; 
+        noTagsText.text = @"Player Created Tags";
+        noTagsText.textColor = [UIColor ARISColorDarkGray]; 
+        noTagsText.font = [ARISTemplate ARISCellTitleFont]; 
+        tagCell.userInteractionEnabled = NO; 
+        [tagCell addSubview:noTagsText];
+        [matchingNoteTagsScrollView addSubview:tagCell];  
+    } 
+    //Player Tags
+    for(int i = 0; i < playerNoteTags.count; i++)
+    {
+        tagTest = ((NoteTag *)[playerNoteTags objectAtIndex:i]).text;
+        if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
+        {
+            [matchedGameTags addObject:((NoteTag *)[playerNoteTags objectAtIndex:i])];
+            tagCell = [self cellForTag:((NoteTag *)[playerNoteTags objectAtIndex:i])];
             tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
             [matchingNoteTagsScrollView addSubview:tagCell];
         }
     }
-    
+    //No Tags Title
     if(matchingNoteTagsScrollView.subviews.count == 0)
     {
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];

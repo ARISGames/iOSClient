@@ -30,4 +30,6 @@
 - (NSArray *) gameNoteTags;
 - (NSArray *) playerNoteTags;
 
+- (NoteTag *) unlabeledTag; //accessor for default tag
+
 @end
