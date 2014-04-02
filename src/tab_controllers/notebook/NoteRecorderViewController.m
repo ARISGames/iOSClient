@@ -13,7 +13,7 @@
 #import "AudioMeter.h"
 #import "CircleButton.h"
 
-@interface NoteRecorderViewController() <AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioMeterDelegate, AudioVisualizerViewControllerDelegate>
+@interface NoteRecorderViewController() <AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioMeterDelegate, AudioVisualizerViewControllerDelegate, UIActionSheetDelegate>
 {
     AVAudioSession *session;
 	AVAudioRecorder *recorder;
@@ -29,6 +29,8 @@
     UIButton *editButton;
    	UIButton *discardButton; 
    	UIButton *saveButton; 
+    
+    UIActionSheet *confirmPrompt; 
     
     AudioMeter *meter;
     
@@ -111,6 +113,8 @@
     [saveButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];   
     [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
     saveButton.frame    = CGRectMake(0,0, 24, 24);    
+    
+    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Discard" otherButtonTitles:nil];
 }
 
 - (void) viewDidLoad
@@ -208,8 +212,8 @@
 
 - (void) discardButtonTouched
 {
-    hasFile = NO;
-    [self refreshViewFromState];
+    confirmPrompt.title = @"Discard audio?";
+    [confirmPrompt showInView:self.view]; 
 }
 
 - (void) saveButtonTouched
@@ -282,6 +286,18 @@
 {
     recorder = nil;
     [delegate audioChosenWithURL:audioFileURL];
+}
+
+- (void) discardAudio
+{
+    hasFile = NO;
+    [self refreshViewFromState]; 
+}
+
+- (void) actionSheet:(UIActionSheet *)a clickedButtonAtIndex:(NSInteger)b
+{
+    if(b == 0) //discard
+        [self discardAudio];
 }
 
 - (double) meterRequestsLevel:(AudioMeter *)m
