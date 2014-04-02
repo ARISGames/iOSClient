@@ -23,9 +23,9 @@
     BOOL hasFile;
     
     CircleButton *recordButton;
-    CircleButton *finishButton;   
-    CircleButton *playButton; 
-    CircleButton *stopButton;  
+    UIButton *finishButton;   
+    UIButton *playButton; 
+    UIButton *stopButton;  
     UIButton *editButton;
    	UIButton *discardButton; 
    	UIButton *saveButton; 
@@ -75,15 +75,21 @@
     [recordButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal];
     [recordButton addTarget:self action:@selector(recordButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
-    finishButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    finishButton = [[UIButton alloc] init];
+    finishButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    finishButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;   
     [finishButton setImage:[UIImage imageNamed:@"stop.png"] forState:UIControlStateNormal]; 
     [finishButton addTarget:self action:@selector(finishButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
-    playButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    playButton = [[UIButton alloc] init]; 
+    playButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    playButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;  
     [playButton setImage:[UIImage imageNamed:@"dark_play.png"] forState:UIControlStateNormal];  
     [playButton addTarget:self action:@selector(playButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     
-    stopButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    stopButton = [[UIButton alloc] init];  
+    stopButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    stopButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill; 
     [stopButton setImage:[UIImage imageNamed:@"stop.png"] forState:UIControlStateNormal];   
     [stopButton addTarget:self action:@selector(stopButtonTouched) forControlEvents:UIControlEventTouchUpInside];   
     
