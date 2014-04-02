@@ -26,7 +26,7 @@
     CircleButton *finishButton;   
     CircleButton *playButton; 
     CircleButton *stopButton;  
-    CircleButton *editButton;
+    UIButton *editButton;
    	UIButton *discardButton; 
    	UIButton *saveButton; 
     
@@ -87,7 +87,12 @@
     [stopButton setImage:[UIImage imageNamed:@"stop.png"] forState:UIControlStateNormal];   
     [stopButton addTarget:self action:@selector(stopButtonTouched) forControlEvents:UIControlEventTouchUpInside];   
     
-    editButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    editButton = [[UIButton alloc] init]; 
+    [editButton.layer setMasksToBounds:YES];
+    [editButton.layer setCornerRadius:0.0]; //when radius is 0, the border is a rectangle
+    [editButton.layer setBorderWidth:sw];
+    [editButton.layer setBorderColor:[sc CGColor]];
+    editButton.imageEdgeInsets = UIEdgeInsetsMake(3,3,3,3);
     [editButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal];   
     [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
     
@@ -122,7 +127,7 @@
     stopButton.frame    = CGRectMake(buttonPadding, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);    
     
     buttonPadding = ((self.view.frame.size.width/3)-buttonDiameter)/2; 
-    editButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);    
+    editButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0+20, self.view.bounds.size.height-60+10, buttonDiameter-20, buttonDiameter-20);    
     playButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter); 
 }
 
