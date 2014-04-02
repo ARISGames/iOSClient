@@ -21,7 +21,8 @@ typedef enum
     NOTE_EDITOR_MODE_TEXT,
     NOTE_EDITOR_MODE_AUDIO,
     NOTE_EDITOR_MODE_IMAGE,
-    NOTE_EDITOR_MODE_VIDEO
+    NOTE_EDITOR_MODE_VIDEO,
+    NOTE_EDITOR_MODE_NONE
 } NoteEditorMode;
 
 @interface NoteEditorViewController : ARISViewController

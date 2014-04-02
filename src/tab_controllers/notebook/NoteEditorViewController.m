@@ -251,9 +251,8 @@
          if(mode == NOTE_EDITOR_MODE_AUDIO) [self audioPickerButtonTouched];
     else if(mode == NOTE_EDITOR_MODE_IMAGE) [self imagePickerButtonTouched];
     else if(mode == NOTE_EDITOR_MODE_VIDEO) [self videoPickerButtonTouched];
-    else [self guideNextEdit];
-    
-    mode = NOTE_EDITOR_MODE_TEXT;
+    else if(mode == NOTE_EDITOR_MODE_TEXT)  [self guideNextEdit];
+    mode = NOTE_EDITOR_MODE_NONE;
 }
 
 - (void) viewWillDisappear:(BOOL)animated
