@@ -41,6 +41,8 @@
     UILabel *audioPickerLabel; 
     CircleButton *locationPickerButton; 
     UILabel *locationPickerLabel;  
+    CircleButton *trashButton; 
+    UILabel *trashLabel;   
     
     UIView *line1;
     UIView *line2; 
@@ -148,7 +150,9 @@
     imagePickerLabel.textAlignment = NSTextAlignmentCenter;  
     imagePickerLabel.font = [ARISTemplate ARISCellSubtextFont];
     imagePickerLabel.textColor = [UIColor blackColor];
-    imagePickerLabel.text = @"ADD IMAGE";
+    imagePickerLabel.numberOfLines = 0;
+    imagePickerLabel.lineBreakMode = NSLineBreakByWordWrapping;   
+    imagePickerLabel.text = @"ADD\nIMAGE";
     
     audioPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
     [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
@@ -158,7 +162,9 @@
     audioPickerLabel.textAlignment = NSTextAlignmentCenter; 
     audioPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
     audioPickerLabel.textColor = [UIColor blackColor]; 
-    audioPickerLabel.text = @"ADD AUDIO"; 
+    audioPickerLabel.numberOfLines = 0; 
+    audioPickerLabel.lineBreakMode = NSLineBreakByWordWrapping;  
+    audioPickerLabel.text = @"ADD\nAUDIO"; 
     
     locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
     [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
@@ -169,7 +175,22 @@
     locationPickerLabel.textAlignment = NSTextAlignmentCenter;
     locationPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
     locationPickerLabel.textColor = [UIColor blackColor];  
-    locationPickerLabel.text = @"SET LOCATION";  
+    locationPickerLabel.numberOfLines = 0;
+    locationPickerLabel.lineBreakMode = NSLineBreakByWordWrapping; 
+    locationPickerLabel.text = @"SET\nLOCATION";  
+    
+    trashButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
+    [trashButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+    [trashButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    [trashButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
+    [trashButton addTarget:self action:@selector(trashButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    trashLabel = [[UILabel alloc] init];
+    trashLabel.textAlignment = NSTextAlignmentCenter;
+    trashLabel.font = [ARISTemplate ARISCellSubtextFont];
+    trashLabel.textColor = [UIColor blackColor];  
+    trashLabel.numberOfLines = 0;
+    trashLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    trashLabel.text = @"DELETE\nNOTE";   
     
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:imagePickerLabel];  
@@ -177,6 +198,8 @@
     [bottombar addSubview:audioPickerLabel];   
     [bottombar addSubview:locationPickerButton]; 
     [bottombar addSubview:locationPickerLabel];   
+    [bottombar addSubview:trashButton]; 
+    [bottombar addSubview:trashLabel];    
     
     [self.view addSubview:title];
     [self.view addSubview:date];
@@ -212,14 +235,16 @@
     line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
     
     int buttonDiameter = 50;
-    int buttonPadding = ((self.view.frame.size.width/3)-buttonDiameter)/2; 
+    int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
     imagePickerButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, 5, buttonDiameter, buttonDiameter);
-    imagePickerLabel.frame     = CGRectMake(buttonPadding*1+buttonDiameter*0-buttonDiameter/2, buttonDiameter+10, buttonDiameter*2, 10); 
+    imagePickerLabel.frame     = CGRectMake(buttonPadding*1+buttonDiameter*0-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter); 
-    audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2, buttonDiameter+10, buttonDiameter*2, 10);  
+    audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     locationPickerButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 5, buttonDiameter, buttonDiameter); 
-    locationPickerLabel.frame  = CGRectMake(buttonPadding*5+buttonDiameter*2-buttonDiameter/2, buttonDiameter+10, buttonDiameter*2, 10);   
-    bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-25, self.view.bounds.size.width, buttonDiameter+25); 
+    locationPickerLabel.frame  = CGRectMake(buttonPadding*5+buttonDiameter*2-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
+    trashButton.frame          = CGRectMake(buttonPadding*7+buttonDiameter*3, 5, buttonDiameter, buttonDiameter); 
+    trashLabel.frame           = CGRectMake(buttonPadding*7+buttonDiameter*3-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
+    bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-40, self.view.bounds.size.width, buttonDiameter+25); 
     
     //contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
     contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-250, self.view.bounds.size.width, 250);       
@@ -378,6 +403,13 @@
 - (void) videoPickerButtonTouched
 {
     [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithDelegate:self] animated:YES]; 
+}
+
+- (void) trashButtonTouched
+{
+    [[AppServices sharedAppServices] deleteNoteWithNoteId:note.noteId]; 
+    [[AppModel sharedAppModel].currentGame.notesModel deleteNote:note];
+    [delegate noteEditorDeletedNoteEdit:self]; 
 }
 
 - (void) saveButtonTouched

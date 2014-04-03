@@ -220,6 +220,11 @@
     [self.navigationController popToViewController:self animated:YES]; 
 }
 
+- (void) noteEditorDeletedNoteEdit:(NoteEditorViewController *)ne //behave the same as cancelled
+{
+    [self.navigationController popToViewController:self animated:YES];
+}
+
 - (void) newTextButtonTouched
 {
     [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_TEXT delegate:self] animated:YES];

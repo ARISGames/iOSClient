@@ -14,6 +14,7 @@
 @protocol NoteEditorViewControllerDelegate
 - (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne;
 - (void) noteEditorConfirmedNoteEdit:(NoteEditorViewController *)ne note:(Note *)n;
+- (void) noteEditorDeletedNoteEdit:(NoteEditorViewController *)ne;
 @end
 
 typedef enum

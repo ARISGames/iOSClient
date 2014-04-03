@@ -88,6 +88,13 @@
     [[AppServices sharedAppServices] fetchNoteWithId:n.noteId]; 
 }
 
+- (void) deleteNote:(Note *)n
+{
+    for(int i = 0; i < [currentNotes count]; i++)
+        if(((Note *)[currentNotes objectAtIndex:i]).noteId == n.noteId) [currentNotes removeObjectAtIndex:i]; 
+    [self invalidateNoteCaches];
+}
+
 - (void) latestNotesReceived:(NSNotification *)n
 {
     [self mergeInNotesArray:[n.userInfo objectForKey:@"notes"]];

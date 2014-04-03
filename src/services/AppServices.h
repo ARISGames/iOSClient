@@ -80,16 +80,8 @@
 - (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh;
 
 //Note Stuff
-- (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList;
 - (void) deleteNoteWithNoteId:(int)noteId;
 - (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate;
-- (void) addContentToNoteWithText:(NSString *)text type:(NSString *)type mediaId:(int)mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
-- (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int)noteId type:(NSString *)type;
-- (void) deleteNoteContentWithContentId:(int)contentId;
-- (void) addTagToNote:(int)noteId tagName:(NSString *)tag;
-- (void) deleteTagFromNote:(int)noteId tagId:(int)tagId;
-- (void) likeNote:(int)noteId;
-- (void) unLikeNote:(int)noteId;
 
 - (void) uploadNote:(Note *)n;
 - (void) addComment:(NSString *)c fromPlayer:(Player *)p toNote:(Note *)n;

@@ -256,6 +256,13 @@
     [self displayDataFromNote];
 }
 
+- (void) noteEditorDeletedNoteEdit:(NoteEditorViewController *)ne
+{
+    [self.navigationController popToViewController:self animated:NO];
+    [self dismissSelf];
+}
+
+
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     [self formatSubviews];

@@ -21,6 +21,7 @@
 
 - (Note *) noteForId:(int)noteId;
 - (void) getDetailsForNote:(Note *)n;
+- (void) deleteNote:(Note *)n;
 
 - (NSArray *) playerNotes;
 - (NSArray *) listNotes;

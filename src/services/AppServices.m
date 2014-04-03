@@ -482,51 +482,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                      nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"takeItemFromPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
-
-- (void) likeNote:(int)noteId
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], @"aplayerId",
-                     [NSString stringWithFormat:@"%d",noteId],                                    @"bnoteId",
-                     nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"likeNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-}
-
-- (void) unLikeNote:(int)noteId
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], @"aplayerId",
-                     [NSString stringWithFormat:@"%d",noteId],                                    @"bnoteId",
-                     nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"unlikeNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-}
-
-- (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
-{
-       NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [NSString stringWithFormat:@"%d",noteId],                                      @"anoteId",
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"bgameId",
-                     [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],   @"cplayerId",
-                     [NSString stringWithFormat:@"%d",mediaId],                                     @"dmediaId",
-                     type,                                                                          @"etype",
-                     text,                                                                          @"ftext",
-                     nil];
-    
-    NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:noteId], @"noteId", fileURL, @"localURL", nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"addContentToNote" arguments:args handler:self successSelector:@selector(contentAddedToNoteWithText:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:userInfo];
-}
-
-- (void) deleteNoteContentWithContentId:(int)contentId
-{
-    if(contentId != -1)
-    {
-           NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                        [NSString stringWithFormat:@"%d",contentId], @"acontentId",
-                        nil];
-        [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNoteContent" arguments:args handler:self successSelector:@selector(fetchNoteList) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-    }
-}
-
 - (void) deleteNoteWithNoteId:(int)noteId
 {
     if(noteId != 0)
@@ -534,7 +489,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
            NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                          [NSString stringWithFormat:@"%d",noteId], @"anoteId",
                          nil];
-        [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(fetchNoteList) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
+        [connection performAsynchronousRequestWithService:@"notebook" method:@"deleteNote" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
     }
 }
 
@@ -637,37 +592,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [[AppModel sharedAppModel] saveUserDefaults];
     }
 }
-
-- (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList
-{	
-    
-      NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-             [NSString stringWithFormat:@"%d",noteId],      @"anoteId",
-             title,                                         @"btitle",
-             [NSString stringWithFormat:@"%d",publicToMap], @"cpublicToMap",
-             [NSString stringWithFormat:@"%d",publicToList],@"epublicToList",
-             nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"updateNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateNoteContent:(int)contentId title:(NSString *)text;
-{	
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-            [NSString stringWithFormat:@"%d",contentId],@"acontentId",
-            text,                                       @"btext",
-            nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"updateContentTitle" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateNoteContent:(int)contentId text:(NSString *)text
-{
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-        [NSString stringWithFormat:@"%d",contentId],@"acontentId",
-        text,                                       @"btext",
-        nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"updateContent" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-}
-
 - (void) updateServerWithPlayerLocation
 {
     if(![AppModel sharedAppModel].player)
@@ -910,26 +834,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                  nil];
     [connection performAsynchronousRequestWithService:@"nodes" method:@"getNodes" arguments:args handler:self successSelector:@selector(parseGameNodeListFromJSON:) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
 }
-
-- (void) addTagToNote:(int)noteId tagName:(NSString *)tag
-{
-           NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 [NSString stringWithFormat:@"%d",noteId],                                       @"anoteId", 
-                                 [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"bgameId",
-                                 tag,                                                                            @"ctag",
-                                 nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"addTagToNote" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-}
-
-- (void) deleteTagFromNote:(int)noteId tagId:(int)tagId
-{
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",noteId], @"anoteId",
-                          [NSString stringWithFormat:@"%d",tagId],  @"btagId",
-                          nil];
-    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteTagFromNote" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
-}
-
 - (void) fetchPlayerLocationList
 {
     if(currentlyFetchingLocationList)
