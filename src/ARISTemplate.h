@@ -37,6 +37,7 @@
 + (UIFont *) ARISNavButtonFont;
 + (UIFont *) ARISTabTitleFont;
 + (UIFont *) ARISCellTitleFont;
++ (UIFont *) ARISCellBoldTitleFont;
 + (UIFont *) ARISCellSubtextFont;
 + (UIFont *) ARISButtonFont;
 + (UIFont *) ARISTitleFont;

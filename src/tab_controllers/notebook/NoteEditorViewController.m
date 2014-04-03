@@ -115,6 +115,7 @@
     
     descriptionPrompt = [[UILabel alloc] init];
     descriptionPrompt.text = @"Note Description";
+    descriptionPrompt.font = [ARISTemplate ARISBodyFont]; 
     descriptionPrompt.textColor = [UIColor ARISColorLightGray];
     
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -127,7 +128,7 @@
     saveNoteButton.frame = CGRectMake(0, 0, 24, 24);
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
-    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Save Anyway" otherButtonTitles:nil];
+    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Title Note" destructiveButtonTitle:@"Save Untitiled" otherButtonTitles:nil];
     deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil]; 
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
@@ -417,7 +418,7 @@
 {
     if([title.text isEqualToString:@""])
     {
-        confirmPrompt.title = @"Your note has no title!";
+        confirmPrompt.title = @"Your note is Untitled";
         [confirmPrompt showInView:self.view];
     }
     else if(!newTag)
@@ -505,6 +506,11 @@
 - (void) recorderViewControllerCancelled
 {
     [self.navigationController popToViewController:self animated:YES];   
+}
+
+- (void) locationPickerCancelled:(NoteLocationPickerController *)nlp
+{
+    [self.navigationController popToViewController:self animated:YES];    
 }
 
 - (void) backButtonTouched

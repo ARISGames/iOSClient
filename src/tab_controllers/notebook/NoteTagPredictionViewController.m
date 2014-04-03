@@ -103,9 +103,9 @@
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  
         UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];  
-        noTagsText.text = @"Game Tags";
+        noTagsText.text = @" Game Tags";
         noTagsText.textColor = [UIColor ARISColorDarkGray];
-        noTagsText.font = [ARISTemplate ARISCellTitleFont];
+        noTagsText.font = [ARISTemplate ARISCellBoldTitleFont];
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,28,1000,1)];
         line.backgroundColor = [UIColor ARISColorLightGray];
         [tagCell addSubview:noTagsText];
@@ -130,9 +130,9 @@
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  
         UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)]; 
-        noTagsText.text = @"Player Created Tags";
+        noTagsText.text = @" Player Created Tags";
         noTagsText.textColor = [UIColor ARISColorDarkGray]; 
-        noTagsText.font = [ARISTemplate ARISCellTitleFont]; 
+        noTagsText.font = [ARISTemplate ARISCellBoldTitleFont]; 
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,28,1000,1)];
         line.backgroundColor = [UIColor ARISColorLightGray];
         [tagCell addSubview:noTagsText];
