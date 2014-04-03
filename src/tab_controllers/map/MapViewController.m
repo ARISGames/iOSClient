@@ -474,6 +474,12 @@
     [hud open];
     [self centerMapOnLoc:location.latlon.coordinate];
     
+    [blackout setAlpha:0.0f];
+    [blackoutLeft setAlpha:0.0f];
+    [blackoutRight setAlpha:0.0f];
+    [blackoutBottom setAlpha:0.0f];
+    [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
+    
     //TODO Localize all of these strings
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
     if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel){
@@ -485,12 +491,7 @@
         [viewAnnotationButton setAlpha:0.0f];
         [self.view addSubview:viewAnnotationButton];
         
-        [blackout setAlpha:0.0f];
-        [blackoutLeft setAlpha:0.0f];
-        [blackoutRight setAlpha:0.0f];
-        [blackoutBottom setAlpha:0.0f];
-        
-        [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
+        //[self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
         
         if ([location.gameObject isKindOfClass:[Item class]]) {
             pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 135, (self.view.bounds.size.height / 2) - 28, 75, 120);
@@ -508,7 +509,7 @@
 {
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:.4f];
+    [UIView setAnimationDuration:.2f];
     [viewAnnotationButton setAlpha:1.0f];
     [pickUpButton setAlpha:1.0f];
     [blackout setAlpha:1.0f];

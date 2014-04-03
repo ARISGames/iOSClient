@@ -221,6 +221,8 @@
     iconBorderView.transform = CGAffineTransformMakeScale(1,1);
     [UIView commitAnimations];
     [self turnOnTitle];
+    iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
+    iconBorderView.layer.borderWidth = 1.0f;
 }
 
 - (void) dealloc
