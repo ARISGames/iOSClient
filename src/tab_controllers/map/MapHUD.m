@@ -19,6 +19,7 @@
 #import "WebPage.h"
 #import "Panoramic.h"
 #import "Note.h"
+#import "UIImage+Scale.h"
 
 
 @interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISCollapseViewDelegate>
@@ -30,6 +31,8 @@
     
     Location *location;
     ARISMediaView *warningImage;
+    ARISMediaView *whiteGradient;
+    ARISMediaView *arrowsImage;
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -50,11 +53,11 @@
 {
     [super loadView];
     
+    self.view.backgroundColor = [UIColor clearColor];
     hudView = [[UIView alloc] init];
-    hudView.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
     
     prompt = [[UILabel alloc] init];
-    prompt.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+    prompt.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     prompt.lineBreakMode = NSLineBreakByWordWrapping;
     prompt.numberOfLines = 0; 
     prompt.textColor = [UIColor blackColor];
@@ -63,19 +66,28 @@
     warning.font = [ARISTemplate ARISCellSubtextFont]; 
     warning.lineBreakMode = NSLineBreakByWordWrapping;
     warning.numberOfLines = 0;  
-    warning.textColor = [UIColor redColor];
+    warning.textColor = [UIColor ARISColorRed];
     
     warningImage = [[ARISMediaView alloc] init];
-    [warningImage setImage:[UIImage imageNamed:@"walkerWarning.png"]];
+    [warningImage setImage:[UIImage imageNamed:@"Walk-WarningRED.png"]];
+    
+    whiteGradient = [[ARISMediaView alloc] init];
+    [whiteGradient setImage:[[UIImage imageNamed:@"White-Gradient-100-0.png"]scaleToSize:CGSizeMake(320, 57)]];
+    
+    arrowsImage = [[ARISMediaView alloc] init];
+    [arrowsImage setImage:[UIImage imageNamed:@"Diamond.png"]];
+    
     
     CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:NO showHandle:NO draggable:YES tappable:NO delegate:self];
-    collapseView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];    
+    collapseView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
     
     [self.view addSubview:collapseView];
     
+    [hudView addSubview:whiteGradient];
     [hudView addSubview:prompt];
     [hudView addSubview:warning];
+    [hudView addSubview:arrowsImage];
 }
 
 - (void) viewWillLayoutSubviews
@@ -85,10 +97,11 @@
     [collapseView setFrame:self.view.bounds];
     hudView.frame = CGRectMake(0, 23, self.view.frame.size.width, self.view.frame.size.height-23);
        
-    
-    prompt.frame = CGRectMake(20, 2, self.view.frame.size.width-105, 35);
-    warning.frame = CGRectMake(20, 35, self.view.frame.size.width-105, 17);
+    whiteGradient.frame = CGRectMake(hudView.bounds.origin.x, hudView.bounds.origin.y, hudView.bounds.size.width, 57);
+    prompt.frame = CGRectMake(75, 12, self.view.frame.size.width-160, 25);
+    warning.frame = CGRectMake(75, 35, self.view.frame.size.width-160, 17);
     warningImage.frame = CGRectMake(self.view.frame.size.width-70, 2, 50, 52);
+    arrowsImage.frame = CGRectMake(20, 0, 50, 50);
 }
 
 - (void) setLocation:(Location *)l

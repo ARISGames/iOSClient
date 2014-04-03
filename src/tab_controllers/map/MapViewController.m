@@ -58,6 +58,7 @@
     NSTimer *refreshTimer;
     TriangleButton *viewAnnotationButton;
     TriangleButton *pickUpButton;
+    
 
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -110,19 +111,20 @@
     blackout.userInteractionEnabled = NO;
     
     blackoutRight = [[UIView alloc] init];
-    blackoutRight.frame = CGRectMake(220, blackout.frame.size.height, 100, 255);
+    blackoutRight.frame = CGRectMake(220, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
     [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackoutRight.userInteractionEnabled = NO;
     
     blackoutLeft = [[UIView alloc] init];
-    blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, 100, 255);
+    blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
     [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackoutLeft.userInteractionEnabled = NO;
     
     blackoutBottom = [[UIView alloc] init];
-    blackoutBottom.frame = CGRectMake(100, (self.view.bounds.size.height / 2) + 92, 120, 135);
+    blackoutBottom.frame = CGRectMake(100, (self.view.bounds.size.height / 2) + 92, 120, self.view.bounds.size.height - ((self.view.bounds.size.height / 2) + 92));
     [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackoutBottom.userInteractionEnabled = NO;
+    
     
     
     UIColor *buttonBGColor = [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1]; 
@@ -163,7 +165,7 @@
     [self.view addSubview:blackoutRight];
     [self.view addSubview:blackoutLeft];
     [self.view addSubview:blackoutBottom];
-    [self.view addSubview:hud.view];   
+    [self.view addSubview:hud.view];
     
     isViewLoaded = YES;
     
@@ -294,7 +296,7 @@
 	region.center = loc;
 	//region.span = MKCoordinateSpanMake(0.001f, 0.001f);
     
-	[mapView setRegion:region animated:YES]; 
+	[mapView setRegion:region animated:NO];
 }
 
 -(void) zoomToFitAnnotations
@@ -452,7 +454,7 @@
 
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(AnnotationView *)annotation
 {
-    UIColor *blackoutColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.60f];
+    UIColor *blackoutColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.6f];
     [blackout setBackgroundColor:blackoutColor];
     [blackoutRight setBackgroundColor:blackoutColor];
     [blackoutLeft setBackgroundColor:blackoutColor];
@@ -477,7 +479,8 @@
     [blackoutLeft setAlpha:0.0f];
     [blackoutRight setAlpha:0.0f];
     [blackoutBottom setAlpha:0.0f];
-    [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:.8f];
+    [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:0.0f];
+    //[self animateInButtons];
     
     //TODO Localize all of these strings
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];

@@ -327,6 +327,10 @@
 		F92B5E3D18C68C5800D1D1A7 /* CustomMapOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E3C18C68C5800D1D1A7 /* CustomMapOverlayView.m */; };
 		F92B5E4418CA72C800D1D1A7 /* OverlaysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E4318CA72C800D1D1A7 /* OverlaysModel.m */; };
 		F97B42AD18D39DF5002FC8AD /* TriangleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F97B42AC18D39DF5002FC8AD /* TriangleButton.m */; };
+		F9B26EC418EDF8F7005A6DF3 /* White-Gradient-100-60.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B26EC318EDF8F7005A6DF3 /* White-Gradient-100-60.png */; };
+		F9B26EC818EDF904005A6DF3 /* Diamond.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B26EC718EDF904005A6DF3 /* Diamond.png */; };
+		F9B26ECA18EE0830005A6DF3 /* White-Gradient-100-0.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B26EC918EE0830005A6DF3 /* White-Gradient-100-0.png */; };
+		F9B26ECC18EE08CB005A6DF3 /* Walk-WarningRED.png in Resources */ = {isa = PBXBuildFile; fileRef = F9B26ECB18EE08CB005A6DF3 /* Walk-WarningRED.png */; };
 		F9C4231718AE9793002D7EED /* walkerWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = F9C4231618AE9793002D7EED /* walkerWarning.png */; };
 /* End PBXBuildFile section */
 
@@ -893,6 +897,10 @@
 		F92B5E4318CA72C800D1D1A7 /* OverlaysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlaysModel.m; sourceTree = "<group>"; };
 		F97B42AB18D39DF5002FC8AD /* TriangleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriangleButton.h; sourceTree = "<group>"; };
 		F97B42AC18D39DF5002FC8AD /* TriangleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriangleButton.m; sourceTree = "<group>"; };
+		F9B26EC318EDF8F7005A6DF3 /* White-Gradient-100-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "White-Gradient-100-60.png"; sourceTree = "<group>"; };
+		F9B26EC718EDF904005A6DF3 /* Diamond.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Diamond.png; sourceTree = "<group>"; };
+		F9B26EC918EE0830005A6DF3 /* White-Gradient-100-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "White-Gradient-100-0.png"; sourceTree = "<group>"; };
+		F9B26ECB18EE08CB005A6DF3 /* Walk-WarningRED.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Walk-WarningRED.png"; sourceTree = "<group>"; };
 		F9C4231618AE9793002D7EED /* walkerWarning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walkerWarning.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1136,6 +1144,10 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F9B26ECB18EE08CB005A6DF3 /* Walk-WarningRED.png */,
+				F9B26EC918EE0830005A6DF3 /* White-Gradient-100-0.png */,
+				F9B26EC718EDF904005A6DF3 /* Diamond.png */,
+				F9B26EC318EDF8F7005A6DF3 /* White-Gradient-100-60.png */,
 				AA04E33F18E61B9200621F0C /* lock@2x.png */,
 				AA04E33918E6172A00621F0C /* expand.png */,
 				AA04E33318E6140300621F0C /* location_white.png */,
@@ -2136,6 +2148,7 @@
 				AA0D161018EDF14500D856F1 /* clock_red@2x.png in Resources */,
 				AABC6FEF1727398B0074CC21 /* defaultAudioIcon.png in Resources */,
 				AA2D215317DE560C00CF4198 /* toolbox@2x.png in Resources */,
+				F9B26ECC18EE08CB005A6DF3 /* Walk-WarningRED.png in Resources */,
 				AA09B8F118E20AB500A45562 /* sound@2x.png in Resources */,
 				AABC6FF01727398B0074CC21 /* defaultCharacter.png in Resources */,
 				F92B5E3118C66DEB00D1D1A7 /* globe@2x.png in Resources */,
@@ -2159,6 +2172,7 @@
 				AA2D214E17DE560C00CF4198 /* qr_small.png in Resources */,
 				AABC70401727398B0074CC21 /* click.wav in Resources */,
 				AABC70411727398B0074CC21 /* drop.wav in Resources */,
+				F9B26ECA18EE0830005A6DF3 /* White-Gradient-100-0.png in Resources */,
 				AABC70421727398B0074CC21 /* error.wav in Resources */,
 				AABC70431727398B0074CC21 /* harp.wav in Resources */,
 				AA09B8E918E1EB5500A45562 /* camera@2x.png in Resources */,
@@ -2172,6 +2186,8 @@
 				AABC704A1727398B0074CC21 /* ticktick.wav in Resources */,
 				AABC70571727399C0074CC21 /* Bascom Hall.gpx in Resources */,
 				AABC70581727399C0074CC21 /* Bascom Hill.gpx in Resources */,
+				F9B26EC818EDF904005A6DF3 /* Diamond.png in Resources */,
+				F9B26EC418EDF8F7005A6DF3 /* White-Gradient-100-60.png in Resources */,
 				AABC70591727399C0074CC21 /* Central Park New York.gpx in Resources */,
 				AABC705A1727399C0074CC21 /* Chemistry.gpx in Resources */,
 				AABC705B1727399C0074CC21 /* Engage Offices.gpx in Resources */,
