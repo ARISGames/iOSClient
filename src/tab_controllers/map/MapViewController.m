@@ -294,7 +294,7 @@
 	region.center = loc;
 	//region.span = MKCoordinateSpanMake(0.001f, 0.001f);
     
-	[mapView setRegion:region animated:YES]; 
+	[mapView setRegion:region animated:NO];
 }
 
 -(void) zoomToFitAnnotations
