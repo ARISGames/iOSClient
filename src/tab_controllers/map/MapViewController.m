@@ -105,23 +105,22 @@
     
     hud = [[MapHUD alloc] initWithDelegate:self];
     blackout = [[UIView alloc] init];
-    //blackout.frame = self.view.bounds;
-    blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, 256);
+    blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, (self.view.bounds.size.height/2) - 28);
     [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackout.userInteractionEnabled = NO;
     
     blackoutRight = [[UIView alloc] init];
-    blackoutRight.frame = CGRectMake(220, 256, 100, 255);
+    blackoutRight.frame = CGRectMake(220, blackout.frame.size.height, 100, 255);
     [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackoutRight.userInteractionEnabled = NO;
     
     blackoutLeft = [[UIView alloc] init];
-    blackoutLeft.frame = CGRectMake(0, 256, 100, 255);
+    blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, 100, 255);
     [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackoutLeft.userInteractionEnabled = NO;
     
     blackoutBottom = [[UIView alloc] init];
-    blackoutBottom.frame = CGRectMake(100, 376, 120, 135);
+    blackoutBottom.frame = CGRectMake(100, (self.view.bounds.size.height / 2) + 92, 120, 135);
     [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackoutBottom.userInteractionEnabled = NO;
     
