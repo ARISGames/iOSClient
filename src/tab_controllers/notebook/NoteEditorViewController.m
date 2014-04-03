@@ -182,7 +182,7 @@
     locationPickerLabel.text = @"SET\nLOCATION";  
     
     trashButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
-    [trashButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+    [trashButton setImage:[UIImage imageNamed:@"trash_red.png"] forState:UIControlStateNormal];
     [trashButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     [trashButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     [trashButton addTarget:self action:@selector(trashButtonTouched) forControlEvents:UIControlEventTouchUpInside];

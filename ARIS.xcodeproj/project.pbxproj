@@ -47,6 +47,7 @@
 		AA0D161218EDF14500D856F1 /* locationarrow_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160D18EDF14500D856F1 /* locationarrow_red@2x.png */; };
 		AA0D161318EDF14500D856F1 /* search_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160E18EDF14500D856F1 /* search_red@2x.png */; };
 		AA0D161418EDF14500D856F1 /* star_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160F18EDF14500D856F1 /* star_red@2x.png */; };
+		AA0D161818EE00C100D856F1 /* trash_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D161718EE00C100D856F1 /* trash_red@2x.png */; };
 		AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */; };
 		AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */; };
 		AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807F17B015A00002A81C /* NpcScriptViewController.m */; };
@@ -388,6 +389,7 @@
 		AA0D160D18EDF14500D856F1 /* locationarrow_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locationarrow_red@2x.png"; sourceTree = "<group>"; };
 		AA0D160E18EDF14500D856F1 /* search_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_red@2x.png"; sourceTree = "<group>"; };
 		AA0D160F18EDF14500D856F1 /* star_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_red@2x.png"; sourceTree = "<group>"; };
+		AA0D161718EE00C100D856F1 /* trash_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trash_red@2x.png"; sourceTree = "<group>"; };
 		AA0D807817B00E7E0002A81C /* NpcScriptElementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptElementView.h; sourceTree = "<group>"; };
 		AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptElementView.m; sourceTree = "<group>"; };
 		AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcOptionsViewController.h; sourceTree = "<group>"; };
@@ -1050,6 +1052,7 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				AA0D161718EE00C100D856F1 /* trash_red@2x.png */,
 				AA04E34318E62A6400621F0C /* sound_with_bg@2x.png */,
 				AA04E34118E6267E00621F0C /* speech_bubble@2x.png */,
 				AA04E33718E614AB00621F0C /* plus@2x.png */,
@@ -2193,6 +2196,7 @@
 				AABC7438172739D80074CC21 /* README in Resources */,
 				AA09B8E718E1EB5500A45562 /* notebook@2x.png in Resources */,
 				AA09B8EA18E1EB5500A45562 /* microphone@2x.png in Resources */,
+				AA0D161818EE00C100D856F1 /* trash_red@2x.png in Resources */,
 				AA04E33C18E6179200621F0C /* map@2x.png in Resources */,
 				F9C4231718AE9793002D7EED /* walkerWarning.png in Resources */,
 				AA2D214F17DE560C00CF4198 /* qr_small@2x.png in Resources */,
