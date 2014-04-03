@@ -51,6 +51,7 @@
     UIButton *saveNoteButton;
     
     UIActionSheet *confirmPrompt;
+    UIActionSheet *deletePrompt; 
     
     NSMutableArray *mediaToUpload;
     
@@ -127,6 +128,7 @@
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
     confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Save Anyway" otherButtonTitles:nil];
+    deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil]; 
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
@@ -407,9 +409,8 @@
 
 - (void) trashButtonTouched
 {
-    [[AppServices sharedAppServices] deleteNoteWithNoteId:note.noteId]; 
-    [[AppModel sharedAppModel].currentGame.notesModel deleteNote:note];
-    [delegate noteEditorDeletedNoteEdit:self]; 
+    deletePrompt.title = @"Delete Note?";
+    [deletePrompt showInView:self.view]; 
 }
 
 - (void) saveButtonTouched
@@ -443,6 +444,13 @@
     [[AppServices sharedAppServices] uploadNote:note];
 
     [delegate noteEditorConfirmedNoteEdit:self note:note];
+}
+
+- (void) deleteNote
+{
+    [[AppServices sharedAppServices] deleteNoteWithNoteId:note.noteId]; 
+    [[AppModel sharedAppModel].currentGame.notesModel deleteNote:note];
+    [delegate noteEditorDeletedNoteEdit:self];  
 }
 
 - (void) newLocationPicked:(CLLocationCoordinate2D)l
@@ -483,8 +491,10 @@
 
 - (void) actionSheet:(UIActionSheet *)a clickedButtonAtIndex:(NSInteger)b
 {
-    if(b == 0) //save anyway
+    if(a == confirmPrompt && b ==0) //save anyway
         [self saveNote];
+    if(a == deletePrompt && b ==0) //delete
+       [self deleteNote]; 
 }
 
 - (void) cameraViewControllerCancelled
