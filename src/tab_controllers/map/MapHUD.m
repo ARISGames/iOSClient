@@ -28,7 +28,8 @@
     UILabel *prompt;
     UILabel *warning; 
     
-    Location *location; 
+    Location *location;
+    ARISMediaView *warningImage;
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -56,14 +57,16 @@
     prompt.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
     prompt.lineBreakMode = NSLineBreakByWordWrapping;
     prompt.numberOfLines = 0; 
-    prompt.textColor = [UIColor blackColor];     
+    prompt.textColor = [UIColor blackColor];
     
     warning = [[UILabel alloc] init]; 
     warning.font = [ARISTemplate ARISCellSubtextFont]; 
     warning.lineBreakMode = NSLineBreakByWordWrapping;
     warning.numberOfLines = 0;  
-    warning.textColor = [UIColor redColor];      
+    warning.textColor = [UIColor redColor];
     
+    warningImage = [[ARISMediaView alloc] init];
+    [warningImage setImage:[UIImage imageNamed:@"walkerWarning.png"]];
     
     CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:NO showHandle:NO draggable:YES tappable:NO delegate:self];
@@ -71,8 +74,8 @@
     
     [self.view addSubview:collapseView];
     
-    [hudView addSubview:prompt];   
-    [hudView addSubview:warning];    
+    [hudView addSubview:prompt];
+    [hudView addSubview:warning];
 }
 
 - (void) viewWillLayoutSubviews
@@ -83,12 +86,14 @@
     hudView.frame = CGRectMake(0, 23, self.view.frame.size.width, self.view.frame.size.height-23);
        
     
-    prompt.frame = CGRectMake(20, 2, self.view.frame.size.width-85, 35);
-    warning.frame = CGRectMake(240, 2, self.view.frame.size.width-85, 35);
+    prompt.frame = CGRectMake(20, 2, self.view.frame.size.width-105, 35);
+    warning.frame = CGRectMake(20, 35, self.view.frame.size.width-105, 17);
+    warningImage.frame = CGRectMake(self.view.frame.size.width-70, 2, 50, 52);
 }
 
 - (void) setLocation:(Location *)l
 {
+    [warningImage removeFromSuperview];
     location = l;
     
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
@@ -102,6 +107,7 @@
     }
     else
     {
+        [hudView addSubview:warningImage];
         distanceToWalk = distance - location.errorRange;
         //TODO change this string to NSLocalized String
         float roundedDistance = lroundf(distanceToWalk);

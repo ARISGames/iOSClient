@@ -477,7 +477,7 @@
     [blackoutLeft setAlpha:0.0f];
     [blackoutRight setAlpha:0.0f];
     [blackoutBottom setAlpha:0.0f];
-    [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
+    [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:.8f];
     
     //TODO Localize all of these strings
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
