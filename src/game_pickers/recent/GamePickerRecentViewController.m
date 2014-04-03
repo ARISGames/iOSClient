@@ -25,7 +25,7 @@
     {
         self.title = NSLocalizedString(@"GamePickerRecentTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock.png"]];   
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock.png"]];   
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
     }
     return self;

@@ -24,7 +24,7 @@
     {
         self.title = NSLocalizedString(@"GamePickerNearbyTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationarrow.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationarrow.png"]]; 
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationarrow_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationarrow.png"]]; 
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
     }

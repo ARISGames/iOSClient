@@ -23,7 +23,7 @@
     if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe.png"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe.png"]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewAnywhereGameListReady" object:nil];
     }
