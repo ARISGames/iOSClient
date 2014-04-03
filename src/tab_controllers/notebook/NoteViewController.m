@@ -9,7 +9,6 @@
 #import "NoteViewController.h"
 #import "NoteComment.h"
 #import "NoteTagEditorViewController.h"
-#import "NoteContentsViewController.h"
 #import "NoteCommentsViewController.h"
 #import "NoteCommentInputViewController.h"
 #import "NoteEditorViewController.h"
@@ -21,22 +20,20 @@
 #import "Game.h"
 #import "ARISTemplate.h"
 
-@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
+@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
     Note *note;
     
-    UIScrollView *scrollView;
+    UIView *navView;
+    UILabel *title;  
     UILabel *ownerdate; 
     UILabel *tag; 
+    UIScrollView *scrollView;  
     UILabel *desc; 
-    NoteContentsViewController *contentsDisplay;
+    NSMutableArray *mediaViews;
     NoteCommentInputViewController *commentInput; 
     NoteCommentsViewController *commentsDisplay;
     
-    UIView *overlayView;
-    
-    UIView *navView;
-    UILabel *title; 
     
     id<GameObjectViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -99,27 +96,20 @@
     desc = [[UILabel alloc] initWithFrame:CGRectMake(10,84,self.view.frame.size.width-20,18)];
     desc.lineBreakMode = NSLineBreakByWordWrapping;
     desc.numberOfLines = 0;
-    desc.font = [ARISTemplate ARISBodyFont]; 
-    desc.textColor = [UIColor ARISColorDarkGray];  
+    desc.font = [ARISTemplate ARISBodyFont];
+    desc.textColor = [UIColor ARISColorDarkGray];
     
-    contentsDisplay = [[NoteContentsViewController     alloc] initWithNoteContents:note.contents delegate:self];
+    mediaViews = [[NSMutableArray alloc] initWithCapacity:10];
+    
     commentInput    = [[NoteCommentInputViewController alloc] initWithDelegate:self];
     commentsDisplay = [[NoteCommentsViewController     alloc] initWithNoteComments:note.comments delegate:self];
     
-    [scrollView addSubview:desc];  
-    [scrollView addSubview:contentsDisplay.view];
-    [scrollView addSubview:commentInput.view]; 
-    [scrollView addSubview:commentsDisplay.view]; 
-    
+    [scrollView addSubview:desc];   
+    [scrollView addSubview:commentInput.view];   
+    [scrollView addSubview:commentsDisplay.view];   
     [self.view addSubview:scrollView];
     
     [self displayDataFromNote];
-}
-
-- (void) viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    [self formatSubviewFrames];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -148,7 +138,13 @@
     self.navigationItem.titleView = navView;       
 }
 
-- (void) formatSubviewFrames
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self formatSubviews];
+}
+
+- (void) formatSubviews
 {
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height); 
     
@@ -159,15 +155,19 @@
     }
     else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);  
     
-    if([note.contents count] > 0) contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height, self.view.frame.size.width, 200); 
-    else                          contentsDisplay.view.frame = CGRectMake(0, desc.frame.origin.y+desc.frame.size.height, self.view.frame.size.width, 0);  
+    int curY = desc.frame.origin.y+desc.frame.size.height;
+    for(int i = 0; i < [mediaViews count]; i++)
+    {
+        ((ARISMediaView *)[mediaViews objectAtIndex:i]).frame = CGRectMake(0,curY,self.view.frame.size.width,((ARISMediaView *)[mediaViews objectAtIndex:i]).frame.size.height);
+        curY += ((ARISMediaView *)[mediaViews objectAtIndex:i]).frame.size.height;
+    }
     
-    commentInput.view.frame = CGRectMake(0, contentsDisplay.view.frame.origin.y+contentsDisplay.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);  
+    commentInput.view.frame = CGRectMake(0, curY, self.view.frame.size.width, commentInput.view.frame.size.height);  
     
     if([note.comments count] > 0) commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
     else                          commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 0);   
     
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216); 
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);  
 }
 
 - (void) displayDataFromNote
@@ -178,13 +178,21 @@
     [format setDateFormat:@"MM/dd/yy"];
     ownerdate.text = [NSString stringWithFormat:@"%@ %@",note.owner.displayname,[format stringFromDate:note.created]]; 
     
-    
     desc.text = note.desc;  
     
-    [self formatSubviewFrames]; 
+    while([mediaViews count] > 0) 
+    {
+        [[mediaViews objectAtIndex:0] removeFromSuperview];
+        [mediaViews removeObjectAtIndex:0];
+    }
+    for(int i = 0; i < [note.contents count]; i++)
+    {
+        [mediaViews addObject:[[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) media:[note.contents objectAtIndex:i] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self]];
+        [scrollView addSubview:[mediaViews objectAtIndex:i]];   
+    }
     
-    [contentsDisplay setContents:note.contents]; 
     [commentsDisplay setComments:note.comments];  
+    [self formatSubviews];
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -197,53 +205,20 @@
 - (void) mediaWasSelected:(Media *)m
 {
     [commentInput dismissKeyboard];
-    
-    //A bunch of construction- all should be contained to here, though
-    overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 74, self.view.frame.size.width-20, self.view.frame.size.height-84)];
-    ARISMediaView *media = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,scroll.frame.size.width,scroll.frame.size.height) media:m mode:ARISMediaDisplayModeAspectFit delegate:self];
-    [scroll addSubview:media];
-    scroll.contentSize = scroll.frame.size;
-    scroll.scrollEnabled = YES;
-    scroll.maximumZoomScale = 20;
-    scroll.minimumZoomScale = 1; 
-    scroll.delegate = self;
-    [overlayView addSubview:scroll];
-    [overlayView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTouched)]];
-    overlayView.opaque = NO;
-    overlayView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
-    [self.view addSubview:overlayView];
-    
-    if([m.type isEqualToString:@"VIDEO"] || [m.type isEqualToString:@"AUDIO"]) 
-        [media performSelector:@selector(play) withObject:nil afterDelay:1];
-}
-
-- (void) overlayTouched
-{
-    [overlayView removeFromSuperview];
-    overlayView = nil;
-}
-
-- (UIView *) viewForZoomingInScrollView:(UIScrollView *)s
-{
-    return [s.subviews objectAtIndex:0];
 }
 
 - (void) commentBeganEditing
 {
-    [self formatSubviewFrames];
     scrollView.contentOffset = CGPointMake(0,(commentInput.view.frame.origin.y+commentInput.view.frame.size.height)-(scrollView.frame.size.height-216));
 }
 
 - (void) commentCancelled
 {
-    [self formatSubviewFrames]; 
     scrollView.contentOffset = CGPointMake(0,-64); 
 }
 
 - (void) commentConfirmed:(NSString *)c
 {
-    [self formatSubviewFrames]; 
     [[AppServices sharedAppServices] addComment:c fromPlayer:[AppModel sharedAppModel].player toNote:note];
     NoteComment *nc = [[NoteComment alloc] init];
     nc.noteId = note.noteId; 
@@ -252,11 +227,6 @@
     [note.comments addObject:nc];
     [commentsDisplay setComments:note.comments];  
     scrollView.contentOffset = CGPointMake(0,-64);   
-}
-
-- (void) ARISMediaViewFinishedPlayback:(ARISMediaView *)amv
-{
-    [self overlayTouched];
 }
 
 - (void) backButtonTouched
@@ -284,6 +254,11 @@
     [self.navigationController popToViewController:self animated:YES]; 
     note = n;
     [self displayDataFromNote];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    [self formatSubviews];
 }
 
 - (void) dealloc

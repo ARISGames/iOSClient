@@ -110,6 +110,11 @@
 
 - (void) setFrame:(CGRect)f
 {
+    if(self.frame.origin.x == f.origin.x &&
+       self.frame.origin.y == f.origin.y && 
+       self.frame.size.width == f.size.width &&  
+       self.frame.size.height == f.size.height)
+        return; //dumb
     imageView = nil;
     if(spinner)   [self removeSpinner];
     if(playIcon)  [self removePlayIcon]; 
