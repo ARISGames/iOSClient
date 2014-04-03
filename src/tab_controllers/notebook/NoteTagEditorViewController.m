@@ -135,8 +135,8 @@
 
 - (void) dismissEditButtonTouched
 {
-    if([tags count] > 0) [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; 
-    [self stopEditing];
+    if([tags count] > 0) { [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; [self beginEditing]; }
+    else                 { [self stopEditing]; [self existingTagChosen:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag]; }
 }
 
 - (void) beginEditing
@@ -218,6 +218,8 @@
         newNoteTag.playerCreated = YES;
         [delegate noteTagEditorCreatedTag:newNoteTag]; 
     }
+    else if(!tagExists)
+        [delegate noteTagEditorCreatedTag:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag];  
     [self stopEditing];
     return YES;
 }

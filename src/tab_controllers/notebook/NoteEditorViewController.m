@@ -35,9 +35,12 @@
     NoteContentsViewController *contentsViewController;
     
     UIView *bottombar;
-    CircleButton *locationPickerButton;
     CircleButton *imagePickerButton; 
+    UILabel *imagePickerLabel;
     CircleButton *audioPickerButton;  
+    UILabel *audioPickerLabel; 
+    CircleButton *locationPickerButton; 
+    UILabel *locationPickerLabel;  
     
     UIView *line1;
     UIView *line2; 
@@ -141,21 +144,39 @@
     [imagePickerButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];  
     [imagePickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [imagePickerButton addTarget:self action:@selector(imagePickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
+    imagePickerLabel = [[UILabel alloc] init];
+    imagePickerLabel.textAlignment = NSTextAlignmentCenter;  
+    imagePickerLabel.font = [ARISTemplate ARISCellSubtextFont];
+    imagePickerLabel.textColor = [UIColor blackColor];
+    imagePickerLabel.text = @"ADD IMAGE";
     
     audioPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
     [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
     [audioPickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
     [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
+    audioPickerLabel = [[UILabel alloc] init];
+    audioPickerLabel.textAlignment = NSTextAlignmentCenter; 
+    audioPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
+    audioPickerLabel.textColor = [UIColor blackColor]; 
+    audioPickerLabel.text = @"ADD AUDIO"; 
     
     locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
     [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     [locationPickerButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     [locationPickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    locationPickerLabel = [[UILabel alloc] init];
+    locationPickerLabel.textAlignment = NSTextAlignmentCenter;
+    locationPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
+    locationPickerLabel.textColor = [UIColor blackColor];  
+    locationPickerLabel.text = @"SET LOCATION";  
     
     [bottombar addSubview:imagePickerButton]; 
+    [bottombar addSubview:imagePickerLabel];  
     [bottombar addSubview:audioPickerButton]; 
+    [bottombar addSubview:audioPickerLabel];   
     [bottombar addSubview:locationPickerButton]; 
+    [bottombar addSubview:locationPickerLabel];   
     
     [self.view addSubview:title];
     [self.view addSubview:date];
@@ -193,9 +214,12 @@
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/3)-buttonDiameter)/2; 
     imagePickerButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, 5, buttonDiameter, buttonDiameter);
+    imagePickerLabel.frame     = CGRectMake(buttonPadding*1+buttonDiameter*0-buttonDiameter/2, buttonDiameter+10, buttonDiameter*2, 10); 
     audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter); 
+    audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2, buttonDiameter+10, buttonDiameter*2, 10);  
     locationPickerButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 5, buttonDiameter, buttonDiameter); 
-    bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-10, self.view.bounds.size.width, buttonDiameter+10); 
+    locationPickerLabel.frame  = CGRectMake(buttonPadding*5+buttonDiameter*2-buttonDiameter/2, buttonDiameter+10, buttonDiameter*2, 10);   
+    bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-25, self.view.bounds.size.width, buttonDiameter+25); 
     
     //contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
     contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-250, self.view.bounds.size.width, 250);       
@@ -227,9 +251,8 @@
          if(mode == NOTE_EDITOR_MODE_AUDIO) [self audioPickerButtonTouched];
     else if(mode == NOTE_EDITOR_MODE_IMAGE) [self imagePickerButtonTouched];
     else if(mode == NOTE_EDITOR_MODE_VIDEO) [self videoPickerButtonTouched];
-    else [self guideNextEdit];
-    
-    mode = NOTE_EDITOR_MODE_TEXT;
+    else if(mode == NOTE_EDITOR_MODE_TEXT)  [self guideNextEdit];
+    mode = NOTE_EDITOR_MODE_NONE;
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -315,7 +338,6 @@
 - (void) doneButtonTouched
 {
     [description resignFirstResponder];
-    [self guideNextEdit];
 }
 
 - (void) textViewDidChange:(UITextView *)textView

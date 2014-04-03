@@ -63,8 +63,8 @@
     
     float cellWidth = [UIScreen mainScreen].bounds.size.width;
     [iconView setFrame:CGRectMake(5, 5, 50, 50) withMode:ARISMediaDisplayModeAspectFill];
-    [titleLabel      setFrame:CGRectMake(60,17,cellWidth-60-80,25)]; 
-    [authorLabel     setFrame:CGRectMake(60,5,cellWidth-60,15)]; 
+    [titleLabel      setFrame:CGRectMake(60,1,cellWidth-60,25)]; 
+    [authorLabel     setFrame:CGRectMake(60,23,cellWidth-60-80,15)]; 
     [customLabel     setFrame:CGRectMake(cellWidth-80,24,60,15)];  
     [starView        setFrame:CGRectMake(60,40,60,12)];    
     [numReviewsLabel setFrame:CGRectMake(160,40,cellWidth-160,15)];  

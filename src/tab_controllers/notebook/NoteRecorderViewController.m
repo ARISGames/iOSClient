@@ -13,7 +13,7 @@
 #import "AudioMeter.h"
 #import "CircleButton.h"
 
-@interface NoteRecorderViewController() <AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioMeterDelegate, AudioVisualizerViewControllerDelegate>
+@interface NoteRecorderViewController() <AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioMeterDelegate, AudioVisualizerViewControllerDelegate, UIActionSheetDelegate>
 {
     AVAudioSession *session;
 	AVAudioRecorder *recorder;
@@ -23,12 +23,14 @@
     BOOL hasFile;
     
     CircleButton *recordButton;
-    CircleButton *finishButton;   
-    CircleButton *playButton; 
-    CircleButton *stopButton;  
-    CircleButton *editButton;
+    UIButton *finishButton;   
+    UIButton *playButton; 
+    UIButton *stopButton;  
+    UIButton *editButton;
    	UIButton *discardButton; 
    	UIButton *saveButton; 
+    
+    UIActionSheet *confirmPrompt; 
     
     AudioMeter *meter;
     
@@ -75,19 +77,30 @@
     [recordButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal];
     [recordButton addTarget:self action:@selector(recordButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
-    finishButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    finishButton = [[UIButton alloc] init];
+    finishButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    finishButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;   
     [finishButton setImage:[UIImage imageNamed:@"stop.png"] forState:UIControlStateNormal]; 
     [finishButton addTarget:self action:@selector(finishButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
-    playButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    playButton = [[UIButton alloc] init]; 
+    playButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    playButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;  
     [playButton setImage:[UIImage imageNamed:@"dark_play.png"] forState:UIControlStateNormal];  
     [playButton addTarget:self action:@selector(playButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     
-    stopButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    stopButton = [[UIButton alloc] init];  
+    stopButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    stopButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill; 
     [stopButton setImage:[UIImage imageNamed:@"stop.png"] forState:UIControlStateNormal];   
     [stopButton addTarget:self action:@selector(stopButtonTouched) forControlEvents:UIControlEventTouchUpInside];   
     
-    editButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
+    editButton = [[UIButton alloc] init]; 
+    [editButton.layer setMasksToBounds:YES];
+    [editButton.layer setCornerRadius:0.0]; //when radius is 0, the border is a rectangle
+    [editButton.layer setBorderWidth:sw];
+    [editButton.layer setBorderColor:[sc CGColor]];
+    editButton.imageEdgeInsets = UIEdgeInsetsMake(3,3,3,3);
     [editButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal];   
     [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
     
@@ -100,6 +113,8 @@
     [saveButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];   
     [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
     saveButton.frame    = CGRectMake(0,0, 24, 24);    
+    
+    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Discard" otherButtonTitles:nil];
 }
 
 - (void) viewDidLoad
@@ -122,7 +137,7 @@
     stopButton.frame    = CGRectMake(buttonPadding, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);    
     
     buttonPadding = ((self.view.frame.size.width/3)-buttonDiameter)/2; 
-    editButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);    
+    editButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0+20, self.view.bounds.size.height-60+10, buttonDiameter-20, buttonDiameter-20);    
     playButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter); 
 }
 
@@ -197,8 +212,8 @@
 
 - (void) discardButtonTouched
 {
-    hasFile = NO;
-    [self refreshViewFromState];
+    confirmPrompt.title = @"Discard audio?";
+    [confirmPrompt showInView:self.view]; 
 }
 
 - (void) saveButtonTouched
@@ -271,6 +286,18 @@
 {
     recorder = nil;
     [delegate audioChosenWithURL:audioFileURL];
+}
+
+- (void) discardAudio
+{
+    hasFile = NO;
+    [self refreshViewFromState]; 
+}
+
+- (void) actionSheet:(UIActionSheet *)a clickedButtonAtIndex:(NSInteger)b
+{
+    if(b == 0) //discard
+        [self discardAudio];
 }
 
 - (double) meterRequestsLevel:(AudioMeter *)m

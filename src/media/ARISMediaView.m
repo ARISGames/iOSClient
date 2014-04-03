@@ -110,6 +110,11 @@
 
 - (void) setFrame:(CGRect)f
 {
+    if(self.frame.origin.x == f.origin.x &&
+       self.frame.origin.y == f.origin.y && 
+       self.frame.size.width == f.size.width &&  
+       self.frame.size.height == f.size.height)
+        return; //dumb
     imageView = nil;
     if(spinner)   [self removeSpinner];
     if(playIcon)  [self removePlayIcon]; 
@@ -143,6 +148,7 @@
 {
     if(!media || [media.type isEqualToString:@"IMAGE"] || !avVC) return;
     [self removePlayIcon];
+    avVC.view.frame = self.bounds; 
     [self addSubview:avVC.view];  
     [avVC.moviePlayer play]; 
 }
@@ -242,12 +248,14 @@
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];  
     avVC.moviePlayer.shouldAutoplay = NO;
+    avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;  
     image = [UIImage imageNamed:@"sound_with_bg.png"];
     [self displayImage];
 }
 
 - (void) playbackFinished:(NSNotification *)n
 {
+    [self stop]; 
     if([[n.userInfo objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue] == MPMovieFinishReasonUserExited)
         if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewFinishedPlayback:)])
             [delegate ARISMediaViewFinishedPlayback:self];

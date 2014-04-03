@@ -7,6 +7,8 @@
 //
 
 #import "Note.h"
+#import "NotesModel.h"
+#import "Game.h"
 #import "NoteComment.h"
 #import "Player.h"
 #import "Location.h"
@@ -75,13 +77,7 @@
         for(NSDictionary *tagDict in tagDicts)
             [self.tags addObject:[[NoteTag alloc] initWithDictionary:tagDict]]; 
         if([tagDicts count] == 0)
-        {
-            NoteTag *unlabeled = [[NoteTag alloc] init];
-            unlabeled.text = @"Unlabeled";
-            unlabeled.noteTagId = -1;
-            unlabeled.playerCreated = NO; 
-            [self.tags addObject:unlabeled];
-        }
+            [self.tags addObject:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag];
         
         NSArray *contentDicts = [dict validObjectForKey:@"contents"];
         self.contents = [[NSMutableArray alloc] initWithCapacity:5];

@@ -25,6 +25,8 @@
     NSArray *gameNoteTags;
     NSArray *playerNoteTags;  
     
+    NoteTag *unlabeledTag;
+    
     int curServerPage;
     int listComplete;
 }
@@ -37,6 +39,11 @@
 {
     if(self = [super init])
     {
+        unlabeledTag = [[NoteTag alloc] init];
+        unlabeledTag.text = @"Unlabeled";
+        unlabeledTag.noteTagId = -1;
+        unlabeledTag.playerCreated = NO;  
+        
         [self clearData];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNotesReceived:) name:@"LatestNoteListReceived" object:nil]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNoteTagsReceived:) name:@"LatestNoteTagListReceived" object:nil];  
@@ -260,6 +267,11 @@
     n.publicToMap = YES; //assume it's accessible if it's being accessed 
     [self mergeInNotesArray:[NSArray arrayWithObject:n]]; //when data arrives, it will be merged into placeholder note
     return n;
+}
+
+- (NoteTag*) unlabeledTag
+{
+    return unlabeledTag;
 }
 
 - (void) dealloc
