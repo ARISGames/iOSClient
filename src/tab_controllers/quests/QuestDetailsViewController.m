@@ -99,12 +99,9 @@
 
 - (void) loadQuest
 {
-    if([quest.qdescription rangeOfString:@"<html>"].location == NSNotFound)
-    {
-        [scrollView addSubview:webView]; 
-        webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.qdescription] baseURL:nil];  
-    }
+    [scrollView addSubview:webView]; 
+    webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
+    [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.qdescription] baseURL:nil];  
     
     Media *media = [[AppModel sharedAppModel] mediaForMediaId:quest.mediaId];
     if(media)
