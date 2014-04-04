@@ -124,21 +124,6 @@
     super.frame = f;
     imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self addSubview:imageView];
-    switch(displayMode)
-    {
-        case ARISMediaDisplayModeDefault:
-        case ARISMediaDisplayModeAspectFill:
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
-            break;
-        case ARISMediaDisplayModeStretchFill:
-            imageView.contentMode = UIViewContentModeScaleToFill;
-            break;
-        case ARISMediaDisplayModeAspectFit:
-        case ARISMediaDisplayModeTopAlignAspectFitWidth:
-        case ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight:
-            imageView.contentMode = UIViewContentModeScaleAspectFit;
-            break;
-    }
     
     if     (media) [self displayMedia];
     else if(image) [self displayImage];
@@ -201,6 +186,22 @@
     [imageView setImage:image];
     
     float mult = self.frame.size.width/image.size.width;
+    switch(displayMode)
+    {
+        case ARISMediaDisplayModeDefault:
+        case ARISMediaDisplayModeAspectFill:
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            break;
+        case ARISMediaDisplayModeStretchFill:
+            imageView.contentMode = UIViewContentModeScaleToFill;
+            break;
+        case ARISMediaDisplayModeAspectFit:
+        case ARISMediaDisplayModeTopAlignAspectFitWidth:
+        case ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight:
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            break;
+    }
+    
     switch(displayMode)
     {
         case ARISMediaDisplayModeTopAlignAspectFitWidth:
