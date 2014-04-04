@@ -78,6 +78,9 @@
             n = [[Note alloc] init];
             n.created = [NSDate date];
             n.owner = [AppModel sharedAppModel].player;
+            n.location = [[Location alloc] init];
+            n.location.latlon = [AppModel sharedAppModel].player.location;
+            n.location.coordinate = [AppModel sharedAppModel].player.location.coordinate; 
             dirtybit = YES;
         }
         note = n; 
@@ -466,6 +469,7 @@
     note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
     note.location.coordinate = l;
     [self.navigationController popToViewController:self animated:YES];
+    dirtybit = YES; 
 }
 
 - (void) imageChosenWithURL:(NSURL *)url
