@@ -85,16 +85,13 @@
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];    
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
+    
     UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [saveButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];
     saveButton.frame = CGRectMake(0, 0, 24, 24);
     [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
-    self.navigationItem.rightBarButtonItem = rightNavBarButton;      
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;       
 }
 
 - (void) changeMapType

@@ -52,6 +52,7 @@
     
     UIActionSheet *confirmPrompt;
     UIActionSheet *deletePrompt; 
+    UIActionSheet *discardChangesPrompt;  
     
     NSMutableArray *mediaToUpload;
     
@@ -59,6 +60,7 @@
     
     BOOL blockKeyboard;
     BOOL newNote;
+    BOOL dirtybit;
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -69,12 +71,14 @@
 {
     if(self = [super init])
     {
+        dirtybit = NO;
         newNote = (!n);
         if(newNote)
         {
             n = [[Note alloc] init];
             n.created = [NSDate date];
             n.owner = [AppModel sharedAppModel].player;
+            dirtybit = YES;
         }
         note = n; 
         if([n.tags count] > 0) newTag = [n.tags objectAtIndex:0]; 
@@ -130,6 +134,7 @@
     
     confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Title Note" destructiveButtonTitle:@"Save Untitiled" otherButtonTitles:nil];
     deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil]; 
+    discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Continue Editing" destructiveButtonTitle:@"Discard" otherButtonTitles:nil]; 
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
@@ -267,14 +272,14 @@
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];   
+    
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;     
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
-    self.navigationItem.rightBarButtonItem = rightNavBarButton;     
     
          if(mode == NOTE_EDITOR_MODE_AUDIO) [self audioPickerButtonTouched];
     else if(mode == NOTE_EDITOR_MODE_IMAGE) [self imagePickerButtonTouched];
@@ -371,6 +376,7 @@
 - (void) textViewDidChange:(UITextView *)textView
 {
     descriptionPrompt.hidden = YES;
+    dirtybit = YES;
 }
 
 - (void) textViewDidEndEditing:(UITextView *)textView
@@ -466,18 +472,21 @@
 {
     [self addMediaToUploadFromURL:url];  
     [self.navigationController popToViewController:self animated:YES];  
+    dirtybit = YES;
 }
 
 - (void) videoChosenWithURL:(NSURL *)url
 {
     [self addMediaToUploadFromURL:url]; 
     [self.navigationController popToViewController:self animated:YES]; 
+    dirtybit = YES; 
 }
 
 - (void) audioChosenWithURL:(NSURL *)url
 {
     [self addMediaToUploadFromURL:url];
     [self.navigationController popToViewController:self animated:YES];  
+    dirtybit = YES; 
 }
 
 - (void) addMediaToUploadFromURL:(NSURL *)url
@@ -496,6 +505,8 @@
         [self saveNote];
     if(a == deletePrompt && b ==0) //delete
        [self deleteNote]; 
+    if(a == discardChangesPrompt && b ==0) //discard
+        [self dismissSelf];  
 }
 
 - (void) cameraViewControllerCancelled
@@ -515,7 +526,17 @@
 
 - (void) backButtonTouched
 {
-    [delegate noteEditorCancelledNoteEdit:self];
+    if(dirtybit || ![note.name isEqualToString:title.text] || ![note.desc isEqualToString:description.text])
+    {
+        discardChangesPrompt.title = @"You Have Unsaved Changes";
+        [discardChangesPrompt showInView:self.view];  
+    }
+    else [self dismissSelf];
+}
+       
+- (void) dismissSelf
+{
+   [delegate noteEditorCancelledNoteEdit:self]; 
 }
 
 @end
