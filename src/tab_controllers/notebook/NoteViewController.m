@@ -188,11 +188,19 @@
     for(int i = 0; i < [note.contents count]; i++)
     {
         [mediaViews addObject:[[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) media:[note.contents objectAtIndex:i] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self]];
+        if([((Media *)[note.contents objectAtIndex:i]).type isEqualToString:@"IMAGE"])
+           [[mediaViews objectAtIndex:i] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]]; 
         [scrollView addSubview:[mediaViews objectAtIndex:i]];   
     }
     
     [commentsDisplay setComments:note.comments];  
     [self formatSubviews];
+}
+
+- (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
+{
+    [self dismissComment];
+    return YES;
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -202,7 +210,7 @@
     [self displayDataFromNote];
 }
 
-- (void) mediaWasSelected:(Media *)m
+- (void) dismissComment
 {
     [commentInput dismissKeyboard];
 }
@@ -214,7 +222,7 @@
 
 - (void) commentCancelled
 {
-    scrollView.contentOffset = CGPointMake(0,-64); 
+    //scrollView.contentOffset = CGPointMake(0,-64); 
 }
 
 - (void) commentConfirmed:(NSString *)c
