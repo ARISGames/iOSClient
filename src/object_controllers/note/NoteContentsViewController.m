@@ -87,6 +87,7 @@
 {
     Media *m;
     int offset = 0;
+    while([[scrollView subviews] count] > 0) [[[scrollView subviews] objectAtIndex:0] removeFromSuperview];
     for(int i = 0; i < [contents count]; i++)
     {
         m = (Media *)[contents objectAtIndex:i];

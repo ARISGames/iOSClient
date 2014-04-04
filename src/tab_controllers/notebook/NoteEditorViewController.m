@@ -232,15 +232,15 @@
     
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
     
-    title.frame = CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20);
-    date.frame = CGRectMake(10, 35+64, 65, 14);
-    owner.frame = CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14);
+    title.frame = CGRectMake(10, 15+64, self.view.bounds.size.width-20, 20);
+    date.frame = CGRectMake(10, 40+64, 65, 14);
+    owner.frame = CGRectMake(75, 40+64, self.view.bounds.size.width-85, 14);
     
     [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216]; 
     if(tagViewController.view.frame.size.height <= 30)
-        tagViewController.view.frame = CGRectMake(0, 49+64+3, self.view.bounds.size.width, 30);   
+        tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, 30);   
     else
-        tagViewController.view.frame = CGRectMake(0, 49+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
+        tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
     
     line1.frame = CGRectMake(0, owner.frame.origin.y+owner.frame.size.height+3, self.view.frame.size.width, 1);
     line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
@@ -258,7 +258,7 @@
     bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-40, self.view.bounds.size.width, buttonDiameter+25); 
     
     //contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
-    contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-250, self.view.bounds.size.width, 250);       
+    contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-200, self.view.bounds.size.width, 200);       
     
     description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentsViewController.view.frame.size.height);
     descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y+5, self.view.bounds.size.width, 24);  
