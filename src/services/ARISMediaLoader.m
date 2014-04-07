@@ -46,7 +46,7 @@
 - (void) loadMediaFromMR:(MediaResult *)mr
 {
     if(!mr.media.remoteURL) { [self loadMetaDataForMR:mr]; return; }
-    if(mr.media.data)       { [self mediaLoadedForMR:mr];  return; }
+    if(mr.media.data)       { [self mediaLoadedForMR:mr]; return; }
 
     if(!mr.media.localURL)
     {

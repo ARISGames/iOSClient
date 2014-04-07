@@ -180,16 +180,31 @@
     
     desc.text = note.desc;  
     
+    NSMutableArray *tmpMediaViews = [[NSMutableArray alloc] initWithCapacity:[mediaViews count]];
     while([mediaViews count] > 0) 
     {
         [[mediaViews objectAtIndex:0] removeFromSuperview];
+        [tmpMediaViews addObject:[mediaViews objectAtIndex:0]];
         [mediaViews removeObjectAtIndex:0];
     }
     for(int i = 0; i < [note.contents count]; i++)
     {
-        ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
-        [amv setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
-        [amv setMedia:[note.contents objectAtIndex:i]];
+        ARISMediaView *amv;
+        for(int j = 0; j < [tmpMediaViews count]; j++)
+        { 
+            //if(((Media *)[note.contents objectAtIndex:i]).mediaId == ((ARISMediaView *)[tmpMediaViews objectAtIndex:j]).media.mediaId)
+            if(j == i)
+                amv = [tmpMediaViews objectAtIndex:j];
+        }
+        if(!amv)
+        {
+            amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+            [amv setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
+            [amv setMedia:[note.contents objectAtIndex:i]];
+        } 
+        int y = 0;
+        if(i > 0) y = ((ARISMediaView *)[mediaViews objectAtIndex:i-1]).frame.origin.y+((ARISMediaView *)[mediaViews objectAtIndex:i-1]).frame.size.height;
+        [amv setFrame:CGRectMake(0,y,self.view.frame.size.width,amv.frame.size.height)]; 
         [mediaViews addObject:amv];
         
         if([((Media *)[note.contents objectAtIndex:i]).type isEqualToString:@"IMAGE"])
@@ -273,7 +288,6 @@
     [self.navigationController popToViewController:self animated:NO];
     [self dismissSelf];
 }
-
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {

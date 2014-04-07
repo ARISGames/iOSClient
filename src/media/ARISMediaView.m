@@ -104,7 +104,7 @@
 
 - (void) clear
 {
-    if(selfDelegateHandle) [selfDelegateHandle invalidate];   
+    if(selfDelegateHandle) [selfDelegateHandle invalidate];
     image = nil;
     media = nil; 
     [self removeSpinner];   
@@ -327,6 +327,9 @@
     }
     return nil;
 }
+
+- (Media *) media { return media; }
+- (UIImage *) image { return image; }
 
 - (void) dealloc
 {

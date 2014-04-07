@@ -39,4 +39,8 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 - (void) play;
 - (void) stop;
 
+//Ideally would be read-only/const... but whatever
+- (Media *) media;
+- (UIImage *) image;
+
 @end
