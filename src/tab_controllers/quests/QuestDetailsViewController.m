@@ -63,6 +63,7 @@
     webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
     
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
+    [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
     
     goButton = [[UIView alloc] init];
     goButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
@@ -107,7 +108,7 @@
     if(media)
     {
         [scrollView addSubview:mediaView];   
-        [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20) withMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight]; //Nees correct width to calc height
+        [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
         [mediaView setMedia:media];
     }  
     
@@ -134,7 +135,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
     if(![quest.qdescription isEqualToString:@""])
     {

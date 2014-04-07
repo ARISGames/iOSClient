@@ -187,7 +187,11 @@
     }
     for(int i = 0; i < [note.contents count]; i++)
     {
-        [mediaViews addObject:[[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) media:[note.contents objectAtIndex:i] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self]];
+        ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+        [amv setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
+        [amv setMedia:[note.contents objectAtIndex:i]];
+        [mediaViews addObject:amv];
+        
         if([((Media *)[note.contents objectAtIndex:i]).type isEqualToString:@"IMAGE"])
            [[mediaViews objectAtIndex:i] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]]; 
         [scrollView addSubview:[mediaViews objectAtIndex:i]];   
@@ -271,7 +275,7 @@
 }
 
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
     [self formatSubviews];
 }

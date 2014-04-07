@@ -71,10 +71,8 @@
         plView.isInertiaEnabled = NO;
     }
     
-    self.imageLoader = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)
-                                                      media:[[AppModel sharedAppModel] mediaForMediaId:self.panoramic.mediaId]
-                                                       mode:ARISMediaDisplayModeStretchFill
-                                                   delegate:self];
+    self.imageLoader = [[ARISMediaView alloc] initWithDelegate:self];
+    self.imageLoader.media = [[AppModel sharedAppModel] mediaForMediaId:self.panoramic.mediaId];
     
     //Create a back button
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -108,7 +106,7 @@
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
     UIImage *image;// = amv.image; //Don't use ARISMediaView just to get an image- we now have separate mediaLoader
     if([[[UIDevice currentDevice] platform] isEqualToString:@"iPhone2,1"] ||

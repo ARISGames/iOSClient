@@ -56,6 +56,7 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
+    [mediaView setDisplayMode:ARISMediaDisplayModeAspectFit];
     descriptionView = [[ARISWebView alloc] initWithDelegate:self];
      
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -99,7 +100,7 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200) withMode:ARISMediaDisplayModeAspectFit];
+    [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200)];
     startButton.frame = CGRectMake(0,200+64,self.view.bounds.size.width,40);
     if(game.hasBeenPlayed)
     {

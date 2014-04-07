@@ -66,7 +66,9 @@
     {
         defaultTitle = t;
         defaultMedia = m;
-        mediaView = [[ARISMediaView alloc] initWithFrame:self.bounds media:m mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+        mediaView = [[ARISMediaView alloc] initWithFrame:self.bounds delegate:self];
+        [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
+        [mediaView setMedia:m];
         [self initialize];
         mediaView.backgroundColor = [UIColor clearColor];
         mediaSection.opaque = NO;
@@ -82,7 +84,9 @@
     {
         defaultTitle = t;
         defaultImage = i;
-        mediaView = [[ARISMediaView alloc] initWithFrame:self.bounds image:i mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+        mediaView = [[ARISMediaView alloc] initWithFrame:self.bounds delegate:self];
+        [mediaView setImage:i];
+        [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
         mediaView.backgroundColor = [UIColor clearColor];
         mediaSection.opaque = NO;
         [self initialize];

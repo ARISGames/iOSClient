@@ -91,7 +91,9 @@
     for(int i = 0; i < [contents count]; i++)
     {
         m = (Media *)[contents objectAtIndex:i];
-        ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) media:m mode:ARISMediaDisplayModeAspectFill delegate:self];
+        ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) delegate:self];
+        [amv setDisplayMode:ARISMediaDisplayModeAspectFill];
+        [amv setMedia:m];
         [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ARISMediaViewTouched)]]; 
         amv.clipsToBounds = YES;
         
