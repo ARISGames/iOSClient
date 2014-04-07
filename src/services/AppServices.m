@@ -399,7 +399,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [NSString stringWithFormat:@"%d", gameId],                                   @"agameId",
         [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], @"bplayerId",
         nil];
-    [connection performAsynchronousRequestWithService:@"players" method:@"startOverGameForPlayer" arguments:args handler:self successSelector:nil failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"players" method:@"startOverGameForPlayer" arguments:args handler:self successSelector:@selector(notifyOfGameReset) failSelector:@selector(resetCurrentlyFetchingVars) retryOnFail:NO userInfo:nil];
+}
+
+- (void) notifyOfGameReset
+{
+    NSLog(@"NSNotification: GameReset");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameReset" object:nil userInfo:nil]]; 
 }
 
 - (void) updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty

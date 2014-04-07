@@ -47,6 +47,7 @@
         
         //THIS NEXT LINE IS AWFUL. NEEDS REFACTOR.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidIntentionallyAppear) name:@"PlayerSettingsDidDismiss" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameReset) name:@"GameReset" object:nil]; 
     }
     return self;
 }
@@ -191,9 +192,15 @@
     if(buttonIndex == 1)
     {
         [[AppServices sharedAppServices] startOverGame:game.gameId];
+        startButton.enabled =NO;
         game.hasBeenPlayed = NO;
         [self refreshFromGame];
     }
+}
+
+- (void) gameReset
+{
+    startButton.enabled = YES;
 }
 
 //implement statecontrol stuff for webpage, but ignore any requests
