@@ -355,6 +355,9 @@
 
 - (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
+    if(wv == webView) return YES;
+    
+    //else, this is a link from the description- so launch externally
     WebPage *tempWebPage = [[WebPage alloc] init];
     tempWebPage.url = [[r URL] absoluteString];
     [delegate displayGameObject:tempWebPage fromSource:self];

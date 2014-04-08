@@ -142,6 +142,7 @@
     [imageView removeFromSuperview];
     imageView = [[UIImageView alloc] init];
     [self addSubview:imageView];
+    if(playIcon) [self addPlayIcon]; //to ensure it's on top of imageView
     [imageView setImage:image];
     [self conformFrameToMode];
 }
