@@ -105,25 +105,7 @@
     else                                                                                  mapView.mapType = MKMapTypeStandard;
     
     hud = [[MapHUD alloc] initWithDelegate:self];
-    blackout = [[UIView alloc] init];
-    blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, (self.view.bounds.size.height/2) - 28);
-    [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackout.userInteractionEnabled = NO;
-    
-    blackoutRight = [[UIView alloc] init];
-    blackoutRight.frame = CGRectMake(220, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
-    [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutRight.userInteractionEnabled = NO;
-    
-    blackoutLeft = [[UIView alloc] init];
-    blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
-    [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutLeft.userInteractionEnabled = NO;
-    
-    blackoutBottom = [[UIView alloc] init];
-    blackoutBottom.frame = CGRectMake(100, (self.view.bounds.size.height / 2) + 92, 120, self.view.bounds.size.height - ((self.view.bounds.size.height / 2) + 92));
-    [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutBottom.userInteractionEnabled = NO;
+    [self initBlackoutsAndSetFrame];
     
     
     
@@ -454,16 +436,7 @@
 
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(AnnotationView *)annotation
 {
-    UIColor *blackoutColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.6f];
-    [blackout setBackgroundColor:blackoutColor];
-    [blackoutRight setBackgroundColor:blackoutColor];
-    [blackoutLeft setBackgroundColor:blackoutColor];
-    [blackoutBottom setBackgroundColor:blackoutColor];
-    
-    [blackout setUserInteractionEnabled:YES];
-    [blackoutBottom setUserInteractionEnabled:YES];
-    [blackoutRight setUserInteractionEnabled:YES];
-    [blackoutLeft setUserInteractionEnabled:YES];
+    [self displayBlackout];
     
     mapView.zoomEnabled = NO;
     mapView.scrollEnabled = NO;
@@ -479,8 +452,6 @@
     [blackoutLeft setAlpha:0.0f];
     [blackoutRight setAlpha:0.0f];
     [blackoutBottom setAlpha:0.0f];
-    [self performSelector:@selector(animateInButtons) withObject:nil afterDelay:0.0f];
-    //[self animateInButtons];
     
     //TODO Localize all of these strings
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
@@ -493,8 +464,6 @@
         [viewAnnotationButton setAlpha:0.0f];
         [self.view addSubview:viewAnnotationButton];
         
-        //[self performSelector:@selector(animateInButtons) withObject:nil afterDelay:1.0f];
-        
         if ([location.gameObject isKindOfClass:[Item class]]) {
             pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 135, (self.view.bounds.size.height / 2) - 28, 75, 120);
             [pickUpButton setTitle:@"PickUp" forState:UIControlStateNormal];
@@ -505,6 +474,7 @@
             [self.view addSubview:pickUpButton];
         }
     }
+    [self animateInButtons];
 }
 
 - (void) animateInButtons
@@ -559,14 +529,7 @@
 {
     [viewAnnotationButton removeFromSuperview];
     [pickUpButton removeFromSuperview];
-    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
-    [blackout setUserInteractionEnabled:NO];
-    [blackoutRight setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
-    [blackoutRight setUserInteractionEnabled:NO];
-    [blackoutLeft setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
-    [blackoutLeft setUserInteractionEnabled:NO];
-    [blackoutBottom setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
-    [blackoutBottom setUserInteractionEnabled:NO];
+    [self dismissBlackout];
     
     mapView.zoomEnabled = YES;
     mapView.scrollEnabled = YES;
@@ -619,6 +582,57 @@
 - (void) threeLinesButtonTouched
 {
     [super showNav];
+}
+
+#pragma mark blackout methods
+
+- (void) initBlackoutsAndSetFrame
+{
+    blackout = [[UIView alloc] init];
+    blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, (self.view.bounds.size.height/2) - 28);
+    [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+    blackout.userInteractionEnabled = NO;
+    
+    blackoutRight = [[UIView alloc] init];
+    blackoutRight.frame = CGRectMake(220, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
+    [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+    blackoutRight.userInteractionEnabled = NO;
+    
+    blackoutLeft = [[UIView alloc] init];
+    blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
+    [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+    blackoutLeft.userInteractionEnabled = NO;
+    
+    blackoutBottom = [[UIView alloc] init];
+    blackoutBottom.frame = CGRectMake(100, (self.view.bounds.size.height / 2) + 92, 120, self.view.bounds.size.height - ((self.view.bounds.size.height / 2) + 92));
+    [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+    blackoutBottom.userInteractionEnabled = NO;
+}
+
+- (void) displayBlackout
+{
+    UIColor *blackoutColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.6f];
+    [blackout setBackgroundColor:blackoutColor];
+    [blackoutRight setBackgroundColor:blackoutColor];
+    [blackoutLeft setBackgroundColor:blackoutColor];
+    [blackoutBottom setBackgroundColor:blackoutColor];
+    
+    [blackout setUserInteractionEnabled:YES];
+    [blackoutBottom setUserInteractionEnabled:YES];
+    [blackoutRight setUserInteractionEnabled:YES];
+    [blackoutLeft setUserInteractionEnabled:YES];
+}
+
+- (void) dismissBlackout
+{
+    [blackout setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+    [blackout setUserInteractionEnabled:NO];
+    [blackoutRight setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+    [blackoutRight setUserInteractionEnabled:NO];
+    [blackoutLeft setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+    [blackoutLeft setUserInteractionEnabled:NO];
+    [blackoutBottom setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+    [blackoutBottom setUserInteractionEnabled:NO];
 }
 
 #pragma mark StateControlProtocol delegate methods
