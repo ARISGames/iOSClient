@@ -116,21 +116,6 @@
         NSLog(@"Tried updating non-existent player! (playerId = 0)");
 }
 
-- (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid
-{
-    if(playerId != 0)
-    {
-        NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              [NSString stringWithFormat:@"%d",playerId], @"aplayerId",
-                              name,                                       @"bname",
-                              [NSString stringWithFormat:@"%d",mid],      @"cmediaId", 
-                              nil]; 
-        [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerNameMedia" arguments:args handler:self successSelector:@selector(updatedPlayer:) failSelector:nil retryOnFail:NO userInfo:nil];
-    }
-    else
-        NSLog(@"Tried updating non-existent player! (playerId = 0)");
-}
-
 - (void) resetAndEmailNewPassword:(NSString *)email
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:

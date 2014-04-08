@@ -38,7 +38,6 @@
 - (void) createUserAndLoginWithGroup:(NSString *)groupName;
 - (void) uploadPlayerPic:(Media *)m;
 - (void) updatePlayer:(int)playerId withName:(NSString *)name;
-- (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid;
 - (void) resetAndEmailNewPassword:(NSString *)email;
 - (void) setShowPlayerOnMap;
 
@@ -103,13 +102,9 @@
 - (void) updateServerAddInventoryItem:(int)itemId addQty:(int)qty;
 - (void) updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty;
 
-//Parse individual pieces of server response
-- (Tab *) parseTabFromDictionary:(NSDictionary *)tabDictionary;
-
 - (void) updateServerGameSelected;
 - (void) fetchQRCode:(NSString*)QRcodeId;
 - (void) saveGameComment:(NSString*)comment titled:(NSString*)t game:(int)gameId starRating:(int)rating;
 - (void) startOverGame:(int)gameId;
 
 @end
-
