@@ -30,7 +30,6 @@
 
 + (AppServices *)sharedAppServices;
 
-- (void) resetCurrentlyFetchingVars;
 - (void) retryFailedRequests;
 
 //Player

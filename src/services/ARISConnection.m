@@ -72,7 +72,7 @@ NSString *const kARISServerServicePackage = @"v1";
     {
         if([requestDupMap objectForKey:[rURL.URL absoluteString]])
         {
-            NSLog(@"Dup req abort: %@",rURL.URL.absoluteString);
+            NSLog(@"Dup req abort : %@",rURL.URL.absoluteString);
             return;
         }
         else [requestDupMap setObject:[rURL.URL absoluteString] forKey:[rURL.URL absoluteString]];
