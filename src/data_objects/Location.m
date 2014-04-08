@@ -66,6 +66,7 @@
         if([otype isEqualToString:@"PlayerNote"]) self.gameObject = [[AppModel sharedAppModel].currentGame.notesModel noteForId:oid];
         if([otype isEqualToString:@"Player"])     self.gameObject = [[Player alloc] init];
         
+        BOOL validErrorRange = YES;
         self.qty               = [dict validIntForKey:@"item_qty"];
         self.infiniteQty       = self.qty < 0;
         self.hidden            = [dict validBoolForKey:@"hidden"];
@@ -73,7 +74,11 @@
         self.showTitle         = [dict validBoolForKey:@"show_title"];
         self.wiggle            = [dict validBoolForKey:@"wiggle"];
         self.allowsQuickTravel = [dict validBoolForKey:@"allow_quick_travel"];
-        self.errorRange        = [dict validIntForKey:@"error"]; if(self.errorRange < 0) self.errorRange = 9999999999;
+        self.errorRange        = [dict validIntForKey:@"error"];
+        if(self.errorRange < 0){
+            self.errorRange = 9999999999;
+            validErrorRange = NO;
+        }
         self.deleteWhenViewed  = [dict validBoolForKey:@"delete_when_viewed"];
         
         if(self.gameObject.type == GameObjectNote)
@@ -83,8 +88,10 @@
         }
         
         self.coordinate = self.latlon.coordinate;
-        if(!self.hidden && self.errorRange > 0)
-            self.nearbyOverlay = [MKCircle circleWithCenterCoordinate:self.coordinate radius:self.errorRange];  
+        if(!self.hidden && self.errorRange > 0 && validErrorRange)
+            self.nearbyOverlay = [MKCircle circleWithCenterCoordinate:self.coordinate radius:self.errorRange];
+        else
+            self.nearbyOverlay = nil;
     }
     return self;
 }

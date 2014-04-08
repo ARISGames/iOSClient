@@ -399,6 +399,7 @@
         tmpLocation = (Location *)[locationsToAdd objectAtIndex:i];
         if(tmpLocation.hidden == NO && !(tmpLocation.gameObject.type == GameObjectPlayer && [AppModel sharedAppModel].hidePlayers))
         {
+            NSLog(@"ERROR RANGE: %d", tmpLocation.errorRange);
             if(tmpLocation.nearbyOverlay) [mapView addOverlay:tmpLocation.nearbyOverlay];
             [mapView addAnnotation:tmpLocation];
         }
