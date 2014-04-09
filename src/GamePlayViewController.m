@@ -41,7 +41,7 @@
 #import "ARISNavigationController.h"
 #import "ARISTemplate.h"
 
-@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
 {
     Game *game;
 
@@ -89,7 +89,6 @@
         //PHIL UNAPPROVED
         [[AppModel sharedAppModel] resetAllPlayerLists];
         [[AppModel sharedAppModel] resetAllGameLists];
-        [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
         
         forceDisplayQueue = [[ForceDisplayQueue alloc] initWithDelegate:self];
 

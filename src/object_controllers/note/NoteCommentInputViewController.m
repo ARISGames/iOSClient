@@ -74,8 +74,8 @@
 
 - (void) cancelButtonTouched
 {
-    //[commentArea resignFirstResponder];  
-    //[delegate commentCancelled];   
+    [commentArea resignFirstResponder];  
+    [delegate commentCancelled];   
     commentArea.text = @""; 
 }
 

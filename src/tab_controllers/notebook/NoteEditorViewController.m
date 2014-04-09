@@ -52,6 +52,7 @@
     
     UIActionSheet *confirmPrompt;
     UIActionSheet *deletePrompt; 
+    UIActionSheet *discardChangesPrompt;  
     
     NSMutableArray *mediaToUpload;
     
@@ -59,6 +60,7 @@
     
     BOOL blockKeyboard;
     BOOL newNote;
+    BOOL dirtybit;
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -69,12 +71,17 @@
 {
     if(self = [super init])
     {
+        dirtybit = NO;
         newNote = (!n);
         if(newNote)
         {
             n = [[Note alloc] init];
             n.created = [NSDate date];
             n.owner = [AppModel sharedAppModel].player;
+            n.location = [[Location alloc] init];
+            n.location.latlon = [AppModel sharedAppModel].player.location;
+            n.location.coordinate = [AppModel sharedAppModel].player.location.coordinate; 
+            dirtybit = YES;
         }
         note = n; 
         if([n.tags count] > 0) newTag = [n.tags objectAtIndex:0]; 
@@ -130,6 +137,7 @@
     
     confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Title Note" destructiveButtonTitle:@"Save Untitiled" otherButtonTitles:nil];
     deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil]; 
+    discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Continue Editing" destructiveButtonTitle:@"Discard" otherButtonTitles:nil]; 
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
@@ -224,15 +232,15 @@
     
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
     
-    title.frame = CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20);
-    date.frame = CGRectMake(10, 35+64, 65, 14);
-    owner.frame = CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14);
+    title.frame = CGRectMake(10, 15+64, self.view.bounds.size.width-20, 20);
+    date.frame = CGRectMake(10, 40+64, 65, 14);
+    owner.frame = CGRectMake(75, 40+64, self.view.bounds.size.width-85, 14);
     
     [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216]; 
     if(tagViewController.view.frame.size.height <= 30)
-        tagViewController.view.frame = CGRectMake(0, 49+64+3, self.view.bounds.size.width, 30);   
+        tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, 30);   
     else
-        tagViewController.view.frame = CGRectMake(0, 49+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
+        tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
     
     line1.frame = CGRectMake(0, owner.frame.origin.y+owner.frame.size.height+3, self.view.frame.size.width, 1);
     line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
@@ -250,9 +258,9 @@
     bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-40, self.view.bounds.size.width, buttonDiameter+25); 
     
     //contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
-    contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-250, self.view.bounds.size.width, 250);       
+    contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-200, self.view.bounds.size.width, 200);       
     
-    description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentsViewController.view.frame.size.height);
+    description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentsViewController.view.frame.size.height-bottombar.frame.size.height-5);
     descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y+5, self.view.bounds.size.width, 24);  
 }
 
@@ -267,14 +275,14 @@
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];   
+    
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;     
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
-    self.navigationItem.rightBarButtonItem = rightNavBarButton;     
     
          if(mode == NOTE_EDITOR_MODE_AUDIO) [self audioPickerButtonTouched];
     else if(mode == NOTE_EDITOR_MODE_IMAGE) [self imagePickerButtonTouched];
@@ -371,6 +379,7 @@
 - (void) textViewDidChange:(UITextView *)textView
 {
     descriptionPrompt.hidden = YES;
+    dirtybit = YES;
 }
 
 - (void) textViewDidEndEditing:(UITextView *)textView
@@ -460,24 +469,28 @@
     note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
     note.location.coordinate = l;
     [self.navigationController popToViewController:self animated:YES];
+    dirtybit = YES; 
 }
 
 - (void) imageChosenWithURL:(NSURL *)url
 {
     [self addMediaToUploadFromURL:url];  
     [self.navigationController popToViewController:self animated:YES];  
+    dirtybit = YES;
 }
 
 - (void) videoChosenWithURL:(NSURL *)url
 {
     [self addMediaToUploadFromURL:url]; 
     [self.navigationController popToViewController:self animated:YES]; 
+    dirtybit = YES; 
 }
 
 - (void) audioChosenWithURL:(NSURL *)url
 {
     [self addMediaToUploadFromURL:url];
     [self.navigationController popToViewController:self animated:YES];  
+    dirtybit = YES; 
 }
 
 - (void) addMediaToUploadFromURL:(NSURL *)url
@@ -496,6 +509,8 @@
         [self saveNote];
     if(a == deletePrompt && b ==0) //delete
        [self deleteNote]; 
+    if(a == discardChangesPrompt && b ==0) //discard
+        [self dismissSelf];  
 }
 
 - (void) cameraViewControllerCancelled
@@ -515,7 +530,17 @@
 
 - (void) backButtonTouched
 {
-    [delegate noteEditorCancelledNoteEdit:self];
+    if(dirtybit || ![note.name isEqualToString:title.text] || ![note.desc isEqualToString:description.text])
+    {
+        discardChangesPrompt.title = @"You Have Unsaved Changes";
+        [discardChangesPrompt showInView:self.view];  
+    }
+    else [self dismissSelf];
+}
+       
+- (void) dismissSelf
+{
+   [delegate noteEditorCancelledNoteEdit:self]; 
 }
 
 @end

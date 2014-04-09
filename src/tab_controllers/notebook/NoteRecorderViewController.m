@@ -141,6 +141,11 @@
     playButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter); 
 }
 
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [self stopPlaying];
+}
+
 - (void) refreshViewFromState
 {
     [recordButton  removeFromSuperview];
@@ -320,6 +325,11 @@
 {
     audioFileURL = u;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    [self stopPlaying];
 }
 
 - (void) dealloc

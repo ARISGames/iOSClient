@@ -47,6 +47,7 @@
         
         //THIS NEXT LINE IS AWFUL. NEEDS REFACTOR.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidIntentionallyAppear) name:@"PlayerSettingsDidDismiss" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameReset) name:@"GameReset" object:nil]; 
     }
     return self;
 }
@@ -56,6 +57,7 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
+    [mediaView setDisplayMode:ARISMediaDisplayModeAspectFit];
     descriptionView = [[ARISWebView alloc] initWithDelegate:self];
      
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -99,7 +101,7 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200) withMode:ARISMediaDisplayModeAspectFit];
+    [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200)];
     startButton.frame = CGRectMake(0,200+64,self.view.bounds.size.width,40);
     if(game.hasBeenPlayed)
     {
@@ -190,9 +192,15 @@
     if(buttonIndex == 1)
     {
         [[AppServices sharedAppServices] startOverGame:game.gameId];
+        startButton.enabled =NO;
         game.hasBeenPlayed = NO;
         [self refreshFromGame];
     }
+}
+
+- (void) gameReset
+{
+    startButton.enabled = YES;
 }
 
 //implement statecontrol stuff for webpage, but ignore any requests

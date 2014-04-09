@@ -57,12 +57,13 @@
     [customLabel     setFont:[ARISTemplate ARISCellSubtextFont]];
     customLabel.textAlignment = NSTextAlignmentRight;
     [numReviewsLabel setFont:[ARISTemplate ARISCellSubtextFont]];  
+    [iconView setDisplayMode:ARISMediaDisplayModeAspectFill];
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;  
     
     
     float cellWidth = [UIScreen mainScreen].bounds.size.width;
-    [iconView setFrame:CGRectMake(5, 5, 50, 50) withMode:ARISMediaDisplayModeAspectFill];
+    [iconView setFrame:CGRectMake(5, 5, 50, 50)];
     [titleLabel      setFrame:CGRectMake(60,1,cellWidth-60,25)]; 
     [authorLabel     setFrame:CGRectMake(60,23,cellWidth-60-80,15)]; 
     [customLabel     setFrame:CGRectMake(cellWidth-80,24,60,15)];  

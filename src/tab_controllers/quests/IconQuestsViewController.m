@@ -147,12 +147,12 @@
     iconTitleLabel.font = [ARISTemplate ARISSubtextFont];
     [cell.contentView addSubview:iconTitleLabel];
     
-    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width);
-    ARISMediaView *icon;
+    ARISMediaView *icon = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width) delegate:self];
+    [icon setDisplayMode:ARISMediaDisplayModeAspectFit];
     if(q.iconMediaId != 0)
-        icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId] mode:ARISMediaDisplayModeAspectFit delegate:self];
+        [icon setMedia:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId]];
     else
-        icon = [[ARISMediaView alloc] initWithFrame:iconFrame image:[UIImage imageNamed:@"item.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+        [icon setImage:[UIImage imageNamed:@"item.png"]];
     
     icon.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:icon];

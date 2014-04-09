@@ -115,7 +115,9 @@
         
         if(media)
         {
-            imageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,scrollView.frame.size.width,scrollView.frame.size.height-64) media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
+            imageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,scrollView.frame.size.width,scrollView.frame.size.height-64) delegate:self];
+            [imageView setMedia:media];
+            [imageView setDisplayMode:ARISMediaDisplayModeAspectFit];
             [scrollView addSubview:imageView];
             [scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToDescription:)]];
         }
@@ -353,6 +355,9 @@
 
 - (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
+    if(wv == webView) return YES;
+    
+    //else, this is a link from the description- so launch externally
     WebPage *tempWebPage = [[WebPage alloc] init];
     tempWebPage.url = [[r URL] absoluteString];
     [delegate displayGameObject:tempWebPage fromSource:self];

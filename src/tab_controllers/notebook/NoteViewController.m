@@ -180,19 +180,46 @@
     
     desc.text = note.desc;  
     
+    NSMutableArray *tmpMediaViews = [[NSMutableArray alloc] initWithCapacity:[mediaViews count]];
     while([mediaViews count] > 0) 
     {
         [[mediaViews objectAtIndex:0] removeFromSuperview];
+        [tmpMediaViews addObject:[mediaViews objectAtIndex:0]];
         [mediaViews removeObjectAtIndex:0];
     }
     for(int i = 0; i < [note.contents count]; i++)
     {
-        [mediaViews addObject:[[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) media:[note.contents objectAtIndex:i] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self]];
+        ARISMediaView *amv;
+        for(int j = 0; j < [tmpMediaViews count]; j++)
+        { 
+            //if(((Media *)[note.contents objectAtIndex:i]).mediaId == ((ARISMediaView *)[tmpMediaViews objectAtIndex:j]).media.mediaId)
+            if(j == i)
+                amv = [tmpMediaViews objectAtIndex:j];
+        }
+        if(!amv)
+        {
+            amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+            [amv setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
+            [amv setMedia:[note.contents objectAtIndex:i]];
+        } 
+        int y = 0;
+        if(i > 0) y = ((ARISMediaView *)[mediaViews objectAtIndex:i-1]).frame.origin.y+((ARISMediaView *)[mediaViews objectAtIndex:i-1]).frame.size.height;
+        [amv setFrame:CGRectMake(0,y,self.view.frame.size.width,amv.frame.size.height)]; 
+        [mediaViews addObject:amv];
+        
+        if([((Media *)[note.contents objectAtIndex:i]).type isEqualToString:@"IMAGE"])
+           [[mediaViews objectAtIndex:i] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]]; 
         [scrollView addSubview:[mediaViews objectAtIndex:i]];   
     }
     
     [commentsDisplay setComments:note.comments];  
     [self formatSubviews];
+}
+
+- (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
+{
+    [self dismissComment];
+    return YES;
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
@@ -202,7 +229,7 @@
     [self displayDataFromNote];
 }
 
-- (void) mediaWasSelected:(Media *)m
+- (void) dismissComment
 {
     [commentInput dismissKeyboard];
 }
@@ -214,7 +241,7 @@
 
 - (void) commentCancelled
 {
-    scrollView.contentOffset = CGPointMake(0,-64); 
+    //scrollView.contentOffset = CGPointMake(0,-64); 
 }
 
 - (void) commentConfirmed:(NSString *)c
@@ -262,8 +289,7 @@
     [self dismissSelf];
 }
 
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
     [self formatSubviews];
 }

@@ -54,6 +54,7 @@
         
         iconBorderView = [[UIView alloc] init];
         iconView = [[ARISMediaView alloc] init];
+        [iconView setDisplayMode:ARISMediaDisplayModeAspectFit];
         
         imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
         titleSize = CGSizeMake(0.0f,0.0f);
@@ -107,7 +108,7 @@
     imageInnerFrame.size.width -= 4.0f;
     imageInnerFrame.size.height -= 4.0f;
     
-    [iconView setFrame:imageInnerFrame withMode:ARISMediaDisplayModeAspectFit];
+    [iconView setFrame:imageInnerFrame];
     [iconView setDelegate:self];
     if (loc.gameObject.iconMediaId != 0) {
         [iconView setMedia:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId]];
