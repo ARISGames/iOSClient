@@ -186,8 +186,9 @@
 {
     MPMoviePlayerController *moviePlayer = [notification object];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:moviePlayer];
-    [((ARISViewController *)delegate).navigationController dismissMoviePlayerViewControllerAnimated];
-    [self continueButtonTouched];
+    [((ARISViewController *)delegate).navigationController dismissViewControllerAnimated:YES completion:^{
+        [self continueButtonTouched];
+    }];
 }
 
 - (void) scriptElementViewRequestsTitle:(NSString *)t
