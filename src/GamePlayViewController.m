@@ -61,6 +61,8 @@
     ARISNavigationController *scannerNavigationController; 
     
     ForceDisplayQueue *forceDisplayQueue;
+    
+    NSTimer *timeout;
 
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -114,6 +116,11 @@
     if(!currentChildViewController)
     {
         loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
+        timeout = [NSTimer scheduledTimerWithTimeInterval:15.0
+                                         target:self
+                                       selector:@selector(timeoutOfGameLoading)
+                                       userInfo:nil
+                                        repeats:NO];
         [self displayContentController:loadingViewController];
         [self startLoadingGame];
     }
@@ -141,6 +148,7 @@
 
 - (void) loadingViewControllerFinishedLoadingData
 {
+    [timeout invalidate];
     [self displayContentController:gamePlayRevealController];
     loadingViewController = nil;
     [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
@@ -347,6 +355,11 @@
     else if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
         tab = attributesNavigationController;
     if(tab) [self viewControllerRequestedDisplay:tab]; 
+}
+
+- (void) timeoutOfGameLoading
+{
+    [delegate gameplayWasDismissed];
 }
 
 - (NSUInteger) supportedInterfaceOrientations
