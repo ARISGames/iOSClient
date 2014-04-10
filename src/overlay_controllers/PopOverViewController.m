@@ -62,6 +62,7 @@
     prompt.backgroundColor = [UIColor clearColor];
     
     iconMediaView = [[ARISMediaView alloc] initWithDelegate:self];
+    [iconMediaView setDisplayMode:ARISMediaDisplayModeAspectFit];
     
     [popOverView addSubview:header];
     [popOverView addSubview:prompt];
@@ -75,7 +76,7 @@
     [super viewWillLayoutSubviews];
     float radius = (self.view.bounds.size.width-60)/2;
     popOverView.frame = CGRectMake((self.view.bounds.size.width-(2*radius))/2,self.view.bounds.size.height/2-radius,radius*2,radius*2);
-    [iconMediaView setFrame:CGRectMake(radius-64,radius-84,128,128) withMode:ARISMediaDisplayModeAspectFit];
+    [iconMediaView setFrame:CGRectMake(radius-64,radius-84,128,128)];
     header.frame = CGRectMake(20,radius+60,2*radius-40,24);
     prompt.frame = CGRectMake(20,radius+80,2*radius-40,24); 
 }

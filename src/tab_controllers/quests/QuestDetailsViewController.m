@@ -63,6 +63,7 @@
     webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
     
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
+    [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
     
     goButton = [[UIView alloc] init];
     goButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
@@ -99,18 +100,15 @@
 
 - (void) loadQuest
 {
-    if([quest.qdescription rangeOfString:@"<html>"].location == NSNotFound)
-    {
-        [scrollView addSubview:webView]; 
-        webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.qdescription] baseURL:nil];  
-    }
+    [scrollView addSubview:webView]; 
+    webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
+    [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.qdescription] baseURL:nil];  
     
     Media *media = [[AppModel sharedAppModel] mediaForMediaId:quest.mediaId];
     if(media)
     {
         [scrollView addSubview:mediaView];   
-        [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20) withMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight]; //Nees correct width to calc height
+        [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
         [mediaView setMedia:media];
     }  
     
@@ -137,7 +135,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
     if(![quest.qdescription isEqualToString:@""])
     {

@@ -46,7 +46,6 @@
     //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist
 	[[AppModel sharedAppModel] initUserDefaults];
-    [[AppServices sharedAppServices] resetCurrentlyFetchingVars];  
     [[AppServices sharedAppServices] retryFailedRequests];
     
     [self setApplicationUITemplates];
@@ -95,7 +94,6 @@
 {
 	NSLog(@"ARIS: Application Became Active");
 	[[AppModel sharedAppModel]       loadUserDefaults];
-    [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
     
     if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
     {

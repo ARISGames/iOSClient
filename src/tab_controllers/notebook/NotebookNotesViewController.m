@@ -139,13 +139,13 @@ const int VIEW_MODE_TAG  = 2;
     else if(viewMode == VIEW_MODE_ALL)  typeFilteredNotes = [[AppModel sharedAppModel].currentGame.notesModel listNotes];
     else if(viewMode == VIEW_MODE_TAG)  typeFilteredNotes = [[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag];
     
+    NSMutableArray *textFilteredNotes;
     if([filterText isEqualToString:@""])
-        filteredNotes = typeFilteredNotes;
+        textFilteredNotes = [NSMutableArray arrayWithArray:typeFilteredNotes];
     else
     {
-        NSMutableArray *textFilteredNotes = [[NSMutableArray alloc] initWithCapacity:[typeFilteredNotes count]];
-        Note *n;
-        
+        Note *n; 
+        textFilteredNotes = [[NSMutableArray alloc] initWithCapacity:[typeFilteredNotes count]]; 
         for(int i = 0; i < [typeFilteredNotes count]; i++)
         {
             n = [typeFilteredNotes objectAtIndex:i];
@@ -169,8 +169,10 @@ const int VIEW_MODE_TAG  = 2;
                     }
             }
         }
-        filteredNotes = textFilteredNotes; 
     }
+    
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
+    filteredNotes = [textFilteredNotes sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]]; 
     return [filteredNotes count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
 }
 

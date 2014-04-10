@@ -71,6 +71,7 @@ static NSString * const OPTION_CELL = @"option";
     webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
     
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
+    [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
     
     continueButton = [[UIView alloc] init];
     continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
@@ -124,12 +125,12 @@ static NSString * const OPTION_CELL = @"option";
     if(media)
     {
         [scrollView addSubview:mediaView];   
-        [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20) withMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight]; //Nees correct width to calc height
+        [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
         [mediaView setMedia:media];
     } 
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
     if(![node.text isEqualToString:@""])
     {
