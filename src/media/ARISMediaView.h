@@ -25,6 +25,7 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv;
 - (void) ARISMediaViewFinishedPlayback:(ARISMediaView *)amv;
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv;
+- (void) ARISMediaViewIsReadyToPlay:(ARISMediaView *)amv;
 @end
 
 @interface ARISMediaView : UIView

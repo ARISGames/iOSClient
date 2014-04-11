@@ -163,6 +163,8 @@
 {
     image = [UIImage imageWithData:UIImageJPEGRepresentation([notification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey], 1.0)];
     [self displayImage];
+    if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewIsReadyToPlay:)])
+        [delegate ARISMediaViewIsReadyToPlay:self];
 }
 
 - (void) displayAudio:(Media *)m
@@ -228,7 +230,7 @@
 
 - (void) playbackFinished:(NSNotification *)n
 {
-    [self stop]; 
+    [self stop];
     if([[n.userInfo objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue] == MPMovieFinishReasonUserExited)
         if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewFinishedPlayback:)])
             [delegate ARISMediaViewFinishedPlayback:self];
@@ -296,7 +298,7 @@
 {
     if(!media || [media.type isEqualToString:@"IMAGE"] || !avVC) return;
     [self removePlayIcon];
-    avVC.view.frame = self.bounds; 
+    avVC.view.frame = self.bounds;
     [self addSubview:avVC.view];  
     [avVC.moviePlayer play]; 
 }

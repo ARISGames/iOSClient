@@ -78,6 +78,7 @@
         defaultTitle = t;
         defaultMedia = m;
         mediaView = [[ARISMediaView alloc] initWithFrame:self.bounds delegate:self];
+        [mediaView setDelegate:self];
         [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
         [mediaView setMedia:m];
         [self initialize];
@@ -127,6 +128,7 @@
         media = [[AppModel sharedAppModel] mediaForMediaId:scriptElement.mediaId];
         if (![media.type isEqualToString:@"AUDIO"]) {
             [mediaView setMedia:media];
+            mediaView.frame = CGRectMake(0, 0, self.frame.size.width, 240);
         }
         else{
             player = [[AVAudioPlayer alloc] initWithContentsOfURL:media.localURL error:nil];
@@ -138,12 +140,6 @@
         [mediaView setImage:defaultImage];
     else if(defaultMedia)
         [mediaView setMedia:defaultMedia];
-    
-
-    if ([media.type isEqualToString:@"VIDEO"]) {
-        [mediaView play];
-    }
-    
     
     //Try resetting the text view height to 0 each time for proper content height calculation
     CGRect wvFrame = [textWebView frame];
@@ -182,6 +178,11 @@
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     [self addSubview:playAudioButton];
+}
+
+- (void) ARISMediaViewIsReadyToPlay:(ARISMediaView *)amv
+{
+    [mediaView play];
 }
 
 
