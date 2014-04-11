@@ -15,8 +15,10 @@
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "ARISTemplate.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIScrollViewDelegate>
+@interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate>
 {
     ScriptElement *scriptElement;
     
@@ -28,6 +30,9 @@
     NSString *defaultTitle;
     Media *defaultMedia;
     UIImage *defaultImage;
+    
+    AVAudioPlayer *player;
+    UIButton *playAudioButton;
     
     id<NpcScriptElementViewDelegate> __unsafe_unretained delegate;
 }
@@ -54,6 +59,12 @@
     [textWebView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
     textSection = [[ARISCollapseView alloc] initWithContentView:textWebView frame:CGRectMake(0, self.bounds.size.height-20, self.bounds.size.width, 20) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    
+    UIImage *playImage = [UIImage imageNamed:@"play.png"];
+    playAudioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [playAudioButton setImage:playImage forState:UIControlStateNormal];
+    playAudioButton.frame = CGRectMake((self.frame.size.width / 2) - (playImage.size.width / 2), (self.frame.size.height / 2) - (playImage.size.height / 2), playImage.size.width, playImage.size.height);
+    [playAudioButton addTarget:self action:@selector(playAudio) forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:mediaSection];
     [mediaSection addSubview:mediaView];
@@ -103,7 +114,9 @@
 
 - (void) loadScriptElement:(ScriptElement *)s
 {
+    [playAudioButton removeFromSuperview];
     scriptElement = s;
+    Media *media;
     
     if(scriptElement.vibrate) [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) vibrate];
     if(scriptElement.title) [delegate scriptElementViewRequestsTitle:scriptElement.title];
@@ -111,16 +124,26 @@
     
     if(scriptElement.mediaId != 0)
     {
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:scriptElement.mediaId];
-        [mediaView setMedia:media];
+        media = [[AppModel sharedAppModel] mediaForMediaId:scriptElement.mediaId];
+        if (![media.type isEqualToString:@"AUDIO"]) {
+            [mediaView setMedia:media];
+        }
+        else{
+            player = [[AVAudioPlayer alloc] initWithContentsOfURL:media.localURL error:nil];
+            player.delegate = self;
+            [self playAudio];
+        }
     }
     else if(defaultImage)
         [mediaView setImage:defaultImage];
     else if(defaultMedia)
         [mediaView setMedia:defaultMedia];
     
-    //will only play if the media is a video
-    [mediaView play];
+
+    if ([media.type isEqualToString:@"VIDEO"]) {
+        [mediaView play];
+    }
+    
     
     //Try resetting the text view height to 0 each time for proper content height calculation
     CGRect wvFrame = [textWebView frame];
@@ -149,6 +172,18 @@
     completion:nil];
      */
 }
+
+- (void) playAudio
+{
+    [playAudioButton removeFromSuperview];
+    [player play];
+}
+
+- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    [self addSubview:playAudioButton];
+}
+
 
 - (void) stopVideoIfPlaying
 {
