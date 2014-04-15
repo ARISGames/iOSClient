@@ -127,6 +127,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    shouldWiggle = loc.wiggle;
     if(showTitle)
     {
         CGFloat minx = bubbleRect.origin.x+1;
@@ -202,6 +203,7 @@
 
 - (void) enlarge
 {
+    iconBorderView.frame = imageViewFrame;
     [self turnOffTitle];
     iconBorderView.layer.borderColor = [UIColor clearColor].CGColor;
     [UIView beginAnimations:nil context:nil];

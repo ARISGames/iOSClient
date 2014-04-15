@@ -59,6 +59,8 @@
     TriangleButton *viewAnnotationButton;
     TriangleButton *pickUpButton;
     
+    BOOL resetWiggle;
+    
 
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -150,6 +152,7 @@
     [self.view addSubview:hud.view];
     
     isViewLoaded = YES;
+    resetWiggle = NO;
     
     //make the navigation bar transparent
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
@@ -436,6 +439,14 @@
 
 - (void) displayHUDWithLocation:(Location *)location andAnnotation:(AnnotationView *)annotation
 {
+    //temporary set the wiggle to false when the location is selected
+    if (location.wiggle) {
+        location.wiggle = NO;
+        resetWiggle = YES;
+    }
+    else{
+        resetWiggle = NO;
+    }
     [self displayBlackout];
     
     mapView.zoomEnabled = NO;
@@ -540,6 +551,10 @@
     {
         if([[mapView.selectedAnnotations objectAtIndex:0] class] == [Location class]){
             [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) shrinkToNormal];
+            if (resetWiggle) {
+                ((Location *)[mapView.selectedAnnotations objectAtIndex:0]).wiggle = YES;
+                [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) setNeedsDisplay];
+            }
         }
         [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:0] animated:NO];
     }
