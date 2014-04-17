@@ -27,8 +27,8 @@
     ARISMediaView *mediaView;
     ARISWebView *descriptionView;
     UIButton *startButton;
-    UIButton *resetButton; 
-    UIButton *rateButton;  
+    UIButton *resetButton;
+    UIButton *rateButton;
     
    	Game *game; 
     id<GameDetailsViewControllerDelegate> __unsafe_unretained delegate;
@@ -58,31 +58,32 @@
     self.view.backgroundColor = [UIColor whiteColor];
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeAspectFit];
+    
     descriptionView = [[ARISWebView alloc] initWithDelegate:self];
-     
+    
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal]; 
     [startButton setBackgroundColor:[UIColor ARISColorLightBlue]];
     [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     startButton.titleLabel.font = [ARISTemplate ARISButtonFont];
-    resetButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
+    resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [resetButton setTitle:NSLocalizedString(@"GameDetailsResetKey", nil) forState:UIControlStateNormal];
     [resetButton setBackgroundColor:[UIColor ARISColorRed]];
-    [resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
-    resetButton.titleLabel.font = [ARISTemplate ARISButtonFont]; 
-    rateButton  = [UIButton buttonWithType:UIButtonTypeCustom]; 
-    [rateButton setBackgroundColor:[UIColor ARISColorOffWhite]]; 
+    [resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    resetButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    rateButton  = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rateButton setBackgroundColor:[UIColor ARISColorOffWhite]];
     ARISStarView *starView = [[ARISStarView alloc] initWithFrame:CGRectMake(10,10,100,20)];
     starView.rating = game.rating;
     UILabel *reviewsTextView = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-110,12,100,15)];
     reviewsTextView.font = [ARISTemplate ARISButtonFont];
     reviewsTextView.text = [NSString stringWithFormat:@"%d %@",game.numReviews, NSLocalizedString(@"ReviewsKey", @"")];
-    [rateButton addSubview:starView]; 
-    [rateButton addSubview:reviewsTextView];  
+    [rateButton addSubview:starView];
+    [rateButton addSubview:reviewsTextView];
     
     [startButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    [rateButton  addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside]; 
+    [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [rateButton  addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0,0,19,19);
@@ -93,28 +94,27 @@
     
     [self.view addSubview:mediaView];
     [self.view addSubview:startButton]; 
-    [self.view addSubview:resetButton];  
-    [self.view addSubview:rateButton]; 
-    [self.view addSubview:descriptionView]; 
+    [self.view addSubview:resetButton];
+    [self.view addSubview:rateButton];
+    [self.view addSubview:descriptionView];
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200)];
-    startButton.frame = CGRectMake(0,200+64,self.view.bounds.size.width,40);
+    rateButton.frame = CGRectMake(0, startButton.frame.origin.y-40, self.view.bounds.size.width, 40);
+    descriptionView.frame = CGRectMake(0,200+64,self.view.bounds.size.width,rateButton.frame.origin.y-(200+64));
     if(game.hasBeenPlayed)
     {
         [self.view addSubview:resetButton];
-        resetButton.frame = CGRectMake(0,240+64,self.view.bounds.size.width,40); 
-        rateButton.frame  = CGRectMake(0,280+64,self.view.bounds.size.width,40);  
-        descriptionView.frame = CGRectMake(0,320+64,self.view.bounds.size.width,self.view.bounds.size.height-(320+64));   
+        startButton.frame = CGRectMake((self.view.bounds.size.width/2),self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
+        resetButton.frame = CGRectMake(0,self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
     }
     else
     {
         [resetButton removeFromSuperview];
-        rateButton.frame = CGRectMake(0,240+64,self.view.bounds.size.width,40); 
-        descriptionView.frame = CGRectMake(0,280+64,self.view.bounds.size.width,self.view.bounds.size.height-(280+64));  
+        startButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
     }
 }
 
