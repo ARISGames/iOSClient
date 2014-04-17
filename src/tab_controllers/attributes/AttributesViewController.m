@@ -16,6 +16,7 @@
 #import "Item.h"
 #import "ItemViewController.h"
 #import "ARISTemplate.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface AttributesViewController() <ARISMediaViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
@@ -25,6 +26,7 @@
     ARISMediaView *pcImage;
     BOOL hasAppeared;
     id<AttributesViewControllerDelegate> __unsafe_unretained delegate;
+    UILabel *nameLabel;
 }
 
 @property (nonatomic) UITableView *attributesTable;
@@ -69,9 +71,14 @@
     [super viewWillAppear:animated];
     if(hasAppeared) return;
     hasAppeared = YES;
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    pcImage = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
-    [pcImage setDisplayMode:ARISMediaDisplayModeAspectFill];
+    int playerImageWidth = 200;
+    CGRect playerImageFrame = CGRectMake((self.view.bounds.size.width / 2) - (playerImageWidth / 2), 64, playerImageWidth, 200);
+    pcImage = [[ARISMediaView alloc] initWithFrame:playerImageFrame delegate:self];
+    [pcImage setDisplayMode:ARISMediaDisplayModeAspectFit];
+    
+    
     if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
         [pcImage setMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId]];
     else if([AppModel sharedAppModel].player.playerMediaId != 0)
@@ -80,19 +87,27 @@
     
     [self.view addSubview:pcImage];
     
-    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height)];
-    bg.backgroundColor = [UIColor ARISColorTranslucentBlack];
-    [self.view addSubview:bg];
+    nameLabel = [[UILabel alloc] init];
+    nameLabel.frame = CGRectMake(-1, pcImage.frame.origin.y + pcImage.frame.size.height + 20, self.view.bounds.size.width + 1, 30);
     
-    self.attributesTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height)];
-    self.attributesTable.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-    self.attributesTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    nameLabel.text = [AppModel sharedAppModel].player.name;
+    nameLabel.textAlignment = NSTextAlignmentCenter;
+    nameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    nameLabel.layer.borderWidth = 1.0f;
+    
+    
+    [self.view addSubview:nameLabel];
+    
+    self.attributesTable = [[UITableView alloc] initWithFrame:CGRectMake(0,nameLabel.frame.origin.y + nameLabel.frame.size.height,self.view.bounds.size.width,self.view.bounds.size.height)];
+    self.attributesTable.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.attributesTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.attributesTable.delegate = self;
     self.attributesTable.dataSource = self;
     self.attributesTable.backgroundColor = [UIColor clearColor];
     self.attributesTable.opaque = NO;
     self.attributesTable.backgroundView = nil;
-	
+    
     [self.view addSubview:self.attributesTable];
 }
 
@@ -143,7 +158,7 @@
 	Item *item = [attributes objectAtIndex: [indexPath row]];
     
 	UILabel *lblTemp;
-	lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 22, 240, 20)];
+	lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
 	lblTemp.backgroundColor = [UIColor clearColor];
     lblTemp.font = [UIFont boldSystemFontOfSize:18.0];
 	lblTemp.text = item.name;
@@ -167,12 +182,13 @@
 	}
 	[cell.contentView addSubview:iconViewTemp];
     
-    lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 5, 240, 20)];
+    lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
 	lblTemp.font = [UIFont boldSystemFontOfSize:11];
 	lblTemp.textColor = [UIColor ARISColorDarkGray];
 	lblTemp.backgroundColor = [UIColor clearColor];
+    lblTemp.textAlignment = NSTextAlignmentRight;
     if(item.qty > 1 || item.maxQty > 1)
-        lblTemp.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
+        lblTemp.text = [NSString stringWithFormat:@"%d",item.qty];
     else
         lblTemp.text = nil;
 	[cell.contentView addSubview:lblTemp];
