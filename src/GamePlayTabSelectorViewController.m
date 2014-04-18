@@ -16,6 +16,7 @@
 #import "MapViewController.h"
 #import "NotebookViewController.h"
 #import "Game.h"
+#import "ARISMediaView.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -73,7 +74,25 @@
     
     [leaveGameButton addSubview:leaveGameLine];
     [leaveGameButton addSubview:leaveGameLabel];
-    [leaveGameButton addSubview:leaveGameArrow]; 
+    [leaveGameButton addSubview:leaveGameArrow];
+    
+    int headerHeight = 40;
+    
+    CGRect headerFrame = CGRectMake(0, 0, self.view.bounds.size.width, headerHeight);
+    UIView *headerView = [[UIView alloc] init];
+    headerView.frame = headerFrame;
+    
+    UILabel *gameName = [[UILabel alloc] init];
+    gameName.frame = CGRectMake(57, (headerHeight/2) - (35/2), 200, 35);
+    gameName.text = [AppModel sharedAppModel].currentGame.name;
+    [headerView addSubview:gameName];
+    
+    ARISMediaView *gameIcon = [[ARISMediaView alloc] init];
+    [gameIcon setFrame:CGRectMake(15, (headerHeight/2) - (35/2), 30, 35)];
+    [gameIcon setMedia:[AppModel sharedAppModel].currentGame.iconMedia];
+    [headerView addSubview:gameIcon];
+    
+    [tableView setTableHeaderView:headerView];
     
     [self.view addSubview:tableView]; 
 }
@@ -113,11 +132,6 @@
     if([[anc.viewControllers objectAtIndex:0] isKindOfClass:[ARISGamePlayTabBarViewController class]])
         return (ARISGamePlayTabBarViewController *)[anc.viewControllers objectAtIndex:0];
     return nil;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return [AppModel sharedAppModel].currentGame.name;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
