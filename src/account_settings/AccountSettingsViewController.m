@@ -33,17 +33,17 @@
     if(self = [super init])
     {
         delegate = d;
-        self.title = @"Account Settings";
+        self.title = NSLocalizedString(@"AccountSettingsKey", @"");
         
         cellTitles    = [[NSMutableArray alloc] initWithCapacity:5];
         cellIcons     = [[NSMutableArray alloc] initWithCapacity:5]; 
         cellSelectors = [[NSMutableArray alloc] initWithCapacity:5]; 
         
-        [cellTitles addObject:@"Public Name and Image"];
+        [cellTitles addObject:NSLocalizedString(@"PublicNameAndImageKey", @"")];
         [cellIcons addObject:[UIImage imageNamed:@"id_card.png"]];
         [cellSelectors addObject:[[ARISSelectorHandle alloc] initWithHandler:self selector:@selector(profileButtonTouched)]];
         
-        [cellTitles addObject:@"  Change Password"];
+        [cellTitles addObject:[NSString stringWithFormat:@"  %@", NSLocalizedString(@"ChangePasswordKey", @"")]];
         [cellIcons addObject:[UIImage imageNamed:@"lock.png"]];
         [cellSelectors addObject:[[ARISSelectorHandle alloc] initWithHandler:self selector:@selector(passButtonTouched)]]; 
     }
@@ -70,7 +70,7 @@
     logoutLabel = [[UILabel alloc] init];  
     logoutLabel.textAlignment = NSTextAlignmentLeft;
     logoutLabel.font = [ARISTemplate ARISButtonFont];
-    logoutLabel.text = @"Log Out";
+    logoutLabel.text = NSLocalizedString(@"LogoutTitleKey", @"");
     logoutLabel.textColor = [ARISTemplate ARISColorText]; 
     logoutLabel.accessibilityLabel = @"Log Out";  
     
