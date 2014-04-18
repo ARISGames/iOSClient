@@ -464,11 +464,10 @@
     [blackoutRight setAlpha:0.0f];
     [blackoutBottom setAlpha:0.0f];
     
-    //TODO Localize all of these strings
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
     if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel){
         viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 60, (self.view.bounds.size.height / 2) - 28, 75, 120);
-        [viewAnnotationButton setTitle:@"View" forState:UIControlStateNormal];
+        [viewAnnotationButton setTitle:NSLocalizedString(@"ViewLocationKey", @"") forState:UIControlStateNormal];
         [viewAnnotationButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
         [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
         [viewAnnotationButton setLocation:location];
@@ -477,7 +476,7 @@
         
         if ([location.gameObject isKindOfClass:[Item class]]) {
             pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 135, (self.view.bounds.size.height / 2) - 28, 75, 120);
-            [pickUpButton setTitle:@"PickUp" forState:UIControlStateNormal];
+            [pickUpButton setTitle:NSLocalizedString(@"PickUpItemKey", @"") forState:UIControlStateNormal];
             [pickUpButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
             [pickUpButton setAlpha:0.0f];
             [pickUpButton setLocation:location];

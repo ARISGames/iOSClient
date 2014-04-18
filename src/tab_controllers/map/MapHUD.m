@@ -122,12 +122,11 @@
     {
         [hudView addSubview:warningImage];
         distanceToWalk = distance - location.errorRange;
-        //TODO change this string to NSLocalized String
         float roundedDistance = lroundf(distanceToWalk);
         if([[AppModel sharedAppModel] player].location != nil)
-            warning.text = [NSString stringWithFormat:@"Out of range- walk %.0fm", roundedDistance];
+            warning.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"OutOfRangeWalkKey", @""), [NSString stringWithFormat:@"%.0fm", roundedDistance]];
         else
-            warning.text = @"Out of range";
+            warning.text = NSLocalizedString(@"OutOfRangeKey", @"");
     }
 }
 
