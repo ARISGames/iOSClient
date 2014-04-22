@@ -72,7 +72,7 @@
     goLbl = [[UILabel alloc] init];
     goLbl.textColor = [ARISTemplate ARISColorText];
     goLbl.textAlignment = NSTextAlignmentRight;
-    goLbl.text = @"Begin Quest";
+    goLbl.text = NSLocalizedString(@"QuestViewBeginQuestKey", @"");
     goLbl.font = [ARISTemplate ARISButtonFont];
     [goButton addSubview:goLbl];
     [goButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goButtonTouched)]];

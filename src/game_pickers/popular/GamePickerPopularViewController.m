@@ -47,7 +47,7 @@
 {
     [super viewDidLoad];
     
-    self.timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Daily",@"Weekly",@"Monthly", nil]];
+    self.timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:NSLocalizedString(@"GamePickerDailyKey", @""),NSLocalizedString(@"GamePickerWeeklyKey", @""),NSLocalizedString(@"GamePickerMonthlyKey", @""), nil]];
     self.timeControl.frame = CGRectMake(5, 5, self.view.bounds.size.width-10, 30);
     self.timeControl.selectedSegmentIndex = time;
     self.timeControl.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -103,7 +103,7 @@
     {
         GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
         Game *gameForCell = [self.gameList objectAtIndex:(indexPath.row-1)];
-        [cell setCustomLabelText:[NSString stringWithFormat:@"%d Players",gameForCell.playerCount]];
+        [cell setCustomLabelText:[NSString stringWithFormat:@"%d %@",gameForCell.playerCount, NSLocalizedString(@"PlayersKey", @"")]];
         return cell;
     }
     else

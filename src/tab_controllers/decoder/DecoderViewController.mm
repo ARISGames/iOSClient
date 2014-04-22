@@ -78,7 +78,7 @@
         scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
         scanButton.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
         scanButton.backgroundColor = [UIColor ARISColorDarkGray];
-        [scanButton setTitle:@"Scan" forState:UIControlStateNormal];
+        [scanButton setTitle:NSLocalizedString(@"ScanKey", @"") forState:UIControlStateNormal];
         [scanButton addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
         if(textEnabled) [self.view addSubview:scanButton]; //else, don't bother adding it to view as it should always be open
     }

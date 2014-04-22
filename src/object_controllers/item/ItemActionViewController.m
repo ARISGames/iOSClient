@@ -79,7 +79,7 @@
 
 - (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    if(row == 0) return @"Max";
+    if(row == 0) return NSLocalizedString(@"MaxKey", @"");
     else return [NSString stringWithFormat:@"%d",row];
 }
 

@@ -51,7 +51,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    self.title = @"Public Name and Image";
+    self.title = NSLocalizedString(@"PublicNameAndImageKey", @"");
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -103,7 +103,7 @@
 {
     if([self.playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
     {
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Profile Save Error" message:@"Please choose a picture and name"];
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ProfileSaveErrorKey", @"") message:NSLocalizedString(@"ProfileSaveErrorMessageKey", @"")];
         return;
     }
 

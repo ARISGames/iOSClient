@@ -40,7 +40,7 @@
     self.view.clipsToBounds = YES;
     
     noMediaNotice = [[UILabel alloc] init];
-    noMediaNotice.text = @"(no media added)";
+    noMediaNotice.text = [NSString stringWithFormat:@"(%@)", NSLocalizedString(@"NotebookNoMediaKey", @"")];
     noMediaNotice.font = [ARISTemplate ARISBodyFont];
     noMediaNotice.textColor = [UIColor whiteColor];
     noMediaNotice.textAlignment = NSTextAlignmentCenter;

@@ -142,7 +142,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     
     changePassButton = [UIButton buttonWithType:UIButtonTypeCustom];
     changePassButton.backgroundColor = [UIColor clearColor];
-    [changePassButton setTitle:@"Forgot Password?" forState:UIControlStateNormal];
+    [changePassButton setTitle:NSLocalizedString(@"ForgotPasswordKey", @"") forState:UIControlStateNormal];
     [changePassButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     [changePassButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
@@ -195,7 +195,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LoginResponseReady" object:nil];
     ARISServiceResult *r = (ARISServiceResult *)[n.userInfo objectForKey:@"result"];
     if(!r.resultData || r.resultData == [NSNull null])
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Login Unsuccessful" message:@"Username/Password not found"];
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"LoginErrorTitleKey", @"") message:NSLocalizedString(@"LoginErrorMessageKey", @"")];
     else
     {
         Player *p = [[Player alloc] initWithDictionary:(NSMutableDictionary *)r.resultData];

@@ -34,7 +34,7 @@
         initialLocation = l; 
         delegate = d;
         
-        self.title = @"Set Location";
+        self.title = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"SetKey", @""), NSLocalizedString(@"LocationKey", @"")];
     }
     return self;
 }
@@ -42,8 +42,8 @@
 - (void) loadView
 {
     [super loadView];
-          
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveButtonTouched)];
+    
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(saveButtonTouched)];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;    
     
     mapView = [[MKMapView alloc] init];
@@ -51,7 +51,7 @@
     crossHairs = [[NoteLocationPickerCrosshairsView alloc] init];
     
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [resetButton setTitle:@"Reset" forState:UIControlStateNormal];
+    [resetButton setTitle:NSLocalizedString(@"ResetKey", @"") forState:UIControlStateNormal];
     [resetButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     resetButton.titleLabel.textAlignment = NSTextAlignmentRight; 
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];

@@ -40,7 +40,7 @@
     if(self = [super init])
     {
         unlabeledTag = [[NoteTag alloc] init];
-        unlabeledTag.text = @"Unlabeled";
+        unlabeledTag.text = NSLocalizedString(@"UnlabeledKey", @"");
         unlabeledTag.noteTagId = -1;
         unlabeledTag.playerCreated = NO;  
         

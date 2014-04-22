@@ -47,10 +47,10 @@
     commentPromptText = [[UILabel alloc] initWithFrame:CGRectMake(40, 15, 200, 20)];
     commentPromptText.textColor = [UIColor lightGrayColor];
     commentPromptText.font = [ARISTemplate ARISInputFont];
-    commentPromptText.text = @"Comment";
+    commentPromptText.text = NSLocalizedString(@"CommentTitleKey", @"");
     
     postButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 24, 50, 20)];
-    postButton.text = @"Post";
+    postButton.text = NSLocalizedString(@"PostKey", @"");
     postButton.textColor = [UIColor ARISColorDarkBlue];  
     [postButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postButtonTouched)]];
     postButton.userInteractionEnabled = YES; 

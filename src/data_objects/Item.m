@@ -37,8 +37,8 @@
     if(self = [super init])
     {
         self.itemId = 0;
-        self.name = @"Item";
-        self.idescription = @"Description";
+        self.name = NSLocalizedString(@"ItemKey", @"");
+        self.idescription = NSLocalizedString(@"DescriptionKey", @"");
         self.itemType = ItemTypeNormal;
         self.mediaId = 0;
         self.iconMediaId = 0;

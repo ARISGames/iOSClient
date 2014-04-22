@@ -76,14 +76,14 @@ static int const COMPLETED_SECTION = 1;
     questsTable.delegate = self; 
     
     activeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [activeButton setTitle:@"Active Quests" forState:UIControlStateNormal];
+    [activeButton setTitle:NSLocalizedString(@"QuestsActiveTitleKey", @"") forState:UIControlStateNormal];
     [activeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
     activeButton.backgroundColor = [UIColor ARISColorDarkBlue];
     activeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
     [activeButton addTarget:self action:@selector(activeButtonTouched) forControlEvents:UIControlEventTouchUpInside];
        
     completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [completeButton setTitle:@"Complete Quests" forState:UIControlStateNormal];
+    [completeButton setTitle:NSLocalizedString(@"QuestsCompleteTitleKey", @"") forState:UIControlStateNormal];
     [completeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
     completeButton.backgroundColor = [UIColor ARISColorLightBlue]; 
     completeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
@@ -133,18 +133,18 @@ static int const COMPLETED_SECTION = 1;
     {
         Quest *nullQuest = [[Quest alloc] init];
         nullQuest.questId = -1;
-        //nullQuest.name = @"<span style='color:#555555;'>Empty</span>"; 
-        nullQuest.name = @"Empty";  
-        nullQuest.qdescription = @"<span style='color:#555555;'>(there are no quests available at this time)</span>";   
+        //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
+        nullQuest.name = NSLocalizedString(@"EmptyKey", @"");
+        nullQuest.qdescription = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoQuestsAvailableKey", @"")];
         sortedActiveQuests = [NSArray arrayWithObjects:nullQuest, nil]; 
     }
     if([sortedCompletedQuests count] == 0)  
     {
         Quest *nullQuest = [[Quest alloc] init];
         nullQuest.questId = -1;
-        //nullQuest.name = @"<span style='color:#555555;'>Empty</span>"; 
-        nullQuest.name = @"Empty";   
-        nullQuest.qdescription = @"<span style='color:#555555;'>(you have not completed any quests)</span>";  
+        //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
+        nullQuest.name = NSLocalizedString(@"EmptyKey", @"");
+        nullQuest.qdescription = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoCompletedQuestsKey", @"")];
         sortedCompletedQuests = [NSArray arrayWithObjects:nullQuest, nil];
     }
     

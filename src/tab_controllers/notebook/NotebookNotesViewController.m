@@ -75,8 +75,8 @@ const int VIEW_MODE_TAG  = 2;
     navTitleLabel.textAlignment = NSTextAlignmentCenter;
     switch(viewMode)
     {
-        case VIEW_MODE_MINE: navTitleLabel.text = @"My Notes";    break;
-        case VIEW_MODE_ALL:  navTitleLabel.text = @"All Notes";   break; 
+        case VIEW_MODE_MINE: navTitleLabel.text = NSLocalizedString(@"NotebookMyNotesKey", @"");    break;
+        case VIEW_MODE_ALL:  navTitleLabel.text = NSLocalizedString(@"NotebookAllNotesKey", @"");   break;
         case VIEW_MODE_TAG:  navTitleLabel.text = filterTag.text; break; 
     }
     
@@ -247,15 +247,15 @@ const int VIEW_MODE_TAG  = 2;
 
 - (void) setModeAll
 {
-    viewMode = VIEW_MODE_ALL; 
-    navTitleLabel.text = @"All Notes"; 
+    viewMode = VIEW_MODE_ALL;
+    navTitleLabel.text = NSLocalizedString(@"NotebookAllNotesKey", @"");
     [table reloadData]; 
 }
 
 - (void) setModeMine
 {
     viewMode = VIEW_MODE_MINE;
-    navTitleLabel.text = @"My Notes";  
+    navTitleLabel.text = NSLocalizedString(@"NotebookMyNotesKey", @"");
     [table reloadData];
 }
 

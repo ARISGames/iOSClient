@@ -203,7 +203,7 @@
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
     
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveAudio)];
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(saveAudio)];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
 }
 
