@@ -378,18 +378,13 @@
     //Remove old locations first
     id<MKAnnotation> annotation;
     Location *loc;
-    for(int i = 0; i < [[mapView annotations] count]; i++)
-    {
-        if(![[[mapView annotations] objectAtIndex:i] isKindOfClass:[Location class]]) continue;
-        annotation = [[mapView annotations] objectAtIndex:i];
-        loc = (Location *)annotation; 
-        for(int j = 0; j < [locationsToRemove count]; j++)
-        {
-            if([loc compareTo:((Location *)[locationsToRemove objectAtIndex:j])])
-            {
-                if(loc.nearbyOverlay) [mapView removeOverlay:loc.nearbyOverlay]; 
+    for (int i = 0; i < locationsToRemove.count; i++) {
+        for (int j = 0; j < mapView.annotations.count; j++) {
+            if(![[[mapView annotations] objectAtIndex:j] isKindOfClass:[Location class]]) continue;
+            annotation = [[mapView annotations] objectAtIndex:j];
+            loc = (Location *)annotation;
+            if ([loc compareTo:((Location *)[locationsToRemove objectAtIndex:i])]) {
                 [mapView removeAnnotation:annotation];
-                i--;
             }
         }
     }
