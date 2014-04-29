@@ -210,7 +210,14 @@
 
 - (void) leaveConversationRequested
 {
-    [self dismissSelf];
+    if ([[self.npc.closing stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""]) {
+        [self dismissSelf];
+    }
+    else{
+        closingScriptPlaying = YES;
+        [self displayScriptVC];
+        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.closing nodeId:-1 hasViewed:NO]];
+    }
 }
 
 - (void) dismissSelf
