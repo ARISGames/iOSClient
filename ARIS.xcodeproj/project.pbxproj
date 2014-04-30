@@ -18,7 +18,7 @@
 		5B1D998F178CC3A700661453 /* dark_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9985178CC3A700661453 /* dark_play@2x.png */; };
 		5B1D9991178CC3A700661453 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9987178CC3A700661453 /* stop@2x.png */; };
 		5BBA6A6517822F5E00387DBD /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BBA6A6417822F5E00387DBD /* Accelerate.framework */; };
-		A738887619105A5E00D6B63E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A738887519105A5E00D6B63E /* Images.xcassets */; };
+		A70C6BB719115F2B00A48B4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A70C6BB619115F2B00A48B4C /* Images.xcassets */; };
 		A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8AF0F4B7E9400820FEA /* Foundation.framework */; };
 		A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */; };
 		A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79202630F8E717C0049F990 /* MediaPlayer.framework */; };
@@ -363,7 +363,7 @@
 		5B1D9985178CC3A700661453 /* dark_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark_play@2x.png"; sourceTree = "<group>"; };
 		5B1D9987178CC3A700661453 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
 		5BBA6A6417822F5E00387DBD /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		A738887519105A5E00D6B63E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../Desktop/Images.xcassets; sourceTree = "<group>"; };
+		A70C6BB619115F2B00A48B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A78FD8AF0F4B7E9400820FEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A79202630F8E717C0049F990 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -1134,7 +1134,7 @@
 		AABC6F3C1727398B0074CC21 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				A738887519105A5E00D6B63E /* Images.xcassets */,
+				A70C6BB619115F2B00A48B4C /* Images.xcassets */,
 				AABC6F3D1727398B0074CC21 /* images */,
 				AABC6FB91727398B0074CC21 /* sounds */,
 			);
@@ -2152,7 +2152,6 @@
 				AABC6FF01727398B0074CC21 /* defaultCharacter.png in Resources */,
 				F92B5E3118C66DEB00D1D1A7 /* globe@2x.png in Resources */,
 				AAB62FE118C689DD00030F48 /* barcode@2x.png in Resources */,
-				A738887619105A5E00D6B63E /* Images.xcassets in Resources */,
 				AABC6FF11727398B0074CC21 /* DefaultGameSplash.png in Resources */,
 				AABC6FF31727398B0074CC21 /* DefaultPCImage.png in Resources */,
 				AABC6FF41727398B0074CC21 /* defaultVideoIcon.png in Resources */,
@@ -2177,6 +2176,7 @@
 				AABC70431727398B0074CC21 /* harp.wav in Resources */,
 				AA09B8E918E1EB5500A45562 /* camera@2x.png in Resources */,
 				AABC70441727398B0074CC21 /* inventoryChange.wav in Resources */,
+				A70C6BB719115F2B00A48B4C /* Images.xcassets in Resources */,
 				AABC70451727398B0074CC21 /* mapChange.wav in Resources */,
 				AABC70461727398B0074CC21 /* nearbyObject.wav in Resources */,
 				AA41A36418E4CD2F006CB373 /* save@2x.png in Resources */,
@@ -2488,7 +2488,7 @@
 					src/third_party/zxing/cpp/core/src,
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
@@ -2558,7 +2558,7 @@
 					src/third_party/zxing/cpp/core/src,
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
