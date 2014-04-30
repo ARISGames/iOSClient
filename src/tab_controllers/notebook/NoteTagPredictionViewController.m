@@ -102,8 +102,8 @@
     {
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];  
-        noTagsText.text = @" Game Tags";
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        noTagsText.text = [NSString stringWithFormat:@" %@", NSLocalizedString(@"TagViewGameTagsKey", @"")];
         noTagsText.textColor = [UIColor ARISColorDarkGray];
         noTagsText.font = [ARISTemplate ARISCellBoldTitleFont];
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,28,1000,1)];
@@ -129,8 +129,8 @@
     {
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)]; 
-        noTagsText.text = @" Player Created Tags";
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        noTagsText.text = [NSString stringWithFormat:@" %@", NSLocalizedString(@"TagViewPlayerCreatedTags", @"")];
         noTagsText.textColor = [UIColor ARISColorDarkGray]; 
         noTagsText.font = [ARISTemplate ARISCellBoldTitleFont]; 
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,28,1000,1)];
@@ -157,8 +157,8 @@
         
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];  
-        noTagsText.text = @"(no labels available)";
+        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
+        noTagsText.text = [NSString stringWithFormat:@"(%@)", NSLocalizedString(@"TagViewNoLabelsKey", @"")];
         noTagsText.textColor = [UIColor ARISColorDarkGray]; 
         noTagsText.font = [ARISTemplate ARISCellTitleFont];  
         [tagCell addSubview:noTagsText];

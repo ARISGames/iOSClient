@@ -285,7 +285,7 @@
         if([mediaManagedObjectContext hasChanges] && ![mediaManagedObjectContext save:&error])
         {
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
+            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorSavingToDiskKey", @"") message:[NSString stringWithFormat:@"%@",[error userInfo]]];
         }
     }
     if(requestsManagedObjectContext != nil) 
@@ -293,7 +293,7 @@
         if([requestsManagedObjectContext hasChanges] && ![requestsManagedObjectContext save:&error])
         {
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
+            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorSavingToDiskKey", @"") message:[NSString stringWithFormat:@"%@",[error userInfo]]];
         }
     }
 }

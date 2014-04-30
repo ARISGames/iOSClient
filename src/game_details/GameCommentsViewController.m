@@ -49,7 +49,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     writeAReviewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [writeAReviewButton setTitle:@"Write a Review" forState:UIControlStateNormal];
+    [writeAReviewButton setTitle:NSLocalizedString(@"WriteReviewKey", @"") forState:UIControlStateNormal];
     [writeAReviewButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
     [writeAReviewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
     writeAReviewButton.titleLabel.font = [ARISTemplate ARISButtonFont]; 

@@ -63,7 +63,7 @@
     leaveGameLabel = [[UILabel alloc] init];  
     leaveGameLabel.textAlignment = NSTextAlignmentLeft;
     leaveGameLabel.font = [ARISTemplate ARISButtonFont];
-    leaveGameLabel.text = @"Leave Game";
+    leaveGameLabel.text = NSLocalizedString(@"BogusTitleKey", @""); //leave game text
     leaveGameLabel.textColor = [ARISTemplate ARISColorText]; 
     leaveGameLabel.accessibilityLabel = @"Leave Game";  
     

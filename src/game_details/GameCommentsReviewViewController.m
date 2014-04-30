@@ -37,7 +37,7 @@
 {
     if(self = [super init])
     {
-        self.title = @"Write a Review";
+        self.title = NSLocalizedString(@"WriteReviewKey", @"");
         delegate = d;
     }
     return self;
@@ -49,7 +49,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     ratePrompt = [[UILabel alloc] init];
-    ratePrompt.text = @"(Tap a Star to Rate)";
+    ratePrompt.text = [NSString stringWithFormat:@"(%@)", NSLocalizedString(@"RatingPromptKey", @"")];
     ratePrompt.font = [ARISTemplate ARISCellSubtextFont]; 
     ratePrompt.textAlignment = NSTextAlignmentCenter;
     ratePrompt.textColor = [UIColor ARISColorDarkGray]; 
@@ -72,12 +72,12 @@
     
     titleField = [[UITextField alloc] init];
     titleField.font = [ARISTemplate ARISInputFont];
-    titleField.placeholder = @"Title";
+    titleField.placeholder = NSLocalizedString(@"TitleAndDescriptionTitleKey", @"");
     titleField.returnKeyType = UIReturnKeyDone;
     titleField.delegate = self;
     
     commentPrompt = [[UILabel alloc] init];
-    commentPrompt.text = @"Write a Review (Optional)";
+    commentPrompt.text = [NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"WriteReviewKey", @""), NSLocalizedString(@"OptionalKey", @"")];
     commentPrompt.font = [ARISTemplate ARISBodyFont];  
     commentPrompt.textColor = [UIColor ARISColorDarkGray];
     
@@ -86,7 +86,7 @@
     commentArea.delegate = self;
     
     postButton = [[UILabel alloc] init];
-    postButton.text = @"Post";
+    postButton.text = NSLocalizedString(@"PostKey", @"");
     postButton.textColor = [UIColor ARISColorDarkBlue];  
     [postButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postButtonTouched)]];
     postButton.userInteractionEnabled = YES; 

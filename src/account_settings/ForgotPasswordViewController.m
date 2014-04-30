@@ -60,7 +60,7 @@
     emailField.delegate = self;
     emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     emailField.autocorrectionType = UITextAutocorrectionTypeNo;
-    emailField.placeholder = @"Email to Reset";
+    emailField.placeholder = NSLocalizedString(@"EmailToResetKey", @"");
     emailField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:emailField];
     
@@ -72,7 +72,7 @@
     instructions = [[UILabel alloc] initWithFrame:CGRectMake(20,66+20+20+20,self.view.frame.size.width-40,80)];
     instructions.numberOfLines = 0;
     instructions.lineBreakMode = NSLineBreakByWordWrapping;
-    instructions.text = @"An email will be sent to the above address with instructions on how to reset your password.";
+    instructions.text = NSLocalizedString(@"EmailInstructionsKey", @"");
     [self.view addSubview:instructions];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];

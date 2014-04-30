@@ -45,7 +45,7 @@
 {
     if(self = [super init])
     {
-        self.title = @"Audio Note";
+        self.title = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"AudioKey", @""), NSLocalizedString(@"NoteKey", @"")];
         delegate = d;
         
         NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
@@ -114,7 +114,7 @@
     [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
     saveButton.frame    = CGRectMake(0,0, 24, 24);    
     
-    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Discard" otherButtonTitles:nil];
+    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
 }
 
 - (void) viewDidLoad
@@ -217,7 +217,7 @@
 
 - (void) discardButtonTouched
 {
-    confirmPrompt.title = @"Discard audio?";
+    confirmPrompt.title = NSLocalizedString(@"DiscardAudioWarningKey", @"");
     [confirmPrompt showInView:self.view]; 
 }
 

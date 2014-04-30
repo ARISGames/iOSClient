@@ -100,8 +100,8 @@
     
     title = [[UITextField alloc] init];
     title.delegate = self;
-    title.font = [ARISTemplate ARISTitleFont]; 
-    title.placeholder = @"Title";
+    title.font = [ARISTemplate ARISTitleFont];
+    title.placeholder = NSLocalizedString(@"TitleAndDescriptionTitleKey", @"");
     title.returnKeyType = UIReturnKeyDone;
     
     date = [[UILabel alloc] init];  
@@ -121,7 +121,7 @@
     tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:YES delegate:self]; 
     
     descriptionPrompt = [[UILabel alloc] init];
-    descriptionPrompt.text = @"Note Description";
+    descriptionPrompt.text = NSLocalizedString(@"NoteEditorDescriptionKey", @"");
     descriptionPrompt.font = [ARISTemplate ARISBodyFont]; 
     descriptionPrompt.textColor = [UIColor ARISColorLightGray];
     
@@ -135,9 +135,9 @@
     saveNoteButton.frame = CGRectMake(0, 0, 24, 24);
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
     
-    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Title Note" destructiveButtonTitle:@"Save Untitiled" otherButtonTitles:nil];
-    deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil]; 
-    discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Continue Editing" destructiveButtonTitle:@"Discard" otherButtonTitles:nil]; 
+    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorTitleNoteKey", @"") destructiveButtonTitle:NSLocalizedString(@"NoteEditorSaveUntitledKey", @"") otherButtonTitles:nil];
+    deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:NSLocalizedString(@"DeleteKey", @"") otherButtonTitles:nil];
+    discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorContinueEditingKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
     
     contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
@@ -162,8 +162,8 @@
     imagePickerLabel.font = [ARISTemplate ARISCellSubtextFont];
     imagePickerLabel.textColor = [UIColor blackColor];
     imagePickerLabel.numberOfLines = 0;
-    imagePickerLabel.lineBreakMode = NSLineBreakByWordWrapping;   
-    imagePickerLabel.text = @"ADD\nIMAGE";
+    imagePickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    imagePickerLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"AddKey", @"") uppercaseString], [NSLocalizedString(@"ImageKey", @"") uppercaseString]];
     
     audioPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
     [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
@@ -174,8 +174,8 @@
     audioPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
     audioPickerLabel.textColor = [UIColor blackColor]; 
     audioPickerLabel.numberOfLines = 0; 
-    audioPickerLabel.lineBreakMode = NSLineBreakByWordWrapping;  
-    audioPickerLabel.text = @"ADD\nAUDIO"; 
+    audioPickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    audioPickerLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"AddKey", @"") uppercaseString], [NSLocalizedString(@"AudioKey", @"") uppercaseString]];
     
     locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
     [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
@@ -187,8 +187,8 @@
     locationPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
     locationPickerLabel.textColor = [UIColor blackColor];  
     locationPickerLabel.numberOfLines = 0;
-    locationPickerLabel.lineBreakMode = NSLineBreakByWordWrapping; 
-    locationPickerLabel.text = @"SET\nLOCATION";  
+    locationPickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    locationPickerLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"SetKey", @"") uppercaseString], [NSLocalizedString(@"LocationKey", @"") uppercaseString]];
     
     trashButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
     [trashButton setImage:[UIImage imageNamed:@"trash_red.png"] forState:UIControlStateNormal];
@@ -201,7 +201,7 @@
     trashLabel.textColor = [UIColor blackColor];  
     trashLabel.numberOfLines = 0;
     trashLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    trashLabel.text = @"DELETE\nNOTE";   
+    trashLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"DeleteKey", @"") uppercaseString], [NSLocalizedString(@"NoteKey", @"") uppercaseString]];
     
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:imagePickerLabel];  
@@ -419,7 +419,7 @@
 
 - (void) trashButtonTouched
 {
-    deletePrompt.title = @"Delete Note?";
+    deletePrompt.title = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"DeleteKey", @""), NSLocalizedString(@"NoteKey", @"")];
     [deletePrompt showInView:self.view]; 
 }
 
@@ -427,12 +427,12 @@
 {
     if([title.text isEqualToString:@""])
     {
-        confirmPrompt.title = @"Your note is Untitled";
+        confirmPrompt.title = NSLocalizedString(@"NoteEditorNoteIsUntitledKey", @"");
         [confirmPrompt showInView:self.view];
     }
     else if(!newTag)
     {
-        confirmPrompt.title = @"Your note isn't labeled!";
+        confirmPrompt.title = NSLocalizedString(@"NoteEditorNoteIsntLabeled", @"");
         [confirmPrompt showInView:self.view];
     } 
     else [self saveNote];
@@ -532,7 +532,7 @@
 {
     if(dirtybit || ![note.name isEqualToString:title.text] || ![note.desc isEqualToString:description.text])
     {
-        discardChangesPrompt.title = @"You Have Unsaved Changes";
+        discardChangesPrompt.title = NSLocalizedString(@"NoteEditorUnsavedChagned", @"");
         [discardChangesPrompt showInView:self.view];  
     }
     else [self dismissSelf];

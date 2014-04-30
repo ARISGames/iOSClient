@@ -77,9 +77,9 @@
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     int numButtons = 0;
-    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.destroyable)      { destroyBtn = [self createItemButtonWithText:@"Destroy" selector:@selector(destroyButtonTouched)]; numButtons++; }
-    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.dropable)         { dropBtn    = [self createItemButtonWithText:@"Drop"    selector:@selector(dropButtonTouched)];    numButtons++; }
-    if([(NSObject *)source isKindOfClass:[Location class]] && (self.item.qty > 0 || self.item.infiniteQty)) { pickupBtn  = [self createItemButtonWithText:@"Pick Up" selector:@selector(pickupButtonTouched)];  numButtons++; } 
+    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
+    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.dropable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
+    if([(NSObject *)source isKindOfClass:[Location class]] && (self.item.qty > 0 || self.item.infiniteQty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
     
     line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
@@ -206,7 +206,7 @@
 {	
     if(self.item.qty > 1 && !self.item.infiniteQty)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Drop" positive:NO qty:self.item.qty delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDropKey", @"") positive:NO qty:self.item.qty delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else 
@@ -228,7 +228,7 @@
 {
     if(self.item.qty > 1 && !self.item.infiniteQty)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Destroy" positive:NO qty:self.item.qty delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDeleteKey", @"") positive:NO qty:self.item.qty delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else 
@@ -264,7 +264,7 @@
         
         if(maxPUAmt < q) q = maxPUAmt;
         
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:@"Pick Up" positive:YES qty:q delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES qty:q delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else 

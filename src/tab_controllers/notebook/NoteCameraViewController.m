@@ -106,7 +106,7 @@
                     failureBlock:^(NSError *error)
                   {
                       //doesn't exist, save to roll failed
-                      [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Warning" message:@"Your privacy settings are disallowing us from saving to your camera roll. Go into System Settings to turn these settings off."];
+                      [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"CameraWarningKey", @"") message:NSLocalizedString(@"CameraWarningMessageKey", @"")];
                       [delegate imageChosenWithURL:imageURL];
                   }];
              }];

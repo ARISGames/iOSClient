@@ -23,6 +23,6 @@
 + (UIColor *) ARISColorWhite     { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0)  blue:(255.0/255.0) alpha:1.0]; }
 + (UIColor *) ARISColorOffWhite  { return [UIColor colorWithRed:(228.0/255.0) green:(229.0/255.0)  blue:(230.0/255.0) alpha:1.0]; }
 + (UIColor *) ARISColorTranslucentBlack { return [UIColor colorWithRed:( 16.0/255.0) green:(  8.0/255.0) blue:(  2.0/255.0) alpha:0.8]; }
-+ (UIColor *) ARISColorTranslucentWhite { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0) blue:(255.0/255.0) alpha:0.9]; }
++ (UIColor *) ARISColorTranslucentWhite { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0) blue:(255.0/255.0) alpha:0.95]; }
 
 @end

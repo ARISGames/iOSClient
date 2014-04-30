@@ -65,7 +65,7 @@
     
     navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.font = [ARISTemplate ARISTitleFont];
-    navTitleLabel.text = @"Notebook";
+    navTitleLabel.text = NSLocalizedString(@"NotebookTitleKey", @"");
     navTitleLabel.textAlignment = NSTextAlignmentCenter; 
     
     [navTitleView addSubview:navTitleLabel];
@@ -110,20 +110,20 @@
     [self.view addSubview:newImageButton];  
     [self.view addSubview:newVideoButton];  
     
-    allNotesButton = [[UILabel alloc] init]; 
-    allNotesButton.text = @"        All Notes";
+    allNotesButton = [[UILabel alloc] init];
+    allNotesButton.text = [NSString stringWithFormat:@"        %@", NSLocalizedString(@"NotebookAllNotesKey", @"")];
     allNotesButton.font = [ARISTemplate ARISButtonFont]; 
     allNotesButton.userInteractionEnabled = YES;
     [allNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(allNotesButtonTouched)]]; 
     
     myNotesButton = [[UILabel alloc] init];
-    myNotesButton.text = @"        My Notes";
+    myNotesButton.text = [NSString stringWithFormat:@"        %@", NSLocalizedString(@"NotebookMyNotesKey", @"")];
     myNotesButton.font = [ARISTemplate ARISButtonFont];
     myNotesButton.userInteractionEnabled = YES; 
     [myNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myNotesButtonTouched)]];
     
     labelSelectorButton = [[UILabel alloc] init];
-    labelSelectorButton.text = @"        Labels";
+    labelSelectorButton.text = [NSString stringWithFormat:@"        %@", NSLocalizedString(@"LabelsKey", @"")];
     labelSelectorButton.font = [ARISTemplate ARISButtonFont];
     labelSelectorButton.userInteractionEnabled = YES; 
     [labelSelectorButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelSelectorButtonTouched)]];
