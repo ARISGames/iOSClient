@@ -18,7 +18,7 @@
 		5B1D998F178CC3A700661453 /* dark_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9985178CC3A700661453 /* dark_play@2x.png */; };
 		5B1D9991178CC3A700661453 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9987178CC3A700661453 /* stop@2x.png */; };
 		5BBA6A6517822F5E00387DBD /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BBA6A6417822F5E00387DBD /* Accelerate.framework */; };
-		A738887619105A5E00D6B63E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A738887519105A5E00D6B63E /* Images.xcassets */; };
+		A70C6BB719115F2B00A48B4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A70C6BB619115F2B00A48B4C /* Images.xcassets */; };
 		A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8AF0F4B7E9400820FEA /* Foundation.framework */; };
 		A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */; };
 		A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79202630F8E717C0049F990 /* MediaPlayer.framework */; };
@@ -36,7 +36,6 @@
 		AA04E34218E6267E00621F0C /* speech_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E34118E6267E00621F0C /* speech_bubble@2x.png */; };
 		AA04E34418E62A6400621F0C /* sound_with_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E34318E62A6400621F0C /* sound_with_bg@2x.png */; };
 		AA09B8E618E1EB5500A45562 /* video@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E018E1EB5500A45562 /* video@2x.png */; };
-		AA09B8E718E1EB5500A45562 /* notebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E118E1EB5500A45562 /* notebook@2x.png */; };
 		AA09B8E818E1EB5500A45562 /* tags@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E218E1EB5500A45562 /* tags@2x.png */; };
 		AA09B8E918E1EB5500A45562 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E318E1EB5500A45562 /* camera@2x.png */; };
 		AA09B8EA18E1EB5500A45562 /* microphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E418E1EB5500A45562 /* microphone@2x.png */; };
@@ -363,7 +362,7 @@
 		5B1D9985178CC3A700661453 /* dark_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark_play@2x.png"; sourceTree = "<group>"; };
 		5B1D9987178CC3A700661453 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
 		5BBA6A6417822F5E00387DBD /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		A738887519105A5E00D6B63E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../Desktop/Images.xcassets; sourceTree = "<group>"; };
+		A70C6BB619115F2B00A48B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A78FD8AF0F4B7E9400820FEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A79202630F8E717C0049F990 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -382,7 +381,6 @@
 		AA04E34118E6267E00621F0C /* speech_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speech_bubble@2x.png"; sourceTree = "<group>"; };
 		AA04E34318E62A6400621F0C /* sound_with_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound_with_bg@2x.png"; sourceTree = "<group>"; };
 		AA09B8E018E1EB5500A45562 /* video@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video@2x.png"; sourceTree = "<group>"; };
-		AA09B8E118E1EB5500A45562 /* notebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notebook@2x.png"; sourceTree = "<group>"; };
 		AA09B8E218E1EB5500A45562 /* tags@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tags@2x.png"; sourceTree = "<group>"; };
 		AA09B8E318E1EB5500A45562 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
 		AA09B8E418E1EB5500A45562 /* microphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "microphone@2x.png"; sourceTree = "<group>"; };
@@ -1072,7 +1070,6 @@
 				AA09B8F618E21A7C00A45562 /* user@2x.png */,
 				AA09B8F018E20AB500A45562 /* sound@2x.png */,
 				AA09B8E018E1EB5500A45562 /* video@2x.png */,
-				AA09B8E118E1EB5500A45562 /* notebook@2x.png */,
 				AA09B8E218E1EB5500A45562 /* tags@2x.png */,
 				AA09B8E318E1EB5500A45562 /* camera@2x.png */,
 				AA09B8E418E1EB5500A45562 /* microphone@2x.png */,
@@ -1134,7 +1131,7 @@
 		AABC6F3C1727398B0074CC21 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				A738887519105A5E00D6B63E /* Images.xcassets */,
+				A70C6BB619115F2B00A48B4C /* Images.xcassets */,
 				AABC6F3D1727398B0074CC21 /* images */,
 				AABC6FB91727398B0074CC21 /* sounds */,
 			);
@@ -2152,7 +2149,6 @@
 				AABC6FF01727398B0074CC21 /* defaultCharacter.png in Resources */,
 				F92B5E3118C66DEB00D1D1A7 /* globe@2x.png in Resources */,
 				AAB62FE118C689DD00030F48 /* barcode@2x.png in Resources */,
-				A738887619105A5E00D6B63E /* Images.xcassets in Resources */,
 				AABC6FF11727398B0074CC21 /* DefaultGameSplash.png in Resources */,
 				AABC6FF31727398B0074CC21 /* DefaultPCImage.png in Resources */,
 				AABC6FF41727398B0074CC21 /* defaultVideoIcon.png in Resources */,
@@ -2177,6 +2173,7 @@
 				AABC70431727398B0074CC21 /* harp.wav in Resources */,
 				AA09B8E918E1EB5500A45562 /* camera@2x.png in Resources */,
 				AABC70441727398B0074CC21 /* inventoryChange.wav in Resources */,
+				A70C6BB719115F2B00A48B4C /* Images.xcassets in Resources */,
 				AABC70451727398B0074CC21 /* mapChange.wav in Resources */,
 				AABC70461727398B0074CC21 /* nearbyObject.wav in Resources */,
 				AA41A36418E4CD2F006CB373 /* save@2x.png in Resources */,
@@ -2210,7 +2207,6 @@
 				AA09B8E618E1EB5500A45562 /* video@2x.png in Resources */,
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,
-				AA09B8E718E1EB5500A45562 /* notebook@2x.png in Resources */,
 				AA09B8EA18E1EB5500A45562 /* microphone@2x.png in Resources */,
 				AA0D161818EE00C100D856F1 /* trash_red@2x.png in Resources */,
 				AA04E33C18E6179200621F0C /* map@2x.png in Resources */,
@@ -2492,10 +2488,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
-					"$(inherited)",
-					"$(SRCROOT)/src/third_party/TestFlightSDK2.0.2",
-					/Users/pdougherty/Desktop/iOSClient/src/third_party/TestFlightSDK2.2.1,
-					/Users/pdougherty/Desktop/iOSClient/src/third_party/TestFlightSDK3.0.0,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2525,7 +2517,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-v";
 				PROVISIONING_PROFILE = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
@@ -2562,10 +2554,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
-					"$(inherited)",
-					"$(SRCROOT)/src/third_party/TestFlightSDK2.0.2",
-					/Users/pdougherty/Desktop/iOSClient/src/third_party/TestFlightSDK2.2.1,
-					/Users/pdougherty/Desktop/iOSClient/src/third_party/TestFlightSDK3.0.0,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2585,7 +2573,6 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = armv7;
 				"ARCHS[sdk=iphoneos*]" = armv7;
 				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CODE_SIGN_IDENTITY = "";
@@ -2596,7 +2583,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-v";
 				PROVISIONING_PROFILE = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
