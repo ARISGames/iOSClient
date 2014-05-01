@@ -9,7 +9,7 @@
 #import "NoteCommentsViewController.h"
 #import "Note.h"
 #import "NoteComment.h"
-#import "Player.h"
+#import "User.h"
 #import "ARISTemplate.h"
 
 @interface NoteCommentsViewController () <UITextFieldDelegate>
@@ -73,7 +73,7 @@
     UILabel *author = [[UILabel alloc] initWithFrame:CGRectMake(10,0,self.view.frame.size.width-85,14)];
     author.font = [ARISTemplate ARISSubtextFont]; 
     author.textColor = [UIColor ARISColorDarkGray];   
-    author.text = c.owner.displayname;   
+    author.text = c.owner.display_name;   
     CGSize authSize = [author.text sizeWithFont:author.font constrainedToSize:CGSizeMake(author.frame.size.width,9999999) lineBreakMode:NSLineBreakByTruncatingTail];  
     author.frame = CGRectMake(author.frame.origin.x, author.frame.origin.y, authSize.width, 14);
     

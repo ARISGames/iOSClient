@@ -14,7 +14,7 @@
 #import "NoteEditorViewController.h"
 #import "ARISMediaView.h"
 #import "Note.h"
-#import "Player.h"
+#import "User.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "Game.h"
@@ -128,7 +128,7 @@
     [editButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal]; 
     [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     editButton.accessibilityLabel = @"Edit Button";
-    if([AppModel sharedAppModel].player.playerId == note.owner.playerId)
+    if([AppModel sharedAppModel].player.user_id == note.owner.user_id)
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];   
        
     navView.frame = CGRectMake(0, 0, 200, 64);
@@ -176,7 +176,7 @@
     title.text = note.name;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
-    ownerdate.text = [NSString stringWithFormat:@"%@ %@",note.owner.displayname,[format stringFromDate:note.created]]; 
+    ownerdate.text = [NSString stringWithFormat:@"%@ %@",note.owner.display_name,[format stringFromDate:note.created]]; 
     
     desc.text = note.desc;  
     

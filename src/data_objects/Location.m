@@ -14,7 +14,7 @@
 #import "Node.h"
 #import "WebPage.h"
 #import "Note.h"
-#import "Player.h"
+#import "User.h"
 #import "Npc.h"
 #import "Note.h"
 
@@ -64,7 +64,7 @@
         if([otype isEqualToString:@"Npc"])        self.gameObject = [[AppModel sharedAppModel].currentGame npcForNpcId:oid];
         if([otype isEqualToString:@"WebPage"])    self.gameObject = [[AppModel sharedAppModel].currentGame webpageForWebpageId:oid];
         if([otype isEqualToString:@"PlayerNote"]) self.gameObject = [[AppModel sharedAppModel].currentGame.notesModel noteForId:oid];
-        if([otype isEqualToString:@"Player"])     self.gameObject = [[Player alloc] init];
+        if([otype isEqualToString:@"Player"])     self.gameObject = [[User alloc] init];
         
         BOOL validErrorRange = YES;
         self.qty               = [dict validIntForKey:@"item_qty"];

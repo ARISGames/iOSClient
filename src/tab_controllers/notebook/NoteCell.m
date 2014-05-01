@@ -10,7 +10,7 @@
 #import "Note.h"
 #import "NoteTag.h"
 #import "Media.h"
-#import "Player.h"
+#import "User.h"
 
 #import "ARISMediaView.h"
 #import "ARISTemplate.h"
@@ -111,7 +111,7 @@
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
     date.text = [format stringFromDate:n.created];
-    owner.text = n.owner.displayname;
+    owner.text = n.owner.display_name;
     desc.text = n.desc;
     
     Media *bestContentForDisplay;

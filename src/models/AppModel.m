@@ -7,7 +7,7 @@
 //
 
 #import "AppModel.h"
-#import "Player.h"
+#import "User.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
 #import "Quest.h"
@@ -117,24 +117,22 @@
     //Safe to load defaults
     if(!self.player)
     {
-        self.player               = [[Player alloc] init];
+        self.player               = [[User alloc] init];
         self.showPlayerOnMap      = [defaults  boolForKey:@"showPlayerOnMap"];
-        self.player.playerId      = [defaults  integerForKey:@"playerId"];
-        self.player.playerMediaId = [defaults  integerForKey:@"playerMediaId"];
-        self.player.username      = [defaults  objectForKey:@"userName"];
-        self.player.displayname   = [defaults  objectForKey:@"displayName"];
-        self.player.groupname     = [defaults  objectForKey:@"groupName"];
-        self.player.groupGameId   = [[defaults objectForKey:@"groupName"] intValue];
+        self.player.user_id      = [defaults  integerForKey:@"user_id"];
+        self.player.media_id = [defaults  integerForKey:@"media_id"];
+        self.player.user_name      = [defaults  objectForKey:@"user_name"];
+        self.player.display_name   = [defaults  objectForKey:@"display_name"];
         
         //load the player media immediately if possible
-        if(self.player.playerMediaId != 0)
-            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegateHandle:nil];
+        if(self.player.media_id != 0)
+            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.media_id] delegateHandle:nil];
     }
     
-    self.fallbackGameId = [defaults integerForKey:@"gameId"];
+    self.fallbackGameId = [defaults integerForKey:@"game_id"];
 }
 
-- (void) commitPlayerLogin:(Player *)p
+- (void) commitPlayerLogin:(User *)p
 {
     self.player = p;
     if(!self.player.location) self.player.location = deviceLocation;
@@ -150,25 +148,25 @@
 	NSLog(@"Model: Saving User Defaults");
     [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
     [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
-    [defaults setInteger:fallbackGameId           forKey:@"gameId"];
+    [defaults setInteger:fallbackGameId           forKey:@"game_id"];
     if(player)
     {
-        [defaults setInteger:player.playerId          forKey:@"playerId"];
-        [defaults setInteger:player.playerMediaId     forKey:@"playerMediaId"];
-        [defaults setObject:player.username           forKey:@"userName"];
-        [defaults setObject:player.displayname        forKey:@"displayName"];
+        [defaults setInteger:player.user_id          forKey:@"user_id"];
+        [defaults setInteger:player.media_id     forKey:@"media_id"];
+        [defaults setObject:player.user_name           forKey:@"user_name"];
+        [defaults setObject:player.display_name        forKey:@"display_name"];
     }
     else
     {
-        [defaults setInteger:0  forKey:@"playerId"];
-        [defaults setInteger:0  forKey:@"playerMediaId"];
-        [defaults setObject:@"" forKey:@"userName"];
-        [defaults setObject:@"" forKey:@"displayName"];
+        [defaults setInteger:0  forKey:@"user_id"];
+        [defaults setInteger:0  forKey:@"media_id"];
+        [defaults setObject:@"" forKey:@"user_name"];
+        [defaults setObject:@"" forKey:@"display_name"];
     }
     [defaults synchronize];
        
-    if(self.player.playerMediaId != 0)
-        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId] delegateHandle:nil];  
+    if(self.player.media_id != 0)
+        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.media_id] delegateHandle:nil];  
 }
 
 - (void) initUserDefaults
@@ -209,13 +207,13 @@
 
 - (void) setPlayerLocation:(CLLocation *)l
 {
-    if(!player) player = [[Player alloc] init];
+    if(!player) player = [[User alloc] init];
     player.location = l;
     [[AppServices sharedAppServices] updateServerWithPlayerLocation];
 	
     NSDictionary *locDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:l,nil] forKeys:[[NSArray alloc] initWithObjects:@"location",nil]];
-    NSLog(@"NSNotification: PlayerMoved");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil userInfo:locDict]];
+    NSLog(@"NSNotification: UserMoved");
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UserMoved" object:nil userInfo:locDict]];
 }
 
 - (Media *) mediaForMediaId:(int)mId

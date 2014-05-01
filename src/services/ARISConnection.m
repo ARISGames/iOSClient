@@ -310,7 +310,7 @@ NSString *const kARISServerServicePackage = @"v1";
 // http://domain.com/stuff/570/43.0129345/89.123451/1 )
 // In other words, its completely illegible to a human, and very easy to mess up if you dont know the ordering
 // or if it changes. So EVENTUALLY, aris will switch away from this. But for NOW, so long as you pass a dictionary
-// with alphebetized keys (eg "aplayerId,blatitude,clongitude,dshowGamesInDev"), this will parse out the values
+// with alphebetized keys (eg "auser_id,blatitude,clongitude,dshowGamesInDev"), this will parse out the values
 // in the correct order.
 
 //But hey, at least it's isolated to this one clearly labeled hack function... ;)

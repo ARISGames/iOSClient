@@ -13,7 +13,7 @@
 #import "Game.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#import "Player.h"
+#import "User.h"
 #import "UIColor+ARISColors.h"
 
 @implementation GamePickerAnywhereViewController

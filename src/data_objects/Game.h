@@ -9,125 +9,79 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "NotesModel.h"
-#import "InventoryModel.h"
-#import "AttributesModel.h"
+#import "ItemsModel.h"
 #import "QuestsModel.h"
 #import "LocationsModel.h"
 #import "Media.h"
 #import "OverlaysModel.h"
 
-@class Item;
-@class Npc;
-@class Node;
-@class WebPage;
-@class Panoramic;
-
 @interface Game : NSObject
 {
-	int gameId;
-   	NSString *name;
-	NSString *desc; 
+  int game_id;
+  NSString *name;
+  NSString *desc; 
 
-    NSMutableDictionary *itemList;
-    NSMutableDictionary *nodeList;
-    NSMutableDictionary *npcList;
-    NSMutableDictionary *webpageList;
-    NSMutableDictionary *panoramicList;
-    
-    NotesModel      *notesModel;
-    InventoryModel  *inventoryModel; 
-    AttributesModel *attributesModel;
-    QuestsModel     *questsModel;
-    LocationsModel  *locationsModel;
-    OverlaysModel   *overlaysModel;
-    
-    NSString *mapType;
-    Media *iconMedia;
-    Media *splashMedia; 
+  int icon_media_id; 
+  Media *iconMedia;
+  int media_id;  
+  Media *media; 
 
-	NSString *authors;
-    int rating;
-    NSMutableArray *comments;
-	double distanceFromPlayer;
-	CLLocation *location;	
-    int playerCount;
-	int pcMediaId;
-	int iconMediaId;
-	int launchNodeId;
-	int completeNodeId;
-	int numReviews;
-    int calculatedScore;
-    BOOL hasBeenPlayed;
-    BOOL isLocational;
-    BOOL showPlayerLocation;
-    BOOL allowsPlayerTags;
-    BOOL allowShareNoteToMap;
-    BOOL allowShareNoteToList;
-    BOOL allowNoteComments;
-    BOOL allowNoteLikes;
-    
-    double latitude;
-    double longitude; 
-    double zoomLevel;  
+  NSString *map_type;
+  CLLocation *location;
+  double zoom_level;
+
+  BOOL show_player_location;
+  BOOL full_quick_travel;
+
+  BOOL allow_note_comments;
+  BOOL allow_note_player_tags;
+  BOOL allow_note_likes;
+
+  int inventory_weight_cap;
+
+  NSMutableArray *authors;
+  NSMutableArray *comments;
+
+  NotesModel      *notesModel;
+  ItemsModel      *itemsModel;
+  QuestsModel     *questsModel;
+  LocationsModel  *locationsModel;
+  OverlaysModel   *overlaysModel;
 }
 
-@property (readwrite, assign) int gameId;
+@property (nonatomic, assign) int game_id;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *desc; 
 
-@property (nonatomic, strong) NSMutableDictionary *itemList;
-@property (nonatomic, strong) NSMutableDictionary *nodeList;
-@property (nonatomic, strong) NSMutableDictionary *npcList;
-@property (nonatomic, strong) NSMutableDictionary *webpageList;
-@property (nonatomic, strong) NSMutableDictionary *panoramicList;
-
-@property (nonatomic, strong) NotesModel *notesModel;
-@property (nonatomic, strong) InventoryModel *inventoryModel;
-@property (nonatomic, strong) AttributesModel *attributesModel;
-@property (nonatomic, strong) QuestsModel *questsModel;
-@property (nonatomic, strong) LocationsModel *locationsModel;
-@property (nonatomic, strong) OverlaysModel *overlaysModel;
-
-@property (nonatomic, strong) NSString *mapType;
-
-@property (nonatomic, strong) NSString *authors;
-@property (readwrite, assign) int rating;
-@property (nonatomic, strong) NSMutableArray *comments;
-@property (readwrite, assign) double distanceFromPlayer;
-@property (nonatomic, strong) CLLocation *location;
-@property (readwrite, assign) int pcMediaId;
-@property (readwrite, assign) int playerCount;
-@property (readwrite, assign) int launchNodeId;
-@property (readwrite, assign) int completeNodeId;
-@property (readwrite, assign) int numReviews;
-@property (readwrite, assign) BOOL hasBeenPlayed;
-@property (readwrite, assign) BOOL isLocational;
-@property (readwrite, assign) BOOL showPlayerLocation;
-@property (readwrite, assign) BOOL allowsPlayerTags;
-@property (readwrite, assign) BOOL allowShareNoteToMap;
-@property (readwrite, assign) BOOL allowShareNoteToList;
-@property (readwrite, assign) BOOL allowNoteComments;
-@property (readwrite, assign) BOOL allowNoteLikes;
-
-@property (readwrite, assign) double latitude;
-@property (readwrite, assign) double longitude;
-@property (readwrite, assign) double zoomLevel;
-
-@property (readwrite, assign) int calculatedScore;
+@property (nonatomic, assign) int icon_media_id; 
 @property (nonatomic, strong) Media *iconMedia;
-@property (nonatomic, strong) Media *splashMedia;
+@property (nonatomic, assign) int media_id;  
+@property (nonatomic, strong) Media *media; 
+
+@property (nonatomic, strong) NSString *map_type;
+@property (nonatomic, strong) CLLocation *location;
+@property (nonatomic, assign) double zoom_level;
+
+@property (nonatomic, assign) BOOL show_player_location;
+@property (nonatomic, assign) BOOL full_quick_travel;
+
+@property (nonatomic, assign) BOOL allow_note_comments;
+@property (nonatomic, assign) BOOL allow_note_player_tags;
+@property (nonatomic, assign) BOOL allow_note_likes;
+
+@property (nonatomic, assign) int inventory_weight_cap;
+
+@property (nonatomic, strong) NSMutableArray *authors;
+@property (nonatomic, strong) NSMutableArray *comments;
+
+@property (nonatomic, strong) NotesModel     *notesModel;
+@property (nonatomic, strong) ItemsModel     *itemsModel; 
+@property (nonatomic, strong) QuestsModel    *questsModel;
+@property (nonatomic, strong) LocationsModel *locationsModel;
+@property (nonatomic, strong) OverlaysModel  *overlaysModel;
 
 - (void) getReadyToPlay;
-- (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;
-- (NSComparisonResult)compareCalculatedScore:(Game*)otherGame;
-- (NSComparisonResult)compareTitle:(Game*)otherGame;
 - (void) clearLocalModels;
 - (void) endPlay;
-
-- (Npc *) npcForNpcId:(int)mId;
-- (Node *) nodeForNodeId:(int)mId;
-- (WebPage *) webpageForWebpageId:(int)mId;
-- (Panoramic *) panoramicForPanoramicId:(int)mId;
-- (Item *) itemForItemId:(int)mId;
 
 @end

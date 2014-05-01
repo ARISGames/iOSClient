@@ -9,7 +9,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "NotesModel.h"
-#import "Player.h"
+#import "User.h"
 
 @interface NotesModel()
 {
@@ -187,7 +187,7 @@
     {
         NSMutableArray *constructPlayerNotes = [[NSMutableArray alloc] initWithCapacity:10];
         for(Note *n in currentNotes)
-            if(n.owner.playerId == [AppModel sharedAppModel].player.playerId) [constructPlayerNotes addObject:n];
+            if(n.owner.user_id == [AppModel sharedAppModel].player.user_id) [constructPlayerNotes addObject:n];
         playerNotes = constructPlayerNotes;
     }
     return playerNotes;

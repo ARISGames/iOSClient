@@ -12,7 +12,7 @@
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
-#import "Player.h"
+#import "User.h"
 
 @interface ForceDisplayQueue ()
 {
@@ -29,7 +29,7 @@
     {
         delegate = d;
         
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forceDisplayEligibleLocations) name:@"PlayerMoved"        object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forceDisplayEligibleLocations) name:@"UserMoved"        object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forceDisplayEligibleLocations) name:@"LocationsAvailable" object:nil];
 		nearbyLocationsList = [NSMutableArray arrayWithCapacity:5];
     }

@@ -10,7 +10,7 @@
 #import "NotesModel.h"
 #import "Game.h"
 #import "NoteComment.h"
-#import "Player.h"
+#import "User.h"
 #import "Location.h"
 #import "NoteTag.h"
 #import "NSDictionary+ValidParsers.h"
@@ -37,7 +37,7 @@
     if (self = [super init])
     {
         self.noteId = 0;
-        self.owner = [[Player alloc] init]; 
+        self.owner = [[User alloc] init]; 
         self.name = @"";
         self.desc = @"";
         self.created = [[NSDate alloc] init]; 
@@ -59,7 +59,7 @@
         self.noteId = [dict validIntForKey:@"note_id"]; 
         
         NSDictionary *ownerDict = [dict validObjectForKey:@"owner"]; 
-        if(ownerDict) self.owner = [[Player alloc] initWithDictionary:ownerDict];
+        if(ownerDict) self.owner = [[User alloc] initWithDictionary:ownerDict];
        
         self.name = [dict validStringForKey:@"title"];
         self.desc = [dict validStringForKey:@"description"];
@@ -154,7 +154,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"Note- Id:%d\tName:%@\tOwner:%@\t",self.noteId,self.name,self.owner.username];
+    return [NSString stringWithFormat:@"Note- Id:%d\tName:%@\tOwner:%@\t",self.noteId,self.name,self.owner.user_name];
 }
 
 @end

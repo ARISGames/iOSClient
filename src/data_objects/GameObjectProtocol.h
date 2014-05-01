@@ -17,8 +17,7 @@ enum
 	GameObjectNode      = 3,
 	GameObjectPlayer    = 4,
     GameObjectWebPage   = 5,
-    GameObjectPanoramic = 6,
-    GameObjectNote      = 7
+    GameObjectNote      = 6
 };
 typedef UInt32 GameObjectType;
 

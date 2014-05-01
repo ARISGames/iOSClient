@@ -49,7 +49,6 @@ var ARISJS = function(_ARIS)
     _ARIS.exitToWebpage       = function(webpageId)       { _ARIS.enqueueRequest("aris://exitTo/webpage/"+webpageId); }
     _ARIS.exitToItem          = function(itemId)          { _ARIS.enqueueRequest("aris://exitTo/item/"+itemId); }
     _ARIS.exitToCharacter     = function(characterId)     { _ARIS.enqueueRequest("aris://exitTo/character/"+characterId); }
-    _ARIS.exitToPanoramic     = function(panoramicId)     { _ARIS.enqueueRequest("aris://exitTo/panoramic/"+panoramicId); }
     _ARIS.prepareMedia        = function(mediaId)         { _ARIS.enqueueRequest("aris://media/prepare/" + mediaId); }
     _ARIS.playMedia           = function(mediaId)         { _ARIS.enqueueRequest("aris://media/play/" + mediaId); }
     _ARIS.playMediaAndVibrate = function(mediaId)         { _ARIS.enqueueRequest("aris://media/playAndVibrate/" + mediaId); }

@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "GameObjectProtocol.h"
-@class Player;
+@class User;
 @class Location;
 @class Tag;
 
 @interface Note : NSObject <GameObjectProtocol>
 {
     int noteId; 
-    Player *owner;
+    User *owner;
     NSString *name;
     NSString *desc;
     NSDate *created; 
@@ -30,7 +30,7 @@
 }
 
 @property (nonatomic, assign) int noteId;
-@property (nonatomic, strong) Player *owner;
+@property (nonatomic, strong) User *owner;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSDate *created;

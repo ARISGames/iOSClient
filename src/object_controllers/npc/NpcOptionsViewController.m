@@ -13,7 +13,7 @@
 #import "ARISWebView.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "Player.h"
+#import "User.h"
 #import "ARISTemplate.h"
 #import "StateControllerProtocol.h"
 
@@ -61,7 +61,7 @@
 
   Media *pcMedia = 0;
   if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
-  else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId];
+  else if([AppModel sharedAppModel].player.media_id  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id];
 
     mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeAspectFill];

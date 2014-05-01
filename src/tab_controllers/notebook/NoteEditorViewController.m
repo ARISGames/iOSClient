@@ -17,7 +17,7 @@
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "AppServices.h"
-#import "Player.h"
+#import "User.h"
 #import "ARISTemplate.h"
 #import "CircleButton.h"
 
@@ -318,7 +318,7 @@
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:note.created]; 
-    owner.text = note.owner.displayname; 
+    owner.text = note.owner.display_name; 
     [contentsViewController setContents:note.contents];
     newTag = nil; if([note.tags count] > 0) newTag = [note.tags objectAtIndex:0];   
     if(newTag) [tagViewController setTags:@[newTag]];

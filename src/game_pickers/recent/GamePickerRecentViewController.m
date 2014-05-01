@@ -11,7 +11,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "Game.h"
-#import "Player.h"
+#import "User.h"
 #import "Location.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"

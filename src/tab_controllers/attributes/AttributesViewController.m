@@ -8,7 +8,7 @@
 
 #import "AttributesViewController.h"
 #import "AppServices.h"
-#import "Player.h"
+#import "User.h"
 #import "Media.h"
 #import "ARISMediaView.h"
 #import "AppModel.h"
@@ -81,8 +81,8 @@
     
     if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
         [pcImage setMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId]];
-    else if([AppModel sharedAppModel].player.playerMediaId != 0)
-        [pcImage setMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId]];
+    else if([AppModel sharedAppModel].player.media_id != 0)
+        [pcImage setMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id]];
     else [pcImage setImage:[UIImage imageNamed:@"profile.png"]];
     
     [self.view addSubview:pcImage];

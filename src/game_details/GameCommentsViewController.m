@@ -13,7 +13,7 @@
 #import "AppModel.h"
 
 #import "Game.h"
-#import "Player.h"
+#import "User.h"
 #import "GameComment.h"
 #import "GameCommentCell.h"
 
@@ -131,7 +131,7 @@
     gc.title = t;
     gc.text = s; 
     gc.rating = r;
-    gc.playerName = [AppModel sharedAppModel].player.username;
+    gc.playerName = [AppModel sharedAppModel].player.user_name;
     [game.comments addObject:gc];
     [commentsTable reloadData];
     [self.navigationController popToViewController:self animated:YES];  

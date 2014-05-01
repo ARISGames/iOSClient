@@ -11,7 +11,7 @@
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 #import "MediaModel.h"
-#import "Player.h"
+#import "User.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
@@ -69,9 +69,9 @@
 - (void) syncLocalVars
 {
     if([self.playerNameField.text isEqualToString:@""])
-        self.playerNameField.text = [AppModel sharedAppModel].player.displayname; // @"" by default
+        self.playerNameField.text = [AppModel sharedAppModel].player.display_name; // @"" by default
     if(chosenMediaId == 0)
-        chosenMediaId = [AppModel sharedAppModel].player.playerMediaId;
+        chosenMediaId = [AppModel sharedAppModel].player.media_id;
 }
 
 - (void) refreshView
@@ -82,7 +82,7 @@
         [self.playerNameField becomeFirstResponder];
 
     if(chosenMediaId > 0)
-        [self.playerPic setMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId]];
+        [self.playerPic setMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id]];
     else if(chosenMediaId == 0)
         [self takePicture];
     //if chosenMediaId < 0, just leave the image as is
@@ -107,10 +107,10 @@
         return;
     }
 
-    [AppModel sharedAppModel].player.displayname = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
+    [AppModel sharedAppModel].player.display_name = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
 
-    [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].player.playerId
-                                         withName:[AppModel sharedAppModel].player.displayname];
+    [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].player.user_id
+                                         withName:[AppModel sharedAppModel].player.display_name];
 
     [[AppModel sharedAppModel] saveUserDefaults];
 

@@ -11,7 +11,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "Game.h"
-#import "Player.h"
+#import "User.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 #import "ARISMediaView.h"
@@ -36,7 +36,7 @@
         delegate = d;
         
         gameList = [[NSArray alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFirstMoved)       name:@"PlayerMoved"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFirstMoved)       name:@"UserMoved"     object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"  object:nil];
     }
     return self;
@@ -81,7 +81,7 @@
 - (void) playerFirstMoved
 {
     //Only want auto-refresh on first established location
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PlayerMoved" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UserMoved" object:nil];
     [self requestNewGameList];
 }
 

@@ -17,7 +17,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "Location.h"
-#import "Player.h"
+#import "User.h"
 #import "ARISAppDelegate.h"
 #import "AnnotationView.h"
 #import "Media.h"
@@ -82,7 +82,7 @@
         locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"                               object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"                                  object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"UserMoved"                                  object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList"                         object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToNewQueue:)    name:@"NewlyAvailableLocationsAvailable"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToRemoveQueue:) name:@"NewlyUnavailableLocationsAvailable"           object:nil];
@@ -240,7 +240,7 @@
 - (void) refresh
 {
     //the fact that we need to check this here means we're doing something wrong with our architecture... 
-    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.playerId == 0 || [AppModel sharedAppModel].currentGame.gameId == 0)  return;
+    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.user_id == 0 || [AppModel sharedAppModel].currentGame.gameId == 0)  return;
     
     if(mapView)
     {
@@ -267,7 +267,7 @@
 - (void) centerMapOnPlayer
 {
     //the fact that we need to check this here means we're doing something wrong with our architecture...
-    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.playerId == 0 || [AppModel sharedAppModel].currentGame.gameId == 0) return;
+    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.user_id == 0 || [AppModel sharedAppModel].currentGame.gameId == 0) return;
 	
 	//Center the map on the player
     [self centerMapOnLoc:[AppModel sharedAppModel].player.location.coordinate];

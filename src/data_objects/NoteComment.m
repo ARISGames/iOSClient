@@ -8,7 +8,7 @@
 
 #import "NoteComment.h"
 #import "NSDictionary+ValidParsers.h"
-#import "Player.h"
+#import "User.h"
 
 @implementation NoteComment
 
@@ -25,7 +25,7 @@
         self.noteId = 0;
         self.commentId = 0; 
         self.text = @""; 
-        self.owner = [[Player alloc] init];  
+        self.owner = [[User alloc] init];  
         self.created = [NSDate date]; 
     }
     return self;
@@ -40,7 +40,7 @@
         self.text      = [dict validStringForKey:@"text"]; 
         
         NSDictionary *ownerDict = [dict validObjectForKey:@"owner"];
-        if(ownerDict) self.owner = [[Player alloc] initWithDictionary:ownerDict];  
+        if(ownerDict) self.owner = [[User alloc] initWithDictionary:ownerDict];  
         
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

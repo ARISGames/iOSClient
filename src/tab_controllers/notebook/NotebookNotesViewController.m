@@ -17,7 +17,7 @@
 #import "ARISTemplate.h"
 #import "NoteTag.h"
 
-#import "Player.h"
+#import "User.h"
 
 const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
@@ -156,7 +156,7 @@ const int VIEW_MODE_TAG  = 2;
             else if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n]; 
             //Search owner
-            else if([n.owner.displayname rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+            else if([n.owner.display_name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n];  
             //Search tags
             else

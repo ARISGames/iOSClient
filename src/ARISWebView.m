@@ -9,7 +9,7 @@
 #import "ARISWebView.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "Player.h"
+#import "User.h"
 #import "ARISAppDelegate.h"
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -124,9 +124,9 @@
     NSString *url = [[request URL] absoluteString];
     
     if([url rangeOfString:@"?"].location == NSNotFound)
-        url = [url stringByAppendingString:[NSString stringWithFormat:@"?gameId=%d&playerId=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.playerId, appendation]];
+        url = [url stringByAppendingString:[NSString stringWithFormat:@"?gameId=%d&user_id=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.user_id, appendation]];
     else
-        url = [url stringByAppendingString:[NSString stringWithFormat:@"&gameId=%d&playerId=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.playerId, appendation]];
+        url = [url stringByAppendingString:[NSString stringWithFormat:@"&gameId=%d&user_id=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.user_id, appendation]];
     
     [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]]; 
 }
@@ -225,11 +225,6 @@
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
                 [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:[token intValue]]             fromSource:delegate];
         }
-        else if([type isEqualToString:@"panoramic"])
-        {
-            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])         
-                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:[token intValue]] fromSource:delegate];
-        }
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {
@@ -241,17 +236,17 @@
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
     else if([mainCommand isEqualToString:@"player"])
     {
-        Media *playerMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId];
+        Media *playerMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id];
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
-                                "\"playerId\":%d," 
-                                "\"username\":\"%@\","
-                                "\"displayname\":\"%@\"," 
+                                "\"user_id\":%d," 
+                                "\"user_name\":\"%@\","
+                                "\"display_name\":\"%@\"," 
                                 "\"photoURL\":\"%@\"" 
                                 "}",
-                                [AppModel sharedAppModel].player.playerId,
-                                [AppModel sharedAppModel].player.username, 
-                                [AppModel sharedAppModel].player.displayname, 
+                                [AppModel sharedAppModel].player.user_id,
+                                [AppModel sharedAppModel].player.user_name, 
+                                [AppModel sharedAppModel].player.display_name, 
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }

@@ -69,10 +69,10 @@
         [self displayContentController:loginNavigationController];
 }
 
-- (void) loginCredentialsApprovedForPlayer:(Player *)p toGame:(int)gameId newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
+- (void) loginCredentialsApprovedForPlayer:(User *)p toGame:(int)gameId newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
 {
     [[AppModel sharedAppModel] commitPlayerLogin:p];
-    //[[ARISPusherHandler sharedPusherHandler] loginPlayer:p.playerId];
+    //[[ARISPusherHandler sharedPusherHandler] loginPlayer:p.user_id];
     
     //PHIL HATES THIS NEXT CHUNK
     [AppModel sharedAppModel].disableLeaveGame = disableLeaveGame;

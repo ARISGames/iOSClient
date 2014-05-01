@@ -12,14 +12,13 @@
 #import <CoreData/CoreData.h>
 
 @class Game;
-@class Player;
+@class User;
 @class Media;
 @class Location;
 @class Item;
 @class Node;
 @class Npc;
 @class WebPage;
-@class Panoramic;
 
 @class ARISServiceGraveyard;
 @class MediaModel;
@@ -35,7 +34,7 @@
     int skipGameDetails;
     
 	Game *currentGame;
-    Player *player;
+    User *player;
     CLLocation *deviceLocation;
     
     int fallbackGameId;
@@ -75,7 +74,7 @@
 
 @property (readwrite) int fallbackGameId;//Used only to recover from crashes
 
-@property (nonatomic, strong) Player *player;
+@property (nonatomic, strong) User *player;
 @property (nonatomic, strong) Game *currentGame;
 @property (nonatomic, strong) CLLocation *deviceLocation;
 
@@ -102,7 +101,7 @@
 - (void) resetAllGameLists;
 - (void) resetAllPlayerLists;
 
-- (void) commitPlayerLogin:(Player *)p;
+- (void) commitPlayerLogin:(User *)p;
 - (void) setPlayerLocation:(CLLocation *)newLocation;
 
 - (void) initUserDefaults;

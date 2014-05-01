@@ -141,7 +141,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RegistrationResponseReady" object:nil];
     ARISServiceResult *r = (ARISServiceResult *)[n.userInfo objectForKey:@"result"];
 
-	if([(NSDecimalNumber*)r.resultData intValue] > 0) //There exists a new playerId
+	if([(NSDecimalNumber*)r.resultData intValue] > 0) //There exists a new user_id
         [delegate registrationSucceededWithUsername:usernameField.text password:passwordField.text];
     else
     {

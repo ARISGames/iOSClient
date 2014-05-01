@@ -14,7 +14,7 @@
 #import "ScriptElement.h"
 #import "ARISMediaView.h"
 #import "AppModel.h"
-#import "Player.h"
+#import "User.h"
 #import "AppServices.h"
 #import "ARISTemplate.h"
 #import <MediaPlayer/MediaPlayer.h>
@@ -50,7 +50,7 @@
         
         Media *pcMedia;
         if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
-        else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId];
+        else if([AppModel sharedAppModel].player.media_id  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id];
         
         if(pcMedia) pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
         else        pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
@@ -141,11 +141,6 @@
     {
         [self moveAllOut];
         [self scriptDisplayVideo:currentScriptElement];
-    }
-    else if([currentScriptElement.type isEqualToString:@"panoramic"])
-    {
-        [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"webpage"])
     {

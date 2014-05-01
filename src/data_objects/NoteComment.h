@@ -8,20 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@class Player;
+@class User;
 
 @interface NoteComment : NSObject
 {
     int noteId; 
     int commentId;
-    Player *owner;
+    User *owner;
     NSString *text;
     NSDate *created; 
 }
 
 @property (nonatomic, assign) int noteId;
 @property (nonatomic, assign) int commentId;
-@property (nonatomic, strong) Player *owner;
+@property (nonatomic, strong) User *owner;
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSDate *created;
 

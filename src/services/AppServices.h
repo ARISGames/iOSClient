@@ -18,7 +18,6 @@
 #import "Npc.h"
 #import "Media.h"
 #import "WebPage.h"
-#import "Panoramic.h"
 #import "Quest.h"
 #import "ARISAppDelegate.h"
 #import "Note.h"
@@ -37,7 +36,7 @@
 - (void) registerNewUser:(NSString*)userName password:(NSString*)pass firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;
 - (void) createUserAndLoginWithGroup:(NSString *)groupName;
 - (void) uploadPlayerPic:(Media *)m;
-- (void) updatePlayer:(int)playerId withName:(NSString *)name;
+- (void) updatePlayer:(int)user_id withName:(NSString *)name;
 - (void) resetAndEmailNewPassword:(NSString *)email;
 - (void) setShowPlayerOnMap;
 
@@ -48,7 +47,7 @@
 - (void) fetchPopularGameListForTime:(int)time;
 - (void) fetchGameListBySearch:(NSString *)searchText onPage:(int)page;
 
-- (void) fetchOneGameGameList:(int)gameId;
+- (void) fetchOneGameGameList:(int)game_id;
 
 //Fetch Player State
 - (void) fetchAllPlayerLists;
@@ -67,7 +66,6 @@
 - (void) fetchGameItemList;
 - (void) fetchGameNodeList;
 - (void) fetchGameWebPageList;
-- (void) fetchGamePanoramicList;
 
 - (void) fetchNoteListPage:(int)page;
 - (void) fetchNoteTagLists;
@@ -82,7 +80,7 @@
 - (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate;
 
 - (void) uploadNote:(Note *)n;
-- (void) addComment:(NSString *)c fromPlayer:(Player *)p toNote:(Note *)n;
+- (void) addComment:(NSString *)c fromPlayer:(User *)p toNote:(Note *)n;
 
 //Tell server of state
 - (void) updateServerWithPlayerLocation;
@@ -90,7 +88,6 @@
 - (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId;
 - (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId;
 - (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId;
-- (void) updateServerPanoramicViewed:(int)panoramicId fromLocation:(int)locationId;
 - (void) updateServerNpcViewed:(int)npcId fromLocation:(int)locationId;
 - (void) updateServerMapViewed;
 - (void) updateServerQuestsViewed;
@@ -104,7 +101,7 @@
 
 - (void) updateServerGameSelected;
 - (void) fetchQRCode:(NSString*)QRcodeId;
-- (void) saveGameComment:(NSString*)comment titled:(NSString*)t game:(int)gameId starRating:(int)rating;
-- (void) startOverGame:(int)gameId;
+- (void) saveGameComment:(NSString*)comment titled:(NSString*)t game:(int)game_id starRating:(int)rating;
+- (void) startOverGame:(int)game_id;
 
 @end

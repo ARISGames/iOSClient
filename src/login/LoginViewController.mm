@@ -19,7 +19,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "SelfRegistrationViewController.h"
 #import "ForgotPasswordViewController.h"
 
-#import "Player.h"
+#import "User.h"
 
 #import "ARISTemplate.h"
 #import "ARISAlertHandler.h"
@@ -57,7 +57,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
         delegate = d;
         self.title = NSLocalizedString(@"LoginTitleKey", @"");
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveLocation:) name:@"PlayerMoved" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveLocation:) name:@"UserMoved" object:nil];
         viewHasAppeared = NO;
     }
     return self;
@@ -154,7 +154,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    if([AppModel sharedAppModel].player.playerId)
+    if([AppModel sharedAppModel].player.user_id)
         [delegate loginCredentialsApprovedForPlayer:[AppModel sharedAppModel].player toGame:0 newPlayer:NO disableLeaveGame:NO];
 }
 
@@ -198,7 +198,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"LoginErrorTitleKey", @"") message:NSLocalizedString(@"LoginErrorMessageKey", @"")];
     else
     {
-        Player *p = [[Player alloc] initWithDictionary:(NSMutableDictionary *)r.resultData];
+        User *p = [[User alloc] initWithDictionary:(NSMutableDictionary *)r.resultData];
         if(location) p.location = location;
         [delegate loginCredentialsApprovedForPlayer:p toGame:gameId newPlayer:newPlayer disableLeaveGame:disableLeaveGame];
     }

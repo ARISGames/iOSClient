@@ -13,7 +13,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
-#import "Player.h"
+#import "User.h"
 #import "TestFlight.h"
 #import <Crashlytics/Crashlytics.h>
 
@@ -100,7 +100,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:window.rootViewController selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil]; 
         [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].fallbackGameId];
     }
-    else if([AppModel sharedAppModel].player.playerId > 0)
+    else if([AppModel sharedAppModel].player.user_id > 0)
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerAlreadyLoggedIn" object:nil]];
     
     [self startPollingLocation];
