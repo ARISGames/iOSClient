@@ -93,7 +93,7 @@
         ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) delegate:self];
         [amv setDisplayMode:ARISMediaDisplayModeAspectFill];
         [amv setMedia:m];
-        [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ARISMediaViewTouched)]]; 
+        [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ARISMediaViewTouched)]];
         amv.clipsToBounds = YES;
         
         [scrollView addSubview:amv];
@@ -112,6 +112,7 @@
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
 {
     [self ARISMediaViewTouched];
+    [amv play];
     return NO;
 }
 
