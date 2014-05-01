@@ -75,7 +75,7 @@
         NSLog(@"NO GROUPS!");
     }];
     
-    [picker.cameraOverlayView addSubview:rollButton];
+    [picker.view addSubview:rollButton];
     [self presentViewController:picker animated:NO completion:nil];
 }
 
