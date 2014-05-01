@@ -13,6 +13,9 @@
 @interface NoteCameraViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     id<NoteCameraViewControllerDelegate> __unsafe_unretained delegate;
+    UIImagePickerController *picker;
+    UIButton *rollButton;
+    UIButton *backButton;
 } 
 @end
 
@@ -37,23 +40,57 @@
 
 - (void) presentCamera
 {
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType]; 
     picker.allowsEditing = NO;
 	picker.showsCameraControls = YES;
+    
+    rollButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rollButton.frame = CGRectMake(20, 30, 65, 65);
+    [rollButton addTarget:self action:@selector(showLibrary) forControlEvents:UIControlEventTouchDown];
+    
+    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(20, 33, 80, 20);
+    [backButton setTitle:NSLocalizedString(@"BackButtonKey", @"") forState:UIControlStateNormal];
+    [backButton setTitleColor:[[[[UIApplication sharedApplication] delegate] window] tintColor] forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(showCamera) forControlEvents:UIControlEventTouchDown];
+    
+    //get the last image from the roll
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    [library enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop){
+        [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+        
+        [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *alAsset, NSUInteger index, BOOL *innerStop){
+            if (alAsset) {
+                ALAssetRepresentation *representation = [alAsset defaultRepresentation];
+                UIImage *latestPhoto = [UIImage imageWithCGImage:[representation fullScreenImage]];
+                *stop = YES;
+                *innerStop = YES;
+                [rollButton setImage:latestPhoto forState:UIControlStateNormal];
+            }
+        }];
+    }failureBlock:^(NSError *error){
+        NSLog(@"NO GROUPS!");
+    }];
+    
+    [picker.cameraOverlayView addSubview:rollButton];
     [self presentViewController:picker animated:NO completion:nil];
 }
 
-- (void) presentLibrary
+- (void) showLibrary
 {
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType]; 
-    
-    [self presentViewController:picker animated:NO completion:nil];
+    picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    [rollButton removeFromSuperview];
+    [picker.view addSubview:backButton];
+}
+
+- (void) showCamera
+{
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [backButton removeFromSuperview];
+    [picker.view addSubview:rollButton];
 }
 
 - (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
