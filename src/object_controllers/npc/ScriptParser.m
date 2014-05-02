@@ -29,7 +29,6 @@ NSString *const kTagPc                           = @"pc";
 NSString *const kTagNpc                          = @"npc";
 
 NSString *const kTagVideo                        = @"video";
-NSString *const kTagPanoramic                    = @"panoramic";
 NSString *const kTagWebPage                      = @"webpage";
 NSString *const kTagPlaque                       = @"plaque";
 NSString *const kTagItem                         = @"item";
@@ -48,7 +47,6 @@ NSString *const kAttrExitToScannerWithPrompt     = @"exitToScannerWithPrompt";
 NSString *const kAttrExitToPlaque                = @"exitToPlaque";
 NSString *const kAttrExitToWebPage               = @"exitToWebPage";
 NSString *const kAttrExitToCharacter             = @"exitToCharacter";
-NSString *const kAttrExitToPanoramic             = @"exitToPanoramic";
 NSString *const kAttrExitToItem                  = @"exitToItem";
 
 NSString *const kAttrZoomX                       = @"zoomX";
@@ -153,11 +151,6 @@ didStartElement:(NSString *)elementName
             script.exitToType = @"character";
             script.exitToTypeId = [attributeDict validIntForKey:kAttrExitToCharacter];
         }
-        else if([attributeDict objectForKey:kAttrExitToPanoramic])
-        {
-            script.exitToType = @"panoramic";
-            script.exitToTypeId = [attributeDict validIntForKey:kAttrExitToPanoramic];
-        }
         
         //These two are weird, and should in stead be a member of the parent class that contains all conversations (the npc?)
         //because it takes effect in between scripts
@@ -203,7 +196,6 @@ didStartElement:(NSString *)elementName
                 tempScriptElement.zoomTime = [[attributeDict objectForKey:kAttrZoomTime] floatValue];
         }
         else if([elementName isEqualToString:kTagVideo]     ||
-                [elementName isEqualToString:kTagPanoramic] ||
                 [elementName isEqualToString:kTagWebPage]   ||
                 [elementName isEqualToString:kTagPlaque]    ||
                 [elementName isEqualToString:kTagItem]       )
@@ -211,7 +203,6 @@ didStartElement:(NSString *)elementName
             if([elementName isEqualToString:kTagItem])      tempScriptElement.type = @"item";
             if([elementName isEqualToString:kTagPlaque])    tempScriptElement.type = @"node";
             if([elementName isEqualToString:kTagWebPage])   tempScriptElement.type = @"webpage";
-            if([elementName isEqualToString:kTagPanoramic]) tempScriptElement.type = @"panoramic";
             if([elementName isEqualToString:kTagVideo])     tempScriptElement.type = @"video";
             
             tempScriptElement.typeId = [[attributeDict objectForKey:kAttrId] intValue];

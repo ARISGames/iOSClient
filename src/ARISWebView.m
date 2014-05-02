@@ -225,11 +225,6 @@
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
                 [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:[token intValue]]             fromSource:delegate];
         }
-        else if([type isEqualToString:@"panoramic"])
-        {
-            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])         
-                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:[token intValue]] fromSource:delegate];
-        }
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {

@@ -19,7 +19,6 @@
 @class Node;
 @class Npc;
 @class WebPage;
-@class Panoramic;
 
 @class ARISServiceGraveyard;
 @class MediaModel;

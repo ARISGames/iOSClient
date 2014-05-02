@@ -18,7 +18,6 @@
 #import "Npc.h"
 #import "Media.h"
 #import "WebPage.h"
-#import "Panoramic.h"
 #import "Quest.h"
 #import "ARISAppDelegate.h"
 #import "Note.h"
@@ -67,7 +66,6 @@
 - (void) fetchGameItemList;
 - (void) fetchGameNodeList;
 - (void) fetchGameWebPageList;
-- (void) fetchGamePanoramicList;
 
 - (void) fetchNoteListPage:(int)page;
 - (void) fetchNoteTagLists;
@@ -90,7 +88,6 @@
 - (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId;
 - (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId;
 - (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId;
-- (void) updateServerPanoramicViewed:(int)panoramicId fromLocation:(int)locationId;
 - (void) updateServerNpcViewed:(int)npcId fromLocation:(int)locationId;
 - (void) updateServerMapViewed;
 - (void) updateServerQuestsViewed;

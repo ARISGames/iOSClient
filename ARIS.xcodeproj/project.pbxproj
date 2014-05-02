@@ -184,7 +184,6 @@
 		AABC7383172739D80074CC21 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7081172739D60074CC21 /* Note.m */; };
 		AABC7385172739D80074CC21 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7085172739D60074CC21 /* Npc.m */; };
 		AABC7386172739D80074CC21 /* Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7087172739D60074CC21 /* Overlay.m */; };
-		AABC7387172739D80074CC21 /* Panoramic.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7089172739D60074CC21 /* Panoramic.m */; };
 		AABC7389172739D80074CC21 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708D172739D60074CC21 /* Player.m */; };
 		AABC738A172739D80074CC21 /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708F172739D60074CC21 /* Quest.m */; };
 		AABC738B172739D80074CC21 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7091172739D60074CC21 /* Tab.m */; };
@@ -216,8 +215,6 @@
 		AABC73C0172739D80074CC21 /* Script.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70FD172739D60074CC21 /* Script.m */; };
 		AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7101172739D60074CC21 /* ScriptElement.m */; };
 		AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7103172739D60074CC21 /* ScriptParser.m */; };
-		AABC73C4172739D80074CC21 /* PanoramicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7106172739D60074CC21 /* PanoramicViewController.m */; };
-		AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7107172739D60074CC21 /* PanoramicViewController.xib */; };
 		AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC710E172739D60074CC21 /* GameNotificationViewController.m */; };
 		AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7112172739D60074CC21 /* PopOverViewController.m */; };
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
@@ -610,8 +607,6 @@
 		AABC7085172739D60074CC21 /* Npc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Npc.m; sourceTree = "<group>"; };
 		AABC7086172739D60074CC21 /* Overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Overlay.h; sourceTree = "<group>"; };
 		AABC7087172739D60074CC21 /* Overlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Overlay.m; sourceTree = "<group>"; };
-		AABC7088172739D60074CC21 /* Panoramic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panoramic.h; sourceTree = "<group>"; };
-		AABC7089172739D60074CC21 /* Panoramic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Panoramic.m; sourceTree = "<group>"; };
 		AABC708C172739D60074CC21 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		AABC708D172739D60074CC21 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		AABC708E172739D60074CC21 /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
@@ -672,9 +667,6 @@
 		AABC7101172739D60074CC21 /* ScriptElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptElement.m; sourceTree = "<group>"; };
 		AABC7102172739D60074CC21 /* ScriptParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptParser.h; sourceTree = "<group>"; };
 		AABC7103172739D60074CC21 /* ScriptParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptParser.m; sourceTree = "<group>"; };
-		AABC7105172739D60074CC21 /* PanoramicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramicViewController.h; sourceTree = "<group>"; };
-		AABC7106172739D60074CC21 /* PanoramicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanoramicViewController.m; sourceTree = "<group>"; };
-		AABC7107172739D60074CC21 /* PanoramicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PanoramicViewController.xib; sourceTree = "<group>"; };
 		AABC710D172739D60074CC21 /* GameNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameNotificationViewController.h; sourceTree = "<group>"; };
 		AABC710E172739D60074CC21 /* GameNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameNotificationViewController.m; sourceTree = "<group>"; };
 		AABC7111172739D60074CC21 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
@@ -1308,8 +1300,6 @@
 				AABC7085172739D60074CC21 /* Npc.m */,
 				AABC7086172739D60074CC21 /* Overlay.h */,
 				AABC7087172739D60074CC21 /* Overlay.m */,
-				AABC7088172739D60074CC21 /* Panoramic.h */,
-				AABC7089172739D60074CC21 /* Panoramic.m */,
 				AABC708C172739D60074CC21 /* Player.h */,
 				AABC708D172739D60074CC21 /* Player.m */,
 				AABC708E172739D60074CC21 /* Quest.h */,
@@ -1510,7 +1500,6 @@
 				AABC70F6172739D60074CC21 /* node */,
 				AABC70FA172739D60074CC21 /* npc */,
 				AA2B4A68182A976100A0D2A1 /* note */,
-				AABC7104172739D60074CC21 /* panoramic */,
 				AABC7108172739D60074CC21 /* webpage */,
 			);
 			path = object_controllers;
@@ -1555,16 +1544,6 @@
 				AABC7101172739D60074CC21 /* ScriptElement.m */,
 			);
 			path = npc;
-			sourceTree = "<group>";
-		};
-		AABC7104172739D60074CC21 /* panoramic */ = {
-			isa = PBXGroup;
-			children = (
-				AABC7105172739D60074CC21 /* PanoramicViewController.h */,
-				AABC7106172739D60074CC21 /* PanoramicViewController.m */,
-				AABC7107172739D60074CC21 /* PanoramicViewController.xib */,
-			);
-			path = panoramic;
 			sourceTree = "<group>";
 		};
 		AABC7108172739D60074CC21 /* webpage */ = {
@@ -2204,7 +2183,6 @@
 				AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */,
 				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
 				AA04E33418E6140300621F0C /* location_white.png in Resources */,
-				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
 				AA09B8E618E1EB5500A45562 /* video@2x.png in Resources */,
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,
@@ -2272,7 +2250,6 @@
 				AABC7385172739D80074CC21 /* Npc.m in Sources */,
 				AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */,
 				AABC7386172739D80074CC21 /* Overlay.m in Sources */,
-				AABC7387172739D80074CC21 /* Panoramic.m in Sources */,
 				AA8E9EAE18BE8DE000F343A2 /* GameCommentsReviewViewController.m in Sources */,
 				AAF9233A188715C20026A4FC /* FreqHistogramControl.m in Sources */,
 				AABC7389172739D80074CC21 /* Player.m in Sources */,
@@ -2318,7 +2295,6 @@
 				AABC73C0172739D80074CC21 /* Script.m in Sources */,
 				AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */,
 				AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */,
-				AABC73C4172739D80074CC21 /* PanoramicViewController.m in Sources */,
 				AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */,
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
 				AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */,

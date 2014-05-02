@@ -17,7 +17,6 @@
 #import "Item.h"
 #import "Node.h"
 #import "WebPage.h"
-#import "Panoramic.h"
 #import "Note.h"
 #import "UIImage+Scale.h"
 

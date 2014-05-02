@@ -130,8 +130,6 @@
             [delegate displayGameObject:[[AppModel sharedAppModel].currentGame itemForItemId:typeId] fromSource:self];
         else if([type isEqualToString:@"character"])
             [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:typeId] fromSource:self];
-        else if([type isEqualToString:@"panoramic"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:typeId] fromSource:self];
     }
     else
     {

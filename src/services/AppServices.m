@@ -225,17 +225,6 @@
     [connection performAsynchronousRequestWithService:@"players" method:@"webPageViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerPanoramicViewed:(int)panoramicId fromLocation:(int)locationId
-{
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],    @"bplayerId",
-                          [NSString stringWithFormat:@"%d",panoramicId],                                  @"cpanoramicId",
-                          [NSString stringWithFormat:@"%d",locationId],                                   @"dlocationId",
-                          nil];
-    [connection performAsynchronousRequestWithService:@"players" method:@"augBubbleViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
 - (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId
 {	
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -536,7 +525,6 @@
     [self fetchGameItemList];
     [self fetchGameNpcList];
     [self fetchGameNodeList];
-    [self fetchGamePanoramicList];
     [self fetchGameWebPageList];
     [self fetchGameOverlayList];
     
@@ -701,14 +689,6 @@
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
                           nil];
     [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchGamePanoramicList
-{
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
-                          nil];
-    [connection performAsynchronousRequestWithService:@"augbubbles" method:@"getAugBubbles" arguments:args handler:self successSelector:@selector(parseGamePanoramicListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchGameItemList
@@ -1135,24 +1115,6 @@
     }
     
     [AppModel sharedAppModel].currentGame.webpageList = tempWebPageList;
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
-}
-
-- (void) parseGamePanoramicListFromJSON:(ARISServiceResult *)jsonResult
-{
-    NSArray *panListArray = (NSArray *)jsonResult.resultData;
-    
-    NSMutableDictionary *tempPanoramicList = [[NSMutableDictionary alloc] init];
-    NSEnumerator *enumerator = [((NSArray *)panListArray) objectEnumerator];
-    NSDictionary *dict;
-    while ((dict = [enumerator nextObject]))
-    {
-        Panoramic *tmpPan = [[Panoramic alloc] initWithDictionary:dict];
-        [tempPanoramicList setObject:tmpPan forKey:[NSNumber numberWithInt:tmpPan.panoramicId]];
-    }
-    
-    [AppModel sharedAppModel].currentGame.panoramicList = tempPanoramicList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }

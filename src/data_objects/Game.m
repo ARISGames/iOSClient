@@ -20,7 +20,6 @@
 @synthesize nodeList;
 @synthesize npcList;
 @synthesize webpageList;
-@synthesize panoramicList;
 
 @synthesize notesModel;
 @synthesize inventoryModel;
@@ -115,11 +114,6 @@
 	return [self.webpageList objectForKey:[NSNumber numberWithInt:wId]];
 }
 
-- (Panoramic *) panoramicForPanoramicId:(int)pId
-{
-    return [self.panoramicList objectForKey:[NSNumber numberWithInt:pId]];
-}
-
 - (Item *) itemForItemId:(int)iId
 {
 	return [self.itemList objectForKey:[NSNumber numberWithInt:iId]];
@@ -136,8 +130,7 @@
     [self.itemList      removeAllObjects];
     [self.nodeList      removeAllObjects];
     [self.npcList       removeAllObjects];
-    [self.webpageList   removeAllObjects];
-    [self.panoramicList removeAllObjects]; 
+    [self.webpageList   removeAllObjects]; 
 }
 
 - (NSString *)description

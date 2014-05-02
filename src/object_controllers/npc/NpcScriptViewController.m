@@ -142,11 +142,6 @@
         [self moveAllOut];
         [self scriptDisplayVideo:currentScriptElement];
     }
-    else if([currentScriptElement.type isEqualToString:@"panoramic"])
-    {
-        [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
-    }
     else if([currentScriptElement.type isEqualToString:@"webpage"])
     {
         [self moveAllOut];

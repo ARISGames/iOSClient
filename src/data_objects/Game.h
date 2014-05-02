@@ -20,7 +20,6 @@
 @class Npc;
 @class Node;
 @class WebPage;
-@class Panoramic;
 
 @interface Game : NSObject
 {
@@ -32,7 +31,6 @@
     NSMutableDictionary *nodeList;
     NSMutableDictionary *npcList;
     NSMutableDictionary *webpageList;
-    NSMutableDictionary *panoramicList;
     
     NotesModel      *notesModel;
     InventoryModel  *inventoryModel; 
@@ -79,7 +77,6 @@
 @property (nonatomic, strong) NSMutableDictionary *nodeList;
 @property (nonatomic, strong) NSMutableDictionary *npcList;
 @property (nonatomic, strong) NSMutableDictionary *webpageList;
-@property (nonatomic, strong) NSMutableDictionary *panoramicList;
 
 @property (nonatomic, strong) NotesModel *notesModel;
 @property (nonatomic, strong) InventoryModel *inventoryModel;
@@ -127,7 +124,6 @@
 - (Npc *) npcForNpcId:(int)mId;
 - (Node *) nodeForNodeId:(int)mId;
 - (WebPage *) webpageForWebpageId:(int)mId;
-- (Panoramic *) panoramicForPanoramicId:(int)mId;
 - (Item *) itemForItemId:(int)mId;
 
 @end
