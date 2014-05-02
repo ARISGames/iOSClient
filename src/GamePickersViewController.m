@@ -27,7 +27,7 @@
     ARISNavigationController *gamePickersNavigationController;
     UITabBarController *gamePickersTabBarController;
     ARISNavigationController *accountSettingsNavigationController;
-    
+
     id<GamePickersViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -57,11 +57,11 @@
 - (void) loadView
 {
     [super loadView];
-    
+
     //Setup the Game Selection Tab Bar
     self.gamePickersTabBarController = [[UITabBarController alloc] init];
-    self.gamePickersTabBarController.delegate = self; 
-    
+    self.gamePickersTabBarController.delegate = self;
+
     //init pickervcs
     GamePickerNearbyViewController   *gpnvc = [[GamePickerNearbyViewController   alloc] initWithDelegate:self];
     GamePickerAnywhereViewController *gpavc = [[GamePickerAnywhereViewController alloc] initWithDelegate:self];
@@ -71,30 +71,30 @@
     GamePickerMineViewController     *gpmvc = [[GamePickerMineViewController     alloc] initWithDelegate:self];
     self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gpavc,gppvc,gprvc,gpsvc,gpmvc,nil];
     self.gamePickersNavigationController = [[ARISNavigationController alloc] initWithRootViewController:self.gamePickersTabBarController];
-    self.gamePickersNavigationController.automaticallyAdjustsScrollViewInsets = NO; 
-    
+    self.gamePickersNavigationController.automaticallyAdjustsScrollViewInsets = NO;
+
     self.accountSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:[[AccountSettingsViewController alloc] initWithDelegate:self]];
-    
-    self.gamePickersRevealController = [PKRevealController revealControllerWithFrontViewController:self.gamePickersNavigationController leftViewController:self.accountSettingsNavigationController options:nil]; 
-    
+
+    self.gamePickersRevealController = [PKRevealController revealControllerWithFrontViewController:self.gamePickersNavigationController leftViewController:self.accountSettingsNavigationController options:nil];
+
     UIView *logoContainer = [[UIView alloc] initWithFrame:self.gamePickersTabBarController.navigationItem.titleView.frame];
     UIImageView *logoText  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
     logoText.frame = CGRectMake(logoContainer.frame.size.width/2-50, logoContainer.frame.size.height/2-15, 100, 30);
     [logoContainer addSubview:logoText];
     self.gamePickersTabBarController.navigationItem.titleView = logoContainer;
-    
+
     UIButton *settingsbutton = [UIButton buttonWithType:UIButtonTypeCustom];
     settingsbutton.frame = CGRectMake(0, 0, 27, 27);
     [settingsbutton setImage:[UIImage imageNamed:@"threelines.png"] forState:UIControlStateNormal];
     [settingsbutton addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     settingsbutton.accessibilityLabel = @"Settings Button";
-	self.gamePickersTabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton]; 
+    self.gamePickersTabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     [self displayContentController:self.gamePickersRevealController];
 }
 
@@ -110,7 +110,12 @@
 
 - (void) profileEditRequested
 {
-    [delegate profileEditRequested]; 
+    [delegate profileEditRequested];
+}
+
+- (void) forgotPasswordRequested
+{
+    [delegate forgotPasswordRequested];
 }
 
 - (void) logoutWasRequested

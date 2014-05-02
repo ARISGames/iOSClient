@@ -141,8 +141,7 @@
 
 - (void) passButtonTouched
 {
-	ForgotPasswordViewController *forgotPassViewController = [[ForgotPasswordViewController alloc] init];
-	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
+    [delegate forgotPasswordRequested];
 }
 
 - (void) profileButtonTouched

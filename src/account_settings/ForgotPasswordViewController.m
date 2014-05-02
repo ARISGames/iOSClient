@@ -13,6 +13,7 @@
     UITextField *emailField;
     UILabel *instructions;
     BOOL viewHasAppeared;
+    id<ForgotPasswordViewControllerDelegate> delegate;
 }
 
 @property (nonatomic, strong) UITextField *emailField;
@@ -30,6 +31,16 @@
     if(self = [super init])
     {
         viewHasAppeared = NO;
+        delegate = nil;
+    }
+    return self;
+}
+
+- (id) initWithDelegate:(id<ForgotPasswordViewControllerDelegate>)d
+{
+    if (self = [super init]) {
+        viewHasAppeared = NO;
+        delegate = d;
     }
     return self;
 }
@@ -90,7 +101,12 @@
 
 - (void) backButtonTouched
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (delegate) {
+        [delegate forgotPasswordWasDismissed];
+    }
+    else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (NSUInteger) supportedInterfaceOrientations
