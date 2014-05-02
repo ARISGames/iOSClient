@@ -18,6 +18,7 @@
 #import "AccountSettingsViewController.h"
 #import "ARISNavigationController.h"
 #import "ARISTemplate.h"
+#import "ForgotPasswordViewController.h"
 
 @interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, GameDetailsViewControllerDelegate, AccountSettingsViewControllerDelegate>
 {
@@ -123,6 +124,11 @@
 - (void) playerSettingsRequested
 {
     [delegate playerSettingsRequested];
+}
+
+- (void) forgotPasswordRequested
+{
+    [delegate forgotPasswordRequested];
 }
 
 - (void) logoutWasRequested

@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ARISViewController.h"
 
+@protocol ForgotPasswordViewControllerDelegate
+- (void) forgotPasswordWasDismissed;
+@end
+
 @interface ForgotPasswordViewController : ARISViewController
+- (id) initWithDelegate:(id<ForgotPasswordViewControllerDelegate>)d;
 @end

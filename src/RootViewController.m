@@ -19,13 +19,15 @@
 #import "GamePlayViewController.h"
 
 #import "ARISNavigationController.h"
+#import "ForgotPasswordViewController.h"
 
 #import "AppServices.h"
 
-@interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, GamePickersViewControllerDelegate, GamePlayViewControllerDelegate>
+@interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, GamePickersViewControllerDelegate, GamePlayViewControllerDelegate, ForgotPasswordViewControllerDelegate>
 {
     ARISNavigationController *loginNavigationController;
     ARISNavigationController *playerSettingsNavigationController;
+    ARISNavigationController *forgotPasswordNavigationController;
     GamePickersViewController *gamePickersViewController;
     GamePlayViewController *gamePlayViewController;
 }
@@ -53,6 +55,9 @@
         
         PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithDelegate:self];
         playerSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:playerSettingsViewController];
+        ForgotPasswordViewController *forgotPasswordViewController = [[ForgotPasswordViewController alloc] initWithDelegate:self];
+        forgotPasswordNavigationController = [[ARISNavigationController alloc] initWithRootViewController:forgotPasswordViewController];
+        
         
         //PHIL HATES THIS
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutWasRequested) name:@"LogoutRequested" object:nil];
@@ -107,7 +112,27 @@
     //PHIL DONE HATING CHUNK
 }
 
+- (void) forgotPasswordRequested
+{
+    [self displayContentController:forgotPasswordNavigationController];
+}
+
 - (void) playerSettingsWasDismissed
+{
+    //PHIL HATES THIS CHUNK
+    if([AppModel sharedAppModel].skipGameDetails)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
+        [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].skipGameDetails];
+        [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:[NSString stringWithFormat:@"%@...", NSLocalizedString(@"ConfirmingKey", @"")]];
+    }
+    else
+        [self displayContentController:gamePickersViewController];
+    //PHIL DONE HATING THIS CHUNK
+}
+
+- (void) forgotPasswordWasDismissed
 {
     //PHIL HATES THIS CHUNK
     if([AppModel sharedAppModel].skipGameDetails)

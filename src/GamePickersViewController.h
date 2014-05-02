@@ -14,6 +14,7 @@
 @protocol GamePickersViewControllerDelegate
 - (void) gamePickedForPlay:(Game *)g;
 - (void) playerSettingsRequested;
+- (void) forgotPasswordRequested;
 - (void) logoutWasRequested;
 @end
 

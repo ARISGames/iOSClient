@@ -11,6 +11,7 @@
 
 @protocol AccountSettingsViewControllerDelegate
 - (void) playerSettingsRequested;
+- (void) forgotPasswordRequested;
 - (void) logoutWasRequested;
 @end
 
