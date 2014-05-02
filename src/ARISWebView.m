@@ -223,8 +223,13 @@
         }
         else if([type isEqualToString:@"character"])
         {
+<<<<<<< HEAD
             if([delegate respondsToSelector:@selector(displayObjectType:id:)])        
                 [delegate displayObjectType:@"DIALOG" id:[token intValue]];   
+=======
+            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
+                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:[token intValue]]             fromSource:delegate];
+>>>>>>> Pulled all of the panoramic code
         }
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])

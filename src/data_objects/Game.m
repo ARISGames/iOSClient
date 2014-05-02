@@ -21,21 +21,20 @@ const int playerDatasToReceive = 6;
 @interface Game()
 {
     int receivedGameData;
-    BOOL gameDataReceived; 
-    
+    BOOL gameDataReceived;
+
     int receivedPlayerData;
-    BOOL playerDataReceived;  
+    BOOL playerDataReceived;
 }
 @end
- 
 @implementation Game
 
 @synthesize game_id;
 @synthesize name;
-@synthesize desc; 
+@synthesize desc;
 
-@synthesize icon_media_id; 
-@synthesize media_id;  
+@synthesize icon_media_id;
+@synthesize media_id;
 
 @synthesize map_type;
 @synthesize location;
@@ -54,17 +53,17 @@ const int playerDatasToReceive = 6;
 @synthesize authors;
 @synthesize comments;
 
-@synthesize plaquesModel; 
-@synthesize itemsModel; 
-@synthesize dialogsModel; 
-@synthesize webPagesModel; 
-@synthesize tagsModel; 
-@synthesize eventsModel; 
-@synthesize triggersModel; 
-@synthesize overlaysModel; 
-@synthesize instancesModel; 
-@synthesize tabsModel; 
-@synthesize logsModel; 
+@synthesize plaquesModel;
+@synthesize itemsModel;
+@synthesize dialogsModel;
+@synthesize webPagesModel;
+@synthesize tagsModel;
+@synthesize eventsModel;
+@synthesize triggersModel;
+@synthesize overlaysModel;
+@synthesize instancesModel;
+@synthesize tabsModel;
+@synthesize logsModel;
 @synthesize questsModel;
 @synthesize notesModel;
 
@@ -72,7 +71,7 @@ const int playerDatasToReceive = 6;
 {
     if(self = [super init])
     {
-        [self initialize]; 
+        [self initialize];
     }
     return self;
 }
@@ -82,16 +81,16 @@ const int playerDatasToReceive = 6;
     if(self = [super init])
     {
         [self initialize];
-        
+
         game_id = [dict validIntForKey:@"game_id"];
         name = [dict validStringForKey:@"name"];
-        desc = [dict validStringForKey:@"description"]; 
+        desc = [dict validStringForKey:@"description"];
 
-        icon_media_id = [dict validIntForKey:@"icon_media_id"]; 
-        media_id = [dict validIntForKey:@"media_id"];  
+        icon_media_id = [dict validIntForKey:@"icon_media_id"];
+        media_id = [dict validIntForKey:@"media_id"];
 
         map_type = [dict validStringForKey:@"map_type"];
-        location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]]; 
+        location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
         zoom_level = [dict validDoubleForKey:@"zoom_level"];
 
         show_player_location = [dict validBoolForKey:@"show_player_location"];
@@ -102,9 +101,9 @@ const int playerDatasToReceive = 6;
         allow_note_likes = [dict validBoolForKey:@"allow_note_likes"];
 
         inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
-        
-        player_count = [dict validIntForKey:@"player_count"];  
-        
+
+        player_count = [dict validIntForKey:@"player_count"];
+
         NSArray *authorDicts;
         for(int i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
             [authors addObject:[[User alloc] initWithDictionary:authorDicts[i]]];
@@ -115,14 +114,14 @@ const int playerDatasToReceive = 6;
 - (void) initialize //call in all init funcs (why apple doesn't provide functionality for this, I have no idea)
 {
     receivedGameData = 0;
-    gameDataReceived = NO;   
-        
+    gameDataReceived = NO;
+
     receivedPlayerData = 0;
-    playerDataReceived = NO;    
-               
+    playerDataReceived = NO;
+
     authors  = [NSMutableArray arrayWithCapacity:5];
-    comments = [NSMutableArray arrayWithCapacity:5]; 
-    
+    comments = [NSMutableArray arrayWithCapacity:5];
+
     _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
 }
 
@@ -130,10 +129,10 @@ const int playerDatasToReceive = 6;
 {
     game_id = g.game_id;
     name = g.name;
-    desc = g.desc; 
+    desc = g.desc;
 
-    icon_media_id = g.icon_media_id; 
-    media_id = g.media_id;  
+    icon_media_id = g.icon_media_id;
+    media_id = g.media_id;
 
     map_type = g.map_type;
     location = g.location;
@@ -156,57 +155,57 @@ const int playerDatasToReceive = 6;
 - (void) getReadyToPlay
 {
     _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
-    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",self,@selector(gamePlayerPieceReceived),nil); 
-    
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",self,@selector(gamePlayerPieceReceived),nil);
+
     receivedGameData = 0;
-    gameDataReceived = NO;    
-    
+    gameDataReceived = NO;
+
     receivedPlayerData = 0;
-    playerDataReceived = NO;      
-    
-    plaquesModel   = [[PlaquesModel   alloc] init];  
-    itemsModel     = [[ItemsModel     alloc] init];  
-    dialogsModel   = [[DialogsModel   alloc] init];  
-    webPagesModel  = [[WebPagesModel  alloc] init];   
-    tagsModel      = [[TagsModel  alloc] init];   
-    eventsModel    = [[EventsModel  alloc] init];   
-    triggersModel  = [[TriggersModel  alloc] init];    
-    overlaysModel  = [[OverlaysModel  alloc] init];     
-    instancesModel = [[InstancesModel alloc] init];     
-    tabsModel      = [[TabsModel      alloc] init];     
-    logsModel      = [[LogsModel      alloc] init];      
+    playerDataReceived = NO;
+
+    plaquesModel   = [[PlaquesModel   alloc] init];
+    itemsModel     = [[ItemsModel     alloc] init];
+    dialogsModel   = [[DialogsModel   alloc] init];
+    webPagesModel  = [[WebPagesModel  alloc] init];
+    tagsModel      = [[TagsModel  alloc] init];
+    eventsModel    = [[EventsModel  alloc] init];
+    triggersModel  = [[TriggersModel  alloc] init];
+    overlaysModel  = [[OverlaysModel  alloc] init];
+    instancesModel = [[InstancesModel alloc] init];
+    tabsModel      = [[TabsModel      alloc] init];
+    logsModel      = [[LogsModel      alloc] init];
     questsModel    = [[QuestsModel    alloc] init];
-    
-    notesModel     = [[NotesModel     alloc] init]; 
+
+    notesModel     = [[NotesModel     alloc] init];
 }
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
 {
     receivedGameData = 0;
-    gameDataReceived = NO;     
-    
+    gameDataReceived = NO;
+
     receivedPlayerData = 0;
-    playerDataReceived = NO;       
-    
+    playerDataReceived = NO;
+
     plaquesModel   = nil;
     itemsModel     = nil;
     dialogsModel   = nil;
     webPagesModel  = nil;
     tagsModel      = nil;
     eventsModel    = nil;
-    triggersModel  = nil; 
-    overlaysModel  = nil;  
-    instancesModel = nil;  
-    tabsModel      = nil;  
-    questsModel    = nil; 
-    logsModel      = nil;   
-    
+    triggersModel  = nil;
+    overlaysModel  = nil;
+    instancesModel = nil;
+    tabsModel      = nil;
+    questsModel    = nil;
+    logsModel      = nil;
+
     notesModel     = nil;
 }
 
 - (void) requestGameData
 {
-    receivedGameData = 0; 
+    receivedGameData = 0;
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
     [itemsModel touchItemInstances];
@@ -215,36 +214,36 @@ const int playerDatasToReceive = 6;
     [tagsModel requestTags];
     [eventsModel requestEvents];
     [questsModel requestQuests];
-    [triggersModel requestTriggers];  
-    [overlaysModel requestOverlays];   
+    [triggersModel requestTriggers];
+    [overlaysModel requestOverlays];
     [instancesModel requestInstances];
-    [tabsModel requestTabs];   
-    
+    [tabsModel requestTabs];
+
     //the one request not 'owned' by Game. Also, not 100% necessary
     //(has ability to load on an individual basis)
-    [_MODEL_MEDIA_ requestMedia]; 
+    [_MODEL_MEDIA_ requestMedia];
 }
 
 - (void) requestPlayerData
 {
-    receivedPlayerData = 0;  
+    receivedPlayerData = 0;
     [instancesModel requestPlayerInstances];
     [triggersModel requestPlayerTriggers];
-    [overlaysModel requestPlayerOverlays]; 
+    [overlaysModel requestPlayerOverlays];
     [questsModel requestPlayerQuests];
-    [tabsModel requestPlayerTabs]; 
-    [logsModel requestPlayerLogs];     
+    [tabsModel requestPlayerTabs];
+    [logsModel requestPlayerLogs];
 }
 
 - (void) gamePieceReceived
 {
     receivedGameData++;
-    if(receivedGameData >= gameDatasToReceive) 
+    if(receivedGameData >= gameDatasToReceive)
     {
-        _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);   
+        _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);
         gameDataReceived = YES;
     }
-    [self percentLoadedChanged];  
+    [self percentLoadedChanged];
 }
 
 - (void) gamePlayerPieceReceived
@@ -252,8 +251,8 @@ const int playerDatasToReceive = 6;
     receivedPlayerData++;
     if(receivedPlayerData >= playerDatasToReceive)
     {
-        _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);    
-        playerDataReceived = YES; 
+        _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);
+        playerDataReceived = YES;
     }
     [self percentLoadedChanged];
 }
@@ -263,43 +262,43 @@ const int playerDatasToReceive = 6;
     NSNumber *percentReceived = [NSNumber numberWithFloat:
                                  (float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive)
                                  ];
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PERCENT_LOADED", nil, @{@"percent":percentReceived});  
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PERCENT_LOADED", nil, @{@"percent":percentReceived});
 }
 
 - (void) gameBegan
 {
     _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PIECE_AVAILABLE", self, nil);
-    _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE", self, nil);  
+    _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE", self, nil);
 }
 
 - (void) clearModels
 {
     receivedGameData = 0;
-    gameDataReceived = NO;     
-    
+    gameDataReceived = NO;
+
     receivedPlayerData = 0;
-    playerDataReceived = NO;       
-    
-    [plaquesModel   clearGameData];  
-    [itemsModel     clearGameData];  
-    [dialogsModel   clearGameData];  
-    [webPagesModel  clearGameData];   
-    [tagsModel      clearGameData];   
-    [eventsModel    clearGameData];   
-    [questsModel    clearGameData]; 
-    [triggersModel  clearGameData];  
-    [overlaysModel  clearGameData];   
-    [instancesModel clearGameData];   
-    [tabsModel      clearGameData];    
-    
-    [itemsModel     clearPlayerData];  
-    [questsModel    clearPlayerData];  
-    [triggersModel  clearPlayerData];   
-    [overlaysModel  clearPlayerData];    
-    [instancesModel clearPlayerData];    
-    [tabsModel      clearPlayerData];     
-    [logsModel      clearPlayerData];      
-    
+    playerDataReceived = NO;
+
+    [plaquesModel   clearGameData];
+    [itemsModel     clearGameData];
+    [dialogsModel   clearGameData];
+    [webPagesModel  clearGameData];
+    [tagsModel      clearGameData];
+    [eventsModel    clearGameData];
+    [questsModel    clearGameData];
+    [triggersModel  clearGameData];
+    [overlaysModel  clearGameData];
+    [instancesModel clearGameData];
+    [tabsModel      clearGameData];
+
+    [itemsModel     clearPlayerData];
+    [questsModel    clearPlayerData];
+    [triggersModel  clearPlayerData];
+    [overlaysModel  clearPlayerData];
+    [instancesModel clearPlayerData];
+    [tabsModel      clearPlayerData];
+    [logsModel      clearPlayerData];
+
     [notesModel     clearData];
 }
 

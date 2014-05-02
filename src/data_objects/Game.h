@@ -46,24 +46,24 @@
 
   int inventory_weight_cap;
 
-  int player_count;  
-    
+  int player_count;
+
   NSMutableArray *authors;
   NSMutableArray *comments;
 
-  PlaquesModel    *plaquesModel;  
-  ItemsModel      *itemsModel;  
-  DialogsModel    *dialogsModel;   
-  WebPagesModel   *webPagesModel;    
-  TagsModel       *tagsModel;    
-  EventsModel     *eventsModel;    
-  TriggersModel   *triggersModel;     
-  OverlaysModel   *overlaysModel;      
-  InstancesModel  *instancesModel;      
-  TabsModel       *tabsModel;      
-  LogsModel       *logsModel;       
-  QuestsModel     *questsModel; 
-    
+  PlaquesModel    *plaquesModel;
+  ItemsModel      *itemsModel;
+  DialogsModel    *dialogsModel;
+  WebPagesModel   *webPagesModel;
+  TagsModel       *tagsModel;
+  EventsModel     *eventsModel;
+  TriggersModel   *triggersModel;
+  OverlaysModel   *overlaysModel;
+  InstancesModel  *instancesModel;
+  TabsModel       *tabsModel;
+  LogsModel       *logsModel;
+  QuestsModel     *questsModel;
+
   NotesModel      *notesModel;
 }
 
@@ -116,3 +116,4 @@
 - (void) clearModels;
 
 @end
+

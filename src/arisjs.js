@@ -67,7 +67,7 @@ var ARISJS = function(_ARIS)
         var url;
         if(GETparams) url = ROOT_URL+'/server/json.php/v2.'+serviceName+GETparams;
         else          url = ROOT_URL+'/server/json.php/v2.'+serviceName;
-    
+
         var request = new XMLHttpRequest();
         request.onreadystatechange = function()
         {
@@ -143,7 +143,7 @@ var ARISJS = function(_ARIS)
             alert("Just recieved a hook from ARIS with this information: '"+paramsJSON+"'. Override ARIS.hook(paramsJSON) to handle this event however you want! (Or, just add 'ARIS.hook = function(paramsJSON){return;};' to your code to just get rid of this message)");
         }
     }
-    
+
     if(typeof(_ARIS.ready) === 'undefined')
     {
         _ARIS.ready = function()
