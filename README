@@ -7,53 +7,11 @@ git submodule update
 
 
 Configuring and Running automated Tests
+(Using OSX 10.9 or newer)
 
-1. Install bwoken - See https://github.com/bendyworks/bwoken
-2. Install imagemagick: brew install imagemagick
-3. Compile and Run the tests: bwoken test
+1. Install bwoken:                  sudo gem install bwoken && bwoken init
+2. Install brew:                    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+3. Install imagemagick using brew:  brew install imagemagick
+4. Compile and Run the tests:       bwoken test
 
 Note, once you have compiled, you can quickly re-run the tests by running: bwoken test --skip-build
-
-!-----------------------------------------------------!
-
-Before installing imagemagick, make sure you have macports uninstalled and homebrew installed.
-
-1. Check if macports or fink is installed (run these in terminal)
-- $ which port
-- $ which fink
-
-2. if ($ which port) returns something that looks like /.rvm/bin/port , then macports is installed and needs to be uninstalled.
-3. if ($ which fink) returns something, then fink is most likely installed and needs to be uninstalled.
-
-4. Uninstall macports
-- $ sudo port -fp uninstall installed
-- Password: (enter password)
-- (let it do it's thing, cleaning, uninstalling, deactivating)...
-- $ sudo rm -rf /opt/local
-- $ sudo rm -rf /Applications/DarwinPorts
-- $ sudo rm -rf /Applications/MacPorts
-- $ sudo rm -rf /Library/LaunchDaemons/org.macports.*
-- $ sudo rm -rf /Library/Receipts/DarwinPorts*.pkg
-- $ sudo rm -rf /Library/Receipts/MacPorts*.pkg
-- $ sudo rm -rf /Library/StartupItems/DarwinPortsStartup
-- $ sudo rm -rf /Library/Tcl/darwinports1.0
-- $ sudo rm -rf /Library/Tcl/macports1.0
-- $ sudo rm -rf ~/.macports
-
--(optional, I didn't have to do this, and not sure how...) remove the /opt/local/bin from your $PATH
-
-(source: http://bitboxer.de/2010/06/03/moving-from-macports-to-homebrew/ )
-
-5. Uninstall fink (if necessary)
-- (I didn't have to do this. Fink was not installed on mine.)
-- Look up how to do this :)
-
-6. Check again to see if macports was uninstalled.
-- $ which port
-- (This should return nothing if it was properly uninstalled.)
-
-7. Install homebrew
-
-8. Double check to see if macports is uninstalled when installing imagemagick
-- $ brew install imagemagick
-- (If no error saying "It appears you have MacPorts or Fink installed." you should be all set to go!)
