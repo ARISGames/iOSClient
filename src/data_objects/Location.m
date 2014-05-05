@@ -11,7 +11,7 @@
 #import "AppModel.h"
 #import "Game.h"
 #import "Item.h"
-#import "Node.h"
+#import "Plaque.h"
 #import "WebPage.h"
 #import "Note.h"
 #import "User.h"
@@ -59,8 +59,8 @@
         
         NSString *otype = [dict validObjectForKey:@"type"];
         int oid         = [dict validIntForKey:@"type_id"];
-        if([otype isEqualToString:@"Node"])       self.gameObject = [[AppModel sharedAppModel].currentGame nodeForNodeId:oid];
-        if([otype isEqualToString:@"Item"])       self.gameObject = [[AppModel sharedAppModel].currentGame itemForItemId:oid];
+        if([otype isEqualToString:@"Node"])       self.gameObject = [_MODEL_PLAQUES_ plaqueForId:oid];
+        if([otype isEqualToString:@"Item"])       self.gameObject = [_MODEL_ITEMS_ itemForId:oid];
         if([otype isEqualToString:@"Npc"])        self.gameObject = [[AppModel sharedAppModel].currentGame npcForNpcId:oid];
         if([otype isEqualToString:@"WebPage"])    self.gameObject = [[AppModel sharedAppModel].currentGame webpageForWebpageId:oid];
         if([otype isEqualToString:@"PlayerNote"]) self.gameObject = [[AppModel sharedAppModel].currentGame.notesModel noteForId:oid];

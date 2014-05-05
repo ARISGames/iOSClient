@@ -11,6 +11,7 @@
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "ARISMediaView.h"
 #import "Media.h"
 #import "Item.h"
@@ -220,7 +221,7 @@
             tag.backgroundColor = [UIColor clearColor]; 
             ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) delegate:self];
             [amv setDisplayMode:ARISMediaDisplayModeAspectFit]; 
-            [amv setMedia:[[AppModel sharedAppModel] mediaForMediaId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id]];
+            [amv setMedia:[_MODEL_MEDIA_ mediaForMediaId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id]];
             [tag addSubview:amv];
         }
         [tag addSubview:label];
@@ -334,8 +335,8 @@
     Media *iconMedia;
     if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
     {
-        if (item.iconMediaId != 0) iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId];
-        else if(item.mediaId != 0) iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId];
+        if (item.iconMediaId != 0) iconMedia = [_MODEL_MEDIA_ mediaForMediaId:item.iconMediaId];
+        else if(item.mediaId != 0) iconMedia = [_MODEL_MEDIA_ mediaForMediaId:item.mediaId];
     }
     if(iconMedia && [iconMedia.type isEqualToString:@"IMAGE"])
     {

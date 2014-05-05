@@ -484,7 +484,7 @@
 {
     //immediately load new image into cache
     if([AppModel sharedAppModel].player.media_id != 0)
-        [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil]; 
+        [self loadMedia:[_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil]; 
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ARISServiceResult *)jsonResult
@@ -494,7 +494,7 @@
         [AppModel sharedAppModel].player.media_id = [((NSDictionary*)jsonResult.resultData) validIntForKey:@"media_id"];
         //immediately load new image into cache 
         if([AppModel sharedAppModel].player.media_id != 0)
-            [self loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil];  
+            [self loadMedia:[_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil];  
         [[AppModel sharedAppModel] saveUserDefaults];
     }
 }
@@ -557,7 +557,7 @@
         CLLocationCoordinate2D topLeft = CLLocationCoordinate2DMake(topLeftLat, topLeftLong);
         CLLocationCoordinate2D topRight = CLLocationCoordinate2DMake(topRightLat, topRightLong);
         CLLocationCoordinate2D bottomLeft = CLLocationCoordinate2DMake(bottomLeftLat, bottomRightLong);
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+        Media *media = [_MODEL_MEDIA_ mediaForMediaId:mediaId];
         ARISMediaView *mediaView = [[ARISMediaView alloc] init];
         [mediaView setMedia:media];
         CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:topLeft upperRightCoordinate:topRight bottomLeftCoordinate:bottomLeft overlayMedia:mediaView];
@@ -860,8 +860,8 @@
     else
         game.location = [[CLLocation alloc] init];
     
-    game.iconMedia   = [[AppModel sharedAppModel] mediaForMediaId:[gameSource validIntForKey:@"icon_media_id"]];
-    game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:[gameSource validIntForKey:@"media_id"]];
+    game.iconMedia   = [_MODEL_MEDIA_ mediaForMediaId:[gameSource validIntForKey:@"icon_media_id"]];
+    game.splashMedia = [_MODEL_MEDIA_ mediaForMediaId:[gameSource validIntForKey:@"media_id"]];
     
     game.questsModel.totalQuestsInGame = [gameSource validIntForKey:@"totalQuests"];
     game.launchNodeId                  = [gameSource validIntForKey:@"on_launch_node_id"];
@@ -1021,7 +1021,7 @@
 
 - (void) startCachingMedia:(ARISServiceResult *)jsonResult
 {
-    [[AppModel sharedAppModel].mediaModel syncMediaDataToCache:(NSArray *)jsonResult.resultData];
+    [_MODEL_MEDIA_ syncMediaDataToCache:(NSArray *)jsonResult.resultData];
     
     NSLog(@"NSNotification: ReceivedMediaList");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];

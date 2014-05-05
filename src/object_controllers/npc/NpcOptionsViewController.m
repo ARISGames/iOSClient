@@ -60,8 +60,8 @@
   self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
 
   Media *pcMedia = 0;
-  if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
-  else if([AppModel sharedAppModel].player.media_id  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id];
+  if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
+  else if([AppModel sharedAppModel].player.media_id  != 0) pcMedia = [_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id];
 
     mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeAspectFill];
@@ -248,7 +248,7 @@
   else
   {
     NpcScriptOption *selectedOption = [optionList objectAtIndex:r.view.tag];
-    selectedOption.scriptText = [[AppModel sharedAppModel].currentGame nodeForNodeId:selectedOption.nodeId].text;
+    selectedOption.scriptText = [_MODEL_PLAQUES_ plaqueForId:selectedOption.nodeId].desc;
     [delegate optionChosen:selectedOption];
   }
 }

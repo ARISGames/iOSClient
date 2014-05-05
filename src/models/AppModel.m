@@ -126,7 +126,7 @@
         
         //load the player media immediately if possible
         if(self.player.media_id != 0)
-            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.media_id] delegateHandle:nil];
+            [[AppServices sharedAppServices] loadMedia:[self.mediaModel mediaForMediaId:self.player.media_id] delegateHandle:nil];
     }
     
     self.fallbackGameId = [defaults integerForKey:@"game_id"];
@@ -166,7 +166,7 @@
     [defaults synchronize];
        
     if(self.player.media_id != 0)
-        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.media_id] delegateHandle:nil];  
+        [[AppServices sharedAppServices] loadMedia:[self.mediaModel mediaForMediaId:self.player.media_id] delegateHandle:nil];  
 }
 
 - (void) initUserDefaults
@@ -214,12 +214,6 @@
     NSDictionary *locDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:l,nil] forKeys:[[NSArray alloc] initWithObjects:@"location",nil]];
     NSLog(@"NSNotification: UserMoved");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UserMoved" object:nil userInfo:locDict]];
-}
-
-- (Media *) mediaForMediaId:(int)mId
-{
-    if(mId == 0) return nil;
-	return [mediaModel mediaForMediaId:mId];
 }
 
 - (NSString *) applicationDocumentsDirectory

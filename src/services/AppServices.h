@@ -14,7 +14,7 @@
 #import "Game.h"
 #import "Tab.h"
 #import "Item.h"
-#import "Node.h"
+#import "Plaque.h"
 #import "Npc.h"
 #import "Media.h"
 #import "WebPage.h"
@@ -86,7 +86,7 @@
 - (void) updateServerWithPlayerLocation;
 - (void) updateServerLocationViewed:(int)locationId;
 - (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId;
-- (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId;
+- (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId;
 - (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId;
 - (void) updateServerNpcViewed:(int)npcId fromLocation:(int)locationId;
 - (void) updateServerMapViewed;

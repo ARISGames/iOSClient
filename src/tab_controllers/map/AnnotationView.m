@@ -9,6 +9,7 @@
 #import "AnnotationView.h"
 #import "ARISTemplate.h"
 #import "Media.h"
+#import "MediaModel.h"
 #import "Location.h"
 #import "AppModel.h"
 #import "ARISMediaView.h"
@@ -111,7 +112,7 @@
     [iconView setFrame:imageInnerFrame];
     [iconView setDelegate:self];
     if (loc.gameObject.iconMediaId != 0) {
-        [iconView setMedia:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId]];
+        [iconView setMedia:[_MODEL_MEDIA_ mediaForMediaId:loc.gameObject.iconMediaId]];
     }
     else{
         [iconView setImage:[UIImage imageNamed:@"logo.png"]];

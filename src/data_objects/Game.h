@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "NotesModel.h"
 #import "ItemsModel.h"
+#import "PlaquesModel.h"
+#import "NotesModel.h"
 #import "QuestsModel.h"
 #import "LocationsModel.h"
 #import "Media.h"
@@ -42,8 +43,9 @@
   NSMutableArray *authors;
   NSMutableArray *comments;
 
+  ItemsModel      *itemsModel; 
+  PlaquesModel    *plaquesModel;  
   NotesModel      *notesModel;
-  ItemsModel      *itemsModel;
   QuestsModel     *questsModel;
   LocationsModel  *locationsModel;
   OverlaysModel   *overlaysModel;
@@ -74,8 +76,9 @@
 @property (nonatomic, strong) NSMutableArray *authors;
 @property (nonatomic, strong) NSMutableArray *comments;
 
-@property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
+@property (nonatomic, strong) PlaquesModel   *plaquesModel; 
+@property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;
 @property (nonatomic, strong) LocationsModel *locationsModel;
 @property (nonatomic, strong) OverlaysModel  *overlaysModel;

@@ -82,7 +82,7 @@
     while([oldMetaConnections count] > 0)
     {
         mr = [oldMetaConnections objectAtIndex:0];
-        mr.media = [[AppModel sharedAppModel] mediaForMediaId:mr.media.mediaId];
+        mr.media = [_MODEL_MEDIA_ mediaForMediaId:mr.media.mediaId];
         [oldMetaConnections removeObjectAtIndex:0];
         [self loadMediaFromMR:mr];
     }
@@ -110,7 +110,7 @@
     [mr.media.data writeToFile:newFileFullPath options:nil error:nil];
     mr.media.localURL = [NSURL URLWithString:[[NSString stringWithFormat:@"file://%@",newFileFullPath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
-    [[AppModel sharedAppModel].mediaModel saveAlteredMedia:mr.media];//not as elegant as I'd like...
+    [_MODEL_MEDIA_ saveAlteredMedia:mr.media];//not as elegant as I'd like...
     
     [self mediaLoadedForMR:mr];
 }

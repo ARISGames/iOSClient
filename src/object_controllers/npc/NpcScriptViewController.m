@@ -14,6 +14,7 @@
 #import "ScriptElement.h"
 #import "ARISMediaView.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "User.h"
 #import "AppServices.h"
 #import "ARISTemplate.h"
@@ -49,15 +50,15 @@
         delegate = d;
         
         Media *pcMedia;
-        if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
-        else if([AppModel sharedAppModel].player.media_id  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id];
+        if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
+        else if([AppModel sharedAppModel].player.media_id  != 0) pcMedia = [_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id];
         
         if(pcMedia) pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
         else        pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
         [self.view addSubview:pcView];
         
         Media *npcMedia;
-        if(npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:npc.mediaId];
+        if(npc.mediaId != 0) npcMedia = [_MODEL_MEDIA_ mediaForMediaId:npc.mediaId];
         
         if(npcMedia) npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:npc.name delegate:self];
         else         npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:npc.name delegate:self];
@@ -111,7 +112,7 @@
     if(s.hideLeaveConversationButtonSpecified) [delegate scriptRequestsHideLeaveConversation:s.hideLeaveConversationButton];
     if(s.leaveConversationButtonTitle)         [delegate scriptRequestsLeaveConversationTitle:s.leaveConversationButtonTitle];
     if(s.defaultPcTitle)                       [delegate scriptRequestsOptionsPcTitle:s.defaultPcTitle];
-    if(s.defaultPcMediaId)                     [delegate scriptRequestsOptionsPcMedia:[[AppModel sharedAppModel] mediaForMediaId:s.defaultPcMediaId]]; 
+    if(s.defaultPcMediaId)                     [delegate scriptRequestsOptionsPcMedia:[_MODEL_MEDIA_ mediaForMediaId:s.defaultPcMediaId]]; 
     
     currentScript = s;
     [self readyNextScriptElementForDisplay];
@@ -150,12 +151,12 @@
     else if([currentScriptElement.type isEqualToString:@"node"])
     {
         [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[_MODEL_PLAQUES_ plaqueForId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"item"])
     {
         [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[_MODEL_ITEMS_ itemForId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
     self.view.userInteractionEnabled = YES;
 }
@@ -163,7 +164,7 @@
 - (void) scriptDisplayVideo:(ScriptElement *)scriptElement
 {
     if (scriptElement.typeId != 0) {
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:scriptElement.typeId];
+        Media *media = [_MODEL_MEDIA_ mediaForMediaId:scriptElement.typeId];
         MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
         //remove the movie player notification so we can override it with our own
         [[NSNotificationCenter defaultCenter] removeObserver:movieViewController name:MPMoviePlayerPlaybackDidFinishNotification object:movieViewController.moviePlayer];

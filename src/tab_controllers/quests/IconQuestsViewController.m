@@ -12,6 +12,7 @@
 #import "Media.h"
 #import "ARISMediaView.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "AppServices.h"
 #import "ARISTemplate.h"
 
@@ -150,7 +151,7 @@
     ARISMediaView *icon = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width) delegate:self];
     [icon setDisplayMode:ARISMediaDisplayModeAspectFit];
     if(q.iconMediaId != 0)
-        [icon setMedia:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId]];
+        [icon setMedia:[_MODEL_MEDIA_ mediaForMediaId:q.iconMediaId]];
     else
         [icon setImage:[UIImage imageNamed:@"item.png"]];
     

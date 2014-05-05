@@ -14,7 +14,7 @@ enum
 	GameObjectNil       = 0,
 	GameObjectNpc       = 1,
 	GameObjectItem      = 2,
-	GameObjectNode      = 3,
+	GameObjectPlaque    = 3,
 	GameObjectPlayer    = 4,
     GameObjectWebPage   = 5,
     GameObjectNote      = 6
@@ -26,7 +26,7 @@ typedef UInt32 GameObjectType;
 - (id<GameObjectProtocol>) initWithDictionary:(NSDictionary *)dict;
 - (GameObjectType) type;
 - (NSString *) name;
-- (int) iconMediaId;
+- (int) icon_media_id;
 - (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s;
 - (id<GameObjectProtocol>) copy;
 - (int) compareTo:(id<GameObjectProtocol>)ob;

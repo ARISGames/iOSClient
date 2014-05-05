@@ -13,6 +13,7 @@
 #import "CircleView.h"
 #import "Media.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "ARISTemplate.h"
 
 @interface PopOverViewController() <ARISMediaViewDelegate>
@@ -88,7 +89,7 @@
     header.text = h;
     prompt.text = p;
     
-    if(m != 0) [iconMediaView setMedia:[[AppModel sharedAppModel] mediaForMediaId:m]];
+    if(m != 0) [iconMediaView setMedia:[_MODEL_MEDIA_ mediaForMediaId:m]];
     else [iconMediaView setImage:[UIImage imageNamed:@"todo"]];
 }
 

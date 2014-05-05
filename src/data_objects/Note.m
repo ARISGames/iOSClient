@@ -15,6 +15,7 @@
 #import "NoteTag.h"
 #import "NSDictionary+ValidParsers.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "NoteViewController.h"
 
 @implementation Note
@@ -87,7 +88,7 @@
             if([[contentDict objectForKey:@"type"] isEqualToString:@"TEXT"])
                 self.desc = [NSString stringWithFormat:@"%@%@",self.desc,[contentDict objectForKey:@"text"]];
             else
-                [self.contents addObject:[[AppModel sharedAppModel] mediaForMediaId:[contentDict validIntForKey:@"media_id"]]];
+                [self.contents addObject:[_MODEL_MEDIA_ mediaForMediaId:[contentDict validIntForKey:@"media_id"]]];
         }
         
         NSArray *commentDicts = [dict validObjectForKey:@"comments"];

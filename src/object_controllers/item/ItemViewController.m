@@ -16,6 +16,7 @@
 #import "ARISMediaView.h"
 #import "ARISCollapseView.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "AppServices.h"
 
 #import "ARISTemplate.h"
@@ -110,8 +111,8 @@
         scrollView.delegate = self;
         
         Media *media;
-        if(self.item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:self.item.mediaId];
-        else                  media = [[AppModel sharedAppModel] mediaForMediaId:self.item.iconMediaId];
+        if(self.item.mediaId) media = [_MODEL_MEDIA_ mediaForMediaId:self.item.mediaId];
+        else                  media = [_MODEL_MEDIA_ mediaForMediaId:self.item.iconMediaId];
         
         if(media)
         {
@@ -252,14 +253,14 @@
     {
         int q = self.item.qty;
         
-        Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
-        if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
+        Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.itemId];
+        if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.itemId]; invItem.qty = 0; }
         
         int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
         if(q < maxPUAmt) maxPUAmt = q;
         
-        int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
-        int cw = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
+        int wc = _MODEL_ITEMS_.weightCap;
+        int cw = _MODEL_ITEMS_.currentWeight;
         while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
         
         if(maxPUAmt < q) q = maxPUAmt;
@@ -273,14 +274,14 @@
 
 - (void) pickupItemQty:(int)q
 {
-    Item *invItem = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
-    if(!invItem) { invItem = [[AppModel sharedAppModel].currentGame itemForItemId:item.itemId]; invItem.qty = 0; }
+    Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.itemId];
+    if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.itemId]; invItem.qty = 0; }
     
     int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
     if(q < maxPUAmt) maxPUAmt = q;
     
-    int wc = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
-    int cw = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
+    int wc = _MODEL_ITEMS_.weightCap;
+    int cw = _MODEL_ITEMS_.currentWeight;
     while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
     
     if(maxPUAmt < q)

@@ -495,7 +495,7 @@
 
 - (void) addMediaToUploadFromURL:(NSURL *)url
 {
-    Media *m = [[AppModel sharedAppModel].mediaModel newMedia];
+    Media *m = [_MODEL_MEDIA_ newMedia];
     m.localURL = url;
     m.data = [NSData dataWithContentsOfURL:m.localURL]; 
     [mediaToUpload addObject:m];   

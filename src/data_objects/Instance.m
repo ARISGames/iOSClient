@@ -28,7 +28,7 @@
     return self;
 }
 
-- (Item *) initWithDictionary:(NSDictionary *)dict
+- (id) initWithDictionary:(NSDictionary *)dict
 {
     if(self = [super init])
     {

@@ -78,6 +78,8 @@
 
 - (Media *) mediaForMediaId:(int)mediaId
 {
+    if(mediaId == 0) return nil; 
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"mediaId = %d", mediaId];
     NSArray *cachedMediaArray = [self mediaForPredicate:predicate];
     

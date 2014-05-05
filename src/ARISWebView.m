@@ -8,6 +8,7 @@
 
 #import "ARISWebView.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "AppServices.h"
 #import "User.h"
 #import "ARISAppDelegate.h"
@@ -208,7 +209,7 @@
         else if([type isEqualToString:@"plaque"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])       
-                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame nodeForNodeId:[token intValue]]           fromSource:delegate];
+                [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:[token intValue]]           fromSource:delegate];
         }
         else if([type isEqualToString:@"webpage"])
         {
@@ -218,7 +219,7 @@
         else if([type isEqualToString:@"item"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame itemForItemId:[token intValue]]           fromSource:delegate];
+                [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:[token intValue]]           fromSource:delegate];
         }
         else if([type isEqualToString:@"character"])
         {
@@ -236,7 +237,7 @@
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
     else if([mainCommand isEqualToString:@"player"])
     {
-        Media *playerMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id];
+        Media *playerMedia = [_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id];
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
                                 "\"user_id\":%d," 
@@ -302,7 +303,7 @@
 
 - (void) loadAudioFromMediaId:(int)mediaId
 {
-    Media* media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+    Media* media = [_MODEL_MEDIA_ mediaForMediaId:mediaId];
     AVPlayer *player = [AVPlayer playerWithURL:media.localURL];
     [audioPlayers setObject:player forKey:[NSNumber numberWithInt:mediaId]];
 }
@@ -360,22 +361,12 @@
     if(qty < 1) qty = 0;
     [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
     
-    Item *i = [[AppModel sharedAppModel].currentGame itemForItemId:itemId];
+    Item *i = [_MODEL_ITEMS_ itemForId:itemId];
     int newQty = 0;
-    if(i.itemType != ItemTypeAttribute)
-    {
-        Item *ii = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:itemId];
-        if     (ii && ii.qty < qty) newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i      qtyToAdd:qty-ii.qty];
-        else if(ii && ii.qty > qty) newQty = [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:i qtyToRemove:ii.qty-qty];
-        else if(!ii && qty > 0)     newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i      qtyToAdd:qty];
-    }
-    else
-    {
-        Item *ii = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:itemId];
-        if     (ii && ii.qty < qty) newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i      qtyToAdd:qty-ii.qty];
-        else if(ii && ii.qty > qty) newQty = [[AppModel sharedAppModel].currentGame.attributesModel removeItemFromAttributes:i qtyToRemove:ii.qty-qty];
-        else if(!ii && qty > 0)     newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i      qtyToAdd:qty];
-    }
+    Item *ii = [_MODEL_ITEMS_ inventoryItemForId:itemId];
+    if     (ii && ii.qty < qty) newQty = [_MODEL_ITEMS_ addItemToInventory:i      qtyToAdd:qty-ii.qty];
+    else if(ii && ii.qty > qty) newQty = [_MODEL_ITEMS_ removeItemFromInventory:i qtyToRemove:ii.qty-qty];
+    else if(!ii && qty > 0)     newQty = [_MODEL_ITEMS_ addItemToInventory:i      qtyToAdd:qty];
     return newQty;
 }
 
@@ -383,11 +374,9 @@
 {
     [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
     
-    Item *i = [[AppModel sharedAppModel].currentGame itemForItemId:itemId];
+    Item *i = [_MODEL_ITEMS_ itemForId:itemId];
     int newQty = 0;
-    if(i.itemType != ItemTypeAttribute) newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i   qtyToAdd:qty];
-    else                                newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty];
-    
+    newQty = [_MODEL_ITEMS_ addItemToInventory:i   qtyToAdd:qty];
     return newQty;
 }
 
@@ -395,10 +384,9 @@
 {
     [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
     
-    Item *i = [[AppModel sharedAppModel].currentGame itemForItemId:itemId];
+    Item *i = [_MODEL_ITEMS_ itemForId:itemId];
     int newQty = 0;
-    if(i.itemType != ItemTypeAttribute) newQty = [[AppModel sharedAppModel].currentGame.inventoryModel  removeItemFromInventory:i  qtyToRemove:qty];
-    else                                newQty = [[AppModel sharedAppModel].currentGame.attributesModel removeItemFromAttributes:i qtyToRemove:qty];
+    newQty = [_MODEL_ITEMS_ removeItemFromInventory:i  qtyToRemove:qty];
     [[AppServices sharedAppServices] updateServerRemoveInventoryItem:itemId removeQty:qty];
     
     return newQty;

@@ -35,45 +35,49 @@
 @synthesize authors;
 @synthesize comments;
 
-@synthesize notesModel;
 @synthesize itemsModel; 
+@synthesize plaquesModel; 
+@synthesize notesModel;
 @synthesize questsModel;
 @synthesize locationsModel;
 @synthesize overlaysModel;
 
-- (id)init
+- (id) init
 {
     if(self = [super init])
     {
-	self.comments = [NSMutableArray arrayWithCapacity:5];
+        self.comments = [NSMutableArray arrayWithCapacity:5];
     }
     return self;
 }
 
 - (void) getReadyToPlay
 {
-    self.notesModel      = [[NotesModel      alloc] init];
-    self.itemsModel  = [[ItemsModel  alloc] init];
-    self.questsModel     = [[QuestsModel     alloc] init];
-    self.locationsModel  = [[LocationsModel  alloc] init];
-    self.overlaysModel   = [[OverlaysModel   alloc] init];
+    self.itemsModel     = [[ItemsModel      alloc] init]; 
+    self.plaquesModel   = [[PlaquesModel    alloc] init];  
+    self.notesModel     = [[NotesModel      alloc] init];
+    self.questsModel    = [[QuestsModel     alloc] init];
+    self.locationsModel = [[LocationsModel  alloc] init];
+    self.overlaysModel  = [[OverlaysModel   alloc] init];
 }
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
 {
-    self.notesModel      = nil;
-    self.itemsModel  = nil;
-    self.questsModel     = nil;
-    self.locationsModel  = nil; 
+    self.itemsModel     = nil; 
+    self.plaquesModel   = nil;  
+    self.notesModel     = nil;
+    self.questsModel    = nil;
+    self.locationsModel = nil; 
 }
 
 - (void) clearLocalModels
 {
-    [self.notesModel      clearData];
-    [self.itemsModel  clearData];
-    [self.questsModel     clearData];
-    [self.locationsModel  clearData];
-    [self.overlaysModel   clearData];
+    [self.itemsModel     clearData]; 
+    [self.plaquesModel   clearData];  
+    [self.notesModel     clearData];
+    [self.questsModel    clearData];
+    [self.locationsModel clearData];
+    [self.overlaysModel  clearData];
 }
 
 - (NSString *)description

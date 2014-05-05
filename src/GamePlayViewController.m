@@ -322,7 +322,7 @@
         
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
     if(nodeId && nodeId != 0 && [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
-        [self displayGameObject:[[AppModel sharedAppModel].currentGame nodeForNodeId:nodeId] fromSource:self];
+        [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:nodeId] fromSource:self];
 }
 
 - (void) checkForDisplayCompleteNode
@@ -332,7 +332,7 @@
         [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] == [AppModel sharedAppModel].currentGame.questsModel.totalQuestsInGame &&
         [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] > 0)
     {
-        [self displayGameObject:[[AppModel sharedAppModel].currentGame nodeForNodeId:nodeId] fromSource:self];
+        [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:nodeId] fromSource:self];
 	}
 }
 

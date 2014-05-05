@@ -123,11 +123,11 @@
         if([type isEqualToString:@"scanner"])
             [delegate displayScannerWithPrompt:title]; 
         else if([type isEqualToString:@"plaque"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame nodeForNodeId:typeId] fromSource:self];
+            [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:typeId] fromSource:self];
         else if([type isEqualToString:@"webpage"])
             [delegate displayGameObject:[[AppModel sharedAppModel].currentGame webpageForWebpageId:typeId] fromSource:self];
         else if([type isEqualToString:@"item"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame itemForItemId:typeId] fromSource:self];
+            [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:typeId] fromSource:self];
         else if([type isEqualToString:@"character"])
             [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:typeId] fromSource:self];
     }

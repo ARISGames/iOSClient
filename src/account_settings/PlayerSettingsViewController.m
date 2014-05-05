@@ -82,7 +82,7 @@
         [self.playerNameField becomeFirstResponder];
 
     if(chosenMediaId > 0)
-        [self.playerPic setMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.media_id]];
+        [self.playerPic setMedia:[_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id]];
     else if(chosenMediaId == 0)
         [self takePicture];
     //if chosenMediaId < 0, just leave the image as is
@@ -184,7 +184,7 @@
     NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_image.jpg", [outputFormatter stringFromDate:[NSDate date]]]]]; 
     [imageData writeToURL:imageURL atomically:YES]; 
     
-    Media *m = [[AppModel sharedAppModel].mediaModel newMedia];
+    Media *m = [_MODEL_MEDIA_ newMedia];
     m.localURL = imageURL;
     m.data = imageData; 
     [self.playerPic setImage:i]; 

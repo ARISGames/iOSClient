@@ -9,6 +9,7 @@
 #import "QuestDetailsViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "Quest.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
@@ -104,7 +105,7 @@
     webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
     [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.qdescription] baseURL:nil];  
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:quest.mediaId];
+    Media *media = [_MODEL_MEDIA_ mediaForMediaId:quest.mediaId];
     if(media)
     {
         [scrollView addSubview:mediaView];   
