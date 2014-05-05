@@ -326,21 +326,21 @@
     ((UILabel *)[cell viewWithTag:4]).text = [self getQtyLabelStringForQty:item.qty maxQty:item.maxQty weight:item.weight];
     
     NSNumber *viewed;
-    if(!(viewed = [self.viewedList objectForKey:[NSNumber numberWithInt:item.itemId]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
-        [self.viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.itemId]];
+    if(!(viewed = [self.viewedList objectForKey:[NSNumber numberWithInt:item.item_id]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
+        [self.viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.item_id]];
     else
-        [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.itemId]];
+        [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
     
     ARISMediaView *iconView = (ARISMediaView *)[cell viewWithTag:3];
     Media *iconMedia;
-    if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
+    if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.item_id]]))
     {
         if (item.iconMediaId != 0) iconMedia = [_MODEL_MEDIA_ mediaForMediaId:item.iconMediaId];
         else if(item.mediaId != 0) iconMedia = [_MODEL_MEDIA_ mediaForMediaId:item.mediaId];
     }
     if(iconMedia && [iconMedia.type isEqualToString:@"IMAGE"])
     {
-        [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.itemId]];
+        [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.item_id]];
         [iconView setMedia:iconMedia];
     }
     else if(iconMedia)
@@ -373,7 +373,7 @@
     
     [delegate displayGameObject:item fromSource:self];
     
-    [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[self.inventory objectAtIndex:[indexPath row]]).itemId]];
+    [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[self.inventory objectAtIndex:[indexPath row]]).item_id]];
 }
 
 //Removes all content after first <br> or </br> or <br /> tags, then removes all html

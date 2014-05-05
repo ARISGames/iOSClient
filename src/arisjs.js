@@ -41,24 +41,24 @@ var ARISJS = function(_ARIS)
         _ARIS.dequeueRequest();
     }
 
-    _ARIS.closeMe             = function()                { _ARIS.enqueueRequest("aris://closeMe"); }
-    _ARIS.hideLeaveButton     = function()                { _ARIS.enqueueRequest("aris://leaveButton/disable"); }
-    _ARIS.exitToTab           = function(tab)             { _ARIS.enqueueRequest("aris://exitTo/tab/"+tab); }
-    _ARIS.exitToScanner       = function(prompt)          { _ARIS.enqueueRequest("aris://exitTo/scanner/"+prompt); }
-    _ARIS.exitToPlaque        = function(plaqueId)        { _ARIS.enqueueRequest("aris://exitTo/plaque/"+plaqueId); }
-    _ARIS.exitToWebpage       = function(webpageId)       { _ARIS.enqueueRequest("aris://exitTo/webpage/"+webpageId); }
-    _ARIS.exitToItem          = function(itemId)          { _ARIS.enqueueRequest("aris://exitTo/item/"+itemId); }
-    _ARIS.exitToCharacter     = function(characterId)     { _ARIS.enqueueRequest("aris://exitTo/character/"+characterId); }
-    _ARIS.prepareMedia        = function(mediaId)         { _ARIS.enqueueRequest("aris://media/prepare/" + mediaId); }
-    _ARIS.playMedia           = function(mediaId)         { _ARIS.enqueueRequest("aris://media/play/" + mediaId); }
-    _ARIS.playMediaAndVibrate = function(mediaId)         { _ARIS.enqueueRequest("aris://media/playAndVibrate/" + mediaId); }
-    _ARIS.stopMedia           = function(mediaId)         { _ARIS.enqueueRequest("aris://media/stop/" + mediaId); }
-    _ARIS.setMediaVolume      = function(mediaId, volume) { _ARIS.enqueueRequest("aris://media/setVolume/" + mediaId + "/" + volume); }
-    _ARIS.getItemCount        = function(itemId)          { _ARIS.enqueueRequest("aris://inventory/get/" + itemId); }
-    _ARIS.setItemCount        = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/set/" + itemId + "/" + qty); }
-    _ARIS.giveItemCount       = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/give/" + itemId + "/" + qty); }
-    _ARIS.takeItemCount       = function(itemId,qty)      { _ARIS.enqueueRequest("aris://inventory/take/" + itemId + "/" + qty); }
-    _ARIS.getPlayer           = function()                { _ARIS.enqueueRequest("aris://player"); } 
+    _ARIS.closeMe             = function()                 { _ARIS.enqueueRequest("aris://closeMe"); }
+    _ARIS.hideLeaveButton     = function()                 { _ARIS.enqueueRequest("aris://leaveButton/disable"); }
+    _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exitTo/tab/"+tab); }
+    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exitTo/scanner/"+prompt); }
+    _ARIS.exitToPlaque        = function(plaque_id)        { _ARIS.enqueueRequest("aris://exitTo/plaque/"+plaque_id); }
+    _ARIS.exitToWebpage       = function(webpageId)        { _ARIS.enqueueRequest("aris://exitTo/webpage/"+webpageId); }
+    _ARIS.exitToItem          = function(item_id)          { _ARIS.enqueueRequest("aris://exitTo/item/"+item_id); }
+    _ARIS.exitToCharacter     = function(npc_id)           { _ARIS.enqueueRequest("aris://exitTo/character/"+npc_id); }
+    _ARIS.prepareMedia        = function(media_id)         { _ARIS.enqueueRequest("aris://media/prepare/" + media_id); }
+    _ARIS.playMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/play/" + media_id); }
+    _ARIS.playMediaAndVibrate = function(media_id)         { _ARIS.enqueueRequest("aris://media/playAndVibrate/" + media_id); }
+    _ARIS.stopMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/stop/" + media_id); }
+    _ARIS.setMediaVolume      = function(media_id, volume) { _ARIS.enqueueRequest("aris://media/setVolume/" + media_id + "/" + volume); }
+    _ARIS.getItemCount        = function(item_id)          { _ARIS.enqueueRequest("aris://inventory/get/" + item_id); }
+    _ARIS.setItemCount        = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/set/" + item_id + "/" + qty); }
+    _ARIS.giveItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/give/" + item_id + "/" + qty); }
+    _ARIS.takeItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/take/" + item_id + "/" + qty); }
+    _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); } 
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, callback, GETparams, POSTparams)

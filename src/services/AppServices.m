@@ -225,13 +225,13 @@
     [connection performAsynchronousRequestWithService:@"players" method:@"webPageViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId
+- (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId
 {	
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
-                          [NSString stringWithFormat:@"%d",itemId],                                       @"citemId",
-                          [NSString stringWithFormat:@"%d",locationId],                                   @"dlocationId",
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],      @"buser_id",
+                          [NSString stringWithFormat:@"%d",item_id],                                       @"citem_id",
+                          [NSString stringWithFormat:@"%d",locationId],                                    @"dlocationId",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"itemViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -308,24 +308,24 @@
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameReset" object:nil userInfo:nil]]; 
 }
 
-- (void) updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty
+- (void) updateServerPickupItem:(int)item_id fromLocation:(int)locationId qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
-                          [NSString stringWithFormat:@"%d",itemId],                                       @"citemId",
+                          [NSString stringWithFormat:@"%d",item_id],                                       @"citem_id",
                           [NSString stringWithFormat:@"%d",locationId],                                   @"dlocationId",
                           [NSString stringWithFormat:@"%d",qty],                                          @"eqty",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"pickupItemFromLocation" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerDropItemHere:(int)itemId qty:(int)qty
+- (void) updateServerDropItemHere:(int)item_id qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],                   @"agame_id",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],                      @"buser_id",
-                          [NSString stringWithFormat:@"%d",itemId],                                                         @"citemId",
+                          [NSString stringWithFormat:@"%d",item_id],                                                         @"citem_id",
                           [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],  @"dlatitude",
                           [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude], @"elongitude",
                           [NSString stringWithFormat:@"%d",qty],                                                            @"fqty",
@@ -345,44 +345,44 @@
     [connection performAsynchronousRequestWithService:@"players" method:@"dropNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerDestroyItem:(int)itemId qty:(int)qty
+- (void) updateServerDestroyItem:(int)item_id qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
-                          [NSString stringWithFormat:@"%d",itemId],                                       @"citemId",
+                          [NSString stringWithFormat:@"%d",item_id],                                       @"citem_id",
                           [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"destroyItem" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerInventoryItem:(int)itemId qty:(int)qty
+- (void) updateServerInventoryItem:(int)item_id qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",itemId],                                       @"btemId",
+                          [NSString stringWithFormat:@"%d",item_id],                                       @"btemId",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"cuser_id",
                           [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"setItemCountForPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerAddInventoryItem:(int)itemId addQty:(int)qty
+- (void) updateServerAddInventoryItem:(int)item_id addQty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",itemId],                                       @"bitemId",
+                          [NSString stringWithFormat:@"%d",item_id],                                       @"bitem_id",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"cuser_id",
                           [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"giveItemToPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty
+- (void) updateServerRemoveInventoryItem:(int)item_id removeQty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",itemId],                                       @"bitemId",
+                          [NSString stringWithFormat:@"%d",item_id],                                       @"bitem_id",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"cuser_id",
                           [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
                           nil];

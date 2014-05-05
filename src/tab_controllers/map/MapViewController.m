@@ -509,8 +509,8 @@
 - (void) pickupItemQty:(int)q item:(Item *)item location:(Location *)location
 {
     //this code was taken straight from ItemViewController
-    Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.itemId];
-    if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.itemId]; invItem.qty = 0; invItem.infiniteQty = NO; }
+    Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.item_id];
+    if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.item_id]; invItem.qty = 0; invItem.infiniteQty = NO; }
     
     int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
     if(q < maxPUAmt) maxPUAmt = q;
@@ -525,7 +525,7 @@
     }
     else if(q > 0)
     {
-        [[AppServices sharedAppServices] updateServerPickupItem:item.itemId fromLocation:location.locationId qty:q];
+        [[AppServices sharedAppServices] updateServerPickupItem:item.item_id fromLocation:location.locationId qty:q];
         [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-q forLocationId:location.locationId];
     }
 }

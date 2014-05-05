@@ -134,6 +134,7 @@
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
 		AAB398E41918166700E0E766 /* Plaque.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E31918166700E0E766 /* Plaque.m */; };
 		AAB398E8191821D400E0E766 /* PlaquesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E7191821D400E0E766 /* PlaquesModel.m */; };
+		AAB398EC19182E0500E0E766 /* NpcsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398EB19182E0500E0E766 /* NpcsModel.m */; };
 		AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */; };
 		AAB62FE118C689DD00030F48 /* barcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB62FDF18C689DD00030F48 /* barcode@2x.png */; };
 		AAB62FE218C689DD00030F48 /* notebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB62FE018C689DD00030F48 /* notebook@2x.png */; };
@@ -503,6 +504,8 @@
 		AAB398E31918166700E0E766 /* Plaque.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plaque.m; sourceTree = "<group>"; };
 		AAB398E6191821D400E0E766 /* PlaquesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaquesModel.h; sourceTree = "<group>"; };
 		AAB398E7191821D400E0E766 /* PlaquesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaquesModel.m; sourceTree = "<group>"; };
+		AAB398EA19182E0500E0E766 /* NpcsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcsModel.h; sourceTree = "<group>"; };
+		AAB398EB19182E0500E0E766 /* NpcsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcsModel.m; sourceTree = "<group>"; };
 		AAB62FC518C64D0F00030F48 /* ARISDelegateHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARISDelegateHandle.h; path = src/ARISDelegateHandle.h; sourceTree = SOURCE_ROOT; };
 		AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARISDelegateHandle.m; path = src/ARISDelegateHandle.m; sourceTree = SOURCE_ROOT; };
 		AAB62FDF18C689DD00030F48 /* barcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barcode@2x.png"; sourceTree = "<group>"; };
@@ -1015,6 +1018,15 @@
 			path = plaques;
 			sourceTree = "<group>";
 		};
+		AAB398E919182E0500E0E766 /* npcs */ = {
+			isa = PBXGroup;
+			children = (
+				AAB398EA19182E0500E0E766 /* NpcsModel.h */,
+				AAB398EB19182E0500E0E766 /* NpcsModel.m */,
+			);
+			path = npcs;
+			sourceTree = "<group>";
+		};
 		AABC6F3C1727398B0074CC21 /* assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1326,11 +1338,12 @@
 		AABC70DB172739D60074CC21 /* models */ = {
 			isa = PBXGroup;
 			children = (
-				AAB398E5191821D400E0E766 /* plaques */,
-				AA68B2F41912E6DF000C717B /* items */,
 				AABC70DC172739D60074CC21 /* AppModel.h */,
 				AABC70DD172739D60074CC21 /* AppModel.m */,
 				AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */,
+				AAB398E5191821D400E0E766 /* plaques */,
+				AA68B2F41912E6DF000C717B /* items */,
+				AAB398E919182E0500E0E766 /* npcs */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70E4172739D60074CC21 /* locations */,
 				AABC70E7172739D60074CC21 /* media */,
@@ -2012,6 +2025,7 @@
 				AABC7389172739D80074CC21 /* User.m in Sources */,
 				AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */,
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
+				AAB398EC19182E0500E0E766 /* NpcsModel.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,
 				AABC738B172739D80074CC21 /* Tab.m in Sources */,
 				AABC738C172739D80074CC21 /* NoteTag.m in Sources */,

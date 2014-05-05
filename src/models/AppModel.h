@@ -12,8 +12,8 @@
 #import <CoreData/CoreData.h>
 
 #define _MODEL_ [AppModel sharedAppModel]
-#define _MODEL_ITEMS_ [AppModel sharedAppModel].currentGame.itemsModel
 #define _MODEL_PLAQUES_ [AppModel sharedAppModel].currentGame.plaquesModel
+#define _MODEL_ITEMS_ [AppModel sharedAppModel].currentGame.itemsModel
 #define _MODEL_NPCS_ [AppModel sharedAppModel].currentGame.npcsModel
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].currentGame.itemsModel
 #define _MODEL_MEDIA_ [AppModel sharedAppModel].mediaModel
@@ -22,8 +22,9 @@
 @class User;
 @class Media;
 @class Location;
+
+@class Plaque;
 @class Item;
-@class Node;
 @class Npc;
 @class WebPage;
 

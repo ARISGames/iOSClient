@@ -224,7 +224,7 @@
         else if([type isEqualToString:@"character"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:[token intValue]]             fromSource:delegate];
+                [delegate displayGameObject:[_MODEL_NPCS_ npcForId:[token intValue]]             fromSource:delegate];
         }
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
@@ -255,30 +255,30 @@
     {
         if([components count] > 2 && [[components objectAtIndex:1] isEqualToString:@"get"])
         {
-            int itemId = [[components objectAtIndex:2] intValue];
-            int qty = [self getQtyInInventoryOfItem:itemId];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,qty]];
+            int item_id = [[components objectAtIndex:2] intValue];
+            int qty = [self getQtyInInventoryOfItem:item_id];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,qty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
         {
-            int itemId = [[components objectAtIndex:2] intValue];
+            int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [self setQtyInInventoryOfItem:itemId toQty:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            int newQty = [self setQtyInInventoryOfItem:item_id toQty:qty];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
         {
-            int itemId = [[components objectAtIndex:2] intValue];
+            int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [self giveQtyInInventoryToItem:itemId ofQty:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            int newQty = [self giveQtyInInventoryToItem:item_id ofQty:qty];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
         {
-            int itemId = [[components objectAtIndex:2] intValue];
+            int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [self takeQtyInInventoryFromItem:itemId ofQty:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            int newQty = [self takeQtyInInventoryFromItem:item_id ofQty:qty];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
         }
     }
     else if([mainCommand isEqualToString:@"media"])
@@ -348,46 +348,46 @@
     
 }
 
-- (int) getQtyInInventoryOfItem:(int)itemId
+- (int) getQtyInInventoryOfItem:(int)item_id
 {
     Item *i;
-    if((i = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:itemId]))   return i.qty;
-    if((i = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:itemId])) return i.qty;
+    if((i = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item_id]))   return i.qty;
+    if((i = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:item_id])) return i.qty;
     return 0;
 }
 
-- (int) setQtyInInventoryOfItem:(int)itemId toQty:(int)qty
+- (int) setQtyInInventoryOfItem:(int)item_id toQty:(int)qty
 {
     if(qty < 1) qty = 0;
-    [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
+    [[AppServices sharedAppServices] updateServerInventoryItem:item_id qty:qty];
     
-    Item *i = [_MODEL_ITEMS_ itemForId:itemId];
+    Item *i = [_MODEL_ITEMS_ itemForId:item_id];
     int newQty = 0;
-    Item *ii = [_MODEL_ITEMS_ inventoryItemForId:itemId];
+    Item *ii = [_MODEL_ITEMS_ inventoryItemForId:item_id];
     if     (ii && ii.qty < qty) newQty = [_MODEL_ITEMS_ addItemToInventory:i      qtyToAdd:qty-ii.qty];
     else if(ii && ii.qty > qty) newQty = [_MODEL_ITEMS_ removeItemFromInventory:i qtyToRemove:ii.qty-qty];
     else if(!ii && qty > 0)     newQty = [_MODEL_ITEMS_ addItemToInventory:i      qtyToAdd:qty];
     return newQty;
 }
 
-- (int) giveQtyInInventoryToItem:(int)itemId ofQty:(int)qty
+- (int) giveQtyInInventoryToItem:(int)item_id ofQty:(int)qty
 {
-    [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+    [[AppServices sharedAppServices] updateServerAddInventoryItem:item_id addQty:qty];
     
-    Item *i = [_MODEL_ITEMS_ itemForId:itemId];
+    Item *i = [_MODEL_ITEMS_ itemForId:item_id];
     int newQty = 0;
     newQty = [_MODEL_ITEMS_ addItemToInventory:i   qtyToAdd:qty];
     return newQty;
 }
 
-- (int) takeQtyInInventoryFromItem:(int)itemId ofQty:(int)qty
+- (int) takeQtyInInventoryFromItem:(int)item_id ofQty:(int)qty
 {
-    [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+    [[AppServices sharedAppServices] updateServerAddInventoryItem:item_id addQty:qty];
     
-    Item *i = [_MODEL_ITEMS_ itemForId:itemId];
+    Item *i = [_MODEL_ITEMS_ itemForId:item_id];
     int newQty = 0;
     newQty = [_MODEL_ITEMS_ removeItemFromInventory:i  qtyToRemove:qty];
-    [[AppServices sharedAppServices] updateServerRemoveInventoryItem:itemId removeQty:qty];
+    [[AppServices sharedAppServices] updateServerRemoveInventoryItem:item_id removeQty:qty];
     
     return newQty;
 }

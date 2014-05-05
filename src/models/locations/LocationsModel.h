@@ -19,6 +19,6 @@
 -(void) clearData;
 -(void) removeLocation:(Location *) location;
 -(int) modifyQuantity:(int)quantityModifier forLocationId:(int)locationId;
--(Location *) locationForId:(int)itemId;
+-(Location *) locationForId:(int)item_id;
 
 @end

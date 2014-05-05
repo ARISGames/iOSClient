@@ -35,8 +35,9 @@
 @synthesize authors;
 @synthesize comments;
 
-@synthesize itemsModel; 
 @synthesize plaquesModel; 
+@synthesize itemsModel; 
+@synthesize npcsModel; 
 @synthesize notesModel;
 @synthesize questsModel;
 @synthesize locationsModel;
@@ -53,8 +54,9 @@
 
 - (void) getReadyToPlay
 {
-    self.itemsModel     = [[ItemsModel      alloc] init]; 
     self.plaquesModel   = [[PlaquesModel    alloc] init];  
+    self.itemsModel     = [[ItemsModel      alloc] init];  
+    self.npcsModel      = [[NpcsModel      alloc] init];  
     self.notesModel     = [[NotesModel      alloc] init];
     self.questsModel    = [[QuestsModel     alloc] init];
     self.locationsModel = [[LocationsModel  alloc] init];
@@ -63,8 +65,9 @@
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
 {
-    self.itemsModel     = nil; 
     self.plaquesModel   = nil;  
+    self.itemsModel     = nil;  
+    self.npcsModel      = nil;   
     self.notesModel     = nil;
     self.questsModel    = nil;
     self.locationsModel = nil; 
@@ -72,8 +75,9 @@
 
 - (void) clearLocalModels
 {
-    [self.itemsModel     clearData]; 
     [self.plaquesModel   clearData];  
+    [self.itemsModel     clearData];  
+    [self.npcsModel      clearData];  
     [self.notesModel     clearData];
     [self.questsModel    clearData];
     [self.locationsModel clearData];

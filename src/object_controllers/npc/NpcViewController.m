@@ -129,7 +129,7 @@
         else if([type isEqualToString:@"item"])
             [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:typeId] fromSource:self];
         else if([type isEqualToString:@"character"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame npcForNpcId:typeId] fromSource:self];
+            [delegate displayGameObject:[_MODEL_NPCS_ npcForId:typeId] fromSource:self];
     }
     else
     {

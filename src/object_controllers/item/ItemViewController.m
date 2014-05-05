@@ -97,7 +97,7 @@
         webView.allowsInlineMediaPlayback       = YES;
         webView.mediaPlaybackRequiresUserAction = NO;
         
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"itemId=%d",self.item.itemId]];
+        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"item_id=%d",self.item.item_id]];
     }
     //Normal Item
     else
@@ -216,7 +216,7 @@
 
 - (void) dropItemQty:(int)q
 {
-    [[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:q];
+    [[AppServices sharedAppServices] updateServerDropItemHere:item.item_id qty:q];
     if([[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
@@ -238,7 +238,7 @@
 
 - (void) destroyItemQty:(int)q
 {
-    [[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:q];
+    [[AppServices sharedAppServices] updateServerDestroyItem:self.item.item_id qty:q];
     if([[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
@@ -253,8 +253,8 @@
     {
         int q = self.item.qty;
         
-        Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.itemId];
-        if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.itemId]; invItem.qty = 0; }
+        Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.item_id];
+        if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.item_id]; invItem.qty = 0; }
         
         int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
         if(q < maxPUAmt) maxPUAmt = q;
@@ -274,8 +274,8 @@
 
 - (void) pickupItemQty:(int)q
 {
-    Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.itemId];
-    if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.itemId]; invItem.qty = 0; }
+    Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.item_id];
+    if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.item_id]; invItem.qty = 0; }
     
     int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
     if(q < maxPUAmt) maxPUAmt = q;
@@ -299,11 +299,11 @@
     {
         if([(NSObject *)source isKindOfClass:[Location class]])
         {
-            [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:((Location *)source).locationId qty:q];
+            [[AppServices sharedAppServices] updateServerPickupItem:self.item.item_id fromLocation:((Location *)source).locationId qty:q];
             [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-q forLocationId:((Location *)source).locationId];
         }
         else
-            [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:q];
+            [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.item_id addQty:q];
         item.qty -= q;
     }
     [self updateViewButtons];   
@@ -408,7 +408,7 @@
 - (void) dismissSelf
 {
     int locationId = ([(NSObject *)source isKindOfClass:[Location class]]) ? ((Location *)source).locationId : 0;
-    [[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:locationId];	
+    [[AppServices sharedAppServices] updateServerItemViewed:item.item_id fromLocation:locationId];	
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

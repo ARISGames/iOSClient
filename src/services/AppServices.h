@@ -92,12 +92,12 @@
 - (void) updateServerMapViewed;
 - (void) updateServerQuestsViewed;
 - (void) updateServerInventoryViewed;
-- (void) updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty;
-- (void) updateServerDropItemHere:(int)itemId qty:(int)qty;
-- (void) updateServerDestroyItem:(int)itemId qty:(int)qty;
-- (void) updateServerInventoryItem:(int)itemId qty:(int)qty;
-- (void) updateServerAddInventoryItem:(int)itemId addQty:(int)qty;
-- (void) updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty;
+- (void) updateServerPickupItem:(int)item_id fromLocation:(int)locationId qty:(int)qty;
+- (void) updateServerDropItemHere:(int)item_id qty:(int)qty;
+- (void) updateServerDestroyItem:(int)item_id qty:(int)qty;
+- (void) updateServerInventoryItem:(int)item_id qty:(int)qty;
+- (void) updateServerAddInventoryItem:(int)item_id addQty:(int)qty;
+- (void) updateServerRemoveInventoryItem:(int)item_id removeQty:(int)qty;
 
 - (void) updateServerGameSelected;
 - (void) fetchQRCode:(NSString*)QRcodeId;

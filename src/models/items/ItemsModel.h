@@ -19,7 +19,7 @@
 @property(nonatomic, assign) int currentWeight;
 @property(nonatomic, assign) int weightCap;
 
-- (Item *) itemForId:(int)itemId;
+- (Item *) itemForId:(int)item_id;
 - (NSArray *) inventory;
 - (NSArray *) attributes;
 
