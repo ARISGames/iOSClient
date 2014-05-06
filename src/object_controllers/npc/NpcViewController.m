@@ -24,6 +24,7 @@
     NpcOptionsViewController *optionsViewController;
     
     UIButton *backButton;
+    BOOL hideBackButton;
     
     BOOL closingScriptPlaying;
     id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
@@ -52,6 +53,7 @@
         self.npc = n;
         closingScriptPlaying = NO;
         delegate = d;
+        hideBackButton = NO;
     }
     return self;
 }
@@ -78,8 +80,13 @@
     [super viewWillLayoutSubviews];
     
     self.optionsViewController.view.frame = self.view.bounds;
-    self.scriptViewController.view.frame = self.view.bounds; 
-   	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
+    self.scriptViewController.view.frame = self.view.bounds;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.hidesBackButton = NO;
+   	if (hideBackButton) {
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.hidesBackButton = YES;
+    }
 }
 
 - (void) viewDidAppearFirstTime:(BOOL)animated
@@ -188,6 +195,7 @@
 
 - (void) scriptRequestsHideLeaveConversation:(BOOL)h
 {
+    hideBackButton = h;
     [self.optionsViewController setShowLeaveConversationButton:!h];
 }
 
