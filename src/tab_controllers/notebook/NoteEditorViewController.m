@@ -175,11 +175,12 @@
     audioPickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
     audioPickerLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"AddKey", @"") uppercaseString], [NSLocalizedString(@"AudioKey", @"") uppercaseString]];
     
-    locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
+    locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:fc disabledStrokeColor:[UIColor grayColor] disabledtitleColor:[UIColor grayColor] strokeWidth:sw];
     [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     [locationPickerButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     [locationPickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
     [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    
     locationPickerLabel = [[UILabel alloc] init];
     locationPickerLabel.textAlignment = NSTextAlignmentCenter;
     locationPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
@@ -204,11 +205,20 @@
     [bottombar addSubview:imagePickerButton]; 
     [bottombar addSubview:imagePickerLabel];  
     [bottombar addSubview:audioPickerButton]; 
-    [bottombar addSubview:audioPickerLabel];   
-    [bottombar addSubview:locationPickerButton]; 
-    [bottombar addSubview:locationPickerLabel];   
-    [bottombar addSubview:trashButton]; 
-    [bottombar addSubview:trashLabel];    
+    [bottombar addSubview:audioPickerLabel];
+    if ([AppModel sharedAppModel].currentGame.allowShareNoteToMap) {
+        [bottombar addSubview:locationPickerButton];
+        [bottombar addSubview:locationPickerLabel];
+    }
+    else{
+        //add check here if the map tab exists, then add as a subview
+        locationPickerLabel.textColor = [UIColor grayColor];
+        locationPickerButton.enabled = NO;
+        //[bottombar addSubview:locationPickerButton];
+        //[bottombar addSubview:locationPickerLabel];
+    }
+    [bottombar addSubview:trashButton];
+    [bottombar addSubview:trashLabel];
     
     [self.view addSubview:title];
     [self.view addSubview:date];
@@ -247,8 +257,14 @@
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
     imagePickerButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, 5, buttonDiameter, buttonDiameter);
     imagePickerLabel.frame     = CGRectMake(buttonPadding*1+buttonDiameter*0-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
-    audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter); 
-    audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
+    if ([AppModel sharedAppModel].currentGame.allowShareNoteToMap) {
+        audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter);
+        audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
+    }
+    else{
+        audioPickerButton.frame    = CGRectMake(buttonPadding*6+buttonDiameter*1, 5, buttonDiameter, buttonDiameter);
+        audioPickerLabel.frame     = CGRectMake(buttonPadding*6+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
+    }
     locationPickerButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 5, buttonDiameter, buttonDiameter); 
     locationPickerLabel.frame  = CGRectMake(buttonPadding*5+buttonDiameter*2-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     trashButton.frame          = CGRectMake(buttonPadding*7+buttonDiameter*3, 5, buttonDiameter, buttonDiameter); 
