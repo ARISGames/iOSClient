@@ -126,6 +126,7 @@
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
 	
 	[self loadResult:codeTextField.text];
+    codeTextField.text = @"";
 	return YES;
 }
 
