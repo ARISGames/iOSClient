@@ -331,6 +331,7 @@
         [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.itemId]];
     
     ARISMediaView *iconView = (ARISMediaView *)[cell viewWithTag:3];
+    [iconView setDisplayMode:ARISMediaDisplayModeAspectFit];
     Media *iconMedia;
     if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
     {
