@@ -60,6 +60,7 @@
     TriangleButton *pickUpButton;
     
     BOOL resetWiggle;
+    BOOL zoomOnLoad;
     
 
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
@@ -80,6 +81,7 @@
         isViewLoaded = NO;
         locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
         locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
+        zoomOnLoad = YES;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"                               object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"                                  object:nil];
@@ -212,7 +214,10 @@
 	
 	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-    [self zoomToFitAnnotations];  
+    if (zoomOnLoad) {
+        [self zoomToFitAnnotations];
+        zoomOnLoad = NO;
+    }
 }
 
 - (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)overlay
@@ -391,6 +396,7 @@
     [locationsToRemove removeAllObjects];
     
     //Add new locations second
+    BOOL zoomToNewLocations = NO;
     Location *tmpLocation;
     for (int i = 0; i < [locationsToAdd count]; i++)
     {
@@ -399,9 +405,13 @@
         {
             if(tmpLocation.nearbyOverlay) [mapView addOverlay:tmpLocation.nearbyOverlay];
             [mapView addAnnotation:tmpLocation];
+            zoomToNewLocations = YES;
         }
     }
     [locationsToAdd removeAllObjects];
+    if (zoomToNewLocations) {
+        [self zoomToFitAnnotations];
+    }
 }
 
 - (MKAnnotationView *) mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
