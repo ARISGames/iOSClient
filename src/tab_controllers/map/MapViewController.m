@@ -42,7 +42,7 @@
 
     TriangleButton *viewAnnotationButton;
     TriangleButton *pickUpButton;
-    
+
     Trigger *triggerLookingAt;
 
     BOOL resetWiggle;
@@ -76,7 +76,7 @@
     [super loadView];
 
     mapView = [[MKMapView alloc] init];
-	mapView.delegate = self;
+    mapView.delegate = self;
     mapView.showsUserLocation = _MODEL_GAME_.show_player_location;
 
     if     ([_MODEL_GAME_.map_type isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
@@ -157,36 +157,35 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-	
+
     [self refreshViewFromModel];
-	[self refreshModels];
-	
+    [self refreshModels];
 }
 
 - (void) refreshModels
 {
     [_MODEL_TRIGGERS_ requestPlayerTriggers];
-    [_MODEL_OVERLAYS_ requestPlayerOverlays]; 
+    [_MODEL_OVERLAYS_ requestPlayerOverlays];
 }
 
 - (void) refreshViewFromModel
 {
     if(!mapView) return;
-    
+
     NSArray *mapAnnotations = mapView.annotations;
     NSArray *mapOverlays = mapView.overlays;
     BOOL shouldRemove;
-    BOOL shouldAdd; 
-    
+    BOOL shouldAdd;
+
     Trigger *mapTrigger;
     Trigger *modelTrigger;
     Overlay *mapOverlay;
-    Overlay *modelOverlay; 
-    
+    Overlay *modelOverlay;
+
     //
     //LOCATIONS
     //
-    
+
     //Remove locations
     for(int i = 0; i < mapAnnotations.count; i++)
     {
@@ -197,37 +196,37 @@
         {
             modelTrigger = _MODEL_TRIGGERS_.playerTriggers[j];
             if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldRemove = NO;
-        } 
+        }
         if(shouldRemove)
         {
             [mapView removeAnnotation:mapTrigger];
-            [mapView removeOverlay:mapTrigger.mapCircle]; 
+            [mapView removeOverlay:mapTrigger.mapCircle];
         }
     }
     //Add locations
-    for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++) 
+    for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
     {
-        modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i]; 
-        if(![modelTrigger.type isEqualToString:@"LOCATION"]) continue;  
+        modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i];
+        if(![modelTrigger.type isEqualToString:@"LOCATION"]) continue;
         shouldAdd = YES;
-        for(int j = 0; j < mapAnnotations.count; j++) 
+        for(int j = 0; j < mapAnnotations.count; j++)
         {
             if(![mapAnnotations[j] isKindOfClass:[Trigger class]]) continue;
-            mapTrigger = mapAnnotations[j]; 
+            mapTrigger = mapAnnotations[j];
             if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldAdd = NO;
-        } 
+        }
         if(shouldAdd)
         {
             [mapView addAnnotation:modelTrigger];
-            [mapView addOverlay:modelTrigger.mapCircle];  
+            [mapView addOverlay:modelTrigger.mapCircle];
         }
-    } 
-    
-    
+    }
+
+
     //
     //OVERLAYS
     //
-    
+
     //Remove overlays
     for(int i = 0; i < mapOverlays.count; i++)
     {
@@ -238,22 +237,22 @@
         {
             modelOverlay = _MODEL_OVERLAYS_.playerOverlays[j];
             if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldRemove = NO;
-        } 
-        [mapView removeOverlay:mapOverlay];   
+        }
+        [mapView removeOverlay:mapOverlay];
     }
     //Add overlays
-    for(int i = 0; i < _MODEL_OVERLAYS_.playerOverlays.count; i++) 
+    for(int i = 0; i < _MODEL_OVERLAYS_.playerOverlays.count; i++)
     {
-        modelOverlay = _MODEL_OVERLAYS_.playerOverlays[i]; 
+        modelOverlay = _MODEL_OVERLAYS_.playerOverlays[i];
         shouldAdd = YES;
-        for(int j = 0; j < mapOverlays.count; j++) 
+        for(int j = 0; j < mapOverlays.count; j++)
         {
             if(![mapOverlays[j] isKindOfClass:[Overlay class]]) continue;
-            mapOverlay = mapOverlays[j]; 
+            mapOverlay = mapOverlays[j];
             if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldAdd = NO;
-        } 
-        [mapView addOverlay:modelOverlay];    
-    }  
+        }
+        [mapView addOverlay:modelOverlay];
+    }
 }
 
 
@@ -316,10 +315,10 @@
 
 - (void) centerMapOnLoc:(CLLocationCoordinate2D)loc
 {
-   	MKCoordinateRegion region = mapView.region;
-	region.center = loc;
+    MKCoordinateRegion region = mapView.region;
+    region.center = loc;
 
-	[mapView setRegion:region animated:NO];
+    [mapView setRegion:region animated:NO];
 }
 
 -(void) zoomToFitAnnotations
@@ -356,11 +355,10 @@
 
 - (void) showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-	[self navigationItem].rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[activityIndicator startAnimating];
+  UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+  [self navigationItem].rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+  [activityIndicator startAnimating];
 }
-
 
 - (void) mapView:(MKMapView *)mv didSelectAnnotationView:(MKAnnotationView *)av
 {
@@ -370,7 +368,7 @@
 
 - (void) enableAnnotations
 {
-    Trigger *t; 
+    Trigger *t;
     for (int i = 0; i < mapView.annotations.count; i++)
     {
         if(![mapView.annotations[i] isKindOfClass:[Trigger class]]) continue;
@@ -381,13 +379,13 @@
 
 - (void) disableAnnotations
 {
-    Trigger *t; 
+    Trigger *t;
     for (int i = 0; i < mapView.annotations.count; i++)
     {
         if(![mapView.annotations[i] isKindOfClass:[Trigger class]]) continue;
         t = mapView.annotations[i];
         [[mapView viewForAnnotation:t] setEnabled:NO];
-    } 
+    }
 }
 
 - (void) displayHUDWithTrigger:(Trigger *)trigger andAnnotation:(AnnotationView *)annotation
@@ -485,7 +483,7 @@
     while(mapView.selectedAnnotations.count > 0)
     {
         if([mapView.selectedAnnotations[0] class] == [Trigger class])
-        { 
+        {
             Trigger *an = mapView.selectedAnnotations[0];
             [((AnnotationView *)[mapView viewForAnnotation:an]) shrinkToNormal];
             if(resetWiggle)
