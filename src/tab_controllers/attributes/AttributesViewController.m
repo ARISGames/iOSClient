@@ -81,9 +81,9 @@
     
     
     if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
-        [pcImage setMedia:[_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId]];
+        [pcImage setMedia:[_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].currentGame.pcMediaId]];
     else if([AppModel sharedAppModel].player.media_id != 0)
-        [pcImage setMedia:[_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id]];
+        [pcImage setMedia:[_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id]];
     else [pcImage setImage:[UIImage imageNamed:@"profile.png"]];
     
     [self.view addSubview:pcImage];
@@ -176,7 +176,7 @@
 	if(item.iconMediaId != 0)
     {
         if([self.iconCache count] <= indexPath.row)
-            [self.iconCache addObject:[_MODEL_MEDIA_ mediaForMediaId:item.iconMediaId]];
+            [self.iconCache addObject:[_MODEL_MEDIA_ mediaForId:item.iconMediaId]];
         iconViewTemp = [[ARISMediaView alloc] initWithFrame:CGRectMake(5, 5, 50, 50) delegate:self];
         [iconViewTemp setDisplayMode:ARISMediaDisplayModeAspectFit];
         [iconViewTemp setMedia:[self.iconCache objectAtIndex:indexPath.row]];

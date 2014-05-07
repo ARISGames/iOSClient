@@ -69,7 +69,7 @@
         [self displayContentController:loginNavigationController];
 }
 
-- (void) loginCredentialsApprovedForPlayer:(User *)p toGame:(int)gameId newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
+- (void) loginCredentialsApprovedForPlayer:(User *)p toGame:(int)game_id newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
 {
     [[AppModel sharedAppModel] commitPlayerLogin:p];
     //[[ARISPusherHandler sharedPusherHandler] loginPlayer:p.user_id];
@@ -81,21 +81,21 @@
         [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
         [self displayContentController:playerSettingsNavigationController];
     }
-    if(gameId)
+    if(game_id)
     {
-        [AppModel sharedAppModel].skipGameDetails = gameId;
+        [AppModel sharedAppModel].skipGameDetails = game_id;
         if(!newPlayer)
         {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
-            [[AppServices sharedAppServices] fetchOneGameGameList:gameId];
+            [[AppServices sharedAppServices] fetchOneGameGameList:game_id];
         }
     }
     //PHIL DONE HATING CHUNK
     
     gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
     
-    if(!newPlayer && !gameId)
+    if(!newPlayer && !game_id)
         [self displayContentController:gamePickersViewController];
 }
 
@@ -141,7 +141,7 @@
 
 - (void) gamePickedForPlay:(Game *)g
 {
-    [[ARISPusherHandler sharedPusherHandler] loginGame:g.gameId]; 
+    [[ARISPusherHandler sharedPusherHandler] loginGame:g.game_id]; 
     gamePlayViewController = [[GamePlayViewController alloc] initWithGame:g delegate:self];
     [self displayContentController:gamePlayViewController];
 }

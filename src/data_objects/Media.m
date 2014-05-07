@@ -35,14 +35,14 @@
     return self;
 }
 
-- (int) gameId
+- (int) game_id
 {
-    return [mediaCD.gameId intValue];
+    return [mediaCD.game_id intValue];
 }
 
 - (void) setGameId:(int)gid
 {
-    mediaCD.gameId = [NSNumber numberWithInt:gid];
+    mediaCD.game_id = [NSNumber numberWithInt:gid];
 }
 
 - (int) mediaId

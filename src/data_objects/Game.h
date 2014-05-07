@@ -11,6 +11,7 @@
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
 #import "NpcsModel.h"
+#import "WebPagesModel.h"
 #import "NotesModel.h"
 #import "QuestsModel.h"
 #import "LocationsModel.h"
@@ -24,9 +25,7 @@
   NSString *desc; 
 
   int icon_media_id; 
-  Media *iconMedia;
   int media_id;  
-  Media *media; 
 
   NSString *map_type;
   CLLocation *location;
@@ -41,12 +40,17 @@
 
   int inventory_weight_cap;
 
+  BOOL has_been_played; 
+  int player_count;  
+    
   NSMutableArray *authors;
   NSMutableArray *comments;
+  NSMutableArray *play_log; 
 
   PlaquesModel    *plaquesModel;  
   ItemsModel      *itemsModel;  
   NpcsModel       *npcsModel;   
+  WebPagesModel   *webPagesModel;    
   NotesModel      *notesModel;
   QuestsModel     *questsModel;
   LocationsModel  *locationsModel;
@@ -58,9 +62,7 @@
 @property (nonatomic, strong) NSString *desc; 
 
 @property (nonatomic, assign) int icon_media_id; 
-@property (nonatomic, strong) Media *iconMedia;
 @property (nonatomic, assign) int media_id;  
-@property (nonatomic, strong) Media *media; 
 
 @property (nonatomic, strong) NSString *map_type;
 @property (nonatomic, strong) CLLocation *location;
@@ -75,12 +77,19 @@
 
 @property (nonatomic, assign) int inventory_weight_cap;
 
+@property (nonatomic, assign) BOOL has_been_played;
+@property (nonatomic, assign) int player_count;
+
 @property (nonatomic, strong) NSMutableArray *authors;
 @property (nonatomic, strong) NSMutableArray *comments;
+- (int) rating;
+
+@property (nonatomic, strong) NSMutableArray *play_log;
 
 @property (nonatomic, strong) PlaquesModel   *plaquesModel; 
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
 @property (nonatomic, strong) NpcsModel      *npcsModel; 
+@property (nonatomic, strong) WebPagesModel  *webPagesModel; 
 @property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;
 @property (nonatomic, strong) LocationsModel *locationsModel;

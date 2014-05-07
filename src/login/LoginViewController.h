@@ -12,7 +12,7 @@
 @class User;
 
 @protocol LoginViewControllerDelegate
-- (void) loginCredentialsApprovedForPlayer:(User *)p toGame:(int)gameId newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame;
+- (void) loginCredentialsApprovedForPlayer:(User *)p toGame:(int)game_id newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame;
 @end
 
 @interface LoginViewController : ARISViewController

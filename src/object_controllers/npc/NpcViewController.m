@@ -220,7 +220,7 @@
 
 - (void) dismissSelf
 {
-    [[AppServices sharedAppServices] updateServerNpcViewed:self.npc.npcId fromLocation:0];
+    [[AppServices sharedAppServices] updateServerNpcViewed:self.npc.npc_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

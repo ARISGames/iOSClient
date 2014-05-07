@@ -82,7 +82,7 @@
         [self.playerNameField becomeFirstResponder];
 
     if(chosenMediaId > 0)
-        [self.playerPic setMedia:[_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id]];
+        [self.playerPic setMedia:[_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id]];
     else if(chosenMediaId == 0)
         [self takePicture];
     //if chosenMediaId < 0, just leave the image as is

@@ -236,12 +236,12 @@
     [connection performAsynchronousRequestWithService:@"players" method:@"itemViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerNpcViewed:(int)npcId fromLocation:(int)locationId
+- (void) updateServerNpcViewed:(int)npc_id fromLocation:(int)locationId
 {	
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"buser_id",
-                          [NSString stringWithFormat:@"%d",npcId],                                       @"cnpcId",
+                          [NSString stringWithFormat:@"%d",npc_id],                                       @"cnpc_id",
                           [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"npcViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -484,7 +484,7 @@
 {
     //immediately load new image into cache
     if([AppModel sharedAppModel].player.media_id != 0)
-        [self loadMedia:[_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil]; 
+        [self loadMedia:[_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil]; 
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ARISServiceResult *)jsonResult
@@ -494,7 +494,7 @@
         [AppModel sharedAppModel].player.media_id = [((NSDictionary*)jsonResult.resultData) validIntForKey:@"media_id"];
         //immediately load new image into cache 
         if([AppModel sharedAppModel].player.media_id != 0)
-            [self loadMedia:[_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil];  
+            [self loadMedia:[_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil];  
         [[AppModel sharedAppModel] saveUserDefaults];
     }
 }
@@ -557,7 +557,7 @@
         CLLocationCoordinate2D topLeft = CLLocationCoordinate2DMake(topLeftLat, topLeftLong);
         CLLocationCoordinate2D topRight = CLLocationCoordinate2DMake(topRightLat, topRightLong);
         CLLocationCoordinate2D bottomLeft = CLLocationCoordinate2DMake(bottomLeftLat, bottomRightLong);
-        Media *media = [_MODEL_MEDIA_ mediaForMediaId:mediaId];
+        Media *media = [_MODEL_MEDIA_ mediaForId:mediaId];
         ARISMediaView *mediaView = [[ARISMediaView alloc] init];
         [mediaView setMedia:media];
         CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:topLeft upperRightCoordinate:topRight bottomLeftCoordinate:bottomLeft overlayMedia:mediaView];
@@ -599,11 +599,11 @@
     [connection performAsynchronousRequestWithService:@"qrcodes" method:@"getQRCodeNearbyObjectForPlayer" arguments:args handler:self successSelector:@selector(parseQRCodeObjectFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId
+- (void) fetchNpcConversations:(int)npc_id afterViewingNode:(int)nodeId
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",npcId],                                        @"bnpcId",
+                          [NSString stringWithFormat:@"%d",npc_id],                                        @"bnpc_id",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"cuser_id",
                           [NSString stringWithFormat:@"%d",nodeId],                                       @"dnodeId",
                           nil];
@@ -860,8 +860,8 @@
     else
         game.location = [[CLLocation alloc] init];
     
-    game.iconMedia   = [_MODEL_MEDIA_ mediaForMediaId:[gameSource validIntForKey:@"icon_media_id"]];
-    game.splashMedia = [_MODEL_MEDIA_ mediaForMediaId:[gameSource validIntForKey:@"media_id"]];
+    game.iconMedia   = [_MODEL_MEDIA_ mediaForId:[gameSource validIntForKey:@"icon_media_id"]];
+    game.splashMedia = [_MODEL_MEDIA_ mediaForId:[gameSource validIntForKey:@"media_id"]];
     
     game.questsModel.totalQuestsInGame = [gameSource validIntForKey:@"totalQuests"];
     game.launchNodeId                  = [gameSource validIntForKey:@"on_launch_node_id"];
@@ -1086,7 +1086,7 @@
     while ((dict = [enumerator nextObject]))
     {
         Npc *tmpNpc = [[Npc alloc] initWithDictionary:dict];
-        [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
+        [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npc_id]];
     }
     
     [AppModel sharedAppModel].currentGame.npcList = tempNpcList;

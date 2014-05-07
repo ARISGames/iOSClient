@@ -89,7 +89,7 @@
     header.text = h;
     prompt.text = p;
     
-    if(m != 0) [iconMediaView setMedia:[_MODEL_MEDIA_ mediaForMediaId:m]];
+    if(m != 0) [iconMediaView setMedia:[_MODEL_MEDIA_ mediaForId:m]];
     else [iconMediaView setImage:[UIImage imageNamed:@"todo"]];
 }
 

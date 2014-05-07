@@ -240,7 +240,7 @@
 - (void) refresh
 {
     //the fact that we need to check this here means we're doing something wrong with our architecture... 
-    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.user_id == 0 || [AppModel sharedAppModel].currentGame.gameId == 0)  return;
+    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.user_id == 0 || [AppModel sharedAppModel].currentGame.game_id == 0)  return;
     
     if(mapView)
     {
@@ -267,7 +267,7 @@
 - (void) centerMapOnPlayer
 {
     //the fact that we need to check this here means we're doing something wrong with our architecture...
-    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.user_id == 0 || [AppModel sharedAppModel].currentGame.gameId == 0) return;
+    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.user_id == 0 || [AppModel sharedAppModel].currentGame.game_id == 0) return;
 	
 	//Center the map on the player
     [self centerMapOnLoc:[AppModel sharedAppModel].player.location.coordinate];

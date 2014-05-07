@@ -55,7 +55,7 @@
 - (void) fetchPlayerQuestList;
 - (void) fetchPlayerInventory;
 - (void) fetchPlayerOverlayList;
-- (void) fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId;
+- (void) fetchNpcConversations:(int)npc_id afterViewingNode:(int)nodeId;
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
 - (void) fetchAllGameLists;
@@ -88,7 +88,7 @@
 - (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId;
 - (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId;
 - (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId;
-- (void) updateServerNpcViewed:(int)npcId fromLocation:(int)locationId;
+- (void) updateServerNpcViewed:(int)npc_id fromLocation:(int)locationId;
 - (void) updateServerMapViewed;
 - (void) updateServerQuestsViewed;
 - (void) updateServerInventoryViewed;

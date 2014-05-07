@@ -12,7 +12,7 @@
 @interface MediaModel : NSObject
 
 - (id) initWithContext:(NSManagedObjectContext *)c;
-- (Media *) mediaForMediaId:(int)mediaId;
+- (Media *) mediaForId:(int)mediaId;
 - (Media *) newMedia;
 - (void) syncMediaDataToCache:(NSArray *)mediaDataToCache;
 - (void) clearCache;

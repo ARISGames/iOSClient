@@ -11,19 +11,21 @@
 
 @interface Npc : NSObject  <GameObjectProtocol>
 {
-	int npcId;
+	int npc_id;
 	NSString *name;
-	NSString *greeting;
-	NSString *closing;
-	int	mediaId;
-	int iconMediaId;
+   	NSString *desc; 
+   	int	icon_media_id;
+	int media_id; 
+	int opening_script_id;
+   	int closing_script_id; 
 }
 
-@property(nonatomic, assign) int npcId;
+@property(nonatomic, assign) int npc_id;
 @property(nonatomic, strong) NSString *name;
-@property(nonatomic, strong) NSString *greeting;
-@property(nonatomic, strong) NSString *closing;
-@property(nonatomic, assign) int mediaId;
-@property(nonatomic, assign) int iconMediaId;
+@property(nonatomic, strong) NSString *desc;
+@property(nonatomic, assign) int icon_media_id;
+@property(nonatomic, assign) int media_id;
+@property(nonatomic, assign) int opening_script_id;
+@property(nonatomic, assign) int closing_script_id;
 
 @end

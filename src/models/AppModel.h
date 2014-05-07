@@ -16,6 +16,7 @@
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].currentGame.itemsModel
 #define _MODEL_NPCS_ [AppModel sharedAppModel].currentGame.npcsModel
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].currentGame.itemsModel
+#define _MODEL_WEBPAGES_ [AppModel sharedAppModel].currentGame.webPagesModel
 #define _MODEL_MEDIA_ [AppModel sharedAppModel].mediaModel
 
 @class Game;

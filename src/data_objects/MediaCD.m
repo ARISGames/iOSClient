@@ -10,5 +10,5 @@
 #import "AppModel.h"
 
 @implementation MediaCD
-@dynamic gameId, mediaId, localURL, remoteURL;
+@dynamic game_id, mediaId, localURL, remoteURL;
 @end

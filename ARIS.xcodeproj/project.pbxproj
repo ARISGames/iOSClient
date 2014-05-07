@@ -97,6 +97,7 @@
 		AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
+		AA5D8D32191AB20800116FA1 /* WebPagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5D8D31191AB20800116FA1 /* WebPagesModel.m */; };
 		AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5F5ACE183147C00057AC1C /* NotesModel.m */; };
 		AA66CABE18A005150011FE97 /* NoteLocationPickerCrosshairsView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66CABD18A005150011FE97 /* NoteLocationPickerCrosshairsView.m */; };
 		AA68B2FB1912E6DF000C717B /* ItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA68B2F81912E6DF000C717B /* ItemsModel.m */; };
@@ -437,6 +438,8 @@
 		AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISContainerViewController.m; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		AA522B8D17AC225200C8A72B /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
+		AA5D8D30191AB20800116FA1 /* WebPagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPagesModel.h; sourceTree = "<group>"; };
+		AA5D8D31191AB20800116FA1 /* WebPagesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPagesModel.m; sourceTree = "<group>"; };
 		AA5F5ACD183147C00057AC1C /* NotesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesModel.h; sourceTree = "<group>"; };
 		AA5F5ACE183147C00057AC1C /* NotesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesModel.m; sourceTree = "<group>"; };
 		AA66CABC18A005150011FE97 /* NoteLocationPickerCrosshairsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteLocationPickerCrosshairsView.h; sourceTree = "<group>"; };
@@ -951,6 +954,15 @@
 			path = notebook;
 			sourceTree = "<group>";
 		};
+		AA5D8D2F191AB20800116FA1 /* webpages */ = {
+			isa = PBXGroup;
+			children = (
+				AA5D8D30191AB20800116FA1 /* WebPagesModel.h */,
+				AA5D8D31191AB20800116FA1 /* WebPagesModel.m */,
+			);
+			path = webpages;
+			sourceTree = "<group>";
+		};
 		AA5F5ACA183147AC0057AC1C /* notes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1344,6 +1356,7 @@
 				AAB398E5191821D400E0E766 /* plaques */,
 				AA68B2F41912E6DF000C717B /* items */,
 				AAB398E919182E0500E0E766 /* npcs */,
+				AA5D8D2F191AB20800116FA1 /* webpages */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70E4172739D60074CC21 /* locations */,
 				AABC70E7172739D60074CC21 /* media */,
@@ -2079,6 +2092,7 @@
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
 				AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */,
 				AA383B1B1829AD2F00612FFB /* NoteViewController.m in Sources */,
+				AA5D8D32191AB20800116FA1 /* WebPagesModel.m in Sources */,
 				AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */,
 				AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */,
 				AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */,

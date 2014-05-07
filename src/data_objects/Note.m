@@ -88,7 +88,7 @@
             if([[contentDict objectForKey:@"type"] isEqualToString:@"TEXT"])
                 self.desc = [NSString stringWithFormat:@"%@%@",self.desc,[contentDict objectForKey:@"text"]];
             else
-                [self.contents addObject:[_MODEL_MEDIA_ mediaForMediaId:[contentDict validIntForKey:@"media_id"]]];
+                [self.contents addObject:[_MODEL_MEDIA_ mediaForId:[contentDict validIntForKey:@"media_id"]]];
         }
         
         NSArray *commentDicts = [dict validObjectForKey:@"comments"];

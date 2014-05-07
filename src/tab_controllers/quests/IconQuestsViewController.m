@@ -151,7 +151,7 @@
     ARISMediaView *icon = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width) delegate:self];
     [icon setDisplayMode:ARISMediaDisplayModeAspectFit];
     if(q.iconMediaId != 0)
-        [icon setMedia:[_MODEL_MEDIA_ mediaForMediaId:q.iconMediaId]];
+        [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.iconMediaId]];
     else
         [icon setImage:[UIImage imageNamed:@"item.png"]];
     

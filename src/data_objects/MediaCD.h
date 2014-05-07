@@ -11,7 +11,7 @@
 
 @interface MediaCD : NSManagedObject
 
-@property (nonatomic, strong) NSNumber *gameId;
+@property (nonatomic, strong) NSNumber *game_id;
 @property (nonatomic, strong) NSNumber *mediaId;
 @property (nonatomic, strong) NSString *localURL;
 @property (nonatomic, strong) NSString *remoteURL;

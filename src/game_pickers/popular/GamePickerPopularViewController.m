@@ -103,7 +103,7 @@
     {
         GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
         Game *gameForCell = [self.gameList objectAtIndex:(indexPath.row-1)];
-        [cell setCustomLabelText:[NSString stringWithFormat:@"%d %@",gameForCell.playerCount, NSLocalizedString(@"PlayersKey", @"")]];
+        [cell setCustomLabelText:[NSString stringWithFormat:@"%d %@",gameForCell.player_count, NSLocalizedString(@"PlayersKey", @"")]];
         return cell;
     }
     else

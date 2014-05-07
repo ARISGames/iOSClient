@@ -23,9 +23,10 @@
 - (NSArray *) inventory;
 - (NSArray *) attributes;
 
-- (int) takeItemFromPlayer:(Item*)item qtyToRemove:(int)qty;
-- (int) giveItemToPlayer:(Item*)item qtyToAdd:(int)qty;
-- (int) qtyOwnedForItem:(Item *)item;
+- (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty;
+- (int) giveItemToPlayer:(int)item_id qtyToAdd:(int)qty;
+- (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty;
+- (int) qtyOwnedForItem:(int)item_id;
 - (void) clearPlayerData;
 - (void) clearGameData;
 

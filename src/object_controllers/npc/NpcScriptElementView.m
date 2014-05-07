@@ -125,7 +125,7 @@
     
     if(scriptElement.mediaId != 0)
     {
-        media = [_MODEL_MEDIA_ mediaForMediaId:scriptElement.mediaId];
+        media = [_MODEL_MEDIA_ mediaForId:scriptElement.mediaId];
         if (![media.type isEqualToString:@"AUDIO"]) {
             [mediaView setMedia:media];
             mediaView.frame = CGRectMake(0, 0, self.frame.size.width, 240);

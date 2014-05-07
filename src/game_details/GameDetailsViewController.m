@@ -9,6 +9,7 @@
 #import "GameDetailsViewController.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "GameCommentsViewController.h"
 #import "Game.h"
 
@@ -77,7 +78,7 @@
     starView.rating = game.rating;
     UILabel *reviewsTextView = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-110,12,100,15)];
     reviewsTextView.font = [ARISTemplate ARISButtonFont];
-    reviewsTextView.text = [NSString stringWithFormat:@"%d %@",game.numReviews, NSLocalizedString(@"ReviewsKey", @"")];
+    reviewsTextView.text = [NSString stringWithFormat:@"%d %@",[game.comments count], NSLocalizedString(@"ReviewsKey", @"")];
     [rateButton addSubview:starView];
     [rateButton addSubview:reviewsTextView];
     
@@ -105,7 +106,7 @@
     [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200)];
     rateButton.frame = CGRectMake(0, startButton.frame.origin.y-40, self.view.bounds.size.width, 40);
     descriptionView.frame = CGRectMake(0,200+64,self.view.bounds.size.width,rateButton.frame.origin.y-(200+64));
-    if(game.hasBeenPlayed)
+    if(game.has_been_played)
     {
         [self.view addSubview:resetButton];
         startButton.frame = CGRectMake((self.view.bounds.size.width/2),self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
@@ -125,10 +126,10 @@
     if(![game.desc isEqualToString:@""])
         [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], game.desc] baseURL:nil];
     
-    if(game.splashMedia) [mediaView setMedia:game.splashMedia];
+    if(game.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:game.media_id]];
     else                 [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]]; 
     
-    if(game.hasBeenPlayed) [startButton setTitle:NSLocalizedString(@"GameDetailsResumeKey", @"")  forState:UIControlStateNormal];
+    if(game.has_been_played) [startButton setTitle:NSLocalizedString(@"GameDetailsResumeKey", @"")  forState:UIControlStateNormal];
     else                   [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal]; 
     
     [self viewWillLayoutSubviews]; //let that take care of adding/removing reset
@@ -147,7 +148,7 @@
     if([AppModel sharedAppModel].skipGameDetails)
     {
         [AppModel sharedAppModel].skipGameDetails = 0;
-        game.hasBeenPlayed = YES;
+        game.has_been_played = YES;
         [delegate gameDetailsWereConfirmed:game];  
     }
 }
@@ -166,7 +167,7 @@
 
 - (void) startButtonTouched
 {
-    game.hasBeenPlayed = YES;
+    game.has_been_played = YES;
     [delegate gameDetailsWereConfirmed:game]; 
 }
 
@@ -191,9 +192,9 @@
 {
     if(buttonIndex == 1)
     {
-        [[AppServices sharedAppServices] startOverGame:game.gameId];
+        [[AppServices sharedAppServices] startOverGame:game.game_id];
         startButton.enabled =NO;
-        game.hasBeenPlayed = NO;
+        game.has_been_played = NO;
         [self refreshFromGame];
     }
 }

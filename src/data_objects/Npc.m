@@ -12,38 +12,40 @@
 
 @implementation Npc
 
-@synthesize npcId;
+@synthesize npc_id;
 @synthesize name;
-@synthesize greeting;
-@synthesize closing;
-@synthesize mediaId;
-@synthesize iconMediaId;
+@synthesize desc;
+@synthesize icon_media_id;
+@synthesize media_id;
+@synthesize opening_script_id;
+@synthesize closing_script_id;
 
-- (Npc *) init
+- (id) init
 {
-	self = [super init];
-    if(self)
+    if(self = [super init])
     {
-        self.npcId = 0;
+        self.npc_id = 0;
         self.name = @"Npc";
-        self.greeting = @"Greeting";
-        self.closing = @"Closing";
-        self.mediaId = 0;
-        self.iconMediaId = 0;
+        self.desc = @"";
+        self.icon_media_id = 0; 
+        self.media_id = 0;
+        self.opening_script_id = 0; 
+        self.closing_script_id = 0;  
     }
     return self;	
 }
 
-- (Npc *) initWithDictionary:(NSDictionary *)dict
+- (id) initWithDictionary:(NSDictionary *)dict
 {
     if(self = [super init])
     {
-        self.npcId       = [dict validIntForKey:@"npc_id"];
-        self.name        = [dict validObjectForKey:@"name"];
-        self.greeting    = [dict validObjectForKey:@"text"];
-        self.closing     = [dict validStringForKey:@"closing"];
-        self.mediaId     = [dict validIntForKey:@"media_id"];
-        self.iconMediaId = [dict validIntForKey:@"icon_media_id"];
+        self.npc_id            = [dict validIntForKey:@"npc_id"];
+        self.name              = [dict validStringForKey:@"name"];
+        self.desc              = [dict validStringForKey:@"description"];
+        self.icon_media_id     = [dict validIntForKey:@"icon_media_id"]; 
+        self.media_id          = [dict validIntForKey:@"media_id"];
+        self.opening_script_id = [dict validIntForKey:@"opening_script_id"]; 
+        self.closing_script_id = [dict validIntForKey:@"closing_script_id"];   
     }
     return self;
 }
@@ -61,23 +63,24 @@
 -(Npc *)copy
 {
     Npc *c = [[Npc alloc] init];
-    c.npcId = self.npcId;
-    c.name = self.name;
-    c.greeting = self.greeting;
-    c.closing = self.closing;
-    c.mediaId = self.mediaId;
-    c.iconMediaId = self.iconMediaId;
+    c.npc_id            = self.npc_id;
+    c.name              = self.name;
+    c.desc              = self.desc;
+    c.icon_media_id     = self.icon_media_id; 
+    c.media_id          = self.media_id;
+    c.opening_script_id = self.opening_script_id; 
+    c.closing_script_id = self.closing_script_id;    
     return c;
 }
 
 - (int)compareTo:(Npc *)ob
 {
-	return (ob.npcId == self.npcId);
+	return (ob.npc_id == self.npc_id);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Npc- Id:%d\tName:%@\t",self.npcId,self.name];
+    return [NSString stringWithFormat:@"Npc- Id:%d\tName:%@\t",self.npc_id,self.name];
 }
 
 @end

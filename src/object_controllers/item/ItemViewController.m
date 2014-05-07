@@ -111,8 +111,8 @@
         scrollView.delegate = self;
         
         Media *media;
-        if(self.item.mediaId) media = [_MODEL_MEDIA_ mediaForMediaId:self.item.mediaId];
-        else                  media = [_MODEL_MEDIA_ mediaForMediaId:self.item.iconMediaId];
+        if(self.item.mediaId) media = [_MODEL_MEDIA_ mediaForId:self.item.mediaId];
+        else                  media = [_MODEL_MEDIA_ mediaForId:self.item.iconMediaId];
         
         if(media)
         {

@@ -303,7 +303,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 //Ok. So the goal of this class was a light, clean wrapper to pass arguments into an http connection with 
-//the aris server. The generalized way to pass arguments is a dictionary (eg "the 'gameId' is '5252'"). 
+//the aris server. The generalized way to pass arguments is a dictionary (eg "the 'game_id' is '5252'"). 
 //However, the aris server is currently set up in such a way that is requrires ordered arguments (eg a
 //request for the games available to user 570 when hes at this lat, that lon, and wants to see games in 
 // development looks something like this:

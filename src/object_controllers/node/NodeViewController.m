@@ -122,7 +122,7 @@ static NSString * const OPTION_CELL = @"option";
         [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], node.text] baseURL:nil]; 
     }
     
-    Media *media = [_MODEL_MEDIA_ mediaForMediaId:node.mediaId];  
+    Media *media = [_MODEL_MEDIA_ mediaForId:node.mediaId];  
     if(media)
     {
         [scrollView addSubview:mediaView];   
@@ -144,7 +144,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
 {
-    Media *media = [_MODEL_MEDIA_ mediaForMediaId:node.mediaId];   
+    Media *media = [_MODEL_MEDIA_ mediaForId:node.mediaId];   
     MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     //error message that is logged after this line is possibly an ios 7 simulator bug...
     [self presentMoviePlayerViewControllerAnimated:movieViewController];

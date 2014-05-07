@@ -63,9 +63,9 @@
     return self;
 }
 
-- (void) loginGame:(int)gameId
+- (void) loginGame:(int)game_id
 {
-    self.gameChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",gameId]];
+    self.gameChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",game_id]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveGameChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification

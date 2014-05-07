@@ -80,7 +80,7 @@
         
         //PHIL HATES THIS CHUNK
         [AppModel sharedAppModel].currentGame = game;
-        [AppModel sharedAppModel].fallbackGameId = game.gameId;
+        [AppModel sharedAppModel].fallbackGameId = game.game_id;
         [[AppModel sharedAppModel] saveUserDefaults];
         //PHIL DONE HATING CHUNK
         

@@ -36,7 +36,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     id<LoginViewControllerDelegate> __unsafe_unretained delegate;
     
     NSString *groupName;
-    int gameId;
+    int game_id;
     BOOL newPlayer;
     BOOL disableLeaveGame;
     
@@ -162,7 +162,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 {
     usernameField.text = @"";
     passwordField.text = @"";
-    gameId = 0;
+    game_id = 0;
     newPlayer = NO;
 }
 
@@ -187,7 +187,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginResponseReady:) name:@"LoginResponseReady" object:nil]; //Uses same return info as login
     newPlayer = YES;
-    [[AppServices sharedAppServices] createUserAndLoginWithGroup:[NSString stringWithFormat:@"%d-%@", gameId, groupName]];
+    [[AppServices sharedAppServices] createUserAndLoginWithGroup:[NSString stringWithFormat:@"%d-%@", game_id, groupName]];
 }
 
 - (void) loginResponseReady:(NSNotification *)n
@@ -200,7 +200,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     {
         User *p = [[User alloc] initWithDictionary:(NSMutableDictionary *)r.resultData];
         if(location) p.location = location;
-        [delegate loginCredentialsApprovedForPlayer:p toGame:gameId newPlayer:newPlayer disableLeaveGame:disableLeaveGame];
+        [delegate loginCredentialsApprovedForPlayer:p toGame:game_id newPlayer:newPlayer disableLeaveGame:disableLeaveGame];
     }
 }
 
@@ -259,18 +259,18 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self dismissViewControllerAnimated:NO completion:nil];
     
     /*
-    Create: 1,groupName,gameId,disableLeaveGame
-    Login:  0,userName,password,gameId,disableLeaveGame
+    Create: 1,groupName,game_id,disableLeaveGame
+    Login:  0,userName,password,game_id,disableLeaveGame
      */
     NSArray *terms  = [result componentsSeparatedByString:@","];
     if([terms count] > 1)
     {
-        gameId = 0;
+        game_id = 0;
         disableLeaveGame = NO;
         if([terms count] > 0 && [[terms objectAtIndex:0] boolValue]) //create = 1
         {
             if([terms count] > 1) groupName        = [terms objectAtIndex:1];
-            if([terms count] > 2) gameId           = [[terms objectAtIndex:2] intValue];
+            if([terms count] > 2) game_id           = [[terms objectAtIndex:2] intValue];
             if([terms count] > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
             [self attemptAutomatedUserCreation];
         }
@@ -278,7 +278,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
         {
             if([terms count] > 1) usernameField.text = [terms objectAtIndex:1];
             if([terms count] > 2) passwordField.text = [terms objectAtIndex:2];
-            if([terms count] > 3) gameId             = [[terms objectAtIndex:3] intValue];
+            if([terms count] > 3) game_id             = [[terms objectAtIndex:3] intValue];
             if([terms count] > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
             [self attemptLogin];
         }

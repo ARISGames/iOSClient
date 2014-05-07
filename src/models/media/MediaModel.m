@@ -76,7 +76,7 @@
     [self commitContext];
 }
 
-- (Media *) mediaForMediaId:(int)mediaId
+- (Media *) mediaForId:(int)mediaId
 {
     if(mediaId == 0) return nil; 
     
@@ -92,7 +92,7 @@
     //Media Not found; you should try fetching a new list from the server
     MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
     mediaCD.mediaId = [NSNumber numberWithInt:mediaId];
-    mediaCD.gameId = [NSNumber numberWithInt:0]; 
+    mediaCD.game_id = [NSNumber numberWithInt:0]; 
     
     [self commitContext];
     
@@ -107,7 +107,7 @@
 
 - (void) syncMediaDataToCache:(NSArray *)mediaDataToCache
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(gameId = 0) OR (gameId = %d)", [AppModel sharedAppModel].currentGame.gameId]; 
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(game_id = 0) OR (game_id = %d)", [AppModel sharedAppModel].currentGame.game_id]; 
     NSArray *currentlyCachedMediaArray = [self mediaForPredicate:predicate]; 
     
     //For quick check of existence in cache
@@ -136,7 +136,7 @@
         }
         tmpMedia.remoteURL = remoteURL;
         
-        tmpMedia.gameId = [NSNumber numberWithInt:[mediaDict validIntForKey:@"game_id"]];
+        tmpMedia.game_id = [NSNumber numberWithInt:[mediaDict validIntForKey:@"game_id"]];
         NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.remoteURL);
     }
     [self commitContext];

@@ -82,7 +82,7 @@
     while([oldMetaConnections count] > 0)
     {
         mr = [oldMetaConnections objectAtIndex:0];
-        mr.media = [_MODEL_MEDIA_ mediaForMediaId:mr.media.mediaId];
+        mr.media = [_MODEL_MEDIA_ mediaForId:mr.media.mediaId];
         [oldMetaConnections removeObjectAtIndex:0];
         [self loadMediaFromMR:mr];
     }
@@ -103,7 +103,7 @@
     mr.media.data = mr.data;
     [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
 
-    NSString *newFileFolder   = [NSString stringWithFormat:@"%@/%d",[[AppModel sharedAppModel] applicationDocumentsDirectory],mr.media.gameId]; 
+    NSString *newFileFolder   = [NSString stringWithFormat:@"%@/%d",[[AppModel sharedAppModel] applicationDocumentsDirectory],mr.media.game_id]; 
     if(![[NSFileManager defaultManager] fileExistsAtPath:newFileFolder isDirectory:nil])
         [[NSFileManager defaultManager] createDirectoryAtPath:newFileFolder withIntermediateDirectories:YES attributes:nil error:nil];
     NSString *newFileFullPath = [NSString stringWithFormat:@"%@/%@",newFileFolder,[[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject]];

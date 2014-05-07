@@ -118,15 +118,16 @@
     }
 }
 
-- (int) takeItemFromPlayer:(Item*)item qtyToRemove:(int)qty
+- (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty
 {
   //Generate fake newly parsed instances *NOTE- fake instances must be COPIES, not just pointers to old instances (lest we just change qty in-place)*
   NSArray *instancesArray = [instances allValues];
   NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
+  Item *item = [self itemForId:item_id]; 
   Instance *copy;
   for(int i = 0; i < [instancesArray count]; i++)
   {
-    copy = [instancesArray objectAtIndex:i];
+    copy = [[instancesArray objectAtIndex:i] copy];
     //alter qty of fake
     if(copy.object == item) copy.qty -= qty;
     if(copy.qty < 0) copy.qty = 0;
@@ -135,21 +136,39 @@
   [self updateInstances:instancesCopy];
 }
 
-- (int) giveItemToPlayer:(Item*)item qtyToAdd:(int)qty
+- (int) giveItemToPlayer:(int)item_id qtyToAdd:(int)qty
 {
   //Generate fake newly parsed instances *NOTE- fake instances must be COPIES, not just pointers to old instances (lest we just change qty in-place)*
   NSArray *instancesArray = [instances allValues];
   NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
+  Item *item = [self itemForId:item_id];
   Instance *copy;
   for(int i = 0; i < [instancesArray count]; i++)
   {
-    copy = [instancesArray objectAtIndex:i];
+    copy = [[instancesArray objectAtIndex:i] copy];
     //alter qty of fake
     if(copy.object == item) copy.qty += qty;
-    if(copy.qty > item.max_qty) copy.qty = item.max_qty;
+    if(copy.qty > item.max_qty_in_inventory) copy.qty = item.max_qty_in_inventory;
     [instancesCopy addObject:copy];
   }
   [self updateInstances:instancesCopy];
+}
+
+- (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty
+{
+  //Generate fake newly parsed instances *NOTE- fake instances must be COPIES, not just pointers to old instances (lest we just change qty in-place)*
+  NSArray *instancesArray = [instances allValues];
+  NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
+  Item *item = [self itemForId:item_id]; 
+  Instance *copy;
+  for(int i = 0; i < [instancesArray count]; i++)
+  {
+    copy = [[instancesArray objectAtIndex:i] copy];
+    //alter qty of fake
+    if(copy.object == item) copy.qty = qty;
+    [instancesCopy addObject:copy];
+  }
+  [self updateInstances:instancesCopy]; 
 }
 
 - (Item *) itemForId:(int)item_id
@@ -157,7 +176,7 @@
   return [items objectForKey:[NSNumber numberWithInt:item_id]];
 }
 
-- (int) qtyOwnedForItem:(Item *)item
+- (int) qtyOwnedForItem:(int)item_id
 {
   return [instances objectForKey:[NSNumber numberWithInt:item.item_id]].qty;
 }

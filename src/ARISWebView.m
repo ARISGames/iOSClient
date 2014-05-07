@@ -125,9 +125,9 @@
     NSString *url = [[request URL] absoluteString];
     
     if([url rangeOfString:@"?"].location == NSNotFound)
-        url = [url stringByAppendingString:[NSString stringWithFormat:@"?gameId=%d&user_id=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.user_id, appendation]];
+        url = [url stringByAppendingString:[NSString stringWithFormat:@"?game_id=%d&user_id=%d&aris=1%@",[AppModel sharedAppModel].currentGame.game_id, [AppModel sharedAppModel].player.user_id, appendation]];
     else
-        url = [url stringByAppendingString:[NSString stringWithFormat:@"&gameId=%d&user_id=%d&aris=1%@",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].player.user_id, appendation]];
+        url = [url stringByAppendingString:[NSString stringWithFormat:@"&game_id=%d&user_id=%d&aris=1%@",[AppModel sharedAppModel].currentGame.game_id, [AppModel sharedAppModel].player.user_id, appendation]];
     
     [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]]; 
 }
@@ -209,22 +209,22 @@
         else if([type isEqualToString:@"plaque"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])       
-                [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:[token intValue]]           fromSource:delegate];
+                [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:[token intValue]] fromSource:delegate];
         }
         else if([type isEqualToString:@"webpage"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[[AppModel sharedAppModel].currentGame webpageForWebpageId:[token intValue]]     fromSource:delegate];
+                [delegate displayGameObject:[_MODEL_WEBPAGES_ webPageForId:[token intValue]] fromSource:delegate];
         }
         else if([type isEqualToString:@"item"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:[token intValue]]           fromSource:delegate];
+                [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:[token intValue]] fromSource:delegate];
         }
         else if([type isEqualToString:@"character"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[_MODEL_NPCS_ npcForId:[token intValue]]             fromSource:delegate];
+                [delegate displayGameObject:[_MODEL_NPCS_ npcForId:[token intValue]] fromSource:delegate];
         }
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
@@ -237,7 +237,7 @@
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
     else if([mainCommand isEqualToString:@"player"])
     {
-        Media *playerMedia = [_MODEL_MEDIA_ mediaForMediaId:[AppModel sharedAppModel].player.media_id];
+        Media *playerMedia = [_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id];
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
                                 "\"user_id\":%d," 
@@ -256,28 +256,28 @@
         if([components count] > 2 && [[components objectAtIndex:1] isEqualToString:@"get"])
         {
             int item_id = [[components objectAtIndex:2] intValue];
-            int qty = [self getQtyInInventoryOfItem:item_id];
+            int qty = [_MODEL_ITEMS_ qtyOwnedForItem:item_id];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,qty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
         {
             int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [self setQtyInInventoryOfItem:item_id toQty:qty];
+            int newQty = [_MODEL_ITEMS_ setItemsForPlayer:item_id qtyToSet:qty];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
         {
             int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [self giveQtyInInventoryToItem:item_id ofQty:qty];
+            int newQty = [_MODEL_ITEMS_ giveItemToPlayer:item_id qtyToAdd:qty];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
         }
         if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
         {
             int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [self takeQtyInInventoryFromItem:item_id ofQty:qty];
+            int newQty = [_MODEL_ITEMS_ takeItemFromPlayer:item_id qtyToRemove:qty];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
         }
     }
@@ -303,7 +303,7 @@
 
 - (void) loadAudioFromMediaId:(int)mediaId
 {
-    Media* media = [_MODEL_MEDIA_ mediaForMediaId:mediaId];
+    Media* media = [_MODEL_MEDIA_ mediaForId:mediaId];
     AVPlayer *player = [AVPlayer playerWithURL:media.localURL];
     [audioPlayers setObject:player forKey:[NSNumber numberWithInt:mediaId]];
 }
@@ -346,50 +346,6 @@
     
     player.currentItem.audioMix = audioMix;
     
-}
-
-- (int) getQtyInInventoryOfItem:(int)item_id
-{
-    Item *i;
-    if((i = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item_id]))   return i.qty;
-    if((i = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:item_id])) return i.qty;
-    return 0;
-}
-
-- (int) setQtyInInventoryOfItem:(int)item_id toQty:(int)qty
-{
-    if(qty < 1) qty = 0;
-    [[AppServices sharedAppServices] updateServerInventoryItem:item_id qty:qty];
-    
-    Item *i = [_MODEL_ITEMS_ itemForId:item_id];
-    int newQty = 0;
-    Item *ii = [_MODEL_ITEMS_ inventoryItemForId:item_id];
-    if     (ii && ii.qty < qty) newQty = [_MODEL_ITEMS_ addItemToInventory:i      qtyToAdd:qty-ii.qty];
-    else if(ii && ii.qty > qty) newQty = [_MODEL_ITEMS_ removeItemFromInventory:i qtyToRemove:ii.qty-qty];
-    else if(!ii && qty > 0)     newQty = [_MODEL_ITEMS_ addItemToInventory:i      qtyToAdd:qty];
-    return newQty;
-}
-
-- (int) giveQtyInInventoryToItem:(int)item_id ofQty:(int)qty
-{
-    [[AppServices sharedAppServices] updateServerAddInventoryItem:item_id addQty:qty];
-    
-    Item *i = [_MODEL_ITEMS_ itemForId:item_id];
-    int newQty = 0;
-    newQty = [_MODEL_ITEMS_ addItemToInventory:i   qtyToAdd:qty];
-    return newQty;
-}
-
-- (int) takeQtyInInventoryFromItem:(int)item_id ofQty:(int)qty
-{
-    [[AppServices sharedAppServices] updateServerAddInventoryItem:item_id addQty:qty];
-    
-    Item *i = [_MODEL_ITEMS_ itemForId:item_id];
-    int newQty = 0;
-    newQty = [_MODEL_ITEMS_ removeItemFromInventory:i  qtyToRemove:qty];
-    [[AppServices sharedAppServices] updateServerRemoveInventoryItem:item_id removeQty:qty];
-    
-    return newQty;
 }
 
 - (void) hookWithParams:(NSString *)params
