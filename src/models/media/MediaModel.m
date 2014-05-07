@@ -63,9 +63,9 @@
     [self commitContext];
 }
 
-- (void) deleteMediaFromCDWithId:(int)mediaId
+- (void) deleteMediaFromCDWithId:(int)media_id
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"mediaId = %d", mediaId];   
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"media_id = %d", media_id];   
     NSArray *cachedMediaArray = [self mediaForPredicate:predicate];
     
     for(NSManagedObject *managedObject in cachedMediaArray)
@@ -76,11 +76,11 @@
     [self commitContext];
 }
 
-- (Media *) mediaForId:(int)mediaId
+- (Media *) mediaForId:(int)media_id
 {
-    if(mediaId == 0) return nil; 
+    if(media_id == 0) return nil; 
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"mediaId = %d", mediaId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"media_id = %d", media_id];
     NSArray *cachedMediaArray = [self mediaForPredicate:predicate];
     
     if([cachedMediaArray count] != 0)
@@ -91,7 +91,7 @@
     
     //Media Not found; you should try fetching a new list from the server
     MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-    mediaCD.mediaId = [NSNumber numberWithInt:mediaId];
+    mediaCD.media_id = [NSNumber numberWithInt:media_id];
     mediaCD.game_id = [NSNumber numberWithInt:0]; 
     
     [self commitContext];
@@ -107,25 +107,25 @@
 
 - (void) syncMediaDataToCache:(NSArray *)mediaDataToCache
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(game_id = 0) OR (game_id = %d)", [AppModel sharedAppModel].currentGame.game_id]; 
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(game_id = 0) OR (game_id = %d)", _MODEL_GAME_.game_id]; 
     NSArray *currentlyCachedMediaArray = [self mediaForPredicate:predicate]; 
     
     //For quick check of existence in cache
     NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] initWithCapacity:currentlyCachedMediaArray.count];
     for(int i = 0; i < [currentlyCachedMediaArray count]; i++)
-        [currentlyCachedMediaMap setObject:[currentlyCachedMediaArray objectAtIndex:i] forKey:((MediaCD *)[currentlyCachedMediaArray objectAtIndex:i]).mediaId];
+        [currentlyCachedMediaMap setObject:[currentlyCachedMediaArray objectAtIndex:i] forKey:((MediaCD *)[currentlyCachedMediaArray objectAtIndex:i]).media_id];
     
     MediaCD *tmpMedia;
     for(int i = 0; i < [mediaDataToCache count]; i++)
     {
         NSDictionary *mediaDict = [mediaDataToCache objectAtIndex:i];
-        int mediaId        = [mediaDict validIntForKey:@"media_id"];
+        int media_id        = [mediaDict validIntForKey:@"media_id"];
         NSString *fileName = [mediaDict validObjectForKey:@"file_path"];
         
-        if(!(tmpMedia = [currentlyCachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]]))
+        if(!(tmpMedia = [currentlyCachedMediaMap objectForKey:[NSNumber numberWithInt:media_id]]))
         {
             tmpMedia = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-            tmpMedia.mediaId = [NSNumber numberWithInt:mediaId];
+            tmpMedia.media_id = [NSNumber numberWithInt:media_id];
         }
         
         NSString *remoteURL = [NSString stringWithFormat:@"%@%@", [mediaDict validObjectForKey:@"url_path"], fileName];
@@ -137,7 +137,7 @@
         tmpMedia.remoteURL = remoteURL;
         
         tmpMedia.game_id = [NSNumber numberWithInt:[mediaDict validIntForKey:@"game_id"]];
-        NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.remoteURL);
+        NSLog(@"Cached Media: %d with URL: %@",media_id,tmpMedia.remoteURL);
     }
     [self commitContext];
 }

@@ -69,9 +69,9 @@
 - (void) syncLocalVars
 {
     if([self.playerNameField.text isEqualToString:@""])
-        self.playerNameField.text = [AppModel sharedAppModel].player.display_name; // @"" by default
+        self.playerNameField.text = _MODEL_PLAYER_.display_name; // @"" by default
     if(chosenMediaId == 0)
-        chosenMediaId = [AppModel sharedAppModel].player.media_id;
+        chosenMediaId = _MODEL_PLAYER_.media_id;
 }
 
 - (void) refreshView
@@ -82,7 +82,7 @@
         [self.playerNameField becomeFirstResponder];
 
     if(chosenMediaId > 0)
-        [self.playerPic setMedia:[_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id]];
+        [self.playerPic setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
     else if(chosenMediaId == 0)
         [self takePicture];
     //if chosenMediaId < 0, just leave the image as is
@@ -107,12 +107,12 @@
         return;
     }
 
-    [AppModel sharedAppModel].player.display_name = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
+    _MODEL_PLAYER_.display_name = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
 
-    [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].player.user_id
-                                         withName:[AppModel sharedAppModel].player.display_name];
+    [[AppServices sharedAppServices] updatePlayer:_MODEL_PLAYER_.user_id
+                                         withName:_MODEL_PLAYER_.display_name];
 
-    [[AppModel sharedAppModel] saveUserDefaults];
+    [_MODEL_ saveUserDefaults];
 
     [delegate playerSettingsWasDismissed];
 }

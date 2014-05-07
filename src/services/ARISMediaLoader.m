@@ -66,7 +66,7 @@
 - (void) loadMetaDataForMR:(MediaResult *)mr
 {
     for(int i = 0; i < [metaConnections count]; i++)
-        if(((MediaResult *)[metaConnections objectAtIndex:i]).media.mediaId == mr.media.mediaId) return;
+        if(((MediaResult *)[metaConnections objectAtIndex:i]).media.media_id == mr.media.media_id) return;
     [metaConnections addObject:mr]; 
     [[AppServices sharedAppServices] fetchMediaMeta:mr.media];
 }
@@ -82,7 +82,7 @@
     while([oldMetaConnections count] > 0)
     {
         mr = [oldMetaConnections objectAtIndex:0];
-        mr.media = [_MODEL_MEDIA_ mediaForId:mr.media.mediaId];
+        mr.media = [_MODEL_MEDIA_ mediaForId:mr.media.media_id];
         [oldMetaConnections removeObjectAtIndex:0];
         [self loadMediaFromMR:mr];
     }
@@ -103,7 +103,7 @@
     mr.media.data = mr.data;
     [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
 
-    NSString *newFileFolder   = [NSString stringWithFormat:@"%@/%d",[[AppModel sharedAppModel] applicationDocumentsDirectory],mr.media.game_id]; 
+    NSString *newFileFolder   = [NSString stringWithFormat:@"%@/%d",[_MODEL_ applicationDocumentsDirectory],mr.media.game_id]; 
     if(![[NSFileManager defaultManager] fileExistsAtPath:newFileFolder isDirectory:nil])
         [[NSFileManager defaultManager] createDirectoryAtPath:newFileFolder withIntermediateDirectories:YES attributes:nil error:nil];
     NSString *newFileFullPath = [NSString stringWithFormat:@"%@/%@",newFileFolder,[[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject]];

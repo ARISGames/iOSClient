@@ -154,8 +154,8 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    if([AppModel sharedAppModel].player.user_id)
-        [delegate loginCredentialsApprovedForPlayer:[AppModel sharedAppModel].player toGame:0 newPlayer:NO disableLeaveGame:NO];
+    if(_MODEL_PLAYER_.user_id)
+        [delegate loginCredentialsApprovedForPlayer:_MODEL_PLAYER_ toGame:0 newPlayer:NO disableLeaveGame:NO];
 }
 
 - (void) resetState

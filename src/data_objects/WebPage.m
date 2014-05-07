@@ -15,7 +15,7 @@
 @synthesize webPageId;
 @synthesize name;
 @synthesize url;
-@synthesize iconMediaId;
+@synthesize icon_media_id;
 
 - (WebPage *) init
 {
@@ -24,7 +24,7 @@
         self.webPageId = 0;
         self.name = @"WebPage";
         self.url = @"http://www.arisgames.org";
-        self.iconMediaId = 0;
+        self.icon_media_id = 0;
     }
     return self;	
 }
@@ -36,7 +36,7 @@
         self.webPageId   = [dict validIntForKey:@"web_page_id"];
         self.name        = [dict validObjectForKey:@"name"];
         self.url         = [dict validObjectForKey:@"url"];
-        self.iconMediaId = [dict validIntForKey:@"icon_media_id"];
+        self.icon_media_id = [dict validIntForKey:@"icon_media_id"];
     }
     return self;
 }
@@ -57,7 +57,7 @@
     c.webPageId = self.webPageId;
     c.name = self.name;
     c.url = self.url;
-    c.iconMediaId = self.iconMediaId;
+    c.icon_media_id = self.icon_media_id;
     return c;
 }
 

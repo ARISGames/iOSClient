@@ -16,7 +16,7 @@
     NSString *title;
 	NSString *text;
     
-    int mediaId;
+    int media_id;
     
     CGRect imageRect;
     float  zoomTime;
@@ -31,7 +31,7 @@
 @property (nonatomic,strong) NSString *title;
 @property (nonatomic,strong) NSString *text;
 
-@property (nonatomic,assign) int mediaId;
+@property (nonatomic,assign) int media_id;
 
 @property (nonatomic,assign) CGRect imageRect;
 @property (nonatomic,assign) float  zoomTime;

@@ -35,7 +35,7 @@
 {
     [super requestNewGameList];
     
-    if([AppModel sharedAppModel].deviceLocation && [AppModel sharedAppModel].player)
+    if(_MODEL_.deviceLocation && _MODEL_PLAYER_)
     {
         [[AppServices sharedAppServices] fetchRecentGameListForPlayer];
         [self showLoadingIndicator];
@@ -44,7 +44,7 @@
 
 - (void) refreshViewFromModel
 {
-	self.gameList = [AppModel sharedAppModel].recentGameList;
+	self.gameList = _MODEL_.recentGameList;
 	[self.gameTable reloadData];
     
     [self removeLoadingIndicator];

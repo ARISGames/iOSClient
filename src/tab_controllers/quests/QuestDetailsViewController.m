@@ -105,7 +105,7 @@
     webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
     [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.qdescription] baseURL:nil];  
     
-    Media *media = [_MODEL_MEDIA_ mediaForId:quest.mediaId];
+    Media *media = [_MODEL_MEDIA_ mediaForId:quest.media_id];
     if(media)
     {
         [scrollView addSubview:mediaView];   
@@ -151,7 +151,7 @@
 {
     //[delegate gameObjectViewControllerRequestsDismissal:self];
     //WebPage *w = [[WebPage alloc] init];
-    //w.webPageId = node.nodeId;
+    //w.webPageId = plaque.plaque_id;
     //w.url = [r.URL absoluteString];
     //[(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
 

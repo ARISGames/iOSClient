@@ -71,7 +71,7 @@
 {
     [super requestNewGameList];
     
-    if([AppModel sharedAppModel].deviceLocation && [AppModel sharedAppModel].player)    
+    if(_MODEL_.deviceLocation && _MODEL_PLAYER_)    
     {
         currentPage = 0;
         self.theSearchBar.text = searchText;
@@ -81,12 +81,12 @@
     
 - (void) refreshViewFromModel
 {
-    if(currentPage == 0) self.gameList = [AppModel sharedAppModel].searchGameList;
-    else                 self.gameList = [self.gameList arrayByAddingObjectsFromArray:[AppModel sharedAppModel].searchGameList];
+    if(currentPage == 0) self.gameList = _MODEL_.searchGameList;
+    else                 self.gameList = [self.gameList arrayByAddingObjectsFromArray:_MODEL_.searchGameList];
     
     currentlyFetchingNextPage = NO;
     currentPage++;
-    if([AppModel sharedAppModel].searchGameList.count == 0) allResultsFound = YES;
+    if(_MODEL_.searchGameList.count == 0) allResultsFound = YES;
     
 	[gameTable reloadData];
     

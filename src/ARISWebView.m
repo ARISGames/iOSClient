@@ -125,9 +125,9 @@
     NSString *url = [[request URL] absoluteString];
     
     if([url rangeOfString:@"?"].location == NSNotFound)
-        url = [url stringByAppendingString:[NSString stringWithFormat:@"?game_id=%d&user_id=%d&aris=1%@",[AppModel sharedAppModel].currentGame.game_id, [AppModel sharedAppModel].player.user_id, appendation]];
+        url = [url stringByAppendingString:[NSString stringWithFormat:@"?game_id=%d&user_id=%d&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
     else
-        url = [url stringByAppendingString:[NSString stringWithFormat:@"&game_id=%d&user_id=%d&aris=1%@",[AppModel sharedAppModel].currentGame.game_id, [AppModel sharedAppModel].player.user_id, appendation]];
+        url = [url stringByAppendingString:[NSString stringWithFormat:@"&game_id=%d&user_id=%d&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
     
     [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]]; 
 }
@@ -237,7 +237,7 @@
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
     else if([mainCommand isEqualToString:@"player"])
     {
-        Media *playerMedia = [_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id];
+        Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
                                 "\"user_id\":%d," 
@@ -245,9 +245,9 @@
                                 "\"display_name\":\"%@\"," 
                                 "\"photoURL\":\"%@\"" 
                                 "}",
-                                [AppModel sharedAppModel].player.user_id,
-                                [AppModel sharedAppModel].player.user_name, 
-                                [AppModel sharedAppModel].player.display_name, 
+                                _MODEL_PLAYER_.user_id,
+                                _MODEL_PLAYER_.user_name, 
+                                _MODEL_PLAYER_.display_name, 
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
@@ -301,35 +301,35 @@
     [webView stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
 }
 
-- (void) loadAudioFromMediaId:(int)mediaId
+- (void) loadAudioFromMediaId:(int)media_id
 {
-    Media* media = [_MODEL_MEDIA_ mediaForId:mediaId];
+    Media* media = [_MODEL_MEDIA_ mediaForId:media_id];
     AVPlayer *player = [AVPlayer playerWithURL:media.localURL];
-    [audioPlayers setObject:player forKey:[NSNumber numberWithInt:mediaId]];
+    [audioPlayers setObject:player forKey:[NSNumber numberWithInt:media_id]];
 }
 
-- (void) playAudioFromMediaId:(int)mediaId
+- (void) playAudioFromMediaId:(int)media_id
 {
-    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
+    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:media_id]];
     CMTime zero = CMTimeMakeWithSeconds(0, 600);
     [player seekToTime:zero];
     if(!player)
     {
-        [self loadAudioFromMediaId:mediaId];
-        player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
+        [self loadAudioFromMediaId:media_id];
+        player = [audioPlayers objectForKey:[NSNumber numberWithInt:media_id]];
     }
     [player play];
 }
 
-- (void) stopAudioFromMediaId:(int)mediaId
+- (void) stopAudioFromMediaId:(int)media_id
 {
-    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
+    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:media_id]];
     [player pause];
 }
 
-- (void) setMediaId:(int)mediaId volumeTo:(float)volume
+- (void) setMediaId:(int)media_id volumeTo:(float)volume
 {
-    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
+    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:media_id]];
     
     NSArray *audioTracks = [player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
     NSMutableArray *allAudioParams = [NSMutableArray array];

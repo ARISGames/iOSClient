@@ -14,12 +14,12 @@
     int webPageId;
 	NSString *name;
 	NSString *url;    
-	int iconMediaId; 
+	int icon_media_id; 
 }
 
 @property(readwrite, assign) int webPageId;
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSString *url;
-@property(readwrite, assign) int iconMediaId;
+@property(readwrite, assign) int icon_media_id;
 
 @end

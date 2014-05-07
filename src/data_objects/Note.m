@@ -78,7 +78,7 @@
         for(NSDictionary *tagDict in tagDicts)
             [self.tags addObject:[[NoteTag alloc] initWithDictionary:tagDict]]; 
         if([tagDicts count] == 0)
-            [self.tags addObject:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag];
+            [self.tags addObject:_MODEL_GAME_.notesModel.unlabeledTag];
         
         NSArray *contentDicts = [dict validObjectForKey:@"contents"];
         self.contents = [[NSMutableArray alloc] initWithCapacity:5];
@@ -131,7 +131,7 @@
     return GameObjectNote;
 }
 
-- (int) iconMediaId
+- (int) icon_media_id
 {
     return 71;
 }

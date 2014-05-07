@@ -56,7 +56,7 @@
     [self.refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
     
     [self.gameTable reloadData];
-    if([AppModel sharedAppModel].player.location) [self playerFirstMoved]; 
+    if(_MODEL_PLAYER_.location) [self playerFirstMoved]; 
 }
 
 - (void) viewWillLayoutSubviews
@@ -115,7 +115,7 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([self.gameList count] == 0 && [AppModel sharedAppModel].player.location) return 1;
+    if([self.gameList count] == 0 && _MODEL_PLAYER_.location) return 1;
 	return [self.gameList count];
 }
 

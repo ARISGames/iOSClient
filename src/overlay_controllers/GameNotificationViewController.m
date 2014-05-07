@@ -7,6 +7,9 @@
 //
 
 #import "GameNotificationViewController.h"
+#import "AppModel.h"
+#import "Game.h"
+#import "ItemsModel.h"
 #import "ARISAppDelegate.h"
 #import "PopOverViewController.h"
 #import "MTStatusBarOverlay.h"
@@ -69,7 +72,7 @@
     showingPopOver = YES;
     
     NSMutableDictionary *poDict = [popOverArray objectAtIndex:0];
-    [popOverVC setHeader:[poDict objectForKey:@"header"] prompt:[poDict objectForKey:@"prompt"] iconMediaId:[[poDict objectForKey:@"iconMediaId"] intValue]];
+    [popOverVC setHeader:[poDict objectForKey:@"header"] prompt:[poDict objectForKey:@"prompt"] icon_media_id:[[poDict objectForKey:@"icon_media_id"] intValue]];
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
@@ -93,9 +96,9 @@
     [[MTStatusBarOverlay sharedInstance] postMessage:string duration:3.0];
 }
 
-- (void) enqueuePopOverNotificationWithHeader:(NSString *)header prompt:(NSString *)prompt iconMediaId:(int)iconMediaId
+- (void) enqueuePopOverNotificationWithHeader:(NSString *)header prompt:(NSString *)prompt icon_media_id:(int)icon_media_id
 {
-    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:header,@"header",prompt,@"prompt",[NSNumber numberWithInt:iconMediaId],@"iconMediaId",nil]];
+    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:header,@"header",prompt,@"prompt",[NSNumber numberWithInt:icon_media_id],@"icon_media_id",nil]];
     if(!showingPopOver) [self dequeuePopOver];
 }
 
@@ -108,7 +111,7 @@
         Quest *activeQuest = [activeQuests objectAtIndex:i];
         
         if(activeQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name iconMediaId:activeQuest.iconMediaId];
+            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name icon_media_id:activeQuest.icon_media_id];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
         
@@ -128,7 +131,7 @@
         Quest *completedQuest = [completedQuests objectAtIndex:i];      
     
         if(completedQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name iconMediaId:completedQuest.iconMediaId];
+            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name icon_media_id:completedQuest.icon_media_id];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
         
@@ -150,10 +153,10 @@
         int qty = [((NSNumber *)[receivedItemDict objectForKey:@"delta"]) intValue];
         
         NSString *notifString;
-        if(receivedItem.maxQty == 1)
+        if(receivedItem.max_qty_in_inventory == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", receivedItem.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, receivedItem.name, receivedItem.qty, NSLocalizedString(@"TotalNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, receivedItem.name, [_MODEL_ITEMS_ qtyOwnedForItem:receivedItem.item_id], NSLocalizedString(@"TotalNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
@@ -174,10 +177,10 @@
         int qty = [((NSNumber *)[lostItemDict objectForKey:@"delta"]) intValue];
         
         NSString *notifString;
-        if(lostItem.maxQty == 1)
+        if(lostItem.max_qty_in_inventory == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", lostItem.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostItem.name, lostItem.qty, NSLocalizedString(@"LeftNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostItem.name, [_MODEL_ITEMS_ qtyOwnedForItem:lostItem.item_id], NSLocalizedString(@"LeftNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
@@ -198,10 +201,10 @@
         int qty = [((NSNumber *)[receivedAttributeDict objectForKey:@"delta"]) intValue];
         
         NSString *notifString;
-        if(receivedAttribute.maxQty == 1)
+        if(receivedAttribute.max_qty_in_inventory == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", receivedAttribute.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, receivedAttribute.name, receivedAttribute.qty, NSLocalizedString(@"TotalNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, receivedAttribute.name, [_MODEL_ITEMS_ qtyOwnedForItem:receivedAttribute.item_id], NSLocalizedString(@"TotalNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
@@ -223,10 +226,10 @@
         int qty = [((NSNumber *)[lostAttributeDict objectForKey:@"delta"]) intValue];
 
         NSString *notifString;
-        if(lostAttribute.maxQty == 1)
+        if(lostAttribute.max_qty_in_inventory == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", lostAttribute.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostAttribute.name, lostAttribute.qty, NSLocalizedString(@"LeftNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostAttribute.name, [_MODEL_ITEMS_ qtyOwnedForItem:lostAttribute.item_id], NSLocalizedString(@"LeftNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];

@@ -131,7 +131,7 @@
     gc.title = t;
     gc.text = s; 
     gc.rating = r;
-    gc.playerName = [AppModel sharedAppModel].player.user_name;
+    gc.playerName = _MODEL_PLAYER_.user_name;
     [game.comments addObject:gc];
     [commentsTable reloadData];
     [self.navigationController popToViewController:self animated:YES];  

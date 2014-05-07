@@ -10,6 +10,7 @@
 #import "ARISNavigationController.h"
 #import "ARISGamePlayTabBarViewController.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "ARISAppDelegate.h"
 #import "ARISTemplate.h"
 
@@ -84,12 +85,12 @@
     
     UILabel *gameName = [[UILabel alloc] init];
     gameName.frame = CGRectMake(57, (headerHeight/2) - (35/2), 200, 35);
-    gameName.text = [AppModel sharedAppModel].currentGame.name;
+    gameName.text = _MODEL_GAME_.name;
     [headerView addSubview:gameName];
     
     ARISMediaView *gameIcon = [[ARISMediaView alloc] init];
     [gameIcon setFrame:CGRectMake(15, (headerHeight/2) - (35/2), 30, 35)];
-    [gameIcon setMedia:[AppModel sharedAppModel].currentGame.iconMedia];
+    [gameIcon setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_GAME_.icon_media_id]];
     [headerView addSubview:gameIcon];
     
     [tableView setTableHeaderView:headerView];
@@ -108,7 +109,7 @@
     leaveGameArrow.frame = CGRectMake(6,13,19,19); 
     leaveGameLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
     
-    if(![AppModel sharedAppModel].disableLeaveGame)
+    if(!_MODEL_.disableLeaveGame)
     {
         tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
         [self.view addSubview:leaveGameButton];

@@ -15,8 +15,8 @@
     
 	NSString *qdescription;
     NSString *goFunction;
-    int mediaId;
-	int iconMediaId;
+    int media_id;
+	int icon_media_id;
     
     int sortNum;
     BOOL fullScreenNotification;
@@ -28,8 +28,8 @@
 
 @property(copy, readwrite) NSString *qdescription;
 @property(copy, readwrite) NSString *goFunction;
-@property(readwrite, assign) int mediaId;
-@property(readwrite, assign) int iconMediaId;
+@property(readwrite, assign) int media_id;
+@property(readwrite, assign) int icon_media_id;
 
 @property(readwrite, assign) int sortNum;
 @property(readwrite, assign) BOOL fullScreenNotification;

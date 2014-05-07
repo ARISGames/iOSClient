@@ -50,15 +50,15 @@
         delegate = d;
         
         Media *pcMedia;
-        if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].currentGame.pcMediaId];
-        else if([AppModel sharedAppModel].player.media_id  != 0) pcMedia = [_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id];
+        if     (_MODEL_GAME_.pcMediaId != 0) pcMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_GAME_.pcMediaId];
+        else if(_MODEL_PLAYER_.media_id  != 0) pcMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
         
         if(pcMedia) pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
         else        pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
         [self.view addSubview:pcView];
         
         Media *npcMedia;
-        if(npc.mediaId != 0) npcMedia = [_MODEL_MEDIA_ mediaForId:npc.mediaId];
+        if(npc.media_id != 0) npcMedia = [_MODEL_MEDIA_ mediaForId:npc.media_id];
         
         if(npcMedia) npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:npc.name delegate:self];
         else         npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:npc.name delegate:self];
@@ -146,9 +146,9 @@
     else if([currentScriptElement.type isEqualToString:@"webpage"])
     {
         [self moveAllOut];
-        [((ARISViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel].currentGame webpageForWebpageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((ARISViewController *)delegate).navigationController pushViewController:[[_MODEL_GAME_ webpageForWebpageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
-    else if([currentScriptElement.type isEqualToString:@"node"])
+    else if([currentScriptElement.type isEqualToString:@"plaque"])
     {
         [self moveAllOut];
         [((ARISViewController *)delegate).navigationController pushViewController:[[_MODEL_PLAQUES_ plaqueForId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];

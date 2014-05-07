@@ -6,7 +6,7 @@
     <entity name="MediaCD" syncable="YES">
         <attribute name="game_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="localURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="mediaId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="media_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="remoteURL" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="NoteCD" syncable="YES">

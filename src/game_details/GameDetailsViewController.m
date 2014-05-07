@@ -145,9 +145,9 @@
 {
     [super viewDidAppear:animated];
     
-    if([AppModel sharedAppModel].skipGameDetails)
+    if(_MODEL_.skipGameDetails)
     {
-        [AppModel sharedAppModel].skipGameDetails = 0;
+        _MODEL_.skipGameDetails = 0;
         game.has_been_played = YES;
         [delegate gameDetailsWereConfirmed:game];  
     }

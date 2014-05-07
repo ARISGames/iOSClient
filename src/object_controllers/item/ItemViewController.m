@@ -111,8 +111,8 @@
         scrollView.delegate = self;
         
         Media *media;
-        if(self.item.mediaId) media = [_MODEL_MEDIA_ mediaForId:self.item.mediaId];
-        else                  media = [_MODEL_MEDIA_ mediaForId:self.item.iconMediaId];
+        if(self.item.media_id) media = [_MODEL_MEDIA_ mediaForId:self.item.media_id];
+        else                  media = [_MODEL_MEDIA_ mediaForId:self.item.icon_media_id];
         
         if(media)
         {
@@ -217,7 +217,7 @@
 - (void) dropItemQty:(int)q
 {
     [[AppServices sharedAppServices] updateServerDropItemHere:item.item_id qty:q];
-    if([[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
+    if([_MODEL_GAME_.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
         [self updateViewButtons]; 
@@ -239,7 +239,7 @@
 - (void) destroyItemQty:(int)q
 {
     [[AppServices sharedAppServices] updateServerDestroyItem:self.item.item_id qty:q];
-    if([[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
+    if([_MODEL_GAME_.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
         [self updateViewButtons];  
@@ -300,7 +300,7 @@
         if([(NSObject *)source isKindOfClass:[Location class]])
         {
             [[AppServices sharedAppServices] updateServerPickupItem:self.item.item_id fromLocation:((Location *)source).locationId qty:q];
-            [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-q forLocationId:((Location *)source).locationId];
+            [_MODEL_GAME_.locationsModel modifyQuantity:-q forLocationId:((Location *)source).locationId];
         }
         else
             [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.item_id addQty:q];

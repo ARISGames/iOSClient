@@ -71,11 +71,11 @@
 
 - (void) loginCredentialsApprovedForPlayer:(User *)p toGame:(int)game_id newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
 {
-    [[AppModel sharedAppModel] commitPlayerLogin:p];
+    [_MODEL_ commitPlayerLogin:p];
     //[[ARISPusherHandler sharedPusherHandler] loginPlayer:p.user_id];
     
     //PHIL HATES THIS NEXT CHUNK
-    [AppModel sharedAppModel].disableLeaveGame = disableLeaveGame;
+    _MODEL_.disableLeaveGame = disableLeaveGame;
     if(newPlayer)
     {
         [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
@@ -83,7 +83,7 @@
     }
     if(game_id)
     {
-        [AppModel sharedAppModel].skipGameDetails = game_id;
+        _MODEL_.skipGameDetails = game_id;
         if(!newPlayer)
         {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
@@ -110,11 +110,11 @@
 - (void) playerSettingsWasDismissed
 {
     //PHIL HATES THIS CHUNK
-    if([AppModel sharedAppModel].skipGameDetails)
+    if(_MODEL_.skipGameDetails)
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
-        [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].skipGameDetails];
+        [[AppServices sharedAppServices] fetchOneGameGameList:_MODEL_.skipGameDetails];
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:[NSString stringWithFormat:@"%@...", NSLocalizedString(@"ConfirmingKey", @"")]];
     }
     else
@@ -128,7 +128,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListFailed" object:nil];
     [self gamePickedForPlay:[n.userInfo objectForKey:@"game"]];
-    [AppModel sharedAppModel].skipGameDetails = 0; // PHIL HATES THIS
+    _MODEL_.skipGameDetails = 0; // PHIL HATES THIS
 }
 
 - (void) singleGameRequestFailed:(NSNotification *)n
@@ -153,16 +153,16 @@
     gamePlayViewController = nil; 
     
     //PHIL HATES THIS CHUNK
-    [AppModel sharedAppModel].fallbackGameId = 0;
-    [[AppModel sharedAppModel] saveUserDefaults];
+    _MODEL_.fallbackGameId = 0;
+    [_MODEL_ saveUserDefaults];
     //PHIL DONE HATING THIS CHUNK
 }
 
 - (void) logoutWasRequested
 {
     [[ARISPusherHandler sharedPusherHandler] logoutPlayer];   
-    [AppModel sharedAppModel].player = nil;
-    [[AppModel sharedAppModel] saveUserDefaults];
+    _MODEL_PLAYER_ = nil;
+    [_MODEL_ saveUserDefaults];
     [(LoginViewController *)[[loginNavigationController viewControllers] objectAtIndex:0] resetState];
     [self displayContentController:loginNavigationController];
 }

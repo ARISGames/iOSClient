@@ -35,7 +35,7 @@
 {
     [super requestNewGameList];
     
-    if([AppModel sharedAppModel].deviceLocation && [AppModel sharedAppModel].player)  
+    if(_MODEL_.deviceLocation && _MODEL_PLAYER_)  
     {
         [[AppServices sharedAppServices] fetchNearbyGameListWithDistanceFilter:1000];
         [self showLoadingIndicator];
@@ -44,7 +44,7 @@
 
 - (void) refreshViewFromModel
 {
-	self.gameList = [[AppModel sharedAppModel].nearbyGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
+	self.gameList = [_MODEL_.nearbyGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
     [self.gameTable reloadData];
     
     [self removeLoadingIndicator];

@@ -16,8 +16,8 @@
 @synthesize sortNum;
 @synthesize qdescription;
 @synthesize goFunction;
-@synthesize mediaId;
-@synthesize iconMediaId;
+@synthesize media_id;
+@synthesize icon_media_id;
 @synthesize fullScreenNotification;
 @synthesize isNullQuest;
 

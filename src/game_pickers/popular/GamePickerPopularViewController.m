@@ -58,7 +58,7 @@
 {
     [super requestNewGameList];
     
-    if([AppModel sharedAppModel].deviceLocation && [AppModel sharedAppModel].player)   
+    if(_MODEL_.deviceLocation && _MODEL_PLAYER_)   
     {
         [[AppServices sharedAppServices] fetchPopularGameListForTime:time];
         [self showLoadingIndicator];
@@ -67,7 +67,7 @@
 
 - (void) refreshViewFromModel
 {
-	self.gameList = [AppModel sharedAppModel].popularGameList;
+	self.gameList = _MODEL_.popularGameList;
 	[gameTable reloadData];
     
     [self removeLoadingIndicator];

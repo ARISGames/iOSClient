@@ -12,14 +12,14 @@
 @interface Media : NSObject
 {
     int game_id;
-    int mediaId;
+    int media_id;
     NSURL *localURL;
     NSURL *remoteURL;
     NSData *data; 
 }
 
 @property (readwrite, assign) int game_id;
-@property (readwrite, assign) int mediaId;
+@property (readwrite, assign) int media_id;
 @property (nonatomic, strong) NSURL *localURL;
 @property (nonatomic, strong) NSURL *remoteURL;
 @property (nonatomic, strong) NSData *data;

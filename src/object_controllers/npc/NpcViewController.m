@@ -94,7 +94,7 @@
     else
     {
         [self displayScriptVC];
-        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.greeting nodeId:-1 hasViewed:NO]];
+        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.greeting plaque_id:-1 hasViewed:NO]];
     }
 }
 
@@ -109,13 +109,13 @@
 {
     if(closingScriptPlaying && !type)
     {
-        [[AppServices sharedAppServices] updateServerNodeViewed:self.option.nodeId fromLocation:0];
+        [[AppServices sharedAppServices] updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
         [self dismissSelf];
     }
     
     if(type)
     {
-        [[AppServices sharedAppServices] updateServerNodeViewed:self.option.nodeId fromLocation:0];
+        [[AppServices sharedAppServices] updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
         [self dismissSelf];
         
         if([type isEqualToString:@"tab"])
@@ -125,7 +125,7 @@
         else if([type isEqualToString:@"plaque"])
             [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:typeId] fromSource:self];
         else if([type isEqualToString:@"webpage"])
-            [delegate displayGameObject:[[AppModel sharedAppModel].currentGame webpageForWebpageId:typeId] fromSource:self];
+            [delegate displayGameObject:[_MODEL_GAME_ webpageForWebpageId:typeId] fromSource:self];
         else if([type isEqualToString:@"item"])
             [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:typeId] fromSource:self];
         else if([type isEqualToString:@"character"])
@@ -214,7 +214,7 @@
     else{
         closingScriptPlaying = YES;
         [self displayScriptVC];
-        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.closing nodeId:-1 hasViewed:NO]];
+        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.closing plaque_id:-1 hasViewed:NO]];
     }
 }
 

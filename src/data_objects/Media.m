@@ -45,14 +45,14 @@
     mediaCD.game_id = [NSNumber numberWithInt:gid];
 }
 
-- (int) mediaId
+- (int) media_id
 {
-    return [mediaCD.mediaId intValue];
+    return [mediaCD.media_id intValue];
 }
 
 - (void) setMediaId:(int)mid
 {
-    mediaCD.mediaId = [NSNumber numberWithInt:mid];
+    mediaCD.media_id = [NSNumber numberWithInt:mid];
 }
 
 - (NSURL *) localURL

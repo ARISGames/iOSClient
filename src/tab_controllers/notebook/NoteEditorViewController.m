@@ -77,10 +77,10 @@
         {
             n = [[Note alloc] init];
             n.created = [NSDate date];
-            n.owner = [AppModel sharedAppModel].player;
+            n.owner = _MODEL_PLAYER_;
             n.location = [[Location alloc] init];
-            n.location.latlon = [AppModel sharedAppModel].player.location;
-            n.location.coordinate = [AppModel sharedAppModel].player.location.coordinate; 
+            n.location.latlon = _MODEL_PLAYER_.location;
+            n.location.coordinate = _MODEL_PLAYER_.location.coordinate; 
             dirtybit = YES;
         }
         note = n; 
@@ -399,7 +399,7 @@
     if(note.location && note.location.latlon)
         [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:note.location.coordinate delegate:self] animated:YES];
     else
-        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:[AppModel sharedAppModel].player.location.coordinate delegate:self] animated:YES]; 
+        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES]; 
 }
 
 - (void) imagePickerButtonTouched
@@ -459,7 +459,7 @@
 - (void) deleteNote
 {
     [[AppServices sharedAppServices] deleteNoteWithNoteId:note.noteId]; 
-    [[AppModel sharedAppModel].currentGame.notesModel deleteNote:note];
+    [_MODEL_GAME_.notesModel deleteNote:note];
     [delegate noteEditorDeletedNoteEdit:self];  
 }
 

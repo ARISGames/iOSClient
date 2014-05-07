@@ -111,8 +111,8 @@
     
     [iconView setFrame:imageInnerFrame];
     [iconView setDelegate:self];
-    if (loc.gameObject.iconMediaId != 0) {
-        [iconView setMedia:[_MODEL_MEDIA_ mediaForId:loc.gameObject.iconMediaId]];
+    if(loc.gameObject.icon_media_id) {
+        [iconView setMedia:[_MODEL_MEDIA_ mediaForId:loc.gameObject.icon_media_id]];
     }
     else{
         [iconView setImage:[UIImage imageNamed:@"logo.png"]];

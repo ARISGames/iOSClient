@@ -35,7 +35,7 @@ NSString *const kTagItem                         = @"item";
 NSString *const kAttrId                          = @"id";
 
 NSString *const kAttrTitle                       = @"title";
-NSString *const kAttrMedia                       = @"mediaId";
+NSString *const kAttrMedia                       = @"media_id";
 
 NSString *const kAttrHideLeaveConversationButton = @"hideLeaveConversationButton";
 NSString *const kAttrLeaveButtonTitle            = @"leaveButtonTitle";
@@ -178,7 +178,7 @@ didStartElement:(NSString *)elementName
             if([elementName isEqualToString:kTagPc])  tempScriptElement.type = @"pc";
         
             if([attributeDict objectForKey:kAttrTitle])        tempScriptElement.title        = [attributeDict objectForKey:kAttrTitle];
-            if([attributeDict objectForKey:kAttrMedia])        tempScriptElement.mediaId      = [[attributeDict objectForKey:kAttrMedia] intValue];
+            if([attributeDict objectForKey:kAttrMedia])        tempScriptElement.media_id      = [[attributeDict objectForKey:kAttrMedia] intValue];
             if([attributeDict objectForKey:kAttrVibrate])      tempScriptElement.vibrate      = YES;
             if([attributeDict objectForKey:kAttrNotification]) tempScriptElement.notification = [attributeDict objectForKey:kAttrNotification];
             
@@ -201,7 +201,7 @@ didStartElement:(NSString *)elementName
                 [elementName isEqualToString:kTagItem]       )
         {
             if([elementName isEqualToString:kTagItem])      tempScriptElement.type = @"item";
-            if([elementName isEqualToString:kTagPlaque])    tempScriptElement.type = @"node";
+            if([elementName isEqualToString:kTagPlaque])    tempScriptElement.type = @"plaque";
             if([elementName isEqualToString:kTagWebPage])   tempScriptElement.type = @"webpage";
             if([elementName isEqualToString:kTagVideo])     tempScriptElement.type = @"video";
             

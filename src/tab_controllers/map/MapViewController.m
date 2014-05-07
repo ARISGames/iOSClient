@@ -100,10 +100,10 @@
     
     mapView = [[MKMapView alloc] init];
 	mapView.delegate = self;
-    mapView.showsUserLocation = [AppModel sharedAppModel].currentGame.showPlayerLocation; 
+    mapView.showsUserLocation = _MODEL_GAME_.showPlayerLocation; 
     
-    if     ([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
-    else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
+    if     ([_MODEL_GAME_.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
+    else if([_MODEL_GAME_.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
     
     hud = [[MapHUD alloc] initWithDelegate:self];
@@ -173,9 +173,9 @@
         }
     }
     
-    for (NSNumber *overlayId in [AppModel sharedAppModel].currentGame.overlaysModel.overlayIds) {
+    for (NSNumber *overlayId in _MODEL_GAME_.overlaysModel.overlayIds) {
         int integerId = [overlayId intValue];
-        id<MKOverlay> mapOverlay = [[AppModel sharedAppModel].currentGame.overlaysModel overlayForOverlayId:integerId];
+        id<MKOverlay> mapOverlay = [_MODEL_GAME_.overlaysModel overlayForOverlayId:integerId];
         if (mapOverlay) {
             [mapView addOverlay:mapOverlay];
         }
@@ -240,7 +240,7 @@
 - (void) refresh
 {
     //the fact that we need to check this here means we're doing something wrong with our architecture... 
-    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.user_id == 0 || [AppModel sharedAppModel].currentGame.game_id == 0)  return;
+    if(!_MODEL_PLAYER_ || _MODEL_PLAYER_.user_id == 0 || _MODEL_GAME_.game_id == 0)  return;
     
     if(mapView)
     {
@@ -256,10 +256,10 @@
      Pen Down
     if(!crumbs)
     {
-        crumbs = [[CrumbPath alloc] initWithCenterCoordinate:[AppModel sharedAppModel].player.location.coordinate];
+        crumbs = [[CrumbPath alloc] initWithCenterCoordinate:_MODEL_PLAYER_.location.coordinate];
         [mapView addOverlay:crumbs];
     }
-    else [crumbs addCoordinate:[AppModel sharedAppModel].player.location.coordinate]; 
+    else [crumbs addCoordinate:_MODEL_PLAYER_.location.coordinate]; 
     [crumbView setNeedsDisplay];
      */
 }
@@ -267,10 +267,10 @@
 - (void) centerMapOnPlayer
 {
     //the fact that we need to check this here means we're doing something wrong with our architecture...
-    if(![AppModel sharedAppModel].player || [AppModel sharedAppModel].player.user_id == 0 || [AppModel sharedAppModel].currentGame.game_id == 0) return;
+    if(!_MODEL_PLAYER_ || _MODEL_PLAYER_.user_id == 0 || _MODEL_GAME_.game_id == 0) return;
 	
 	//Center the map on the player
-    [self centerMapOnLoc:[AppModel sharedAppModel].player.location.coordinate];
+    [self centerMapOnLoc:_MODEL_PLAYER_.location.coordinate];
     MKCoordinateRegion region = mapView.region;
     region.span = MKCoordinateSpanMake(0.001f, 0.001f);
 }
@@ -395,7 +395,7 @@
     for (int i = 0; i < [locationsToAdd count]; i++)
     {
         tmpLocation = (Location *)[locationsToAdd objectAtIndex:i];
-        if(tmpLocation.hidden == NO && !(tmpLocation.gameObject.type == GameObjectPlayer && [AppModel sharedAppModel].hidePlayers))
+        if(tmpLocation.hidden == NO && !(tmpLocation.gameObject.type == GameObjectPlayer && _MODEL_.hidePlayers))
         {
             if(tmpLocation.nearbyOverlay) [mapView addOverlay:tmpLocation.nearbyOverlay];
             [mapView addAnnotation:tmpLocation];
@@ -459,8 +459,8 @@
     [blackoutRight setAlpha:0.0f];
     [blackoutBottom setAlpha:0.0f];
     
-    CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
-    if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel){
+    CLLocationDistance distance = [_MODEL_PLAYER_.location distanceFromLocation:location.latlon];
+    if((distance <= location.errorRange && _MODEL_PLAYER_.location != nil) || location.allowsQuickTravel){
         viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 60, (self.view.bounds.size.height / 2) - 28, 75, 120);
         [viewAnnotationButton setTitle:NSLocalizedString(@"ViewLocationKey", @"") forState:UIControlStateNormal];
         [viewAnnotationButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
@@ -526,7 +526,7 @@
     else if(q > 0)
     {
         [[AppServices sharedAppServices] updateServerPickupItem:item.item_id fromLocation:location.locationId qty:q];
-        [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-q forLocationId:location.locationId];
+        [_MODEL_GAME_.locationsModel modifyQuantity:-q forLocationId:location.locationId];
     }
 }
 

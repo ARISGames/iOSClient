@@ -89,11 +89,11 @@
     UIView *tagCell;
     
     //Unlabeled
-    tagTest = [AppModel sharedAppModel].currentGame.notesModel.unlabeledTag.text;
+    tagTest = _MODEL_GAME_.notesModel.unlabeledTag.text;
     if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
     {
-        [matchedGameTags addObject:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag];
-        tagCell = [self cellForTag:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag];
+        [matchedGameTags addObject:_MODEL_GAME_.notesModel.unlabeledTag];
+        tagCell = [self cellForTag:_MODEL_GAME_.notesModel.unlabeledTag];
         tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
         [matchingNoteTagsScrollView addSubview:tagCell];
     } 

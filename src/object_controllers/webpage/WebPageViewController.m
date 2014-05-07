@@ -123,7 +123,7 @@
     if([(NSObject *)delegate isKindOfClass:[NpcViewController class]])
     {
         //NpcViewController *npcvc = (NpcViewController *)delegate;
-        //[[AppServices sharedAppServices] fetchNpcConversations:npcvc.currentNpc.npc_id afterViewingNode:npcvc.currentNode.nodeId];
+        //[[AppServices sharedAppServices] fetchNpcConversations:npcvc.currentNpc.npc_id afterViewingPlaque:npcvc.currentPlaque.plaque_id];
         //[npcvc showWaitingIndicatorForPlayerOptions];
     }
 }

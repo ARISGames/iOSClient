@@ -84,7 +84,7 @@
 // Called when the location is updated
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    [[AppModel sharedAppModel] setDeviceLocation:newLocation]; 
+    [_MODEL_ setDeviceLocation:newLocation]; 
 }
 
 // Called when there is an error getting the location

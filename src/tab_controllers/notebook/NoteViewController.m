@@ -49,7 +49,7 @@
         note = n;
         delegate = d;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:) name:@"NoteDataAvailable" object:nil];   
-        [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:note];
+        [_MODEL_GAME_.notesModel getDetailsForNote:note];
     }
     return self;
 }
@@ -128,7 +128,7 @@
     [editButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal]; 
     [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     editButton.accessibilityLabel = @"Edit Button";
-    if([AppModel sharedAppModel].player.user_id == note.owner.user_id)
+    if(_MODEL_PLAYER_.user_id == note.owner.user_id)
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];   
        
     navView.frame = CGRectMake(0, 0, 200, 64);
@@ -192,7 +192,7 @@
         ARISMediaView *amv;
         for(int j = 0; j < [tmpMediaViews count]; j++)
         { 
-            //if(((Media *)[note.contents objectAtIndex:i]).mediaId == ((ARISMediaView *)[tmpMediaViews objectAtIndex:j]).media.mediaId)
+            //if(((Media *)[note.contents objectAtIndex:i]).media_id == ((ARISMediaView *)[tmpMediaViews objectAtIndex:j]).media.media_id)
             if(j == i)
                 amv = [tmpMediaViews objectAtIndex:j];
         }
@@ -246,10 +246,10 @@
 
 - (void) commentConfirmed:(NSString *)c
 {
-    [[AppServices sharedAppServices] addComment:c fromPlayer:[AppModel sharedAppModel].player toNote:note];
+    [[AppServices sharedAppServices] addComment:c fromPlayer:_MODEL_PLAYER_ toNote:note];
     NoteComment *nc = [[NoteComment alloc] init];
     nc.noteId = note.noteId; 
-    nc.owner = [AppModel sharedAppModel].player;
+    nc.owner = _MODEL_PLAYER_;
     nc.text = c;
     [note.comments addObject:nc];
     [commentsDisplay setComments:note.comments];  

@@ -43,7 +43,7 @@
 {
     if(self = [super init])
     {
-        connection = [[ARISConnection alloc] initWithServer:[[AppModel sharedAppModel].serverURL absoluteString] graveyard:[AppModel sharedAppModel].servicesGraveyard];
+        connection = [[ARISConnection alloc] initWithServer:[_MODEL_.serverURL absoluteString] graveyard:_MODEL_.servicesGraveyard];
         mediaLoader = [[ARISMediaLoader alloc] init]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryFailedRequests) name:@"WifiConnected" object:nil];
     }
@@ -52,7 +52,7 @@
 
 - (void) retryFailedRequests
 {
-    [[AppModel sharedAppModel].servicesGraveyard reviveRequestsWithConnection:connection];
+    [_MODEL_.servicesGraveyard reviveRequestsWithConnection:connection];
 }
 
 #pragma mark Communication with Server
@@ -82,7 +82,7 @@
                           lastName,  @"dlastname",
                           email,     @"eemail",
                           nil]; 
-    [AppModel sharedAppModel].player.user_name = userName;
+    _MODEL_PLAYER_.user_name = userName;
     [connection performAsynchronousRequestWithService:@"players" method:@"createPlayer" arguments:args handler:self successSelector:@selector(parseSelfRegistrationResponseFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
@@ -127,8 +127,8 @@
 - (void) setShowPlayerOnMap
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.user_id], @"auser_id",
-                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], @"bshowPlayerOnMap",
+                          [NSString stringWithFormat:@"%d", _MODEL_PLAYER_.user_id], @"auser_id",
+                          [NSString stringWithFormat:@"%d", _MODEL_.showPlayerOnMap], @"bshowPlayerOnMap",
                           nil]; 
     [connection performAsynchronousRequestWithService:@"players" method:@"setShowPlayerOnMap" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -136,12 +136,12 @@
 - (void) fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],                     @"auser_id",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude], @"blatitude",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],@"clongitude",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                     @"auser_id",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"blatitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"clongitude",
                           [NSString stringWithFormat:@"%d",distanceInMeters],                                              @"ddistance",
                           [NSString stringWithFormat:@"%d",YES],                                                           @"equestion",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],              @"fshowGamesInDevel",
+                          [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],              @"fshowGamesInDevel",
                           nil];
     [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseNearbyGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -149,12 +149,12 @@
 - (void) fetchAnywhereGameList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],                     @"auser_id",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude], @"blatitude",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],@"clongitude",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                     @"auser_id",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"blatitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"clongitude",
                           [NSString stringWithFormat:@"%d",0],                                                             @"ddistanceInMeters",
                           [NSString stringWithFormat:@"%d",NO],                                                            @"equestion",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],              @"fshowGamesInDevel",
+                          [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],              @"fshowGamesInDevel",
                           nil];
     [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseAnywhereGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -162,10 +162,10 @@
 - (void) fetchRecentGameListForPlayer
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],                      @"auser_id",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],  @"blatitude",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude], @"clongitude",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],               @"dshowGamesInDevel",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                      @"auser_id",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],  @"blatitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude], @"clongitude",
+                          [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],               @"dshowGamesInDevel",
                           nil];
     [connection performAsynchronousRequestWithService:@"games" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -173,9 +173,9 @@
 - (void) fetchPopularGameListForTime:(int)time
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],       @"auser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],       @"auser_id",
                           [NSString stringWithFormat:@"%d",time],                                            @"btime",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],@"cshowGamesInDevel",
+                          [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],@"cshowGamesInDevel",
                           nil];
     [connection performAsynchronousRequestWithService:@"games" method:@"getPopularGames" arguments:args handler:self successSelector:@selector(parsePopularGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -183,11 +183,11 @@
 - (void) fetchGameListBySearch:(NSString *)searchText onPage:(int)page
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],                      @"auser_id",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],  @"blatitude",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude], @"clongitude",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                      @"auser_id",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],  @"blatitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude], @"clongitude",
                           searchText,                                                                                       @"dsearchText",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],               @"eshowGamesInDevel",
+                          [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],               @"eshowGamesInDevel",
                           [NSString stringWithFormat:@"%d", page],                                                          @"fpage",
                           nil];
     [connection performAsynchronousRequestWithService:@"games" method:@"getGamesContainingText" arguments:args handler:self successSelector:@selector(parseSearchGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -196,29 +196,29 @@
 - (void) updateServerLocationViewed:(int)locationId
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
                           [NSString stringWithFormat:@"%d",locationId],                                  @"clocationId",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"locationViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId
+- (void) updateServerPlaqueViewed:(int)plaque_id fromLocation:(int)locationId
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"buser_id",
-                          [NSString stringWithFormat:@"%d",nodeId],                                      @"cnodeId",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
+                          [NSString stringWithFormat:@"%d",plaque_id],                                      @"cplaque_id",
                           [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
                           nil];
-    [connection performAsynchronousRequestWithService:@"players" method:@"nodeViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"players" method:@"plaqueViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
                           [NSString stringWithFormat:@"%d",webPageId],                                   @"cwebPageId",
                           [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
                           nil];
@@ -228,8 +228,8 @@
 - (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId
 {	
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],      @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],      @"buser_id",
                           [NSString stringWithFormat:@"%d",item_id],                                       @"citem_id",
                           [NSString stringWithFormat:@"%d",locationId],                                    @"dlocationId",
                           nil];
@@ -239,8 +239,8 @@
 - (void) updateServerNpcViewed:(int)npc_id fromLocation:(int)locationId
 {	
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
                           [NSString stringWithFormat:@"%d",npc_id],                                       @"cnpc_id",
                           [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
                           nil];
@@ -250,8 +250,8 @@
 - (void) updateServerGameSelected
 {	
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"auser_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"bgame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"auser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"bgame_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerLastGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -259,8 +259,8 @@
 - (void) updateServerMapViewed
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"mapViewed" arguments:args handler:self successSelector:@selector(fetchPlayerLocationList) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -268,8 +268,8 @@
 - (void) updateServerQuestsViewed
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"questsViewed" arguments:args handler:self successSelector:@selector(fetchPlayerQuestList) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -277,8 +277,8 @@
 - (void) updateServerInventoryViewed
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"inventoryViewed" arguments:args handler:self successSelector:@selector(fetchPlayerInventory) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -293,11 +293,11 @@
 
 - (void) startOverGame:(int)game_id
 {
-    [[AppModel sharedAppModel] resetAllGameLists];
+    [_MODEL_ resetAllGameLists];
     
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d", game_id],                                   @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id], @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id], @"buser_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"startOverGameForPlayer" arguments:args handler:self successSelector:@selector(notifyOfGameReset) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -311,8 +311,8 @@
 - (void) updateServerPickupItem:(int)item_id fromLocation:(int)locationId qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
                           [NSString stringWithFormat:@"%d",item_id],                                       @"citem_id",
                           [NSString stringWithFormat:@"%d",locationId],                                   @"dlocationId",
                           [NSString stringWithFormat:@"%d",qty],                                          @"eqty",
@@ -323,11 +323,11 @@
 - (void) updateServerDropItemHere:(int)item_id qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],                   @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],                      @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],                   @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                      @"buser_id",
                           [NSString stringWithFormat:@"%d",item_id],                                                         @"citem_id",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],  @"dlatitude",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude], @"elongitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],  @"dlatitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude], @"elongitude",
                           [NSString stringWithFormat:@"%d",qty],                                                            @"fqty",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"dropItem" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -336,8 +336,8 @@
 - (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
                           [NSString stringWithFormat:@"%d",noteId],                                      @"cnoteId",
                           [NSString stringWithFormat:@"%f",coordinate.latitude],                         @"dlatitude",
                           [NSString stringWithFormat:@"%f",coordinate.longitude],                        @"elongitude",
@@ -348,8 +348,8 @@
 - (void) updateServerDestroyItem:(int)item_id qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
                           [NSString stringWithFormat:@"%d",item_id],                                       @"citem_id",
                           [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
                           nil];
@@ -359,9 +359,9 @@
 - (void) updateServerInventoryItem:(int)item_id qty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
                           [NSString stringWithFormat:@"%d",item_id],                                       @"btemId",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"cuser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"cuser_id",
                           [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"setItemCountForPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -370,9 +370,9 @@
 - (void) updateServerAddInventoryItem:(int)item_id addQty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
                           [NSString stringWithFormat:@"%d",item_id],                                       @"bitem_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"cuser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"cuser_id",
                           [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"giveItemToPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -381,9 +381,9 @@
 - (void) updateServerRemoveInventoryItem:(int)item_id removeQty:(int)qty
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
                           [NSString stringWithFormat:@"%d",item_id],                                       @"bitem_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"cuser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"cuser_id",
                           [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"takeItemFromPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -409,7 +409,7 @@
     for(int i = 0; i < [n.contents count]; i++)
     {
         NSDictionary *m = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"path",
+                           [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"path",
                            [((Media *)[n.contents objectAtIndex:i]).localURL absoluteString],@"filename", 
                            [((Media *)[n.contents objectAtIndex:i]).data base64Encoding],@"data", 
                            nil];
@@ -421,9 +421,9 @@
         [tags addObject:((NoteTag *)[n.tags objectAtIndex:i]).text];
     
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSNumber numberWithInt:[AppModel sharedAppModel].currentGame.game_id], @"game_id",
+                          [NSNumber numberWithInt:_MODEL_GAME_.game_id], @"game_id",
                           [NSNumber numberWithInt:n.noteId],                                     @"noteId",
-                          [NSNumber numberWithInt:[AppModel sharedAppModel].player.user_id],    @"user_id",
+                          [NSNumber numberWithInt:_MODEL_PLAYER_.user_id],    @"user_id",
                           n.name,                                                                @"title",
                           n.desc,                                                                @"description",
                           [NSNumber numberWithBool:n.publicToMap],                               @"publicToMap",
@@ -453,7 +453,7 @@
                            nil];
     
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSNumber numberWithInt:[AppModel sharedAppModel].player.user_id],    @"user_id",  
+                          [NSNumber numberWithInt:_MODEL_PLAYER_.user_id],    @"user_id",  
                           mdict,                                                                 @"media",    
                           nil]; 
     [connection performAsynchronousRequestWithService:@"players" method:@"uploadPlayerMediaFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:nil retryOnFail:NO userInfo:nil];    
@@ -477,30 +477,30 @@
 - (void) playerPicUploadDidFinish:(ARISServiceResult*)result
 {        
     NSDictionary *m = (NSDictionary *)result.resultData;
-    [AppModel sharedAppModel].player.media_id = [m validIntForKey:@"media_id"];
+    _MODEL_PLAYER_.media_id = [m validIntForKey:@"media_id"];
 }
 
 - (void) updatedPlayer:(ARISServiceResult *)result
 {
     //immediately load new image into cache
-    if([AppModel sharedAppModel].player.media_id != 0)
-        [self loadMedia:[_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil]; 
+    if(_MODEL_PLAYER_.media_id != 0)
+        [self loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil]; 
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ARISServiceResult *)jsonResult
 {	   
     if(jsonResult.resultData && [((NSDictionary *)jsonResult.resultData) validIntForKey:@"media_id"])
     {
-        [AppModel sharedAppModel].player.media_id = [((NSDictionary*)jsonResult.resultData) validIntForKey:@"media_id"];
+        _MODEL_PLAYER_.media_id = [((NSDictionary*)jsonResult.resultData) validIntForKey:@"media_id"];
         //immediately load new image into cache 
-        if([AppModel sharedAppModel].player.media_id != 0)
-            [self loadMedia:[_MODEL_MEDIA_ mediaForId:[AppModel sharedAppModel].player.media_id] delegateHandle:nil];  
-        [[AppModel sharedAppModel] saveUserDefaults];
+        if(_MODEL_PLAYER_.media_id != 0)
+            [self loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil];  
+        [_MODEL_ saveUserDefaults];
     }
 }
 - (void) updateServerWithPlayerLocation
 {
-    if(![AppModel sharedAppModel].player)
+    if(!_MODEL_PLAYER_)
     {
         NSLog(@"Skipping Request: player not logged in");
         return;
@@ -508,10 +508,10 @@
     
     //Update the server with the new Player Location
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],                     @"auser_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],                  @"bgame_id",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude], @"clatitude",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],@"dlongitude",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                     @"auser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],                  @"bgame_id",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"clatitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"dlongitude",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerLocation" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -524,7 +524,7 @@
     [self fetchGameMediaList];
     [self fetchGameItemList];
     [self fetchGameNpcList];
-    [self fetchGameNodeList];
+    [self fetchGamePlaqueList];
     [self fetchGameWebPageList];
     [self fetchGameOverlayList];
     
@@ -534,7 +534,7 @@
 - (void)fetchGameOverlayList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.game_id], @"agame_id", nil];
+                          [NSString stringWithFormat:@"%d", _MODEL_GAME_.game_id], @"agame_id", nil];
     [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForGame" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
@@ -553,11 +553,11 @@
         double topRightLong = [overlayDictionary validDoubleForKey:@"top_right_longitude"];
         double bottomLeftLat = [overlayDictionary validDoubleForKey:@"bottom_left_latitude"];
         double bottomRightLong = [overlayDictionary validDoubleForKey:@"bottom_left_longitude"];
-        int mediaId = [overlayDictionary validIntForKey:@"media_id"];
+        int media_id = [overlayDictionary validIntForKey:@"media_id"];
         CLLocationCoordinate2D topLeft = CLLocationCoordinate2DMake(topLeftLat, topLeftLong);
         CLLocationCoordinate2D topRight = CLLocationCoordinate2DMake(topRightLat, topRightLong);
         CLLocationCoordinate2D bottomLeft = CLLocationCoordinate2DMake(bottomLeftLat, bottomRightLong);
-        Media *media = [_MODEL_MEDIA_ mediaForId:mediaId];
+        Media *media = [_MODEL_MEDIA_ mediaForId:media_id];
         ARISMediaView *mediaView = [[ARISMediaView alloc] init];
         [mediaView setMedia:media];
         CustomMapOverlay *mapOverlay = [[CustomMapOverlay alloc] initWithUpperLeftCoordinate:topLeft upperRightCoordinate:topRight bottomLeftCoordinate:bottomLeft overlayMedia:mediaView];
@@ -583,7 +583,7 @@
 - (void) fetchTabBarItems
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
                           nil];
     
     [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGame" arguments:args handler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -592,28 +592,28 @@
 - (void) fetchQRCode:(NSString*)code
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
                           [NSString stringWithFormat:@"%@",code],                                        @"bcode",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"cuser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"cuser_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"qrcodes" method:@"getQRCodeNearbyObjectForPlayer" arguments:args handler:self successSelector:@selector(parseQRCodeObjectFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) fetchNpcConversations:(int)npc_id afterViewingNode:(int)nodeId
+- (void) fetchNpcConversations:(int)npc_id afterViewingPlaque:(int)plaque_id
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
                           [NSString stringWithFormat:@"%d",npc_id],                                        @"bnpc_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"cuser_id",
-                          [NSString stringWithFormat:@"%d",nodeId],                                       @"dnodeId",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"cuser_id",
+                          [NSString stringWithFormat:@"%d",plaque_id],                                       @"dplaque_id",
                           nil];
-    [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcConversationsForPlayerAfterViewingNode" arguments:args handler:self successSelector:@selector(parseConversationOptionsFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcConversationsForPlayerAfterViewingPlaque" arguments:args handler:self successSelector:@selector(parseConversationOptionsFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchGameNpcList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
                           nil];
     
     [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcs" arguments:args handler:self successSelector:@selector(parseGameNpcListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -622,8 +622,8 @@
 - (void) fetchNoteListPage:(int)page
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
                           [NSString stringWithFormat:@"%d",page],                                         @"cpage",
                           [NSString stringWithFormat:@"%d", 20],                                          @"dqty",
                           nil];
@@ -634,7 +634,7 @@
 - (void) fetchNoteTagLists
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"notebook" method:@"getGameTags" arguments:args handler:self successSelector:@selector(parseNoteTagsListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -661,7 +661,7 @@
 - (void) fetchGameWebPageList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
                           nil];
     
     [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPages" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -670,8 +670,8 @@
 - (void) fetchMediaMeta:(Media *)m
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          (([AppModel sharedAppModel].currentGame.game_id != 0) ? [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id] : @"player"), @"apath",
-                          [NSString stringWithFormat:@"%d",m.mediaId], @"bmediaId",
+                          ((_MODEL_GAME_.game_id != 0) ? [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id] : @"player"), @"apath",
+                          [NSString stringWithFormat:@"%d",m.media_id], @"bmedia_id",
                           nil];
     
     [connection performAsynchronousRequestWithService:@"media" method:@"getMediaObject" arguments:args handler:self successSelector:@selector(parseSingleMediaFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -686,7 +686,7 @@
 - (void) fetchGameMediaList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -694,23 +694,23 @@
 - (void) fetchGameItemList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"items" method:@"getFullItems" arguments:args handler:self successSelector:@selector(parseGameItemListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) fetchGameNodeList
+- (void) fetchGamePlaqueList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
                           nil];
-    [connection performAsynchronousRequestWithService:@"nodes" method:@"getNodes" arguments:args handler:self successSelector:@selector(parseGameNodeListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaques" arguments:args handler:self successSelector:@selector(parseGamePlaqueListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) fetchPlayerLocationList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],     @"buser_id",
+                          [NSString stringWithFormat:@"%d", _MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],     @"buser_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"locations" method:@"getLocationsForPlayer" arguments:args handler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -718,8 +718,8 @@
 
 - (void) fetchPlayerOverlayList
 {
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.user_id], @"buser_id", nil];
+    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", _MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d", _MODEL_PLAYER_.user_id], @"buser_id", nil];
     [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerOverlayListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
@@ -748,8 +748,8 @@
 - (void) fetchPlayerInventory
 {    
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id],@"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],   @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
                           nil];
     
     [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForPlayer" arguments:args handler:self successSelector:@selector(parseInventoryFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -758,8 +758,8 @@
 - (void) fetchPlayerQuestList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.game_id], @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],    @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
                           nil];
     [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parseQuestListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -768,11 +768,11 @@
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",game_id],                                                        @"agame_id",
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.user_id],                     @"buser_id",
+                          [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                     @"buser_id",
                           [NSString stringWithFormat:@"%d",1],                                                             @"cquestion",
                           [NSString stringWithFormat:@"%d",999999999],                                                     @"dquestion",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude], @"elatitude",
-                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],@"flongitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"elatitude",
+                          [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"flongitude",
                           [NSString stringWithFormat:@"%d",1],                                                             @"gshowGamesInDev",// = 1, because if you're specifically seeking out one game, who cares
                           nil];
     
@@ -817,10 +817,10 @@
     
     while((conversationDictionary = [conversationOptionsEnumerator nextObject]))
     {
-        int nodeId = [conversationDictionary validIntForKey:@"node_id"];
+        int plaque_id = [conversationDictionary validIntForKey:@"plaque_id"];
         NSString *text = [conversationDictionary validObjectForKey:@"text"];
         BOOL hasViewed = [conversationDictionary validBoolForKey:@"has_viewed"];
-        NpcScriptOption *option = [[NpcScriptOption alloc] initWithOptionText:text scriptText:@"" nodeId:nodeId hasViewed:hasViewed];
+        NpcScriptOption *option = [[NpcScriptOption alloc] initWithOptionText:text scriptText:@"" plaque_id:plaque_id hasViewed:hasViewed];
         [conversationOptions addObject:option];
     }
     
@@ -830,49 +830,7 @@
 
 - (Game *) parseGame:(NSDictionary *)gameSource
 {
-    Game *game = [[Game alloc] init];
-    
-    game.game_id                   = [gameSource validIntForKey:@"game_id"];
-    game.hasBeenPlayed            = [gameSource validBoolForKey:@"has_been_played"];
-    game.isLocational             = [gameSource validBoolForKey:@"is_locational"];
-    game.showPlayerLocation       = [gameSource validBoolForKey:@"show_player_location"];
-    game.inventoryModel.weightCap = [gameSource validIntForKey:@"inventory_weight_cap"];
-    game.rating                   = [gameSource validIntForKey:@"rating"];
-    game.pcMediaId                = [gameSource validIntForKey:@"pc_media_id"];
-    game.playerCount              = [gameSource validIntForKey:@"count"];
-    game.desc                     = [gameSource validStringForKey:@"description"];
-    game.name                     = [gameSource validStringForKey:@"name"];
-    game.authors                  = [gameSource validStringForKey:@"editors"];
-    game.mapType                  = [gameSource validObjectForKey:@"map_type"];
-    game.latitude                 = [gameSource validDoubleForKey:@"latitude"]; 
-    game.longitude                = [gameSource validDoubleForKey:@"longitude"]; 
-    game.zoomLevel                = [gameSource validDoubleForKey:@"zoom_level"]; 
-    if(!game.mapType || (![game.mapType isEqualToString:@"STREET"] && ![game.mapType isEqualToString:@"SATELLITE"] && ![game.mapType isEqualToString:@"HYBRID"])) game.mapType = @"STREET";
-    
-    NSString *distance = [gameSource validObjectForKey:@"distance"];
-    if(distance) game.distanceFromPlayer = [distance doubleValue];
-    else game.distanceFromPlayer = 999999999;
-    
-    NSString *latitude  = [gameSource validObjectForKey:@"latitude"];
-    NSString *longitude = [gameSource validObjectForKey:@"longitude"];
-    if(latitude && longitude)
-        game.location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
-    else
-        game.location = [[CLLocation alloc] init];
-    
-    game.iconMedia   = [_MODEL_MEDIA_ mediaForId:[gameSource validIntForKey:@"icon_media_id"]];
-    game.splashMedia = [_MODEL_MEDIA_ mediaForId:[gameSource validIntForKey:@"media_id"]];
-    
-    game.questsModel.totalQuestsInGame = [gameSource validIntForKey:@"totalQuests"];
-    game.launchNodeId                  = [gameSource validIntForKey:@"on_launch_node_id"];
-    game.completeNodeId                = [gameSource validIntForKey:@"game_complete_node_id"];
-    game.calculatedScore               = [gameSource validIntForKey:@"calculatedScore"];
-    game.numReviews                    = [gameSource validIntForKey:@"numComments"];
-    game.allowsPlayerTags              = [gameSource validBoolForKey:@"allow_player_tags"];
-    game.allowShareNoteToMap           = [gameSource validBoolForKey:@"allow_share_note_to_map"];
-    game.allowShareNoteToList          = [gameSource validBoolForKey:@"allow_share_note_to_book"];
-    game.allowNoteComments             = [gameSource validBoolForKey:@"allow_note_comments"];
-    game.allowNoteLikes                = [gameSource validBoolForKey:@"allow_note_likes"];
+    Game *game = [[Game alloc] initWithDictionary:gameSource];
     
     NSArray *comments = [gameSource validObjectForKey:@"comments"];
     for (NSDictionary *comment in comments)
@@ -890,7 +848,6 @@
         c.rating = [comment validIntForKey:@"rating"];
         [game.comments addObject:c];
     }
-    game.numReviews = [game.comments count];
     
     return game;
 }
@@ -911,12 +868,12 @@
 
 - (void) parseOneGameGameListFromJSON:(ARISServiceResult *)jsonResult
 {
-    [AppModel sharedAppModel].oneGameGameList = [self parseGameListFromJSON:jsonResult];
+    _MODEL_.oneGameGameList = [self parseGameListFromJSON:jsonResult];
     
     Game *game;
-    if([[AppModel sharedAppModel].oneGameGameList count] > 0)
+    if([_MODEL_.oneGameGameList count] > 0)
     {
-        game = (Game *)[[AppModel sharedAppModel].oneGameGameList  objectAtIndex:0];
+        game = (Game *)[_MODEL_.oneGameGameList  objectAtIndex:0];
         NSLog(@"NSNotification: NewOneGameGameListReady");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListReady" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:game,@"game", nil]]];
     }
@@ -929,28 +886,28 @@
 
 - (void) parseNearbyGameListFromJSON:(ARISServiceResult *)jsonResult
 {
-    [AppModel sharedAppModel].nearbyGameList = [self parseGameListFromJSON:jsonResult];
+    _MODEL_.nearbyGameList = [self parseGameListFromJSON:jsonResult];
     NSLog(@"NSNotification: NewNearbyGameListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNearbyGameListReady" object:nil]];
 }
 
 - (void) parseAnywhereGameListFromJSON:(ARISServiceResult *)jsonResult
 {
-    [AppModel sharedAppModel].anywhereGameList = [self parseGameListFromJSON:jsonResult];
+    _MODEL_.anywhereGameList = [self parseGameListFromJSON:jsonResult];
     NSLog(@"NSNotification: NewAnywhereGameListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewAnywhereGameListReady" object:nil]];
 }
 
 - (void) parseSearchGameListFromJSON:(ARISServiceResult *)jsonResult
 {
-    [AppModel sharedAppModel].searchGameList = [self parseGameListFromJSON:jsonResult];
+    _MODEL_.searchGameList = [self parseGameListFromJSON:jsonResult];
     NSLog(@"NSNotification: NewSearchGameListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewSearchGameListReady" object:nil]];
 }
 
 - (void) parsePopularGameListFromJSON:(ARISServiceResult *)jsonResult
 {
-    [AppModel sharedAppModel].popularGameList = [self parseGameListFromJSON:jsonResult];
+    _MODEL_.popularGameList = [self parseGameListFromJSON:jsonResult];
     NSLog(@"NSNotification: NewPopularGameListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewPopularGameListReady" object:nil]];
 }
@@ -966,7 +923,7 @@
     while ((gameDictionary = [gameListEnumerator nextObject]))
         [tempGameList addObject:[self parseGame:(gameDictionary)]];
     
-    [AppModel sharedAppModel].recentGameList = tempGameList;
+    _MODEL_.recentGameList = tempGameList;
     
     NSLog(@"NSNotification: NewRecentGameListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
@@ -975,7 +932,7 @@
 - (void) saveGameComment:(NSString*)comment titled:(NSString *)t game:(int)game_id starRating:(int)rating
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.user_id], @"auser_id",
+                          [NSString stringWithFormat:@"%d", _MODEL_PLAYER_.user_id], @"auser_id",
                           [NSString stringWithFormat:@"%d", game_id],                                    @"bgame_id",
                           [NSString stringWithFormat:@"%d", rating],                                    @"crating",
                           comment,                                                                      @"dcomment",
@@ -1043,19 +1000,19 @@
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
-- (void) parseGameNodeListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseGamePlaqueListFromJSON:(ARISServiceResult *)jsonResult
 {
-    NSArray *nodeListArray = (NSArray *)jsonResult.resultData;
-    NSMutableDictionary *tempNodeList = [[NSMutableDictionary alloc] init];
-    NSEnumerator *enumerator = [nodeListArray objectEnumerator];
+    NSArray *plaqueListArray = (NSArray *)jsonResult.resultData;
+    NSMutableDictionary *tempPlaqueList = [[NSMutableDictionary alloc] init];
+    NSEnumerator *enumerator = [plaqueListArray objectEnumerator];
     NSDictionary *dict;
     while ((dict = [enumerator nextObject]))
     {
-        Node *tmpNode = [[Node alloc] initWithDictionary:dict];
-        [tempNodeList setObject:tmpNode forKey:[NSNumber numberWithInt:tmpNode.nodeId]];
+        Plaque *tmpPlaque = [[Plaque alloc] initWithDictionary:dict];
+        [tempPlaqueList setObject:tmpPlaque forKey:[NSNumber numberWithInt:tmpPlaque.plaque_id]];
     }
     
-    [AppModel sharedAppModel].currentGame.nodeList = tempNodeList;
+    _MODEL_GAME_.plaqueList = tempPlaqueList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
@@ -1089,7 +1046,7 @@
         [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npc_id]];
     }
     
-    [AppModel sharedAppModel].currentGame.npcList = tempNpcList;
+    _MODEL_GAME_.npcList = tempNpcList;
     
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
@@ -1108,7 +1065,7 @@
         [tempWebPageList setObject:tmpWebPage forKey:[NSNumber numberWithInt:tmpWebPage.webPageId]];
     }
     
-    [AppModel sharedAppModel].currentGame.webpageList = tempWebPageList;
+    _MODEL_GAME_.webpageList = tempWebPageList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
@@ -1161,8 +1118,8 @@
         Quest *quest = [[Quest alloc] init];
         quest.questId                  = [activeQuestDict validIntForKey:@"quest_id"];
         quest.name                     = [activeQuestDict validStringForKey:@"name"]; 
-        quest.mediaId                  = [activeQuestDict validIntForKey:@"active_media_id"];
-        quest.iconMediaId              = [activeQuestDict validIntForKey:@"active_icon_media_id"];
+        quest.media_id                  = [activeQuestDict validIntForKey:@"active_media_id"];
+        quest.icon_media_id              = [activeQuestDict validIntForKey:@"active_icon_media_id"];
         quest.qdescription             = [activeQuestDict validStringForKey:@"description"];
         quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
         quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
@@ -1181,8 +1138,8 @@
         Quest *quest = [[Quest alloc] init];
         quest.questId                  = [completedQuestDict validIntForKey:@"quest_id"];
         quest.name                     = [completedQuestDict validStringForKey:@"name"]; 
-        quest.mediaId                  = [completedQuestDict validIntForKey:@"complete_media_id"];
-        quest.iconMediaId              = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
+        quest.media_id                  = [completedQuestDict validIntForKey:@"complete_media_id"];
+        quest.icon_media_id              = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
         quest.qdescription             = [completedQuestDict validStringForKey:@"text_when_complete"];
         quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"complete_full_screen_notify"]; 
         quest.goFunction               = [completedQuestDict validStringForKey:@"complete_go_function"];

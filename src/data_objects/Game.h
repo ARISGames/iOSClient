@@ -95,6 +95,7 @@
 @property (nonatomic, strong) LocationsModel *locationsModel;
 @property (nonatomic, strong) OverlaysModel  *overlaysModel;
 
+- (id) initWithDictionary:(NSDictionary *)dict;
 - (void) getReadyToPlay;
 - (void) clearLocalModels;
 - (void) endPlay;

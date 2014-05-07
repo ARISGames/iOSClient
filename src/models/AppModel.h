@@ -12,6 +12,8 @@
 #import <CoreData/CoreData.h>
 
 #define _MODEL_ [AppModel sharedAppModel]
+#define _MODEL_GAME_ [AppModel sharedAppModel].currentGame
+#define _MODEL_PLAYER_ [AppModel sharedAppModel].player
 #define _MODEL_PLAQUES_ [AppModel sharedAppModel].currentGame.plaquesModel
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].currentGame.itemsModel
 #define _MODEL_NPCS_ [AppModel sharedAppModel].currentGame.npcsModel

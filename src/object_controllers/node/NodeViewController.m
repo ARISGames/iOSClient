@@ -1,12 +1,12 @@
 //
-//  NodeViewController.m
+//  PlaqueViewController.m
 //  ARIS
 //
 //  Created by Kevin Harris on 5/11/09.
 //  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import "NodeViewController.h"
+#import "PlaqueViewController.h"
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "MediaModel.h"
@@ -18,14 +18,14 @@
 #import "WebPageViewController.h"
 #import "WebPage.h"
 #import "UIImage+Scale.h"
-#import "Node.h"
+#import "Plaque.h"
 #import "ARISTemplate.h"
 
 #import <MediaPlayer/MediaPlayer.h>
 
 static NSString * const OPTION_CELL = @"option";
 
-@interface NodeViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
+@interface PlaqueViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
 {
     UIScrollView *scrollView;
     ARISMediaView  *mediaView;
@@ -39,16 +39,16 @@ static NSString * const OPTION_CELL = @"option";
 
 @end
 
-@implementation NodeViewController
+@implementation PlaqueViewController
 
-- (id) initWithNode:(Node *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithPlaque:(Plaque *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
     if((self = [super init]))
     {
         delegate = d;
     
-        node = n;
-        self.title = node.name;
+        plaque = n;
+        self.title = plaque.name;
     }
     
     return self;
@@ -95,7 +95,7 @@ static NSString * const OPTION_CELL = @"option";
     [self.view addSubview:arrow];
     [self.view addSubview:line];
     
-    [self loadNode];
+    [self loadPlaque];
 }
 
 - (void) viewWillLayoutSubviews
@@ -113,16 +113,16 @@ static NSString * const OPTION_CELL = @"option";
     line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
 }
 
-- (void) loadNode
+- (void) loadPlaque
 {
-    if(![node.text isEqualToString:@""])
+    if(![plaque.text isEqualToString:@""])
     {
         [scrollView addSubview:webView]; 
         webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], node.text] baseURL:nil]; 
+        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], plaque.text] baseURL:nil]; 
     }
     
-    Media *media = [_MODEL_MEDIA_ mediaForId:node.mediaId];  
+    Media *media = [_MODEL_MEDIA_ mediaForId:plaque.media_id];  
     if(media)
     {
         [scrollView addSubview:mediaView];   
@@ -133,7 +133,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
-    if(![node.text isEqualToString:@""])
+    if(![plaque.text isEqualToString:@""])
     {
         webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
         scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
@@ -144,7 +144,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
 {
-    Media *media = [_MODEL_MEDIA_ mediaForId:node.mediaId];   
+    Media *media = [_MODEL_MEDIA_ mediaForId:plaque.media_id];   
     MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     //error message that is logged after this line is possibly an ios 7 simulator bug...
     [self presentMoviePlayerViewControllerAnimated:movieViewController];
@@ -155,7 +155,7 @@ static NSString * const OPTION_CELL = @"option";
 {
     [delegate gameObjectViewControllerRequestsDismissal:self];
     WebPage *w = [[WebPage alloc] init];
-    w.webPageId = node.nodeId;
+    w.webPageId = plaque.plaque_id;
     w.url = [r.URL absoluteString];
     [(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
 
@@ -192,7 +192,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) continueButtonTouched
 {
-	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:0];
+	[[AppServices sharedAppServices] updateServerPlaqueViewed:plaque.plaque_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

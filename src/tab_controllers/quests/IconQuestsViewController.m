@@ -109,8 +109,8 @@
 - (void) refreshViewFromModel
 {
     NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES]];
-    activeQuests    = [[AppModel sharedAppModel].currentGame.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
-    //completedQuests = [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
+    activeQuests    = [_MODEL_GAME_.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
+    //completedQuests = [_MODEL_GAME_.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
     completedQuests = [[NSArray alloc] init];
         
     [self.questIconCollectionView reloadData];
@@ -150,8 +150,8 @@
     
     ARISMediaView *icon = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width) delegate:self];
     [icon setDisplayMode:ARISMediaDisplayModeAspectFit];
-    if(q.iconMediaId != 0)
-        [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.iconMediaId]];
+    if(q.icon_media_id != 0)
+        [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.icon_media_id]];
     else
         [icon setImage:[UIImage imageNamed:@"item.png"]];
     

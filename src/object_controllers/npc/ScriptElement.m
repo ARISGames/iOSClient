@@ -16,7 +16,7 @@
 @synthesize type;
 @synthesize typeId;
 
-@synthesize mediaId;
+@synthesize media_id;
 
 @synthesize imageRect;
 @synthesize zoomTime;
@@ -34,7 +34,7 @@
         self.type         = @"pc";
         self.typeId       = 0;
         
-        self.mediaId      = 0;
+        self.media_id      = 0;
 
         self.imageRect    = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
         self.zoomTime     = 0;

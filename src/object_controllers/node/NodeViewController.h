@@ -1,5 +1,5 @@
 //
-//  NodeViewController.h
+//  PlaqueViewController.h
 //  ARIS
 //
 //  Created by Kevin Harris on 5/11/09.
@@ -10,10 +10,10 @@
 #import "GameObjectViewController.h"
 
 @protocol StateControllerProtocol;
-@class Node;
-@interface NodeViewController : GameObjectViewController
+@class Plaque;
+@interface PlaqueViewController : GameObjectViewController
 {
-	Node *node;
+	Plaque *plaque;
 }
-- (id) initWithNode:(Node *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
+- (id) initWithPlaque:(Plaque *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
 @end

@@ -82,7 +82,7 @@
     prompt.frame = CGRectMake(20,radius+80,2*radius-40,24); 
 }
 
-- (void) setHeader:(NSString *)h prompt:(NSString *)p iconMediaId:(int)m
+- (void) setHeader:(NSString *)h prompt:(NSString *)p icon_media_id:(int)m
 {
     if(!self.view) self.view.hidden = NO; //Just accesses view to force its load
     

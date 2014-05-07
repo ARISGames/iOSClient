@@ -126,8 +126,8 @@ static int const COMPLETED_SECTION = 1;
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    sortedActiveQuests    = [[AppModel sharedAppModel].currentGame.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
-    sortedCompletedQuests = [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
+    sortedActiveQuests    = [_MODEL_GAME_.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
+    sortedCompletedQuests = [_MODEL_GAME_.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
     
     if([sortedActiveQuests count] == 0)   
     {

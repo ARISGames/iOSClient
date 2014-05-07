@@ -65,7 +65,7 @@
     return self.display_name;
 }
 
-- (int) iconMediaId
+- (int) icon_media_id
 {
     return 126853;
 }

@@ -15,7 +15,7 @@
 #import "User.h"
 #import "Npc.h"
 #import "Item.h"
-#import "Node.h"
+#import "Plaque.h"
 #import "WebPage.h"
 #import "Note.h"
 #import "UIImage+Scale.h"
@@ -108,11 +108,11 @@
     [warningImage removeFromSuperview];
     location = l;
     
-    CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
+    CLLocationDistance distance = [_MODEL_PLAYER_.location distanceFromLocation:location.latlon];
     
     prompt.text = location.name;
     float distanceToWalk; 
-    if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel)
+    if((distance <= location.errorRange && _MODEL_PLAYER_.location != nil) || location.allowsQuickTravel)
     {
         distanceToWalk = 0;
         warning.text = @"";
@@ -122,7 +122,7 @@
         [hudView addSubview:warningImage];
         distanceToWalk = distance - location.errorRange;
         float roundedDistance = lroundf(distanceToWalk);
-        if([[AppModel sharedAppModel] player].location != nil)
+        if(_MODEL_PLAYER_.location != nil)
             warning.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"OutOfRangeWalkKey", @""), [NSString stringWithFormat:@"%.0fm", roundedDistance]];
         else
             warning.text = NSLocalizedString(@"OutOfRangeKey", @"");

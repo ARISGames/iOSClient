@@ -70,8 +70,8 @@
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         
         self.sortableTags = [[NSMutableArray alloc] initWithCapacity:10];
-        self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
-        self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
+        self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[_MODEL_GAME_.inventoryModel.currentInventory count]];
+        self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:[_MODEL_GAME_.inventoryModel.currentInventory count]];
         self.currentTagIndex = 0;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews)   name:@"NewlyAcquiredItemsAvailable"           object:nil];
@@ -98,7 +98,7 @@
     self.inventoryTable.delegate = self;
     [self.view addSubview:self.inventoryTable];
     
-    if([AppModel sharedAppModel].currentGame.inventoryModel.weightCap > 0)
+    if(_MODEL_GAME_.inventoryModel.weightCap > 0)
     {
         self.capBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
         self.capBar.progress = 0;
@@ -118,8 +118,8 @@
     
     if(self.capBar)
     {
-        int currentWeight = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
-        int weightCap     = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
+        int currentWeight = _MODEL_GAME_.inventoryModel.currentWeight;
+        int weightCap     = _MODEL_GAME_.inventoryModel.weightCap;
         self.capBar.progress = (float)((float)currentWeight/(float)weightCap);
         self.capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
     }
@@ -155,7 +155,7 @@
     if(!self.view) return;
     
     NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
-    self.inventory = [[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory sortedArrayUsingDescriptors:sortDescriptors];
+    self.inventory = [_MODEL_GAME_.inventoryModel.currentInventory sortedArrayUsingDescriptors:sortDescriptors];
     [self.sortableTags removeAllObjects];
     
     //populate sortableTags with all available tags (obnoxiously complex...)
@@ -335,8 +335,8 @@
     Media *iconMedia;
     if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.item_id]]))
     {
-        if (item.iconMediaId != 0) iconMedia = [_MODEL_MEDIA_ mediaForId:item.iconMediaId];
-        else if(item.mediaId != 0) iconMedia = [_MODEL_MEDIA_ mediaForId:item.mediaId];
+        if (item.icon_media_id != 0) iconMedia = [_MODEL_MEDIA_ mediaForId:item.icon_media_id];
+        else if(item.media_id != 0) iconMedia = [_MODEL_MEDIA_ mediaForId:item.media_id];
     }
     if(iconMedia && [iconMedia.type isEqualToString:@"IMAGE"])
     {

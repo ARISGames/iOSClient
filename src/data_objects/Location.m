@@ -59,11 +59,11 @@
         
         NSString *otype = [dict validObjectForKey:@"type"];
         int oid         = [dict validIntForKey:@"type_id"];
-        if([otype isEqualToString:@"Node"])       self.gameObject = [_MODEL_PLAQUES_ plaqueForId:oid];
+        if([otype isEqualToString:@"Plaque"])     self.gameObject = [_MODEL_PLAQUES_ plaqueForId:oid];
         if([otype isEqualToString:@"Item"])       self.gameObject = [_MODEL_ITEMS_ itemForId:oid];
         if([otype isEqualToString:@"Npc"])        self.gameObject = [_MODEL_NPCS_ npcForId:oid];
         if([otype isEqualToString:@"WebPage"])    self.gameObject = [_MODEL_WEBPAGES_ webPageForId:oid];
-        if([otype isEqualToString:@"PlayerNote"]) self.gameObject = [[AppModel sharedAppModel].currentGame.notesModel noteForId:oid];
+        if([otype isEqualToString:@"PlayerNote"]) self.gameObject = [_MODEL_GAME_.notesModel noteForId:oid];
         if([otype isEqualToString:@"Player"])     self.gameObject = [[User alloc] init];
         
         BOOL validErrorRange = YES;

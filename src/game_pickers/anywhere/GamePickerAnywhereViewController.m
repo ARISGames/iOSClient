@@ -34,7 +34,7 @@
 {
     [super requestNewGameList];
     
-    if([AppModel sharedAppModel].deviceLocation && [AppModel sharedAppModel].player) 
+    if(_MODEL_.deviceLocation && _MODEL_PLAYER_) 
     {
         [[AppServices sharedAppServices] fetchAnywhereGameList];
         [self showLoadingIndicator];
@@ -43,7 +43,7 @@
 
 - (void) refreshViewFromModel
 {
-	self.gameList = [[AppModel sharedAppModel].anywhereGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
+	self.gameList = [_MODEL_.anywhereGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
     [self.gameTable reloadData];
     
     [self removeLoadingIndicator];

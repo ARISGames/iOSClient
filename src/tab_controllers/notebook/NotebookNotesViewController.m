@@ -135,9 +135,9 @@ const int VIEW_MODE_TAG  = 2;
 - (int) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
 {
     NSArray *typeFilteredNotes;
-    if     (viewMode == VIEW_MODE_MINE) typeFilteredNotes = [[AppModel sharedAppModel].currentGame.notesModel playerNotes];
-    else if(viewMode == VIEW_MODE_ALL)  typeFilteredNotes = [[AppModel sharedAppModel].currentGame.notesModel listNotes];
-    else if(viewMode == VIEW_MODE_TAG)  typeFilteredNotes = [[AppModel sharedAppModel].currentGame.notesModel notesMatchingTag:filterTag];
+    if     (viewMode == VIEW_MODE_MINE) typeFilteredNotes = [_MODEL_GAME_.notesModel playerNotes];
+    else if(viewMode == VIEW_MODE_ALL)  typeFilteredNotes = [_MODEL_GAME_.notesModel listNotes];
+    else if(viewMode == VIEW_MODE_TAG)  typeFilteredNotes = [_MODEL_GAME_.notesModel notesMatchingTag:filterTag];
     
     NSMutableArray *textFilteredNotes;
     if([filterText isEqualToString:@""])
@@ -173,7 +173,7 @@ const int VIEW_MODE_TAG  = 2;
     
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
     filteredNotes = [textFilteredNotes sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]]; 
-    return [filteredNotes count] + (1-[AppModel sharedAppModel].currentGame.notesModel.listComplete);
+    return [filteredNotes count] + (1-_MODEL_GAME_.notesModel.listComplete);
 }
 
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,9 +183,9 @@ const int VIEW_MODE_TAG  = 2;
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [filteredNotes count])
+    if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= [filteredNotes count])
     {
-        [[AppModel sharedAppModel].currentGame.notesModel getNextNotes]; 
+        [_MODEL_GAME_.notesModel getNextNotes]; 
         UITableViewCell *cell;
         if(!(cell = [table dequeueReusableCellWithIdentifier:@"loadingCell"])) 
         {
@@ -203,7 +203,7 @@ const int VIEW_MODE_TAG  = 2;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
         cell = [[NoteCell alloc] initWithDelegate:self]; 
     Note *n = [filteredNotes objectAtIndex:indexPath.row];
-    if(n.stubbed) [[AppModel sharedAppModel].currentGame.notesModel getDetailsForNote:n];   
+    if(n.stubbed) [_MODEL_GAME_.notesModel getDetailsForNote:n];   
     [cell populateWithNote:n loading:n.stubbed]; 
 
     return cell;
@@ -211,7 +211,7 @@ const int VIEW_MODE_TAG  = 2;
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(![AppModel sharedAppModel].currentGame.notesModel.listComplete && indexPath.row >= [filteredNotes count])  return;
+    if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= [filteredNotes count])  return;
     
     NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[filteredNotes objectAtIndex:indexPath.row] delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];

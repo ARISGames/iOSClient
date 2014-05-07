@@ -12,15 +12,15 @@
 {
 	NSString *optionText;
     NSString *scriptText;
-	NSInteger nodeId;
+	NSInteger plaque_id;
     BOOL hasViewed;
 }
 
 @property(readwrite, strong) NSString *optionText;
 @property(readwrite, strong) NSString *scriptText;
-@property(readwrite, assign) NSInteger nodeId;
+@property(readwrite, assign) NSInteger plaque_id;
 @property(readwrite, assign) BOOL hasViewed;
 
-- (id) initWithOptionText:(NSString *)t scriptText:(NSString *)s nodeId:(int)n hasViewed:(BOOL)v;
+- (id) initWithOptionText:(NSString *)t scriptText:(NSString *)s plaque_id:(int)n hasViewed:(BOOL)v;
 
 @end

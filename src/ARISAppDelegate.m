@@ -45,7 +45,7 @@
     
     //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist
-	[[AppModel sharedAppModel] initUserDefaults];
+	[_MODEL_ initUserDefaults];
     [[AppServices sharedAppServices] retryFailedRequests];
     
     [self setApplicationUITemplates];
@@ -93,14 +93,14 @@
 - (void) applicationDidBecomeActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Application Became Active");
-	[[AppModel sharedAppModel]       loadUserDefaults];
+	[_MODEL_       loadUserDefaults];
     
-    if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
+    if(_MODEL_.fallbackGameId != 0 && !_MODEL_GAME_)
     {
         [[NSNotificationCenter defaultCenter] addObserver:window.rootViewController selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil]; 
-        [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].fallbackGameId];
+        [[AppServices sharedAppServices] fetchOneGameGameList:_MODEL_.fallbackGameId];
     }
-    else if([AppModel sharedAppModel].player.user_id > 0)
+    else if(_MODEL_PLAYER_.user_id > 0)
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerAlreadyLoggedIn" object:nil]];
     
     [self startPollingLocation];
@@ -115,7 +115,7 @@
 - (void) applicationWillResignActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Resigning Active Application");
-	[[AppModel sharedAppModel] saveUserDefaults];
+	[_MODEL_ saveUserDefaults];
     
     [self stopPollingLocation];
 }
@@ -123,8 +123,8 @@
 -(void) applicationWillTerminate:(UIApplication *)application
 {
 	NSLog(@"ARIS: Terminating Application");
-	[[AppModel sharedAppModel] saveUserDefaults];
-    [[AppModel sharedAppModel] commitCoreDataContexts];
+	[_MODEL_ saveUserDefaults];
+    [_MODEL_ commitCoreDataContexts];
 }
 
 - (void) startPollingLocation

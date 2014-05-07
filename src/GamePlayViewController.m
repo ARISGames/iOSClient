@@ -79,9 +79,9 @@
         game = g;
         
         //PHIL HATES THIS CHUNK
-        [AppModel sharedAppModel].currentGame = game;
-        [AppModel sharedAppModel].fallbackGameId = game.game_id;
-        [[AppModel sharedAppModel] saveUserDefaults];
+        _MODEL_GAME_ = game;
+        _MODEL_.fallbackGameId = game.game_id;
+        [_MODEL_ saveUserDefaults];
         //PHIL DONE HATING CHUNK
         
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
@@ -89,12 +89,12 @@
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         
         //PHIL UNAPPROVED
-        [[AppModel sharedAppModel] resetAllPlayerLists];
-        [[AppModel sharedAppModel] resetAllGameLists];
+        [_MODEL_ resetAllPlayerLists];
+        [_MODEL_ resetAllGameLists];
         
         forceDisplayQueue = [[ForceDisplayQueue alloc] initWithDelegate:self];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewlyCompletedQuestsAvailable" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompletePlaque) name:@"NewlyCompletedQuestsAvailable" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameTabListRecieved:)        name:@"ReceivedTabList"               object:nil];
         //END PHIL UNAPPROVED
     }
@@ -164,7 +164,7 @@
     [game clearLocalModels];
     [game endPlay]; 
     //PHIL UNAPPROVED - 
-    [AppModel sharedAppModel].currentGame = nil;
+    _MODEL_GAME_ = nil;
     [delegate gameplayWasDismissed];
 }
 
@@ -320,19 +320,19 @@
     [self.view addSubview:gameNotificationViewController.view];
     [gameNotificationViewController startListeningToModel];
         
-    int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
-    if(nodeId && nodeId != 0 && [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
-        [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:nodeId] fromSource:self];
+    int plaque_id = _MODEL_GAME_.launchPlaqueId;
+    if(plaque_id && plaque_id != 0 && [_MODEL_GAME_.questsModel.currentCompletedQuests count] < 1)
+        [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:plaque_id] fromSource:self];
 }
 
-- (void) checkForDisplayCompleteNode
+- (void) checkForDisplayCompletePlaque
 {
-    int nodeId = [AppModel sharedAppModel].currentGame.completeNodeId;
-    if(nodeId != 0 &&
-        [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] == [AppModel sharedAppModel].currentGame.questsModel.totalQuestsInGame &&
-        [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] > 0)
+    int plaque_id = _MODEL_GAME_.completePlaqueId;
+    if(plaque_id != 0 &&
+        [_MODEL_GAME_.questsModel.currentCompletedQuests count] == _MODEL_GAME_.questsModel.totalQuestsInGame &&
+        [_MODEL_GAME_.questsModel.currentCompletedQuests count] > 0)
     {
-        [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:nodeId] fromSource:self];
+        [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:plaque_id] fromSource:self];
 	}
 }
 

@@ -71,8 +71,8 @@
     tagInputField.returnKeyType = UIReturnKeyDone; 
     
     tagPredictionViewController = [[NoteTagPredictionViewController alloc] 
-                                   initWithGameNoteTags:[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags
-                                   playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags 
+                                   initWithGameNoteTags:_MODEL_GAME_.notesModel.gameNoteTags
+                                   playerNoteTags:_MODEL_GAME_.notesModel.playerNoteTags 
                                    delegate:self];  
     
     [self stopEditing];
@@ -121,7 +121,7 @@
     if(editable && !editing && [tags count] > 0)   [self.view addSubview:ex]; 
     if(editing)
     {
-        [tagPredictionViewController setGameNoteTags:[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags playerNoteTags:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];
+        [tagPredictionViewController setGameNoteTags:_MODEL_GAME_.notesModel.gameNoteTags playerNoteTags:_MODEL_GAME_.notesModel.playerNoteTags];
         [self.view addSubview:tagPredictionViewController.view];   
         [tagInputField becomeFirstResponder];
         [self.view addSubview:ex];
@@ -136,7 +136,7 @@
 - (void) dismissEditButtonTouched
 {
     if([tags count] > 0) { [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; [self beginEditing]; }
-    else                 { [self stopEditing]; [self existingTagChosen:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag]; }
+    else                 { [self stopEditing]; [self existingTagChosen:_MODEL_GAME_.notesModel.unlabeledTag]; }
 }
 
 - (void) beginEditing
@@ -200,7 +200,7 @@
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-    NSArray *allValidTags = [[AppModel sharedAppModel].currentGame.notesModel.gameNoteTags arrayByAddingObjectsFromArray:[AppModel sharedAppModel].currentGame.notesModel.playerNoteTags];
+    NSArray *allValidTags = [_MODEL_GAME_.notesModel.gameNoteTags arrayByAddingObjectsFromArray:_MODEL_GAME_.notesModel.playerNoteTags];
     BOOL tagExists = NO;
     for(int i = 0; i < allValidTags.count; i++)
     {
@@ -219,7 +219,7 @@
         [delegate noteTagEditorCreatedTag:newNoteTag]; 
     }
     else if(!tagExists)
-        [delegate noteTagEditorCreatedTag:[AppModel sharedAppModel].currentGame.notesModel.unlabeledTag];  
+        [delegate noteTagEditorCreatedTag:_MODEL_GAME_.notesModel.unlabeledTag];  
     [self stopEditing];
     return YES;
 }

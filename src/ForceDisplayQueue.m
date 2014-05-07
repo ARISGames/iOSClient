@@ -43,15 +43,15 @@
     Location *forceLocation;
     
     //Find locations that are "nearby" from the list of all locations
-    for(Location *location in [AppModel sharedAppModel].currentGame.locationsModel.currentLocations)
+    for(Location *location in _MODEL_GAME_.locationsModel.currentLocations)
     {
         BOOL match = NO;
         for(Location *oldLocation in nearbyLocationsList)
             if(oldLocation.locationId == location.locationId) match = YES;
-        if(!match && [[AppModel sharedAppModel].player.location distanceFromLocation:location.latlon] < location.errorRange &&
+        if(!match && [_MODEL_PLAYER_.location distanceFromLocation:location.latlon] < location.errorRange &&
            (location.gameObject.type != GameObjectItem || location.qty > 0 || location.infiniteQty) && location.gameObject.type != GameObjectPlayer)
             [newNearbyLocationsList addObject:location];
-        else if(match && (location.errorRange >= 2147483637 || [[AppModel sharedAppModel].player.location distanceFromLocation:location.latlon] < location.errorRange+10) &&
+        else if(match && (location.errorRange >= 2147483637 || [_MODEL_PLAYER_.location distanceFromLocation:location.latlon] < location.errorRange+10) &&
            (location.gameObject.type != GameObjectItem || location.qty > 0 || location.infiniteQty) && location.gameObject.type != GameObjectPlayer)
             [newNearbyLocationsList addObject:location];
     }
