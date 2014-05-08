@@ -178,7 +178,19 @@
 
 - (int) qtyOwnedForItem:(int)item_id
 {
-  return [instances objectForKey:[NSNumber numberWithInt:item.item_id]].qty;
+    Item *i = [self itemForId:item_id];
+    return ((Instance *)[instances objectForKey:[NSNumber numberWithInt:i.item_id]]).qty;
+}
+
+- (int) qtyAllowedToGiveForItem:(int)item_id
+{
+    Item *i = [self itemForId:item_id]; 
+    int amtMoreCanHold = i.max_qty_in_inventory-[self qtyOwnedForItem:item_id];
+    while(weightCap != 0 && 
+          (amtMoreCanHold*i.weight + currentWeight) > weightCap)
+        amtMoreCanHold--; 
+    
+    return amtMoreCanHold;
 }
 
 - (NSArray *) inventory

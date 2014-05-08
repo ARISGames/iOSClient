@@ -12,9 +12,10 @@
 @implementation Instance
 
 @synthesize instance_id;
+@synthesize type;
 @synthesize object;
 @synthesize qty;
-@synthesize infiniteQty;
+@synthesize infinite_qty;
 
 - (id) init
 {
@@ -23,7 +24,7 @@
         self.instance_id = 0;
         self.object = nil;
         self.qty = 0;
-        self.infiniteQty = NO;
+        self.infinite_qty = NO;
     }
     return self;
 }
@@ -35,9 +36,27 @@
         self.instance_id = [dict validIntForKey:@"instance_id"];
         //self.object = [dict validIntForKey:@""];
         self.qty = [dict validIntForKey:@"qty"];
-        self.infiniteQty = [dict validBoolForKey:@"infinite_qty"];
+        self.infinite_qty = [dict validBoolForKey:@"infinite_qty"];
     }
     return self;
+}
+
+- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s;
+{
+    //return [[ItemViewController alloc] initWithItem:self delegate:d source:s]; 
+    return nil;
+}
+
+- (Instance *) copy
+{
+    Instance *c = [[Instance alloc] init];
+    
+    c.instance_id = self.instance_id;
+    c.object = self.object;
+    c.qty = self.qty;
+    c.infinite_qty = self.infinite_qty; 
+    
+    return c;
 }
 
 @end

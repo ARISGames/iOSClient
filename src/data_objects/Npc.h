@@ -28,4 +28,6 @@
 @property(nonatomic, assign) int opening_script_id;
 @property(nonatomic, assign) int closing_script_id;
 
+- (id) initWithDictionary:(NSDictionary *)dict;
+
 @end

@@ -14,7 +14,7 @@
 @synthesize questId;
 @synthesize name;
 @synthesize sortNum;
-@synthesize qdescription;
+@synthesize desc;
 @synthesize goFunction;
 @synthesize media_id;
 @synthesize icon_media_id;

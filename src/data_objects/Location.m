@@ -81,11 +81,13 @@
         }
         self.deleteWhenViewed  = [dict validBoolForKey:@"delete_when_viewed"];
         
+        /*
         if(self.gameObject.type == GameObjectNote)
         {
             if(((Note *)self.gameObject).publicToList) self.allowsQuickTravel = YES;
             else                                       self.allowsQuickTravel = NO;
         }
+         */
         
         self.coordinate = self.latlon.coordinate;
         if(!self.hidden && self.errorRange > 0 && validErrorRange)
@@ -102,7 +104,7 @@
     self.latlon.coordinate.latitude  == ob.latlon.coordinate.latitude &&
     self.latlon.coordinate.longitude == ob.latlon.coordinate.longitude &&
     self.locationId                  == ob.locationId &&
-    self.gameObject.type             == ob.gameObject.type &&
+    //self.gameObject.type             == ob.gameObject.type &&
     self.errorRange                  == ob.errorRange &&
     (self.qty == ob.qty || (self.qty < 0 && ob.qty < 0)) &&
     self.infiniteQty                 == ob.infiniteQty && 

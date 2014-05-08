@@ -124,7 +124,7 @@
 	for (int i = 0; i < [newLocations count]; i++)
     {
         tmpLocation = (Location *)[newLocations objectAtIndex:i];
-        if(tmpLocation.gameObject.type != GameObjectItem) continue;
+        //if(tmpLocation.gameObject.type != GameObjectItem) continue;
         if(tmpLocation.locationId == locationId)
 			tmpLocation.qty += quantityModifier;
         if(tmpLocation.qty <= 0 && !tmpLocation.infiniteQty) 

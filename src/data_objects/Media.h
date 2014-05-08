@@ -18,8 +18,8 @@
     NSData *data; 
 }
 
-@property (readwrite, assign) int game_id;
-@property (readwrite, assign) int media_id;
+@property (readonly, assign) int game_id;
+@property (readonly, assign) int media_id;
 @property (nonatomic, strong) NSURL *localURL;
 @property (nonatomic, strong) NSURL *remoteURL;
 @property (nonatomic, strong) NSData *data;

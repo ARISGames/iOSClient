@@ -7,7 +7,6 @@
 //
 
 #import "WebPage.h"
-#import "WebPageViewController.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation WebPage
@@ -17,7 +16,7 @@
 @synthesize url;
 @synthesize icon_media_id;
 
-- (WebPage *) init
+- (id) init
 {
     if(self = [super init])
     {
@@ -29,7 +28,7 @@
     return self;	
 }
 
-- (WebPage *) initWithDictionary:(NSDictionary *)dict
+- (id) initWithDictionary:(NSDictionary *)dict
 {
     if(self = [super init])
     {
@@ -41,17 +40,7 @@
     return self;
 }
 
-- (GameObjectType) type
-{
-    return GameObjectWebPage;
-}
-
-- (WebPageViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d fromSource:(id)s
-{
-	return [[WebPageViewController alloc] initWithWebPage:self delegate:d];
-}
-
--(WebPage *)copy
+- (id) copy
 {
     WebPage *c = [[WebPage alloc] init];
     c.webPageId = self.webPageId;

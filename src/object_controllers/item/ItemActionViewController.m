@@ -18,7 +18,7 @@
     UIPickerView *picker;
     
     NSString *prompt;
-    int qty;
+    int maxqty;
     int amtChosen;
     BOOL positive;
     
@@ -28,13 +28,13 @@
 
 @implementation ItemActionViewController
 
-- (id) initWithPrompt:(NSString *)s positive:(BOOL)p qty:(int)q delegate:(id)d
+- (id) initWithPrompt:(NSString *)s positive:(BOOL)p maxqty:(int)q delegate:(id)d
 {
     if(self = [super init])
     {
         prompt = s;
         positive = p;
-        qty = q;
+        maxqty = q;
         
         amtChosen = 1;
         delegate = d;
@@ -74,7 +74,7 @@
 
 - (NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return qty+1;
+    return maxqty+1;
 }
 
 - (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
@@ -85,7 +85,7 @@
 
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if(row == 0) amtChosen = qty;
+    if(row == 0) amtChosen = maxqty;
     else         amtChosen = row;
 }
 

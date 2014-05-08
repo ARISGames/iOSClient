@@ -36,4 +36,6 @@
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, strong) NSString *type;
 
+- (id) initWithDictionary:(NSDictionary *)dict;
+
 @end

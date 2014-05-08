@@ -24,4 +24,6 @@
 @property(nonatomic, assign) int icon_media_id;
 @property(nonatomic, assign) int media_id;
 
+- (id) initWithDictionary:(NSDictionary *)dict;
+
 @end

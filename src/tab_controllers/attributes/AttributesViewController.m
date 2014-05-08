@@ -122,9 +122,8 @@
     [self refreshViewFromModel];
 }
 
--(void)refreshViewFromModel
+-(void) refreshViewFromModel
 {
-	self.attributes = _MODEL_GAME_.attributesModel.currentAttributes;
 	[attributesTable reloadData];
 }
 
@@ -167,7 +166,7 @@
 	lblTemp.backgroundColor = [UIColor clearColor];
 	lblTemp.font = [UIFont systemFontOfSize:11];
 	lblTemp.textColor = [UIColor ARISColorDarkGray];
-    lblTemp.text = item.idescription;
+    lblTemp.text = item.desc;
 	[cell.contentView addSubview:lblTemp];
 	
 	ARISMediaView *iconViewTemp;
@@ -186,8 +185,8 @@
 	lblTemp.textColor = [UIColor ARISColorDarkGray];
 	lblTemp.backgroundColor = [UIColor clearColor];
     lblTemp.textAlignment = NSTextAlignmentRight;
-    if(item.qty > 1 || item.maxQty > 1)
-        lblTemp.text = [NSString stringWithFormat:@"%d",item.qty];
+    if([_MODEL_ITEMS_ qtyOwnedForItem:item.item_id] > 1 || item.max_qty_in_inventory > 1)
+        lblTemp.text = [NSString stringWithFormat:@"%d",[_MODEL_ITEMS_ qtyOwnedForItem:item.item_id]];
     else
         lblTemp.text = nil;
 	[cell.contentView addSubview:lblTemp];

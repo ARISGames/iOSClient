@@ -16,7 +16,6 @@
 #import "NSDictionary+ValidParsers.h"
 #import "AppModel.h"
 #import "MediaModel.h"
-#import "NoteViewController.h"
 
 @implementation Note
 
@@ -33,7 +32,7 @@
 @synthesize publicToMap;
 @synthesize stubbed;
 
-- (Note *) init
+- (id) init
 {
     if (self = [super init])
     {
@@ -53,7 +52,7 @@
     return self;	
 }
 
-- (Note *) initWithDictionary:(NSDictionary *)dict
+- (id) initWithDictionary:(NSDictionary *)dict
 {
     if(self = [super init])
     {
@@ -126,19 +125,9 @@
     self.stubbed = NO;
 }
 
-- (GameObjectType) type
-{
-    return GameObjectNote;
-}
-
 - (int) icon_media_id
 {
     return 71;
-}
-
-- (GameObjectViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate, NoteViewControllerDelegate> *)d fromSource:(id)s
-{
-    return [[NoteViewController alloc] initWithNote:self delegate:d];
 }
 
 - (Note *) copy

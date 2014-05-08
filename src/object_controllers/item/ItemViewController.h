@@ -10,6 +10,7 @@
 #import "GameObjectViewController.h"
 
 @class Item;
+@class Instance;
 @protocol StateControllerProtocol;
 
 @protocol ItemViewControllerSource
@@ -23,10 +24,12 @@
 
 @interface ItemViewController : GameObjectViewController
 {
-  Item *item;
+  Item *item; 
+  Instance *instance;
 }
 @property (nonatomic, strong) Item *item;
+@property (nonatomic, strong) Instance *instance;
 
-- (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s;
+- (id) initWithInstance:(Instance *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s;
 
 @end

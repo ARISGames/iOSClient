@@ -42,6 +42,7 @@
 @property (nonatomic, assign) BOOL publicToMap;
 @property (nonatomic, assign) BOOL stubbed;
 
+- (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromNote:(Note *)n;
 
 @end

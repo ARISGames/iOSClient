@@ -135,7 +135,7 @@ static int const COMPLETED_SECTION = 1;
         nullQuest.questId = -1;
         //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
         nullQuest.name = NSLocalizedString(@"EmptyKey", @"");
-        nullQuest.qdescription = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoQuestsAvailableKey", @"")];
+        nullQuest.desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoQuestsAvailableKey", @"")];
         sortedActiveQuests = [NSArray arrayWithObjects:nullQuest, nil]; 
     }
     if([sortedCompletedQuests count] == 0)  
@@ -144,7 +144,7 @@ static int const COMPLETED_SECTION = 1;
         nullQuest.questId = -1;
         //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
         nullQuest.name = NSLocalizedString(@"EmptyKey", @"");
-        nullQuest.qdescription = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoCompletedQuestsKey", @"")];
+        nullQuest.desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoCompletedQuestsKey", @"")];
         sortedCompletedQuests = [NSArray arrayWithObjects:nullQuest, nil];
     }
     
@@ -206,7 +206,7 @@ static int const COMPLETED_SECTION = 1;
     if([heights objectForKey:[q description]])
         return [((NSNumber *)[heights objectForKey:[q description]])intValue];  
     
-	CGSize calcSize = [q.qdescription sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:CGSizeMake(self.view.bounds.size.width, 2000000) lineBreakMode:NSLineBreakByWordWrapping];
+	CGSize calcSize = [q.desc sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:CGSizeMake(self.view.bounds.size.width, 2000000) lineBreakMode:NSLineBreakByWordWrapping];
 	return calcSize.height+30; 
 }
 

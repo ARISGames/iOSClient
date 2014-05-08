@@ -989,7 +989,7 @@
 - (void) parseGameItemListFromJSON:(ARISServiceResult *)jsonResult
 {
     NSArray *JSONArray = (NSArray *)jsonResult.resultData;
-    NSMutableArray *itemsArray = [[NSMutableDictionary alloc] init];
+    NSMutableArray *itemsArray = [[NSMutableArray alloc] init];
     
     for(int i = 0; i < [JSONArray count]; i++)
         [itemsArray addObject:[[Item alloc] initWithDictionary:[JSONArray objectAtIndex:i]]];
@@ -1012,7 +1012,6 @@
         [tempPlaqueList setObject:tmpPlaque forKey:[NSNumber numberWithInt:tmpPlaque.plaque_id]];
     }
     
-    _MODEL_GAME_.plaqueList = tempPlaqueList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
@@ -1046,8 +1045,6 @@
         [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npc_id]];
     }
     
-    _MODEL_GAME_.npcList = tempNpcList;
-    
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
@@ -1065,7 +1062,6 @@
         [tempWebPageList setObject:tmpWebPage forKey:[NSNumber numberWithInt:tmpWebPage.webPageId]];
     }
     
-    _MODEL_GAME_.webpageList = tempWebPageList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
@@ -1120,7 +1116,7 @@
         quest.name                     = [activeQuestDict validStringForKey:@"name"]; 
         quest.media_id                  = [activeQuestDict validIntForKey:@"active_media_id"];
         quest.icon_media_id              = [activeQuestDict validIntForKey:@"active_icon_media_id"];
-        quest.qdescription             = [activeQuestDict validStringForKey:@"description"];
+        quest.desc             = [activeQuestDict validStringForKey:@"description"];
         quest.fullScreenNotification   = [activeQuestDict validBoolForKey:@"full_screen_notify"];
         quest.goFunction               = [activeQuestDict validStringForKey:@"go_function"];
         quest.sortNum                  = [activeQuestDict validIntForKey:@"sort_index"]; 
@@ -1140,7 +1136,7 @@
         quest.name                     = [completedQuestDict validStringForKey:@"name"]; 
         quest.media_id                  = [completedQuestDict validIntForKey:@"complete_media_id"];
         quest.icon_media_id              = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
-        quest.qdescription             = [completedQuestDict validStringForKey:@"text_when_complete"];
+        quest.desc             = [completedQuestDict validStringForKey:@"text_when_complete"];
         quest.fullScreenNotification   = [completedQuestDict validBoolForKey:@"complete_full_screen_notify"]; 
         quest.goFunction               = [completedQuestDict validStringForKey:@"complete_go_function"];
         quest.sortNum                  = [completedQuestDict validIntForKey:@"sort_index"]; 

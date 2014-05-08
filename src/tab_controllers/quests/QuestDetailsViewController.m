@@ -103,7 +103,7 @@
 {
     [scrollView addSubview:webView]; 
     webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-    [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.qdescription] baseURL:nil];  
+    [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.desc] baseURL:nil];  
     
     Media *media = [_MODEL_MEDIA_ mediaForId:quest.media_id];
     if(media)
@@ -138,7 +138,7 @@
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
-    if(![quest.qdescription isEqualToString:@""])
+    if(![quest.desc isEqualToString:@""])
     {
         webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
         scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);

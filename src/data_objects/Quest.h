@@ -13,7 +13,7 @@
 	int questId;
 	NSString *name;
     
-	NSString *qdescription;
+	NSString *desc;
     NSString *goFunction;
     int media_id;
 	int icon_media_id;
@@ -26,7 +26,7 @@
 @property(readwrite, assign) int questId;
 @property(copy, readwrite) NSString *name;
 
-@property(copy, readwrite) NSString *qdescription;
+@property(copy, readwrite) NSString *desc;
 @property(copy, readwrite) NSString *goFunction;
 @property(readwrite, assign) int media_id;
 @property(readwrite, assign) int icon_media_id;

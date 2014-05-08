@@ -18,6 +18,10 @@
 
 @implementation Media
 
+@synthesize game_id;
+@synthesize media_id;
+@synthesize localURL;
+@synthesize remoteURL;
 @synthesize data;
 
 - (id) init

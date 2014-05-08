@@ -83,13 +83,13 @@
 - (void) setGame:(Game *)g
 {
 	titleLabel.text  = g.name;
-	authorLabel.text = g.authors;
+	//authorLabel.text = g.authors;
     starView.rating  = g.rating;
     
-	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:g.numReviews] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
+	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:[g.comments count]] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
     
-    if(!g.iconMedia) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
-    else             [iconView setMedia:g.iconMedia];
+    if(!g.icon_media_id) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
+    else                 [iconView setMedia:[_MODEL_MEDIA_ mediaForId:g.icon_media_id]];
     
     //set to distance by default
     customLabel.text   = [NSString stringWithFormat:@"%1.1f %@", g.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")]; 

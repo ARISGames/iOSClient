@@ -50,11 +50,6 @@
     return self;
 }
 
-- (GameObjectType) type
-{
-    return GameObjectPlayer;
-}
-
 - (int) compareTo:(User *)ob
 {
     return self.user_id == ob.user_id;
@@ -68,11 +63,6 @@
 - (int) icon_media_id
 {
     return 126853;
-}
-
-- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s
-{
-    return nil;
 }
 
 @end

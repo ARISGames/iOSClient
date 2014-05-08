@@ -22,4 +22,6 @@
 @property(nonatomic, strong) NSString *url;
 @property(readwrite, assign) int icon_media_id;
 
+- (id) initWithDictionary:(NSDictionary *)dict;
+
 @end

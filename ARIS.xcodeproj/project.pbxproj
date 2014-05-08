@@ -213,7 +213,7 @@
 		AABC73B7172739D80074CC21 /* MediaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70E9172739D60074CC21 /* MediaModel.m */; };
 		AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EC172739D60074CC21 /* QuestsModel.m */; };
 		AABC73B9172739D80074CC21 /* MyCLController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EE172739D60074CC21 /* MyCLController.m */; };
-		AABC73BE172739D80074CC21 /* NodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70F9172739D60074CC21 /* NodeViewController.m */; };
+		AABC73BE172739D80074CC21 /* PlaqueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70F9172739D60074CC21 /* PlaqueViewController.m */; };
 		AABC73C0172739D80074CC21 /* Script.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70FD172739D60074CC21 /* Script.m */; };
 		AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7101172739D60074CC21 /* ScriptElement.m */; };
 		AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7103172739D60074CC21 /* ScriptParser.m */; };
@@ -626,8 +626,8 @@
 		AABC70EC172739D60074CC21 /* QuestsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsModel.m; sourceTree = "<group>"; };
 		AABC70ED172739D60074CC21 /* MyCLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCLController.h; sourceTree = "<group>"; };
 		AABC70EE172739D60074CC21 /* MyCLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCLController.m; sourceTree = "<group>"; };
-		AABC70F8172739D60074CC21 /* NodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeViewController.h; sourceTree = "<group>"; };
-		AABC70F9172739D60074CC21 /* NodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeViewController.m; sourceTree = "<group>"; };
+		AABC70F8172739D60074CC21 /* PlaqueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaqueViewController.h; sourceTree = "<group>"; };
+		AABC70F9172739D60074CC21 /* PlaqueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaqueViewController.m; sourceTree = "<group>"; };
 		AABC70FC172739D60074CC21 /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script.h; sourceTree = "<group>"; };
 		AABC70FD172739D60074CC21 /* Script.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Script.m; sourceTree = "<group>"; };
 		AABC7100172739D60074CC21 /* ScriptElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptElement.h; sourceTree = "<group>"; };
@@ -1399,7 +1399,7 @@
 				AAAC4352172EDDB300C92DF0 /* GameObjectViewController.h */,
 				AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */,
 				AABC70F2172739D60074CC21 /* item */,
-				AABC70F6172739D60074CC21 /* node */,
+				AABC70F6172739D60074CC21 /* plaque */,
 				AABC70FA172739D60074CC21 /* npc */,
 				AA2B4A68182A976100A0D2A1 /* note */,
 				AABC7108172739D60074CC21 /* webpage */,
@@ -1418,12 +1418,13 @@
 			path = item;
 			sourceTree = "<group>";
 		};
-		AABC70F6172739D60074CC21 /* node */ = {
+		AABC70F6172739D60074CC21 /* plaque */ = {
 			isa = PBXGroup;
 			children = (
-				AABC70F8172739D60074CC21 /* NodeViewController.h */,
-				AABC70F9172739D60074CC21 /* NodeViewController.m */,
+				AABC70F8172739D60074CC21 /* PlaqueViewController.h */,
+				AABC70F9172739D60074CC21 /* PlaqueViewController.m */,
 			);
+			name = plaque;
 			path = node;
 			sourceTree = "<group>";
 		};
@@ -2075,7 +2076,7 @@
 				AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */,
 				AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */,
 				AABC73B9172739D80074CC21 /* MyCLController.m in Sources */,
-				AABC73BE172739D80074CC21 /* NodeViewController.m in Sources */,
+				AABC73BE172739D80074CC21 /* PlaqueViewController.m in Sources */,
 				AABC73C0172739D80074CC21 /* Script.m in Sources */,
 				AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */,
 				AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */,

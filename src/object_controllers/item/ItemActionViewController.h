@@ -17,5 +17,5 @@
 - (void) amtChosen:(int)amt positive:(BOOL)p;
 @end
 @interface ItemActionViewController : ARISViewController
-- (id) initWithPrompt:(NSString *)s positive:(BOOL)p qty:(int)q delegate:(id)d;
+- (id) initWithPrompt:(NSString *)s positive:(BOOL)p maxqty:(int)q delegate:(id)d;
 @end

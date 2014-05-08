@@ -69,7 +69,7 @@
     quest = q;
     titleView.text = quest.name; 
     descriptionView.frame = CGRectMake(0,20,self.frame.size.width,15);
-    [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], q.qdescription] baseURL:nil];   
+    [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], q.desc] baseURL:nil];   
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv

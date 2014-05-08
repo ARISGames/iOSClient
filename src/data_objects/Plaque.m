@@ -44,11 +44,6 @@
     return self;
 }
 
-- (GameObjectType) type
-{
-    return GameObjectPlaque;
-}
-
 - (PlaqueViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d fromSource:(id)s
 {
     return [[PlaqueViewController alloc] initWithPlaque:self delegate:d];

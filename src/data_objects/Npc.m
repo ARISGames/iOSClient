@@ -7,7 +7,6 @@
 //
 
 #import "Npc.h"
-#import "NpcViewController.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Npc
@@ -50,17 +49,7 @@
     return self;
 }
 
-- (GameObjectType) type
-{
-    return GameObjectNpc;
-}
-
-- (NpcViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d fromSource:(id)s
-{
-	return [[NpcViewController alloc] initWithNpc:self delegate:d];
-}
-
--(Npc *)copy
+- (Npc *) copy
 {
     Npc *c = [[Npc alloc] init];
     c.npc_id            = self.npc_id;

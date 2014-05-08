@@ -10,8 +10,6 @@
 #import "ARISTemplate.h"
 #import "AppModel.h"
 #import "Location.h"
-#import "TileOverlay.h"
-#import "TileOverlayView.h"
 #import "MapViewController.h"
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
@@ -102,8 +100,8 @@
 	mapView.delegate = self;
     mapView.showsUserLocation = _MODEL_GAME_.showPlayerLocation; 
     
-    if     ([_MODEL_GAME_.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
-    else if([_MODEL_GAME_.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
+    if     ([_MODEL_GAME_.map_type isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
+    else if([_MODEL_GAME_.map_type isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
     
     hud = [[MapHUD alloc] initWithDelegate:self];

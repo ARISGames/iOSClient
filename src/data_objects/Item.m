@@ -7,7 +7,6 @@
 //
 
 #import "Item.h"
-#import "ItemViewController.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Item
@@ -24,7 +23,7 @@
 @synthesize url;
 @synthesize type;
 
-- (Item *) init
+- (id) init
 {
     if(self = [super init])
     {
@@ -43,7 +42,7 @@
     return self;
 }
 
-- (Item *) initWithDictionary:(NSDictionary *)dict
+- (id) initWithDictionary:(NSDictionary *)dict
 {
     if(self = [super init])
     {
@@ -60,16 +59,6 @@
         self.type                 = [dict validStringForKey:@"type"]; 
     }
     return self;
-}
-
-- (GameObjectType) type
-{
-    return GameObjectItem;
-}
-
-- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d fromSource:(id<ItemViewControllerSource>)s
-{
-	return [[ItemViewController alloc] initWithItem:self delegate:d source:s];
 }
 
 - (Item *) copy

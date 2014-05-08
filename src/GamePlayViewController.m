@@ -320,13 +320,16 @@
     [self.view addSubview:gameNotificationViewController.view];
     [gameNotificationViewController startListeningToModel];
         
+    /*
     int plaque_id = _MODEL_GAME_.launchPlaqueId;
     if(plaque_id && plaque_id != 0 && [_MODEL_GAME_.questsModel.currentCompletedQuests count] < 1)
         [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:plaque_id] fromSource:self];
+     */
 }
 
 - (void) checkForDisplayCompletePlaque
 {
+    /*
     int plaque_id = _MODEL_GAME_.completePlaqueId;
     if(plaque_id != 0 &&
         [_MODEL_GAME_.questsModel.currentCompletedQuests count] == _MODEL_GAME_.questsModel.totalQuestsInGame &&
@@ -334,6 +337,7 @@
     {
         [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:plaque_id] fromSource:self];
 	}
+     */
 }
 
 - (void) displayTab:(NSString *)t

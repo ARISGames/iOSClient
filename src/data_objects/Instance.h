@@ -12,14 +12,20 @@
 @interface Instance : NSObject <GameObjectProtocol>
 {
     int instance_id;
+    NSString *type; 
     NSObject<GameObjectProtocol> *object;
     int qty;
-    BOOL infiniteQty;
+    BOOL infinite_qty;
 }
 
 @property (nonatomic, assign) int instance_id;
+@property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSObject<GameObjectProtocol> *object;
 @property (nonatomic, assign) int qty;
-@property (nonatomic, assign) BOOL infiniteQty;
+@property (nonatomic, assign) BOOL infinite_qty;
+
+- (id) initWithDictionary:(NSDictionary *)dict;
+- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s;
+- (Instance *) copy;
 
 @end

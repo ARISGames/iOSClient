@@ -27,6 +27,7 @@
 - (int) giveItemToPlayer:(int)item_id qtyToAdd:(int)qty;
 - (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty;
 - (int) qtyOwnedForItem:(int)item_id;
+- (int) qtyAllowedToGiveForItem:(int)item_id;
 - (void) clearPlayerData;
 - (void) clearGameData;
 

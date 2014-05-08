@@ -12,12 +12,14 @@
 #import "InventoryTagViewController.h"
 
 #import "Item.h"
+#import "Instance.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
 #import "ARISCollapseView.h"
 #import "AppModel.h"
+#import "Game.h"
+#import "ItemsModel.h"
 #import "MediaModel.h"
-#import "AppServices.h"
 
 #import "ARISTemplate.h"
 
@@ -44,13 +46,15 @@
 
 @implementation ItemViewController
 
+@synthesize instance;
 @synthesize item;
 
-- (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s
+- (id) initWithInstance:(Instance *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s
 {
     if(self = [super init])
     {
-        self.item = i;
+        instance = i;
+        item = (Item *)instance.object;
         delegate = d;
         source = s;
     }
@@ -78,15 +82,16 @@
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     int numButtons = 0;
-    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
-    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && self.item.dropable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
-    if([(NSObject *)source isKindOfClass:[Location class]] && (self.item.qty > 0 || self.item.infiniteQty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
+    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
+    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
+    if([(NSObject *)source isKindOfClass:[Location class]] && (instance.qty > 0 || instance.infinite_qty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
     
     line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
     
     //Web Item
-    if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
+    //if(item.itemType == ItemTypeWebPage && item.url && (![item.url isEqualToString: @"0"]) &&(![item.url isEqualToString:@""]))
+    if(false)
     {
         webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
         if(numButtons > 0) webView.scrollView.contentInset = UIEdgeInsetsMake(64,0,54,0);
@@ -97,7 +102,7 @@
         webView.allowsInlineMediaPlayback       = YES;
         webView.mediaPlaybackRequiresUserAction = NO;
         
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"item_id=%d",self.item.item_id]];
+        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:item.url]] withAppendation:[NSString stringWithFormat:@"item_id=%d",item.item_id]];
     }
     //Normal Item
     else
@@ -111,8 +116,8 @@
         scrollView.delegate = self;
         
         Media *media;
-        if(self.item.media_id) media = [_MODEL_MEDIA_ mediaForId:self.item.media_id];
-        else                  media = [_MODEL_MEDIA_ mediaForId:self.item.icon_media_id];
+        if(item.media_id) media = [_MODEL_MEDIA_ mediaForId:item.media_id];
+        else                  media = [_MODEL_MEDIA_ mediaForId:item.icon_media_id];
         
         if(media)
         {
@@ -124,7 +129,7 @@
         }
     }
     
-    if(![self.item.idescription isEqualToString:@""])
+    if(![item.desc isEqualToString:@""])
     {
         descriptionView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
         descriptionView.userInteractionEnabled   = NO;
@@ -132,7 +137,7 @@
         descriptionView.scrollView.bounces       = NO;
         descriptionView.opaque                   = NO;
         descriptionView.backgroundColor = [UIColor clearColor];
-        [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], self.item.idescription] baseURL:nil];
+        [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], item.desc] baseURL:nil];
         collapseView = [[ARISCollapseView alloc] initWithContentView:descriptionView frame:CGRectMake(0,self.view.bounds.size.height-(10+((numButtons > 0)*44)),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     }
     
@@ -161,8 +166,8 @@
 
 - (void) refreshTitle
 {
-    if(item.qty < 2 || self.item.infiniteQty) self.title = item.name; 
-    else self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
+    if(instance.qty < 2 || instance.infinite_qty) self.title = item.name; 
+    else self.title = [NSString stringWithFormat:@"%@ x%d",item.name,instance.qty];
 }
 
 - (void) updateViewButtons
@@ -172,7 +177,7 @@
     if(pickupBtn)  [pickupBtn  removeFromSuperview]; 
     if(line)       [line       removeFromSuperview]; 
     
-    if(item.qty < 1 && !self.item.infiniteQty)
+    if(instance.qty < 1 && !instance.infinite_qty)
     {
         destroyBtn = nil;
         dropBtn    = nil; 
@@ -205,19 +210,21 @@
 
 - (void) dropButtonTouched
 {	
-    if(self.item.qty > 1 && !self.item.infiniteQty)
+    int amtCanDrop = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
+    
+    if(amtCanDrop > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDropKey", @"") positive:NO qty:self.item.qty delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDropKey", @"") positive:NO maxqty:instance.qty delegate:self]; 
+        
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
-    else 
-        [self dropItemQty:1];
+    else if(amtCanDrop > 0)
+        [self dropItemQty:1]; 
 }
 
 - (void) dropItemQty:(int)q
 {
-    [[AppServices sharedAppServices] updateServerDropItemHere:item.item_id qty:q];
-    if([_MODEL_GAME_.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
+    if([_MODEL_ITEMS_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
         [self updateViewButtons]; 
@@ -227,19 +234,21 @@
 
 - (void) destroyButtonTouched
 {
-    if(self.item.qty > 1 && !self.item.infiniteQty)
+    int amtCanDestroy = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
+    
+    if(amtCanDestroy > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDeleteKey", @"") positive:NO qty:self.item.qty delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDeleteKey", @"") positive:NO maxqty:instance.qty delegate:self]; 
+        
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
-    else 
+    else if(amtCanDestroy > 0)
         [self destroyItemQty:1];
 }
 
 - (void) destroyItemQty:(int)q
 {
-    [[AppServices sharedAppServices] updateServerDestroyItem:self.item.item_id qty:q];
-    if([_MODEL_GAME_.inventoryModel removeItemFromInventory:item qtyToRemove:q] == 0) [self dismissSelf];
+    if([_MODEL_ITEMS_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
         [self updateViewButtons];  
@@ -249,63 +258,23 @@
 
 - (void) pickupButtonTouched
 {
-    if(self.item.qty > 1 && !self.item.infiniteQty)
+    int amtMoreCanHold = [_MODEL_ITEMS_ qtyAllowedToGiveForItem:item.item_id];
+    int allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
+    if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;  
+    
+    if(allowablePickupAmt > 1 && !instance.infinite_qty)
     {
-        int q = self.item.qty;
-        
-        Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.item_id];
-        if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.item_id]; invItem.qty = 0; }
-        
-        int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
-        if(q < maxPUAmt) maxPUAmt = q;
-        
-        int wc = _MODEL_ITEMS_.weightCap;
-        int cw = _MODEL_ITEMS_.currentWeight;
-        while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
-        
-        if(maxPUAmt < q) q = maxPUAmt;
-        
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES qty:q delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES maxqty:amtMoreCanHold delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
-    else 
+    else if(allowablePickupAmt > 0)
         [self pickupItemQty:1];
 }
 
 - (void) pickupItemQty:(int)q
 {
-    Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.item_id];
-    if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.item_id]; invItem.qty = 0; }
-    
-    int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
-    if(q < maxPUAmt) maxPUAmt = q;
-    
-    int wc = _MODEL_ITEMS_.weightCap;
-    int cw = _MODEL_ITEMS_.currentWeight;
-    while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
-    
-    if(maxPUAmt < q)
-    {
-        q = maxPUAmt;
-        /*
-         [ARISAlertHandler sharedAlertHandler]
-         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
-         message:[NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionCarryThatMuchKey", @""),q,NSLocalizedString(@"PickedUpKey", @"")]
-         delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-         [alert show];
-         */
-    }
-    else if(q > 0) 
-    {
-        if([(NSObject *)source isKindOfClass:[Location class]])
-        {
-            [[AppServices sharedAppServices] updateServerPickupItem:self.item.item_id fromLocation:((Location *)source).locationId qty:q];
-            [_MODEL_GAME_.locationsModel modifyQuantity:-q forLocationId:((Location *)source).locationId];
-        }
-        else
-            [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.item_id addQty:q];
-        item.qty -= q;
-    }
+    [_MODEL_GAME_.itemsModel giveItemToPlayer:item.item_id qtyToAdd:q];
+    instance.qty -= q;
     [self updateViewButtons];   
     [self refreshTitle];   
 }
@@ -408,7 +377,6 @@
 - (void) dismissSelf
 {
     int locationId = ([(NSObject *)source isKindOfClass:[Location class]]) ? ((Location *)source).locationId : 0;
-    [[AppServices sharedAppServices] updateServerItemViewed:item.item_id fromLocation:locationId];	
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
