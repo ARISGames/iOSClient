@@ -87,7 +87,7 @@
 - (void) updateServerLocationViewed:(int)locationId;
 - (void) updateServerPlaqueViewed:(int)plaque_id fromLocation:(int)locationId;
 - (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId;
-- (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId;
+- (void) updateServerWebPageViewed:(int)web_page_id fromLocation:(int)locationId;
 - (void) updateServerNpcViewed:(int)npc_id fromLocation:(int)locationId;
 - (void) updateServerMapViewed;
 - (void) updateServerQuestsViewed;

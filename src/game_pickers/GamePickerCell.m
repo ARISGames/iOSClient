@@ -11,6 +11,8 @@
 #import "ARISStarView.h"
 #import "ARISMediaView.h"
 #import "ARISTemplate.h"
+#import "AppModel.h"
+#import "MediaModel.h"
 
 @interface GamePickerCell () <ARISMediaViewDelegate>
 {
@@ -82,6 +84,7 @@
 
 - (void) setGame:(Game *)g
 {
+    /*
 	titleLabel.text  = g.name;
 	//authorLabel.text = g.authors;
     starView.rating  = g.rating;
@@ -93,6 +96,7 @@
     
     //set to distance by default
     customLabel.text   = [NSString stringWithFormat:@"%1.1f %@", g.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")]; 
+     */
 }
 
 - (void) setCustomLabelText:(NSString *)t

@@ -11,7 +11,7 @@
 
 @implementation WebPage
 
-@synthesize webPageId;
+@synthesize web_page_id;
 @synthesize name;
 @synthesize url;
 @synthesize icon_media_id;
@@ -20,7 +20,7 @@
 {
     if(self = [super init])
     {
-        self.webPageId = 0;
+        self.web_page_id = 0;
         self.name = @"WebPage";
         self.url = @"http://www.arisgames.org";
         self.icon_media_id = 0;
@@ -32,7 +32,7 @@
 {
     if(self = [super init])
     {
-        self.webPageId   = [dict validIntForKey:@"web_page_id"];
+        self.web_page_id   = [dict validIntForKey:@"web_page_id"];
         self.name        = [dict validObjectForKey:@"name"];
         self.url         = [dict validObjectForKey:@"url"];
         self.icon_media_id = [dict validIntForKey:@"icon_media_id"];
@@ -43,7 +43,7 @@
 - (id) copy
 {
     WebPage *c = [[WebPage alloc] init];
-    c.webPageId = self.webPageId;
+    c.web_page_id = self.web_page_id;
     c.name = self.name;
     c.url = self.url;
     c.icon_media_id = self.icon_media_id;
@@ -52,12 +52,12 @@
 
 - (int)compareTo:(WebPage *)ob
 {
-	return (ob.webPageId == self.webPageId);
+	return (ob.web_page_id == self.web_page_id);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"WebPage- Id:%d\tName:%@\tURL:%@\t",self.webPageId,self.name,self.url];
+    return [NSString stringWithFormat:@"WebPage- Id:%d\tName:%@\tURL:%@\t",self.web_page_id,self.name,self.url];
 }
 
 @end

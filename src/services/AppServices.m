@@ -214,12 +214,12 @@
     [connection performAsynchronousRequestWithService:@"players" method:@"plaqueViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId
+- (void) updateServerWebPageViewed:(int)web_page_id fromLocation:(int)locationId
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
                           [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
-                          [NSString stringWithFormat:@"%d",webPageId],                                   @"cwebPageId",
+                          [NSString stringWithFormat:@"%d",web_page_id],                                   @"cweb_page_id",
                           [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
                           nil];
     [connection performAsynchronousRequestWithService:@"players" method:@"webPageViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -1059,7 +1059,7 @@
     while ((dict = [enumerator nextObject]))
     {
         WebPage *tmpWebPage = [[WebPage alloc] initWithDictionary:dict];
-        [tempWebPageList setObject:tmpWebPage forKey:[NSNumber numberWithInt:tmpWebPage.webPageId]];
+        [tempWebPageList setObject:tmpWebPage forKey:[NSNumber numberWithInt:tmpWebPage.web_page_id]];
     }
     
     NSLog(@"NSNotification: GamePieceReceived");

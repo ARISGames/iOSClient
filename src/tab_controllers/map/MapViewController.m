@@ -98,7 +98,7 @@
     
     mapView = [[MKMapView alloc] init];
 	mapView.delegate = self;
-    mapView.showsUserLocation = _MODEL_GAME_.showPlayerLocation; 
+    mapView.showsUserLocation = _MODEL_GAME_.show_player_location; 
     
     if     ([_MODEL_GAME_.map_type isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([_MODEL_GAME_.map_type isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
@@ -371,6 +371,7 @@
 
 - (void) refreshViewFromModel
 {
+    /*
     if(!mapView) return;
     
     //Remove old locations first
@@ -400,6 +401,7 @@
         }
     }
     [locationsToAdd removeAllObjects];
+     */
 }
 
 - (MKAnnotationView *) mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
@@ -499,32 +501,7 @@
     Location *currLocation = sender.location;
     if ([currLocation.gameObject isKindOfClass:[Item class]]) {
         Item *item = (Item *)currLocation.gameObject;
-        [self pickupItemQty:1 item:item location:currLocation]; 
         [self dismissSelection];
-    }
-}
-
-- (void) pickupItemQty:(int)q item:(Item *)item location:(Location *)location
-{
-    //this code was taken straight from ItemViewController
-    Item *invItem = [_MODEL_ITEMS_ inventoryItemForId:item.item_id];
-    if(!invItem) { invItem = [_MODEL_ITEMS_ itemForId:item.item_id]; invItem.qty = 0; invItem.infiniteQty = NO; }
-    
-    int maxPUAmt = invItem.infiniteQty ? 99999 : invItem.maxQty-invItem.qty;
-    if(q < maxPUAmt) maxPUAmt = q;
-    
-    int wc = _MODEL_ITEMS_.weightCap;
-    int cw = _MODEL_ITEMS_.currentWeight;
-    while(wc != 0 && (maxPUAmt*item.weight + cw) > wc) maxPUAmt--;
-    
-    if(maxPUAmt < q)
-    {
-        q = maxPUAmt;
-    }
-    else if(q > 0)
-    {
-        [[AppServices sharedAppServices] updateServerPickupItem:item.item_id fromLocation:location.locationId qty:q];
-        [_MODEL_GAME_.locationsModel modifyQuantity:-q forLocationId:location.locationId];
     }
 }
 
@@ -647,12 +624,6 @@
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     [self dismissSelection];
-    //ugh this is bad...
-    if(g.type == GameObjectItem && [s isKindOfClass:[Location class]])
-    {
-        ((Item *)g).qty = ((Location *)s).qty;
-        ((Item *)g).infiniteQty = ((Location *)s).infiniteQty; 
-    }
     return [delegate displayGameObject:g fromSource:s];
 }
 

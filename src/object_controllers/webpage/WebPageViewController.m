@@ -89,7 +89,7 @@
     self.webView.scalesPageToFit = YES;
     self.webView.allowsInlineMediaPlayback = YES;
     self.webView.mediaPlaybackRequiresUserAction = NO;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webPage.url]] withAppendation:[NSString stringWithFormat:@"&webPageId=%d",self.webPage.webPageId]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webPage.url]] withAppendation:[NSString stringWithFormat:@"&web_page_id=%d",self.webPage.web_page_id]];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
@@ -155,7 +155,7 @@
 {
     [self.webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [[AppServices sharedAppServices] updateServerWebPageViewed:webPage.webPageId fromLocation:0];
+    [[AppServices sharedAppServices] updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

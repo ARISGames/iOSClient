@@ -12,6 +12,7 @@
 #import "ARISCollapseView.h"
 #import "ARISWebView.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "AppServices.h"
 #import "User.h"
 #import "ARISTemplate.h"
@@ -60,8 +61,7 @@
   self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
 
   Media *pcMedia = 0;
-  if     (_MODEL_GAME_.pcMediaId != 0) pcMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_GAME_.pcMediaId];
-  else if(_MODEL_PLAYER_.media_id  != 0) pcMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
+  if(_MODEL_PLAYER_.media_id  != 0) pcMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
 
     mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeAspectFill];

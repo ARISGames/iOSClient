@@ -15,7 +15,7 @@
 - (void) loginGame:(int)game_id;
 - (void) loginPlayer:(int)user_id;
 - (void) loginGroup:(NSString *)group;
-- (void) loginWebPage:(int)webPageId;
+- (void) loginWebPage:(int)web_page_id;
 
 - (void) logoutGame;
 - (void) logoutPlayer;

@@ -70,8 +70,8 @@
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         
         self.sortableTags = [[NSMutableArray alloc] initWithCapacity:10];
-        self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[_MODEL_GAME_.inventoryModel.currentInventory count]];
-        self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:[_MODEL_GAME_.inventoryModel.currentInventory count]];
+        self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:10];
+        self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
         self.currentTagIndex = 0;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews)   name:@"NewlyAcquiredItemsAvailable"           object:nil];
@@ -98,7 +98,7 @@
     self.inventoryTable.delegate = self;
     [self.view addSubview:self.inventoryTable];
     
-    if(_MODEL_GAME_.inventoryModel.weightCap > 0)
+    if(_MODEL_ITEMS_.weightCap > 0)
     {
         self.capBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
         self.capBar.progress = 0;
@@ -118,8 +118,8 @@
     
     if(self.capBar)
     {
-        int currentWeight = _MODEL_GAME_.inventoryModel.currentWeight;
-        int weightCap     = _MODEL_GAME_.inventoryModel.weightCap;
+        int currentWeight = _MODEL_ITEMS_.currentWeight;
+        int weightCap     = _MODEL_ITEMS_.weightCap;
         self.capBar.progress = (float)((float)currentWeight/(float)weightCap);
         self.capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
     }
@@ -152,6 +152,7 @@
 
 - (void) refreshViews
 {
+    /*
     if(!self.view) return;
     
     NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
@@ -194,10 +195,12 @@
     //Apple is for some reason competing over the control of this view. Without this constantly being called, it messes everything up.
     self.tagView.contentSize = CGSizeMake([self.sortableTags count]*100,0);
     self.tagView.contentOffset = CGPointMake(0,0);    
+     */
 }
 
 - (void) loadTagViewData
 {
+    /*
     while([self.tagView.subviews count] > 0)
         [[self.tagView.subviews objectAtIndex:0] removeFromSuperview];
     
@@ -228,10 +231,12 @@
         [self.tagView addSubview:tag];
     }
     self.tagView.contentSize = CGSizeMake([self.sortableTags count]*100,0);// self.tagView.frame.size.height);
+     */
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    /*
     int rows = 0;
     for(int i = 0; i < [self.inventory count]; i++)
     {
@@ -244,6 +249,7 @@
             rows++; //untagged selected, has no tags
     }
     return rows;
+     */
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -299,6 +305,7 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -350,10 +357,12 @@
     }
     
     return cell;
+     */
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"swish" shouldVibrate:NO];
  
     Item *item;
@@ -374,6 +383,7 @@
     [delegate displayGameObject:item fromSource:self];
     
     [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[self.inventory objectAtIndex:[indexPath row]]).item_id]];
+     */
 }
 
 //Removes all content after first <br> or </br> or <br /> tags, then removes all html

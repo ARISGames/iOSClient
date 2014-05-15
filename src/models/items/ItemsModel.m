@@ -48,7 +48,7 @@
 - (void) clearGameData
 {
     [self clearPlayerData];
-    self.items = [[NSMutableDictionary alloc] init];
+    items = [[NSMutableDictionary alloc] init];
     weightCap = 0;
 }
 
@@ -64,8 +64,8 @@
     for(int i = 0; i < [newItems count]; i++)
     {
       newItem = [newItems objectAtIndex:i];
-      newItemId = [NSNumber numberWithInt:newItem.item_id]
-      if(![self.items objectForKey:newItemId]) [self.items addObject:newItem forKey:newItemId];
+      newItemId = [NSNumber numberWithInt:newItem.item_id];
+      if(![items objectForKey:newItemId]) [items setObject:newItem forKey:newItemId];
     }
 }
 
@@ -101,20 +101,22 @@
         else
         {
           delta = newInstance.qty;
-          [instances addObject:newInstance forKey:item_id];
+          [instances setObject:newInstance forKey:item_id];
         }
 
         if(delta != 0) [itemDeltas addObject:@{item_id:[NSNumber numberWithInt:delta]}];
     }
 
+    /*
     self.currentWeight = 0;
-    for (Item *item in instances)
-        self.currentWeight += item.weight*item.qty;
+    for (Instance *instance in instances)
+        self.currentWeight += instance.weight*instance.qty;
+     */
 
-    if([deltas count] > 0)
+    if([itemDeltas count] > 0)
     {
         NSLog(@"NSNotification: NewInstancesAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInstancesAvailable" object:self userInfo:@{@"deltas":deltas}]];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInstancesAvailable" object:self userInfo:@{@"deltas":itemDeltas}]];
     }
 }
 
@@ -198,10 +200,11 @@
   if(inventory) return inventory;
 
   inventory = [[NSMutableArray alloc] init];
-  for(int i = 0; i < [instances count]; i++)
+  NSArray *instancearray = [instances allValues];
+  for(int i = 0; i < [instancearray count]; i++)
   {
-    if([((Item *)[instances objectAtIndex:i].object).type isEqualToString:@"NORMAL"])
-      [inventory addObject:[instances objectAtIndex:i]];
+      if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"NORMAL"]) 
+      [inventory addObject:[instancearray objectAtIndex:i]];
   }
   return inventory;
 }
@@ -211,10 +214,11 @@
   if(attributes) return attributes;
 
   attributes = [[NSMutableArray alloc] init];
-  for(int i = 0; i < [instances count]; i++)
+  NSArray *instancearray = [instances allValues];
+  for(int i = 0; i < [instancearray count]; i++)
   {
-    if([((Item *)[instances objectAtIndex:i].object).type isEqualToString:@"NORMAL"])
-      [attributes addObject:[instances objectAtIndex:i]];
+      if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"ATTRIBUTE"]) 
+          [attributes addObject:[instancearray objectAtIndex:i]]; 
   }
   return attributes;
 }

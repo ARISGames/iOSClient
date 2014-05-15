@@ -90,9 +90,9 @@
                                                object:self.groupChannel];
 }
 
-- (void) loginWebPage:(int)webPageId
+- (void) loginWebPage:(int)web_page_id
 {
-    self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",webPageId]];
+    self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",web_page_id]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveWebPageChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification

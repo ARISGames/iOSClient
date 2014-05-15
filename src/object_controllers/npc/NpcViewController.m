@@ -86,6 +86,7 @@
 {
     [super viewDidAppearFirstTime:animated];
     
+    /*
     if([[self.npc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
     {
         [self displayOptionsVC];
@@ -96,6 +97,7 @@
         [self displayScriptVC];
         [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.greeting plaque_id:-1 hasViewed:NO]];
     }
+     */
 }
 
 - (void) optionChosen:(NpcScriptOption *)o
@@ -125,7 +127,7 @@
         else if([type isEqualToString:@"plaque"])
             [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:typeId] fromSource:self];
         else if([type isEqualToString:@"webpage"])
-            [delegate displayGameObject:[_MODEL_GAME_ webpageForWebpageId:typeId] fromSource:self];
+            [delegate displayGameObject:[_MODEL_WEBPAGES_ webPageForId:typeId] fromSource:self];
         else if([type isEqualToString:@"item"])
             [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:typeId] fromSource:self];
         else if([type isEqualToString:@"character"])
@@ -208,6 +210,7 @@
 
 - (void) leaveConversationRequested
 {
+    /*
     if ([[self.npc.closing stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""]) {
         [self dismissSelf];
     }
@@ -216,6 +219,7 @@
         [self displayScriptVC];
         [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.closing plaque_id:-1 hasViewed:NO]];
     }
+     */
 }
 
 - (void) dismissSelf

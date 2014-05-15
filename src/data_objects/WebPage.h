@@ -11,13 +11,13 @@
 
 @interface WebPage : NSObject <GameObjectProtocol>
 {
-    int webPageId;
+    int web_page_id;
 	NSString *name;
 	NSString *url;    
 	int icon_media_id; 
 }
 
-@property(readwrite, assign) int webPageId;
+@property(readwrite, assign) int web_page_id;
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSString *url;
 @property(readwrite, assign) int icon_media_id;

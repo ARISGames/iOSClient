@@ -151,7 +151,7 @@
 {
     //[delegate gameObjectViewControllerRequestsDismissal:self];
     //WebPage *w = [[WebPage alloc] init];
-    //w.webPageId = plaque.plaque_id;
+    //w.web_page_id = plaque.plaque_id;
     //w.url = [r.URL absoluteString];
     //[(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
 

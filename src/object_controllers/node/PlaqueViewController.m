@@ -115,11 +115,11 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) loadPlaque
 {
-    if(![plaque.text isEqualToString:@""])
+    if(![plaque.desc isEqualToString:@""])
     {
         [scrollView addSubview:webView]; 
         webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], plaque.text] baseURL:nil]; 
+        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], plaque.desc] baseURL:nil]; 
     }
     
     Media *media = [_MODEL_MEDIA_ mediaForId:plaque.media_id];  
@@ -133,7 +133,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
-    if(![plaque.text isEqualToString:@""])
+    if(![plaque.desc isEqualToString:@""])
     {
         webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
         scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
@@ -155,7 +155,7 @@ static NSString * const OPTION_CELL = @"option";
 {
     [delegate gameObjectViewControllerRequestsDismissal:self];
     WebPage *w = [[WebPage alloc] init];
-    w.webPageId = plaque.plaque_id;
+    w.web_page_id = plaque.plaque_id;
     w.url = [r.URL absoluteString];
     [(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
 
