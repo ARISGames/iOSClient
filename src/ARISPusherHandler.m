@@ -106,7 +106,7 @@
     
     if([event.name isEqualToString:@"alert"])
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"GameNoticeKey", @"") message:event.data];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherGameEventReceived" object:event]];
+    _ARIS_NOTIF_SEND_(@"PusherGameEventReceived",event,nil);
 }
 
 - (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification
@@ -116,23 +116,21 @@
     
     if([event.name isEqualToString:@"alert"])
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"PlayerNoticeKey", @"") message:event.data];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherPlayerEventReceived" object:event]];
+    _ARIS_NOTIF_SEND_(@"PusherPlayerEventReceived",event,nil);
 }
 
 - (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"group"].location == NSNotFound) return;
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherGroupEventReceived" object:event]];
+    _ARIS_NOTIF_SEND_(@"PusherGroupEventReceived",event,nil);
 }
 
 - (void) didReceiveWebPageChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"webPage"].location == NSNotFound) return;
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherWebPageEventReceived" object:event]];
+    _ARIS_NOTIF_SEND_(@"PusherWebPageEventReceived",event,nil);
 }
 
 - (void) logoutGame

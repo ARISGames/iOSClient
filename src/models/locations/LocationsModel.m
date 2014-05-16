@@ -8,6 +8,7 @@
 
 #import "LocationsModel.h"
 
+
 @implementation LocationsModel
 
 @synthesize currentLocations;
@@ -95,8 +96,7 @@
                                newlyAvailableLocations,@"newlyAvailableLocations",
                                locations,@"allLocations",
                                nil];
-        NSLog(@"NSNotification: NewlyAvailableLocationsAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyAvailableLocationsAvailable" object:self userInfo:lDict]];
+        _ARIS_NOTIF_SEND_(@"NewlyAvailableLocationsAvailable",self,lDict);
     }
     if([newlyUnavailableLocations count] > 0)
     {
@@ -104,14 +104,12 @@
                                newlyUnavailableLocations,@"newlyUnavailableLocations",
                                locations,@"allLocations",
                                nil];
-        NSLog(@"NSNotification: NewlyUnavailableLocationsAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyUnavailableLocationsAvailable" object:self userInfo:lDict]];
+        _ARIS_NOTIF_SEND_(@"NewlyUnavailableLocationsAvailable",self,lDict);
     }
     NSDictionary *lDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                            locations,@"allLocations",
                            nil];
-    NSLog(@"NSNotification: LocationsAvailable");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LocationsAvailable" object:self userInfo:lDict]];
+    _ARIS_NOTIF_SEND_(@"LocationsAvailable",self,lDict);
 }
 
 - (int) modifyQuantity:(int)quantityModifier forLocationId:(int)locationId

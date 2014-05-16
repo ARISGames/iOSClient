@@ -68,8 +68,7 @@
 {
     if(listComplete)
     {
-        NSLog(@"NSNotificaiton: NewNoteListAvailable");
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteListAvailable" object:nil]; 
+        _ARIS_NOTIF_SEND_(@"NewNoteListAvailable",nil,nil); 
     }
     else
         [_SERVICES_ fetchNoteListPage:curServerPage];
@@ -103,8 +102,8 @@
     
     curServerPage++;
     if([[n.userInfo objectForKey:@"notes"] count] == 0) listComplete = 1;
-    NSLog(@"NSNotificaiton: NewNoteListAvailable");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteListAvailable" object:nil];
+
+  _ARIS_NOTIF_SEND_(@"NewNoteListAvailable",nil,nil);
 }
 
 - (void) noteDataReceived:(NSNotification *)n
@@ -112,8 +111,7 @@
     [self mergeInNotesArray:[[NSArray alloc] initWithObjects:[n.userInfo objectForKey:@"note"], nil]];
     [self invalidateNotesMatchingTagsCache];  
         
-    NSLog(@"NSNotificaiton: NoteDataAvailable");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"NoteDataAvailable" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:[n.userInfo objectForKey:@"note"],@"note",nil]];
+    _ARIS_NOTIF_SEND_(@"NoteDataAvailable",nil,@{@"note":[n.userInfo objectForKey:@"note"]});
 }
 
 - (void) mergeInNotesArray:(NSArray *)newNotes
@@ -144,8 +142,7 @@
 {
     [self mergeInNoteTagsArray:[n.userInfo objectForKey:@"noteTags"]];
     
-    NSLog(@"NSNotificaiton: NewNoteTagsListAvailable");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteTagsListAvailable" object:nil];
+  _ARIS_NOTIF_SEND_(@"NewNoteTagsListAvailable",nil,nil);
 }
 
 - (void) mergeInNoteTagsArray:(NSArray *)newNoteTags

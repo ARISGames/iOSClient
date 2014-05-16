@@ -44,8 +44,7 @@
 {
     NSArray *ids = [notification.userInfo objectForKey:@"overlayIds"];
     overlayIds = ids;
-    NSLog(@"NSNotification: NewOverlaysAvailable");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlaysAvailable" object:self userInfo:nil]];
+    _ARIS_NOTIF_SEND_(@"NewOverlaysAvailable",self,nil);
 }
 
 - (CustomMapOverlay *) overlayForOverlayId:(int)overlayId

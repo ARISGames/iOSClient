@@ -285,8 +285,7 @@
 
 - (void) notifyOfGameReset
 {
-  NSLog(@"NSNotification: GameReset");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameReset" object:nil userInfo:nil]]; 
+  _ARIS_NOTIF_SEND_(@"GameReset",nil,nil); 
 }
 
 - (void) updateServerPickupItem:(int)item_id fromLocation:(int)locationId qty:(int)qty
@@ -549,10 +548,8 @@
   NSMutableDictionary *overlayDictionaryToSend = [[NSMutableDictionary alloc] init];
   [overlayDictionaryToSend setObject:newOverlayList forKey:@"overlays"];
 
-  NSLog(@"NSNotification: OverlaysReceived");
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"OverlaysReceived" object:self userInfo:overlayDictionaryToSend];
-  NSLog(@"NSNotification: GamePieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"OverlaysReceived",self,overlayDictionaryToSend);
+  _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
 }
 
 - (void) fetchAllPlayerLists
@@ -630,8 +627,7 @@
   for(int i = 0; i < noteTagDictList.count; i++)
     [tempNoteTagList addObject:[[NoteTag alloc] initWithDictionary:[noteTagDictList objectAtIndex:i]]];
 
-  NSLog(@"NSNotification: LatestNoteTagListReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestNoteTagListReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:tempNoteTagList, @"noteTags", nil]]]; 
+  _ARIS_NOTIF_SEND_(@"LatestNoteTagListReceived",nil,[[NSDictionary alloc] initWithObjectsAndKeys:tempNoteTagList, @"noteTags", nil]); 
      */
 }
 
@@ -723,10 +719,8 @@
 
   NSMutableDictionary *overlayDictionaryToSend = [[NSMutableDictionary alloc] init];
   [overlayDictionaryToSend setObject:ids forKey:@"overlayIds"];
-  NSLog(@"NSNotification: OverlayIdsReceived");
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"OverlayIdsReceived" object:self userInfo:overlayDictionaryToSend];
-  NSLog(@"NSNotification: PlayerPieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"OverlayIdsReceived",self,overlayDictionaryToSend);
+  _ARIS_NOTIF_SEND_(@"PlayerPieceReceived",nil,nil);
 }
 
 
@@ -782,8 +776,7 @@
   for(int i = 0; i < noteDictList.count; i++)
     [tempNoteList addObject:[[Note alloc] initWithDictionary:[noteDictList objectAtIndex:i]]];
 
-  NSLog(@"NSNotification: LatestNoteListReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestNoteListReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:tempNoteList, @"notes", nil]]]; 
+    _ARIS_NOTIF_SEND_(@"LatestNoteListReceived",nil,@{@"notes":tempNoteList}); 
 }
 
 - (void) parseNoteFromJSON:(ARISServiceResult *)jsonResult
@@ -791,8 +784,7 @@
   Note *note = [[Note alloc] initWithDictionary:(NSDictionary *)jsonResult.resultData];
   note.stubbed = NO;
 
-  NSLog(@"NSNotification: NoteDataReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDataReceived" object:nil userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:note, @"note", nil]]]; 
+    _ARIS_NOTIF_SEND_(@"NoteDataReceived",nil,@{@"note":note}); 
 }
 
 - (void) parseConversationOptionsFromJSON:(ARISServiceResult *)jsonResult
@@ -813,8 +805,7 @@
        */
   }
 
-  NSLog(@"NSNotification: ConversationOptionsReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationOptionsReady" object:conversationOptions]];
+  _ARIS_NOTIF_SEND_(@"ConversationOptionsReady",conversationOptions,nil);
 }
 
 - (Game *) parseGame:(NSDictionary *)gameSource
@@ -865,42 +856,36 @@
   if([_MODEL_.oneGameGameList count] > 0)
   {
     game = (Game *)[_MODEL_.oneGameGameList  objectAtIndex:0];
-    NSLog(@"NSNotification: NewOneGameGameListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListReady" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:game,@"game", nil]]];
+      _ARIS_NOTIF_SEND_(@"NewOneGameGameListReady",nil,@{@"game":game});
   }
   else
   {
-    NSLog(@"NSNotification: NewOneGameGameListFailed");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListFailed" object:nil userInfo:nil]];
+    _ARIS_NOTIF_SEND_(@"NewOneGameGameListFailed",nil,nil);
   }
 }
 
 - (void) parseNearbyGameListFromJSON:(ARISServiceResult *)jsonResult
 {
   _MODEL_.nearbyGameList = [self parseGameListFromJSON:jsonResult];
-  NSLog(@"NSNotification: NewNearbyGameListReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNearbyGameListReady" object:nil]];
+  _ARIS_NOTIF_SEND_(@"NewNearbyGameListReady",nil,nil);
 }
 
 - (void) parseAnywhereGameListFromJSON:(ARISServiceResult *)jsonResult
 {
   _MODEL_.anywhereGameList = [self parseGameListFromJSON:jsonResult];
-  NSLog(@"NSNotification: NewAnywhereGameListReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewAnywhereGameListReady" object:nil]];
+  _ARIS_NOTIF_SEND_(@"NewAnywhereGameListReady",nil,nil);
 }
 
 - (void) parseSearchGameListFromJSON:(ARISServiceResult *)jsonResult
 {
   _MODEL_.searchGameList = [self parseGameListFromJSON:jsonResult];
-  NSLog(@"NSNotification: NewSearchGameListReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewSearchGameListReady" object:nil]];
+  _ARIS_NOTIF_SEND_(@"NewSearchGameListReady",nil,nil);
 }
 
 - (void) parsePopularGameListFromJSON:(ARISServiceResult *)jsonResult
 {
   _MODEL_.popularGameList = [self parseGameListFromJSON:jsonResult];
-  NSLog(@"NSNotification: NewPopularGameListReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewPopularGameListReady" object:nil]];
+  _ARIS_NOTIF_SEND_(@"NewPopularGameListReady",nil,nil);
 }
 
 - (void) parseRecentGameListFromJSON:(ARISServiceResult *)jsonResult
@@ -916,8 +901,7 @@
 
   _MODEL_.recentGameList = tempGameList;
 
-  NSLog(@"NSNotification: NewRecentGameListReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
+  _ARIS_NOTIF_SEND_(@"NewRecentGameListReady",nil,nil);
 }
 
 - (void) saveGameComment:(NSString*)comment titled:(NSString *)t game:(int)game_id starRating:(int)rating
@@ -934,8 +918,7 @@
 
 - (void) parseLocationListFromJSON:(ARISServiceResult *)jsonResult
 {
-  NSLog(@"NSNotification: ReceivedLocationList");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
+  _ARIS_NOTIF_SEND_(@"ReceivedLocationList",nil,nil);
 
   NSArray *locationsArray = (NSArray *)jsonResult.resultData;
 
@@ -948,10 +931,8 @@
 
   //Tell everyone
   NSDictionary *locations  = [[NSDictionary alloc] initWithObjectsAndKeys:tempLocationsList,@"locations", nil];
-  NSLog(@"NSNotification: LatestPlayerLocationsReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerLocationsReceived" object:nil userInfo:locations]];
-  NSLog(@"NSNotification: PlayerPieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"LatestPlayerLocationsReceived",nil,locations);
+  _ARIS_NOTIF_SEND_(@"PlayerPieceReceived",nil,nil);
 }
 
 - (void) parseSingleMediaFromJSON:(ARISServiceResult *)jsonResult
@@ -971,10 +952,8 @@
 {
   [_MODEL_MEDIA_ syncMediaDataToCache:(NSArray *)jsonResult.resultData];
 
-  NSLog(@"NSNotification: ReceivedMediaList");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];
-  NSLog(@"NSNotification: GamePieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"ReceivedMediaList",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
 }
 
 - (void) parseGameItemListFromJSON:(ARISServiceResult *)jsonResult
@@ -985,10 +964,8 @@
   for(int i = 0; i < [JSONArray count]; i++)
     [itemsArray addObject:[[Item alloc] initWithDictionary:[JSONArray objectAtIndex:i]]];
 
-  NSLog(@"NSNotification: GameItemsReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameItemsReceived" object:nil userInfo:@{@"items":itemsArray}]];
-  NSLog(@"NSNotification: GamePieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"GameItemsReceived",nil,@{@"items":itemsArray});
+  _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
 }
 
 - (void) parseGamePlaqueListFromJSON:(ARISServiceResult *)jsonResult
@@ -1003,8 +980,7 @@
     [tempPlaqueList setObject:tmpPlaque forKey:[NSNumber numberWithInt:tmpPlaque.plaque_id]];
   }
 
-  NSLog(@"NSNotification: GamePieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
 }
 
 - (void) parseGameTabListFromJSON:(ARISServiceResult *)jsonResult
@@ -1016,12 +992,10 @@
     [tempTabList addObject:[self parseTabFromDictionary:[tabListArray objectAtIndex:i]]];
 
   //PHIL HATES THIS
-  NSLog(@"NSNotification: ReceivedTabList");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedTabList" object:nil userInfo:[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]]];
+  _ARIS_NOTIF_SEND_(@"ReceivedTabList",nil,[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]);
   //PHIL DONE HATING
 
-  NSLog(@"NSNotification: GamePieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
      */
 }
 
@@ -1038,8 +1012,7 @@
     [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npc_id]];
   }
 
-  NSLog(@"NSNotification: GamePieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
 }
 
 - (void) parseGameWebPageListFromJSON:(ARISServiceResult *)jsonResult
@@ -1055,8 +1028,7 @@
     [tempWebPageList setObject:tmpWebPage forKey:[NSNumber numberWithInt:tmpWebPage.web_page_id]];
   }
 
-  NSLog(@"NSNotification: GamePieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
 }
 
 - (void) parseInventoryFromJSON:(ARISServiceResult *)jsonResult
@@ -1067,10 +1039,8 @@
   for(int i = 0; i < [JSONArray count]; i++)
     [inventoryArray addObject:[[Instance alloc] initWithDictionary:[JSONArray objectAtIndex:i]]];
 
-  NSLog(@"NSNotification: PlayerInventoryReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerInventoryReceived" object:nil userInfo:@{@"":inventoryArray}]];
-  NSLog(@"NSNotification: PlayerPieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"PlayerInventoryReceived",nil,@{@"":inventoryArray});
+  _ARIS_NOTIF_SEND_(@"PlayerPieceReceived",nil,nil);
 }
 
 - (void) parseQRCodeObjectFromJSON:(ARISServiceResult *)jsonResult
@@ -1089,8 +1059,7 @@
     else qrCodeObject = qrCodeDictionary;
   }
 
-  NSLog(@"NSNotification: QRCodeObjectReady");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
+  _ARIS_NOTIF_SEND_(@"QRCodeObjectReady",qrCodeObject,nil);
 }
 
 - (void) parseQuestListFromJSON:(ARISServiceResult *)jsonResult
@@ -1146,10 +1115,8 @@
   [questLists setObject:activeQuestObjects forKey:@"active"];
   [questLists setObject:completedQuestObjects forKey:@"completed"];
 
-  NSLog(@"NSNotification: LatestPlayerQuestListsReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerQuestListsReceived" object:self userInfo:questLists]];
-  NSLog(@"NSNotification: PlayerPieceReceived");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
+  _ARIS_NOTIF_SEND_(@"LatestPlayerQuestListsReceived",self,questLists);
+  _ARIS_NOTIF_SEND_(@"PlayerPieceReceived",nil,nil);
 }
 
 @end

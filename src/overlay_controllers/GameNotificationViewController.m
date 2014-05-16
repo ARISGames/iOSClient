@@ -115,10 +115,8 @@
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
         
-        NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedQuestsGameNotificationSent" object:self]];
-        NSLog(@"NSNotification: NewlyActiveQuestsGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyActiveQuestsGameNotificationSent" object:self]];
+        _ARIS_NOTIF_SEND_(@"NewlyChangedQuestsGameNotificationSent",self,nil);
+        _ARIS_NOTIF_SEND_(@"NewlyActiveQuestsGameNotificationSent",self,nil);
     }
 }
 
@@ -135,10 +133,8 @@
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
         
-        NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedQuestsGameNotificationSent" object:self]];
-        NSLog(@"NSNotification: NewlyCompletedQuestsGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyCompletedQuestsGameNotificationSent" object:self]];
+        _ARIS_NOTIF_SEND_(@"NewlyChangedQuestsGameNotificationSent",self,nil);
+        _ARIS_NOTIF_SEND_(@"NewlyCompletedQuestsGameNotificationSent",self,nil);
     }
 }
 
@@ -161,8 +157,7 @@
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
         
-        NSLog(@"NSNotification: NewlyChangedItemsGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedItemsGameNotificationSent" object:self]];
+        _ARIS_NOTIF_SEND_(@"NewlyChangedItemsGameNotificationSent",self,nil);
     }
 }
 
@@ -185,8 +180,7 @@
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
         
-        NSLog(@"NSNotification: NewlyChangedItemsGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedItemsGameNotificationSent" object:self]];
+        _ARIS_NOTIF_SEND_(@"NewlyChangedItemsGameNotificationSent",self,nil);
     }
 }
 
@@ -209,8 +203,7 @@
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
 
-        NSLog(@"NSNotification: NewlyChangedAttributesGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedAttributesGameNotificationSent" object:self]];
+        _ARIS_NOTIF_SEND_(@"NewlyChangedAttributesGameNotificationSent",self,nil);
     }
 
 }
@@ -234,8 +227,7 @@
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
         
-        NSLog(@"NSNotification: NewlyChangedAttributesGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedAttributesGameNotificationSent" object:self]];
+        _ARIS_NOTIF_SEND_(@"NewlyChangedAttributesGameNotificationSent",self,nil);
     }
 }
 
@@ -246,15 +238,13 @@
     for(int i = 0; i < [newLocations count]; i++)
     {
         //Doesn't actually show a game notification...
-        NSLog(@"NSNotification: NewlyChangedLocationsGameNotificationSent");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedLocationsGameNotificationSent" object:self]];
+        _ARIS_NOTIF_SEND_(@"NewlyChangedLocationsGameNotificationSent",self,nil);
     }
 }
 
 - (void) cutOffGameNotifications
 {
-    NSLog(@"NSNotification: ClearBadgeRequest");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ClearBadgeRequest" object:self]];
+  _ARIS_NOTIF_SEND_(@"ClearBadgeRequest",self,nil);
     [notifArray   removeAllObjects];
     [popOverArray removeAllObjects];
     showingDropDown  = NO;

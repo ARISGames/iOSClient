@@ -115,8 +115,7 @@
 
     if([itemDeltas count] > 0)
     {
-        NSLog(@"NSNotification: NewInstancesAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInstancesAvailable" object:self userInfo:@{@"deltas":itemDeltas}]];
+        _ARIS_NOTIF_SEND_(@"NewInstancesAvailable",self,@{@"deltas":itemDeltas});
     }
 }
 

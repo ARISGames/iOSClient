@@ -182,8 +182,7 @@ NSString *const kARISServerServicePackage = @"v1";
     [connections removeObjectForKey:c.description];
     if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    NSLog(@"NSNotification: ConnectionLost");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConnectionLost" object:nil]];
+	_ARIS_NOTIF_SEND_(@"ConnectionLost",nil,nil);
     NSLog(@"*** ARISConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
     
     if(sr.retryOnFail)
@@ -220,8 +219,7 @@ NSString *const kARISServerServicePackage = @"v1";
     else
     {
         NSLog(@"JSONResult: Return code %d: %@",returnCode,[result objectForKey:@"returnCodeDescription"]);
-        NSLog(@"NSNotification: LogoutRequested");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil]];
+        _ARIS_NOTIF_SEND_(@"LogoutRequested",self,nil);
         return nil;
     }
 }

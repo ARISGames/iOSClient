@@ -70,8 +70,7 @@
                                newlyCompletedQuests,@"newlyCompletedQuests",
                                completedQuests,     @"allCompletedQuests",
                                nil];
-        NSLog(@"NSNotification: NewlyCompletedQuestsAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyCompletedQuestsAvailable" object:self userInfo:qDict]];
+        _ARIS_NOTIF_SEND_(@"NewlyCompletedQuestsAvailable",self,qDict);
     }
     
     //Active Quests
@@ -102,8 +101,7 @@
                                newlyActiveQuests,@"newlyActiveQuests",
                                activeQuests,     @"allActiveQuests",
                                nil];
-        NSLog(@"NSNotification: NewlyActiveQuestsAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyActiveQuestsAvailable" object:self userInfo:qDict]];
+        _ARIS_NOTIF_SEND_(@"NewlyActiveQuestsAvailable",self,qDict);
     }
 }
 

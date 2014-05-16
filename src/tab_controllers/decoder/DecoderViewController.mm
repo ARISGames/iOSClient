@@ -186,8 +186,7 @@
     if([code isEqualToString:@"log-out"])
     {
         [(id<GamePlayTabSelectorViewControllerDelegate>)delegate gameRequestsDismissal]; 
-        NSLog(@"NSNotification: LogoutRequested");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
+        _ARIS_NOTIF_SEND_(@"LogoutRequested",self,nil);
         return;
     }
     

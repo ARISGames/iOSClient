@@ -199,8 +199,7 @@
 - (void) logOut
 {
 
-      NSLog(@"NSNotification: LogoutRequested");
-      [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
+  _ARIS_NOTIF_SEND_(@"LogoutRequested",self,nil);
 }
 
 #pragma mark User Defaults
@@ -217,8 +216,7 @@
   [_SERVICES_ updateServerWithPlayerLocation];
 
   NSDictionary *locDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:l,nil] forKeys:[[NSArray alloc] initWithObjects:@"location",nil]];
-  NSLog(@"NSNotification: UserMoved");
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UserMoved" object:nil userInfo:locDict]];
+  _ARIS_NOTIF_SEND_(@"UserMoved",nil,locDict);
 }
 
 - (NSString *) applicationDocumentsDirectory

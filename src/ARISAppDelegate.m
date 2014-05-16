@@ -94,15 +94,14 @@
         [_SERVICES_ fetchOneGameGameList:_MODEL_.fallbackGameId];
     }
     else if(_MODEL_PLAYER_.user_id > 0)
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerAlreadyLoggedIn" object:nil]];
+        _ARIS_NOTIF_SEND_(@"PlayerAlreadyLoggedIn",nil,nil);
     
     [self startPollingLocation];
 }
 
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    NSLog(@"NSNotification: LowMemoryWarning");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
+  _ARIS_NOTIF_SEND_(@"LowMemoryWarning",nil,nil);
 }
 
 - (void) applicationWillResignActive:(UIApplication *)application
@@ -183,8 +182,7 @@
         case ReachableViaWWAN: { } 
         case ReachableViaWiFi:
         {
-            NSLog(@"NSNotification: WifiConnected");
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"WifiConnected" object:self]]; 
+  _ARIS_NOTIF_SEND_(@"WifiConnected",self,nil);
             break;            
         }
     }    
