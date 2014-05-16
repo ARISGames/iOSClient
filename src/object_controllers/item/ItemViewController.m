@@ -191,7 +191,7 @@
     [self.view addSubview:pickupBtn];
     if(numButtons > 0)[self.view addSubview:line];
     
-    if(collapseView) [collapseView setFrame:CGRectMake(0,self.view.bounds.size.height-((descriptionView.frame.size.height+10)+((numButtons > 0) ? 44 : 0)),self.view.frame.size.width,descriptionView.frame.size.height+10)]; 
+    if(collapseView) [collapseView setFrame:CGRectMake(0,self.view.bounds.size.height-((descriptionView.frame.size.height+10)+((numButtons > 0) ? 44 : 0)),self.view.frame.size.width,descriptionView.frame.size.height+10)];
 }
 
 - (void) passTapToDescription:(UITapGestureRecognizer *)r
@@ -325,6 +325,11 @@
     if(wv == descriptionView)
     {
         float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+        if (newHeight > (self.view.bounds.size.height - 64) * (2.0f/3.0f)) {
+            descriptionView.userInteractionEnabled = YES;
+            descriptionView.scrollView.scrollEnabled = YES;
+            newHeight = (self.view.bounds.size.height - 64) * (2.0f/3.0f);
+        }
         [collapseView setContentFrameHeight:newHeight];
         
         if(newHeight+10 < self.view.bounds.size.height-44-64)
