@@ -67,8 +67,9 @@
 {
   NSDictionary *args = 
     @{
-      @"user_name" :user_name,
-      @"password"  :password
+      @"user_name"  :user_name,
+      @"password"   :password,
+      @"permission" :@"read_write" 
     };
   [connection performAsynchronousRequestWithService:@"users" method:@"logIn" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO userInfo:nil];  
 }

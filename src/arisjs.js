@@ -65,8 +65,8 @@ var ARISJS = function(_ARIS)
     {
         var ROOT_URL = "http://arisgames.org"
         var url;
-        if(GETparams) url = ROOT_URL+'/server/json.php/v1.'+serviceName+GETparams;
-        else          url = ROOT_URL+'/server/json.php/v1.'+serviceName;
+        if(GETparams) url = ROOT_URL+'/server/json.php/v2.'+serviceName+GETparams;
+        else          url = ROOT_URL+'/server/json.php/v2.'+serviceName;
     
         var request = new XMLHttpRequest();
         request.onreadystatechange = function()

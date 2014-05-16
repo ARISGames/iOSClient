@@ -174,13 +174,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
 }
 
-- (void) userLoggedIn
-{
-  _ARIS_NOTIF_IGNORE_(@"MODEL_LOGGED_IN",self,nil);
-
-  //[delegate loginCredentialsApprovedForPlayer:p toGame:game_id newPlayer:newPlayer disableLeaveGame:disableLeaveGame];
-}
-
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
   if(textField == usernameField) { [passwordField becomeFirstResponder]; }

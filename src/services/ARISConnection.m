@@ -14,7 +14,7 @@
 #import "ARISServiceGraveyard.h"
 #import "ARISAlertHandler.h"
 
-NSString *const kARISServerServicePackage = @"v1";
+NSString *const kARISServerServicePackage = @"v2";
 
 @interface ARISConnection() <NSURLConnectionDelegate>
 {
