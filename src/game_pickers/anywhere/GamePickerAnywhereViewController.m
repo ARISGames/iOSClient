@@ -36,7 +36,7 @@
     
     if(_MODEL_.deviceLocation && _MODEL_PLAYER_) 
     {
-        [[AppServices sharedAppServices] fetchAnywhereGameList];
+        [_SERVICES_ fetchAnywhereGameList];
         [self showLoadingIndicator];
     }
 }

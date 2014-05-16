@@ -89,8 +89,7 @@
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         
         //PHIL UNAPPROVED
-        [_MODEL_ resetAllPlayerLists];
-        [_MODEL_ resetAllGameLists];
+        [_MODEL_GAME_ clearModels];
         
         forceDisplayQueue = [[ForceDisplayQueue alloc] initWithDelegate:self];
 
@@ -129,16 +128,16 @@
 - (void) startLoadingGame
 {
     [game getReadyToPlay];
-    [[AppServices sharedAppServices] fetchAllGameLists];
+    [_SERVICES_ fetchAllGameLists];
     
     //PHIL HATES THIS CHUNK
-	[[AppServices sharedAppServices] updateServerGameSelected];
+	[_SERVICES_ updateServerGameSelected];
     //PHIL DONE HATING CHUNK
 }
 
 - (void) loadingViewControllerFinishedLoadingGameData
 {
-    [[AppServices sharedAppServices] fetchAllPlayerLists];
+    [_SERVICES_ fetchAllPlayerLists];
 }
 
 - (void) loadingViewControllerFinishedLoadingPlayerData
@@ -161,7 +160,7 @@
 {
     [gameNotificationViewController stopListeningToModel];
     [gameNotificationViewController cutOffGameNotifications];
-    [game clearLocalModels];
+    [game clearModels];
     [game endPlay]; 
     //PHIL UNAPPROVED - 
     _MODEL_GAME_ = nil;
@@ -177,6 +176,7 @@
 
 - (void) setGamePlayTabBarVCsFromTabList:(NSArray *)gamePlayTabs
 {
+    /*
     gamePlayTabs = [gamePlayTabs sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"tabIndex" ascending:YES]]];
 
     NSMutableArray *gamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
@@ -248,6 +248,7 @@
     
     gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
     gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:gamePlayTabSelectorController options:nil];
+     */
 }
 
 - (void) gamePlayTabBarViewControllerRequestsNav
@@ -285,7 +286,7 @@
     
     if([s isKindOfClass:[Location class]])
     {
-        [[AppServices sharedAppServices] updateServerLocationViewed:((Location *)s).locationId];
+        [_SERVICES_ updateServerLocationViewed:((Location *)s).locationId];
         
         if(((Location *)s).deleteWhenViewed)
             [game.locationsModel removeLocation:s];

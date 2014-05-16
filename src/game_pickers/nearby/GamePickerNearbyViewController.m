@@ -37,7 +37,7 @@
     
     if(_MODEL_.deviceLocation && _MODEL_PLAYER_)  
     {
-        [[AppServices sharedAppServices] fetchNearbyGameListWithDistanceFilter:1000];
+        [_SERVICES_ fetchNearbyGameListWithDistanceFilter:1000];
         [self showLoadingIndicator];
     }
 }

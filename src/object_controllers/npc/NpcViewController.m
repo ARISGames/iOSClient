@@ -111,13 +111,13 @@
 {
     if(closingScriptPlaying && !type)
     {
-        [[AppServices sharedAppServices] updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
+        [_SERVICES_ updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
         [self dismissSelf];
     }
     
     if(type)
     {
-        [[AppServices sharedAppServices] updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
+        [_SERVICES_ updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
         [self dismissSelf];
         
         if([type isEqualToString:@"tab"])
@@ -224,7 +224,7 @@
 
 - (void) dismissSelf
 {
-    [[AppServices sharedAppServices] updateServerNpcViewed:self.npc.npc_id fromLocation:0];
+    [_SERVICES_ updateServerNpcViewed:self.npc.npc_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

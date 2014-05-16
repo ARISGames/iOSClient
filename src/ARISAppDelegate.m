@@ -43,11 +43,6 @@
     [TestFlight takeOff:@"71a0800e-c39f-43b7-9308-1d4b6a4d9f73"];
     [Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];
     
-    //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
-	//To set these defaults, edit Settings.bundle->Root.plist
-	[_MODEL_ initUserDefaults];
-    [[AppServices sharedAppServices] retryFailedRequests];
-    
     [self setApplicationUITemplates];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; 
@@ -93,12 +88,10 @@
 - (void) applicationDidBecomeActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Application Became Active");
-	[_MODEL_       loadUserDefaults];
-    
     if(_MODEL_.fallbackGameId != 0 && !_MODEL_GAME_)
     {
         [[NSNotificationCenter defaultCenter] addObserver:window.rootViewController selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil]; 
-        [[AppServices sharedAppServices] fetchOneGameGameList:_MODEL_.fallbackGameId];
+        [_SERVICES_ fetchOneGameGameList:_MODEL_.fallbackGameId];
     }
     else if(_MODEL_PLAYER_.user_id > 0)
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerAlreadyLoggedIn" object:nil]];
@@ -129,7 +122,7 @@
 
 - (void) startPollingLocation
 {
-    locationPoller = [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
+    //locationPoller = [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
 }
 
 - (void) stopPollingLocation
@@ -177,7 +170,7 @@
     {
         NSString *gameID = [url lastPathComponent];
         [[NSNotificationCenter defaultCenter] addObserver:window.rootViewController selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
-        [[AppServices sharedAppServices] fetchOneGameGameList:[gameID intValue]];
+        [_SERVICES_ fetchOneGameGameList:[gameID intValue]];
     }
     return YES;
 }

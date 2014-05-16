@@ -192,7 +192,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) continueButtonTouched
 {
-	[[AppServices sharedAppServices] updateServerPlaqueViewed:plaque.plaque_id fromLocation:0];
+	[_SERVICES_ updateServerPlaqueViewed:plaque.plaque_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

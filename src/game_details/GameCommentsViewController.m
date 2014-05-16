@@ -125,7 +125,7 @@
 
 - (void) reviewCreatedWithRating:(int)r title:(NSString *)t text:(NSString *)s
 {
-    [[AppServices sharedAppServices] saveGameComment:s titled:t game:game.game_id starRating:r];
+    [_SERVICES_ saveGameComment:s titled:t game:game.game_id starRating:r];
     
     GameComment *gc = [[GameComment alloc] init];
     gc.title = t;

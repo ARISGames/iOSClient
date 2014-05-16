@@ -7,8 +7,8 @@
 //
 
 #import "MediaModel.h"
+#import "AppModel.h"
 #import "AppServices.h"
-#import "Media.h"
 #import "MediaCD.h"
 
 #import "NSDictionary+ValidParsers.h"

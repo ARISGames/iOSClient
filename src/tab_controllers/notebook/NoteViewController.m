@@ -172,6 +172,7 @@
 
 - (void) displayDataFromNote
 {
+    /*
     if([note.tags count] > 0) tag.text = ((NoteTag*)[note.tags objectAtIndex:0]).text;
     title.text = note.name;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -214,6 +215,7 @@
     
     [commentsDisplay setComments:note.comments];  
     [self formatSubviews];
+     */
 }
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
@@ -246,6 +248,7 @@
 
 - (void) commentConfirmed:(NSString *)c
 {
+    /*
     [[AppServices sharedAppServices] addComment:c fromPlayer:_MODEL_PLAYER_ toNote:note];
     NoteComment *nc = [[NoteComment alloc] init];
     nc.noteId = note.noteId; 
@@ -254,6 +257,7 @@
     [note.comments addObject:nc];
     [commentsDisplay setComments:note.comments];  
     scrollView.contentOffset = CGPointMake(0,-64);   
+     */
 }
 
 - (void) backButtonTouched

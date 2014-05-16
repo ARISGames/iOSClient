@@ -115,7 +115,7 @@
     self.locationsModel = nil; 
 }
 
-- (void) clearLocalModels
+- (void) clearModels
 {
     [self.plaquesModel   clearGameData];  
     [self.itemsModel     clearGameData];  

@@ -11,4 +11,31 @@
 
 //#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+//
+//NSNotification sugar so you don't have to write a novel every time you want to send a message
+//
+
+#define _ARIS_NOTIF_ [NSNotificationCenter defaultCenter]
+
+#define _ARIS_NOTIF_SEND_(arg_name,arg_object,arg_info) \
+({ \
+NSLog(@"NSNotification: "arg_name); \
+[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:arg_name object:arg_object userInfo:arg_info]]; \
+})
+
+#define _ARIS_NOTIF_LISTEN_(arg_name,arg_observer,arg_selector,arg_object) \
+({ \
+[[NSNotificationCenter defaultCenter] addObserver:arg_observer selector:arg_selector name:arg_name object:arg_object]; \
+})
+
+#define _ARIS_NOTIF_IGNORE_(arg_name,arg_observer,arg_object) \
+({ \
+[[NSNotificationCenter defaultCenter] removeObserver:arg_observer name:arg_name object:arg_object]; \
+})
+
+#define _ARIS_NOTIF_IGNORE_ALL_(arg_observer) \
+({ \
+[[NSNotificationCenter defaultCenter] removeObserver:arg_observer]; \
+})
+
 #endif

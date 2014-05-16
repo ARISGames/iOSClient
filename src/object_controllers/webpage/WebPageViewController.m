@@ -123,7 +123,7 @@
     if([(NSObject *)delegate isKindOfClass:[NpcViewController class]])
     {
         //NpcViewController *npcvc = (NpcViewController *)delegate;
-        //[[AppServices sharedAppServices] fetchNpcConversations:npcvc.currentNpc.npc_id afterViewingPlaque:npcvc.currentPlaque.plaque_id];
+        //[_SERVICES_ fetchNpcConversations:npcvc.currentNpc.npc_id afterViewingPlaque:npcvc.currentPlaque.plaque_id];
         //[npcvc showWaitingIndicatorForPlayerOptions];
     }
 }
@@ -155,7 +155,7 @@
 {
     [self.webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [[AppServices sharedAppServices] updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
+    [_SERVICES_ updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

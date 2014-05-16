@@ -10,6 +10,7 @@
 
 #import "RootViewController.h"
 
+#import "AppModel.h"
 #import "ARISAlertHandler.h"
 #import "ARISPusherHandler.h"
 
@@ -71,8 +72,8 @@
 
 - (void) loginCredentialsApprovedForPlayer:(User *)p toGame:(int)game_id newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
 {
+    /*
     [_MODEL_ commitPlayerLogin:p];
-    //[[ARISPusherHandler sharedPusherHandler] loginPlayer:p.user_id];
     
     //PHIL HATES THIS NEXT CHUNK
     _MODEL_.disableLeaveGame = disableLeaveGame;
@@ -88,7 +89,7 @@
         {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
-            [[AppServices sharedAppServices] fetchOneGameGameList:game_id];
+            [_SERVICES_ fetchOneGameGameList:game_id];
         }
     }
     //PHIL DONE HATING CHUNK
@@ -97,6 +98,7 @@
     
     if(!newPlayer && !game_id)
         [self displayContentController:gamePickersViewController];
+     */
 }
 
 - (void) playerSettingsRequested
@@ -114,7 +116,7 @@
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
-        [[AppServices sharedAppServices] fetchOneGameGameList:_MODEL_.skipGameDetails];
+        [_SERVICES_ fetchOneGameGameList:_MODEL_.skipGameDetails];
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:[NSString stringWithFormat:@"%@...", NSLocalizedString(@"ConfirmingKey", @"")]];
     }
     else

@@ -87,7 +87,7 @@
 - (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o
 {
   [delegate optionsRequestsTitle:playerTitle];
-  [[AppServices sharedAppServices] fetchNpcConversations:n.npc_id afterViewingPlaque:o.plaque_id];
+  [_SERVICES_ fetchNpcConversations:n.npc_id afterViewingPlaque:o.plaque_id];
   [self showWaitingIndicatorForPlayerOptions];
 }
 

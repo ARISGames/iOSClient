@@ -86,7 +86,7 @@
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    [[AppServices sharedAppServices] resetAndEmailNewPassword:textField.text];
+    //[_SERVICES_ resetAndEmailNewPassword:textField.text];
     return YES;
 }
 

@@ -68,7 +68,7 @@
     for(int i = 0; i < [metaConnections count]; i++)
         if(((MediaResult *)[metaConnections objectAtIndex:i]).media.media_id == mr.media.media_id) return;
     [metaConnections addObject:mr]; 
-    [[AppServices sharedAppServices] fetchMediaMeta:mr.media];
+    //[[AppServices sharedAppServices] fetchMediaMeta:mr.media];
 }
 
 - (void) retryLoadingAllMedia

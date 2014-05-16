@@ -109,8 +109,7 @@
 
     _MODEL_PLAYER_.display_name = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
 
-    [[AppServices sharedAppServices] updatePlayer:_MODEL_PLAYER_.user_id
-                                         withName:_MODEL_PLAYER_.display_name];
+    //[_SERVICES_ updatePlayer:_MODEL_PLAYER_.user_id withName:_MODEL_PLAYER_.display_name];
 
     [_MODEL_ saveUserDefaults];
 
@@ -188,7 +187,7 @@
     m.localURL = imageURL;
     m.data = imageData; 
     [self.playerPic setImage:i]; 
-    [[AppServices sharedAppServices] uploadPlayerPic:m];
+    //[_SERVICES_ uploadPlayerPic:m];
 }
 
 @end

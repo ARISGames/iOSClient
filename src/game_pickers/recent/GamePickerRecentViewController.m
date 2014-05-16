@@ -37,7 +37,7 @@
     
     if(_MODEL_.deviceLocation && _MODEL_PLAYER_)
     {
-        [[AppServices sharedAppServices] fetchRecentGameListForPlayer];
+        [_SERVICES_ fetchRecentGameListForPlayer];
         [self showLoadingIndicator];
     }
 }

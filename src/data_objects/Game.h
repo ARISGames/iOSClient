@@ -97,7 +97,7 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) getReadyToPlay;
-- (void) clearLocalModels;
 - (void) endPlay;
+- (void) clearModels;
 
 @end

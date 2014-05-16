@@ -132,7 +132,7 @@
 - (void) attemptRegistration
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registrationResponseReady:) name:@"RegistrationResponseReady" object:nil];
-    [[AppServices sharedAppServices] registerNewUser:self.usernameField.text password:self.passwordField.text firstName:@"" lastName:@"" email:self.emailField.text];
+    //[_SERVICES_ registerNewUser:self.usernameField.text password:self.passwordField.text firstName:@"" lastName:@"" email:self.emailField.text];
 }
 
 //PHIL should refactor to return the equivalent of the login package so we don't have to immediately log in

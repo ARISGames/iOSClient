@@ -39,6 +39,7 @@
 {
     if(self = [super init])
     {
+        /*
         unlabeledTag = [[NoteTag alloc] init];
         unlabeledTag.text = NSLocalizedString(@"UnlabeledKey", @"");
         unlabeledTag.noteTagId = -1;
@@ -48,6 +49,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNotesReceived:) name:@"LatestNoteListReceived" object:nil]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNoteTagsReceived:) name:@"LatestNoteTagListReceived" object:nil];  
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataReceived:)    name:@"NoteDataReceived"       object:nil];  
+         */
     }
     return self;
 }
@@ -70,7 +72,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewNoteListAvailable" object:nil]; 
     }
     else
-        [[AppServices sharedAppServices] fetchNoteListPage:curServerPage];
+        [_SERVICES_ fetchNoteListPage:curServerPage];
 }
 
 - (int) listComplete
@@ -80,12 +82,12 @@
 
 - (void) getNoteTags
 {
-    [[AppServices sharedAppServices] fetchNoteTagLists]; 
+    [_SERVICES_ fetchNoteTagLists]; 
 }
 
 - (void) getDetailsForNote:(Note *)n
 {
-    [[AppServices sharedAppServices] fetchNoteWithId:n.noteId]; 
+    [_SERVICES_ fetchNoteWithId:n.noteId]; 
 }
 
 - (void) deleteNote:(Note *)n
@@ -148,6 +150,7 @@
 
 - (void) mergeInNoteTagsArray:(NSArray *)newNoteTags
 {
+    /*
     BOOL noteTagExists = NO;
     for(int i = 0; i < [newNoteTags count]; i++)
     { 
@@ -166,6 +169,7 @@
             [self invalidateNoteTagCaches];   
         }
     }
+     */
 }
 
 - (void) invalidateNoteCaches
@@ -219,6 +223,7 @@
 
 - (NSArray *) notesMatchingTag:(NoteTag *)t
 {
+    /*
     if(![notesMatchingTags objectForKey:t.text])
     {
         NSMutableArray *constructListNotes = [[NSMutableArray alloc] initWithCapacity:10];
@@ -232,6 +237,7 @@
         [notesMatchingTags setObject:constructListNotes forKey:t.text];
     }
     return [notesMatchingTags objectForKey:t.text];
+     */
 }
 
 - (void) invalidateNoteTagCaches
@@ -242,6 +248,7 @@
 
 - (NSArray *) gameNoteTags
 {
+    /*
     if(!gameNoteTags)
     {
         NSMutableArray *constructGameNoteTags = [[NSMutableArray alloc] initWithCapacity:10];
@@ -250,10 +257,12 @@
         gameNoteTags = constructGameNoteTags;
     }
     return gameNoteTags;
+     */
 }
 
 - (NSArray *) playerNoteTags
 {
+    /*
     if(!playerNoteTags)
     {
         NSMutableArray *constructPlayerNoteTags = [[NSMutableArray alloc] initWithCapacity:10];
@@ -262,6 +271,7 @@
         playerNoteTags = constructPlayerNoteTags;
     }
     return playerNoteTags;
+     */
 }
 
 - (Note *) noteForId:(int)noteId

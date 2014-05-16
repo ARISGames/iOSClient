@@ -192,7 +192,7 @@
 {
     if(buttonIndex == 1)
     {
-        [[AppServices sharedAppServices] startOverGame:game.game_id];
+        [_SERVICES_ startOverGame:game.game_id];
         startButton.enabled =NO;
         game.has_been_played = NO;
         [self refreshFromGame];

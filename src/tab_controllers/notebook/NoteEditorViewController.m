@@ -451,7 +451,7 @@
     //feel icky about this...
     note.contents = mediaToUpload;
 
-    [[AppServices sharedAppServices] uploadNote:note];
+    //[_SERVICES_ uploadNote:note];
 
     [delegate noteEditorConfirmedNoteEdit:self note:note];
 }

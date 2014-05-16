@@ -229,7 +229,7 @@
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {
-        [[AppServices sharedAppServices] fetchAllPlayerLists];
+        [_SERVICES_ fetchAllPlayerLists];
         if([delegate respondsToSelector:@selector(ARISWebViewRequestsRefresh:)])
             [delegate ARISWebViewRequestsRefresh:self];
     }

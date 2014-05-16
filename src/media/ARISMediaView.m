@@ -83,7 +83,7 @@
     {
         [self addSpinner];
         selfDelegateHandle = [[ARISDelegateHandle alloc] initWithDelegate:self];
-        [[AppServices sharedAppServices] loadMedia:m delegateHandle:selfDelegateHandle];
+        //[_SERVICES_ loadMedia:m delegateHandle:selfDelegateHandle];
         return;//calls 'mediaLoaded' upon complete
     }
     media = m;
