@@ -29,8 +29,8 @@
     {
         delegate = d;
         
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forceDisplayEligibleLocations) name:@"UserMoved"        object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forceDisplayEligibleLocations) name:@"LocationsAvailable" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(forceDisplayEligibleLocations),nil);
+  _ARIS_NOTIF_LISTEN_(@"LocationsAvailable",self,@selector(forceDisplayEligibleLocations),nil);
 		nearbyLocationsList = [NSMutableArray arrayWithCapacity:5];
     }
     return self;

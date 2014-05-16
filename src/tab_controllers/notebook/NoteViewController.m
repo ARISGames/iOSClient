@@ -48,7 +48,7 @@
     {
         note = n;
         delegate = d;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:) name:@"NoteDataAvailable" object:nil];   
+  _ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);   
         [_MODEL_GAME_.notesModel getDetailsForNote:note];
     }
     return self;

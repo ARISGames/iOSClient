@@ -38,7 +38,7 @@
         
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"star_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"star.png"]];  
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewPopularGameListReady",self,@selector(refreshViewFromModel),nil);
     }
     return self;
 }

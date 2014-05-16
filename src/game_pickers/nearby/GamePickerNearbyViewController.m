@@ -26,7 +26,7 @@
         
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationarrow_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationarrow.png"]]; 
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewNearbyGameListReady",self,@selector(refreshViewFromModel),nil);
     }
     return self;
 }

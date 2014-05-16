@@ -48,7 +48,7 @@
     currentLeaveConversationTitle = NSLocalizedString(@"DialogEnd",@"");
     currentlyHidingLeaveConversationButton = NO;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(optionsReceivedFromNotification:) name:@"ConversationOptionsReady" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"ConversationOptionsReady",self,@selector(optionsReceivedFromNotification:),nil);
   }
   return self;
 }

@@ -20,7 +20,7 @@
     if(self = [super init])
     {
         [self clearData];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestPlayerQuestListsReceived:) name:@"LatestPlayerQuestListsReceived" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"LatestPlayerQuestListsReceived",self,@selector(latestPlayerQuestListsReceived:),nil);
     }
     return self;
 }

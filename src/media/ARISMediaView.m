@@ -152,10 +152,10 @@
     [self addPlayIcon];
     
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil]; 
+  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil); 
     avVC.moviePlayer.shouldAutoplay = NO;
     [avVC.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayVideoThumbLoaded:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:avVC.moviePlayer];
+  _ARIS_NOTIF_LISTEN_(MPMoviePlayerThumbnailImageRequestDidFinishNotification,self,@selector(displayVideoThumbLoaded:),avVC.moviePlayer);
     avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
 }
 
@@ -172,7 +172,7 @@
     [self addPlayIcon];
     
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];  
+  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);  
     avVC.moviePlayer.shouldAutoplay = NO;
     avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;  
     image = [UIImage imageNamed:@"sound_with_bg.png"];

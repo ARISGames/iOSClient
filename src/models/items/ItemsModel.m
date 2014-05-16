@@ -33,8 +33,8 @@
     if(self = [super init])
     {
         [self clearGameData];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameItemsReceived:)       name:@"GameItemsReceived"       object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerInstancesReceived:) name:@"PlayerInstancesReceived" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"GameItemsReceived",self,@selector(gameItemsReceived:),nil);
+  _ARIS_NOTIF_LISTEN_(@"PlayerInstancesReceived",self,@selector(playerInstancesReceived:),nil);
     }
     return self;
 }

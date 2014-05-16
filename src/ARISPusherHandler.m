@@ -66,37 +66,25 @@
 - (void) loginGame:(int)game_id
 {
     self.gameChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",game_id]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveGameChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:self.gameChannel];
+  _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGameChannelEventNotification:) ,self.gameChannel);
 }
 
 - (void) loginPlayer:(int)user_id
 {
     self.playerChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",user_id]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceivePlayerChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:self.playerChannel];
+  _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceivePlayerChannelEventNotification:) ,self.playerChannel);
 }
 
 - (void) loginGroup:(NSString *)group
 {
     self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveGroupChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:self.groupChannel];
+  _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGroupChannelEventNotification:) ,self.groupChannel);
 }
 
 - (void) loginWebPage:(int)web_page_id
 {
     self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",web_page_id]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveWebPageChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:self.webPageChannel];
+  _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveWebPageChannelEventNotification:) ,self.webPageChannel);
 }
 
 - (void) didReceiveGameChannelEventNotification:(NSNotification *)notification

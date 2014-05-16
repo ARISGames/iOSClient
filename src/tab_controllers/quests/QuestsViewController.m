@@ -57,11 +57,11 @@ static int const COMPLETED_SECTION = 1;
         
         delegate = d;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"LatestPlayerQuestListsReceived" object:nil];  
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyActiveQuestsAvailable"    object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyCompletedQuestsAvailable" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)         name:@"NewlyActiveQuestsGameNotificationSent" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"ConnectionLost",self,@selector(removeLoadingIndicator),nil);
+  _ARIS_NOTIF_LISTEN_(@"LatestPlayerQuestListsReceived",self,@selector(removeLoadingIndicator),nil);  
+  _ARIS_NOTIF_LISTEN_(@"NewlyActiveQuestsAvailable",self,@selector(refreshViewFromModel),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyCompletedQuestsAvailable",self,@selector(refreshViewFromModel),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyActiveQuestsGameNotificationSent",self,@selector(incrementBadge),nil);
     }
     return self;
 }

@@ -28,7 +28,6 @@
     Reachability *reachability; 
     NSTimer *locationPoller;
     AVAudioPlayer *player;
-    
 }
 @end
 
@@ -49,7 +48,7 @@
     [self.window setRootViewController:[RootViewController sharedRootViewController]];
     [self.window makeKeyAndVisible];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+  _ARIS_NOTIF_LISTEN_(kReachabilityChangedNotification,self,@selector(reachabilityChanged:),nil);
     reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];  
 }
@@ -90,11 +89,9 @@
 	NSLog(@"ARIS: Application Became Active");
     if(_MODEL_.fallbackGameId != 0 && !_MODEL_GAME_)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:window.rootViewController selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil]; 
+  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",window.rootViewController,@selector(singleGameRequestReady:),nil); 
         [_SERVICES_ fetchOneGameGameList:_MODEL_.fallbackGameId];
     }
-    else if(_MODEL_PLAYER_.user_id > 0)
-        _ARIS_NOTIF_SEND_(@"PlayerAlreadyLoggedIn",nil,nil);
     
     [self startPollingLocation];
 }
@@ -168,7 +165,7 @@
     if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"])
     {
         NSString *gameID = [url lastPathComponent];
-        [[NSNotificationCenter defaultCenter] addObserver:window.rootViewController selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",window.rootViewController,@selector(singleGameRequestReady:),nil);
         [_SERVICES_ fetchOneGameGameList:[gameID intValue]];
     }
     return YES;

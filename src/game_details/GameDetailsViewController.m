@@ -47,8 +47,8 @@
         game = g;
         
         //THIS NEXT LINE IS AWFUL. NEEDS REFACTOR.
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidIntentionallyAppear) name:@"PlayerSettingsDidDismiss" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameReset) name:@"GameReset" object:nil]; 
+  _ARIS_NOTIF_LISTEN_(@"PlayerSettingsDidDismiss",self,@selector(viewDidIntentionallyAppear),nil);
+  _ARIS_NOTIF_LISTEN_(@"GameReset",self,@selector(gameReset),nil); 
     }
     return self;
 }

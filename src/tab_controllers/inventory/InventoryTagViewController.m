@@ -74,9 +74,9 @@
         self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
         self.currentTagIndex = 0;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews)   name:@"NewlyAcquiredItemsAvailable"           object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews)   name:@"NewlyLostItemsAvailable"               object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge) name:@"NewlyChangedItemsGameNotificationSent" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredItemsAvailable",self,@selector(refreshViews),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyLostItemsAvailable",self,@selector(refreshViews),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyChangedItemsGameNotificationSent",self,@selector(incrementBadge),nil);
     }
     return self;
 }

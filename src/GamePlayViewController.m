@@ -93,8 +93,8 @@
         
         forceDisplayQueue = [[ForceDisplayQueue alloc] initWithDelegate:self];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompletePlaque) name:@"NewlyCompletedQuestsAvailable" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameTabListRecieved:)        name:@"ReceivedTabList"               object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewlyCompletedQuestsAvailable",self,@selector(checkForDisplayCompletePlaque),nil);
+  _ARIS_NOTIF_LISTEN_(@"ReceivedTabList",self,@selector(gameTabListRecieved:),nil);
         //END PHIL UNAPPROVED
     }
     return self;

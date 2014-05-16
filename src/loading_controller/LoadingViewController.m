@@ -57,8 +57,8 @@
         receivedPlayerData = 0;
         playerDataReceived = NO;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameDataReceived)   name:@"GamePieceReceived"   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDataReceived) name:@"PlayerPieceReceived" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"GamePieceReceived",self,@selector(gameDataReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"PlayerPieceReceived",self,@selector(playerDataReceived),nil);
     }
     return self;
 }

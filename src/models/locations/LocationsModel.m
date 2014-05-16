@@ -19,7 +19,7 @@
     if(self)
     {
         [self clearData];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestPlayerLocationsReceived:) name:@"LatestPlayerLocationsReceived" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"LatestPlayerLocationsReceived",self,@selector(latestPlayerLocationsReceived:),nil);
     }
     return self;
 }

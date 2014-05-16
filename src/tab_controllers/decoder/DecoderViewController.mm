@@ -49,8 +49,7 @@
         delegate = d;
         
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoadingResult:) name:@"QRCodeObjectReady" object:nil];
+    _ARIS_NOTIF_LISTEN_(@"QRCodeObjectReady",self,@selector(finishLoadingResult:),nil);
     }
     return self;
 }

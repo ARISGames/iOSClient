@@ -170,7 +170,7 @@
         //remove the movie player notification so we can override it with our own
         [[NSNotificationCenter defaultCenter] removeObserver:movieViewController name:MPMoviePlayerPlaybackDidFinishNotification object:movieViewController.moviePlayer];
         //register our callback
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:movieViewController.moviePlayer];
+  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification, self ,@selector(movieFinishedCallback:) ,movieViewController.moviePlayer);
         [((ARISViewController *)delegate).navigationController presentMoviePlayerViewControllerAnimated:movieViewController];
     }
     else{

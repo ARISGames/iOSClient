@@ -46,9 +46,9 @@
         unlabeledTag.playerCreated = NO;  
         
         [self clearData];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNotesReceived:) name:@"LatestNoteListReceived" object:nil]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestNoteTagsReceived:) name:@"LatestNoteTagListReceived" object:nil];  
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataReceived:)    name:@"NoteDataReceived"       object:nil];  
+  _ARIS_NOTIF_LISTEN_(@"LatestNoteListReceived",self,@selector(latestNotesReceived:),nil); 
+  _ARIS_NOTIF_LISTEN_(@"LatestNoteTagListReceived",self,@selector(latestNoteTagsReceived:),nil);  
+  _ARIS_NOTIF_LISTEN_(@"NoteDataReceived",self,@selector(noteDataReceived:),nil);  
          */
     }
     return self;

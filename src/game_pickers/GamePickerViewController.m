@@ -36,8 +36,8 @@
         delegate = d;
         
         gameList = [[NSArray alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFirstMoved)       name:@"UserMoved"     object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"  object:nil];
+  _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerFirstMoved),nil);
+  _ARIS_NOTIF_LISTEN_(@"ConnectionLost",self,@selector(removeLoadingIndicator),nil);
     }
     return self;
 }

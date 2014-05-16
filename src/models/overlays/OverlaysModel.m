@@ -17,8 +17,8 @@
     self = [super init];
     if (self) {
         [self clearData];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(overlaysReceived:) name:@"OverlaysReceived" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(overlayIdsReceived:) name:@"OverlayIdsReceived" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"OverlaysReceived",self,@selector(overlaysReceived:),nil);
+  _ARIS_NOTIF_LISTEN_(@"OverlayIdsReceived",self,@selector(overlayIdsReceived:),nil);
     }
     return self;
 }

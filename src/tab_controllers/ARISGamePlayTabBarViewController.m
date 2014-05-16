@@ -60,7 +60,7 @@
 - (void) initialize
 {
     badgeCount = 0;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearBadge) name:@"ClearBadgeRequest" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"ClearBadgeRequest",self,@selector(clearBadge),nil);
 }
 
 - (void) viewWillAppear:(BOOL)animated

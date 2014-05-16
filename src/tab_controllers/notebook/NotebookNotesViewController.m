@@ -51,8 +51,8 @@ const int VIEW_MODE_TAG  = 2;
         viewMode = 1;
         filterText = @"";
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newNoteListAvailable) name:@"NewNoteListAvailable" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noteDataAvailable:)   name:@"NoteDataAvailable"    object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewNoteListAvailable",self,@selector(newNoteListAvailable),nil);
+  _ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);
         
         delegate = d;
     }

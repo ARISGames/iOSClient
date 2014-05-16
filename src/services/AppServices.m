@@ -40,7 +40,7 @@
   {
     connection = [[ARISConnection alloc] initWithServer:[_MODEL_.serverURL absoluteString] graveyard:_MODEL_.servicesGraveyard];
     mediaLoader = [[ARISMediaLoader alloc] init]; 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryFailedRequests) name:@"WifiConnected" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"WifiConnected",self,@selector(retryFailedRequests),nil);
   }
   return self;
 }

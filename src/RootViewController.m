@@ -49,14 +49,18 @@
 {
     if(self = [super init])
     {
-        LoginViewController* loginViewController = [[LoginViewController alloc] initWithDelegate:self];
-        loginNavigationController = [[ARISNavigationController alloc] initWithRootViewController:loginViewController];
+        loginNavigationController = 
+            [[ARISNavigationController alloc] initWithRootViewController:
+                [[LoginViewController alloc] initWithDelegate:self]
+             ];
         
-        PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithDelegate:self];
-        playerSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:playerSettingsViewController];
+        playerSettingsNavigationController = 
+            [[ARISNavigationController alloc] initWithRootViewController:
+                [[PlayerSettingsViewController alloc] initWithDelegate:self]
+             ];
         
         //PHIL HATES THIS
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutWasRequested) name:@"LogoutRequested" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"LogoutRequested",self,@selector(logoutWasRequested),nil);
         //PHIL DONE HATING
     }
     return self;
@@ -87,8 +91,8 @@
         _MODEL_.skipGameDetails = game_id;
         if(!newPlayer)
         {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",self,@selector(singleGameRequestReady:),nil);
+  [_ARIS_NOTIF_LISTEN_(@"NewOneGameGameListFailed",self,@selector(singleGameRequestFailed:),nil);
             [_SERVICES_ fetchOneGameGameList:game_id];
         }
     }
@@ -114,8 +118,8 @@
     //PHIL HATES THIS CHUNK
     if(_MODEL_.skipGameDetails)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",self,@selector(singleGameRequestReady:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListFailed",self,@selector(singleGameRequestFailed:),nil);
         [_SERVICES_ fetchOneGameGameList:_MODEL_.skipGameDetails];
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:[NSString stringWithFormat:@"%@...", NSLocalizedString(@"ConfirmingKey", @"")]];
     }

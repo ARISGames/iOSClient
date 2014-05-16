@@ -79,15 +79,13 @@
         locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
         locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"                               object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"UserMoved"                                  object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList"                         object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToNewQueue:)    name:@"NewlyAvailableLocationsAvailable"             object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToRemoveQueue:) name:@"NewlyUnavailableLocationsAvailable"           object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)             name:@"NewlyChangedLocationsGameNotificationSent"    object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector
-         (addOverlaysToMap)              name:@"NewOverlaysAvailable"
-            object:nil];
+  _ARIS_NOTIF_LISTEN_(@"ConnectionLost",self,@selector(removeLoadingIndicator),nil);
+  _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerMoved),nil);
+  _ARIS_NOTIF_LISTEN_(@"ReceivedLocationList",self,@selector(removeLoadingIndicator),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyAvailableLocationsAvailable",self,@selector(addLocationsToNewQueue:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyUnavailableLocationsAvailable",self,@selector(addLocationsToRemoveQueue:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyChangedLocationsGameNotificationSent",self,@selector(incrementBadge),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewOverlaysAvailable",self,@selector(addOverlaysToMap),nil);
     }
     return self;
 }

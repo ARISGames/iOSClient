@@ -27,7 +27,7 @@
     {
         dataConnections = [[NSMutableDictionary alloc] initWithCapacity:10];
         metaConnections = [[NSMutableArray      alloc] initWithCapacity:10]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryLoadingAllMedia) name:@"ReceivedMediaList" object:nil]; 
+  _ARIS_NOTIF_LISTEN_(@"ReceivedMediaList",self,@selector(retryLoadingAllMedia),nil); 
     }
     return self;
 }

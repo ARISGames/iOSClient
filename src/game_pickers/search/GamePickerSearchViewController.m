@@ -49,7 +49,7 @@
         
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"search_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"search.png"]];    
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewSearchGameListReady" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewSearchGameListReady",self,@selector(refreshViewFromModel),nil);
     }
     return self;
 }

@@ -59,10 +59,9 @@
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:10];
         
 		//register for notifications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyAcquiredAttributesAvailable" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyLostAttributesAvailable"     object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)         name:@"NewlyChangedAttributesGameNotificationSent"    object:nil];
-        
+  _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredAttributesAvailable",self,@selector(refreshViewFromModel),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyLostAttributesAvailable",self,@selector(refreshViewFromModel),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyChangedAttributesGameNotificationSent",self,@selector(incrementBadge),nil);
     }
     return self;
 }

@@ -131,7 +131,7 @@
 
 - (void) attemptRegistration
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registrationResponseReady:) name:@"RegistrationResponseReady" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"RegistrationResponseReady",self,@selector(registrationResponseReady:),nil);
     //[_SERVICES_ registerNewUser:self.usernameField.text password:self.passwordField.text firstName:@"" lastName:@"" email:self.emailField.text];
 }
 

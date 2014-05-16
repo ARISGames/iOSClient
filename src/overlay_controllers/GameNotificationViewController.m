@@ -253,39 +253,13 @@
 
 - (void) startListeningToModel
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(parseActiveQuestsIntoNotifications:)
-                                                 name:@"NewlyActiveQuestsAvailable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(parseCompleteQuestsIntoNotifications:)
-                                                 name:@"NewlyCompletedQuestsAvailable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(parseReceivedItemsIntoNotifications:)
-                                                 name:@"NewlyAcquiredItemsAvailable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(parseLostItemsIntoNotifications:)
-                                                 name:@"NewlyLostItemsAvailable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(parseReceivedAttributesIntoNotifications:)
-                                                 name:@"NewlyAcquiredAttributesAvailable"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(parseLostAttributesIntoNotifications:)
-                                                 name:@"NewlyLostAttributesAvailable"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(parseAvailableLocationsIntoNotifications:)
-                                                 name:@"NewlyAvailableLocationsAvailable"
-                                               object:nil];
+  _ARIS_NOTIF_LISTEN_(@"NewlyActiveQuestsAvailable",self,@selector(parseActiveQuestsIntoNotifications:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyCompletedQuestsAvailable",self,@selector(parseCompleteQuestsIntoNotifications:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredItemsAvailable",self,@selector(parseReceivedItemsIntoNotifications:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyLostItemsAvailable",self,@selector(parseLostItemsIntoNotifications:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredAttributesAvailable",self,@selector(parseReceivedAttributesIntoNotifications:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyLostAttributesAvailable",self,@selector(parseLostAttributesIntoNotifications:),nil);
+  _ARIS_NOTIF_LISTEN_(@"NewlyAvailableLocationsAvailable",self,@selector(parseAvailableLocationsIntoNotifications:),nil);
 }
 
 - (void)stopListeningToModel
