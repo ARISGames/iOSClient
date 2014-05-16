@@ -7,6 +7,7 @@
 //
 
 #import "ARISConnection.h"
+#import "AppModel.h"
 #import "SBJson.h"
 #import "ARISServiceResult.h"
 #import "RequestCD.h"
@@ -219,7 +220,7 @@ NSString *const kARISServerServicePackage = @"v1";
     else
     {
         NSLog(@"JSONResult: Return code %d: %@",returnCode,[result objectForKey:@"returnCodeDescription"]);
-        _ARIS_NOTIF_SEND_(@"LogoutRequested",self,nil);
+        [_MODEL_ logOut];
         return nil;
     }
 }

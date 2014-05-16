@@ -27,6 +27,7 @@
 #import "NpcsModel.h"
 #import "WebPagesModel.h"
 #import "MediaModel.h"
+#import "ARISPusherHandler.h"
 
 @class ARISServiceGraveyard;
 @class MediaModel;
@@ -38,7 +39,6 @@
   BOOL showPlayerOnMap;
 
   BOOL disableLeaveGame;
-  int skipGameDetails;
   int fallbackGameId;
   BOOL hidePlayers;
 
@@ -68,7 +68,6 @@
 @property(nonatomic, assign) BOOL showPlayerOnMap;
 
 @property(nonatomic, assign) BOOL disableLeaveGame;
-@property(nonatomic, assign) int skipGameDetails;
 @property(nonatomic, assign) int fallbackGameId;
 @property(nonatomic, assign) BOOL hidePlayers;
 
@@ -99,8 +98,9 @@
 - (void) loadUserDefaults;
 
 - (void) attemptLogInWithUserName:(NSString *)user_name password:(NSString *)password;
-- (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name email:(NSString *)email password:(NSString *)password;
+- (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;
 - (void) logInPlayer:(User *)user;
+- (void) logOut;
 
 - (void) setPlayerLocation:(CLLocation *)newLocation;
 

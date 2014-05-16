@@ -31,7 +31,6 @@
 @synthesize showGamesInDevelopment;
 @synthesize showPlayerOnMap;
 @synthesize disableLeaveGame;
-@synthesize skipGameDetails;
 @synthesize fallbackGameId;
 @synthesize hidePlayers;
 @synthesize player;
@@ -63,15 +62,14 @@
   if(self = [super init])
   {
     disableLeaveGame = NO;
-    skipGameDetails  = 0;
 
     motionManager     = [[CMMotionManager alloc] init];
     servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
     mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]]; 
 
+    [self loadDefaultUserDefaults];  
+      
     _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_RECEIVED", self, @selector(loginReceived:), nil);
-    [self loadDefaultUserDefaults];
-    [self loadUserDefaults];
   }
   return self;
 }
@@ -95,7 +93,6 @@
 - (void) loadUserDefaults
 {
   NSLog(@"DefaultsState : Loading");
-
   defaults = [NSUserDefaults standardUserDefaults];
 
   NSURL *defaultServer;
@@ -118,14 +115,13 @@
   }
   self.serverURL = defaultServer;
   
-  [defaults setObject:defaultServer forKey:@"baseServerString"];
+  [defaults setObject:[defaultServer absoluteString] forKey:@"baseServerString"];
   [defaults setObject:defaultVersion forKey:@"appVersion"];
   [defaults setBool:NO forKey:@"clearCache"];
   [defaults synchronize];
 
   self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
   self.showPlayerOnMap        = [defaults boolForKey:@"showPlayerOnMap"];
-  self.fallbackGameId         = [defaults integerForKey:@"game_id"];
 
   if(!_MODEL_PLAYER_)
   {
@@ -139,6 +135,9 @@
     if(u.user_id) [self logInPlayer:u];
   }
 
+  if(!self.fallbackGameId) self.fallbackGameId = [defaults integerForKey:@"game_id"]; 
+  if(!_MODEL_GAME_ && self.fallbackGameId)
+    [_SERVICES_ fetchOneGameGameList:_MODEL_.fallbackGameId]; 
 }
 
 - (void) saveUserDefaults
@@ -198,8 +197,11 @@
 
 - (void) logOut
 {
-
-  _ARIS_NOTIF_SEND_(@"LogoutRequested",self,nil);
+  _MODEL_.fallbackGameId = 0;
+  _MODEL_PLAYER_ = nil;
+  [_PUSHER_ logoutPlayer];    
+  [_MODEL_ saveUserDefaults];
+  _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil); 
 }
 
 #pragma mark User Defaults

@@ -48,7 +48,7 @@
     [self.window setRootViewController:[RootViewController sharedRootViewController]];
     [self.window makeKeyAndVisible];
     
-  _ARIS_NOTIF_LISTEN_(kReachabilityChangedNotification,self,@selector(reachabilityChanged:),nil);
+    _ARIS_NOTIF_LISTEN_(kReachabilityChangedNotification,self,@selector(reachabilityChanged:),nil);
     reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];  
 }
@@ -87,12 +87,7 @@
 - (void) applicationDidBecomeActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Application Became Active");
-    if(_MODEL_.fallbackGameId != 0 && !_MODEL_GAME_)
-    {
-  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",window.rootViewController,@selector(singleGameRequestReady:),nil); 
-        [_SERVICES_ fetchOneGameGameList:_MODEL_.fallbackGameId];
-    }
-    
+    [_MODEL_ loadUserDefaults];
     [self startPollingLocation];
 }
 

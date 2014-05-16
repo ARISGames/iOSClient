@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define _PUSHER_ [ARISPusherHandler sharedPusherHandler]
+
 @interface ARISPusherHandler : NSObject
 
 + (ARISPusherHandler *) sharedPusherHandler;

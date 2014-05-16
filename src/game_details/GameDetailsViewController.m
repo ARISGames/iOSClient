@@ -145,9 +145,8 @@
 {
     [super viewDidAppear:animated];
     
-    if(_MODEL_.skipGameDetails)
+    if(_MODEL_.fallbackGameId)
     {
-        _MODEL_.skipGameDetails = 0;
         game.has_been_played = YES;
         [delegate gameDetailsWereConfirmed:game];  
     }

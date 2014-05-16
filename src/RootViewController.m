@@ -12,7 +12,6 @@
 
 #import "AppModel.h"
 #import "ARISAlertHandler.h"
-#import "ARISPusherHandler.h"
 
 #import "LoginViewController.h"
 #import "PlayerSettingsViewController.h"
@@ -59,9 +58,10 @@
                 [[PlayerSettingsViewController alloc] initWithDelegate:self]
              ];
         
-        //PHIL HATES THIS
-  _ARIS_NOTIF_LISTEN_(@"LogoutRequested",self,@selector(logoutWasRequested),nil);
-        //PHIL DONE HATING
+        gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];  
+        
+        _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(playerLoggedIn),nil); 
+        _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(playerLoggedOut),nil);
     }
     return self;
 }
@@ -70,39 +70,26 @@
 {
     [super viewWillAppear:animated];
 
-    if(!currentChildViewController)
+    if(!_MODEL_PLAYER_)
         [self displayContentController:loginNavigationController];
+    else if(!_MODEL_GAME_)
+        [self displayContentController:gamePickersViewController]; 
 }
 
-- (void) loginCredentialsApprovedForPlayer:(User *)p toGame:(int)game_id newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame
+- (void) playerLoggedOut
 {
-    /*
-    [_MODEL_ commitPlayerLogin:p];
-    
-    //PHIL HATES THIS NEXT CHUNK
-    _MODEL_.disableLeaveGame = disableLeaveGame;
-    if(newPlayer)
-    {
-        [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
+    gamePlayViewController = nil;
+    [self displayContentController:loginNavigationController];  
+}
+
+- (void) playerLoggedIn
+{
+    if(!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id)
         [self displayContentController:playerSettingsNavigationController];
-    }
-    if(game_id)
-    {
-        _MODEL_.skipGameDetails = game_id;
-        if(!newPlayer)
-        {
-  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",self,@selector(singleGameRequestReady:),nil);
-  [_ARIS_NOTIF_LISTEN_(@"NewOneGameGameListFailed",self,@selector(singleGameRequestFailed:),nil);
-            [_SERVICES_ fetchOneGameGameList:game_id];
-        }
-    }
-    //PHIL DONE HATING CHUNK
-    
-    gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
-    
-    if(!newPlayer && !game_id)
-        [self displayContentController:gamePickersViewController];
-     */
+    else if(!_MODEL_GAME_)
+        [self displayContentController:gamePickersViewController]; 
+    else if(gamePlayViewController)
+        [self displayContentController:gamePlayViewController];  
 }
 
 - (void) playerSettingsRequested
@@ -116,11 +103,10 @@
 - (void) playerSettingsWasDismissed
 {
     //PHIL HATES THIS CHUNK
-    if(_MODEL_.skipGameDetails)
+    if(_MODEL_.fallbackGameId)
     {
   _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",self,@selector(singleGameRequestReady:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListFailed",self,@selector(singleGameRequestFailed:),nil);
-        [_SERVICES_ fetchOneGameGameList:_MODEL_.skipGameDetails];
+        [_SERVICES_ fetchOneGameGameList:_MODEL_.fallbackGameId];
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:[NSString stringWithFormat:@"%@...", NSLocalizedString(@"ConfirmingKey", @"")]];
     }
     else
@@ -132,29 +118,20 @@
 {
     [[ARISAlertHandler sharedAlertHandler] removeNetworkAlert];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListFailed" object:nil];
     [self gamePickedForPlay:[n.userInfo objectForKey:@"game"]];
-    _MODEL_.skipGameDetails = 0; // PHIL HATES THIS
-}
-
-- (void) singleGameRequestFailed:(NSNotification *)n
-{
-    [[ARISAlertHandler sharedAlertHandler] removeNetworkAlert];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListFailed" object:nil];
-    [self displayContentController:gamePickersViewController];
+    _MODEL_.fallbackGameId = 0; // PHIL HATES THIS
 }
 
 - (void) gamePickedForPlay:(Game *)g
 {
-    [[ARISPusherHandler sharedPusherHandler] loginGame:g.game_id]; 
+    [_PUSHER_ loginGame:g.game_id]; 
     gamePlayViewController = [[GamePlayViewController alloc] initWithGame:g delegate:self];
     [self displayContentController:gamePlayViewController];
 }
 
 - (void) gameplayWasDismissed
 {
-    [[ARISPusherHandler sharedPusherHandler] logoutGame];  
+    [_PUSHER_ logoutGame];  
     [self displayContentController:gamePickersViewController];
     gamePlayViewController = nil; 
     
@@ -162,15 +139,6 @@
     _MODEL_.fallbackGameId = 0;
     [_MODEL_ saveUserDefaults];
     //PHIL DONE HATING THIS CHUNK
-}
-
-- (void) logoutWasRequested
-{
-    [[ARISPusherHandler sharedPusherHandler] logoutPlayer];   
-    _MODEL_PLAYER_ = nil;
-    [_MODEL_ saveUserDefaults];
-    [(LoginViewController *)[[loginNavigationController viewControllers] objectAtIndex:0] resetState];
-    [self displayContentController:loginNavigationController];
 }
 
 @end

@@ -185,7 +185,7 @@
     if([code isEqualToString:@"log-out"])
     {
         [(id<GamePlayTabSelectorViewControllerDelegate>)delegate gameRequestsDismissal]; 
-        _ARIS_NOTIF_SEND_(@"LogoutRequested",self,nil);
+        [_MODEL_ logOut];
         return;
     }
     

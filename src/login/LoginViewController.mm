@@ -49,6 +49,9 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   {
     delegate = d;
     self.title = NSLocalizedString(@"LoginTitleKey", @"");
+      
+    _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(resetState),nil); 
+    _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(resetState),nil); 
   }
   return self;
 }
@@ -166,17 +169,9 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 
 - (void) attemptLogin
 {
-  _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN", self, @selector(userLoggedIn), nil);
+  _MODEL_.disableLeaveGame = NO;
+  _MODEL_.fallbackGameId   = 0; 
   [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
-}
-
-- (void) attemptAutomatedUserCreation
-{
-  _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN", self, @selector(userLoggedIn), nil);
-  [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
-
-  newPlayer = YES;
-  //[_SERVICES_ createUserAndLoginWithGroup:[NSString stringWithFormat:@"%d-%@", game_id, groupName]];
 }
 
 - (void) userLoggedIn
@@ -243,7 +238,10 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
       if([terms count] > 1) groupName        = [terms objectAtIndex:1];
       if([terms count] > 2) game_id          = [[terms objectAtIndex:2] intValue];
       if([terms count] > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
-      [self attemptAutomatedUserCreation];
+       
+      _MODEL_.disableLeaveGame = disableLeaveGame;
+      _MODEL_.fallbackGameId = game_id;
+      [_MODEL_ createAccountWithUserName:usernameField.text displayName:@"" groupName:groupName email:@"" password:passwordField.text]; 
     }
     else if([terms count] > 0) //create = 0
     {
@@ -251,7 +249,10 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
       if([terms count] > 2) passwordField.text = [terms objectAtIndex:2];
       if([terms count] > 3) game_id             = [[terms objectAtIndex:3] intValue];
       if([terms count] > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
-      [self attemptLogin];
+        
+      _MODEL_.disableLeaveGame = disableLeaveGame;
+      _MODEL_.fallbackGameId = game_id; 
+      [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text]; 
     }
   }
 }

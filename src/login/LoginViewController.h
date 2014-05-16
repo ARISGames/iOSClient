@@ -17,5 +17,4 @@
 
 @interface LoginViewController : ARISViewController
 - (id) initWithDelegate:(id<LoginViewControllerDelegate>)d;
-- (void) resetState;
 @end
