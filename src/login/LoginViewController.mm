@@ -19,7 +19,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "SelfRegistrationViewController.h"
 #import "ForgotPasswordViewController.h"
 
-
 @interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate>
 {
   UITextField *usernameField;

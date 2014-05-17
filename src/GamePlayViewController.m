@@ -22,7 +22,6 @@
 #import "StateControllerProtocol.h"
 #import "Game.h"
 
-#import "LoadingViewController.h"
 #import "GameNotificationViewController.h"
 
 #import "QuestsViewController.h"
@@ -41,11 +40,10 @@
 #import "ARISNavigationController.h"
 #import "ARISTemplate.h"
 
-@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
 {
     Game *game;
 
-    LoadingViewController *loadingViewController;
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
     
@@ -62,8 +60,6 @@
     
     ForceDisplayQueue *forceDisplayQueue;
     
-    NSTimer *timeout;
-
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -83,8 +79,6 @@
         _MODEL_.fallbackGameId = game.game_id;
         [_MODEL_ saveUserDefaults];
         //PHIL DONE HATING CHUNK
-        
-        [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
 
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         
@@ -114,46 +108,9 @@
     
     if(!currentChildViewController)
     {
-        loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
-        timeout = [NSTimer scheduledTimerWithTimeInterval:15.0
-                                         target:self
-                                       selector:@selector(timeoutOfGameLoading)
-                                       userInfo:nil
-                                        repeats:NO];
-        [self displayContentController:loadingViewController];
-        [self startLoadingGame];
+        [self displayContentController:gamePlayRevealController];
+        [self beginGamePlay]; 
     }
-}
-
-- (void) startLoadingGame
-{
-    [game getReadyToPlay];
-    [_SERVICES_ fetchAllGameLists];
-    
-    //PHIL HATES THIS CHUNK
-	[_SERVICES_ updateServerGameSelected];
-    //PHIL DONE HATING CHUNK
-}
-
-- (void) loadingViewControllerFinishedLoadingGameData
-{
-    [_SERVICES_ fetchAllPlayerLists];
-}
-
-- (void) loadingViewControllerFinishedLoadingPlayerData
-{
-    //Nada
-}
-
-- (void) loadingViewControllerFinishedLoadingData
-{
-    [timeout invalidate];
-    [self displayContentController:gamePlayRevealController];
-    loadingViewController = nil;
-    [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
-    
-    //PHIL UNAPPROVED -
-    [self beginGamePlay];
 }
 
 - (void) gameRequestsDismissal
@@ -360,11 +317,6 @@
     else if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
         tab = attributesNavigationController;
     if(tab) [self viewControllerRequestedDisplay:tab]; 
-}
-
-- (void) timeoutOfGameLoading
-{
-    [delegate gameplayWasDismissed];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

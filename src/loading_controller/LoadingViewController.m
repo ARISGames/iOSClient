@@ -43,7 +43,7 @@
 
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
 {
-    if(self = [super initWithNibName:@"LoadingViewController" bundle:nil])
+    if(self = [super init])
     {
         delegate = d;
         

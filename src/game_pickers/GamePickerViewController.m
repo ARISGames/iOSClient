@@ -25,7 +25,6 @@
 
 @implementation GamePickerViewController
 
-@synthesize gameList;
 @synthesize gameTable;
 @synthesize refreshControl;
 
@@ -35,9 +34,8 @@
     {
         delegate = d;
         
-        gameList = [[NSArray alloc] init];
-  _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerFirstMoved),nil);
-  _ARIS_NOTIF_LISTEN_(@"ConnectionLost",self,@selector(removeLoadingIndicator),nil);
+        _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerFirstMoved),nil);
+        _ARIS_NOTIF_LISTEN_(@"ConnectionLost",self,@selector(removeLoadingIndicator),nil);
     }
     return self;
 }
@@ -87,7 +85,6 @@
 
 - (void) clearList
 {
-    self.gameList = [[NSArray alloc] init];
     [self.gameTable reloadData];
     
     [self removeLoadingIndicator];

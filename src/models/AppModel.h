@@ -102,6 +102,10 @@
 - (void) logInPlayer:(User *)user;
 - (void) logOut;
 
+- (void) chooseGame:(Game *)game;
+- (void) beginGame;
+- (void) leaveGame;
+
 - (void) setPlayerLocation:(CLLocation *)newLocation;
 
 - (void) commitCoreDataContexts;

@@ -25,6 +25,7 @@
 		A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7955B920F73E095005148E4 /* AudioToolbox.framework */; };
 		A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */; };
 		A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */; };
+		AA02477D1927D0DD00CF5CE3 /* GamesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02477C1927D0DD00CF5CE3 /* GamesModel.m */; };
 		AA04E33018E60E1E00621F0C /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E32F18E60E1E00621F0C /* delete@2x.png */; };
 		AA04E33218E613E400621F0C /* threelines_white.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E33118E613E400621F0C /* threelines_white.png */; };
 		AA04E33418E6140300621F0C /* location_white.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E33318E6140300621F0C /* location_white.png */; };
@@ -204,7 +205,6 @@
 		AABC73A2172739D80074CC21 /* GamePickerRecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70BE172739D60074CC21 /* GamePickerRecentViewController.m */; };
 		AABC73A4172739D80074CC21 /* GamePickerSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70C2172739D60074CC21 /* GamePickerSearchViewController.m */; };
 		AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70C7172739D60074CC21 /* LoadingViewController.m */; };
-		AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70C8172739D60074CC21 /* LoadingViewController.xib */; };
 		AABC73AA172739D80074CC21 /* LoginViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CC172739D60074CC21 /* LoginViewController.mm */; };
 		AABC73AC172739D80074CC21 /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CF172739D60074CC21 /* SelfRegistrationViewController.m */; };
 		AABC73AD172739D80074CC21 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D0172739D60074CC21 /* main.mm */; };
@@ -330,6 +330,8 @@
 		A7A172720F4F26280017E865 /* ARIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AA02477B1927D0DD00CF5CE3 /* GamesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesModel.h; sourceTree = "<group>"; };
+		AA02477C1927D0DD00CF5CE3 /* GamesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesModel.m; sourceTree = "<group>"; };
 		AA04E32F18E60E1E00621F0C /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
 		AA04E33118E613E400621F0C /* threelines_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = threelines_white.png; sourceTree = "<group>"; };
 		AA04E33318E6140300621F0C /* location_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_white.png; sourceTree = "<group>"; };
@@ -610,7 +612,6 @@
 		AABC70C2172739D60074CC21 /* GamePickerSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerSearchViewController.m; sourceTree = "<group>"; };
 		AABC70C6172739D60074CC21 /* LoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController.h; sourceTree = "<group>"; };
 		AABC70C7172739D60074CC21 /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
-		AABC70C8172739D60074CC21 /* LoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
 		AABC70CB172739D60074CC21 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		AABC70CC172739D60074CC21 /* LoginViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginViewController.mm; sourceTree = "<group>"; };
 		AABC70CE172739D60074CC21 /* SelfRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfRegistrationViewController.h; sourceTree = "<group>"; };
@@ -851,6 +852,15 @@
 				5B1D9987178CC3A700661453 /* stop@2x.png */,
 			);
 			path = audio_visualizer;
+			sourceTree = "<group>";
+		};
+		AA02477A1927D0DD00CF5CE3 /* games */ = {
+			isa = PBXGroup;
+			children = (
+				AA02477B1927D0DD00CF5CE3 /* GamesModel.h */,
+				AA02477C1927D0DD00CF5CE3 /* GamesModel.m */,
+			);
+			path = games;
 			sourceTree = "<group>";
 		};
 		AA2B4A68182A976100A0D2A1 /* note */ = {
@@ -1320,7 +1330,6 @@
 			children = (
 				AABC70C6172739D60074CC21 /* LoadingViewController.h */,
 				AABC70C7172739D60074CC21 /* LoadingViewController.m */,
-				AABC70C8172739D60074CC21 /* LoadingViewController.xib */,
 			);
 			path = loading_controller;
 			sourceTree = "<group>";
@@ -1353,6 +1362,7 @@
 				AABC70DC172739D60074CC21 /* AppModel.h */,
 				AABC70DD172739D60074CC21 /* AppModel.m */,
 				AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */,
+				AA02477A1927D0DD00CF5CE3 /* games */,
 				AAB398E5191821D400E0E766 /* plaques */,
 				AA68B2F41912E6DF000C717B /* items */,
 				AAB398E919182E0500E0E766 /* npcs */,
@@ -1968,7 +1978,6 @@
 				AA04E33018E60E1E00621F0C /* delete@2x.png in Resources */,
 				AA0D161218EDF14500D856F1 /* locationarrow_red@2x.png in Resources */,
 				AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */,
-				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
 				AA04E33418E6140300621F0C /* location_white.png in Resources */,
 				AA09B8E618E1EB5500A45562 /* video@2x.png in Resources */,
 				AA09B8EA18E1EB5500A45562 /* microphone@2x.png in Resources */,
@@ -2021,6 +2030,7 @@
 				AAF923241885D7580026A4FC /* AudioVisualizerViewController.m in Sources */,
 				AABC7375172739D80074CC21 /* AccountSettingsViewController.m in Sources */,
 				AABC7378172739D80074CC21 /* ForgotPasswordViewController.m in Sources */,
+				AA02477D1927D0DD00CF5CE3 /* GamesModel.m in Sources */,
 				AABC737A172739D80074CC21 /* PlayerSettingsViewController.m in Sources */,
 				AABC737C172739D80074CC21 /* ARISAppDelegate.m in Sources */,
 				AA8E9EA118BE3FED00F343A2 /* ARISStarView.m in Sources */,

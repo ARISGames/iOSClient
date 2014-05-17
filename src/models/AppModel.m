@@ -183,9 +183,8 @@
 {
   _MODEL_PLAYER_ = p;
   if(deviceLocation) _MODEL_PLAYER_.location = deviceLocation;
-
-  [self saveUserDefaults];
-
+  [_PUSHER_ loginPlayer:_MODEL_PLAYER_.user_id];
+  [_MODEL_ saveUserDefaults]; 
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_IN",nil,nil);
 
   //load the player media immediately if possible
@@ -197,12 +196,35 @@
 
 - (void) logOut
 {
-  _MODEL_.fallbackGameId = 0;
+  if(_MODEL_GAME_) [self leaveGame];
   _MODEL_PLAYER_ = nil;
   [_PUSHER_ logoutPlayer];    
   [_MODEL_ saveUserDefaults];
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil); 
 }
+
+- (void) chooseGame:(Game *)g
+{
+  _MODEL_GAME_ = g;
+  _MODEL_.fallbackGameId = _MODEL_GAME_.game_id;  
+  [_PUSHER_ loginGame:_MODEL_GAME_.game_id];  
+  [_MODEL_ saveUserDefaults]; 
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);  
+}
+
+- (void) beginGame
+{
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);   
+}
+
+- (void) leaveGame
+{
+  _MODEL_GAME_ = nil;
+  _MODEL_.fallbackGameId = 0; 
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);    
+}
+
+
 
 #pragma mark User Defaults
 - (void) setDeviceLocation:(CLLocation *)l

@@ -32,7 +32,7 @@
     //self.view.frame = [UIScreen mainScreen].bounds;
 }
 
-// Container VC Functions pulled from Apple Docs 5/6/13
+// Container VC Functions pulled from Apple Docs 5/6/13 (why doesn't apple just offer containerVCs if it officially recommends their implementation?)
 // http://developer.apple.com/library/ios/#featuredarticles/ViewControllerPGforiPhoneOS/CreatingCustomContainerViewControllers/CreatingCustomContainerViewControllers.html
 - (void) displayContentController:(UIViewController*)content
 {

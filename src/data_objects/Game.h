@@ -96,6 +96,7 @@
 @property (nonatomic, strong) OverlaysModel  *overlaysModel;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (void) mergeDataFromGame:(Game *)g;
 - (void) getReadyToPlay;
 - (void) endPlay;
 - (void) clearModels;

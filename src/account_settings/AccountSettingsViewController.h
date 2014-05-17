@@ -10,8 +10,7 @@
 #import "ARISViewController.h"
 
 @protocol AccountSettingsViewControllerDelegate
-- (void) playerSettingsRequested;
-- (void) logoutWasRequested;
+- (void) profileEditRequested;
 @end
 
 @interface AccountSettingsViewController : ARISViewController

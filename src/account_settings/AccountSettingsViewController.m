@@ -10,6 +10,7 @@
 #import "ForgotPasswordViewController.h"
 #import "ARISTemplate.h"
 #import "ARISSelectorHandle.h"
+#import "AppModel.h"
 
 @interface AccountSettingsViewController() <UITableViewDataSource, UITableViewDelegate>
 {
@@ -28,7 +29,7 @@
 
 @implementation AccountSettingsViewController
 
-- (id)initWithDelegate:(id<AccountSettingsViewControllerDelegate>)d
+- (id) initWithDelegate:(id<AccountSettingsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -136,7 +137,7 @@
 
 - (void) logoutButtonTouched
 {
-	[delegate logoutWasRequested];
+    [_MODEL_ logOut];
 }
 
 - (void) passButtonTouched
@@ -147,7 +148,7 @@
 
 - (void) profileButtonTouched
 {
-    [delegate playerSettingsRequested];
+    [delegate profileEditRequested];
 }
 
 - (void) dealloc

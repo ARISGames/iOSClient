@@ -92,6 +92,11 @@
     return self;
 }
 
+- (void) mergeDataFromGame:(Game *)g
+{
+    
+}
+
 - (void) getReadyToPlay
 {
     self.plaquesModel   = [[PlaquesModel   alloc] init];  
