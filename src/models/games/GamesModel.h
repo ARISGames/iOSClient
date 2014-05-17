@@ -21,6 +21,7 @@
 - (NSArray *) recentGames;
 - (NSArray *) searchGames:(NSString *)search;
 
+- (void) invalidateData; //force refresh
 - (void) clearData;
 
 @end

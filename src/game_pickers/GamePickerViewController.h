@@ -19,6 +19,7 @@
 	UITableView *gameTable;
     UIRefreshControl *refreshControl;
     
+    NSArray *gameList;
     id<GamePickerViewControllerDelegate> __unsafe_unretained delegate;
 }
 

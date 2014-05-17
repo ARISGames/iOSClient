@@ -44,7 +44,7 @@
 
 - (void) refreshViewFromModel
 {
-	self.gameList = [_MODEL_.nearbyGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
+	gameList = [_MODEL_GAMES_.nearbyGames sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
     [self.gameTable reloadData];
     
     [self removeLoadingIndicator];

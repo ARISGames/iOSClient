@@ -35,18 +35,13 @@
 @synthesize hidePlayers;
 @synthesize player;
 @synthesize game;
+@synthesize gamesModel;
+@synthesize mediaModel;
 @synthesize deviceLocation;
-@synthesize oneGameGameList;
-@synthesize nearbyGameList;
-@synthesize anywhereGameList;
-@synthesize popularGameList;
-@synthesize recentGameList;
-@synthesize searchGameList;
 @synthesize mediaManagedObjectContext;
 @synthesize requestsManagedObjectContext;
 @synthesize persistentStoreCoordinator;
 @synthesize servicesGraveyard;
-@synthesize mediaModel;
 @synthesize motionManager;
 
 + (id) sharedAppModel
@@ -65,6 +60,7 @@
 
     motionManager     = [[CMMotionManager alloc] init];
     servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
+    gamesModel        = [[GamesModel alloc] init];  
     mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]]; 
 
     [self loadDefaultUserDefaults];  

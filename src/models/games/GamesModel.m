@@ -15,11 +15,11 @@
 @interface GamesModel()
 {
   NSMutableDictionary *games;
-  NSMutableArray *nearbyGames;
-  NSMutableArray *anywhereGames;
-  NSMutableArray *popularGames;
-  NSMutableArray *recentGames;
-  NSMutableArray *searchGames; NSString *search;
+  NSMutableArray *nearbyGames;   NSDate *nearbyStamp; CLLocation *location;
+  NSMutableArray *anywhereGames; NSDate *anywhereStamp;
+  NSMutableArray *popularGames;  NSDate *popularStamp;
+  NSMutableArray *recentGames;   NSDate *recentStamp;
+  NSMutableArray *searchGames;   NSDate *searchStamp; NSString *search;
 }
 
 @end
@@ -43,12 +43,24 @@
 
 - (void) clearData
 {
+  [self invalidateData];
+    
   games = [[NSMutableDictionary alloc] init];
+    
   nearbyGames   = [[NSMutableArray alloc] init];
   anywhereGames = [[NSMutableArray alloc] init];
   popularGames  = [[NSMutableArray alloc] init];
   recentGames   = [[NSMutableArray alloc] init];
-  searchGames   = [[NSMutableArray alloc] init]; search = @"";
+  searchGames   = [[NSMutableArray alloc] init];
+}
+
+- (void) invalidateData
+{
+  nearbyStamp = nil; location = nil;
+  anywhereStamp = nil;
+  popularStamp = nil;
+  recentStamp = nil;
+  searchStamp = nil; search = nil; 
 }
 
 - (void) nearbyGamesReceived:(NSNotification *)n { [self updateNearbyGames:n.userInfo[@"games"]]; }
@@ -60,6 +72,7 @@
     [self updateGame:gs[i]];
     [nearbyGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
   }
+  _ARIS_NOTIF_SEND_(@"MODEL_NEARBY_GAMES_AVAILABLE",nil,nil); 
 }
 
 - (void) anywhereGamesReceived:(NSNotification *)n { [self updateAnywhereGames:n.userInfo[@"games"]]; }
@@ -71,6 +84,7 @@
     [self updateGame:gs[i]];
     [anywhereGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
   }
+  _ARIS_NOTIF_SEND_(@"MODEL_ANYWHERE_GAMES_AVAILABLE",nil,nil);  
 }
 
 - (void) popularGamesReceived:(NSNotification *)n { [self updatePopularGames:n.userInfo[@"games"]]; }
@@ -82,6 +96,7 @@
     [self updateGame:gs[i]];
     [popularGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
   }
+  _ARIS_NOTIF_SEND_(@"MODEL_POPULAR_GAMES_AVAILABLE",nil,nil);   
 }
 
 - (void) recentGamesReceived:(NSNotification *)n { [self updateRecentGames:n.userInfo[@"games"]]; }
@@ -93,6 +108,7 @@
     [self updateGame:gs[i]];
     [recentGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
   }
+  _ARIS_NOTIF_SEND_(@"MODEL_RECENT_GAMES_AVAILABLE",nil,nil);    
 }
 
 - (void) searchGamesReceived:(NSNotification *)n { [self updateSearchGames:n.userInfo[@"games"]]; }
@@ -104,6 +120,7 @@
     [self updateGame:gs[i]];
     [searchGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
   }
+  _ARIS_NOTIF_SEND_(@"MODEL_SEARCH_GAMES_AVAILABLE",nil,nil);     
 }
 
 - (void) gameReceived:(NSNotification *)n { [self updateGame:n.userInfo[@"game"]]; }
@@ -112,6 +129,7 @@
   Game *existingG;
   if((existingG = [self gameForId:g.game_id])) [existingG mergeDataFromGame:g];
   else games[[NSNumber numberWithInt:g.game_id]] = g;
+  _ARIS_NOTIF_SEND_(@"MODEL_GAMES_AVAILABLE",nil,@{@"game":[self gameForId:g.game_id]});      
 }
 
 - (void) updateGames:(NSArray *)newGames
@@ -129,6 +147,59 @@
 - (Game *) gameForId:(int)game_id
 {
   return [games objectForKey:[NSNumber numberWithInt:game_id]];
+}
+
+- (NSArray *) nearbyGames:(CLLocation *)l
+{
+    if(!nearbyStamp || [nearbyStamp timeIntervalSinceNow] > 120 ||
+       !location || location.coordinate.latitude != l.coordinate.latitude || location.coordinate.longitude != l.coordinate.longitude)
+    {
+        nearbyStamp = [[NSDate alloc] init];
+    }
+    
+    location = [[CLLocation alloc] initWithLatitude:l.coordinate.latitude longitude:l.coordinate.longitude];
+    return nearbyGames;
+}
+
+- (NSArray *) anywhereGames
+{
+    if(!anywhereStamp || [anywhereStamp timeIntervalSinceNow] > 120)
+    {
+        anywhereStamp = [[NSDate alloc] init]; 
+    }
+        
+    return anywhereGames; 
+}
+
+- (NSArray *) popularGames
+{
+    if(!popularStamp || [popularStamp timeIntervalSinceNow] > 120) 
+    {
+        popularStamp = [[NSDate alloc] init]; 
+    } 
+        
+    return popularGames;  
+}
+
+- (NSArray *) recentGames
+{
+    if(!recentStamp || [recentStamp timeIntervalSinceNow] > 120) 
+    {
+        recentStamp = [[NSDate alloc] init]; 
+    }  
+    
+    return recentGames;   
+}
+
+- (NSArray *) searchGames:(NSString *)s
+{
+    if(!searchStamp || [searchStamp timeIntervalSinceNow] > 120 ||
+       ![search isEqualToString:s]) 
+    {
+        searchStamp = [[NSDate alloc] init]; 
+    }   
+    
+    return searchGames;    
 }
 
 - (void) dealloc

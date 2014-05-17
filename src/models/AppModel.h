@@ -13,24 +13,24 @@
 
 #define _MODEL_ [AppModel sharedAppModel]
 #define _MODEL_PLAYER_ [AppModel sharedAppModel].player
+#define _MODEL_GAMES_ [AppModel sharedAppModel].gamesModel
+#define _MODEL_MEDIA_ [AppModel sharedAppModel].mediaModel
 #define _MODEL_GAME_ [AppModel sharedAppModel].game
 #define _MODEL_PLAQUES_ [AppModel sharedAppModel].game.plaquesModel
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].game.itemsModel
 #define _MODEL_NPCS_ [AppModel sharedAppModel].game.npcsModel
 #define _MODEL_WEBPAGES_ [AppModel sharedAppModel].game.webPagesModel
-#define _MODEL_MEDIA_ [AppModel sharedAppModel].mediaModel
 
-#import "Game.h"
 #import "User.h"
+#import "GamesModel.h"
+#import "MediaModel.h"
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
 #import "NpcsModel.h"
 #import "WebPagesModel.h"
-#import "MediaModel.h"
 #import "ARISPusherHandler.h"
 
 @class ARISServiceGraveyard;
-@class MediaModel;
 
 @interface AppModel : NSObject
 {
@@ -44,21 +44,15 @@
 
   User *player;
   Game *game;
+  GamesModel *gamesModel;  
+  MediaModel *mediaModel; 
   CLLocation *deviceLocation;
-
-  NSMutableArray *oneGameGameList;
-  NSMutableArray *nearbyGameList;
-  NSMutableArray *anywhereGameList;
-  NSMutableArray *popularGameList;
-  NSMutableArray *recentGameList;
-  NSMutableArray *searchGameList;
 
   //CORE Data
   NSManagedObjectContext *mediaManagedObjectContext;
   NSManagedObjectContext *requestsManagedObjectContext;
   NSPersistentStoreCoordinator *persistentStoreCoordinator;
   ARISServiceGraveyard *servicesGraveyard;
-  MediaModel *mediaModel;
 
   CMMotionManager *motionManager;
 }
@@ -73,21 +67,15 @@
 
 @property(nonatomic, strong) User *player;
 @property(nonatomic, strong) Game *game;
+@property(nonatomic, strong) GamesModel *gamesModel;
+@property(nonatomic, strong) MediaModel *mediaModel;
 @property(nonatomic, strong) CLLocation *deviceLocation;
-
-@property(nonatomic, strong) NSMutableArray *oneGameGameList;
-@property(nonatomic, strong) NSMutableArray *nearbyGameList;
-@property(nonatomic, strong) NSMutableArray *anywhereGameList;
-@property(nonatomic, strong) NSMutableArray *popularGameList;
-@property(nonatomic, strong) NSMutableArray *recentGameList;
-@property(nonatomic, strong) NSMutableArray *searchGameList;
 
   //CORE Data
 @property(nonatomic, strong) NSManagedObjectContext *mediaManagedObjectContext;
 @property(nonatomic, strong) NSManagedObjectContext *requestsManagedObjectContext;
 @property(nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property(nonatomic, strong) ARISServiceGraveyard *servicesGraveyard;
-@property(nonatomic, strong) MediaModel *mediaModel;
 
 @property(nonatomic, strong) CMMotionManager *motionManager;
 

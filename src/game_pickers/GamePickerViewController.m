@@ -9,7 +9,6 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
 #import "Game.h"
 #import "User.h"
 #import "GameDetailsViewController.h"
@@ -112,13 +111,13 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([self.gameList count] == 0 && _MODEL_PLAYER_.location) return 1;
-	return [self.gameList count];
+    if([gameList count] == 0 && _MODEL_PLAYER_.location) return 1;
+	return [gameList count];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([self.gameList count] == 0)
+    if([gameList count] == 0)
     {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"OffCell"];
         cell.textLabel.text = NSLocalizedString(@"GamePickerNoGamesKey", @"");
@@ -129,20 +128,21 @@
     GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:@"GameCell"];
     if(cell == nil) cell = [[GamePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GameCell"];
     
-	[cell setGame:[self.gameList objectAtIndex:indexPath.row]];
+	[cell setGame:[gameList objectAtIndex:indexPath.row]];
     
     return cell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([self.gameList count] == 0) return;
-    [delegate gamePicked:[self.gameList objectAtIndex:indexPath.row]];
+    if([gameList count] == 0) return;
+    [_MODEL_ chooseGame:gameList[indexPath.row]];
 }
 
 - (void) tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    [delegate gamePicked:[self.gameList objectAtIndex:indexPath.row]];
+    if([gameList count] == 0) return; 
+    [_MODEL_ chooseGame:gameList[indexPath.row]]; 
 }
 
 - (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -44,7 +44,7 @@
 
 - (void) refreshViewFromModel
 {
-	self.gameList = _MODEL_.recentGameList;
+	gameList = _MODEL_GAMES_.recentGames;
 	[self.gameTable reloadData];
     
     [self removeLoadingIndicator];
