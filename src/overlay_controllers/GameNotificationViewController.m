@@ -101,7 +101,7 @@
 
 - (void) enqueueDropDownNotificationWithString:(NSString *)string
 {
-    [[MTStatusBarOverlay sharedInstance] postMessage:string duration:3.0];
+    [[MTStatusBarOverlay sharedInstance] postMessage:string duration:5.0];
 }
 
 - (void) enqueuePopOverNotificationWithHeader:(NSString *)header prompt:(NSString *)prompt icon_media_id:(int)icon_media_id
