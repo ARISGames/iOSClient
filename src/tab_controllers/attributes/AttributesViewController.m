@@ -89,7 +89,7 @@
     nameLabel.frame = CGRectMake(-1, pcImage.frame.origin.y + pcImage.frame.size.height + 20, self.view.bounds.size.width + 1, 30);
     
     
-    nameLabel.text = _MODEL_PLAYER_.name;
+    nameLabel.text = _MODEL_PLAYER_.user_name;
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
     nameLabel.layer.borderWidth = 1.0f;
@@ -133,7 +133,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [attributes count];
+	return attributes.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -171,7 +171,7 @@
 	ARISMediaView *iconViewTemp;
 	if(item.icon_media_id != 0)
     {
-        if([self.iconCache count] <= indexPath.row)
+        if(self.iconCache.count <= indexPath.row)
             [self.iconCache addObject:[_MODEL_MEDIA_ mediaForId:item.icon_media_id]];
         iconViewTemp = [[ARISMediaView alloc] initWithFrame:CGRectMake(5, 5, 50, 50) delegate:self];
         [iconViewTemp setDisplayMode:ARISMediaDisplayModeAspectFit];

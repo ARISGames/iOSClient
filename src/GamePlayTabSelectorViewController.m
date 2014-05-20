@@ -137,7 +137,7 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [viewControllers count];
+    return viewControllers.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -151,7 +151,7 @@
     ARISNavigationController *anc = (ARISNavigationController *)[viewControllers objectAtIndex:indexPath.row];
     ARISGamePlayTabBarViewController *agptbvc = [anc.viewControllers objectAtIndex:0];
     
-    while([c.contentView.subviews count] > 0)
+    while(c.contentView.subviews.count > 0)
         [[c.contentView.subviews objectAtIndex:0] removeFromSuperview];
     
     if([agptbvc isKindOfClass:[MapViewController class]])

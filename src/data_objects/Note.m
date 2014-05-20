@@ -76,7 +76,7 @@
         self.tags = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *tagDict in tagDicts)
             [self.tags addObject:[[NoteTag alloc] initWithDictionary:tagDict]]; 
-        if([tagDicts count] == 0)
+        if(tagDicts.count == 0)
             [self.tags addObject:_MODEL_GAME_.notesModel.unlabeledTag];
         
         NSArray *contentDicts = [dict validObjectForKey:@"contents"];

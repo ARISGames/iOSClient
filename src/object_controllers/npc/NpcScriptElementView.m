@@ -239,7 +239,7 @@
     [delegate scriptElementViewRequestsHideContinue:!o];
 }
 
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id)g fromSource:(id)s
 {
     return NO;
 }

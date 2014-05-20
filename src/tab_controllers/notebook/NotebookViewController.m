@@ -153,9 +153,9 @@
     myNotesButton.frame       = CGRectMake(10, 174, self.view.frame.size.width-20, 30); 
     labelSelectorButton.frame = CGRectMake(10, 214, self.view.frame.size.width-20, 30);  
     
-    while([allNotesButton.subviews count]      > 0) [[allNotesButton.subviews      objectAtIndex:0] removeFromSuperview];
-    while([myNotesButton.subviews count]       > 0) [[myNotesButton.subviews       objectAtIndex:0] removeFromSuperview]; 
-    while([labelSelectorButton.subviews count] > 0) [[labelSelectorButton.subviews objectAtIndex:0] removeFromSuperview]; 
+    while(allNotesButton.subviews.count      > 0) [[allNotesButton.subviews      objectAtIndex:0] removeFromSuperview];
+    while(myNotesButton.subviews.count       > 0) [[myNotesButton.subviews       objectAtIndex:0] removeFromSuperview]; 
+    while(labelSelectorButton.subviews.count > 0) [[labelSelectorButton.subviews objectAtIndex:0] removeFromSuperview]; 
        
     UIImageView *i;
     i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward.png"]];

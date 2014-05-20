@@ -129,7 +129,7 @@ static int const COMPLETED_SECTION = 1;
     sortedActiveQuests    = [_MODEL_GAME_.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
     sortedCompletedQuests = [_MODEL_GAME_.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
     
-    if([sortedActiveQuests count] == 0)   
+    if(sortedActiveQuests.count == 0)   
     {
         Quest *nullQuest = [[Quest alloc] init];
         nullQuest.questId = -1;
@@ -138,7 +138,7 @@ static int const COMPLETED_SECTION = 1;
         nullQuest.desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoQuestsAvailableKey", @"")];
         sortedActiveQuests = [NSArray arrayWithObjects:nullQuest, nil]; 
     }
-    if([sortedCompletedQuests count] == 0)  
+    if(sortedCompletedQuests.count == 0)  
     {
         Quest *nullQuest = [[Quest alloc] init];
         nullQuest.questId = -1;
@@ -166,8 +166,8 @@ static int const COMPLETED_SECTION = 1;
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(questTypeShown == ACTIVE_SECTION)    return [sortedActiveQuests count];
-    if(questTypeShown == COMPLETED_SECTION) return [sortedCompletedQuests count];
+    if(questTypeShown == ACTIVE_SECTION)    return sortedActiveQuests.count;
+    if(questTypeShown == COMPLETED_SECTION) return sortedCompletedQuests.count;
     return 0;
 }
 
@@ -265,7 +265,7 @@ static int const COMPLETED_SECTION = 1;
     [delegate displayScannerWithPrompt:p];
 }
 
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id)g fromSource:(id)s
 {
     return [delegate displayGameObject:g fromSource:s]; 
 }

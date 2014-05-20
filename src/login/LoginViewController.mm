@@ -221,26 +221,26 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   //Create: 1,groupName,game_id,disableLeaveGame
   //Login:  0,userName,password,game_id,disableLeaveGame
   NSArray *terms  = [result componentsSeparatedByString:@","];
-  if([terms count] > 1)
+  if(terms.count > 1)
   {
     game_id = 0;
     disableLeaveGame = NO;
-    if([terms count] > 0 && [[terms objectAtIndex:0] boolValue]) //create = 1
+    if(terms.count > 0 && [[terms objectAtIndex:0] boolValue]) //create = 1
     {
-      if([terms count] > 1) groupName        = [terms objectAtIndex:1];
-      if([terms count] > 2) game_id          = [[terms objectAtIndex:2] intValue];
-      if([terms count] > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
+      if(terms.count > 1) groupName        = [terms objectAtIndex:1];
+      if(terms.count > 2) game_id          = [[terms objectAtIndex:2] intValue];
+      if(terms.count > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
        
       _MODEL_.disableLeaveGame = disableLeaveGame;
       _MODEL_.fallbackGameId = game_id;
       [_MODEL_ createAccountWithUserName:usernameField.text displayName:@"" groupName:groupName email:@"" password:passwordField.text]; 
     }
-    else if([terms count] > 0) //create = 0
+    else if(terms.count > 0) //create = 0
     {
-      if([terms count] > 1) usernameField.text = [terms objectAtIndex:1];
-      if([terms count] > 2) passwordField.text = [terms objectAtIndex:2];
-      if([terms count] > 3) game_id             = [[terms objectAtIndex:3] intValue];
-      if([terms count] > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
+      if(terms.count > 1) usernameField.text = [terms objectAtIndex:1];
+      if(terms.count > 2) passwordField.text = [terms objectAtIndex:2];
+      if(terms.count > 3) game_id             = [[terms objectAtIndex:3] intValue];
+      if(terms.count > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
         
       _MODEL_.disableLeaveGame = disableLeaveGame;
       _MODEL_.fallbackGameId = game_id; 

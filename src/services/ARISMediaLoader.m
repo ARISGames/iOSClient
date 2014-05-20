@@ -65,7 +65,7 @@
 
 - (void) loadMetaDataForMR:(MediaResult *)mr
 {
-    for(int i = 0; i < [metaConnections count]; i++)
+    for(int i = 0; i < metaConnections.count; i++)
         if(((MediaResult *)[metaConnections objectAtIndex:i]).media.media_id == mr.media.media_id) return;
     [metaConnections addObject:mr]; 
     //[[AppServices sharedAppServices] fetchMediaMeta:mr.media];
@@ -79,7 +79,7 @@
     NSMutableArray *oldMetaConnections = metaConnections;
     metaConnections = [[NSMutableArray alloc] initWithCapacity:10];
     
-    while([oldMetaConnections count] > 0)
+    while(oldMetaConnections.count > 0)
     {
         mr = [oldMetaConnections objectAtIndex:0];
         mr.media = [_MODEL_MEDIA_ mediaForId:mr.media.media_id];
@@ -126,7 +126,7 @@
 - (void) dealloc
 {
     NSArray *objects = [dataConnections allValues];
-    for(int i = 0; i < [objects count]; i++)
+    for(int i = 0; i < objects.count; i++)
         [[objects objectAtIndex:i] cancelConnection];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

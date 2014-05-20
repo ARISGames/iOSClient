@@ -41,12 +41,6 @@
     return self;
 }
 
-- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s;
-{
-    //return [[ItemViewController alloc] initWithItem:self delegate:d source:s]; 
-    return nil;
-}
-
 - (Instance *) copy
 {
     Instance *c = [[Instance alloc] init];

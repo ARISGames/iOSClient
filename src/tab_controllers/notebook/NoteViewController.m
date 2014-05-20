@@ -156,7 +156,7 @@
     else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);  
     
     int curY = desc.frame.origin.y+desc.frame.size.height;
-    for(int i = 0; i < [mediaViews count]; i++)
+    for(int i = 0; i < mediaViews.count; i++)
     {
         ((ARISMediaView *)[mediaViews objectAtIndex:i]).frame = CGRectMake(0,curY,self.view.frame.size.width,((ARISMediaView *)[mediaViews objectAtIndex:i]).frame.size.height);
         curY += ((ARISMediaView *)[mediaViews objectAtIndex:i]).frame.size.height;
@@ -164,7 +164,7 @@
     
     commentInput.view.frame = CGRectMake(0, curY, self.view.frame.size.width, commentInput.view.frame.size.height);  
     
-    if([note.comments count] > 0) commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
+    if(note.comments.count > 0) commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);  
     else                          commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 0);   
     
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);  
@@ -173,7 +173,7 @@
 - (void) displayDataFromNote
 {
     /*
-    if([note.tags count] > 0) tag.text = ((NoteTag*)[note.tags objectAtIndex:0]).text;
+    if(note.tags.count > 0) tag.text = ((NoteTag*)[note.tags objectAtIndex:0]).text;
     title.text = note.name;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
@@ -181,17 +181,17 @@
     
     desc.text = note.desc;  
     
-    NSMutableArray *tmpMediaViews = [[NSMutableArray alloc] initWithCapacity:[mediaViews count]];
-    while([mediaViews count] > 0) 
+    NSMutableArray *tmpMediaViews = [[NSMutableArray alloc] initWithCapacity:mediaViews.count];
+    while(mediaViews.count > 0) 
     {
         [[mediaViews objectAtIndex:0] removeFromSuperview];
         [tmpMediaViews addObject:[mediaViews objectAtIndex:0]];
         [mediaViews removeObjectAtIndex:0];
     }
-    for(int i = 0; i < [note.contents count]; i++)
+    for(int i = 0; i < note.contents.count; i++)
     {
         ARISMediaView *amv;
-        for(int j = 0; j < [tmpMediaViews count]; j++)
+        for(int j = 0; j < tmpMediaViews.count; j++)
         { 
             //if(((Media *)[note.contents objectAtIndex:i]).media_id == ((ARISMediaView *)[tmpMediaViews objectAtIndex:j]).media.media_id)
             if(j == i)

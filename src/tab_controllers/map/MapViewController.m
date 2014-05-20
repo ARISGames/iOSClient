@@ -282,7 +282,7 @@
 
 -(void) zoomToFitAnnotations
 {
-    if([mapView.annotations count] == 0) return;
+    if(mapView.annotations.count == 0) return;
     
     CLLocationCoordinate2D topLeftCoord;
     topLeftCoord.latitude = -90;
@@ -327,9 +327,9 @@
 {
     //Quickly make sure we're not re-adding any info (let the 'newly' added ones take over)
     NSArray *newLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
-    for(int i = 0; i < [newLocations count]; i++)
+    for(int i = 0; i < newLocations.count; i++)
     {
-        for(int j = 0; j < [locationsToAdd count]; j++)
+        for(int j = 0; j < locationsToAdd.count; j++)
         {
             if([((Location *)[newLocations objectAtIndex:i]) compareTo:((Location *)[locationsToAdd objectAtIndex:j])])
                 [locationsToAdd removeObjectAtIndex:j];
@@ -344,9 +344,9 @@
 {
     //Quickly make sure we're not re-adding any info (let the 'newly' added ones take over)
     NSArray *lostLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyUnavailableLocations"];
-    for(int i = 0; i < [lostLocations count]; i++)
+    for(int i = 0; i < lostLocations.count; i++)
     {
-        for(int j = 0; j < [locationsToRemove count]; j++)
+        for(int j = 0; j < locationsToRemove.count; j++)
         {
             if([((Location *)[lostLocations objectAtIndex:i]) compareTo:((Location *)[locationsToRemove objectAtIndex:j])])
                 [locationsToRemove removeObjectAtIndex:j];
@@ -355,9 +355,9 @@
     [locationsToRemove addObjectsFromArray:lostLocations];
     
     //If told to remove something that is in queue to add, remove takes precedence 
-    for(int i = 0; i < [locationsToRemove count]; i++)
+    for(int i = 0; i < locationsToRemove.count; i++)
     {
-        for(int j = 0; j < [locationsToAdd count]; j++)
+        for(int j = 0; j < locationsToAdd.count; j++)
         {
             if([((Location *)[locationsToRemove objectAtIndex:i]) compareTo:((Location *)[locationsToAdd objectAtIndex:j])])
                 [locationsToAdd removeObjectAtIndex:j];
@@ -389,7 +389,7 @@
     
     //Add new locations second
     Location *tmpLocation;
-    for (int i = 0; i < [locationsToAdd count]; i++)
+    for (int i = 0; i < locationsToAdd.count; i++)
     {
         tmpLocation = (Location *)[locationsToAdd objectAtIndex:i];
         if(tmpLocation.hidden == NO && !(tmpLocation.gameObject.type == GameObjectPlayer && _MODEL_.hidePlayers))
@@ -467,6 +467,7 @@
         [viewAnnotationButton setAlpha:0.0f];
         [self.view addSubview:viewAnnotationButton];
         
+        /*
         if ([location.gameObject isKindOfClass:[Item class]]) {
             pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 135, (self.view.bounds.size.height / 2) - 28, 75, 120);
             [pickUpButton setTitle:NSLocalizedString(@"PickUpItemKey", @"") forState:UIControlStateNormal];
@@ -476,6 +477,7 @@
             [pickUpButton addTarget:self action:@selector(pickUpItem:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:pickUpButton];
         }
+         */
     }
     [self animateInButtons];
 }
@@ -496,11 +498,13 @@
 
 - (void) pickUpItem:(TriangleButton*)sender
 {
+    /*
     Location *currLocation = sender.location;
     if ([currLocation.gameObject isKindOfClass:[Item class]]) {
         Item *item = (Item *)currLocation.gameObject;
         [self dismissSelection];
     }
+     */
 }
 
 - (void) dismissSelection
@@ -514,7 +518,7 @@
     mapView.userInteractionEnabled = YES;
     [self enableAnnotations];
     
-    while([mapView.selectedAnnotations count] > 0)
+    while(mapView.selectedAnnotations.count > 0)
     {
         if([[mapView.selectedAnnotations objectAtIndex:0] class] == [Location class]){
             [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) shrinkToNormal];
@@ -558,7 +562,7 @@
 
 - (void)interactWithLocation:(TriangleButton*)sender{
     Location *currLocation = sender.location;
-    [self displayGameObject:currLocation.gameObject fromSource:currLocation];
+    //[self displayGameObject:currLocation.gameObject fromSource:currLocation];
 }
 
 - (void) threeLinesButtonTouched
@@ -619,7 +623,7 @@
 
 #pragma mark StateControlProtocol delegate methods
 
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id)g fromSource:(id)s
 {
     [self dismissSelection];
     return [delegate displayGameObject:g fromSource:s];

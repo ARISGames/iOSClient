@@ -10,7 +10,6 @@
 #import "ARISViewController.h"
 
 @class ARISGamePlayTabBarViewController;
-@protocol GameObjectProtocol;
 @protocol GamePlayTabBarViewControllerDelegate
 - (void) gamePlayTabBarViewControllerRequestsNav;
 @end

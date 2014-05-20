@@ -23,7 +23,6 @@
 @synthesize locationId;
 @synthesize name;
 @synthesize latlon;
-@synthesize gameObject;
 @synthesize errorRange;
 @synthesize qty;
 @synthesize infiniteQty;
@@ -59,12 +58,14 @@
         
         NSString *otype = [dict validObjectForKey:@"type"];
         int oid         = [dict validIntForKey:@"type_id"];
+        /*
         if([otype isEqualToString:@"Plaque"])     self.gameObject = [_MODEL_PLAQUES_ plaqueForId:oid];
         if([otype isEqualToString:@"Item"])       self.gameObject = [_MODEL_ITEMS_ itemForId:oid];
         if([otype isEqualToString:@"Npc"])        self.gameObject = [_MODEL_NPCS_ npcForId:oid];
         if([otype isEqualToString:@"WebPage"])    self.gameObject = [_MODEL_WEBPAGES_ webPageForId:oid];
         if([otype isEqualToString:@"PlayerNote"]) self.gameObject = [_MODEL_GAME_.notesModel noteForId:oid];
         if([otype isEqualToString:@"Player"])     self.gameObject = [[User alloc] init];
+         */
         
         BOOL validErrorRange = YES;
         self.qty               = [dict validIntForKey:@"item_qty"];
@@ -122,7 +123,6 @@
     c.name              = self.name;
     c.latlon            = self.latlon;
     c.locationId        = self.locationId;
-    c.gameObject        = self.gameObject;
     c.errorRange        = self.errorRange;
     c.qty               = self.qty;
     c.infiniteQty       = self.infiniteQty; 
@@ -137,7 +137,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Location- Id:%d\tName:%@\tObjectName:%@",self.locationId,self.name,self.gameObject.name];
+    return @"";//[NSString stringWithFormat:@"Location- Id:%d\tName:%@\tObjectName:%@",self.locationId,self.name,self.gameObject.name];
 }
 
 @end

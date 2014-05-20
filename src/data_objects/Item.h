@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
 
-@interface Item : NSObject <GameObjectProtocol>
+@interface Item : NSObject
 {
   int item_id;
   NSString *name;

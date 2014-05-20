@@ -222,7 +222,7 @@
     else
     {
 		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
-		[delegate displayGameObject:((id<GameObjectProtocol>)((Location *)qrCodeObject).gameObject) fromSource:(Location *)qrCodeObject];
+		//[delegate displayGameObject:(((Location *)qrCodeObject).gameObject) fromSource:(Location *)qrCodeObject];
 	}
 }
 

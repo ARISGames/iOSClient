@@ -45,7 +45,7 @@
 {
     Npc *newNpc;
     NSNumber *newNpcId;
-    for(int i = 0; i < [newNpcs count]; i++)
+    for(int i = 0; i < newNpcs.count; i++)
     {
       newNpc = [newNpcs objectAtIndex:i];
       newNpcId = [NSNumber numberWithInt:newNpc.npc_id];

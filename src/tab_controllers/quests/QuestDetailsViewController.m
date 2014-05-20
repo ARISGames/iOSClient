@@ -180,7 +180,7 @@
     [delegate displayScannerWithPrompt:p];
 }
 
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id)g fromSource:(id)s
 {
     return [delegate displayGameObject:g fromSource:s];
 }

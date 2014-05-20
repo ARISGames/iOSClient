@@ -99,7 +99,7 @@
         [cell addSubview:self.timeControl];
         return cell;
     }
-    else if([gameList count] > 0)
+    else if(gameList.count > 0)
     {
         GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
         Game *gameForCell = [gameList objectAtIndex:(indexPath.row-1)];

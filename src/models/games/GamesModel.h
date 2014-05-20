@@ -10,8 +10,6 @@
 #import "Game.h"
 
 @interface GamesModel : NSObject
-{
-}
 
 - (Game *) gameForId:(int)game_id;
 

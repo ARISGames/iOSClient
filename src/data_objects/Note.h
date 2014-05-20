@@ -7,12 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
 @class User;
 @class Location;
 @class Tag;
 
-@interface Note : NSObject <GameObjectProtocol>
+@interface Note : NSObject 
 {
     int noteId; 
     User *owner;

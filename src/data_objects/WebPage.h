@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
 
-@interface WebPage : NSObject <GameObjectProtocol>
+@interface WebPage : NSObject 
 {
     int web_page_id;
 	NSString *name;

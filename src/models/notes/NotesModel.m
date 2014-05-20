@@ -91,7 +91,7 @@
 
 - (void) deleteNote:(Note *)n
 {
-    for(int i = 0; i < [currentNotes count]; i++)
+    for(int i = 0; i < currentNotes.count; i++)
         if(((Note *)[currentNotes objectAtIndex:i]).noteId == n.noteId) [currentNotes removeObjectAtIndex:i]; 
     [self invalidateNoteCaches];
 }
@@ -101,7 +101,7 @@
     [self mergeInNotesArray:[n.userInfo objectForKey:@"notes"]];
     
     curServerPage++;
-    if([[n.userInfo objectForKey:@"notes"] count] == 0) listComplete = 1;
+    if(((NSArray *)[n.userInfo objectForKey:@"notes"]).count == 0) listComplete = 1;
 
   _ARIS_NOTIF_SEND_(@"NewNoteListAvailable",nil,nil);
 }
@@ -117,10 +117,10 @@
 - (void) mergeInNotesArray:(NSArray *)newNotes
 {
     BOOL noteExists = NO;
-    for(int i = 0; i < [newNotes count]; i++)
+    for(int i = 0; i < newNotes.count; i++)
     { 
         noteExists = NO;
-        for(int j = 0; j < [currentNotes count] && !noteExists; j++)
+        for(int j = 0; j < currentNotes.count && !noteExists; j++)
         {
             if(((Note *)[newNotes objectAtIndex:i]).noteId == ((Note *)[currentNotes objectAtIndex:j]).noteId)
             {
@@ -149,10 +149,10 @@
 {
     /*
     BOOL noteTagExists = NO;
-    for(int i = 0; i < [newNoteTags count]; i++)
+    for(int i = 0; i < newNoteTags.count; i++)
     { 
         noteTagExists = NO;
-        for(int j = 0; j < [currentNoteTags count] && !noteTagExists; j++)
+        for(int j = 0; j < currentNoteTags.count && !noteTagExists; j++)
         {
             if(((NoteTag *)[newNoteTags objectAtIndex:i]).noteTagId == ((NoteTag *)[currentNoteTags objectAtIndex:j]).noteTagId)
             {
@@ -227,7 +227,7 @@
         for(Note *n in currentNotes)
         {
             if(n.stubbed) [self getDetailsForNote:n];
-            for(int i = 0; i < [n.tags count]; i++)
+            for(int i = 0; i < n.tags.count; i++)
                 if([((NoteTag *)[n.tags objectAtIndex:i]).text isEqualToString:t.text])
                     [constructListNotes addObject:n];
         }
@@ -273,7 +273,7 @@
 
 - (Note *) noteForId:(int)noteId
 {
-    for(int i = 0; i < [currentNotes count]; i++)
+    for(int i = 0; i < currentNotes.count; i++)
         if(((Note *)[currentNotes objectAtIndex:i]).noteId == noteId) return [currentNotes objectAtIndex:i]; 
     Note *n = [[Note alloc] init];
     n.noteId = noteId;

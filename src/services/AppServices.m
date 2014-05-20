@@ -115,12 +115,12 @@
 
 - (void) fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
 {
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                     @"auser_id",
+    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                      @"auser_id",
     [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"blatitude",
     [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"clongitude",
-    [NSString stringWithFormat:@"%d",distanceInMeters],                                              @"ddistance",
-    [NSString stringWithFormat:@"%d",YES],                                                           @"equestion",
+    [NSString stringWithFormat:@"%d",distanceInMeters],                            @"ddistance",
+    [NSString stringWithFormat:@"%d",YES],                                         @"equestion",
     [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],              @"fshowGamesInDevel",
     nil];
   [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseNearbyGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -388,7 +388,7 @@
     [NSNumber numberWithFloat:n.location.latlon.coordinate.longitude], @"longitude", 
     nil];
   NSMutableArray *media = [[NSMutableArray alloc] initWithCapacity:n.contents];
-  for(int i = 0; i < [n.contents count]; i++)
+  for(int i = 0; i < n.contents.count; i++)
   {
     NSDictionary *m = [[NSDictionary alloc] initWithObjectsAndKeys:
       [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"path",
@@ -399,7 +399,7 @@
   }
 
   NSMutableArray *tags = [[NSMutableArray alloc] initWithCapacity:n.tags];
-  for(int i = 0; i < [n.tags count]; i++)
+  for(int i = 0; i < n.tags.count; i++)
     [tags addObject:((NoteTag *)[n.tags objectAtIndex:i]).text];
 
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -835,76 +835,6 @@
   return game;
 }
 
-- (NSMutableArray *)parseGameListFromJSON:(ARISServiceResult *)jsonResult
-{
-  NSArray *gameListArray = (NSArray *)jsonResult.resultData;
-
-  NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-
-  NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];
-  NSDictionary *gameDictionary;
-  while ((gameDictionary = [gameListEnumerator nextObject]))
-    [tempGameList addObject:[self parseGame:(gameDictionary)]];
-
-  return tempGameList;
-}
-
-- (void) parseOneGameGameListFromJSON:(ARISServiceResult *)jsonResult
-{
-  _MODEL_.oneGameGameList = [self parseGameListFromJSON:jsonResult];
-
-  Game *game;
-  if([_MODEL_.oneGameGameList count] > 0)
-  {
-    game = (Game *)[_MODEL_.oneGameGameList  objectAtIndex:0];
-      _ARIS_NOTIF_SEND_(@"NewOneGameGameListReady",nil,@{@"game":game});
-  }
-  else
-  {
-    _ARIS_NOTIF_SEND_(@"NewOneGameGameListFailed",nil,nil);
-  }
-}
-
-- (void) parseNearbyGameListFromJSON:(ARISServiceResult *)jsonResult
-{
-  _MODEL_.nearbyGameList = [self parseGameListFromJSON:jsonResult];
-  _ARIS_NOTIF_SEND_(@"NewNearbyGameListReady",nil,nil);
-}
-
-- (void) parseAnywhereGameListFromJSON:(ARISServiceResult *)jsonResult
-{
-  _MODEL_.anywhereGameList = [self parseGameListFromJSON:jsonResult];
-  _ARIS_NOTIF_SEND_(@"NewAnywhereGameListReady",nil,nil);
-}
-
-- (void) parseSearchGameListFromJSON:(ARISServiceResult *)jsonResult
-{
-  _MODEL_.searchGameList = [self parseGameListFromJSON:jsonResult];
-  _ARIS_NOTIF_SEND_(@"NewSearchGameListReady",nil,nil);
-}
-
-- (void) parsePopularGameListFromJSON:(ARISServiceResult *)jsonResult
-{
-  _MODEL_.popularGameList = [self parseGameListFromJSON:jsonResult];
-  _ARIS_NOTIF_SEND_(@"NewPopularGameListReady",nil,nil);
-}
-
-- (void) parseRecentGameListFromJSON:(ARISServiceResult *)jsonResult
-{
-  NSArray *gameListArray = (NSArray *)jsonResult.resultData;
-
-  NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-
-  NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];
-  NSDictionary *gameDictionary;
-  while ((gameDictionary = [gameListEnumerator nextObject]))
-    [tempGameList addObject:[self parseGame:(gameDictionary)]];
-
-  _MODEL_.recentGameList = tempGameList;
-
-  _ARIS_NOTIF_SEND_(@"NewRecentGameListReady",nil,nil);
-}
-
 - (void) saveGameComment:(NSString*)comment titled:(NSString *)t game:(int)game_id starRating:(int)rating
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -962,7 +892,7 @@
   NSArray *JSONArray = (NSArray *)jsonResult.resultData;
   NSMutableArray *itemsArray = [[NSMutableArray alloc] init];
 
-  for(int i = 0; i < [JSONArray count]; i++)
+  for(int i = 0; i < JSONArray.count; i++)
     [itemsArray addObject:[[Item alloc] initWithDictionary:[JSONArray objectAtIndex:i]]];
 
   _ARIS_NOTIF_SEND_(@"GameItemsReceived",nil,@{@"items":itemsArray});
@@ -989,7 +919,7 @@
     /*
   NSArray *tabListArray = (NSArray *)jsonResult.resultData;
   NSMutableArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
-  for(int i = 0; i < [tabListArray count]; i++)
+  for(int i = 0; i < tabListArray.count; i++)
     [tempTabList addObject:[self parseTabFromDictionary:[tabListArray objectAtIndex:i]]];
 
   //PHIL HATES THIS
@@ -1037,7 +967,7 @@
   NSArray *JSONArray = (NSArray *)jsonResult.resultData;
   NSMutableArray *inventoryArray = [[NSMutableArray alloc] init];
 
-  for(int i = 0; i < [JSONArray count]; i++)
+  for(int i = 0; i < JSONArray.count; i++)
     [inventoryArray addObject:[[Instance alloc] initWithDictionary:[JSONArray objectAtIndex:i]]];
 
   _ARIS_NOTIF_SEND_(@"PlayerInventoryReceived",nil,@{@"":inventoryArray});

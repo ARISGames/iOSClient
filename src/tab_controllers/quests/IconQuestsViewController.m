@@ -123,7 +123,7 @@
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [activeQuests count] + [completedQuests count];
+    return activeQuests.count + completedQuests.count;
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -135,8 +135,8 @@
         [view removeFromSuperview];
         
     Quest *q;
-    if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
-    else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
+    if(indexPath.item < activeQuests.count) q = [activeQuests    objectAtIndex:indexPath.item];
+    else                                      q = [completedQuests objectAtIndex:indexPath.item-activeQuests.count];
     
     CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-20), cell.contentView.frame.size.width, 20);
     UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
@@ -164,8 +164,8 @@
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {    
     Quest *q;
-    if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
-    else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
+    if(indexPath.item < activeQuests.count) q = [activeQuests    objectAtIndex:indexPath.item];
+    else                                      q = [completedQuests objectAtIndex:indexPath.item-activeQuests.count];
 
     [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self] animated:YES];
 }
@@ -176,7 +176,7 @@
     [delegate displayScannerWithPrompt:p];
 }
 
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id)g fromSource:(id)s
 {
     [self.navigationController popToViewController:self animated:NO];
     return [delegate displayGameObject:g fromSource:s];

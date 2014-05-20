@@ -89,7 +89,7 @@
 	//authorLabel.text = g.authors;
     starView.rating  = g.rating;
     
-	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:[g.comments count]] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
+	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:g.comments.count] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
     
     if(!g.icon_media_id) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
     else                 [iconView setMedia:[_MODEL_MEDIA_ mediaForId:g.icon_media_id]];

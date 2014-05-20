@@ -138,7 +138,7 @@
 
     NSMutableArray *gamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
     Tab *tmpTab;
-    for(int i = 0; i < [gamePlayTabs count]; i++)
+    for(int i = 0; i < gamePlayTabs.count; i++)
     {
         tmpTab = [gamePlayTabs objectAtIndex:i];
         if(tmpTab.tabIndex < 1) continue;
@@ -228,8 +228,9 @@
     }
 }
 
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id)g fromSource:(id)s
 {
+    /*
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
 
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[(Instance *)g viewControllerForDelegate:self fromSource:s]];
@@ -248,6 +249,7 @@
         if(((Location *)s).deleteWhenViewed)
             [game.locationsModel removeLocation:s];
     }
+     */
     
     return YES;
 }
@@ -280,7 +282,7 @@
         
     /*
     int plaque_id = _MODEL_GAME_.launchPlaqueId;
-    if(plaque_id && plaque_id != 0 && [_MODEL_GAME_.questsModel.currentCompletedQuests count] < 1)
+    if(plaque_id && plaque_id != 0 && _MODEL_GAME_.questsModel.currentCompletedQuests.count < 1)
         [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:plaque_id] fromSource:self];
      */
 }
@@ -290,8 +292,8 @@
     /*
     int plaque_id = _MODEL_GAME_.completePlaqueId;
     if(plaque_id != 0 &&
-        [_MODEL_GAME_.questsModel.currentCompletedQuests count] == _MODEL_GAME_.questsModel.totalQuestsInGame &&
-        [_MODEL_GAME_.questsModel.currentCompletedQuests count] > 0)
+        _MODEL_GAME_.questsModel.currentCompletedQuests.count == _MODEL_GAME_.questsModel.totalQuestsInGame &&
+        _MODEL_GAME_.questsModel.currentCompletedQuests.count > 0)
     {
         [self displayGameObject:[_MODEL_PLAQUES_ plaqueForId:plaque_id] fromSource:self];
 	}

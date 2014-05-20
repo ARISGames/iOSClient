@@ -85,7 +85,7 @@
     showingPopOver = NO;
     self.view.userInteractionEnabled = NO;
     
-    if([popOverArray count] > 0)
+    if(popOverArray.count > 0)
         [self dequeuePopOver];
     else
         [popOverVC.view removeFromSuperview];
@@ -106,7 +106,7 @@
 {
     NSArray *activeQuests = (NSArray *)[notification.userInfo objectForKey:@"newlyActiveQuests"];
     
-    for(int i = 0; i < [activeQuests count]; i++)
+    for(int i = 0; i < activeQuests.count; i++)
     {
         Quest *activeQuest = [activeQuests objectAtIndex:i];
         
@@ -124,7 +124,7 @@
 {
     NSArray *completedQuests = (NSArray *)[notification.userInfo objectForKey:@"newlyCompletedQuests"];
 
-    for(int i = 0; i < [completedQuests count]; i++)
+    for(int i = 0; i < completedQuests.count; i++)
     { 
         Quest *completedQuest = [completedQuests objectAtIndex:i];      
     
@@ -142,7 +142,7 @@
 {
     NSArray *receivedItems = (NSArray *)[notification.userInfo objectForKey:@"newlyAcquiredItems"];
     
-    for(int i = 0; i < [receivedItems count]; i++)
+    for(int i = 0; i < receivedItems.count; i++)
     {
         NSDictionary *receivedItemDict = [receivedItems objectAtIndex:i];
         Item *receivedItem = [receivedItemDict objectForKey:@"item"];
@@ -165,7 +165,7 @@
 {
     NSArray *lostItems = (NSArray *)[notification.userInfo objectForKey:@"newlyLostItems"];
 
-    for(int i = 0; i < [lostItems count]; i++)
+    for(int i = 0; i < lostItems.count; i++)
     {
         NSDictionary *lostItemDict = [lostItems objectAtIndex:i];
         Item *lostItem = [lostItemDict objectForKey:@"item"];
@@ -188,7 +188,7 @@
 {
     NSArray *receivedAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyAcquiredAttributes"];
 
-    for(int i = 0; i < [receivedAttributes count]; i++)
+    for(int i = 0; i < receivedAttributes.count; i++)
     {
         NSDictionary *receivedAttributeDict = [receivedAttributes objectAtIndex:i];
         Item *receivedAttribute = [receivedAttributeDict objectForKey:@"attribute"];
@@ -212,7 +212,7 @@
 {
     NSArray *lostAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyLostAttributes"];
 
-    for(int i = 0; i < [lostAttributes count]; i++)
+    for(int i = 0; i < lostAttributes.count; i++)
     {
         NSDictionary *lostAttributeDict = [lostAttributes objectAtIndex:i];
         Item *lostAttribute = [lostAttributeDict objectForKey:@"attribute"];
@@ -235,7 +235,7 @@
 {
     NSArray *newLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
     
-    for(int i = 0; i < [newLocations count]; i++)
+    for(int i = 0; i < newLocations.count; i++)
     {
         //Doesn't actually show a game notification...
         _ARIS_NOTIF_SEND_(@"NewlyChangedLocationsGameNotificationSent",self,nil);

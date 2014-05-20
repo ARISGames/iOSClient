@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
 
-@interface Npc : NSObject  <GameObjectProtocol>
+@interface Npc : NSObject 
 {
 	int npc_id;
 	NSString *name;

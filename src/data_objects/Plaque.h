@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
 
-@interface Plaque : NSObject <GameObjectProtocol>
+@interface Plaque : NSObject 
 {
 	int      plaque_id;
 	NSString *name;

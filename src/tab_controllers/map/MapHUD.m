@@ -10,7 +10,6 @@
 #import "ARISMediaView.h"
 #import "ARISTemplate.h"
 #import "AppModel.h"
-#import "GameObjectProtocol.h"
 
 #import "User.h"
 #import "Npc.h"
@@ -141,12 +140,11 @@
 
 - (void) interactWithLocation
 {
-    [self displayGameObject:location.gameObject fromSource:location];
 }
 
 #pragma mark StateControlProtocol delegate methods
 
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id)g fromSource:(id)s
 {
     return [delegate displayGameObject:g fromSource:s];
 }

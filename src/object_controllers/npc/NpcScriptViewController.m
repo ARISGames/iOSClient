@@ -20,7 +20,7 @@
 #import "ARISTemplate.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface NpcScriptViewController() <ScriptParserDelegate, NpcScriptElementViewDelegate, GameObjectViewControllerDelegate>
+@interface NpcScriptViewController() <ScriptParserDelegate, NpcScriptElementViewDelegate>
 {
     Npc *npc;
     
@@ -193,11 +193,13 @@
     [delegate scriptRequestsTitle:t];
 }
 
+/*
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
     [((ARISViewController *)delegate).navigationController popToViewController:((ARISViewController *)delegate) animated:YES];
     [self readyNextScriptElementForDisplay];
 }
+ */
 
 - (void) scriptElementViewRequestsHideContinue:(BOOL)h
 {

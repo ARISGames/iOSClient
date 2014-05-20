@@ -7,12 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
 
 //This is a separate protocol to allow state change requests to percolate up through all conforming VC's
 
 @protocol StateControllerProtocol
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s; //returns success
+- (BOOL) displayGameObject:(id)g fromSource:(id)s; //returns success
 - (void) displayTab:(NSString *)t;
 - (void) displayScannerWithPrompt:(NSString *)p;
 @end

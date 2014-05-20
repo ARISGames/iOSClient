@@ -101,12 +101,12 @@
 - (void) refreshView
 {
     //remove subviews
-    while([[self.view subviews] count] != 0) [[[self.view subviews] objectAtIndex:0] removeFromSuperview]; 
-    while([[existingTagsScrollView subviews] count] != 0) [[[existingTagsScrollView subviews] objectAtIndex:0] removeFromSuperview];
+    while([self.view subviews].count != 0) [[[self.view subviews] objectAtIndex:0] removeFromSuperview]; 
+    while([existingTagsScrollView subviews].count != 0) [[[existingTagsScrollView subviews] objectAtIndex:0] removeFromSuperview];
     
     UIView *tv;
     int x = 10;
-    for(int i = 0; i < [tags count]; i++)
+    for(int i = 0; i < tags.count; i++)
     {
         tv = [[NoteTagView alloc] initWithNoteTag:[tags objectAtIndex:i] editable:editable delegate:self];
         tv.frame = CGRectMake(x,5,tv.frame.size.width,tv.frame.size.height);
@@ -115,10 +115,10 @@
     }
     existingTagsScrollView.contentSize = CGSizeMake(x+10,30);
     
-    if(editable && (editing || [tags count] == 0)) [self.view addSubview:tagInputField];
+    if(editable && (editing || tags.count == 0)) [self.view addSubview:tagInputField];
     else                                           [self.view addSubview:existingTagsScrollView];
-    if(editable && !editing && [tags count] == 0)  [self.view addSubview:plus];
-    if(editable && !editing && [tags count] > 0)   [self.view addSubview:ex]; 
+    if(editable && !editing && tags.count == 0)  [self.view addSubview:plus];
+    if(editable && !editing && tags.count > 0)   [self.view addSubview:ex]; 
     if(editing)
     {
         [tagPredictionViewController setGameNoteTags:_MODEL_GAME_.notesModel.gameNoteTags playerNoteTags:_MODEL_GAME_.notesModel.playerNoteTags];
@@ -135,7 +135,7 @@
 
 - (void) dismissEditButtonTouched
 {
-    if([tags count] > 0) { [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; [self beginEditing]; }
+    if(tags.count > 0) { [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; [self beginEditing]; }
     else                 { [self stopEditing]; [self existingTagChosen:_MODEL_GAME_.notesModel.unlabeledTag]; }
 }
 

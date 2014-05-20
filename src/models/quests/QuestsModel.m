@@ -64,7 +64,7 @@
             questLost = YES;
     }
     self.currentCompletedQuests = [NSArray arrayWithArray:completedQuests];
-    if([newlyCompletedQuests count] > 0 || questLost)
+    if(newlyCompletedQuests.count > 0 || questLost)
     {
         NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                newlyCompletedQuests,@"newlyCompletedQuests",
@@ -95,7 +95,7 @@
             questLost = YES;
     }
     self.currentActiveQuests = [NSArray arrayWithArray:activeQuests]; 
-    if([newlyActiveQuests count] > 0 || questLost)
+    if(newlyActiveQuests.count > 0 || questLost)
     {
         NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                newlyActiveQuests,@"newlyActiveQuests",

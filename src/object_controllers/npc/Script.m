@@ -41,7 +41,7 @@
 - (ScriptElement *) nextScriptElement
 {
     scriptElementIndex++;
-    if([scriptElementArray count] > scriptElementIndex)
+    if(scriptElementArray.count > scriptElementIndex)
         return [scriptElementArray objectAtIndex:scriptElementIndex];
     else
         return nil;

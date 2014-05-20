@@ -73,7 +73,7 @@
 - (void) reviveRequestsWithConnection:(ARISConnection *)c
 {
     NSArray *deadRequests = [self requestsForPredicate:nil]; 
-    for(int i = 0; i < [deadRequests count]; i++)
+    for(int i = 0; i < deadRequests.count; i++)
     {
         [c performRevivalWithRequest:[deadRequests objectAtIndex:i]];
         [context deleteObject:[deadRequests objectAtIndex:i]];

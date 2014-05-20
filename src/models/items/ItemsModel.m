@@ -61,7 +61,7 @@
 {
     Item *newItem;
     NSNumber *newItemId;
-    for(int i = 0; i < [newItems count]; i++)
+    for(int i = 0; i < newItems.count; i++)
     {
       newItem = [newItems objectAtIndex:i];
       newItemId = [NSNumber numberWithInt:newItem.item_id];
@@ -86,7 +86,7 @@
     Item *item;
     NSNumber *item_id;
     Instance *oldInstance;
-    for(int i = 0; i < [newInstances count]; i++)
+    for(int i = 0; i < newInstances.count; i++)
     {
         newInstance = [newInstances objectAtIndex:i];
         item = newInstance.object;
@@ -113,7 +113,7 @@
         self.currentWeight += instance.weight*instance.qty;
      */
 
-    if([itemDeltas count] > 0)
+    if(itemDeltas.count > 0)
     {
         _ARIS_NOTIF_SEND_(@"NewInstancesAvailable",self,@{@"deltas":itemDeltas});
     }
@@ -126,7 +126,7 @@
   NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
   Item *item = [self itemForId:item_id]; 
   Instance *copy;
-  for(int i = 0; i < [instancesArray count]; i++)
+  for(int i = 0; i < instancesArray.count; i++)
   {
     copy = [[instancesArray objectAtIndex:i] copy];
     //alter qty of fake
@@ -144,7 +144,7 @@
   NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
   Item *item = [self itemForId:item_id];
   Instance *copy;
-  for(int i = 0; i < [instancesArray count]; i++)
+  for(int i = 0; i < instancesArray.count; i++)
   {
     copy = [[instancesArray objectAtIndex:i] copy];
     //alter qty of fake
@@ -162,7 +162,7 @@
   NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
   Item *item = [self itemForId:item_id]; 
   Instance *copy;
-  for(int i = 0; i < [instancesArray count]; i++)
+  for(int i = 0; i < instancesArray.count; i++)
   {
     copy = [[instancesArray objectAtIndex:i] copy];
     //alter qty of fake
@@ -200,7 +200,7 @@
 
   inventory = [[NSMutableArray alloc] init];
   NSArray *instancearray = [instances allValues];
-  for(int i = 0; i < [instancearray count]; i++)
+  for(int i = 0; i < instancearray.count; i++)
   {
       if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"NORMAL"]) 
       [inventory addObject:[instancearray objectAtIndex:i]];
@@ -214,7 +214,7 @@
 
   attributes = [[NSMutableArray alloc] init];
   NSArray *instancearray = [instances allValues];
-  for(int i = 0; i < [instancearray count]; i++)
+  for(int i = 0; i < instancearray.count; i++)
   {
       if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"ATTRIBUTE"]) 
           [attributes addObject:[instancearray objectAtIndex:i]]; 

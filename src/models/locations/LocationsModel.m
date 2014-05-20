@@ -37,7 +37,7 @@
 - (void) removeLocation:(Location *)location
 {
     NSMutableArray *currentLocationsMutable = [self.currentLocations mutableCopy];
-    for(int i = 0; i < [currentLocationsMutable count]; ++i)
+    for(int i = 0; i < currentLocationsMutable.count; ++i)
     {
         Location *existingLocation = [currentLocationsMutable objectAtIndex:i];
         if([existingLocation isEqual:location])
@@ -90,7 +90,7 @@
     
     self.currentLocations = locations;
     
-    if([newlyAvailableLocations count] > 0)
+    if(newlyAvailableLocations.count > 0)
     {
         NSDictionary *lDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                newlyAvailableLocations,@"newlyAvailableLocations",
@@ -98,7 +98,7 @@
                                nil];
         _ARIS_NOTIF_SEND_(@"NewlyAvailableLocationsAvailable",self,lDict);
     }
-    if([newlyUnavailableLocations count] > 0)
+    if(newlyUnavailableLocations.count > 0)
     {
         NSDictionary *lDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                newlyUnavailableLocations,@"newlyUnavailableLocations",
@@ -114,12 +114,12 @@
 
 - (int) modifyQuantity:(int)quantityModifier forLocationId:(int)locationId
 {
-    NSMutableArray *newLocations = [[NSMutableArray alloc] initWithCapacity:[self.currentLocations count]];
-    for(int i = 0; i < [self.currentLocations count]; i++)
+    NSMutableArray *newLocations = [[NSMutableArray alloc] initWithCapacity:self.currentLocations.count];
+    for(int i = 0; i < self.currentLocations.count; i++)
         [newLocations addObject:[((Location *)[self.currentLocations objectAtIndex:i]) copy]];
     
     Location *tmpLocation;
-	for (int i = 0; i < [newLocations count]; i++)
+	for (int i = 0; i < newLocations.count; i++)
     {
         tmpLocation = (Location *)[newLocations objectAtIndex:i];
         //if(tmpLocation.gameObject.type != GameObjectItem) continue;
@@ -138,7 +138,7 @@
 
 - (Location *) locationForId:(int)locationId
 {
-    for(int i = 0; i < [currentLocations count]; i++)
+    for(int i = 0; i < currentLocations.count; i++)
         if(((Location *)[currentLocations objectAtIndex:i]).locationId == locationId) return [currentLocations objectAtIndex:i];
     return nil;
 }

@@ -81,12 +81,12 @@
     
 - (void) refreshViewFromModel
 {
-    if(currentPage == 0) self.gameList = _MODEL_.searchGameList;
-    else                 self.gameList = [self.gameList arrayByAddingObjectsFromArray:_MODEL_.searchGameList];
+    if(currentPage == 0) gameList = [_MODEL_GAMES_ searchGames:theSearchBar.text];
+    else                 gameList = [gameList arrayByAddingObjectsFromArray:[_MODEL_GAMES_ searchGames:theSearchBar.text]];
     
     currentlyFetchingNextPage = NO;
     currentPage++;
-    if(_MODEL_.searchGameList.count == 0) allResultsFound = YES;
+    if([_MODEL_GAMES_ searchGames:theSearchBar.text].count == 0) allResultsFound = YES;
     
 	[gameTable reloadData];
     
@@ -116,14 +116,14 @@
     
         return cell;
     }
-    else if(indexPath.row >= [self.gameList count]+1)
+    else if(indexPath.row >= gameList.count+1)
     {
         if(!currentlyFetchingNextPage && !allResultsFound) [self attemptSearch:searchText];
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"FetchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FetchCell"];
     
         if(!allResultsFound)                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchLoadingMoreKey", @"");
-        else if([self.gameList count] == 0) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoResults", @"");
+        else if(gameList.count == 0) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoResults", @"");
         else                                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoMoreKey", @"");
         return cell;
     }

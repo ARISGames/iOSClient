@@ -145,8 +145,8 @@ const int VIEW_MODE_TAG  = 2;
     else
     {
         Note *n; 
-        textFilteredNotes = [[NSMutableArray alloc] initWithCapacity:[typeFilteredNotes count]]; 
-        for(int i = 0; i < [typeFilteredNotes count]; i++)
+        textFilteredNotes = [[NSMutableArray alloc] initWithCapacity:typeFilteredNotes.count]; 
+        for(int i = 0; i < typeFilteredNotes.count; i++)
         {
             n = [typeFilteredNotes objectAtIndex:i];
             //Search title
@@ -161,7 +161,7 @@ const int VIEW_MODE_TAG  = 2;
             //Search tags
             else
             {
-                for(int j = 0; j < [n.tags count]; j++)
+                for(int j = 0; j < n.tags.count; j++)
                     if([((NoteTag*)[n.tags objectAtIndex:j]).text rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)    
                     {
                         [textFilteredNotes addObject:n]; 
@@ -173,7 +173,7 @@ const int VIEW_MODE_TAG  = 2;
     
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
     filteredNotes = [textFilteredNotes sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]]; 
-    return [filteredNotes count] + (1-_MODEL_GAME_.notesModel.listComplete);
+    return filteredNotes.count + (1-_MODEL_GAME_.notesModel.listComplete);
 }
 
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,7 +183,7 @@ const int VIEW_MODE_TAG  = 2;
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= [filteredNotes count])
+    if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= filteredNotes.count)
     {
         [_MODEL_GAME_.notesModel getNextNotes]; 
         UITableViewCell *cell;
@@ -211,7 +211,7 @@ const int VIEW_MODE_TAG  = 2;
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= [filteredNotes count])  return;
+    if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= filteredNotes.count)  return;
     
     NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[filteredNotes objectAtIndex:indexPath.row] delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];

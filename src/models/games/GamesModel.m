@@ -67,7 +67,7 @@
 - (void) updateNearbyGames:(NSArray *)gs
 {
   nearbyGames = [[NSMutableArray alloc] init];
-  for(int i = 0; i < [gs count]; i++)
+  for(int i = 0; i < gs.count; i++)
   {
     [self updateGame:gs[i]];
     [nearbyGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
@@ -79,7 +79,7 @@
 - (void) updateAnywhereGames:(NSArray *)gs
 {
   anywhereGames = [[NSMutableArray alloc] init];
-  for(int i = 0; i < [gs count]; i++)
+  for(int i = 0; i < gs.count; i++)
   {
     [self updateGame:gs[i]];
     [anywhereGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
@@ -91,7 +91,7 @@
 - (void) updatePopularGames:(NSArray *)gs
 {
   popularGames = [[NSMutableArray alloc] init];
-  for(int i = 0; i < [gs count]; i++)
+  for(int i = 0; i < gs.count; i++)
   {
     [self updateGame:gs[i]];
     [popularGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
@@ -103,7 +103,7 @@
 - (void) updateRecentGames:(NSArray *)gs
 {
   recentGames = [[NSMutableArray alloc] init];
-  for(int i = 0; i < [gs count]; i++)
+  for(int i = 0; i < gs.count; i++)
   {
     [self updateGame:gs[i]];
     [recentGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
@@ -115,7 +115,7 @@
 - (void) updateSearchGames:(NSArray *)gs
 {
   searchGames = [[NSMutableArray alloc] init];
-  for(int i = 0; i < [gs count]; i++)
+  for(int i = 0; i < gs.count; i++)
   {
     [self updateGame:gs[i]];
     [searchGames addObject:[self gameForId:((Game *)gs[i]).game_id]]; 
@@ -136,7 +136,7 @@
 {
   Game *newGame;
   NSNumber *newGameId;
-  for(int i = 0; i < [newGames count]; i++)
+  for(int i = 0; i < newGames.count; i++)
   {
     newGame = [newGames objectAtIndex:i];
     newGameId = [NSNumber numberWithInt:newGame.game_id];

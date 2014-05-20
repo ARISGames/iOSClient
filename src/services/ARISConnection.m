@@ -108,7 +108,7 @@ NSString *const kARISServerServicePackage = @"v2";
     
     sr.time = -1*[sr.start timeIntervalSinceNow];
 	
-	if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
 	if(!result)
     {
@@ -167,7 +167,7 @@ NSString *const kARISServerServicePackage = @"v2";
     
     sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];  
     [connections removeObjectForKey:c.description];
-    if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
+    if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
     sr.connection = nil;
     sr.asyncData = nil;
     
@@ -181,7 +181,7 @@ NSString *const kARISServerServicePackage = @"v2";
     if(!sr) return;
     
     [connections removeObjectForKey:c.description];
-    if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
 	_ARIS_NOTIF_SEND_(@"ConnectionLost",nil,nil);
     NSLog(@"*** ARISConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);

@@ -238,7 +238,7 @@ didStartElement:(NSString *)elementName
 - (void) parserDidEndDocument:(NSXMLParser *)parser
 {
 	NSLog(@"ScriptParser: parserDidEndDocument");
-	if([script.scriptElementArray count] == 0)
+	if(script.scriptElementArray.count == 0)
     {
         ScriptElement *s = [[ScriptElement alloc] init];
         s.type = @"npc";

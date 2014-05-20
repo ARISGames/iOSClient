@@ -87,8 +87,8 @@
 {
     Media *m;
     int offset = 0;
-    while([[scrollView subviews] count] > 0) [[[scrollView subviews] objectAtIndex:0] removeFromSuperview];
-    for(int i = 0; i < [contents count]; i++)
+    while([scrollView subviews].count > 0) [[[scrollView subviews] objectAtIndex:0] removeFromSuperview];
+    for(int i = 0; i < contents.count; i++)
     {
         m = (Media *)[contents objectAtIndex:i];
         ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) delegate:self];
@@ -101,7 +101,7 @@
         offset += self.view.bounds.size.width;
     }
     scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);  
-    pageControl.numberOfPages = [contents count]; 
+    pageControl.numberOfPages = contents.count;
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *)s

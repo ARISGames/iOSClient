@@ -105,7 +105,7 @@
     
     title.text = n.name;
     label.text = @"";
-    if([n.tags count] > 0) label.text = ((NoteTag *)[n.tags objectAtIndex:0]).text;
+    if(n.tags.count > 0) label.text = ((NoteTag *)[n.tags objectAtIndex:0]).text;
     CGSize textSize = [[title text] sizeWithAttributes:@{NSFontAttributeName:[title font]}];   
     label.frame = CGRectMake(textSize.width+15,15,self.frame.size.width-previewFrameFull.size.width-(textSize.width+5)-10,14);  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -115,7 +115,7 @@
     desc.text = n.desc;
     
     Media *bestContentForDisplay;
-    for(int i = 0; i < [n.contents count]; i++)
+    for(int i = 0; i < n.contents.count; i++)
     {
         if(!bestContentForDisplay || [bestContentForDisplay.type isEqualToString:@"AUDIO"])
             bestContentForDisplay = [n.contents objectAtIndex:i];

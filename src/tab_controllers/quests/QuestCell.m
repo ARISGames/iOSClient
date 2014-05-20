@@ -81,7 +81,7 @@
 
 //implement statecontrol stuff for webpage, but ignore any requests
 - (void) displayTab:(NSString *)t {}
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s {return NO;}
+- (BOOL) displayGameObject:(id)g fromSource:(id)s {return NO;}
 - (void) displayScannerWithPrompt:(NSString *)p {}
 
 @end

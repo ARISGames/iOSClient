@@ -68,7 +68,7 @@
     level = l;
 	int numberToMakeActive = abs(round(numberofBars * level));
 
-	for(int i = 0; i<[barViews count]; i++)
+	for(int i = 0; i<barViews.count; i++)
     {
 		UIView *bar = [barViews objectAtIndex:i];
 		if(i < numberToMakeActive) bar.backgroundColor = activeColor;

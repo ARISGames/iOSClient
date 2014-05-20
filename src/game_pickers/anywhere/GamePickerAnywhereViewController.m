@@ -43,7 +43,7 @@
 
 - (void) refreshViewFromModel
 {
-	self.gameList = [_MODEL_.anywhereGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
+	//gameList = [_MODEL_GAMES_.anywhereGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
     [self.gameTable reloadData];
     
     [self removeLoadingIndicator];

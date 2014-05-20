@@ -134,11 +134,11 @@
 
 - (int) rating
 {
-    if(![self.comments count]) return 0;
+    if(!self.comments.count) return 0;
     int rating = 0;
-    for(int i = 0; i < [self.comments count]; i++)
+    for(int i = 0; i < self.comments.count; i++)
         rating += ((GameComment *)[self.comments objectAtIndex:i]).rating;
-    return rating/[self.comments count];
+    return rating/self.comments.count;
 }
 
 - (NSString *)description

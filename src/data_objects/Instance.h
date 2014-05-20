@@ -7,25 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
 
-@interface Instance : NSObject <GameObjectProtocol>
+@interface Instance : NSObject 
 {
     int instance_id;
     NSString *type; 
-    NSObject<GameObjectProtocol> *object;
+    NSObject *object;
     int qty;
     BOOL infinite_qty;
 }
 
 @property (nonatomic, assign) int instance_id;
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSObject<GameObjectProtocol> *object;
+@property (nonatomic, strong) NSObject *object;
 @property (nonatomic, assign) int qty;
 @property (nonatomic, assign) BOOL infinite_qty;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
-- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s;
 - (Instance *) copy;
 
 @end

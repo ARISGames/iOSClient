@@ -111,13 +111,13 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([gameList count] == 0 && _MODEL_PLAYER_.location) return 1;
-	return [gameList count];
+    if(gameList.count == 0 && _MODEL_PLAYER_.location) return 1;
+	return gameList.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([gameList count] == 0)
+    if(gameList.count == 0)
     {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"OffCell"];
         cell.textLabel.text = NSLocalizedString(@"GamePickerNoGamesKey", @"");
@@ -135,13 +135,13 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([gameList count] == 0) return;
+    if(gameList.count == 0) return;
     [_MODEL_ chooseGame:gameList[indexPath.row]];
 }
 
 - (void) tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    if([gameList count] == 0) return; 
+    if(gameList.count == 0) return; 
     [_MODEL_ chooseGame:gameList[indexPath.row]]; 
 }
 

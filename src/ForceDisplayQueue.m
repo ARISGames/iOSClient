@@ -72,6 +72,7 @@
     }
     
     //Try to display location- if successful, add to 'already nearby' list
+    /*
     if(forceLocation)
     {
         if([delegate displayGameObject:forceLocation.gameObject fromSource:forceLocation])
@@ -86,6 +87,7 @@
         
         nearbyLocationsList = newNearbyLocationsList; //Throw out old locations list
     }
+         */ 
 }
 
 - (void) dealloc

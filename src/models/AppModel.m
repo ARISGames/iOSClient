@@ -79,7 +79,7 @@
   //Just load immutable settings from root.plist to find default defaults, and put them in easily accessible dictionary
   NSDictionary *settingsDict  = [NSDictionary dictionaryWithContentsOfFile:[[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Settings.bundle"] stringByAppendingPathComponent:@"Root.plist"]];
   NSArray *prefDictArray = settingsDict[@"PreferenceSpecifiers"];
-  for(int i = 0; i < [prefDictArray count]; i++)
+  for(int i = 0; i < prefDictArray.count; i++)
   {
     if(prefDictArray[i][@"DefaultValue"]) 
         defaultDefaults[prefDictArray[i][@"Key"]] = prefDictArray[i][@"DefaultValue"];

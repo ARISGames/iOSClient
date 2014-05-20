@@ -390,7 +390,6 @@
 		AA33A7291860C0CE00D48789 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceDisplayQueue.h; sourceTree = "<group>"; };
 		AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceDisplayQueue.m; sourceTree = "<group>"; };
-		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
 		AA372A8E188F2319005528D5 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
 		AA372A8F188F2319005528D5 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
 		AA383B0C1828324F00612FFB /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
@@ -1238,7 +1237,6 @@
 				AABC7093172739D60074CC21 /* NoteTag.m */,
 				AABC7094172739D60074CC21 /* WebPage.h */,
 				AABC7095172739D60074CC21 /* WebPage.m */,
-				AA353F891729C43600A1EB6A /* GameObjectProtocol.h */,
 				AAA1CE2B1891C1C20005F4DC /* NoteComment.h */,
 				AAA1CE2C1891C1C20005F4DC /* NoteComment.m */,
 			);

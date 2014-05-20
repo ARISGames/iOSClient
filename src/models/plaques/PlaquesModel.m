@@ -45,7 +45,7 @@
 {
     Plaque *newPlaque;
     NSNumber *newPlaqueId;
-    for(int i = 0; i < [newPlaques count]; i++)
+    for(int i = 0; i < newPlaques.count; i++)
     {
       newPlaque = [newPlaques objectAtIndex:i];
       newPlaqueId = [NSNumber numberWithInt:newPlaque.plaque_id];

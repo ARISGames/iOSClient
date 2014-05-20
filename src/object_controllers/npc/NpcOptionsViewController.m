@@ -99,7 +99,7 @@
 
 - (void) showPlayerOptions:(NSArray *)options
 {
-  while([[optionsView subviews] count] > 0)
+  while([optionsView subviews].count > 0)
     [[[optionsView subviews] objectAtIndex:0] removeFromSuperview];
 
   optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
@@ -108,7 +108,7 @@
   UIImageView *arrow;
   CGRect cellFrame;
   CGRect textFrame;
-  for(int i = 0; i < [optionList count]; i++)
+  for(int i = 0; i < optionList.count; i++)
   {
     cellFrame = CGRectMake(0, 43*i, self.view.bounds.size.width, 43);
     cell = [[UIView alloc] initWithFrame:cellFrame];
@@ -141,7 +141,7 @@
 
   if(!currentlyHidingLeaveConversationButton)
   {
-    cellFrame = CGRectMake(0, 43*[optionList count], self.view.bounds.size.width, 43);
+    cellFrame = CGRectMake(0, 43*optionList.count, self.view.bounds.size.width, 43);
     cell = [[UIView alloc] initWithFrame:cellFrame];
     [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
 
@@ -166,7 +166,7 @@
     [optionsView addSubview:cell];
   }
 
-  cellFrame = CGRectMake(0, 43*([optionList count]+(!currentlyHidingLeaveConversationButton)), self.view.bounds.size.width, 40);
+  cellFrame = CGRectMake(0, 43*(optionList.count+(!currentlyHidingLeaveConversationButton)), self.view.bounds.size.width, 40);
   cell = [[UIView alloc] initWithFrame:cellFrame];
 
   textFrame = cellFrame;
@@ -183,7 +183,7 @@
   [cell addSubview:text];
   [optionsView addSubview:cell];
 
-  CGFloat newHeight = 43*[optionList count]+(43*(1+(!currentlyHidingLeaveConversationButton)));
+  CGFloat newHeight = 43*optionList.count+(43*(1+(!currentlyHidingLeaveConversationButton)));
   [optionsCollapseView setContentFrame:CGRectMake(0, 0, optionsView.frame.size.width, newHeight)];
   if((newHeight+10) < self.view.bounds.size.height-64)
     [optionsCollapseView setFrameHeight:newHeight+10];
@@ -214,7 +214,7 @@
 {
   float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
   float newOffset = 0.0;
-  for(int i = 0; i < [[optionsView subviews] count]-1; i++)
+  for(int i = 0; i < [optionsView subviews].count-1; i++)
   {
     CGRect superFrame = ((UIView *)[[optionsView subviews] objectAtIndex:i]).frame;
     superFrame.origin.y += newOffset;
@@ -231,7 +231,7 @@
     }
   }
 
-  UIView *masCell = [[optionsView subviews] objectAtIndex:[optionsView.subviews count]-1];
+  UIView *masCell = [[optionsView subviews] objectAtIndex:optionsView.subviews.count-1];
   masCell.frame = CGRectMake(masCell.frame.origin.x, masCell.frame.origin.y+newOffset, masCell.frame.size.width, masCell.frame.size.height);
 
   [optionsCollapseView setContentFrameHeight:optionsView.frame.size.height+newOffset];
@@ -283,7 +283,7 @@
   //nope
 }
 
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id)g fromSource:(id)s
 {
   return NO;
 }

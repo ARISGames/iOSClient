@@ -98,7 +98,7 @@
         [matchingNoteTagsScrollView addSubview:tagCell];
     } 
     //Game Tag Title
-    if([gameNoteTags count] > 0 && [playerNoteTags count] > 0)
+    if(gameNoteTags.count > 0 && playerNoteTags.count > 0)
     {
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  
@@ -125,7 +125,7 @@
         }
     } 
     //Player Tag Title
-    if([gameNoteTags count] > 0 && [playerNoteTags count] > 0)
+    if(gameNoteTags.count > 0 && playerNoteTags.count > 0)
     {
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  

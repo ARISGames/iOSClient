@@ -183,7 +183,7 @@
     }
     else if([mainCommand isEqualToString:@"leaveButton"])
     {
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"disable"])
+        if(components.count > 1 && [[components objectAtIndex:1] isEqualToString:@"disable"])
             if([delegate respondsToSelector:@selector(ARISWebViewRequestsHideButton:)])    
                 [delegate ARISWebViewRequestsHideButton:self];
     }
@@ -193,8 +193,8 @@
         
         NSString *type = @"";
         NSString *token = @"";
-        if([components count] > 1) type  = [components objectAtIndex:1];
-        if([components count] > 2) token = [components objectAtIndex:2];
+        if(components.count > 1) type  = [components objectAtIndex:1];
+        if(components.count > 2) token = [components objectAtIndex:2];
         
         if([type isEqualToString:@"tab"])
         {
@@ -253,27 +253,27 @@
     }
     else if([mainCommand isEqualToString:@"inventory"])
     {
-        if([components count] > 2 && [[components objectAtIndex:1] isEqualToString:@"get"])
+        if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"get"])
         {
             int item_id = [[components objectAtIndex:2] intValue];
             int qty = [_MODEL_ITEMS_ qtyOwnedForItem:item_id];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,qty]];
         }
-        if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
+        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
         {
             int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
             int newQty = [_MODEL_ITEMS_ setItemsForPlayer:item_id qtyToSet:qty];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
         }
-        if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
+        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
         {
             int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
             int newQty = [_MODEL_ITEMS_ giveItemToPlayer:item_id qtyToAdd:qty];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
         }
-        if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
+        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
         {
             int item_id = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
@@ -283,15 +283,15 @@
     }
     else if([mainCommand isEqualToString:@"media"])
     {
-        if([components count] > 2 && [[components objectAtIndex:1] isEqualToString:@"prepare"])
+        if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"prepare"])
             [self loadAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if([components count] > 2 && [[components objectAtIndex:1] isEqualToString:@"play"])
+        else if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"play"])
             [self playAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if([components count] > 2 && [[components objectAtIndex:1] isEqualToString:@"stop"])
+        else if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"stop"])
             [self stopAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if([components count] > 3 && [[components objectAtIndex:1] isEqualToString:@"setVolume"])
+        else if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"setVolume"])
             [self setMediaId:[[components objectAtIndex:2] intValue] volumeTo:[[components objectAtIndex:3] floatValue]];
-        else if([components count] > 2 && [[components objectAtIndex:1] isEqualToString:@"playAndVibrate"])
+        else if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"playAndVibrate"])
         {
             [self playAudioFromMediaId:[[components objectAtIndex:2] intValue]];
             [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];

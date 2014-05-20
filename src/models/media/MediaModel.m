@@ -83,7 +83,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"media_id = %d", media_id];
     NSArray *cachedMediaArray = [self mediaForPredicate:predicate];
     
-    if([cachedMediaArray count] != 0)
+    if(cachedMediaArray.count != 0)
     {
         MediaCD *mediaCD = (MediaCD *)[cachedMediaArray objectAtIndex:0];
         return [[Media alloc] initWithMediaCD:mediaCD];
@@ -112,11 +112,11 @@
     
     //For quick check of existence in cache
     NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] initWithCapacity:currentlyCachedMediaArray.count];
-    for(int i = 0; i < [currentlyCachedMediaArray count]; i++)
+    for(int i = 0; i < currentlyCachedMediaArray.count; i++)
         [currentlyCachedMediaMap setObject:[currentlyCachedMediaArray objectAtIndex:i] forKey:((MediaCD *)[currentlyCachedMediaArray objectAtIndex:i]).media_id];
     
     MediaCD *tmpMedia;
-    for(int i = 0; i < [mediaDataToCache count]; i++)
+    for(int i = 0; i < mediaDataToCache.count; i++)
     {
         NSDictionary *mediaDict = [mediaDataToCache objectAtIndex:i];
         int media_id        = [mediaDict validIntForKey:@"media_id"];

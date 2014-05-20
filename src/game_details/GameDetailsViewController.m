@@ -78,7 +78,7 @@
     starView.rating = game.rating;
     UILabel *reviewsTextView = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-110,12,100,15)];
     reviewsTextView.font = [ARISTemplate ARISButtonFont];
-    reviewsTextView.text = [NSString stringWithFormat:@"%d %@",[game.comments count], NSLocalizedString(@"ReviewsKey", @"")];
+    reviewsTextView.text = [NSString stringWithFormat:@"%d %@",game.comments.count, NSLocalizedString(@"ReviewsKey", @"")];
     [rateButton addSubview:starView];
     [rateButton addSubview:reviewsTextView];
     
@@ -205,7 +205,7 @@
 
 //implement statecontrol stuff for webpage, but ignore any requests
 - (void) displayTab:(NSString *)t {}
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s {return NO;}
+- (BOOL) displayGameObject:(id)g fromSource:(id)s {return NO;}
 - (void) displayScannerWithPrompt:(NSString *)p {}
 
 - (void) dealloc

@@ -84,7 +84,7 @@
             dirtybit = YES;
         }
         note = n; 
-        if([n.tags count] > 0) newTag = [n.tags objectAtIndex:0]; 
+        if(n.tags.count > 0) newTag = [n.tags objectAtIndex:0]; 
         mode = m;
         delegate = d;
         
@@ -320,7 +320,7 @@
     date.text = [format stringFromDate:note.created]; 
     owner.text = note.owner.display_name; 
     [contentsViewController setContents:note.contents];
-    newTag = nil; if([note.tags count] > 0) newTag = [note.tags objectAtIndex:0];   
+    newTag = nil; if(note.tags.count > 0) newTag = [note.tags objectAtIndex:0];   
     if(newTag) [tagViewController setTags:@[newTag]];
     else       [tagViewController setTags:nil];
 }
@@ -445,7 +445,7 @@
     if(newTag) note.tags = [NSMutableArray arrayWithArray:@[newTag]];
     else note.tags = [[NSMutableArray alloc] init];
 
-    //for(int i = 0; i < [mediaToUpload count]; i++)
+    //for(int i = 0; i < mediaToUpload.count; i++)
         //[note.contents addObject:[mediaToUpload objectAtIndex:i]];
 
     //feel icky about this...

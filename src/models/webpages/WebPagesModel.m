@@ -45,7 +45,7 @@
 {
     WebPage *newWebPage;
     NSNumber *newWebPageId;
-    for(int i = 0; i < [newWebPages count]; i++)
+    for(int i = 0; i < newWebPages.count; i++)
     {
       newWebPage = [newWebPages objectAtIndex:i];
       newWebPageId = [NSNumber numberWithInt:newWebPage.web_page_id];
