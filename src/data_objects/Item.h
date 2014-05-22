@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InstantiableProtocol.h"
 
-@interface Item : NSObject
+@interface Item : NSObject <InstantiableProtocol>
 {
   int item_id;
   NSString *name;

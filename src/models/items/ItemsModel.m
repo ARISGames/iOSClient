@@ -89,7 +89,7 @@
     for(int i = 0; i < newInstances.count; i++)
     {
         newInstance = [newInstances objectAtIndex:i];
-        item = newInstance.object;
+        item = (Item *)newInstance.object;
         item_id = [NSNumber numberWithInt:item.item_id];
         oldInstance = [instances objectForKey:item_id];
         int delta = 0;

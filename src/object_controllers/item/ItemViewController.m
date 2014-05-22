@@ -376,7 +376,7 @@
 
 - (void) dismissSelf
 {
-    int locationId = ([(NSObject *)source isKindOfClass:[Location class]]) ? ((Location *)source).locationId : 0;
+    //int locationId = ([(NSObject *)source isKindOfClass:[Location class]]) ? ((Location *)source).locationId : 0;
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

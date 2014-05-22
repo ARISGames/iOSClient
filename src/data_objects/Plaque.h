@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InstantiableProtocol.h"
 
-@interface Plaque : NSObject 
+@interface Plaque : NSObject <InstantiableProtocol>
 {
 	int      plaque_id;
 	NSString *name;

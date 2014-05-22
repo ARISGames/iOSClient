@@ -451,6 +451,7 @@
 		AA68B2FD1912E73E000C717B /* Instance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Instance.m; sourceTree = "<group>"; };
 		AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaLoader.h; sourceTree = "<group>"; };
 		AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaLoader.m; sourceTree = "<group>"; };
+		AA6EC330192E6FFB00D70D38 /* InstantiableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantiableProtocol.h; sourceTree = "<group>"; };
 		AA701FDA17330947003A840D /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		AA701FDB17330947003A840D /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
 		AA701FDF17342169003A840D /* GamePickersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickersViewController.h; sourceTree = "<group>"; };
@@ -1208,10 +1209,11 @@
 		AABC7073172739D60074CC21 /* data_objects */ = {
 			isa = PBXGroup;
 			children = (
-				AAB398E21918166700E0E766 /* Plaque.h */,
-				AAB398E31918166700E0E766 /* Plaque.m */,
+				AA6EC330192E6FFB00D70D38 /* InstantiableProtocol.h */,
 				AA68B2FC1912E73E000C717B /* Instance.h */,
 				AA68B2FD1912E73E000C717B /* Instance.m */,
+				AAB398E21918166700E0E766 /* Plaque.h */,
+				AAB398E31918166700E0E766 /* Plaque.m */,
 				AA33A7271860C0A000D48789 /* cd_data_objects */,
 				AA33A7281860C0CE00D48789 /* Media.h */,
 				AA33A7291860C0CE00D48789 /* Media.m */,

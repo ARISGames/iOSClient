@@ -56,8 +56,8 @@
         self.name       = [dict validObjectForKey:@"name"];
         self.latlon     = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
         
-        NSString *otype = [dict validObjectForKey:@"type"];
-        int oid         = [dict validIntForKey:@"type_id"];
+        //NSString *otype = [dict validObjectForKey:@"type"];
+        //int oid         = [dict validIntForKey:@"type_id"];
         /*
         if([otype isEqualToString:@"Plaque"])     self.gameObject = [_MODEL_PLAQUES_ plaqueForId:oid];
         if([otype isEqualToString:@"Item"])       self.gameObject = [_MODEL_ITEMS_ itemForId:oid];

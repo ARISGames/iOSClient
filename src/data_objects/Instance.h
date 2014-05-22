@@ -7,19 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InstantiableProtocol.h"
 
 @interface Instance : NSObject 
 {
     int instance_id;
     NSString *type; 
-    NSObject *object;
+    id<InstantiableProtocol> object;
     int qty;
     BOOL infinite_qty;
 }
 
 @property (nonatomic, assign) int instance_id;
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSObject *object;
+@property (nonatomic, strong) id<InstantiableProtocol> object;
 @property (nonatomic, assign) int qty;
 @property (nonatomic, assign) BOOL infinite_qty;
 

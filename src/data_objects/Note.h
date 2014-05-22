@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InstantiableProtocol.h"
+
 @class User;
 @class Location;
 @class Tag;
 
-@interface Note : NSObject 
+@interface Note : NSObject <InstantiableProtocol>
 {
     int noteId; 
     User *owner;

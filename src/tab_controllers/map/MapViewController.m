@@ -561,7 +561,7 @@
 }
 
 - (void)interactWithLocation:(TriangleButton*)sender{
-    Location *currLocation = sender.location;
+    //Location *currLocation = sender.location;
     //[self displayGameObject:currLocation.gameObject fromSource:currLocation];
 }
 

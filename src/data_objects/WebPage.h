@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InstantiableProtocol.h"
 
-@interface WebPage : NSObject 
+@interface WebPage : NSObject <InstantiableProtocol>
 {
     int web_page_id;
 	NSString *name;
