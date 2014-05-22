@@ -94,9 +94,7 @@
 		AA45A3B3189ABA160016E391 /* NoteTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA45A3B2189ABA160016E391 /* NoteTagView.m */; };
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
-		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
 		AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */; };
-		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
 		AA5D8D32191AB20800116FA1 /* WebPagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5D8D31191AB20800116FA1 /* WebPagesModel.m */; };
 		AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5F5ACE183147C00057AC1C /* NotesModel.m */; };
@@ -104,6 +102,9 @@
 		AA68B2FB1912E6DF000C717B /* ItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA68B2F81912E6DF000C717B /* ItemsModel.m */; };
 		AA68B2FE1912E73E000C717B /* Instance.m in Sources */ = {isa = PBXBuildFile; fileRef = AA68B2FD1912E73E000C717B /* Instance.m */; };
 		AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */; };
+		AA6EC33A192E730200D70D38 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6EC335192E730200D70D38 /* ARISContainerViewController.m */; };
+		AA6EC33B192E730200D70D38 /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6EC337192E730200D70D38 /* ARISNavigationController.m */; };
+		AA6EC33C192E730200D70D38 /* ARISViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6EC339192E730200D70D38 /* ARISViewController.m */; };
 		AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FDB17330947003A840D /* GamePlayViewController.m */; };
 		AA701FE117342169003A840D /* GamePickersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE017342169003A840D /* GamePickersViewController.m */; };
 		AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE4173428C3003A840D /* ARISAlertHandler.m */; };
@@ -260,7 +261,6 @@
 		AAF9233B188715C20026A4FC /* Playhead.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92332188715C20026A4FC /* Playhead.m */; };
 		AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92334188715C20026A4FC /* WaveformControl.m */; };
 		AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92336188715C20026A4FC /* WaveSampleProvider.m */; };
-		AAFA93DD17F9F143000E4319 /* ARISViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFA93DC17F9F143000E4319 /* ARISViewController.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */; };
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -431,12 +431,8 @@
 		AA45A3B2189ABA160016E391 /* NoteTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagView.m; sourceTree = "<group>"; };
 		AA49A25B17AAE6C200629C87 /* ARISMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaView.h; sourceTree = "<group>"; };
 		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
-		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
-		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
 		AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCell.h; sourceTree = "<group>"; };
 		AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestCell.m; sourceTree = "<group>"; };
-		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
-		AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISContainerViewController.m; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		AA522B8D17AC225200C8A72B /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		AA5D8D30191AB20800116FA1 /* WebPagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPagesModel.h; sourceTree = "<group>"; };
@@ -452,14 +448,20 @@
 		AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaLoader.h; sourceTree = "<group>"; };
 		AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaLoader.m; sourceTree = "<group>"; };
 		AA6EC330192E6FFB00D70D38 /* InstantiableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantiableProtocol.h; sourceTree = "<group>"; };
+		AA6EC334192E730200D70D38 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
+		AA6EC335192E730200D70D38 /* ARISContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISContainerViewController.m; sourceTree = "<group>"; };
+		AA6EC336192E730200D70D38 /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
+		AA6EC337192E730200D70D38 /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
+		AA6EC338192E730200D70D38 /* ARISViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISViewController.h; sourceTree = "<group>"; };
+		AA6EC339192E730200D70D38 /* ARISViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISViewController.m; sourceTree = "<group>"; };
 		AA701FDA17330947003A840D /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		AA701FDB17330947003A840D /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
 		AA701FDF17342169003A840D /* GamePickersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickersViewController.h; sourceTree = "<group>"; };
 		AA701FE017342169003A840D /* GamePickersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickersViewController.m; sourceTree = "<group>"; };
 		AA701FE3173428C3003A840D /* ARISAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISAlertHandler.h; sourceTree = "<group>"; };
 		AA701FE4173428C3003A840D /* ARISAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISAlertHandler.m; sourceTree = "<group>"; };
-		AA701FE6173443FB003A840D /* ARISPusherHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISPusherHandler.h; sourceTree = "<group>"; };
-		AA701FE7173443FB003A840D /* ARISPusherHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISPusherHandler.m; sourceTree = "<group>"; };
+		AA701FE6173443FB003A840D /* ARISPusherHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARISPusherHandler.h; path = ../ARISPusherHandler.h; sourceTree = "<group>"; };
+		AA701FE7173443FB003A840D /* ARISPusherHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARISPusherHandler.m; path = ../ARISPusherHandler.m; sourceTree = "<group>"; };
 		AA714F1A18D8E23900E91682 /* NotebookNotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookNotesViewController.h; sourceTree = "<group>"; };
 		AA714F1B18D8E23900E91682 /* NotebookNotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookNotesViewController.m; sourceTree = "<group>"; };
 		AA766D3517CBD811001F88D2 /* GamePickerAnywhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerAnywhereViewController.h; sourceTree = "<group>"; };
@@ -734,8 +736,6 @@
 		AAF92334188715C20026A4FC /* WaveformControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformControl.m; sourceTree = "<group>"; };
 		AAF92335188715C20026A4FC /* WaveSampleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProvider.h; sourceTree = "<group>"; };
 		AAF92336188715C20026A4FC /* WaveSampleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveSampleProvider.m; sourceTree = "<group>"; };
-		AAFA93DB17F9F143000E4319 /* ARISViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISViewController.h; sourceTree = "<group>"; };
-		AAFA93DC17F9F143000E4319 /* ARISViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISViewController.m; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+ARISColors.h"; path = "../UIColor+ARISColors.h"; sourceTree = "<group>"; };
@@ -991,6 +991,19 @@
 			path = items;
 			sourceTree = "<group>";
 		};
+		AA6EC333192E730200D70D38 /* base_classes */ = {
+			isa = PBXGroup;
+			children = (
+				AA6EC334192E730200D70D38 /* ARISContainerViewController.h */,
+				AA6EC335192E730200D70D38 /* ARISContainerViewController.m */,
+				AA6EC336192E730200D70D38 /* ARISNavigationController.h */,
+				AA6EC337192E730200D70D38 /* ARISNavigationController.m */,
+				AA6EC338192E730200D70D38 /* ARISViewController.h */,
+				AA6EC339192E730200D70D38 /* ARISViewController.m */,
+			);
+			path = base_classes;
+			sourceTree = "<group>";
+		};
 		AA766D3417CBD811001F88D2 /* anywhere */ = {
 			isa = PBXGroup;
 			children = (
@@ -1140,35 +1153,28 @@
 				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC7071172739D60074CC21 /* ARISAppDelegate.h */,
 				AABC7072172739D60074CC21 /* ARISAppDelegate.m */,
-				AA2B8340187DDC1200D92A28 /* ARISTemplate.h */,
-				AA2B8341187DDC1200D92A28 /* ARISTemplate.m */,
-				AAFA93DB17F9F143000E4319 /* ARISViewController.h */,
-				AAFA93DC17F9F143000E4319 /* ARISViewController.m */,
-				AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */,
-				AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */,
-				AA4B20911745672300079AEF /* ARISNavigationController.h */,
-				AA4B20921745672500079AEF /* ARISNavigationController.m */,
 				AABC711D172739D60074CC21 /* RootViewController.h */,
 				AABC711E172739D60074CC21 /* RootViewController.m */,
-				AA701FE6173443FB003A840D /* ARISPusherHandler.h */,
-				AA701FE7173443FB003A840D /* ARISPusherHandler.m */,
-				AA856FEF17A972B800E9D451 /* arisjs.js */,
-				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
-				AAF7116517B971ED00262A37 /* ARISCollapseView.m */,
-				AA2B833D187DAB5300D92A28 /* ARISWebView.h */,
-				AA2B833E187DAB5300D92A28 /* ARISWebView.m */,
 				AA701FDF17342169003A840D /* GamePickersViewController.h */,
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
-				AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */,
-				AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */,
 				AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */,
 				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
+				AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */,
+				AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
 				AABC70EE172739D60074CC21 /* MyCLController.m */,
 				AABC711C172739D60074CC21 /* Reachability.h */,
 				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
+				AA2B8340187DDC1200D92A28 /* ARISTemplate.h */,
+				AA2B8341187DDC1200D92A28 /* ARISTemplate.m */,
+				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
+				AAF7116517B971ED00262A37 /* ARISCollapseView.m */,
+				AA2B833D187DAB5300D92A28 /* ARISWebView.h */,
+				AA2B833E187DAB5300D92A28 /* ARISWebView.m */,
+				AA856FEF17A972B800E9D451 /* arisjs.js */,
+				AA6EC333192E730200D70D38 /* base_classes */,
 				AABC70DB172739D60074CC21 /* models */,
 				AABC711F172739D60074CC21 /* services */,
 				AABC7073172739D60074CC21 /* data_objects */,
@@ -1486,6 +1492,8 @@
 			children = (
 				AABC7120172739D60074CC21 /* AppServices.h */,
 				AABC7121172739D60074CC21 /* AppServices.m */,
+				AA701FE6173443FB003A840D /* ARISPusherHandler.h */,
+				AA701FE7173443FB003A840D /* ARISPusherHandler.m */,
 				AA6D4097183EBCA8009D72F9 /* ARISMediaLoader.h */,
 				AA6D4098183EBCA8009D72F9 /* ARISMediaLoader.m */,
 				AABC7126172739D60074CC21 /* ARISConnection.h */,
@@ -2054,8 +2062,10 @@
 				AABC738B172739D80074CC21 /* Tab.m in Sources */,
 				AABC738C172739D80074CC21 /* NoteTag.m in Sources */,
 				AABC738D172739D80074CC21 /* WebPage.m in Sources */,
+				AA6EC33C192E730200D70D38 /* ARISViewController.m in Sources */,
 				AABC738E172739D80074CC21 /* Logger.m in Sources */,
 				AABC738F172739D80074CC21 /* GameComment.m in Sources */,
+				AA6EC33B192E730200D70D38 /* ARISNavigationController.m in Sources */,
 				AABC7390172739D80074CC21 /* GameCommentCell.m in Sources */,
 				AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */,
 				AABC7395172739D80074CC21 /* GameCommentsViewController.m in Sources */,
@@ -2118,6 +2128,7 @@
 				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,
 				AA33A72A1860C0CE00D48789 /* Media.m in Sources */,
 				AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */,
+				AA6EC33A192E730200D70D38 /* ARISContainerViewController.m in Sources */,
 				AA3B7FC1182037CB006C9715 /* SBJsonStreamWriter.m in Sources */,
 				AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */,
 				AA83EEA718A43EE30077FF0E /* RequestCD.m in Sources */,
@@ -2155,10 +2166,8 @@
 				AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */,
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
 				AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */,
-				AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
 				AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */,
-				AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */,
 				AA383B1118283B9F00612FFB /* NoteCell.m in Sources */,
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
@@ -2169,7 +2178,6 @@
 				AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,
 				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,
-				AAFA93DD17F9F143000E4319 /* ARISViewController.m in Sources */,
 				AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */,
 				AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */,
 				AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */,

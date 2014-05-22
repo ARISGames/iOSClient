@@ -10,8 +10,6 @@
 #import "GamePickerViewController.h"
 #import "AppModel.h"
 #import "Game.h"
-#import "User.h"
-#import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 #import "ARISMediaView.h"
 #import "ARISTemplate.h"
@@ -25,16 +23,12 @@
 @implementation GamePickerViewController
 
 @synthesize gameTable;
-@synthesize refreshControl;
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         delegate = d;
-        
-        _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerFirstMoved),nil);
-        _ARIS_NOTIF_LISTEN_(@"ConnectionLost",self,@selector(removeLoadingIndicator),nil);
     }
     return self;
 }
@@ -42,18 +36,18 @@
 - (void) loadView
 {
     [super loadView];
+    
     self.view.backgroundColor = [UIColor ARISColorRed];
     
-    self.gameTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain]; 
-    self.gameTable.delegate = self;
-    self.gameTable.dataSource = self; 
-    [self.view addSubview:self.gameTable]; 
+    gameTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain]; 
+    gameTable.delegate = self;
+    gameTable.dataSource = self; 
+    [self.view addSubview:gameTable]; 
     
-    self.refreshControl = [[UIRefreshControl alloc] init]; 
-    [self.refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+    refreshControl = [[UIRefreshControl alloc] init]; 
+    [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
     
-    [self.gameTable reloadData];
-    if(_MODEL_PLAYER_.location) [self playerFirstMoved]; 
+    [gameTable reloadData];
 }
 
 - (void) viewWillLayoutSubviews
@@ -61,42 +55,30 @@
     [super viewWillLayoutSubviews];
     
     //These next four lines are required in precise order for this to work. apple. c'mon.
-    self.gameTable.frame = self.view.bounds;
-    self.gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
-    [self.gameTable setContentOffset:CGPointMake(0,-64)];
-    [self.gameTable addSubview:refreshControl];  
+    gameTable.frame = self.view.bounds;
+    gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
+    [gameTable setContentOffset:CGPointMake(0,-64)];
+    [gameTable addSubview:refreshControl];  
     
-    [self.gameTable reloadData]; 
+    [gameTable reloadData]; 
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-	[self requestNewGameList];
-}
-
-- (void) playerFirstMoved
-{
-    //Only want auto-refresh on first established location
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UserMoved" object:nil];
-    [self requestNewGameList];
+	[self refreshViewFromModel];
 }
 
 - (void) clearList
 {
-    [self.gameTable reloadData];
+    [gameTable reloadData];
     
     [self removeLoadingIndicator];
 }
 
 - (void) refreshView:(UIRefreshControl *)refresh
 {
-    [self requestNewGameList];
-}
-
-- (void) requestNewGameList
-{
-    
+    [self refreshViewFromModel];
 }
 
 - (void) refreshViewFromModel
@@ -136,13 +118,13 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(gameList.count == 0) return;
-    [_MODEL_ chooseGame:gameList[indexPath.row]];
+    [delegate gamePicked:gameList[indexPath.row]];
 }
 
 - (void) tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     if(gameList.count == 0) return; 
-    [_MODEL_ chooseGame:gameList[indexPath.row]]; 
+    [delegate gamePicked:gameList[indexPath.row]]; 
 }
 
 - (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -152,12 +134,12 @@
 
 - (void) showLoadingIndicator
 {
-	[self.refreshControl beginRefreshing];
+	//[refreshControl beginRefreshing];
 }
 
 - (void) removeLoadingIndicator
 {
-    [self.refreshControl endRefreshing];
+    //[refreshControl endRefreshing];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

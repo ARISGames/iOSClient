@@ -9,12 +9,6 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerNearbyViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "User.h"
-#import "GameDetailsViewController.h"
-#import "GamePickerCell.h"
-#import "UIColor+ARISColors.h"
 
 @implementation GamePickerNearbyViewController
 
@@ -26,28 +20,20 @@
         
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationarrow_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationarrow.png"]]; 
         
-        _ARIS_NOTIF_LISTEN_(@"NewNearbyGameListReady",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_NEARBY_GAMES_AVAILABLE",self,@selector(nearbyGamesAvailable),nil);
     }
     return self;
 }
 
-- (void) requestNewGameList
+- (void) nearbyGamesAvailable
 {
-    [super requestNewGameList];
-    
-    if(_MODEL_.deviceLocation && _MODEL_PLAYER_)  
-    {
-        //[_SERVICES_ fetchNearbyGameListWithDistanceFilter:1000];
-        [self showLoadingIndicator];
-    }
+    [self removeLoadingIndicator]; 
+    [self refreshViewFromModel];
 }
-
 - (void) refreshViewFromModel
 {
-	gameList = [_MODEL_GAMES_.nearbyGames sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-    [self.gameTable reloadData];
-    
-    [self removeLoadingIndicator];
+	gameList = _MODEL_GAMES_.nearbyGames;
+    [gameTable reloadData];
 }
 
 - (void) dealloc

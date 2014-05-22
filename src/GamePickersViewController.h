@@ -13,7 +13,7 @@
 
 @protocol GamePickersViewControllerDelegate
 - (void) profileEditRequested;
-- (void) gamePickedForPlay:(Game *)g;
+- (void) gameDetailsRequested:(Game *)g;
 @end
 
 @interface GamePickersViewController : ARISContainerViewController

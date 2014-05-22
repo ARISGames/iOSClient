@@ -9,12 +9,7 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerSearchViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "User.h"
-#import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#import "UIColor+ARISColors.h"
 
 @interface GamePickerSearchViewController() <UISearchDisplayDelegate, UISearchBarDelegate>
 {    
@@ -26,15 +21,9 @@
     BOOL allResultsFound;
 }
 
-@property UIView *disableViewOverlay;
-@property (nonatomic, strong) UISearchBar *theSearchBar;
-
 @end
 
 @implementation GamePickerSearchViewController
-
-@synthesize theSearchBar;
-@synthesize disableViewOverlay;
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
@@ -49,7 +38,7 @@
         
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"search_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"search.png"]];    
         
-  _ARIS_NOTIF_LISTEN_(@"NewSearchGameListReady",self,@selector(refreshViewFromModel),nil);
+  _ARIS_NOTIF_LISTEN_(@"MODEL_SEARCH_GAMES_AVAILABLE",self,@selector(searchGamesAvailable),nil);
     }
     return self;
 }
@@ -58,39 +47,25 @@
 {
     [super viewDidLoad];
     
-    self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
-    self.theSearchBar.delegate = self;
-    [self.theSearchBar becomeFirstResponder];
+    theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
+    theSearchBar.delegate = self;
+    [theSearchBar becomeFirstResponder];
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     gestureRecognizer.cancelsTouchesInView = NO;
     [gameTable addGestureRecognizer:gestureRecognizer];
 }
 
-- (void) requestNewGameList
+- (void) searchGamesAvailable
 {
-    [super requestNewGameList];
-    
-    if(_MODEL_.deviceLocation && _MODEL_PLAYER_)    
-    {
-        currentPage = 0;
-        self.theSearchBar.text = searchText;
-        [self attemptSearch:searchText];
-    }
+    [self removeLoadingIndicator]; 
+    [self refreshViewFromModel];
 }
-    
+
 - (void) refreshViewFromModel
 {
-    if(currentPage == 0) gameList = [_MODEL_GAMES_ searchGames:theSearchBar.text];
-    else                 gameList = [gameList arrayByAddingObjectsFromArray:[_MODEL_GAMES_ searchGames:theSearchBar.text]];
-    
-    currentlyFetchingNextPage = NO;
-    currentPage++;
-    if([_MODEL_GAMES_ searchGames:theSearchBar.text].count == 0) allResultsFound = YES;
-    
+    gameList = [_MODEL_GAMES_ searchGames:theSearchBar.text];
 	[gameTable reloadData];
-    
-    [self removeLoadingIndicator];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -112,7 +87,7 @@
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SearchCell"];
         
-        [cell addSubview:self.theSearchBar];
+        [cell addSubview:theSearchBar];
     
         return cell;
     }
@@ -169,8 +144,8 @@
 
 - (void) searchBar:(UISearchBar *)searchBar activate:(BOOL)active
 {
-    self.gameTable.allowsSelection = !active;
-    self.gameTable.scrollEnabled   = !active;
+    gameTable.allowsSelection = !active;
+    gameTable.scrollEnabled   = !active;
     if (!active)
     {
         [disableViewOverlay removeFromSuperview];
@@ -178,16 +153,16 @@
     }
     else
     {
-        self.disableViewOverlay.alpha = 0;
-        [self.view addSubview:self.disableViewOverlay];
+        disableViewOverlay.alpha = 0;
+        [self.view addSubview:disableViewOverlay];
 		
         [UIView beginAnimations:@"FadeIn" context:nil];
         [UIView setAnimationDuration:0.5];
-        self.disableViewOverlay.alpha = 0.6;
+        disableViewOverlay.alpha = 0.6;
         [UIView commitAnimations];
 		
-        NSIndexPath *selected = [self.gameTable indexPathForSelectedRow];
-        if (selected) [self.gameTable deselectRowAtIndexPath:selected animated:NO];
+        NSIndexPath *selected = [gameTable indexPathForSelectedRow];
+        if (selected) [gameTable deselectRowAtIndexPath:selected animated:NO];
     }
     [searchBar setShowsCancelButton:active animated:YES];
 }

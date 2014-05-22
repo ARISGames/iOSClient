@@ -93,6 +93,7 @@
 - (void) chooseGame:(Game *)game;
 - (void) beginGame;
 - (void) leaveGame;
+- (void) resetGame;
 
 - (void) setPlayerLocation:(CLLocation *)newLocation;
 

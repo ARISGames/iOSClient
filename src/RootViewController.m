@@ -16,6 +16,7 @@
 #import "LoginViewController.h"
 #import "PlayerSettingsViewController.h"
 #import "GamePickersViewController.h"
+#import "GameDetailsViewController.h"
 #import "LoadingViewController.h"
 #import "GamePlayViewController.h"
 
@@ -23,11 +24,12 @@
 
 #import "AppServices.h"
 
-@interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, GamePickersViewControllerDelegate, LoadingViewControllerDelegate, GamePlayViewControllerDelegate>
+@interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, GamePickersViewControllerDelegate, GameDetailsViewControllerDelegate, LoadingViewControllerDelegate, GamePlayViewControllerDelegate>
 {
     ARISNavigationController *loginNavigationController;
     ARISNavigationController *playerSettingsNavigationController;
     GamePickersViewController *gamePickersViewController;
+    GameDetailsViewController *gameDetailsViewController; 
     LoadingViewController *loadingViewController; 
     GamePlayViewController *gamePlayViewController;
 }
@@ -112,6 +114,18 @@
 - (void) gameLeft
 {
     [self displayContentController:gamePickersViewController]; 
+}
+
+- (void) gameDetailsRequested:(Game *)g
+{
+    gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
+    [self displayContentController:gameDetailsViewController];
+}
+
+- (void) gameDetailsCanceled:(Game *)g
+{
+    [self displayContentController:gamePickersViewController];
+    gameDetailsViewController = nil;
 }
 
 - (void) profileEditRequested

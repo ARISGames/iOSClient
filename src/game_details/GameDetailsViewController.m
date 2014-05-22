@@ -7,7 +7,6 @@
 //
 
 #import "GameDetailsViewController.h"
-#import "AppServices.h"
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "GameCommentsViewController.h"
@@ -45,10 +44,6 @@
     {
         delegate = d;
         game = g;
-        
-        //THIS NEXT LINE IS AWFUL. NEEDS REFACTOR.
-  _ARIS_NOTIF_LISTEN_(@"PlayerSettingsDidDismiss",self,@selector(viewDidIntentionallyAppear),nil);
-  _ARIS_NOTIF_LISTEN_(@"GameReset",self,@selector(gameReset),nil); 
     }
     return self;
 }
@@ -56,7 +51,9 @@
 - (void) loadView
 {
     [super loadView];
+    
     self.view.backgroundColor = [UIColor whiteColor];
+    
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeAspectFit];
     
@@ -67,18 +64,23 @@
     [startButton setBackgroundColor:[UIColor ARISColorLightBlue]];
     [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     startButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [resetButton setTitle:NSLocalizedString(@"GameDetailsResetKey", nil) forState:UIControlStateNormal];
     [resetButton setBackgroundColor:[UIColor ARISColorRed]];
     [resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     resetButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    
     rateButton  = [UIButton buttonWithType:UIButtonTypeCustom];
     [rateButton setBackgroundColor:[UIColor ARISColorOffWhite]];
+    
     ARISStarView *starView = [[ARISStarView alloc] initWithFrame:CGRectMake(10,10,100,20)];
     starView.rating = game.rating;
+    
     UILabel *reviewsTextView = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-110,12,100,15)];
     reviewsTextView.font = [ARISTemplate ARISButtonFont];
     reviewsTextView.text = [NSString stringWithFormat:@"%d %@",game.comments.count, NSLocalizedString(@"ReviewsKey", @"")];
+    
     [rateButton addSubview:starView];
     [rateButton addSubview:reviewsTextView];
     
@@ -103,6 +105,7 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    
     [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200)];
     rateButton.frame = CGRectMake(0, startButton.frame.origin.y-40, self.view.bounds.size.width, 40);
     descriptionView.frame = CGRectMake(0,200+64,self.view.bounds.size.width,rateButton.frame.origin.y-(200+64));
@@ -127,10 +130,10 @@
         [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], game.desc] baseURL:nil];
     
     if(game.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:game.media_id]];
-    else                 [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]]; 
+    else              [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]]; 
     
     if(game.has_been_played) [startButton setTitle:NSLocalizedString(@"GameDetailsResumeKey", @"")  forState:UIControlStateNormal];
-    else                   [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal]; 
+    else                     [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal]; 
     
     [self viewWillLayoutSubviews]; //let that take care of adding/removing reset
 }
@@ -138,36 +141,26 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated]; 
-    [self refreshFromGame]; 
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     
-    if(_MODEL_.fallbackGameId)
-    {
-        game.has_been_played = YES;
-        [delegate gameDetailsWereConfirmed:game];  
-    }
+    [self refreshFromGame]; 
 }
 
 - (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSURL *requestURL = [request URL];  
+    NSURL *requestURL = [request URL];
 
     if(([[requestURL scheme] isEqualToString:@"http"] ||
         [[requestURL scheme] isEqualToString:@"https"]) &&
        (navigationType == UIWebViewNavigationTypeLinkClicked))
         return ![[UIApplication sharedApplication] openURL:requestURL];
 
-    return YES;  
+    return YES;
 } 
 
 - (void) startButtonTouched
 {
     game.has_been_played = YES;
-    [delegate gameDetailsWereConfirmed:game]; 
+    [_MODEL_ chooseGame:game];
 }
 
 - (void) resetButtonTouched
@@ -184,14 +177,14 @@
 
 - (void) backButtonTouched
 {
-    [delegate gameDetailsWereCanceled:game];
+    [delegate gameDetailsCanceled:game];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 1)
     {
-        [_SERVICES_ startOverGame:game.game_id];
+        [_MODEL_ resetGame];
         startButton.enabled =NO;
         game.has_been_played = NO;
         [self refreshFromGame];

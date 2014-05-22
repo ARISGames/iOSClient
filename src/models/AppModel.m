@@ -185,9 +185,6 @@
 
   //load the player media immediately if possible
   //if(_MODEL_PLAYER_.media_id != 0) [_SERVICES_ loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil];
-
-  //Subscribe to player channel
-  //[RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",self.playerId]];
 }
 
 - (void) logOut
@@ -218,6 +215,11 @@
   _MODEL_GAME_ = nil;
   _MODEL_.fallbackGameId = 0; 
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);    
+}
+
+- (void) resetGame
+{
+    //[_SERVICES_ resetGame:g];
 }
 
 

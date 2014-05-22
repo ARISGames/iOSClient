@@ -8,24 +8,24 @@
 
 #import "GamePickersViewController.h"
 #import "GamePickerViewController.h"
+
 #import "GamePickerNearbyViewController.h"
 #import "GamePickerAnywhereViewController.h"
 #import "GamePickerPopularViewController.h"
 #import "GamePickerRecentViewController.h"
 #import "GamePickerSearchViewController.h"
-#import "GameDetailsViewController.h"
+
 #import "PKRevealController.h"
 #import "AccountSettingsViewController.h"
 #import "ARISNavigationController.h"
 #import "ARISTemplate.h"
 #import "AppModel.h"
 
-@interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, GameDetailsViewControllerDelegate, AccountSettingsViewControllerDelegate>
+@interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, AccountSettingsViewControllerDelegate>
 {
     PKRevealController *gamePickersRevealController;
     ARISNavigationController *gamePickersNavigationController;
     UITabBarController *gamePickersTabBarController;
-    GameDetailsViewController *gameDetailsViewController;
     ARISNavigationController *accountSettingsNavigationController;
     
     id<GamePickersViewControllerDelegate> __unsafe_unretained delegate;
@@ -34,7 +34,6 @@
 @property (nonatomic, strong) PKRevealController *gamePickersRevealController;
 @property (nonatomic, strong) ARISNavigationController *gamePickersNavigationController;
 @property (nonatomic, strong) UITabBarController *gamePickersTabBarController;
-@property (nonatomic, strong) GameDetailsViewController *gameDetailsViewController;
 @property (nonatomic, strong) ARISNavigationController *accountSettingsNavigationController;
 
 @end
@@ -44,7 +43,6 @@
 @synthesize gamePickersRevealController;
 @synthesize gamePickersNavigationController;
 @synthesize gamePickersTabBarController;
-@synthesize gameDetailsViewController;
 @synthesize accountSettingsNavigationController;
 
 - (id) initWithDelegate:(id<GamePickersViewControllerDelegate>)d;
@@ -101,19 +99,7 @@
 
 - (void) gamePicked:(Game *)g
 {
-    self.gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
-    [self.gamePickersNavigationController pushViewController:self.gameDetailsViewController animated:YES];
-}
-
-- (void) gameDetailsWereCanceled:(Game *)g
-{
-    [self.gamePickersNavigationController popToRootViewControllerAnimated:YES];
-    self.gameDetailsViewController = nil;
-}
-
-- (void) gameDetailsWereConfirmed:(Game *)g
-{
-    [delegate gamePickedForPlay:g];
+    [delegate gameDetailsRequested:g];
 }
 
 - (void) accountButtonTouched

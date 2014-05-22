@@ -9,12 +9,6 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerAnywhereViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "GameDetailsViewController.h"
-#import "GamePickerCell.h"
-#import "User.h"
-#import "UIColor+ARISColors.h"
 
 @implementation GamePickerAnywhereViewController
 
@@ -25,26 +19,20 @@
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe.png"]];
         
-  _ARIS_NOTIF_LISTEN_(@"NewAnywhereGameListReady",self,@selector(refreshViewFromModel),nil);
+  _ARIS_NOTIF_LISTEN_(@"MODEL_ANYWHERE_GAMES_AVAILABLE",self,@selector(anywhereGamesAvailable),nil);
     }
     return self;
 }
 
-- (void) requestNewGameList
+- (void) anywhereGamesAvailable
 {
-    [super requestNewGameList];
-    
-    if(_MODEL_.deviceLocation && _MODEL_PLAYER_) 
-    {
-        [_SERVICES_ fetchAnywhereGameList];
-        [self showLoadingIndicator];
-    }
+    [self removeLoadingIndicator];
+    [self refreshViewFromModel];
 }
-
 - (void) refreshViewFromModel
 {
-	//gameList = [_MODEL_GAMES_.anywhereGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-    [self.gameTable reloadData];
+	gameList = _MODEL_GAMES_.anywhereGames;
+    [gameTable reloadData];
     
     [self removeLoadingIndicator];
 }

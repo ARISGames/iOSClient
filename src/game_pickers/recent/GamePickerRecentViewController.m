@@ -26,28 +26,21 @@
         self.title = NSLocalizedString(@"GamePickerRecentTabKey", @"");
         
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock.png"]];   
-  _ARIS_NOTIF_LISTEN_(@"NewRecentGameListReady",self,@selector(refreshViewFromModel),nil);
+  _ARIS_NOTIF_LISTEN_(@"MODEL_RECENT_GAMES_AVAILABLE",self,@selector(recentGamesAvailable),nil);
     }
     return self;
 }
 
-- (void) requestNewGameList
+- (void) recentGamesAvailable
 {
-    [super requestNewGameList];
-    
-    if(_MODEL_.deviceLocation && _MODEL_PLAYER_)
-    {
-        //[_SERVICES_ fetchRecentGameListForPlayer];
-        [self showLoadingIndicator];
-    }
+    [self removeLoadingIndicator]; 
+    [self refreshViewFromModel];
 }
 
 - (void) refreshViewFromModel
 {
 	gameList = _MODEL_GAMES_.recentGames;
-	[self.gameTable reloadData];
-    
-    [self removeLoadingIndicator];
+	[gameTable reloadData];
 }
 
 - (void) dealloc
