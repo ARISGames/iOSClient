@@ -19,7 +19,11 @@
 - (void) createUserWithName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;
 - (void) logInUserWithName:(NSString *)user_name password:(NSString *)password;
 
-
+- (void) fetchNearbyGameList;
+- (void) fetchAnywhereGameList;
+- (void) fetchRecentGameList;
+- (void) fetchPopularGameList;
+- (void) fetchSearchGameList:(NSString *)s;
 
 //Player
 //- (void) uploadPlayerPic:(Media *)m;
@@ -28,11 +32,6 @@
 //- (void) setShowPlayerOnMap;
 
 //Game Picker
-- (void) fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters;
-- (void) fetchAnywhereGameList;
-- (void) fetchRecentGameListForPlayer;
-- (void) fetchPopularGameListForTime:(int)time;
-- (void) fetchGameListBySearch:(NSString *)searchText onPage:(int)page;
 
 - (void) fetchOneGameGameList:(int)game_id;
 

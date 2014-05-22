@@ -37,7 +37,7 @@
     
     if(_MODEL_.deviceLocation && _MODEL_PLAYER_)
     {
-        [_SERVICES_ fetchRecentGameListForPlayer];
+        //[_SERVICES_ fetchRecentGameListForPlayer];
         [self showLoadingIndicator];
     }
 }

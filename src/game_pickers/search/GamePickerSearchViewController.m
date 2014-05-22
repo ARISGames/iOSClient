@@ -160,7 +160,7 @@
 {
     if(searchText == nil || [searchText isEqualToString:@""]) return;
         
-    [_SERVICES_ fetchGameListBySearch:[text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] onPage:currentPage];
+    //[_SERVICES_ fetchGameListBySearch:[text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] onPage:currentPage];
     currentlyFetchingNextPage = YES;
     allResultsFound = NO;
     

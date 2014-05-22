@@ -13,6 +13,7 @@
 #import "RequestCD.h"
 #import "ARISServiceGraveyard.h"
 #import "ARISAlertHandler.h"
+#import "AppModel.h"
 
 NSString *const kARISServerServicePackage = @"v2";
 
@@ -24,6 +25,7 @@ NSString *const kARISServerServicePackage = @"v2";
     NSString *server;
     NSMutableDictionary *connections;
     NSMutableDictionary *requestDupMap; 
+    NSDictionary *auth;
 }
 @end
 
@@ -39,9 +41,15 @@ NSString *const kARISServerServicePackage = @"v2";
         graveyard = g;
         connections   = [[NSMutableDictionary alloc] initWithCapacity:20];
         requestDupMap = [[NSMutableDictionary alloc] initWithCapacity:20]; 
+        
+        _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN", self, @selector(setAuth), nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT", self, @selector(unsetAuth), nil); 
     }
     return self;
 }
+
+- (void) setAuth { auth = @{@"user_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id],@"key":_MODEL_PLAYER_.read_write_key}; }
+- (void) unsetAuth { auth = nil; }
 
 - (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict
 {
@@ -124,6 +132,14 @@ NSString *const kARISServerServicePackage = @"v2";
 - (NSURLRequest *) createRequestURLfromService:(NSString *)s method:(NSString *)method arguments:(NSDictionary *)args
 {
     NSString *requestBaseString = [NSMutableString stringWithFormat:@"%@/json.php/%@.%@.%@/", server, kARISServerServicePackage, s, method];	 
+    
+    if(auth)
+    {
+        //if this isn't the most awkward shuffle of mutability...
+        NSMutableDictionary *margs = [NSMutableDictionary dictionaryWithDictionary:args];
+        margs[@"auth"] = auth; //inject authentication for all requests
+        args = margs;
+    }
     
     NSString *sData = [jsonWriter stringWithObject:args];
     NSData *data = [sData dataUsingEncoding:NSUTF8StringEncoding];

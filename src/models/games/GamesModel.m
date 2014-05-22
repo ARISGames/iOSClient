@@ -11,6 +11,8 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "GamesModel.h"
+#import "AppModel.h"
+#import "AppServices.h"
 
 @interface GamesModel()
 {
@@ -149,15 +151,16 @@
   return [games objectForKey:[NSNumber numberWithInt:game_id]];
 }
 
-- (NSArray *) nearbyGames:(CLLocation *)l
+- (NSArray *) nearbyGames
 {
     if(!nearbyStamp || [nearbyStamp timeIntervalSinceNow] > 120 ||
-       !location || location.coordinate.latitude != l.coordinate.latitude || location.coordinate.longitude != l.coordinate.longitude)
+       !location || location.coordinate.latitude != _MODEL_PLAYER_.location.coordinate.latitude || location.coordinate.longitude != _MODEL_PLAYER_.location.coordinate.longitude)
     {
         nearbyStamp = [[NSDate alloc] init];
     }
     
-    location = [[CLLocation alloc] initWithLatitude:l.coordinate.latitude longitude:l.coordinate.longitude];
+    location = [_MODEL_PLAYER_.location copy];
+    [_SERVICES_ fetchNearbyGameList]; 
     return nearbyGames;
 }
 
@@ -168,6 +171,7 @@
         anywhereStamp = [[NSDate alloc] init]; 
     }
         
+    [_SERVICES_ fetchAnywhereGameList];  
     return anywhereGames; 
 }
 
@@ -178,6 +182,7 @@
         popularStamp = [[NSDate alloc] init]; 
     } 
         
+    [_SERVICES_ fetchPopularGameList];   
     return popularGames;  
 }
 
@@ -188,6 +193,7 @@
         recentStamp = [[NSDate alloc] init]; 
     }  
     
+    [_SERVICES_ fetchRecentGameList];    
     return recentGames;   
 }
 
@@ -199,6 +205,7 @@
         searchStamp = [[NSDate alloc] init]; 
     }   
     
+    [_SERVICES_ fetchSearchGameList:s];     
     return searchGames;    
 }
 

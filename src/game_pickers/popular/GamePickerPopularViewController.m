@@ -60,7 +60,7 @@
     
     if(_MODEL_.deviceLocation && _MODEL_PLAYER_)   
     {
-        [_SERVICES_ fetchPopularGameListForTime:time];
+        //[_SERVICES_ fetchPopularGameListForTime:time];
         [self showLoadingIndicator];
     }
 }

@@ -81,6 +81,102 @@
   _ARIS_NOTIF_SEND_(@"SERVICES_LOGIN_RECEIVED",nil,userDict);
 }
 
+- (NSArray *) parseGamesList:(NSArray *)gamesDicts
+{
+    NSMutableArray *gamesList = [[NSMutableArray alloc] init];
+    
+    for(int i = 0; i < gamesDicts.count; i++)
+        [gamesList addObject:[[Game alloc] initWithDictionary:gamesDicts[i]]];
+    
+    return gamesList;
+}
+
+- (void) fetchNearbyGameList
+{
+    NSDictionary *args = 
+        @{
+            @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
+            @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
+            @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
+            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+        };
+  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseNearbyGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseNearbyGameList:(ARISServiceResult *)result
+{	   
+    _ARIS_NOTIF_SEND_(@"SERVICES_NEARBY_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+}
+
+- (void) fetchAnywhereGameList
+{
+    NSDictionary *args = 
+        @{
+            @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
+            @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
+            @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
+            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+        };
+  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseAnywhereGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseAnywhereGameList:(ARISServiceResult *)result
+{	   
+    _ARIS_NOTIF_SEND_(@"SERVICES_ANYWHERE_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+}
+
+- (void) fetchRecentGameList
+{
+    NSDictionary *args = 
+        @{
+            @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
+            @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
+            @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
+            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+        };
+  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseRecentGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseRecentGameList:(ARISServiceResult *)result
+{	   
+    _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+}
+
+- (void) fetchPopularGameList
+{
+    NSDictionary *args = 
+        @{
+            @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
+            @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
+            @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
+            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+        };
+  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parsePopularGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parsePopularGameList:(ARISServiceResult *)result
+{	   
+    _ARIS_NOTIF_SEND_(@"SERVICES_POPULAR_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+}
+
+- (void) fetchSearchGameList:(NSString *)search
+{
+    NSDictionary *args = 
+        @{
+            @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
+            @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
+            @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
+            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+        };
+  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseSearchGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseSearchGameList:(ARISServiceResult *)result
+{	   
+    _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+}
+
+
+
+
+
+
+
 
 - (void) updatePlayer:(int)user_id withName:(NSString *)name
 {
@@ -111,66 +207,6 @@
     [NSString stringWithFormat:@"%d", _MODEL_.showPlayerOnMap], @"bshowPlayerOnMap",
     nil]; 
   [connection performAsynchronousRequestWithService:@"players" method:@"setShowPlayerOnMap" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
-{
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                      @"auser_id",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"blatitude",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"clongitude",
-    [NSString stringWithFormat:@"%d",distanceInMeters],                            @"ddistance",
-    [NSString stringWithFormat:@"%d",YES],                                         @"equestion",
-    [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],              @"fshowGamesInDevel",
-    nil];
-  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseNearbyGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchAnywhereGameList
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                     @"auser_id",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"blatitude",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"clongitude",
-    [NSString stringWithFormat:@"%d",0],                                                             @"ddistanceInMeters",
-    [NSString stringWithFormat:@"%d",NO],                                                            @"equestion",
-    [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],              @"fshowGamesInDevel",
-    nil];
-  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseAnywhereGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchRecentGameListForPlayer
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                      @"auser_id",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],  @"blatitude",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude], @"clongitude",
-    [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],               @"dshowGamesInDevel",
-    nil];
-  [connection performAsynchronousRequestWithService:@"games" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchPopularGameListForTime:(int)time
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],       @"auser_id",
-    [NSString stringWithFormat:@"%d",time],                                            @"btime",
-    [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],@"cshowGamesInDevel",
-    nil];
-  [connection performAsynchronousRequestWithService:@"games" method:@"getPopularGames" arguments:args handler:self successSelector:@selector(parsePopularGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchGameListBySearch:(NSString *)searchText onPage:(int)page
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                      @"auser_id",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],  @"blatitude",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude], @"clongitude",
-    searchText,                                                                                       @"dsearchText",
-    [NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],               @"eshowGamesInDevel",
-    [NSString stringWithFormat:@"%d", page],                                                          @"fpage",
-    nil];
-  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesContainingText" arguments:args handler:self successSelector:@selector(parseSearchGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) updateServerLocationViewed:(int)locationId
@@ -457,6 +493,7 @@
   [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(noteContentUploadDidFinish:) failSelector:@selector(uploadNoteContentDidFail:) retryOnFail:NO userInfo:userInfo]; 
 }
 
+
 - (void) playerPicUploadDidFinish:(ARISServiceResult*)result
 {        
   NSDictionary *m = (NSDictionary *)result.resultData;
@@ -481,6 +518,7 @@
     [_MODEL_ saveUserDefaults];
   }
 }
+
 - (void) updateServerWithPlayerLocation
 {
   if(!_MODEL_PLAYER_)
