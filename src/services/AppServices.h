@@ -41,14 +41,14 @@
 - (void) fetchPlayerQuestList;
 - (void) fetchPlayerInventory;
 - (void) fetchPlayerOverlayList;
-- (void) fetchNpcConversations:(int)npc_id afterViewingPlaque:(int)plaque_id;
+- (void) fetchDialogConversations:(int)dialog_id afterViewingPlaque:(int)plaque_id;
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
 - (void) fetchAllGameLists;
 - (void) fetchGameMediaList;
 - (void) fetchTabBarItems;
 - (void) fetchGameOverlayList;
-- (void) fetchGameNpcList;
+- (void) fetchGameDialogList;
 - (void) fetchGameItemList;
 - (void) fetchGamePlaqueList;
 - (void) fetchGameWebPageList;
@@ -74,7 +74,7 @@
 - (void) updateServerPlaqueViewed:(int)plaque_id fromLocation:(int)locationId;
 - (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId;
 - (void) updateServerWebPageViewed:(int)web_page_id fromLocation:(int)locationId;
-- (void) updateServerNpcViewed:(int)npc_id fromLocation:(int)locationId;
+- (void) updateServerDialogViewed:(int)dialog_id fromLocation:(int)locationId;
 - (void) updateServerMapViewed;
 - (void) updateServerQuestsViewed;
 - (void) updateServerInventoryViewed;

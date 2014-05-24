@@ -15,7 +15,7 @@
 #import "WebPage.h"
 #import "Note.h"
 #import "User.h"
-#import "Npc.h"
+#import "Dialog.h"
 #import "Note.h"
 
 @implementation Location
@@ -61,7 +61,7 @@
         /*
         if([otype isEqualToString:@"Plaque"])     self.gameObject = [_MODEL_PLAQUES_ plaqueForId:oid];
         if([otype isEqualToString:@"Item"])       self.gameObject = [_MODEL_ITEMS_ itemForId:oid];
-        if([otype isEqualToString:@"Npc"])        self.gameObject = [_MODEL_NPCS_ npcForId:oid];
+        if([otype isEqualToString:@"Dialog"])     self.gameObject = [_MODEL_DIALOGS_ dialogForId:oid];
         if([otype isEqualToString:@"WebPage"])    self.gameObject = [_MODEL_WEBPAGES_ webPageForId:oid];
         if([otype isEqualToString:@"PlayerNote"]) self.gameObject = [_MODEL_GAME_.notesModel noteForId:oid];
         if([otype isEqualToString:@"Player"])     self.gameObject = [[User alloc] init];

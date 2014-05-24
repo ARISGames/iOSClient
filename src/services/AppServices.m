@@ -252,15 +252,15 @@
   [connection performAsynchronousRequestWithService:@"players" method:@"itemViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) updateServerNpcViewed:(int)npc_id fromLocation:(int)locationId
+- (void) updateServerDialogViewed:(int)dialog_id fromLocation:(int)locationId
 {	
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
     [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
     [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
-    [NSString stringWithFormat:@"%d",npc_id],                                       @"cnpc_id",
+    [NSString stringWithFormat:@"%d",dialog_id],                                       @"cdialog_id",
     [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"npcViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"dialogViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) updateServerGameSelected
@@ -544,7 +544,7 @@
   [self fetchTabBarItems];
   [self fetchGameMediaList];
   [self fetchGameItemList];
-  [self fetchGameNpcList];
+  [self fetchGameDialogList];
   [self fetchGamePlaqueList];
   [self fetchGameWebPageList];
   [self fetchGameOverlayList];
@@ -618,24 +618,24 @@
   [connection performAsynchronousRequestWithService:@"qrcodes" method:@"getQRCodeNearbyObjectForPlayer" arguments:args handler:self successSelector:@selector(parseQRCodeObjectFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) fetchNpcConversations:(int)npc_id afterViewingPlaque:(int)plaque_id
+- (void) fetchDialogConversations:(int)dialog_id afterViewingPlaque:(int)plaque_id
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
     [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    [NSString stringWithFormat:@"%d",npc_id],                                        @"bnpc_id",
+    [NSString stringWithFormat:@"%d",dialog_id],                                        @"bdialog_id",
     [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"cuser_id",
     [NSString stringWithFormat:@"%d",plaque_id],                                       @"dplaque_id",
     nil];
-  [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcConversationsForPlayerAfterViewingPlaque" arguments:args handler:self successSelector:@selector(parseConversationOptionsFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getdialogConversationsForPlayerAfterViewingPlaque" arguments:args handler:self successSelector:@selector(parseConversationOptionsFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) fetchGameNpcList
+- (void) fetchGameDialogList
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
     [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
     nil];
 
-  [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcs" arguments:args handler:self successSelector:@selector(parseGameNpcListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogs" arguments:args handler:self successSelector:@selector(parseGameDialogListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchNoteListPage:(int)page
@@ -839,7 +839,7 @@
     int plaque_id = [conversationDictionary validIntForKey:@"plaque_id"];
     NSString *text = [conversationDictionary validObjectForKey:@"text"];
     BOOL hasViewed = [conversationDictionary validBoolForKey:@"has_viewed"];
-    NpcScriptOption *option = [[NpcScriptOption alloc] initWithOptionText:text scriptText:@"" plaque_id:plaque_id hasViewed:hasViewed];
+    DialogScriptOption *option = [[DialogScriptOption alloc] initWithOptionText:text scriptText:@"" plaque_id:plaque_id hasViewed:hasViewed];
     [conversationOptions addObject:option];
        */
   }
@@ -968,17 +968,17 @@
      */
 }
 
-- (void) parseGameNpcListFromJSON:(ARISServiceResult *)jsonResult
+- (void) parseGameDialogListFromJSON:(ARISServiceResult *)jsonResult
 {
-  NSArray *npcListArray = (NSArray *)jsonResult.resultData;
+  NSArray *dialogListArray = (NSArray *)jsonResult.resultData;
 
-  NSMutableDictionary *tempNpcList = [[NSMutableDictionary alloc] init];
-  NSEnumerator *enumerator = [((NSArray *)npcListArray) objectEnumerator];
+  NSMutableDictionary *tempDialogList = [[NSMutableDictionary alloc] init];
+  NSEnumerator *enumerator = [((NSArray *)dialogListArray) objectEnumerator];
   NSDictionary *dict;
   while ((dict = [enumerator nextObject]))
   {
-    Npc *tmpNpc = [[Npc alloc] initWithDictionary:dict];
-    [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npc_id]];
+    Dialog *tmpDialog = [[Dialog alloc] initWithDictionary:dict];
+    [tempDialogList setObject:tmpDialog forKey:[NSNumber numberWithInt:tmpDialog.dialog_id]];
   }
 
   _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);

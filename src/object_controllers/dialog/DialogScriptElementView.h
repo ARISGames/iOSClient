@@ -1,5 +1,5 @@
 //
-//  NpcScriptElementView.h
+//  DialogScriptElementView.h
 //  ARIS
 //
 //  Created by Phil Dougherty on 8/5/13.
@@ -10,14 +10,14 @@
 #import "Media.h"
 
 @class ScriptElement;
-@class NpcScriptElementView;
+@class DialogScriptElementView;
 
-@protocol NpcScriptElementViewDelegate
+@protocol DialogScriptElementViewDelegate
 - (void) scriptElementViewRequestsTitle:(NSString *)t;
 - (void) scriptElementViewRequestsHideContinue:(BOOL)h;
 @end
 
-@interface NpcScriptElementView : UIView
+@interface DialogScriptElementView : UIView
 - (id) initWithFrame:(CGRect)f media:(Media *)m   title:(NSString *)t delegate:(id)d;
 - (id) initWithFrame:(CGRect)f image:(UIImage *)i title:(NSString *)t delegate:(id)d;
 - (void) loadScriptElement:(ScriptElement *)s;

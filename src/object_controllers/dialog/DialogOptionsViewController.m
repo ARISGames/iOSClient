@@ -1,13 +1,13 @@
 //
-//  NpcOptionsViewController.m
+//  DialogOptionsViewController.m
 //  ARIS
 //
 //  Created by Phil Dougherty on 8/5/13.
 //
 //
 
-#import "NpcOptionsViewController.h"
-#import "NpcScriptOption.h"
+#import "DialogOptionsViewController.h"
+#import "DialogScriptOption.h"
 #import "ARISMediaView.h"
 #import "ARISCollapseView.h"
 #import "ARISWebView.h"
@@ -18,7 +18,7 @@
 #import "ARISTemplate.h"
 #import "StateControllerProtocol.h"
 
-@interface NpcOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, StateControllerProtocol>
+@interface DialogOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, StateControllerProtocol>
 {
   ARISMediaView *mediaView;
 
@@ -32,14 +32,14 @@
   NSString *currentLeaveConversationTitle;
   BOOL currentlyHidingLeaveConversationButton;
 
-  id<NpcOptionsViewControllerDelegate> __unsafe_unretained delegate;
+  id<DialogOptionsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
-@implementation NpcOptionsViewController
+@implementation DialogOptionsViewController
 
-- (id) initWithFrame:(CGRect)f delegate:(id<NpcOptionsViewControllerDelegate>)d
+- (id) initWithFrame:(CGRect)f delegate:(id<DialogOptionsViewControllerDelegate>)d
 {
   if(self = [super init])
   {
@@ -84,10 +84,10 @@
   [optionsCollapseView handleTapped:r];
 }
 
-- (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o
+- (void) loadOptionsForDialog:(Dialog *)n afterViewingOption:(DialogScriptOption *)o
 {
   [delegate optionsRequestsTitle:playerTitle];
-  [_SERVICES_ fetchNpcConversations:n.npc_id afterViewingPlaque:o.plaque_id];
+  [_SERVICES_ fetchDialogConversations:n.dialog_id afterViewingPlaque:o.plaque_id];
   [self showWaitingIndicatorForPlayerOptions];
 }
 
@@ -124,7 +124,7 @@
     text.scrollView.bounces = NO;
     text.backgroundColor = [UIColor clearColor];
     text.opaque = NO;
-    NpcScriptOption *option = [optionList objectAtIndex:i];
+    DialogScriptOption *option = [optionList objectAtIndex:i];
 
     if(!option.hasViewed)
       [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], option.optionText] baseURL:nil];
@@ -247,7 +247,7 @@
     [delegate leaveConversationRequested];
   else
   {
-    NpcScriptOption *selectedOption = [optionList objectAtIndex:r.view.tag];
+    DialogScriptOption *selectedOption = [optionList objectAtIndex:r.view.tag];
     selectedOption.scriptText = [_MODEL_PLAQUES_ plaqueForId:selectedOption.plaque_id].desc;
     [delegate optionChosen:selectedOption];
   }

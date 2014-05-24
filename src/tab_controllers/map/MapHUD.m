@@ -12,7 +12,7 @@
 #import "AppModel.h"
 
 #import "User.h"
-#import "Npc.h"
+#import "Dialog.h"
 #import "Item.h"
 #import "Plaque.h"
 #import "WebPage.h"

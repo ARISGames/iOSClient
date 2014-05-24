@@ -1,5 +1,5 @@
 //
-//  NpcOptionsViewController.h
+//  DialogOptionsViewController.h
 //  ARIS
 //
 //  Created by Phil Dougherty on 8/5/13.
@@ -9,18 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "ARISViewController.h"
 
-@class Npc;
-@class NpcScriptOption;
+@class Dialog;
+@class DialogScriptOption;
 @class Media;
-@protocol NpcOptionsViewControllerDelegate
+@protocol DialogOptionsViewControllerDelegate
 - (void) leaveConversationRequested;
-- (void) optionChosen:(NpcScriptOption *)o;
+- (void) optionChosen:(DialogScriptOption *)o;
 - (void) optionsRequestsTitle:(NSString *)t;
 @end
 
-@interface NpcOptionsViewController : ARISViewController
-- (id) initWithFrame:(CGRect)f delegate:(id<NpcOptionsViewControllerDelegate>)d;
-- (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o;
+@interface DialogOptionsViewController : ARISViewController
+- (id) initWithFrame:(CGRect)f delegate:(id<DialogOptionsViewControllerDelegate>)d;
+- (void) loadOptionsForDialog:(Dialog *)n afterViewingOption:(DialogScriptOption *)o;
 - (void) setDefaultTitle:(NSString *)t;
 - (void) setDefaultMedia:(Media *)m;
 - (void) setShowLeaveConversationButton:(BOOL)s;

@@ -1,5 +1,5 @@
 //
-//  NPC.h
+//  Dialog.h
 //  ARIS
 //
 //  Created by David J Gagnon on 9/2/09.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "InstantiableProtocol.h"
 
-@interface Npc : NSObject <InstantiableProtocol>
+@interface Dialog : NSObject <InstantiableProtocol>
 {
-	int npc_id;
+	int dialog_id;
 	NSString *name;
    	NSString *desc; 
    	int	icon_media_id;
@@ -20,7 +20,7 @@
    	int closing_script_id; 
 }
 
-@property(nonatomic, assign) int npc_id;
+@property(nonatomic, assign) int dialog_id;
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSString *desc;
 @property(nonatomic, assign) int icon_media_id;

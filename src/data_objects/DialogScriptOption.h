@@ -1,5 +1,5 @@
 //
-//  NpcScriptOption.h
+//  DialogScriptOption.h
 //  ARIS
 //
 //  Created by Kevin Harris on 5/18/09.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NpcScriptOption : NSObject
+@interface DialogScriptOption : NSObject
 {
 	NSString *optionText;
     NSString *scriptText;

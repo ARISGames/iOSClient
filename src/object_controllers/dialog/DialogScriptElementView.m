@@ -1,12 +1,12 @@
 //
-//  NpcScriptElementView.m
+//  DialogScriptElementView.m
 //  ARIS
 //
 //  Created by Phil Dougherty on 8/5/13.
 //
 //
 
-#import "NpcScriptElementView.h"
+#import "DialogScriptElementView.h"
 #import "ScriptElement.h"
 #import "ARISMediaView.h"
 #import "ARISWebView.h"
@@ -19,7 +19,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate>
+@interface DialogScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate>
 {
     ScriptElement *scriptElement;
     
@@ -35,12 +35,12 @@
     AVAudioPlayer *player;
     UIButton *playAudioButton;
     
-    id<NpcScriptElementViewDelegate> __unsafe_unretained delegate;
+    id<DialogScriptElementViewDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
-@implementation NpcScriptElementView
+@implementation DialogScriptElementView
 
 - (void) initialize
 {
@@ -72,7 +72,7 @@
     [self addSubview:textSection];
 }
 
-- (id) initWithFrame:(CGRect)f media:(Media *)m title:(NSString *)t delegate:(id<NpcScriptElementViewDelegate>)d
+- (id) initWithFrame:(CGRect)f media:(Media *)m title:(NSString *)t delegate:(id<DialogScriptElementViewDelegate>)d
 {
     if(self = [super initWithFrame:f])
     {
@@ -91,7 +91,7 @@
     return self;
 }
 
-- (id) initWithFrame:(CGRect)f image:(UIImage *)i title:(NSString *)t delegate:(id<NpcScriptElementViewDelegate>)d;
+- (id) initWithFrame:(CGRect)f image:(UIImage *)i title:(NSString *)t delegate:(id<DialogScriptElementViewDelegate>)d;
 {
     if(self = [super initWithFrame:f])
     {

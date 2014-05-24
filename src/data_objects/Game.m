@@ -40,7 +40,7 @@
 
 @synthesize plaquesModel; 
 @synthesize itemsModel; 
-@synthesize npcsModel; 
+@synthesize dialogsModel; 
 @synthesize webPagesModel; 
 @synthesize notesModel;
 @synthesize questsModel;
@@ -101,7 +101,7 @@
 {
     self.plaquesModel   = [[PlaquesModel   alloc] init];  
     self.itemsModel     = [[ItemsModel     alloc] init];  
-    self.npcsModel      = [[NpcsModel      alloc] init];  
+    self.dialogsModel   = [[DialogsModel   alloc] init];  
     self.webPagesModel  = [[WebPagesModel  alloc] init];   
     self.notesModel     = [[NotesModel     alloc] init];
     self.questsModel    = [[QuestsModel    alloc] init];
@@ -111,10 +111,10 @@
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
 {
-    self.plaquesModel   = nil;  
-    self.itemsModel     = nil;  
-    self.npcsModel      = nil;   
-    self.webPagesModel  = nil;    
+    self.plaquesModel   = nil;
+    self.itemsModel     = nil;
+    self.dialogsModel   = nil;
+    self.webPagesModel  = nil;
     self.notesModel     = nil;
     self.questsModel    = nil;
     self.locationsModel = nil; 
@@ -124,7 +124,7 @@
 {
     [self.plaquesModel   clearGameData];  
     [self.itemsModel     clearGameData];  
-    [self.npcsModel      clearGameData];  
+    [self.dialogsModel   clearGameData];  
     [self.webPagesModel  clearGameData];   
     [self.notesModel     clearData];
     [self.questsModel    clearData];

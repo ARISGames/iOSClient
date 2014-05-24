@@ -49,9 +49,6 @@
 		AA0D161318EDF14500D856F1 /* search_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160E18EDF14500D856F1 /* search_red@2x.png */; };
 		AA0D161418EDF14500D856F1 /* star_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160F18EDF14500D856F1 /* star_red@2x.png */; };
 		AA0D161818EE00C100D856F1 /* trash_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D161718EE00C100D856F1 /* trash_red@2x.png */; };
-		AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */; };
-		AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */; };
-		AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807F17B015A00002A81C /* NpcScriptViewController.m */; };
 		AA0DF0A918DA2DE200D4122B /* NoteTagSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
@@ -137,7 +134,6 @@
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
 		AAB398E41918166700E0E766 /* Plaque.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E31918166700E0E766 /* Plaque.m */; };
 		AAB398E8191821D400E0E766 /* PlaquesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E7191821D400E0E766 /* PlaquesModel.m */; };
-		AAB398EC19182E0500E0E766 /* NpcsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398EB19182E0500E0E766 /* NpcsModel.m */; };
 		AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */; };
 		AAB62FE118C689DD00030F48 /* barcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB62FDF18C689DD00030F48 /* barcode@2x.png */; };
 		AAB62FE218C689DD00030F48 /* notebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB62FE018C689DD00030F48 /* notebook@2x.png */; };
@@ -187,9 +183,7 @@
 		AABC737E172739D80074CC21 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7077172739D60074CC21 /* Item.m */; };
 		AABC737F172739D80074CC21 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7079172739D60074CC21 /* Location.m */; };
 		AABC7380172739D80074CC21 /* MediaCD.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC707B172739D60074CC21 /* MediaCD.m */; };
-		AABC7382172739D80074CC21 /* NpcScriptOption.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC707F172739D60074CC21 /* NpcScriptOption.m */; };
 		AABC7383172739D80074CC21 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7081172739D60074CC21 /* Note.m */; };
-		AABC7385172739D80074CC21 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7085172739D60074CC21 /* Npc.m */; };
 		AABC7389172739D80074CC21 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708D172739D60074CC21 /* User.m */; };
 		AABC738A172739D80074CC21 /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708F172739D60074CC21 /* Quest.m */; };
 		AABC738B172739D80074CC21 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7091172739D60074CC21 /* Tab.m */; };
@@ -215,9 +209,6 @@
 		AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EC172739D60074CC21 /* QuestsModel.m */; };
 		AABC73B9172739D80074CC21 /* MyCLController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EE172739D60074CC21 /* MyCLController.m */; };
 		AABC73BE172739D80074CC21 /* PlaqueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70F9172739D60074CC21 /* PlaqueViewController.m */; };
-		AABC73C0172739D80074CC21 /* Script.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70FD172739D60074CC21 /* Script.m */; };
-		AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7101172739D60074CC21 /* ScriptElement.m */; };
-		AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7103172739D60074CC21 /* ScriptParser.m */; };
 		AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC710E172739D60074CC21 /* GameNotificationViewController.m */; };
 		AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7112172739D60074CC21 /* PopOverViewController.m */; };
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
@@ -239,8 +230,19 @@
 		AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7373172739D80074CC21 /* UIImage+Scale.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
-		AABC750A172860690074CC21 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7508172860690074CC21 /* NpcViewController.m */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
+		AAC0D87E1930F4E200CA1DE3 /* DialogOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8711930F4E200CA1DE3 /* DialogOptionsViewController.m */; };
+		AAC0D87F1930F4E200CA1DE3 /* DialogScriptElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8731930F4E200CA1DE3 /* DialogScriptElementView.m */; };
+		AAC0D8801930F4E200CA1DE3 /* DialogScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */; };
+		AAC0D8811930F4E200CA1DE3 /* DialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8771930F4E200CA1DE3 /* DialogViewController.m */; };
+		AAC0D8821930F4E200CA1DE3 /* Script.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8791930F4E200CA1DE3 /* Script.m */; };
+		AAC0D8831930F4E200CA1DE3 /* ScriptElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D87B1930F4E200CA1DE3 /* ScriptElement.m */; };
+		AAC0D8841930F4E200CA1DE3 /* ScriptParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D87D1930F4E200CA1DE3 /* ScriptParser.m */; };
+		AAC0D8891930F6D900CA1DE3 /* Dialog.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8861930F6D900CA1DE3 /* Dialog.m */; };
+		AAC0D88A1930F6D900CA1DE3 /* DialogScriptOption.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8881930F6D900CA1DE3 /* DialogScriptOption.m */; };
+		AAC0D88D1930F6E100CA1DE3 /* Trigger.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D88C1930F6E100CA1DE3 /* Trigger.m */; };
+		AAC0D8911930F70E00CA1DE3 /* DialogsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8901930F70E00CA1DE3 /* DialogsModel.m */; };
+		AAC0D8941930F9D100CA1DE3 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8931930F9D100CA1DE3 /* Scene.m */; };
 		AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */; };
 		AAC6573C187200940063EAF7 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC6573B187200940063EAF7 /* play.png */; };
 		AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */; };
@@ -355,12 +357,6 @@
 		AA0D160E18EDF14500D856F1 /* search_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_red@2x.png"; sourceTree = "<group>"; };
 		AA0D160F18EDF14500D856F1 /* star_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_red@2x.png"; sourceTree = "<group>"; };
 		AA0D161718EE00C100D856F1 /* trash_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trash_red@2x.png"; sourceTree = "<group>"; };
-		AA0D807817B00E7E0002A81C /* NpcScriptElementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptElementView.h; sourceTree = "<group>"; };
-		AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptElementView.m; sourceTree = "<group>"; };
-		AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcOptionsViewController.h; sourceTree = "<group>"; };
-		AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcOptionsViewController.m; sourceTree = "<group>"; };
-		AA0D807E17B015A00002A81C /* NpcScriptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptViewController.h; sourceTree = "<group>"; };
-		AA0D807F17B015A00002A81C /* NpcScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptViewController.m; sourceTree = "<group>"; };
 		AA0DF0A718DA2DE200D4122B /* NoteTagSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagSelectorViewController.h; sourceTree = "<group>"; };
 		AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagSelectorViewController.m; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -511,8 +507,6 @@
 		AAB398E31918166700E0E766 /* Plaque.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plaque.m; sourceTree = "<group>"; };
 		AAB398E6191821D400E0E766 /* PlaquesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaquesModel.h; sourceTree = "<group>"; };
 		AAB398E7191821D400E0E766 /* PlaquesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaquesModel.m; sourceTree = "<group>"; };
-		AAB398EA19182E0500E0E766 /* NpcsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcsModel.h; sourceTree = "<group>"; };
-		AAB398EB19182E0500E0E766 /* NpcsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcsModel.m; sourceTree = "<group>"; };
 		AAB62FC518C64D0F00030F48 /* ARISDelegateHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARISDelegateHandle.h; path = src/ARISDelegateHandle.h; sourceTree = SOURCE_ROOT; };
 		AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARISDelegateHandle.m; path = src/ARISDelegateHandle.m; sourceTree = SOURCE_ROOT; };
 		AAB62FDF18C689DD00030F48 /* barcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barcode@2x.png"; sourceTree = "<group>"; };
@@ -576,12 +570,8 @@
 		AABC7079172739D60074CC21 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		AABC707A172739D60074CC21 /* MediaCD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaCD.h; sourceTree = "<group>"; };
 		AABC707B172739D60074CC21 /* MediaCD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaCD.m; sourceTree = "<group>"; };
-		AABC707E172739D60074CC21 /* NpcScriptOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptOption.h; sourceTree = "<group>"; };
-		AABC707F172739D60074CC21 /* NpcScriptOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptOption.m; sourceTree = "<group>"; };
 		AABC7080172739D60074CC21 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
 		AABC7081172739D60074CC21 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
-		AABC7084172739D60074CC21 /* Npc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Npc.h; sourceTree = "<group>"; };
-		AABC7085172739D60074CC21 /* Npc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Npc.m; sourceTree = "<group>"; };
 		AABC708C172739D60074CC21 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		AABC708D172739D60074CC21 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		AABC708E172739D60074CC21 /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
@@ -631,12 +621,6 @@
 		AABC70EE172739D60074CC21 /* MyCLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCLController.m; sourceTree = "<group>"; };
 		AABC70F8172739D60074CC21 /* PlaqueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaqueViewController.h; sourceTree = "<group>"; };
 		AABC70F9172739D60074CC21 /* PlaqueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaqueViewController.m; sourceTree = "<group>"; };
-		AABC70FC172739D60074CC21 /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script.h; sourceTree = "<group>"; };
-		AABC70FD172739D60074CC21 /* Script.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Script.m; sourceTree = "<group>"; };
-		AABC7100172739D60074CC21 /* ScriptElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptElement.h; sourceTree = "<group>"; };
-		AABC7101172739D60074CC21 /* ScriptElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptElement.m; sourceTree = "<group>"; };
-		AABC7102172739D60074CC21 /* ScriptParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptParser.h; sourceTree = "<group>"; };
-		AABC7103172739D60074CC21 /* ScriptParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptParser.m; sourceTree = "<group>"; };
 		AABC710D172739D60074CC21 /* GameNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameNotificationViewController.h; sourceTree = "<group>"; };
 		AABC710E172739D60074CC21 /* GameNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameNotificationViewController.m; sourceTree = "<group>"; };
 		AABC7111172739D60074CC21 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
@@ -696,10 +680,32 @@
 		AABC74FE1728600B0074CC21 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		AABC75021728604E0074CC21 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageViewController.h; sourceTree = "<group>"; };
 		AABC75031728604E0074CC21 /* WebPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPageViewController.m; sourceTree = "<group>"; };
-		AABC7507172860690074CC21 /* NpcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcViewController.h; sourceTree = "<group>"; };
-		AABC7508172860690074CC21 /* NpcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcViewController.m; sourceTree = "<group>"; };
 		AABC750E172860860074CC21 /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		AABC750F172860860074CC21 /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
+		AAC0D8701930F4E200CA1DE3 /* DialogOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogOptionsViewController.h; sourceTree = "<group>"; };
+		AAC0D8711930F4E200CA1DE3 /* DialogOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogOptionsViewController.m; sourceTree = "<group>"; };
+		AAC0D8721930F4E200CA1DE3 /* DialogScriptElementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScriptElementView.h; sourceTree = "<group>"; };
+		AAC0D8731930F4E200CA1DE3 /* DialogScriptElementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScriptElementView.m; sourceTree = "<group>"; };
+		AAC0D8741930F4E200CA1DE3 /* DialogScriptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScriptViewController.h; sourceTree = "<group>"; };
+		AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScriptViewController.m; sourceTree = "<group>"; };
+		AAC0D8761930F4E200CA1DE3 /* DialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogViewController.h; sourceTree = "<group>"; };
+		AAC0D8771930F4E200CA1DE3 /* DialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogViewController.m; sourceTree = "<group>"; };
+		AAC0D8781930F4E200CA1DE3 /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script.h; sourceTree = "<group>"; };
+		AAC0D8791930F4E200CA1DE3 /* Script.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Script.m; sourceTree = "<group>"; };
+		AAC0D87A1930F4E200CA1DE3 /* ScriptElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptElement.h; sourceTree = "<group>"; };
+		AAC0D87B1930F4E200CA1DE3 /* ScriptElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptElement.m; sourceTree = "<group>"; };
+		AAC0D87C1930F4E200CA1DE3 /* ScriptParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptParser.h; sourceTree = "<group>"; };
+		AAC0D87D1930F4E200CA1DE3 /* ScriptParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptParser.m; sourceTree = "<group>"; };
+		AAC0D8851930F6D900CA1DE3 /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dialog.h; sourceTree = "<group>"; };
+		AAC0D8861930F6D900CA1DE3 /* Dialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dialog.m; sourceTree = "<group>"; };
+		AAC0D8871930F6D900CA1DE3 /* DialogScriptOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScriptOption.h; sourceTree = "<group>"; };
+		AAC0D8881930F6D900CA1DE3 /* DialogScriptOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScriptOption.m; sourceTree = "<group>"; };
+		AAC0D88B1930F6E100CA1DE3 /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trigger.h; sourceTree = "<group>"; };
+		AAC0D88C1930F6E100CA1DE3 /* Trigger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trigger.m; sourceTree = "<group>"; };
+		AAC0D88F1930F70E00CA1DE3 /* DialogsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogsModel.h; sourceTree = "<group>"; };
+		AAC0D8901930F70E00CA1DE3 /* DialogsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogsModel.m; sourceTree = "<group>"; };
+		AAC0D8921930F9D100CA1DE3 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		AAC0D8931930F9D100CA1DE3 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
 		AAC3C323185F7D67001430BE /* ARISCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ARISCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		AAC6573B187200940063EAF7 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		AAC8290D18A53A68000EA4C7 /* ARISServiceResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISServiceResult.h; sourceTree = "<group>"; };
@@ -1053,15 +1059,6 @@
 			path = plaques;
 			sourceTree = "<group>";
 		};
-		AAB398E919182E0500E0E766 /* npcs */ = {
-			isa = PBXGroup;
-			children = (
-				AAB398EA19182E0500E0E766 /* NpcsModel.h */,
-				AAB398EB19182E0500E0E766 /* NpcsModel.m */,
-			);
-			path = npcs;
-			sourceTree = "<group>";
-		};
 		AABC6F3C1727398B0074CC21 /* assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1215,6 +1212,14 @@
 		AABC7073172739D60074CC21 /* data_objects */ = {
 			isa = PBXGroup;
 			children = (
+				AAC0D8921930F9D100CA1DE3 /* Scene.h */,
+				AAC0D8931930F9D100CA1DE3 /* Scene.m */,
+				AAC0D88B1930F6E100CA1DE3 /* Trigger.h */,
+				AAC0D88C1930F6E100CA1DE3 /* Trigger.m */,
+				AAC0D8851930F6D900CA1DE3 /* Dialog.h */,
+				AAC0D8861930F6D900CA1DE3 /* Dialog.m */,
+				AAC0D8871930F6D900CA1DE3 /* DialogScriptOption.h */,
+				AAC0D8881930F6D900CA1DE3 /* DialogScriptOption.m */,
 				AA6EC330192E6FFB00D70D38 /* InstantiableProtocol.h */,
 				AA68B2FC1912E73E000C717B /* Instance.h */,
 				AA68B2FD1912E73E000C717B /* Instance.m */,
@@ -1229,12 +1234,8 @@
 				AABC7077172739D60074CC21 /* Item.m */,
 				AABC7078172739D60074CC21 /* Location.h */,
 				AABC7079172739D60074CC21 /* Location.m */,
-				AABC707E172739D60074CC21 /* NpcScriptOption.h */,
-				AABC707F172739D60074CC21 /* NpcScriptOption.m */,
 				AABC7080172739D60074CC21 /* Note.h */,
 				AABC7081172739D60074CC21 /* Note.m */,
-				AABC7084172739D60074CC21 /* Npc.h */,
-				AABC7085172739D60074CC21 /* Npc.m */,
 				AABC708C172739D60074CC21 /* User.h */,
 				AABC708D172739D60074CC21 /* User.m */,
 				AABC708E172739D60074CC21 /* Quest.h */,
@@ -1371,7 +1372,7 @@
 				AA02477A1927D0DD00CF5CE3 /* games */,
 				AAB398E5191821D400E0E766 /* plaques */,
 				AA68B2F41912E6DF000C717B /* items */,
-				AAB398E919182E0500E0E766 /* npcs */,
+				AAC0D88E1930F70E00CA1DE3 /* dialogs */,
 				AA5D8D2F191AB20800116FA1 /* webpages */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70E4172739D60074CC21 /* locations */,
@@ -1416,7 +1417,7 @@
 				AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */,
 				AABC70F2172739D60074CC21 /* item */,
 				AABC70F6172739D60074CC21 /* plaque */,
-				AABC70FA172739D60074CC21 /* npc */,
+				AAC0D86F1930F4E200CA1DE3 /* dialog */,
 				AA2B4A68182A976100A0D2A1 /* note */,
 				AABC7108172739D60074CC21 /* webpage */,
 			);
@@ -1442,27 +1443,6 @@
 			);
 			name = plaque;
 			path = node;
-			sourceTree = "<group>";
-		};
-		AABC70FA172739D60074CC21 /* npc */ = {
-			isa = PBXGroup;
-			children = (
-				AABC7507172860690074CC21 /* NpcViewController.h */,
-				AABC7508172860690074CC21 /* NpcViewController.m */,
-				AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */,
-				AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */,
-				AA0D807E17B015A00002A81C /* NpcScriptViewController.h */,
-				AA0D807F17B015A00002A81C /* NpcScriptViewController.m */,
-				AA0D807817B00E7E0002A81C /* NpcScriptElementView.h */,
-				AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */,
-				AABC7102172739D60074CC21 /* ScriptParser.h */,
-				AABC7103172739D60074CC21 /* ScriptParser.m */,
-				AABC70FC172739D60074CC21 /* Script.h */,
-				AABC70FD172739D60074CC21 /* Script.m */,
-				AABC7100172739D60074CC21 /* ScriptElement.h */,
-				AABC7101172739D60074CC21 /* ScriptElement.m */,
-			);
-			path = npc;
 			sourceTree = "<group>";
 		};
 		AABC7108172739D60074CC21 /* webpage */ = {
@@ -1714,6 +1694,36 @@
 				AABC7373172739D80074CC21 /* UIImage+Scale.m */,
 			);
 			path = utils;
+			sourceTree = "<group>";
+		};
+		AAC0D86F1930F4E200CA1DE3 /* dialog */ = {
+			isa = PBXGroup;
+			children = (
+				AAC0D8701930F4E200CA1DE3 /* DialogOptionsViewController.h */,
+				AAC0D8711930F4E200CA1DE3 /* DialogOptionsViewController.m */,
+				AAC0D8721930F4E200CA1DE3 /* DialogScriptElementView.h */,
+				AAC0D8731930F4E200CA1DE3 /* DialogScriptElementView.m */,
+				AAC0D8741930F4E200CA1DE3 /* DialogScriptViewController.h */,
+				AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */,
+				AAC0D8761930F4E200CA1DE3 /* DialogViewController.h */,
+				AAC0D8771930F4E200CA1DE3 /* DialogViewController.m */,
+				AAC0D8781930F4E200CA1DE3 /* Script.h */,
+				AAC0D8791930F4E200CA1DE3 /* Script.m */,
+				AAC0D87A1930F4E200CA1DE3 /* ScriptElement.h */,
+				AAC0D87B1930F4E200CA1DE3 /* ScriptElement.m */,
+				AAC0D87C1930F4E200CA1DE3 /* ScriptParser.h */,
+				AAC0D87D1930F4E200CA1DE3 /* ScriptParser.m */,
+			);
+			path = dialog;
+			sourceTree = "<group>";
+		};
+		AAC0D88E1930F70E00CA1DE3 /* dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				AAC0D88F1930F70E00CA1DE3 /* DialogsModel.h */,
+				AAC0D8901930F70E00CA1DE3 /* DialogsModel.m */,
+			);
+			path = dialogs;
 			sourceTree = "<group>";
 		};
 		AAF7115117B9579900262A37 /* PKRevealController */ = {
@@ -2048,26 +2058,29 @@
 				AA68B2FE1912E73E000C717B /* Instance.m in Sources */,
 				AABC737F172739D80074CC21 /* Location.m in Sources */,
 				AABC7380172739D80074CC21 /* MediaCD.m in Sources */,
-				AABC7382172739D80074CC21 /* NpcScriptOption.m in Sources */,
 				AABC7383172739D80074CC21 /* Note.m in Sources */,
-				AABC7385172739D80074CC21 /* Npc.m in Sources */,
 				AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */,
 				AA8E9EAE18BE8DE000F343A2 /* GameCommentsReviewViewController.m in Sources */,
 				AAF9233A188715C20026A4FC /* FreqHistogramControl.m in Sources */,
 				AABC7389172739D80074CC21 /* User.m in Sources */,
 				AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */,
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
-				AAB398EC19182E0500E0E766 /* NpcsModel.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,
 				AABC738B172739D80074CC21 /* Tab.m in Sources */,
 				AABC738C172739D80074CC21 /* NoteTag.m in Sources */,
 				AABC738D172739D80074CC21 /* WebPage.m in Sources */,
+				AAC0D8941930F9D100CA1DE3 /* Scene.m in Sources */,
 				AA6EC33C192E730200D70D38 /* ARISViewController.m in Sources */,
 				AABC738E172739D80074CC21 /* Logger.m in Sources */,
+				AAC0D8801930F4E200CA1DE3 /* DialogScriptViewController.m in Sources */,
 				AABC738F172739D80074CC21 /* GameComment.m in Sources */,
 				AA6EC33B192E730200D70D38 /* ARISNavigationController.m in Sources */,
 				AABC7390172739D80074CC21 /* GameCommentCell.m in Sources */,
+				AAC0D8841930F4E200CA1DE3 /* ScriptParser.m in Sources */,
+				AAC0D8811930F4E200CA1DE3 /* DialogViewController.m in Sources */,
 				AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */,
+				AAC0D87E1930F4E200CA1DE3 /* DialogOptionsViewController.m in Sources */,
+				AAC0D8891930F6D900CA1DE3 /* Dialog.m in Sources */,
 				AABC7395172739D80074CC21 /* GameCommentsViewController.m in Sources */,
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
 				AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */,
@@ -2081,6 +2094,7 @@
 				AA68B2FB1912E6DF000C717B /* ItemsModel.m in Sources */,
 				AABC73A4172739D80074CC21 /* GamePickerSearchViewController.m in Sources */,
 				AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */,
+				AAC0D88D1930F6E100CA1DE3 /* Trigger.m in Sources */,
 				AA66CABE18A005150011FE97 /* NoteLocationPickerCrosshairsView.m in Sources */,
 				F97B42AD18D39DF5002FC8AD /* TriangleButton.m in Sources */,
 				AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */,
@@ -2097,9 +2111,6 @@
 				AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */,
 				AABC73B9172739D80074CC21 /* MyCLController.m in Sources */,
 				AABC73BE172739D80074CC21 /* PlaqueViewController.m in Sources */,
-				AABC73C0172739D80074CC21 /* Script.m in Sources */,
-				AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */,
-				AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */,
 				AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */,
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
 				AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */,
@@ -2139,6 +2150,7 @@
 				AAB398E8191821D400E0E766 /* PlaquesModel.m in Sources */,
 				AA3B7FC4182037CB006C9715 /* SBJsonWriter.m in Sources */,
 				AA3B7FBE182037CB006C9715 /* SBJsonStreamParserAdapter.m in Sources */,
+				AAC0D8821930F4E200CA1DE3 /* Script.m in Sources */,
 				AABC064818A1896500315FB5 /* CrumbPathView.m in Sources */,
 				AA2A8AC417F1DF5C002DA8C4 /* UIImage+animatedGIF.m in Sources */,
 				AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */,
@@ -2151,13 +2163,14 @@
 				AA3B7FC2182037CB006C9715 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				AABC74DE172739D80074CC21 /* UIImage+Alpha.m in Sources */,
 				AABC74DF172739D80074CC21 /* UIImage+fixOrientation.m in Sources */,
+				AAC0D87F1930F4E200CA1DE3 /* DialogScriptElementView.m in Sources */,
 				F92B5E0F18BFE02900D1D1A7 /* CircleButton.m in Sources */,
 				AAF9231E1885968B0026A4FC /* NoteRecorderViewController.m in Sources */,
 				AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */,
 				AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */,
 				AABC75001728600B0074CC21 /* MapViewController.m in Sources */,
 				AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */,
-				AABC750A172860690074CC21 /* NpcViewController.m in Sources */,
+				AAC0D8911930F70E00CA1DE3 /* DialogsModel.m in Sources */,
 				AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */,
 				AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */,
 				AA372A90188F2319005528D5 /* AudioMeter.m in Sources */,
@@ -2167,6 +2180,7 @@
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
 				AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
+				AAC0D8831930F4E200CA1DE3 /* ScriptElement.m in Sources */,
 				AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */,
 				AA383B1118283B9F00612FFB /* NoteCell.m in Sources */,
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
@@ -2178,12 +2192,10 @@
 				AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,
 				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,
-				AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */,
-				AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */,
 				AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */,
 				AAF9233B188715C20026A4FC /* Playhead.m in Sources */,
+				AAC0D88A1930F6D900CA1DE3 /* DialogScriptOption.m in Sources */,
 				AA714F1C18D8E23900E91682 /* NotebookNotesViewController.m in Sources */,
-				AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */,
 				AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

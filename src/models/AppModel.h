@@ -18,7 +18,7 @@
 #define _MODEL_GAME_ [AppModel sharedAppModel].game
 #define _MODEL_PLAQUES_ [AppModel sharedAppModel].game.plaquesModel
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].game.itemsModel
-#define _MODEL_NPCS_ [AppModel sharedAppModel].game.npcsModel
+#define _MODEL_DIALOGS_ [AppModel sharedAppModel].game.dialogsModel
 #define _MODEL_WEBPAGES_ [AppModel sharedAppModel].game.webPagesModel
 
 #import "User.h"
@@ -26,7 +26,7 @@
 #import "MediaModel.h"
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
-#import "NpcsModel.h"
+#import "dialogsModel.h"
 #import "WebPagesModel.h"
 #import "ARISPusherHandler.h"
 

@@ -1,5 +1,5 @@
 //
-//  NpcViewController.h
+//  DialogViewController.h
 //  ARIS
 //
 //  Created by Kevin Harris on 09/11/17.
@@ -10,9 +10,9 @@
 #import <AVFoundation/AVAudioPlayer.h>
 #import "GameObjectViewController.h"
 
-@class Npc;
+@class Dialog;
 @protocol StateControllerProtocol;
 
-@interface NpcViewController : GameObjectViewController
-- (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
+@interface DialogViewController : GameObjectViewController
+- (id) initWithDialog:(Dialog *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
 @end

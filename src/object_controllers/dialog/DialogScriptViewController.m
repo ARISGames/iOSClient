@@ -1,14 +1,14 @@
 //
-//  NpcScriptViewController.m
+//  DialogScriptViewController.m
 //  ARIS
 //
 //  Created by Phil Dougherty on 8/5/13.
 //
 //
 
-#import "NpcScriptViewController.h"
-#import "NpcScriptElementView.h"
-#import "NpcScriptOption.h"
+#import "DialogScriptViewController.h"
+#import "DialogScriptElementView.h"
+#import "DialogScriptOption.h"
 #import "ScriptParser.h"
 #import "Script.h"
 #import "ScriptElement.h"
@@ -20,31 +20,31 @@
 #import "ARISTemplate.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface NpcScriptViewController() <ScriptParserDelegate, NpcScriptElementViewDelegate>
+@interface DialogScriptViewController() <ScriptParserDelegate, DialogScriptElementViewDelegate>
 {
-    Npc *npc;
+    Dialog *dialog;
     
     ScriptParser *parser;
-    NpcScriptOption *currentScriptOption;
+    DialogScriptOption *currentScriptOption;
     Script *currentScript;
     ScriptElement *currentScriptElement;
     
-    NpcScriptElementView *npcView;
-    NpcScriptElementView *pcView;
+    DialogScriptElementView *npcView;
+    DialogScriptElementView *pcView;
     UIView *continueButton;
 	
-    id<NpcScriptViewControllerDelegate> __unsafe_unretained delegate;
+    id<DialogScriptViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
-@implementation NpcScriptViewController
+@implementation DialogScriptViewController
 
-- (id) initWithNpc:(Npc *)n frame:(CGRect)f delegate:(id<NpcScriptViewControllerDelegate>)d
+- (id) initWithDialog:(Dialog *)n frame:(CGRect)f delegate:(id<DialogScriptViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        npc = n;
+        dialog = n;
         parser = [[ScriptParser  alloc] initWithDelegate:self];
         
         delegate = d;
@@ -52,15 +52,15 @@
         Media *pcMedia;
         if(_MODEL_PLAYER_.media_id  != 0) pcMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
         
-        if(pcMedia) pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
-        else        pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+        if(pcMedia) pcView = [[DialogScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+        else        pcView = [[DialogScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
         [self.view addSubview:pcView];
         
-        Media *npcMedia;
-        if(npc.media_id != 0) npcMedia = [_MODEL_MEDIA_ mediaForId:npc.media_id];
+        Media *dialogMedia;
+        if(dialog.media_id != 0) dialogMedia = [_MODEL_MEDIA_ mediaForId:dialog.media_id];
         
-        if(npcMedia) npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:npc.name delegate:self];
-        else         npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:npc.name delegate:self];
+        if(dialogMedia) npcView = [[DialogScriptElementView alloc] initWithFrame:self.view.bounds media:dialogMedia                                   title:dialog.name delegate:self];
+        else         npcView = [[DialogScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:dialog.name delegate:self];
         [self.view addSubview:npcView];
         
         continueButton = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44)];
@@ -99,7 +99,7 @@
     self.view.opaque = NO;
 }
 
-- (void) loadScriptOption:(NpcScriptOption *)o
+- (void) loadScriptOption:(DialogScriptOption *)o
 {
     currentScriptOption = o;
     [parser parseText:o.scriptText];
@@ -107,7 +107,7 @@
 
 - (void) scriptDidFinishParsing:(Script *)s
 {
-    //Send global npc change requests to delegate (properties on dialog tag- would make more sense if they were on the npc level, but whatevs)
+    //Send global dialog change requests to delegate (properties on dialog tag- would make more sense if they were on the dialog level, but whatevs)
     if(s.hideLeaveConversationButtonSpecified) [delegate scriptRequestsHideLeaveConversation:s.hideLeaveConversationButton];
     if(s.leaveConversationButtonTitle)         [delegate scriptRequestsLeaveConversationTitle:s.leaveConversationButtonTitle];
     if(s.defaultPcTitle)                       [delegate scriptRequestsOptionsPcTitle:s.defaultPcTitle];
@@ -136,7 +136,7 @@
     else if([currentScriptElement.type isEqualToString:@"npc"])
     {
         [npcView loadScriptElement:currentScriptElement];
-        [self moveNpcIn];
+        [self moveDialogIn];
     }
     else if([currentScriptElement.type isEqualToString:@"video"])
     {
@@ -237,23 +237,23 @@
 - (void) movePcIn
 {
 	[self movePcTo:self.view.frame  withAlpha:1.0
-		  andNpcTo:npcOffscreenRect withAlpha:0.0];
+		  andDialogTo:npcOffscreenRect withAlpha:0.0];
 }
 
-- (void) moveNpcIn
+- (void) moveDialogIn
 {
 	[self movePcTo:pcOffscreenRect withAlpha:0.0
-		  andNpcTo:self.view.frame withAlpha:1.0];
+		  andDialogTo:self.view.frame withAlpha:1.0];
 }
 
 - (void) moveAllOut
 {
 	[self movePcTo:pcOffscreenRect  withAlpha:0.0
-		  andNpcTo:npcOffscreenRect withAlpha:0.0];
+		  andDialogTo:npcOffscreenRect withAlpha:0.0];
 }
 
 - (void) movePcTo:(CGRect)pcRect  withAlpha:(CGFloat)pcAlpha
-		 andNpcTo:(CGRect)npcRect withAlpha:(CGFloat)npcAlpha
+		 andDialogTo:(CGRect)npcRect withAlpha:(CGFloat)npcAlpha
 {
 	[UIView beginAnimations:@"movement" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];

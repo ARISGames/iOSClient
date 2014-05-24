@@ -10,7 +10,7 @@
 #import "WebPageViewController.h"
 #import "WebPage.h"
 #import "AppServices.h"
-#import "NpcViewController.h"
+#import "DialogViewController.h"
 #import "ARISWebView.h"
 
 @interface WebPageViewController() <ARISWebViewDelegate,StateControllerProtocol>
@@ -120,10 +120,10 @@
 
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
 {
-    if([(NSObject *)delegate isKindOfClass:[NpcViewController class]])
+    if([(NSObject *)delegate isKindOfClass:[DialogViewController class]])
     {
-        //NpcViewController *npcvc = (NpcViewController *)delegate;
-        //[_SERVICES_ fetchNpcConversations:npcvc.currentNpc.npc_id afterViewingPlaque:npcvc.currentPlaque.plaque_id];
+        //DialogViewController *npcvc = (DialogViewController *)delegate;
+        //[_SERVICES_ fetchDialogConversations:npcvc.currentDialog.npc_id afterViewingPlaque:npcvc.currentPlaque.plaque_id];
         //[npcvc showWaitingIndicatorForPlayerOptions];
     }
 }

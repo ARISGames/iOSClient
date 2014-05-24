@@ -1,17 +1,17 @@
 //
-//  NPC.m
+//  Dialog.m
 //  ARIS
 //
 //  Created by David J Gagnon on 9/2/09.
 //  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import "Npc.h"
+#import "Dialog.h"
 #import "NSDictionary+ValidParsers.h"
 
-@implementation Npc
+@implementation Dialog
 
-@synthesize npc_id;
+@synthesize dialog_id;
 @synthesize name;
 @synthesize desc;
 @synthesize icon_media_id;
@@ -23,8 +23,8 @@
 {
     if(self = [super init])
     {
-        self.npc_id = 0;
-        self.name = @"Npc";
+        self.dialog_id = 0;
+        self.name = @"Dialog";
         self.desc = @"";
         self.icon_media_id = 0; 
         self.media_id = 0;
@@ -38,7 +38,7 @@
 {
     if(self = [super init])
     {
-        self.npc_id            = [dict validIntForKey:@"npc_id"];
+        self.dialog_id         = [dict validIntForKey:@"dialog_id"];
         self.name              = [dict validStringForKey:@"name"];
         self.desc              = [dict validStringForKey:@"description"];
         self.icon_media_id     = [dict validIntForKey:@"icon_media_id"]; 
@@ -49,10 +49,10 @@
     return self;
 }
 
-- (Npc *) copy
+- (Dialog *) copy
 {
-    Npc *c = [[Npc alloc] init];
-    c.npc_id            = self.npc_id;
+    Dialog *c = [[Dialog alloc] init];
+    c.dialog_id         = self.dialog_id;
     c.name              = self.name;
     c.desc              = self.desc;
     c.icon_media_id     = self.icon_media_id; 
@@ -62,14 +62,14 @@
     return c;
 }
 
-- (int)compareTo:(Npc *)ob
+- (int)compareTo:(Dialog *)ob
 {
-	return (ob.npc_id == self.npc_id);
+	return (ob.dialog_id == self.dialog_id);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Npc- Id:%d\tName:%@\t",self.npc_id,self.name];
+    return [NSString stringWithFormat:@"Dialog- Id:%d\tName:%@\t",self.dialog_id,self.name];
 }
 
 @end

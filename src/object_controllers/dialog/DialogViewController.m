@@ -1,27 +1,27 @@
 //
-//  NpcViewController.m
+//  DialogViewController.m
 //  ARIS
 //
 //  Created by Kevin Harris on 09/11/17.
 //  Copyright Studio Tectorum 2009. All rights reserved.
 //
 
-#import "NpcViewController.h"
-#import "Npc.h"
-#import "NpcScriptOption.h"
-#import "NpcOptionsViewController.h"
-#import "NpcScriptViewController.h"
+#import "DialogViewController.h"
+#import "Dialog.h"
+#import "DialogScriptOption.h"
+#import "DialogOptionsViewController.h"
+#import "DialogScriptViewController.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "StateControllerProtocol.h"
 #import "ARISTemplate.h"
 
-@interface NpcViewController() <NpcOptionsViewControllerDelegate, NpcScriptViewControllerDelegate, AVAudioPlayerDelegate>
+@interface DialogViewController() <DialogOptionsViewControllerDelegate, DialogScriptViewControllerDelegate, AVAudioPlayerDelegate>
 {
-    Npc *npc;
-    NpcScriptOption *option;
-    NpcScriptViewController  *scriptViewController;
-    NpcOptionsViewController *optionsViewController;
+    Dialog *dialog;
+    DialogScriptOption *option;
+    DialogScriptViewController  *scriptViewController;
+    DialogOptionsViewController *optionsViewController;
     
     UIButton *backButton;
     
@@ -29,27 +29,27 @@
     id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) Npc *npc;
-@property (nonatomic, strong) NpcScriptOption *option;
-@property (nonatomic, strong) NpcScriptViewController  *scriptViewController;
-@property (nonatomic, strong) NpcOptionsViewController *optionsViewController;
+@property (nonatomic, strong) Dialog *dialog;
+@property (nonatomic, strong) DialogScriptOption *option;
+@property (nonatomic, strong) DialogScriptViewController  *scriptViewController;
+@property (nonatomic, strong) DialogOptionsViewController *optionsViewController;
 @property (nonatomic, strong) UIButton *backButton;
 
 @end
 
-@implementation NpcViewController
+@implementation DialogViewController
 
-@synthesize npc;
+@synthesize dialog;
 @synthesize option;
 @synthesize scriptViewController;
 @synthesize optionsViewController;
 @synthesize backButton;
 
-- (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDialog:(Dialog *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
     if((self = [super init]))
     {
-        self.npc = n;
+        self.dialog = n;
         closingScriptPlaying = NO;
         delegate = d;
     }
@@ -59,11 +59,11 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [ARISTemplate ARISColorNpcContentBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorDialogContentBackdrop];
     
-    self.optionsViewController = [[NpcOptionsViewController alloc] initWithFrame:self.view.bounds delegate:self];
+    self.optionsViewController = [[DialogOptionsViewController alloc] initWithFrame:self.view.bounds delegate:self];
     self.optionsViewController.view.alpha = 0.0; 
-    self.scriptViewController  = [[NpcScriptViewController alloc] initWithNpc:self.npc frame:self.view.bounds delegate:self]; 
+    self.scriptViewController  = [[DialogScriptViewController alloc] initWithDialog:self.dialog frame:self.view.bounds delegate:self]; 
     self.scriptViewController.view.alpha = 0.0;
     
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -87,20 +87,20 @@
     [super viewDidAppearFirstTime:animated];
     
     /*
-    if([[self.npc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
+    if([[self.dialog.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
     {
         [self displayOptionsVC];
-        [self.optionsViewController loadOptionsForNpc:self.npc afterViewingOption:nil];
+        [self.optionsViewController loadOptionsForDialog:self.dialog afterViewingOption:nil];
     }
     else
     {
         [self displayScriptVC];
-        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.greeting plaque_id:-1 hasViewed:NO]];
+        [self.scriptViewController loadScriptOption:[[DialogScriptOption alloc] initWithOptionText:@"" scriptText:self.dialog.greeting plaque_id:-1 hasViewed:NO]];
     }
      */
 }
 
-- (void) optionChosen:(NpcScriptOption *)o
+- (void) optionChosen:(DialogScriptOption *)o
 {
     self.option = o;
     [self.scriptViewController loadScriptOption:self.option];
@@ -131,11 +131,11 @@
         else if([type isEqualToString:@"item"])
             [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:typeId] fromSource:self];
         else if([type isEqualToString:@"character"])
-            [delegate displayGameObject:[_MODEL_NPCS_ npcForId:typeId] fromSource:self];
+            [delegate displayGameObject:[_MODEL_DIALOGS_ dialogForId:typeId] fromSource:self];
     }
     else
     {
-        [self.optionsViewController loadOptionsForNpc:self.npc afterViewingOption:self.option];
+        [self.optionsViewController loadOptionsForDialog:self.dialog afterViewingOption:self.option];
         [self displayOptionsVC];
     }
 }
@@ -211,20 +211,20 @@
 - (void) leaveConversationRequested
 {
     /*
-    if ([[self.npc.closing stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""]) {
+    if ([[self.dialog.closing stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""]) {
         [self dismissSelf];
     }
     else{
         closingScriptPlaying = YES;
         [self displayScriptVC];
-        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.closing plaque_id:-1 hasViewed:NO]];
+        [self.scriptViewController loadScriptOption:[[DialogScriptOption alloc] initWithOptionText:@"" scriptText:self.dialog.closing plaque_id:-1 hasViewed:NO]];
     }
      */
 }
 
 - (void) dismissSelf
 {
-    [_SERVICES_ updateServerNpcViewed:self.npc.npc_id fromLocation:0];
+    [_SERVICES_ updateServerDialogViewed:self.dialog.dialog_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

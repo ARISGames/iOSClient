@@ -1,5 +1,5 @@
 //
-//  NpcsModel.h
+//  DialogsModel.h
 //  ARIS
 //
 //  Created by Phil Dougherty on 2/13/13.
@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Npc.h"
+#import "Dialog.h"
 
-@interface NpcsModel : NSObject
+@interface DialogsModel : NSObject
 {
 }
 
-- (Npc *) npcForId:(int)npc_id;
+- (Dialog *) dialogForId:(int)dialog_id;
 - (void) clearGameData;
 
 @end

@@ -22,7 +22,7 @@
 + (UIColor *) ARISColorHighlightedText;
 
 + (UIColor *) ARISColorContentBackdrop; //behind fullscreen content
-+ (UIColor *) ARISColorNpcContentBackdrop; //behind npc media
++ (UIColor *) ARISColorDialogContentBackdrop; //behind dialog media
 + (UIColor *) ARISColorTextBackdrop;    //behind large amounts of text
 + (UIColor *) ARISColorText;            //content text
 + (UIColor *) ARISColorViewBackdrop;    //behind navigation screens

@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
-#import "NpcsModel.h"
+#import "DialogsModel.h"
 #import "WebPagesModel.h"
 #import "NotesModel.h"
 #import "QuestsModel.h"
@@ -49,7 +49,7 @@
 
   PlaquesModel    *plaquesModel;  
   ItemsModel      *itemsModel;  
-  NpcsModel       *npcsModel;   
+  DialogsModel    *dialogsModel;   
   WebPagesModel   *webPagesModel;    
   NotesModel      *notesModel;
   QuestsModel     *questsModel;
@@ -88,7 +88,7 @@
 
 @property (nonatomic, strong) PlaquesModel   *plaquesModel; 
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
-@property (nonatomic, strong) NpcsModel      *npcsModel; 
+@property (nonatomic, strong) DialogsModel      *dialogsModel; 
 @property (nonatomic, strong) WebPagesModel  *webPagesModel; 
 @property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;

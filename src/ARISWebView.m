@@ -224,7 +224,7 @@
         else if([type isEqualToString:@"character"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[_MODEL_NPCS_ npcForId:[token intValue]] fromSource:delegate];
+                [delegate displayGameObject:[_MODEL_DIALOGS_ dialogForId:[token intValue]] fromSource:delegate];
         }
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
