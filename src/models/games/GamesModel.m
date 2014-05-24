@@ -154,13 +154,17 @@
 - (NSArray *) nearbyGames
 {
     if(!nearbyStamp || [nearbyStamp timeIntervalSinceNow] > 120 ||
-       !location || location.coordinate.latitude != _MODEL_PLAYER_.location.coordinate.latitude || location.coordinate.longitude != _MODEL_PLAYER_.location.coordinate.longitude)
+       (_MODEL_PLAYER_.location && (!location || 
+        location.coordinate.latitude  != _MODEL_PLAYER_.location.coordinate.latitude || 
+        location.coordinate.longitude != _MODEL_PLAYER_.location.coordinate.longitude
+        )
+       ))
     {
         nearbyStamp = [[NSDate alloc] init];
+        location = [_MODEL_PLAYER_.location copy];
+        [_SERVICES_ fetchNearbyGameList];  
     }
     
-    location = [_MODEL_PLAYER_.location copy];
-    [_SERVICES_ fetchNearbyGameList]; 
     return nearbyGames;
 }
 
@@ -169,9 +173,9 @@
     if(!anywhereStamp || [anywhereStamp timeIntervalSinceNow] > 120)
     {
         anywhereStamp = [[NSDate alloc] init]; 
+        [_SERVICES_ fetchAnywhereGameList];   
     }
         
-    [_SERVICES_ fetchAnywhereGameList];  
     return anywhereGames; 
 }
 
@@ -180,9 +184,9 @@
     if(!popularStamp || [popularStamp timeIntervalSinceNow] > 120) 
     {
         popularStamp = [[NSDate alloc] init]; 
+        [_SERVICES_ fetchPopularGameList];    
     } 
         
-    [_SERVICES_ fetchPopularGameList];   
     return popularGames;  
 }
 
@@ -191,9 +195,9 @@
     if(!recentStamp || [recentStamp timeIntervalSinceNow] > 120) 
     {
         recentStamp = [[NSDate alloc] init]; 
+        [_SERVICES_ fetchRecentGameList];     
     }  
     
-    [_SERVICES_ fetchRecentGameList];    
     return recentGames;   
 }
 
@@ -203,9 +207,10 @@
        ![search isEqualToString:s]) 
     {
         searchStamp = [[NSDate alloc] init]; 
+        search = s;
+        [_SERVICES_ fetchSearchGameList:s];      
     }   
     
-    [_SERVICES_ fetchSearchGameList:s];     
     return searchGames;    
 }
 
