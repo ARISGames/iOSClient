@@ -46,6 +46,7 @@
 #import "Npc.h"
 #import "Item.h"
 #import "ItemViewController.h"
+#import "NodeViewController.h"
 
 @interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
 {
@@ -69,6 +70,7 @@
     //dynamic navigation controllers
     ARISNavigationController *npcNavigationController;
     ARISNavigationController *itemNavigationController;
+    ARISNavigationController *nodeNavigationController;
     
     NSMutableArray *gamePlayTabVCs;
     
@@ -266,11 +268,19 @@
         }
         else if ([tmpTab.tabName isEqualToString:@"ITEM"])
         {
-            //there is a possible race condition here when the npc is not in the model
+            //there is a possible race condition here when the item is not in the model
             Item *item = [[AppModel sharedAppModel].currentGame.itemList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
             ItemViewController *itemViewController = [[ItemViewController alloc] initWithItem:item delegate:self source:nil];
             itemNavigationController = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
             [gamePlayTabVCs addObject:itemNavigationController];
+        }
+        else if ([tmpTab.tabName isEqualToString:@"NODE"])
+        {
+            //there is a possible race condition here when the plaque is not in the model
+            Node *node = [[AppModel sharedAppModel].currentGame.nodeList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            NodeViewController *nodeViewController = [[NodeViewController alloc] initWithNode:node delegate:self];
+            nodeNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nodeViewController];
+            [gamePlayTabVCs addObject:nodeNavigationController];
         }
     }
     

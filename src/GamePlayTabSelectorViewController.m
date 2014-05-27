@@ -20,6 +20,7 @@
 
 #import "NpcViewController.h"
 #import "ItemViewController.h"
+#import "NodeViewController.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -164,12 +165,19 @@
         c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
     else if([agptbvc isKindOfClass:[NotebookViewController class]])
            c.textLabel.text = [NSString stringWithFormat:@" %@",agptbvc.title];
-    else if([agptbvc isKindOfClass:[NpcViewController class]]){
+    else if([agptbvc isKindOfClass:[NpcViewController class]])
+    {
         c.textLabel.text = @"NPC";
         c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
     }
-    else if ([agptbvc isKindOfClass:[ItemViewController class]]){
+    else if ([agptbvc isKindOfClass:[ItemViewController class]])
+    {
         c.textLabel.text = @"ITEM";
+        c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
+    }
+    else if ([agptbvc isKindOfClass:[NodeViewController class]])
+    {
+        c.textLabel.text = @"NODE";
         c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
     }
     else
