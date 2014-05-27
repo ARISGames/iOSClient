@@ -37,6 +37,8 @@
 //needed for orientation hack
 #import "AudioVisualizerViewController.h"
 #import "NodeViewController.h"
+#import "WebPage.h"
+#import "WebPageViewController.h"
 
 @interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, DisplayQueueModelDelegate>
 {

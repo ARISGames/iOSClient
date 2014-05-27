@@ -24,6 +24,7 @@
 #import "NpcViewController.h"
 #import "ItemViewController.h"
 #import "NodeViewController.h"
+#import "WebPageViewController.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {

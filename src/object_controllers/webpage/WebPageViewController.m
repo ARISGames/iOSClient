@@ -17,12 +17,12 @@
 {
     WebPage *webPage;
     Instance *instance;
-    
+
     ARISWebView *webView;
     UIActivityIndicatorView *activityIndicator;
-    
+
     BOOL hasAppeared;
-    
+
     id<InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
@@ -36,19 +36,19 @@
     {
         instance = i;
         webPage = [_MODEL_WEB_PAGES_ webPageForId:i.object_id];
-        
+
         delegate = d;
         hasAppeared = NO;
-        
+
         //WARNING!!!! FOR DEBUGGING PURPOSES ONLY!!! REMOVE FROM PRODUCTION!!!!
-        
+
         // remove all cached responses
         [[NSURLCache sharedURLCache] removeAllCachedResponses];
-        
+
         // set an empty cache
         NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:0 diskPath:nil];
         [NSURLCache setSharedURLCache:sharedCache];
-        
+
         //WARNING!!!! FOR DEBUGGING PURPOSES ONLY!!! REMOVE FROM PRODUCTION!!!!
     }
     return self;
@@ -68,13 +68,13 @@
 - (void) viewWillAppearFirstTime
 {
     hasAppeared = YES;
-    
+
     self.view.backgroundColor = [UIColor blackColor];
-    
+
     activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.view.bounds];
     [activityIndicator startAnimating];
     [self.view addSubview:activityIndicator];
-    
+
     webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) delegate:self];
     //webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     webView.scrollView.bounces = NO;
@@ -82,13 +82,13 @@
     webView.allowsInlineMediaPlayback = YES;
     webView.mediaPlaybackRequiresUserAction = NO;
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:webPage.url]] withAppendation:[NSString stringWithFormat:@"&web_page_id=%d",webPage.web_page_id]];
-    
+
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
@@ -96,7 +96,7 @@
     [activityIndicator removeFromSuperview];
     [activityIndicator stopAnimating];
     activityIndicator = nil;
-    
+
     [self.view addSubview:webView];
 }
 
