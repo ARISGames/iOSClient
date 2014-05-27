@@ -29,37 +29,37 @@
 + (UIColor *) ARISColorSideNavigationBackdrop { return [UIColor ARISColorTranslucentWhite];  }
 + (UIColor *) ARISColorSideNavigationText     { return [UIColor ARISColorBlack]; }
 
-+ (UIFont *) ARISDefaultFont       { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
-+ (UIFont *) ARISNavTitleFont      { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
-+ (UIFont *) ARISNavButtonFont     { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
++ (UIFont *) ARISDefaultFont       { return [UIFont fontWithName:@"HelveticaNeue-Light" size:17]; }
++ (UIFont *) ARISNavTitleFont      { return [UIFont fontWithName:@"HelveticaNeue-Light" size:17]; }
++ (UIFont *) ARISNavButtonFont     { return [UIFont fontWithName:@"HelveticaNeue-Light" size:17]; }
 + (UIFont *) ARISTabTitleFont      { return [UIFont fontWithName:@"HelveticaNeue-Light" size:0]; }
-+ (UIFont *) ARISCellTitleFont     { return [UIFont fontWithName:@"HelveticaNeue" size:16]; }
-+ (UIFont *) ARISCellBoldTitleFont { return [UIFont fontWithName:@"HelveticaNeue-Bold" size:16]; }
-+ (UIFont *) ARISCellSubtextFont   { return [UIFont fontWithName:@"HelveticaNeue-Light" size:12]; }
-+ (UIFont *) ARISButtonFont        { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
-+ (UIFont *) ARISTitleFont         { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
-+ (UIFont *) ARISBodyFont          { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
-+ (UIFont *) ARISLabelFont         { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
-+ (UIFont *) ARISSubtextFont       { return [UIFont fontWithName:@"HelveticaNeue-Light" size:12]; }
-+ (UIFont *) ARISInputFont         { return [UIFont fontWithName:@"HelveticaNeue-Light" size:16]; }
-+ (UIFont *) ARISAnnotFont         { return [UIFont fontWithName:@"HelveticaNeue-Light" size:12]; }
++ (UIFont *) ARISCellTitleFont     { return [UIFont fontWithName:@"HelveticaNeue" size:17]; }
++ (UIFont *) ARISCellBoldTitleFont { return [UIFont fontWithName:@"HelveticaNeue-Bold" size:17]; }
++ (UIFont *) ARISCellSubtextFont   { return [UIFont fontWithName:@"HelveticaNeue-Light" size:13]; }
++ (UIFont *) ARISButtonFont        { return [UIFont fontWithName:@"HelveticaNeue-Light" size:17]; }
++ (UIFont *) ARISTitleFont         { return [UIFont fontWithName:@"HelveticaNeue-Light" size:17]; }
++ (UIFont *) ARISBodyFont          { return [UIFont fontWithName:@"HelveticaNeue-Light" size:17]; }
++ (UIFont *) ARISLabelFont         { return [UIFont fontWithName:@"HelveticaNeue-Light" size:17]; }
++ (UIFont *) ARISSubtextFont       { return [UIFont fontWithName:@"HelveticaNeue-Light" size:13]; }
++ (UIFont *) ARISInputFont         { return [UIFont fontWithName:@"HelveticaNeue-Light" size:17]; }
++ (UIFont *) ARISAnnotFont         { return [UIFont fontWithName:@"HelveticaNeue-Light" size:13]; }
 
 + (NSString *) ARISHtmlTemplate
 {
     return 
     @"<html>"
     @"<head>"
-    @"	<style type='text/css'><!--"
+    @"  <style type='text/css'><!--"
     @"  html { margin:0; padding:0; }"
-    @"	body {"
+    @"  body {"
     @"      color:#000000;"
-    @"		font-size:15px;"
+    @"      font-size:15px;"
     @"      font-family:HelveticaNeue-Light;"
     @"      margin:0;"
     @"      padding:10;"
-    @"	}"
-    @"	a { color: #FFFFFF; text-decoration: underline; }"
-    @"	--></style>"
+    @"  }"
+    @"  a { color: #FFFFFF; text-decoration: underline; }"
+    @"  --></style>"
     @"</head>"
     @"<body>%@</body>"
     @"</html>";
