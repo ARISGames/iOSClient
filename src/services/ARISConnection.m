@@ -15,6 +15,8 @@
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 
+#define CONNECTION_DEBUG
+
 NSString *const kARISServerServicePackage = @"v2";
 
 @interface ARISConnection() <NSURLConnectionDelegate>
@@ -54,14 +56,14 @@ NSString *const kARISServerServicePackage = @"v2";
 - (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict
 {
     NSURLRequest *req;
-    req = [self createRequestURLfromService:s method:m arguments:args];
+    req = [self createRequestURLFromService:s method:m arguments:args];
     
     [self performAsyncURLRequest:req handler:h successSelector:ss failSelector:fs retryOnFail:r allowDuplicates:NO userInfo:dict];   
 }
 
 - (ARISServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
 {
-    return [self performSyncURLRequest:[self createRequestURLfromService:s method:m arguments:args] userInfo:dict];
+    return [self performSyncURLRequest:[self createRequestURLFromService:s method:m arguments:args] userInfo:dict];
 }
 
 - (void) performRevivalWithRequest:(RequestCD *)r
@@ -84,6 +86,9 @@ NSString *const kARISServerServicePackage = @"v2";
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
     NSLog(@"Req asynch URL: %@", rURL.URL);
+    #ifdef CONNECTION_DEBUG
+    NSLog(@"Req async data: %@", [[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]);
+    #endif
     
     ARISServiceResult *rs = [[ARISServiceResult alloc] init];
     rs.asyncData = [[NSMutableData alloc] initWithCapacity:2048];
@@ -129,7 +134,7 @@ NSString *const kARISServerServicePackage = @"v2";
     return sr;
 }
 
-- (NSURLRequest *) createRequestURLfromService:(NSString *)s method:(NSString *)method arguments:(NSDictionary *)args
+- (NSURLRequest *) createRequestURLFromService:(NSString *)s method:(NSString *)method arguments:(NSDictionary *)args
 {
     NSString *requestBaseString = [NSMutableString stringWithFormat:@"%@/json.php/%@.%@.%@/", server, kARISServerServicePackage, s, method];	 
     
@@ -180,6 +185,9 @@ NSString *const kARISServerServicePackage = @"v2";
     
     sr.time = -1*[sr.start timeIntervalSinceNow]; 
     NSLog(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time); 
+    #ifdef CONNECTION_DEBUG
+    NSLog(@"Fin async data: %@", [[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]);
+    #endif 
     
     sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];  
     [connections removeObjectForKey:c.description];

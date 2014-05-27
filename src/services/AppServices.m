@@ -38,7 +38,7 @@
 {
   if(self = [super init])
   {
-    connection = [[ARISConnection alloc] initWithServer:[_MODEL_.serverURL absoluteString] graveyard:_MODEL_.servicesGraveyard];
+    connection = [[ARISConnection alloc] initWithServer:_MODEL_.serverURL graveyard:_MODEL_.servicesGraveyard];
     mediaLoader = [[ARISMediaLoader alloc] init]; 
   _ARIS_NOTIF_LISTEN_(@"WifiConnected",self,@selector(retryFailedRequests),nil);
   }
@@ -77,8 +77,7 @@
 - (void) parseLoginResponse:(ARISServiceResult *)result
 {
   User *user = [[User alloc] initWithDictionary:(NSDictionary *)result.resultData];
-  NSDictionary *userDict = @{@"user":user};
-  _ARIS_NOTIF_SEND_(@"SERVICES_LOGIN_RECEIVED",nil,userDict);
+  _ARIS_NOTIF_SEND_(@"SERVICES_LOGIN_RECEIVED",nil,@{@"user":user});
 }
 
 - (NSArray *) parseGamesList:(NSArray *)gamesDicts
@@ -100,11 +99,11 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseNearbyGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseNearbyGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseNearbyGameList:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_NEARBY_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+    _ARIS_NOTIF_SEND_(@"SERVICES_NEARBY_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
 }
 
 - (void) fetchAnywhereGameList
@@ -116,11 +115,11 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseAnywhereGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseAnywhereGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseAnywhereGameList:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_ANYWHERE_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+    _ARIS_NOTIF_SEND_(@"SERVICES_ANYWHERE_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
 }
 
 - (void) fetchRecentGameList
@@ -132,11 +131,11 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseRecentGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseRecentGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseRecentGameList:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+    _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
 }
 
 - (void) fetchPopularGameList
@@ -148,11 +147,11 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parsePopularGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parsePopularGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parsePopularGameList:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_POPULAR_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+    _ARIS_NOTIF_SEND_(@"SERVICES_POPULAR_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
 }
 
 - (void) fetchSearchGameList:(NSString *)search
@@ -164,11 +163,11 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"games" method:@"getGamesForPlayerAtLocation" arguments:args handler:self successSelector:@selector(parseSearchGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseSearchGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseSearchGameList:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", @{@"games":[self parseGamesList:(NSArray *)result.resultData]}, nil);
+    _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
 }
 
 
@@ -515,7 +514,7 @@
     //immediately load new image into cache 
     if(_MODEL_PLAYER_.media_id != 0)
       [self loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil];  
-    [_MODEL_ saveUserDefaults];
+    //[_MODEL_ saveUserDefaults];
   }
 }
 

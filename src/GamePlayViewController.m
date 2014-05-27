@@ -73,12 +73,6 @@
     {
         delegate = d;
         game = g;
-        
-        //PHIL HATES THIS CHUNK
-        _MODEL_GAME_ = game;
-        _MODEL_.fallbackGameId = game.game_id;
-        [_MODEL_ saveUserDefaults];
-        //PHIL DONE HATING CHUNK
 
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         

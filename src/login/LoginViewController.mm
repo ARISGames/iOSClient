@@ -168,8 +168,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 
 - (void) attemptLogin
 {
-  _MODEL_.disableLeaveGame = NO;
-  _MODEL_.fallbackGameId   = 0; 
   [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
 }
 
@@ -232,7 +230,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
       if(terms.count > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
        
       _MODEL_.disableLeaveGame = disableLeaveGame;
-      _MODEL_.fallbackGameId = game_id;
+      //_MODEL_.fallbackGameId = game_id;
       [_MODEL_ createAccountWithUserName:usernameField.text displayName:@"" groupName:groupName email:@"" password:passwordField.text]; 
     }
     else if(terms.count > 0) //create = 0
@@ -243,7 +241,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
       if(terms.count > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
         
       _MODEL_.disableLeaveGame = disableLeaveGame;
-      _MODEL_.fallbackGameId = game_id; 
+      //_MODEL_.fallbackGameId = game_id; 
       [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text]; 
     }
   }

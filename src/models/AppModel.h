@@ -34,12 +34,11 @@
 
 @interface AppModel : NSObject
 {
-  NSURL *serverURL;
+  NSString *serverURL;
   BOOL showGamesInDevelopment;
   BOOL showPlayerOnMap;
 
   BOOL disableLeaveGame;
-  int fallbackGameId;
   BOOL hidePlayers;
 
   User *player;
@@ -57,12 +56,11 @@
   CMMotionManager *motionManager;
 }
 
-@property(nonatomic, strong) NSURL *serverURL;
+@property(nonatomic, strong) NSString *serverURL;
 @property(nonatomic, assign) BOOL showGamesInDevelopment;
 @property(nonatomic, assign) BOOL showPlayerOnMap;
 
 @property(nonatomic, assign) BOOL disableLeaveGame;
-@property(nonatomic, assign) int fallbackGameId;
 @property(nonatomic, assign) BOOL hidePlayers;
 
 @property(nonatomic, strong) User *player;
@@ -80,10 +78,6 @@
 @property(nonatomic, strong) CMMotionManager *motionManager;
 
 + (AppModel *) sharedAppModel;
-
-- (void) initUserDefaults;
-- (void) saveUserDefaults;
-- (void) loadUserDefaults;
 
 - (void) attemptLogInWithUserName:(NSString *)user_name password:(NSString *)password;
 - (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;

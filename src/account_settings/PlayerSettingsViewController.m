@@ -111,8 +111,6 @@
 
     //[_SERVICES_ updatePlayer:_MODEL_PLAYER_.user_id withName:_MODEL_PLAYER_.display_name];
 
-    [_MODEL_ saveUserDefaults];
-
     [delegate playerSettingsWasDismissed];
 }
 

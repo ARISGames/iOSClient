@@ -43,6 +43,7 @@
 		AA09B8EB18E1EB5500A45562 /* cabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E518E1EB5500A45562 /* cabinet@2x.png */; };
 		AA09B8F118E20AB500A45562 /* sound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F018E20AB500A45562 /* sound@2x.png */; };
 		AA09B8F718E21A7C00A45562 /* user@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F618E21A7C00A45562 /* user@2x.png */; };
+		AA0CDB2319312D2F00697DB6 /* ARISDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0CDB2219312D2F00697DB6 /* ARISDefaults.m */; };
 		AA0D161018EDF14500D856F1 /* clock_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160B18EDF14500D856F1 /* clock_red@2x.png */; };
 		AA0D161118EDF14500D856F1 /* globe_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160C18EDF14500D856F1 /* globe_red@2x.png */; };
 		AA0D161218EDF14500D856F1 /* locationarrow_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160D18EDF14500D856F1 /* locationarrow_red@2x.png */; };
@@ -351,6 +352,8 @@
 		AA09B8E518E1EB5500A45562 /* cabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cabinet@2x.png"; sourceTree = "<group>"; };
 		AA09B8F018E20AB500A45562 /* sound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound@2x.png"; sourceTree = "<group>"; };
 		AA09B8F618E21A7C00A45562 /* user@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user@2x.png"; sourceTree = "<group>"; };
+		AA0CDB2119312D2F00697DB6 /* ARISDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISDefaults.h; sourceTree = "<group>"; };
+		AA0CDB2219312D2F00697DB6 /* ARISDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISDefaults.m; sourceTree = "<group>"; };
 		AA0D160B18EDF14500D856F1 /* clock_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clock_red@2x.png"; sourceTree = "<group>"; };
 		AA0D160C18EDF14500D856F1 /* globe_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "globe_red@2x.png"; sourceTree = "<group>"; };
 		AA0D160D18EDF14500D856F1 /* locationarrow_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locationarrow_red@2x.png"; sourceTree = "<group>"; };
@@ -1150,6 +1153,8 @@
 				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC7071172739D60074CC21 /* ARISAppDelegate.h */,
 				AABC7072172739D60074CC21 /* ARISAppDelegate.m */,
+				AA0CDB2119312D2F00697DB6 /* ARISDefaults.h */,
+				AA0CDB2219312D2F00697DB6 /* ARISDefaults.m */,
 				AABC711D172739D60074CC21 /* RootViewController.h */,
 				AABC711E172739D60074CC21 /* RootViewController.m */,
 				AA701FDF17342169003A840D /* GamePickersViewController.h */,
@@ -2162,6 +2167,7 @@
 				AABC74DD172739D80074CC21 /* UIDevice+Hardware.m in Sources */,
 				AA3B7FC2182037CB006C9715 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				AABC74DE172739D80074CC21 /* UIImage+Alpha.m in Sources */,
+				AA0CDB2319312D2F00697DB6 /* ARISDefaults.m in Sources */,
 				AABC74DF172739D80074CC21 /* UIImage+fixOrientation.m in Sources */,
 				AAC0D87F1930F4E200CA1DE3 /* DialogScriptElementView.m in Sources */,
 				F92B5E0F18BFE02900D1D1A7 /* CircleButton.m in Sources */,

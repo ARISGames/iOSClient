@@ -19,6 +19,7 @@
 
 #import "ARISTemplate.h"
 
+#import "ARISDefaults.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "RootViewController.h"
@@ -28,6 +29,7 @@
     Reachability *reachability; 
     NSTimer *locationPoller;
     AVAudioPlayer *player;
+    
 }
 @end
 
@@ -51,6 +53,16 @@
     _ARIS_NOTIF_LISTEN_(kReachabilityChangedNotification,self,@selector(reachabilityChanged:),nil);
     reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];  
+    
+    //init the singletons. I know. defeats the point of singletons. but they prob shouldn't be singletons then.
+    _DEFAULTS_;
+    _MODEL_;  
+    [_DEFAULTS_ loadUserDefaults]; //check if changed since last active  
+    
+    _SERVICES_;
+    
+    if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
+    if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %d, but I won't",_DEFAULTS_.fallbackGameId);  
 }
 
 - (void) setApplicationUITemplates
@@ -87,8 +99,11 @@
 - (void) applicationDidBecomeActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Application Became Active");
-    [_MODEL_ loadUserDefaults];
     [self startPollingLocation];
+    [_DEFAULTS_ loadUserDefaults]; //check if changed since last active
+    
+    if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
+    if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %d, but I won't",_DEFAULTS_.fallbackGameId);   
 }
 
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
@@ -99,15 +114,12 @@
 - (void) applicationWillResignActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Resigning Active Application");
-	[_MODEL_ saveUserDefaults];
-    
     [self stopPollingLocation];
 }
 
 -(void) applicationWillTerminate:(UIApplication *)application
 {
 	NSLog(@"ARIS: Terminating Application");
-	[_MODEL_ saveUserDefaults];
     [_MODEL_ commitCoreDataContexts];
 }
 
