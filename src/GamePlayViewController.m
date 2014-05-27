@@ -41,10 +41,10 @@
 {
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
-    
+
     GameNotificationViewController *gameNotificationViewController;
     DisplayQueueModel *displayQueue;
-    
+
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -57,17 +57,17 @@
     if(self = [super init])
     {
         delegate = d;
-        
-        //odd that a model is stored here- but it needs to communicate with the state of the display 
+
+        //odd that a model is stored here- but it needs to communicate with the state of the display
         //(is the display available for dequeue?)
         //One caveat is that it didn't exist to listen to the initial set of triggers to populate,
         //so on init (now), we need to manually flush the set of all available triggers through the queue
         displayQueue = [[DisplayQueueModel alloc] initWithDelegate:self];
         _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_NEW_AVAILABLE",nil,@{@"added":@[]});
         //admittedly a bit hacky, but should be safe
-        
-        gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self]; 
-        gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];  
+
+        gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
+        gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
     }
     return self;
@@ -76,15 +76,15 @@
 - (void) loadView
 {
     [super loadView];
-    
+
     gameNotificationViewController.view.frame = CGRectMake(0,0,0,0);
-    [self.view addSubview:gameNotificationViewController.view]; 
+    [self.view addSubview:gameNotificationViewController.view];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     if(!currentChildViewController)
         [self displayContentController:gamePlayRevealController];
 }
@@ -114,8 +114,8 @@
 {
     Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
     if(![self displayInstance:i]) return NO;
-    [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id]; 
-    return YES;   
+    [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id];
+    return YES;
 }
 
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id
@@ -130,7 +130,7 @@
 - (BOOL) displayInstance:(Instance *)i
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
-    
+
     ARISViewController *vc;
     if([i.object_type isEqualToString:@"PLAQUE"])
     {
@@ -146,33 +146,33 @@
         vc = [[WebPageViewController alloc] initWithInstance:i delegate:self];
     //if([i.object_type isEqualToString:@"NOTE"])
         //vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
-    
-	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
+
+    ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:NO completion:nil];
-    
+
     //Phil hates that the frame changes depending on what view you add it to...
     gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
                                                            gameNotificationViewController.view.frame.origin.y+20,
                                                            gameNotificationViewController.view.frame.size.width,
                                                            gameNotificationViewController.view.frame.size.height);
     [nav.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
-    
-    [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id]; 
-    [_MODEL_LOGS_ playerViewedContent:i.object_type id:i.object_id];    
-    return YES;   
+
+    [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
+    [_MODEL_LOGS_ playerViewedContent:i.object_type id:i.object_id];
+    return YES;
 }
 
 - (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)govc
 {
     [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
-    
+
     //Phil hates that the frame changes depending on what view you add it to...
     gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
                                                                 gameNotificationViewController.view.frame.origin.y-20,
                                                                 gameNotificationViewController.view.frame.size.width,
                                                                 gameNotificationViewController.view.frame.size.height);
     [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
-    
+
     [displayQueue dequeueTrigger];
 }
 
@@ -198,7 +198,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);            
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
