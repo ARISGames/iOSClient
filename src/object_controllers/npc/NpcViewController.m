@@ -99,6 +99,11 @@
     [super viewDidAppearFirstTime:animated];
 }
 
+- (NSString *) getTabTitle
+{
+    return npc.name;
+}
+
 - (void) beginNpcInteraction
 {
     if([[self.npc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])

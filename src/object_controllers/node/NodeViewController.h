@@ -16,4 +16,5 @@
 	Node *node;
 }
 - (id) initWithNode:(Node *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
+- (NSString *) getTabTitle;
 @end

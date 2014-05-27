@@ -1092,25 +1092,25 @@
         npcTab.tabName = @"NPC";
         npcTab.tabDetail1 = 45710;
         [tempTabList addObject:npcTab];
+        
+        Tab *itemTab = [[Tab alloc] init];
+        itemTab.tabIndex = 3;
+        itemTab.tabName = @"ITEM";
+        itemTab.tabDetail1 = 65930;
+        [tempTabList addObject:itemTab];
+        
+        Tab *plaqueTab = [[Tab alloc] init];
+        plaqueTab.tabIndex = 4;
+        plaqueTab.tabName = @"NODE";
+        plaqueTab.tabDetail1 = 143636;
+        [tempTabList addObject:plaqueTab];
+        
+        Tab *webTab = [[Tab alloc] init];
+        webTab.tabIndex = 5;
+        webTab.tabName = @"WEBPAGE";
+        webTab.tabDetail1 = 5500;
+        [tempTabList addObject:webTab];
     }
-    //
-    //    Tab *itemTab = [[Tab alloc] init];
-    //    itemTab.tabIndex = 3;
-    //    itemTab.tabName = @"ITEM";
-    //    itemTab.tabDetail1 = 65930;
-    //    [tempTabList addObject:itemTab];
-    //
-    //    Tab *plaqueTab = [[Tab alloc] init];
-    //    plaqueTab.tabIndex = 4;
-    //    plaqueTab.tabName = @"NODE";
-    //    plaqueTab.tabDetail1 = 143636;
-    //    [tempTabList addObject:plaqueTab];
-    //
-    //    Tab *webTab = [[Tab alloc] init];
-    //    webTab.tabIndex = 5;
-    //    webTab.tabName = @"WEBPAGE";
-    //    webTab.tabDetail1 = 5500;
-    //    [tempTabList addObject:webTab];
     NSLog(@"ReceivedUpdatedTabList");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedUpdatedTabList" object:nil userInfo:[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]]];
 }

@@ -15,4 +15,5 @@
 
 @interface NpcViewController : GameObjectViewController
 - (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
+- (NSString *) getTabTitle;
 @end

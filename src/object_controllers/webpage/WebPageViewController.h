@@ -15,5 +15,5 @@
 @interface WebPageViewController : GameObjectViewController 
 
 - (id) initWithWebPage:(WebPage *)w delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d;
-
+- (NSString *) getTabTitle;
 @end

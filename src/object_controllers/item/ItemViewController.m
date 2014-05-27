@@ -164,6 +164,11 @@
     else self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 }
 
+- (NSString *) getTabTitle
+{
+    return item.name;
+}
+
 - (void) updateViewButtons
 {
     if(destroyBtn) [destroyBtn removeFromSuperview];

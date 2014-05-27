@@ -170,22 +170,26 @@
            c.textLabel.text = [NSString stringWithFormat:@" %@",agptbvc.title];
     else if([agptbvc isKindOfClass:[NpcViewController class]])
     {
-        c.textLabel.text = @"NPC";
+        NpcViewController *npcViewController = (NpcViewController *)agptbvc;
+        c.textLabel.text = [npcViewController getTabTitle];
         c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
     }
     else if ([agptbvc isKindOfClass:[ItemViewController class]])
     {
-        c.textLabel.text = @"ITEM";
+        ItemViewController *itemViewController = (ItemViewController *)agptbvc;
+        c.textLabel.text = [itemViewController getTabTitle];
         c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
     }
     else if ([agptbvc isKindOfClass:[NodeViewController class]])
     {
-        c.textLabel.text = @"NODE";
+        NodeViewController *nodeViewController = (NodeViewController *)agptbvc;
+        c.textLabel.text = [nodeViewController getTabTitle];
         c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
     }
     else if ([agptbvc isKindOfClass:[WebPageViewController class]])
     {
-        c.textLabel.text = @"WEBPAGE";
+        WebPageViewController *webPageViewController = (WebPageViewController *)agptbvc;
+        c.textLabel.text = [webPageViewController getTabTitle];
         c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
     }
     else

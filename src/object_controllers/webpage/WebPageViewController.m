@@ -99,6 +99,11 @@
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
+- (NSString *) getTabTitle
+{
+    return webPage.name;
+}
+
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     [self.activityIndicator removeFromSuperview];

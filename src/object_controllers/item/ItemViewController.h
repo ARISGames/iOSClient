@@ -28,5 +28,6 @@
 @property (nonatomic, strong) Item *item;
 
 - (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s;
+- (NSString *) getTabTitle;
 
 @end
