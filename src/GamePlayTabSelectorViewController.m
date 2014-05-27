@@ -42,6 +42,7 @@
 @end
 
 @implementation GamePlayTabSelectorViewController
+@synthesize viewControllers;
 
 - (id) initWithDelegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
 {
@@ -296,6 +297,11 @@
             [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
         }
     }
+}
+
+- (void) refreshTabTable
+{
+    [tableView reloadData];
 }
 
 - (void) dealloc
