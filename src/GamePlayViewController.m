@@ -44,6 +44,8 @@
 //dynamic navigation controllers
 #import "NpcViewController.h"
 #import "Npc.h"
+#import "Item.h"
+#import "ItemViewController.h"
 
 @interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
 {
@@ -66,6 +68,7 @@
     
     //dynamic navigation controllers
     ARISNavigationController *npcNavigationController;
+    ARISNavigationController *itemNavigationController;
     
     NSMutableArray *gamePlayTabVCs;
     
@@ -255,11 +258,19 @@
         }
         else if([tmpTab.tabName isEqualToString:@"NPC"])
         {
-            Npc *npc = [[AppModel sharedAppModel].currentGame.npcList objectForKey:[NSNumber numberWithInt:45710]];
-            //the delegate here might not be correct
+            //there is a possible race condition here when the npc is not in the model
+            Npc *npc = [[AppModel sharedAppModel].currentGame.npcList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
             NpcViewController *npcViewController = [[NpcViewController alloc] initWithNpc:npc delegate:self];
             npcNavigationController = [[ARISNavigationController alloc] initWithRootViewController:npcViewController];
             [gamePlayTabVCs addObject:npcNavigationController];
+        }
+        else if ([tmpTab.tabName isEqualToString:@"ITEM"])
+        {
+            //there is a possible race condition here when the npc is not in the model
+            Item *item = [[AppModel sharedAppModel].currentGame.itemList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            ItemViewController *itemViewController = [[ItemViewController alloc] initWithItem:item delegate:self source:nil];
+            itemNavigationController = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
+            [gamePlayTabVCs addObject:itemNavigationController];
         }
     }
     

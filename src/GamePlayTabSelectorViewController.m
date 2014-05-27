@@ -18,7 +18,8 @@
 #import "Game.h"
 #import "ARISMediaView.h"
 
-#import "GameObjectViewController.h"
+#import "NpcViewController.h"
+#import "ItemViewController.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -163,8 +164,12 @@
         c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
     else if([agptbvc isKindOfClass:[NotebookViewController class]])
            c.textLabel.text = [NSString stringWithFormat:@" %@",agptbvc.title];
-    else if([agptbvc isKindOfClass:[GameObjectViewController class]]){
+    else if([agptbvc isKindOfClass:[NpcViewController class]]){
         c.textLabel.text = @"NPC";
+        c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
+    }
+    else if ([agptbvc isKindOfClass:[ItemViewController class]]){
+        c.textLabel.text = @"ITEM";
         c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
     }
     else
@@ -197,7 +202,7 @@
 
 - (void) dealloc
 {
-   [[NSNotificationCenter defaultCenter] removeObserver:self]; 
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
