@@ -284,6 +284,17 @@
     [delegate viewControllerRequestedDisplay:viewControllers[indexPath.row]];
 }
 
+- (void) selectTab:(NSNotification *) notification
+{
+    NSDictionary *arisNavTab = notification.userInfo;
+    ARISNavigationController *tab = [arisNavTab objectForKey:@"tab"];
+    for (int i = 0; i < viewControllers.count; i++) {
+        if ([tab isEqual:[viewControllers objectAtIndex:i]]) {
+            [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
+    }
+}
+
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
