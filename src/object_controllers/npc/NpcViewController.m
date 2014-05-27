@@ -89,10 +89,18 @@
     }
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    [self beginNpcInteraction];
+}
+
 - (void) viewDidAppearFirstTime:(BOOL)animated
 {
     [super viewDidAppearFirstTime:animated];
-    
+}
+
+- (void) beginNpcInteraction
+{
     if([[self.npc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
     {
         [self displayOptionsVC];
@@ -116,6 +124,7 @@
 {
     if(closingScriptPlaying && !type)
     {
+        closingScriptPlaying = NO; //reset for the next time the npc is viewed
         [[AppServices sharedAppServices] updateServerNodeViewed:self.option.nodeId fromLocation:0];
         [self dismissSelf];
     }

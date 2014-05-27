@@ -41,6 +41,10 @@
 #import "ARISNavigationController.h"
 #import "ARISTemplate.h"
 
+//dynamic navigation controllers
+#import "NpcViewController.h"
+#import "Npc.h"
+
 @interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
 {
     Game *game;
@@ -58,7 +62,12 @@
     ARISNavigationController *attributesNavigationController;
     ARISNavigationController *notesNavigationController;
     ARISNavigationController *decoderNavigationController;
-    ARISNavigationController *scannerNavigationController; 
+    ARISNavigationController *scannerNavigationController;
+    
+    //dynamic navigation controllers
+    ARISNavigationController *npcNavigationController;
+    
+    NSMutableArray *gamePlayTabVCs;
     
     ForceDisplayQueue *forceDisplayQueue;
     
@@ -118,7 +127,7 @@
         loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
         timeout = [NSTimer scheduledTimerWithTimeInterval:15.0
                                          target:self
-                                       selector:@selector(timeoutOfGameLoading)
+                                    selector:@selector(timeoutOfGameLoading)
                                        userInfo:nil
                                         repeats:NO];
         [self displayContentController:loadingViewController];
@@ -179,7 +188,7 @@
 {
     gamePlayTabs = [gamePlayTabs sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"tabIndex" ascending:YES]]];
 
-    NSMutableArray *gamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
+    gamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
     Tab *tmpTab;
     for(int i = 0; i < [gamePlayTabs count]; i++)
     {
@@ -244,6 +253,14 @@
             //arNavigationController = [[ARISNavigationController alloc] initWithRootViewController: arViewController];
             //[gamePlayTabVCs addObject:arNavigationController];
         }
+        else if([tmpTab.tabName isEqualToString:@"NPC"])
+        {
+            Npc *npc = [[AppModel sharedAppModel].currentGame.npcList objectForKey:[NSNumber numberWithInt:45710]];
+            //the delegate here might not be correct
+            NpcViewController *npcViewController = [[NpcViewController alloc] initWithNpc:npc delegate:self];
+            npcNavigationController = [[ARISNavigationController alloc] initWithRootViewController:npcViewController];
+            [gamePlayTabVCs addObject:npcNavigationController];
+        }
     }
     
     gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
@@ -296,14 +313,34 @@
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
-    [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
-    //Phil hates that the frame changes depending on what view you add it to...
-    gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
-                                                                gameNotificationViewController.view.frame.origin.y-20,
-                                                                gameNotificationViewController.view.frame.size.width,
-                                                                gameNotificationViewController.view.frame.size.height);
-    [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
-    [forceDisplayQueue forceDisplayEligibleLocations];
+    //first check if the navigation controller is part of the tabs
+    BOOL dismissTab = NO;
+    for (int i = 0; i < [gamePlayTabVCs count]; i++)
+    {
+        if ([govc.navigationController isEqual:[gamePlayTabVCs objectAtIndex:i]])
+        {
+            dismissTab = YES;
+        }
+    }
+    
+    if (dismissTab)
+    {
+        //this will need to change to be the proper tab
+        [self displayTab:@"MAP"];
+    }
+    else
+    {
+        [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
+        //Phil hates that the frame changes depending on what view you add it to...
+        gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
+                                                               gameNotificationViewController.view.frame.origin.y-20,
+                                                               gameNotificationViewController.view.frame.size.width,
+                                                               gameNotificationViewController.view.frame.size.height);
+        [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+        [forceDisplayQueue forceDisplayEligibleLocations];
+    }
+    
+
 }
 
 - (void) dealloc
@@ -354,7 +391,12 @@
         tab = decoderNavigationController; 
     else if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
         tab = attributesNavigationController;
-    if(tab) [self viewControllerRequestedDisplay:tab]; 
+    if(tab) [self viewControllerRequestedDisplay:tab];
+    else
+    {
+        tab = [gamePlayTabVCs objectAtIndex:0];
+        [self viewControllerRequestedDisplay:tab];
+    }
 }
 
 - (void) timeoutOfGameLoading

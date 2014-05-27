@@ -18,6 +18,8 @@
 #import "Game.h"
 #import "ARISMediaView.h"
 
+#import "GameObjectViewController.h"
+
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
     UITableView *tableView;
@@ -156,10 +158,15 @@
     if([agptbvc isKindOfClass:[MapViewController class]])
         c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
     else if([agptbvc isKindOfClass:[NotebookViewController class]])
-           c.textLabel.text = [NSString stringWithFormat:@" %@",agptbvc.title]; 
+           c.textLabel.text = [NSString stringWithFormat:@" %@",agptbvc.title];
+    else if([agptbvc isKindOfClass:[GameObjectViewController class]]){
+        c.textLabel.text = @"NPC";
+        c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
+    }
     else
         c.textLabel.text = agptbvc.title;
-    c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
+    if ([agptbvc respondsToSelector:@selector(tabIconName)])
+        c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
     
     //DOESNT WORK \/
     c.imageView.frame = CGRectMake(5,5,c.frame.size.height-10,c.frame.size.height-10); 
