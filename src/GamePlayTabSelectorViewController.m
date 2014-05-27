@@ -23,6 +23,7 @@
 
 #import "NpcViewController.h"
 #import "ItemViewController.h"
+#import "NodeViewController.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
