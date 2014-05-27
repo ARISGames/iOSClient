@@ -153,7 +153,6 @@
 
 - (void) dismissSelf
 {
-    [self.webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
     [[AppServices sharedAppServices] updateServerWebPageViewed:webPage.webPageId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];

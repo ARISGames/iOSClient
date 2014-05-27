@@ -47,6 +47,8 @@
 #import "Item.h"
 #import "ItemViewController.h"
 #import "NodeViewController.h"
+#import "WebPage.h"
+#import "WebPageViewController.h"
 
 @interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
 {
@@ -71,6 +73,7 @@
     ARISNavigationController *npcNavigationController;
     ARISNavigationController *itemNavigationController;
     ARISNavigationController *nodeNavigationController;
+    ARISNavigationController *webPageNavigationController;
     
     NSMutableArray *gamePlayTabVCs;
     
@@ -281,6 +284,14 @@
             NodeViewController *nodeViewController = [[NodeViewController alloc] initWithNode:node delegate:self];
             nodeNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nodeViewController];
             [gamePlayTabVCs addObject:nodeNavigationController];
+        }
+        else if ([tmpTab.tabName isEqualToString:@"WEBPAGE"])
+        {
+            //there is a possible race condition here when the web page is not in the model
+            WebPage *webPage = [[AppModel sharedAppModel].currentGame.webpageList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithWebPage:webPage delegate:self];
+            webPageNavigationController = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
+            [gamePlayTabVCs addObject:webPageNavigationController];
         }
     }
     

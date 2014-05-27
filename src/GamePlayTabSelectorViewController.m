@@ -21,6 +21,7 @@
 #import "NpcViewController.h"
 #import "ItemViewController.h"
 #import "NodeViewController.h"
+#import "WebPageViewController.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -178,6 +179,11 @@
     else if ([agptbvc isKindOfClass:[NodeViewController class]])
     {
         c.textLabel.text = @"NODE";
+        c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
+    }
+    else if ([agptbvc isKindOfClass:[WebPageViewController class]])
+    {
+        c.textLabel.text = @"WEBPAGE";
         c.imageView.image = [UIImage imageNamed:@"star_gray.png"];
     }
     else
