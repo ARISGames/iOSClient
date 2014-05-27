@@ -14,3 +14,4 @@
 @interface WebPageViewController : InstantiableViewController 
 - (id) initWithInstance:(Instance *)i delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d;
 @end
+
