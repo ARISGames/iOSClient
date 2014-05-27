@@ -21,7 +21,8 @@
 #import "AppModel.h"
 #import "ARISMediaView.h"
 
-#import "GameObjectViewController.h"
+#import "NpcViewController.h"
+#import "ItemViewController.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -301,3 +302,4 @@
 }
 
 @end
+

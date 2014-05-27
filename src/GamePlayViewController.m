@@ -34,8 +34,16 @@
 #import "WebPageViewController.h"
 #import "NoteViewController.h"
 
+<<<<<<< HEAD
 //needed for orientation hack
 #import "AudioVisualizerViewController.h"
+=======
+//dynamic navigation controllers
+#import "NpcViewController.h"
+#import "Npc.h"
+#import "Item.h"
+#import "ItemViewController.h"
+>>>>>>> Items are displaying on the tab bar
 
 @interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, DisplayQueueModelDelegate>
 {
@@ -43,7 +51,29 @@
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
 
     GameNotificationViewController *gameNotificationViewController;
+<<<<<<< HEAD
     DisplayQueueModel *displayQueue;
+=======
+    
+    ARISNavigationController *arNavigationController;
+    ARISNavigationController *questsNavigationController;
+    ARISNavigationController *mapNavigationController;
+    ARISNavigationController *inventoryNavigationController;
+    ARISNavigationController *attributesNavigationController;
+    ARISNavigationController *notesNavigationController;
+    ARISNavigationController *decoderNavigationController;
+    ARISNavigationController *scannerNavigationController;
+    
+    //dynamic navigation controllers
+    ARISNavigationController *npcNavigationController;
+    ARISNavigationController *itemNavigationController;
+    
+    NSMutableArray *gamePlayTabVCs;
+    
+    ForceDisplayQueue *forceDisplayQueue;
+    
+    NSTimer *timeout;
+>>>>>>> Items are displaying on the tab bar
 
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -134,9 +164,89 @@
     ARISViewController *vc;
     if([i.object_type isEqualToString:@"PLAQUE"])
     {
+<<<<<<< HEAD
         Plaque *p = [_MODEL_PLAQUES_ plaqueForId:i.object_id];
         [_MODEL_EVENTS_ runEventPackageId:p.event_package_id];
         vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+=======
+        tmpTab = [gamePlayTabs objectAtIndex:i];
+        if(tmpTab.tabIndex < 1) continue;
+        
+        if([tmpTab.tabName isEqualToString:@"QUESTS"])
+        {
+            //if uses icon quest view
+            if((BOOL)tmpTab.tabDetail1)
+            {
+                IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:self];
+                questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
+                [gamePlayTabVCs addObject:questsNavigationController];
+            }
+            else
+            {
+                QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:self];
+                questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
+                [gamePlayTabVCs addObject:questsNavigationController];
+            }
+        }
+        else if([tmpTab.tabName isEqualToString:@"GPS"])
+        {
+            MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:self];
+            mapNavigationController = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
+            [gamePlayTabVCs addObject:mapNavigationController];
+        }
+        else if([tmpTab.tabName isEqualToString:@"INVENTORY"])
+        {
+            InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:self];
+            inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
+            [gamePlayTabVCs addObject:inventoryNavigationController];
+        }
+        else if([tmpTab.tabName isEqualToString:@"DECODER"]) //text only
+        {
+            DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:1];
+            decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
+            [gamePlayTabVCs addObject:decoderNavigationController];  
+        }
+        else if([tmpTab.tabName isEqualToString:@"QR"]) //will be scanner only- supports both for legacy
+        {
+            DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:tmpTab.tabDetail1];
+            scannerNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
+            [gamePlayTabVCs addObject:scannerNavigationController];  
+        } 
+        else if([tmpTab.tabName isEqualToString:@"PLAYER"])
+        {
+            AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:self];
+            attributesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
+            [gamePlayTabVCs addObject:attributesNavigationController];
+        }
+        else if([tmpTab.tabName isEqualToString:@"NOTE"])
+        {
+            NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:self];
+            notesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
+            [gamePlayTabVCs addObject:notesNavigationController];
+        }
+        else if([tmpTab.tabName isEqualToString:@"AR"])
+        {
+            //ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
+            //arNavigationController = [[ARISNavigationController alloc] initWithRootViewController: arViewController];
+            //[gamePlayTabVCs addObject:arNavigationController];
+        }
+        else if([tmpTab.tabName isEqualToString:@"NPC"])
+        {
+            //there is a possible race condition here when the npc is not in the model
+            Npc *npc = [[AppModel sharedAppModel].currentGame.npcList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            NpcViewController *npcViewController = [[NpcViewController alloc] initWithNpc:npc delegate:self];
+            npcNavigationController = [[ARISNavigationController alloc] initWithRootViewController:npcViewController];
+            [gamePlayTabVCs addObject:npcNavigationController];
+        }
+        else if ([tmpTab.tabName isEqualToString:@"ITEM"])
+        {
+            //there is a possible race condition here when the npc is not in the model
+            Item *item = [[AppModel sharedAppModel].currentGame.itemList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            ItemViewController *itemViewController = [[ItemViewController alloc] initWithItem:item delegate:self source:nil];
+            itemNavigationController = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
+            [gamePlayTabVCs addObject:itemNavigationController];
+        }
+>>>>>>> Items are displaying on the tab bar
     }
     if([i.object_type isEqualToString:@"ITEM"])
         vc = [[ItemViewController alloc] initWithInstance:i delegate:self];
