@@ -41,6 +41,10 @@
     {
         viewControllers = vcs;
         delegate = d;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(selectTab:)
+                                                 name:@"TabWasDisplayed"
+                                                 object:nil];
     }
     return self;
 }
@@ -180,9 +184,20 @@
     [delegate viewControllerRequestedDisplay:[viewControllers objectAtIndex:indexPath.row]];
 }
 
+- (void) selectTab:(NSNotification *) notification
+{
+    NSDictionary *arisNavTab = notification.userInfo;
+    ARISNavigationController *tab = [arisNavTab objectForKey:@"tab"];
+    for (int i = 0; i < viewControllers.count; i++) {
+        if ([tab isEqual:[viewControllers objectAtIndex:i]]) {
+            [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
+    }
+}
+
 - (void) dealloc
 {
-    
+   [[NSNotificationCenter defaultCenter] removeObserver:self]; 
 }
 
 @end

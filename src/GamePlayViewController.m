@@ -397,6 +397,10 @@
         tab = [gamePlayTabVCs objectAtIndex:0];
         [self viewControllerRequestedDisplay:tab];
     }
+    //it is possible the logic of the game dictated what tab was displayed and not the user, so we must tell the tableview to select that particular tab
+    NSMutableDictionary *arisNavTab = [[NSMutableDictionary alloc] initWithCapacity:1];
+    [arisNavTab setObject:tab forKey:@"tab"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TabWasDisplayed" object:self userInfo:arisNavTab];
 }
 
 - (void) timeoutOfGameLoading
