@@ -37,6 +37,7 @@
 @end
 
 @implementation GamePlayTabSelectorViewController
+@synthesize viewControllers;
 
 - (id) initWithViewControllers:(NSMutableArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d
 {
@@ -48,6 +49,7 @@
                                                  selector:@selector(selectTab:)
                                                  name:@"TabWasDisplayed"
                                                  object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTabTable) name:@"UpdateTabTable" object:nil];
     }
     return self;
 }
@@ -212,6 +214,11 @@
             [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
         }
     }
+}
+
+- (void) refreshTabTable
+{
+    [tableView reloadData];
 }
 
 - (void) dealloc

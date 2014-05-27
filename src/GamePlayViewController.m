@@ -80,6 +80,7 @@
     ForceDisplayQueue *forceDisplayQueue;
     
     NSTimer *timeout;
+    NSTimer *refreshTimer;
 
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -113,6 +114,7 @@
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewlyCompletedQuestsAvailable" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameTabListRecieved:)        name:@"ReceivedTabList"               object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatedTabListReceived:) name:@"ReceivedUpdatedTabList" object:nil];
         //END PHIL UNAPPROVED
     }
     return self;
@@ -140,7 +142,14 @@
                                         repeats:NO];
         [self displayContentController:loadingViewController];
         [self startLoadingGame];
+        if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     }
+}
+
+- (void) refresh
+{
+    [[AppServices sharedAppServices] fetchUpdatedTabBarItems];
 }
 
 - (void) startLoadingGame
@@ -192,11 +201,27 @@
     [self setGamePlayTabBarVCsFromTabList:[n.userInfo objectForKey:@"tabs"]];
 }
 
+- (void) updatedTabListReceived:(NSNotification *)n
+{
+    NSArray *gamePlayTabs = [n.userInfo objectForKey:@"tabs"];
+    gamePlayTabVCs = [self parseGameTabControllers:gamePlayTabs];
+    gamePlayTabSelectorController.viewControllers = gamePlayTabVCs;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateTabTable" object:self];
+}
+
 - (void) setGamePlayTabBarVCsFromTabList:(NSArray *)gamePlayTabs
 {
-    gamePlayTabs = [gamePlayTabs sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"tabIndex" ascending:YES]]];
+    gamePlayTabVCs = [self parseGameTabControllers:gamePlayTabs];
+    gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
+    gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:gamePlayTabSelectorController options:nil];
+}
 
-    gamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
+- (NSMutableArray *) parseGameTabControllers:(NSArray *)gamePlayTabs
+{
+    gamePlayTabs = [gamePlayTabs sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"tabIndex" ascending:YES]]];
+    
+    NSMutableArray *tempGamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
+    
     Tab *tmpTab;
     for(int i = 0; i < [gamePlayTabs count]; i++)
     {
@@ -210,56 +235,56 @@
             {
                 IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:self];
                 questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
-                [gamePlayTabVCs addObject:questsNavigationController];
+                [tempGamePlayTabVCs addObject:questsNavigationController];
             }
             else
             {
                 QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:self];
                 questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
-                [gamePlayTabVCs addObject:questsNavigationController];
+                [tempGamePlayTabVCs addObject:questsNavigationController];
             }
         }
         else if([tmpTab.tabName isEqualToString:@"GPS"])
         {
             MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:self];
             mapNavigationController = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
-            [gamePlayTabVCs addObject:mapNavigationController];
+            [tempGamePlayTabVCs addObject:mapNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"])
         {
             InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:self];
             inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
-            [gamePlayTabVCs addObject:inventoryNavigationController];
+            [tempGamePlayTabVCs addObject:inventoryNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"DECODER"]) //text only
         {
             DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:1];
             decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
-            [gamePlayTabVCs addObject:decoderNavigationController];  
+            [tempGamePlayTabVCs addObject:decoderNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"QR"]) //will be scanner only- supports both for legacy
         {
             DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self inMode:tmpTab.tabDetail1];
             scannerNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
-            [gamePlayTabVCs addObject:scannerNavigationController];  
-        } 
+            [tempGamePlayTabVCs addObject:scannerNavigationController];
+        }
         else if([tmpTab.tabName isEqualToString:@"PLAYER"])
         {
             AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:self];
             attributesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
-            [gamePlayTabVCs addObject:attributesNavigationController];
+            [tempGamePlayTabVCs addObject:attributesNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"NOTE"])
         {
             NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:self];
             notesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
-            [gamePlayTabVCs addObject:notesNavigationController];
+            [tempGamePlayTabVCs addObject:notesNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"AR"])
         {
             //ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
             //arNavigationController = [[ARISNavigationController alloc] initWithRootViewController: arViewController];
-            //[gamePlayTabVCs addObject:arNavigationController];
+            //[tempGamePlayTabVCs addObject:arNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"NPC"])
         {
@@ -267,7 +292,7 @@
             Npc *npc = [[AppModel sharedAppModel].currentGame.npcList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
             NpcViewController *npcViewController = [[NpcViewController alloc] initWithNpc:npc delegate:self];
             npcNavigationController = [[ARISNavigationController alloc] initWithRootViewController:npcViewController];
-            [gamePlayTabVCs addObject:npcNavigationController];
+            [tempGamePlayTabVCs addObject:npcNavigationController];
         }
         else if ([tmpTab.tabName isEqualToString:@"ITEM"])
         {
@@ -275,7 +300,7 @@
             Item *item = [[AppModel sharedAppModel].currentGame.itemList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
             ItemViewController *itemViewController = [[ItemViewController alloc] initWithItem:item delegate:self source:nil];
             itemNavigationController = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
-            [gamePlayTabVCs addObject:itemNavigationController];
+            [tempGamePlayTabVCs addObject:itemNavigationController];
         }
         else if ([tmpTab.tabName isEqualToString:@"NODE"])
         {
@@ -283,7 +308,7 @@
             Node *node = [[AppModel sharedAppModel].currentGame.nodeList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
             NodeViewController *nodeViewController = [[NodeViewController alloc] initWithNode:node delegate:self];
             nodeNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nodeViewController];
-            [gamePlayTabVCs addObject:nodeNavigationController];
+            [tempGamePlayTabVCs addObject:nodeNavigationController];
         }
         else if ([tmpTab.tabName isEqualToString:@"WEBPAGE"])
         {
@@ -291,12 +316,10 @@
             WebPage *webPage = [[AppModel sharedAppModel].currentGame.webpageList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
             WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithWebPage:webPage delegate:self];
             webPageNavigationController = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
-            [gamePlayTabVCs addObject:webPageNavigationController];
+            [tempGamePlayTabVCs addObject:webPageNavigationController];
         }
     }
-    
-    gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
-    gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:gamePlayTabSelectorController options:nil];
+    return tempGamePlayTabVCs;
 }
 
 - (void) gamePlayTabBarViewControllerRequestsNav

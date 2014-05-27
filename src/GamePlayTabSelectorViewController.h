@@ -19,4 +19,6 @@
 
 @interface GamePlayTabSelectorViewController : ARISViewController
 - (id) initWithViewControllers:(NSMutableArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
+
+@property (strong, nonatomic) NSMutableArray *viewControllers;
 @end

@@ -56,6 +56,7 @@
 - (void) fetchPlayerInventory;
 - (void) fetchPlayerOverlayList;
 - (void) fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId;
+- (void) fetchUpdatedTabBarItems;
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
 - (void) fetchAllGameLists;

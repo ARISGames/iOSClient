@@ -18,6 +18,7 @@
 #import "MediaModel.h"
 #import "GameComment.h"
 #import "CustomMapOverlay.h"
+#include <stdlib.h>
 
 @interface AppServices()
 {
@@ -589,6 +590,15 @@
     [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGame" arguments:args handler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
+- (void) fetchUpdatedTabBarItems
+{
+    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
+                          nil];
+    
+    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGame" arguments:args handler:self successSelector:@selector(parseUpdatedTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+
 - (void) fetchQRCode:(NSString*)code
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -1064,6 +1074,45 @@
     [AppModel sharedAppModel].currentGame.nodeList = tempNodeList;
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+}
+
+- (void) parseUpdatedTabListFromJSON:(ARISServiceResult *)jsonResult
+{
+    NSArray *tabListArray = (NSArray *)jsonResult.resultData;
+    NSMutableArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
+    for(int i = 0; i < [tabListArray count]; i++)
+        [tempTabList addObject:[self parseTabFromDictionary:[tabListArray objectAtIndex:i]]];
+    
+    int random = rand() % 10;
+    
+    //JUSTIN HACK
+    if (random < 5) {
+        Tab *npcTab = [[Tab alloc] init];
+        npcTab.tabIndex = 2;
+        npcTab.tabName = @"NPC";
+        npcTab.tabDetail1 = 45710;
+        [tempTabList addObject:npcTab];
+    }
+    //
+    //    Tab *itemTab = [[Tab alloc] init];
+    //    itemTab.tabIndex = 3;
+    //    itemTab.tabName = @"ITEM";
+    //    itemTab.tabDetail1 = 65930;
+    //    [tempTabList addObject:itemTab];
+    //
+    //    Tab *plaqueTab = [[Tab alloc] init];
+    //    plaqueTab.tabIndex = 4;
+    //    plaqueTab.tabName = @"NODE";
+    //    plaqueTab.tabDetail1 = 143636;
+    //    [tempTabList addObject:plaqueTab];
+    //
+    //    Tab *webTab = [[Tab alloc] init];
+    //    webTab.tabIndex = 5;
+    //    webTab.tabName = @"WEBPAGE";
+    //    webTab.tabDetail1 = 5500;
+    //    [tempTabList addObject:webTab];
+    NSLog(@"ReceivedUpdatedTabList");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedUpdatedTabList" object:nil userInfo:[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]]];
 }
 
 - (void) parseGameTabListFromJSON:(ARISServiceResult *)jsonResult
