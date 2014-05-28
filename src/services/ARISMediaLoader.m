@@ -128,7 +128,7 @@
     NSArray *objects = [dataConnections allValues];
     for(int i = 0; i < objects.count; i++)
         [[objects objectAtIndex:i] cancelConnection];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);   
 }
 
 @end

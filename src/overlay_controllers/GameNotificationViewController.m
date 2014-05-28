@@ -264,7 +264,7 @@
 
 - (void)stopListeningToModel
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);     
 }
 
 - (void) dealloc

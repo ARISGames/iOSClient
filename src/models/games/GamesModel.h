@@ -12,6 +12,7 @@
 @interface GamesModel : NSObject
 
 - (Game *) gameForId:(int)game_id;
+- (void) requestGame:(int)game_id;
 
 - (NSArray *) nearbyGames;
 - (NSArray *) anywhereGames;

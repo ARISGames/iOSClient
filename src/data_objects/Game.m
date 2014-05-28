@@ -7,6 +7,7 @@
 //
 
 #import "Game.h"
+#import "User.h"
 #import "GameComment.h"
 #import "NSDictionary+ValidParsers.h"
  
@@ -51,7 +52,7 @@
 {
     if(self = [super init])
     {
-        self.authors = [NSMutableArray arrayWithCapacity:5];
+        self.authors  = [NSMutableArray arrayWithCapacity:5];
         self.comments = [NSMutableArray arrayWithCapacity:5]; 
         self.play_log = [NSMutableArray arrayWithCapacity:5];  
     }
@@ -62,7 +63,7 @@
 {
     if(self = [super init])
     {
-        self.authors = [NSMutableArray arrayWithCapacity:5];
+        self.authors  = [NSMutableArray arrayWithCapacity:5];
         self.comments = [NSMutableArray arrayWithCapacity:5]; 
         self.play_log = [NSMutableArray arrayWithCapacity:5];   
         
@@ -88,13 +89,50 @@
         
         self.has_been_played = [dict validBoolForKey:@"has_been_played"]; 
         self.player_count = [dict validIntForKey:@"player_count"];  
+        
+        NSArray *authorDicts;
+        for(int i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
+            [self.authors addObject:[[User alloc] initWithDictionary:authorDicts[i]]];
     }
     return self;
 }
 
 - (void) mergeDataFromGame:(Game *)g
 {
-    
+    self.game_id = g.game_id;
+    self.name = g.name;
+    self.desc = g.desc; 
+
+    self.icon_media_id = g.icon_media_id; 
+    self.media_id = g.media_id;  
+
+    self.map_type = g.map_type;
+    self.location = g.location;
+    self.zoom_level = g.zoom_level;
+
+    self.show_player_location = g.show_player_location;
+    self.full_quick_travel = g.full_quick_travel;
+
+    self.allow_note_comments = g.allow_note_comments;
+    self.allow_note_player_tags = g.allow_note_player_tags;
+    self.allow_note_likes = g.allow_note_likes;
+
+    self.inventory_weight_cap = g.inventory_weight_cap;
+    self.has_been_played = g.has_been_played;
+    self.player_count = g.player_count;
+
+    self.authors = g.authors;
+    self.comments = g.comments;
+    self.play_log = g.play_log;
+
+    self.plaquesModel   = g.plaquesModel; 
+    self.itemsModel     = g.itemsModel; 
+    self.dialogsModel   = g.dialogsModel; 
+    self.webPagesModel  = g.webPagesModel; 
+    self.notesModel     = g.notesModel;
+    self.questsModel    = g.questsModel;
+    self.locationsModel = g.locationsModel;
+    self.overlaysModel  = g.overlaysModel;
 }
 
 - (void) getReadyToPlay
@@ -141,7 +179,7 @@
     return rating/self.comments.count;
 }
 
-- (NSString *)description
+- (NSString *) description
 {
     return [NSString stringWithFormat:@"Game- Id:%d\tName:%@",self.game_id,self.name];
 }

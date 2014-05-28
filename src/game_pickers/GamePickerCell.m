@@ -16,6 +16,9 @@
 
 @interface GamePickerCell () <ARISMediaViewDelegate>
 {
+    Game *game;
+    
+    UIActivityIndicatorView *loadingIndicator;  
 	UILabel *titleLabel;
 	UILabel *customLabel;
 	UILabel *authorLabel;
@@ -32,6 +35,7 @@
     if(self = [super init])
     {
         [self initializeViews];
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_AVAILABLE", self, @selector(gameAvailable:), nil);
     }
     return self;
 }
@@ -41,18 +45,20 @@
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
         [self initializeViews]; 
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_AVAILABLE", self, @selector(gameAvailable:), nil); 
     }
     return self;
 }
 
 - (void) initializeViews
 {
-    titleLabel      = [[UILabel alloc] init];
-    customLabel     = [[UILabel alloc] init]; 
-    authorLabel     = [[UILabel alloc] init]; 
-    numReviewsLabel = [[UILabel alloc] init]; 
-    iconView        = [[ARISMediaView alloc] initWithDelegate:self]; 
-    starView        = [[ARISStarView alloc] init];  
+    loadingIndicator = [[UIActivityIndicatorView alloc] init];   
+    titleLabel       = [[UILabel alloc] init];
+    customLabel      = [[UILabel alloc] init]; 
+    authorLabel      = [[UILabel alloc] init]; 
+    numReviewsLabel  = [[UILabel alloc] init]; 
+    iconView         = [[ARISMediaView alloc] initWithDelegate:self]; 
+    starView         = [[ARISStarView alloc] init];  
     
     [titleLabel      setFont:[ARISTemplate ARISCellTitleFont]]; 
     [authorLabel     setFont:[ARISTemplate ARISSubtextFont]]; 
@@ -65,12 +71,13 @@
     
     
     float cellWidth = [UIScreen mainScreen].bounds.size.width;
-    [iconView setFrame:CGRectMake(5, 5, 50, 50)];
-    [titleLabel      setFrame:CGRectMake(60,1,cellWidth-60,25)]; 
-    [authorLabel     setFrame:CGRectMake(60,23,cellWidth-60-80,15)]; 
-    [customLabel     setFrame:CGRectMake(cellWidth-80,24,60,15)];  
-    [starView        setFrame:CGRectMake(60,40,60,12)];    
-    [numReviewsLabel setFrame:CGRectMake(160,40,cellWidth-160,15)];  
+    loadingIndicator.frame = CGRectMake(cellWidth-20, 1, 15, 15);
+    titleLabel.frame = CGRectMake(60,1,cellWidth-60,25); 
+    authorLabel.frame = CGRectMake(60,23,cellWidth-60-80,15); 
+    customLabel.frame = CGRectMake(cellWidth-80,24,60,15);  
+    iconView.frame = CGRectMake(5, 5, 50, 50); 
+    starView.frame = CGRectMake(60,40,60,12);    
+    numReviewsLabel.frame = CGRectMake(160,40,cellWidth-160,15);  
     
     starView.backgroundColor = [UIColor clearColor];
     
@@ -82,26 +89,53 @@
     [self addSubview:starView];  
 }
 
+- (void) gameAvailable:(NSNotification *)n
+{
+    Game *g = n.userInfo[@"game"];
+    if(g && game && g.game_id == game.game_id)
+        [self setGame:g];
+}
+
 - (void) setGame:(Game *)g
 {
-    /*
-	titleLabel.text  = g.name;
-	//authorLabel.text = g.authors;
-    starView.rating  = g.rating;
+    game = g;
     
-	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:g.comments.count] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
+    [loadingIndicator removeFromSuperview];
+    [loadingIndicator stopAnimating];
     
-    if(!g.icon_media_id) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
-    else                 [iconView setMedia:[_MODEL_MEDIA_ mediaForId:g.icon_media_id]];
+    if(game.authors.count == 0) //game not loaded //admittedly, an odd metric
+    {
+        [loadingIndicator startAnimating];
+        [self addSubview:loadingIndicator];
+        [_MODEL_GAMES_ requestGame:g.game_id];
+    }
+    else
+    {
+        authorLabel.text = @"";
+        for(int i = 0; i < game.authors.count; i++)
+            authorLabel.text = [NSString stringWithFormat:@"%@%@, ",authorLabel.text,((User *)game.authors[i]).display_name];
+    }
+    
+	titleLabel.text  = game.name;
+    starView.rating  = game.rating;
+    
+	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:game.comments.count] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
+    
+    if(!game.icon_media_id) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
+    else                 [iconView setMedia:[_MODEL_MEDIA_ mediaForId:game.icon_media_id]];
     
     //set to distance by default
-    customLabel.text   = [NSString stringWithFormat:@"%1.1f %@", g.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")]; 
-     */
+    //customLabel.text   = [NSString stringWithFormat:@"%1.1f %@", game.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")]; 
 }
 
 - (void) setCustomLabelText:(NSString *)t
 {
     customLabel.text = t;
+}
+
+- (void) dealloc
+{
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

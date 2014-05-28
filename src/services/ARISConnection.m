@@ -55,10 +55,7 @@ NSString *const kARISServerServicePackage = @"v2";
 
 - (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict
 {
-    NSURLRequest *req;
-    req = [self createRequestURLFromService:s method:m arguments:args];
-    
-    [self performAsyncURLRequest:req handler:h successSelector:ss failSelector:fs retryOnFail:r allowDuplicates:NO userInfo:dict];   
+    [self performAsyncURLRequest:[self createRequestURLFromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r allowDuplicates:NO userInfo:dict];   
 }
 
 - (ARISServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
@@ -71,16 +68,24 @@ NSString *const kARISServerServicePackage = @"v2";
     [self performAsyncURLRequest:[self createRequestURLWithRequest:r] handler:nil successSelector:nil failSelector:nil retryOnFail:YES allowDuplicates:NO userInfo:nil];   
 }
 
+- (NSString *) hashFromURLReq:(NSURLRequest *)rURL
+{
+    //used to store in dict
+    return [NSString stringWithFormat:@"%@%@",[rURL.URL absoluteString],[[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]];
+}
 - (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r allowDuplicates:(BOOL)d userInfo:(NSDictionary *)u
 {
     if(!d)
     {
-        if([requestDupMap objectForKey:[rURL.URL absoluteString]])
+        if([requestDupMap objectForKey:[self hashFromURLReq:rURL]])
         {
             NSLog(@"Dup req abort : %@",rURL.URL.absoluteString);
+            #ifdef CONNECTION_DEBUG
+            NSLog(@"Dup req data  : %@", [[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]);
+            #endif 
             return;
         }
-        else [requestDupMap setObject:[rURL.URL absoluteString] forKey:[rURL.URL absoluteString]];
+        else [requestDupMap setObject:[rURL.URL absoluteString] forKey:[self hashFromURLReq:rURL]];
     } 
     
     

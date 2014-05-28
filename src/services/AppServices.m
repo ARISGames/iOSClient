@@ -90,6 +90,19 @@
     return gamesList;
 }
 
+- (void) fetchGameDetails:(int)game_id
+{
+       NSDictionary *args = 
+        @{
+            @"game_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id]
+        };
+  [connection performAsynchronousRequestWithService:@"games" method:@"getFullGame" arguments:args handler:self successSelector:@selector(parseGame:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseGame:(ARISServiceResult *)result
+{	   
+    _ARIS_NOTIF_SEND_(@"SERVICES_GAME_RECEIVED", nil, @{@"game":[[Game alloc] initWithDictionary:(NSDictionary *)result.resultData]});
+}
+
 - (void) fetchNearbyGameList
 {
     NSDictionary *args = 
@@ -169,9 +182,6 @@
 {	   
     _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
 }
-
-
-
 
 
 
@@ -844,32 +854,6 @@
   }
 
   _ARIS_NOTIF_SEND_(@"ConversationOptionsReady",conversationOptions,nil);
-}
-
-- (Game *) parseGame:(NSDictionary *)gameSource
-{
-  Game *game = [[Game alloc] initWithDictionary:gameSource];
-
-  NSArray *comments = [gameSource validObjectForKey:@"comments"];
-  for (NSDictionary *comment in comments)
-  {
-      /*
-    //This is returning an object with user_id,tex, and rating. Right now, we just want the text
-    GameComment *c = [[GameComment alloc] init];
-    c.text = [comment validStringForKey:@"text"];
-    c.title = [comment validStringForKey:@"title"]; 
-    c.playerName = [comment validStringForKey:@"user_name"];
-
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    c.date = [df dateFromString:[comment validStringForKey:@"timestamp"]];  
-
-    c.rating = [comment validIntForKey:@"rating"];
-    [game.comments addObject:c];
-       */
-  }
-
-  return game;
 }
 
 - (void) saveGameComment:(NSString*)comment titled:(NSString *)t game:(int)game_id starRating:(int)rating
