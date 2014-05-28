@@ -584,19 +584,17 @@
 - (void) fetchTabBarItems
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
-                          nil];
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], @"bplayerId", nil ];
     
-    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGame" arguments:args handler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGameAndPlayer" arguments:args handler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchUpdatedTabBarItems
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
-                          nil];
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], @"bplayerId", nil ];
     
-    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGame" arguments:args handler:self successSelector:@selector(parseUpdatedTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGameAndPlayer" arguments:args handler:self successSelector:@selector(parseUpdatedTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchQRCode:(NSString*)code
@@ -1083,34 +1081,6 @@
     for(int i = 0; i < [tabListArray count]; i++)
         [tempTabList addObject:[self parseTabFromDictionary:[tabListArray objectAtIndex:i]]];
     
-    int random = rand() % 10;
-    
-    //JUSTIN HACK
-    if (random < 5) {
-        Tab *npcTab = [[Tab alloc] init];
-        npcTab.tabIndex = 2;
-        npcTab.tabName = @"NPC";
-        npcTab.tabDetail1 = 45710;
-        [tempTabList addObject:npcTab];
-        
-        Tab *itemTab = [[Tab alloc] init];
-        itemTab.tabIndex = 3;
-        itemTab.tabName = @"ITEM";
-        itemTab.tabDetail1 = 65930;
-        [tempTabList addObject:itemTab];
-        
-        Tab *plaqueTab = [[Tab alloc] init];
-        plaqueTab.tabIndex = 4;
-        plaqueTab.tabName = @"NODE";
-        plaqueTab.tabDetail1 = 143636;
-        [tempTabList addObject:plaqueTab];
-        
-        Tab *webTab = [[Tab alloc] init];
-        webTab.tabIndex = 5;
-        webTab.tabName = @"WEBPAGE";
-        webTab.tabDetail1 = 5500;
-        [tempTabList addObject:webTab];
-    }
     NSLog(@"ReceivedUpdatedTabList");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedUpdatedTabList" object:nil userInfo:[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]]];
 }
