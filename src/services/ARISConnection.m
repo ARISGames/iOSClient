@@ -186,7 +186,7 @@ NSString *const kARISServerServicePackage = @"v2";
     ARISServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
     
-    [requestDupMap removeObjectForKey:[sr.urlRequest.URL absoluteString]];
+    [requestDupMap removeObjectForKey:[self hashFromURLReq:sr.urlRequest]];
     
     sr.time = -1*[sr.start timeIntervalSinceNow]; 
     NSLog(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time); 

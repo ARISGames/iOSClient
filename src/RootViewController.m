@@ -29,7 +29,7 @@
     ARISNavigationController *loginNavigationController;
     ARISNavigationController *playerSettingsNavigationController;
     GamePickersViewController *gamePickersViewController;
-    GameDetailsViewController *gameDetailsViewController; 
+    ARISNavigationController *gameDetailsNavigationController; 
     LoadingViewController *loadingViewController; 
     GamePlayViewController *gamePlayViewController;
 }
@@ -118,14 +118,17 @@
 
 - (void) gameDetailsRequested:(Game *)g
 {
-    gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
-    [self displayContentController:gameDetailsViewController];
+   gameDetailsNavigationController = 
+    [[ARISNavigationController alloc] initWithRootViewController:
+     [[GameDetailsViewController alloc] initWithGame:g delegate:self]
+     ]; 
+    [self displayContentController:gameDetailsNavigationController];
 }
 
 - (void) gameDetailsCanceled:(Game *)g
 {
     [self displayContentController:gamePickersViewController];
-    gameDetailsViewController = nil;
+    gameDetailsNavigationController = nil;
 }
 
 - (void) profileEditRequested
