@@ -98,10 +98,13 @@
     gameName.text = [AppModel sharedAppModel].currentGame.name;
     [headerView addSubview:gameName];
     
-    ARISMediaView *gameIcon = [[ARISMediaView alloc] init];
-    [gameIcon setFrame:CGRectMake(15, (headerHeight/2) - (35/2), 30, 35)];
-    [gameIcon setMedia:[AppModel sharedAppModel].currentGame.iconMedia];
-    [headerView addSubview:gameIcon];
+    if ([AppModel sharedAppModel].currentGame.iconMedia) {
+        ARISMediaView *gameIcon = [[ARISMediaView alloc] init];
+        [gameIcon setFrame:CGRectMake(15, (headerHeight/2) - (35/2), 30, 35)];
+        [gameIcon setMedia:[AppModel sharedAppModel].currentGame.iconMedia];
+        [headerView addSubview:gameIcon];
+    }
+
     
     [tableView setTableHeaderView:headerView];
     

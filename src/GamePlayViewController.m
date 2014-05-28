@@ -380,7 +380,6 @@
     
     if (dismissTab)
     {
-        //this will need to change to be the proper tab
         ARISNavigationController *tabToDisplay = [gamePlayTabVCs objectAtIndex:0];
         [self viewControllerRequestedDisplay:tabToDisplay];
     }
