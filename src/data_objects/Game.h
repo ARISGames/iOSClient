@@ -98,6 +98,7 @@
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromGame:(Game *)g;
 - (void) getReadyToPlay;
+- (void) requestData;
 - (void) endPlay;
 - (void) clearModels;
 

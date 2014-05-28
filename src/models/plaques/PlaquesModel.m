@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "PlaquesModel.h"
+#import "AppServices.h"
 
 @interface PlaquesModel()
 {
@@ -51,6 +52,11 @@
       newPlaqueId = [NSNumber numberWithInt:newPlaque.plaque_id];
       if(![plaques objectForKey:newPlaqueId]) [plaques setObject:newPlaque forKey:newPlaqueId];
     }
+}
+
+- (void) requestPlaques
+{
+    
 }
 
 - (Plaque *) plaqueForId:(int)plaque_id

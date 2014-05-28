@@ -26,6 +26,10 @@
 - (void) fetchPopularGameList;
 - (void) fetchSearchGameList:(NSString *)s;
 
+- (void) fetchGamePlaqueList;
+- (void) fetchGameItemsList;
+- (void) fetchGameDialogList;
+
 //Player
 //- (void) uploadPlayerPic:(Media *)m;
 //- (void) updatePlayer:(int)user_id withName:(NSString *)name;

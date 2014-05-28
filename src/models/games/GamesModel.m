@@ -127,10 +127,6 @@
 {
     [_SERVICES_ fetchGame:game_id];
 }
-- (void) requestGameData:(int)game_id
-{
-    [_SERVICES_ fetchGame:game_id];
-}
 
 - (NSArray *) nearbyGames
 {

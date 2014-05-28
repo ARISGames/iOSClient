@@ -184,7 +184,58 @@
 }
 
 
+- (void) fetchGamePlaqueList
+{
+  NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaques" arguments:args handler:self successSelector:@selector(parseGamePlaqueList:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseGamePlaqueList:(ARISServiceResult *)result
+{	   
+    NSArray *plaqueDicts = (NSArray *)result.resultData;
+    NSMutableArray *plaques = [[NSMutableArray alloc] init];
+    for(int i = 0; i < plaqueDicts.count; i++)
+        plaques[i] = [[Plaque alloc] initWithDictionary:plaqueDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAQUES_RECEIVED", nil, @{@"plaques":plaques});
+}
 
+
+- (void) fetchGameItemsList
+{
+  NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"items" method:@"getItems" arguments:args handler:self successSelector:@selector(parseGameItemList:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseGameItemList:(ARISServiceResult *)result
+{	   
+    NSArray *itemDicts = (NSArray *)result.resultData;
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    for(int i = 0; i < itemDicts.count; i++)
+        items[i] = [[Item alloc] initWithDictionary:itemDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_ITEMS_RECEIVED", nil, @{@"items":items});
+}
+
+
+- (void) fetchGameDialogList
+{
+  NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getDialogs" arguments:args handler:self successSelector:@selector(parseGameDialogList:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseGameDialogList:(ARISServiceResult *)result
+{	   
+    NSArray *plaqueDicts = (NSArray *)result.resultData;
+    NSMutableArray *plaques = [[NSMutableArray alloc] init];
+    for(int i = 0; i < plaqueDicts.count; i++)
+        plaques[i] = [[Dialog alloc] initWithDictionary:plaqueDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAQUES_RECEIVED", nil, @{@"plaques":plaques});
+}
 
 
 - (void) updatePlayer:(int)user_id withName:(NSString *)name
@@ -638,15 +689,6 @@
   [connection performAsynchronousRequestWithService:@"dialogs" method:@"getdialogConversationsForPlayerAfterViewingPlaque" arguments:args handler:self successSelector:@selector(parseConversationOptionsFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) fetchGameDialogList
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
-    nil];
-
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogs" arguments:args handler:self successSelector:@selector(parseGameDialogListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
 - (void) fetchNoteListPage:(int)page
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -720,21 +762,6 @@
   [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) fetchGameItemList
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    nil];
-  [connection performAsynchronousRequestWithService:@"items" method:@"getFullItems" arguments:args handler:self successSelector:@selector(parseGameItemListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchGamePlaqueList
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
-    nil];
-  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaques" arguments:args handler:self successSelector:@selector(parseGamePlaqueListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
 - (void) fetchPlayerLocationList
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:

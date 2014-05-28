@@ -121,18 +121,8 @@
     self.has_been_played = g.has_been_played;
     self.player_count = g.player_count;
 
-    self.authors = g.authors;
+    self.authors  = g.authors;
     self.comments = g.comments;
-    self.play_log = g.play_log;
-
-    self.plaquesModel   = g.plaquesModel; 
-    self.itemsModel     = g.itemsModel; 
-    self.dialogsModel   = g.dialogsModel; 
-    self.webPagesModel  = g.webPagesModel; 
-    self.notesModel     = g.notesModel;
-    self.questsModel    = g.questsModel;
-    self.locationsModel = g.locationsModel;
-    self.overlaysModel  = g.overlaysModel;
 }
 
 - (void) getReadyToPlay
@@ -156,6 +146,11 @@
     self.notesModel     = nil;
     self.questsModel    = nil;
     self.locationsModel = nil; 
+}
+
+- (void) requestData
+{
+    
 }
 
 - (void) clearModels

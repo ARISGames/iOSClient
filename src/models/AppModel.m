@@ -122,6 +122,7 @@
 - (void) chooseGame:(Game *)g
 {
   _MODEL_GAME_ = g;
+  [_MODEL_GAME_ getReadyToPlay];
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ loginGame:_MODEL_GAME_.game_id];  
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);  
@@ -134,7 +135,8 @@
 
 - (void) leaveGame
 {
-  _MODEL_GAME_ = nil;
+  [_MODEL_GAME_ endPlay]; 
+  _MODEL_GAME_ = nil; 
   [_DEFAULTS_ saveUserDefaults]; 
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);    
 }

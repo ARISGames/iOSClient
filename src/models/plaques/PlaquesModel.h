@@ -14,6 +14,7 @@
 }
 
 - (Plaque *) plaqueForId:(int)plaque_id;
+- (void) requestPlaques;
 - (void) clearGameData;
 
 @end

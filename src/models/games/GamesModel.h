@@ -13,7 +13,6 @@
 
 - (Game *) gameForId:(int)game_id;
 - (void) requestGame:(int)game_id;
-- (void) requestGameData:(int)game_id;
 
 - (NSArray *) nearbyGames;
 - (NSArray *) anywhereGames;
