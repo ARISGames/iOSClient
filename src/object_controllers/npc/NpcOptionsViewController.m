@@ -178,7 +178,7 @@
   text.scrollView.bounces = NO;
   text.backgroundColor = [UIColor clearColor];
   text.opaque = NO;
-  [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], @"<div style=\"color:#BBBBBB; font-size:14px; text-align:center;\">(Make a Selection)</div>"] baseURL:nil];
+  [text loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], @"<div style=\"color:#BBBBBB; font-size:14px; text-align:center;\"></div>"] baseURL:nil];
 
   [cell addSubview:text];
   [optionsView addSubview:cell];
