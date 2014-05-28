@@ -90,7 +90,7 @@
     return gamesList;
 }
 
-- (void) fetchGameDetails:(int)game_id
+- (void) fetchGame:(int)game_id
 {
        NSDictionary *args = 
         @{

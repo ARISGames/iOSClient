@@ -19,7 +19,7 @@
 - (void) createUserWithName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;
 - (void) logInUserWithName:(NSString *)user_name password:(NSString *)password;
 
-- (void) fetchGameDetails:(int)game_id;
+- (void) fetchGame:(int)game_id;
 - (void) fetchNearbyGameList;
 - (void) fetchAnywhereGameList;
 - (void) fetchRecentGameList;
