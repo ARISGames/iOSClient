@@ -63,6 +63,8 @@
       newQuestId = [NSNumber numberWithInt:newQuest.quest_id];
       if(![quests objectForKey:newQuestId]) [quests setObject:newQuest forKey:newQuestId];
     }
+    _ARIS_NOTIF_SEND_(@"MODEL_WEBPAGES_AVAILABLE",nil,nil);    
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_RECEIVED",nil,nil);       
 }
 
 - (void) requestQuests

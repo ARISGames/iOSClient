@@ -202,12 +202,22 @@ const int playerDatasToReceive = 4;
 
 - (void) gamePieceReceived
 {
-    
+    receivedGameData++;
+    [self percentLoadedChanged]; 
 }
 
 - (void) gamePlayerPieceReceived
 {
-    
+    receivedPlayerData++;
+    [self percentLoadedChanged];
+}
+
+- (void) percentLoadedChanged
+{
+    NSNumber *percentReceived = [NSNumber numberWithFloat:
+                                 (float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive)
+                                 ];
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PERCENT_LOADED", nil, @{@"percent":percentReceived});  
 }
 
 - (void) clearModels

@@ -68,6 +68,8 @@
       newItemId = [NSNumber numberWithInt:newItem.item_id];
       if(![items objectForKey:newItemId]) [items setObject:newItem forKey:newItemId];
     }
+    _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_AVAILABLE",nil,nil);   
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_RECEIVED",nil,nil);      
 }
 
 - (void) requestItems

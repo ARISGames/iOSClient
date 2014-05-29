@@ -7,6 +7,7 @@
 //
 
 #import "LoadingViewController.h"
+#import "ARISTemplate.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
 
@@ -15,14 +16,6 @@
     UIImageView *splashImage;
     UIProgressView *progressBar;
     UILabel *progressLabel;
-    
-    int gameDatasToReceive;
-    int receivedGameData;
-    BOOL gameDataReceived;
-    
-    int playerDatasToReceive;
-    int receivedPlayerData;
-    BOOL playerDataReceived;
     
     id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -36,74 +29,41 @@
     if(self = [super init])
     {
         delegate = d;
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PERCENT_LOADED", self, @selector(percentLoaded:), nil);
     }
     return self;
+}
+
+- (void) loadView
+{
+    self.view.backgroundColor = [UIColor ARISColorLightGray];
+    
+    progressBar = [[UIProgressView alloc] init];
+    progressLabel = [[UILabel alloc] init];
+    
+    progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
+    progressBar.progress = 0.0;
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width, 40);
+    progressBar.frame = CGRectMake(10, 80, self.view.frame.size.width, 10); 
+}
+
+- (void) percentLoaded:(NSNotification *)notif
+{
+    progressBar.progress = [notif.userInfo[@"percent"] floatValue];
+}
+
+- (NSUInteger) supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 -(void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);                 
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
-    
-    progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
-    progressBar.progress = 0.0;
-    [self moveProgressBar];
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
-    //admittedly, an odd place to kick off loading of the model, but whatever
-    [_MODEL_GAME_ requestData];
-}
-
--(void) gameDataReceived
-{
-    receivedGameData++;
-    [self moveProgressBar];
-}
-
--(void) playerDataReceived
-{
-    receivedPlayerData++;
-    [self moveProgressBar];
-}
-
-- (void) moveProgressBar
-{
-    float percentLoaded = ((float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive));
-    progressBar.progress = percentLoaded;
-    
-    if(!gameDataReceived && receivedGameData == gameDatasToReceive)
-    {
-        gameDataReceived = YES;
-        [delegate loadingViewControllerFinishedLoadingGameData];
-    }
-    if(!playerDataReceived && receivedPlayerData == playerDatasToReceive)
-    {
-        playerDataReceived = YES;
-        [delegate loadingViewControllerFinishedLoadingPlayerData];
-    }
-    if(gameDataReceived && playerDataReceived)
-    {
-        receivedGameData   = 0;
-        gameDataReceived   = NO;
-        receivedPlayerData = 0;
-        playerDataReceived = NO;
-        [self dismissViewControllerAnimated:NO completion:nil];
-        [delegate loadingViewControllerFinishedLoadingData]; 
-    }
-}
-
-- (NSUInteger) supportedInterfaceOrientations
-{
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return UIInterfaceOrientationMaskAll;
-    else
-        return UIInterfaceOrientationMaskPortrait;
 }
 
 @end
