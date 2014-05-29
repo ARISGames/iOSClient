@@ -116,7 +116,7 @@
         [iconView setMedia:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId]];
     }
     else{
-        [iconView setImage:[UIImage imageNamed:@"logo.png"]];
+        [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
     }
     
 

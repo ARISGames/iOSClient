@@ -403,6 +403,8 @@
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
+    
+    if (!g) return NO; //cannot display a game object that is nil
 
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self fromSource:s]];
     [self presentViewController:nav animated:NO completion:nil];
