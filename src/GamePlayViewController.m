@@ -342,8 +342,7 @@
         }
         else if([tmpTab.tabName isEqualToString:@"NPC"])
         {
-            //there is a possible race condition here when the npc is not in the model
-            Npc *npc = [[AppModel sharedAppModel].currentGame.npcList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            Npc *npc = [[AppModel sharedAppModel].currentGame npcForNpcId:tmpTab.tabDetail1];
             NpcViewController *npcViewController = [[NpcViewController alloc] initWithNpc:npc delegate:self];
             npcNavigationController = [[ARISNavigationController alloc] initWithRootViewController:npcViewController];
             [tempGamePlayTabVCs addObject:npcNavigationController];
@@ -351,8 +350,7 @@
         }
         else if ([tmpTab.tabName isEqualToString:@"ITEM"])
         {
-            //there is a possible race condition here when the item is not in the model
-            Item *item = [[AppModel sharedAppModel].currentGame.itemList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            Item *item = [[AppModel sharedAppModel].currentGame itemForItemId:tmpTab.tabDetail1];
             ItemViewController *itemViewController = [[ItemViewController alloc] initWithItem:item delegate:self source:nil];
             itemNavigationController = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
             [tempGamePlayTabVCs addObject:itemNavigationController];
@@ -360,8 +358,7 @@
         }
         else if ([tmpTab.tabName isEqualToString:@"NODE"])
         {
-            //there is a possible race condition here when the plaque is not in the model
-            Node *node = [[AppModel sharedAppModel].currentGame.nodeList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            Node *node = [[AppModel sharedAppModel].currentGame nodeForNodeId:tmpTab.tabDetail1];
             NodeViewController *nodeViewController = [[NodeViewController alloc] initWithNode:node delegate:self];
             nodeNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nodeViewController];
             [tempGamePlayTabVCs addObject:nodeNavigationController];
@@ -369,8 +366,7 @@
         }
         else if ([tmpTab.tabName isEqualToString:@"WEBPAGE"])
         {
-            //there is a possible race condition here when the web page is not in the model
-            WebPage *webPage = [[AppModel sharedAppModel].currentGame.webpageList objectForKey:[NSNumber numberWithInt:tmpTab.tabDetail1]];
+            WebPage *webPage = [[AppModel sharedAppModel].currentGame webpageForWebpageId:tmpTab.tabDetail1];
             WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithWebPage:webPage delegate:self];
             webPageNavigationController = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
             [tempGamePlayTabVCs addObject:webPageNavigationController];
