@@ -661,6 +661,7 @@
 
 - (void) setQtyForInstanceId:(int)instance_id qty:(int)qty
 {
+<<<<<<< HEAD
      NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
@@ -672,6 +673,16 @@
 - (void) parseSetQtyForInstance:(ARISServiceResult *)result
 {
     //nothing need be done
+=======
+    [self fetchGameMediaList];
+    [self fetchGameItemList];
+    [self fetchGameNpcList];
+    [self fetchGameNodeList];
+    [self fetchGameWebPageList];
+    [self fetchGameOverlayList];
+    
+    [self fetchNoteTagLists];
+>>>>>>> TabData is now forced to load last of all the game data
 }
 
 
@@ -1195,6 +1206,7 @@
 
 - (void) parseGameDialogListFromJSON:(ARISServiceResult *)jsonResult
 {
+<<<<<<< HEAD
   NSArray *dialogListArray = (NSArray *)jsonResult.resultData;
 
   NSMutableDictionary *tempDialogList = [[NSMutableDictionary alloc] init];
@@ -1207,6 +1219,39 @@
   }
 
   _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
+=======
+    NSArray *tabListArray = (NSArray *)jsonResult.resultData;
+    NSMutableArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
+    for(int i = 0; i < [tabListArray count]; i++)
+        [tempTabList addObject:[self parseTabFromDictionary:[tabListArray objectAtIndex:i]]];
+    
+    //PHIL HATES THIS
+    NSLog(@"NSNotification: ReceivedTabList");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedTabList" object:nil userInfo:[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]]];
+    //PHIL DONE HATING
+    
+    NSLog(@"NSNotificaion: TabDataReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabDataReceived" object:nil]];
+}
+
+- (void) parseGameNpcListFromJSON:(ARISServiceResult *)jsonResult
+{
+    NSArray *npcListArray = (NSArray *)jsonResult.resultData;
+    
+    NSMutableDictionary *tempNpcList = [[NSMutableDictionary alloc] init];
+    NSEnumerator *enumerator = [((NSArray *)npcListArray) objectEnumerator];
+    NSDictionary *dict;
+    while ((dict = [enumerator nextObject]))
+    {
+        Npc *tmpNpc = [[Npc alloc] initWithDictionary:dict];
+        [tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
+    }
+    
+    [AppModel sharedAppModel].currentGame.npcList = tempNpcList;
+    
+    NSLog(@"NSNotification: GamePieceReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+>>>>>>> TabData is now forced to load last of all the game data
 }
 
 - (void) parseGameWebPageListFromJSON:(ARISServiceResult *)jsonResult
