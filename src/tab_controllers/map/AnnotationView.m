@@ -74,6 +74,7 @@
             bubbleRect.size.height += ANNOTATION_PADDING*2;
             
             titleRect.origin.y -=3;
+            iconBorderView.backgroundColor = [UIColor whiteColor];
             
             if(IMAGE_WIDTH < bubbleRect.size.width)
                 self.centerOffset = CGPointMake((bubbleRect.size.width-IMAGE_WIDTH)/2, (bubbleRect.size.height+POINTER_LENGTH)/2);
@@ -98,10 +99,11 @@
     }
     
     iconBorderView.frame = imageViewFrame;
-    iconBorderView.backgroundColor = [UIColor whiteColor];
-    iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
-    iconBorderView.layer.borderWidth = 1.0f;
-    
+    if (showTitle) {
+        iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
+        iconBorderView.layer.borderWidth = 1.0f;
+    }
+
     CGRect imageInnerFrame = imageViewFrame;
     imageInnerFrame.origin.x += 2.0f;
     imageInnerFrame.origin.y += 2.0f;
@@ -224,8 +226,10 @@
     iconBorderView.transform = CGAffineTransformMakeScale(1,1);
     [UIView commitAnimations];
     [self turnOnTitle];
-    iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
-    iconBorderView.layer.borderWidth = 1.0f;
+    if (showTitle) {
+        iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
+        iconBorderView.layer.borderWidth = 1.0f;
+    }
 }
 
 - (void) dealloc
