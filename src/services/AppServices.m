@@ -80,14 +80,14 @@
   _ARIS_NOTIF_SEND_(@"SERVICES_LOGIN_RECEIVED",nil,@{@"user":user});
 }
 
-- (NSArray *) parseGamesList:(NSArray *)gamesDicts
+- (NSArray *) parseGames:(NSArray *)gamesDicts
 {
-    NSMutableArray *gamesList = [[NSMutableArray alloc] init];
+    NSMutableArray *games= [[NSMutableArray alloc] init];
     
     for(int i = 0; i < gamesDicts.count; i++)
-        [gamesList addObject:[[Game alloc] initWithDictionary:gamesDicts[i]]];
+        [games addObject:[[Game alloc] initWithDictionary:gamesDicts[i]]];
     
-    return gamesList;
+    return games;
 }
 
 - (void) fetchGame:(int)game_id
@@ -103,7 +103,7 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_GAME_RECEIVED", nil, @{@"game":[[Game alloc] initWithDictionary:(NSDictionary *)result.resultData]});
 }
 
-- (void) fetchNearbyGameList
+- (void) fetchNearbyGames
 {
     NSDictionary *args = 
         @{
@@ -112,14 +112,14 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseNearbyGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseNearbyGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parseNearbyGameList:(ARISServiceResult *)result
+- (void) parseNearbyGames:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_NEARBY_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
+    _ARIS_NOTIF_SEND_(@"SERVICES_NEARBY_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchAnywhereGameList
+- (void) fetchAnywhereGames
 {
     NSDictionary *args = 
         @{
@@ -128,14 +128,14 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseAnywhereGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseAnywhereGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parseAnywhereGameList:(ARISServiceResult *)result
+- (void) parseAnywhereGames:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_ANYWHERE_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
+    _ARIS_NOTIF_SEND_(@"SERVICES_ANYWHERE_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchRecentGameList
+- (void) fetchRecentGames
 {
     NSDictionary *args = 
         @{
@@ -144,14 +144,14 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseRecentGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parseRecentGameList:(ARISServiceResult *)result
+- (void) parseRecentGames:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
+    _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchPopularGameList
+- (void) fetchPopularGames
 {
     NSDictionary *args = 
         @{
@@ -160,14 +160,14 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parsePopularGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parsePopularGameList:(ARISServiceResult *)result
+- (void) parsePopularGames:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_POPULAR_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
+    _ARIS_NOTIF_SEND_(@"SERVICES_POPULAR_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchSearchGameList:(NSString *)search
+- (void) fetchSearchGames:(NSString *)search
 {
     NSDictionary *args = 
         @{
@@ -176,23 +176,22 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseSearchGameList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseSearchGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parseSearchGameList:(ARISServiceResult *)result
+- (void) parseSearchGames:(ARISServiceResult *)result
 {	   
-    _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", nil, @{@"games":[self parseGamesList:(NSArray *)result.resultData]});
+    _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-
-- (void) fetchGamePlaqueList
+- (void) fetchPlaques
 {
   NSDictionary *args = 
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaques" arguments:args handler:self successSelector:@selector(parseGamePlaqueList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaques" arguments:args handler:self successSelector:@selector(parsePlaques:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parseGamePlaqueList:(ARISServiceResult *)result
+- (void) parsePlaques:(ARISServiceResult *)result
 {	   
     NSArray *plaqueDicts = (NSArray *)result.resultData;
     NSMutableArray *plaques = [[NSMutableArray alloc] init];
@@ -201,16 +200,15 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAQUES_RECEIVED", nil, @{@"plaques":plaques});
 }
 
-
-- (void) fetchGameItemsList
+- (void) fetchItems
 {
   NSDictionary *args = 
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"items" method:@"getItems" arguments:args handler:self successSelector:@selector(parseGameItemList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"items" method:@"getItems" arguments:args handler:self successSelector:@selector(parseItems:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parseGameItemList:(ARISServiceResult *)result
+- (void) parseItems:(ARISServiceResult *)result
 {	   
     NSArray *itemDicts = (NSArray *)result.resultData;
     NSMutableArray *items = [[NSMutableArray alloc] init];
@@ -219,16 +217,15 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_ITEMS_RECEIVED", nil, @{@"items":items});
 }
 
-
-- (void) fetchGameDialogList
+- (void) fetchDialogs
 {
   NSDictionary *args = 
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"plaques" method:@"getDialogs" arguments:args handler:self successSelector:@selector(parseGameDialogList:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getDialogs" arguments:args handler:self successSelector:@selector(parseDialogs:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parseGameDialogList:(ARISServiceResult *)result
+- (void) parseDialogs:(ARISServiceResult *)result
 {	   
     NSArray *plaqueDicts = (NSArray *)result.resultData;
     NSMutableArray *plaques = [[NSMutableArray alloc] init];
@@ -236,6 +233,45 @@
         plaques[i] = [[Dialog alloc] initWithDictionary:plaqueDicts[i]];
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAQUES_RECEIVED", nil, @{@"plaques":plaques});
 }
+
+- (void) fetchQuests
+{
+  NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuests" arguments:args handler:self successSelector:@selector(parseQuests:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseQuests:(ARISServiceResult *)result
+{	   
+    NSArray *questDicts = (NSArray *)result.resultData;
+    NSMutableArray *quests = [[NSMutableArray alloc] init];
+    for(int i = 0; i < questDicts.count; i++)
+        quests[i] = [[Quest alloc] initWithDictionary:questDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_QUESTS_RECEIVED", nil, @{@"quests":quests});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 - (void) updatePlayer:(int)user_id withName:(NSString *)name
@@ -599,19 +635,6 @@
 
 #pragma mark ASync Fetch selectors
 
-- (void) fetchAllGameLists
-{
-  [self fetchTabBarItems];
-  [self fetchGameMediaList];
-  [self fetchGameItemList];
-  [self fetchGameDialogList];
-  [self fetchGamePlaqueList];
-  [self fetchGameWebPageList];
-  [self fetchGameOverlayList];
-
-  [self fetchNoteTagLists];
-}
-
 - (void)fetchGameOverlayList
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -816,21 +839,6 @@
     [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
     nil];
   [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parseQuestListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchOneGameGameList:(int)game_id
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",game_id],                                                        @"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                     @"buser_id",
-    [NSString stringWithFormat:@"%d",1],                                                             @"cquestion",
-    [NSString stringWithFormat:@"%d",999999999],                                                     @"dquestion",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"elatitude",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"flongitude",
-    [NSString stringWithFormat:@"%d",1],                                                             @"gshowGamesInDev",// = 1, because if you're specifically seeking out one game, who cares
-    nil];
-
-  [connection performAsynchronousRequestWithService:@"games" method:@"getOneGame" arguments:args handler:self successSelector:@selector(parseOneGameGameListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 /*

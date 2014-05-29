@@ -108,6 +108,7 @@
     
     for(int i = 0; i < activeQuests.count; i++)
     {
+        /*
         Quest *activeQuest = [activeQuests objectAtIndex:i];
         
         if(activeQuest.fullScreenNotification)
@@ -117,6 +118,7 @@
         
         _ARIS_NOTIF_SEND_(@"NewlyChangedQuestsGameNotificationSent",self,nil);
         _ARIS_NOTIF_SEND_(@"NewlyActiveQuestsGameNotificationSent",self,nil);
+         */
     }
 }
 
@@ -126,6 +128,7 @@
 
     for(int i = 0; i < completedQuests.count; i++)
     { 
+        /*
         Quest *completedQuest = [completedQuests objectAtIndex:i];      
     
         if(completedQuest.fullScreenNotification)
@@ -135,6 +138,7 @@
         
         _ARIS_NOTIF_SEND_(@"NewlyChangedQuestsGameNotificationSent",self,nil);
         _ARIS_NOTIF_SEND_(@"NewlyCompletedQuestsGameNotificationSent",self,nil);
+         */
     }
 }
 

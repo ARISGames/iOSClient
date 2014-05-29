@@ -18,6 +18,6 @@
 @interface LoadingViewController : ARISViewController
 
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
-- (void)moveProgressBar;
+- (void) moveProgressBar;
 
 @end

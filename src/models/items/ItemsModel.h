@@ -20,6 +20,7 @@
 @property(nonatomic, assign) int weightCap;
 
 - (Item *) itemForId:(int)item_id;
+- (void) requestItems;
 - (NSArray *) inventory;
 - (NSArray *) attributes;
 

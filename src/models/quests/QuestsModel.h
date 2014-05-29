@@ -7,18 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Quest.h"
 
 @interface QuestsModel : NSObject
-{
-    NSArray *currentActiveQuests;
-    NSArray *currentCompletedQuests;
-    int totalQuestsInGame;
-}
 
-@property(nonatomic, strong) NSArray *currentActiveQuests;
-@property(nonatomic, strong) NSArray *currentCompletedQuests;
-@property(nonatomic) int totalQuestsInGame;
+- (Quest *) questForId:(int)quest_id;
+- (void) requestQuests;
+- (NSArray *) visibleActiveQuests;
+- (NSArray *) visibleCompleteQuests;
 
--(void)clearData;
+- (void) clearPlayerData;
+- (void) clearGameData;
 
 @end

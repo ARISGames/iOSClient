@@ -108,12 +108,14 @@
 
 - (void) refreshViewFromModel
 {
+    /*
     NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES]];
     activeQuests    = [_MODEL_GAME_.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
     //completedQuests = [_MODEL_GAME_.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
     completedQuests = [[NSArray alloc] init];
         
     [self.questIconCollectionView reloadData];
+     */
 }
 
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -131,6 +133,7 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor clearColor]; 
     
+    /*
     for(UIView *view in [cell.contentView subviews])
         [view removeFromSuperview];
         
@@ -157,6 +160,7 @@
     
     icon.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:icon];
+     */
     
     return cell;
 }

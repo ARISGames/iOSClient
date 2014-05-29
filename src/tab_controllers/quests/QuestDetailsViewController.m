@@ -101,6 +101,7 @@
 
 - (void) loadQuest
 {
+    /*
     [scrollView addSubview:webView]; 
     webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
     [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.desc] baseURL:nil];  
@@ -122,6 +123,7 @@
     } 
     else
         scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);    
+     */
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -197,9 +199,11 @@
 
 - (void) goButtonTouched
 {
+    /*
     if([quest.goFunction isEqualToString:@"JAVASCRIPT"]) [webView hookWithParams:@""];
     else if([quest.goFunction isEqualToString:@"NONE"]) return;
     else [self displayTab:quest.goFunction];
+     */
 }
 
 - (void) dealloc

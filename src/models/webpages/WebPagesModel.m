@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "WebPagesModel.h"
+#import "AppServices.h"
 
 @interface WebPagesModel()
 {
@@ -26,7 +27,7 @@
     if(self = [super init])
     {
         [self clearGameData];
-  _ARIS_NOTIF_LISTEN_(@"GameWebPagesReceived",self,@selector(gameWebPagesReceived:),nil);
+  _ARIS_NOTIF_LISTEN_(@"SERVICES_WEBPAGES_RECEIVED",self,@selector(webPagesReceived:),nil);
     }
     return self;
 }
@@ -36,7 +37,7 @@
     webPages = [[NSMutableDictionary alloc] init];
 }
 
-- (void) gameWebPagesReceived:(NSNotification *)notif
+- (void) webPagesReceived:(NSNotification *)notif
 {
     [self updateWebPages:[notif.userInfo objectForKey:@"webPages"]];
 }
@@ -51,6 +52,11 @@
       newWebPageId = [NSNumber numberWithInt:newWebPage.web_page_id];
       if(![webPages objectForKey:newWebPageId]) [webPages setObject:newWebPage forKey:newWebPageId];
     }
+}
+
+- (void) requestWebPages
+{
+    [_SERVICES_ fetchWebPages];
 }
 
 - (WebPage *) webPageForId:(int)web_page_id

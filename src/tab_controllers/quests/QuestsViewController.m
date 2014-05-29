@@ -123,6 +123,7 @@ static int const COMPLETED_SECTION = 1;
 
 -(void) refreshViewFromModel
 {
+    /*
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
@@ -149,6 +150,7 @@ static int const COMPLETED_SECTION = 1;
     }
     
     [questsTable reloadData];
+     */
 }
 
 -(void)showLoadingIndicator

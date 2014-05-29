@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "ItemsModel.h"
+#import "AppServices.h"
 
 @interface ItemsModel()
 {
@@ -33,7 +34,7 @@
     if(self = [super init])
     {
         [self clearGameData];
-  _ARIS_NOTIF_LISTEN_(@"GameItemsReceived",self,@selector(gameItemsReceived:),nil);
+  _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
   _ARIS_NOTIF_LISTEN_(@"PlayerInstancesReceived",self,@selector(playerInstancesReceived:),nil);
     }
     return self;
@@ -52,7 +53,7 @@
     weightCap = 0;
 }
 
-- (void) gameItemsReceived:(NSNotification *)notif
+- (void) itemsReceived:(NSNotification *)notif
 {
     [self updateItems:[notif.userInfo objectForKey:@"items"]];
 }
@@ -67,6 +68,11 @@
       newItemId = [NSNumber numberWithInt:newItem.item_id];
       if(![items objectForKey:newItemId]) [items setObject:newItem forKey:newItemId];
     }
+}
+
+- (void) requestItems
+{
+    [_SERVICES_ fetchItems]; 
 }
 
 - (void) playerInstancesReceived:(NSNotification *)notification

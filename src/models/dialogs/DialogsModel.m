@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "DialogsModel.h"
+#import "AppServices.h"
 
 @interface DialogsModel()
 {
@@ -26,7 +27,7 @@
     if(self = [super init])
     {
         [self clearGameData];
-  _ARIS_NOTIF_LISTEN_(@"GameDialogsReceived",self,@selector(gameDialogsReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOGS_RECEIVED",self,@selector(dialogsReceived:),nil);
     }
     return self;
 }
@@ -36,7 +37,7 @@
     dialogs = [[NSMutableDictionary alloc] init];
 }
 
-- (void) gameDialogsReceived:(NSNotification *)notif
+- (void) dialogsReceived:(NSNotification *)notif
 {
     [self updateDialogs:[notif.userInfo objectForKey:@"dialogs"]];
 }
@@ -51,6 +52,11 @@
       newDialogId = [NSNumber numberWithInt:newDialog.dialog_id];
       if(![dialogs objectForKey:newDialogId]) [dialogs setObject:newDialog forKey:newDialogId];
     }
+}
+
+- (void) requestDialogs
+{
+    [_SERVICES_ fetchDialogs];
 }
 
 - (Dialog *) dialogForId:(int)dialog_id

@@ -31,7 +31,7 @@
 }
 - (void) refreshViewFromModel
 {
-	gameList = _MODEL_GAMES_.anywhereGames;
+	games = _MODEL_GAMES_.anywhereGames;
     [gameTable reloadData];
     
     [self removeLoadingIndicator];

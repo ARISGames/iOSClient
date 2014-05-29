@@ -14,6 +14,7 @@
 }
 
 - (Dialog *) dialogForId:(int)dialog_id;
+- (void) requestDialogs;
 - (void) clearGameData;
 
 @end

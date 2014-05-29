@@ -12,9 +12,9 @@
 
 @interface LoadingViewController()
 {
-    IBOutlet UIImageView *splashImage;
-    IBOutlet UIProgressView *progressBar;
-    IBOutlet UILabel *progressLabel;
+    UIImageView *splashImage;
+    UIProgressView *progressBar;
+    UILabel *progressLabel;
     
     int gameDatasToReceive;
     int receivedGameData;
@@ -24,41 +24,18 @@
     int receivedPlayerData;
     BOOL playerDataReceived;
     
-    float epsillon;
-
     id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
-
-@property(nonatomic)IBOutlet UIImageView *splashImage;
-@property(nonatomic)IBOutlet UIProgressView *progressBar;
-@property(nonatomic)IBOutlet UILabel *progressLabel;
 
 @end
 
 @implementation LoadingViewController
-
-@synthesize splashImage;
-@synthesize progressBar;
-@synthesize progressLabel;
 
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
 {
     if(self = [super init])
     {
         delegate = d;
-        
-        epsillon = 0.00001;
-        
-        gameDatasToReceive = 7;
-        receivedGameData = 0;
-        gameDataReceived = NO;
-        
-        playerDatasToReceive = 4;
-        receivedPlayerData = 0;
-        playerDataReceived = NO;
-        
-  _ARIS_NOTIF_LISTEN_(@"GamePieceReceived",self,@selector(gameDataReceived),nil);
-  _ARIS_NOTIF_LISTEN_(@"PlayerPieceReceived",self,@selector(playerDataReceived),nil);
     }
     return self;
 }
@@ -77,6 +54,12 @@
     [self moveProgressBar];
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    //admittedly, an odd place to kick off loading of the model, but whatever
+    [_MODEL_GAME_ requestData];
+}
+
 -(void) gameDataReceived
 {
     receivedGameData++;
@@ -93,29 +76,25 @@
 {
     float percentLoaded = ((float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive));
     progressBar.progress = percentLoaded;
-    [progressBar setNeedsLayout];
-    [progressBar setNeedsDisplay];
-    [progressLabel setNeedsDisplay];
-    [progressLabel setNeedsLayout];
     
-    if(!gameDataReceived && ((float)receivedGameData/(float)gameDatasToReceive) >= 1.0-epsillon)
+    if(!gameDataReceived && receivedGameData == gameDatasToReceive)
     {
         gameDataReceived = YES;
         [delegate loadingViewControllerFinishedLoadingGameData];
     }
-    if(!playerDataReceived && ((float)receivedPlayerData/(float)playerDatasToReceive) >= 1.0-epsillon)
+    if(!playerDataReceived && receivedPlayerData == playerDatasToReceive)
     {
         playerDataReceived = YES;
         [delegate loadingViewControllerFinishedLoadingPlayerData];
     }
-    if(percentLoaded >= 1.0-epsillon)
+    if(gameDataReceived && playerDataReceived)
     {
-        [self dismissViewControllerAnimated:NO completion:nil];
-        [delegate loadingViewControllerFinishedLoadingData];
         receivedGameData   = 0;
         gameDataReceived   = NO;
         receivedPlayerData = 0;
         playerDataReceived = NO;
+        [self dismissViewControllerAnimated:NO completion:nil];
+        [delegate loadingViewControllerFinishedLoadingData]; 
     }
 }
 

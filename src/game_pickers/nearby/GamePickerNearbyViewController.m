@@ -32,7 +32,7 @@
 }
 - (void) refreshViewFromModel
 {
-	gameList = _MODEL_GAMES_.nearbyGames;
+	games = _MODEL_GAMES_.nearbyGames;
     [gameTable reloadData];
 }
 

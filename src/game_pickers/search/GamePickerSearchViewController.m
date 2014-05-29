@@ -64,7 +64,7 @@
 
 - (void) refreshViewFromModel
 {
-    gameList = [_MODEL_GAMES_ searchGames:theSearchBar.text];
+    games = [_MODEL_GAMES_ searchGames:theSearchBar.text];
 	[gameTable reloadData];
 }
 
@@ -91,14 +91,14 @@
     
         return cell;
     }
-    else if(indexPath.row >= gameList.count+1)
+    else if(indexPath.row >= games.count+1)
     {
         if(!currentlyFetchingNextPage && !allResultsFound) [self attemptSearch:searchText];
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"FetchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FetchCell"];
     
         if(!allResultsFound)                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchLoadingMoreKey", @"");
-        else if(gameList.count == 0) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoResults", @"");
+        else if(games.count == 0) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoResults", @"");
         else                                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoMoreKey", @"");
         return cell;
     }

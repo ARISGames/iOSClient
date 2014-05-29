@@ -39,7 +39,7 @@
 
 - (void) refreshViewFromModel
 {
-	gameList = _MODEL_GAMES_.recentGames;
+	games = _MODEL_GAMES_.recentGames;
 	[gameTable reloadData];
 }
 

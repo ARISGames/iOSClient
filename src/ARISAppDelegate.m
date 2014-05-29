@@ -170,11 +170,7 @@
     
     NSString *strPath = [[url host] lowercaseString];
     if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"])
-    {
-        NSString *gameID = [url lastPathComponent];
   _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",window.rootViewController,@selector(singleGameRequestReady:),nil);
-        [_SERVICES_ fetchOneGameGameList:[gameID intValue]];
-    }
     return YES;
 }
 

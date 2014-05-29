@@ -54,7 +54,7 @@
 
 - (void) refreshViewFromModel
 {
-	gameList = _MODEL_GAMES_.popularGames;
+	games = _MODEL_GAMES_.popularGames;
 	[gameTable reloadData];
 }
 
@@ -83,10 +83,10 @@
         [cell addSubview:timeControl];
         return cell;
     }
-    else if(gameList.count > 0)
+    else if(games.count > 0)
     {
         GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
-        Game *gameForCell = [gameList objectAtIndex:(indexPath.row-1)];
+        Game *gameForCell = [games objectAtIndex:(indexPath.row-1)];
         [cell setCustomLabelText:[NSString stringWithFormat:@"%d %@",gameForCell.player_count, NSLocalizedString(@"PlayersKey", @"")]];
         return cell;
     }

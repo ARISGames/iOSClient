@@ -14,6 +14,7 @@
 }
 
 - (WebPage *) webPageForId:(int)web_page_id;
+- (void) requestWebPages;
 - (void) clearGameData;
 
 @end

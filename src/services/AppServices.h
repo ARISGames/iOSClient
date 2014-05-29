@@ -20,15 +20,17 @@
 - (void) logInUserWithName:(NSString *)user_name password:(NSString *)password;
 
 - (void) fetchGame:(int)game_id;
-- (void) fetchNearbyGameList;
-- (void) fetchAnywhereGameList;
-- (void) fetchRecentGameList;
-- (void) fetchPopularGameList;
-- (void) fetchSearchGameList:(NSString *)s;
+- (void) fetchNearbyGames;
+- (void) fetchAnywhereGames;
+- (void) fetchRecentGames;
+- (void) fetchPopularGames;
+- (void) fetchSearchGames:(NSString *)s;
 
-- (void) fetchGamePlaqueList;
-- (void) fetchGameItemsList;
-- (void) fetchGameDialogList;
+- (void) fetchPlaques;
+- (void) fetchItems;
+- (void) fetchDialogs;
+- (void) fetchWebPages;
+- (void) fetchQuests;
 
 //Player
 //- (void) uploadPlayerPic:(Media *)m;
@@ -37,8 +39,6 @@
 //- (void) setShowPlayerOnMap;
 
 //Game Picker
-
-- (void) fetchOneGameGameList:(int)game_id;
 
 //Fetch Player State
 - (void) fetchAllPlayerLists;
@@ -49,14 +49,9 @@
 - (void) fetchDialogConversations:(int)dialog_id afterViewingPlaque:(int)plaque_id;
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
-- (void) fetchAllGameLists;
 - (void) fetchGameMediaList;
 - (void) fetchTabBarItems;
 - (void) fetchGameOverlayList;
-- (void) fetchGameDialogList;
-- (void) fetchGameItemList;
-- (void) fetchGamePlaqueList;
-- (void) fetchGameWebPageList;
 
 - (void) fetchNoteListPage:(int)page;
 - (void) fetchNoteTagLists;

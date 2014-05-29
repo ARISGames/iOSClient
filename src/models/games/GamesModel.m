@@ -139,7 +139,7 @@
     {
         nearbyStamp = [[NSDate alloc] init];
         location = [_MODEL_PLAYER_.location copy];
-        [_SERVICES_ fetchNearbyGameList];  
+        [_SERVICES_ fetchNearbyGames];  
     }
     
     return nearbyGames;
@@ -150,7 +150,7 @@
     if(!anywhereStamp || [anywhereStamp timeIntervalSinceNow] > 120)
     {
         anywhereStamp = [[NSDate alloc] init]; 
-        [_SERVICES_ fetchAnywhereGameList];   
+        [_SERVICES_ fetchAnywhereGames];   
     }
         
     return anywhereGames; 
@@ -161,7 +161,7 @@
     if(!popularStamp || [popularStamp timeIntervalSinceNow] > 120) 
     {
         popularStamp = [[NSDate alloc] init]; 
-        [_SERVICES_ fetchPopularGameList];    
+        [_SERVICES_ fetchPopularGames];    
     } 
         
     return popularGames;  
@@ -172,7 +172,7 @@
     if(!recentStamp || [recentStamp timeIntervalSinceNow] > 120) 
     {
         recentStamp = [[NSDate alloc] init]; 
-        [_SERVICES_ fetchRecentGameList];     
+        [_SERVICES_ fetchRecentGames];     
     }  
     
     return recentGames;   
@@ -185,7 +185,7 @@
     {
         searchStamp = [[NSDate alloc] init]; 
         search = s;
-        [_SERVICES_ fetchSearchGameList:s];      
+        [_SERVICES_ fetchSearchGames:s];      
     }   
     
     return searchGames;    

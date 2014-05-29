@@ -93,13 +93,13 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(gameList.count == 0 && _MODEL_PLAYER_.location) return 1;
-	return gameList.count;
+    if(games.count == 0 && _MODEL_PLAYER_.location) return 1;
+	return games.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(gameList.count == 0)
+    if(games.count == 0)
     {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"OffCell"];
         cell.textLabel.text = NSLocalizedString(@"GamePickerNoGamesKey", @"");
@@ -110,21 +110,21 @@
     GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:@"GameCell"];
     if(cell == nil) cell = [[GamePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GameCell"];
     
-	[cell setGame:[gameList objectAtIndex:indexPath.row]];
+	[cell setGame:[games objectAtIndex:indexPath.row]];
     
     return cell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(gameList.count == 0) return;
-    [delegate gamePicked:gameList[indexPath.row]];
+    if(games.count == 0) return;
+    [delegate gamePicked:games[indexPath.row]];
 }
 
 - (void) tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    if(gameList.count == 0) return; 
-    [delegate gamePicked:gameList[indexPath.row]]; 
+    if(games.count == 0) return; 
+    [delegate gamePicked:games[indexPath.row]]; 
 }
 
 - (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

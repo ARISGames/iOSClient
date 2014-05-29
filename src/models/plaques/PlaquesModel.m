@@ -27,7 +27,7 @@
     if(self = [super init])
     {
         [self clearGameData];
-  _ARIS_NOTIF_LISTEN_(@"GamePlaquesReceived",self,@selector(gamePlaquesReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAQUES_RECEIVED",self,@selector(plaquesReceived:),nil);
     }
     return self;
 }
@@ -37,7 +37,7 @@
     plaques = [[NSMutableDictionary alloc] init];
 }
 
-- (void) gamePlaquesReceived:(NSNotification *)notif
+- (void) plaquesReceived:(NSNotification *)notif
 {
     [self updatePlaques:[notif.userInfo objectForKey:@"plaques"]];
 }
@@ -56,7 +56,7 @@
 
 - (void) requestPlaques
 {
-    
+    [_SERVICES_ fetchPlaques];
 }
 
 - (Plaque *) plaqueForId:(int)plaque_id
