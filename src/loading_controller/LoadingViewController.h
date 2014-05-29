@@ -12,6 +12,7 @@
 @protocol LoadingViewControllerDelegate
 - (void) loadingViewControllerFinishedLoadingGameData;
 - (void) loadingViewControllerFinishedLoadingPlayerData;
+- (void) loadingViewControllerFinishedLoadingTabData;
 - (void) loadingViewControllerFinishedLoadingData;
 @end
 

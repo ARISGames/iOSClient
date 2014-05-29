@@ -24,6 +24,10 @@
     int receivedPlayerData;
     BOOL playerDataReceived;
     
+    int tabDataToReceive;
+    int receivedTabData;
+    BOOL tabDataReceived;
+    
     float epsillon;
 
     id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
@@ -49,7 +53,7 @@
         
         epsillon = 0.00001;
         
-        gameDatasToReceive = 7;
+        gameDatasToReceive = 6;
         receivedGameData = 0;
         gameDataReceived = NO;
         
@@ -57,8 +61,13 @@
         receivedPlayerData = 0;
         playerDataReceived = NO;
         
+        tabDataToReceive = 1;
+        receivedTabData = 0;
+        tabDataReceived = NO;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameDataReceived)   name:@"GamePieceReceived"   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDataReceived) name:@"PlayerPieceReceived" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabDataReceived) name:@"TabDataReceived" object:nil];
     }
     return self;
 }
@@ -89,9 +98,15 @@
     [self moveProgressBar];
 }
 
+- (void) tabDataReceived
+{
+    receivedTabData++;
+    [self moveProgressBar];
+}
+
 - (void) moveProgressBar
 {
-    float percentLoaded = ((float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive));
+    float percentLoaded = ((float)(receivedGameData+receivedPlayerData+receivedTabData)/(float)(gameDatasToReceive+playerDatasToReceive+tabDataToReceive));
     progressBar.progress = percentLoaded;
     [progressBar setNeedsLayout];
     [progressBar setNeedsDisplay];
@@ -102,6 +117,10 @@
     {
         gameDataReceived = YES;
         [delegate loadingViewControllerFinishedLoadingGameData];
+    }
+    if (!tabDataReceived && ((float)receivedTabData/(float)tabDataToReceive) >= 1.0-epsillon) {
+        tabDataReceived = YES;
+        [delegate loadingViewControllerFinishedLoadingTabData];
     }
     if(!playerDataReceived && ((float)receivedPlayerData/(float)playerDatasToReceive) >= 1.0-epsillon)
     {
@@ -116,6 +135,8 @@
         gameDataReceived   = NO;
         receivedPlayerData = 0;
         playerDataReceived = NO;
+        receivedTabData = 0;
+        tabDataReceived = NO;
     }
 }
 

@@ -521,7 +521,6 @@
 
 - (void) fetchAllGameLists
 {
-    [self fetchTabBarItems];
     [self fetchGameMediaList];
     [self fetchGameItemList];
     [self fetchGameNpcList];
@@ -1097,8 +1096,8 @@
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedTabList" object:nil userInfo:[[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:tempTabList,nil] forKeys:[[NSArray alloc] initWithObjects:@"tabs",nil]]]];
     //PHIL DONE HATING
     
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
+    NSLog(@"NSNotificaion: TabDataReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabDataReceived" object:nil]];
 }
 
 - (void) parseGameNpcListFromJSON:(ARISServiceResult *)jsonResult

@@ -165,13 +165,20 @@
 
 - (void) loadingViewControllerFinishedLoadingGameData
 {
+    [[AppServices sharedAppServices] fetchTabBarItems];
+}
+
+- (void) loadingViewControllerFinishedLoadingTabData
+{
     [[AppServices sharedAppServices] fetchAllPlayerLists];
 }
 
 - (void) loadingViewControllerFinishedLoadingPlayerData
 {
-    //Nada
+    
 }
+
+
 
 - (void) loadingViewControllerFinishedLoadingData
 {
