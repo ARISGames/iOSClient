@@ -470,7 +470,7 @@
     [blackoutBottom setAlpha:0.0f];
     
     CLLocationDistance distance = [[[AppModel sharedAppModel] player].location distanceFromLocation:location.latlon];
-    if((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel){
+    if(((distance <= location.errorRange && [[AppModel sharedAppModel] player].location != nil) || location.allowsQuickTravel) && location.gameObject){
         viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 60, (self.view.bounds.size.height / 2) - 28, 75, 120);
         [viewAnnotationButton setTitle:NSLocalizedString(@"ViewLocationKey", @"") forState:UIControlStateNormal];
         [viewAnnotationButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
