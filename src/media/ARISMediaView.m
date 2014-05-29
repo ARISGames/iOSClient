@@ -78,7 +78,6 @@
 
 - (void) setMedia:(Media *)m
 {
-    [self clear];
     if(!m.data)
     {
         [self addSpinner];
@@ -86,6 +85,7 @@
         [[AppServices sharedAppServices] loadMedia:m delegateHandle:selfDelegateHandle];
         return;//calls 'mediaLoaded' upon complete
     }
+    [self clear];
     media = m;
     [self displayMedia];
 }
