@@ -36,19 +36,27 @@
 
 - (void) loadView
 {
-    self.view.backgroundColor = [UIColor ARISColorLightGray];
+    [super loadView];
+    self.view.backgroundColor = [UIColor ARISColorOffWhite];
     
-    progressBar = [[UIProgressView alloc] init];
     progressLabel = [[UILabel alloc] init];
+    progressBar = [[UIProgressView alloc] init]; 
     
-    progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
-    progressBar.progress = 0.0;
+    progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @""); 
+    progressLabel.font = [ARISTemplate ARISCellSubtextFont];
+    progressLabel.textColor = [UIColor ARISColorDarkBlue]; 
+    
+    progressBar.progress = 0.0; 
+    progressBar.progressTintColor = [UIColor ARISColorDarkBlue];
+    
+    [self.view addSubview:progressLabel]; 
+    [self.view addSubview:progressBar]; 
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width, 40);
-    progressBar.frame = CGRectMake(10, 80, self.view.frame.size.width, 10); 
+    progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width-20, 40);
+    progressBar.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 10); 
 }
 
 - (void) percentLoaded:(NSNotification *)notif

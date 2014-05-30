@@ -117,9 +117,6 @@ const int playerDatasToReceive = 4;
     receivedPlayerData = 0;
     playerDataReceived = NO;    
                
-    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_RECEIVED",self,@selector(gamePieceReceived),nil);
-    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_RECEIVED",self,@selector(gamePlayerPieceReceived),nil); 
-        
     authors  = [NSMutableArray arrayWithCapacity:5];
     comments = [NSMutableArray arrayWithCapacity:5]; 
     play_log = [NSMutableArray arrayWithCapacity:5];   
@@ -155,6 +152,9 @@ const int playerDatasToReceive = 4;
 
 - (void) getReadyToPlay
 {
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_RECEIVED",self,@selector(gamePieceReceived),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_RECEIVED",self,@selector(gamePlayerPieceReceived),nil); 
+    
     receivedGameData = 0;
     gameDataReceived = NO;    
     
@@ -173,6 +173,8 @@ const int playerDatasToReceive = 4;
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
 {
+    _ARIS_NOTIF_IGNORE_ALL_(self);
+    
     receivedGameData = 0;
     gameDataReceived = NO;     
     
@@ -257,7 +259,7 @@ const int playerDatasToReceive = 4;
 
 - (void) dealloc
 {
-    
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

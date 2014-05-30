@@ -189,7 +189,7 @@
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaques" arguments:args handler:self successSelector:@selector(parsePlaques:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaquesForGame" arguments:args handler:self successSelector:@selector(parsePlaques:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parsePlaques:(ARISServiceResult *)result
 {	   
@@ -206,7 +206,7 @@
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"items" method:@"getItems" arguments:args handler:self successSelector:@selector(parseItems:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForGame" arguments:args handler:self successSelector:@selector(parseItems:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseItems:(ARISServiceResult *)result
 {	   
@@ -223,15 +223,32 @@
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"plaques" method:@"getDialogs" arguments:args handler:self successSelector:@selector(parseDialogs:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogsForGame" arguments:args handler:self successSelector:@selector(parseDialogs:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseDialogs:(ARISServiceResult *)result
 {	   
-    NSArray *plaqueDicts = (NSArray *)result.resultData;
-    NSMutableArray *plaques = [[NSMutableArray alloc] init];
-    for(int i = 0; i < plaqueDicts.count; i++)
-        plaques[i] = [[Dialog alloc] initWithDictionary:plaqueDicts[i]];
-    _ARIS_NOTIF_SEND_(@"SERVICES_PLAQUES_RECEIVED", nil, @{@"plaques":plaques});
+    NSArray *dialogDicts = (NSArray *)result.resultData;
+    NSMutableArray *dialogs = [[NSMutableArray alloc] init];
+    for(int i = 0; i < dialogDicts.count; i++)
+        dialogs[i] = [[Dialog alloc] initWithDictionary:dialogDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_DIALOGS_RECEIVED", nil, @{@"dialogs":dialogs});
+}
+
+- (void) fetchWebPages
+{
+  NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPagesForGame" arguments:args handler:self successSelector:@selector(parseWebPages:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseWebPages:(ARISServiceResult *)result
+{	   
+    NSArray *webPageDicts = (NSArray *)result.resultData;
+    NSMutableArray *webPages = [[NSMutableArray alloc] init];
+    for(int i = 0; i < webPageDicts.count; i++)
+        webPages[i] = [[WebPage alloc] initWithDictionary:webPageDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_WEB_PAGES_RECEIVED", nil, @{@"webPages":webPages});
 }
 
 - (void) fetchQuests
@@ -240,7 +257,7 @@
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuests" arguments:args handler:self successSelector:@selector(parseQuests:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForGame" arguments:args handler:self successSelector:@selector(parseQuests:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseQuests:(ARISServiceResult *)result
 {	   
@@ -758,7 +775,7 @@
     [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
     nil];
 
-  [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPages" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPagesForGame" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchMediaMeta:(Media *)m
