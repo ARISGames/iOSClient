@@ -268,6 +268,42 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_QUESTS_RECEIVED", nil, @{@"quests":quests});
 }
 
+- (void) fetchInstancesForGame
+{
+    NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
+      @"owner_id":[NSNumber numberWithInt:0] //could leave this out and get same result, but would rather be explicit
+      }; 
+    [connection performAsynchronousRequestWithService:@"instances" method:@"getInstancesForGame" arguments:args handler:self successSelector:@selector(parseGameInstances:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parseGameInstances:(ARISServiceResult *)result
+{	   
+    NSArray *instanceDicts = (NSArray *)result.resultData;
+    NSMutableArray *instances = [[NSMutableArray alloc] init];
+    for(int i = 0; i < instanceDicts.count; i++)
+        instances[i] = [[Instance alloc] initWithDictionary:instanceDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_INSTANCES_RECEIVED", nil, @{@"instances":instances});
+}
+
+- (void) fetchInstancesForPlayer
+{
+     NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
+      @"owner_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id]
+      }; 
+    [connection performAsynchronousRequestWithService:@"instances" method:@"getInstancesForGame" arguments:args handler:self successSelector:@selector(parsePlayerInstances:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parsePlayerInstances:(ARISServiceResult *)result
+{	   
+    NSArray *instanceDicts = (NSArray *)result.resultData;
+    NSMutableArray *instances = [[NSMutableArray alloc] init];
+    for(int i = 0; i < instanceDicts.count; i++)
+        instances[i] = [[Instance alloc] initWithDictionary:instanceDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_RECEIVED", nil, @{@"instances":instances});
+}
+
 
 
 

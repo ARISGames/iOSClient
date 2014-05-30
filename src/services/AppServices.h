@@ -32,6 +32,9 @@
 - (void) fetchWebPages;
 - (void) fetchQuests;
 
+- (void) fetchInstancesForGame;
+- (void) fetchInstancesForPlayer;
+
 //Player
 //- (void) uploadPlayerPic:(Media *)m;
 //- (void) updatePlayer:(int)user_id withName:(NSString *)name;

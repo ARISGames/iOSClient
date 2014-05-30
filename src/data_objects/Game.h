@@ -12,6 +12,7 @@
 #import "ItemsModel.h"
 #import "DialogsModel.h"
 #import "WebPagesModel.h"
+#import "InstancesModel.h"
 #import "NotesModel.h"
 #import "QuestsModel.h"
 #import "LocationsModel.h"
@@ -51,6 +52,7 @@
   ItemsModel      *itemsModel;  
   DialogsModel    *dialogsModel;   
   WebPagesModel   *webPagesModel;    
+  InstancesModel  *instancesModel;     
   NotesModel      *notesModel;
   QuestsModel     *questsModel;
   LocationsModel  *locationsModel;
@@ -90,6 +92,7 @@
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
 @property (nonatomic, strong) DialogsModel      *dialogsModel; 
 @property (nonatomic, strong) WebPagesModel  *webPagesModel; 
+@property (nonatomic, strong) InstancesModel *instancesModel; 
 @property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;
 @property (nonatomic, strong) LocationsModel *locationsModel;

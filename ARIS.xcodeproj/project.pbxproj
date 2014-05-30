@@ -250,6 +250,7 @@
 		AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */; };
 		AAE2851D1810461700E2534A /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE2851C1810461700E2534A /* ItemViewController.m */; };
+		AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
 		AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */; };
@@ -719,6 +720,8 @@
 		AAD298C817D1160C002A4C47 /* InventoryTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryTagViewController.m; sourceTree = "<group>"; };
 		AAE2851B1810461700E2534A /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AAE2851C1810461700E2534A /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
+		AAF3EEDF1938F2DD00388BE1 /* InstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstancesModel.h; sourceTree = "<group>"; };
+		AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstancesModel.m; sourceTree = "<group>"; };
 		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		AAF7115517B9579900262A37 /* PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealController.h; sourceTree = "<group>"; };
 		AAF7115617B9579900262A37 /* PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealController.m; sourceTree = "<group>"; };
@@ -1379,6 +1382,7 @@
 				AA68B2F41912E6DF000C717B /* items */,
 				AAC0D88E1930F70E00CA1DE3 /* dialogs */,
 				AA5D8D2F191AB20800116FA1 /* webpages */,
+				AAF3EEDE1938F2DD00388BE1 /* instances */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70E4172739D60074CC21 /* locations */,
 				AABC70E7172739D60074CC21 /* media */,
@@ -1729,6 +1733,15 @@
 				AAC0D8901930F70E00CA1DE3 /* DialogsModel.m */,
 			);
 			path = dialogs;
+			sourceTree = "<group>";
+		};
+		AAF3EEDE1938F2DD00388BE1 /* instances */ = {
+			isa = PBXGroup;
+			children = (
+				AAF3EEDF1938F2DD00388BE1 /* InstancesModel.h */,
+				AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */,
+			);
+			path = instances;
 			sourceTree = "<group>";
 		};
 		AAF7115117B9579900262A37 /* PKRevealController */ = {
@@ -2136,6 +2149,7 @@
 				AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */,
 				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
 				F92B5E4418CA72C800D1D1A7 /* OverlaysModel.m in Sources */,
+				AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */,
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
 				AA33AE8818BBC573000954C6 /* ForceDisplayQueue.m in Sources */,

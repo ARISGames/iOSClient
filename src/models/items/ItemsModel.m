@@ -12,11 +12,12 @@
 
 #import "ItemsModel.h"
 #import "AppServices.h"
+#import "AppModel.h"
 
 @interface ItemsModel()
 {
     NSMutableDictionary *items;
-    NSMutableDictionary *instances;
+    NSMutableDictionary *playerItemInstances;
 
     NSMutableArray *inventory;
     NSMutableArray *attributes;
@@ -34,15 +35,15 @@
     if(self = [super init])
     {
         [self clearGameData];
-  _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
-  _ARIS_NOTIF_LISTEN_(@"PlayerInstancesReceived",self,@selector(playerInstancesReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_AVAILABLE",self,@selector(playerInstancesAvailable),nil);
     }
     return self;
 }
 
 - (void) clearPlayerData
 {
-    instances = [[NSMutableDictionary alloc] init];
+    playerItemInstances = [[NSMutableDictionary alloc] init];
     currentWeight = 0;
 }
 
@@ -77,107 +78,53 @@
     [_SERVICES_ fetchItems]; 
 }
 
-- (void) playerInstancesReceived:(NSNotification *)notification
+- (void) playerInstancesAvailable
 {
-    [self updateInstances:[notification.userInfo objectForKey:@"instances"]];
-}
-
-- (void) updateInstances:(NSArray *)newInstances
-{
-    //Invalidate caches
-    attributes = nil;
-    inventory = nil;
-
-    NSMutableArray *itemDeltas = [[NSMutableArray alloc] init];
-
+    NSArray *newInstances = [_MODEL_INSTANCES_ playerInstances];
+    [playerItemInstances removeAllObjects];
+    
     Instance *newInstance;
-    Item *item;
-    NSNumber *item_id;
-    Instance *oldInstance;
     for(int i = 0; i < newInstances.count; i++)
     {
-        newInstance = [newInstances objectAtIndex:i];
-        item = (Item *)newInstance.object;
-        item_id = [NSNumber numberWithInt:item.item_id];
-        oldInstance = [instances objectForKey:item_id];
-        int delta = 0;
-        if(oldInstance)
-        {
-          delta = newInstance.qty - oldInstance.qty;
-          oldInstance.qty = newInstance.qty;
-        }
-        else
-        {
-          delta = newInstance.qty;
-          [instances setObject:newInstance forKey:item_id];
-        }
-
-        if(delta != 0) [itemDeltas addObject:@{item_id:[NSNumber numberWithInt:delta]}];
-    }
-
-    /*
-    self.currentWeight = 0;
-    for (Instance *instance in instances)
-        self.currentWeight += instance.weight*instance.qty;
-     */
-
-    if(itemDeltas.count > 0)
-    {
-        _ARIS_NOTIF_SEND_(@"NewInstancesAvailable",self,@{@"deltas":itemDeltas});
+        newInstances = newInstances[i];
+        if(![newInstance.object_type isEqualToString:@"ITEM"] || newInstance.owner_id != _MODEL_PLAYER_.user_id) continue;
+        
+        playerItemInstances[[NSNumber numberWithInt:newInstance.object_id]] = newInstance;
     }
 }
 
 - (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty
 {
-  //Generate fake newly parsed instances *NOTE- fake instances must be COPIES, not just pointers to old instances (lest we just change qty in-place)*
-  NSArray *instancesArray = [instances allValues];
-  NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
-  Item *item = [self itemForId:item_id]; 
-  Instance *copy;
-  for(int i = 0; i < instancesArray.count; i++)
-  {
-    copy = [[instancesArray objectAtIndex:i] copy];
-    //alter qty of fake
-    if(copy.object == item) copy.qty -= qty;
-    if(copy.qty < 0) copy.qty = 0;
-    [instancesCopy addObject:copy];
-  }
-  [self updateInstances:instancesCopy];
+  Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+  if(!pII) return 0;
+  if(pII.qty < qty) qty = pII.qty;
+    
+  pII.qty -= qty;
+  return qty;
+  //DONT FORGET TO UPDATE SERVER!!!
 }
 
 - (int) giveItemToPlayer:(int)item_id qtyToAdd:(int)qty
 {
-  //Generate fake newly parsed instances *NOTE- fake instances must be COPIES, not just pointers to old instances (lest we just change qty in-place)*
-  NSArray *instancesArray = [instances allValues];
-  NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
-  Item *item = [self itemForId:item_id];
-  Instance *copy;
-  for(int i = 0; i < instancesArray.count; i++)
-  {
-    copy = [[instancesArray objectAtIndex:i] copy];
-    //alter qty of fake
-    if(copy.object == item) copy.qty += qty;
-    if(copy.qty > item.max_qty_in_inventory) copy.qty = item.max_qty_in_inventory;
-    [instancesCopy addObject:copy];
-  }
-  [self updateInstances:instancesCopy];
+  Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+  if(!pII) return 0; //UH OH! NEED TO CREATE INSTANCE TO GIVE ITEM TO!
+  if(qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
+    
+  pII.qty += qty;
+  return qty;
+  //DONT FORGET TO UPDATE SERVER!!! 
 }
 
 - (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty
 {
-  //Generate fake newly parsed instances *NOTE- fake instances must be COPIES, not just pointers to old instances (lest we just change qty in-place)*
-  NSArray *instancesArray = [instances allValues];
-  NSMutableArray *instancesCopy = [[NSMutableArray alloc] init];
-  Item *item = [self itemForId:item_id]; 
-  Instance *copy;
-  for(int i = 0; i < instancesArray.count; i++)
-  {
-    copy = [[instancesArray objectAtIndex:i] copy];
-    //alter qty of fake
-    if(copy.object == item) copy.qty = qty;
-    [instancesCopy addObject:copy];
-  }
-  [self updateInstances:instancesCopy]; 
+  Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+  if(!pII) return 0; //UH OH! NEED TO CREATE INSTANCE TO GIVE ITEM TO!
+  if(qty < 0) qty = 0;
+  if(qty-pII.qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
+    
+  pII.qty += qty;
+  return qty;
+  //DONT FORGET TO UPDATE SERVER!!!  
 }
 
 - (Item *) itemForId:(int)item_id
@@ -187,8 +134,7 @@
 
 - (int) qtyOwnedForItem:(int)item_id
 {
-    Item *i = [self itemForId:item_id];
-    return ((Instance *)[instances objectForKey:[NSNumber numberWithInt:i.item_id]]).qty;
+    return ((Instance *)playerItemInstances[[NSNumber numberWithInt:item_id]]).qty;
 }
 
 - (int) qtyAllowedToGiveForItem:(int)item_id
@@ -207,7 +153,7 @@
   if(inventory) return inventory;
 
   inventory = [[NSMutableArray alloc] init];
-  NSArray *instancearray = [instances allValues];
+  NSArray *instancearray = [playerItemInstances allValues];
   for(int i = 0; i < instancearray.count; i++)
   {
       if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"NORMAL"]) 
@@ -221,7 +167,7 @@
   if(attributes) return attributes;
 
   attributes = [[NSMutableArray alloc] init];
-  NSArray *instancearray = [instances allValues];
+  NSArray *instancearray = [playerItemInstances allValues];
   for(int i = 0; i < instancearray.count; i++)
   {
       if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"ATTRIBUTE"]) 
