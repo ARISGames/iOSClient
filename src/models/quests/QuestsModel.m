@@ -67,10 +67,8 @@
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_RECEIVED",nil,nil);       
 }
 
-- (void) requestQuests
-{
-    [_SERVICES_ fetchQuests]; 
-}
+- (void) requestQuests       { [_SERVICES_ fetchQuests]; }
+- (void) requestPlayerQuests { [_SERVICES_ fetchQuestsForPlayer]; }
 
 //admittedly a bit silly, but a great way to rid any risk of deviation from flyweight by catching it at the beginning
 - (NSArray *) conformQuestListToFlyweight:(NSArray *)newQuests

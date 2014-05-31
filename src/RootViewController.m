@@ -104,7 +104,7 @@
 - (void) gameChosen
 {
     [self displayContentController:loadingViewController];
-    [_MODEL_GAME_ requestData]; 
+    [loadingViewController startLoading];
 }
 
 - (void) gameBegan

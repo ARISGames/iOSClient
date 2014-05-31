@@ -13,7 +13,7 @@
 
 - (Instance *) instanceForId:(int)instance_id;
 - (NSArray *) playerInstances;
-- (void) requestGameInstances;
+- (void) requestInstances;
 - (void) requestPlayerInstances;
 
 - (void) clearPlayerData;

@@ -90,7 +90,6 @@
 
 - (void) refresh
 {
-	[[AppServices sharedAppServices] fetchPlayerQuestList];
 	[self showLoadingIndicator];
 }
 

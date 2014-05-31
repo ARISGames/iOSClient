@@ -412,7 +412,6 @@
 
 - (void) refetch
 {
-    [[AppServices sharedAppServices] fetchPlayerInventory];
 }
 
 - (void) tagTapped:(UITapGestureRecognizer *)r

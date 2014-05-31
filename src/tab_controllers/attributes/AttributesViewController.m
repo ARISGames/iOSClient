@@ -117,7 +117,6 @@
 
 -(void)refresh
 {
-	[[AppServices sharedAppServices] fetchPlayerInventory];
     [self refreshViewFromModel];
 }
 

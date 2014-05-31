@@ -63,7 +63,6 @@ const int playerDatasToReceive = 4;
 @synthesize instancesModel; 
 @synthesize notesModel;
 @synthesize questsModel;
-@synthesize locationsModel;
 @synthesize overlaysModel;
 
 - (id) init
@@ -169,9 +168,9 @@ const int playerDatasToReceive = 4;
     webPagesModel  = [[WebPagesModel  alloc] init];   
     triggersModel  = [[TriggersModel alloc] init];    
     instancesModel = [[InstancesModel alloc] init];     
+    
     notesModel     = [[NotesModel     alloc] init];
     questsModel    = [[QuestsModel    alloc] init];
-    locationsModel = [[LocationsModel alloc] init];
     overlaysModel  = [[OverlaysModel  alloc] init];
 }
 
@@ -189,36 +188,52 @@ const int playerDatasToReceive = 4;
     itemsModel     = nil;
     dialogsModel   = nil;
     webPagesModel  = nil;
-    triggersModel = nil; 
+    triggersModel  = nil; 
     instancesModel = nil;  
     notesModel     = nil;
     questsModel    = nil;
-    locationsModel = nil; 
 }
 
-- (void) requestData
+- (void) requestGameData
 {
+    receivedGameData = 0; 
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
     [dialogsModel requestDialogs];
     [webPagesModel requestWebPages];
     [questsModel requestQuests];
-    [triggersModel requestGameTriggers];  
-    [instancesModel requestGameInstances];   
-    
-    notesModel     = nil;
-    locationsModel = nil;  
+    [triggersModel requestTriggers];  
+    [instancesModel requestInstances];
+    notesModel     = nil; 
+}
+
+- (void) requestPlayerData
+{
+    receivedPlayerData = 0;  
+    [instancesModel requestPlayerInstances];
+    [triggersModel requestPlayerTriggers];
+    [questsModel requestPlayerQuests];
 }
 
 - (void) gamePieceReceived
 {
     receivedGameData++;
-    [self percentLoadedChanged]; 
+    if(receivedGameData >= gameDatasToReceive) 
+    {
+        _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);   
+        gameDataReceived = YES;
+    }
+    [self percentLoadedChanged];  
 }
 
 - (void) gamePlayerPieceReceived
 {
     receivedPlayerData++;
+    if(receivedPlayerData >= playerDatasToReceive)
+    {
+        _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);    
+        playerDataReceived = YES; 
+    }
     [self percentLoadedChanged];
 }
 
@@ -243,7 +258,7 @@ const int playerDatasToReceive = 4;
     [dialogsModel   clearGameData];  
     [webPagesModel  clearGameData];   
     [questsModel    clearGameData]; 
-    [triggersModel clearGameData];  
+    [triggersModel  clearGameData];  
     [instancesModel clearGameData];   
     
     [itemsModel     clearPlayerData];  
@@ -252,7 +267,6 @@ const int playerDatasToReceive = 4;
     [instancesModel clearPlayerData];    
     
     [notesModel     clearData];
-    [locationsModel clearData];
     [overlaysModel  clearData];
 }
 

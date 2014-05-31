@@ -12,9 +12,10 @@
 @interface QuestsModel : NSObject
 
 - (Quest *) questForId:(int)quest_id;
-- (void) requestQuests;
 - (NSArray *) visibleActiveQuests;
 - (NSArray *) visibleCompleteQuests;
+- (void) requestQuests;
+- (void) requestPlayerQuests;
 
 - (void) clearPlayerData;
 - (void) clearGameData;

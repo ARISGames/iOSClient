@@ -117,7 +117,6 @@ static int const COMPLETED_SECTION = 1;
 
 - (void) refresh
 {
-	[[AppServices sharedAppServices] fetchPlayerQuestList];
 	[self showLoadingIndicator];
 }
 

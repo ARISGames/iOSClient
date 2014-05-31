@@ -82,7 +82,7 @@
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_RECEIVED",nil,nil);
 }
 
-- (void) requestGameInstances   { [_SERVICES_ fetchInstances];   }
+- (void) requestInstances       { [_SERVICES_ fetchInstances];   }
 - (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
 
 - (Instance *) instanceForId:(int)instance_id

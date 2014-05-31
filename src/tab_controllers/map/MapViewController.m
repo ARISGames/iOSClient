@@ -27,7 +27,6 @@
 #import "CustomMapOverlay.h"
 #import "CustomMapOverlayView.h"
 #import "TriangleButton.h"
-#import "LocationsModel.h"
 #import "ItemActionViewController.h"
 
 
@@ -240,8 +239,6 @@
     
     if(mapView)
     {
-        [[AppServices sharedAppServices] fetchPlayerLocationList];
-        [[AppServices sharedAppServices] fetchPlayerOverlayList];
         [self showLoadingIndicator];
     }
 }

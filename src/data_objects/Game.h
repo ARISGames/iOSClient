@@ -16,7 +16,6 @@
 #import "InstancesModel.h"
 #import "NotesModel.h"
 #import "QuestsModel.h"
-#import "LocationsModel.h"
 #import "Media.h"
 #import "OverlaysModel.h"
 
@@ -57,7 +56,6 @@
   InstancesModel  *instancesModel;      
   NotesModel      *notesModel;
   QuestsModel     *questsModel;
-  LocationsModel  *locationsModel;
   OverlaysModel   *overlaysModel;
 }
 
@@ -92,19 +90,19 @@
 
 @property (nonatomic, strong) PlaquesModel   *plaquesModel; 
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
-@property (nonatomic, strong) DialogsModel      *dialogsModel; 
+@property (nonatomic, strong) DialogsModel   *dialogsModel; 
 @property (nonatomic, strong) WebPagesModel  *webPagesModel; 
-@property (nonatomic, strong) TriggersModel *triggersModel; 
+@property (nonatomic, strong) TriggersModel  *triggersModel; 
 @property (nonatomic, strong) InstancesModel *instancesModel; 
 @property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;
-@property (nonatomic, strong) LocationsModel *locationsModel;
 @property (nonatomic, strong) OverlaysModel  *overlaysModel;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromGame:(Game *)g;
 - (void) getReadyToPlay;
-- (void) requestData;
+- (void) requestGameData;
+- (void) requestPlayerData;
 - (void) endPlay;
 - (void) clearModels;
 

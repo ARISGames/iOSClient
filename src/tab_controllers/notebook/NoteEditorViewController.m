@@ -78,9 +78,9 @@
             n = [[Note alloc] init];
             n.created = [NSDate date];
             n.owner = _MODEL_PLAYER_;
-            n.location = [[Location alloc] init];
-            n.location.latlon = _MODEL_PLAYER_.location;
-            n.location.coordinate = _MODEL_PLAYER_.location.coordinate; 
+            //n.location = [[Location alloc] init];
+            //n.location.latlon = _MODEL_PLAYER_.location;
+            //n.location.coordinate = _MODEL_PLAYER_.location.coordinate; 
             dirtybit = YES;
         }
         note = n; 
@@ -396,10 +396,12 @@
 
 - (void) locationPickerButtonTouched
 {
+    /*
     if(note.location && note.location.latlon)
         [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:note.location.coordinate delegate:self] animated:YES];
     else
         [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES]; 
+     */
 }
 
 - (void) imagePickerButtonTouched
@@ -465,11 +467,13 @@
 
 - (void) newLocationPicked:(CLLocationCoordinate2D)l
 {
+    /*
     note.location = [[Location alloc] init];
     note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
     note.location.coordinate = l;
     [self.navigationController popToViewController:self animated:YES];
     dirtybit = YES; 
+     */
 }
 
 - (void) imageChosenWithURL:(NSURL *)url

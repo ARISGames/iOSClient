@@ -38,6 +38,7 @@
 
 - (void) forceDisplayEligibleLocations
 {
+       /* 
     NSMutableArray *newNearbyLocationsList = [NSMutableArray arrayWithCapacity:5];
     
     Location *forceLocation;
@@ -48,14 +49,12 @@
         BOOL match = NO;
         for(Location *oldLocation in nearbyLocationsList)
             if(oldLocation.locationId == location.locationId) match = YES;
-        /*
         if(!match && [_MODEL_PLAYER_.location distanceFromLocation:location.latlon] < location.errorRange &&
            (location.gameObject.type != GameObjectItem || location.qty > 0 || location.infiniteQty) && location.gameObject.type != GameObjectPlayer)
             [newNearbyLocationsList addObject:location];
         else if(match && (location.errorRange >= 2147483637 || [_MODEL_PLAYER_.location distanceFromLocation:location.latlon] < location.errorRange+10) &&
            (location.gameObject.type != GameObjectItem || location.qty > 0 || location.infiniteQty) && location.gameObject.type != GameObjectPlayer)
             [newNearbyLocationsList addObject:location];
-         */
     }
     
     //Find new nearby locations to be force displayed (ie- newly nearby && forcedDisplay == YES)
@@ -72,7 +71,6 @@
     }
     
     //Try to display location- if successful, add to 'already nearby' list
-    /*
     if(forceLocation)
     {
         if([delegate displayGameObject:forceLocation.gameObject fromSource:forceLocation])

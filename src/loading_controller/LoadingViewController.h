@@ -15,5 +15,6 @@
 @interface LoadingViewController : ARISViewController
 
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
+- (void) startLoading;
 
 @end

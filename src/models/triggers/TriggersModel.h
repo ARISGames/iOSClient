@@ -13,7 +13,7 @@
 
 - (Trigger *) instanceForId:(int)instance_id;
 - (NSArray *) playerTriggers;
-- (void) requestGameTriggers;
+- (void) requestTriggers;
 - (void) requestPlayerTriggers;
 
 - (void) clearPlayerData;

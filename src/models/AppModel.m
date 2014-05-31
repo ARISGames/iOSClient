@@ -160,8 +160,7 @@
   player.location = l;
   [_SERVICES_ updateServerWithPlayerLocation];
 
-  NSDictionary *locDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:l,nil] forKeys:[[NSArray alloc] initWithObjects:@"location",nil]];
-  _ARIS_NOTIF_SEND_(@"UserMoved",nil,locDict);
+  _ARIS_NOTIF_SEND_(@"UserMoved",nil,@{@"location":l});
 }
 
 - (NSString *) applicationDocumentsDirectory

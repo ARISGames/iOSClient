@@ -339,6 +339,23 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED", nil, @{@"triggers":triggers});
 }
 
+- (void) fetchQuestsForPlayer
+{
+     NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
+      }; 
+    [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerQuests:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parsePlayerQuests:(ARISServiceResult *)result
+{	   
+    NSArray *questDicts = (NSArray *)result.resultData;
+    NSMutableArray *quests = [[NSMutableArray alloc] init];
+    for(int i = 0; i < questDicts.count; i++)
+        quests[i] = [[Quest alloc] initWithDictionary:questDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_QUESTS_RECEIVED", nil, @{@"quests":quests});
+}
+
 
 
 
@@ -991,25 +1008,6 @@
   [connection performAsynchronousRequestWithService: @"games" method:@"saveComment" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
-- (void) parseLocationListFromJSON:(ARISServiceResult *)jsonResult
-{
-  _ARIS_NOTIF_SEND_(@"ReceivedLocationList",nil,nil);
-
-  NSArray *locationsArray = (NSArray *)jsonResult.resultData;
-
-  //Build the location list
-  NSMutableArray *tempLocationsList = [[NSMutableArray alloc] init];
-  NSEnumerator *locationsEnumerator = [locationsArray objectEnumerator];
-  NSDictionary *locationDictionary;
-  while ((locationDictionary = [locationsEnumerator nextObject]))
-    [tempLocationsList addObject:[[Location alloc] initWithDictionary:locationDictionary]];
-
-  //Tell everyone
-  NSDictionary *locations  = [[NSDictionary alloc] initWithObjectsAndKeys:tempLocationsList,@"locations", nil];
-  _ARIS_NOTIF_SEND_(@"LatestPlayerLocationsReceived",nil,locations);
-  _ARIS_NOTIF_SEND_(@"PlayerPieceReceived",nil,nil);
-}
-
 - (void) parseSingleMediaFromJSON:(ARISServiceResult *)jsonResult
 {
   //Just convert the data into an array and pretend it is a full game list, so same thing as 'parseGameMediaListFromJSON'
@@ -1116,25 +1114,6 @@
 
   _ARIS_NOTIF_SEND_(@"PlayerInventoryReceived",nil,@{@"":inventoryArray});
   _ARIS_NOTIF_SEND_(@"PlayerPieceReceived",nil,nil);
-}
-
-- (void) parseQRCodeObjectFromJSON:(ARISServiceResult *)jsonResult
-{
-  NSObject *qrCodeObject;
-
-  if(jsonResult.resultData && jsonResult.resultData != [NSNull null])
-  {
-    NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.resultData;
-    if(![qrCodeDictionary isKindOfClass:[NSString class]])
-    {
-      NSString *type = [qrCodeDictionary validObjectForKey:@"link_type"];
-      NSDictionary *objectDictionary = [qrCodeDictionary validObjectForKey:@"object"];
-      if([type isEqualToString:@"Location"]) qrCodeObject = [[Location alloc] initWithDictionary:objectDictionary];
-    }
-    else qrCodeObject = qrCodeDictionary;
-  }
-
-  _ARIS_NOTIF_SEND_(@"QRCodeObjectReady",qrCodeObject,nil);
 }
 
 - (void) parseQuestListFromJSON:(ARISServiceResult *)jsonResult

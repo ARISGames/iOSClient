@@ -36,6 +36,7 @@
 
 - (void) fetchInstancesForPlayer;
 - (void) fetchTriggersForPlayer;
+- (void) fetchQuestsForPlayer;
 
 //Player
 //- (void) uploadPlayerPic:(Media *)m;
@@ -46,11 +47,6 @@
 //Game Picker
 
 //Fetch Player State
-- (void) fetchAllPlayerLists;
-- (void) fetchPlayerLocationList;
-- (void) fetchPlayerQuestList;
-- (void) fetchPlayerInventory;
-- (void) fetchPlayerOverlayList;
 - (void) fetchDialogConversations:(int)dialog_id afterViewingPlaque:(int)plaque_id;
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)

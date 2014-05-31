@@ -206,7 +206,6 @@
 		AABC73AC172739D80074CC21 /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CF172739D60074CC21 /* SelfRegistrationViewController.m */; };
 		AABC73AD172739D80074CC21 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D0172739D60074CC21 /* main.mm */; };
 		AABC73B3172739D80074CC21 /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70DD172739D60074CC21 /* AppModel.m */; };
-		AABC73B6172739D80074CC21 /* LocationsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70E6172739D60074CC21 /* LocationsModel.m */; };
 		AABC73B7172739D80074CC21 /* MediaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70E9172739D60074CC21 /* MediaModel.m */; };
 		AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EC172739D60074CC21 /* QuestsModel.m */; };
 		AABC73B9172739D80074CC21 /* MyCLController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EE172739D60074CC21 /* MyCLController.m */; };
@@ -618,8 +617,6 @@
 		AABC70D0172739D60074CC21 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		AABC70DC172739D60074CC21 /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
 		AABC70DD172739D60074CC21 /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppModel.m; sourceTree = "<group>"; };
-		AABC70E5172739D60074CC21 /* LocationsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsModel.h; sourceTree = "<group>"; };
-		AABC70E6172739D60074CC21 /* LocationsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsModel.m; sourceTree = "<group>"; };
 		AABC70E8172739D60074CC21 /* MediaModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaModel.h; sourceTree = "<group>"; };
 		AABC70E9172739D60074CC21 /* MediaModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaModel.m; sourceTree = "<group>"; };
 		AABC70EB172739D60074CC21 /* QuestsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestsModel.h; sourceTree = "<group>"; };
@@ -1398,20 +1395,10 @@
 				AA0DE0DE193A3E7900DF8D35 /* triggers */,
 				AAF3EEDE1938F2DD00388BE1 /* instances */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
-				AABC70E4172739D60074CC21 /* locations */,
 				AABC70E7172739D60074CC21 /* media */,
 				F92B5E4118CA72AE00D1D1A7 /* overlays */,
 			);
 			path = models;
-			sourceTree = "<group>";
-		};
-		AABC70E4172739D60074CC21 /* locations */ = {
-			isa = PBXGroup;
-			children = (
-				AABC70E5172739D60074CC21 /* LocationsModel.h */,
-				AABC70E6172739D60074CC21 /* LocationsModel.m */,
-			);
-			path = locations;
 			sourceTree = "<group>";
 		};
 		AABC70E7172739D60074CC21 /* media */ = {
@@ -2136,7 +2123,6 @@
 				AAB398E41918166700E0E766 /* Plaque.m in Sources */,
 				AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */,
 				AABC73B3172739D80074CC21 /* AppModel.m in Sources */,
-				AABC73B6172739D80074CC21 /* LocationsModel.m in Sources */,
 				AABC73B7172739D80074CC21 /* MediaModel.m in Sources */,
 				AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */,
 				AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */,

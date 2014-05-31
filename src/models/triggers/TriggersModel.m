@@ -124,7 +124,7 @@
     if(removedTriggers.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_LESS_AVAILABLE",nil,@{@"removed":removedTriggers}); 
 }
 
-- (void) requestGameTriggers   { [_SERVICES_ fetchTriggers];   }
+- (void) requestTriggers       { [_SERVICES_ fetchTriggers];   }
 - (void) requestPlayerTriggers { [_SERVICES_ fetchTriggersForPlayer]; }
 
 - (Trigger *) triggerForId:(int)trigger_id

@@ -29,7 +29,9 @@
     if(self = [super init])
     {
         delegate = d;
-        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PERCENT_LOADED", self, @selector(percentLoaded:), nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PERCENT_LOADED",     self, @selector(percentLoaded:),   nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_DATA_LOADED",        self, @selector(gameDataLoaded),   nil); 
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_DATA_LOADED", self, @selector(playerDataLoaded), nil); 
     }
     return self;
 }
@@ -57,6 +59,21 @@
 {
     progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width-20, 40);
     progressBar.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 10); 
+}
+
+- (void) startLoading
+{
+    [_MODEL_GAME_ requestGameData]; 
+}
+
+- (void) gameDataLoaded
+{
+    [_MODEL_GAME_ requestPlayerData];
+}
+
+- (void) playerDataLoaded
+{
+    //nothin ta do
 }
 
 - (void) percentLoaded:(NSNotification *)notif
