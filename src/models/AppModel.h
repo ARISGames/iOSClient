@@ -20,6 +20,7 @@
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].game.itemsModel
 #define _MODEL_DIALOGS_ [AppModel sharedAppModel].game.dialogsModel
 #define _MODEL_WEBPAGES_ [AppModel sharedAppModel].game.webPagesModel
+#define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
 #define _MODEL_INSTANCES_ [AppModel sharedAppModel].game.instancesModel
 
 #import "User.h"
@@ -29,6 +30,7 @@
 #import "ItemsModel.h"
 #import "dialogsModel.h"
 #import "WebPagesModel.h"
+#import "TriggersModel.h"
 #import "InstancesModel.h"
 #import "ARISPusherHandler.h"
 

@@ -50,6 +50,7 @@
 		AA0D161318EDF14500D856F1 /* search_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160E18EDF14500D856F1 /* search_red@2x.png */; };
 		AA0D161418EDF14500D856F1 /* star_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160F18EDF14500D856F1 /* star_red@2x.png */; };
 		AA0D161818EE00C100D856F1 /* trash_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D161718EE00C100D856F1 /* trash_red@2x.png */; };
+		AA0DE0E1193A3E7900DF8D35 /* TriggersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0DE0E0193A3E7900DF8D35 /* TriggersModel.m */; };
 		AA0DF0A918DA2DE200D4122B /* NoteTagSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
@@ -361,6 +362,8 @@
 		AA0D160E18EDF14500D856F1 /* search_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_red@2x.png"; sourceTree = "<group>"; };
 		AA0D160F18EDF14500D856F1 /* star_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_red@2x.png"; sourceTree = "<group>"; };
 		AA0D161718EE00C100D856F1 /* trash_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trash_red@2x.png"; sourceTree = "<group>"; };
+		AA0DE0DF193A3E7900DF8D35 /* TriggersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriggersModel.h; sourceTree = "<group>"; };
+		AA0DE0E0193A3E7900DF8D35 /* TriggersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TriggersModel.m; sourceTree = "<group>"; };
 		AA0DF0A718DA2DE200D4122B /* NoteTagSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagSelectorViewController.h; sourceTree = "<group>"; };
 		AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagSelectorViewController.m; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -875,6 +878,15 @@
 			path = games;
 			sourceTree = "<group>";
 		};
+		AA0DE0DE193A3E7900DF8D35 /* triggers */ = {
+			isa = PBXGroup;
+			children = (
+				AA0DE0DF193A3E7900DF8D35 /* TriggersModel.h */,
+				AA0DE0E0193A3E7900DF8D35 /* TriggersModel.m */,
+			);
+			path = triggers;
+			sourceTree = "<group>";
+		};
 		AA2B4A68182A976100A0D2A1 /* note */ = {
 			isa = PBXGroup;
 			children = (
@@ -1382,11 +1394,12 @@
 				AA68B2F41912E6DF000C717B /* items */,
 				AAC0D88E1930F70E00CA1DE3 /* dialogs */,
 				AA5D8D2F191AB20800116FA1 /* webpages */,
+				AABC70EA172739D60074CC21 /* quests */,
+				AA0DE0DE193A3E7900DF8D35 /* triggers */,
 				AAF3EEDE1938F2DD00388BE1 /* instances */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70E4172739D60074CC21 /* locations */,
 				AABC70E7172739D60074CC21 /* media */,
-				AABC70EA172739D60074CC21 /* quests */,
 				F92B5E4118CA72AE00D1D1A7 /* overlays */,
 			);
 			path = models;
@@ -2160,6 +2173,7 @@
 				AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */,
 				AA6EC33A192E730200D70D38 /* ARISContainerViewController.m in Sources */,
 				AA3B7FC1182037CB006C9715 /* SBJsonStreamWriter.m in Sources */,
+				AA0DE0E1193A3E7900DF8D35 /* TriggersModel.m in Sources */,
 				AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */,
 				AA83EEA718A43EE30077FF0E /* RequestCD.m in Sources */,
 				AA45A3B3189ABA160016E391 /* NoteTagView.m in Sources */,

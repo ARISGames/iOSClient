@@ -26,8 +26,8 @@
 {
     if(self = [super init])
     {
-        [self clearPlayerData];
-        
+        [self clearGameData];
+
         _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCES_RECEIVED",self,@selector(instancesReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(instancesReceived:),nil); 
     }
@@ -62,14 +62,27 @@
     {
       newInstance = [newInstances objectAtIndex:i];
       newInstanceId = [NSNumber numberWithInt:newInstance.instance_id];
-      if(![instances objectForKey:newInstanceId]) [instances setObject:newInstance forKey:newInstanceId];
-      else [[instances objectForKey:newInstanceId] mergeDataFromInstance:newInstance];
+      if(![instances objectForKey:newInstanceId])
+      {
+        //No instance exists- give player instance with 0 qty and let it be updated like all the others
+        Instance *fakeExistingInstance = [[Instance alloc] init];
+        [fakeExistingInstance mergeDataFromInstance:newInstance];
+        fakeExistingInstance.qty = 0;
+        [instances setObject:fakeExistingInstance forKey:newInstanceId];
+      }
+      
+      Instance *existingInstance = [instances objectForKey:newInstanceId];
+      BOOL gained = (existingInstance.qty < newInstance.qty);
+      BOOL lost   = (existingInstance.qty > newInstance.qty);
+      [existingInstance mergeDataFromInstance:newInstance];
+      if(gained) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCE_GAINED",nil,@{@"instance":existingInstance});
+      if(lost)   _ARIS_NOTIF_SEND_(@"MODEL_INSTANCE_LOST",nil,@{@"instance":existingInstance});
     }
     _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_RECEIVED",nil,nil);
 }
 
-- (void) requestGameInstances   { [_SERVICES_ fetchInstancesForGame];   }
+- (void) requestGameInstances   { [_SERVICES_ fetchInstances];   }
 - (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
 
 - (Instance *) instanceForId:(int)instance_id

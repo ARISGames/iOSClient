@@ -58,5 +58,19 @@
     return self;
 }
 
+- (void) mergeDataFromTrigger:(Trigger *)t
+{
+    self.trigger_id = t.trigger_id;
+    self.name = t.name;
+    //self.instance = tself.instance;
+    self.type = t.type;
+    //self.scene = tself.scene;
+    self.location = t.location;
+    self.distance = t.distance;
+    self.wiggle = t.wiggle;
+    self.show_title = t.show_title;
+    self.code = t.code;
+}
+
 @end
 

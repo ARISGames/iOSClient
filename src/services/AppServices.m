@@ -268,16 +268,16 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_QUESTS_RECEIVED", nil, @{@"quests":quests});
 }
 
-- (void) fetchInstancesForGame
+- (void) fetchInstances
 {
     NSDictionary *args = 
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
       @"owner_id":[NSNumber numberWithInt:0] //could leave this out and get same result, but would rather be explicit
       }; 
-    [connection performAsynchronousRequestWithService:@"instances" method:@"getInstancesForGame" arguments:args handler:self successSelector:@selector(parseGameInstances:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"instances" method:@"getInstancesForGame" arguments:args handler:self successSelector:@selector(parseInstances:) failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
-- (void) parseGameInstances:(ARISServiceResult *)result
+- (void) parseInstances:(ARISServiceResult *)result
 {	   
     NSArray *instanceDicts = (NSArray *)result.resultData;
     NSMutableArray *instances = [[NSMutableArray alloc] init];
@@ -285,6 +285,24 @@
         instances[i] = [[Instance alloc] initWithDictionary:instanceDicts[i]];
     _ARIS_NOTIF_SEND_(@"SERVICES_INSTANCES_RECEIVED", nil, @{@"instances":instances});
 }
+
+- (void) fetchTriggers
+{
+    NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
+      }; 
+    [connection performAsynchronousRequestWithService:@"triggers" method:@"getTriggersForGame" arguments:args handler:self successSelector:@selector(parseTriggers:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parseTriggers:(ARISServiceResult *)result
+{	   
+    NSArray *triggerDicts = (NSArray *)result.resultData;
+    NSMutableArray *triggers = [[NSMutableArray alloc] init];
+    for(int i = 0; i < triggerDicts.count; i++)
+        triggers[i] = [[Trigger alloc] initWithDictionary:triggerDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_TRIGGERS_RECEIVED", nil, @{@"triggers":triggers});
+}
+
 
 - (void) fetchInstancesForPlayer
 {
@@ -302,6 +320,23 @@
     for(int i = 0; i < instanceDicts.count; i++)
         instances[i] = [[Instance alloc] initWithDictionary:instanceDicts[i]];
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_RECEIVED", nil, @{@"instances":instances});
+}
+
+- (void) fetchTriggersForPlayer
+{
+     NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
+      }; 
+    [connection performAsynchronousRequestWithService:@"triggers" method:@"getTriggersForGame" arguments:args handler:self successSelector:@selector(parsePlayerTriggers:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parsePlayerTriggers:(ARISServiceResult *)result
+{	   
+    NSArray *triggerDicts = (NSArray *)result.resultData;
+    NSMutableArray *triggers = [[NSMutableArray alloc] init];
+    for(int i = 0; i < triggerDicts.count; i++)
+        triggers[i] = [[Trigger alloc] initWithDictionary:triggerDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED", nil, @{@"triggers":triggers});
 }
 
 

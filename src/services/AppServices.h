@@ -31,9 +31,11 @@
 - (void) fetchDialogs;
 - (void) fetchWebPages;
 - (void) fetchQuests;
+- (void) fetchInstances;
+- (void) fetchTriggers;
 
-- (void) fetchInstancesForGame;
 - (void) fetchInstancesForPlayer;
+- (void) fetchTriggersForPlayer;
 
 //Player
 //- (void) uploadPlayerPic:(Media *)m;

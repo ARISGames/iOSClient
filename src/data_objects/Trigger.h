@@ -36,5 +36,6 @@
 @property (nonatomic, strong) NSString *code; 
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (void) mergeDataFromTrigger:(Trigger *)t;
 
 @end
