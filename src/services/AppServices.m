@@ -94,7 +94,7 @@
 {
        NSDictionary *args = 
         @{
-            @"game_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id]
+          @"game_id":[NSNumber numberWithInt:game_id]
         };
   [connection performAsynchronousRequestWithService:@"games" method:@"getFullGame" arguments:args handler:self successSelector:@selector(parseGame:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
@@ -240,7 +240,7 @@
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPagesForGame" arguments:args handler:self successSelector:@selector(parseWebPages:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"web_pages" method:@"getWebPagesForGame" arguments:args handler:self successSelector:@selector(parseWebPages:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseWebPages:(ARISServiceResult *)result
 {	   
@@ -311,7 +311,7 @@
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
       @"owner_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id]
       }; 
-    [connection performAsynchronousRequestWithService:@"instances" method:@"getInstancesForGame" arguments:args handler:self successSelector:@selector(parsePlayerInstances:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"client" method:@"getInstancesForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerInstances:) failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
 - (void) parsePlayerInstances:(ARISServiceResult *)result
 {	   
@@ -328,7 +328,7 @@
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
       }; 
-    [connection performAsynchronousRequestWithService:@"triggers" method:@"getTriggersForGame" arguments:args handler:self successSelector:@selector(parsePlayerTriggers:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"client" method:@"getTriggersForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerTriggers:) failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
 - (void) parsePlayerTriggers:(ARISServiceResult *)result
 {	   
@@ -345,7 +345,7 @@
     @{
       @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
       }; 
-    [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerQuests:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"client" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerQuests:) failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
 - (void) parsePlayerQuests:(ARISServiceResult *)result
 {	   
@@ -857,14 +857,6 @@
   [connection performAsynchronousRequestWithService:@"notebook" method:@"getNote" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
 
-- (void) fetchGameWebPageList
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    nil];
-
-  [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPagesForGame" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
 
 - (void) fetchMediaMeta:(Media *)m
 {

@@ -27,7 +27,7 @@
     if(self = [super init])
     {
         [self clearGameData];
-  _ARIS_NOTIF_LISTEN_(@"SERVICES_WEBPAGES_RECEIVED",self,@selector(webPagesReceived:),nil);
+  _ARIS_NOTIF_LISTEN_(@"SERVICES_WEB_PAGES_RECEIVED",self,@selector(webPagesReceived:),nil);
     }
     return self;
 }
@@ -53,7 +53,7 @@
       if(![webPages objectForKey:newWebPageId]) [webPages setObject:newWebPage forKey:newWebPageId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_WEBPAGES_AVAILABLE",nil,nil);   
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_RECEIVED",nil,nil);       
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);       
 }
 
 - (void) requestWebPages

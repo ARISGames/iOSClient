@@ -14,7 +14,7 @@
 #import "GameComment.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 7;
+const int gameDatasToReceive = 6;
 const int playerDatasToReceive = 4;
 
 @interface Game()
@@ -153,8 +153,8 @@ const int playerDatasToReceive = 4;
 
 - (void) getReadyToPlay
 {
-    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_RECEIVED",self,@selector(gamePieceReceived),nil);
-    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_RECEIVED",self,@selector(gamePlayerPieceReceived),nil); 
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",self,@selector(gamePlayerPieceReceived),nil); 
     
     receivedGameData = 0;
     gameDataReceived = NO;    

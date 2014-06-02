@@ -53,7 +53,7 @@
       if(![plaques objectForKey:newPlaqueId]) [plaques setObject:newPlaque forKey:newPlaqueId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_PLAQUES_AVAILABLE",nil,nil);    
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_RECEIVED",nil,nil);     
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);     
 }
 
 - (void) requestPlaques

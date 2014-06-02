@@ -53,7 +53,7 @@
       if(![dialogs objectForKey:newDialogId]) [dialogs setObject:newDialog forKey:newDialogId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOGS_AVAILABLE",nil,nil);  
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_RECEIVED",nil,nil);       
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);       
 }
 
 - (void) requestDialogs

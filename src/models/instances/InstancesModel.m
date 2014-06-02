@@ -79,7 +79,7 @@
       if(lost)   _ARIS_NOTIF_SEND_(@"MODEL_INSTANCE_LOST",nil,@{@"instance":existingInstance});
     }
     _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_RECEIVED",nil,nil);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestInstances       { [_SERVICES_ fetchInstances];   }
