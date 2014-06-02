@@ -42,8 +42,6 @@
 
 @interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
 {
-    Game *game;
-
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
     
@@ -67,22 +65,18 @@
 
 @implementation GamePlayViewController
 
-- (id) initWithGame:(Game *)g delegate:(id<GamePlayViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePlayViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         delegate = d;
-        game = g;
 
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         
         //PHIL UNAPPROVED
-        [_MODEL_GAME_ clearModels];
         
         forceDisplayQueue = [[ForceDisplayQueue alloc] initWithDelegate:self];
 
-  _ARIS_NOTIF_LISTEN_(@"NewlyCompletedQuestsAvailable",self,@selector(checkForDisplayCompletePlaque),nil);
-  _ARIS_NOTIF_LISTEN_(@"ReceivedTabList",self,@selector(gameTabListRecieved:),nil);
         //END PHIL UNAPPROVED
     }
     return self;
@@ -111,19 +105,10 @@
 {
     [gameNotificationViewController stopListeningToModel];
     [gameNotificationViewController cutOffGameNotifications];
-    [game clearModels];
-    [game endPlay]; 
-    //PHIL UNAPPROVED - 
-    _MODEL_GAME_ = nil;
     [delegate gameplayWasDismissed];
 }
 
 //PHIL UNAPPROVED FROM THIS POINT ON
-
-- (void) gameTabListRecieved:(NSNotification *)n
-{
-    [self setGamePlayTabBarVCsFromTabList:[n.userInfo objectForKey:@"tabs"]];
-}
 
 - (void) setGamePlayTabBarVCsFromTabList:(NSArray *)gamePlayTabs
 {

@@ -349,11 +349,21 @@
 }
 - (void) parsePlayerQuests:(ARISServiceResult *)result
 {	   
-    NSArray *questDicts = (NSArray *)result.resultData;
-    NSMutableArray *quests = [[NSMutableArray alloc] init];
-    for(int i = 0; i < questDicts.count; i++)
-        quests[i] = [[Quest alloc] initWithDictionary:questDicts[i]];
-    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_QUESTS_RECEIVED", nil, @{@"quests":quests});
+    NSDictionary *quests =
+    @{
+      @"active"   : [[NSMutableArray alloc] init],
+      @"complete" : [[NSMutableArray alloc] init]
+    };
+    
+    NSArray *activeQuestDicts   = ((NSDictionary *)result.resultData)[@"active"]; 
+    for(int i = 0; i < activeQuestDicts.count; i++)
+        quests[@"active"][i] = [[Quest alloc] initWithDictionary:activeQuestDicts[i]];
+    
+    NSArray *completeQuestDicts = ((NSDictionary *)result.resultData)[@"complete"]; 
+    for(int i = 0; i < completeQuestDicts.count; i++)
+        quests[@"complete"][i] = [[Quest alloc] initWithDictionary:completeQuestDicts[i]]; 
+    
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_QUESTS_RECEIVED", nil, quests);
 }
 
 

@@ -82,8 +82,8 @@
 
 - (void) playerQuestsReceived:(NSNotification *)notification
 {
-    [self updateActiveQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"activeQuests"]]];
-    [self updateCompleteQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"completeQuests"]]]; 
+    [self updateActiveQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"active"]]];
+    [self updateCompleteQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"complete"]]]; 
 }
 
 - (void) updateActiveQuests:(NSArray *)newQuests

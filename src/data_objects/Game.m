@@ -15,7 +15,7 @@
 #import "NSDictionary+ValidParsers.h"
 
 const int gameDatasToReceive = 6;
-const int playerDatasToReceive = 4;
+const int playerDatasToReceive = 3;
 
 @interface Game()
 {
@@ -233,6 +233,7 @@ const int playerDatasToReceive = 4;
     {
         _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);    
         playerDataReceived = YES; 
+            
     }
     [self percentLoadedChanged];
 }

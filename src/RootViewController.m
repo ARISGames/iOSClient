@@ -109,6 +109,7 @@
 
 - (void) gameBegan
 {
+    gamePlayViewController = [[GamePlayViewController alloc] initWithDelegate:self];
     [self displayContentController:gamePlayViewController]; 
 }
 

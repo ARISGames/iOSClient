@@ -73,7 +73,7 @@
 
 - (void) playerDataLoaded
 {
-    //nothin ta do
+    [_MODEL_ beginGame];
 }
 
 - (void) percentLoaded:(NSNotification *)notif
