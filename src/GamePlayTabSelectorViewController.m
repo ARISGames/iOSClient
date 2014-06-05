@@ -217,6 +217,19 @@
     [_MODEL_ leaveGame];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 15.0f;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *space = [[UIView alloc] init];
+    space.frame = CGRectMake(0.0f, 0.0f, self.view.bounds.size.width, 15.0f);
+    space.backgroundColor = [UIColor clearColor];
+    return space;
+}
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return viewControllers.count;
