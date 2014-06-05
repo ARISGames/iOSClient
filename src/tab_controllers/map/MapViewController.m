@@ -389,6 +389,7 @@
             annotation = [[mapView annotations] objectAtIndex:j];
             loc = (Location *)annotation;
             if ([loc compareTo:((Location *)[locationsToRemove objectAtIndex:i])]) {
+                if (loc.nearbyOverlay) [mapView removeOverlay:loc.nearbyOverlay];
                 [mapView removeAnnotation:annotation];
             }
         }
