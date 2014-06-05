@@ -33,10 +33,12 @@
 - (void) fetchQuests;
 - (void) fetchInstances;
 - (void) fetchTriggers;
+- (void) fetchTabs;
 
 - (void) fetchInstancesForPlayer;
 - (void) fetchTriggersForPlayer;
 - (void) fetchQuestsForPlayer;
+- (void) fetchTabsForPlayer;
 
 //Player
 //- (void) uploadPlayerPic:(Media *)m;

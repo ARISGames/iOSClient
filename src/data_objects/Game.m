@@ -14,8 +14,8 @@
 #import "GameComment.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 6;
-const int playerDatasToReceive = 3;
+const int gameDatasToReceive = 7;
+const int playerDatasToReceive = 4;
 
 @interface Game()
 {
@@ -61,6 +61,7 @@ const int playerDatasToReceive = 3;
 @synthesize webPagesModel; 
 @synthesize triggersModel; 
 @synthesize instancesModel; 
+@synthesize tabsModel; 
 @synthesize notesModel;
 @synthesize questsModel;
 @synthesize overlaysModel;
@@ -166,8 +167,9 @@ const int playerDatasToReceive = 3;
     itemsModel     = [[ItemsModel     alloc] init];  
     dialogsModel   = [[DialogsModel   alloc] init];  
     webPagesModel  = [[WebPagesModel  alloc] init];   
-    triggersModel  = [[TriggersModel alloc] init];    
+    triggersModel  = [[TriggersModel  alloc] init];    
     instancesModel = [[InstancesModel alloc] init];     
+    tabsModel      = [[TabsModel      alloc] init];     
     
     notesModel     = [[NotesModel     alloc] init];
     questsModel    = [[QuestsModel    alloc] init];
@@ -190,6 +192,8 @@ const int playerDatasToReceive = 3;
     webPagesModel  = nil;
     triggersModel  = nil; 
     instancesModel = nil;  
+    tabsModel      = nil;  
+    
     notesModel     = nil;
     questsModel    = nil;
 }
@@ -204,6 +208,8 @@ const int playerDatasToReceive = 3;
     [questsModel requestQuests];
     [triggersModel requestTriggers];  
     [instancesModel requestInstances];
+    [tabsModel requestTabs];   
+    
     notesModel     = nil; 
 }
 
@@ -213,6 +219,7 @@ const int playerDatasToReceive = 3;
     [instancesModel requestPlayerInstances];
     [triggersModel requestPlayerTriggers];
     [questsModel requestPlayerQuests];
+    [tabsModel requestPlayerTabs]; 
 }
 
 - (void) gamePieceReceived
@@ -264,7 +271,7 @@ const int playerDatasToReceive = 3;
     
     [itemsModel     clearPlayerData];  
     [questsModel    clearPlayerData];  
-    [triggersModel clearPlayerData];   
+    [triggersModel  clearPlayerData];   
     [instancesModel clearPlayerData];    
     
     [notesModel     clearData];

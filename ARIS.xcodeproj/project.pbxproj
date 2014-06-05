@@ -91,6 +91,7 @@
 		AA41A36418E4CD2F006CB373 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A36318E4CD2F006CB373 /* save@2x.png */; };
 		AA41A36618E4CE64006CB373 /* overarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A36518E4CE64006CB373 /* overarrow@2x.png */; };
 		AA45A3B3189ABA160016E391 /* NoteTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA45A3B2189ABA160016E391 /* NoteTagView.m */; };
+		AA4685A81940C90000721B2B /* TabsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4685A71940C90000721B2B /* TabsModel.m */; };
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
 		AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */; };
@@ -431,6 +432,8 @@
 		AA41A36518E4CE64006CB373 /* overarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overarrow@2x.png"; sourceTree = "<group>"; };
 		AA45A3B1189ABA160016E391 /* NoteTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagView.h; sourceTree = "<group>"; };
 		AA45A3B2189ABA160016E391 /* NoteTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagView.m; sourceTree = "<group>"; };
+		AA4685A61940C90000721B2B /* TabsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabsModel.h; sourceTree = "<group>"; };
+		AA4685A71940C90000721B2B /* TabsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabsModel.m; sourceTree = "<group>"; };
 		AA49A25B17AAE6C200629C87 /* ARISMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaView.h; sourceTree = "<group>"; };
 		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
 		AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCell.h; sourceTree = "<group>"; };
@@ -952,6 +955,15 @@
 			path = MTStatusBarOverlay;
 			sourceTree = "<group>";
 		};
+		AA4685A51940C90000721B2B /* tabs */ = {
+			isa = PBXGroup;
+			children = (
+				AA4685A61940C90000721B2B /* TabsModel.h */,
+				AA4685A71940C90000721B2B /* TabsModel.m */,
+			);
+			path = tabs;
+			sourceTree = "<group>";
+		};
 		AA527E3E17E0B6830040AB75 /* navbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1392,6 +1404,7 @@
 				AAC0D88E1930F70E00CA1DE3 /* dialogs */,
 				AA5D8D2F191AB20800116FA1 /* webpages */,
 				AABC70EA172739D60074CC21 /* quests */,
+				AA4685A51940C90000721B2B /* tabs */,
 				AA0DE0DE193A3E7900DF8D35 /* triggers */,
 				AAF3EEDE1938F2DD00388BE1 /* instances */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
@@ -2181,6 +2194,7 @@
 				AABC74DD172739D80074CC21 /* UIDevice+Hardware.m in Sources */,
 				AA3B7FC2182037CB006C9715 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				AABC74DE172739D80074CC21 /* UIImage+Alpha.m in Sources */,
+				AA4685A81940C90000721B2B /* TabsModel.m in Sources */,
 				AA0CDB2319312D2F00697DB6 /* ARISDefaults.m in Sources */,
 				AABC74DF172739D80074CC21 /* UIImage+fixOrientation.m in Sources */,
 				AAC0D87F1930F4E200CA1DE3 /* DialogScriptElementView.m in Sources */,

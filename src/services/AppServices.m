@@ -303,6 +303,24 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_TRIGGERS_RECEIVED", nil, @{@"triggers":triggers});
 }
 
+- (void) fetchTabs
+{
+    NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
+      }; 
+    [connection performAsynchronousRequestWithService:@"tabs" method:@"getTabsForGame" arguments:args handler:self successSelector:@selector(parseTabs:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parseTabs:(ARISServiceResult *)result
+{	   
+    NSArray *tabDicts = (NSArray *)result.resultData;
+    NSMutableArray *tabs = [[NSMutableArray alloc] init];
+    for(int i = 0; i < tabDicts.count; i++)
+        tabs[i] = [[Tab alloc] initWithDictionary:tabDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_TABS_RECEIVED", nil, @{@"tabs":tabs});
+}
+
+
 
 - (void) fetchInstancesForPlayer
 {
@@ -364,6 +382,23 @@
         quests[@"complete"][i] = [[Quest alloc] initWithDictionary:completeQuestDicts[i]]; 
     
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_QUESTS_RECEIVED", nil, quests);
+}
+
+- (void) fetchTabsForPlayer
+{
+     NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
+      }; 
+    [connection performAsynchronousRequestWithService:@"client" method:@"getTabsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerTabs:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parsePlayerTabs:(ARISServiceResult *)result
+{	   
+    NSArray *tabDicts = (NSArray *)result.resultData;
+    NSMutableArray *tabs = [[NSMutableArray alloc] init];
+    for(int i = 0; i < tabDicts.count; i++)
+        tabs[i] = [[Trigger alloc] initWithDictionary:tabDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TABS_RECEIVED", nil, @{@"tabs":tabs}); 
 }
 
 

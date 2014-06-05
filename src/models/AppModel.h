@@ -22,6 +22,7 @@
 #define _MODEL_WEBPAGES_ [AppModel sharedAppModel].game.webPagesModel
 #define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
 #define _MODEL_INSTANCES_ [AppModel sharedAppModel].game.instancesModel
+#define _MODEL_TABS_ [AppModel sharedAppModel].game.tabsModel
 
 #import "User.h"
 #import "GamesModel.h"
@@ -32,6 +33,7 @@
 #import "WebPagesModel.h"
 #import "TriggersModel.h"
 #import "InstancesModel.h"
+#import "TabsModel.h"
 #import "ARISPusherHandler.h"
 
 @class ARISServiceGraveyard;

@@ -14,6 +14,7 @@
 #import "WebPagesModel.h"
 #import "TriggersModel.h"
 #import "InstancesModel.h"
+#import "TabsModel.h"
 #import "NotesModel.h"
 #import "QuestsModel.h"
 #import "Media.h"
@@ -54,6 +55,7 @@
   WebPagesModel   *webPagesModel;    
   TriggersModel   *triggersModel;     
   InstancesModel  *instancesModel;      
+  TabsModel       *tabsModel;      
   NotesModel      *notesModel;
   QuestsModel     *questsModel;
   OverlaysModel   *overlaysModel;
@@ -94,6 +96,7 @@
 @property (nonatomic, strong) WebPagesModel  *webPagesModel; 
 @property (nonatomic, strong) TriggersModel  *triggersModel; 
 @property (nonatomic, strong) InstancesModel *instancesModel; 
+@property (nonatomic, strong) TabsModel      *tabsModel; 
 @property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;
 @property (nonatomic, strong) OverlaysModel  *overlaysModel;
