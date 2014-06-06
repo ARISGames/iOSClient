@@ -7,7 +7,6 @@
 //
 
 #import "AudioSlider.h"
-#import "ARISTemplate.h"
 
 #define TRIANGLE_HEIGHT 15
 

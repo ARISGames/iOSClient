@@ -8,7 +8,6 @@
 
 #import "ForgotPasswordViewController.h"
 #import "AppServices.h"
-#import "ARISTemplate.h"
 
 @interface ForgotPasswordViewController() <UITextFieldDelegate>
 {

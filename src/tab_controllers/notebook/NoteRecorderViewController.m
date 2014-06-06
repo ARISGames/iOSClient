@@ -8,7 +8,6 @@
 #import "NoteRecorderViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
-#import "ARISTemplate.h"
 #import "AudioVisualizerViewController.h"
 #import "AudioMeter.h"
 #import "CircleButton.h"

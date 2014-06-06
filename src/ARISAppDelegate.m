@@ -17,8 +17,6 @@
 #import "TestFlight.h"
 #import <Crashlytics/Crashlytics.h>
 
-#import "ARISTemplate.h"
-
 #import "ARISDefaults.h"
 #import "AppModel.h"
 #import "AppServices.h"

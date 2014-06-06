@@ -14,7 +14,6 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "StateControllerProtocol.h"
-#import "ARISTemplate.h"
 
 @interface DialogViewController() <DialogOptionsViewControllerDelegate, DialogScriptViewControllerDelegate, AVAudioPlayerDelegate>
 {

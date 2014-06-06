@@ -10,7 +10,6 @@
 #import "AppServices.h"
 #import "ARISServiceResult.h"
 #import "ARISAlertHandler.h"
-#import "ARISTemplate.h"
 
 @interface SelfRegistrationViewController() <UITextFieldDelegate, UITextViewDelegate>
 {

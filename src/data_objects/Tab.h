@@ -26,5 +26,6 @@
 @property (nonatomic, assign) int sort_index;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) keyString;
 
 @end

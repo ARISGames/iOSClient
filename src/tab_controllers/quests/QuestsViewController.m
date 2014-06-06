@@ -16,7 +16,6 @@
 #import "WebPage.h"
 #import "WebPageViewController.h"
 #import "ARISWebView.h"
-#import "ARISTemplate.h"
 
 static int const ACTIVE_SECTION = 0;
 static int const COMPLETED_SECTION = 1;

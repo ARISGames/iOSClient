@@ -21,8 +21,6 @@
 #import "ItemsModel.h"
 #import "MediaModel.h"
 
-#import "ARISTemplate.h"
-
 @interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
 {
     //Labels as buttons (easier formatting)

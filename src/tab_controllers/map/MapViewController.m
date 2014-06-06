@@ -7,7 +7,6 @@
 //
 
 #import <MapKit/MapKit.h>
-#import "ARISTemplate.h"
 #import "AppModel.h"
 #import "Location.h"
 #import "MapViewController.h"

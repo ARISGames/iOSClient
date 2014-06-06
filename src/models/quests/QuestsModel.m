@@ -92,9 +92,9 @@
     NSDictionary *deltas = [self findDeltasInNew:newQuests fromOld:visibleActiveQuests];
     visibleActiveQuests = newQuests; //assumes already conforms to flyweight
     if(((NSArray *)deltas[@"added"]).count > 0)
-        _ARIS_NOTIF_SEND_(@"MODEL_QUEST_ACTIVE_NEW_AVAILABLE",nil,deltas);
+        _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",nil,deltas);
     if(((NSArray *)deltas[@"removed"]).count > 0)
-        _ARIS_NOTIF_SEND_(@"MODEL_QUEST_ACTIVE_LESS_AVAILABLE",nil,deltas); 
+        _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_LESS_AVAILABLE",nil,deltas); 
 }
 
 - (void) updateCompleteQuests:(NSArray *)newQuests
@@ -102,9 +102,9 @@
     NSDictionary *deltas = [self findDeltasInNew:newQuests fromOld:visibleCompleteQuests];
     visibleCompleteQuests = newQuests; //assumes already conforms to flyweight
     if(((NSArray *)deltas[@"added"]).count > 0)
-        _ARIS_NOTIF_SEND_(@"MODEL_QUEST_COMPLETE_NEW_AVAILABLE",nil,deltas);
+        _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",nil,deltas);
     if(((NSArray *)deltas[@"removed"]).count > 0)
-        _ARIS_NOTIF_SEND_(@"MODEL_QUEST_COMPLETE_LESS_AVAILABLE",nil,deltas);  
+        _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",nil,deltas);  
 }
 
 //finds deltas in quest lists generally, so I can just use same code for complete/active

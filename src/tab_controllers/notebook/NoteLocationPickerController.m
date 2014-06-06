@@ -8,7 +8,6 @@
 
 #import "NoteLocationPickerController.h"
 #import "NoteLocationPickerCrosshairsView.h"
-#import "ARISTemplate.h"
 
 #import <MapKit/MapKit.h>
 

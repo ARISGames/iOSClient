@@ -14,7 +14,6 @@
 #import "AppModel.h"
 #import "Game.h"
 #import "NoteCell.h"
-#import "ARISTemplate.h"
 #import "NoteTag.h"
 
 #import "User.h"

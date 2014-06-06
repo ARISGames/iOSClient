@@ -7,7 +7,6 @@
 //
 
 #import "NoteLocationPickerCrosshairsView.h"
-#import "ARISTemplate.h"
 
 @implementation NoteLocationPickerCrosshairsView
 

@@ -8,7 +8,6 @@
 
 #import "AccountSettingsViewController.h"
 #import "ForgotPasswordViewController.h"
-#import "ARISTemplate.h"
 #import "ARISSelectorHandle.h"
 #import "AppModel.h"
 

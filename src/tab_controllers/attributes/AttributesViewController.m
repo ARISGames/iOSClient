@@ -16,7 +16,6 @@
 #import "ARISAppDelegate.h"
 #import "Item.h"
 #import "ItemViewController.h"
-#import "ARISTemplate.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface AttributesViewController() <ARISMediaViewDelegate,UITableViewDelegate,UITableViewDataSource>

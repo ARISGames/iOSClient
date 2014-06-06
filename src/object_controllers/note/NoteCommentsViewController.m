@@ -10,7 +10,6 @@
 #import "Note.h"
 #import "NoteComment.h"
 #import "User.h"
-#import "ARISTemplate.h"
 
 @interface NoteCommentsViewController () <UITextFieldDelegate>
 {

@@ -17,8 +17,6 @@
 #import "GameComment.h"
 #import "GameCommentCell.h"
 
-#import "ARISTemplate.h"
-
 @interface GameCommentsViewController () <UITableViewDelegate,UITableViewDataSource,GameCommentsReviewViewcontrollerDelegate, GameCommentCellDelegate>
 {
     UIButton *writeAReviewButton;

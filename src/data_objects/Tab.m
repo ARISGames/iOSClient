@@ -46,4 +46,9 @@
     return self;
 }
 
+- (NSString *) keyString
+{
+    return [NSString stringWithFormat:@"%d%@%@%d",self.tab_id,self.type,self.name,self.tab_detail_1];
+}
+
 @end

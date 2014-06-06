@@ -7,7 +7,6 @@
 //
 
 #import "ARISCollapseView.h"
-#import "ARISTemplate.h"
 
 const int HANDLE_HEIGHT = 10;
 const int TOUCH_BUFFER_HEIGHT = 20;

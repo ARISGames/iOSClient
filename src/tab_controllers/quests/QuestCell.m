@@ -9,7 +9,6 @@
 #import "QuestCell.h"
 #import "Quest.h"
 #import "ARISWebView.h"
-#import "ARISTemplate.h"
 
 @interface QuestCell () <ARISWebViewDelegate, StateControllerProtocol>
 {

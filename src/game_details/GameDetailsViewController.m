@@ -13,7 +13,6 @@
 #import "Game.h"
 
 #import "ARISAlertHandler.h"
-#import "ARISTemplate.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
 #import "ARISStarView.h"

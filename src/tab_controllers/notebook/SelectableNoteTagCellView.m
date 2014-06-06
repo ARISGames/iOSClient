@@ -7,7 +7,6 @@
 //
 
 #import "SelectableNoteTagCellView.h"
-#import "ARISTemplate.h"
 
 @interface SelectableNoteTagCellView()
 {

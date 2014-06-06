@@ -9,7 +9,6 @@
 #import "LoginViewController.h"
 
 using namespace std; //math.h undef's "isinf", which is used in mapkit...
-#import "ARISTemplate.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 

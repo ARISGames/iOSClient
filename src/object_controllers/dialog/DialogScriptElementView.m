@@ -15,7 +15,6 @@
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "MediaModel.h"
-#import "ARISTemplate.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 

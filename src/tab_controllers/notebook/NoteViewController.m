@@ -18,7 +18,6 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "Game.h"
-#import "ARISTemplate.h"
 
 @interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {

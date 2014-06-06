@@ -10,7 +10,6 @@
 #import "GameComment.h"
 #import "ARISWebView.h"
 #import "ARISStarView.h"
-#import "ARISTemplate.h"
 
 @interface GameCommentCell () <ARISWebViewDelegate, StateControllerProtocol>
 {

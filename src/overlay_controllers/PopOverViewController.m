@@ -14,7 +14,6 @@
 #import "Media.h"
 #import "AppModel.h"
 #import "MediaModel.h"
-#import "ARISTemplate.h"
 
 @interface PopOverViewController() <ARISMediaViewDelegate>
 {

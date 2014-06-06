@@ -8,7 +8,6 @@
 
 #import "NoteTagEditorViewController.h"
 #import "NoteTagPredictionViewController.h"
-#import "ARISTemplate.h"
 #import "NoteTag.h"
 #import "NoteTagView.h"
 #import "AppModel.h"

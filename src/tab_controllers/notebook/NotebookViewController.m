@@ -16,7 +16,6 @@
 
 #import "AppModel.h"
 #import "Game.h"
-#import "ARISTemplate.h"
 #import "CircleButton.h"
 
 @interface NotebookViewController() <GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>

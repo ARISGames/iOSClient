@@ -9,15 +9,16 @@
 #import "GamePlayTabSelectorViewController.h"
 #import "ARISNavigationController.h"
 #import "ARISGamePlayTabBarViewController.h"
-#import "AppModel.h"
-#import "MediaModel.h"
-#import "ARISAppDelegate.h"
-#import "ARISTemplate.h"
 
+#import "QuestsViewController.h"
+#import "IconQuestsViewController.h"
+#import "InventoryTagViewController.h"
 #import "MapViewController.h"
+#import "AttributesViewController.h"
 #import "NotebookViewController.h"
-#import "Game.h"
-#import "ARISMediaView.h"
+#import "DecoderViewController.h"
+
+#import "AppModel.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -28,18 +29,21 @@
     UIView *leaveGameLine;
     
     NSMutableArray *viewControllers; 
+    NSMutableDictionary *viewControllersDict;  
+    
     id<GamePlayTabSelectorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation GamePlayTabSelectorViewController
 
-- (id) initWithViewControllers:(NSMutableArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
 {
     if(self = [super init])
     {
-        viewControllers = vcs;
         delegate = d;
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_NEW_AVAILABLE", self, @selector(refreshFromModel), nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_LESS_AVAILABLE", self, @selector(refreshFromModel), nil); 
     }
     return self;
 }
@@ -96,43 +100,103 @@
     [tableView setTableHeaderView:headerView];
     
     [self.view addSubview:tableView]; 
+    if(!_MODEL_.disableLeaveGame) [self.view addSubview:leaveGameButton];
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    
     tableView.frame = self.view.bounds;
-    tableView.contentInset = UIEdgeInsetsMake(20,0,0,0); 
+    if(_MODEL_.disableLeaveGame) tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);  
+    else                         tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);  
     
     leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44); 
     leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
     leaveGameArrow.frame = CGRectMake(6,13,19,19); 
     leaveGameLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
-    
-    if(!_MODEL_.disableLeaveGame)
-    {
-        tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
-        [self.view addSubview:leaveGameButton];
-    } 
 }
 
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+    [self refreshFromModel];
+}
+
+- (void) refreshFromModel
+{
+    NSArray *playerTabs = [_MODEL_TABS_ playerTabs];
+    viewControllers = [[NSMutableArray alloc] initWithCapacity:10]; 
+    
+    Tab *tab;
+    for(int i = 0; i < playerTabs.count; i++)
+    {
+        tab = playerTabs[i];
+        if(!viewControllersDict[tab.keyString])  
+        {
+            ARISNavigationController *vc;
+            if([tab.type isEqualToString:@"QUESTS"])
+            {
+                //if uses icon quest view
+                if((BOOL)tab.tab_detail_1)
+                {
+                    IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:delegate];
+                    vc = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
+                }
+                else
+                {
+                    QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:delegate];
+                    vc = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
+                }
+            }
+            else if([tab.type isEqualToString:@"GPS"])
+            {
+                
+                MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:(id<MapViewControllerDelegate,StateControllerProtocol>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
+            }
+            else if([tab.type isEqualToString:@"INVENTORY"])
+            {
+                InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:(id<InventoryViewControllerDelegate,StateControllerProtocol>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
+            }
+            else if([tab.type isEqualToString:@"DECODER"]) //text only
+            {
+                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:(id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:1];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
+            }
+            else if([tab.type isEqualToString:@"QR"]) //will be scanner only- supports both for legacy
+            {
+                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:(id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:tab.tab_detail_1];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
+            } 
+            else if([tab.type isEqualToString:@"PLAYER"])
+            {
+                AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:(id<AttributesViewControllerDelegate,StateControllerProtocol>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
+            }
+            else if([tab.type isEqualToString:@"NOTE"])
+            {
+                NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:(id<NotebookViewControllerDelegate,StateControllerProtocol>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
+            }
+            if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];
+        }
+    
+        [viewControllers addObject:viewControllersDict[tab]];
+    }
+    
     [tableView reloadData];
+}
+
+- (ARISNavigationController *) firstViewController
+{
+    return viewControllers[0];
 }
 
 - (void) leaveGameButtonTouched
 {
     [delegate gameRequestsDismissal];
-}
-
-- (ARISGamePlayTabBarViewController *) tabBarVCFromNavC:(ARISNavigationController *)anc
-{
-    if(![anc isKindOfClass:[ARISNavigationController class]]) return nil;
-    if([[anc.viewControllers objectAtIndex:0] isKindOfClass:[ARISGamePlayTabBarViewController class]])
-        return (ARISGamePlayTabBarViewController *)[anc.viewControllers objectAtIndex:0];
-    return nil;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -148,35 +212,25 @@
     c.textLabel.textColor = [ARISTemplate ARISColorSideNavigationText];
     c.textLabel.font = [ARISTemplate ARISButtonFont];
     
-    ARISNavigationController *anc = (ARISNavigationController *)[viewControllers objectAtIndex:indexPath.row];
-    ARISGamePlayTabBarViewController *agptbvc = [anc.viewControllers objectAtIndex:0];
-    
-    while(c.contentView.subviews.count > 0)
-        [[c.contentView.subviews objectAtIndex:0] removeFromSuperview];
+    ARISNavigationController *anc = viewControllers[indexPath.row];
+    ARISGamePlayTabBarViewController *agptbvc = anc.viewControllers[0];
     
     if([agptbvc isKindOfClass:[MapViewController class]])
         c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
-    else if([agptbvc isKindOfClass:[NotebookViewController class]])
-           c.textLabel.text = [NSString stringWithFormat:@" %@",agptbvc.title]; 
-    else
-        c.textLabel.text = agptbvc.title;
+    else c.textLabel.text = agptbvc.title;
     c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
-    
-    //DOESNT WORK \/
-    c.imageView.frame = CGRectMake(5,5,c.frame.size.height-10,c.frame.size.height-10); 
-    c.textLabel.frame = CGRectMake(c.frame.size.height,5,c.frame.size.width-c.frame.size.height,c.frame.size.height-10);  
     
     return c;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [delegate viewControllerRequestedDisplay:[viewControllers objectAtIndex:indexPath.row]];
+    [delegate viewControllerRequestedDisplay:viewControllers[indexPath.row]];
 }
 
 - (void) dealloc
 {
-    
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

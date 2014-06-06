@@ -13,7 +13,6 @@
 #import "User.h"
 
 #import "ARISMediaView.h"
-#import "ARISTemplate.h"
 
 @interface NoteCell() <ARISMediaViewDelegate>
 {

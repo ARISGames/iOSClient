@@ -14,8 +14,6 @@
 @interface GameNotificationViewController : ARISViewController
 
 - (id) initWithDelegate:(id<GameNotificationViewControllerDelegate>)d;
-- (void) startListeningToModel;
-- (void) stopListeningToModel;
 - (void) cutOffGameNotifications;
 
 @end

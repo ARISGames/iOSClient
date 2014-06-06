@@ -15,7 +15,6 @@
 #import "ARISMediaView.h"
 #import "Media.h"
 #import "Item.h"
-#import "ARISTemplate.h"
 
 @interface InventoryTagViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {

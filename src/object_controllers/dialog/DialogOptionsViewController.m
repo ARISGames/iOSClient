@@ -15,7 +15,6 @@
 #import "MediaModel.h"
 #import "AppServices.h"
 #import "User.h"
-#import "ARISTemplate.h"
 #import "StateControllerProtocol.h"
 
 @interface DialogOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, StateControllerProtocol>

@@ -9,7 +9,6 @@
 #import "GameCommentsReviewViewController.h"
 #import "GameComment.h"
 #import "ARISStarView.h"
-#import "ARISTemplate.h"
 
 @interface GameCommentsReviewViewController () <UITextViewDelegate, UITextFieldDelegate>
 {

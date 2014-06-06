@@ -17,7 +17,6 @@
 #import "MediaModel.h"
 #import "User.h"
 #import "AppServices.h"
-#import "ARISTemplate.h"
 #import <MediaPlayer/MediaPlayer.h>
 
 @interface DialogScriptViewController() <ScriptParserDelegate, DialogScriptElementViewDelegate>

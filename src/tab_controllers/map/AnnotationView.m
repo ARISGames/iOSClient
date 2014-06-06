@@ -7,7 +7,6 @@
 //
 
 #import "AnnotationView.h"
-#import "ARISTemplate.h"
 #import "Media.h"
 #import "MediaModel.h"
 #import "Location.h"

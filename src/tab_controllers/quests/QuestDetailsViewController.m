@@ -13,7 +13,6 @@
 #import "Quest.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
-#import "ARISTemplate.h"
 
 @interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
 {

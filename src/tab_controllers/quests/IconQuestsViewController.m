@@ -14,7 +14,6 @@
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "AppServices.h"
-#import "ARISTemplate.h"
 
 @interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
 {

@@ -7,7 +7,6 @@
 //
 
 #import "NoteTagView.h"
-#import "ARISTemplate.h"
 
 @interface NoteTagView()
 {

@@ -8,7 +8,6 @@
 
 #import "MapHUD.h"
 #import "ARISMediaView.h"
-#import "ARISTemplate.h"
 #import "AppModel.h"
 
 #import "User.h"

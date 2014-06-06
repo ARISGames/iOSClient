@@ -48,6 +48,14 @@
         o.delegate = self;
         
         delegate = d;
+        
+        _ARIS_NOTIF_LISTEN_(@"NewlyActiveQuestsAvailable",self,@selector(parseActiveQuestsIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewlyCompletedQuestsAvailable",self,@selector(parseCompleteQuestsIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredItemsAvailable",self,@selector(parseReceivedItemsIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewlyLostItemsAvailable",self,@selector(parseLostItemsIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredAttributesAvailable",self,@selector(parseReceivedAttributesIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewlyLostAttributesAvailable",self,@selector(parseLostAttributesIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewlyAvailableLocationsAvailable",self,@selector(parseAvailableLocationsIntoNotifications:),nil); 
     }
     return self;
 }
@@ -255,25 +263,9 @@
     showingPopOver   = NO;
 }
 
-- (void) startListeningToModel
-{
-  _ARIS_NOTIF_LISTEN_(@"NewlyActiveQuestsAvailable",self,@selector(parseActiveQuestsIntoNotifications:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyCompletedQuestsAvailable",self,@selector(parseCompleteQuestsIntoNotifications:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredItemsAvailable",self,@selector(parseReceivedItemsIntoNotifications:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyLostItemsAvailable",self,@selector(parseLostItemsIntoNotifications:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredAttributesAvailable",self,@selector(parseReceivedAttributesIntoNotifications:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyLostAttributesAvailable",self,@selector(parseLostAttributesIntoNotifications:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyAvailableLocationsAvailable",self,@selector(parseAvailableLocationsIntoNotifications:),nil);
-}
-
-- (void)stopListeningToModel
-{
-    _ARIS_NOTIF_IGNORE_ALL_(self);     
-}
-
 - (void) dealloc
 {
-    
+    _ARIS_NOTIF_IGNORE_ALL_(self);      
 }
 
 

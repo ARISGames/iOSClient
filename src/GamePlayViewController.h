@@ -12,7 +12,6 @@
 @class Game;
 
 @protocol GamePlayViewControllerDelegate
-- (void) gameplayWasDismissed;
 @end
 
 @interface GamePlayViewController : ARISContainerViewController

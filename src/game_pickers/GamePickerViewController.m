@@ -12,7 +12,6 @@
 #import "Game.h"
 #import "GamePickerCell.h"
 #import "ARISMediaView.h"
-#import "ARISTemplate.h"
 
 @interface GamePickerViewController () <ARISMediaViewDelegate>
 {

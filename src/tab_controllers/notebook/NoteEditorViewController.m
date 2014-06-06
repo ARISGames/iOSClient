@@ -18,7 +18,6 @@
 #import "MediaModel.h"
 #import "AppServices.h"
 #import "User.h"
-#import "ARISTemplate.h"
 #import "CircleButton.h"
 
 @interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate, UIActionSheetDelegate>

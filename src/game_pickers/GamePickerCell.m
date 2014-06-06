@@ -10,7 +10,6 @@
 #import "Game.h"
 #import "ARISStarView.h"
 #import "ARISMediaView.h"
-#import "ARISTemplate.h"
 #import "AppModel.h"
 #import "MediaModel.h"
 

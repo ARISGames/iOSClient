@@ -19,7 +19,6 @@
 #import "WebPage.h"
 #import "UIImage+Scale.h"
 #import "Plaque.h"
-#import "ARISTemplate.h"
 
 #import <MediaPlayer/MediaPlayer.h>
 

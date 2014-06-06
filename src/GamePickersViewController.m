@@ -18,7 +18,6 @@
 #import "PKRevealController.h"
 #import "AccountSettingsViewController.h"
 #import "ARISNavigationController.h"
-#import "ARISTemplate.h"
 #import "AppModel.h"
 
 @interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, AccountSettingsViewControllerDelegate>

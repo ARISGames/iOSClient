@@ -8,7 +8,6 @@
 
 #import "NoteContentsViewController.h"
 #import "ARISMediaView.h"
-#import "ARISTemplate.h"
 #import "AppModel.h"
 
 @interface NoteContentsViewController () <ARISMediaViewDelegate, UIScrollViewDelegate>

@@ -7,7 +7,6 @@
 //
 
 #import "LoadingViewController.h"
-#import "ARISTemplate.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
 

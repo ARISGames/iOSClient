@@ -12,8 +12,6 @@
 #import "AppModel.h"
 #import "Game.h"
 #import "NotesModel.h"
-#import "ARISTemplate.h"
-#import "UIColor+ARISColors.h"
 
 #define CELL_HEIGHT 30
 

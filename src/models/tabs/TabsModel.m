@@ -17,7 +17,7 @@
 {
     NSMutableDictionary *tabs;
 
-    NSArray *visibleTabs;
+    NSArray *playerTabs;
 }
 
 @end
@@ -37,7 +37,7 @@
 
 - (void) clearPlayerData
 {
-    visibleTabs = [[NSArray alloc] init];
+    playerTabs = [[NSArray alloc] init];
 }
 
 - (void) clearGameData
@@ -85,12 +85,12 @@
 
 - (void) updatePlayerTabs:(NSArray *)newTabs
 {
-    NSDictionary *deltas = [self findDeltasInNew:newTabs fromOld:visibleTabs];
-    visibleTabs = newTabs; //assumes already conforms to flyweight
+    NSDictionary *deltas = [self findDeltasInNew:newTabs fromOld:playerTabs];
+    playerTabs = newTabs; //assumes already conforms to flyweight
     if(((NSArray *)deltas[@"added"]).count > 0)
-        _ARIS_NOTIF_SEND_(@"MODEL_TAB_NEW_AVAILABLE",nil,deltas);
+        _ARIS_NOTIF_SEND_(@"MODEL_TABS_NEW_AVAILABLE",nil,deltas);
     if(((NSArray *)deltas[@"removed"]).count > 0)
-        _ARIS_NOTIF_SEND_(@"MODEL_TAB_LESS_AVAILABLE",nil,deltas); 
+        _ARIS_NOTIF_SEND_(@"MODEL_TABS_LESS_AVAILABLE",nil,deltas); 
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);  
 }
 
@@ -138,9 +138,9 @@
   return [tabs objectForKey:[NSNumber numberWithInt:tab_id]];
 }
 
-- (NSArray *) visibleTabs
+- (NSArray *) playerTabs
 {
-    return visibleTabs;
+    return playerTabs;
 }
 
 - (void) dealloc
