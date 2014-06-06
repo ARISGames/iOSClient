@@ -157,15 +157,13 @@
 
 - (NSUInteger) supportedInterfaceOrientations
 {
-/*
     //BAD BAD HACK
-    if ([[notesNavigationController topViewController] isKindOfClass:[AudioVisualizerViewController class]]) {
-        return UIInterfaceOrientationMaskLandscape;
-    }
-    else{
+    //if ([[notesNavigationController topViewController] isKindOfClass:[AudioVisualizerViewController class]]) {
+        //return UIInterfaceOrientationMaskLandscape;
+    //}
+    //else{
         return UIInterfaceOrientationMaskPortrait;
-    }
-*/
+    //}
 }
 
 - (void) dealloc

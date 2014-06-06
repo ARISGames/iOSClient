@@ -42,6 +42,9 @@
     if(self = [super init])
     {
         delegate = d;
+        viewControllers = [[NSMutableArray alloc] init];
+        viewControllersDict = [[NSMutableDictionary alloc] init]; 
+        [self refreshFromModel];
         _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_NEW_AVAILABLE", self, @selector(refreshFromModel), nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_LESS_AVAILABLE", self, @selector(refreshFromModel), nil); 
     }
@@ -120,7 +123,7 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [self refreshFromModel];
+    [tableView reloadData];
 }
 
 - (void) refreshFromModel
@@ -140,53 +143,61 @@
                 //if uses icon quest view
                 if((BOOL)tab.tab_detail_1)
                 {
-                    IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:delegate];
+                    IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:
+                    (id<QuestsViewControllerDelegate,StateControllerProtocol>)delegate];
                     vc = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
                 }
                 else
                 {
-                    QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:delegate];
+                    QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:
+                    (id<QuestsViewControllerDelegate,StateControllerProtocol>)delegate];
                     vc = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
                 }
             }
-            else if([tab.type isEqualToString:@"GPS"])
+            else if([tab.type isEqualToString:@"MAP"])
             {
-                
-                MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:(id<MapViewControllerDelegate,StateControllerProtocol>)delegate];
+                MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:
+                    (id<MapViewControllerDelegate,StateControllerProtocol>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
             }
             else if([tab.type isEqualToString:@"INVENTORY"])
             {
-                InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:(id<InventoryViewControllerDelegate,StateControllerProtocol>)delegate];
+                InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:
+                    (id<InventoryViewControllerDelegate,StateControllerProtocol>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
             }
             else if([tab.type isEqualToString:@"DECODER"]) //text only
             {
-                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:(id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:1];
+                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:
+                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:1];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             }
-            else if([tab.type isEqualToString:@"QR"]) //will be scanner only- supports both for legacy
+            else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
             {
-                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:(id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:tab.tab_detail_1];
+                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:
+                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:tab.tab_detail_1];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             } 
             else if([tab.type isEqualToString:@"PLAYER"])
             {
-                AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:(id<AttributesViewControllerDelegate,StateControllerProtocol>)delegate];
+                AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:
+                    (id<AttributesViewControllerDelegate,StateControllerProtocol>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
             }
             else if([tab.type isEqualToString:@"NOTE"])
             {
-                NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:(id<NotebookViewControllerDelegate,StateControllerProtocol>)delegate];
+                NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:
+                    (id<NotebookViewControllerDelegate,StateControllerProtocol>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
             }
             if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];
         }
     
-        [viewControllers addObject:viewControllersDict[tab]];
+        NSLog(@"%@",tab.keyString);
+        [viewControllers addObject:viewControllersDict[tab.keyString]];
     }
     
-    [tableView reloadData];
+    if(self.view) [tableView reloadData];
 }
 
 - (ARISNavigationController *) firstViewController
@@ -196,7 +207,7 @@
 
 - (void) leaveGameButtonTouched
 {
-    [delegate gameRequestsDismissal];
+    [_MODEL_ logOut];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

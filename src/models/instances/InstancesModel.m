@@ -28,8 +28,8 @@
     {
         [self clearGameData];
 
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCES_RECEIVED",self,@selector(instancesReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(instancesReceived:),nil); 
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCES_RECEIVED",self,@selector(gameInstancesReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(playerInstancesReceived:),nil); 
     }
     return self;
 }
@@ -48,6 +48,12 @@
 {
     instances = [[NSMutableDictionary alloc] init]; 
 }
+
+//only difference is notification sent- all other functionality same
+- (void) playerInstancesReceived:(NSNotification *)notif 
+{ [self instancesReceived:notif]; _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil); }
+- (void) gameInstancesReceived:(NSNotification *)notif 
+{ [self instancesReceived:notif]; _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil); }
 
 - (void) instancesReceived:(NSNotification *)notif
 {
@@ -79,7 +85,6 @@
       if(lost)   _ARIS_NOTIF_SEND_(@"MODEL_INSTANCE_LOST",nil,@{@"instance":existingInstance});
     }
     _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestInstances       { [_SERVICES_ fetchInstances];   }

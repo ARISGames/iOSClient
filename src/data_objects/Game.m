@@ -14,7 +14,7 @@
 #import "GameComment.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 7;
+const int gameDatasToReceive = 8;
 const int playerDatasToReceive = 4;
 
 @interface Game()
@@ -122,6 +122,8 @@ const int playerDatasToReceive = 4;
     authors  = [NSMutableArray arrayWithCapacity:5];
     comments = [NSMutableArray arrayWithCapacity:5]; 
     play_log = [NSMutableArray arrayWithCapacity:5];   
+    
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
 }
 
 - (void) mergeDataFromGame:(Game *)g
@@ -240,7 +242,6 @@ const int playerDatasToReceive = 4;
     {
         _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);    
         playerDataReceived = YES; 
-            
     }
     [self percentLoadedChanged];
 }
@@ -251,6 +252,12 @@ const int playerDatasToReceive = 4;
                                  (float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive)
                                  ];
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PERCENT_LOADED", nil, @{@"percent":percentReceived});  
+}
+
+- (void) gameBegan
+{
+    _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PIECE_AVAILABLE", self, nil);
+    _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE", self, nil); 
 }
 
 - (void) clearModels

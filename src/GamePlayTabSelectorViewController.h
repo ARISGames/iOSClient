@@ -13,7 +13,6 @@
 
 @protocol GamePlayTabSelectorViewControllerDelegate
 - (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc;
-- (void) gameRequestsDismissal;
 @end
 
 @interface GamePlayTabSelectorViewController : ARISViewController

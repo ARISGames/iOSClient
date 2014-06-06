@@ -397,7 +397,7 @@
     NSArray *tabDicts = (NSArray *)result.resultData;
     NSMutableArray *tabs = [[NSMutableArray alloc] init];
     for(int i = 0; i < tabDicts.count; i++)
-        tabs[i] = [[Trigger alloc] initWithDictionary:tabDicts[i]];
+        tabs[i] = [[Tab alloc] initWithDictionary:tabDicts[i]];
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TABS_RECEIVED", nil, @{@"tabs":tabs}); 
 }
 

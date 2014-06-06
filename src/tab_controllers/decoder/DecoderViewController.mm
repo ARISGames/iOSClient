@@ -14,7 +14,6 @@
 #import "AppServices.h"
 #import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
-#import "GamePlayTabSelectorViewController.h"
 
 @interface DecoderViewController() <ZXingDelegate, UITextFieldDelegate>
 {
@@ -183,7 +182,6 @@
 {
     if([code isEqualToString:@"log-out"])
     {
-        [(id<GamePlayTabSelectorViewControllerDelegate>)delegate gameRequestsDismissal]; 
         [_MODEL_ logOut];
         return;
     }
