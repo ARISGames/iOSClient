@@ -60,11 +60,6 @@
     
     BOOL resetWiggle;
     BOOL zoomOnLoad;
-    
-    BOOL first;
-    BOOL bugHappened;
-    
-
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
@@ -84,9 +79,6 @@
         locationsToAdd    = [[NSMutableArray alloc] init];
         locationsToRemove = [[NSMutableArray alloc] init];
         zoomOnLoad = YES;
-        first = YES;
-        bugHappened = NO;
-        
         
         //put all of the locations from the locations model to the locationsToAdd
         NSArray *locations = [AppModel sharedAppModel].currentGame.locationsModel.currentLocations;
@@ -216,7 +208,6 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    NSLog(@"VIEW DID APPEAR");
     [super viewDidAppear:animated];
     
 	[[AppServices sharedAppServices] updateServerMapViewed];
@@ -346,12 +337,6 @@
 
 - (void) addLocationsToNewQueue:(NSNotification *)notification
 {
-   
-    
-    if (bugHappened) {
-        NSLog(@"THE BUG HAPPENED!!");
-    }
-    
     //Quickly make sure we're not re-adding any info (let the 'newly' added ones take over)
     NSArray *newLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
     for(int i = 0; i < [newLocations count]; i++)
@@ -363,10 +348,8 @@
         }
     }
     [locationsToAdd addObjectsFromArray:newLocations];
-     NSLog(@"ADD LOCATIONSTO NEW QUEUE COUNT: %d", locationsToAdd.count);
     
     if(isViewLoaded && self.view.window) [self refreshViewFromModel];
-    else NSLog(@"NOT FLUSHING QUEUE CAUSE VIEW ISNT LOADED");
 }
 
 - (void) addLocationsToRemoveQueue:(NSNotification *)notification
@@ -392,7 +375,6 @@
                 [locationsToAdd removeObjectAtIndex:j];
         }
     }
-    NSLog(@"ADD LOCATIONS TO REMOVE QUEUE COUNT: %d", locationsToAdd.count);
     
     if(isViewLoaded && self.view.window) [self refreshViewFromModel];
 }
@@ -400,9 +382,6 @@
 - (void) refreshViewFromModel
 {
     if(!mapView) return;
-    
-    NSLog(@"FLUSHING QUEUES");
-    
     
     //Remove old locations first
     id<MKAnnotation> annotation;
@@ -420,19 +399,9 @@
     }
     [locationsToRemove removeAllObjects];
     
-    
-    if (first) {
-        first = NO;
-        if (locationsToAdd.count == 0) {
-            NSLog(@"LOCATIONSTOADD IS EMPTY");
-            bugHappened = YES;
-        }
-    }
-    
     //Add new locations second
     BOOL zoomToNewLocations = NO;
     Location *tmpLocation;
-    //there is a case where locationsToAdd is empty on game loading
     for (int i = 0; i < [locationsToAdd count]; i++)
     {
         tmpLocation = (Location *)[locationsToAdd objectAtIndex:i];
