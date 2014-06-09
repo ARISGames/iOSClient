@@ -156,6 +156,7 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    NSLog(@"VIEW DID APPEAR");
     [super viewDidAppear:animated];
 
     [self refreshViewFromModel];
