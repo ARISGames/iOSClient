@@ -95,6 +95,7 @@
                                newlyAvailableLocations,@"newlyAvailableLocations",
                                locations,@"allLocations",
                                nil];
+        NSLog(@"SENDING NOTIFICATION THAT IS DROPPED");
         NSLog(@"NSNotification: NewlyAvailableLocationsAvailable");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyAvailableLocationsAvailable" object:self userInfo:lDict]];
     }

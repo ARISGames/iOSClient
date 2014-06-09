@@ -64,7 +64,6 @@
     tableView.dataSource = self;
     tableView.opaque = NO;
     tableView.backgroundColor = [UIColor clearColor];
-    tableView.bounces = NO;
     
     leaveGameButton = [[UIView alloc] init];
     leaveGameButton.userInteractionEnabled = YES;

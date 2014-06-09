@@ -167,6 +167,12 @@
 - (void) startButtonTouched
 {
     game.hasBeenPlayed = YES;
+    
+    for (int i = 0; i < 100; i++) {
+        NSLog(@" ");
+    }
+    
+    
     [delegate gameDetailsWereConfirmed:game]; 
 }
 
