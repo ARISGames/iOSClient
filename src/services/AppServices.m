@@ -423,138 +423,6 @@
 
 
 
-
-- (void) updatePlayer:(int)user_id withName:(NSString *)name
-{
-  if(user_id != 0)
-  {
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-      [NSString stringWithFormat:@"%d",user_id], @"auser_id",
-      name,                                       @"bname",
-      nil]; 
-    [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerName" arguments:args handler:self successSelector:@selector(updatedPlayer:) failSelector:nil retryOnFail:NO userInfo:nil];
-  }
-  else
-    NSLog(@"Tried updating non-existent player! (user_id = 0)");
-}
-
-- (void) resetAndEmailNewPassword:(NSString *)email
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    email,@"aemail",
-    nil]; 
-  [connection performAsynchronousRequestWithService:@"players" method:@"resetAndEmailNewPassword" arguments:args handler:self successSelector:@selector(parseResetAndEmailNewPassword:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) setShowPlayerOnMap
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d", _MODEL_PLAYER_.user_id], @"auser_id",
-    [NSString stringWithFormat:@"%d", _MODEL_.showPlayerOnMap], @"bshowPlayerOnMap",
-    nil]; 
-  [connection performAsynchronousRequestWithService:@"players" method:@"setShowPlayerOnMap" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerLocationViewed:(int)locationId
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
-    [NSString stringWithFormat:@"%d",locationId],                                  @"clocationId",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"locationViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerPlaqueViewed:(int)plaque_id fromLocation:(int)locationId
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
-    [NSString stringWithFormat:@"%d",plaque_id],                                      @"cplaque_id",
-    [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"plaqueViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerWebPageViewed:(int)web_page_id fromLocation:(int)locationId
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
-    [NSString stringWithFormat:@"%d",web_page_id],                                   @"cweb_page_id",
-    [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"webPageViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId
-{	
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],      @"buser_id",
-    [NSString stringWithFormat:@"%d",item_id],                                       @"citem_id",
-    [NSString stringWithFormat:@"%d",locationId],                                    @"dlocationId",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"itemViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerDialogViewed:(int)dialog_id fromLocation:(int)locationId
-{	
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
-    [NSString stringWithFormat:@"%d",dialog_id],                                       @"cdialog_id",
-    [NSString stringWithFormat:@"%d",locationId],                                  @"dlocationId",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"dialogViewed" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerGameSelected
-{	
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"auser_id",
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"bgame_id",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerLastGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerMapViewed
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"mapViewed" arguments:args handler:self successSelector:@selector(fetchPlayerLocationList) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerQuestsViewed
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"questsViewed" arguments:args handler:self successSelector:@selector(fetchPlayerQuestList) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) updateServerInventoryViewed
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"inventoryViewed" arguments:args handler:self successSelector:@selector(fetchPlayerInventory) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) parseResetAndEmailNewPassword:(ARISServiceResult *)jsonResult
-{
-    /*
-  if(jsonResult == nil)
-    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ForgotPasswordTitleKey", nil) message:NSLocalizedString(@"ForgotPasswordMessageKey", nil)];
-  else
-    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ForgotEmailSentTitleKey", @"") message:NSLocalizedString(@"ForgotMessageKey", @"")];
-     */
-}
-
 - (void) startOverGame:(int)game_id
 {
   [_MODEL_GAME_ clearModels];
@@ -580,7 +448,7 @@
     [NSString stringWithFormat:@"%d",locationId],                                   @"dlocationId",
     [NSString stringWithFormat:@"%d",qty],                                          @"eqty",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"pickupItemFromLocation" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"pickupItemFromLocation" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) updateServerDropItemHere:(int)item_id qty:(int)qty
@@ -593,7 +461,7 @@
     [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude], @"elongitude",
     [NSString stringWithFormat:@"%d",qty],                                                            @"fqty",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"dropItem" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"dropItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate
@@ -605,7 +473,7 @@
     [NSString stringWithFormat:@"%f",coordinate.latitude],                         @"dlatitude",
     [NSString stringWithFormat:@"%f",coordinate.longitude],                        @"elongitude",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"dropNote" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"dropNote" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) updateServerDestroyItem:(int)item_id qty:(int)qty
@@ -616,7 +484,7 @@
     [NSString stringWithFormat:@"%d",item_id],                                       @"citem_id",
     [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"destroyItem" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"destroyItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) updateServerInventoryItem:(int)item_id qty:(int)qty
@@ -627,7 +495,7 @@
     [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"cuser_id",
     [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"setItemCountForPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"setItemCountForPlayer" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) updateServerAddInventoryItem:(int)item_id addQty:(int)qty
@@ -638,7 +506,7 @@
     [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"cuser_id",
     [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"giveItemToPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"giveItemToPlayer" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) updateServerRemoveInventoryItem:(int)item_id removeQty:(int)qty
@@ -649,7 +517,7 @@
     [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"cuser_id",
     [NSString stringWithFormat:@"%d",qty],                                          @"dqty",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"takeItemFromPlayer" arguments:args handler:self successSelector:@selector(fetchAllPlayerLists) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"takeItemFromPlayer" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) deleteNoteWithNoteId:(int)noteId
 {
@@ -824,14 +692,6 @@
   _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
 }
 
-- (void) fetchAllPlayerLists
-{
-  [self fetchPlayerLocationList];
-  [self fetchPlayerQuestList];
-  [self fetchPlayerInventory];
-  [self fetchPlayerOverlayList];
-}
-
 - (void) fetchTabBarItems
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -919,14 +779,6 @@
   [mediaLoader loadMedia:m delegateHandle:dh];
 }
 
-- (void) fetchGameMediaList
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    nil];
-  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
 - (void) fetchPlayerLocationList
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -935,64 +787,6 @@
     nil];
   [connection performAsynchronousRequestWithService:@"locations" method:@"getLocationsForPlayer" arguments:args handler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-
-
-- (void) fetchPlayerOverlayList
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", _MODEL_GAME_.game_id], @"agame_id",
-               [NSString stringWithFormat:@"%d", _MODEL_PLAYER_.user_id], @"buser_id", nil];
-  [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerOverlayListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) parsePlayerOverlayListFromJSON:(ARISServiceResult *)jsonResult
-{
-  NSArray *overlayIdArray = (NSArray *)jsonResult.resultData;
-  NSMutableArray *ids = [[NSMutableArray alloc] init];
-  NSEnumerator *overlayEnumerator = [overlayIdArray objectEnumerator];
-  NSDictionary *overlayDictionary;
-  while (overlayDictionary = [overlayEnumerator nextObject])
-  {
-    int overlayId = [overlayDictionary validIntForKey:@"overlay_id"];
-    NSInteger intToAdd = overlayId;
-    [ids addObject:[NSNumber numberWithInt:intToAdd]];
-  }
-
-  NSMutableDictionary *overlayDictionaryToSend = [[NSMutableDictionary alloc] init];
-  [overlayDictionaryToSend setObject:ids forKey:@"overlayIds"];
-  _ARIS_NOTIF_SEND_(@"OverlayIdsReceived",self,overlayDictionaryToSend);
-  _ARIS_NOTIF_SEND_(@"PlayerPieceReceived",nil,nil);
-}
-
-
-- (void) fetchPlayerInventory
-{    
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],@"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],   @"buser_id",
-    nil];
-
-  [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForPlayer" arguments:args handler:self successSelector:@selector(parseInventoryFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) fetchPlayerQuestList
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id], @"agame_id",
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],    @"buser_id",
-    nil];
-  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parseQuestListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-/*
-- (Tab *) parseTabFromDictionary:(NSDictionary *)tabDictionary
-{
-  Tab *tab = [[Tab alloc] init];
-  tab.tabIndex   = [tabDictionary validIntForKey:@"tab_index"];
-  tab.tabName    = [tabDictionary validObjectForKey:@"tab"];
-  tab.tabDetail1 = [tabDictionary validObjectForKey:@"tab_detail_1"] ? [tabDictionary validIntForKey:@"tab_detail_1"] : 0;
-  return tab;
-}
- */
 
 - (void) parseNoteListFromJSON:(ARISServiceResult *)jsonResult
 {
