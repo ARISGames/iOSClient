@@ -125,6 +125,8 @@
 		AA942B9D17CD4F86004EDEA1 /* logo_text.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9917CD4F86004EDEA1 /* logo_text.png */; };
 		AA9A6D98182D7ECA000CC323 /* NoteTagEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */; };
 		AA9A6D9A182DA3EB000CC323 /* left_white_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9A6D99182DA3EB000CC323 /* left_white_gradient.png */; };
+		AA9F7131194F418B00384832 /* DialogCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F712E194F418B00384832 /* DialogCharacter.m */; };
+		AA9F7132194F418B00384832 /* DialogScript.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F7130194F418B00384832 /* DialogScript.m */; };
 		AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */; };
 		AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1CE2C1891C1C20005F4DC /* NoteComment.m */; };
 		AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA2F8C718A3F85B00B77249 /* MapHUD.m */; };
@@ -241,7 +243,6 @@
 		AAC0D8831930F4E200CA1DE3 /* ScriptElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D87B1930F4E200CA1DE3 /* ScriptElement.m */; };
 		AAC0D8841930F4E200CA1DE3 /* ScriptParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D87D1930F4E200CA1DE3 /* ScriptParser.m */; };
 		AAC0D8891930F6D900CA1DE3 /* Dialog.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8861930F6D900CA1DE3 /* Dialog.m */; };
-		AAC0D88A1930F6D900CA1DE3 /* DialogScriptOption.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8881930F6D900CA1DE3 /* DialogScriptOption.m */; };
 		AAC0D88D1930F6E100CA1DE3 /* Trigger.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D88C1930F6E100CA1DE3 /* Trigger.m */; };
 		AAC0D8911930F70E00CA1DE3 /* DialogsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8901930F70E00CA1DE3 /* DialogsModel.m */; };
 		AAC0D8941930F9D100CA1DE3 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8931930F9D100CA1DE3 /* Scene.m */; };
@@ -491,6 +492,10 @@
 		AA9A6D96182D7ECA000CC323 /* NoteTagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagEditorViewController.h; sourceTree = "<group>"; };
 		AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagEditorViewController.m; sourceTree = "<group>"; };
 		AA9A6D99182DA3EB000CC323 /* left_white_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_white_gradient.png; sourceTree = "<group>"; };
+		AA9F712D194F418B00384832 /* DialogCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogCharacter.h; sourceTree = "<group>"; };
+		AA9F712E194F418B00384832 /* DialogCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogCharacter.m; sourceTree = "<group>"; };
+		AA9F712F194F418B00384832 /* DialogScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScript.h; sourceTree = "<group>"; };
+		AA9F7130194F418B00384832 /* DialogScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScript.m; sourceTree = "<group>"; };
 		AAA179D518985CAB004B82EE /* SelectableNoteTagCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectableNoteTagCellView.h; sourceTree = "<group>"; };
 		AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectableNoteTagCellView.m; sourceTree = "<group>"; };
 		AAA1CE2B1891C1C20005F4DC /* NoteComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteComment.h; sourceTree = "<group>"; };
@@ -705,8 +710,6 @@
 		AAC0D87D1930F4E200CA1DE3 /* ScriptParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptParser.m; sourceTree = "<group>"; };
 		AAC0D8851930F6D900CA1DE3 /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dialog.h; sourceTree = "<group>"; };
 		AAC0D8861930F6D900CA1DE3 /* Dialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dialog.m; sourceTree = "<group>"; };
-		AAC0D8871930F6D900CA1DE3 /* DialogScriptOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScriptOption.h; sourceTree = "<group>"; };
-		AAC0D8881930F6D900CA1DE3 /* DialogScriptOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScriptOption.m; sourceTree = "<group>"; };
 		AAC0D88B1930F6E100CA1DE3 /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trigger.h; sourceTree = "<group>"; };
 		AAC0D88C1930F6E100CA1DE3 /* Trigger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trigger.m; sourceTree = "<group>"; };
 		AAC0D88F1930F70E00CA1DE3 /* DialogsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogsModel.h; sourceTree = "<group>"; };
@@ -1247,8 +1250,10 @@
 				AAC0D88C1930F6E100CA1DE3 /* Trigger.m */,
 				AAC0D8851930F6D900CA1DE3 /* Dialog.h */,
 				AAC0D8861930F6D900CA1DE3 /* Dialog.m */,
-				AAC0D8871930F6D900CA1DE3 /* DialogScriptOption.h */,
-				AAC0D8881930F6D900CA1DE3 /* DialogScriptOption.m */,
+				AA9F712D194F418B00384832 /* DialogCharacter.h */,
+				AA9F712E194F418B00384832 /* DialogCharacter.m */,
+				AA9F712F194F418B00384832 /* DialogScript.h */,
+				AA9F7130194F418B00384832 /* DialogScript.m */,
 				AA6EC330192E6FFB00D70D38 /* InstantiableProtocol.h */,
 				AA68B2FC1912E73E000C717B /* Instance.h */,
 				AA68B2FD1912E73E000C717B /* Instance.m */,
@@ -2194,9 +2199,11 @@
 				AABC74DD172739D80074CC21 /* UIDevice+Hardware.m in Sources */,
 				AA3B7FC2182037CB006C9715 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				AABC74DE172739D80074CC21 /* UIImage+Alpha.m in Sources */,
+				AA9F7131194F418B00384832 /* DialogCharacter.m in Sources */,
 				AA4685A81940C90000721B2B /* TabsModel.m in Sources */,
 				AA0CDB2319312D2F00697DB6 /* ARISDefaults.m in Sources */,
 				AABC74DF172739D80074CC21 /* UIImage+fixOrientation.m in Sources */,
+				AA9F7132194F418B00384832 /* DialogScript.m in Sources */,
 				AAC0D87F1930F4E200CA1DE3 /* DialogScriptElementView.m in Sources */,
 				F92B5E0F18BFE02900D1D1A7 /* CircleButton.m in Sources */,
 				AAF9231E1885968B0026A4FC /* NoteRecorderViewController.m in Sources */,
@@ -2228,7 +2235,6 @@
 				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,
 				AAD298C917D1160C002A4C47 /* InventoryTagViewController.m in Sources */,
 				AAF9233B188715C20026A4FC /* Playhead.m in Sources */,
-				AAC0D88A1930F6D900CA1DE3 /* DialogScriptOption.m in Sources */,
 				AA714F1C18D8E23900E91682 /* NotebookNotesViewController.m in Sources */,
 				AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */,
 			);

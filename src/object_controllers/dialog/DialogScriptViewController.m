@@ -8,7 +8,6 @@
 
 #import "DialogScriptViewController.h"
 #import "DialogScriptElementView.h"
-#import "DialogScriptOption.h"
 #import "ScriptParser.h"
 #import "Script.h"
 #import "ScriptElement.h"
@@ -24,7 +23,6 @@
     Dialog *dialog;
     
     ScriptParser *parser;
-    DialogScriptOption *currentScriptOption;
     Script *currentScript;
     ScriptElement *currentScriptElement;
     
@@ -56,8 +54,6 @@
         [self.view addSubview:pcView];
         
         Media *dialogMedia;
-        if(dialog.media_id != 0) dialogMedia = [_MODEL_MEDIA_ mediaForId:dialog.media_id];
-        
         if(dialogMedia) npcView = [[DialogScriptElementView alloc] initWithFrame:self.view.bounds media:dialogMedia                                   title:dialog.name delegate:self];
         else         npcView = [[DialogScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:dialog.name delegate:self];
         [self.view addSubview:npcView];
@@ -98,11 +94,13 @@
     self.view.opaque = NO;
 }
 
+/*
 - (void) loadScriptOption:(DialogScriptOption *)o
 {
     currentScriptOption = o;
     [parser parseText:o.scriptText];
 }
+ */
 
 - (void) scriptDidFinishParsing:(Script *)s
 {

@@ -234,6 +234,40 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_DIALOGS_RECEIVED", nil, @{@"dialogs":dialogs});
 }
 
+- (void) fetchDialogCharacters
+{
+  NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogCharactersForGame" arguments:args handler:self successSelector:@selector(parseDialogCharacters:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseDialogCharacters:(ARISServiceResult *)result
+{	   
+    NSArray *dialogCharacterDicts = (NSArray *)result.resultData;
+    NSMutableArray *dialogCharacters = [[NSMutableArray alloc] init];
+    for(int i = 0; i < dialogCharacterDicts.count; i++)
+        dialogCharacters[i] = [[DialogCharacter alloc] initWithDictionary:dialogCharacterDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_DIALOG_CHARACTERS_RECEIVED", nil, @{@"dialogCharacters":dialogCharacters});
+}
+
+- (void) fetchDialogScripts
+{
+  NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id]
+    };
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogScriptsForGame" arguments:args handler:self successSelector:@selector(parseDialogScripts:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseDialogScripts:(ARISServiceResult *)result
+{	   
+    NSArray *dialogScriptDicts = (NSArray *)result.resultData;
+    NSMutableArray *dialogScripts = [[NSMutableArray alloc] init];
+    for(int i = 0; i < dialogScriptDicts.count; i++)
+        dialogScripts[i] = [[DialogScript alloc] initWithDictionary:dialogScriptDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_DIALOG_SCRIPTS_RECEIVED", nil, @{@"dialogScripts":dialogScripts});
+}
+
 - (void) fetchWebPages
 {
   NSDictionary *args = 

@@ -7,7 +7,6 @@
 //
 
 #import "DialogOptionsViewController.h"
-#import "DialogScriptOption.h"
 #import "ARISMediaView.h"
 #import "ARISCollapseView.h"
 #import "ARISWebView.h"
@@ -38,6 +37,7 @@
 
 @implementation DialogOptionsViewController
 
+/*
 - (id) initWithFrame:(CGRect)f delegate:(id<DialogOptionsViewControllerDelegate>)d
 {
   if(self = [super init])
@@ -86,7 +86,6 @@
 - (void) loadOptionsForDialog:(Dialog *)n afterViewingOption:(DialogScriptOption *)o
 {
   [delegate optionsRequestsTitle:playerTitle];
-  [_SERVICES_ fetchDialogConversations:n.dialog_id afterViewingPlaque:o.plaque_id];
   [self showWaitingIndicatorForPlayerOptions];
 }
 
@@ -287,4 +286,5 @@
   return NO;
 }
 
+ */
 @end

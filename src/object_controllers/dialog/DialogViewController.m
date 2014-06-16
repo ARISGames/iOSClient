@@ -8,7 +8,6 @@
 
 #import "DialogViewController.h"
 #import "Dialog.h"
-#import "DialogScriptOption.h"
 #import "DialogOptionsViewController.h"
 #import "DialogScriptViewController.h"
 #import "AppModel.h"
@@ -18,7 +17,6 @@
 @interface DialogViewController() <DialogOptionsViewControllerDelegate, DialogScriptViewControllerDelegate, AVAudioPlayerDelegate>
 {
     Dialog *dialog;
-    DialogScriptOption *option;
     DialogScriptViewController  *scriptViewController;
     DialogOptionsViewController *optionsViewController;
     
@@ -29,7 +27,6 @@
 }
 
 @property (nonatomic, strong) Dialog *dialog;
-@property (nonatomic, strong) DialogScriptOption *option;
 @property (nonatomic, strong) DialogScriptViewController  *scriptViewController;
 @property (nonatomic, strong) DialogOptionsViewController *optionsViewController;
 @property (nonatomic, strong) UIButton *backButton;
@@ -37,9 +34,9 @@
 @end
 
 @implementation DialogViewController
+/*
 
 @synthesize dialog;
-@synthesize option;
 @synthesize scriptViewController;
 @synthesize optionsViewController;
 @synthesize backButton;
@@ -85,7 +82,6 @@
 {
     [super viewDidAppearFirstTime:animated];
     
-    /*
     if([[self.dialog.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
     {
         [self displayOptionsVC];
@@ -96,7 +92,6 @@
         [self displayScriptVC];
         [self.scriptViewController loadScriptOption:[[DialogScriptOption alloc] initWithOptionText:@"" scriptText:self.dialog.greeting plaque_id:-1 hasViewed:NO]];
     }
-     */
 }
 
 - (void) optionChosen:(DialogScriptOption *)o
@@ -209,7 +204,6 @@
 
 - (void) leaveConversationRequested
 {
-    /*
     if ([[self.dialog.closing stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""]) {
         [self dismissSelf];
     }
@@ -218,7 +212,6 @@
         [self displayScriptVC];
         [self.scriptViewController loadScriptOption:[[DialogScriptOption alloc] initWithOptionText:@"" scriptText:self.dialog.closing plaque_id:-1 hasViewed:NO]];
     }
-     */
 }
 
 - (void) dismissSelf
@@ -226,5 +219,6 @@
     [_SERVICES_ updateServerDialogViewed:self.dialog.dialog_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
+*/
 
 @end

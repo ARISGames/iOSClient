@@ -11,11 +11,11 @@
 
 @interface Dialog : NSObject <InstantiableProtocol>
 {
-	int dialog_id;
-	NSString *name;
-   	NSString *desc; 
-   	int	icon_media_id;
-	int root_script_id;
+  int dialog_id;
+  NSString *name;
+  NSString *desc;
+  int icon_media_id;
+  int root_script_id;
 }
 
 @property(nonatomic, assign) int dialog_id;
@@ -27,3 +27,4 @@
 - (id) initWithDictionary:(NSDictionary *)dict;
 
 @end
+

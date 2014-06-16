@@ -29,6 +29,8 @@
 - (void) fetchPlaques;
 - (void) fetchItems;
 - (void) fetchDialogs;
+- (void) fetchDialogCharacters;
+- (void) fetchDialogScripts;
 - (void) fetchWebPages;
 - (void) fetchQuests;
 - (void) fetchInstances;
@@ -47,9 +49,6 @@
 //- (void) setShowPlayerOnMap;
 
 //Game Picker
-
-//Fetch Player State
-- (void) fetchDialogConversations:(int)dialog_id afterViewingPlaque:(int)plaque_id;
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
 - (void) fetchGameMediaList;
