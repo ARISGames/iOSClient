@@ -43,6 +43,16 @@
 - (void) fetchQuestsForPlayer;
 - (void) fetchTabsForPlayer;
 
+- (void) logPlayerMoved;
+- (void) logPlayerViewedTabId:(int)tab_id;
+- (void) logPlayerViewedPlaqueId:(int)plaque_id;
+- (void) logPlayerViewedItemId:(int)item_id;
+- (void) logPlayerViewedDialogId:(int)dialog_id;
+- (void) logPlayerViewedDialogScriptId:(int)dialog_script_id;
+- (void) logPlayerViewedWebPageId:(int)web_page_id;
+- (void) logPlayerViewedInstanceId:(int)instance_id;
+- (void) logPlayerTriggeredTriggerId:(int)trigger_id;
+
 //Player
 //- (void) uploadPlayerPic:(Media *)m;
 //- (void) updatePlayer:(int)user_id withName:(NSString *)name;

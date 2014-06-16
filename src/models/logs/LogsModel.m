@@ -53,7 +53,7 @@
       if(![logs objectForKey:newLogId]) [logs setObject:newLog forKey:newLogId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_LOGS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestPlayerLogs
@@ -65,6 +65,28 @@
 {
   return [logs objectForKey:[NSNumber numberWithInt:log_id]];
 }
+
+- (void) playerMoved
+{
+    [_SERVICES_ logPlayerMoved];
+}
+
+- (void) playerViewedTabId:(int)tab_id
+{
+    [_SERVICES_ logPlayerViewedTabId:tab_id]; 
+}
+
+- (void) playerViewedInstanceId:(int)instance_id
+{
+    [_SERVICES_ logPlayerViewedInstanceId:instance_id];  
+}
+
+- (void) playerTriggeredTriggerId:(int)trigger_id
+{
+    [_SERVICES_ logPlayerTriggeredTriggerId:trigger_id];   
+}
+
+
 
 - (void) dealloc
 {

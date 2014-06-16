@@ -15,7 +15,7 @@
 #import "NSDictionary+ValidParsers.h"
 
 const int gameDatasToReceive = 10;
-const int playerDatasToReceive = 4;
+const int playerDatasToReceive = 5;
 
 @interface Game()
 {
