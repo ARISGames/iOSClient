@@ -77,9 +77,6 @@
 - (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId;
 - (void) updateServerWebPageViewed:(int)web_page_id fromLocation:(int)locationId;
 - (void) updateServerDialogViewed:(int)dialog_id fromLocation:(int)locationId;
-- (void) updateServerMapViewed;
-- (void) updateServerQuestsViewed;
-- (void) updateServerInventoryViewed;
 - (void) updateServerPickupItem:(int)item_id fromLocation:(int)locationId qty:(int)qty;
 - (void) updateServerDropItemHere:(int)item_id qty:(int)qty;
 - (void) updateServerDestroyItem:(int)item_id qty:(int)qty;

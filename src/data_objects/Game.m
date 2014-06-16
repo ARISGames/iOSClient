@@ -14,7 +14,7 @@
 #import "GameComment.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 8;
+const int gameDatasToReceive = 10;
 const int playerDatasToReceive = 4;
 
 @interface Game()

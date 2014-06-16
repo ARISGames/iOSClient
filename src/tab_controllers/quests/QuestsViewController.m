@@ -109,7 +109,6 @@ static int const COMPLETED_SECTION = 1;
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-	[[AppServices sharedAppServices] updateServerQuestsViewed];
     [self refreshViewFromModel];
 	[self refresh];
 }

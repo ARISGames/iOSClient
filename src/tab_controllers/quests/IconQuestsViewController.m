@@ -82,7 +82,6 @@
 {
     [super viewDidAppear:animated];    
 	newItemsSinceLastView = 0;
-	[[AppServices sharedAppServices] updateServerQuestsViewed];
     [self refreshViewFromModel];
 	[self refresh];
 }

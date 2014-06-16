@@ -127,7 +127,6 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[AppServices sharedAppServices] updateServerInventoryViewed];
     [self refreshViews]; //For un-bolding items
     [self refetch];
 }
