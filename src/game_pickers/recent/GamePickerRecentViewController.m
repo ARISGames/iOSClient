@@ -9,13 +9,6 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerRecentViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "User.h"
-#import "Location.h"
-#import "GameDetailsViewController.h"
-#import "GamePickerCell.h"
-#import "UIColor+ARISColors.h"
 
 @implementation GamePickerRecentViewController
 

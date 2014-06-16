@@ -7,16 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "instance.h"
-#import "scene.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface Trigger : NSObject
 {
     int trigger_id;
     NSString *name; 
-    Instance *instance;
+    int instance_id;
+    int scene_id;
     NSString *type; 
-    Scene *scene;
     CLLocation *location;
     int distance;
     BOOL wiggle;
@@ -26,9 +25,9 @@
 
 @property (nonatomic, assign) int trigger_id;
 @property (nonatomic, strong) NSString *name; 
-@property (nonatomic, strong) Instance *instance;
+@property (nonatomic, assign) int instance_id;
+@property (nonatomic, assign) int scene_id;
 @property (nonatomic, strong) NSString *type; 
-@property (nonatomic, strong) Scene *scene;
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, assign) int distance;
 @property (nonatomic, assign) BOOL wiggle;

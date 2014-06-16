@@ -11,13 +11,13 @@
 @interface TriangleButton(){
     UIColor *triangleColor;
     BOOL isPointingLeft;
-    Location *location;
+    //Location *location;
 }
 
 @end
 
 @implementation TriangleButton
-@synthesize location;
+//@synthesize location;
 
 - (id)initWithColor:(UIColor *)color isPointingLeft:(BOOL)pointingLeft
 {
@@ -57,10 +57,11 @@
     CGContextFillPath(context);
 }
 
+/*
 - (void) setLocation:(Location *)l
 {
     location = l;
 }
-
+ */
 
 @end

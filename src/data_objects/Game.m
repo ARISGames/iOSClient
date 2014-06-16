@@ -53,7 +53,6 @@ const int playerDatasToReceive = 4;
 
 @synthesize authors;
 @synthesize comments;
-@synthesize play_log;
 
 @synthesize plaquesModel; 
 @synthesize itemsModel; 
@@ -62,8 +61,9 @@ const int playerDatasToReceive = 4;
 @synthesize triggersModel; 
 @synthesize instancesModel; 
 @synthesize tabsModel; 
-@synthesize notesModel;
+@synthesize logsModel; 
 @synthesize questsModel;
+@synthesize notesModel;
 @synthesize overlaysModel;
 
 - (id) init
@@ -121,7 +121,6 @@ const int playerDatasToReceive = 4;
                
     authors  = [NSMutableArray arrayWithCapacity:5];
     comments = [NSMutableArray arrayWithCapacity:5]; 
-    play_log = [NSMutableArray arrayWithCapacity:5];   
     
     _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
 }
@@ -172,9 +171,10 @@ const int playerDatasToReceive = 4;
     triggersModel  = [[TriggersModel  alloc] init];    
     instancesModel = [[InstancesModel alloc] init];     
     tabsModel      = [[TabsModel      alloc] init];     
-    
-    notesModel     = [[NotesModel     alloc] init];
+    logsModel      = [[LogsModel      alloc] init];      
     questsModel    = [[QuestsModel    alloc] init];
+    
+    notesModel     = [[NotesModel     alloc] init]; 
     overlaysModel  = [[OverlaysModel  alloc] init];
 }
 
@@ -195,9 +195,10 @@ const int playerDatasToReceive = 4;
     triggersModel  = nil; 
     instancesModel = nil;  
     tabsModel      = nil;  
+    questsModel    = nil; 
+    logsModel      = nil;   
     
     notesModel     = nil;
-    questsModel    = nil;
 }
 
 - (void) requestGameData
@@ -211,8 +212,6 @@ const int playerDatasToReceive = 4;
     [triggersModel requestTriggers];  
     [instancesModel requestInstances];
     [tabsModel requestTabs];   
-    
-    notesModel     = nil; 
 }
 
 - (void) requestPlayerData
@@ -222,6 +221,7 @@ const int playerDatasToReceive = 4;
     [triggersModel requestPlayerTriggers];
     [questsModel requestPlayerQuests];
     [tabsModel requestPlayerTabs]; 
+    [logsModel requestPlayerLogs];     
 }
 
 - (void) gamePieceReceived
@@ -275,11 +275,14 @@ const int playerDatasToReceive = 4;
     [questsModel    clearGameData]; 
     [triggersModel  clearGameData];  
     [instancesModel clearGameData];   
+    [tabsModel      clearGameData];    
     
     [itemsModel     clearPlayerData];  
     [questsModel    clearPlayerData];  
     [triggersModel  clearPlayerData];   
     [instancesModel clearPlayerData];    
+    [tabsModel      clearPlayerData];     
+    [logsModel      clearPlayerData];      
     
     [notesModel     clearData];
     [overlaysModel  clearData];

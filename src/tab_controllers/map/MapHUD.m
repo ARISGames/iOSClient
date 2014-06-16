@@ -26,7 +26,7 @@
     UILabel *prompt;
     UILabel *warning; 
     
-    Location *location;
+    //Location *location;
     ARISMediaView *warningImage;
     ARISMediaView *whiteGradient;
     ARISMediaView *arrowsImage;
@@ -101,6 +101,7 @@
     arrowsImage.frame = CGRectMake(20, 0, 50, 50);
 }
 
+/*
 - (void) setLocation:(Location *)l
 {
     [warningImage removeFromSuperview];
@@ -126,6 +127,7 @@
             warning.text = NSLocalizedString(@"OutOfRangeKey", @"");
     }
 }
+ */
 
 - (void) open
 {

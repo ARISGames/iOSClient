@@ -127,6 +127,8 @@
 		AA9A6D9A182DA3EB000CC323 /* left_white_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9A6D99182DA3EB000CC323 /* left_white_gradient.png */; };
 		AA9F7131194F418B00384832 /* DialogCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F712E194F418B00384832 /* DialogCharacter.m */; };
 		AA9F7132194F418B00384832 /* DialogScript.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F7130194F418B00384832 /* DialogScript.m */; };
+		AA9F7136194F53FA00384832 /* LogsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F7135194F53FA00384832 /* LogsModel.m */; };
+		AA9F7139194F575100384832 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F7138194F575100384832 /* Log.m */; };
 		AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */; };
 		AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1CE2C1891C1C20005F4DC /* NoteComment.m */; };
 		AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA2F8C718A3F85B00B77249 /* MapHUD.m */; };
@@ -186,7 +188,6 @@
 		AABC737C172739D80074CC21 /* ARISAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7072172739D60074CC21 /* ARISAppDelegate.m */; };
 		AABC737D172739D80074CC21 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7075172739D60074CC21 /* Game.m */; };
 		AABC737E172739D80074CC21 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7077172739D60074CC21 /* Item.m */; };
-		AABC737F172739D80074CC21 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7079172739D60074CC21 /* Location.m */; };
 		AABC7380172739D80074CC21 /* MediaCD.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC707B172739D60074CC21 /* MediaCD.m */; };
 		AABC7383172739D80074CC21 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7081172739D60074CC21 /* Note.m */; };
 		AABC7389172739D80074CC21 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708D172739D60074CC21 /* User.m */; };
@@ -496,6 +497,10 @@
 		AA9F712E194F418B00384832 /* DialogCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogCharacter.m; sourceTree = "<group>"; };
 		AA9F712F194F418B00384832 /* DialogScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScript.h; sourceTree = "<group>"; };
 		AA9F7130194F418B00384832 /* DialogScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScript.m; sourceTree = "<group>"; };
+		AA9F7134194F53FA00384832 /* LogsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogsModel.h; sourceTree = "<group>"; };
+		AA9F7135194F53FA00384832 /* LogsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogsModel.m; sourceTree = "<group>"; };
+		AA9F7137194F575100384832 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		AA9F7138194F575100384832 /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Log.m; sourceTree = "<group>"; };
 		AAA179D518985CAB004B82EE /* SelectableNoteTagCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectableNoteTagCellView.h; sourceTree = "<group>"; };
 		AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectableNoteTagCellView.m; sourceTree = "<group>"; };
 		AAA1CE2B1891C1C20005F4DC /* NoteComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteComment.h; sourceTree = "<group>"; };
@@ -580,8 +585,6 @@
 		AABC7075172739D60074CC21 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		AABC7076172739D60074CC21 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		AABC7077172739D60074CC21 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
-		AABC7078172739D60074CC21 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		AABC7079172739D60074CC21 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		AABC707A172739D60074CC21 /* MediaCD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaCD.h; sourceTree = "<group>"; };
 		AABC707B172739D60074CC21 /* MediaCD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaCD.m; sourceTree = "<group>"; };
 		AABC7080172739D60074CC21 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
@@ -1067,6 +1070,15 @@
 			path = logo;
 			sourceTree = "<group>";
 		};
+		AA9F7133194F53FA00384832 /* logs */ = {
+			isa = PBXGroup;
+			children = (
+				AA9F7134194F53FA00384832 /* LogsModel.h */,
+				AA9F7135194F53FA00384832 /* LogsModel.m */,
+			);
+			path = logs;
+			sourceTree = "<group>";
+		};
 		AAA318DA18B7C7280000E71A /* TestFlightSDK3.0.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1244,6 +1256,8 @@
 		AABC7073172739D60074CC21 /* data_objects */ = {
 			isa = PBXGroup;
 			children = (
+				AA9F7137194F575100384832 /* Log.h */,
+				AA9F7138194F575100384832 /* Log.m */,
 				AAC0D8921930F9D100CA1DE3 /* Scene.h */,
 				AAC0D8931930F9D100CA1DE3 /* Scene.m */,
 				AAC0D88B1930F6E100CA1DE3 /* Trigger.h */,
@@ -1266,8 +1280,6 @@
 				AABC7075172739D60074CC21 /* Game.m */,
 				AABC7076172739D60074CC21 /* Item.h */,
 				AABC7077172739D60074CC21 /* Item.m */,
-				AABC7078172739D60074CC21 /* Location.h */,
-				AABC7079172739D60074CC21 /* Location.m */,
 				AABC7080172739D60074CC21 /* Note.h */,
 				AABC7081172739D60074CC21 /* Note.m */,
 				AABC708C172739D60074CC21 /* User.h */,
@@ -1400,6 +1412,7 @@
 		AABC70DB172739D60074CC21 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				AA9F7133194F53FA00384832 /* logs */,
 				AABC70DC172739D60074CC21 /* AppModel.h */,
 				AABC70DD172739D60074CC21 /* AppModel.m */,
 				AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */,
@@ -2092,7 +2105,6 @@
 				AABC737D172739D80074CC21 /* Game.m in Sources */,
 				AABC737E172739D80074CC21 /* Item.m in Sources */,
 				AA68B2FE1912E73E000C717B /* Instance.m in Sources */,
-				AABC737F172739D80074CC21 /* Location.m in Sources */,
 				AABC7380172739D80074CC21 /* MediaCD.m in Sources */,
 				AABC7383172739D80074CC21 /* Note.m in Sources */,
 				AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */,
@@ -2145,6 +2157,7 @@
 				AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */,
 				AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */,
 				AABC73B9172739D80074CC21 /* MyCLController.m in Sources */,
+				AA9F7139194F575100384832 /* Log.m in Sources */,
 				AABC73BE172739D80074CC21 /* PlaqueViewController.m in Sources */,
 				AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */,
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
@@ -2229,6 +2242,7 @@
 				AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */,
 				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
 				AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */,
+				AA9F7136194F53FA00384832 /* LogsModel.m in Sources */,
 				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,
 				AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,

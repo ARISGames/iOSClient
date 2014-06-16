@@ -23,17 +23,11 @@
 #define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
 #define _MODEL_INSTANCES_ [AppModel sharedAppModel].game.instancesModel
 #define _MODEL_TABS_ [AppModel sharedAppModel].game.tabsModel
+#define _MODEL_LOGS_ [AppModel sharedAppModel].game.logsModel
 
 #import "User.h"
 #import "GamesModel.h"
 #import "MediaModel.h"
-#import "PlaquesModel.h"
-#import "ItemsModel.h"
-#import "dialogsModel.h"
-#import "WebPagesModel.h"
-#import "TriggersModel.h"
-#import "InstancesModel.h"
-#import "TabsModel.h"
 #import "ARISPusherHandler.h"
 
 @class ARISServiceGraveyard;

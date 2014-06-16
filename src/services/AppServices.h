@@ -37,6 +37,7 @@
 - (void) fetchTriggers;
 - (void) fetchTabs;
 
+- (void) fetchLogsForPlayer;
 - (void) fetchInstancesForPlayer;
 - (void) fetchTriggersForPlayer;
 - (void) fetchQuestsForPlayer;

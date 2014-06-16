@@ -12,25 +12,25 @@
 @implementation Trigger
 
 @synthesize trigger_id;
-@synthesize name; 
-@synthesize instance;
-@synthesize type; 
-@synthesize scene;
+@synthesize name;
+@synthesize instance_id;
+@synthesize scene_id;
+@synthesize type;
 @synthesize location;
 @synthesize distance;
 @synthesize wiggle;
 @synthesize show_title;
-@synthesize code; 
+@synthesize code;
 
 - (id) init
 {
     if(self = [super init])
     {
         self.trigger_id = 0;
-        self.name = @""; 
-        self.instance = nil;
+        self.name = @"";
+        self.instance_id = 0;
+        self.scene_id = 0;
         self.type = @"IMMEDIATE"; 
-        self.scene = nil;
         self.location = nil;
         self.distance = 10;
         self.wiggle = NO;
@@ -46,9 +46,9 @@
     {
         self.trigger_id = [dict validIntForKey:@"trigger_id"];
         self.name = [dict validStringForKey:@"name"];
-        //self.instance = [dict validObjectForKey:@"instance"];
+        self.instance_id = [dict validIntForKey:@"instance_id"];
+        self.scene_id = [dict validIntForKey:@"scene_id"];
         self.type = [dict validStringForKey:@"type"];
-        //self.scene = [dict validObjectForKey:@"scene"];
         self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]]; 
         self.distance = [dict validIntForKey:@"distance"];
         self.wiggle = [dict validBoolForKey:@"wiggle"];
@@ -62,9 +62,9 @@
 {
     self.trigger_id = t.trigger_id;
     self.name = t.name;
-    //self.instance = tself.instance;
+    self.instance_id = t.instance_id;
+    self.scene_id = t.scene_id;
     self.type = t.type;
-    //self.scene = tself.scene;
     self.location = t.location;
     self.distance = t.distance;
     self.wiggle = t.wiggle;

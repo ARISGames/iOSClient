@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
 #import "DialogsModel.h"
@@ -15,9 +16,10 @@
 #import "TriggersModel.h"
 #import "InstancesModel.h"
 #import "TabsModel.h"
-#import "NotesModel.h"
+#import "LogsModel.h"
 #import "QuestsModel.h"
-#import "Media.h"
+
+#import "NotesModel.h"
 #import "OverlaysModel.h"
 
 @interface Game : NSObject
@@ -47,7 +49,6 @@
     
   NSMutableArray *authors;
   NSMutableArray *comments;
-  NSMutableArray *play_log; 
 
   PlaquesModel    *plaquesModel;  
   ItemsModel      *itemsModel;  
@@ -56,8 +57,10 @@
   TriggersModel   *triggersModel;     
   InstancesModel  *instancesModel;      
   TabsModel       *tabsModel;      
+  LogsModel       *logsModel;       
+  QuestsModel     *questsModel; 
+    
   NotesModel      *notesModel;
-  QuestsModel     *questsModel;
   OverlaysModel   *overlaysModel;
 }
 
@@ -88,8 +91,6 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 - (int) rating;
 
-@property (nonatomic, strong) NSMutableArray *play_log;
-
 @property (nonatomic, strong) PlaquesModel   *plaquesModel; 
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
 @property (nonatomic, strong) DialogsModel   *dialogsModel; 
@@ -97,8 +98,9 @@
 @property (nonatomic, strong) TriggersModel  *triggersModel; 
 @property (nonatomic, strong) InstancesModel *instancesModel; 
 @property (nonatomic, strong) TabsModel      *tabsModel; 
-@property (nonatomic, strong) NotesModel     *notesModel;
+@property (nonatomic, strong) LogsModel      *logsModel; 
 @property (nonatomic, strong) QuestsModel    *questsModel;
+@property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) OverlaysModel  *overlaysModel;
 
 - (id) initWithDictionary:(NSDictionary *)dict;

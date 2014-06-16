@@ -356,6 +356,24 @@
 
 
 
+- (void) fetchLogsForPlayer
+{
+     NSDictionary *args = 
+    @{
+      @"game_id":[NSString stringWithFormat:@"%d",_MODEL_GAME_.game_id],
+      @"owner_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id]
+      }; 
+    [connection performAsynchronousRequestWithService:@"client" method:@"getLogsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerLogs:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parsePlayerLogs:(ARISServiceResult *)result
+{	   
+    NSArray *logDicts = (NSArray *)result.resultData;
+    NSMutableArray *logs = [[NSMutableArray alloc] init];
+    for(int i = 0; i < logDicts.count; i++)
+        logs[i] = [[Log alloc] initWithDictionary:logDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_LOGS_RECEIVED", nil, @{@"logs":logs});
+}
+
 - (void) fetchInstancesForPlayer
 {
      NSDictionary *args = 

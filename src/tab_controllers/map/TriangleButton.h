@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Location.h"
 
 @interface TriangleButton : UIButton
 
 - (id)initWithColor:(UIColor *)color isPointingLeft:(BOOL)pointingLeft;
-- (void) setLocation:(Location *)l;
+//- (void) setLocation:(Location *)l;
 
-@property (nonatomic, strong) Location *location;
+//@property (nonatomic, strong) Location *location;
 
 @end

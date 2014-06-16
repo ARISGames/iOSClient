@@ -8,12 +8,10 @@
 
 #import <MapKit/MapKit.h>
 #import "AppModel.h"
-#import "Location.h"
 #import "MapViewController.h"
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "Location.h"
 #import "User.h"
 #import "ARISAppDelegate.h"
 #import "AnnotationView.h"
@@ -64,6 +62,7 @@
 
 @implementation MapViewController
 
+/*
 - (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithDelegate:d])
@@ -242,7 +241,6 @@
 
 - (void) playerMoved
 {
-    /*
      Pen Down
     if(!crumbs)
     {
@@ -251,7 +249,6 @@
     }
     else [crumbs addCoordinate:_MODEL_PLAYER_.location.coordinate]; 
     [crumbView setNeedsDisplay];
-     */
 }
 
 - (void) centerMapOnPlayer
@@ -363,7 +360,6 @@
 
 - (void) refreshViewFromModel
 {
-    /*
     if(!mapView) return;
     
     //Remove old locations first
@@ -393,7 +389,6 @@
         }
     }
     [locationsToAdd removeAllObjects];
-     */
 }
 
 - (MKAnnotationView *) mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
@@ -461,7 +456,6 @@
         [viewAnnotationButton setAlpha:0.0f];
         [self.view addSubview:viewAnnotationButton];
         
-        /*
         if ([location.gameObject isKindOfClass:[Item class]]) {
             pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 135, (self.view.bounds.size.height / 2) - 28, 75, 120);
             [pickUpButton setTitle:NSLocalizedString(@"PickUpItemKey", @"") forState:UIControlStateNormal];
@@ -471,7 +465,6 @@
             [pickUpButton addTarget:self action:@selector(pickUpItem:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:pickUpButton];
         }
-         */
     }
     [self animateInButtons];
 }
@@ -492,13 +485,11 @@
 
 - (void) pickUpItem:(TriangleButton*)sender
 {
-    /*
     Location *currLocation = sender.location;
     if ([currLocation.gameObject isKindOfClass:[Item class]]) {
         Item *item = (Item *)currLocation.gameObject;
         [self dismissSelection];
     }
-     */
 }
 
 - (void) dismissSelection
@@ -637,5 +628,6 @@
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);                   
 }
+*/
 
 @end

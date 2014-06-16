@@ -11,7 +11,6 @@
 #import "Game.h"
 #import "NoteComment.h"
 #import "User.h"
-#import "Location.h"
 #import "NoteTag.h"
 #import "NSDictionary+ValidParsers.h"
 #import "AppModel.h"
@@ -41,7 +40,6 @@
         self.name = @"";
         self.desc = @"";
         self.created = [[NSDate alloc] init]; 
-        self.location = [[Location alloc] init];
         self.tags = [[NSMutableArray alloc] init];
         self.contents = [[NSMutableArray alloc] init];
         self.comments = [[NSMutableArray alloc] init];
@@ -69,8 +67,8 @@
         self.created = [df dateFromString:[dict validStringForKey:@"created"]];
                
         NSDictionary *locationDict = [dict validObjectForKey:@"location"]; 
-        if(locationDict) self.location = [[Location alloc] initWithDictionary:locationDict];  
-        else             self.location = [[Location alloc] init];
+        //if(locationDict) self.location = [[Location alloc] initWithDictionary:locationDict];  
+        //else             self.location = [[Location alloc] init];
                       
         NSArray *tagDicts = [dict validObjectForKey:@"tags"];
         self.tags = [[NSMutableArray alloc] initWithCapacity:5];

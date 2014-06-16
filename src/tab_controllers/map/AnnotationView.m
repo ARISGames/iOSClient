@@ -9,7 +9,6 @@
 #import "AnnotationView.h"
 #import "Media.h"
 #import "MediaModel.h"
-#import "Location.h"
 #import "AppModel.h"
 #import "ARISMediaView.h"
 
@@ -35,6 +34,7 @@
 
 @implementation AnnotationView
 
+/*
 - (id) initWithAnnotation:(id<MKAnnotation>)location reuseIdentifier:(NSString *)reuseIdentifier
 {
 	if (self = [super initWithAnnotation:location reuseIdentifier:reuseIdentifier])
@@ -110,14 +110,13 @@
     
     [iconView setFrame:imageInnerFrame];
     [iconView setDelegate:self];
-    /*
+ 
     if(loc.gameObject.icon_media_id) {
         [iconView setMedia:[_MODEL_MEDIA_ mediaForId:loc.gameObject.icon_media_id]];
     }
     else{
         [iconView setImage:[UIImage imageNamed:@"logo.png"]];
     }
-     */
 
     [iconBorderView addSubview:iconView];
     [self addSubview:iconBorderView];
@@ -234,4 +233,5 @@
     iconView.delegate = nil;
 }
 
+*/
 @end

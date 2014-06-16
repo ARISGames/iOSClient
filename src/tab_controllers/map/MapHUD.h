@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "ARISWebView.h"
-#import "Location.h"
 #import "ARISCollapseView.h"
 
 @protocol MapHUDDelegate
@@ -16,7 +15,7 @@
 
 @interface MapHUD : UIViewController
 - (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d;
-- (void) setLocation:(Location *)l;
+//- (void) setLocation:(Location *)l;
 - (void) open;
 - (void) dismiss;
 @end
