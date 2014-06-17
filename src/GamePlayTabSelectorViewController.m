@@ -193,7 +193,6 @@
             if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];
         }
     
-        NSLog(@"%@",tab.keyString);
         [viewControllers addObject:viewControllersDict[tab.keyString]];
     }
     

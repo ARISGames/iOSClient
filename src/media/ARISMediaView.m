@@ -82,9 +82,10 @@
     if(!m.data)
     {
         [self addSpinner];
+        if(selfDelegateHandle) [selfDelegateHandle invalidate];
         selfDelegateHandle = [[ARISDelegateHandle alloc] initWithDelegate:self];
-        //[_SERVICES_ loadMedia:m delegateHandle:selfDelegateHandle];
-        return;//calls 'mediaLoaded' upon complete
+        [_SERVICES_MEDIA_ loadMedia:m delegateHandle:selfDelegateHandle]; //calls 'mediaLoaded' upon complete
+        return;
     }
     media = m;
     [self displayMedia];

@@ -7,7 +7,7 @@
 //
 
 // RULE OF THUMB:
-// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c, 
+// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c,
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "PlaquesModel.h"
@@ -39,7 +39,7 @@
 
 - (void) plaquesReceived:(NSNotification *)notif
 {
-    [self updatePlaques:[notif.userInfo objectForKey:@"plaques"]];
+    [self updatePlaques:notif.userInfo[@"plaques"]];
 }
 
 - (void) updatePlaques:(NSArray *)newPlaques
@@ -50,10 +50,10 @@
     {
       newPlaque = [newPlaques objectAtIndex:i];
       newPlaqueId = [NSNumber numberWithInt:newPlaque.plaque_id];
-      if(![plaques objectForKey:newPlaqueId]) [plaques setObject:newPlaque forKey:newPlaqueId];
+      if(!plaques[newPlaqueId]) [plaques setObject:newPlaque forKey:newPlaqueId];
     }
-    _ARIS_NOTIF_SEND_(@"MODEL_PLAQUES_AVAILABLE",nil,nil);    
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);     
+    _ARIS_NOTIF_SEND_(@"MODEL_PLAQUES_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestPlaques
@@ -63,7 +63,7 @@
 
 - (Plaque *) plaqueForId:(int)plaque_id
 {
-  return [plaques objectForKey:[NSNumber numberWithInt:plaque_id]];
+  return plaques[[NSNumber numberWithInt:plaque_id]];
 }
 
 - (void) dealloc

@@ -23,23 +23,23 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        dataConnections = [[NSMutableDictionary alloc] initWithCapacity:10];
-        metaConnections = [[NSMutableArray      alloc] initWithCapacity:10]; 
-  _ARIS_NOTIF_LISTEN_(@"ReceivedMediaList",self,@selector(retryLoadingAllMedia),nil); 
-    }
-    return self;
+  if(self = [super init])
+  {
+    dataConnections = [[NSMutableDictionary alloc] initWithCapacity:10];
+    metaConnections = [[NSMutableArray      alloc] initWithCapacity:10];
+    _ARIS_NOTIF_LISTEN_(@"MODEL_MEDIA_AVAILABLE",self,@selector(retryLoadingAllMedia),nil); 
+  }
+  return self;
 }
 
 - (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh
 {
     if(!m) return;
-    
+
     MediaResult *mr = [[MediaResult alloc] init];
     mr.media = m;
-    mr.delegateHandle = dh;
-    
+    mr.delegateHandles = @[dh];
+
     [self loadMediaFromMR:mr];
 }
 
@@ -54,31 +54,38 @@
         if(mr.connection) [mr.connection cancel];
         mr.data = [[NSMutableData alloc] initWithCapacity:2048];
         mr.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        [dataConnections setObject:mr forKey:mr.connection.description]; 
+        [dataConnections setObject:mr forKey:mr.connection.description];
     }
     else
     {
         mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL];
-        [self mediaLoadedForMR:mr]; 
+        [self mediaLoadedForMR:mr];
     }
 }
 
 - (void) loadMetaDataForMR:(MediaResult *)mr
 {
     for(int i = 0; i < metaConnections.count; i++)
-        if(((MediaResult *)[metaConnections objectAtIndex:i]).media.media_id == mr.media.media_id) return;
-    [metaConnections addObject:mr]; 
-    //[[AppServices sharedAppServices] fetchMediaMeta:mr.media];
+    {
+        MediaResult *existingMR = metaConnections[i];
+        if(existingMR.media.media_id == mr.media.media_id)
+        {
+          // If mediaresult already exists, merge delegates to notify rather than 1.Throwing new request out (need to keep delegate) or 2.Redundantly requesting
+          existingMR.delegateHandles = [existingMR.delegateHandles arrayByAddingObjectsFromArray:mr.delegateHandles];
+          return;
+        }
+    }
+    [metaConnections addObject:mr];
+    [_SERVICES_ fetchMediaId:mr.media.media_id];
 }
 
 - (void) retryLoadingAllMedia
 {
-    MediaResult *mr;
-    
     //do the ol' switcheroo so we wont get into an infinite loop of adding, removing, readding, etc...
     NSMutableArray *oldMetaConnections = metaConnections;
     metaConnections = [[NSMutableArray alloc] initWithCapacity:10];
-    
+
+    MediaResult *mr;
     while(oldMetaConnections.count > 0)
     {
         mr = [oldMetaConnections objectAtIndex:0];
@@ -90,15 +97,13 @@
 
 - (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
 {
-    MediaResult *mr = [dataConnections objectForKey:c.description];
-    if(!mr) return;
+    MediaResult *mr; if(!(mr = [dataConnections objectForKey:c.description])) return;
     [mr.data appendData:d];
 }
 
 - (void) connectionDidFinishLoading:(NSURLConnection*)c
 {
-    MediaResult *mr = [dataConnections objectForKey:c.description];
-    if(!mr) return;
+    MediaResult *mr; if(!(mr = [dataConnections objectForKey:c.description])) return;
     [dataConnections removeObjectForKey:c.description];
     mr.media.data = mr.data;
     [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
@@ -111,16 +116,19 @@
     mr.media.localURL = [NSURL URLWithString:[[NSString stringWithFormat:@"file://%@",newFileFullPath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
     [_MODEL_MEDIA_ saveAlteredMedia:mr.media];//not as elegant as I'd like...
-    
+
     [self mediaLoadedForMR:mr];
 }
 
 - (void) mediaLoadedForMR:(MediaResult *)mr
 {
     //This is so ugly. See comments in ARISDelegateHandle.h for reasoning
-    if(mr.delegateHandle.delegate && [[mr.delegateHandle.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
-        [mr.delegateHandle.delegate mediaLoaded:mr.media];
-    [mr.delegateHandle invalidate];
+    for(int i = 0; i < mr.delegateHandles.count; i++)
+    {
+      ARISDelegateHandle *dh = mr.delegateHandles[i];
+      if(dh.delegate && [[dh.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
+        [dh.delegate mediaLoaded:mr.media];
+    }
 }
 
 - (void) dealloc
@@ -128,7 +136,7 @@
     NSArray *objects = [dataConnections allValues];
     for(int i = 0; i < objects.count; i++)
         [[objects objectAtIndex:i] cancelConnection];
-    _ARIS_NOTIF_IGNORE_ALL_(self);   
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
@@ -140,7 +148,7 @@
 @synthesize connection;
 @synthesize start;
 @synthesize time;
-@synthesize delegateHandle;
+@synthesize delegateHandles;
 
 - (void) cancelConnection
 {

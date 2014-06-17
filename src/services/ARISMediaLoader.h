@@ -17,15 +17,15 @@
 
 @interface MediaResult : NSObject
 {
-    Media *media; 
-   	NSMutableData *data; 
-    NSURL *url;
-    NSURLConnection *connection; 
-    
-    NSDate *start;
-    NSTimeInterval time;
-    
-    ARISDelegateHandle *delegateHandle;
+  Media *media; 
+  NSMutableData *data; 
+  NSURL *url;
+  NSURLConnection *connection; 
+
+  NSDate *start;
+  NSTimeInterval time;
+
+  NSArray *delegateHandles;
 };
 @property (nonatomic, strong) Media *media;
 @property (nonatomic, strong) NSMutableData *data;
@@ -33,7 +33,7 @@
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSDate *start;
 @property (nonatomic, assign) NSTimeInterval time;
-@property (nonatomic, strong) ARISDelegateHandle *delegateHandle;
+@property (nonatomic, strong) NSArray *delegateHandles;
 
 - (void) cancelConnection;
 

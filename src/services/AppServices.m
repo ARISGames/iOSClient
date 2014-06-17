@@ -8,7 +8,6 @@
 
 #import "AppServices.h"
 #import "ARISConnection.h"
-#import "ARISMediaLoader.h"
 #import "ARISServiceResult.h"
 #import "ARISServiceGraveyard.h"
 #import "AppModel.h"
@@ -17,12 +16,13 @@
 @interface AppServices()
 {
   ARISConnection *connection;
-  ARISMediaLoader *mediaLoader; 
 }
 
 @end
 
 @implementation AppServices
+
+@synthesize mediaLoader;
 
 + (id) sharedAppServices
 {
@@ -83,10 +83,10 @@
 - (NSArray *) parseGames:(NSArray *)gamesDicts
 {
     NSMutableArray *games= [[NSMutableArray alloc] init];
-    
+
     for(int i = 0; i < gamesDicts.count; i++)
         [games addObject:[[Game alloc] initWithDictionary:gamesDicts[i]]];
-    
+
     return games;
 }
 
@@ -99,7 +99,7 @@
   [connection performAsynchronousRequestWithService:@"games" method:@"getFullGame" arguments:args handler:self successSelector:@selector(parseGame:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseGame:(ARISServiceResult *)result
-{	   
+{
     _ARIS_NOTIF_SEND_(@"SERVICES_GAME_RECEIVED", nil, @{@"game":[[Game alloc] initWithDictionary:(NSDictionary *)result.resultData]});
 }
 
@@ -115,7 +115,7 @@
   [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseNearbyGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseNearbyGames:(ARISServiceResult *)result
-{	   
+{
     _ARIS_NOTIF_SEND_(@"SERVICES_NEARBY_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
@@ -131,7 +131,7 @@
   [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseAnywhereGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseAnywhereGames:(ARISServiceResult *)result
-{	   
+{
     _ARIS_NOTIF_SEND_(@"SERVICES_ANYWHERE_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
@@ -147,7 +147,7 @@
   [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseRecentGames:(ARISServiceResult *)result
-{	   
+{
     _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
@@ -163,7 +163,7 @@
   [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parsePopularGames:(ARISServiceResult *)result
-{	   
+{
     _ARIS_NOTIF_SEND_(@"SERVICES_POPULAR_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
@@ -179,8 +179,36 @@
   [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseSearchGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseSearchGames:(ARISServiceResult *)result
-{	   
+{
     _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
+}
+
+
+- (void) fetchMedia
+{
+    NSDictionary *args = 
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"media" method:@"getMediaForGame" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parseMedia:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
+{
+    NSArray *mediaDicts = (NSArray *)result.resultData;
+    _ARIS_NOTIF_SEND_(@"SERVICES_MEDIA_RECEIVED", nil, @{@"media":mediaDicts});
+}
+- (void) fetchMediaId:(int)media_id
+{
+    NSDictionary *args = 
+    @{
+      @"media_id":[NSNumber numberWithInt:media_id],
+    };
+    [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseSingleMedia:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+}
+- (void) parseSingleMedia:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
+{
+    NSDictionary *mediaDict = (NSDictionary *)result.resultData;
+    _ARIS_NOTIF_SEND_(@"SERVICES_MEDIA_RECEIVED", nil, @{@"media":@[mediaDict]}); // fakes an entire list and does same as fetching all media
 }
 
 - (void) fetchPlaques
@@ -751,7 +779,7 @@
 {
   //immediately load new image into cache
   if(_MODEL_PLAYER_.media_id != 0)
-    [self loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil]; 
+    [_SERVICES_MEDIA_ loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil]; 
 }
 
 - (void) parseNewPlayerMediaResponseFromJSON:(ARISServiceResult *)jsonResult
@@ -761,7 +789,7 @@
     _MODEL_PLAYER_.media_id = [((NSDictionary*)jsonResult.resultData) validIntForKey:@"media_id"];
     //immediately load new image into cache 
     if(_MODEL_PLAYER_.media_id != 0)
-      [self loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil];  
+      [_SERVICES_MEDIA_ loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil];  
     //[_MODEL_ saveUserDefaults];
   }
 }
@@ -895,23 +923,6 @@
   [connection performAsynchronousRequestWithService:@"notebook" method:@"getNote" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
 
-
-- (void) fetchMediaMeta:(Media *)m
-{
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-                        ((_MODEL_GAME_.game_id != 0) ? [NSNumber numberWithInt:_MODEL_GAME_.game_id] : @"player"), @"apath",
-    [NSString stringWithFormat:@"%d",m.media_id], @"bmedia_id",
-    nil];
-
-  [connection performAsynchronousRequestWithService:@"media" method:@"getMediaObject" arguments:args handler:self successSelector:@selector(parseSingleMediaFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-//Delegate handle must be of type id<ARISMediaLoaderDelegate>
-- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh
-{
-  [mediaLoader loadMedia:m delegateHandle:dh];
-}
-
 - (void) fetchPlayerLocationList
 {
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -970,27 +981,6 @@
     t,                                                                      @"etitle", 
     nil];
   [connection performAsynchronousRequestWithService: @"games" method:@"saveComment" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
-- (void) parseSingleMediaFromJSON:(ARISServiceResult *)jsonResult
-{
-  //Just convert the data into an array and pretend it is a full game list, so same thing as 'parseGameMediaListFromJSON'
-  NSArray * data = [[NSArray alloc] initWithObjects:jsonResult.resultData, nil];
-  jsonResult.resultData = data;
-  [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread //Phil thinks this is fishy/stupid... 12/13
-}
-
-- (void) parseGameMediaListFromJSON:(ARISServiceResult *)jsonResult
-{
-  [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1]; //Deal with CoreData on separate thread //Phil thinks this is fishy/stupid... 12/13
-}
-
-- (void) startCachingMedia:(ARISServiceResult *)jsonResult
-{
-  [_MODEL_MEDIA_ syncMediaDataToCache:(NSArray *)jsonResult.resultData];
-
-  _ARIS_NOTIF_SEND_(@"ReceivedMediaList",nil,nil);
-  _ARIS_NOTIF_SEND_(@"GamePieceReceived",nil,nil);
 }
 
 - (void) parseGameItemListFromJSON:(ARISServiceResult *)jsonResult

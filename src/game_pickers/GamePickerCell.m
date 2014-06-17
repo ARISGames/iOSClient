@@ -121,7 +121,7 @@
 	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:game.comments.count] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
     
     if(!game.icon_media_id) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
-    else                 [iconView setMedia:[_MODEL_MEDIA_ mediaForId:game.icon_media_id]];
+    else                    [iconView setMedia:[_MODEL_MEDIA_ mediaForId:game.icon_media_id]];
     
     //set to distance by default
     //customLabel.text   = [NSString stringWithFormat:@"%1.1f %@", game.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")]; 

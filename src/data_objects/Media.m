@@ -18,8 +18,9 @@
 
 @implementation Media
 
-@synthesize game_id;
 @synthesize media_id;
+@synthesize game_id;
+@synthesize user_id;
 @synthesize localURL;
 @synthesize remoteURL;
 @synthesize data;
@@ -47,6 +48,16 @@
 - (void) setGameId:(int)gid
 {
     mediaCD.game_id = [NSNumber numberWithInt:gid];
+}
+
+- (int) user_id
+{
+    return [mediaCD.user_id intValue];
+}
+
+- (void) setUserId:(int)uid
+{
+    mediaCD.user_id = [NSNumber numberWithInt:uid];
 }
 
 - (int) media_id

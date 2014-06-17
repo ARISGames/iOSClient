@@ -12,9 +12,10 @@
 #import "Game.h"
 #import "User.h"
 #import "GameComment.h"
+#import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 10;
+const int gameDatasToReceive = 11;
 const int playerDatasToReceive = 5;
 
 @interface Game()
@@ -212,6 +213,10 @@ const int playerDatasToReceive = 5;
     [triggersModel requestTriggers];  
     [instancesModel requestInstances];
     [tabsModel requestTabs];   
+    
+    //the one request not 'owned' by Game. Also, not 100% necessary
+    //(has ability to load on an individual basis)
+    [_MODEL_MEDIA_ requestMedia]; 
 }
 
 - (void) requestPlayerData

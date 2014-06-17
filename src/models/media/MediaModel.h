@@ -14,7 +14,7 @@
 - (id) initWithContext:(NSManagedObjectContext *)c;
 - (Media *) mediaForId:(int)media_id;
 - (Media *) newMedia;
-- (void) syncMediaDataToCache:(NSArray *)mediaDataToCache;
+- (void) requestMedia;
 - (void) clearCache;
 
 - (void) saveAlteredMedia:(Media *)m; //don't like this...

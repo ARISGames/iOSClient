@@ -7,10 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISMediaLoader.h"
 
 #define _SERVICES_ [AppServices sharedAppServices]
+#define _SERVICES_MEDIA_ [AppServices sharedAppServices].mediaLoader
 
 @interface AppServices : NSObject
+{
+    ARISMediaLoader *mediaLoader;  
+}
+
+@property (nonatomic, strong) ARISMediaLoader *mediaLoader;
 
 + (AppServices *)sharedAppServices;
 
@@ -26,6 +33,7 @@
 - (void) fetchPopularGames;
 - (void) fetchSearchGames:(NSString *)s;
 
+- (void) fetchMedia; - (void) fetchMediaId:(int)media_id;
 - (void) fetchPlaques;
 - (void) fetchItems;
 - (void) fetchDialogs;
@@ -53,26 +61,10 @@
 - (void) logPlayerViewedInstanceId:(int)instance_id;
 - (void) logPlayerTriggeredTriggerId:(int)trigger_id;
 
-//Player
-//- (void) uploadPlayerPic:(Media *)m;
-//- (void) updatePlayer:(int)user_id withName:(NSString *)name;
-//- (void) resetAndEmailNewPassword:(NSString *)email;
-//- (void) setShowPlayerOnMap;
-
-//Game Picker
-
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
-- (void) fetchGameMediaList;
-- (void) fetchTabBarItems;
-- (void) fetchGameOverlayList;
-
 - (void) fetchNoteListPage:(int)page;
 - (void) fetchNoteTagLists;
 - (void) fetchNoteWithId:(int)noteId;
-
-//Should only be called in the case of a media appearing in the game that didn't exist when the game was initially launched (eg- someone took a picture)
-//- (void) fetchMediaMeta:(Media *)m;
-//- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh;
 
 //Note Stuff
 - (void) deleteNoteWithNoteId:(int)noteId;
