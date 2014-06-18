@@ -16,7 +16,6 @@
 #import "NoteTag.h"
 #import "AppModel.h"
 #import "MediaModel.h"
-#import "AppServices.h"
 #import "User.h"
 #import "CircleButton.h"
 
@@ -459,7 +458,7 @@
 
 - (void) deleteNote
 {
-    [[AppServices sharedAppServices] deleteNoteWithNoteId:note.noteId]; 
+    //[[AppServices sharedAppServices] deleteNoteWithNoteId:note.noteId]; 
     [_MODEL_GAME_.notesModel deleteNote:note];
     [delegate noteEditorDeletedNoteEdit:self];  
 }

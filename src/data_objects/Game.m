@@ -15,8 +15,8 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 11;
-const int playerDatasToReceive = 5;
+const int gameDatasToReceive = 12;
+const int playerDatasToReceive = 6;
 
 @interface Game()
 {
@@ -60,12 +60,12 @@ const int playerDatasToReceive = 5;
 @synthesize dialogsModel; 
 @synthesize webPagesModel; 
 @synthesize triggersModel; 
+@synthesize overlaysModel; 
 @synthesize instancesModel; 
 @synthesize tabsModel; 
 @synthesize logsModel; 
 @synthesize questsModel;
 @synthesize notesModel;
-@synthesize overlaysModel;
 
 - (id) init
 {
@@ -170,13 +170,13 @@ const int playerDatasToReceive = 5;
     dialogsModel   = [[DialogsModel   alloc] init];  
     webPagesModel  = [[WebPagesModel  alloc] init];   
     triggersModel  = [[TriggersModel  alloc] init];    
+    overlaysModel  = [[OverlaysModel  alloc] init];     
     instancesModel = [[InstancesModel alloc] init];     
     tabsModel      = [[TabsModel      alloc] init];     
     logsModel      = [[LogsModel      alloc] init];      
     questsModel    = [[QuestsModel    alloc] init];
     
     notesModel     = [[NotesModel     alloc] init]; 
-    overlaysModel  = [[OverlaysModel  alloc] init];
 }
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
@@ -194,6 +194,7 @@ const int playerDatasToReceive = 5;
     dialogsModel   = nil;
     webPagesModel  = nil;
     triggersModel  = nil; 
+    overlaysModel  = nil;  
     instancesModel = nil;  
     tabsModel      = nil;  
     questsModel    = nil; 
@@ -207,10 +208,11 @@ const int playerDatasToReceive = 5;
     receivedGameData = 0; 
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
-    [dialogsModel requestDialogs];
+    [dialogsModel requestDialogs]; //makes 3 "game data received" notifs (dialogs, characters, scripts)
     [webPagesModel requestWebPages];
     [questsModel requestQuests];
     [triggersModel requestTriggers];  
+    [overlaysModel requestOverlays];   
     [instancesModel requestInstances];
     [tabsModel requestTabs];   
     
@@ -224,6 +226,7 @@ const int playerDatasToReceive = 5;
     receivedPlayerData = 0;  
     [instancesModel requestPlayerInstances];
     [triggersModel requestPlayerTriggers];
+    [overlaysModel requestPlayerOverlays]; 
     [questsModel requestPlayerQuests];
     [tabsModel requestPlayerTabs]; 
     [logsModel requestPlayerLogs];     
@@ -279,18 +282,19 @@ const int playerDatasToReceive = 5;
     [webPagesModel  clearGameData];   
     [questsModel    clearGameData]; 
     [triggersModel  clearGameData];  
+    [overlaysModel  clearGameData];   
     [instancesModel clearGameData];   
     [tabsModel      clearGameData];    
     
     [itemsModel     clearPlayerData];  
     [questsModel    clearPlayerData];  
     [triggersModel  clearPlayerData];   
+    [overlaysModel  clearPlayerData];    
     [instancesModel clearPlayerData];    
     [tabsModel      clearPlayerData];     
     [logsModel      clearPlayerData];      
     
     [notesModel     clearData];
-    [overlaysModel  clearData];
 }
 
 - (int) rating

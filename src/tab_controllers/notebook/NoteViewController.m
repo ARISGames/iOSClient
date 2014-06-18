@@ -16,7 +16,6 @@
 #import "Note.h"
 #import "User.h"
 #import "AppModel.h"
-#import "AppServices.h"
 #import "Game.h"
 
 @interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
@@ -248,7 +247,7 @@
 - (void) commentConfirmed:(NSString *)c
 {
     /*
-    [[AppServices sharedAppServices] addComment:c fromPlayer:_MODEL_PLAYER_ toNote:note];
+    //[[AppServices sharedAppServices] addComment:c fromPlayer:_MODEL_PLAYER_ toNote:note];
     NoteComment *nc = [[NoteComment alloc] init];
     nc.noteId = note.noteId; 
     nc.owner = _MODEL_PLAYER_;

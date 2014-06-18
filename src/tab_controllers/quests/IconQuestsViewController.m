@@ -13,7 +13,6 @@
 #import "ARISMediaView.h"
 #import "AppModel.h"
 #import "MediaModel.h"
-#import "AppServices.h"
 
 @interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
 {

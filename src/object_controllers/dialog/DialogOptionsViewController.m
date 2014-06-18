@@ -12,7 +12,6 @@
 #import "ARISWebView.h"
 #import "AppModel.h"
 #import "MediaModel.h"
-#import "AppServices.h"
 #import "User.h"
 #import "StateControllerProtocol.h"
 

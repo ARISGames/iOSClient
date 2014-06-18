@@ -14,13 +14,13 @@
 #import "DialogsModel.h"
 #import "WebPagesModel.h"
 #import "TriggersModel.h"
+#import "OverlaysModel.h"
 #import "InstancesModel.h"
 #import "TabsModel.h"
 #import "LogsModel.h"
 #import "QuestsModel.h"
 
 #import "NotesModel.h"
-#import "OverlaysModel.h"
 
 @interface Game : NSObject
 {
@@ -55,13 +55,13 @@
   DialogsModel    *dialogsModel;   
   WebPagesModel   *webPagesModel;    
   TriggersModel   *triggersModel;     
+  OverlaysModel   *overlaysModel;      
   InstancesModel  *instancesModel;      
   TabsModel       *tabsModel;      
   LogsModel       *logsModel;       
   QuestsModel     *questsModel; 
     
   NotesModel      *notesModel;
-  OverlaysModel   *overlaysModel;
 }
 
 @property (nonatomic, assign) int game_id;
@@ -96,12 +96,12 @@
 @property (nonatomic, strong) DialogsModel   *dialogsModel; 
 @property (nonatomic, strong) WebPagesModel  *webPagesModel; 
 @property (nonatomic, strong) TriggersModel  *triggersModel; 
+@property (nonatomic, strong) OverlaysModel  *overlaysModel; 
 @property (nonatomic, strong) InstancesModel *instancesModel; 
 @property (nonatomic, strong) TabsModel      *tabsModel; 
 @property (nonatomic, strong) LogsModel      *logsModel; 
 @property (nonatomic, strong) QuestsModel    *questsModel;
 @property (nonatomic, strong) NotesModel     *notesModel;
-@property (nonatomic, strong) OverlaysModel  *overlaysModel;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromGame:(Game *)g;

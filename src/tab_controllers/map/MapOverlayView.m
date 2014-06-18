@@ -6,27 +6,27 @@
 //
 //
 
-#import "CustomMapOverlayView.h"
-#import "CustomMapOverlay.h"
+#import "MapOverlayView.h"
+#import "AppModel.h"
+#import "Overlay.h"
 #import "ARISMediaView.h"
 
-@interface CustomMapOverlayView(){
-    CustomMapOverlay *overlay;
+@interface MapOverlayView()
+{
+    Overlay *overlay;
     ARISMediaView *media;
     UIImage *imageOverlay;
 }
-
 @end
 
-@implementation CustomMapOverlayView
+@implementation MapOverlayView
 
-
-- (id)initWithCustomOverlay:(CustomMapOverlay *)customOverlay
+- (id) initWithCustomOverlay:(Overlay *)customOverlay
 {
-    self = [super init];
-    if (self) {
+    if(self = [super init])
+    {
         overlay = customOverlay;
-        media = customOverlay.mediaOverlay;
+        media = [_MODEL_MEDIA_ mediaForId:customOverlay.media_id];
         UIImageView *imageView = ([media.subviews[0] isKindOfClass:[UIImageView class]]) ? media.subviews[0] : nil;
         imageOverlay = imageView.image;
     }

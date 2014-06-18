@@ -6,7 +6,6 @@
 //
 
 #import "PlayerSettingsViewController.h"
-#import "AppServices.h"
 #import "ARISMediaView.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"

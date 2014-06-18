@@ -30,12 +30,12 @@
         self.name = @"";
         self.instance_id = 0;
         self.scene_id = 0;
-        self.type = @"IMMEDIATE"; 
+        self.type = @"IMMEDIATE";
         self.location = nil;
         self.distance = 10;
         self.wiggle = NO;
         self.show_title = NO;
-        self.code = @""; 
+        self.code = @"";
     }
     return self;
 }
@@ -49,7 +49,7 @@
         self.instance_id = [dict validIntForKey:@"instance_id"];
         self.scene_id = [dict validIntForKey:@"scene_id"];
         self.type = [dict validStringForKey:@"type"];
-        self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]]; 
+        self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
         self.distance = [dict validIntForKey:@"distance"];
         self.wiggle = [dict validBoolForKey:@"wiggle"];
         self.show_title = [dict validBoolForKey:@"show_title"];

@@ -7,7 +7,6 @@
 //
 
 #import "AttributesViewController.h"
-#import "AppServices.h"
 #import "User.h"
 #import "Media.h"
 #import "ARISMediaView.h"

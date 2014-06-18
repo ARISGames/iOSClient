@@ -43,11 +43,13 @@
 - (void) fetchQuests;
 - (void) fetchInstances;
 - (void) fetchTriggers;
+- (void) fetchOverlays;
 - (void) fetchTabs;
 
 - (void) fetchLogsForPlayer;
 - (void) fetchInstancesForPlayer;
 - (void) fetchTriggersForPlayer;
+- (void) fetchOverlaysForPlayer;
 - (void) fetchQuestsForPlayer;
 - (void) fetchTabsForPlayer;
 

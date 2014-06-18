@@ -19,6 +19,7 @@
 #import "DecoderViewController.h"
 
 #import "AppModel.h"
+#import "ARISMediaView.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {

@@ -11,7 +11,6 @@
 #import "Decoder.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
-#import "AppServices.h"
 #import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
 
@@ -187,7 +186,7 @@
     }
     
     [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
-	[[AppServices sharedAppServices] fetchQRCode:code];
+	//[[AppServices sharedAppServices] fetchQRCode:code];
 }
 
 - (void) finishLoadingResult:(NSNotification*) notification

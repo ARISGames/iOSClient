@@ -10,7 +10,6 @@
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "MediaModel.h"
-#import "AppServices.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
 #import "ARISMediaView.h"
@@ -191,7 +190,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) continueButtonTouched
 {
-	[_SERVICES_ updateServerPlaqueViewed:plaque.plaque_id fromLocation:0];
+	//[_SERVICES_ updateServerPlaqueViewed:plaque.plaque_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

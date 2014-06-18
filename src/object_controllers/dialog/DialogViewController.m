@@ -11,7 +11,6 @@
 #import "DialogOptionsViewController.h"
 #import "DialogScriptViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
 #import "StateControllerProtocol.h"
 
 @interface DialogViewController() <DialogOptionsViewControllerDelegate, DialogScriptViewControllerDelegate, AVAudioPlayerDelegate>
@@ -105,13 +104,13 @@
 {
     if(closingScriptPlaying && !type)
     {
-        [_SERVICES_ updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
+        //[_SERVICES_ updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
         [self dismissSelf];
     }
     
     if(type)
     {
-        [_SERVICES_ updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
+        //[_SERVICES_ updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
         [self dismissSelf];
         
         if([type isEqualToString:@"tab"])
@@ -216,7 +215,7 @@
 
 - (void) dismissSelf
 {
-    [_SERVICES_ updateServerDialogViewed:self.dialog.dialog_id fromLocation:0];
+    //[_SERVICES_ updateServerDialogViewed:self.dialog.dialog_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 */

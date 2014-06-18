@@ -7,8 +7,6 @@
 //
 
 #import "SelfRegistrationViewController.h"
-#import "AppServices.h"
-#import "ARISServiceResult.h"
 #import "ARISAlertHandler.h"
 
 @interface SelfRegistrationViewController() <UITextFieldDelegate, UITextViewDelegate>
@@ -138,6 +136,7 @@
 - (void) registrationResponseReady:(NSNotification *)n
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RegistrationResponseReady" object:nil];
+    /*
     ARISServiceResult *r = (ARISServiceResult *)[n.userInfo objectForKey:@"result"];
 
 	if([(NSDecimalNumber*)r.resultData intValue] > 0) //There exists a new user_id
@@ -146,6 +145,7 @@
     {
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorKey", @"") message:NSLocalizedString(@"SelfRegistrationErrorMessageKey", @"")];
 	}
+     */
 }
 
 - (void) createAccountButtonTouched

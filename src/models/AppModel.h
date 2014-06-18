@@ -21,6 +21,7 @@
 #define _MODEL_DIALOGS_ [AppModel sharedAppModel].game.dialogsModel
 #define _MODEL_WEBPAGES_ [AppModel sharedAppModel].game.webPagesModel
 #define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
+#define _MODEL_OVERLAYS_ [AppModel sharedAppModel].game.overlaysModel
 #define _MODEL_INSTANCES_ [AppModel sharedAppModel].game.instancesModel
 #define _MODEL_TABS_ [AppModel sharedAppModel].game.tabsModel
 #define _MODEL_LOGS_ [AppModel sharedAppModel].game.logsModel

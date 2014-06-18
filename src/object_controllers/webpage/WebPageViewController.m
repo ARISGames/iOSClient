@@ -9,7 +9,6 @@
 #import "StateControllerProtocol.h"
 #import "WebPageViewController.h"
 #import "WebPage.h"
-#import "AppServices.h"
 #import "DialogViewController.h"
 #import "ARISWebView.h"
 
@@ -155,7 +154,7 @@
 {
     [self.webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [_SERVICES_ updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
+    //[_SERVICES_ updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 

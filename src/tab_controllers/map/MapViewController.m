@@ -11,7 +11,6 @@
 #import "MapViewController.h"
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
-#import "AppServices.h"
 #import "User.h"
 #import "ARISAppDelegate.h"
 #import "AnnotationView.h"
@@ -21,8 +20,8 @@
 #import "CrumbPathView.h"
 
 #import "MapHUD.h"
-#import "CustomMapOverlay.h"
-#import "CustomMapOverlayView.h"
+#import "Overlay.h"
+#import "MapOverlayView.h"
 #import "TriangleButton.h"
 #import "ItemActionViewController.h"
 
@@ -62,7 +61,6 @@
 
 @implementation MapViewController
 
-/*
 - (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithDelegate:d])
@@ -76,17 +74,15 @@
         locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
         locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
         
-  _ARIS_NOTIF_LISTEN_(@"ConnectionLost",self,@selector(removeLoadingIndicator),nil);
-  _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerMoved),nil);
-  _ARIS_NOTIF_LISTEN_(@"ReceivedLocationList",self,@selector(removeLoadingIndicator),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyAvailableLocationsAvailable",self,@selector(addLocationsToNewQueue:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyUnavailableLocationsAvailable",self,@selector(addLocationsToRemoveQueue:),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyChangedLocationsGameNotificationSent",self,@selector(incrementBadge),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewOverlaysAvailable",self,@selector(addOverlaysToMap),nil);
+        _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerMoved),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(addLocationsToNewQueue:),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(addLocationsToRemoveQueue:),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewOverlaysAvailable",self,@selector(addOverlaysToMap),nil);
     }
     return self;
 }
 
+/*
 - (void) loadView
 {
     [super loadView];
@@ -161,12 +157,13 @@
 - (void) addOverlaysToMap
 {
     for (int i = 0; i < mapView.overlays.count; i++) {
-        if ([mapView.overlays[i] isKindOfClass:[CustomMapOverlay class]]) {
+        if ([mapView.overlays[i] isKindOfClass:[Overlay class]]) {
             [mapView removeOverlay:mapView.overlays[i]];
         }
     }
     
-    for (NSNumber *overlayId in _MODEL_GAME_.overlaysModel.overlayIds) {
+    for (NSNumber *overlayId in _MODEL_GAME_.overlaysModel.overlayIds)
+    {
         int integerId = [overlayId intValue];
         id<MKOverlay> mapOverlay = [_MODEL_GAME_.overlaysModel overlayForOverlayId:integerId];
         if (mapOverlay) {
@@ -220,8 +217,8 @@
         circleView.opaque = NO;
         return circleView;
     }
-    if ([overlay isKindOfClass:[CustomMapOverlay class]]) {
-        CustomMapOverlayView *mapOverlayView = [[CustomMapOverlayView alloc] initWithCustomOverlay:overlay];
+    if ([overlay isKindOfClass:[Overlay class]]) {
+        MapOverlayView *mapOverlayView = [[MapOverlayView alloc] initWithOverlay:overlay];
         return mapOverlayView;
     }
     return nil;
@@ -307,11 +304,6 @@
 	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	[self navigationItem].rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[activityIndicator startAnimating];
-}
-
-- (void) removeLoadingIndicator
-{
-	[self navigationItem].rightBarButtonItem = nil;
 }
 
 - (void) addLocationsToNewQueue:(NSNotification *)notification

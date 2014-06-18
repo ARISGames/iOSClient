@@ -9,7 +9,6 @@
 #import "InventoryTagViewController.h"
 #import "StateControllerProtocol.h"
 #import "ARISAppDelegate.h"
-#import "AppServices.h"
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "ARISMediaView.h"
