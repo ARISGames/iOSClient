@@ -10,9 +10,6 @@
 
 @interface TriangleButton : UIButton
 
-- (id)initWithColor:(UIColor *)color isPointingLeft:(BOOL)pointingLeft;
-//- (void) setLocation:(Location *)l;
-
-//@property (nonatomic, strong) Location *location;
+- (id) initWithColor:(UIColor *)color isPointingLeft:(BOOL)pointingLeft;
 
 @end

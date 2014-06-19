@@ -7,8 +7,6 @@
 //
 
 #import "AnnotationView.h"
-#import "Media.h"
-#import "MediaModel.h"
 #import "AppModel.h"
 #import "ARISMediaView.h"
 
@@ -24,7 +22,7 @@
     float incrementalWiggleOffset;
     float xOnSinWave;
     bool turnTitleBackOn;
-    Location *loc;
+    Trigger *trigger;
     CGRect imageViewFrame;
     CGSize titleSize;
     CLLocationCoordinate2D coordinates;
@@ -34,19 +32,14 @@
 
 @implementation AnnotationView
 
-/*
 - (id) initWithAnnotation:(id<MKAnnotation>)location reuseIdentifier:(NSString *)reuseIdentifier
 {
 	if (self = [super initWithAnnotation:location reuseIdentifier:reuseIdentifier])
     {
-        loc = (Location *)location;
+        trigger = (Trigger *)location;
         
-        loc.title = nil;
-        if(![loc.name isEqualToString:@""])
-            loc.title = loc.name;
-        
-        showTitle = (loc.showTitle && loc.title) ? YES : NO;
-        shouldWiggle = loc.wiggle;
+        showTitle = (trigger.show_title && trigger.title && ![trigger.title isEqualToString:@""]) ? YES : NO;
+        shouldWiggle = trigger.wiggle;
         totalWiggleOffsetFromOriginalPosition = 0;
         incrementalWiggleOffset = 0;
         xOnSinWave = 0;
@@ -60,10 +53,11 @@
         titleSize = CGSizeMake(0.0f,0.0f);
         titleRect = CGRectMake(0,0,0,0);
         
-        if (showTitle) {
-            if(loc.title) titleSize = [loc.title sizeWithFont:[ARISTemplate ARISAnnotFont]];
+        if(showTitle)
+        {
+            if(trigger.title) titleSize = [trigger.title sizeWithFont:[ARISTemplate ARISAnnotFont]];
             int maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
-            if(loc.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
+            if(trigger.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
             
             titleRect = CGRectOffset(titleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
             
@@ -111,12 +105,10 @@
     [iconView setFrame:imageInnerFrame];
     [iconView setDelegate:self];
  
-    if(loc.gameObject.icon_media_id) {
-        [iconView setMedia:[_MODEL_MEDIA_ mediaForId:loc.gameObject.icon_media_id]];
-    }
-    else{
+    if(trigger.icon_media_id)
+        [iconView setMedia:[_MODEL_MEDIA_ mediaForId:trigger.icon_media_id]];
+    else
         [iconView setImage:[UIImage imageNamed:@"logo.png"]];
-    }
 
     [iconBorderView addSubview:iconView];
     [self addSubview:iconBorderView];
@@ -127,7 +119,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    shouldWiggle = loc.wiggle;
+    shouldWiggle = trigger.wiggle;
     if(showTitle)
     {
         CGFloat minx = bubbleRect.origin.x+1;
@@ -233,5 +225,4 @@
     iconView.delegate = nil;
 }
 
-*/
 @end

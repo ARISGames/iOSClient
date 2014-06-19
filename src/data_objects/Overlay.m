@@ -17,10 +17,6 @@
 @synthesize top_right_corner;
 @synthesize bottom_left_corner;
 
-//MKOverlay stuff
-@synthesize boundingMapRect;
-@synthesize coordinate;
-
 - (id) init
 {
     if(self = [super init])
@@ -47,6 +43,7 @@
     return self;
 }
 
+//MKOverlay stuff
 - (CLLocationCoordinate2D) coordinate
 {
     return top_left_corner.coordinate;

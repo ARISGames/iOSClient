@@ -11,13 +11,11 @@
 @interface TriangleButton(){
     UIColor *triangleColor;
     BOOL isPointingLeft;
-    //Location *location;
 }
 
 @end
 
 @implementation TriangleButton
-//@synthesize location;
 
 - (id)initWithColor:(UIColor *)color isPointingLeft:(BOOL)pointingLeft
 {
@@ -50,18 +48,10 @@
         CGContextClosePath(context);
         [self setTitleEdgeInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 10.0f)];
     }
-
     
     const CGFloat *colorComponents = CGColorGetComponents(triangleColor.CGColor);
     CGContextSetRGBFillColor(context, colorComponents[0], colorComponents[1], colorComponents[2], 1);
     CGContextFillPath(context);
 }
-
-/*
-- (void) setLocation:(Location *)l
-{
-    location = l;
-}
- */
 
 @end

@@ -18,7 +18,6 @@
 #import "Note.h"
 #import "UIImage+Scale.h"
 
-
 @interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISCollapseViewDelegate>
 {
     ARISCollapseView *collapseView; 

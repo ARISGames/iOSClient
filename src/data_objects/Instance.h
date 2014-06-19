@@ -13,7 +13,7 @@
 {
     int instance_id;
     NSString *object_type; 
-    int object_id;  
+    int object_id;   
     int owner_id;
     int qty; 
     BOOL infinite_qty;
@@ -31,5 +31,7 @@
 - (Instance *) copy;
 
 - (id<InstantiableProtocol>) object;
+- (NSString *) name;
+- (int) icon_media_id;
 
 @end

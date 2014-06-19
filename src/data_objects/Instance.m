@@ -23,6 +23,8 @@
     if(self = [super init])
     {
         self.instance_id = 0;
+        self.object_type = @""; 
+        self.object_id = 0; 
         self.owner_id = 0; 
         self.qty = 0;
         self.infinite_qty = NO;
@@ -72,6 +74,16 @@
 {
     //big ol switch statement on object_type fetching from appropriate model
     return nil;
+}
+
+- (NSString *) name
+{
+    return [self object].name;
+}
+
+- (int) icon_media_id
+{
+    return [self object].icon_media_id;
 }
 
 @end

@@ -12,7 +12,6 @@
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "User.h"
-#import "ARISAppDelegate.h"
 #import "AnnotationView.h"
 #import "Media.h"
 
@@ -25,35 +24,27 @@
 #import "TriangleButton.h"
 #import "ItemActionViewController.h"
 
-
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
-    NSMutableArray *locations;
-    NSMutableArray *locationsToAdd;
-    NSMutableArray *locationsToRemove;
-    
-    BOOL isViewLoaded;
-
     MKMapView *mapView;
     MapHUD *hud;
     UIView *blackout;
     UIView *blackoutRight;
     UIView *blackoutLeft;
     UIView *blackoutBottom;
-    
-    UIButton *threeLinesButton; 
+
+    UIButton *threeLinesButton;
     UIButton *centerButton;
     UIButton *fitToAnnotationButton;
-    
+
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
 
     NSTimer *refreshTimer;
     TriangleButton *viewAnnotationButton;
     TriangleButton *pickUpButton;
-    
+
     BOOL resetWiggle;
-    
 
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -65,73 +56,67 @@
 {
     if(self = [super initWithDelegate:d])
     {
-        self.tabID = @"GPS";
+        self.tabID = @"MAP";
         self.tabIconName = @"map";
-        
+
         delegate = d;
-        
-        isViewLoaded = NO;
-        locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
-        locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
-        
+
         _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerMoved),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(addLocationsToNewQueue:),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(addLocationsToRemoveQueue:),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewOverlaysAvailable",self,@selector(addOverlaysToMap),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
     }
     return self;
 }
 
-/*
 - (void) loadView
 {
     [super loadView];
-    
+
     mapView = [[MKMapView alloc] init];
 	mapView.delegate = self;
-    mapView.showsUserLocation = _MODEL_GAME_.show_player_location; 
-    
+    mapView.showsUserLocation = _MODEL_GAME_.show_player_location;
+
     if     ([_MODEL_GAME_.map_type isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([_MODEL_GAME_.map_type isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
-    else                                                                                  mapView.mapType = MKMapTypeStandard;
-    
+    else                                                          mapView.mapType = MKMapTypeStandard;
+
     hud = [[MapHUD alloc] initWithDelegate:self];
     [self initBlackoutsAndSetFrame];
-    
-    
-    
-    UIColor *buttonBGColor = [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1]; 
-    
+
+    UIColor *buttonBGColor = [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1];
+
     threeLinesButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [threeLinesButton addTarget:self action:@selector(threeLinesButtonTouched) forControlEvents:UIControlEventTouchDown];
     [threeLinesButton setImage:[UIImage imageNamed:@"threelines.png"] forState:UIControlStateNormal];
     threeLinesButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
     threeLinesButton.backgroundColor = buttonBGColor;
     threeLinesButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    threeLinesButton.layer.borderWidth = 2.0f;   
-    
+    threeLinesButton.layer.borderWidth = 2.0f;
+
     centerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [centerButton addTarget:self action:@selector(centerMapOnPlayer) forControlEvents:UIControlEventTouchDown];
     [centerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     centerButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
-    
+
     centerButton.backgroundColor = buttonBGColor;
     centerButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    centerButton.layer.borderWidth = 2.0f;  
-    
+    centerButton.layer.borderWidth = 2.0f;
+
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
     [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
-    fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6); 
-    fitToAnnotationButton.backgroundColor = buttonBGColor; 
+    fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
+    fitToAnnotationButton.backgroundColor = buttonBGColor;
     fitToAnnotationButton.layer.borderColor = [UIColor whiteColor].CGColor;
     fitToAnnotationButton.layer.borderWidth = 2.0f;
-    
+
     viewAnnotationButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorLightBlue] isPointingLeft:NO];
     pickUpButton = [[TriangleButton alloc] initWithColor:[UIColor colorWithRed:229.0f/255.0f green:127.0f/255.0f blue:134.0f/255.0f alpha:1.0f] isPointingLeft:YES];
-    
+
     [self.view addSubview:mapView];
-    [self.view addSubview:threeLinesButton]; 
+    [self.view addSubview:threeLinesButton];
     [self.view addSubview:centerButton];
     [self.view addSubview:fitToAnnotationButton];
     [self.view addSubview:blackout];
@@ -139,56 +124,33 @@
     [self.view addSubview:blackoutLeft];
     [self.view addSubview:blackoutBottom];
     [self.view addSubview:hud.view];
-    
-    isViewLoaded = YES;
+
     resetWiggle = NO;
-    
+
     //make the navigation bar transparent
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.userInteractionEnabled = NO; 
-    
-    [self refresh];
-    
-    [self addOverlaysToMap];
-}
-
-- (void) addOverlaysToMap
-{
-    for (int i = 0; i < mapView.overlays.count; i++) {
-        if ([mapView.overlays[i] isKindOfClass:[Overlay class]]) {
-            [mapView removeOverlay:mapView.overlays[i]];
-        }
-    }
-    
-    for (NSNumber *overlayId in _MODEL_GAME_.overlaysModel.overlayIds)
-    {
-        int integerId = [overlayId intValue];
-        id<MKOverlay> mapOverlay = [_MODEL_GAME_.overlaysModel overlayForOverlayId:integerId];
-        if (mapOverlay) {
-            [mapView addOverlay:mapOverlay];
-        }
-    }
+    self.navigationController.navigationBar.userInteractionEnabled = NO;
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
-    
+
     int buttonSize = 40;
-    threeLinesButton.frame      = CGRectMake(15, 24,  buttonSize, buttonSize); 
+    threeLinesButton.frame      = CGRectMake(15, 24,  buttonSize, buttonSize);
     centerButton.frame          = CGRectMake(15, 74,  buttonSize, buttonSize);
     fitToAnnotationButton.frame = CGRectMake(15, 124, buttonSize, buttonSize);
-    
+
     hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80);
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationItem.leftBarButtonItem = nil;  //get rid of it from super
+    self.navigationItem.leftBarButtonItem = nil;  //get rid of it from super, already added manually to view
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -196,12 +158,110 @@
     [super viewDidAppear:animated];
 	
     [self refreshViewFromModel];
-	[self refresh];
+	[self refreshModels];
 	
 	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
-	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-    [self zoomToFitAnnotations];  
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refreshModels) userInfo:nil repeats:YES];
 }
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+   	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate]; 
+    refreshTimer = nil;
+}
+
+- (void) refreshModels
+{
+    [_MODEL_TRIGGERS_ requestPlayerTriggers];
+    [_MODEL_OVERLAYS_ requestPlayerOverlays]; 
+}
+
+- (void) refreshViewFromModel
+{
+    if(!mapView) return;
+    
+    NSArray *mapAnnotations = mapView.annotations;
+    NSArray *mapOverlays = mapView.overlays;
+    BOOL shouldRemove;
+    BOOL shouldAdd; 
+    
+    Trigger *mapTrigger;
+    Trigger *modelTrigger;
+    Overlay *mapOverlay;
+    Overlay *modelOverlay; 
+    
+    //
+    //LOCATIONS
+    //
+    
+    //Remove locations
+    for(int i = 0; i < mapAnnotations.count; i++)
+    {
+        if(![mapAnnotations[i] isKindOfClass:[Trigger class]]) continue;
+        mapTrigger = mapAnnotations[i];
+        shouldRemove = YES;
+        for(int j = 0; j < _MODEL_TRIGGERS_.playerTriggers.count; j++)
+        {
+            modelTrigger = _MODEL_TRIGGERS_.playerTriggers[j];
+            if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldRemove = NO;
+        } 
+        //REMOVE MAP TRIGGER HERE
+    }
+    //Add locations
+    for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++) 
+    {
+        modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i]; 
+        shouldAdd = YES;
+        for(int j = 0; j < mapAnnotations.count; j++) 
+        {
+            if(![mapAnnotations[j] isKindOfClass:[Trigger class]]) continue;
+            mapTrigger = mapAnnotations[j]; 
+            if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldAdd = NO;
+        } 
+        //ADD MODEL TRIGGER HERE
+    } 
+    
+    
+    //
+    //OVERLAYS
+    //
+    
+    //Remove overlays
+    for(int i = 0; i < mapOverlays.count; i++)
+    {
+        if(![mapOverlays[i] isKindOfClass:[Overlay class]]) continue;
+        mapOverlay = mapOverlays[i];
+        shouldRemove = YES;
+        for(int j = 0; j < _MODEL_OVERLAYS_.playerOverlays.count; j++)
+        {
+            modelOverlay = _MODEL_OVERLAYS_.playerOverlays[j];
+            if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldRemove = NO;
+        } 
+        //REMOVE MAP OVERLAY HERE
+    }
+    //Add overlays
+    for(int i = 0; i < _MODEL_OVERLAYS_.playerOverlays.count; i++) 
+    {
+        modelOverlay = _MODEL_OVERLAYS_.playerOverlays[i]; 
+        shouldAdd = YES;
+        for(int j = 0; j < mapOverlays.count; j++) 
+        {
+            if(![mapOverlays[j] isKindOfClass:[Overlay class]]) continue;
+            mapOverlay = mapOverlays[j]; 
+            if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldAdd = NO;
+        } 
+        //ADD MODEL OVERLAY HERE
+    }  
+}
+
+
+
+
+
+
+
+
+
 
 - (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)overlay
 {
@@ -217,43 +277,36 @@
         circleView.opaque = NO;
         return circleView;
     }
-    if ([overlay isKindOfClass:[Overlay class]]) {
+    if([overlay isKindOfClass:[Overlay class]])
+    {
         MapOverlayView *mapOverlayView = [[MapOverlayView alloc] initWithOverlay:overlay];
         return mapOverlayView;
     }
     return nil;
 }
 
-
-- (void) refresh
+- (MKAnnotationView *) mapView:(MKMapView *)myMapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    //the fact that we need to check this here means we're doing something wrong with our architecture... 
-    if(!_MODEL_PLAYER_ || _MODEL_PLAYER_.user_id == 0 || _MODEL_GAME_.game_id == 0)  return;
-    
-    if(mapView)
-    {
-        [self showLoadingIndicator];
-    }
+    if(![annotation isKindOfClass:[Trigger class]]) return nil;
+    else return [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
 }
 
 - (void) playerMoved
 {
-     Pen Down
+    /*
+    //Pen Down
     if(!crumbs)
     {
         crumbs = [[CrumbPath alloc] initWithCenterCoordinate:_MODEL_PLAYER_.location.coordinate];
         [mapView addOverlay:crumbs];
     }
-    else [crumbs addCoordinate:_MODEL_PLAYER_.location.coordinate]; 
+    else [crumbs addCoordinate:_MODEL_PLAYER_.location.coordinate];
     [crumbView setNeedsDisplay];
+     */
 }
 
 - (void) centerMapOnPlayer
 {
-    //the fact that we need to check this here means we're doing something wrong with our architecture...
-    if(!_MODEL_PLAYER_ || _MODEL_PLAYER_.user_id == 0 || _MODEL_GAME_.game_id == 0) return;
-	
-	//Center the map on the player
     [self centerMapOnLoc:_MODEL_PLAYER_.location.coordinate];
     MKCoordinateRegion region = mapView.region;
     region.span = MKCoordinateSpanMake(0.001f, 0.001f);
@@ -263,38 +316,38 @@
 {
    	MKCoordinateRegion region = mapView.region;
 	region.center = loc;
-	//region.span = MKCoordinateSpanMake(0.001f, 0.001f);
-    
+
 	[mapView setRegion:region animated:NO];
 }
 
 -(void) zoomToFitAnnotations
 {
     if(mapView.annotations.count == 0) return;
-    
+
     CLLocationCoordinate2D topLeftCoord;
     topLeftCoord.latitude = -90;
     topLeftCoord.longitude = 180;
-    
+
     CLLocationCoordinate2D bottomRightCoord;
     bottomRightCoord.latitude = 90;
     bottomRightCoord.longitude = -180;
-    
-    for(Location *annotationLocation in mapView.annotations)
+
+    for(int i = 0; i < mapView.annotations.count; i++)
     {
-        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotationLocation.coordinate.longitude);
-        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotationLocation.coordinate.latitude);
-        
-        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotationLocation.coordinate.longitude);
-        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotationLocation.coordinate.latitude);
+        id<MKAnnotation> an = mapView.annotations[i];
+        topLeftCoord.longitude = fmin(topLeftCoord.longitude, an.coordinate.longitude);
+        topLeftCoord.latitude = fmax(topLeftCoord.latitude, an.coordinate.latitude);
+
+        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, an.coordinate.longitude);
+        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, an.coordinate.latitude);
     }
-    
+
     MKCoordinateRegion region;
     region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
     region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
     region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.2;
     region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.2;
-    
+
     region = [mapView regionThatFits:region];
     [mapView setRegion:region animated:YES];
 }
@@ -306,149 +359,76 @@
 	[activityIndicator startAnimating];
 }
 
-- (void) addLocationsToNewQueue:(NSNotification *)notification
-{
-    //Quickly make sure we're not re-adding any info (let the 'newly' added ones take over)
-    NSArray *newLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
-    for(int i = 0; i < newLocations.count; i++)
-    {
-        for(int j = 0; j < locationsToAdd.count; j++)
-        {
-            if([((Location *)[newLocations objectAtIndex:i]) compareTo:((Location *)[locationsToAdd objectAtIndex:j])])
-                [locationsToAdd removeObjectAtIndex:j];
-        }
-    }
-    [locationsToAdd addObjectsFromArray:newLocations];
-    
-    if(isViewLoaded && self.view.window) [self refreshViewFromModel];
-}
-
-- (void) addLocationsToRemoveQueue:(NSNotification *)notification
-{
-    //Quickly make sure we're not re-adding any info (let the 'newly' added ones take over)
-    NSArray *lostLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyUnavailableLocations"];
-    for(int i = 0; i < lostLocations.count; i++)
-    {
-        for(int j = 0; j < locationsToRemove.count; j++)
-        {
-            if([((Location *)[lostLocations objectAtIndex:i]) compareTo:((Location *)[locationsToRemove objectAtIndex:j])])
-                [locationsToRemove removeObjectAtIndex:j];
-        }
-    }
-    [locationsToRemove addObjectsFromArray:lostLocations];
-    
-    //If told to remove something that is in queue to add, remove takes precedence 
-    for(int i = 0; i < locationsToRemove.count; i++)
-    {
-        for(int j = 0; j < locationsToAdd.count; j++)
-        {
-            if([((Location *)[locationsToRemove objectAtIndex:i]) compareTo:((Location *)[locationsToAdd objectAtIndex:j])])
-                [locationsToAdd removeObjectAtIndex:j];
-        }
-    }
-    
-    if(isViewLoaded && self.view.window) [self refreshViewFromModel];
-}
-
-- (void) refreshViewFromModel
-{
-    if(!mapView) return;
-    
-    //Remove old locations first
-    id<MKAnnotation> annotation;
-    Location *loc;
-    for (int i = 0; i < locationsToRemove.count; i++) {
-        for (int j = 0; j < mapView.annotations.count; j++) {
-            if(![[[mapView annotations] objectAtIndex:j] isKindOfClass:[Location class]]) continue;
-            annotation = [[mapView annotations] objectAtIndex:j];
-            loc = (Location *)annotation;
-            if ([loc compareTo:((Location *)[locationsToRemove objectAtIndex:i])]) {
-                [mapView removeAnnotation:annotation];
-            }
-        }
-    }
-    [locationsToRemove removeAllObjects];
-    
-    //Add new locations second
-    Location *tmpLocation;
-    for (int i = 0; i < locationsToAdd.count; i++)
-    {
-        tmpLocation = (Location *)[locationsToAdd objectAtIndex:i];
-        if(tmpLocation.hidden == NO && !(tmpLocation.gameObject.type == GameObjectPlayer && _MODEL_.hidePlayers))
-        {
-            if(tmpLocation.nearbyOverlay) [mapView addOverlay:tmpLocation.nearbyOverlay];
-            [mapView addAnnotation:tmpLocation];
-        }
-    }
-    [locationsToAdd removeAllObjects];
-}
-
-- (MKAnnotationView *) mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
-{
-    if(annotation == mapView.userLocation) return nil;
-    else return [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
-}
 
 - (void) mapView:(MKMapView *)mv didSelectAnnotationView:(MKAnnotationView *)av
 {
-    if(av.annotation && [av class] == [AnnotationView class] && [av.annotation class] == [Location class])
-    {
-        [self displayHUDWithLocation:(Location *)av.annotation andAnnotation:(AnnotationView *)av];
-    }
+    if(av.annotation && [av.annotation isKindOfClass:[Trigger class]])
+        [self displayHUDWithLocation:(Trigger *)av.annotation andAnnotation:(AnnotationView *)av];
 }
 
 - (void) enableAnnotations
 {
-    for (int i = 0; i < mapView.annotations.count; i++) {
-        [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.annotations objectAtIndex:i])]) setEnabled:YES];
+    Trigger *t; 
+    for (int i = 0; i < mapView.annotations.count; i++)
+    {
+        if(![mapView.annotations[i] isKindOfClass:[Trigger class]]) continue;
+        t = mapView.annotations[i];
+        [[mapView viewForAnnotation:t] setEnabled:YES];
     }
 }
 
 - (void) disableAnnotations
 {
-    for (int i = 0; i < mapView.annotations.count; i++) {
-        [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.annotations objectAtIndex:i])]) setEnabled:NO];
-    }
+    Trigger *t; 
+    for (int i = 0; i < mapView.annotations.count; i++)
+    {
+        if(![mapView.annotations[i] isKindOfClass:[Trigger class]]) continue;
+        t = mapView.annotations[i];
+        [[mapView viewForAnnotation:t] setEnabled:NO];
+    } 
 }
 
-- (void) displayHUDWithLocation:(Location *)location andAnnotation:(AnnotationView *)annotation
+- (void) displayHUDWithLocation:(Trigger *)trigger andAnnotation:(AnnotationView *)annotation
 {
-    //temporary set the wiggle to false when the location is selected
-    if (location.wiggle) {
-        location.wiggle = NO;
+    //temporary set the wiggle to false when the trigger is selected
+    if(trigger.wiggle)
+    {
+        trigger.wiggle = NO;
         resetWiggle = YES;
     }
     else{
         resetWiggle = NO;
     }
     [self displayBlackout];
-    
+
     mapView.zoomEnabled = NO;
     mapView.scrollEnabled = NO;
     mapView.userInteractionEnabled = NO;
     [self disableAnnotations];
-    
+
     [annotation enlarge];
-    [hud setLocation:location];
+    [hud setTrigger:trigger];
     [hud open];
-    [self centerMapOnLoc:location.latlon.coordinate];
-    
+    [self centerMapOnLoc:trigger.coordinate];
+
     [blackout setAlpha:0.0f];
     [blackoutLeft setAlpha:0.0f];
     [blackoutRight setAlpha:0.0f];
     [blackoutBottom setAlpha:0.0f];
-    
-    CLLocationDistance distance = [_MODEL_PLAYER_.location distanceFromLocation:location.latlon];
-    if((distance <= location.errorRange && _MODEL_PLAYER_.location != nil) || location.allowsQuickTravel){
+
+    CLLocationDistance distance = [_MODEL_PLAYER_.location distanceFromLocation:trigger.location];
+    if((trigger.infinite_distance || distance <= trigger.distance) && _MODEL_PLAYER_.location != nil)
+    {
         viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 60, (self.view.bounds.size.height / 2) - 28, 75, 120);
         [viewAnnotationButton setTitle:NSLocalizedString(@"ViewLocationKey", @"") forState:UIControlStateNormal];
         [viewAnnotationButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
         [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
-        [viewAnnotationButton setLocation:location];
         [viewAnnotationButton setAlpha:0.0f];
         [self.view addSubview:viewAnnotationButton];
-        
-        if ([location.gameObject isKindOfClass:[Item class]]) {
+
+        /*
+        if([location.gameObject isKindOfClass:[Item class]])
+        {
             pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 135, (self.view.bounds.size.height / 2) - 28, 75, 120);
             [pickUpButton setTitle:NSLocalizedString(@"PickUpItemKey", @"") forState:UIControlStateNormal];
             [pickUpButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
@@ -457,6 +437,7 @@
             [pickUpButton addTarget:self action:@selector(pickUpItem:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:pickUpButton];
         }
+         */
     }
     [self animateInButtons];
 }
@@ -475,36 +456,42 @@
     [UIView commitAnimations];
 }
 
+/*
 - (void) pickUpItem:(TriangleButton*)sender
 {
-    Location *currLocation = sender.location;
-    if ([currLocation.gameObject isKindOfClass:[Item class]]) {
+    Trigger *currLocation = sender.location;
+    if([currLocation.gameObject isKindOfClass:[Item class]])
+    {
         Item *item = (Item *)currLocation.gameObject;
         [self dismissSelection];
     }
 }
+ */
 
 - (void) dismissSelection
 {
     [viewAnnotationButton removeFromSuperview];
     [pickUpButton removeFromSuperview];
     [self dismissBlackout];
-    
+
     mapView.zoomEnabled = YES;
     mapView.scrollEnabled = YES;
     mapView.userInteractionEnabled = YES;
     [self enableAnnotations];
-    
+
     while(mapView.selectedAnnotations.count > 0)
     {
-        if([[mapView.selectedAnnotations objectAtIndex:0] class] == [Location class]){
-            [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) shrinkToNormal];
-            if (resetWiggle) {
-                ((Location *)[mapView.selectedAnnotations objectAtIndex:0]).wiggle = YES;
-                [((AnnotationView *)[mapView viewForAnnotation:((Location *)[mapView.selectedAnnotations objectAtIndex:0])]) setNeedsDisplay];
+        if([mapView.selectedAnnotations[0] class] == [Trigger class])
+        { 
+            Trigger *an = mapView.selectedAnnotations[0];
+            [((AnnotationView *)[mapView viewForAnnotation:an]) shrinkToNormal];
+            if(resetWiggle)
+            {
+                an.wiggle = YES;
+                [((AnnotationView *)[mapView viewForAnnotation:an]) setNeedsDisplay];
             }
         }
-        [mapView deselectAnnotation:[mapView.selectedAnnotations objectAtIndex:0] animated:NO];
+        [mapView deselectAnnotation:mapView.selectedAnnotations[0] animated:NO];
     }
     [hud dismiss];
 }
@@ -537,8 +524,9 @@
     [self dismissSelection];
 }
 
-- (void)interactWithLocation:(TriangleButton*)sender{
-    //Location *currLocation = sender.location;
+- (void)interactWithLocation:(TriangleButton*)sender
+{
+    //Trigger *currLocation = sender.location;
     //[self displayGameObject:currLocation.gameObject fromSource:currLocation];
 }
 
@@ -555,17 +543,17 @@
     blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, (self.view.bounds.size.height/2) - 28);
     [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackout.userInteractionEnabled = NO;
-    
+
     blackoutRight = [[UIView alloc] init];
     blackoutRight.frame = CGRectMake(220, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
     [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackoutRight.userInteractionEnabled = NO;
-    
+
     blackoutLeft = [[UIView alloc] init];
     blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
     [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
     blackoutLeft.userInteractionEnabled = NO;
-    
+
     blackoutBottom = [[UIView alloc] init];
     blackoutBottom.frame = CGRectMake(100, (self.view.bounds.size.height / 2) + 92, 120, self.view.bounds.size.height - ((self.view.bounds.size.height / 2) + 92));
     [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
@@ -579,7 +567,7 @@
     [blackoutRight setBackgroundColor:blackoutColor];
     [blackoutLeft setBackgroundColor:blackoutColor];
     [blackoutBottom setBackgroundColor:blackoutColor];
-    
+
     [blackout setUserInteractionEnabled:YES];
     [blackoutBottom setUserInteractionEnabled:YES];
     [blackoutRight setUserInteractionEnabled:YES];
@@ -618,8 +606,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);                   
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
-*/
 
 @end

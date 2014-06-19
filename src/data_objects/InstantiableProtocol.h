@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol InstantiableProtocol
+- (NSString *) name;
+- (int) icon_media_id;
 @end
 
