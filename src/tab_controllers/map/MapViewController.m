@@ -205,7 +205,8 @@
             modelTrigger = _MODEL_TRIGGERS_.playerTriggers[j];
             if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldRemove = NO;
         } 
-        //REMOVE MAP TRIGGER HERE
+        [mapView removeAnnotation:mapTrigger];
+        [mapView removeOverlay:mapTrigger.mapCircle]; 
     }
     //Add locations
     for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++) 
@@ -218,7 +219,8 @@
             mapTrigger = mapAnnotations[j]; 
             if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldAdd = NO;
         } 
-        //ADD MODEL TRIGGER HERE
+        [mapView addAnnotation:modelTrigger];
+        [mapView addOverlay:modelTrigger.mapCircle];  
     } 
     
     
@@ -237,7 +239,7 @@
             modelOverlay = _MODEL_OVERLAYS_.playerOverlays[j];
             if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldRemove = NO;
         } 
-        //REMOVE MAP OVERLAY HERE
+        [mapView removeOverlay:mapOverlay];   
     }
     //Add overlays
     for(int i = 0; i < _MODEL_OVERLAYS_.playerOverlays.count; i++) 
@@ -250,7 +252,7 @@
             mapOverlay = mapOverlays[j]; 
             if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldAdd = NO;
         } 
-        //ADD MODEL OVERLAY HERE
+        [mapView addOverlay:modelOverlay];    
     }  
 }
 

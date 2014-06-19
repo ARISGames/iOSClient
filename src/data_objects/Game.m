@@ -181,8 +181,6 @@ const int playerDatasToReceive = 6;
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
-    
     receivedGameData = 0;
     gameDataReceived = NO;     
     
@@ -265,7 +263,7 @@ const int playerDatasToReceive = 6;
 - (void) gameBegan
 {
     _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PIECE_AVAILABLE", self, nil);
-    _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE", self, nil); 
+    _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE", self, nil);  
 }
 
 - (void) clearModels
