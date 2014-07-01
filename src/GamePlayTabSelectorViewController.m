@@ -186,7 +186,7 @@
                     (id<AttributesViewControllerDelegate,StateControllerProtocol>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
             }
-            else if([tab.type isEqualToString:@"NOTE"])
+            else if([tab.type isEqualToString:@"NOTEBOOK"])
             {
                 NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:
                     (id<NotebookViewControllerDelegate,StateControllerProtocol>)delegate];

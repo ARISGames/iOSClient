@@ -35,14 +35,14 @@
 @property (nonatomic, copy)   NSString *type; 
 @property (nonatomic, copy)   NSString *title; 
 @property (nonatomic, assign) int icon_media_id;
-@property (nonatomic, copy)   CLLocation *location;
+@property (nonatomic, strong)   CLLocation *location;
 @property (nonatomic, assign) int distance;
 @property (nonatomic, assign) BOOL infinite_distance;
 @property (nonatomic, assign) BOOL wiggle;
 @property (nonatomic, assign) BOOL show_title;
 @property (nonatomic, copy)   NSString *code; 
 
-@property (nonatomic, copy)   MKCircle *mapCircle; 
+@property (nonatomic, strong)   MKCircle *mapCircle; 
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromTrigger:(Trigger *)t;

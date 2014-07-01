@@ -30,19 +30,19 @@
 {
     if(self = [super init])
     {
-        self.trigger_id = 0;
-        self.instance_id = 0; 
-        self.scene_id = 0;
-        self.type = @"IMMEDIATE";
-        self.title = @"";
-        self.icon_media_id = 0; 
-        self.location = [[CLLocation alloc] initWithLatitude:0.0 longitude:0.0];
-        self.distance = 10;
-        self.infinite_distance = NO; 
-        self.wiggle = NO;
-        self.show_title = NO;
-        self.code = @"";
-        self.mapCircle = [MKCircle circleWithCenterCoordinate:self.location.coordinate radius:(self.infinite_distance ? 0 : self.distance)];
+        trigger_id = 0;
+        instance_id = 0; 
+        scene_id = 0;
+        type = @"IMMEDIATE";
+        title = @"";
+        icon_media_id = 0; 
+        location = [[CLLocation alloc] initWithLatitude:0.0 longitude:0.0];
+        distance = 10;
+        infinite_distance = NO; 
+        wiggle = NO;
+        show_title = NO;
+        code = @"";
+        mapCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:(infinite_distance ? 0 : distance)];
     }
     return self;
 }
@@ -51,45 +51,45 @@
 {
     if(self = [super init])
     {
-        self.trigger_id = [dict validIntForKey:@"trigger_id"];
-        self.instance_id = [dict validIntForKey:@"instance_id"]; 
-        self.scene_id = [dict validIntForKey:@"scene_id"];
-        self.type = [dict validStringForKey:@"type"];
-        self.title = [dict validStringForKey:@"title"];
-        self.icon_media_id = [dict validIntForKey:@"icon_media_id"]; 
-        self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
-        self.distance = [dict validIntForKey:@"distance"];
-        self.infinite_distance = self.distance < 0 || self.distance > 100000; 
-        self.wiggle = [dict validBoolForKey:@"wiggle"];
-        self.show_title = [dict validBoolForKey:@"show_title"];
-        self.code = [dict validStringForKey:@"code"];
-        self.mapCircle = [MKCircle circleWithCenterCoordinate:self.location.coordinate radius:(self.infinite_distance ? 0 : self.distance)]; 
+        trigger_id = [dict validIntForKey:@"trigger_id"];
+        instance_id = [dict validIntForKey:@"instance_id"]; 
+        scene_id = [dict validIntForKey:@"scene_id"];
+        type = [dict validStringForKey:@"type"];
+        title = [dict validStringForKey:@"title"];
+        icon_media_id = [dict validIntForKey:@"icon_media_id"]; 
+        location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
+        distance = [dict validIntForKey:@"distance"];
+        infinite_distance = distance < 0 || distance > 100000; 
+        wiggle = [dict validBoolForKey:@"wiggle"];
+        show_title = [dict validBoolForKey:@"show_title"];
+        code = [dict validStringForKey:@"code"];
+        mapCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:(infinite_distance ? 0 : distance)]; 
     }
     return self;
 }
 
 - (void) mergeDataFromTrigger:(Trigger *)t
 {
-    self.trigger_id = t.trigger_id;
-    self.instance_id = t.instance_id; 
-    self.scene_id = t.scene_id;
-    self.type = t.type;
-    self.title = t.title;
-    self.icon_media_id = t.icon_media_id; 
-    self.location = t.location;
-    self.distance = t.distance;
-    self.infinite_distance = self.infinite_distance;
-    self.wiggle = t.wiggle;
-    self.show_title = t.show_title;
-    self.code = t.code;
-    self.mapCircle = t.mapCircle; 
+    trigger_id = t.trigger_id;
+    instance_id = t.instance_id; 
+    scene_id = t.scene_id;
+    type = t.type;
+    title = t.title;
+    icon_media_id = t.icon_media_id; 
+    location = t.location;
+    distance = t.distance;
+    infinite_distance = t.infinite_distance;
+    wiggle = t.wiggle;
+    show_title = t.show_title;
+    code = t.code;
+    mapCircle = t.mapCircle; 
 }
 
 //returns icon_media of instance if self's isn't set
 - (int) icon_media_id
 {
-    if(self.icon_media_id) return self.icon_media_id;
-    return [_MODEL_INSTANCES_ instanceForId:self.instance_id].icon_media_id;
+    if(icon_media_id) return icon_media_id;
+    return [_MODEL_INSTANCES_ instanceForId:instance_id].icon_media_id;
 }
 
 //MKAnnotation stuff
@@ -106,8 +106,8 @@
 //returns title of instance if self's isn't set
 - (NSString *) title
 {
-    if(self.title && ![self.title isEqualToString:@""]) return self.title;
-    return [_MODEL_INSTANCES_ instanceForId:self.instance_id].name; 
+    if(title && ![title isEqualToString:@""]) return title;
+    return [_MODEL_INSTANCES_ instanceForId:instance_id].name; 
 }
 
 - (NSString *) subtitle
