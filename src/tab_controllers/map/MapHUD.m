@@ -25,10 +25,10 @@
     UILabel *prompt;
     UILabel *warning; 
     
-    //Location *location;
+    Trigger *trigger;
     ARISMediaView *warningImage;
     ARISMediaView *whiteGradient;
-    ARISMediaView *arrowsImage;
+    ARISMediaView *diamondImage;
     
     id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -68,11 +68,11 @@
     [warningImage setImage:[UIImage imageNamed:@"Walk-WarningRED.png"]];
     
     whiteGradient = [[ARISMediaView alloc] init];
-    [whiteGradient setImage:[[UIImage imageNamed:@"White-Gradient-100-0.png"]scaleToSize:CGSizeMake(320, 57)]];
+    [whiteGradient setImage:[UIImage imageNamed:@"White-Gradient-100-0.png"]];
+    [whiteGradient setDisplayMode:ARISMediaDisplayModeStretchFill];
     
-    arrowsImage = [[ARISMediaView alloc] init];
-    [arrowsImage setImage:[UIImage imageNamed:@"Diamond.png"]];
-    
+    diamondImage = [[ARISMediaView alloc] init];
+    [diamondImage setImage:[UIImage imageNamed:@"Diamond.png"]];
     
     CGRect collapseViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     collapseView = [[ARISCollapseView alloc] initWithContentView:hudView frame:collapseViewFrame open:NO showHandle:NO draggable:YES tappable:NO delegate:self];
@@ -83,7 +83,7 @@
     [hudView addSubview:whiteGradient];
     [hudView addSubview:prompt];
     [hudView addSubview:warning];
-    [hudView addSubview:arrowsImage];
+    [hudView addSubview:diamondImage];
 }
 
 - (void) viewWillLayoutSubviews
@@ -97,20 +97,19 @@
     prompt.frame = CGRectMake(75, 12, self.view.frame.size.width-160, 25);
     warning.frame = CGRectMake(75, 35, self.view.frame.size.width-160, 17);
     warningImage.frame = CGRectMake(self.view.frame.size.width-70, 2, 50, 52);
-    arrowsImage.frame = CGRectMake(20, 0, 50, 50);
+    diamondImage.frame = CGRectMake(20, 0, 50, 50);
 }
 
-/*
-- (void) setLocation:(Location *)l
+- (void) setTrigger:(Trigger *)t
 {
     [warningImage removeFromSuperview];
-    location = l;
+    trigger = t;
     
-    CLLocationDistance distance = [_MODEL_PLAYER_.location distanceFromLocation:location.latlon];
+    CLLocationDistance distance = [_MODEL_PLAYER_.location distanceFromLocation:trigger.location];
     
-    prompt.text = location.name;
+    prompt.text = trigger.title;
     float distanceToWalk; 
-    if((distance <= location.errorRange && _MODEL_PLAYER_.location != nil) || location.allowsQuickTravel)
+    if((distance <= trigger.distance && _MODEL_PLAYER_.location != nil) || trigger.infinite_distance)
     {
         distanceToWalk = 0;
         warning.text = @"";
@@ -118,7 +117,7 @@
     else
     {
         [hudView addSubview:warningImage];
-        distanceToWalk = distance - location.errorRange;
+        distanceToWalk = distance - trigger.distance;
         float roundedDistance = lroundf(distanceToWalk);
         if(_MODEL_PLAYER_.location != nil)
             warning.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"OutOfRangeWalkKey", @""), [NSString stringWithFormat:@"%.0fm", roundedDistance]];
@@ -126,7 +125,6 @@
             warning.text = NSLocalizedString(@"OutOfRangeKey", @"");
     }
 }
- */
 
 - (void) open
 {

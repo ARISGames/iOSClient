@@ -205,13 +205,17 @@
             modelTrigger = _MODEL_TRIGGERS_.playerTriggers[j];
             if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldRemove = NO;
         } 
-        [mapView removeAnnotation:mapTrigger];
-        [mapView removeOverlay:mapTrigger.mapCircle]; 
+        if(shouldRemove)
+        {
+            [mapView removeAnnotation:mapTrigger];
+            [mapView removeOverlay:mapTrigger.mapCircle]; 
+        }
     }
     //Add locations
     for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++) 
     {
         modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i]; 
+        if(![modelTrigger.type isEqualToString:@"LOCATION"]) continue;  
         shouldAdd = YES;
         for(int j = 0; j < mapAnnotations.count; j++) 
         {
@@ -219,8 +223,11 @@
             mapTrigger = mapAnnotations[j]; 
             if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldAdd = NO;
         } 
-        [mapView addAnnotation:modelTrigger];
-        [mapView addOverlay:modelTrigger.mapCircle];  
+        if(shouldAdd)
+        {
+            [mapView addAnnotation:modelTrigger];
+            [mapView addOverlay:modelTrigger.mapCircle];  
+        }
     } 
     
     

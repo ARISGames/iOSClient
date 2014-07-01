@@ -14,7 +14,7 @@
 @interface MapOverlayView()
 {
     Overlay *overlay;
-    ARISMediaView *media;
+    ARISMediaView *mediaView;
     UIImage *imageOverlay;
 }
 @end
@@ -26,15 +26,16 @@
     if(self = [super init])
     {
         overlay = customOverlay;
-        media = [_MODEL_MEDIA_ mediaForId:customOverlay.media_id];
-        UIImageView *imageView = ([media.subviews[0] isKindOfClass:[UIImageView class]]) ? media.subviews[0] : nil;
-        imageOverlay = imageView.image;
+        mediaView = [[ARISMediaView alloc] init];
+        [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:customOverlay.media_id]];
     }
     return self;
 }
 
 - (void) drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context
 {
+    UIImageView *imageView = ([mediaView.subviews[0] isKindOfClass:[UIImageView class]]) ? mediaView.subviews[0] : nil;
+    imageOverlay = imageView.image; 
     CGImageRef imageReference = imageOverlay.CGImage;
     
     MKMapRect theMapRect = [overlay boundingMapRect];
