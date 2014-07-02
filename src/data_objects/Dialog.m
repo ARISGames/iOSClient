@@ -54,15 +54,14 @@
   return c;
 }
 
-- (int)compareTo:(Dialog *)ob
+- (int) compareTo:(Dialog *)ob
 {
   return (ob.dialog_id == self.dialog_id);
 }
 
-- (NSString *)description
+- (NSString *) description
 {
   return [NSString stringWithFormat:@"Dialog- Id:%d\tName:%@\t",self.dialog_id,self.name];
 }
 
 @end
-

@@ -16,6 +16,7 @@
 @synthesize instance_id;
 @synthesize scene_id;
 @synthesize type;
+@synthesize name;
 @synthesize title;
 @synthesize icon_media_id;
 @synthesize location;
@@ -23,7 +24,9 @@
 @synthesize infinite_distance;
 @synthesize wiggle;
 @synthesize show_title;
-@synthesize code;
+@synthesize hidden;
+@synthesize trigger_on_enter;
+@synthesize qr_code;
 @synthesize mapCircle;
 
 - (id) init
@@ -34,6 +37,7 @@
         instance_id = 0; 
         scene_id = 0;
         type = @"IMMEDIATE";
+        name = @"";
         title = @"";
         icon_media_id = 0; 
         location = [[CLLocation alloc] initWithLatitude:0.0 longitude:0.0];
@@ -41,7 +45,9 @@
         infinite_distance = NO; 
         wiggle = NO;
         show_title = NO;
-        code = @"";
+        hidden = NO;
+        trigger_on_enter = NO;
+        qr_code = @"";
         mapCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:(infinite_distance ? 0 : distance)];
     }
     return self;
@@ -55,6 +61,7 @@
         instance_id = [dict validIntForKey:@"instance_id"]; 
         scene_id = [dict validIntForKey:@"scene_id"];
         type = [dict validStringForKey:@"type"];
+        title = [dict validStringForKey:@"name"];
         title = [dict validStringForKey:@"title"];
         icon_media_id = [dict validIntForKey:@"icon_media_id"]; 
         location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
@@ -62,7 +69,9 @@
         infinite_distance = distance < 0 || distance > 100000; 
         wiggle = [dict validBoolForKey:@"wiggle"];
         show_title = [dict validBoolForKey:@"show_title"];
-        code = [dict validStringForKey:@"code"];
+        hidden = [dict validBoolForKey:@"hidden"];
+        trigger_on_enter = [dict validBoolForKey:@"trigger_on_enter"];
+        qr_code = [dict validStringForKey:@"qr_code"];
         mapCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:(infinite_distance ? 0 : distance)]; 
     }
     return self;
@@ -74,6 +83,7 @@
     instance_id = t.instance_id; 
     scene_id = t.scene_id;
     type = t.type;
+    name = t.name;
     title = t.title;
     icon_media_id = t.icon_media_id; 
     location = t.location;
@@ -81,7 +91,9 @@
     infinite_distance = t.infinite_distance;
     wiggle = t.wiggle;
     show_title = t.show_title;
-    code = t.code;
+    hidden = t.hidden;
+    trigger_on_enter = t.trigger_on_enter;
+    qr_code = t.qr_code;
     mapCircle = t.mapCircle; 
 }
 

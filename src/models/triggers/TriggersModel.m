@@ -30,7 +30,7 @@
         [self clearGameData];
 
         _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGERS_RECEIVED",self,@selector(triggersReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",self,@selector(playerTriggersReceived:),nil); 
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",self,@selector(playerTriggersReceived:),nil);
     }
     return self;
 }
@@ -73,7 +73,6 @@
     NSMutableArray *conformingTriggers = [[NSMutableArray alloc] init];
     for(int i = 0; i < newTriggers.count; i++)
         [conformingTriggers addObject:[self triggerForId:((Trigger *)newTriggers[i]).trigger_id]];
-        
     return conformingTriggers;
 }
 
@@ -90,7 +89,7 @@
     //placeholders for comparison
     Trigger *newTrigger;
     Trigger *oldTrigger;
-    
+
     //find added
     BOOL new;
     for(int i = 0; i < newTriggers.count; i++)
@@ -104,7 +103,7 @@
         }
         if(new) [addedTriggers addObject:newTriggers[i]];
     }
-    
+
     //find removed
     BOOL removed;
     for(int i = 0; i < playerTriggers.count; i++)
@@ -118,11 +117,11 @@
         }
         if(removed) [removedTriggers addObject:playerTriggers[i]];
     }
-    
+
     playerTriggers = newTriggers;
     if(addedTriggers.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_NEW_AVAILABLE",nil,@{@"added":addedTriggers});
-    if(removedTriggers.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_LESS_AVAILABLE",nil,@{@"removed":removedTriggers}); 
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil); 
+    if(removedTriggers.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_LESS_AVAILABLE",nil,@{@"removed":removedTriggers});
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestTriggers       { [_SERVICES_ fetchTriggers];   }

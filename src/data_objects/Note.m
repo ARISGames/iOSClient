@@ -23,7 +23,7 @@
 @synthesize name;
 @synthesize desc;
 @synthesize created;
-@synthesize location;
+//@synthesize location;
 @synthesize tags;
 @synthesize contents;
 @synthesize comments;
@@ -67,7 +67,7 @@
         self.created = [df dateFromString:[dict validStringForKey:@"created"]];
                
         NSDictionary *locationDict = [dict validObjectForKey:@"location"]; 
-        //if(locationDict) self.location = [[Location alloc] initWithDictionary:locationDict];  
+        //if(locationDict) self.location = [[Location alloc] initWithDictionary:locationDict];
         //else             self.location = [[Location alloc] init];
                       
         NSArray *tagDicts = [dict validObjectForKey:@"tags"];
@@ -111,7 +111,7 @@
     self.desc = n.desc;
     
     self.created = n.created;
-    self.location = n.location;
+    //self.location = n.location;
     
     self.publicToList = n.publicToList;
     self.publicToMap = n.publicToMap; 

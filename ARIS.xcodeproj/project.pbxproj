@@ -70,7 +70,7 @@
 		AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC121857724600068667 /* NoteCommentsViewController.m */; };
 		AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */; };
 		AA33A72A1860C0CE00D48789 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33A7291860C0CE00D48789 /* Media.m */; };
-		AA33AE8818BBC573000954C6 /* ForceDisplayQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */; };
+		AA33AE8818BBC573000954C6 /* DisplayQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33AE8718BBC573000954C6 /* DisplayQueue.m */; };
 		AA372A90188F2319005528D5 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA372A8E188F2319005528D5 /* AudioMeter.m */; };
 		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
@@ -395,8 +395,8 @@
 		AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentInputViewController.m; sourceTree = "<group>"; };
 		AA33A7281860C0CE00D48789 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
 		AA33A7291860C0CE00D48789 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
-		AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceDisplayQueue.h; sourceTree = "<group>"; };
-		AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceDisplayQueue.m; sourceTree = "<group>"; };
+		AA33AE8618BBC573000954C6 /* DisplayQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayQueue.h; sourceTree = "<group>"; };
+		AA33AE8718BBC573000954C6 /* DisplayQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayQueue.m; sourceTree = "<group>"; };
 		AA372A8E188F2319005528D5 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
 		AA372A8F188F2319005528D5 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
 		AA383B0C1828324F00612FFB /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
@@ -1202,8 +1202,8 @@
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
 				AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */,
 				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
-				AA33AE8618BBC573000954C6 /* ForceDisplayQueue.h */,
-				AA33AE8718BBC573000954C6 /* ForceDisplayQueue.m */,
+				AA33AE8618BBC573000954C6 /* DisplayQueue.h */,
+				AA33AE8718BBC573000954C6 /* DisplayQueue.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
 				AABC70EE172739D60074CC21 /* MyCLController.m */,
 				AABC711C172739D60074CC21 /* Reachability.h */,
@@ -2182,7 +2182,7 @@
 				AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */,
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
-				AA33AE8818BBC573000954C6 /* ForceDisplayQueue.m in Sources */,
+				AA33AE8818BBC573000954C6 /* DisplayQueue.m in Sources */,
 				AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */,
 				AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */,
 				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,

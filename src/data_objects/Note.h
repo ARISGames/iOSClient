@@ -10,7 +10,6 @@
 #import "InstantiableProtocol.h"
 
 @class User;
-@class Location;
 @class Tag;
 
 @interface Note : NSObject <InstantiableProtocol>
@@ -20,7 +19,7 @@
     NSString *name;
     NSString *desc;
     NSDate *created; 
-    Location *location; 
+    //Location *location; 
     NSMutableArray *tags;
     NSMutableArray *contents;
     NSMutableArray *comments; 
@@ -35,7 +34,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSDate *created;
-@property (nonatomic, strong) Location *location;
+//@property (nonatomic, strong) Location *location;
 @property (nonatomic, strong) NSMutableArray *tags;
 @property (nonatomic, strong) NSMutableArray *contents;
 @property (nonatomic, strong) NSMutableArray *comments;

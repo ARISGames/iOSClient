@@ -12,7 +12,7 @@
 #import "ARISNavigationController.h"
 
 #import "GameNotificationViewController.h"
-#import "ForceDisplayQueue.h"
+#import "DisplayQueue.h"
 #import "AppModel.h"
 
 #import "StateControllerProtocol.h"
@@ -31,13 +31,13 @@
 //needed for orientation hack
 #import "AudioVisualizerViewController.h"
 
-@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, ForceDisplayQueueDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, DisplayQueueDelegate>
 {
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
     
     GameNotificationViewController *gameNotificationViewController;
-    ForceDisplayQueue *forceDisplayQueue;
+    DisplayQueue *displayQueue;
     
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -51,7 +51,7 @@
     if(self = [super init])
     {
         delegate = d;
-        forceDisplayQueue = [[ForceDisplayQueue alloc] initWithDelegate:self];
+        displayQueue = [[DisplayQueue alloc] initWithDelegate:self];
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self]; 
         gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];  
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
