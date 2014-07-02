@@ -263,11 +263,6 @@ static int const COMPLETED_SECTION = 1;
     [delegate displayScannerWithPrompt:p];
 }
 
-- (BOOL) displayGameObject:(id)g fromSource:(id)s
-{
-    return [delegate displayGameObject:g fromSource:s]; 
-}
-
 - (void)dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);                               

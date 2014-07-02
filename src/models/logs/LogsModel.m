@@ -76,6 +76,16 @@
     [_SERVICES_ logPlayerViewedTabId:tab_id]; 
 }
 
+- (void) playerViewedContent:(NSString *)content id:(int)content_id
+{
+    if([content isEqualToString:@"PLAQUE"])        [_SERVICES_ logPlayerViewedPlaqueId:content_id];  
+    if([content isEqualToString:@"ITEM"])          [_SERVICES_ logPlayerViewedItemId:content_id];   
+    if([content isEqualToString:@"DIALOG"])        [_SERVICES_ logPlayerViewedDialogId:content_id];   
+    if([content isEqualToString:@"DIALOG_SCRIPT"]) [_SERVICES_ logPlayerViewedDialogScriptId:content_id];   
+    if([content isEqualToString:@"WEB_PAGE"])      [_SERVICES_ logPlayerViewedWebPageId:content_id];   
+    if([content isEqualToString:@"NOTE"])          [_SERVICES_ logPlayerViewedNoteId:content_id];   
+}
+
 - (void) playerViewedInstanceId:(int)instance_id
 {
     [_SERVICES_ logPlayerViewedInstanceId:instance_id];  
@@ -85,8 +95,6 @@
 {
     [_SERVICES_ logPlayerTriggeredTriggerId:trigger_id];   
 }
-
-
 
 - (void) dealloc
 {

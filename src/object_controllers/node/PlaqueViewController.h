@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GameObjectViewController.h"
+#import "InstantiableViewController.h"
 
 @protocol StateControllerProtocol;
 @class Plaque;
-@interface PlaqueViewController : GameObjectViewController
+@interface PlaqueViewController : InstantiableViewController
 {
 	Plaque *plaque;
 }
-- (id) initWithPlaque:(Plaque *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
+- (id) initWithPlaque:(Plaque *)n delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
 @end

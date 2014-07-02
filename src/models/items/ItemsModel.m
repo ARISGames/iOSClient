@@ -16,6 +16,7 @@
 
 @interface ItemsModel()
 {
+    Item *nullItem;
     NSMutableDictionary *items;
     NSMutableDictionary *playerItemInstances;
 
@@ -34,6 +35,7 @@
 {
     if(self = [super init])
     {
+        nullItem = [[Item alloc] init];
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_AVAILABLE",self,@selector(playerInstancesAvailable),nil);
@@ -129,6 +131,7 @@
 
 - (Item *) itemForId:(int)item_id
 {
+  if(!item_id) return nullItem; 
   return [items objectForKey:[NSNumber numberWithInt:item_id]];
 }
 

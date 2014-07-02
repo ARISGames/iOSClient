@@ -18,7 +18,7 @@
 #import "Game.h"
 #import "CircleButton.h"
 
-@interface NotebookViewController() <GameObjectViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>
+@interface NotebookViewController() <InstantiableViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>
 {
     UIView *navTitleView;
     UILabel *navTitleLabel;
@@ -204,7 +204,7 @@
     self.navigationController.navigationBar.translucent = YES;
 }
 
-- (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
+- (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)govc
 {
     [self.navigationController popToViewController:self animated:YES];    
 }

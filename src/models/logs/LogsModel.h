@@ -18,6 +18,7 @@
 
 - (void) playerMoved;
 - (void) playerViewedTabId:(int)tab_id;
+- (void) playerViewedContent:(NSString *)content id:(int)content_id;
 - (void) playerViewedInstanceId:(int)instance_id;
 - (void) playerTriggeredTriggerId:(int)trigger_id;
 

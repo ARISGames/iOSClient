@@ -22,7 +22,7 @@
     UIButton *backButton;
     
     BOOL closingScriptPlaying;
-    id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) Dialog *dialog;
@@ -40,7 +40,7 @@
 @synthesize optionsViewController;
 @synthesize backButton;
 
-- (id) initWithDialog:(Dialog *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDialog:(Dialog *)n delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
 {
     if((self = [super init]))
     {
@@ -120,7 +120,7 @@
         else if([type isEqualToString:@"plaque"])
             [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:typeId] fromSource:self];
         else if([type isEqualToString:@"webpage"])
-            [delegate displayGameObject:[_MODEL_WEBPAGES_ webPageForId:typeId] fromSource:self];
+            [delegate displayGameObject:[_MODEL_WEB_PAGES_ webPageForId:typeId] fromSource:self];
         else if([type isEqualToString:@"item"])
             [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:typeId] fromSource:self];
         else if([type isEqualToString:@"character"])
@@ -216,7 +216,7 @@
 - (void) dismissSelf
 {
     //[_SERVICES_ updateServerDialogViewed:self.dialog.dialog_id fromLocation:0];
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+    [delegate instantiableViewControllerRequestsDismissal:self];
 }
 */
 

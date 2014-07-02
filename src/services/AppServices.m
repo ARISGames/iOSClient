@@ -584,6 +584,16 @@
     };
     [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
+- (void) logPlayerViewedNoteId:(int)note_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"content_type":@"NOTE",
+      @"content_id":[NSNumber numberWithInt:note_id]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+}
 - (void) logPlayerViewedInstanceId:(int)instance_id
 {
     NSDictionary *args =
@@ -595,7 +605,12 @@
 }
 - (void) logPlayerTriggeredTriggerId:(int)trigger_id
 {
-
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"trigger_id":[NSNumber numberWithInt:trigger_id]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerTriggeredTrigger" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
 
 

@@ -20,7 +20,7 @@
     
     BOOL hasAppeared;
     
-    id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) WebPage *webPage;
@@ -35,7 +35,7 @@
 @synthesize webView;
 @synthesize activityIndicator;
 
-- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d
+- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d
 {
     if(self = [super init])
     {
@@ -133,12 +133,6 @@
     [delegate displayScannerWithPrompt:p];
 }
 
-- (BOOL) displayGameObject:(id)g fromSource:(id)s
-{
-    [self dismissSelf];
-    return [delegate displayGameObject:g fromSource:s];
-}
-
 - (void) displayTab:(NSString *)t
 {
     [self dismissSelf];
@@ -155,7 +149,7 @@
     [self.webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
     //[_SERVICES_ updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+    [delegate instantiableViewControllerRequestsDismissal:self];
 }
 
 - (void) dealloc

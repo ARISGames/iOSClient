@@ -33,14 +33,14 @@
     NoteCommentsViewController *commentsDisplay;
     
     
-    id<GameObjectViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
+    id<InstantiableViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation NoteViewController
 
-- (id) initWithNote:(Note *)n delegate:(id<GameObjectViewControllerDelegate, NoteViewControllerDelegate>)d;
+- (id) initWithNote:(Note *)n delegate:(id<InstantiableViewControllerDelegate, NoteViewControllerDelegate>)d;
 {
     if(self = [super init])
     {
@@ -270,7 +270,7 @@
 
 - (void) dismissSelf
 {
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+    [delegate instantiableViewControllerRequestsDismissal:self];
 }
 
 - (void) noteEditorCancelledNoteEdit:(NoteEditorViewController *)ne

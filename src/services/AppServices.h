@@ -60,6 +60,7 @@
 - (void) logPlayerViewedDialogId:(int)dialog_id;
 - (void) logPlayerViewedDialogScriptId:(int)dialog_script_id;
 - (void) logPlayerViewedWebPageId:(int)web_page_id;
+- (void) logPlayerViewedNoteId:(int)note_id;
 - (void) logPlayerViewedInstanceId:(int)instance_id;
 - (void) logPlayerTriggeredTriggerId:(int)trigger_id;
 

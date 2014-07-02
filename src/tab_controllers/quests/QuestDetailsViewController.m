@@ -150,7 +150,7 @@
 
 - (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
 {
-    //[delegate gameObjectViewControllerRequestsDismissal:self];
+    //[delegate instantiableViewControllerRequestsDismissal:self];
     //WebPage *w = [[WebPage alloc] init];
     //w.web_page_id = plaque.plaque_id;
     //w.url = [r.URL absoluteString];
@@ -179,11 +179,6 @@
 - (void) displayScannerWithPrompt:(NSString *)p
 {
     [delegate displayScannerWithPrompt:p];
-}
-
-- (BOOL) displayGameObject:(id)g fromSource:(id)s
-{
-    return [delegate displayGameObject:g fromSource:s];
 }
 
 - (void) displayTab:(NSString *)t

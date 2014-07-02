@@ -15,6 +15,7 @@
 
 @interface DialogsModel()
 {
+  Dialog *nullDialog;
   NSMutableDictionary *dialogs;
   NSMutableDictionary *dialogCharacters; 
   NSMutableDictionary *dialogScripts;  
@@ -28,6 +29,7 @@
 {
     if(self = [super init])
     {
+        nullDialog = [[Dialog alloc] init];
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOGS_RECEIVED",self,@selector(dialogsReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOG_CHARACTERS_RECEIVED",self,@selector(dialogCharactersReceived:),nil); 
@@ -105,6 +107,7 @@
 
 - (Dialog *) dialogForId:(int)dialog_id
 {
+    if(!dialog_id) return nullDialog;
   return [dialogs objectForKey:[NSNumber numberWithInt:dialog_id]];
 }
 - (DialogCharacter *) characterForId:(int)dialog_character_id

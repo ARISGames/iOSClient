@@ -208,23 +208,23 @@
         }
         else if([type isEqualToString:@"plaque"])
         {
-            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])       
-                [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:[token intValue]] fromSource:delegate];
+            if([delegate respondsToSelector:@selector(displayObjectType:id:)])       
+                [delegate displayObjectType:@"PLAQUE" id:[token intValue]];
         }
         else if([type isEqualToString:@"webpage"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[_MODEL_WEBPAGES_ webPageForId:[token intValue]] fromSource:delegate];
+                [delegate displayObjectType:@"WEB_PAGE" id:[token intValue]]; 
         }
         else if([type isEqualToString:@"item"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:[token intValue]] fromSource:delegate];
+                [delegate displayObjectType:@"ITEM" id:[token intValue]];  
         }
         else if([type isEqualToString:@"character"])
         {
             if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
-                [delegate displayGameObject:[_MODEL_DIALOGS_ dialogForId:[token intValue]] fromSource:delegate];
+                [delegate displayObjectType:@"DIALOG" id:[token intValue]];   
         }
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])

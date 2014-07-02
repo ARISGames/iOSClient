@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVAudioPlayer.h>
-#import "GameObjectViewController.h"
+#import "InstantiableViewController.h"
 
 @class Dialog;
 @protocol StateControllerProtocol;
 
-@interface DialogViewController : GameObjectViewController
-- (id) initWithDialog:(Dialog *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
+@interface DialogViewController : InstantiableViewController
+- (id) initWithDialog:(Dialog *)n delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
 @end

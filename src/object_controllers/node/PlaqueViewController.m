@@ -32,14 +32,14 @@ static NSString * const OPTION_CELL = @"option";
     UILabel *continueLbl; 
     UIImageView *arrow;
     UIView *line;
-    id <GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id <InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation PlaqueViewController
 
-- (id) initWithPlaque:(Plaque *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithPlaque:(Plaque *)n delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
 {
     if((self = [super init]))
     {
@@ -151,11 +151,10 @@ static NSString * const OPTION_CELL = @"option";
 
 - (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
 {
-    [delegate gameObjectViewControllerRequestsDismissal:self];
-    WebPage *w = [[WebPage alloc] init];
-    w.web_page_id = plaque.plaque_id;
-    w.url = [r.URL absoluteString];
-    [(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
+    [delegate instantiableViewControllerRequestsDismissal:self];
+    WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
+    nullWebPage.url = [r.URL absoluteString];
+    [delegate displayObjectType:@"WEB_PAGE" id:0];
 
     return NO;
 }
@@ -183,15 +182,10 @@ static NSString * const OPTION_CELL = @"option";
     [delegate displayScannerWithPrompt:p]; 
 }
 
-- (BOOL) displayGameObject:(id)g fromSource:(id)s
-{
-    return [delegate displayGameObject:g fromSource:s];  
-}
-
 - (void) continueButtonTouched
 {
 	//[_SERVICES_ updateServerPlaqueViewed:plaque.plaque_id fromLocation:0];
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+    [delegate instantiableViewControllerRequestsDismissal:self];
 }
 
 - (void)dealloc

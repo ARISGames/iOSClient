@@ -190,7 +190,7 @@
 }
 
 /*
-- (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
+- (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)govc
 {
     [((ARISViewController *)delegate).navigationController popToViewController:((ARISViewController *)delegate) animated:YES];
     [self readyNextScriptElementForDisplay];

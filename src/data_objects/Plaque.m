@@ -44,11 +44,6 @@
     return self;
 }
 
-- (PlaqueViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d fromSource:(id)s
-{
-    return [[PlaqueViewController alloc] initWithPlaque:self delegate:d];
-}
-
 - (Plaque *) copy
 {
     Plaque *c = [[Plaque alloc] init];

@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GameObjectViewController.h"
+#import "InstantiableViewController.h"
 
 @class WebPage;
 @protocol StateControllerProtocol;
 
-@interface WebPageViewController : GameObjectViewController 
+@interface WebPageViewController : InstantiableViewController 
 
-- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d;
+- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d;
 
 @end

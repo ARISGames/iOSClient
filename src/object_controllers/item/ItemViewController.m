@@ -37,7 +37,7 @@
     
     UIActivityIndicatorView *activityIndicator;
     
-    id<GameObjectViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<InstantiableViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
     id<ItemViewControllerSource> source; 
 }
 @end
@@ -47,7 +47,7 @@
 @synthesize instance;
 @synthesize item;
 
-- (id) initWithInstance:(Instance *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s
 {
     if(self = [super init])
     {
@@ -298,17 +298,12 @@
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+    [delegate instantiableViewControllerRequestsDismissal:self];
 }
 
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
 {
     //ignore
-}
-
-- (BOOL) displayGameObject:(id)g fromSource:(id)s
-{
-    return [delegate displayGameObject:g fromSource:self];
 }
 
 - (void) displayTab:(NSString *)t
@@ -325,10 +320,10 @@
 {
     if(wv == webView) return YES;
     
-    //else, this is a link from the description- so launch externally
-    WebPage *tempWebPage = [[WebPage alloc] init];
-    tempWebPage.url = [[r URL] absoluteString];
-    [delegate displayGameObject:tempWebPage fromSource:self];
+    WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
+    nullWebPage.url = [r.URL absoluteString];
+    [delegate displayObjectType:@"WEB_PAGE" id:0]; 
+    
     return NO;
 }
 
@@ -375,7 +370,7 @@
 - (void) dismissSelf
 {
     //int locationId = ([(NSObject *)source isKindOfClass:[Location class]]) ? ((Location *)source).locationId : 0;
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+    [delegate instantiableViewControllerRequestsDismissal:self];
 }
 
 - (void) backButtonTouched

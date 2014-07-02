@@ -140,13 +140,6 @@
 {
 }
 
-#pragma mark StateControlProtocol delegate methods
-
-- (BOOL) displayGameObject:(id)g fromSource:(id)s
-{
-    return [delegate displayGameObject:g fromSource:s];
-}
-
 - (void) displayTab:(NSString *)t
 {
     [delegate displayTab:t];

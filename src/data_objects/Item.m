@@ -28,8 +28,8 @@
     if(self = [super init])
     {
         self.item_id = 0;
-        self.name = NSLocalizedString(@"ItemKey", @"");
-        self.desc = NSLocalizedString(@"DescriptionKey", @"");
+        self.name = @"Item";
+        self.desc = @"";
         self.icon_media_id = 0;
         self.media_id = 0; 
         self.droppable = NO;

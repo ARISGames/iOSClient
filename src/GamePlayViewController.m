@@ -28,10 +28,16 @@
 #import "NotebookViewController.h"
 #import "DecoderViewController.h"
 
+#import "PlaqueViewController.h"
+#import "ItemViewController.h"
+#import "DialogViewController.h"
+#import "WebPageViewController.h"
+#import "NoteViewController.h"
+
 //needed for orientation hack
 #import "AudioVisualizerViewController.h"
 
-@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, DisplayQueueDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, DisplayQueueDelegate>
 {
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
@@ -90,45 +96,68 @@
     [gamePlayRevealController showViewController:avc];
 }
 
-- (BOOL) displayGameObject:(id)g fromSource:(id)s
+- (BOOL) displayTrigger:(Trigger *)t
 {
-    /*
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
-
-	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[(Instance *)g viewControllerForDelegate:self fromSource:s]];
+    
+    Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
+    
+    ARISViewController *vc;
+    if([i.object_type isEqualToString:@"PLAQUE"])
+    {
+        Plaque *p = [_MODEL_PLAQUES_ plaqueForId:i.object_id];
+        vc = [[PlaqueViewController alloc] initWithPlaque:p delegate:self];
+    }
+    if([i.object_type isEqualToString:@"ITEM"])
+    {
+        Item *item = [_MODEL_ITEMS_ itemForId:i.object_id]; //lol, can't name item 'i' because that's the name for 'instance'. shame on me.
+        //vc = [[ItemViewController alloc] initWithItem:item delegate:self]; 
+    }
+    if([i.object_type isEqualToString:@"DIALOG"])
+    {
+        Dialog *d = [_MODEL_DIALOGS_ dialogForId:i.object_id]; 
+        vc = [[DialogViewController alloc] initWithDialog:d delegate:self]; 
+    }
+    if([i.object_type isEqualToString:@"WEB_PAGE"])
+    {
+        WebPage *w = [_MODEL_WEB_PAGES_ webPageForId:i.object_id]; 
+        vc = [[WebPageViewController alloc] initWithWebPage:w delegate:self]; 
+    }
+    if([i.object_type isEqualToString:@"NOTE"])
+    {
+        //Note *n = [_MODEL_NOTES_ noteForId:i.object_id]; 
+        //vc = [[NoteViewController alloc] initWithNote:n delegate:self]; 
+    }
+    
+	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:NO completion:nil];
+    
     //Phil hates that the frame changes depending on what view you add it to...
     gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x, 
-                                                                gameNotificationViewController.view.frame.origin.y+20,
-                                                                gameNotificationViewController.view.frame.size.width,
-                                                                gameNotificationViewController.view.frame.size.height);
+                                                           gameNotificationViewController.view.frame.origin.y+20,
+                                                           gameNotificationViewController.view.frame.size.width,
+                                                           gameNotificationViewController.view.frame.size.height);
     [nav.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
     
-    if([s isKindOfClass:[Location class]])
-    {
-        [_SERVICES_ updateServerLocationViewed:((Location *)s).locationId];
-        
-        if(((Location *)s).deleteWhenViewed)
-            [game.locationsModel removeLocation:s];
-    }
-     */
-    
-    return YES;
+    [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id]; 
+    [_MODEL_LOGS_ playerViewedInstanceId:i]; 
+    [_MODEL_LOGS_ playerViewedContent:i.object_type id:i.object_id];    
+    return YES;   
 }
 
-/*
-- (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
+- (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)govc
 {
     [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
+    
     //Phil hates that the frame changes depending on what view you add it to...
     gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
                                                                 gameNotificationViewController.view.frame.origin.y-20,
                                                                 gameNotificationViewController.view.frame.size.width,
                                                                 gameNotificationViewController.view.frame.size.height);
     [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
-    [forceDisplayQueue forceDisplayEligibleLocations];
+    
+    [displayQueue dequeueTrigger];
 }
- */
 
 //PHIL REALLY UNAPPROVED FROM THIS POINT ON
 
