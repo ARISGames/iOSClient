@@ -1,5 +1,5 @@
 //
-//  DisplayQueue.h
+//  DisplayQueueModel.h
 //  ARIS
 //
 //  Created by Phil Dougherty on 2/24/14.
@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 @class Trigger;
 
-@protocol DisplayQueueDelegate
+@protocol DisplayQueueModelDelegate
 - (BOOL) displayTrigger:(Trigger *)t;
 @end
 
-@interface DisplayQueue : NSObject
+@interface DisplayQueueModel : NSObject
 
-- (id) initWithDelegate:(id<DisplayQueueDelegate>)d;
+- (id) initWithDelegate:(id<DisplayQueueModelDelegate>)d;
 - (void) enqueueTrigger:(Trigger *)t;
 - (void) dequeueTrigger;
 

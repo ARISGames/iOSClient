@@ -12,7 +12,7 @@
 #import "ARISNavigationController.h"
 
 #import "GameNotificationViewController.h"
-#import "DisplayQueue.h"
+#import "DisplayQueueModel.h"
 #import "AppModel.h"
 
 #import "StateControllerProtocol.h"
@@ -37,13 +37,13 @@
 //needed for orientation hack
 #import "AudioVisualizerViewController.h"
 
-@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, DisplayQueueDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, DisplayQueueModelDelegate>
 {
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
     
     GameNotificationViewController *gameNotificationViewController;
-    DisplayQueue *displayQueue;
+    DisplayQueueModel *displayQueue;
     
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -57,7 +57,15 @@
     if(self = [super init])
     {
         delegate = d;
-        displayQueue = [[DisplayQueue alloc] initWithDelegate:self];
+        
+        //odd that a model is stored here- but it needs to communicate with the state of the display 
+        //(is the display available for dequeue?)
+        //One caveat is that it didn't exist to listen to the initial set of triggers to populate,
+        //so on init (now), we need to manually flush the set of all available triggers through the queue
+        displayQueue = [[DisplayQueueModel alloc] initWithDelegate:self];
+        _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_NEW_AVAILABLE",nil,@{@"added":@[]});
+        //admittedly a bit hacky, but should be safe
+        
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self]; 
         gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];  
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
@@ -79,6 +87,11 @@
     
     if(!currentChildViewController)
         [self displayContentController:gamePlayRevealController];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [displayQueue dequeueTrigger];
 }
 
 - (void) gamePlayTabBarViewControllerRequestsNav
