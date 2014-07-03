@@ -149,7 +149,9 @@
 
 - (void) deviceMoved:(NSNotification *)n
 {
-    [self setDeviceLocation:n.userInfo[@"location"]];
+    //don't report meaningless diffs
+    if(!deviceLocation || [deviceLocation distanceFromLocation:n.userInfo[@"location"]] > 0.01f)
+        [self setDeviceLocation:n.userInfo[@"location"]];
 }
 
 - (void) setDeviceLocation:(CLLocation *)l

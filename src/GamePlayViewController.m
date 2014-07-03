@@ -153,7 +153,7 @@
     [nav.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
     
     [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id]; 
-    [_MODEL_LOGS_ playerViewedInstanceId:i]; 
+    [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id]; 
     [_MODEL_LOGS_ playerViewedContent:i.object_type id:i.object_id];    
     return YES;   
 }
