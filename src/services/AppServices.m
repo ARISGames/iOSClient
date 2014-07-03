@@ -843,24 +843,6 @@
   }
 }
 
-- (void) updateServerWithPlayerLocation
-{
-  if(!_MODEL_PLAYER_)
-  {
-    NSLog(@"Skipping Request: player not logged in");
-    return;
-  }
-
-  //Update the server with the new Player Location
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],                     @"auser_id",
-                        [NSNumber numberWithInt:_MODEL_GAME_.game_id],                  @"bgame_id",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude], @"clatitude",
-    [NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],@"dlongitude",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"updatePlayerLocation" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
-}
-
 #pragma mark ASync Fetch selectors
 - (void) fetchDialogConversations:(int)dialog_id afterViewingPlaque:(int)plaque_id
 {

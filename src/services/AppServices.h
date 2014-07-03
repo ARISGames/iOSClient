@@ -77,12 +77,6 @@
 //- (void) addComment:(NSString *)c fromPlayer:(User *)p toNote:(Note *)n;
 
 //Tell server of state
-- (void) updateServerWithPlayerLocation;
-- (void) updateServerLocationViewed:(int)locationId;
-- (void) updateServerPlaqueViewed:(int)plaque_id fromLocation:(int)locationId;
-- (void) updateServerItemViewed:(int)item_id fromLocation:(int)locationId;
-- (void) updateServerWebPageViewed:(int)web_page_id fromLocation:(int)locationId;
-- (void) updateServerDialogViewed:(int)dialog_id fromLocation:(int)locationId;
 - (void) updateServerPickupItem:(int)item_id fromLocation:(int)locationId qty:(int)qty;
 - (void) updateServerDropItemHere:(int)item_id qty:(int)qty;
 - (void) updateServerDestroyItem:(int)item_id qty:(int)qty;

@@ -10,6 +10,8 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVAudioPlayer.h>
 #import <AVFoundation/AVFoundation.h>
+#import <CoreLocation/CLLocation.h>
+#import <CoreLocation/CLLocationManager.h>
 #import <CoreMotion/CoreMotion.h>
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
@@ -22,9 +24,10 @@
 #import "AppServices.h"
 #import "RootViewController.h"
 
-@interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate>
+@interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate, CLLocationManagerDelegate>
 {
     Reachability *reachability; 
+    CLLocationManager *locationManager;
     NSTimer *locationPoller;
     AVAudioPlayer *player;
     
@@ -51,6 +54,10 @@
     _ARIS_NOTIF_LISTEN_(kReachabilityChangedNotification,self,@selector(reachabilityChanged:),nil);
     reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];  
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    locationManager.distanceFilter = 5; //Minimum change of 5 meters for update  
+    locationManager.delegate = self;
     
     //init the singletons. I know. defeats the point of singletons. but they prob shouldn't be singletons then.
     _DEFAULTS_;
@@ -123,12 +130,37 @@
 
 - (void) startPollingLocation
 {
-    //locationPoller = [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
+    [locationManager startUpdatingLocation];
+    locationPoller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(findCurrentLocation) userInfo:nil repeats:YES];
+}
+
+- (void) findCurrentLocation
+{
+    CLLocation *l;
+    if((l = locationManager.location))
+        [self locationManager:locationManager didUpdateLocations:@[l]]; //sketchy imitate auto-update
 }
 
 - (void) stopPollingLocation
 {
+    [locationManager stopUpdatingLocation];
     [locationPoller invalidate];
+}
+
+- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    //last location in locations array (guaranteed count >= 1) is most recent
+    _ARIS_NOTIF_SEND_(@"DEVICE_MOVED", nil, @{@"location":locations[locations.count-1]});
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    // The location "unknown" error simply means the manager is currently unable to get the location.
+    // We can ignore this error for the scenario of getting a single location fix, because we already have a
+    // timeout that will stop the location manager to save power.
+    if ([error code] != kCLErrorLocationUnknown) {
+        NSLog(@"ERROR");
+        //[self stopUpdatingLocation:NSLocalizedString(@"Error", @"Error")];
+    }
 }
 
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate

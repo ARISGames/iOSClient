@@ -40,7 +40,6 @@
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
 
-    NSTimer *refreshTimer;
     TriangleButton *viewAnnotationButton;
     TriangleButton *pickUpButton;
 
@@ -61,7 +60,7 @@
 
         delegate = d;
 
-        _ARIS_NOTIF_LISTEN_(@"UserMoved",self,@selector(playerMoved),nil);
+        _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(playerMoved),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
@@ -160,14 +159,6 @@
     [self refreshViewFromModel];
 	[self refreshModels];
 	
-	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
-	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refreshModels) userInfo:nil repeats:YES];
-}
-
-- (void) viewDidDisappear:(BOOL)animated
-{
-   	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate]; 
-    refreshTimer = nil;
 }
 
 - (void) refreshModels

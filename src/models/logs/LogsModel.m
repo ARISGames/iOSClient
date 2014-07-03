@@ -69,6 +69,7 @@
 - (void) playerMoved
 {
     [_SERVICES_ logPlayerMoved];
+    _ARIS_NOTIF_SEND_(@"USER_MOVED",nil,nil); 
 }
 
 - (void) playerViewedTabId:(int)tab_id

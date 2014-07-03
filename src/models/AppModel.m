@@ -61,7 +61,8 @@
       
     _ARIS_NOTIF_LISTEN_(@"DEFAULTS_CLEAR", self, @selector(defaultsClear), nil); 
     _ARIS_NOTIF_LISTEN_(@"DEFAULTS_UPDATED", self, @selector(defaultsUpdated), nil); 
-    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_RECEIVED", self, @selector(loginReceived:), nil);
+    _ARIS_NOTIF_LISTEN_(@"DEVICE_MOVED", self, @selector(deviceMoved:), nil); 
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_RECEIVED", self, @selector(loginReceived:), nil); 
   }
   return self;
 }
@@ -146,7 +147,10 @@
     //[_SERVICES_ resetGame:g];
 }
 
-
+- (void) deviceMoved:(NSNotification *)n
+{
+    [self setDeviceLocation:n.userInfo[@"location"]];
+}
 
 - (void) setDeviceLocation:(CLLocation *)l
 {
@@ -156,11 +160,9 @@
 
 - (void) setPlayerLocation:(CLLocation *)l
 {
-  if(!player) player = [[User alloc] init];
+  if(!player) return;
   player.location = l;
-  [_SERVICES_ updateServerWithPlayerLocation];
-
-  _ARIS_NOTIF_SEND_(@"UserMoved",nil,@{@"location":l});
+  if(_MODEL_GAME_)[_MODEL_LOGS_ playerMoved];
 }
 
 - (NSString *) applicationDocumentsDirectory
