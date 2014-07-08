@@ -514,6 +514,25 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TABS_RECEIVED", nil, @{@"tabs":tabs});
 }
 
+- (void) fetchOptionsForPlayerForScript:(int)dialog_script_id
+{
+     NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"dialog_script_id":[NSNumber numberWithInt:dialog_script_id],
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"getOptionsForPlayerForScript" arguments:args handler:self successSelector:@selector(parsePlayerOptionsForScript:) failSelector:nil retryOnFail:NO userInfo:@{@"dialog_script_id":[NSNumber numberWithInt:dialog_script_id]}];
+}
+- (void) parsePlayerOptionsForScript:(ARISServiceResult *)result
+{
+    NSArray *playerOptionsDicts = (NSArray *)result.resultData;
+    NSMutableArray *options = [[NSMutableArray alloc] init];
+    for(int i = 0; i < playerOptionsDicts.count; i++)
+        options[i] = [[DialogScript alloc] initWithDictionary:playerOptionsDicts[i]];
+    NSDictionary *uInfo = @{@"options":options,@"dialog_script_id":result.userInfo[@"dialog_script_id"]};
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCRIPT_OPTIONS_RECEIVED", nil, uInfo);
+}
+
 
 - (void) logPlayerMoved
 {

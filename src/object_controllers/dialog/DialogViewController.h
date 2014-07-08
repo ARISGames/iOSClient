@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AVFoundation/AVAudioPlayer.h>
 #import "InstantiableViewController.h"
 
 @class Dialog;

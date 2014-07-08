@@ -29,6 +29,7 @@
     Reachability *reachability; 
     CLLocationManager *locationManager;
     NSTimer *locationPoller;
+    CLLocation *lastKnownLocation;
     AVAudioPlayer *player;
     
 }
@@ -51,6 +52,14 @@
     [self.window setRootViewController:[RootViewController sharedRootViewController]];
     [self.window makeKeyAndVisible];
     
+    //init the singletons. I know. defeats the point of singletons. but they prob shouldn't be singletons then.
+    _DEFAULTS_;
+    _MODEL_;  
+    [_DEFAULTS_ loadUserDefaults]; //check if changed since last active  
+    
+    _SERVICES_;
+    
+    //Init after model, as they might be listening for updates
     _ARIS_NOTIF_LISTEN_(kReachabilityChangedNotification,self,@selector(reachabilityChanged:),nil);
     reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];  
@@ -59,12 +68,6 @@
     locationManager.distanceFilter = 5; //Minimum change of 5 meters for update  
     locationManager.delegate = self;
     
-    //init the singletons. I know. defeats the point of singletons. but they prob shouldn't be singletons then.
-    _DEFAULTS_;
-    _MODEL_;  
-    [_DEFAULTS_ loadUserDefaults]; //check if changed since last active  
-    
-    _SERVICES_;
     
     if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
     if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %d, but I won't",_DEFAULTS_.fallbackGameId);  
@@ -150,7 +153,9 @@
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     //last location in locations array (guaranteed count >= 1) is most recent
-    _ARIS_NOTIF_SEND_(@"DEVICE_MOVED", nil, @{@"location":locations[locations.count-1]});
+    if(lastKnownLocation && [lastKnownLocation distanceFromLocation:locations[locations.count-1]] < 0.01f) return;
+    lastKnownLocation = locations[locations.count-1];
+    _ARIS_NOTIF_SEND_(@"DEVICE_MOVED", nil, @{@"location":lastKnownLocation});
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {

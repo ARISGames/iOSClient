@@ -7,7 +7,6 @@
 //
 
 #import "DialogScriptElementView.h"
-#import "ScriptElement.h"
 #import "ARISMediaView.h"
 #import "ARISWebView.h"
 #import "ARISAppDelegate.h"
@@ -145,7 +144,7 @@
     CGRect wvFrame = [textWebView frame];
     [textWebView setFrame:CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, 10)];
     //Load content
-    [textWebView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], scriptElement.text] baseURL:nil];
+    [textWebView loadHTMLString: baseURL:nil];
     
     //PHIL
     /*

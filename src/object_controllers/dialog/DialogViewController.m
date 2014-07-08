@@ -8,45 +8,45 @@
 
 #import "DialogViewController.h"
 #import "Dialog.h"
-#import "DialogOptionsViewController.h"
+#import "DialogScript.h"
 #import "DialogScriptViewController.h"
-#import "AppModel.h"
 #import "StateControllerProtocol.h"
 
-@interface DialogViewController() <DialogOptionsViewControllerDelegate, DialogScriptViewControllerDelegate, AVAudioPlayerDelegate>
+@interface DialogViewController() <DialogScriptViewControllerDelegate>
 {
     Dialog *dialog;
-    DialogScriptViewController  *scriptViewController;
-    DialogOptionsViewController *optionsViewController;
+    
+    //holds 2 DialogScriptVC's, and flips between them like a graphics buffer
+    //for smooth transitions/easy organization
+    //(if the word 'buffer' confuses you, you're thinking too hard. just a place to load
+    //content/data/animations without disturbing what's currently displayed, and can be 
+    //quickly swapped out with what IS currently displayed)
+    NSMutableArray *youViewControllers;
+    int currentYouViewController; 
+    
+    NSMutableArray *themViewControllers;
+    int currentThemViewController;
     
     UIButton *backButton;
     
-    BOOL closingScriptPlaying;
+    //For easy recall/reference
+    CGRect centerFrame;
+    CGRect leftFrame; 
+    CGRect rightFrame;  
+    
     id<InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
-
-@property (nonatomic, strong) Dialog *dialog;
-@property (nonatomic, strong) DialogScriptViewController  *scriptViewController;
-@property (nonatomic, strong) DialogOptionsViewController *optionsViewController;
-@property (nonatomic, strong) UIButton *backButton;
 
 @end
 
 @implementation DialogViewController
-/*
 
-@synthesize dialog;
-@synthesize scriptViewController;
-@synthesize optionsViewController;
-@synthesize backButton;
-
-- (id) initWithDialog:(Dialog *)n delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDialog:(Dialog *)d delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)del
 {
-    if((self = [super init]))
+    if(self = [super init])
     {
-        self.dialog = n;
-        closingScriptPlaying = NO;
-        delegate = d;
+        dialog = d;
+        delegate = del;
     }
     return self;
 }
@@ -56,168 +56,89 @@
     [super loadView];
     self.view.backgroundColor = [ARISTemplate ARISColorDialogContentBackdrop];
     
-    self.optionsViewController = [[DialogOptionsViewController alloc] initWithFrame:self.view.bounds delegate:self];
-    self.optionsViewController.view.alpha = 0.0; 
-    self.scriptViewController  = [[DialogScriptViewController alloc] initWithDialog:self.dialog frame:self.view.bounds delegate:self]; 
-    self.scriptViewController.view.alpha = 0.0;
+    youViewControllers[0] = [[DialogScriptViewController alloc] initWithDialog:dialog frame:self.view.bounds delegate:self]; 
+    youViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog frame:self.view.bounds delegate:self];  
+    currentYouViewController = 0; 
     
-    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.backButton.frame = CGRectMake(0, 0, 19, 19);
-    [self.backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    self.backButton.accessibilityLabel = @"Back Button";
-    [self.backButton addTarget:self action:@selector(leaveConversationRequested) forControlEvents:UIControlEventTouchUpInside]; 
+    themViewControllers[0] = [[DialogScriptViewController alloc] initWithDialog:dialog frame:self.view.bounds delegate:self]; 
+    themViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog frame:self.view.bounds delegate:self];  
+    currentThemViewController = 0;
+    
+    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, 19, 19);
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    backButton.accessibilityLabel = @"Back Button";
+    [backButton addTarget:self action:@selector(leaveConversationRequested) forControlEvents:UIControlEventTouchUpInside]; 
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
-    self.optionsViewController.view.frame = self.view.bounds;
-    self.scriptViewController.view.frame = self.view.bounds; 
    	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
-}
-
-- (void) viewDidAppearFirstTime:(BOOL)animated
-{
-    [super viewDidAppearFirstTime:animated];
     
-    if([[self.dialog.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
-    {
-        [self displayOptionsVC];
-        [self.optionsViewController loadOptionsForDialog:self.dialog afterViewingOption:nil];
-    }
-    else
-    {
-        [self displayScriptVC];
-        [self.scriptViewController loadScriptOption:[[DialogScriptOption alloc] initWithOptionText:@"" scriptText:self.dialog.greeting plaque_id:-1 hasViewed:NO]];
-    }
+    centerFrame = self.view.bounds;
+    leftFrame = CGRectMake(0-centerFrame.size.width, centerFrame.origin.y, centerFrame.size.width, centerFrame.size.height);
+    rightFrame = CGRectMake(centerFrame.size.width, centerFrame.origin.y, centerFrame.size.width, centerFrame.size.height);
 }
 
-- (void) optionChosen:(DialogScriptOption *)o
+/*
+ Note about transition states:
+ A transition moves from one consistent state to another. It presupposes it is in a consistent state before starting.
+ Either the YouVCs are centered on screen, OR the ThemVCs are centered on screen (NOT both).
+ If the YouVCs are not on screen, they are off the screen to the LEFT.
+ If the ThemVCs are not on screen, they are off the screen to the RIGHT. 
+ ALL VCs ARE ALWAYS AT 1.0f ALPHA (UNLESS in the middle of a transition).
+ The YouVCs are always exactly stacked on top of eachother. Same for the ThemVCs.
+*/
+- (void) dialogScriptChosen:(DialogScript *)s
 {
-    self.option = o;
-    [self.scriptViewController loadScriptOption:self.option];
-    [self displayScriptVC];
-}
-
-- (void) scriptEndedExitToType:(NSString *)type title:(NSString *)title id:(int)typeId
-{
-    if(closingScriptPlaying && !type)
+    if(s.dialog_character_id == 0)
     {
-        //[_SERVICES_ updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
-        [self dismissSelf];
-    }
-    
-    if(type)
-    {
-        //[_SERVICES_ updateServerPlaqueViewed:self.option.plaque_id fromLocation:0];
-        [self dismissSelf];
+        currentYouViewController = (currentYouViewController+1)%2;
+        DialogScriptViewController *vc = youViewControllers[currentYouViewController]; //for readability
         
-        if([type isEqualToString:@"tab"])
-            [delegate displayTab:title];
-        if([type isEqualToString:@"scanner"])
-            [delegate displayScannerWithPrompt:title]; 
-        else if([type isEqualToString:@"plaque"])
-            [delegate displayGameObject:[_MODEL_PLAQUES_ plaqueForId:typeId] fromSource:self];
-        else if([type isEqualToString:@"webpage"])
-            [delegate displayGameObject:[_MODEL_WEB_PAGES_ webPageForId:typeId] fromSource:self];
-        else if([type isEqualToString:@"item"])
-            [delegate displayGameObject:[_MODEL_ITEMS_ itemForId:typeId] fromSource:self];
-        else if([type isEqualToString:@"character"])
-            [delegate displayGameObject:[_MODEL_DIALOGS_ dialogForId:typeId] fromSource:self];
+        //set 'to be displayed' vc buffer to alpha 0 (to be animated to 1.0) if transition is in-place 
+        if(vc.view.frame.origin.x != centerFrame.origin.x) vc.view.alpha = 0.0f; 
+        
+        [vc loadScript:s]; //populate it with content
+        [self.view bringSubviewToFront:vc.view]; //bring it to front
+        
+       	[UIView beginAnimations:@"transition" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationDuration:0.25];
+        vc.view.alpha = 1.0;
+        ((UIViewController *)youViewControllers[0]).view.frame = centerFrame;
+        ((UIViewController *)youViewControllers[1]).view.frame = centerFrame; 
+        ((UIViewController *)themViewControllers[0]).view.frame = rightFrame;
+        ((UIViewController *)themViewControllers[1]).view.frame = rightFrame;  
+        [UIView commitAnimations]; 
     }
     else
     {
-        [self.optionsViewController loadOptionsForDialog:self.dialog afterViewingOption:self.option];
-        [self displayOptionsVC];
-    }
-}
-
-- (void) displayOptionsVC
-{
-    [self.view addSubview:self.optionsViewController.view];
-    [self.optionsViewController viewWillAppear:YES];
-	[UIView beginAnimations:@"movement" context:nil];
-	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
-	[UIView setAnimationDuration:0.25];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDidStopSelector:@selector(removeScriptView)];
-	self.optionsViewController.view.alpha = 1.0;
-	self.scriptViewController.view.alpha  = 0.0;
-	[UIView commitAnimations];
-}
-
-- (void) removeScriptView
-{
-    [self.scriptViewController.view removeFromSuperview];
-}
-
-- (void) displayScriptVC
-{
-    [self.view addSubview:self.scriptViewController.view];
-    [self.scriptViewController viewWillAppear:YES];
-	[UIView beginAnimations:@"movement" context:nil];
-	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
-	[UIView setAnimationDuration:0.25];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDidStopSelector:@selector(removeOptionsView)];
-	self.optionsViewController.view.alpha = 0.0;
-	self.scriptViewController.view.alpha  = 1.0;
-	[UIView commitAnimations];
-}
-
-- (void) removeOptionsView
-{
-    [self.optionsViewController.view removeFromSuperview];
-}
-
-- (void) scriptRequestsTitle:(NSString *)t
-{
-    self.navigationItem.title = t;
-}
-
-- (void) optionsRequestsTitle:(NSString *)t
-{
-    self.navigationItem.title = t;
-}
-
-- (void) scriptRequestsHideLeaveConversation:(BOOL)h
-{
-    [self.optionsViewController setShowLeaveConversationButton:!h];
-}
-
-- (void) scriptRequestsLeaveConversationTitle:(NSString *)t
-{
-    [self.optionsViewController setLeaveConversationTitle:t];
-}
-
-- (void) scriptRequestsOptionsPcTitle:(NSString *)s
-{
-    [self.optionsViewController setDefaultTitle:s];
-}
-
-- (void) scriptRequestsOptionsPcMedia:(Media *)m
-{
-    [self.optionsViewController setDefaultMedia:m];
-}
-
-- (void) leaveConversationRequested
-{
-    if ([[self.dialog.closing stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""]) {
-        [self dismissSelf];
-    }
-    else{
-        closingScriptPlaying = YES;
-        [self displayScriptVC];
-        [self.scriptViewController loadScriptOption:[[DialogScriptOption alloc] initWithOptionText:@"" scriptText:self.dialog.closing plaque_id:-1 hasViewed:NO]];
+        currentThemViewController = (currentThemViewController+1)%2;
+        DialogScriptViewController *vc = themViewControllers[currentThemViewController]; //for readability
+        
+        //set 'to be displayed' vc buffer to alpha 0 (to be animated to 1.0) if transition is in-place 
+        if(vc.view.frame.origin.x != centerFrame.origin.x) vc.view.alpha = 0.0f; 
+        
+        [vc loadScript:s]; //populate it with content
+        [self.view bringSubviewToFront:vc.view]; //bring it to front
+        
+       	[UIView beginAnimations:@"transition" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationDuration:0.25];
+        vc.view.alpha = 1.0;
+        ((UIViewController *)themViewControllers[0]).view.frame = centerFrame;
+        ((UIViewController *)themViewControllers[1]).view.frame = centerFrame; 
+        ((UIViewController *)youViewControllers[0]).view.frame = leftFrame;
+        ((UIViewController *)youViewControllers[1]).view.frame = leftFrame;  
+        [UIView commitAnimations]; 
     }
 }
 
 - (void) dismissSelf
 {
-    //[_SERVICES_ updateServerDialogViewed:self.dialog.dialog_id fromLocation:0];
     [delegate instantiableViewControllerRequestsDismissal:self];
 }
-*/
 
 @end

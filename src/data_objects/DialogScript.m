@@ -15,7 +15,9 @@
 @synthesize parent_dialog_script_id;
 @synthesize dialog_character_id;
 @synthesize text;
+@synthesize prompt;
 @synthesize sort_index;
+@synthesize event_package_id;
 
 - (id) init
 {
@@ -25,7 +27,9 @@
     self.parent_dialog_script_id = 0;
     self.dialog_character_id = 0;
     self.text = @"";
+    self.prompt = @""; 
     self.sort_index = 0;
+      self.event_package_id = 0; 
   }
   return self;
 }
@@ -38,7 +42,9 @@
     self.parent_dialog_script_id = [dict validIntForKey:@"parent_dialog_script_id"];
     self.dialog_character_id     = [dict validIntForKey:@"dialog_character_id"];
     self.text                    = [dict validStringForKey:@"text"];
+    self.prompt                  = [dict validStringForKey:@"prompt"]; 
     self.sort_index              = [dict validIntForKey:@"sort_index"]; 
+    self.event_package_id        = [dict validIntForKey:@"event_package_id"];  
   }
   return self;
 }
@@ -50,7 +56,9 @@
   c.parent_dialog_script_id = self.parent_dialog_script_id;
   c.dialog_character_id     = self.dialog_character_id;
   c.text                    = self.text;
+  c.prompt                  = self.prompt; 
   c.sort_index              = self.sort_index;
+  c.event_package_id        = self.event_package_id; 
   return c;
 }
 

@@ -52,6 +52,7 @@
 - (void) fetchOverlaysForPlayer;
 - (void) fetchQuestsForPlayer;
 - (void) fetchTabsForPlayer;
+- (void) fetchOptionsForPlayerForScript:(int)dialog_script_id; //doesn't need to be called during game load
 
 - (void) logPlayerMoved;
 - (void) logPlayerViewedTabId:(int)tab_id;

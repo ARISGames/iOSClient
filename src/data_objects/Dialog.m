@@ -15,7 +15,6 @@
 @synthesize name;
 @synthesize desc;
 @synthesize icon_media_id;
-@synthesize root_script_id;
 
 - (id) init
 {
@@ -25,7 +24,6 @@
     self.name = @"Dialog";
     self.desc = @"";
     self.icon_media_id = 0;
-    self.root_script_id = 0;
   }
   return self;
 }
@@ -38,7 +36,6 @@
     self.name           = [dict validStringForKey:@"name"];
     self.desc           = [dict validStringForKey:@"description"];
     self.icon_media_id  = [dict validIntForKey:@"icon_media_id"];
-    self.root_script_id = [dict validIntForKey:@"root_script_id"];
   }
   return self;
 }
@@ -50,7 +47,6 @@
   c.name           = self.name;
   c.desc           = self.desc;
   c.icon_media_id  = self.icon_media_id;
-  c.root_script_id = self.root_script_id;
   return c;
 }
 

@@ -18,5 +18,6 @@
 - (DialogScript *) scriptForId:(int)dialog_script_id;
 - (void) requestDialogs;
 - (void) clearGameData;
+- (void) requestPlayerOptionsForScriptId:(int)dialog_script_id;
 
 @end
