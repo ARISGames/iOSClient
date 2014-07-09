@@ -15,9 +15,6 @@
 
 @interface DialogsModel()
 {
-  Dialog *nullDialog;
-  DialogScript *nullDialogScript;
-  DialogCharacter *nullDialogCharacter;
   NSMutableDictionary *dialogs;
   NSMutableDictionary *dialogCharacters;
   NSMutableDictionary *dialogScripts;
@@ -31,9 +28,6 @@
 {
     if(self = [super init])
     {
-        nullDialog = [[Dialog alloc] init];
-        nullDialogScript = [[DialogScript alloc] init];
-        nullDialogCharacter = [[DialogCharacter alloc] init];
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOGS_RECEIVED",self,@selector(dialogsReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOG_CHARACTERS_RECEIVED",self,@selector(dialogCharactersReceived:),nil);
@@ -70,7 +64,9 @@
     for(int i = 0; i < servicesOptions.count; i++)
         [flyweightOptions addObject:[self scriptForId:((DialogScript *)servicesOptions[i]).dialog_script_id]];
     
-    NSDictionary *uInfo = @{@"options":flyweightOptions,@"dialog_script_id":notif.userInfo[@"dialog_script_id"]};
+    NSDictionary *uInfo = @{@"options":flyweightOptions,
+                            @"dialog_id":notif.userInfo[@"dialog_id"],
+                            @"dialog_script_id":notif.userInfo[@"dialog_script_id"]};
     _ARIS_NOTIF_SEND_(@"MODEL_SCRIPT_OPTIONS_AVAILABLE",nil,uInfo); 
 }
 
@@ -121,24 +117,25 @@
     [_SERVICES_ fetchDialogScripts];
 }
 
-- (void) requestPlayerOptionsForScriptId:(int)dialog_script_id
+- (void) requestPlayerOptionsForDialogId:(int)dialog_id scriptId:(int)dialog_script_id
 {
-    [_SERVICES_ fetchOptionsForPlayerForScript:dialog_script_id];
+    [_SERVICES_ fetchOptionsForPlayerForDialog:dialog_id script:dialog_script_id];
 }
 
+// null dialog/character/script (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Dialog *) dialogForId:(int)dialog_id
 {
-  if(!dialog_id) return nullDialog;
+  if(!dialog_id) return [[Dialog alloc] init];
   return [dialogs objectForKey:[NSNumber numberWithInt:dialog_id]];
 }
 - (DialogCharacter *) characterForId:(int)dialog_character_id
 {
-  if(!dialog_character_id) return nullDialogCharacter;
+  if(!dialog_character_id) return [[DialogCharacter alloc] init];
   return [dialogCharacters objectForKey:[NSNumber numberWithInt:dialog_character_id]];
 }
 - (DialogScript *) scriptForId:(int)dialog_script_id
 {
-  if(!dialog_script_id) return nullDialogScript;
+  if(!dialog_script_id) return [[DialogScript alloc] init]; 
   return [dialogScripts objectForKey:[NSNumber numberWithInt:dialog_script_id]];
 }
 

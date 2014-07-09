@@ -118,6 +118,7 @@
     scriptElement = s;
     Media *media;
     
+    /*
     if(scriptElement.vibrate) [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) vibrate];
     if(scriptElement.title) [delegate scriptElementViewRequestsTitle:scriptElement.title];
     else                         [delegate scriptElementViewRequestsTitle:defaultTitle];

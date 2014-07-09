@@ -42,6 +42,8 @@
 
     TriangleButton *viewAnnotationButton;
     TriangleButton *pickUpButton;
+    
+    Trigger *triggerLookingAt;
 
     BOOL resetWiggle;
 
@@ -363,7 +365,7 @@
 - (void) mapView:(MKMapView *)mv didSelectAnnotationView:(MKAnnotationView *)av
 {
     if(av.annotation && [av.annotation isKindOfClass:[Trigger class]])
-        [self displayHUDWithLocation:(Trigger *)av.annotation andAnnotation:(AnnotationView *)av];
+        [self displayHUDWithTrigger:(Trigger *)av.annotation andAnnotation:(AnnotationView *)av];
 }
 
 - (void) enableAnnotations
@@ -388,7 +390,7 @@
     } 
 }
 
-- (void) displayHUDWithLocation:(Trigger *)trigger andAnnotation:(AnnotationView *)annotation
+- (void) displayHUDWithTrigger:(Trigger *)trigger andAnnotation:(AnnotationView *)annotation
 {
     //temporary set the wiggle to false when the trigger is selected
     if(trigger.wiggle)
@@ -440,6 +442,7 @@
          */
     }
     [self animateInButtons];
+    triggerLookingAt = trigger;
 }
 
 - (void) animateInButtons
@@ -524,10 +527,11 @@
     [self dismissSelection];
 }
 
-- (void)interactWithLocation:(TriangleButton*)sender
+- (void) interactWithLocation:(TriangleButton*)sender
 {
-    //Trigger *currLocation = sender.location;
-    //[self displayGameObject:currLocation.gameObject fromSource:currLocation];
+    if(triggerLookingAt) [delegate displayTrigger:triggerLookingAt];
+    else [self dismissSelection];
+    triggerLookingAt = nil;
 }
 
 - (void) threeLinesButtonTouched

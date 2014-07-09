@@ -15,7 +15,6 @@
 
 @interface PlaquesModel()
 {
-    Plaque *nullPlaque;
     NSMutableDictionary *plaques;
 }
 
@@ -27,7 +26,6 @@
 {
     if(self = [super init])
     {
-        nullPlaque = [[Plaque alloc] init];
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAQUES_RECEIVED",self,@selector(plaquesReceived:),nil);
     }
@@ -63,9 +61,10 @@
     [_SERVICES_ fetchPlaques];
 }
 
+// null plaque (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Plaque *) plaqueForId:(int)plaque_id
 {
-  if(!plaque_id) return nullPlaque;
+  if(!plaque_id) return [[Plaque alloc] init];
   return plaques[[NSNumber numberWithInt:plaque_id]];
 }
 

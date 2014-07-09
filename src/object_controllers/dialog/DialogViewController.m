@@ -11,6 +11,7 @@
 #import "DialogScript.h"
 #import "DialogScriptViewController.h"
 #import "StateControllerProtocol.h"
+#import "AppModel.h"
 
 @interface DialogViewController() <DialogScriptViewControllerDelegate>
 {
@@ -56,19 +57,34 @@
     [super loadView];
     self.view.backgroundColor = [ARISTemplate ARISColorDialogContentBackdrop];
     
-    youViewControllers[0] = [[DialogScriptViewController alloc] initWithDialog:dialog frame:self.view.bounds delegate:self]; 
-    youViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog frame:self.view.bounds delegate:self];  
+    youViewControllers = [[NSMutableArray alloc] init];
+    youViewControllers[0] = [[DialogScriptViewController alloc] initWithDialog:dialog delegate:self]; 
+    youViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog delegate:self];   
+    ((UIViewController *)youViewControllers[0]).view.frame = leftFrame;
+    ((UIViewController *)youViewControllers[1]).view.frame = leftFrame;  
+    [self.view addSubview:((UIViewController *)youViewControllers[0]).view];
+    [self.view addSubview:((UIViewController *)youViewControllers[1]).view]; 
     currentYouViewController = 0; 
     
-    themViewControllers[0] = [[DialogScriptViewController alloc] initWithDialog:dialog frame:self.view.bounds delegate:self]; 
-    themViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog frame:self.view.bounds delegate:self];  
+    themViewControllers = [[NSMutableArray alloc] init]; 
+    themViewControllers[0] = [[DialogScriptViewController alloc] initWithDialog:dialog delegate:self]; 
+    themViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog delegate:self];   
+    ((UIViewController *)themViewControllers[0]).view.frame = rightFrame;  
+    ((UIViewController *)themViewControllers[1]).view.frame = rightFrame;   
+    [self.view addSubview:((UIViewController *)themViewControllers[0]).view];  
+    [self.view addSubview:((UIViewController *)themViewControllers[1]).view];  
     currentThemViewController = 0;
     
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
-    [backButton addTarget:self action:@selector(leaveConversationRequested) forControlEvents:UIControlEventTouchUpInside]; 
+    [backButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside]; 
+          
+    //yes, in 'loadview' which is a bit odd.
+    DialogScript *nullScript = [_MODEL_DIALOGS_ scriptForId:0];
+    nullScript.dialog_id = dialog.dialog_id;  
+    [self dialogScriptChosen:nullScript];
 }
 
 - (void) viewWillLayoutSubviews

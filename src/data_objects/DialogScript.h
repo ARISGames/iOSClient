@@ -11,6 +11,7 @@
 @interface DialogScript : NSObject
 {
   int dialog_script_id;
+  int dialog_id; 
   int parent_dialog_script_id;
   int dialog_character_id;
   NSString *prompt;
@@ -20,6 +21,7 @@
 }
 
 @property(nonatomic, assign) int dialog_script_id;
+@property(nonatomic, assign) int dialog_id;
 @property(nonatomic, assign) int parent_dialog_script_id;
 @property(nonatomic, assign) int dialog_character_id;
 @property(nonatomic, strong) NSString *prompt;
@@ -30,4 +32,3 @@
 - (id) initWithDictionary:(NSDictionary *)dict;
 
 @end
-

@@ -15,7 +15,6 @@
 
 @interface WebPagesModel()
 {
-    WebPage *nullWebPage;
     NSMutableDictionary *webPages;
 }
 
@@ -27,7 +26,6 @@
 {
     if(self = [super init])
     {
-        nullWebPage = [[WebPage alloc] init];
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_WEB_PAGES_RECEIVED",self,@selector(webPagesReceived:),nil);
     }
@@ -63,9 +61,10 @@
     [_SERVICES_ fetchWebPages];
 }
 
+// null webpage (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (WebPage *) webPageForId:(int)web_page_id
 {
-  if(!web_page_id) return nullWebPage;
+  if(!web_page_id) return [[WebPage alloc] init];
   return [webPages objectForKey:[NSNumber numberWithInt:web_page_id]];
 }
 

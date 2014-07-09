@@ -12,6 +12,7 @@
 @implementation DialogScript
 
 @synthesize dialog_script_id;
+@synthesize dialog_id;
 @synthesize parent_dialog_script_id;
 @synthesize dialog_character_id;
 @synthesize text;
@@ -24,6 +25,7 @@
   if(self = [super init])
   {
     self.dialog_script_id = 0;
+    self.dialog_id = 0; 
     self.parent_dialog_script_id = 0;
     self.dialog_character_id = 0;
     self.text = @"";
@@ -39,6 +41,7 @@
   if(self = [super init])
   {
     self.dialog_script_id        = [dict validIntForKey:@"dialog_script_id"];
+    self.dialog_id               = [dict validIntForKey:@"dialog_id"]; 
     self.parent_dialog_script_id = [dict validIntForKey:@"parent_dialog_script_id"];
     self.dialog_character_id     = [dict validIntForKey:@"dialog_character_id"];
     self.text                    = [dict validStringForKey:@"text"];
@@ -53,6 +56,7 @@
 {
   DialogScript *c = [[DialogScript alloc] init];
   c.dialog_script_id        = self.dialog_script_id;
+  c.dialog_id               = self.dialog_id; 
   c.parent_dialog_script_id = self.parent_dialog_script_id;
   c.dialog_character_id     = self.dialog_character_id;
   c.text                    = self.text;

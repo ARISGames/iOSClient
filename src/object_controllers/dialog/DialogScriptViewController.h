@@ -17,6 +17,6 @@
 @end
 
 @interface DialogScriptViewController : ARISViewController
-- (id) initWithDialog:(Dialog *)n frame:(CGRect)f delegate:(id<DialogScriptViewControllerDelegate>)d;
+- (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate>)d;
 - (void) loadScript:(DialogScript *)s;
 @end

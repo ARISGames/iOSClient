@@ -76,7 +76,7 @@
 {
     ARISWebView *b = [[ARISWebView alloc] initWithDelegate:self];
     b.frame = CGRectMake(0,0,self.frame.size.width,1);
-    [b loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], d.prompt] baseURL:nil];  
+    [b loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], d.prompt] baseURL:nil];
     
     UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
     continueArrow.frame = CGRectMake(self.bounds.size.width-25,13,19,19);

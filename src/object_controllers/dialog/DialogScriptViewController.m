@@ -30,7 +30,7 @@
 
 @implementation DialogScriptViewController
 
-- (id) initWithDialog:(Dialog *)n frame:(CGRect)f delegate:(id<DialogScriptViewControllerDelegate>)d
+- (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -51,6 +51,9 @@
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
     dialogTextView = [[DialogTextView alloc] init];
     collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:NO delegate:self];
+    
+    [self.view addSubview:mediaView];
+    [self.view addSubview:collapseView]; 
 }
 
 - (void) loadScript:(DialogScript *)s
@@ -69,7 +72,7 @@
     }
     [dialogTextView loadText:s.text];
     [dialogTextView setOptionsLoading]; 
-    [_MODEL_DIALOGS_ requestPlayerOptionsForScriptId:s.dialog_script_id];
+    [_MODEL_DIALOGS_ requestPlayerOptionsForDialogId:dialog.dialog_id scriptId:s.dialog_script_id];
 }
 
 - (void) scriptOptionsAvailable:(NSNotification *)n

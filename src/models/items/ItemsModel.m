@@ -16,7 +16,6 @@
 
 @interface ItemsModel()
 {
-    Item *nullItem;
     NSMutableDictionary *items;
     NSMutableDictionary *playerItemInstances;
 
@@ -35,7 +34,6 @@
 {
     if(self = [super init])
     {
-        nullItem = [[Item alloc] init];
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_AVAILABLE",self,@selector(playerInstancesAvailable),nil);
@@ -129,9 +127,10 @@
   //DONT FORGET TO UPDATE SERVER!!!  
 }
 
+// null item (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Item *) itemForId:(int)item_id
 {
-  if(!item_id) return nullItem; 
+  if(!item_id) return [[Item alloc] init]; 
   return [items objectForKey:[NSNumber numberWithInt:item_id]];
 }
 
