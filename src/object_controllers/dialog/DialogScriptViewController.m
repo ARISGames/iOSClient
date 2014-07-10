@@ -14,15 +14,16 @@
 #import "User.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface DialogScriptViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate>
+@interface DialogScriptViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, DialogTextViewDelegate>
 {
     Dialog *dialog;
     DialogScript *script;
-    
+    NSArray *options;
+
     ARISMediaView *mediaView;
     ARISCollapseView *collapseView;
     DialogTextView *dialogTextView;
-    
+
     id<DialogScriptViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -46,12 +47,14 @@
     [super loadView];
     self.view.backgroundColor = [UIColor clearColor];
     self.view.opaque = NO;
-    
+
     mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
-    dialogTextView = [[DialogTextView alloc] init];
-    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:NO delegate:self];
-    
+    dialogTextView = [[DialogTextView alloc] initWithDelegate:self];
+    dialogTextView.frame = CGRectMake(0,0,self.view.bounds.size.width,10);
+    dialogTextView.userInteractionEnabled = NO;
+    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
+
     [self.view addSubview:mediaView];
     [self.view addSubview:collapseView]; 
 }
@@ -77,13 +80,25 @@
 
 - (void) scriptOptionsAvailable:(NSNotification *)n
 {
-    if([((NSNumber *)n.userInfo[@"dialog_script_id"]) intValue] != script.dialog_script_id) return;
-    [dialogTextView setOptions:n.userInfo[@"options"]];
+    if(!script || [((NSNumber *)n.userInfo[@"dialog_script_id"]) intValue] != script.dialog_script_id) return;
+    options = n.userInfo[@"options"];
+    [dialogTextView setOptions:options];
 }
 
-- (void) optionSelected:(DialogScript *)s
+- (void) dialogTextView:(DialogTextView *)dtv expandedToSize:(CGSize)s
 {
-    [delegate dialogScriptChosen:s];
+    [collapseView setContentFrameHeight:s.height];
+    [collapseView setFrameHeight:s.height]; 
+}
+
+- (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o
+{
+  [delegate dialogScriptChosen:options[o]];
+}
+
+- (void) dealloc
+{
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

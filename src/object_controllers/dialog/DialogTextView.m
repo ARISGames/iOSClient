@@ -15,14 +15,14 @@
     NSString *text;
     ARISWebView *textView;
     BOOL webViewLoaded;
-    
+
     NSArray *options;
     NSMutableArray *optionButtons; 
     int optionWebViewsLoaded;
-    
+
     BOOL fetchingOptions; //this is for 'loading' of the actual list of options
-    UIActivityIndicatorView *optionsLoadingIndicator;   
-    
+    UIActivityIndicatorView *optionsLoadingIndicator;
+
     id<DialogTextViewDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -34,15 +34,15 @@
     if(self = [super init])
     {
         delegate = d;
-        
+
         textView = [[ARISWebView alloc] initWithDelegate:self];
         textView.frame = CGRectMake(0,0,self.frame.size.width,1);
         webViewLoaded = NO;
-        
+
         options = [[NSArray alloc] init];
-        optionButtons = [[NSMutableArray alloc] init]; 
+        optionButtons = [[NSMutableArray alloc] init];
         optionWebViewsLoaded = 0;
-        
+
         optionsLoadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         fetchingOptions = YES;
     }
@@ -61,13 +61,13 @@
     while(self.subviews.count > 0)
         [self.subviews[0] removeFromSuperview]; 
     [optionButtons removeAllObjects]; 
-    
+
     webViewLoaded = NO;
     optionWebViewsLoaded = 0;
-    
+
     textView.frame = CGRectMake(0,0,self.frame.size.width,1); 
     [textView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], text] baseURL:nil]; 
-    
+
     for(int i = 0; i < options.count; i++)
         [optionButtons addObject:[self buttonForOption:options[i]]];
 }
@@ -76,15 +76,16 @@
 {
     ARISWebView *b = [[ARISWebView alloc] initWithDelegate:self];
     b.frame = CGRectMake(0,0,self.frame.size.width,1);
+    b.userInteractionEnabled = YES;
     [b loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], d.prompt] baseURL:nil];
-    
+
     UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
     continueArrow.frame = CGRectMake(self.bounds.size.width-25,13,19,19);
     continueArrow.accessibilityLabel = @"Continue";
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.bounds.size.width,1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
     [b addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
-    
+
     return b;
 }
 
@@ -92,10 +93,10 @@
 {
     if(wv == textView) webViewLoaded = YES;
     else optionWebViewsLoaded++;
-    
+
     CGFloat height = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]; 
     wv.frame = CGRectMake(wv.frame.origin.x, wv.frame.origin.y, wv.frame.size.width, height);
-    
+
     if(webViewLoaded && optionWebViewsLoaded == optionButtons.count)
         [self layoutButtons];
 }
@@ -115,14 +116,14 @@
         [self addSubview:obv];
         h += obv.frame.size.height;
     }
-    [delegate expandedToSize:CGSizeMake(self.frame.size.width,h)];
+    [delegate dialogTextView:self expandedToSize:CGSizeMake(self.frame.size.width,h)];
 }
 
 - (void) loadText:(NSString *)t
 {
     webViewLoaded = NO;
     text = t;
-    
+
     [self invalidateLayout];
 }
 
@@ -132,7 +133,7 @@
     options = @[];
     [optionButtons removeAllObjects];
     fetchingOptions = YES;
-    
+
     [self invalidateLayout]; 
 }
 
@@ -142,8 +143,13 @@
     options = opts;
     [optionButtons removeAllObjects];
     fetchingOptions = NO; 
-    
+
     [self invalidateLayout];
+}
+
+- (void) optionSelected:(UITapGestureRecognizer *)r
+{
+  [delegate dialogTextView:self selectedOption:0];
 }
 
 @end

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class DialogTextView;
 @protocol DialogTextViewDelegate
-- (void) expandedToSize:(CGSize)s;
+- (void) dialogTextView:(DialogTextView *)dtv expandedToSize:(CGSize)s;
+- (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o;
 @end
 
 @interface DialogTextView : UIView
