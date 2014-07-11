@@ -129,14 +129,14 @@
     }
     if(percentLoaded >= 1.0-epsillon)
     {
-        [self dismissViewControllerAnimated:NO completion:nil];
-        [delegate loadingViewControllerFinishedLoadingData];
         receivedGameData   = 0;
         gameDataReceived   = NO;
         receivedPlayerData = 0;
         playerDataReceived = NO;
         receivedTabData = 0;
         tabDataReceived = NO;
+        [self dismissViewControllerAnimated:NO completion:nil];
+        [delegate loadingViewControllerFinishedLoadingData];
     }
 }
 

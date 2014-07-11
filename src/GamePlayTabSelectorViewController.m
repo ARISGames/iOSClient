@@ -57,7 +57,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [ARISTemplate ARISColorSideNavigationBackdrop]; 
+    self.view.backgroundColor = [ARISTemplate ARISColorSideNavigationBackdrop];
     
     tableView = [[UITableView alloc] init];
     tableView.delegate = self;
@@ -115,7 +115,7 @@
 {
     [super viewWillLayoutSubviews];
     tableView.frame = self.view.bounds;
-    tableView.contentInset = UIEdgeInsetsMake(20,0,0,0); 
+    tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
     
     leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44); 
     leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
@@ -146,6 +146,19 @@
     if([[anc.viewControllers objectAtIndex:0] isKindOfClass:[ARISGamePlayTabBarViewController class]])
         return (ARISGamePlayTabBarViewController *)[anc.viewControllers objectAtIndex:0];
     return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 15.0f;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *space = [[UIView alloc] init];
+    space.frame = CGRectMake(0.0f, 0.0f, self.view.bounds.size.width, 15.0f);
+    space.backgroundColor = [UIColor clearColor];
+    return space;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

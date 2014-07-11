@@ -75,7 +75,7 @@
 
 - (void) viewWillAppearFirstTime
 {
-    hasAppeared = YES;
+    //hasAppeared = YES;
     
     self.view.backgroundColor = [UIColor blackColor];
     

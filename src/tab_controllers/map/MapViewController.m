@@ -35,7 +35,6 @@
 
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
-    NSMutableArray *locations;
     NSMutableArray *locationsToAdd;
     NSMutableArray *locationsToRemove;
     
@@ -61,8 +60,6 @@
     
     BOOL resetWiggle;
     BOOL zoomOnLoad;
-    
-
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
@@ -79,9 +76,15 @@
         delegate = d;
         
         isViewLoaded = NO;
-        locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
-        locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
+        locationsToAdd    = [[NSMutableArray alloc] init];
+        locationsToRemove = [[NSMutableArray alloc] init];
         zoomOnLoad = YES;
+        
+        //put all of the locations from the locations model to the locationsToAdd
+        NSArray *locations = [AppModel sharedAppModel].currentGame.locationsModel.currentLocations;
+        for (int i = 0; i < locations.count; i++) {
+            [locationsToAdd addObject:[locations objectAtIndex:i]];
+        }
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"                               object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"                                  object:nil];
@@ -389,6 +392,7 @@
             annotation = [[mapView annotations] objectAtIndex:j];
             loc = (Location *)annotation;
             if ([loc compareTo:((Location *)[locationsToRemove objectAtIndex:i])]) {
+                if (loc.nearbyOverlay) [mapView removeOverlay:loc.nearbyOverlay];
                 [mapView removeAnnotation:annotation];
             }
         }
