@@ -57,6 +57,11 @@
     [super loadView];
     self.view.backgroundColor = [ARISTemplate ARISColorDialogContentBackdrop];
     
+    //this should go in viewwilllayoutsubviews, but apple is terrible
+    centerFrame = self.view.bounds;
+    leftFrame = CGRectMake(0-centerFrame.size.width, centerFrame.origin.y, centerFrame.size.width, centerFrame.size.height);
+    rightFrame = CGRectMake(centerFrame.size.width, centerFrame.origin.y, centerFrame.size.width, centerFrame.size.height);
+    
     youViewControllers = [[NSMutableArray alloc] init];
     youViewControllers[0] = [[DialogScriptViewController alloc] initWithDialog:dialog delegate:self]; 
     youViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog delegate:self];   
@@ -92,9 +97,6 @@
     [super viewWillLayoutSubviews];
    	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
     
-    centerFrame = self.view.bounds;
-    leftFrame = CGRectMake(0-centerFrame.size.width, centerFrame.origin.y, centerFrame.size.width, centerFrame.size.height);
-    rightFrame = CGRectMake(centerFrame.size.width, centerFrame.origin.y, centerFrame.size.width, centerFrame.size.height);
 }
 
 /*

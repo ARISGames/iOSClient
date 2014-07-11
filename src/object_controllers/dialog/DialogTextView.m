@@ -36,6 +36,7 @@
         delegate = d;
 
         textView = [[ARISWebView alloc] initWithDelegate:self];
+        textView.userInteractionEnabled = NO;
         textView.frame = CGRectMake(0,0,self.frame.size.width,1);
         webViewLoaded = NO;
 
@@ -69,33 +70,49 @@
     [textView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], text] baseURL:nil]; 
 
     for(int i = 0; i < options.count; i++)
-        [optionButtons addObject:[self buttonForOption:options[i]]];
+        [optionButtons addObject:[self buttonForOption:options[i] tagged:i]];
 }
 
-- (UIView *) buttonForOption:(DialogScript *)d
+- (UIView *) buttonForOption:(DialogScript *)d tagged:(int)i
 {
-    ARISWebView *b = [[ARISWebView alloc] initWithDelegate:self];
-    b.frame = CGRectMake(0,0,self.frame.size.width,1);
-    b.userInteractionEnabled = YES;
-    [b loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], d.prompt] baseURL:nil];
+    UIView *b = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width,43)];
+    [b addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
+    ARISWebView *wv = [[ARISWebView alloc] initWithDelegate:self];
+    wv.tag = i;
+    wv.frame = CGRectMake(0,0,self.frame.size.width-30,43);
+    wv.userInteractionEnabled = NO;
+    wv.scrollView.scrollEnabled = NO;
+    wv.scrollView.bounces = NO;
+    wv.opaque = NO;
+    wv.backgroundColor = [UIColor clearColor];
+    [wv loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], d.prompt] baseURL:nil];
 
     UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
     continueArrow.frame = CGRectMake(self.bounds.size.width-25,13,19,19);
     continueArrow.accessibilityLabel = @"Continue";
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.bounds.size.width,1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
-    [b addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
 
+    UIImageView *arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    arrow.frame = CGRectMake(self.bounds.size.width-25, 10, 19, 19);
+    
+    [b addSubview:wv];
+    [b addSubview:arrow];
+    
     return b;
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    if(wv == textView) webViewLoaded = YES;
-    else optionWebViewsLoaded++;
-
     CGFloat height = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]; 
     wv.frame = CGRectMake(wv.frame.origin.x, wv.frame.origin.y, wv.frame.size.width, height);
+
+    if(wv == textView) webViewLoaded = YES;
+    else
+    {
+        optionWebViewsLoaded++;
+        wv.superview.frame = CGRectMake(wv.superview.frame.origin.x, wv.superview.frame.origin.y, wv.superview.frame.size.width, height);
+    }
 
     if(webViewLoaded && optionWebViewsLoaded == optionButtons.count)
         [self layoutButtons];
@@ -116,6 +133,7 @@
         [self addSubview:obv];
         h += obv.frame.size.height;
     }
+    h += 20; //buffer
     [delegate dialogTextView:self expandedToSize:CGSizeMake(self.frame.size.width,h)];
 }
 

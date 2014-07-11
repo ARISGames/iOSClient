@@ -45,15 +45,14 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor clearColor];
-    self.view.opaque = NO;
+    self.view.backgroundColor = [UIColor blackColor];
 
     mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
     dialogTextView = [[DialogTextView alloc] initWithDelegate:self];
     dialogTextView.frame = CGRectMake(0,0,self.view.bounds.size.width,10);
-    dialogTextView.userInteractionEnabled = NO;
-    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:self.view.bounds open:YES showHandle:NO draggable:YES tappable:YES delegate:self];
+    dialogTextView.userInteractionEnabled = YES;
+    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:self.view.bounds open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
 
     [self.view addSubview:mediaView];
     [self.view addSubview:collapseView]; 
