@@ -48,11 +48,12 @@
     self.view.backgroundColor = [UIColor blackColor];
 
     mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
+    [mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToCV:)]];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
     dialogTextView = [[DialogTextView alloc] initWithDelegate:self];
     dialogTextView.frame = CGRectMake(0,0,self.view.bounds.size.width,10);
     dialogTextView.userInteractionEnabled = YES;
-    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:self.view.bounds open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
 
     [self.view addSubview:mediaView];
     [self.view addSubview:collapseView]; 
@@ -93,6 +94,11 @@
 - (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o
 {
   [delegate dialogScriptChosen:options[o]];
+}
+
+- (void) passTapToCV:(UITapGestureRecognizer *)g
+{
+    [collapseView handleTapped:g];
 }
 
 - (void) dealloc

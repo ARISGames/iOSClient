@@ -10,12 +10,14 @@
 #import "Dialog.h"
 #import "DialogCharacter.h"
 #import "DialogScript.h"
+#import "DialogOption.h"
 
 @interface DialogsModel : NSObject
 
 - (Dialog *) dialogForId:(int)dialog_id;
 - (DialogCharacter *) characterForId:(int)dialog_character_id;
 - (DialogScript *) scriptForId:(int)dialog_script_id;
+- (DialogOption *) optionForId:(int)dialog_option_id;
 - (void) requestDialogs;
 - (void) clearGameData;
 - (void) requestPlayerOptionsForDialogId:(int)dialog_id scriptId:(int)dialog_script_id;

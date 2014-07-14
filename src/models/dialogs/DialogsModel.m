@@ -18,6 +18,7 @@
   NSMutableDictionary *dialogs;
   NSMutableDictionary *dialogCharacters;
   NSMutableDictionary *dialogScripts;
+  NSMutableDictionary *dialogOptions;
 }
 
 @end
@@ -32,6 +33,7 @@
         _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOGS_RECEIVED",self,@selector(dialogsReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOG_CHARACTERS_RECEIVED",self,@selector(dialogCharactersReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOG_SCRIPTS_RECEIVED",self,@selector(dialogScriptsReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_DIALOG_OPTIONS_RECEIVED",self,@selector(dialogOptionsReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_SCRIPT_OPTIONS_RECEIVED",self,@selector(playerScriptOptionsReceived:),nil);
     }
     return self;
@@ -42,32 +44,25 @@
     dialogs = [[NSMutableDictionary alloc] init];
     dialogCharacters = [[NSMutableDictionary alloc] init];
     dialogScripts = [[NSMutableDictionary alloc] init];
+    dialogOptions = [[NSMutableDictionary alloc] init];
 }
 
-- (void) dialogsReceived:(NSNotification *)notif
-{
-    [self updateDialogs:[notif.userInfo objectForKey:@"dialogs"]];
-}
-- (void) dialogCharactersReceived:(NSNotification *)notif
-{
-    [self updateDialogCharacters:[notif.userInfo objectForKey:@"dialogCharacters"]];
-}
-- (void) dialogScriptsReceived:(NSNotification *)notif
-{
-    [self updateDialogScripts:[notif.userInfo objectForKey:@"dialogScripts"]];
-}
+- (void) dialogsReceived:(NSNotification *)notif          { [self updateDialogs:[notif.userInfo objectForKey:@"dialogs"]]; }
+- (void) dialogCharactersReceived:(NSNotification *)notif { [self updateDialogCharacters:[notif.userInfo objectForKey:@"dialogCharacters"]]; }
+- (void) dialogScriptsReceived:(NSNotification *)notif    { [self updateDialogScripts:[notif.userInfo objectForKey:@"dialogScripts"]]; }
+- (void) dialogOptionsReceived:(NSNotification *)notif    { [self updateDialogOptions:[notif.userInfo objectForKey:@"dialogOptions"]]; }
 - (void) playerScriptOptionsReceived:(NSNotification *)notif
 {
     //Doesn't actually affect the model. just conforms services list to flyweight, and re-sends it out
     NSMutableArray *flyweightOptions = [[NSMutableArray alloc] init];
     NSArray *servicesOptions = notif.userInfo[@"options"];
     for(int i = 0; i < servicesOptions.count; i++)
-        [flyweightOptions addObject:[self scriptForId:((DialogScript *)servicesOptions[i]).dialog_script_id]];
+        [flyweightOptions addObject:[self optionForId:((DialogOption *)servicesOptions[i]).dialog_option_id]];
     
     NSDictionary *uInfo = @{@"options":flyweightOptions,
                             @"dialog_id":notif.userInfo[@"dialog_id"],
                             @"dialog_script_id":notif.userInfo[@"dialog_script_id"]};
-    _ARIS_NOTIF_SEND_(@"MODEL_SCRIPT_OPTIONS_AVAILABLE",nil,uInfo); 
+    _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_SCRIPT_OPTIONS_AVAILABLE",nil,uInfo); 
 }
 
 - (void) updateDialogs:(NSArray *)newDialogs
@@ -109,14 +104,27 @@
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOG_SCRIPTS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
+- (void) updateDialogOptions:(NSArray *)newDialogOptions
+{
+    DialogOption *newDialogOption;
+    NSNumber *newDialogOptionId;
+    for(int i = 0; i < newDialogOptions.count; i++)
+    {
+      newDialogOption = [newDialogOptions objectAtIndex:i];
+      newDialogOptionId = [NSNumber numberWithInt:newDialogOption.dialog_option_id];
+      if(![dialogOptions objectForKey:newDialogOptionId]) [dialogOptions setObject:newDialogOption forKey:newDialogOptionId];
+    }
+    _ARIS_NOTIF_SEND_(@"MODEL_DIALOG_OPTIONS_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+}
 
 - (void) requestDialogs
 {
     [_SERVICES_ fetchDialogs];
     [_SERVICES_ fetchDialogCharacters];
     [_SERVICES_ fetchDialogScripts];
+    [_SERVICES_ fetchDialogOptions];
 }
-
 - (void) requestPlayerOptionsForDialogId:(int)dialog_id scriptId:(int)dialog_script_id
 {
     [_SERVICES_ fetchOptionsForPlayerForDialog:dialog_id script:dialog_script_id];
@@ -137,6 +145,11 @@
 {
   if(!dialog_script_id) return [[DialogScript alloc] init]; 
   return [dialogScripts objectForKey:[NSNumber numberWithInt:dialog_script_id]];
+}
+- (DialogOption *) optionForId:(int)dialog_option_id
+{
+  if(!dialog_option_id) return [[DialogOption alloc] init]; 
+  return [dialogOptions objectForKey:[NSNumber numberWithInt:dialog_option_id]];
 }
 
 - (void) dealloc

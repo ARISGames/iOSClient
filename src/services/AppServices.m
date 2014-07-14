@@ -296,6 +296,23 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_DIALOG_SCRIPTS_RECEIVED", nil, @{@"dialogScripts":dialogScripts});
 }
 
+- (void) fetchDialogOptions
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+    };
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogOptionsForGame" arguments:args handler:self successSelector:@selector(parseDialogOptions:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseDialogOptions:(ARISServiceResult *)result
+{
+    NSArray *dialogOptionDicts = (NSArray *)result.resultData;
+    NSMutableArray *dialogOptions = [[NSMutableArray alloc] init];
+    for(int i = 0; i < dialogOptionDicts.count; i++)
+        dialogOptions[i] = [[DialogOption alloc] initWithDictionary:dialogOptionDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_DIALOG_OPTIONS_RECEIVED", nil, @{@"dialogOptions":dialogOptions});
+}
+
 - (void) fetchWebPages
 {
   NSDictionary *args =
@@ -529,7 +546,7 @@
     NSArray *playerOptionsDicts = (NSArray *)result.resultData;
     NSMutableArray *options = [[NSMutableArray alloc] init];
     for(int i = 0; i < playerOptionsDicts.count; i++)
-        options[i] = [[DialogScript alloc] initWithDictionary:playerOptionsDicts[i]];
+        options[i] = [[DialogOption alloc] initWithDictionary:playerOptionsDicts[i]];
     NSDictionary *uInfo = @{@"options":options,
                             @"dialog_id":result.userInfo[@"dialog_id"],
                             @"dialog_script_id":result.userInfo[@"dialog_script_id"]};

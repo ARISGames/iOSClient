@@ -39,6 +39,7 @@
 - (void) fetchDialogs;
 - (void) fetchDialogCharacters;
 - (void) fetchDialogScripts;
+- (void) fetchDialogOptions;
 - (void) fetchWebPages;
 - (void) fetchQuests;
 - (void) fetchInstances;

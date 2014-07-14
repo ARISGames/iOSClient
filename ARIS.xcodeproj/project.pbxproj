@@ -54,6 +54,7 @@
 		AA0DF0A918DA2DE200D4122B /* NoteTagSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
+		AA251ADF1974361C00061CB6 /* DialogOption.m in Sources */ = {isa = PBXBuildFile; fileRef = AA251ADE1974361C00061CB6 /* DialogOption.m */; };
 		AA2886C31951ED63008AFABF /* Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2886C21951ED63008AFABF /* Overlay.m */; };
 		AA2A8AC417F1DF5C002DA8C4 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */; };
 		AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2B4A6C182AA6FF00A0D2A1 /* NoteContentsViewController.m */; };
@@ -367,6 +368,8 @@
 		AA0DF0A818DA2DE200D4122B /* NoteTagSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagSelectorViewController.m; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AA251ADD1974361C00061CB6 /* DialogOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogOption.h; sourceTree = "<group>"; };
+		AA251ADE1974361C00061CB6 /* DialogOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogOption.m; sourceTree = "<group>"; };
 		AA2886C11951ED63008AFABF /* Overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Overlay.h; sourceTree = "<group>"; };
 		AA2886C21951ED63008AFABF /* Overlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Overlay.m; sourceTree = "<group>"; };
 		AA2A8AC217F1DF5C002DA8C4 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
@@ -1276,6 +1279,8 @@
 				AA9F712E194F418B00384832 /* DialogCharacter.m */,
 				AA9F712F194F418B00384832 /* DialogScript.h */,
 				AA9F7130194F418B00384832 /* DialogScript.m */,
+				AA251ADD1974361C00061CB6 /* DialogOption.h */,
+				AA251ADE1974361C00061CB6 /* DialogOption.m */,
 				AAB398E21918166700E0E766 /* Plaque.h */,
 				AAB398E31918166700E0E766 /* Plaque.m */,
 				AABC7076172739D60074CC21 /* Item.h */,
@@ -2145,6 +2150,7 @@
 				AAB398E41918166700E0E766 /* Plaque.m in Sources */,
 				AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */,
 				AABC73B3172739D80074CC21 /* AppModel.m in Sources */,
+				AA251ADF1974361C00061CB6 /* DialogOption.m in Sources */,
 				AABC73B7172739D80074CC21 /* MediaModel.m in Sources */,
 				AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */,
 				AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */,
