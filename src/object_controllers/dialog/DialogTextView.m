@@ -8,7 +8,7 @@
 
 #import "DialogTextView.h"
 #import "ARISWebView.h"
-#import "DialogScript.h"
+#import "DialogOption.h"
 
 @interface DialogTextView() <ARISWebViewDelegate>
 {
@@ -73,10 +73,11 @@
         [optionButtons addObject:[self buttonForOption:options[i] tagged:i]];
 }
 
-- (UIView *) buttonForOption:(DialogScript *)d tagged:(int)i
+- (UIView *) buttonForOption:(DialogOption *)o tagged:(int)i
 {
     UIView *b = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width,43)];
     [b addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
+    
     ARISWebView *wv = [[ARISWebView alloc] initWithDelegate:self];
     wv.tag = i;
     wv.frame = CGRectMake(0,0,self.frame.size.width-30,43);
@@ -85,7 +86,7 @@
     wv.scrollView.bounces = NO;
     wv.opaque = NO;
     wv.backgroundColor = [UIColor clearColor];
-    [wv loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], d.prompt] baseURL:nil];
+    [wv loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], o.prompt] baseURL:nil];
 
     UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
     continueArrow.frame = CGRectMake(self.bounds.size.width-25,13,19,19);

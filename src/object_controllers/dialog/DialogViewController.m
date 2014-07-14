@@ -21,7 +21,7 @@
     //for smooth transitions/easy organization
     //(if the word 'buffer' confuses you, you're thinking too hard. just a place to load
     //content/data/animations without disturbing what's currently displayed, and can be 
-    //quickly swapped out with what IS currently displayed)
+    //quickly and cleanly swapped out with what IS currently displayed as a whole)
     NSMutableArray *youViewControllers;
     int currentYouViewController; 
     
@@ -87,9 +87,9 @@
     [backButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside]; 
           
     //yes, in 'loadview' which is a bit odd.
-    DialogScript *nullScript = [_MODEL_DIALOGS_ scriptForId:0];
-    nullScript.dialog_id = dialog.dialog_id;  
-    [self dialogScriptChosen:nullScript];
+    DialogScript *script = [_MODEL_DIALOGS_ scriptForId:dialog.intro_dialog_script_id];
+    if(dialog.intro_dialog_script_id == 0) script.dialog_id = dialog.dialog_id; //the 'null script'
+    [self dialogScriptChosen:script];
 }
 
 - (void) viewWillLayoutSubviews

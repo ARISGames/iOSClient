@@ -93,7 +93,7 @@
 
 - (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o
 {
-  [delegate dialogScriptChosen:options[o]];
+    [delegate dialogScriptChosen:[_MODEL_DIALOGS_ scriptForId:((DialogOption *)options[o]).dialog_script_id]];
 }
 
 - (void) passTapToCV:(UITapGestureRecognizer *)g

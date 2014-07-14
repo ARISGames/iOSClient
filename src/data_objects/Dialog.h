@@ -15,14 +15,15 @@
   NSString *name;
   NSString *desc;
   int icon_media_id;
+  int intro_dialog_script_id;
 }
 
 @property(nonatomic, assign) int dialog_id;
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSString *desc;
 @property(nonatomic, assign) int icon_media_id;
+@property(nonatomic, assign) int intro_dialog_script_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 
 @end
-

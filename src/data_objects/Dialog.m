@@ -15,6 +15,7 @@
 @synthesize name;
 @synthesize desc;
 @synthesize icon_media_id;
+@synthesize intro_dialog_script_id;
 
 - (id) init
 {
@@ -24,6 +25,7 @@
     self.name = @"Dialog";
     self.desc = @"";
     self.icon_media_id = 0;
+    self.intro_dialog_script_id = 0;
   }
   return self;
 }
@@ -32,10 +34,11 @@
 {
   if(self = [super init])
   {
-    self.dialog_id      = [dict validIntForKey:@"dialog_id"];
-    self.name           = [dict validStringForKey:@"name"];
-    self.desc           = [dict validStringForKey:@"description"];
-    self.icon_media_id  = [dict validIntForKey:@"icon_media_id"];
+    self.dialog_id              = [dict validIntForKey:@"dialog_id"];
+    self.name                   = [dict validStringForKey:@"name"];
+    self.desc                   = [dict validStringForKey:@"description"];
+    self.icon_media_id          = [dict validIntForKey:@"icon_media_id"];
+    self.intro_dialog_script_id = [dict validIntForKey:@"intro_dialog_script_id"];
   }
   return self;
 }
@@ -43,10 +46,11 @@
 - (Dialog *) copy
 {
   Dialog *c = [[Dialog alloc] init];
-  c.dialog_id      = self.dialog_id;
-  c.name           = self.name;
-  c.desc           = self.desc;
-  c.icon_media_id  = self.icon_media_id;
+  c.dialog_id              = self.dialog_id;
+  c.name                   = self.name;
+  c.desc                   = self.desc;
+  c.icon_media_id          = self.icon_media_id;
+  c.intro_dialog_script_id = self.intro_dialog_script_id;
   return c;
 }
 
