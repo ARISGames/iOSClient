@@ -32,6 +32,7 @@
 - (void) fetchRecentGames;
 - (void) fetchPopularGames;
 - (void) fetchSearchGames:(NSString *)s;
+- (void) fetchPlayerPlayedGame:(int)game_id;
 
 - (void) fetchMedia; - (void) fetchMediaId:(int)media_id;
 - (void) fetchPlaques;
@@ -55,6 +56,8 @@
 - (void) fetchTabsForPlayer;
 - (void) fetchOptionsForPlayerForDialog:(int)dialog_id script:(int)dialog_script_id; //doesn't need to be called during game load
 
+- (void) logPlayerEnteredGame;
+- (void) logPlayerResetGame:(int)game_id;
 - (void) logPlayerMoved;
 - (void) logPlayerViewedTabId:(int)tab_id;
 - (void) logPlayerViewedPlaqueId:(int)plaque_id;

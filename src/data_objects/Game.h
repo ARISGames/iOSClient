@@ -44,7 +44,6 @@
 
   int inventory_weight_cap;
 
-  BOOL has_been_played; 
   int player_count;  
     
   NSMutableArray *authors;
@@ -84,7 +83,6 @@
 
 @property (nonatomic, assign) int inventory_weight_cap;
 
-@property (nonatomic, assign) BOOL has_been_played;
 @property (nonatomic, assign) int player_count;
 
 @property (nonatomic, strong) NSMutableArray *authors;

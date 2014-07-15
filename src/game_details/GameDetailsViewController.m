@@ -8,9 +8,7 @@
 
 #import "GameDetailsViewController.h"
 #import "AppModel.h"
-#import "MediaModel.h"
 #import "GameCommentsViewController.h"
-#import "Game.h"
 
 #import "ARISAlertHandler.h"
 #import "ARISWebView.h"
@@ -19,17 +17,18 @@
 
 #import "StateControllerProtocol.h"
 
-#import <QuartzCore/QuartzCore.h>
-
 @interface GameDetailsViewController() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, GameCommentsViewControllerDelegate, UIWebViewDelegate>
 {
     ARISMediaView *mediaView;
     ARISWebView *descriptionView;
     UIButton *startButton;
+    UIButton *resumeButton;
     UIButton *resetButton;
     UIButton *rateButton;
     
    	Game *game; 
+    BOOL loading_has_been_played;
+    BOOL has_been_played;
     id<GameDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -43,6 +42,10 @@
     {
         delegate = d;
         game = g;
+        _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE", self, @selector(gamePlayedReceived:), nil);
+        
+        loading_has_been_played = YES;
+        [_MODEL_GAMES_ requestPlayerPlayedGame:game.game_id];
     }
     return self;
 }
@@ -64,6 +67,12 @@
     [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     startButton.titleLabel.font = [ARISTemplate ARISButtonFont];
     
+    resumeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [resumeButton setTitle:NSLocalizedString(@"GameDetailsResumeKey", @"") forState:UIControlStateNormal]; 
+    [resumeButton setBackgroundColor:[UIColor ARISColorLightBlue]];
+    [resumeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    resumeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [resetButton setTitle:NSLocalizedString(@"GameDetailsResetKey", nil) forState:UIControlStateNormal];
     [resetButton setBackgroundColor:[UIColor ARISColorRed]];
@@ -84,6 +93,7 @@
     [rateButton addSubview:reviewsTextView];
     
     [startButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [resumeButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [rateButton  addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside];
     
@@ -95,10 +105,15 @@
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
     [self.view addSubview:mediaView];
-    [self.view addSubview:startButton]; 
-    [self.view addSubview:resetButton];
     [self.view addSubview:rateButton];
     [self.view addSubview:descriptionView];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated]; 
+    
+    [self refreshFromGame]; 
 }
 
 - (void) viewWillLayoutSubviews
@@ -108,17 +123,6 @@
     [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200)];
     rateButton.frame = CGRectMake(0, startButton.frame.origin.y-40, self.view.bounds.size.width, 40);
     descriptionView.frame = CGRectMake(0,200+64,self.view.bounds.size.width,rateButton.frame.origin.y-(200+64));
-    if(game.has_been_played)
-    {
-        [self.view addSubview:resetButton];
-        startButton.frame = CGRectMake((self.view.bounds.size.width/2),self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
-        resetButton.frame = CGRectMake(0,self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
-    }
-    else
-    {
-        [resetButton removeFromSuperview];
-        startButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
-    }
 }
 
 - (void) refreshFromGame
@@ -131,17 +135,25 @@
     if(game.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:game.media_id]];
     else              [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]]; 
     
-    if(game.has_been_played) [startButton setTitle:NSLocalizedString(@"GameDetailsResumeKey", @"")  forState:UIControlStateNormal];
-    else                     [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal]; 
+    [startButton removeFromSuperview]; 
+    [resumeButton removeFromSuperview];
+    [resetButton removeFromSuperview];
+    if(loading_has_been_played)
+    {
+    }
+    else if(has_been_played)
+    {
+        startButton.frame = CGRectMake((self.view.bounds.size.width/2),self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
+        resetButton.frame = CGRectMake(0,self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
+        [self.view addSubview:resetButton];
+        [self.view addSubview:resumeButton];
+    }
+    else
+    {
+        startButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
+        [self.view addSubview:startButton];
+    }
     
-    [self viewWillLayoutSubviews]; //let that take care of adding/removing reset
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated]; 
-    
-    [self refreshFromGame]; 
 }
 
 - (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -158,7 +170,6 @@
 
 - (void) startButtonTouched
 {
-    game.has_been_played = YES;
     [_MODEL_ chooseGame:game];
 }
 
@@ -183,16 +194,18 @@
 {
     if(buttonIndex == 1)
     {
-        [_MODEL_ resetGame];
+        [_MODEL_LOGS_ playerResetGame:game.game_id];
         startButton.enabled =NO;
-        game.has_been_played = NO;
+        has_been_played = NO;
         [self refreshFromGame];
     }
 }
 
-- (void) gameReset
+- (void) gamePlayedReceived:(NSNotification *)notif
 {
-    startButton.enabled = YES;
+    has_been_played = notif.userInfo[@"has_played"];
+    loading_has_been_played = NO;
+    [self refreshFromGame];
 }
 
 //implement statecontrol stuff for webpage, but ignore any requests

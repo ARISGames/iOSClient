@@ -183,6 +183,18 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
+- (void) fetchPlayerPlayedGame:(int)game_id
+{
+    NSDictionary *args =
+        @{
+            @"game_id":[NSString stringWithFormat:@"%d",game_id],
+        };
+  [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerPlayedGame" arguments:args handler:self successSelector:@selector(parsePlayerPlayedGame:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parsePlayerPlayedGame:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_PLAYED_GAME_RECEIVED", nil, (NSDictionary *)result.resultData);
+}
 
 - (void) fetchMedia
 {
@@ -554,6 +566,22 @@
 }
 
 
+- (void) logPlayerEnteredGame
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerEnteredGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) logPlayerResetGame:(int)game_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:game_id],
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerResetGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+}
 - (void) logPlayerMoved
 {
     NSDictionary *args =

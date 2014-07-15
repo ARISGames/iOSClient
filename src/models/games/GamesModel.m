@@ -39,6 +39,7 @@
     _ARIS_NOTIF_LISTEN_(@"SERVICES_RECENT_GAMES_RECEIVED",self,@selector(recentGamesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_SEARCH_GAMES_RECEIVED",self,@selector(searchGamesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_RECEIVED",self,@selector(gameReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_PLAYED_GAME_RECEIVED",self,@selector(playerPlayedGameReceived:),nil);
   }
   return self;
 }
@@ -189,6 +190,18 @@
     }   
     
     return searchGames;    
+}
+
+- (void) requestPlayerPlayedGame:(int)game_id
+{
+    //when offline mode implemented, just check log here
+    [_SERVICES_ fetchPlayerPlayedGame:game_id];
+}
+
+- (void) playerPlayedGameReceived:(NSNotification *)notif
+{
+    //just turn event around and re-send it
+    _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE",nil,notif.userInfo);
 }
 
 - (void) dealloc

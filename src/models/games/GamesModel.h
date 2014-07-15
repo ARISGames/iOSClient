@@ -20,6 +20,9 @@
 - (NSArray *) recentGames;
 - (NSArray *) searchGames:(NSString *)search;
 
+- (void) requestPlayerPlayedGame:(int)game_id;
+
+
 - (void) invalidateData; //force refresh
 - (void) clearData;
 

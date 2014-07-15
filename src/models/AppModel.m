@@ -131,6 +131,7 @@
 
 - (void) beginGame
 {
+  [_MODEL_LOGS_ playerEnteredGame];
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);   
 }
 
@@ -140,11 +141,6 @@
   _MODEL_GAME_ = nil; 
   [_DEFAULTS_ saveUserDefaults]; 
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);    
-}
-
-- (void) resetGame
-{
-    //[_SERVICES_ resetGame:g];
 }
 
 - (void) deviceMoved:(NSNotification *)n

@@ -49,7 +49,6 @@ const int playerDatasToReceive = 6;
 @synthesize allow_note_likes;
 
 @synthesize inventory_weight_cap;
-@synthesize has_been_played;
 @synthesize player_count;
 
 @synthesize authors;
@@ -102,7 +101,6 @@ const int playerDatasToReceive = 6;
 
         inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
         
-        has_been_played = [dict validBoolForKey:@"has_been_played"]; 
         player_count = [dict validIntForKey:@"player_count"];  
         
         NSArray *authorDicts;
@@ -147,7 +145,6 @@ const int playerDatasToReceive = 6;
     allow_note_likes = g.allow_note_likes;
 
     inventory_weight_cap = g.inventory_weight_cap;
-    has_been_played = g.has_been_played;
     player_count = g.player_count;
 
     authors  = g.authors;
