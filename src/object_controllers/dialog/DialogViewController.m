@@ -110,21 +110,23 @@
 */
 - (void) dialogScriptChosen:(DialogScript *)s
 {
+    [_MODEL_LOGS_ playerViewedContent:@"DIALOG_SCRIPT" id:s.dialog_script_id];    
     if(s.dialog_character_id == 0)
     {
+        DialogScriptViewController *old_vc = youViewControllers[currentYouViewController]; //for readability
         currentYouViewController = (currentYouViewController+1)%2;
-        DialogScriptViewController *vc = youViewControllers[currentYouViewController]; //for readability
+        DialogScriptViewController *new_vc = youViewControllers[currentYouViewController]; //for readability
         
         //set 'to be displayed' vc buffer to alpha 0 (to be animated to 1.0) if transition is in-place 
-        if(vc.view.frame.origin.x != centerFrame.origin.x) vc.view.alpha = 0.0f; 
+        if(new_vc.view.frame.origin.x != centerFrame.origin.x) new_vc.view.alpha = 0.0f; 
         
-        [vc loadScript:s]; //populate it with content
-        [self.view bringSubviewToFront:vc.view]; //bring it to front
+        [new_vc loadScript:s guessedHeight:old_vc.heightOfTextBox]; //populate it with content
+        [self.view bringSubviewToFront:new_vc.view]; //bring it to front
         
        	[UIView beginAnimations:@"transition" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
         [UIView setAnimationDuration:0.25];
-        vc.view.alpha = 1.0;
+        new_vc.view.alpha = 1.0;
         ((UIViewController *)youViewControllers[0]).view.frame = centerFrame;
         ((UIViewController *)youViewControllers[1]).view.frame = centerFrame; 
         ((UIViewController *)themViewControllers[0]).view.frame = rightFrame;
@@ -133,19 +135,20 @@
     }
     else
     {
+        DialogScriptViewController *old_vc = themViewControllers[currentThemViewController]; //for readability
         currentThemViewController = (currentThemViewController+1)%2;
-        DialogScriptViewController *vc = themViewControllers[currentThemViewController]; //for readability
+        DialogScriptViewController *new_vc = themViewControllers[currentThemViewController]; //for readability
         
         //set 'to be displayed' vc buffer to alpha 0 (to be animated to 1.0) if transition is in-place 
-        if(vc.view.frame.origin.x != centerFrame.origin.x) vc.view.alpha = 0.0f; 
+        if(new_vc.view.frame.origin.x != centerFrame.origin.x) new_vc.view.alpha = 0.0f; 
         
-        [vc loadScript:s]; //populate it with content
-        [self.view bringSubviewToFront:vc.view]; //bring it to front
+        [new_vc loadScript:s guessedHeight:old_vc.heightOfTextBox]; //populate it with content
+        [self.view bringSubviewToFront:new_vc.view]; //bring it to front
         
        	[UIView beginAnimations:@"transition" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
         [UIView setAnimationDuration:0.25];
-        vc.view.alpha = 1.0;
+        new_vc.view.alpha = 1.0;
         ((UIViewController *)themViewControllers[0]).view.frame = centerFrame;
         ((UIViewController *)themViewControllers[1]).view.frame = centerFrame; 
         ((UIViewController *)youViewControllers[0]).view.frame = leftFrame;

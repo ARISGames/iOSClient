@@ -23,6 +23,8 @@
     ARISMediaView *mediaView;
     ARISCollapseView *collapseView;
     DialogTextView *dialogTextView;
+    
+    int lastKnownTextFrameHeight;
 
     id<DialogScriptViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -59,7 +61,7 @@
     [self.view addSubview:collapseView]; 
 }
 
-- (void) loadScript:(DialogScript *)s
+- (void) loadScript:(DialogScript *)s guessedHeight:(int)h
 {
     script = s;
     if(!s.dialog_character_id) //'you' character
@@ -75,6 +77,7 @@
     }
     [dialogTextView loadText:s.text];
     [dialogTextView setOptionsLoading]; 
+    [self dialogTextView:dialogTextView expandedToSize:CGSizeMake(h,h)];
     [_MODEL_DIALOGS_ requestPlayerOptionsForDialogId:dialog.dialog_id scriptId:s.dialog_script_id];
 }
 
@@ -88,7 +91,8 @@
 - (void) dialogTextView:(DialogTextView *)dtv expandedToSize:(CGSize)s
 {
     [collapseView setContentFrameHeight:s.height];
-    [collapseView setFrameHeight:s.height]; 
+    [collapseView setFrameHeight:s.height+10]; 
+    lastKnownTextFrameHeight = s.height;
 }
 
 - (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o
@@ -99,6 +103,11 @@
 - (void) passTapToCV:(UITapGestureRecognizer *)g
 {
     [collapseView handleTapped:g];
+}
+
+- (int) heightOfTextBox
+{
+    return lastKnownTextFrameHeight;
 }
 
 - (void) dealloc

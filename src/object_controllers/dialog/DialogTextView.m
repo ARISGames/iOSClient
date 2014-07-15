@@ -115,7 +115,7 @@
         wv.superview.frame = CGRectMake(wv.superview.frame.origin.x, wv.superview.frame.origin.y, wv.superview.frame.size.width, height);
     }
 
-    if(webViewLoaded && optionWebViewsLoaded == optionButtons.count)
+    if(webViewLoaded && optionWebViewsLoaded == optionButtons.count && !fetchingOptions)
         [self layoutButtons];
 }
 
@@ -134,7 +134,7 @@
         [self addSubview:obv];
         h += obv.frame.size.height;
     }
-    h += 20; //buffer
+    h += 10; //buffer
     [delegate dialogTextView:self expandedToSize:CGSizeMake(self.frame.size.width,h)];
 }
 

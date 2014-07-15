@@ -18,5 +18,6 @@
 
 @interface DialogScriptViewController : ARISViewController
 - (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate>)d;
-- (void) loadScript:(DialogScript *)s;
+- (void) loadScript:(DialogScript *)s guessedHeight:(int)h;
+- (int) heightOfTextBox;
 @end
