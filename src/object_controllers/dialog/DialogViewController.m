@@ -67,6 +67,8 @@
     youViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog delegate:self];   
     ((UIViewController *)youViewControllers[0]).view.frame = leftFrame;
     ((UIViewController *)youViewControllers[1]).view.frame = leftFrame;  
+    ((UIViewController *)youViewControllers[0]).view.opaque = NO;
+    ((UIViewController *)youViewControllers[1]).view.opaque = NO;
     [self.view addSubview:((UIViewController *)youViewControllers[0]).view];
     [self.view addSubview:((UIViewController *)youViewControllers[1]).view]; 
     currentYouViewController = 0; 
@@ -76,6 +78,8 @@
     themViewControllers[1] = [[DialogScriptViewController alloc] initWithDialog:dialog delegate:self];   
     ((UIViewController *)themViewControllers[0]).view.frame = rightFrame;  
     ((UIViewController *)themViewControllers[1]).view.frame = rightFrame;   
+    ((UIViewController *)themViewControllers[0]).view.opaque = NO;
+    ((UIViewController *)themViewControllers[1]).view.opaque = NO;
     [self.view addSubview:((UIViewController *)themViewControllers[0]).view];  
     [self.view addSubview:((UIViewController *)themViewControllers[1]).view];  
     currentThemViewController = 0;
@@ -96,7 +100,6 @@
 {
     [super viewWillLayoutSubviews];
    	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
-    
 }
 
 /*

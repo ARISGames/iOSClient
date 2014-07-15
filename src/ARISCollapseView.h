@@ -20,11 +20,17 @@
 @interface ARISCollapseView : UIView
 - (id) initWithContentView:(UIView *)v frame:(CGRect)f open:(BOOL)o showHandle:(BOOL)h draggable:(BOOL)d tappable:(BOOL)t delegate:(id<ARISCollapseViewDelegate>)del;
 - (void) setFrame:(CGRect)f;
+- (void) setFrameSilently:(CGRect)f;
 - (void) setFrameHeight:(CGFloat)h; //sets open frame while keeping bottom in same spot
+- (void) setFrameHeightSilently:(CGFloat)h;
 - (void) setContentFrame:(CGRect)f;
+- (void) setContentFrameSilently:(CGRect)f;
 - (void) setContentFrameHeight:(CGFloat)h;
+- (void) setContentFrameHeightSilently:(CGFloat)h;
 - (void) open;
+- (void) openSilently;
 - (void) close;
+- (void) closeSilently;
 
 //use to add drag/tap areas outside of the collapse view
 - (void) handleTapped:(UITapGestureRecognizer *)g;

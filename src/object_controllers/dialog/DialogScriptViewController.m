@@ -55,7 +55,8 @@
     dialogTextView = [[DialogTextView alloc] initWithDelegate:self];
     dialogTextView.frame = CGRectMake(0,0,self.view.bounds.size.width,10);
     dialogTextView.userInteractionEnabled = YES;
-    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    lastKnownTextFrameHeight = 40;
 
     [self.view addSubview:mediaView];
     [self.view addSubview:collapseView]; 
@@ -77,7 +78,9 @@
     }
     [dialogTextView loadText:s.text];
     [dialogTextView setOptionsLoading]; 
-    [self dialogTextView:dialogTextView expandedToSize:CGSizeMake(h,h)];
+    [collapseView setContentFrameHeightSilently:h];
+    [collapseView setFrameHeightSilently:h+10]; 
+    lastKnownTextFrameHeight = h;
     [_MODEL_DIALOGS_ requestPlayerOptionsForDialogId:dialog.dialog_id scriptId:s.dialog_script_id];
 }
 

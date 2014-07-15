@@ -101,9 +101,22 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     else                                               [self close];
 }
 
+- (void) setFrameSilently:(CGRect)f
+{
+    openFrame = [self frameWithBarAndTouchBuffer:f];
+    
+    if(self.frame.size.height != handle_buffer_height) [self openSilently];
+    else                                               [self closeSilently];
+}
+
 - (void) setFrameHeight:(CGFloat)h
 {
     [self setFrame:CGRectMake(openFrame.origin.x, self.frame.origin.y+self.frame.size.height-h, openFrame.size.width, h)];
+}
+
+- (void) setFrameHeightSilently:(CGFloat)h
+{
+    [self setFrameSilently:CGRectMake(openFrame.origin.x, self.frame.origin.y+self.frame.size.height-h, openFrame.size.width, h)];
 }
 
 - (void) setContentFrame:(CGRect)f
@@ -112,9 +125,20 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     self.contentContainerView.contentSize = CGSizeMake(self.content.frame.origin.x+self.content.frame.size.width,self.content.frame.origin.y+self.content.frame.size.height);
 }
 
+- (void) setContentFrameSilently:(CGRect)f //silently is actually identical in this scenario
+{
+    self.content.frame = f;
+    self.contentContainerView.contentSize = CGSizeMake(self.content.frame.origin.x+self.content.frame.size.width,self.content.frame.origin.y+self.content.frame.size.height);
+}
+
 - (void) setContentFrameHeight:(CGFloat)h
 {
     [self setContentFrame:CGRectMake(self.content.frame.origin.x,self.content.frame.origin.y,self.content.frame.size.width,h)];
+}
+
+- (void) setContentFrameHeightSilently:(CGFloat)h
+{
+    [self setContentFrameSilently:CGRectMake(self.content.frame.origin.x,self.content.frame.origin.y,self.content.frame.size.width,h)];
 }
 
 - (void) handleTapped:(UITapGestureRecognizer *)g
@@ -161,6 +185,13 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     [UIView commitAnimations];
 }
 
+- (void) openSilently
+{
+    [super setFrame:openFrame];
+    self.contentContainerView.frame = CGRectMake(0,handle_buffer_height,openFrame.size.width,openFrame.size.height-handle_buffer_height);
+    self.contentContainerView.contentSize= self.content.frame.size;
+}
+
 - (void) close
 {
     if([(NSObject *)delegate respondsToSelector:@selector(collapseView:didStartOpen:)]) [delegate collapseView:self didStartOpen:NO];
@@ -171,6 +202,13 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     self.contentContainerView.frame = CGRectMake(0,handle_buffer_height,openFrame.size.width,openFrame.size.height-handle_buffer_height);
     self.contentContainerView.contentSize= self.content.frame.size;
     [UIView commitAnimations];
+}
+
+- (void) closeSilently
+{
+    [super setFrame:CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-handle_buffer_height, openFrame.size.width, handle_buffer_height)];
+    self.contentContainerView.frame = CGRectMake(0,handle_buffer_height,openFrame.size.width,openFrame.size.height-handle_buffer_height);
+    self.contentContainerView.contentSize= self.content.frame.size;
 }
 
 - (void) setBackgroundColor:(UIColor *)backgroundColor
