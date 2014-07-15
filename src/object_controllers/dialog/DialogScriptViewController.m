@@ -37,7 +37,7 @@
     {
         dialog = n;
         delegate = d;
-        _ARIS_NOTIF_LISTEN_(@"MODEL_SCRIPT_OPTIONS_AVAILABLE", self, @selector(scriptOptionsAvailable:), nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_SCRIPT_OPTIONS_AVAILABLE", self, @selector(scriptOptionsAvailable:), nil);
     }
     return self; 
 }
