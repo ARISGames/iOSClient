@@ -63,6 +63,7 @@
     _ARIS_NOTIF_LISTEN_(@"DEFAULTS_UPDATED", self, @selector(defaultsUpdated), nil); 
     _ARIS_NOTIF_LISTEN_(@"DEVICE_MOVED", self, @selector(deviceMoved:), nil); 
     _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_RECEIVED", self, @selector(loginReceived:), nil); 
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_FAILED", self, @selector(loginFailed:), nil); 
   }
   return self;
 }
@@ -99,6 +100,7 @@
 }
 
 - (void) loginReceived:(NSNotification *)n { [self logInPlayer:(User *)n.userInfo[@"user"]]; }
+- (void) loginFailed:(NSNotification *)n { _ARIS_NOTIF_SEND_(@"MODEL_LOGIN_FAILED",nil,nil); }
 - (void) logInPlayer:(User *)p
 {
   _MODEL_PLAYER_ = p;

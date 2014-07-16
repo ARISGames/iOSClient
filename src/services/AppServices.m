@@ -76,6 +76,7 @@
 
 - (void) parseLoginResponse:(ARISServiceResult *)result
 {
+  if(!result.resultData) { _ARIS_NOTIF_SEND_(@"SERVICES_LOGIN_FAILED",nil,nil); return; }
   User *user = [[User alloc] initWithDictionary:(NSDictionary *)result.resultData];
   _ARIS_NOTIF_SEND_(@"SERVICES_LOGIN_RECEIVED",nil,@{@"user":user});
 }

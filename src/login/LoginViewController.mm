@@ -50,6 +50,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
       
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(resetState),nil); 
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(resetState),nil); 
+    _ARIS_NOTIF_LISTEN_(@"MODEL_LOGIN_FAILED",self,@selector(loginFailed),nil); 
   }
   return self;
 }
@@ -157,6 +158,11 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   passwordField.text = @"";
   game_id = 0;
   newPlayer = NO;
+}
+
+- (void) loginFailed
+{
+    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Login Failed" message:@"Invalid Username/Password"];
 }
 
 - (void) resignKeyboard
