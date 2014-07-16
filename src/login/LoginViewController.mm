@@ -15,10 +15,10 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import <ZXingWidgetController.h>
 #import "QRCodeReader.h"
 
-#import "SelfRegistrationViewController.h"
+#import "CreateAccountViewController.h"
 #import "ForgotPasswordViewController.h"
 
-@interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate>
+@interface LoginViewController() <ZXingDelegate, CreateAccountViewControllerDelegate, UITextFieldDelegate>
 {
   UITextField *usernameField;
   UITextField *passwordField;
@@ -138,6 +138,12 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 {
   [super viewWillAppear:animated];
 
+  [self resetState];
+}
+
+- (void) viewWillLayoutSubviews
+{
+  [super viewWillLayoutSubviews];
   int navOffset = 66;
 
   usernameField.frame    = CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20);
@@ -148,8 +154,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
   line1.frame            = CGRectMake(20, navOffset+20+20+5, self.view.frame.size.width-40, 1);
   line2.frame            = CGRectMake(20, navOffset+20+20+20+20+5, self.view.frame.size.width-40, 1);
-
-  [self resetState];
 }
 
 - (void) resetState
@@ -213,8 +217,8 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (void) newAccountButtonTouched
 {
   [self resignKeyboard];
-  SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] initWithDelegate:self];
-  [[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
+  CreateAccountViewController *createAccountViewController = [[CreateAccountViewController alloc] initWithDelegate:self];
+  [[self navigationController] pushViewController:createAccountViewController animated:YES];
 }
 
 - (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result

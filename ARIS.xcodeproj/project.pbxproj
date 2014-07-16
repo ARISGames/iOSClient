@@ -209,7 +209,7 @@
 		AABC73A4172739D80074CC21 /* GamePickerSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70C2172739D60074CC21 /* GamePickerSearchViewController.m */; };
 		AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70C7172739D60074CC21 /* LoadingViewController.m */; };
 		AABC73AA172739D80074CC21 /* LoginViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CC172739D60074CC21 /* LoginViewController.mm */; };
-		AABC73AC172739D80074CC21 /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CF172739D60074CC21 /* SelfRegistrationViewController.m */; };
+		AABC73AC172739D80074CC21 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CF172739D60074CC21 /* CreateAccountViewController.m */; };
 		AABC73AD172739D80074CC21 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D0172739D60074CC21 /* main.mm */; };
 		AABC73B3172739D80074CC21 /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70DD172739D60074CC21 /* AppModel.m */; };
 		AABC73B7172739D80074CC21 /* MediaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70E9172739D60074CC21 /* MediaModel.m */; };
@@ -625,8 +625,8 @@
 		AABC70C7172739D60074CC21 /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
 		AABC70CB172739D60074CC21 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		AABC70CC172739D60074CC21 /* LoginViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginViewController.mm; sourceTree = "<group>"; };
-		AABC70CE172739D60074CC21 /* SelfRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfRegistrationViewController.h; sourceTree = "<group>"; };
-		AABC70CF172739D60074CC21 /* SelfRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfRegistrationViewController.m; sourceTree = "<group>"; };
+		AABC70CE172739D60074CC21 /* CreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateAccountViewController.h; sourceTree = "<group>"; };
+		AABC70CF172739D60074CC21 /* CreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateAccountViewController.m; sourceTree = "<group>"; };
 		AABC70D0172739D60074CC21 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		AABC70DC172739D60074CC21 /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
 		AABC70DD172739D60074CC21 /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppModel.m; sourceTree = "<group>"; };
@@ -1395,8 +1395,8 @@
 			children = (
 				AABC70CB172739D60074CC21 /* LoginViewController.h */,
 				AABC70CC172739D60074CC21 /* LoginViewController.mm */,
-				AABC70CE172739D60074CC21 /* SelfRegistrationViewController.h */,
-				AABC70CF172739D60074CC21 /* SelfRegistrationViewController.m */,
+				AABC70CE172739D60074CC21 /* CreateAccountViewController.h */,
+				AABC70CF172739D60074CC21 /* CreateAccountViewController.m */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -2144,7 +2144,7 @@
 				F97B42AD18D39DF5002FC8AD /* TriangleButton.m in Sources */,
 				AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */,
 				AABC73AA172739D80074CC21 /* LoginViewController.mm in Sources */,
-				AABC73AC172739D80074CC21 /* SelfRegistrationViewController.m in Sources */,
+				AABC73AC172739D80074CC21 /* CreateAccountViewController.m in Sources */,
 				AABC73AD172739D80074CC21 /* main.mm in Sources */,
 				AABC064718A1896500315FB5 /* CrumbPath.m in Sources */,
 				AAB398E41918166700E0E766 /* Plaque.m in Sources */,
