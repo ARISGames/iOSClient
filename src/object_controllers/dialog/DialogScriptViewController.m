@@ -87,7 +87,7 @@
 - (void) scriptOptionsAvailable:(NSNotification *)n
 {
     if(!script || [((NSNumber *)n.userInfo[@"dialog_script_id"]) intValue] != script.dialog_script_id) return;
-    options = n.userInfo[@"options"];
+    options = _ARIS_ARRAY_SORTED_ON_(n.userInfo[@"options"], @"sort_index");
     [dialogTextView setOptions:options];
 }
 

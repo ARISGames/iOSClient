@@ -39,4 +39,12 @@ NSLog(@"NSNotification: "arg_name); \
 [[NSNotificationCenter defaultCenter] removeObserver:arg_observer]; \
 })
 
+//
+//More Sugar
+//
+
+#define _ARIS_ARRAY_SORTED_ON_(arg_array,arg_attribute) \
+({ \
+[arg_array sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:arg_attribute ascending:YES]]]; \
+})
 #endif

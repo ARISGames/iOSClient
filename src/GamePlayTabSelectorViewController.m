@@ -130,7 +130,7 @@
 
 - (void) refreshFromModel
 {
-    NSArray *playerTabs = [_MODEL_TABS_ playerTabs];
+    NSArray *playerTabs = _ARIS_ARRAY_SORTED_ON_([_MODEL_TABS_ playerTabs],@"sort_index");
     viewControllers = [[NSMutableArray alloc] initWithCapacity:10]; 
     
     Tab *tab;
