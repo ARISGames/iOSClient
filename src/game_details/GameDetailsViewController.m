@@ -123,6 +123,10 @@
     [mediaView setFrame:CGRectMake(0,0+64,self.view.bounds.size.width,200)];
     rateButton.frame = CGRectMake(0, startButton.frame.origin.y-40, self.view.bounds.size.width, 40);
     descriptionView.frame = CGRectMake(0,200+64,self.view.bounds.size.width,rateButton.frame.origin.y-(200+64));
+    
+    startButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
+    resumeButton.frame = CGRectMake((self.view.bounds.size.width/2),self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
+    resetButton.frame = CGRectMake(0,self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
 }
 
 - (void) refreshFromGame
@@ -143,14 +147,11 @@
     }
     else if(has_been_played)
     {
-        startButton.frame = CGRectMake((self.view.bounds.size.width/2),self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
-        resetButton.frame = CGRectMake(0,self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
         [self.view addSubview:resetButton];
         [self.view addSubview:resumeButton];
     }
     else
     {
-        startButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
         [self.view addSubview:startButton];
     }
     
@@ -194,8 +195,7 @@
 {
     if(buttonIndex == 1)
     {
-        [_MODEL_LOGS_ playerResetGame:game.game_id];
-        startButton.enabled =NO;
+        [_MODEL_GAMES_ playerResetGame:game.game_id];
         has_been_played = NO;
         [self refreshFromGame];
     }
@@ -203,7 +203,7 @@
 
 - (void) gamePlayedReceived:(NSNotification *)notif
 {
-    has_been_played = notif.userInfo[@"has_played"];
+    has_been_played = [notif.userInfo[@"has_played"] boolValue];
     loading_has_been_played = NO;
     [self refreshFromGame];
 }

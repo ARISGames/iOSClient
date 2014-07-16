@@ -14,6 +14,7 @@
 
 @protocol DialogScriptViewControllerDelegate
 - (void) dialogScriptChosen:(DialogScript *)s;
+- (void) exitRequested;
 @end
 
 @interface DialogScriptViewController : ARISViewController

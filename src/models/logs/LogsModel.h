@@ -17,7 +17,6 @@
 - (void) clearPlayerData;
 
 - (void) playerEnteredGame;
-- (void) playerResetGame:(int)game_id;
 - (void) playerMoved;
 - (void) playerViewedTabId:(int)tab_id;
 - (void) playerViewedContent:(NSString *)content id:(int)content_id;

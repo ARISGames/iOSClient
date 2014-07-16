@@ -100,7 +100,11 @@
 
 - (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o
 {
-    [delegate dialogScriptChosen:[_MODEL_DIALOGS_ scriptForId:((DialogOption *)options[o]).dialog_script_id]];
+    DialogOption *op = options[o];
+    if([op.link_type isEqualToString:@"DIALOG_SCRIPT"])
+        [delegate dialogScriptChosen:[_MODEL_DIALOGS_ scriptForId:op.link_id]];
+    else if([op.link_type isEqualToString:@"EXIT"])
+        [delegate exitRequested];
 }
 
 - (void) passTapToCV:(UITapGestureRecognizer *)g

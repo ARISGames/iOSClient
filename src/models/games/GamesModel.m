@@ -128,6 +128,10 @@
 {
     [_SERVICES_ fetchGame:game_id];
 }
+- (void) playerResetGame:(int)game_id
+{
+    [_SERVICES_ logPlayerResetGame:game_id];
+}
 
 - (NSArray *) nearbyGames
 {

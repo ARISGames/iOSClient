@@ -572,7 +572,7 @@
     @{
       @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerEnteredGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerBeganGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerResetGame:(int)game_id
 {

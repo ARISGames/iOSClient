@@ -160,6 +160,11 @@
     }
 }
 
+- (void) exitRequested
+{
+    [self dismissSelf];
+}
+
 - (void) dismissSelf
 {
     [delegate instantiableViewControllerRequestsDismissal:self];

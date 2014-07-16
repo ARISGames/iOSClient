@@ -71,11 +71,6 @@
     [_SERVICES_ logPlayerEnteredGame];
 }
 
-- (void) playerResetGame:(int)game_id
-{
-    [_SERVICES_ logPlayerResetGame:game_id];
-}
-
 - (void) playerMoved
 {
     [_SERVICES_ logPlayerMoved];
