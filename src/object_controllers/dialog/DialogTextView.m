@@ -168,7 +168,8 @@
 
 - (void) optionSelected:(UITapGestureRecognizer *)r
 {
-  [delegate dialogTextView:self selectedOption:0];
+    for(int i = 0; i < optionButtons.count; i++)
+        if(r.view == optionButtons[i]) [delegate dialogTextView:self selectedOption:i];
 }
 
 @end

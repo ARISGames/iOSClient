@@ -237,8 +237,6 @@
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
-		AAC0D87E1930F4E200CA1DE3 /* DialogOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8711930F4E200CA1DE3 /* DialogOptionsViewController.m */; };
-		AAC0D87F1930F4E200CA1DE3 /* DialogScriptElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8731930F4E200CA1DE3 /* DialogScriptElementView.m */; };
 		AAC0D8801930F4E200CA1DE3 /* DialogScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */; };
 		AAC0D8811930F4E200CA1DE3 /* DialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8771930F4E200CA1DE3 /* DialogViewController.m */; };
 		AAC0D8891930F6D900CA1DE3 /* Dialog.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8861930F6D900CA1DE3 /* Dialog.m */; };
@@ -697,10 +695,6 @@
 		AABC75031728604E0074CC21 /* WebPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPageViewController.m; sourceTree = "<group>"; };
 		AABC750E172860860074CC21 /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		AABC750F172860860074CC21 /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
-		AAC0D8701930F4E200CA1DE3 /* DialogOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogOptionsViewController.h; sourceTree = "<group>"; };
-		AAC0D8711930F4E200CA1DE3 /* DialogOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogOptionsViewController.m; sourceTree = "<group>"; };
-		AAC0D8721930F4E200CA1DE3 /* DialogScriptElementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScriptElementView.h; sourceTree = "<group>"; };
-		AAC0D8731930F4E200CA1DE3 /* DialogScriptElementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScriptElementView.m; sourceTree = "<group>"; };
 		AAC0D8741930F4E200CA1DE3 /* DialogScriptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScriptViewController.h; sourceTree = "<group>"; };
 		AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScriptViewController.m; sourceTree = "<group>"; };
 		AAC0D8761930F4E200CA1DE3 /* DialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogViewController.h; sourceTree = "<group>"; };
@@ -1747,10 +1741,6 @@
 				AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */,
 				AAF8A382196C536200CD3D71 /* DialogTextView.h */,
 				AAF8A383196C536200CD3D71 /* DialogTextView.m */,
-				AAC0D8701930F4E200CA1DE3 /* DialogOptionsViewController.h */,
-				AAC0D8711930F4E200CA1DE3 /* DialogOptionsViewController.m */,
-				AAC0D8721930F4E200CA1DE3 /* DialogScriptElementView.h */,
-				AAC0D8731930F4E200CA1DE3 /* DialogScriptElementView.m */,
 			);
 			path = dialog;
 			sourceTree = "<group>";
@@ -2124,7 +2114,6 @@
 				AABC7390172739D80074CC21 /* GameCommentCell.m in Sources */,
 				AAC0D8811930F4E200CA1DE3 /* DialogViewController.m in Sources */,
 				AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */,
-				AAC0D87E1930F4E200CA1DE3 /* DialogOptionsViewController.m in Sources */,
 				AAC0D8891930F6D900CA1DE3 /* Dialog.m in Sources */,
 				AABC7395172739D80074CC21 /* GameCommentsViewController.m in Sources */,
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
@@ -2212,7 +2201,6 @@
 				AA0CDB2319312D2F00697DB6 /* ARISDefaults.m in Sources */,
 				AABC74DF172739D80074CC21 /* UIImage+fixOrientation.m in Sources */,
 				AA9F7132194F418B00384832 /* DialogScript.m in Sources */,
-				AAC0D87F1930F4E200CA1DE3 /* DialogScriptElementView.m in Sources */,
 				F92B5E0F18BFE02900D1D1A7 /* CircleButton.m in Sources */,
 				AAF9231E1885968B0026A4FC /* NoteRecorderViewController.m in Sources */,
 				AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */,
