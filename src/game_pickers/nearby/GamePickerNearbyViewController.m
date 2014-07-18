@@ -17,7 +17,6 @@
     if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerNearbyTabKey", @"");
-        
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationarrow_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationarrow.png"]]; 
         
         _ARIS_NOTIF_LISTEN_(@"MODEL_NEARBY_GAMES_AVAILABLE",self,@selector(nearbyGamesAvailable),nil);
@@ -27,12 +26,13 @@
 
 - (void) nearbyGamesAvailable
 {
-    [self removeLoadingIndicator]; 
-    [self refreshViewFromModel];
+    [self removeLoadingIndicator];
+	games = _MODEL_GAMES_.nearbyGames;
+    [gameTable reloadData];
 }
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.nearbyGames;
+	games = _MODEL_GAMES_.pingNearbyGames;
     [gameTable reloadData];
 }
 

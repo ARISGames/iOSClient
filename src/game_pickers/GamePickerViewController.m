@@ -45,8 +45,6 @@
     
     refreshControl = [[UIRefreshControl alloc] init]; 
     [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
-    
-    [gameTable reloadData];
 }
 
 - (void) viewWillLayoutSubviews
@@ -66,13 +64,6 @@
 {
     [super viewDidAppear:animated];
 	[self refreshViewFromModel];
-}
-
-- (void) clearList
-{
-    [gameTable reloadData];
-    
-    [self removeLoadingIndicator];
 }
 
 - (void) refreshView:(UIRefreshControl *)refresh
@@ -133,12 +124,12 @@
 
 - (void) showLoadingIndicator
 {
-	//[refreshControl beginRefreshing];
+	[refreshControl beginRefreshing];
 }
 
 - (void) removeLoadingIndicator
 {
-    //[refreshControl endRefreshing];
+    [refreshControl endRefreshing];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

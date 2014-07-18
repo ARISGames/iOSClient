@@ -111,9 +111,10 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
+            @"page":[NSNumber numberWithInt:0]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseNearbyGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getNearbyGamesForPlayer" arguments:args handler:self successSelector:@selector(parseNearbyGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseNearbyGames:(ARISServiceResult *)result
 {
@@ -127,9 +128,10 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
+            @"page":[NSNumber numberWithInt:0]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseAnywhereGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getAnywhereGamesForPlayer" arguments:args handler:self successSelector:@selector(parseAnywhereGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseAnywhereGames:(ARISServiceResult *)result
 {
@@ -143,9 +145,10 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
+            @"page":[NSNumber numberWithInt:0]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseRecentGames:(ARISServiceResult *)result
 {
@@ -159,9 +162,11 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
+            @"interval":@"MONTH",
+            @"page":[NSNumber numberWithInt:0]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getPopularGamesForPlayer" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parsePopularGames:(ARISServiceResult *)result
 {
@@ -175,13 +180,32 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"showGamesInDevel":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment]
+            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
+            @"text":search,
+            @"page":[NSNumber numberWithInt:0]
         };
-  [connection performAsynchronousRequestWithService:@"bogus" method:@"doBogusThing" arguments:args handler:self successSelector:@selector(parseSearchGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getSearchGamesForPlayer" arguments:args handler:self successSelector:@selector(parseSearchGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseSearchGames:(ARISServiceResult *)result
 {
     _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
+}
+
+- (void) fetchMyGames
+{
+    NSDictionary *args =
+        @{
+            @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
+            @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
+            @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
+            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
+            @"page":[NSNumber numberWithInt:0]
+        };
+  [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerGamesForPlayer" arguments:args handler:self successSelector:@selector(parseMyGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseMyGames:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_MY_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
 - (void) fetchPlayerPlayedGame:(int)game_id

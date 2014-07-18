@@ -15,10 +15,19 @@
 - (void) requestGame:(int)game_id;
 
 - (NSArray *) nearbyGames;
+- (NSArray *) pingNearbyGames;
+
 - (NSArray *) anywhereGames;
+- (NSArray *) pingAnywhereGames;
+
 - (NSArray *) popularGames;
+- (NSArray *) pingPopularGames;
+
 - (NSArray *) recentGames;
-- (NSArray *) searchGames:(NSString *)search;
+- (NSArray *) pingRecentGames;
+
+- (NSArray *) searchGames;
+- (NSArray *) pingSearchGames:(NSString *)search;
 
 - (void) requestPlayerPlayedGame:(int)game_id;
 - (void) playerResetGame:(int)game_id;

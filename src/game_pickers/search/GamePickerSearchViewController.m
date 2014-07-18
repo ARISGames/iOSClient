@@ -49,35 +49,42 @@
     
     theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
     theSearchBar.delegate = self;
-    [theSearchBar becomeFirstResponder];
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     gestureRecognizer.cancelsTouchesInView = NO;
     [gameTable addGestureRecognizer:gestureRecognizer];
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [theSearchBar becomeFirstResponder];
+}
+
 - (void) searchGamesAvailable
 {
-    [self removeLoadingIndicator]; 
-    [self refreshViewFromModel];
+    [self removeLoadingIndicator];
+    games = _MODEL_GAMES_.searchGames;
+	[gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
-    games = [_MODEL_GAMES_ searchGames:theSearchBar.text];
+    games = [_MODEL_GAMES_ pingSearchGames:theSearchBar.text];
 	[gameTable reloadData];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row == 0) return 40;
+    if(indexPath.row == 0) return 30;
     else return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(allResultsFound) return [super tableView:tableView numberOfRowsInSection:section]+1;
-    else                return [super tableView:tableView numberOfRowsInSection:section]+2;
+    else                return [super tableView:tableView numberOfRowsInSection:section]+1;
+    //else                return [super tableView:tableView numberOfRowsInSection:section]+2;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -135,11 +142,10 @@
 {
     if(searchText == nil || [searchText isEqualToString:@""]) return;
         
-    //[_SERVICES_ fetchGameListBySearch:[text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] onPage:currentPage];
     currentlyFetchingNextPage = YES;
     allResultsFound = NO;
     
-	[self showLoadingIndicator];
+    [self refreshViewFromModel];
 }
 
 - (void) searchBar:(UISearchBar *)searchBar activate:(BOOL)active

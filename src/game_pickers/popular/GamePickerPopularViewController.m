@@ -49,12 +49,13 @@
 - (void) popularGamesAvailable
 {
     [self removeLoadingIndicator];
-    [self refreshViewFromModel];
+	games = _MODEL_GAMES_.popularGames;
+	[gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.popularGames;
+	games = _MODEL_GAMES_.pingPopularGames;
 	[gameTable reloadData];
 }
 

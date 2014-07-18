@@ -27,14 +27,13 @@
 - (void) anywhereGamesAvailable
 {
     [self removeLoadingIndicator];
-    [self refreshViewFromModel];
+	games = _MODEL_GAMES_.anywhereGames;
+    [gameTable reloadData];
 }
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.anywhereGames;
+	games = _MODEL_GAMES_.pingAnywhereGames;
     [gameTable reloadData];
-    
-    [self removeLoadingIndicator];
 }
 
 - (void) dealloc
