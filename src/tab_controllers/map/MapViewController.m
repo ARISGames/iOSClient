@@ -529,7 +529,7 @@
 
 - (void) interactWithLocation:(TriangleButton*)sender
 {
-    if(triggerLookingAt) [delegate displayTrigger:triggerLookingAt];
+    if(triggerLookingAt) { if([delegate displayTrigger:triggerLookingAt]) [self dismissSelection]; }
     else [self dismissSelection];
     triggerLookingAt = nil;
 }
