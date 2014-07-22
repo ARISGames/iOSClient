@@ -191,7 +191,7 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_SEARCH_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchMyGames
+- (void) fetchMineGames
 {
     NSDictionary *args =
         @{
@@ -201,11 +201,11 @@
             @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
             @"page":[NSNumber numberWithInt:0]
         };
-  [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerGamesForPlayer" arguments:args handler:self successSelector:@selector(parseMyGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerGamesForPlayer" arguments:args handler:self successSelector:@selector(parseMineGames:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
-- (void) parseMyGames:(ARISServiceResult *)result
+- (void) parseMineGames:(ARISServiceResult *)result
 {
-    _ARIS_NOTIF_SEND_(@"SERVICES_MY_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
+    _ARIS_NOTIF_SEND_(@"SERVICES_MINE_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
 - (void) fetchPlayerPlayedGame:(int)game_id

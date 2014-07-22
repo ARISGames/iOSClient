@@ -29,6 +29,9 @@
 - (NSArray *) searchGames;
 - (NSArray *) pingSearchGames:(NSString *)search;
 
+- (NSArray *) mineGames;
+- (NSArray *) pingMineGames;
+
 - (void) requestPlayerPlayedGame:(int)game_id;
 - (void) playerResetGame:(int)game_id;
 

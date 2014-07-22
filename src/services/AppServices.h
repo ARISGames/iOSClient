@@ -32,7 +32,7 @@
 - (void) fetchRecentGames;
 - (void) fetchPopularGames;
 - (void) fetchSearchGames:(NSString *)s;
-- (void) fetchMyGames;
+- (void) fetchMineGames;
 - (void) fetchPlayerPlayedGame:(int)game_id;
 
 - (void) fetchMedia; - (void) fetchMediaId:(int)media_id;

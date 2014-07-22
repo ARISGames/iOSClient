@@ -14,6 +14,7 @@
 #import "GamePickerPopularViewController.h"
 #import "GamePickerRecentViewController.h"
 #import "GamePickerSearchViewController.h"
+#import "GamePickerMineViewController.h"
 
 #import "PKRevealController.h"
 #import "AccountSettingsViewController.h"
@@ -67,7 +68,8 @@
     GamePickerPopularViewController  *gppvc = [[GamePickerPopularViewController  alloc] initWithDelegate:self];
     GamePickerRecentViewController   *gprvc = [[GamePickerRecentViewController   alloc] initWithDelegate:self];
     GamePickerSearchViewController   *gpsvc = [[GamePickerSearchViewController   alloc] initWithDelegate:self];
-    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gpavc,gppvc,gprvc,gpsvc,nil];
+    GamePickerMineViewController     *gpmvc = [[GamePickerMineViewController     alloc] initWithDelegate:self];
+    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gpavc,gppvc,gprvc,gpsvc,gpmvc,nil];
     self.gamePickersNavigationController = [[ARISNavigationController alloc] initWithRootViewController:self.gamePickersTabBarController];
     self.gamePickersNavigationController.automaticallyAdjustsScrollViewInsets = NO; 
     

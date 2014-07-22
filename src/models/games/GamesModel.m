@@ -22,6 +22,7 @@
   NSArray *popularGames;  NSDate *popularStamp;
   NSArray *recentGames;   NSDate *recentStamp;
   NSArray *searchGames;   NSDate *searchStamp; NSString *search;
+  NSArray *mineGames;     NSDate *mineStamp;
 }
 
 @end
@@ -38,6 +39,7 @@
     _ARIS_NOTIF_LISTEN_(@"SERVICES_POPULAR_GAMES_RECEIVED",self,@selector(popularGamesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_RECENT_GAMES_RECEIVED",self,@selector(recentGamesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_SEARCH_GAMES_RECEIVED",self,@selector(searchGamesReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_MINE_GAMES_RECEIVED",self,@selector(mineGamesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_RECEIVED",self,@selector(gameReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_PLAYED_GAME_RECEIVED",self,@selector(playerPlayedGameReceived:),nil);
   }
@@ -55,6 +57,7 @@
   popularGames  = [[NSArray alloc] init];
   recentGames   = [[NSArray alloc] init];
   searchGames   = [[NSArray alloc] init];
+  mineGames   = [[NSArray alloc] init];
 }
 
 - (void) invalidateData
@@ -64,6 +67,7 @@
   popularStamp = nil;
   recentStamp = nil;
   searchStamp = nil; search = nil; 
+  mineStamp = nil;
 }
 
 - (void) nearbyGamesReceived:(NSNotification *)n { [self updateNearbyGames:n.userInfo[@"games"]]; }
@@ -85,6 +89,10 @@
 - (void) searchGamesReceived:(NSNotification *)n { [self updateSearchGames:n.userInfo[@"games"]]; }
 - (void) updateSearchGames:(NSArray *)gs { searchGames = [self updateGames:gs]; [self notifSearchGames]; }
 - (void) notifSearchGames { _ARIS_NOTIF_SEND_(@"MODEL_SEARCH_GAMES_AVAILABLE",nil,nil); }
+
+- (void) mineGamesReceived:(NSNotification *)n { [self updateMineGames:n.userInfo[@"games"]]; }
+- (void) updateMineGames:(NSArray *)gs { mineGames = [self updateGames:gs]; [self notifMineGames]; }
+- (void) notifMineGames { _ARIS_NOTIF_SEND_(@"MODEL_MINE_GAMES_AVAILABLE",nil,nil); }
 
 - (void) gameReceived:(NSNotification *)n { [self updateGame:n.userInfo[@"game"]]; }
 - (Game *) updateGame:(Game *)g
@@ -190,6 +198,19 @@
     return searchGames;    
 }
 - (NSArray *) searchGames { return searchGames; }
+
+- (NSArray *) pingMineGames
+{
+    if(!mineStamp || [mineStamp timeIntervalSinceNow] > 120) 
+    {
+        mineStamp = [[NSDate alloc] init]; 
+        [_SERVICES_ fetchMineGames];     
+    }  
+    else [self performSelector:@selector(notifMineGames) withObject:nil afterDelay:1];
+    
+    return mineGames;   
+}
+- (NSArray *) mineGames { return mineGames; }
 
 - (void) requestPlayerPlayedGame:(int)game_id
 {

@@ -117,6 +117,7 @@
 		AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83EEA118A43CB70077FF0E /* ARISServiceGraveyard.m */; };
 		AA83EEA718A43EE30077FF0E /* RequestCD.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83EEA618A43EE30077FF0E /* RequestCD.m */; };
 		AA856FF517A9AFA900E9D451 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF317A9AFA900E9D451 /* qr.png */; };
+		AA884E56197DAED8009D4E5A /* GamePickerMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA884E55197DAED8009D4E5A /* GamePickerMineViewController.m */; };
 		AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */; };
 		AA8E9EA118BE3FED00F343A2 /* ARISStarView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8E9EA018BE3FED00F343A2 /* ARISStarView.m */; };
 		AA8E9EA518BE422E00F343A2 /* star_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = AA8E9EA418BE422E00F343A2 /* star_gray.png */; };
@@ -479,6 +480,8 @@
 		AA83EEA618A43EE30077FF0E /* RequestCD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestCD.m; sourceTree = "<group>"; };
 		AA856FEF17A972B800E9D451 /* arisjs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = arisjs.js; sourceTree = "<group>"; };
 		AA856FF317A9AFA900E9D451 /* qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr.png; sourceTree = "<group>"; };
+		AA884E54197DAED8009D4E5A /* GamePickerMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerMineViewController.h; sourceTree = "<group>"; };
+		AA884E55197DAED8009D4E5A /* GamePickerMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerMineViewController.m; sourceTree = "<group>"; };
 		AA8C360C1858C827000A8F0B /* NoteCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCameraViewController.h; sourceTree = "<group>"; };
 		AA8C360D1858C827000A8F0B /* NoteCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCameraViewController.m; sourceTree = "<group>"; };
 		AA8E9E9F18BE3FED00F343A2 /* ARISStarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISStarView.h; sourceTree = "<group>"; };
@@ -1049,6 +1052,15 @@
 			path = displayQueue;
 			sourceTree = "<group>";
 		};
+		AA884E53197DAED8009D4E5A /* mine */ = {
+			isa = PBXGroup;
+			children = (
+				AA884E54197DAED8009D4E5A /* GamePickerMineViewController.h */,
+				AA884E55197DAED8009D4E5A /* GamePickerMineViewController.m */,
+			);
+			path = mine;
+			sourceTree = "<group>";
+		};
 		AA942B8A17CD4CB9004EDEA1 /* app */ = {
 			isa = PBXGroup;
 			children = (
@@ -1335,6 +1347,7 @@
 				AABC70B8172739D60074CC21 /* popular */,
 				AABC70BC172739D60074CC21 /* recent */,
 				AABC70C0172739D60074CC21 /* search */,
+				AA884E53197DAED8009D4E5A /* mine */,
 			);
 			path = game_pickers;
 			sourceTree = "<group>";
@@ -2093,6 +2106,7 @@
 				AABC737D172739D80074CC21 /* Game.m in Sources */,
 				AABC737E172739D80074CC21 /* Item.m in Sources */,
 				AA68B2FE1912E73E000C717B /* Instance.m in Sources */,
+				AA884E56197DAED8009D4E5A /* GamePickerMineViewController.m in Sources */,
 				AABC7380172739D80074CC21 /* MediaCD.m in Sources */,
 				AABC7383172739D80074CC21 /* Note.m in Sources */,
 				AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */,
