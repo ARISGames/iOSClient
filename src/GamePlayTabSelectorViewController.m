@@ -12,7 +12,7 @@
 
 #import "QuestsViewController.h"
 #import "IconQuestsViewController.h"
-#import "InventoryTagViewController.h"
+#import "InventoryViewController.h"
 #import "MapViewController.h"
 #import "AttributesViewController.h"
 #import "NotebookViewController.h"
@@ -164,9 +164,9 @@
             }
             else if([tab.type isEqualToString:@"INVENTORY"])
             {
-                InventoryTagViewController *inventoryTagViewController = [[InventoryTagViewController alloc] initWithDelegate:
+                InventoryViewController *inventoryViewController = [[InventoryViewController alloc] initWithDelegate:
                     (id<InventoryViewControllerDelegate,StateControllerProtocol>)delegate];
-                vc = [[ARISNavigationController alloc] initWithRootViewController:inventoryTagViewController];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:inventoryViewController];
             }
             else if([tab.type isEqualToString:@"DECODER"]) //text only
             {

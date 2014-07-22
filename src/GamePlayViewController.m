@@ -22,7 +22,7 @@
 
 #import "QuestsViewController.h"
 #import "IconQuestsViewController.h"
-#import "InventoryTagViewController.h"
+#import "InventoryViewController.h"
 #import "MapViewController.h"
 #import "AttributesViewController.h"
 #import "NotebookViewController.h"

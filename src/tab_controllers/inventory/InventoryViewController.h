@@ -1,5 +1,5 @@
 //
-//  InventoryTagViewController.h
+//  InventoryViewController.h
 //  ARIS
 //
 //  Created by Phil Dougherty on 8/30/13.
@@ -13,6 +13,6 @@
 @protocol InventoryViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
-@interface InventoryTagViewController : ARISGamePlayTabBarViewController
+@interface InventoryViewController : ARISGamePlayTabBarViewController
 - (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, InventoryViewControllerDelegate, StateControllerProtocol>)d;
 @end

@@ -9,7 +9,7 @@
 #import "ItemViewController.h"
 
 #import "ItemActionViewController.h"
-#import "InventoryTagViewController.h"
+#import "InventoryViewController.h"
 
 #import "Item.h"
 #import "Instance.h"
@@ -80,8 +80,8 @@
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     int numButtons = 0;
-    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
-    if([(NSObject *)source isKindOfClass:[InventoryTagViewController class]] && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
+    if([(NSObject *)source isKindOfClass:[InventoryViewController class]] && item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
+    if([(NSObject *)source isKindOfClass:[InventoryViewController class]] && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
     //if([(NSObject *)source isKindOfClass:[Location class]] && (instance.qty > 0 || instance.infinite_qty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
     
     line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];

@@ -1,12 +1,12 @@
 //
-//  InventoryTagViewController.m
+//  InventoryViewController.m
 //  ARIS
 //
 //  Created by Phil Dougherty on 8/30/13.
 //
 //
 
-#import "InventoryTagViewController.h"
+#import "InventoryViewController.h"
 #import "StateControllerProtocol.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
@@ -15,7 +15,7 @@
 #import "Media.h"
 #import "Item.h"
 
-@interface InventoryTagViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface InventoryViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     UIScrollView *tagView;
     NSMutableArray *sortableTags;
@@ -45,7 +45,7 @@
 
 @end
 
-@implementation InventoryTagViewController
+@implementation InventoryViewController
 
 @synthesize tagView;
 @synthesize sortableTags;
