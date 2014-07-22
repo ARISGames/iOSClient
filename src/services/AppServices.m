@@ -367,6 +367,23 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_WEB_PAGES_RECEIVED", nil, @{@"webPages":webPages});
 }
 
+- (void) fetchTags
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"tags" method:@"getTagsForGame" arguments:args handler:self successSelector:@selector(parseTags:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseTags:(ARISServiceResult *)result
+{
+    NSArray *tagDicts = (NSArray *)result.resultData;
+    NSMutableArray *tags = [[NSMutableArray alloc] init];
+    for(int i = 0; i < tagDicts.count; i++)
+        tags[i] = [[Tag alloc] initWithDictionary:tagDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_TAGS_RECEIVED", nil, @{@"tags":tags});
+}
+
 - (void) fetchQuests
 {
   NSDictionary *args =

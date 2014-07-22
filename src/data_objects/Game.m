@@ -15,7 +15,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 13;
+const int gameDatasToReceive = 14;
 const int playerDatasToReceive = 6;
 
 @interface Game()
@@ -58,6 +58,7 @@ const int playerDatasToReceive = 6;
 @synthesize itemsModel; 
 @synthesize dialogsModel; 
 @synthesize webPagesModel; 
+@synthesize tagsModel; 
 @synthesize triggersModel; 
 @synthesize overlaysModel; 
 @synthesize instancesModel; 
@@ -166,6 +167,7 @@ const int playerDatasToReceive = 6;
     itemsModel     = [[ItemsModel     alloc] init];  
     dialogsModel   = [[DialogsModel   alloc] init];  
     webPagesModel  = [[WebPagesModel  alloc] init];   
+    tagsModel      = [[TagsModel  alloc] init];   
     triggersModel  = [[TriggersModel  alloc] init];    
     overlaysModel  = [[OverlaysModel  alloc] init];     
     instancesModel = [[InstancesModel alloc] init];     
@@ -188,6 +190,7 @@ const int playerDatasToReceive = 6;
     itemsModel     = nil;
     dialogsModel   = nil;
     webPagesModel  = nil;
+    tagsModel      = nil;
     triggersModel  = nil; 
     overlaysModel  = nil;  
     instancesModel = nil;  
@@ -205,6 +208,7 @@ const int playerDatasToReceive = 6;
     [itemsModel requestItems];
     [dialogsModel requestDialogs]; //makes 4 "game data received" notifs (dialogs, characters, scripts, options)
     [webPagesModel requestWebPages];
+    [tagsModel requestTags];
     [questsModel requestQuests];
     [triggersModel requestTriggers];  
     [overlaysModel requestOverlays];   
@@ -275,6 +279,7 @@ const int playerDatasToReceive = 6;
     [itemsModel     clearGameData];  
     [dialogsModel   clearGameData];  
     [webPagesModel  clearGameData];   
+    [tagsModel      clearGameData];   
     [questsModel    clearGameData]; 
     [triggersModel  clearGameData];  
     [overlaysModel  clearGameData];   

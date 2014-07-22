@@ -13,6 +13,7 @@
 #import "ItemsModel.h"
 #import "DialogsModel.h"
 #import "WebPagesModel.h"
+#import "TagsModel.h"
 #import "TriggersModel.h"
 #import "OverlaysModel.h"
 #import "InstancesModel.h"
@@ -53,6 +54,7 @@
   ItemsModel      *itemsModel;  
   DialogsModel    *dialogsModel;   
   WebPagesModel   *webPagesModel;    
+  TagsModel       *tagsModel;    
   TriggersModel   *triggersModel;     
   OverlaysModel   *overlaysModel;      
   InstancesModel  *instancesModel;      
@@ -93,6 +95,7 @@
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
 @property (nonatomic, strong) DialogsModel   *dialogsModel; 
 @property (nonatomic, strong) WebPagesModel  *webPagesModel; 
+@property (nonatomic, strong) TagsModel      *tagsModel; 
 @property (nonatomic, strong) TriggersModel  *triggersModel; 
 @property (nonatomic, strong) OverlaysModel  *overlaysModel; 
 @property (nonatomic, strong) InstancesModel *instancesModel; 
