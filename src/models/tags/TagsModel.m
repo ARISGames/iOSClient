@@ -96,6 +96,11 @@
     return objects_tags;
 }
 
+- (NSArray *) tags
+{
+    return [tags allValues];
+}
+    
 // null tag (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Tag *) tagForId:(int)tag_id
 {

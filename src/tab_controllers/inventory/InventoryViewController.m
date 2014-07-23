@@ -17,12 +17,15 @@
 
 @interface InventoryViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
-    UIScrollView *tagView;
+    UIScrollView *tagsView;
     NSMutableArray *sortableTags;
     int currentTagIndex;
     
     UITableView *inventoryTable;
-    NSArray *inventory;
+    //parallel arrays
+    NSMutableArray *instances;
+    NSMutableArray *items;
+    NSMutableArray *tags;
     
     UIProgressView *capBar;
     UILabel *capLabel;
@@ -33,29 +36,9 @@
     id<GamePlayTabBarViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) UIScrollView *tagView;
-@property (nonatomic, strong) NSMutableArray *sortableTags;
-@property (nonatomic, assign) int currentTagIndex;
-@property (nonatomic, strong) UITableView *inventoryTable;
-@property (nonatomic, strong) NSArray *inventory;
-@property (nonatomic, strong) UIProgressView *capBar;
-@property (nonatomic, strong) UILabel *capLabel;
-@property (nonatomic, strong) NSMutableDictionary *iconCache;
-@property (nonatomic, strong) NSMutableDictionary *viewedList;
-
 @end
 
 @implementation InventoryViewController
-
-@synthesize tagView;
-@synthesize sortableTags;
-@synthesize currentTagIndex;
-@synthesize inventoryTable;
-@synthesize inventory;
-@synthesize capBar;
-@synthesize capLabel;
-@synthesize iconCache;
-@synthesize viewedList;
 
 - (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, StateControllerProtocol>)d
 {
@@ -67,14 +50,19 @@
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         
-        self.sortableTags = [[NSMutableArray alloc] initWithCapacity:10];
-        self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:10];
-        self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
-        self.currentTagIndex = 0;
+        sortableTags = [[NSMutableArray alloc] init];
         
-  _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredItemsAvailable",self,@selector(refreshViews),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyLostItemsAvailable",self,@selector(refreshViews),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyChangedItemsGameNotificationSent",self,@selector(incrementBadge),nil);
+        instances = [[NSMutableArray alloc] init];
+        items = [[NSMutableArray alloc] init];
+        tags = [[NSMutableArray alloc] init];
+        
+        iconCache  = [[NSMutableDictionary alloc] initWithCapacity:10];
+        viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
+        currentTagIndex = 0;
+        
+        _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredItemsAvailable",self,@selector(refreshViews),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewlyLostItemsAvailable",self,@selector(refreshViews),nil);
+        _ARIS_NOTIF_LISTEN_(@"NewlyChangedItemsGameNotificationSent",self,@selector(incrementBadge),nil);
     }
     return self;
 }
@@ -84,25 +72,25 @@
     [super loadView];
     self.view.autoresizesSubviews = NO;
     
-    self.tagView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,100)];
-    self.tagView.backgroundColor = [UIColor ARISColorDarkGray];
-    self.tagView.scrollEnabled = YES;
-    self.tagView.bounces = YES;
-    [self.view addSubview:self.tagView];
+    tagsView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,100)];
+    tagsView.backgroundColor = [UIColor ARISColorDarkGray];
+    tagsView.scrollEnabled = YES;
+    tagsView.bounces = YES;
+    [self.view addSubview:tagsView];
     
-    self.inventoryTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.inventoryTable.frame = self.view.bounds;
-    self.inventoryTable.dataSource = self;
-    self.inventoryTable.delegate = self;
-    [self.view addSubview:self.inventoryTable];
+    inventoryTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    inventoryTable.frame = self.view.bounds;
+    inventoryTable.dataSource = self;
+    inventoryTable.delegate = self;
+    [self.view addSubview:inventoryTable];
     
     if(_MODEL_ITEMS_.weightCap > 0)
     {
-        self.capBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
-        self.capBar.progress = 0;
+        capBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+        capBar.progress = 0;
         
-        self.capLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
-        self.capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), 0, 0];
+        capLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
+        capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), 0, 0];
     }
     
     [self sizeViewsWithoutTagView];
@@ -114,12 +102,12 @@
 {
     [super viewWillAppear:animated];
     
-    if(self.capBar)
+    if(capBar)
     {
         int currentWeight = _MODEL_ITEMS_.currentWeight;
         int weightCap     = _MODEL_ITEMS_.weightCap;
-        self.capBar.progress = (float)((float)currentWeight/(float)weightCap);
-        self.capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
+        capBar.progress = (float)((float)currentWeight/(float)weightCap);
+        capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
     }
 }
 
@@ -132,121 +120,116 @@
 
 - (void) sizeViewsForTagView
 {
-    self.tagView.frame = CGRectMake(0,64,self.view.bounds.size.width,100);
-    self.inventoryTable.contentInset = UIEdgeInsetsMake(0,0,0,0);
-    self.inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
-    
+    tagsView.frame = CGRectMake(0,64,self.view.bounds.size.width,100);
+    inventoryTable.contentInset = UIEdgeInsetsMake(0,0,0,0);
+    inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
 }
     
 - (void) sizeViewsWithoutTagView
 {
-    self.tagView.frame = CGRectMake(0,0,self.view.bounds.size.width,0);
-    self.inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
-    self.inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
+    tagsView.frame = CGRectMake(0,0,self.view.bounds.size.width,0);
+    inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
+    inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
     
-    self.currentTagIndex = 0;
+    currentTagIndex = 0;
 }
 
 - (void) refreshViews
 {
-    /*
     if(!self.view) return;
     
     NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
-    self.inventory = [_MODEL_GAME_.inventoryModel.currentInventory sortedArrayUsingDescriptors:sortDescriptors];
-    [self.sortableTags removeAllObjects];
+    NSArray *playerInstances = [_MODEL_INSTANCES_.playerInstances sortedArrayUsingDescriptors:sortDescriptors];
+    [instances removeAllObjects];
+    [items removeAllObjects];
+    [tags removeAllObjects];
     
-    //populate sortableTags with all available tags (obnoxiously complex...)
-    BOOL match;
-    for(int i = 0; i < self.inventory.count; i++)
+    Instance *tmp_inst;
+    for(int i = 0; i < playerInstances.count; i++)
     {
-        for(int j = 0; j < ((Item *)[self.inventory objectAtIndex:i]).tags.count; j++)
-        {
-            match = NO;
-            for(int k = 0; k < self.sortableTags.count; k++)
-            {
-                if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:k]).name])
-                    match = YES;
-            }
-            if(!match) [self.sortableTags addObject:[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]];
-        }
-        if(((Item *)[self.inventory objectAtIndex:i]).tags.count == 0)
-        {
-            match = NO;
-            for(int k = 0; k < self.sortableTags.count; k++)
-            {
-                if([@"untagged" isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:k]).name])
-                    match = YES;
-            }
-            if(!match) { ItemTag *t = [[ItemTag alloc] init]; t.name = @"untagged"; t.media_id = 0; [self.sortableTags insertObject:t atIndex:0]; }
-        }
+        tmp_inst = playerInstances[i];
+        if(![tmp_inst.object_type isEqualToString:@"ITEM"]) continue;
+        [instances addObject:tmp_inst];
+        [items addObject:[_MODEL_ITEMS_ itemForId:tmp_inst.object_id]];
+        [tags addObject:[_MODEL_TAGS_ tagsForObjectType:tmp_inst.object_type id:tmp_inst.object_id]];
     }
+    
+    sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"sort_index" ascending:YES], nil];
+    NSArray *allTags = [_MODEL_TAGS_.tags sortedArrayUsingDescriptors:sortDescriptors];
         
-    if(self.sortableTags.count > 1) [self sizeViewsForTagView];
-    else                              [self sizeViewsWithoutTagView];
+    [sortableTags removeAllObjects];
+    Tag* tmp_tag;
+    for(int i = 0; i < allTags.count; i++)
+    {
+        tmp_tag = allTags[i];
+        if(tmp_tag.visible) [sortableTags addObject:tmp_tag];
+    }
     
+    if(sortableTags.count > 1) [self sizeViewsForTagView];
+    else                       [self sizeViewsWithoutTagView];
     
-    [self loadTagViewData];
+    [self refreshTagsView];
     [inventoryTable reloadData];
     
     //Apple is for some reason competing over the control of this view. Without this constantly being called, it messes everything up.
-    self.tagView.contentSize = CGSizeMake(self.sortableTags.count*100,0);
-    self.tagView.contentOffset = CGPointMake(0,0);    
-     */
+    tagsView.contentSize = CGSizeMake(sortableTags.count*100,0);
+    tagsView.contentOffset = CGPointMake(0,0);    
 }
 
-- (void) loadTagViewData
+- (void) refreshTagsView
 {
-    /*
-    while(self.tagView.subviews.count > 0)
-        [[self.tagView.subviews objectAtIndex:0] removeFromSuperview];
+    while(tagsView.subviews.count > 0) [[tagsView.subviews objectAtIndex:0] removeFromSuperview];
     
-    UIView *tag;
+    Tag *tag;
+    UIView *tagv;
     UILabel *label;
-    for(int i = 0; i < self.sortableTags.count; i++)
+    for(int i = 0; i < sortableTags.count; i++)
     {
-        tag = [[UIView alloc] initWithFrame:CGRectMake(i*100+10,10,80,80)];
-        tag.backgroundColor = [UIColor ARISColorLightGray];
-        tag.tag = i;
-        [tag addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagTapped:)]];
+        tag = sortableTags[i];
+        tagv = [[UIView alloc] initWithFrame:CGRectMake(i*100+10,10,80,80)];
+        tagv.backgroundColor = [UIColor ARISColorLightGray];
+        tagv.tag = i;
+        [tagv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagTapped:)]];
         label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
         label.textColor = [UIColor ARISColorWhite];
         label.textAlignment = NSTextAlignmentCenter;
         label.numberOfLines = 0;
         label.backgroundColor = [UIColor clearColor];
         label.opaque = NO;
-        label.text = ((ItemTag *)[self.sortableTags objectAtIndex:i]).name;
-        if(((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id != 0)
+        label.text = tag.tag;
+        if(tag.media_id != 0)
         {
-            tag.backgroundColor = [UIColor clearColor]; 
+            tagv.backgroundColor = [UIColor clearColor]; 
             ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) delegate:self];
             [amv setDisplayMode:ARISMediaDisplayModeAspectFit]; 
-            [amv setMedia:[_MODEL_MEDIA_ mediaForId:((ItemTag *)[self.sortableTags objectAtIndex:i]).media_id]];
-            [tag addSubview:amv];
+            [amv setMedia:[_MODEL_MEDIA_ mediaForId:((Tag *)[sortableTags objectAtIndex:i]).media_id]];
+            [tagv addSubview:amv];
         }
-        [tag addSubview:label];
-        [self.tagView addSubview:tag];
+        [tagv addSubview:label];
+        [tagsView addSubview:tagv];
     }
-    self.tagView.contentSize = CGSizeMake(self.sortableTags.count*100,0);// self.tagView.frame.size.height);
-     */
+    tagsView.contentSize = CGSizeMake(sortableTags.count*100,0);// tagsView.frame.size.height);
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    /*
     int rows = 0;
-    for(int i = 0; i < self.inventory.count; i++)
+    NSArray *instTags;
+    Tag *tag;
+    Tag *sortedTag = sortableTags[currentTagIndex];
+    for(int i = 0; i < instances.count; i++)
     {
-        for(int j = 0; j < ((Item *)[self.inventory objectAtIndex:i]).tags.count; j++)
+        instTags = tags[i];
+        for(int j = 0; j < instTags.count; j++)
         {
-            if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex]).name])
+            tag = instTags[j];
+            if([tag.tag isEqualToString:sortedTag.tag])
                 rows++;
         }
-        if(self.currentTagIndex == 0 && ((Item *)[self.inventory objectAtIndex:i]).tags.count == 0)
-            rows++; //untagged selected, has no tags
+        if(currentTagIndex == 0 && instTags.count == 0)
+            rows++; //untagged selected, and item has no tags
     }
     return rows;
-     */
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -302,49 +285,56 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if(cell == nil) cell = [self getCellContentView:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if(cell == nil) cell = [self getCellContentView:@"cell"];
     
     cell.contentView.backgroundColor = [UIColor ARISColorWhite];
     
+    Tag *sortedTag = sortableTags[currentTagIndex];
+    Instance *instance;
     Item *item;
+    NSArray *inst_tags;
+    Tag *tag;
+    
     int tagItemIndex = -1;//-1 so first item found will be index 0  //also, yes, this is dumb and n^2, and could be n if I just saved state. chill.
-    for(int i = 0; i < self.inventory.count; i++)
+    for(int i = 0; i < instances.count; i++)
     {
-        for(int j = 0; j < ((Item *)[self.inventory objectAtIndex:i]).tags.count; j++)
+        instance = instances[i];
+        item = items[i];
+        inst_tags = tags[i];
+        for(int j = 0; j < inst_tags.count; j++)
         {
-            if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex]).name])
+            tag = inst_tags[j];
+            if([tag.tag isEqualToString:sortedTag.tag])
                 tagItemIndex++;
         }
-        if(self.currentTagIndex == 0 && ((Item *)[self.inventory objectAtIndex:i]).tags.count == 0)
+        if(currentTagIndex == 0 && inst_tags.count == 0)
             tagItemIndex++; //untagged selected, and current item has no tags
         
-        if(tagItemIndex == indexPath.row) { item = [self.inventory objectAtIndex:i]; break; }
+        //what?
+        if(tagItemIndex == indexPath.row) break;
     }
     
     ((UILabel *)[cell viewWithTag:1]).text = item.name;
     ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.desc];
-    ((UILabel *)[cell viewWithTag:4]).text = [self getQtyLabelStringForQty:item.qty maxQty:item.maxQty weight:item.weight];
+    ((UILabel *)[cell viewWithTag:4]).text = [self getQtyLabelStringForQty:instance.qty maxQty:item.max_qty_in_inventory weight:item.weight];
     
     NSNumber *viewed;
-    if(!(viewed = [self.viewedList objectForKey:[NSNumber numberWithInt:item.item_id]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
-        [self.viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.item_id]];
+    if(!(viewed = viewedList[[NSNumber numberWithInt:item.item_id]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
+        [viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.item_id]];
     else
-        [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
+        [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
     
     ARISMediaView *iconView = (ARISMediaView *)[cell viewWithTag:3];
     Media *iconMedia;
-    if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.item_id]]))
+    if(!(iconMedia = [iconCache objectForKey:[NSNumber numberWithInt:item.item_id]]))
     {
         if (item.icon_media_id != 0) iconMedia = [_MODEL_MEDIA_ mediaForId:item.icon_media_id];
         else if(item.media_id != 0) iconMedia = [_MODEL_MEDIA_ mediaForId:item.media_id];
     }
     if(iconMedia && [iconMedia.type isEqualToString:@"IMAGE"])
     {
-        [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.item_id]];
+        [iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.item_id]];
         [iconView setMedia:iconMedia];
     }
     else if(iconMedia)
@@ -354,7 +344,6 @@
     }
     
     return cell;
-     */
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -364,22 +353,22 @@
  
     Item *item;
     int tagItemIndex = -1;//-1 so first item found will be index 0  //also, yes, this is dumb and n^2, and could be n if I just saved state. chill.
-    for(int i = 0; i < self.inventory.count; i++)
+    for(int i = 0; i < inventory.count; i++)
     {
-        for(int j = 0; j < ((Item *)[self.inventory objectAtIndex:i]).tags.count; j++)
+        for(int j = 0; j < ((Item *)[inventory objectAtIndex:i]).tags.count; j++)
         {
-            if([((ItemTag *)[((Item *)[self.inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[self.sortableTags objectAtIndex:self.currentTagIndex]).name])
+            if([((ItemTag *)[((Item *)[inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[sortableTags objectAtIndex:currentTagIndex]).name])
                 tagItemIndex++;
         }
-        if(self.currentTagIndex == 0 && ((Item *)[self.inventory objectAtIndex:i]).tags.count == 0)
+        if(currentTagIndex == 0 && ((Item *)[inventory objectAtIndex:i]).tags.count == 0)
             tagItemIndex++; //untagged selected, and current item has no tags
         
-        if(tagItemIndex == indexPath.row) { item = [self.inventory objectAtIndex:i]; break; }
+        if(tagItemIndex == indexPath.row) { item = [inventory objectAtIndex:i]; break; }
     }
     
     [delegate displayGameObject:item fromSource:self];
     
-    [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[self.inventory objectAtIndex:[indexPath row]]).item_id]];
+    [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[inventory objectAtIndex:[indexPath row]]).item_id]];
      */
 }
 
@@ -413,7 +402,7 @@
 
 - (void) tagTapped:(UITapGestureRecognizer *)r
 {
-    self.currentTagIndex = r.view.tag;
+    currentTagIndex = r.view.tag;
     [self refreshViews];
 }
 

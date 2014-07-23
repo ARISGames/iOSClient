@@ -14,6 +14,7 @@
 {
 }
 
+- (NSArray *) tags;
 - (Tag *) tagForId:(int)tag_id;
 - (ObjectTag *) objectTagForId:(int)object_tag_id;
 - (NSArray *) tagsForObjectType:(NSString*)t id:(int)object_id;
