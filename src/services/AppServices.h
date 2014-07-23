@@ -44,6 +44,7 @@
 - (void) fetchDialogOptions;
 - (void) fetchWebPages;
 - (void) fetchTags;
+- (void) fetchObjectTags;
 - (void) fetchQuests;
 - (void) fetchInstances;
 - (void) fetchTriggers;

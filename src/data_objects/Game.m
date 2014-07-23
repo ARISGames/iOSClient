@@ -15,7 +15,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 14;
+const int gameDatasToReceive = 15;
 const int playerDatasToReceive = 6;
 
 @interface Game()

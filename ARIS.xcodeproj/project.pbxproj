@@ -101,6 +101,7 @@
 		AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5F5ACE183147C00057AC1C /* NotesModel.m */; };
 		AA5FCA36197EF00E005C2A2F /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5FCA35197EF00E005C2A2F /* Tag.m */; };
 		AA5FCA3A197EFEAB005C2A2F /* TagsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5FCA39197EFEAB005C2A2F /* TagsModel.m */; };
+		AA5FCA3D197F139A005C2A2F /* ObjectTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5FCA3C197F139A005C2A2F /* ObjectTag.m */; };
 		AA66CABE18A005150011FE97 /* NoteLocationPickerCrosshairsView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA66CABD18A005150011FE97 /* NoteLocationPickerCrosshairsView.m */; };
 		AA68B2FB1912E6DF000C717B /* ItemsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA68B2F81912E6DF000C717B /* ItemsModel.m */; };
 		AA68B2FE1912E73E000C717B /* Instance.m in Sources */ = {isa = PBXBuildFile; fileRef = AA68B2FD1912E73E000C717B /* Instance.m */; };
@@ -451,6 +452,8 @@
 		AA5FCA35197EF00E005C2A2F /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
 		AA5FCA38197EFEAB005C2A2F /* TagsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsModel.h; sourceTree = "<group>"; };
 		AA5FCA39197EFEAB005C2A2F /* TagsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsModel.m; sourceTree = "<group>"; };
+		AA5FCA3B197F139A005C2A2F /* ObjectTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectTag.h; sourceTree = "<group>"; };
+		AA5FCA3C197F139A005C2A2F /* ObjectTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectTag.m; sourceTree = "<group>"; };
 		AA66CABC18A005150011FE97 /* NoteLocationPickerCrosshairsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteLocationPickerCrosshairsView.h; sourceTree = "<group>"; };
 		AA66CABD18A005150011FE97 /* NoteLocationPickerCrosshairsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteLocationPickerCrosshairsView.m; sourceTree = "<group>"; };
 		AA68B2F71912E6DF000C717B /* ItemsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsModel.h; sourceTree = "<group>"; };
@@ -1310,6 +1313,8 @@
 				AABC7095172739D60074CC21 /* WebPage.m */,
 				AA5FCA34197EF00E005C2A2F /* Tag.h */,
 				AA5FCA35197EF00E005C2A2F /* Tag.m */,
+				AA5FCA3B197F139A005C2A2F /* ObjectTag.h */,
+				AA5FCA3C197F139A005C2A2F /* ObjectTag.m */,
 				AABC7080172739D60074CC21 /* Note.h */,
 				AABC7081172739D60074CC21 /* Note.m */,
 				AABC708E172739D60074CC21 /* Quest.h */,
@@ -2249,6 +2254,7 @@
 				AA701FE117342169003A840D /* GamePickersViewController.m in Sources */,
 				AA7EACC61965A876003CE431 /* DisplayQueueModel.m in Sources */,
 				AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */,
+				AA5FCA3D197F139A005C2A2F /* ObjectTag.m in Sources */,
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
 				AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
