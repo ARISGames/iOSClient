@@ -402,6 +402,23 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_OBJECT_TAGS_RECEIVED", nil, @{@"object_tags":objectTags});
 }
 
+- (void) fetchEvents
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"events" method:@"getEventsForGame" arguments:args handler:self successSelector:@selector(parseEvents:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseEvents:(ARISServiceResult *)result
+{
+    NSArray *eventDicts = (NSArray *)result.resultData;
+    NSMutableArray *events = [[NSMutableArray alloc] init];
+    for(int i = 0; i < eventDicts.count; i++)
+        events[i] = [[Event alloc] initWithDictionary:eventDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_EVENTS_RECEIVED", nil, @{@"events":events});
+}
+
 - (void) fetchQuests
 {
   NSDictionary *args =

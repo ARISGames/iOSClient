@@ -45,6 +45,7 @@
 - (void) fetchWebPages;
 - (void) fetchTags;
 - (void) fetchObjectTags;
+- (void) fetchEvents;
 - (void) fetchQuests;
 - (void) fetchInstances;
 - (void) fetchTriggers;

@@ -269,6 +269,8 @@
 		AAF9233B188715C20026A4FC /* Playhead.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92332188715C20026A4FC /* Playhead.m */; };
 		AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92334188715C20026A4FC /* WaveformControl.m */; };
 		AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92336188715C20026A4FC /* WaveSampleProvider.m */; };
+		AAFE960D19805236007F6BBD /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE960C19805236007F6BBD /* Event.m */; };
+		AAFE9613198055EA007F6BBD /* EventsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE9612198055EA007F6BBD /* EventsModel.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */; };
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -759,6 +761,10 @@
 		AAF92334188715C20026A4FC /* WaveformControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformControl.m; sourceTree = "<group>"; };
 		AAF92335188715C20026A4FC /* WaveSampleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProvider.h; sourceTree = "<group>"; };
 		AAF92336188715C20026A4FC /* WaveSampleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveSampleProvider.m; sourceTree = "<group>"; };
+		AAFE960B19805236007F6BBD /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		AAFE960C19805236007F6BBD /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		AAFE9611198055EA007F6BBD /* EventsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsModel.h; sourceTree = "<group>"; };
+		AAFE9612198055EA007F6BBD /* EventsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsModel.m; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+ARISColors.h"; path = "../UIColor+ARISColors.h"; sourceTree = "<group>"; };
@@ -1315,6 +1321,8 @@
 				AA5FCA35197EF00E005C2A2F /* Tag.m */,
 				AA5FCA3B197F139A005C2A2F /* ObjectTag.h */,
 				AA5FCA3C197F139A005C2A2F /* ObjectTag.m */,
+				AAFE960B19805236007F6BBD /* Event.h */,
+				AAFE960C19805236007F6BBD /* Event.m */,
 				AABC7080172739D60074CC21 /* Note.h */,
 				AABC7081172739D60074CC21 /* Note.m */,
 				AABC708E172739D60074CC21 /* Quest.h */,
@@ -1453,6 +1461,7 @@
 				AAC0D88E1930F70E00CA1DE3 /* dialogs */,
 				AA5D8D2F191AB20800116FA1 /* webpages */,
 				AA5FCA37197EFEAB005C2A2F /* tags */,
+				AAFE9610198055EA007F6BBD /* events */,
 				AA7EACC31965A876003CE431 /* displayQueue */,
 				AABC70EA172739D60074CC21 /* quests */,
 				AA4685A51940C90000721B2B /* tabs */,
@@ -1857,6 +1866,15 @@
 			name = AudioVisHelpers;
 			sourceTree = "<group>";
 		};
+		AAFE9610198055EA007F6BBD /* events */ = {
+			isa = PBXGroup;
+			children = (
+				AAFE9611198055EA007F6BBD /* EventsModel.h */,
+				AAFE9612198055EA007F6BBD /* EventsModel.m */,
+			);
+			path = events;
+			sourceTree = "<group>";
+		};
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
@@ -2162,6 +2180,7 @@
 				AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */,
 				AABC73A2172739D80074CC21 /* GamePickerRecentViewController.m in Sources */,
 				AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */,
+				AAFE9613198055EA007F6BBD /* EventsModel.m in Sources */,
 				AA68B2FB1912E6DF000C717B /* ItemsModel.m in Sources */,
 				AABC73A4172739D80074CC21 /* GamePickerSearchViewController.m in Sources */,
 				AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */,
@@ -2248,6 +2267,7 @@
 				AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */,
 				AAC0D8911930F70E00CA1DE3 /* DialogsModel.m in Sources */,
 				AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */,
+				AAFE960D19805236007F6BBD /* Event.m in Sources */,
 				AAAC4354172EDDB300C92DF0 /* InstantiableViewController.m in Sources */,
 				AA372A90188F2319005528D5 /* AudioMeter.m in Sources */,
 				AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */,

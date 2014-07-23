@@ -51,6 +51,7 @@
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         
         sortableTags = [[NSMutableArray alloc] init];
+        [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
         
         instances = [[NSMutableArray alloc] init];
         items = [[NSMutableArray alloc] init];
@@ -158,6 +159,8 @@
     NSArray *allTags = [_MODEL_TAGS_.tags sortedArrayUsingDescriptors:sortDescriptors];
         
     [sortableTags removeAllObjects];
+    [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
+    
     Tag* tmp_tag;
     for(int i = 0; i < allTags.count; i++)
     {
@@ -202,7 +205,7 @@
             tagv.backgroundColor = [UIColor clearColor]; 
             ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) delegate:self];
             [amv setDisplayMode:ARISMediaDisplayModeAspectFit]; 
-            [amv setMedia:[_MODEL_MEDIA_ mediaForId:((Tag *)[sortableTags objectAtIndex:i]).media_id]];
+            [amv setMedia:[_MODEL_MEDIA_ mediaForId:tag.media_id]];
             [tagv addSubview:amv];
         }
         [tagv addSubview:label];
