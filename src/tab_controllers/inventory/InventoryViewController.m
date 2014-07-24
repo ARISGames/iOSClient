@@ -270,6 +270,7 @@
     
     //Init Icon with tag 3
     iconViewTemp = [[ARISMediaView alloc] initWithFrame:iconFrame];
+    [iconViewTemp setDisplayMode:ARISMediaDisplayModeAspectFit];
     iconViewTemp.tag = 3;
     iconViewTemp.backgroundColor = [UIColor clearColor]; 
     [cell.contentView addSubview:iconViewTemp];
