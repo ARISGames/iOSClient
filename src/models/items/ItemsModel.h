@@ -21,6 +21,7 @@
 
 - (Item *) itemForId:(int)item_id;
 - (void) requestItems;
+- (void) touchItemInstances;
 - (NSArray *) inventory;
 - (NSArray *) attributes;
 

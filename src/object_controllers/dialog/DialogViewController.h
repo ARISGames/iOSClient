@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "InstantiableViewController.h"
 
-@class Dialog;
 @protocol StateControllerProtocol;
-
+@class Instance;
 @interface DialogViewController : InstantiableViewController
-- (id) initWithDialog:(Dialog *)n delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
 @end

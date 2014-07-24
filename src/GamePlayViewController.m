@@ -98,6 +98,7 @@
 {
     [self showNav];
 }
+
 - (void) showNav
 {
     [gamePlayRevealController showViewController:gamePlayTabSelectorController];
@@ -114,39 +115,29 @@
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
     
     Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
+    int event_package_id = 0;
     
     ARISViewController *vc;
     if([i.object_type isEqualToString:@"PLAQUE"])
     {
         Plaque *p = [_MODEL_PLAQUES_ plaqueForId:i.object_id];
-        vc = [[PlaqueViewController alloc] initWithPlaque:p delegate:self];
+        [_MODEL_EVENTS_ runEventPackageId:p.event_package_id];
+        vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
     }
     if([i.object_type isEqualToString:@"ITEM"])
-    {
-        Item *item = [_MODEL_ITEMS_ itemForId:i.object_id]; //lol, can't name item 'i' because that's the name for 'instance'. shame on me.
-        //vc = [[ItemViewController alloc] initWithItem:item delegate:self]; 
-    }
+        vc = [[ItemViewController alloc] initWithInstance:i delegate:self source:t];  //don't know what to do with source
     if([i.object_type isEqualToString:@"DIALOG"])
-    {
-        Dialog *d = [_MODEL_DIALOGS_ dialogForId:i.object_id]; 
-        vc = [[DialogViewController alloc] initWithDialog:d delegate:self]; 
-    }
+        vc = [[DialogViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"WEB_PAGE"])
-    {
-        WebPage *w = [_MODEL_WEB_PAGES_ webPageForId:i.object_id]; 
-        vc = [[WebPageViewController alloc] initWithWebPage:w delegate:self]; 
-    }
-    if([i.object_type isEqualToString:@"NOTE"])
-    {
-        //Note *n = [_MODEL_NOTES_ noteForId:i.object_id]; 
-        //vc = [[NoteViewController alloc] initWithNote:n delegate:self]; 
-    }
+        vc = [[WebPageViewController alloc] initWithInstance:i delegate:self];
+    //if([i.object_type isEqualToString:@"NOTE"])
+        //vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
     
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:NO completion:nil];
     
     //Phil hates that the frame changes depending on what view you add it to...
-    gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x, 
+    gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
                                                            gameNotificationViewController.view.frame.origin.y+20,
                                                            gameNotificationViewController.view.frame.size.width,
                                                            gameNotificationViewController.view.frame.size.height);

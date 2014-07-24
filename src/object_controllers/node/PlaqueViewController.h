@@ -10,10 +10,7 @@
 #import "InstantiableViewController.h"
 
 @protocol StateControllerProtocol;
-@class Plaque;
+@class Instance;
 @interface PlaqueViewController : InstantiableViewController
-{
-	Plaque *plaque;
-}
-- (id) initWithPlaque:(Plaque *)n delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
 @end

@@ -38,6 +38,7 @@
 - (void) fetchMedia; - (void) fetchMediaId:(int)media_id;
 - (void) fetchPlaques;
 - (void) fetchItems;
+- (void) touchItemsForPlayer; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
 - (void) fetchDialogs;
 - (void) fetchDialogCharacters;
 - (void) fetchDialogScripts;
@@ -60,6 +61,8 @@
 - (void) fetchTabsForPlayer;
 - (void) fetchOptionsForPlayerForDialog:(int)dialog_id script:(int)dialog_script_id; //doesn't need to be called during game load
 
+- (void) setQtyForInstanceId:(int)instance_id qty:(int)qty;
+
 - (void) logPlayerEnteredGame;
 - (void) logPlayerResetGame:(int)game_id;
 - (void) logPlayerMoved;
@@ -72,8 +75,16 @@
 - (void) logPlayerViewedNoteId:(int)note_id;
 - (void) logPlayerViewedInstanceId:(int)instance_id;
 - (void) logPlayerTriggeredTriggerId:(int)trigger_id;
+- (void) logPlayerReceivedItemId:(int)item_id qty:(int)qty;
+- (void) logPlayerLostItemId:(int)item_id qty:(int)qty;
+
+
+
+
+//old stuff
 
 //Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
+
 - (void) fetchNoteListPage:(int)page;
 - (void) fetchNoteTagLists;
 - (void) fetchNoteWithId:(int)noteId;
@@ -85,17 +96,6 @@
 //- (void) uploadNote:(Note *)n;
 //- (void) addComment:(NSString *)c fromPlayer:(User *)p toNote:(Note *)n;
 
-//Tell server of state
-- (void) updateServerPickupItem:(int)item_id fromLocation:(int)locationId qty:(int)qty;
-- (void) updateServerDropItemHere:(int)item_id qty:(int)qty;
-- (void) updateServerDestroyItem:(int)item_id qty:(int)qty;
-- (void) updateServerInventoryItem:(int)item_id qty:(int)qty;
-- (void) updateServerAddInventoryItem:(int)item_id addQty:(int)qty;
-- (void) updateServerRemoveInventoryItem:(int)item_id removeQty:(int)qty;
-
-- (void) updateServerGameSelected;
-- (void) fetchQRCode:(NSString*)QRcodeId;
 - (void) saveGameComment:(NSString*)comment titled:(NSString*)t game:(int)game_id starRating:(int)rating;
-- (void) startOverGame:(int)game_id;
 
 @end

@@ -282,6 +282,21 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_ITEMS_RECEIVED", nil, @{@"items":items});
 }
 
+//creates player owned item instances (qty 0) for all items not already owned
+//makes any item qty transfers 100000x easier
+- (void) touchItemsForPlayer
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForPlayer" arguments:args handler:self successSelector:@selector(parseItemTouch:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseItemTouch:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_ITEMS_TOUCHED", nil, nil);
+}
+
 - (void) fetchDialogs
 {
   NSDictionary *args =
@@ -643,6 +658,22 @@
 }
 
 
+- (void) setQtyForInstanceId:(int)instance_id qty:(int)qty
+{
+     NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"instance_id":[NSNumber numberWithInt:instance_id], 
+      @"qty":[NSNumber numberWithInt:qty],
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"setQtyForInstance" arguments:args handler:self successSelector:@selector(parseSetQtyForInstance:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseSetQtyForInstance:(ARISServiceResult *)result
+{
+    //nothing need be done
+}
+
+
 - (void) logPlayerEnteredGame
 {
     NSDictionary *args =
@@ -756,7 +787,26 @@
     };
     [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerTriggeredTrigger" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
-
+- (void) logPlayerReceivedItemId:(int)item_id qty:(int)qty
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"item_id":[NSNumber numberWithInt:item_id],
+      @"qty":[NSNumber numberWithInt:qty]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerReceivedItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) logPlayerLostItemId:(int)item_id qty:(int)qty
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"item_id":[NSNumber numberWithInt:item_id],
+      @"qty":[NSNumber numberWithInt:qty]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerLostItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+}
 
 
 

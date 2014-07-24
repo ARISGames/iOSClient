@@ -16,6 +16,7 @@
 @interface DialogViewController() <DialogScriptViewControllerDelegate>
 {
     Dialog *dialog;
+    Instance *instance;
     
     //holds 2 DialogScriptVC's, and flips between them like a graphics buffer
     //for smooth transitions/easy organization
@@ -42,12 +43,13 @@
 
 @implementation DialogViewController
 
-- (id) initWithDialog:(Dialog *)d delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)del
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super init])
     {
-        dialog = d;
-        delegate = del;
+        instance = i;
+        dialog = [_MODEL_DIALOGS_ dialogForId:i.object_id];
+        delegate = d;
     }
     return self;
 }

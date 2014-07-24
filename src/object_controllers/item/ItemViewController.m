@@ -52,7 +52,7 @@
     if(self = [super init])
     {
         instance = i;
-        item = (Item *)instance.object;
+        item = [_MODEL_ITEMS_ itemForId:i.object_id];
         delegate = d;
         source = s;
     }

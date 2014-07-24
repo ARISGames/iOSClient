@@ -15,7 +15,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 16;
+const int gameDatasToReceive = 17;
 const int playerDatasToReceive = 6;
 
 @interface Game()
@@ -209,6 +209,7 @@ const int playerDatasToReceive = 6;
     receivedGameData = 0; 
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
+    [itemsModel touchItemInstances];
     [dialogsModel requestDialogs]; //makes 4 "game data received" notifs (dialogs, characters, scripts, options)
     [webPagesModel requestWebPages];
     [tagsModel requestTags];

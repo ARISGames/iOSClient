@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "EventsModel.h"
+#import "AppModel.h"
 #import "AppServices.h"
 
 @interface EventsModel()
@@ -54,6 +55,20 @@
     }
     _ARIS_NOTIF_SEND_(@"MODEL_EVENTS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+}
+
+- (void) runEventPackageId:(int)event_package_id
+{
+    NSArray *es = [self eventsForEventPackageId:event_package_id];
+    Event *e;
+    for(int i = 0; i < es.count; i++)
+    {
+        e = es[i];
+        if([e.event isEqualToString:@"TAKE_ITEM"])
+            [_MODEL_ITEMS_ takeItemFromPlayer:e.content_id qtyToRemove:e.qty];
+        if([e.event isEqualToString:@"GIVE_ITEM"])
+            [_MODEL_ITEMS_ giveItemToPlayer:e.content_id qtyToAdd:e.qty];
+    }
 }
 
 - (void) requestEvents

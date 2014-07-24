@@ -36,6 +36,7 @@
     {
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_TOUCHED",self,@selector(itemsTouched:),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_AVAILABLE",self,@selector(playerInstancesAvailable),nil);
     }
     return self;
@@ -58,6 +59,11 @@
 {
     [self updateItems:[notif.userInfo objectForKey:@"items"]];
 }
+- (void) itemsTouched:(NSNotification *)notif
+{
+    _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_TOUCHED",nil,nil);   
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);      
+}
 
 - (void) updateItems:(NSArray *)newItems
 {
@@ -77,6 +83,10 @@
 {
     [_SERVICES_ fetchItems]; 
 }
+- (void) touchItemInstances
+{
+    [_SERVICES_ touchItemsForPlayer]; 
+}
 
 - (void) playerInstancesAvailable
 {
@@ -86,7 +96,7 @@
     Instance *newInstance;
     for(int i = 0; i < newInstances.count; i++)
     {
-        newInstances = newInstances[i];
+        newInstance = newInstances[i];
         if(![newInstance.object_type isEqualToString:@"ITEM"] || newInstance.owner_id != _MODEL_PLAYER_.user_id) continue;
         
         playerItemInstances[[NSNumber numberWithInt:newInstance.object_id]] = newInstance;
@@ -96,35 +106,39 @@
 - (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty
 {
   Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
-  if(!pII) return 0;
+  if(!pII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForPlayer was called...)
   if(pII.qty < qty) qty = pII.qty;
     
   pII.qty -= qty;
+  [_SERVICES_ setQtyForInstanceId:pII.qty qty:qty];
+  [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
   return qty;
-  //DONT FORGET TO UPDATE SERVER!!!
 }
 
 - (int) giveItemToPlayer:(int)item_id qtyToAdd:(int)qty
 {
   Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
-  if(!pII) return 0; //UH OH! NEED TO CREATE INSTANCE TO GIVE ITEM TO!
+  if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
     
   pII.qty += qty;
+  [_SERVICES_ setQtyForInstanceId:pII.qty qty:qty];
+  [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
   return qty;
-  //DONT FORGET TO UPDATE SERVER!!! 
 }
 
 - (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty
 {
   Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
-  if(!pII) return 0; //UH OH! NEED TO CREATE INSTANCE TO GIVE ITEM TO!
+  if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty < 0) qty = 0;
   if(qty-pII.qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
     
   pII.qty += qty;
+  [_SERVICES_ setQtyForInstanceId:pII.qty qty:qty];
+  if(qty > 0) [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
+  if(qty < 0) [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
   return qty;
-  //DONT FORGET TO UPDATE SERVER!!!  
 }
 
 // null item (id == 0) NOT flyweight!!! (to allow for temporary customization safety)

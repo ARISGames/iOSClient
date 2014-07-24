@@ -10,11 +10,14 @@
 #import "WebPageViewController.h"
 #import "WebPage.h"
 #import "DialogViewController.h"
+#import "AppModel.h"
 #import "ARISWebView.h"
 
 @interface WebPageViewController() <ARISWebViewDelegate,StateControllerProtocol>
 {
     WebPage *webPage;
+    Instance *instance;
+    
     ARISWebView *webView;
     UIActivityIndicatorView *activityIndicator;
     
@@ -35,15 +38,15 @@
 @synthesize webView;
 @synthesize activityIndicator;
 
-- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d
+- (id) initWithInstance:(Instance *)i delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d;
 {
     if(self = [super init])
     {
+        instance = i;
+        webPage = [_MODEL_WEB_PAGES_ webPageForId:i.object_id];
+        
         delegate = d;
-        self.webPage = w;
-        
         hasAppeared = NO;
-        
         
         //WARNING!!!! FOR DEBUGGING PURPOSES ONLY!!! REMOVE FROM PRODUCTION!!!!
         
@@ -55,8 +58,6 @@
         [NSURLCache setSharedURLCache:sharedCache];
         
         //WARNING!!!! FOR DEBUGGING PURPOSES ONLY!!! REMOVE FROM PRODUCTION!!!!
-
-        
     }
     return self;
 }

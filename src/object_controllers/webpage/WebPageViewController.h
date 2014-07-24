@@ -9,11 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "InstantiableViewController.h"
 
-@class WebPage;
 @protocol StateControllerProtocol;
-
+@class Instance;
 @interface WebPageViewController : InstantiableViewController 
-
-- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d;
-
+- (id) initWithInstance:(Instance *)i delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d;
 @end

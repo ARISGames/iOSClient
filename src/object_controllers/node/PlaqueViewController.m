@@ -25,6 +25,9 @@ static NSString * const OPTION_CELL = @"option";
 
 @interface PlaqueViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
 {
+    Plaque *plaque;
+    Instance *instance;
+    
     UIScrollView *scrollView;
     ARISMediaView  *mediaView;
     ARISWebView *webView;
@@ -39,13 +42,13 @@ static NSString * const OPTION_CELL = @"option";
 
 @implementation PlaqueViewController
 
-- (id) initWithPlaque:(Plaque *)n delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
 {
     if((self = [super init]))
     {
         delegate = d;
-    
-        plaque = n;
+        instance = i;
+        plaque = [_MODEL_PLAQUES_ plaqueForId:instance.object_id];
         self.title = plaque.name;
     }
     
