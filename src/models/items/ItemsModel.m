@@ -101,6 +101,7 @@
         
         playerItemInstances[[NSNumber numberWithInt:newInstance.object_id]] = newInstance;
     }
+    _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",nil,nil);
 }
 
 - (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty

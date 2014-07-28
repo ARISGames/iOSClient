@@ -61,9 +61,7 @@
         viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
         currentTagIndex = 0;
         
-        _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredItemsAvailable",self,@selector(refreshViews),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewlyLostItemsAvailable",self,@selector(refreshViews),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewlyChangedItemsGameNotificationSent",self,@selector(incrementBadge),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",self,@selector(incrementBadge),nil);
     }
     return self;
 }

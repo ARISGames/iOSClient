@@ -21,7 +21,7 @@
     int newItemsSinceLastView;
     
     NSArray *activeQuests;
-    NSArray *completedQuests;
+    NSArray *completeQuests;
     
     id<QuestsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -104,14 +104,9 @@
 
 - (void) refreshViewFromModel
 {
-    /*
-    NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES]];
-    activeQuests    = [_MODEL_GAME_.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
-    //completedQuests = [_MODEL_GAME_.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
-    completedQuests = [[NSArray alloc] init];
-        
+    activeQuests   = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleActiveQuests,@"sort_index");
+    completeQuests = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleCompleteQuests,@"sort_index");
     [self.questIconCollectionView reloadData];
-     */
 }
 
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -121,7 +116,7 @@
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return activeQuests.count + completedQuests.count;
+    return activeQuests.count + completeQuests.count;
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -129,13 +124,13 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor clearColor]; 
     
-    /*
     for(UIView *view in [cell.contentView subviews])
         [view removeFromSuperview];
         
     Quest *q;
-    if(indexPath.item < activeQuests.count) q = [activeQuests    objectAtIndex:indexPath.item];
-    else                                      q = [completedQuests objectAtIndex:indexPath.item-activeQuests.count];
+    
+    if(indexPath.item < activeQuests.count) q = [activeQuests   objectAtIndex:indexPath.item];
+    else                                    q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];
     
     CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-20), cell.contentView.frame.size.width, 20);
     UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
@@ -149,14 +144,19 @@
     
     ARISMediaView *icon = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width) delegate:self];
     [icon setDisplayMode:ARISMediaDisplayModeAspectFit];
-    if(q.icon_media_id != 0)
-        [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.icon_media_id]];
+    if(indexPath.item < activeQuests.count)
+    {
+        if(q.active_icon_media_id != 0) [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.active_icon_media_id]];
+        else                            [icon setImage:[UIImage imageNamed:@"item.png"]];
+    }
     else
-        [icon setImage:[UIImage imageNamed:@"item.png"]];
+    {
+        if(q.complete_icon_media_id != 0) [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.complete_icon_media_id]];
+        else                              [icon setImage:[UIImage imageNamed:@"item.png"]];    
+    }
     
     icon.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:icon];
-     */
     
     return cell;
 }
@@ -165,7 +165,7 @@
 {    
     Quest *q;
     if(indexPath.item < activeQuests.count) q = [activeQuests    objectAtIndex:indexPath.item];
-    else                                      q = [completedQuests objectAtIndex:indexPath.item-activeQuests.count];
+    else                                      q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];
 
     [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self] animated:YES];
 }
