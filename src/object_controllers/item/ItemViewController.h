@@ -13,15 +13,6 @@
 @class Instance;
 @protocol StateControllerProtocol;
 
-@protocol ItemViewControllerSource
-- (BOOL) supportsDropping;
-- (BOOL) item:(Item *)i droppedQty:(int)q;
-- (BOOL) supportsDestroying;
-- (BOOL) item:(Item *)i destroyedQty:(int)q;
-- (BOOL) supportsPickingUp;
-- (BOOL) item:(Item *)i pickedUpQty:(int)q;
-@end
-
 @interface ItemViewController : InstantiableViewController
 {
   Item *item; 
@@ -30,6 +21,6 @@
 @property (nonatomic, strong) Item *item;
 @property (nonatomic, strong) Instance *instance;
 
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s;
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate,StateControllerProtocol>)d;
 
 @end

@@ -135,6 +135,30 @@
     currentTagIndex = 0;
 }
 
+- (int) listIndexForTableIndex:(int)table_index
+{
+    NSArray *inst_tags;
+    Tag *tag;
+    Tag *sortedTag = sortableTags[currentTagIndex];
+    
+    int filteredCount = -1;
+    for(int i = 0; i < instances.count; i++)
+    {
+        inst_tags = tags[i];
+        for(int j = 0; j < inst_tags.count; j++)
+        {
+            tag = inst_tags[j];
+            if([tag.tag isEqualToString:sortedTag.tag])
+                filteredCount++;
+        }
+        if(currentTagIndex == 0 && inst_tags.count == 0)
+            filteredCount++; //untagged selected, and current item has no tags
+        
+        if(filteredCount == table_index) return i;
+    }
+    return 0; //really shouldn't get here
+}
+
 - (void) refreshViews
 {
     if(!self.view) return;
@@ -294,30 +318,9 @@
     
     cell.contentView.backgroundColor = [UIColor ARISColorWhite];
     
-    Tag *sortedTag = sortableTags[currentTagIndex];
-    Instance *instance;
-    Item *item;
-    NSArray *inst_tags;
-    Tag *tag;
-    
-    int tagItemIndex = -1;//-1 so first item found will be index 0  //also, yes, this is dumb and n^2, and could be n if I just saved state. chill.
-    for(int i = 0; i < instances.count; i++)
-    {
-        instance = instances[i];
-        item = items[i];
-        inst_tags = tags[i];
-        for(int j = 0; j < inst_tags.count; j++)
-        {
-            tag = inst_tags[j];
-            if([tag.tag isEqualToString:sortedTag.tag])
-                tagItemIndex++;
-        }
-        if(currentTagIndex == 0 && inst_tags.count == 0)
-            tagItemIndex++; //untagged selected, and current item has no tags
-        
-        //what?
-        if(tagItemIndex == indexPath.row) break;
-    }
+    int i = [self listIndexForTableIndex:indexPath.row];
+    Instance *instance = instances[i];
+    Item *item = items[i];
     
     ((UILabel *)[cell viewWithTag:1]).text = item.name;
     ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.desc];
@@ -352,28 +355,13 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-    [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"swish" shouldVibrate:NO];
- 
-    Item *item;
-    int tagItemIndex = -1;//-1 so first item found will be index 0  //also, yes, this is dumb and n^2, and could be n if I just saved state. chill.
-    for(int i = 0; i < inventory.count; i++)
-    {
-        for(int j = 0; j < ((Item *)[inventory objectAtIndex:i]).tags.count; j++)
-        {
-            if([((ItemTag *)[((Item *)[inventory objectAtIndex:i]).tags objectAtIndex:j]).name isEqualToString:((ItemTag *)[sortableTags objectAtIndex:currentTagIndex]).name])
-                tagItemIndex++;
-        }
-        if(currentTagIndex == 0 && ((Item *)[inventory objectAtIndex:i]).tags.count == 0)
-            tagItemIndex++; //untagged selected, and current item has no tags
-        
-        if(tagItemIndex == indexPath.row) { item = [inventory objectAtIndex:i]; break; }
-    }
     
-    [delegate displayGameObject:item fromSource:self];
+    int i = [self listIndexForTableIndex:indexPath.row];
+    Item *item = items[i];
+    Instance *instance = instances[i];
     
-    [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[inventory objectAtIndex:[indexPath row]]).item_id]];
-     */
+    [delegate displayInstance:instance];
+    [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
 }
 
 //Removes all content after first <br> or </br> or <br /> tags, then removes all html

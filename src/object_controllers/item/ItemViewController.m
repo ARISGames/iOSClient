@@ -38,7 +38,6 @@
     UIActivityIndicatorView *activityIndicator;
     
     id<InstantiableViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
-    id<ItemViewControllerSource> source; 
 }
 @end
 
@@ -47,14 +46,13 @@
 @synthesize instance;
 @synthesize item;
 
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate,StateControllerProtocol>)d
 {
     if(self = [super init])
     {
         instance = i;
         item = [_MODEL_ITEMS_ itemForId:i.object_id];
         delegate = d;
-        source = s;
     }
     return self;
 }
@@ -80,8 +78,8 @@
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     
     int numButtons = 0;
-    if([(NSObject *)source isKindOfClass:[InventoryViewController class]] && item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
-    if([(NSObject *)source isKindOfClass:[InventoryViewController class]] && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
+    if(instance.owner_id == _MODEL_PLAYER_.user_id && item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
+    if(instance.owner_id == _MODEL_PLAYER_.user_id && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
     //if([(NSObject *)source isKindOfClass:[Location class]] && (instance.qty > 0 || instance.infinite_qty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
     
     line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];

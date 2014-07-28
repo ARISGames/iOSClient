@@ -112,10 +112,15 @@
 
 - (BOOL) displayTrigger:(Trigger *)t
 {
-    if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
-    
     Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
-    int event_package_id = 0;
+    if(![self displayInstance:i]) return NO;
+    [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id]; 
+    return YES;   
+}
+
+- (BOOL) displayInstance:(Instance *)i
+{
+    if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
     
     ARISViewController *vc;
     if([i.object_type isEqualToString:@"PLAQUE"])
@@ -125,7 +130,7 @@
         vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
     }
     if([i.object_type isEqualToString:@"ITEM"])
-        vc = [[ItemViewController alloc] initWithInstance:i delegate:self source:t];  //don't know what to do with source
+        vc = [[ItemViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"DIALOG"])
         vc = [[DialogViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"WEB_PAGE"])
@@ -143,7 +148,6 @@
                                                            gameNotificationViewController.view.frame.size.height);
     [nav.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
     
-    [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id]; 
     [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id]; 
     [_MODEL_LOGS_ playerViewedContent:i.object_type id:i.object_id];    
     return YES;   
