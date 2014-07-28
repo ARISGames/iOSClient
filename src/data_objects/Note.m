@@ -66,7 +66,7 @@
         [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         self.created = [df dateFromString:[dict validStringForKey:@"created"]];
                
-        NSDictionary *locationDict = [dict validObjectForKey:@"location"]; 
+        //NSDictionary *locationDict = [dict validObjectForKey:@"location"]; 
         //if(locationDict) self.location = [[Location alloc] initWithDictionary:locationDict];
         //else             self.location = [[Location alloc] init];
                       
@@ -92,8 +92,7 @@
         self.comments = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *commentDict in commentDicts)
             [self.comments addObject:[[NoteComment alloc] initWithDictionary:commentDict]];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"noteId" ascending:NO]];
-        self.comments = [[self.comments sortedArrayUsingDescriptors:sortDescriptors] mutableCopy]; 
+        self.comments = [_ARIS_ARRAY_SORTED_ON_(self.comments,@"note_id") mutableCopy];
                
         self.publicToList = [dict validBoolForKey:@"public_to_list"];
         self.publicToMap  = [dict validBoolForKey:@"public_to_map"];   

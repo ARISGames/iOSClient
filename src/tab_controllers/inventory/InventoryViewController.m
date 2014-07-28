@@ -163,8 +163,7 @@
 {
     if(!self.view) return;
     
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
-    NSArray *playerInstances = [_MODEL_INSTANCES_.playerInstances sortedArrayUsingDescriptors:sortDescriptors];
+    NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_INSTANCES_.playerInstances,@"name");
     [instances removeAllObjects];
     [items removeAllObjects];
     [tags removeAllObjects];
@@ -179,9 +178,7 @@
         [tags addObject:[_MODEL_TAGS_ tagsForObjectType:tmp_inst.object_type id:tmp_inst.object_id]];
     }
     
-    sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"sort_index" ascending:YES], nil];
-    NSArray *allTags = [_MODEL_TAGS_.tags sortedArrayUsingDescriptors:sortDescriptors];
-        
+    NSArray *allTags = _ARIS_ARRAY_SORTED_ON_(_MODEL_TAGS_.tags,@"sort_index");
     [sortableTags removeAllObjects];
     [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
     

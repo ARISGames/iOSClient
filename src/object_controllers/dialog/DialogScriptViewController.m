@@ -7,6 +7,7 @@
 //
 
 #import "DialogScriptViewController.h"
+#import "StateControllerProtocol.h"
 #import "ARISMediaView.h"
 #import "ARISCollapseView.h"
 #import "DialogTextView.h"
@@ -14,7 +15,7 @@
 #import "User.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface DialogScriptViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, DialogTextViewDelegate>
+@interface DialogScriptViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, DialogTextViewDelegate, StateControllerProtocol>
 {
     Dialog *dialog;
     DialogScript *script;
@@ -26,14 +27,14 @@
     
     int lastKnownTextFrameHeight;
 
-    id<DialogScriptViewControllerDelegate> __unsafe_unretained delegate;
+    id<DialogScriptViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation DialogScriptViewController
 
-- (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate>)d
+- (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super init])
     {
@@ -116,6 +117,13 @@
 {
     return lastKnownTextFrameHeight;
 }
+
+//implement statecontrol stuff for webpage, but just delegate any requests
+- (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
+- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
+- (void) displayTab:(NSString *)t { [delegate displayTab:t]; }
+- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
 {

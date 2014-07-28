@@ -15,7 +15,7 @@
 @protocol StateControllerProtocol
 - (BOOL) displayTrigger:(Trigger *)t; //returns success
 - (BOOL) displayInstance:(Instance *)i; //returns success //for the cases where we display something without a trigger
-- (BOOL) displayObjectType:(NSString *)type id:(int)id; //returns success //for the case where we display something without an instance
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id; //returns success //for the case where we display something without an instance
 - (void) displayTab:(NSString *)t;
 - (void) displayScannerWithPrompt:(NSString *)p;
 @end

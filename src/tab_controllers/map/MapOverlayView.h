@@ -11,6 +11,6 @@
 
 @interface MapOverlayView : MKOverlayView
 
-- (id) initWithOverlay:(Overlay *)overlay;
+- (id) initWithOverlay:(Overlay *)o;
 
 @end

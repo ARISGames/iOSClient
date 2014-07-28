@@ -17,8 +17,9 @@
 - (void) exitRequested;
 @end
 
+@protocol StateControllerProtocol;
 @interface DialogScriptViewController : ARISViewController
-- (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate>)d;
+- (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate, StateControllerProtocol>)d;
 - (void) loadScript:(DialogScript *)s guessedHeight:(int)h;
 - (int) heightOfTextBox;
 @end

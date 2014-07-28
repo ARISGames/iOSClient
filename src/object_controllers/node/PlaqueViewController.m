@@ -175,21 +175,18 @@ static NSString * const OPTION_CELL = @"option";
     scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
 }
 
-- (void) displayTab:(NSString *)t
-{
-    [delegate displayTab:t];
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [delegate displayScannerWithPrompt:p]; 
-}
-
 - (void) continueButtonTouched
 {
 	//[_SERVICES_ updateServerPlaqueViewed:plaque.plaque_id fromLocation:0];
     [delegate instantiableViewControllerRequestsDismissal:self];
 }
+
+//implement statecontrol stuff for webpage, but just delegate any requests
+- (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
+- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
+- (void) displayTab:(NSString *)t { [delegate displayTab:t]; }
+- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void)dealloc
 {

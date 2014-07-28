@@ -130,7 +130,7 @@
 
 - (void) refreshFromModel
 {
-    NSArray *playerTabs = _ARIS_ARRAY_SORTED_ON_([_MODEL_TABS_ playerTabs],@"sort_index");
+    NSArray *playerTabs = _ARIS_ARRAY_SORTED_ON_(_MODEL_TABS_.playerTabs,@"sort_index");
     viewControllers = [[NSMutableArray alloc] initWithCapacity:10]; 
     
     Tab *tab;
@@ -233,6 +233,48 @@
     c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
     
     return c;
+}
+
+- (void) requestDisplayTab:(NSString *)t
+{
+    NSArray *playerTabs = _MODEL_TABS_.playerTabs;
+    Tab *tab;
+    //Check by name
+    for(int i = 0; i < playerTabs.count; i++)
+    {
+        tab = playerTabs[i];
+        if([[tab.name lowercaseString] isEqualToString:[t lowercaseString]]) 
+        {
+            [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
+            return;
+        }
+    }
+    //Check by type
+    for(int i = 0; i < playerTabs.count; i++)
+    {
+        tab = playerTabs[i];
+        if([[tab.type lowercaseString] isEqualToString:[t lowercaseString]]) 
+        {
+            [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
+            return;
+        }
+    }
+}
+
+- (void) requestDisplayScannerWithPrompt:(NSString *)p
+{
+    NSArray *playerTabs = _MODEL_TABS_.playerTabs;
+    Tab *tab;
+    for(int i = 0; i < playerTabs.count; i++)
+    {
+        tab = playerTabs[i];
+        if([tab.type isEqualToString:@"SCANNER"]) 
+        {
+            [((DecoderViewController *)viewControllersDict[tab.keyString]) setPrompt:p];
+            [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
+            return;
+        }
+    }
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

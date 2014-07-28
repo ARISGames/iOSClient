@@ -128,18 +128,6 @@
     }
 }
 
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [self dismissSelf];
-    [delegate displayScannerWithPrompt:p];
-}
-
-- (void) displayTab:(NSString *)t
-{
-    [self dismissSelf];
-    [delegate displayTab:t];
-}
-
 - (void) backButtonTouched
 {
     [self dismissSelf];
@@ -152,6 +140,13 @@
     //[_SERVICES_ updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
     [delegate instantiableViewControllerRequestsDismissal:self];
 }
+
+//implement statecontrol stuff for webpage, but just delegate any requests
+- (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
+- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
+- (void) displayTab:(NSString *)t { [delegate displayTab:t]; }
+- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
 {

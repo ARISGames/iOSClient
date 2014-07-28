@@ -140,21 +140,16 @@
 {
 }
 
-- (void) displayTab:(NSString *)t
-{
-    [delegate displayTab:t];
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [delegate displayScannerWithPrompt:p];
-}
-
-#pragma mark ARISCollapseView Delegate Methods
-
 - (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
 {
     self.view.userInteractionEnabled = o;
 }
+
+//implement statecontrol stuff for webpage, but ignore any requests
+- (BOOL) displayTrigger:(Trigger *)t { return NO; }
+- (BOOL) displayInstance:(Instance *)i { return NO; }
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return NO; }
+- (void) displayTab:(NSString *)t {}
+- (void) displayScannerWithPrompt:(NSString *)p {}
 
 @end

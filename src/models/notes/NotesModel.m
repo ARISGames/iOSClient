@@ -235,6 +235,7 @@
     }
     return [notesMatchingTags objectForKey:t.text];
      */
+    return @[];
 }
 
 - (void) invalidateNoteTagCaches
@@ -255,6 +256,7 @@
     }
     return gameNoteTags;
      */
+    return @[];
 }
 
 - (NSArray *) playerNoteTags
@@ -269,6 +271,7 @@
     }
     return playerNoteTags;
      */
+    return @[];
 }
 
 - (Note *) noteForId:(int)noteId

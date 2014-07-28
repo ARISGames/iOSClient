@@ -118,6 +118,15 @@
     return YES;   
 }
 
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id
+{
+    Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //create hacked instance
+    i.object_type = type;
+    i.object_id = type_id;
+    i.qty = 1;
+    return [self displayInstance:i];
+}
+
 - (BOOL) displayInstance:(Instance *)i
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
@@ -167,30 +176,14 @@
     [displayQueue dequeueTrigger];
 }
 
-//PHIL REALLY UNAPPROVED FROM THIS POINT ON
-
-/*
 - (void) displayTab:(NSString *)t
 {
-    NSString *localized = [t lowercaseString];
-    ARISNavigationController *tab;
-    if([localized isEqualToString:@"map"]       || [localized isEqualToString:[NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString]])
-        tab = mapNavigationController;
-    else if([localized isEqualToString:@"quests"]    || [localized isEqualToString:[NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString]])
-        tab = questsNavigationController;
-    else if([localized isEqualToString:@"notebook"]  || [localized isEqualToString:[NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString]])
-        tab = notesNavigationController;
-    else if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
-        tab = inventoryNavigationController;
-    else if([localized isEqualToString:@"scanner"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
-        tab = scannerNavigationController;
-    else if([localized isEqualToString:@"decoder"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
-        tab = decoderNavigationController; 
-    else if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
-        tab = attributesNavigationController;
-    if(tab) [self viewControllerRequestedDisplay:tab]; 
+    [gamePlayTabSelectorController requestDisplayTab:t];
 }
- */
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    [gamePlayTabSelectorController requestDisplayScannerWithPrompt:p];
+}
 
 - (NSUInteger) supportedInterfaceOrientations
 {

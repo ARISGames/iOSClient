@@ -304,16 +304,6 @@
     //ignore
 }
 
-- (void) displayTab:(NSString *)t
-{
-    [delegate displayTab:t];
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [delegate displayScannerWithPrompt:p];
-}
-
 - (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
     if(wv == webView) return YES;
@@ -375,6 +365,13 @@
 {
     [self dismissSelf];
 }
+
+//implement statecontrol stuff for webpage, but just delegate any requests
+- (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
+- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
+- (void) displayTab:(NSString *)t { [delegate displayTab:t]; }
+- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
 {

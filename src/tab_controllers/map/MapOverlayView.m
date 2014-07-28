@@ -21,13 +21,13 @@
 
 @implementation MapOverlayView
 
-- (id) initWithCustomOverlay:(Overlay *)customOverlay
+- (id) initWithOverlay:(Overlay *)o
 {
     if(self = [super init])
     {
-        overlay = customOverlay;
+        overlay = o;
         mediaView = [[ARISMediaView alloc] init];
-        [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:customOverlay.media_id]];
+        [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:o.media_id]];
     }
     return self;
 }

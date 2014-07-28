@@ -170,8 +170,7 @@ const int VIEW_MODE_TAG  = 2;
         }
     }
     
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
-    filteredNotes = [textFilteredNotes sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]]; 
+    filteredNotes = _ARIS_ARRAY_SORTED_ON_(textFilteredNotes,@"created");
     return filteredNotes.count + (1-_MODEL_GAME_.notesModel.listComplete);
 }
 

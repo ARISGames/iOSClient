@@ -10,7 +10,7 @@
 #import "ARISWebView.h"
 #import "DialogOption.h"
 
-@interface DialogTextView() <ARISWebViewDelegate>
+@interface DialogTextView() <ARISWebViewDelegate, StateControllerProtocol>
 {
     NSString *text;
     ARISWebView *textView;
@@ -23,13 +23,13 @@
     BOOL fetchingOptions; //this is for 'loading' of the actual list of options
     UIActivityIndicatorView *optionsLoadingIndicator;
 
-    id<DialogTextViewDelegate> __unsafe_unretained delegate;
+    id<DialogTextViewDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
 
 @implementation DialogTextView
 
-- (id) initWithDelegate:(id<DialogTextViewDelegate>)d;
+- (id) initWithDelegate:(id<DialogTextViewDelegate, StateControllerProtocol>)d;
 {
     if(self = [super init])
     {
@@ -171,5 +171,12 @@
     for(int i = 0; i < optionButtons.count; i++)
         if(r.view == optionButtons[i]) [delegate dialogTextView:self selectedOption:i];
 }
+
+//implement statecontrol stuff for webpage, but just delegate any requests
+- (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
+- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
+- (void) displayTab:(NSString *)t { [delegate displayTab:t]; }
+- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 @end

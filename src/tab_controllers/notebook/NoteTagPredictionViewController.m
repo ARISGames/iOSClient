@@ -62,9 +62,8 @@
 
 - (void) setGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt
 {
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"text" ascending:YES], nil];
-    gameNoteTags = [gnt sortedArrayUsingDescriptors:sortDescriptors];
-    playerNoteTags = [pnt sortedArrayUsingDescriptors:sortDescriptors]; 
+    gameNoteTags = _ARIS_ARRAY_SORTED_ON_(gnt,@"text");
+    playerNoteTags = _ARIS_ARRAY_SORTED_ON_(pnt,@"text");
     [self refreshMatchingTags];
 }
 

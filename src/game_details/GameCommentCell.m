@@ -91,8 +91,10 @@
 }
 
 //implement statecontrol stuff for webpage, but ignore any requests
+- (BOOL) displayTrigger:(Trigger *)t { return NO; }
+- (BOOL) displayInstance:(Instance *)i { return NO; }
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return NO; }
 - (void) displayTab:(NSString *)t {}
-- (BOOL) displayGameObject:(id)g fromSource:(id)s {return NO;}
 - (void) displayScannerWithPrompt:(NSString *)p {}
 
 @end
