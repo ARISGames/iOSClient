@@ -54,6 +54,7 @@
         self.droppable            = [dict validBoolForKey:@"droppable"];
         self.destroyable          = [dict validBoolForKey:@"destroyable"];
         self.max_qty_in_inventory = [dict validIntForKey:@"max_qty_in_inventory"];
+        if(self.max_qty_in_inventory < 0) self.max_qty_in_inventory = 999999; //poor man's infinity
         self.weight               = [dict validIntForKey:@"weight"]; 
         self.url                  = [dict validStringForKey:@"url"];
         self.type                 = [dict validStringForKey:@"type"]; 

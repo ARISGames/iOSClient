@@ -149,7 +149,7 @@
     for(int i = 0; i < playerInstances.count; i++)
     {
         tmp_inst = playerInstances[i];
-        if(![tmp_inst.object_type isEqualToString:@"ITEM"]) continue;
+        if(![tmp_inst.object_type isEqualToString:@"ITEM"] || tmp_inst.qty == 0) continue;
         [instances addObject:tmp_inst];
         [items addObject:[_MODEL_ITEMS_ itemForId:tmp_inst.object_id]];
         [tags addObject:[_MODEL_TAGS_ tagsForObjectType:tmp_inst.object_type id:tmp_inst.object_id]];

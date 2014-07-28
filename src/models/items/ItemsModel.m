@@ -133,7 +133,7 @@
   if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty < 0) qty = 0;
   if(qty-pII.qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
-    
+
   pII.qty += qty;
   [_SERVICES_ setQtyForInstanceId:pII.qty qty:qty];
   if(qty > 0) [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];

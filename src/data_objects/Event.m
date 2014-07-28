@@ -61,7 +61,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Event- Id:%d\ttag:%@",self.event_id,self.event];
+    return [NSString stringWithFormat:@"Event- Id:%d\tevent:%@",self.event_id,self.event];
 }
 
 @end
