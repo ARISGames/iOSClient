@@ -25,6 +25,7 @@
     UIView *line; 
     
     Quest *quest; 
+    NSString *mode;
     id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
     
@@ -32,14 +33,14 @@
 
 @implementation QuestDetailsViewController
 
-- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d;
+- (id) initWithQuest:(Quest *)q mode:(NSString *)m delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d
 {
     if(self = [super init])
     {
         quest = q;
+        mode = m;
         delegate = d;
         self.title = quest.name;
-        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
@@ -100,12 +101,11 @@
 
 - (void) loadQuest
 {
-    /*
     [scrollView addSubview:webView]; 
     webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-    [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], quest.desc] baseURL:nil];  
+    [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], ([mode isEqualToString:@"ACTIVE"] ? quest.active_desc : quest.complete_desc)] baseURL:nil];  
     
-    Media *media = [_MODEL_MEDIA_ mediaForId:quest.media_id];
+    Media *media = [_MODEL_MEDIA_ mediaForId:([mode isEqualToString:@"ACTIVE"] ? quest.active_media_id : quest.complete_media_id)];
     if(media)
     {
         [scrollView addSubview:mediaView];   
@@ -113,7 +113,7 @@
         [mediaView setMedia:media];
     }  
     
-    if(![quest.goFunction isEqualToString:@"NONE"])
+    if(![([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"])
     {
         scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0); 
         [self.view addSubview:goButton];
@@ -122,7 +122,6 @@
     } 
     else
         scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);    
-     */
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -139,7 +138,7 @@
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
-    if(![quest.desc isEqualToString:@""])
+    if(![([mode isEqualToString:@"ACTIVE"] ? quest.active_desc : quest.complete_desc) isEqualToString:@""])
     {
         webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
         scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
@@ -150,10 +149,8 @@
 
 - (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
 {
-    //[delegate instantiableViewControllerRequestsDismissal:self];
-    //WebPage *w = [[WebPage alloc] init];
-    //w.web_page_id = plaque.plaque_id;
-    //w.url = [r.URL absoluteString];
+    WebPage *w = [_MODEL_WEB_PAGES_ webPageForId:0];
+    w.url = [r.URL absoluteString];
     //[(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
 
     return NO;
@@ -183,11 +180,9 @@
 
 - (void) goButtonTouched
 {
-    /*
-    if([quest.goFunction isEqualToString:@"JAVASCRIPT"]) [webView hookWithParams:@""];
-    else if([quest.goFunction isEqualToString:@"NONE"]) return;
-    else [self displayTab:quest.goFunction];
-     */
+    if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"JAVASCRIPT"]) [webView hookWithParams:@""];
+    else if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"]) return;
+    else [self displayTab:([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function)];
 }
 
 //implement statecontrol stuff for webpage, but just delegate any requests

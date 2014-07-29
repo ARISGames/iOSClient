@@ -123,8 +123,7 @@ static int const COMPLETE_SECTION = 1;
     
     if(sortedActiveQuests.count == 0)   
     {
-        Quest *nullQuest = [[Quest alloc] init];
-        nullQuest.quest_id = -1;
+        Quest *nullQuest = [_MODEL_QUESTS_ questForId:0];
         //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
         nullQuest.name = NSLocalizedString(@"EmptyKey", @"");
         nullQuest.active_desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoQuestsAvailableKey", @"")];
@@ -132,8 +131,7 @@ static int const COMPLETE_SECTION = 1;
     }
     if(sortedCompleteQuests.count == 0)  
     {
-        Quest *nullQuest = [[Quest alloc] init];
-        nullQuest.quest_id = -1;
+        Quest *nullQuest = [_MODEL_QUESTS_ questForId:0];
         //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
         nullQuest.name = NSLocalizedString(@"EmptyKey", @"");
         nullQuest.complete_desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNocompleteQuestsKey", @"")];
@@ -205,7 +203,7 @@ static int const COMPLETE_SECTION = 1;
 - (void) heightCalculated:(int)h forQuest:(Quest *)q inCell:(QuestCell *)qc
 {
     NSDictionary *heights; 
-    if(questTypeShown == ACTIVE_SECTION)    heights = activeQuestCellHeights;
+    if(questTypeShown == ACTIVE_SECTION)   heights = activeQuestCellHeights;
     if(questTypeShown == COMPLETE_SECTION) heights = completeQuestCellHeights; 
     
     if(![heights objectForKey:[q description]])
@@ -223,7 +221,9 @@ static int const COMPLETE_SECTION = 1;
     if(questTypeShown == COMPLETE_SECTION)
         q = [sortedCompleteQuests objectAtIndex:indexPath.row]; 
     
-    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self] animated:YES]; 
+    if(q.quest_id < 1) return;
+    
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:((questTypeShown == ACTIVE_SECTION) ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES]; 
 }
 
 - (void) questDetailsRequestsDismissal

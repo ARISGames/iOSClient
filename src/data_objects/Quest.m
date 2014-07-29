@@ -60,17 +60,17 @@
     {
         quest_id                   = [dict validIntForKey:@"quest_id"];
         name                       = [dict validStringForKey:@"name"];
-        desc                       = [dict validStringForKey:@"desc"]; 
+        desc                       = [dict validStringForKey:@"description"]; 
     
         active_icon_media_id       = [dict validIntForKey:@"active_icon_media_id"];
         active_media_id            = [dict validIntForKey:@"active_media_id"]; 
-        active_desc                = [dict validStringForKey:@"active_desc"];
+        active_desc                = [dict validStringForKey:@"active_description"];
         active_notification_type   = [dict validStringForKey:@"active_notification_type"]; 
         active_function            = [dict validStringForKey:@"active_function"];  
     
         complete_icon_media_id     = [dict validIntForKey:@"complete_icon_media_id"];
         complete_media_id          = [dict validIntForKey:@"complete_media_id"]; 
-        complete_desc              = [dict validStringForKey:@"complete_desc"];
+        complete_desc              = [dict validStringForKey:@"complete_description"];
         complete_notification_type = [dict validStringForKey:@"complete_notification_type"]; 
         complete_function          = [dict validStringForKey:@"complete_function"];   
     

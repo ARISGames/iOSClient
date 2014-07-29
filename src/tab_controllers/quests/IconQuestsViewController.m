@@ -167,7 +167,7 @@
     if(indexPath.item < activeQuests.count) q = [activeQuests    objectAtIndex:indexPath.item];
     else                                      q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];
 
-    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self] animated:YES];
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:((indexPath.item < activeQuests.count) ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
 }
 
 - (void) questDetailsRequestsDismissal
