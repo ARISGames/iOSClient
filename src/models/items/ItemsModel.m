@@ -111,7 +111,7 @@
   if(pII.qty < qty) qty = pII.qty;
     
   pII.qty -= qty;
-  [_SERVICES_ setQtyForInstanceId:pII.qty qty:qty];
+  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
   [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
   return qty;
 }
@@ -123,7 +123,7 @@
   if(qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
     
   pII.qty += qty;
-  [_SERVICES_ setQtyForInstanceId:pII.qty qty:qty];
+  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
   [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
   return qty;
 }
@@ -136,7 +136,7 @@
   if(qty-pII.qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
 
   pII.qty += qty;
-  [_SERVICES_ setQtyForInstanceId:pII.qty qty:qty];
+  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
   if(qty > 0) [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
   if(qty < 0) [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
   return qty;
