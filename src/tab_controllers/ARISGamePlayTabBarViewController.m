@@ -59,8 +59,6 @@
 
 - (void) initialize
 {
-    badgeCount = 0;
-  _ARIS_NOTIF_LISTEN_(@"ClearBadgeRequest",self,@selector(clearBadge),nil);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -77,17 +75,6 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self clearBadge];
-}
-
-- (void) clearBadge
-{
-    badgeCount = 0;
-}
-
-- (void) incrementBadge
-{
-    badgeCount++;
 }
 
 - (void) showNav

@@ -128,7 +128,7 @@
 
 - (NSArray *) pingNearbyGames
 {
-    if(!nearbyStamp || [nearbyStamp timeIntervalSinceNow] > 120 ||
+    if(!nearbyStamp || [nearbyStamp timeIntervalSinceNow] < -10 ||
        (_MODEL_PLAYER_.location && (!location || 
         location.coordinate.latitude  != _MODEL_PLAYER_.location.coordinate.latitude || 
         location.coordinate.longitude != _MODEL_PLAYER_.location.coordinate.longitude
@@ -147,7 +147,7 @@
 
 - (NSArray *) pingAnywhereGames
 {
-    if(!anywhereStamp || [anywhereStamp timeIntervalSinceNow] > 120)
+    if(!anywhereStamp || [anywhereStamp timeIntervalSinceNow] < -10)
     {
         anywhereStamp = [[NSDate alloc] init]; 
         [_SERVICES_ fetchAnywhereGames];   
@@ -160,7 +160,7 @@
 
 - (NSArray *) pingPopularGames
 {
-    if(!popularStamp || [popularStamp timeIntervalSinceNow] > 120) 
+    if(!popularStamp || [popularStamp timeIntervalSinceNow] < -10) 
     {
         popularStamp = [[NSDate alloc] init]; 
         [_SERVICES_ fetchPopularGames];    
@@ -173,7 +173,7 @@
 
 - (NSArray *) pingRecentGames
 {
-    if(!recentStamp || [recentStamp timeIntervalSinceNow] > 120) 
+    if(!recentStamp || [recentStamp timeIntervalSinceNow] < -10) 
     {
         recentStamp = [[NSDate alloc] init]; 
         [_SERVICES_ fetchRecentGames];     
@@ -186,7 +186,7 @@
 
 - (NSArray *) pingSearchGames:(NSString *)s
 {
-    if(!searchStamp || [searchStamp timeIntervalSinceNow] > 120 ||
+    if(!searchStamp || [searchStamp timeIntervalSinceNow] < -10 ||
        ![search isEqualToString:s]) 
     {
         searchStamp = [[NSDate alloc] init]; 
@@ -201,7 +201,7 @@
 
 - (NSArray *) pingMineGames
 {
-    if(!mineStamp || [mineStamp timeIntervalSinceNow] > 120) 
+    if(!mineStamp || [mineStamp timeIntervalSinceNow] < -10) 
     {
         mineStamp = [[NSDate alloc] init]; 
         [_SERVICES_ fetchMineGames];     
