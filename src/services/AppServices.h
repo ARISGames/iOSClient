@@ -20,6 +20,7 @@
 @property (nonatomic, strong) ARISMediaLoader *mediaLoader;
 
 + (AppServices *)sharedAppServices;
+- (void) setServer:(NSString *)s;
 
 - (void) retryFailedRequests;
 

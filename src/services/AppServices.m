@@ -44,6 +44,7 @@
   }
   return self;
 }
+- (void) setServer:(NSString *)s { [connection setServer:s]; }
 
 - (void) retryFailedRequests
 {

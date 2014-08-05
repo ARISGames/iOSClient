@@ -31,7 +31,6 @@
     NSTimer *locationPoller;
     CLLocation *lastKnownLocation;
     AVAudioPlayer *player;
-    
 }
 @end
 
@@ -67,7 +66,6 @@
     locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     locationManager.distanceFilter = 5; //Minimum change of 5 meters for update  
     locationManager.delegate = self;
-    
     
     if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
     if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %d, but I won't",_DEFAULTS_.fallbackGameId);  
@@ -217,7 +215,7 @@
         case ReachableViaWWAN: { } 
         case ReachableViaWiFi:
         {
-  _ARIS_NOTIF_SEND_(@"WifiConnected",self,nil);
+            _ARIS_NOTIF_SEND_(@"WifiConnected",self,nil);
             break;            
         }
     }    

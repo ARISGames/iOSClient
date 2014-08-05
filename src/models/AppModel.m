@@ -85,6 +85,7 @@
         //do game loading stuff here
     }
     serverURL = _DEFAULTS_.serverURL;
+    [_SERVICES_ setServer:_MODEL_.serverURL];
     showGamesInDevelopment = _DEFAULTS_.showGamesInDevelopment;
     showPlayerOnMap = _DEFAULTS_.showPlayerOnMap;
 }

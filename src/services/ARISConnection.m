@@ -50,6 +50,7 @@ NSString *const kARISServerServicePackage = @"v2";
     return self;
 }
 
+- (void) setServer:(NSString *)s { server = s; }
 - (void) setAuth { auth = @{@"user_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id],@"key":_MODEL_PLAYER_.read_write_key}; }
 - (void) unsetAuth { auth = nil; }
 

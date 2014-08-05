@@ -78,7 +78,8 @@
     (version && ![defaultVersion isEqualToString:version]) || //new version
     [defaults boolForKey:@"clearCache"] //requested clear
     )
-    _ARIS_NOTIF_SEND_(@"DEFAULTS_CLEAR",nil,nil); 
+  _ARIS_NOTIF_SEND_(@"DEFAULTS_CLEAR",nil,nil); 
+    
   serverURL = defaultServer;
   version = defaultVersion; 
   
