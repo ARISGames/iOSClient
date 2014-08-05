@@ -106,7 +106,7 @@
 
         tmpMedia.game_id = [NSNumber numberWithInt:[mediaDict validIntForKey:@"game_id"]];
         tmpMedia.user_id = [NSNumber numberWithInt:[mediaDict validIntForKey:@"user_id"]];
-        NSLog(@"Cached Media: %d with URL: %@",media_id,tmpMedia.remoteURL);
+        NSLog(@"Media cache   : Media id:%d cached:%@",media_id,tmpMedia.remoteURL);
     }
     [self commitContext];
     _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_AVAILABLE",nil,nil);

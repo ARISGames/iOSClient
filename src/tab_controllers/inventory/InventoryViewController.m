@@ -60,8 +60,6 @@
         iconCache  = [[NSMutableDictionary alloc] initWithCapacity:10];
         viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
         currentTagIndex = 0;
-        
-        _ARIS_NOTIF_LISTEN_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",self,@selector(incrementBadge),nil);
     }
     return self;
 }

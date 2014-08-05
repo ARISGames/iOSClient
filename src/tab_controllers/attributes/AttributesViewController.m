@@ -59,7 +59,6 @@
 		//register for notifications
   _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredAttributesAvailable",self,@selector(refreshViewFromModel),nil);
   _ARIS_NOTIF_LISTEN_(@"NewlyLostAttributesAvailable",self,@selector(refreshViewFromModel),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyChangedAttributesGameNotificationSent",self,@selector(incrementBadge),nil);
     }
     return self;
 }

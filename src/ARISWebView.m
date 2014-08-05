@@ -169,7 +169,7 @@
 
 - (void) handleARISRequest:(NSURLRequest *)request
 {
-    NSLog(@"ARISWebView received: %@",[[request URL] absoluteString]);
+    NSLog(@"ARISWebView   : %@",[[request URL] absoluteString]);
     [webView stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
     
     NSString *mainCommand = [[request URL] host];

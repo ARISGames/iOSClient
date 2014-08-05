@@ -18,8 +18,6 @@
 {
     UICollectionView *questIconCollectionView;
     
-    int newItemsSinceLastView;
-    
     NSArray *activeQuests;
     NSArray *completeQuests;
     
@@ -37,17 +35,16 @@
 {
     if(self = [super initWithDelegate:d])
     {
-        delegate = d;
-        
         self.tabID = @"QUESTS";
         self.tabIconName = @"todo";
-        self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
+        self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
         
-  _ARIS_NOTIF_LISTEN_(@"ConnectionLost",self,@selector(removeLoadingIndicator),nil);
-  _ARIS_NOTIF_LISTEN_(@"LatestPlayerQuestListsReceived",self,@selector(removeLoadingIndicator),nil); 
-  _ARIS_NOTIF_LISTEN_(@"NewlyActiveQuestsAvailable",self,@selector(refreshViewFromModel),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyCompletedQuestsAvailable",self,@selector(refreshViewFromModel),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyChangedQuestsGameNotificationSent",self,@selector(incrementBadge),nil);
+        delegate = d;
+        
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_ACTIVE_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
     }
     return self;
 }
@@ -56,11 +53,6 @@
 {
     [super loadView];
     self.view.backgroundColor = [ARISTemplate ARISColorViewBackdrop];
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
 
     UICollectionViewFlowLayout *questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
     questIconCollectionViewLayout.itemSize = CGSizeMake(100, 120);
@@ -80,26 +72,7 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];    
-	newItemsSinceLastView = 0;
     [self refreshViewFromModel];
-	[self refresh];
-}
-
-- (void) refresh
-{
-	[self showLoadingIndicator];
-}
-
-- (void) showLoadingIndicator
-{
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-	[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:activityIndicator]];
-	[activityIndicator startAnimating];
-}
-
-- (void) removeLoadingIndicator
-{
-	[[self navigationItem] setRightBarButtonItem:nil];
 }
 
 - (void) refreshViewFromModel

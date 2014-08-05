@@ -116,7 +116,7 @@
     mr.media.localURL = [NSURL URLWithString:[[NSString stringWithFormat:@"file://%@",newFileFullPath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
     [_MODEL_MEDIA_ saveAlteredMedia:mr.media];//not as elegant as I'd like...
-
+    NSLog(@"Media loader  : Media id:%d loaded:%@",mr.media.media_id,mr.media.remoteURL);
     [self mediaLoadedForMR:mr];
 }
 
