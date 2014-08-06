@@ -90,8 +90,10 @@
 - (void) requestInstances       { [_SERVICES_ fetchInstances];   }
 - (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
 
+//null instance not flyweight!
 - (Instance *) instanceForId:(int)instance_id
 {
+  if(!instance_id) return [[Instance alloc] init]; 
   return [instances objectForKey:[NSNumber numberWithInt:instance_id]];
 }
 

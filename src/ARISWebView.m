@@ -213,17 +213,17 @@
         }
         else if([type isEqualToString:@"webpage"])
         {
-            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
+            if([delegate respondsToSelector:@selector(displayObjectType:id:)])        
                 [delegate displayObjectType:@"WEB_PAGE" id:[token intValue]]; 
         }
         else if([type isEqualToString:@"item"])
         {
-            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
+            if([delegate respondsToSelector:@selector(displayObjectType:id:)])        
                 [delegate displayObjectType:@"ITEM" id:[token intValue]];  
         }
         else if([type isEqualToString:@"character"])
         {
-            if([delegate respondsToSelector:@selector(displayGameObject:fromSource:)])        
+            if([delegate respondsToSelector:@selector(displayObjectType:id:)])        
                 [delegate displayObjectType:@"DIALOG" id:[token intValue]];   
         }
     }
