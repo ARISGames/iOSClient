@@ -70,6 +70,7 @@
     self.view.autoresizesSubviews = NO;
     
     tagsView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,100)];
+    tagsView.contentInset = UIEdgeInsetsMake(0,0,0,0);
     tagsView.backgroundColor = [UIColor ARISColorDarkGray];
     tagsView.scrollEnabled = YES;
     tagsView.bounces = YES;
@@ -118,6 +119,7 @@
 - (void) sizeViewsForTagView
 {
     tagsView.frame = CGRectMake(0,64,self.view.bounds.size.width,100);
+    tagsView.contentInset = UIEdgeInsetsMake(0,0,0,0);
     inventoryTable.contentInset = UIEdgeInsetsMake(0,0,0,0);
     inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
 }
@@ -125,6 +127,7 @@
 - (void) sizeViewsWithoutTagView
 {
     tagsView.frame = CGRectMake(0,0,self.view.bounds.size.width,0);
+    tagsView.contentInset = UIEdgeInsetsMake(0,0,0,0);
     inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
     inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
     
@@ -192,8 +195,7 @@
     [inventoryTable reloadData];
     
     //Apple is for some reason competing over the control of this view. Without this constantly being called, it messes everything up.
-    tagsView.contentSize = CGSizeMake(sortableTags.count*100,0);
-    tagsView.contentOffset = CGPointMake(0,0);    
+    tagsView.contentSize = CGSizeMake(sortableTags.count*100,tagsView.bounds.size.height);
 }
 
 - (void) refreshTagsView
@@ -228,7 +230,7 @@
         [tagv addSubview:label];
         [tagsView addSubview:tagv];
     }
-    tagsView.contentSize = CGSizeMake(sortableTags.count*100,0);// tagsView.frame.size.height);
+    tagsView.contentSize = CGSizeMake(sortableTags.count*100,tagsView.bounds.size.height);
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
