@@ -26,17 +26,9 @@
     id<InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) WebPage *webPage;
-@property (nonatomic, strong) ARISWebView *webView;
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-
 @end
 
 @implementation WebPageViewController
-
-@synthesize webPage;
-@synthesize webView;
-@synthesize activityIndicator;
 
 - (id) initWithInstance:(Instance *)i delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d;
 {
@@ -79,17 +71,17 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.view.bounds];
-    [self.activityIndicator startAnimating];
-    [self.view addSubview:self.activityIndicator];
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.view.bounds];
+    [activityIndicator startAnimating];
+    [self.view addSubview:activityIndicator];
     
-    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) delegate:self];
-    //self.webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-    self.webView.scrollView.bounces = NO;
-    self.webView.scalesPageToFit = YES;
-    self.webView.allowsInlineMediaPlayback = YES;
-    self.webView.mediaPlaybackRequiresUserAction = NO;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webPage.url]] withAppendation:[NSString stringWithFormat:@"&web_page_id=%d",self.webPage.web_page_id]];
+    webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) delegate:self];
+    //webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    webView.scrollView.bounces = NO;
+    webView.scalesPageToFit = YES;
+    webView.allowsInlineMediaPlayback = YES;
+    webView.mediaPlaybackRequiresUserAction = NO;
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:webPage.url]] withAppendation:[NSString stringWithFormat:@"&web_page_id=%d",webPage.web_page_id]];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
@@ -101,11 +93,11 @@
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    [self.activityIndicator removeFromSuperview];
-    [self.activityIndicator stopAnimating];
-    self.activityIndicator = nil;
+    [activityIndicator removeFromSuperview];
+    [activityIndicator stopAnimating];
+    activityIndicator = nil;
     
-    [self.view addSubview:self.webView];
+    [self.view addSubview:webView];
 }
 
 - (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
@@ -135,7 +127,7 @@
 
 - (void) dismissSelf
 {
-    [self.webView clear];
+    [webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
     //[_SERVICES_ updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
     [delegate instantiableViewControllerRequestsDismissal:self];
@@ -150,7 +142,7 @@
 
 - (void) dealloc
 {
-    [self.webView clear];
+    [webView clear];
     webView.delegate = nil;
 }
 

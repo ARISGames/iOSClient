@@ -7,6 +7,7 @@
 //
 
 #import "Instance.h"
+#import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Instance
@@ -72,7 +73,10 @@
 
 - (id<InstantiableProtocol>) object
 {
-    //big ol switch statement on object_type fetching from appropriate model
+    if([self.object_type isEqualToString:@"ITEM"])     return [_MODEL_ITEMS_ itemForId:self.object_id];
+    if([self.object_type isEqualToString:@"PLAQUE"])   return [_MODEL_PLAQUES_ plaqueForId:self.object_id];
+    if([self.object_type isEqualToString:@"WEB_PAGE"]) return [_MODEL_WEB_PAGES_ webPageForId:self.object_id];
+    if([self.object_type isEqualToString:@"DIALOG"])   return [_MODEL_DIALOGS_ dialogForId:self.object_id];
     return nil;
 }
 
