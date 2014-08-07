@@ -14,7 +14,8 @@
     NSString *type;
     NSString *name; 
     int icon_media_id; 
-    int tab_detail_1;
+    int content_id;
+    NSString *info;
     int sort_index;
 }
 
@@ -22,7 +23,8 @@
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *name; 
 @property (nonatomic, assign) int icon_media_id; 
-@property (nonatomic, assign) int tab_detail_1;
+@property (nonatomic, assign) int content_id;
+@property (nonatomic, strong) NSString *info; 
 @property (nonatomic, assign) int sort_index;
 
 - (id) initWithDictionary:(NSDictionary *)dict;

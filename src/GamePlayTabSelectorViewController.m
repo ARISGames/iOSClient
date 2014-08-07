@@ -143,7 +143,7 @@
             if([tab.type isEqualToString:@"QUESTS"])
             {
                 //if uses icon quest view
-                if((BOOL)tab.tab_detail_1)
+                if((BOOL)tab.content_id)
                 {
                     IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:
                     (id<QuestsViewControllerDelegate,StateControllerProtocol>)delegate];
@@ -177,7 +177,7 @@
             else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
             {
                 DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:
-                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:tab.tab_detail_1];
+                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:tab.content_id];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             } 
             else if([tab.type isEqualToString:@"PLAYER"])

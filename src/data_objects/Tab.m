@@ -15,7 +15,8 @@
 @synthesize type;
 @synthesize name; 
 @synthesize icon_media_id; 
-@synthesize tab_detail_1;
+@synthesize content_id;
+@synthesize info; 
 @synthesize sort_index;
 
 - (id) init
@@ -26,7 +27,8 @@
         self.type = @"MAP"; 
         self.name = self.type; 
         self.icon_media_id = 0; 
-        self.tab_detail_1 = 0;  
+        self.content_id = 0;  
+        self.info = @""; 
         self.sort_index = 0;   
     }
     return self;
@@ -40,7 +42,8 @@
         self.type          = [dict validStringForKey:@"type"]; 
         self.name          = [dict validStringForKey:@"name"]; 
         self.icon_media_id = [dict validIntForKey:@"icon_media_id"]; 
-        self.tab_detail_1  = [dict validIntForKey:@"tab_detail_1"];  
+        self.content_id    = [dict validIntForKey:@"content_id"];  
+        self.info          = [dict validStringForKey:@"info"]; 
         self.sort_index    = [dict validIntForKey:@"sort_index"];    
     }
     return self;
@@ -48,7 +51,7 @@
 
 - (NSString *) keyString
 {
-    return [NSString stringWithFormat:@"%d%@%@%d",self.tab_id,self.type,self.name,self.tab_detail_1];
+    return [NSString stringWithFormat:@"%d%@%@%d",self.tab_id,self.type,self.name,self.content_id];
 }
 
 @end
