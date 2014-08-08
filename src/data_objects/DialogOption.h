@@ -16,6 +16,7 @@
   NSString *prompt;
   NSString *link_type;
   int link_id;
+  NSString *link_info;
   int sort_index; 
 }
 
@@ -25,6 +26,7 @@
 @property(nonatomic, strong) NSString *prompt;
 @property(nonatomic, strong) NSString *link_type;
 @property(nonatomic, assign) int link_id;
+@property(nonatomic, strong) NSString *link_info;
 @property(nonatomic, assign) int sort_index;
 
 - (id) initWithDictionary:(NSDictionary *)dict;

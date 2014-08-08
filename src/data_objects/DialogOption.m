@@ -17,6 +17,7 @@
 @synthesize prompt;
 @synthesize link_type;
 @synthesize link_id;
+@synthesize link_info;
 @synthesize sort_index;
 
 - (id) init
@@ -29,6 +30,7 @@
     self.prompt = @""; 
     self.link_type = @"EXIT";
     self.link_id = 0;
+    self.link_info = @"";
     self.sort_index = 0;
   }
   return self;
@@ -44,6 +46,7 @@
     self.prompt                  = [dict validStringForKey:@"prompt"]; 
     self.link_type               = [dict validStringForKey:@"link_type"]; 
     self.link_id                 = [dict validIntForKey:@"link_id"]; 
+    self.link_info               = [dict validStringForKey:@"link_info"]; 
     self.sort_index              = [dict validIntForKey:@"sort_index"]; 
   }
   return self;
@@ -58,6 +61,7 @@
   c.prompt                  = self.prompt; 
   c.link_type               = self.link_type;
   c.link_id                 = self.link_id;
+  c.link_info               = self.link_info;
   c.sort_index              = self.sort_index;
   return c;
 }
