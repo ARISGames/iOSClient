@@ -113,11 +113,6 @@
     [delegate profileEditRequested];
 }
 
-- (void) forgotPasswordRequested
-{
-    [delegate forgotPasswordRequested];
-}
-
 - (void) logoutWasRequested
 {
     [self.gamePickersRevealController showViewController:self.gamePickersTabBarController];

@@ -36,7 +36,6 @@
 
 //needed for orientation hack
 #import "AudioVisualizerViewController.h"
-#import "NodeViewController.h"
 #import "WebPage.h"
 #import "WebPageViewController.h"
 

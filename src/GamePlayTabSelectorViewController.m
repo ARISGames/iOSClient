@@ -21,11 +21,6 @@
 #import "AppModel.h"
 #import "ARISMediaView.h"
 
-#import "NpcViewController.h"
-#import "ItemViewController.h"
-#import "NodeViewController.h"
-#import "WebPageViewController.h"
-
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
     UITableView *tableView;
@@ -42,7 +37,6 @@
 @end
 
 @implementation GamePlayTabSelectorViewController
-@synthesize viewControllers;
 
 - (id) initWithDelegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
 {

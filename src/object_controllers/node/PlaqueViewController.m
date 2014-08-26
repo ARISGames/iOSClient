@@ -132,11 +132,6 @@ static NSString * const OPTION_CELL = @"option";
     } 
 }
 
-- (NSString *)getTabTitle
-{
-    return node.name;
-}
-
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
     if(![plaque.desc isEqualToString:@""])

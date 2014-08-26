@@ -139,11 +139,6 @@
     [_MODEL_ logOut];
 }
 
-- (void) passButtonTouched
-{
-    [delegate forgotPasswordRequested];
-}
-
 - (void) profileButtonTouched
 {
     [delegate profileEditRequested];
