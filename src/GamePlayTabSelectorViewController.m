@@ -177,7 +177,7 @@
             else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
             {
                 DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:
-                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:tab.content_id];
+                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:2];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             }
             else if([tab.type isEqualToString:@"PLAYER"])
@@ -194,7 +194,7 @@
             }
             if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];
         }
-
+        
         [viewControllers addObject:viewControllersDict[tab.keyString]];
     }
 

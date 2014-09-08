@@ -45,7 +45,8 @@
         
         delegate = d;
         
-        self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
+        if (m == 0 || m == 1) self.title = NSLocalizedString(@"QRDecoderTitleKey", @"");
+        else if (m == 2) self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
     }
     return self;
 }
