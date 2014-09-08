@@ -195,7 +195,8 @@
             if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];
         }
         
-        [viewControllers addObject:viewControllersDict[tab.keyString]];
+        if (viewControllersDict[tab.keyString])[viewControllers addObject:viewControllersDict[tab.keyString]];
+        else NSLog(@"ERROR: Tab from server could not be created. KeyString %@ should exist but does not have a matching VC", tab.keyString);
     }
 
     if(self.view) [tableView reloadData];
