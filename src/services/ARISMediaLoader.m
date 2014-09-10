@@ -151,6 +151,7 @@
 
 - (void) dealloc
 {
+    if(delegateHandle) [delegateHandle invalidate];
     [self cancelConnection];
 }
 

@@ -150,6 +150,8 @@
 
 - (void) refresh
 {
+    //Stupid hack to prevent constant calling- already fixed in v2
+    if(!([AppModel sharedAppModel].currentGame && [AppModel sharedAppModel].currentGame.gameId)) return;
     [[AppServices sharedAppServices] fetchUpdatedTabBarItems];
 }
 
