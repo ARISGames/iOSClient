@@ -25,7 +25,7 @@
     NSDate *start;
     NSTimeInterval time;
     
-    ARISDelegateHandle *delegateHandle;
+    ARISDelegateHandle *delegatesHandle;
 };
 @property (nonatomic, strong) Media *media;
 @property (nonatomic, strong) NSMutableData *data;
@@ -33,7 +33,7 @@
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSDate *start;
 @property (nonatomic, assign) NSTimeInterval time;
-@property (nonatomic, strong) ARISDelegateHandle *delegateHandle;
+@property (nonatomic, strong) ARISDelegateHandle *delegatesHandle;
 
 - (void) cancelConnection;
 

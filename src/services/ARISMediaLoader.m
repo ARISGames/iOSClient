@@ -38,7 +38,7 @@
     
     MediaResult *mr = [[MediaResult alloc] init];
     mr.media = m;
-    mr.delegateHandle = dh;
+    mr.delegatesHandle = dh;
     
     [self loadMediaFromMR:mr];
 }
@@ -118,9 +118,8 @@
 - (void) mediaLoadedForMR:(MediaResult *)mr
 {
     //This is so ugly. See comments in ARISDelegateHandle.h for reasoning
-    if(mr.delegateHandle.delegate && [[mr.delegateHandle.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
-        [mr.delegateHandle.delegate mediaLoaded:mr.media];
-    [mr.delegateHandle invalidate];
+    if(mr.delegatesHandle.delegate && [[mr.delegatesHandle.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
+        [mr.delegatesHandle.delegate mediaLoaded:mr.media];
 }
 
 - (void) dealloc
@@ -140,7 +139,7 @@
 @synthesize connection;
 @synthesize start;
 @synthesize time;
-@synthesize delegateHandle;
+@synthesize delegatesHandle;
 
 - (void) cancelConnection
 {
@@ -151,7 +150,7 @@
 
 - (void) dealloc
 {
-    if(delegateHandle) [delegateHandle invalidate];
+    //Note- don't invalidate delegate's handle. This isn't its owner.
     [self cancelConnection];
 }
 

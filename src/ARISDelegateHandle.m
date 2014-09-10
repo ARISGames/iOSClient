@@ -10,6 +10,9 @@
 
 @interface ARISDelegateHandle()
 {
+    // NOTE- Might be stale (doesn't get invalidated). For debugging purposes only.
+    id __unsafe_unretained original_delegate; // DO NOT ACCESS THIS EVER
+    
     id __unsafe_unretained delegate;
 }
 
@@ -21,6 +24,7 @@
 {
     if(self = [super init])
     {
+        original_delegate = d;
         delegate = d;
     }
     return self;
