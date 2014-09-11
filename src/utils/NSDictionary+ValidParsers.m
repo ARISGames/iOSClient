@@ -40,6 +40,11 @@
 	return (theObject == [NSNull null]) ? nil : theObject;
 }
 
+- (CLLocation *) validLocationForLatKey:(NSString *const)latKey lonKey:(NSString *const)lonKey
+{
+    return [[CLLocation alloc] initWithLatitude:[self validDoubleForKey:latKey] longitude:[self validDoubleForKey:lonKey]];
+}
+
 - (NSString *) validStringForKey:(NSString *const)aKey
 {
     id theObject = [self valueForKey:aKey];

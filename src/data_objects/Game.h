@@ -29,27 +29,29 @@
   int game_id;
   NSString *name;
   NSString *desc; 
+  BOOL published;
+  NSString *type;
+  CLLocation *location;
+  int player_count;
 
   int icon_media_id; 
-  int media_id;  
-
-  NSString *map_type;
-  CLLocation *location;
-  double zoom_level;
-
-  BOOL show_player_location;
-  BOOL full_quick_travel;
-
-  BOOL allow_note_comments;
-  BOOL allow_note_player_tags;
-  BOOL allow_note_likes;
-
-  int inventory_weight_cap;
-
-  int player_count;
+  int media_id;
 
   NSMutableArray *authors;
   NSMutableArray *comments;
+
+  NSString *map_type;
+  CLLocation *map_location;
+  double map_zoom_level;
+  BOOL map_show_player;
+  BOOL map_show_players;
+  BOOL map_offsite_mode;
+
+  BOOL notebook_allow_comments;
+  BOOL notebook_allow_likes;
+  BOOL notebook_allow_player_tags;
+
+  int inventory_weight_cap;
 
   PlaquesModel    *plaquesModel;
   ItemsModel      *itemsModel;
@@ -70,28 +72,30 @@
 @property (nonatomic, assign) int game_id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc; 
+@property (nonatomic, assign) BOOL published;
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) CLLocation *location;
+@property (nonatomic, assign) int player_count;
+- (int) rating;
 
 @property (nonatomic, assign) int icon_media_id; 
-@property (nonatomic, assign) int media_id;  
-
-@property (nonatomic, strong) NSString *map_type;
-@property (nonatomic, strong) CLLocation *location;
-@property (nonatomic, assign) double zoom_level;
-
-@property (nonatomic, assign) BOOL show_player_location;
-@property (nonatomic, assign) BOOL full_quick_travel;
-
-@property (nonatomic, assign) BOOL allow_note_comments;
-@property (nonatomic, assign) BOOL allow_note_player_tags;
-@property (nonatomic, assign) BOOL allow_note_likes;
-
-@property (nonatomic, assign) int inventory_weight_cap;
-
-@property (nonatomic, assign) int player_count;
+@property (nonatomic, assign) int media_id;
 
 @property (nonatomic, strong) NSMutableArray *authors;
 @property (nonatomic, strong) NSMutableArray *comments;
-- (int) rating;
+
+@property (nonatomic, strong) NSString *map_type;
+@property (nonatomic, strong) CLLocation *map_location;
+@property (nonatomic, assign) double map_zoom_level;
+@property (nonatomic, assign) BOOL map_show_player;
+@property (nonatomic, assign) BOOL map_show_players;
+@property (nonatomic, assign) BOOL map_offsite_mode;
+
+@property (nonatomic, assign) BOOL notebook_allow_comments;
+@property (nonatomic, assign) BOOL notebook_allow_likes;
+@property (nonatomic, assign) BOOL notebook_allow_player_tags;
+
+@property (nonatomic, assign) int inventory_weight_cap;
 
 @property (nonatomic, strong) PlaquesModel   *plaquesModel; 
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
@@ -116,4 +120,3 @@
 - (void) clearModels;
 
 @end
-

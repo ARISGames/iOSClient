@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 @interface NSDictionary (ValidParsers)
 
@@ -15,6 +16,7 @@
 - (float)      validFloatForKey: (NSString *const)aKey;
 - (double)     validDoubleForKey:(NSString *const)aKey;
 - (id)         validObjectForKey:(NSString *const)aKey;
+- (CLLocation *) validLocationForLatKey:(NSString *const)latKey lonKey:(NSString *const)lonKey;
 - (NSString *) validStringForKey:(NSString *const)aKey;
 
 @end

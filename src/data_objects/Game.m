@@ -32,26 +32,29 @@ const int playerDatasToReceive = 6;
 @synthesize game_id;
 @synthesize name;
 @synthesize desc;
+@synthesize published;
+@synthesize type;
+@synthesize location;
+@synthesize player_count;
 
 @synthesize icon_media_id;
 @synthesize media_id;
 
-@synthesize map_type;
-@synthesize location;
-@synthesize zoom_level;
-
-@synthesize show_player_location;
-@synthesize full_quick_travel;
-
-@synthesize allow_note_comments;
-@synthesize allow_note_player_tags;
-@synthesize allow_note_likes;
-
-@synthesize inventory_weight_cap;
-@synthesize player_count;
-
 @synthesize authors;
 @synthesize comments;
+
+@synthesize map_type;
+@synthesize map_location;
+@synthesize map_zoom_level;
+@synthesize map_show_player;
+@synthesize map_show_players;
+@synthesize map_offsite_mode;
+
+@synthesize notebook_allow_comments;
+@synthesize notebook_allow_likes;
+@synthesize notebook_allow_player_tags;
+
+@synthesize inventory_weight_cap;
 
 @synthesize plaquesModel;
 @synthesize itemsModel;
@@ -84,25 +87,30 @@ const int playerDatasToReceive = 6;
 
         game_id = [dict validIntForKey:@"game_id"];
         name = [dict validStringForKey:@"name"];
-        desc = [dict validStringForKey:@"description"];
+        desc = [dict validStringForKey:@"desc"];
+        published = [dict validBoolForKey:@"published"];
+        type = [dict validStringForKey:@"type"];
+        location = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
+        player_count = [dict validIntForKey:@"player_count"];
 
         icon_media_id = [dict validIntForKey:@"icon_media_id"];
         media_id = [dict validIntForKey:@"media_id"];
 
+        //authors = [dict validObjectForKey:@"authors"];
+        //comments = [dict validObjectForKey:@"comments"];
+
         map_type = [dict validStringForKey:@"map_type"];
-        location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
-        zoom_level = [dict validDoubleForKey:@"zoom_level"];
+        location = [dict validLocationForLatKey:@"map_latitude" lonKey:@"map_longitude"];
+        map_zoom_level = [dict validDoubleForKey:@"map_zoom_level"];
+        map_show_player = [dict validBoolForKey:@"map_show_player"];
+        map_show_players = [dict validBoolForKey:@"map_show_players"];
+        map_offsite_mode = [dict validBoolForKey:@"map_offsite_mode"];
 
-        show_player_location = [dict validBoolForKey:@"show_player_location"];
-        full_quick_travel = [dict validBoolForKey:@"full_quick_travel"];
-
-        allow_note_comments = [dict validBoolForKey:@"allow_note_comments"];
-        allow_note_player_tags = [dict validBoolForKey:@"allow_note_player_tags"];
-        allow_note_likes = [dict validBoolForKey:@"allow_note_likes"];
+        notebook_allow_comments = [dict validBoolForKey:@"notebook_allow_comments"];
+        notebook_allow_likes = [dict validBoolForKey:@"notebook_allow_likes"];
+        notebook_allow_player_tags = [dict validBoolForKey:@"notebook_allow_player_tags"];
 
         inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
-
-        player_count = [dict validIntForKey:@"player_count"];
 
         NSArray *authorDicts;
         for(int i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
@@ -130,26 +138,29 @@ const int playerDatasToReceive = 6;
     game_id = g.game_id;
     name = g.name;
     desc = g.desc;
+    published = g.published;
+    type = g.type;
+    location = g.location;
+    player_count = g.player_count;
 
     icon_media_id = g.icon_media_id;
     media_id = g.media_id;
 
-    map_type = g.map_type;
-    location = g.location;
-    zoom_level = g.zoom_level;
-
-    show_player_location = g.show_player_location;
-    full_quick_travel = g.full_quick_travel;
-
-    allow_note_comments = g.allow_note_comments;
-    allow_note_player_tags = g.allow_note_player_tags;
-    allow_note_likes = g.allow_note_likes;
-
-    inventory_weight_cap = g.inventory_weight_cap;
-    player_count = g.player_count;
-
     authors  = g.authors;
     comments = g.comments;
+
+    map_type = g.map_type;
+    location = g.location;
+    map_zoom_level = g.map_zoom_level;
+    map_show_player = g.map_show_player;
+    map_show_players = g.map_show_players;
+    map_offsite_mode = g.map_offsite_mode;
+
+    notebook_allow_comments = g.notebook_allow_comments;
+    notebook_allow_likes = g.notebook_allow_likes;
+    notebook_allow_player_tags = g.notebook_allow_player_tags;
+
+    inventory_weight_cap = g.inventory_weight_cap;
 }
 
 - (void) getReadyToPlay

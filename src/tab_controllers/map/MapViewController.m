@@ -13,7 +13,6 @@
 #import "AppModel.h"
 #import "User.h"
 #import "AnnotationView.h"
-#import "Media.h"
 
 #import "CrumbPath.h"
 #import "CrumbPathView.h"
@@ -77,7 +76,7 @@
 
     mapView = [[MKMapView alloc] init];
     mapView.delegate = self;
-    mapView.showsUserLocation = _MODEL_GAME_.show_player_location;
+    mapView.showsUserLocation = _MODEL_GAME_.map_show_player;
 
     if     ([_MODEL_GAME_.map_type isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([_MODEL_GAME_.map_type isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
@@ -396,7 +395,8 @@
         trigger.wiggle = NO;
         resetWiggle = YES;
     }
-    else{
+    else
+    {
         resetWiggle = NO;
     }
     [self displayBlackout];
@@ -417,7 +417,7 @@
     [blackoutBottom setAlpha:0.0f];
 
     CLLocationDistance distance = [_MODEL_PLAYER_.location distanceFromLocation:trigger.location];
-    if((trigger.infinite_distance || distance <= trigger.distance) && _MODEL_PLAYER_.location != nil)
+    if(_MODEL_GAME_.map_offsite_mode || trigger.infinite_distance || (distance <= trigger.distance && _MODEL_PLAYER_.location != nil))
     {
         viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 60, (self.view.bounds.size.height / 2) - 28, 75, 120);
         [viewAnnotationButton setTitle:NSLocalizedString(@"ViewLocationKey", @"") forState:UIControlStateNormal];
