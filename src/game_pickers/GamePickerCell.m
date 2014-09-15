@@ -102,6 +102,7 @@
     [loadingIndicator removeFromSuperview];
     [loadingIndicator stopAnimating];
     
+    authorLabel.text = @"";
     if(game.authors.count == 0) //game not loaded //admittedly, an odd metric
     {
         [loadingIndicator startAnimating];
@@ -110,7 +111,6 @@
     }
     else
     {
-        authorLabel.text = @"";
         for(int i = 0; i < game.authors.count; i++)
             authorLabel.text = [NSString stringWithFormat:@"%@%@, ",authorLabel.text,((User *)game.authors[i]).display_name];
     }
