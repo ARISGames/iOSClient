@@ -80,7 +80,6 @@
     
     ForceDisplayQueue *forceDisplayQueue;
     
-    NSTimer *timeout;
     NSTimer *refreshTimer;
 
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
@@ -136,11 +135,6 @@
     if(!currentChildViewController)
     {
         loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
-        timeout = [NSTimer scheduledTimerWithTimeInterval:15.0
-                                         target:self
-                                    selector:@selector(timeoutOfGameLoading)
-                                       userInfo:nil
-                                        repeats:NO];
         [self displayContentController:loadingViewController];
         [self startLoadingGame];
         if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
@@ -184,7 +178,6 @@
 
 - (void) loadingViewControllerFinishedLoadingData
 {
-    [timeout invalidate];
     [self displayContentController:gamePlayRevealController];
     loadingViewController = nil;
     [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
@@ -514,11 +507,6 @@
     NSMutableDictionary *arisNavTab = [[NSMutableDictionary alloc] initWithCapacity:1];
     [arisNavTab setObject:tab forKey:@"tab"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TabWasDisplayed" object:self userInfo:arisNavTab];
-}
-
-- (void) timeoutOfGameLoading
-{
-    [delegate gameplayWasDismissed];
 }
 
 - (NSUInteger) supportedInterfaceOrientations
