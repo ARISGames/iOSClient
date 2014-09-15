@@ -1,5 +1,5 @@
 //
-//  DecoderViewController.h
+//  ScannerViewController.h
 //  ARIS
 //
 //  Created by David Gagnon on 3/4/09.
@@ -13,9 +13,10 @@
 
 @protocol StateControllerProtocol;
 
-@protocol DecoderViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
+@protocol ScannerViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
-@interface DecoderViewController : ARISGamePlayTabBarViewController 
-- (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d;
+@interface ScannerViewController : ARISGamePlayTabBarViewController 
+- (id) initWithDelegate:(id<ScannerViewControllerDelegate, StateControllerProtocol>)d;
+- (void) setPrompt:(NSString *)p;
 @end

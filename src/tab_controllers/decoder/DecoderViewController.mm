@@ -8,45 +8,29 @@
 
 #import "DecoderViewController.h"
 #import "StateControllerProtocol.h"
-#import "Decoder.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
-#import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
 
-@interface DecoderViewController() <ZXingDelegate, UITextFieldDelegate>
+@interface DecoderViewController() <UITextFieldDelegate>
 {
 	UITextField *codeTextField;
-   	UIButton *scanButton; 
     
-    BOOL textEnabled;
-    BOOL scanEnabled;
-    NSString *prompt;
-    
-    NSDate *lastError;
-    ZXingWidgetController *widController;
     id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
 
 @implementation DecoderViewController
 
-- (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d inMode:(int)m
+- (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithDelegate:d])
     {
-        self.tabID = @"QR";
+        self.tabID = @"DECODER";
         self.tabIconName = @"qr_icon.png";
-        
-        textEnabled = (m == 0 || m == 1);
-        scanEnabled = (m == 0 || m == 2);
-        lastError = [NSDate date];
-        prompt = @""; 
+        self.title = NSLocalizedString(@"QRDecoderTitleKey", @"");
         
         delegate = d;
-        
-        if (m == 0 || m == 1) self.title = NSLocalizedString(@"QRDecoderTitleKey", @"");
-        else if (m == 2) self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
     }
     return self;
 }
@@ -55,29 +39,16 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorBlack];  
-    
-    if(textEnabled)
-    {
-        self.view.backgroundColor = [UIColor ARISColorWhite]; 
-        codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
-        codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
-        codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
-        codeTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        codeTextField.textAlignment = NSTextAlignmentCenter;
-        codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
-        codeTextField.delegate = self;
-        [self.view addSubview:codeTextField];
-    }
-    
-    if(scanEnabled)
-    {
-        scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        scanButton.frame = CGRectMake(20,70+64,self.view.frame.size.width-40,30);
-        scanButton.backgroundColor = [UIColor ARISColorDarkGray];
-        [scanButton setTitle:NSLocalizedString(@"ScanKey", @"") forState:UIControlStateNormal];
-        [scanButton addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-        if(textEnabled) [self.view addSubview:scanButton]; //else, don't bother adding it to view as it should always be open
-    }
+
+    self.view.backgroundColor = [UIColor ARISColorWhite]; 
+    codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
+    codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
+    codeTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    codeTextField.textAlignment = NSTextAlignmentCenter;
+    codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
+    codeTextField.delegate = self;
+    [self.view addSubview:codeTextField];
 }
 
 - (void) viewWillAppearFirstTime:(BOOL)animated
@@ -89,8 +60,7 @@
     [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
-    if(textEnabled)
-        [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
+    [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];  
 }
 
@@ -98,8 +68,7 @@
 {
     [super viewDidAppear:animated];
     
-    if(!widController && (!textEnabled || ![prompt isEqualToString:@""])) [self launchScanner];
-    if(!scanEnabled) [codeTextField becomeFirstResponder];
+    [codeTextField becomeFirstResponder];
 }
 
 - (void) viewDidDisappear:(BOOL)animated
@@ -110,25 +79,13 @@
 
 - (void) showNav
 {
-    if(textEnabled) [self clearScreenActions];
+    [self clearScreenActions];
     [super showNav];
 }
 
 - (void) clearScreenActions
 {
-    if(codeTextField) [codeTextField resignFirstResponder];
-    if(widController) [self hideWidController];
-}
-
-- (BOOL) textFieldShouldReturn:(UITextField*)textField
-{	
-	[textField resignFirstResponder]; 
-	
-	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
-	
-	[self loadResult:codeTextField.text];
-    codeTextField.text = @"";
-	return YES;
+    [codeTextField resignFirstResponder];
 }
 
 - (BOOL) textFieldShouldBeginEditing:(UITextField *)textField
@@ -136,91 +93,23 @@
     return YES;
 }
 
--  (void) setPrompt:(NSString *)p
-{
-    prompt = p;
-    if(self.view) [self launchScanner]; //hack to ensure view is loaded
-}
-
-- (void) launchScanner
-{
-    [self clearScreenActions];
-    widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO withPrompt:prompt];
-    widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
-    prompt = @"";
-    [self performSelector:@selector(addWidSubview) withObject:Nil afterDelay:0.1];
-}
-
-- (void) addWidSubview
-{
-    [self.view addSubview:widController.view];
-}
-
-- (void) scanButtonTouched
-{
-    [self launchScanner];
-}
-
-- (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
-{
-    [self hideWidController];
-    [self loadResult:result];
-}
-
-- (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
-{
-    [self hideWidController];
-}
-
-- (void) hideWidController
-{
-    [widController.view removeFromSuperview];
-    widController = nil;
-}
-
-- (void) loadResult:(NSString *)code
-{
-    if([code isEqualToString:@"log-out"])
-    {
-        [_MODEL_ logOut];
-        return;
-    }
-    
-    [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
-	//[[AppServices sharedAppServices] fetchQRCode:code];
-}
-
-- (void) finishLoadingResult:(NSNotification*) notification
+- (BOOL) textFieldShouldReturn:(UITextField*)textField
 {	
-	NSObject *qrCodeObject = notification.object;
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
+	[textField resignFirstResponder]; 
+	
+	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
+    Trigger *t;
+    if([codeTextField.text isEqualToString:@"log-out"]) [_MODEL_ logOut];
+    else 
+    {
+        t = [_MODEL_TRIGGERS_ triggerForQRCode:codeTextField.text];
     
-	if(!qrCodeObject)
-    {
-        if([lastError timeIntervalSinceNow] < -3.0f)
-        { 
-            lastError = [NSDate date];
-            [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
-            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
-        }
-        if(!textEnabled) [self performSelector:@selector(scanButtonTouched) withObject:nil afterDelay:1]; 
-	}
-	else if([qrCodeObject isKindOfClass:[NSString class]])
-    {
-        if([lastError timeIntervalSinceNow] < -3.0f)
-        {
-            lastError = [NSDate date]; 
-            [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
-            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:(NSString *)qrCodeObject];
-        }
-        if(!textEnabled) [self performSelector:@selector(scanButtonTouched) withObject:nil afterDelay:1];  
+    	if(!t) [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
+        else [delegate displayTrigger:t];
     }
-    else
-    {
-		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
-		//[delegate displayGameObject:(((Location *)qrCodeObject).gameObject) fromSource:(Location *)qrCodeObject];
-	}
+        
+    codeTextField.text = @"";
+	return YES;
 }
 
 - (void) dealloc

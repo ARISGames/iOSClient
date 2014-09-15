@@ -17,6 +17,7 @@
 #import "AttributesViewController.h"
 #import "NotebookViewController.h"
 #import "DecoderViewController.h"
+#import "ScannerViewController.h"
 
 #import "AppModel.h"
 #import "ARISMediaView.h"
@@ -171,14 +172,14 @@
             else if([tab.type isEqualToString:@"DECODER"]) //text only
             {
                 DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:
-                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:1];
+                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             }
             else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
             {
-                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:
-                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate inMode:2];
-                vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
+                ScannerViewController *scannerViewController = [[ScannerViewController alloc] initWithDelegate:
+                    (id<ScannerViewControllerDelegate,StateControllerProtocol>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:scannerViewController];
             }
             else if([tab.type isEqualToString:@"PLAYER"])
             {
@@ -284,7 +285,7 @@
         tab = playerTabs[i];
         if([tab.type isEqualToString:@"SCANNER"])
         {
-            [((DecoderViewController *)viewControllersDict[tab.keyString]) setPrompt:p];
+            [((ScannerViewController *)viewControllersDict[tab.keyString]) setPrompt:p];
             [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
             return;
         }

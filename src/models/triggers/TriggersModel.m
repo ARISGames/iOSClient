@@ -132,6 +132,17 @@
   return [triggers objectForKey:[NSNumber numberWithInt:trigger_id]];
 }
 
+- (Trigger *) triggerForQRCode:(NSString *)code
+{
+    Trigger *t;
+    for(int i = 0; i < playerTriggers.count; i++)
+    {
+        t = playerTriggers[i];
+        if([t.type isEqualToString:@"QR"] && [t.qr_code isEqualToString:code]) return t;
+    }
+    return nil;
+}
+
 - (NSArray *) playerTriggers
 {
   return playerTriggers;

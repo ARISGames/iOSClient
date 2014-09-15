@@ -12,6 +12,7 @@
 @interface TriggersModel : NSObject
 
 - (Trigger *) triggerForId:(int)trigger_id;
+- (Trigger *) triggerForQRCode:(NSString *)code;
 - (NSArray *) playerTriggers;
 - (void) requestTriggers;
 - (void) requestPlayerTriggers;
