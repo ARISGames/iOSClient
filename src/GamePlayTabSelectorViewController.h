@@ -17,7 +17,7 @@
 
 @interface GamePlayTabSelectorViewController : ARISViewController
 - (id) initWithDelegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
-- (void) requestDisplayTab:(NSString *)t;
+- (void) requestDisplayTab:(int)t;
 - (void) requestDisplayScannerWithPrompt:(NSString *)p;
 - (ARISNavigationController *) firstViewController;
 @end

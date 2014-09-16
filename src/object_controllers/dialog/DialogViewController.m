@@ -169,11 +169,11 @@
 }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayTrigger:(Trigger *)t                        { [self dismissSelf]; return [delegate displayTrigger:t]; }
+- (BOOL) displayInstance:(Instance *)i                      { [self dismissSelf]; return [delegate displayInstance:i]; }
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id { [self dismissSelf]; return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(NSString *)t { [delegate displayTab:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
+- (void) displayTab:(int)t                                  { [self dismissSelf]; [delegate displayTab:t]; }
+- (void) displayScannerWithPrompt:(NSString *)p             { [self dismissSelf]; [delegate displayScannerWithPrompt:p]; }
 
 - (void) dismissSelf
 {

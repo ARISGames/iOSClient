@@ -250,10 +250,22 @@
     return c;
 }
 
-- (void) requestDisplayTab:(NSString *)t
+- (void) requestDisplayTab:(int)t
 {
     NSArray *playerTabs = _MODEL_TABS_.playerTabs;
     Tab *tab;
+    //Check by type
+    for(int i = 0; i < playerTabs.count; i++)
+    {
+        tab = playerTabs[i];
+        if(tab.tab_id == t)
+        {
+            [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
+            return;
+        }
+    }
+    
+    /*
     //Check by name
     for(int i = 0; i < playerTabs.count; i++)
     {
@@ -274,6 +286,7 @@
             return;
         }
     }
+     */
 }
 
 - (void) requestDisplayScannerWithPrompt:(NSString *)p

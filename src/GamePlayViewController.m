@@ -178,7 +178,7 @@
     [displayQueue dequeueTrigger];
 }
 
-- (void) displayTab:(NSString *)t
+- (void) displayTab:(int)t
 {
     [gamePlayTabSelectorController requestDisplayTab:t];
 }

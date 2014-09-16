@@ -114,6 +114,8 @@
         [delegate displayObjectType:@"WEB_PAGE" id:op.link_id];
     else if([op.link_type isEqualToString:@"EXIT_TO_DIALOG"])
         [delegate displayObjectType:@"DIALOG" id:op.link_id];
+    else if([op.link_type isEqualToString:@"EXIT_TO_TAB"])
+        [delegate displayTab:op.link_id];
 }
 
 - (void) passTapToCV:(UITapGestureRecognizer *)g
@@ -130,7 +132,7 @@
 - (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
 - (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(NSString *)t { [delegate displayTab:t]; }
+- (void) displayTab:(int)t { [delegate displayTab:t]; }
 - (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc

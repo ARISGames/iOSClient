@@ -592,7 +592,7 @@
 - (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
 - (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(NSString *)t { [delegate displayTab:t]; }
+- (void) displayTab:(int)t { [delegate displayTab:t]; }
 - (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc

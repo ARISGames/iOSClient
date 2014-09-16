@@ -149,7 +149,7 @@
 - (BOOL) displayTrigger:(Trigger *)t { return NO; }
 - (BOOL) displayInstance:(Instance *)i { return NO; }
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return NO; }
-- (void) displayTab:(NSString *)t {}
+- (void) displayTab:(int)t {}
 - (void) displayScannerWithPrompt:(NSString *)p {}
 
 @end
