@@ -108,11 +108,12 @@ static int const COMPLETE_SECTION = 1;
 {
     [super viewDidAppear:animated];
     [self refreshViewFromModel];
-	[self refresh];
+	[self refreshModels];
 }
 
-- (void) refresh
+- (void) refreshModels
 {
+    [_MODEL_QUESTS_ requestPlayerQuests];
 	[self showLoadingIndicator];
 }
 

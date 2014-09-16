@@ -25,6 +25,8 @@ const int playerDatasToReceive = 6;
 
     int receivedPlayerData;
     BOOL playerDataReceived;
+    
+    NSTimer *poller;
 }
 @end
 @implementation Game
@@ -131,6 +133,7 @@ const int playerDatasToReceive = 6;
     comments = [NSMutableArray arrayWithCapacity:5];
 
     _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
 }
 
 - (void) mergeDataFromGame:(Game *)g
@@ -280,6 +283,12 @@ const int playerDatasToReceive = 6;
 {
     _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PIECE_AVAILABLE", self, nil);
     _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE", self, nil);
+    poller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(requestPlayerData) userInfo:nil repeats:YES];
+}
+
+- (void) gameLeft
+{
+    [poller invalidate];
 }
 
 - (void) clearModels
