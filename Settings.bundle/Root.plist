@@ -16,7 +16,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>http://arisgames.org/server</string>
+			<string>http://dev.arisgames.org/server</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -48,7 +48,7 @@
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
-        <dict>
+		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
