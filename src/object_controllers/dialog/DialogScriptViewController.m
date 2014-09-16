@@ -106,6 +106,14 @@
         [delegate dialogScriptChosen:[_MODEL_DIALOGS_ scriptForId:op.link_id]];
     else if([op.link_type isEqualToString:@"EXIT"])
         [delegate exitRequested];
+    else if([op.link_type isEqualToString:@"EXIT_TO_PLAQUE"])
+        [delegate displayObjectType:@"PLAQUE" id:op.link_id];
+    else if([op.link_type isEqualToString:@"EXIT_TO_ITEM"])
+        [delegate displayObjectType:@"ITEM" id:op.link_id];
+    else if([op.link_type isEqualToString:@"EXIT_TO_WEB_PAGE"])
+        [delegate displayObjectType:@"WEB_PAGE" id:op.link_id];
+    else if([op.link_type isEqualToString:@"EXIT_TO_DIALOG"])
+        [delegate displayObjectType:@"DIALOG" id:op.link_id];
 }
 
 - (void) passTapToCV:(UITapGestureRecognizer *)g
