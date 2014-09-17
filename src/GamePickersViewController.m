@@ -10,7 +10,6 @@
 #import "GamePickerViewController.h"
 
 #import "GamePickerNearbyViewController.h"
-#import "GamePickerAnywhereViewController.h"
 #import "GamePickerPopularViewController.h"
 #import "GamePickerRecentViewController.h"
 #import "GamePickerSearchViewController.h"
@@ -64,12 +63,11 @@
 
     //init pickervcs
     GamePickerNearbyViewController   *gpnvc = [[GamePickerNearbyViewController   alloc] initWithDelegate:self];
-    GamePickerAnywhereViewController *gpavc = [[GamePickerAnywhereViewController alloc] initWithDelegate:self];
     GamePickerPopularViewController  *gppvc = [[GamePickerPopularViewController  alloc] initWithDelegate:self];
     GamePickerRecentViewController   *gprvc = [[GamePickerRecentViewController   alloc] initWithDelegate:self];
     GamePickerSearchViewController   *gpsvc = [[GamePickerSearchViewController   alloc] initWithDelegate:self];
     GamePickerMineViewController     *gpmvc = [[GamePickerMineViewController     alloc] initWithDelegate:self];
-    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gpavc,gppvc,gprvc,gpsvc,gpmvc,nil];
+    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gppvc,gprvc,gpsvc,gpmvc,nil];
     self.gamePickersNavigationController = [[ARISNavigationController alloc] initWithRootViewController:self.gamePickersTabBarController];
     self.gamePickersNavigationController.automaticallyAdjustsScrollViewInsets = NO;
 
