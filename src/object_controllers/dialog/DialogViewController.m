@@ -163,6 +163,12 @@
     }
 }
 
+- (void) setNavTitle:(NSString *)title
+{
+    self.title = title;
+   	self.navigationItem.title = title;
+}
+
 - (void) exitRequested
 {
     [self dismissSelf];

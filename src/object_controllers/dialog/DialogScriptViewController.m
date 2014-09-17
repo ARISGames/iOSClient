@@ -70,12 +70,14 @@
     {
         if(_MODEL_PLAYER_.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
         else [mediaView setImage:[UIImage imageNamed:@"defaultCharacter.png"]];
+        [delegate setNavTitle:_MODEL_PLAYER_.display_name];
     }
     else
     {
         DialogCharacter *c = [_MODEL_DIALOGS_ characterForId:s.dialog_character_id];
         if(c.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:c.media_id]];
         else [mediaView setImage:[UIImage imageNamed:@"defaultCharacter.png"]];
+        [delegate setNavTitle:c.name];
     }
     [dialogTextView loadText:s.text];
     [dialogTextView setOptionsLoading]; 

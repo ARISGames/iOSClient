@@ -14,6 +14,7 @@
 
 @protocol DialogScriptViewControllerDelegate
 - (void) dialogScriptChosen:(DialogScript *)s;
+- (void) setNavTitle:(NSString *)s;
 - (void) exitRequested;
 @end
 
