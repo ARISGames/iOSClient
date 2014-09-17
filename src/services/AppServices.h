@@ -36,6 +36,8 @@
 - (void) fetchMineGames;
 - (void) fetchPlayerPlayedGame:(int)game_id;
 
+- (void) fetchScenes;
+- (void) touchSceneForPlayer;
 - (void) fetchMedia; - (void) fetchMediaId:(int)media_id;
 - (void) fetchPlaques;
 - (void) fetchItems;
@@ -55,6 +57,7 @@
 - (void) fetchTabs;
 
 - (void) fetchLogsForPlayer;
+- (void) fetchSceneForPlayer; //literally a number... oh well
 - (void) fetchInstancesForPlayer;
 - (void) fetchTriggersForPlayer;
 - (void) fetchOverlaysForPlayer;

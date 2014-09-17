@@ -72,6 +72,7 @@
 		AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30AC1718579C6B00068667 /* NoteCommentInputViewController.m */; };
 		AA33A72A1860C0CE00D48789 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = AA33A7291860C0CE00D48789 /* Media.m */; };
 		AA34837F19C79BCA000A60C2 /* ScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA34837E19C79BCA000A60C2 /* ScannerViewController.mm */; };
+		AA34838319C927FC000A60C2 /* ScenesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA34838219C927FC000A60C2 /* ScenesModel.m */; };
 		AA372A90188F2319005528D5 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA372A8E188F2319005528D5 /* AudioMeter.m */; };
 		AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B0D1828324F00612FFB /* NotebookViewController.m */; };
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
@@ -402,6 +403,8 @@
 		AA33A7291860C0CE00D48789 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		AA34837D19C79BCA000A60C2 /* ScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannerViewController.h; sourceTree = "<group>"; };
 		AA34837E19C79BCA000A60C2 /* ScannerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScannerViewController.mm; sourceTree = "<group>"; };
+		AA34838119C927FC000A60C2 /* ScenesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScenesModel.h; sourceTree = "<group>"; };
+		AA34838219C927FC000A60C2 /* ScenesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScenesModel.m; sourceTree = "<group>"; };
 		AA372A8E188F2319005528D5 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
 		AA372A8F188F2319005528D5 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
 		AA383B0C1828324F00612FFB /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
@@ -971,6 +974,15 @@
 			path = scanner;
 			sourceTree = "<group>";
 		};
+		AA34838019C927FC000A60C2 /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				AA34838119C927FC000A60C2 /* ScenesModel.h */,
+				AA34838219C927FC000A60C2 /* ScenesModel.m */,
+			);
+			path = scenes;
+			sourceTree = "<group>";
+		};
 		AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */ = {
 			isa = PBXGroup;
 			children = (
@@ -1469,6 +1481,7 @@
 				AABC70DD172739D60074CC21 /* AppModel.m */,
 				AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */,
 				AA02477A1927D0DD00CF5CE3 /* games */,
+				AA34838019C927FC000A60C2 /* scenes */,
 				AAB398E5191821D400E0E766 /* plaques */,
 				AA68B2F41912E6DF000C717B /* items */,
 				AAC0D88E1930F70E00CA1DE3 /* dialogs */,
@@ -2200,6 +2213,7 @@
 				AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */,
 				AAC0D88D1930F6E100CA1DE3 /* Trigger.m in Sources */,
 				AA66CABE18A005150011FE97 /* NoteLocationPickerCrosshairsView.m in Sources */,
+				AA34838319C927FC000A60C2 /* ScenesModel.m in Sources */,
 				F97B42AD18D39DF5002FC8AD /* TriangleButton.m in Sources */,
 				AA34837F19C79BCA000A60C2 /* ScannerViewController.mm in Sources */,
 				AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */,

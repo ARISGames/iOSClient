@@ -222,6 +222,37 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_PLAYED_GAME_RECEIVED", nil, (NSDictionary *)result.resultData);
 }
 
+- (void) fetchScenes
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getScenesForGame" arguments:args handler:self successSelector:@selector(parseScenes:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseScenes:(ARISServiceResult *)result
+{
+    NSArray *sceneDicts = (NSArray *)result.resultData;
+    NSMutableArray *scenes = [[NSMutableArray alloc] init];
+    for(int i = 0; i < sceneDicts.count; i++)
+        scenes[i] = [[Scene alloc] initWithDictionary:sceneDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_SCENES_RECEIVED", nil, @{@"scenes":scenes});
+}
+
+//creates player scene for game if not already created
+- (void) touchSceneForPlayer
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchSceneForPlayer" arguments:args handler:self successSelector:@selector(parseSceneTouch:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseSceneTouch:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_SCENE_TOUCHED", nil, nil);
+}
+
 - (void) fetchMedia
 {
     NSDictionary *args =
@@ -522,6 +553,23 @@
 }
 
 
+- (void) fetchSceneForPlayer
+{
+     NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"getSceneForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerScene:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parsePlayerScene:(ARISServiceResult *)result
+{
+    Scene *s;
+    if(result.resultData && ![result.resultData isEqual:[NSNull null]])
+        s = [[Scene alloc] initWithDictionary:(NSDictionary *)result.resultData];
+    else
+        s = [[Scene alloc] init];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCENE_RECEIVED", nil, @{@"scene":s});
+}
 
 - (void) fetchLogsForPlayer
 {

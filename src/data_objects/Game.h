@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+#import "ScenesModel.h"
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
 #import "DialogsModel.h"
@@ -53,6 +54,7 @@
 
   int inventory_weight_cap;
 
+  ScenesModel     *scenesModel;
   PlaquesModel    *plaquesModel;
   ItemsModel      *itemsModel;
   DialogsModel    *dialogsModel;
@@ -97,6 +99,7 @@
 
 @property (nonatomic, assign) int inventory_weight_cap;
 
+@property (nonatomic, strong) ScenesModel    *scenesModel; 
 @property (nonatomic, strong) PlaquesModel   *plaquesModel; 
 @property (nonatomic, strong) ItemsModel     *itemsModel; 
 @property (nonatomic, strong) DialogsModel   *dialogsModel; 

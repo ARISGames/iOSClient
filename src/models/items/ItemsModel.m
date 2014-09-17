@@ -83,7 +83,7 @@
 {
     [_SERVICES_ fetchItems]; 
 }
-- (void) touchItemInstances
+- (void) touchPlayerItemInstances
 {
     [_SERVICES_ touchItemsForPlayer]; 
 }

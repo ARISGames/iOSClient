@@ -15,8 +15,8 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 17;
-const int playerDatasToReceive = 6;
+const int gameDatasToReceive = 18;
+const int playerDatasToReceive = 7;
 
 @interface Game()
 {
@@ -58,6 +58,7 @@ const int playerDatasToReceive = 6;
 
 @synthesize inventory_weight_cap;
 
+@synthesize scenesModel;
 @synthesize plaquesModel;
 @synthesize itemsModel;
 @synthesize dialogsModel;
@@ -177,12 +178,13 @@ const int playerDatasToReceive = 6;
     receivedPlayerData = 0;
     playerDataReceived = NO;
 
+    scenesModel    = [[ScenesModel    alloc] init];
     plaquesModel   = [[PlaquesModel   alloc] init];
     itemsModel     = [[ItemsModel     alloc] init];
     dialogsModel   = [[DialogsModel   alloc] init];
     webPagesModel  = [[WebPagesModel  alloc] init];
-    tagsModel      = [[TagsModel  alloc] init];
-    eventsModel    = [[EventsModel  alloc] init];
+    tagsModel      = [[TagsModel      alloc] init];
+    eventsModel    = [[EventsModel    alloc] init];
     triggersModel  = [[TriggersModel  alloc] init];
     overlaysModel  = [[OverlaysModel  alloc] init];
     instancesModel = [[InstancesModel alloc] init];
@@ -201,6 +203,7 @@ const int playerDatasToReceive = 6;
     receivedPlayerData = 0;
     playerDataReceived = NO;
 
+    scenesModel    = nil;
     plaquesModel   = nil;
     itemsModel     = nil;
     dialogsModel   = nil;
@@ -220,9 +223,10 @@ const int playerDatasToReceive = 6;
 - (void) requestGameData
 {
     receivedGameData = 0;
+    [scenesModel touchPlayerScene];
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
-    [itemsModel touchItemInstances];
+    [itemsModel touchPlayerItemInstances];
     [dialogsModel requestDialogs]; //makes 4 "game data received" notifs (dialogs, characters, scripts, options)
     [webPagesModel requestWebPages];
     [tagsModel requestTags];
@@ -241,6 +245,7 @@ const int playerDatasToReceive = 6;
 - (void) requestPlayerData
 {
     receivedPlayerData = 0;
+    [scenesModel requestPlayerScene];
     [instancesModel requestPlayerInstances];
     [triggersModel requestPlayerTriggers];
     [overlaysModel requestPlayerOverlays];
@@ -299,6 +304,7 @@ const int playerDatasToReceive = 6;
     receivedPlayerData = 0;
     playerDataReceived = NO;
 
+    [scenesModel    clearGameData];
     [plaquesModel   clearGameData];
     [itemsModel     clearGameData];
     [dialogsModel   clearGameData];
@@ -311,6 +317,7 @@ const int playerDatasToReceive = 6;
     [instancesModel clearGameData];
     [tabsModel      clearGameData];
 
+    [scenesModel    clearPlayerData];
     [itemsModel     clearPlayerData];
     [questsModel    clearPlayerData];
     [triggersModel  clearPlayerData];
