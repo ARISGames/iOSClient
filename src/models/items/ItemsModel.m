@@ -111,8 +111,13 @@
   if(pII.qty < qty) qty = pII.qty;
     
   pII.qty -= qty;
-  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
+  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:pII.qty];
   [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
+
+  //Instance model notifs. #dealwithit
+  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCE_LOST",nil,@{@"instance":pII});
+  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,nil);
+    
   return qty;
 }
 
@@ -123,8 +128,13 @@
   if(qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
     
   pII.qty += qty;
-  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
+  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:pII.qty];
   [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
+
+  //Instance model notifs. #dealwithit
+  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCE_GAINED",nil,@{@"instance":pII});
+  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,nil);
+    
   return qty;
 }
 
