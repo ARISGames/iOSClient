@@ -8,15 +8,10 @@
 
 #import "GameNotificationViewController.h"
 #import "AppModel.h"
-#import "Game.h"
-#import "ItemsModel.h"
 #import "ARISAppDelegate.h"
 #import "PopOverViewController.h"
 #import "MTStatusBarOverlay.h"
 #import "StateControllerProtocol.h"
-
-#import "Item.h"
-#import "Quest.h"
 
 @interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate>
 {
@@ -49,13 +44,11 @@
         
         delegate = d;
         
-        _ARIS_NOTIF_LISTEN_(@"NewlyActiveQuestsAvailable",self,@selector(parseActiveQuestsIntoNotifications:),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewlyCompletedQuestsAvailable",self,@selector(parseCompleteQuestsIntoNotifications:),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredItemsAvailable",self,@selector(parseReceivedItemsIntoNotifications:),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewlyLostItemsAvailable",self,@selector(parseLostItemsIntoNotifications:),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredAttributesAvailable",self,@selector(parseReceivedAttributesIntoNotifications:),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewlyLostAttributesAvailable",self,@selector(parseLostAttributesIntoNotifications:),nil);
-        _ARIS_NOTIF_LISTEN_(@"NewlyAvailableLocationsAvailable",self,@selector(parseAvailableLocationsIntoNotifications:),nil); 
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",self,@selector(parseActiveQuestsIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",self,@selector(parseCompleteQuestsIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_GAINED",self,@selector(parseReceivedInstancesIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_LOST",self,@selector(parseLostInstancesIntoNotifications:),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(parseAvailableTriggersIntoNotifications:),nil); 
     }
     return self;
 }
@@ -79,8 +72,8 @@
 {
     showingPopOver = YES;
     
-    NSMutableDictionary *poDict = [popOverArray objectAtIndex:0];
-    [popOverVC setHeader:[poDict objectForKey:@"header"] prompt:[poDict objectForKey:@"prompt"] icon_media_id:[[poDict objectForKey:@"icon_media_id"] intValue]];
+    NSMutableDictionary *poDict = popOverArray[0];
+    [popOverVC setHeader:poDict[@"header"] prompt:poDict[@"prompt"] icon_media_id:[poDict[@"icon_media_id"] intValue]];
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
@@ -112,151 +105,83 @@
 
 - (void) parseActiveQuestsIntoNotifications:(NSNotification *)notification
 {
-    NSArray *activeQuests = (NSArray *)[notification.userInfo objectForKey:@"newlyActiveQuests"];
+    NSArray *activeQuests = (NSArray *)notification.userInfo[@"added"];
     
     for(int i = 0; i < activeQuests.count; i++)
     {
-        /*
-        Quest *activeQuest = [activeQuests objectAtIndex:i];
+        Quest *activeQuest = activeQuests[i];
         
-        if(activeQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name icon_media_id:activeQuest.icon_media_id];
+        if([activeQuest.active_notification_type isEqualToString:@"FULL_SCREEN"])
+            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name icon_media_id:activeQuest.active_icon_media_id];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
-        
-        _ARIS_NOTIF_SEND_(@"NewlyChangedQuestsGameNotificationSent",self,nil);
-        _ARIS_NOTIF_SEND_(@"NewlyActiveQuestsGameNotificationSent",self,nil);
-         */
     }
 }
 
 - (void) parseCompleteQuestsIntoNotifications:(NSNotification *)notification
 {
-    NSArray *completedQuests = (NSArray *)[notification.userInfo objectForKey:@"newlyCompletedQuests"];
+    NSArray *completedQuests = (NSArray *)notification.userInfo[@"added"];
 
     for(int i = 0; i < completedQuests.count; i++)
     { 
-        /*
-        Quest *completedQuest = [completedQuests objectAtIndex:i];      
+        Quest *completedQuest = completedQuests[i];      
     
-        if(completedQuest.fullScreenNotification)
-            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name icon_media_id:completedQuest.icon_media_id];
+        if([completedQuest.complete_notification_type isEqualToString:@"FULL_SCREEN"])
+            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name icon_media_id:completedQuest.complete_icon_media_id];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
-        
-        _ARIS_NOTIF_SEND_(@"NewlyChangedQuestsGameNotificationSent",self,nil);
-        _ARIS_NOTIF_SEND_(@"NewlyCompletedQuestsGameNotificationSent",self,nil);
-         */
     }
 }
 
-- (void) parseReceivedItemsIntoNotifications:(NSNotification *)notification
+- (void) parseReceivedInstancesIntoNotifications:(NSNotification *)notification
 {
-    NSArray *receivedItems = (NSArray *)[notification.userInfo objectForKey:@"newlyAcquiredItems"];
-    
-    for(int i = 0; i < receivedItems.count; i++)
+    NSArray *deltas = notification.userInfo[@"added"];
+    for(int i = 0; i < deltas.count; i++)
     {
-        NSDictionary *receivedItemDict = [receivedItems objectAtIndex:i];
-        Item *receivedItem = [receivedItemDict objectForKey:@"item"];
-        int qty = [((NSNumber *)[receivedItemDict objectForKey:@"delta"]) intValue];
+        Instance *inst = deltas[i][@"instance"];
+        int qty = [deltas[i][@"delta"] intValue];
         
         NSString *notifString;
-        if(receivedItem.max_qty_in_inventory == 1)
-            notifString = [NSString stringWithFormat:@"%@ %@", receivedItem.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
+        if(((Item *)inst.object).max_qty_in_inventory == 1)
+            notifString = [NSString stringWithFormat:@"%@ %@", inst.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, receivedItem.name, [_MODEL_ITEMS_ qtyOwnedForItem:receivedItem.item_id], NSLocalizedString(@"TotalNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, inst.name, inst.qty, NSLocalizedString(@"TotalNotifKey", nil)];
         
-        [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
-        
-        _ARIS_NOTIF_SEND_(@"NewlyChangedItemsGameNotificationSent",self,nil);
     }
+    if(deltas.count > 0)
+        [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+        
 }
 
-- (void) parseLostItemsIntoNotifications:(NSNotification *)notification
+- (void) parseLostInstancesIntoNotifications:(NSNotification *)notification
 {
-    NSArray *lostItems = (NSArray *)[notification.userInfo objectForKey:@"newlyLostItems"];
-
-    for(int i = 0; i < lostItems.count; i++)
+    NSArray *deltas = notification.userInfo[@"added"];
+    for(int i = 0; i < deltas.count; i++)
     {
-        NSDictionary *lostItemDict = [lostItems objectAtIndex:i];
-        Item *lostItem = [lostItemDict objectForKey:@"item"];
-        int qty = [((NSNumber *)[lostItemDict objectForKey:@"delta"]) intValue];
+        Instance *inst = deltas[i][@"instance"];
+        int qty = [deltas[i][@"delta"] intValue];
         
         NSString *notifString;
-        if(lostItem.max_qty_in_inventory == 1)
-            notifString = [NSString stringWithFormat:@"%@ %@", lostItem.name, NSLocalizedString(@"LostNotifKey", nil)];
+        if(((Item *)inst.object).max_qty_in_inventory == 1)
+            notifString = [NSString stringWithFormat:@"%@ %@", inst.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostItem.name, [_MODEL_ITEMS_ qtyOwnedForItem:lostItem.item_id], NSLocalizedString(@"LeftNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"%d %@ : %d %@",  qty, inst.name, inst.qty, NSLocalizedString(@"LeftNotifKey", nil)];
         
-        [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithString:notifString];
-        
-        _ARIS_NOTIF_SEND_(@"NewlyChangedItemsGameNotificationSent",self,nil);
     }
+    if(deltas.count > 0)
+        [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 }
 
-- (void) parseReceivedAttributesIntoNotifications:(NSNotification *)notification
+- (void) parseAvailableTriggersIntoNotifications:(NSNotification *)notification
 {
-    NSArray *receivedAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyAcquiredAttributes"];
-
-    for(int i = 0; i < receivedAttributes.count; i++)
-    {
-        NSDictionary *receivedAttributeDict = [receivedAttributes objectAtIndex:i];
-        Item *receivedAttribute = [receivedAttributeDict objectForKey:@"attribute"];
-        int qty = [((NSNumber *)[receivedAttributeDict objectForKey:@"delta"]) intValue];
-        
-        NSString *notifString;
-        if(receivedAttribute.max_qty_in_inventory == 1)
-            notifString = [NSString stringWithFormat:@"%@ %@", receivedAttribute.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
-        else
-            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, receivedAttribute.name, [_MODEL_ITEMS_ qtyOwnedForItem:receivedAttribute.item_id], NSLocalizedString(@"TotalNotifKey", nil)];
-        
-        [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-        [self enqueueDropDownNotificationWithString:notifString];
-
-        _ARIS_NOTIF_SEND_(@"NewlyChangedAttributesGameNotificationSent",self,nil);
-    }
-
-}
-
-- (void) parseLostAttributesIntoNotifications:(NSNotification *)notification
-{
-    NSArray *lostAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyLostAttributes"];
-
-    for(int i = 0; i < lostAttributes.count; i++)
-    {
-        NSDictionary *lostAttributeDict = [lostAttributes objectAtIndex:i];
-        Item *lostAttribute = [lostAttributeDict objectForKey:@"attribute"];
-        int qty = [((NSNumber *)[lostAttributeDict objectForKey:@"delta"]) intValue];
-
-        NSString *notifString;
-        if(lostAttribute.max_qty_in_inventory == 1)
-            notifString = [NSString stringWithFormat:@"%@ %@", lostAttribute.name, NSLocalizedString(@"LostNotifKey", nil)];
-        else
-            notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostAttribute.name, [_MODEL_ITEMS_ qtyOwnedForItem:lostAttribute.item_id], NSLocalizedString(@"LeftNotifKey", nil)];
-        
-        [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-        [self enqueueDropDownNotificationWithString:notifString];
-        
-        _ARIS_NOTIF_SEND_(@"NewlyChangedAttributesGameNotificationSent",self,nil);
-    }
-}
-
-- (void) parseAvailableLocationsIntoNotifications:(NSNotification *)notification
-{
-    NSArray *newLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
-    
-    for(int i = 0; i < newLocations.count; i++)
-    {
-        //Doesn't actually show a game notification...
-        _ARIS_NOTIF_SEND_(@"NewlyChangedLocationsGameNotificationSent",self,nil);
-    }
+    //NSArray *newTriggers = (NSArray *)notification.userInfo[@"added"];
+    //Doesn't actually do anything
 }
 
 - (void) cutOffGameNotifications
 {
-  _ARIS_NOTIF_SEND_(@"ClearBadgeRequest",self,nil);
     [notifArray   removeAllObjects];
     [popOverArray removeAllObjects];
     showingDropDown  = NO;
@@ -267,6 +192,5 @@
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);      
 }
-
 
 @end

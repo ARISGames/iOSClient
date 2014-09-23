@@ -37,7 +37,7 @@
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_TOUCHED",self,@selector(itemsTouched:),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_AVAILABLE",self,@selector(playerInstancesAvailable),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",self,@selector(playerInstancesAvailable),nil);
     }
     return self;
 }
@@ -110,15 +110,7 @@
   if(!pII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForPlayer was called...)
   if(pII.qty < qty) qty = pII.qty;
     
-  pII.qty -= qty;
-  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:pII.qty];
-  [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
-
-  //Instance model notifs. #dealwithit
-  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCE_LOST",nil,@{@"instance":pII});
-  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,nil);
-    
-  return qty;
+  return [self setItemsForPlayer:item_id qtyToSet:pII.qty-qty];
 }
 
 - (int) giveItemToPlayer:(int)item_id qtyToAdd:(int)qty
@@ -127,15 +119,7 @@
   if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
     
-  pII.qty += qty;
-  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:pII.qty];
-  [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
-
-  //Instance model notifs. #dealwithit
-  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCE_GAINED",nil,@{@"instance":pII});
-  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,nil);
-    
-  return qty;
+  return [self setItemsForPlayer:item_id qtyToSet:pII.qty+qty];
 }
 
 - (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty
@@ -147,8 +131,24 @@
 
   pII.qty += qty;
   [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
-  if(qty > 0) [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
-  if(qty < 0) [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
+  if(qty > 0)
+  {
+      [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
+      
+      //Instance model notifs. #dealwithit
+      NSDictionary *deltas = @{@"lost":@[],@"added":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty]}]}; //ridiculous construct...
+      _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_GAINED",nil,deltas);
+  }
+  if(qty < 0)
+  {
+      [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
+      
+      //Instance model notifs. #dealwithit
+      NSDictionary *deltas = @{@"added":@[],@"lost":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty]}]}; //ridiculous construct...
+      _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_LOST",nil,deltas);
+  }
+  _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",nil,nil);
+    
   return qty;
 }
 
