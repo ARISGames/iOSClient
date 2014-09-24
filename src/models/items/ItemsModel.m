@@ -133,7 +133,7 @@
   [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
   if(qty > 0)
   {
-      [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
+      [_MODEL_LOGS_ playerReceivedItemId:item_id qty:qty];
       
       //Instance model notifs. #dealwithit
       NSDictionary *deltas = @{@"lost":@[],@"added":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty]}]}; //ridiculous construct...
@@ -141,7 +141,7 @@
   }
   if(qty < 0)
   {
-      [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
+      [_MODEL_LOGS_ playerLostItemId:item_id qty:qty];
       
       //Instance model notifs. #dealwithit
       NSDictionary *deltas = @{@"added":@[],@"lost":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty]}]}; //ridiculous construct...

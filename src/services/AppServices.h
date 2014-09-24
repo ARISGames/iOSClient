@@ -66,6 +66,7 @@
 - (void) fetchOptionsForPlayerForDialog:(int)dialog_id script:(int)dialog_script_id; //doesn't need to be called during game load
 
 - (void) setQtyForInstanceId:(int)instance_id qty:(int)qty;
+- (void) setPlayerSceneId:(int)scene_id;
 
 - (void) logPlayerEnteredGame;
 - (void) logPlayerResetGame:(int)game_id;
@@ -77,29 +78,11 @@
 - (void) logPlayerViewedDialogScriptId:(int)dialog_script_id;
 - (void) logPlayerViewedWebPageId:(int)web_page_id;
 - (void) logPlayerViewedNoteId:(int)note_id;
+- (void) logPlayerViewedSceneId:(int)scene_id;
 - (void) logPlayerViewedInstanceId:(int)instance_id;
 - (void) logPlayerTriggeredTriggerId:(int)trigger_id;
 - (void) logPlayerReceivedItemId:(int)item_id qty:(int)qty;
 - (void) logPlayerLostItemId:(int)item_id qty:(int)qty;
-
-
-
-
-//old stuff
-
-//Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
-
-- (void) fetchNoteListPage:(int)page;
-- (void) fetchNoteTagLists;
-- (void) fetchNoteWithId:(int)noteId;
-
-//Note Stuff
-- (void) deleteNoteWithNoteId:(int)noteId;
-//- (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate;
-
-//- (void) uploadNote:(Note *)n;
-//- (void) addComment:(NSString *)c fromPlayer:(User *)p toNote:(Note *)n;
-
-- (void) saveGameComment:(NSString*)comment titled:(NSString*)t game:(int)game_id starRating:(int)rating;
+- (void) logPlayerSetSceneId:(int)scene_id;
 
 @end

@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "ScenesModel.h"
+#import "AppModel.h"
 #import "AppServices.h"
 
 @interface ScenesModel()
@@ -50,7 +51,7 @@
 
 - (void) playerSceneReceived:(NSNotification *)notif
 {
-    [self updatePlayerScene:notif.userInfo[@"scene"]];
+    [self updatePlayerScene:[self sceneForId:((Scene *)notif.userInfo[@"scene"]).scene_id]];
 }
 
 - (void) sceneTouched:(NSNotification *)notif
@@ -98,6 +99,13 @@
 - (Scene *) playerScene
 {
     return playerScene;
+}
+
+- (void) setPlayerScene:(Scene *)s
+{
+    playerScene = s;
+    [_MODEL_LOGS_ playerChangedSceneId:s.scene_id];
+    [_SERVICES_ setPlayerSceneId:s.scene_id];
 }
 
 // null scene (id == 0) NOT flyweight!!! (to allow for temporary customization safety)

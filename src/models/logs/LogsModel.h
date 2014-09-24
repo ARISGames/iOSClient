@@ -22,5 +22,8 @@
 - (void) playerViewedContent:(NSString *)content id:(int)content_id;
 - (void) playerViewedInstanceId:(int)instance_id;
 - (void) playerTriggeredTriggerId:(int)trigger_id;
+- (void) playerReceivedItemId:(int)item_id qty:(int)qty;
+- (void) playerLostItemId:(int)item_id qty:(int)qty;
+- (void) playerChangedSceneId:(int)scene_id;
 
 @end

@@ -70,8 +70,8 @@
     {
         _ARIS_NOTIF_SEND_(@"NewNoteListAvailable",nil,nil); 
     }
-    else
-        [_SERVICES_ fetchNoteListPage:curServerPage];
+    //else
+        //[_SERVICES_ fetchNoteListPage:curServerPage];
 }
 
 - (int) listComplete
@@ -81,12 +81,12 @@
 
 - (void) getNoteTags
 {
-    [_SERVICES_ fetchNoteTagLists]; 
+    //[_SERVICES_ fetchNoteTagLists]; 
 }
 
 - (void) getDetailsForNote:(Note *)n
 {
-    [_SERVICES_ fetchNoteWithId:n.noteId]; 
+    //[_SERVICES_ fetchNoteWithId:n.noteId]; 
 }
 
 - (void) deleteNote:(Note *)n

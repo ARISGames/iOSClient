@@ -90,6 +90,7 @@
     if([content isEqualToString:@"DIALOG_SCRIPT"]) [_SERVICES_ logPlayerViewedDialogScriptId:content_id];   
     if([content isEqualToString:@"WEB_PAGE"])      [_SERVICES_ logPlayerViewedWebPageId:content_id];   
     if([content isEqualToString:@"NOTE"])          [_SERVICES_ logPlayerViewedNoteId:content_id];   
+    if([content isEqualToString:@"SCENE"])         [_SERVICES_ logPlayerViewedSceneId:content_id];   
 }
 
 - (void) playerViewedInstanceId:(int)instance_id
@@ -100,6 +101,21 @@
 - (void) playerTriggeredTriggerId:(int)trigger_id
 {
     [_SERVICES_ logPlayerTriggeredTriggerId:trigger_id];   
+}
+
+- (void) playerReceivedItemId:(int)item_id qty:(int)qty
+{
+    [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
+}
+
+- (void) playerLostItemId:(int)item_id qty:(int)qty
+{
+    [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
+}
+
+- (void) playerChangedSceneId:(int)scene_id
+{
+    [_SERVICES_ logPlayerSetSceneId:scene_id];
 }
 
 - (void) dealloc
