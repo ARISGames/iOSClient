@@ -150,7 +150,11 @@
         //vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"SCENE"]) //Special case (don't actually display anything)
     {
-        [_MODEL_SCENES_ setPlayerScene:i.object];
+        [_MODEL_SCENES_ setPlayerScene:(Scene *)i.object];
+        [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
+        //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
+        [displayQueue performSelector:@selector(dequeueTrigger) withObject:nil afterDelay:1];
+        return YES;
     }
     
 

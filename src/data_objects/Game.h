@@ -38,6 +38,8 @@
   int icon_media_id; 
   int media_id;
 
+  int intro_scene_id;
+    
   NSMutableArray *authors;
   NSMutableArray *comments;
 
@@ -82,6 +84,8 @@
 
 @property (nonatomic, assign) int icon_media_id; 
 @property (nonatomic, assign) int media_id;
+
+@property (nonatomic, assign) int intro_scene_id; 
 
 @property (nonatomic, strong) NSMutableArray *authors;
 @property (nonatomic, strong) NSMutableArray *comments;

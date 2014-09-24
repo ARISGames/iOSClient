@@ -228,7 +228,7 @@
     @{
       @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"plaques" method:@"getScenesForGame" arguments:args handler:self successSelector:@selector(parseScenes:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"scenes" method:@"getScenesForGame" arguments:args handler:self successSelector:@selector(parseScenes:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseScenes:(ARISServiceResult *)result
 {

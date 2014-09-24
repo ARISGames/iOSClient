@@ -51,7 +51,22 @@
 
 - (void) playerSceneReceived:(NSNotification *)notif
 {
-    [self updatePlayerScene:[self sceneForId:((Scene *)notif.userInfo[@"scene"]).scene_id]];
+    //A bit of hack verification to ensure valid scene. Ideally shouldn't be needed...
+    BOOL overridden = NO;
+    Scene *s = [self sceneForId:((Scene *)notif.userInfo[@"scene"]).scene_id];
+    if(s.scene_id == 0)
+    {
+        overridden = YES;
+        s = [self sceneForId:_MODEL_GAME_.intro_scene_id]; //received scene not valid
+    }
+    if(s.scene_id == 0 && [scenes allValues].count > 0) //received scene not valid, intro_scene not valid
+    {
+        overridden = YES;
+        s = [scenes allValues][0]; //choose arbitrary scene to ensure valid state
+    }
+         
+    if(overridden) [self setPlayerScene:s];
+    [self updatePlayerScene:s];
 }
 
 - (void) sceneTouched:(NSNotification *)notif
@@ -106,6 +121,7 @@
     playerScene = s;
     [_MODEL_LOGS_ playerChangedSceneId:s.scene_id];
     [_SERVICES_ setPlayerSceneId:s.scene_id];
+    _ARIS_NOTIF_SEND_(@"MODEL_SCENES_PLAYER_SCENE_AVAILABLE",nil,nil);
 }
 
 // null scene (id == 0) NOT flyweight!!! (to allow for temporary customization safety)

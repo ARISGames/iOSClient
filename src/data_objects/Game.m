@@ -15,7 +15,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 18;
+const int gameDatasToReceive = 19;
 const int playerDatasToReceive = 7;
 
 @interface Game()
@@ -41,6 +41,8 @@ const int playerDatasToReceive = 7;
 
 @synthesize icon_media_id;
 @synthesize media_id;
+
+@synthesize intro_scene_id;
 
 @synthesize authors;
 @synthesize comments;
@@ -98,6 +100,8 @@ const int playerDatasToReceive = 7;
 
         icon_media_id = [dict validIntForKey:@"icon_media_id"];
         media_id = [dict validIntForKey:@"media_id"];
+        
+        intro_scene_id = [dict validIntForKey:@"intro_scene_id"];
 
         //authors = [dict validObjectForKey:@"authors"];
         //comments = [dict validObjectForKey:@"comments"];
@@ -223,6 +227,7 @@ const int playerDatasToReceive = 7;
 - (void) requestGameData
 {
     receivedGameData = 0;
+    [scenesModel requestScenes];
     [scenesModel touchPlayerScene];
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
