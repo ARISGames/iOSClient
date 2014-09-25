@@ -34,5 +34,11 @@
     return self;
 }
 
+//To comply w/ instantiable protocol. should get default image later.
+- (int) icon_media_id
+{
+    return 0;
+}
+
 @end
 

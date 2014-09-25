@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CLLocation.h>
+#import "InstantiableProtocol.h"
 
-@interface Scene : NSObject
+@interface Scene : NSObject <InstantiableProtocol>
 {
     int scene_id;
     NSString *name; 
