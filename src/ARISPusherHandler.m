@@ -58,7 +58,7 @@
         self.pusherClient.delegate = self;
         self.pusherClient.reconnectAutomatically = YES;
 
-        self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
+        self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://arisgames.org/server/events/auths/private_auth.php"];
     }
     return self;
 }
