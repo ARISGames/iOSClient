@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "QuestsModel.h"
+#import "AppModel.h"
 #import "AppServices.h"
 
 @interface QuestsModel()
@@ -91,9 +92,15 @@
 {
     NSDictionary *deltas = [self findDeltasInNew:newQuests fromOld:visibleActiveQuests];
     visibleActiveQuests = newQuests; //assumes already conforms to flyweight
-    if(((NSArray *)deltas[@"added"]).count > 0)
+    
+    NSArray *addedDeltas = deltas[@"added"];
+    if(addedDeltas.count > 0)
         _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",nil,deltas);
-    if(((NSArray *)deltas[@"removed"]).count > 0)
+    for(int i = 0; i < addedDeltas.count; i++)
+        [_MODEL_EVENTS_ runEventPackageId:((Quest *)addedDeltas[i]).active_event_package_id];
+    
+    NSArray *removedDeltas = deltas[@"removed"];
+    if(removedDeltas.count > 0)
         _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_LESS_AVAILABLE",nil,deltas); 
 }
 
@@ -101,9 +108,15 @@
 {
     NSDictionary *deltas = [self findDeltasInNew:newQuests fromOld:visibleCompleteQuests];
     visibleCompleteQuests = newQuests; //assumes already conforms to flyweight
-    if(((NSArray *)deltas[@"added"]).count > 0)
+    
+    NSArray *addedDeltas = deltas[@"added"];
+    if(addedDeltas.count > 0)
         _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",nil,deltas);
-    if(((NSArray *)deltas[@"removed"]).count > 0)
+    for(int i = 0; i < addedDeltas.count; i++)
+        [_MODEL_EVENTS_ runEventPackageId:((Quest *)addedDeltas[i]).complete_event_package_id];
+    
+    NSArray *removedDeltas = deltas[@"removed"];
+    if(removedDeltas.count > 0)
         _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",nil,deltas);  
 }
 
