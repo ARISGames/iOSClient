@@ -10,6 +10,7 @@
 #import "ARISViewController.h"
 
 @class ARISNavigationController;
+@class Tab;
 
 @protocol GamePlayTabSelectorViewControllerDelegate
 - (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc;
@@ -17,7 +18,7 @@
 
 @interface GamePlayTabSelectorViewController : ARISViewController
 - (id) initWithDelegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
-- (void) requestDisplayTab:(int)t;
+- (void) requestDisplayTab:(Tab *)t;
 - (void) requestDisplayScannerWithPrompt:(NSString *)p;
 - (ARISNavigationController *) firstViewController;
 @end

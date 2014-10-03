@@ -182,10 +182,15 @@ static NSString * const OPTION_CELL = @"option";
 }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t { return [delegate displayTrigger:t]; }
+- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
+- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
 - (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
+- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(int)t { [delegate displayTab:t]; }
+- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
+- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
+- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
 - (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void)dealloc

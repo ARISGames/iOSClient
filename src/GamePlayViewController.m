@@ -112,6 +112,11 @@
     [gamePlayRevealController showViewController:avc];
 }
 
+- (BOOL) displayTriggerId:(int)t
+{
+    Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:t];
+    return [self displayTrigger:trigger];
+}
 - (BOOL) displayTrigger:(Trigger *)t
 {
     Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
@@ -120,6 +125,10 @@
     return YES;
 }
 
+- (BOOL) displayObject:(id)o
+{
+    return NO;
+}
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id
 {
     Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //create hacked instance
@@ -129,6 +138,11 @@
     return [self displayInstance:i];
 }
 
+- (BOOL) displayInstanceId:(int)i
+{
+    Instance *instance = [_MODEL_INSTANCES_ instanceForId:i];
+    return [self displayInstanceId:instance];
+}
 - (BOOL) displayInstance:(Instance *)i
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
@@ -187,7 +201,17 @@
     [displayQueue dequeueTrigger];
 }
 
-- (void) displayTab:(int)t
+- (void) displayTabId:(int)t
+{
+    Tab *tab = [_MODEL_TABS_ tabForId:t];
+    [self displayTab:tab];
+}
+- (void) displayTabType:(NSString *)t
+{
+    Tab *tab = [_MODEL_TABS_ tabForType:t];
+    [self displayTab:tab];
+}
+- (void) displayTab:(Tab *)t
 {
     [gamePlayTabSelectorController requestDisplayTab:t];
 }

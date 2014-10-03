@@ -133,6 +133,17 @@
     return qDeltas;
 }
 
+- (Tab *) tabForType:(NSString *)t
+{
+    Tab *tab;
+    for(int i = 0; i < tabs.count; i++)
+    {
+        if([((Tab *)playerTabs[i]).type isEqualToString:t])
+            tab = playerTabs[i];
+    }
+    return tab;
+}
+
 - (Tab *) tabForId:(int)tab_id
 {
   return [tabs objectForKey:[NSNumber numberWithInt:tab_id]];

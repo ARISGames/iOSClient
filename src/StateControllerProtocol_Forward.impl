@@ -1,0 +1,21 @@
+//
+//  StateControllerProtocol_Impl_Forward.m
+//  ARIS
+//
+//  Created by Phil Dougherty on 10/2/14.
+//
+//
+
+//If we can just preprocessor inject this that would be greeeaaat...
+
+//implement statecontrol stuff, but just delegate any requests
+- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
+- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
+- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
+- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
+- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
+- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
+- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
+- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
+- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }

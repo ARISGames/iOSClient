@@ -250,7 +250,7 @@
     return c;
 }
 
-- (void) requestDisplayTab:(int)t
+- (void) requestDisplayTab:(Tab *)t
 {
     NSArray *playerTabs = _MODEL_TABS_.playerTabs;
     Tab *tab;
@@ -258,7 +258,7 @@
     for(int i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
-        if(tab.tab_id == t)
+        if(tab == t)
         {
             [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
             return;

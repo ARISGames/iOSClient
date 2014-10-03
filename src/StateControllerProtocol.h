@@ -12,10 +12,17 @@
 
 @class Trigger;
 @class Instance;
+@class Instance;
+@class Tab;
 @protocol StateControllerProtocol
 - (BOOL) displayTrigger:(Trigger *)t; //returns success
+- (BOOL) displayTriggerId:(int)trigger_id; //returns success
 - (BOOL) displayInstance:(Instance *)i; //returns success //for the cases where we display something without a trigger
+- (BOOL) displayInstanceId:(int)instance_id; //returns success //for the cases where we display something without a trigger
+- (BOOL) displayObject:(id)o; //returns success //for the case where we display something without an instance
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id; //returns success //for the case where we display something without an instance
-- (void) displayTab:(int)tab_id;
+- (void) displayTab:(Tab *)t;
+- (void) displayTabId:(int)tab_id;
+- (void) displayTabType:(NSString *)tab_type;
 - (void) displayScannerWithPrompt:(NSString *)p;
 @end

@@ -199,7 +199,7 @@
         if([type isEqualToString:@"tab"])
         {
             if([delegate respondsToSelector:@selector(displayTab:)])     
-                [delegate displayTab:token];
+                [delegate displayTabType:token];
         }
         else if([type isEqualToString:@"scanner"])
         {

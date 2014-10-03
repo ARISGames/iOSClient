@@ -145,11 +145,16 @@
     self.view.userInteractionEnabled = o;
 }
 
-//implement statecontrol stuff for webpage, but ignore any requests
-- (BOOL) displayTrigger:(Trigger *)t { return NO; }
+//implement statecontrol stuff for webpage, but just delegate any requests
+- (BOOL) displayTrigger:(Trigger *)t   { return NO; }
+- (BOOL) displayTriggerId:(int)t       { return NO; }
 - (BOOL) displayInstance:(Instance *)i { return NO; }
+- (BOOL) displayInstanceId:(int)i      { return NO; }
+- (BOOL) displayObject:(id)o           { return NO; }
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return NO; }
-- (void) displayTab:(int)t {}
-- (void) displayScannerWithPrompt:(NSString *)p {}
+- (void) displayTab:(Tab *)t           { }
+- (void) displayTabId:(int)t           { }
+- (void) displayTabType:(NSString *)t  { }
+- (void) displayScannerWithPrompt:(NSString *)p { }
 
 @end
