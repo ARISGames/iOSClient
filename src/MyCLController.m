@@ -56,7 +56,7 @@
 @synthesize locationManager;
 
 
-+ (id)sharedMyCLController
++ (MyCLController *)sharedMyCLController
 {
     static dispatch_once_t pred = 0;
     __strong static id _sharedObject = nil;
@@ -66,20 +66,26 @@
     return _sharedObject;
 }
 
-
-- (MyCLController*) init{
-	self = [super init];
-	if (self != nil) {
-        CLLocationManager *locationManagerAlloc = [[CLLocationManager alloc] init];
-		self.locationManager = locationManagerAlloc;
+- (id) init
+{
+	if((self = [super init]))
+    {
+		self.locationManager = [[CLLocationManager alloc] init];
 		self.locationManager.delegate = self; // Tells the location manager to send updates to this object
+        [self.locationManager requestAlwaysAuthorization];
 		self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 		self.locationManager.distanceFilter = 5; //Minimum change of 5 meters for update
+        [self.locationManager startUpdatingLocation];
 	}
 	return self;
 		
 }
 
+// Location Manager Delegate Methods    
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    [[AppModel sharedAppModel] setDeviceLocation:[locations lastObject]]; 
+}
 
 // Called when the location is updated
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -139,6 +145,7 @@
 	}
 	
 	//Send the update somewhere?
+    NSLog(@"%@",errorString);
 }
 
 @end

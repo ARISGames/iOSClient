@@ -51,13 +51,14 @@
 
 
 // Class definition
-@interface MyCLController : NSObject <CLLocationManagerDelegate> {
+@interface MyCLController : NSObject <CLLocationManagerDelegate>
+{
 	CLLocationManager *locationManager;
 }
 
 @property (nonatomic) CLLocationManager *locationManager;
 
-+ (id)sharedMyCLController;
++ (MyCLController *)sharedMyCLController;
 
 - (void)locationManager:(CLLocationManager *)manager
 	didUpdateToLocation:(CLLocation *)newLocation
@@ -67,4 +68,3 @@
 	   didFailWithError:(NSError *)error;
 
 @end
-

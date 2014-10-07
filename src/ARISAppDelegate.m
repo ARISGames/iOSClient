@@ -47,6 +47,7 @@
 	//To set these defaults, edit Settings.bundle->Root.plist
 	[[AppModel sharedAppModel] initUserDefaults];
     [[AppServices sharedAppServices] retryFailedRequests];
+    [MyCLController sharedMyCLController];
     
     [self setApplicationUITemplates];
     
@@ -129,7 +130,7 @@
 
 - (void) startPollingLocation
 {
-    locationPoller = [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
+    locationPoller = [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController] locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
 }
 
 - (void) stopPollingLocation
