@@ -221,6 +221,10 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
     
+    NSLog(@"Fail async URL: %@\t(%f)", sr.urlRequest.URL, sr.time); 
+    
+    [requestDupMap removeObjectForKey:[sr.urlRequest.URL absoluteString]];
+    
     [connections removeObjectForKey:c.description];
     if([connections count] == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     

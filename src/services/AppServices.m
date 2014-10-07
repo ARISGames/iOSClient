@@ -527,15 +527,21 @@
     [self fetchGameNodeList];
     [self fetchGameWebPageList];
     [self fetchGameOverlayList];
-    
+
     [self fetchNoteTagLists];
+}
+
+- (void) alertGameFetchFailed
+{
+    NSLog(@"NSNotification: GameFetchFailed");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GameFetchFailed" object:self userInfo:nil];
 }
 
 - (void)fetchGameOverlayList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId], @"agameId", nil];
-    [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForGame" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForGame" arguments:args handler:self successSelector:@selector(parseOverlayListFromJSON:) failSelector:@selector(alertGameFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) parseOverlayListFromJSON:(ARISServiceResult *)jsonResult
@@ -578,6 +584,12 @@
     [self fetchPlayerQuestList];
     [self fetchPlayerInventory];
     [self fetchPlayerOverlayList];
+}
+
+- (void) alertPlayerFetchFailed
+{
+    NSLog(@"NSNotification: PlayerFetchFailed");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PlayerFetchFailed" object:self userInfo:nil];
 }
 
 - (void) fetchTabBarItems
@@ -623,7 +635,7 @@
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
                           nil];
     
-    [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcs" arguments:args handler:self successSelector:@selector(parseGameNpcListFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"npcs" method:@"getNpcs" arguments:args handler:self successSelector:@selector(parseGameNpcListFromJSON:) failSelector:@selector(alertGameFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchNoteListPage:(int)page
@@ -643,7 +655,7 @@
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
                           nil];
-    [connection performAsynchronousRequestWithService:@"notebook" method:@"getGameTags" arguments:args handler:self successSelector:@selector(parseNoteTagsListFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"notebook" method:@"getGameTags" arguments:args handler:self successSelector:@selector(parseNoteTagsListFromJSON:) failSelector:@selector(alertGameFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) parseNoteTagsListFromJSON:(ARISServiceResult *)jsonResult
@@ -671,7 +683,7 @@
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
                           nil];
     
-    [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPages" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"webpages" method:@"getWebPages" arguments:args handler:self successSelector:@selector(parseGameWebPageListFromJSON:) failSelector:@selector(alertGameFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchMediaMeta:(Media *)m
@@ -695,7 +707,7 @@
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
                           nil];
-    [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseGameMediaListFromJSON:) failSelector:@selector(alertGameFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchGameItemList
@@ -703,7 +715,7 @@
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
                           nil];
-    [connection performAsynchronousRequestWithService:@"items" method:@"getFullItems" arguments:args handler:self successSelector:@selector(parseGameItemListFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"items" method:@"getFullItems" arguments:args handler:self successSelector:@selector(parseGameItemListFromJSON:) failSelector:@selector(alertGameFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchGameNodeList
@@ -711,7 +723,7 @@
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],@"agameId",
                           nil];
-    [connection performAsynchronousRequestWithService:@"nodes" method:@"getNodes" arguments:args handler:self successSelector:@selector(parseGameNodeListFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"nodes" method:@"getNodes" arguments:args handler:self successSelector:@selector(parseGameNodeListFromJSON:) failSelector:@selector(alertGameFetchFailed) retryOnFail:NO userInfo:nil];
 }
 - (void) fetchPlayerLocationList
 {
@@ -719,7 +731,7 @@
                           [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId], @"agameId",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],     @"bplayerId",
                           nil];
-    [connection performAsynchronousRequestWithService:@"locations" method:@"getLocationsForPlayer" arguments:args handler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"locations" method:@"getLocationsForPlayer" arguments:args handler:self successSelector:@selector(parseLocationListFromJSON:) failSelector:@selector(alertPlayerFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 
@@ -727,7 +739,7 @@
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId], @"agameId",
                           [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], @"bplayerId", nil];
-    [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerOverlayListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerOverlayListFromJSON:) failSelector:@selector(alertPlayerFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) parsePlayerOverlayListFromJSON:(ARISServiceResult *)jsonResult
@@ -759,7 +771,7 @@
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],   @"bplayerId",
                           nil];
     
-    [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForPlayer" arguments:args handler:self successSelector:@selector(parseInventoryFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForPlayer" arguments:args handler:self successSelector:@selector(parseInventoryFromJSON:) failSelector:@selector(alertPlayerFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchPlayerQuestList
@@ -768,7 +780,7 @@
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],    @"bplayerId",
                           nil];
-    [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parseQuestListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parseQuestListFromJSON:) failSelector:@selector(alertPlayerFetchFailed) retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchOneGameGameList:(int)gameId

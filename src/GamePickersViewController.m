@@ -102,12 +102,23 @@
 - (void) gamePicked:(Game *)g
 {
     self.gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
-    [self.gamePickersNavigationController pushViewController:self.gameDetailsViewController animated:YES];
+    //[self.gamePickersNavigationController pushViewController:self.gameDetailsViewController animated:NO];
+    //[self performSelector:@selector(pushGameDetails) withObject:nil afterDelay:10];
+    //[self.gamePickersNavigationController setViewControllers:@[self.gameDetailsViewController]];
+    //[self.gamePickersNavigationController pushViewController:self.gameDetailsViewController animated:NO];
+    //[self.gamePickersNavigationController popToViewController:self.gameDetailsViewController animated:NO];
+    [self displayContentController:self.gameDetailsViewController];
+}
+     
+- (void) pushGameDetails
+{
+    int x = 5;
+    x += 10;
 }
 
 - (void) gameDetailsWereCanceled:(Game *)g
 {
-    [self.gamePickersNavigationController popToRootViewControllerAnimated:YES];
+    [self.gamePickersNavigationController popToRootViewControllerAnimated:NO];
     self.gameDetailsViewController = nil;
 }
 

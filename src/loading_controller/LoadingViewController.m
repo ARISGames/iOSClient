@@ -8,6 +8,7 @@
 
 #import "LoadingViewController.h"
 #import "AppModel.h"
+#import "AppServices.h"
 #import "ARISAppDelegate.h"
 
 @interface LoadingViewController()
@@ -15,6 +16,9 @@
     IBOutlet UIImageView *splashImage;
     IBOutlet UIProgressView *progressBar;
     IBOutlet UILabel *progressLabel;
+    
+    UIButton *retryGameButton;
+    UIButton *retryPlayerButton;
     
     int gameDatasToReceive;
     int receivedGameData;
@@ -68,11 +72,13 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameDataReceived)   name:@"GamePieceReceived"   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDataReceived) name:@"PlayerPieceReceived" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabDataReceived) name:@"TabDataReceived" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFetchFailed) name:@"PlayerFetchFailed" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameFetchFailed) name:@"GameFetchFailed" object:nil];
     }
     return self;
 }
 
--(void) dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -86,16 +92,50 @@
     [self moveProgressBar];
 }
 
--(void) gameDataReceived
+- (void) gameDataReceived
 {
     receivedGameData++;
     [self moveProgressBar];
 }
 
--(void) playerDataReceived
+- (void) gameFetchFailed
+{
+    retryGameButton = [[UIButton alloc] init];
+    [retryGameButton setTitle:@"Retry" forState:UIControlStateNormal];
+    retryGameButton.frame = CGRectMake(20,400,100,20);
+    [retryGameButton addTarget:self action:@selector(gameFetchRetryRequested) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:retryGameButton];
+}
+
+- (void) gameFetchRetryRequested
+{
+    receivedGameData = 0;
+    [[AppServices sharedAppServices] fetchAllGameLists];
+    [self moveProgressBar];
+    [retryGameButton removeFromSuperview];
+}
+
+- (void) playerDataReceived
 {
     receivedPlayerData++;
     [self moveProgressBar];
+}
+
+- (void) playerFetchFailed
+{
+    retryPlayerButton = [[UIButton alloc] init];
+    [retryPlayerButton setTitle:@"Retry" forState:UIControlStateNormal];
+    retryPlayerButton.frame = CGRectMake(20,400,100,20);
+    [retryPlayerButton addTarget:self action:@selector(playerFetchRetryRequested) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:retryPlayerButton];
+}
+
+- (void) playerFetchRetryRequested
+{
+    receivedPlayerData = 0;
+    [[AppServices sharedAppServices] fetchAllPlayerLists];
+    [self moveProgressBar];
+    [retryPlayerButton removeFromSuperview];
 }
 
 - (void) tabDataReceived
