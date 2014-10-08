@@ -63,6 +63,12 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    /*APPLE STOP TRYING TO FIX THINGS*/
+    gameTable.frame = self.view.bounds;
+    gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
+    [gameTable setContentOffset:CGPointMake(0,-64)];
+    
 	[self refreshViewFromModel];
 }
 
