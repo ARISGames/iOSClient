@@ -63,6 +63,7 @@
     reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];  
     locationManager = [[CLLocationManager alloc] init];
+    [locationManager requestWhenInUseAuthorization];
     locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     locationManager.distanceFilter = 5; //Minimum change of 5 meters for update  
     locationManager.delegate = self;
