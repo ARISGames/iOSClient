@@ -72,7 +72,7 @@
     {
 		self.locationManager = [[CLLocationManager alloc] init];
 		self.locationManager.delegate = self; // Tells the location manager to send updates to this object
-        [self.locationManager requestAlwaysAuthorization];
+        if([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) [self.locationManager requestAlwaysAuthorization];
 		self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 		self.locationManager.distanceFilter = 5; //Minimum change of 5 meters for update
         [self.locationManager startUpdatingLocation];
