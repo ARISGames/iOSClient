@@ -9,6 +9,7 @@
 #import "LoadingViewController.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "ARISTemplate.h"
 #import "ARISAppDelegate.h"
 
 @interface LoadingViewController()
@@ -103,8 +104,9 @@
     if(!retryGameButton)
     {
         retryGameButton = [[UIButton alloc] init];
-        [retryGameButton setTitle:@"Retry" forState:UIControlStateNormal];
-        retryGameButton.frame = CGRectMake(20,400,100,20);
+        [retryGameButton setTitle:@"Connection Failed. Retry?" forState:UIControlStateNormal];
+        [retryGameButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+        retryGameButton.frame = CGRectMake(20,400,220,20);
         [retryGameButton addTarget:self action:@selector(gameFetchRetryRequested) forControlEvents:UIControlEventTouchUpInside];
     }
     [self.view addSubview:retryGameButton];
@@ -129,8 +131,9 @@
     if(!retryPlayerButton)
     {
         retryPlayerButton = [[UIButton alloc] init];
-        [retryPlayerButton setTitle:@"Retry" forState:UIControlStateNormal];
-        retryPlayerButton.frame = CGRectMake(20,400,100,20);
+        [retryPlayerButton setTitle:@"Connection Failed. Retry?" forState:UIControlStateNormal];
+        [retryPlayerButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+        retryPlayerButton.frame = CGRectMake(20,400,220,20);
         [retryPlayerButton addTarget:self action:@selector(playerFetchRetryRequested) forControlEvents:UIControlEventTouchUpInside];
     }
     [self.view addSubview:retryPlayerButton];
