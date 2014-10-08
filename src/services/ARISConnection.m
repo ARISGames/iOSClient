@@ -26,7 +26,7 @@ NSString *const kARISServerServicePackage = @"v2";
     ARISServiceGraveyard *graveyard;
     NSString *server;
     NSMutableDictionary *connections;
-    NSMutableDictionary *requestDupMap; 
+    NSMutableDictionary *requestDupMap;
     NSDictionary *auth;
 }
 @end
@@ -37,15 +37,15 @@ NSString *const kARISServerServicePackage = @"v2";
 {
     if(self = [super init])
     {
-        jsonParser = [[SBJsonParser alloc] init]; 
-        jsonWriter = [[SBJsonWriter alloc] init];  
+        jsonParser = [[SBJsonParser alloc] init];
+        jsonWriter = [[SBJsonWriter alloc] init];
         server = s;
         graveyard = g;
         connections   = [[NSMutableDictionary alloc] initWithCapacity:20];
-        requestDupMap = [[NSMutableDictionary alloc] initWithCapacity:20]; 
-        
+        requestDupMap = [[NSMutableDictionary alloc] initWithCapacity:20];
+
         _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN", self, @selector(setAuth), nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT", self, @selector(unsetAuth), nil); 
+        _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT", self, @selector(unsetAuth), nil);
     }
     return self;
 }
@@ -56,7 +56,7 @@ NSString *const kARISServerServicePackage = @"v2";
 
 - (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict
 {
-    [self performAsyncURLRequest:[self createRequestURLFromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r allowDuplicates:NO userInfo:dict];   
+    [self performAsyncURLRequest:[self createRequestURLFromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r allowDuplicates:NO userInfo:dict];
 }
 
 - (ARISServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
@@ -66,7 +66,7 @@ NSString *const kARISServerServicePackage = @"v2";
 
 - (void) performRevivalWithRequest:(RequestCD *)r
 {
-    [self performAsyncURLRequest:[self createRequestURLWithRequest:r] handler:nil successSelector:nil failSelector:nil retryOnFail:YES allowDuplicates:NO userInfo:nil];   
+    [self performAsyncURLRequest:[self createRequestURLWithRequest:r] handler:nil successSelector:nil failSelector:nil retryOnFail:YES allowDuplicates:NO userInfo:nil];
 }
 
 - (NSString *) hashFromURLReq:(NSURLRequest *)rURL
@@ -83,19 +83,19 @@ NSString *const kARISServerServicePackage = @"v2";
             NSLog(@"Dup req abort : %@",rURL.URL.absoluteString);
             #ifdef CONNECTION_DEBUG
             NSLog(@"Dup req data  : %@", [[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]);
-            #endif 
+            #endif
             return;
         }
         else [requestDupMap setObject:[rURL.URL absoluteString] forKey:[self hashFromURLReq:rURL]];
-    } 
-    
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;   
+    }
+
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSLog(@"Req asynch URL: %@", rURL.URL);
     #ifdef CONNECTION_DEBUG
     NSLog(@"Req async data: %@", [[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]);
     #endif
-    
+
     ARISServiceResult *rs = [[ARISServiceResult alloc] init];
     rs.asyncData = [[NSMutableData alloc] initWithCapacity:2048];
     rs.userInfo = u;
@@ -103,47 +103,47 @@ NSString *const kARISServerServicePackage = @"v2";
     rs.connection = [[NSURLConnection alloc] initWithRequest:rURL delegate:self];
     rs.handler = h;
     rs.successSelector = ss;
-    rs.failSelector = fs; 
+    rs.failSelector = fs;
     rs.retryOnFail = r;
     rs.start = [NSDate date];
-	
+
     [connections setObject:rs forKey:rs.connection.description];
-	[rs.connection start];
+    [rs.connection start];
 }
 
 - (ARISServiceResult *) performSyncURLRequest:(NSURLRequest *)rURL userInfo:(NSDictionary *)u
 {
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES; 
-    NSLog(@"Req synchr URL: %@", rURL.URL); 
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSLog(@"Req synchr URL: %@", rURL.URL);
+
     ARISServiceResult *sr = [[ARISServiceResult alloc] init];
     sr.userInfo = u;
-    sr.urlRequest = rURL; 
+    sr.urlRequest = rURL;
     sr.start = [NSDate date];
-    
+
     NSURLResponse *response = [[NSURLResponse alloc] init]; //why do we just throw these out?
     NSError *error = [[NSError alloc] init];                //why do we just throw these out?
     NSData* result = [NSURLConnection sendSynchronousRequest:rURL returningResponse:&response error:&error];
-    
+
     sr.time = -1*[sr.start timeIntervalSinceNow];
-	
-	if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-	if(!result)
+
+    if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    if(!result)
     {
-		NSLog(@"ARISConnection: performSynchronousRequest Error");
-        ///* silently handle errors */[[ARISAlertHandler sharedAlertHandler] showNetworkAlert]; 
-		return nil;
-	}
+      NSLog(@"ARISConnection: performSynchronousRequest Error");
+      ///* silently handle errors */[[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
+      return nil;
+    }
     sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding]];
-    
+
     return sr;
 }
 
 - (NSURLRequest *) createRequestURLFromService:(NSString *)s method:(NSString *)method arguments:(NSDictionary *)args
 {
-    NSString *requestBaseString = [NSMutableString stringWithFormat:@"%@/json.php/%@.%@.%@/", server, kARISServerServicePackage, s, method];	 
-    
+    NSString *requestBaseString = [NSMutableString stringWithFormat:@"%@/json.php/%@.%@.%@/", server, kARISServerServicePackage, s, method];
+
     if(auth)
     {
         //if this isn't the most awkward shuffle of mutability...
@@ -151,27 +151,27 @@ NSString *const kARISServerServicePackage = @"v2";
         margs[@"auth"] = auth; //inject authentication for all requests
         args = margs;
     }
-    
+
     NSString *sData = [jsonWriter stringWithObject:args];
     NSData *data = [sData dataUsingEncoding:NSUTF8StringEncoding];
-    
+
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestBaseString]];
     [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"]; 
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"]; 
+    [urlRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];
     [urlRequest setHTTPBody:data];
-    
-    return urlRequest; 
+
+    return urlRequest;
 }
 
 - (NSURLRequest *) createRequestURLWithRequest:(RequestCD *)r
 {
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:r.url]];
     [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"]; 
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setValue:[NSString stringWithFormat:@"%d", [r.body length]] forHTTPHeaderField:@"Content-Length"]; 
+    [urlRequest setValue:[NSString stringWithFormat:@"%d", [r.body length]] forHTTPHeaderField:@"Content-Length"];
     [urlRequest setHTTPBody:r.body];
     return urlRequest;
 }
@@ -186,41 +186,44 @@ NSString *const kARISServerServicePackage = @"v2";
 {
     ARISServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
-    
+
     [requestDupMap removeObjectForKey:[self hashFromURLReq:sr.urlRequest]];
-    
-    sr.time = -1*[sr.start timeIntervalSinceNow]; 
-    NSLog(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time); 
+
+    sr.time = -1*[sr.start timeIntervalSinceNow];
+    NSLog(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time);
     #ifdef CONNECTION_DEBUG
     NSLog(@"Fin async data: %@", [[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]);
-    #endif 
-    
-    sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];  
+    #endif
+
+    sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];
     [connections removeObjectForKey:c.description];
-    if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;   
+    if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     sr.connection = nil;
     sr.asyncData = nil;
-    
-	if(sr.handler && sr.successSelector)
-		[sr.handler performSelector:sr.successSelector withObject:sr];
+
+    if(sr.handler && sr.successSelector)
+        [sr.handler performSelector:sr.successSelector withObject:sr];
 }
 
 - (void) connection:(NSURLConnection *)c didFailWithError:(NSError *)error
 {
     ARISServiceResult *sr = [connections objectForKey:c.description];
     if(!sr) return;
-    
+
+    [requestDupMap removeObjectForKey:[self hashFromURLReq:sr.urlRequest]];
+
+    sr.time = -1*[sr.start timeIntervalSinceNow];
+    NSLog(@"Fail async URL: %@\t(%f)", sr.urlRequest.URL, sr.time);
+    NSLog(@"Fail async URL: Info: %@ , %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+
     [connections removeObjectForKey:c.description];
     if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-	_ARIS_NOTIF_SEND_(@"ConnectionLost",nil,nil);
-    NSLog(@"*** ARISConnection: requestFailed: %@ %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
-    
+
     if(sr.retryOnFail)
         [graveyard addServiceResult:sr];
-   	if(sr.handler && sr.failSelector)
-		[sr.handler performSelector:sr.failSelector withObject:error];
-    
+    if(sr.handler && sr.failSelector)
+        [sr.handler performSelector:sr.failSelector withObject:error];
+
     ///* silently handle errors */ [[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
 }
 
@@ -244,7 +247,7 @@ NSString *const kARISServerServicePackage = @"v2";
          */
         return nil;
     }
-    
+
     int returnCode = [[result objectForKey:@"returnCode"] intValue];
     if(returnCode == 0) return [result objectForKey:@"data"];
     else

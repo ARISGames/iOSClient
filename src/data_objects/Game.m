@@ -25,7 +25,7 @@ const int playerDatasToReceive = 7;
 
     int receivedPlayerData;
     BOOL playerDataReceived;
-    
+
     NSTimer *poller;
 }
 @end
@@ -100,7 +100,7 @@ const int playerDatasToReceive = 7;
 
         icon_media_id = [dict validIntForKey:@"icon_media_id"];
         media_id = [dict validIntForKey:@"media_id"];
-        
+
         intro_scene_id = [dict validIntForKey:@"intro_scene_id"];
 
         //authors = [dict validObjectForKey:@"authors"];

@@ -29,17 +29,17 @@
 {
   int game_id;
   NSString *name;
-  NSString *desc; 
+  NSString *desc;
   BOOL published;
   NSString *type;
   CLLocation *location;
   int player_count;
 
-  int icon_media_id; 
+  int icon_media_id;
   int media_id;
 
   int intro_scene_id;
-    
+
   NSMutableArray *authors;
   NSMutableArray *comments;
 
@@ -75,17 +75,17 @@
 
 @property (nonatomic, assign) int game_id;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *desc; 
+@property (nonatomic, strong) NSString *desc;
 @property (nonatomic, assign) BOOL published;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, assign) int player_count;
 - (int) rating;
 
-@property (nonatomic, assign) int icon_media_id; 
+@property (nonatomic, assign) int icon_media_id;
 @property (nonatomic, assign) int media_id;
 
-@property (nonatomic, assign) int intro_scene_id; 
+@property (nonatomic, assign) int intro_scene_id;
 
 @property (nonatomic, strong) NSMutableArray *authors;
 @property (nonatomic, strong) NSMutableArray *comments;
@@ -103,18 +103,18 @@
 
 @property (nonatomic, assign) int inventory_weight_cap;
 
-@property (nonatomic, strong) ScenesModel    *scenesModel; 
-@property (nonatomic, strong) PlaquesModel   *plaquesModel; 
-@property (nonatomic, strong) ItemsModel     *itemsModel; 
-@property (nonatomic, strong) DialogsModel   *dialogsModel; 
-@property (nonatomic, strong) WebPagesModel  *webPagesModel; 
-@property (nonatomic, strong) TagsModel      *tagsModel; 
-@property (nonatomic, strong) EventsModel    *eventsModel; 
-@property (nonatomic, strong) TriggersModel  *triggersModel; 
-@property (nonatomic, strong) OverlaysModel  *overlaysModel; 
-@property (nonatomic, strong) InstancesModel *instancesModel; 
-@property (nonatomic, strong) TabsModel      *tabsModel; 
-@property (nonatomic, strong) LogsModel      *logsModel; 
+@property (nonatomic, strong) ScenesModel    *scenesModel;
+@property (nonatomic, strong) PlaquesModel   *plaquesModel;
+@property (nonatomic, strong) ItemsModel     *itemsModel;
+@property (nonatomic, strong) DialogsModel   *dialogsModel;
+@property (nonatomic, strong) WebPagesModel  *webPagesModel;
+@property (nonatomic, strong) TagsModel      *tagsModel;
+@property (nonatomic, strong) EventsModel    *eventsModel;
+@property (nonatomic, strong) TriggersModel  *triggersModel;
+@property (nonatomic, strong) OverlaysModel  *overlaysModel;
+@property (nonatomic, strong) InstancesModel *instancesModel;
+@property (nonatomic, strong) TabsModel      *tabsModel;
+@property (nonatomic, strong) LogsModel      *logsModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;
 @property (nonatomic, strong) NotesModel     *notesModel;
 
