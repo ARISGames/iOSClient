@@ -9,4 +9,5 @@
 #import "InstantiableViewController.h"
 
 @implementation InstantiableViewController
+- (Instance *) instance { return nil; }
 @end

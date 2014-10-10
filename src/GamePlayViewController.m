@@ -170,7 +170,7 @@
         [displayQueue performSelector:@selector(dequeueTrigger) withObject:nil afterDelay:1];
         return YES;
     }
-    
+
 
     ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:NO completion:nil];
@@ -183,13 +183,12 @@
     [nav.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
 
     [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
-    [_MODEL_LOGS_ playerViewedContent:i.object_type id:i.object_id];
     return YES;
 }
 
-- (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)govc
+- (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)ivc
 {
-    [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
+    [ivc.navigationController dismissViewControllerAnimated:NO completion:nil];
 
     //Phil hates that the frame changes depending on what view you add it to...
     gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
@@ -197,6 +196,8 @@
                                                                 gameNotificationViewController.view.frame.size.width,
                                                                 gameNotificationViewController.view.frame.size.height);
     [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+
+    [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
 
     [displayQueue dequeueTrigger];
 }

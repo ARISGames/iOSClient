@@ -27,15 +27,15 @@ const int VIEW_MODE_TAG  = 2;
     UITableView *table;
     UISearchBar *searchBar;
     NSString *filterText;
-    
+
     int viewMode;
     NoteTag *filterTag;
-    
+
     NSArray *filteredNotes;
-    
+
     UILabel *navTitleLabel;
     UIView *navTitleView;
-    
+
     id <NotebookNotesViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -49,10 +49,10 @@ const int VIEW_MODE_TAG  = 2;
     {
         viewMode = 1;
         filterText = @"";
-        
+
   _ARIS_NOTIF_LISTEN_(@"NewNoteListAvailable",self,@selector(newNoteListAvailable),nil);
   _ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);
-        
+
         delegate = d;
     }
     return self;
@@ -62,13 +62,13 @@ const int VIEW_MODE_TAG  = 2;
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     searchBar = [[UISearchBar alloc] init];
     searchBar.delegate = self;
     searchBar.showsCancelButton = NO;
-    
+
     navTitleView = [[UIView alloc] init];
-    
+
     navTitleLabel = [[UILabel alloc] init];
     navTitleLabel.font = [ARISTemplate ARISTitleFont];
     navTitleLabel.textAlignment = NSTextAlignmentCenter;
@@ -76,30 +76,30 @@ const int VIEW_MODE_TAG  = 2;
     {
         case VIEW_MODE_MINE: navTitleLabel.text = NSLocalizedString(@"NotebookMyNotesKey", @"");    break;
         case VIEW_MODE_ALL:  navTitleLabel.text = NSLocalizedString(@"NotebookAllNotesKey", @"");   break;
-        case VIEW_MODE_TAG:  navTitleLabel.text = filterTag.text; break; 
+        case VIEW_MODE_TAG:  navTitleLabel.text = filterTag.text; break;
     }
-    
+
     [navTitleView addSubview:navTitleLabel];
     self.navigationItem.titleView = navTitleView;
-    
+
     table = [[UITableView alloc] initWithFrame:self.view.frame];
     table.contentInset = UIEdgeInsetsMake(100,0,49,0);
-    [table setContentOffset:CGPointMake(0,-100)];  
+    [table setContentOffset:CGPointMake(0,-100)];
     table.delegate   = self;
     table.dataSource = self;
-    
+
     [self.view addSubview:table];
-    [self.view addSubview:searchBar];   
+    [self.view addSubview:searchBar];
 }
 
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
     navTitleView.frame  = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
-    navTitleLabel.frame = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);  
-    
+    navTitleLabel.frame = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);
+
     searchBar.frame = CGRectMake(-4,64,self.view.bounds.size.width+8,36);//weird width/height because apple
-    
+
     table.frame = self.view.frame;
 }
 
@@ -111,19 +111,19 @@ const int VIEW_MODE_TAG  = 2;
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];  
-    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+
     [table reloadData];
 }
 
 - (void) newNoteListAvailable
 {
-    [table reloadData]; 
+    [table reloadData];
 }
 
 - (void) noteDataAvailable:(NSNotification *)n
 {
-    [table reloadData];  
+    [table reloadData];
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView
@@ -137,14 +137,14 @@ const int VIEW_MODE_TAG  = 2;
     if     (viewMode == VIEW_MODE_MINE) typeFilteredNotes = [_MODEL_GAME_.notesModel playerNotes];
     else if(viewMode == VIEW_MODE_ALL)  typeFilteredNotes = [_MODEL_GAME_.notesModel listNotes];
     else if(viewMode == VIEW_MODE_TAG)  typeFilteredNotes = [_MODEL_GAME_.notesModel notesMatchingTag:filterTag];
-    
+
     NSMutableArray *textFilteredNotes;
     if([filterText isEqualToString:@""])
         textFilteredNotes = [NSMutableArray arrayWithArray:typeFilteredNotes];
     else
     {
-        Note *n; 
-        textFilteredNotes = [[NSMutableArray alloc] initWithCapacity:typeFilteredNotes.count]; 
+        Note *n;
+        textFilteredNotes = [[NSMutableArray alloc] initWithCapacity:typeFilteredNotes.count];
         for(int i = 0; i < typeFilteredNotes.count; i++)
         {
             n = [typeFilteredNotes objectAtIndex:i];
@@ -153,23 +153,23 @@ const int VIEW_MODE_TAG  = 2;
                 [textFilteredNotes addObject:n];
             //Search description
             else if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
-                [textFilteredNotes addObject:n]; 
+                [textFilteredNotes addObject:n];
             //Search owner
             else if([n.owner.display_name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
-                [textFilteredNotes addObject:n];  
+                [textFilteredNotes addObject:n];
             //Search tags
             else
             {
                 for(int j = 0; j < n.tags.count; j++)
-                    if([((NoteTag*)[n.tags objectAtIndex:j]).text rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)    
+                    if([((NoteTag*)[n.tags objectAtIndex:j]).text rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                     {
-                        [textFilteredNotes addObject:n]; 
+                        [textFilteredNotes addObject:n];
                         break; //must break so we don't add same note multiple times
                     }
             }
         }
     }
-    
+
     filteredNotes = _ARIS_ARRAY_SORTED_ON_(textFilteredNotes,@"created");
     return filteredNotes.count + (1-_MODEL_GAME_.notesModel.listComplete);
 }
@@ -183,26 +183,26 @@ const int VIEW_MODE_TAG  = 2;
 {
     if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= filteredNotes.count)
     {
-        [_MODEL_GAME_.notesModel getNextNotes]; 
+        [_MODEL_GAME_.notesModel getNextNotes];
         UITableViewCell *cell;
-        if(!(cell = [table dequeueReusableCellWithIdentifier:@"loadingCell"])) 
+        if(!(cell = [table dequeueReusableCellWithIdentifier:@"loadingCell"]))
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadingCell"];
-                             
+
             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             spinner.frame = CGRectMake(cell.frame.size.width-65, 15, 60, 15);
             [cell addSubview:spinner];
-            [spinner startAnimating]; 
+            [spinner startAnimating];
         }
         return cell;
     }
-    
+
     NoteCell *cell;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
-        cell = [[NoteCell alloc] initWithDelegate:self]; 
+        cell = [[NoteCell alloc] initWithDelegate:self];
     Note *n = [filteredNotes objectAtIndex:indexPath.row];
-    if(n.stubbed) [_MODEL_GAME_.notesModel getDetailsForNote:n];   
-    [cell populateWithNote:n loading:n.stubbed]; 
+    if(n.stubbed) [_MODEL_GAME_.notesModel getDetailsForNote:n];
+    [cell populateWithNote:n loading:n.stubbed];
 
     return cell;
 }
@@ -210,44 +210,44 @@ const int VIEW_MODE_TAG  = 2;
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= filteredNotes.count)  return;
-    
+
     NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[filteredNotes objectAtIndex:indexPath.row] delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];
 }
 
 - (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)govc
 {
-    [self.navigationController popToViewController:self animated:YES];    
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (void) searchBar:(UISearchBar *)s textDidChange:(NSString *)t
 {
     filterText = t;
-    searchBar.showsCancelButton = YES; 
-    [table reloadData];   
+    searchBar.showsCancelButton = YES;
+    [table reloadData];
 }
 
 - (void) searchBarCancelButtonClicked:(UISearchBar *)s
 {
     filterText = @"";
     searchBar.text = @"";
-    [searchBar resignFirstResponder]; 
-    searchBar.showsCancelButton = NO;  
-    [table reloadData]; 
+    [searchBar resignFirstResponder];
+    searchBar.showsCancelButton = NO;
+    [table reloadData];
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)s
 {
     [searchBar resignFirstResponder];
-    searchBar.showsCancelButton = NO;  
-    [table reloadData];  
+    searchBar.showsCancelButton = NO;
+    [table reloadData];
 }
 
 - (void) setModeAll
 {
     viewMode = VIEW_MODE_ALL;
     navTitleLabel.text = NSLocalizedString(@"NotebookAllNotesKey", @"");
-    [table reloadData]; 
+    [table reloadData];
 }
 
 - (void) setModeMine
@@ -261,7 +261,7 @@ const int VIEW_MODE_TAG  = 2;
 {
     viewMode = VIEW_MODE_TAG;
     filterTag = t;
-    navTitleLabel.text = filterTag.text;    
+    navTitleLabel.text = filterTag.text;
     [table reloadData];
 }
 
@@ -272,7 +272,7 @@ const int VIEW_MODE_TAG  = 2;
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);                    
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

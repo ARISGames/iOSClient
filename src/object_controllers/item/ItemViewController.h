@@ -15,7 +15,7 @@
 
 @interface ItemViewController : InstantiableViewController
 {
-  Item *item; 
+  Item *item;
   Instance *instance;
 }
 @property (nonatomic, strong) Item *item;

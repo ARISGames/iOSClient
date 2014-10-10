@@ -54,6 +54,11 @@
     return self;
 }
 
+- (Instance *) instance
+{
+  return instance;
+}
+
 - (void) loadView
 {
     [super loadView];

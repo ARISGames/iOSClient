@@ -27,12 +27,12 @@ static NSString * const OPTION_CELL = @"option";
 {
     Plaque *plaque;
     Instance *instance;
-    
+
     UIScrollView *scrollView;
     ARISMediaView  *mediaView;
     ARISWebView *webView;
     UIView *continueButton;
-    UILabel *continueLbl; 
+    UILabel *continueLbl;
     UIImageView *arrow;
     UIView *line;
     id <InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
@@ -51,30 +51,35 @@ static NSString * const OPTION_CELL = @"option";
         plaque = [_MODEL_PLAQUES_ plaqueForId:instance.object_id];
         self.title = plaque.name;
     }
-    
+
     return self;
+}
+
+- (Instance *) instance
+{
+  return instance;
 }
 
 - (void) loadView
 {
     [super loadView];
-    
+
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
-    
+
     scrollView = [[UIScrollView alloc] init];
-    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);   
-    scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop]; 
-    scrollView.clipsToBounds = NO; 
+    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
+    scrollView.clipsToBounds = NO;
 
     webView = [[ARISWebView alloc] initWithDelegate:self];
     webView.backgroundColor = [UIColor clearColor];
     webView.scrollView.bounces = NO;
     webView.scrollView.scrollEnabled = NO;
     webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
-    
+
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
-    
+
     continueButton = [[UIView alloc] init];
     continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
     continueButton.userInteractionEnabled = YES;
@@ -86,16 +91,16 @@ static NSString * const OPTION_CELL = @"option";
     continueLbl.font = [ARISTemplate ARISButtonFont];
     [continueButton addSubview:continueLbl];
     [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
-    
+
     arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
     line = [[UIView alloc] init];
     line.backgroundColor = [UIColor ARISColorLightGray];
-    
+
     [self.view addSubview:scrollView];
     [self.view addSubview:continueButton];
     [self.view addSubview:arrow];
     [self.view addSubview:line];
-    
+
     [self loadPlaque];
 }
 
@@ -104,13 +109,13 @@ static NSString * const OPTION_CELL = @"option";
     [super viewWillLayoutSubviews];
     scrollView.frame = self.view.bounds;
     scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);  
-    
+    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
+
     webView.frame = CGRectMake(0, mediaView.frame.origin.y+mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height > 10 ? webView.frame.size.height : 10);
-    
+
     continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
     continueLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,44);
-    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19); 
+    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19);
     line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
 }
 
@@ -118,18 +123,18 @@ static NSString * const OPTION_CELL = @"option";
 {
     if(![plaque.desc isEqualToString:@""])
     {
-        [scrollView addSubview:webView]; 
+        [scrollView addSubview:webView];
         webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], plaque.desc] baseURL:nil]; 
+        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], plaque.desc] baseURL:nil];
     }
-    
-    Media *media = [_MODEL_MEDIA_ mediaForId:plaque.media_id];  
+
+    Media *media = [_MODEL_MEDIA_ mediaForId:plaque.media_id];
     if(media)
     {
-        [scrollView addSubview:mediaView];   
+        [scrollView addSubview:mediaView];
         [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
         [mediaView setMedia:media];
-    } 
+    }
 }
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
@@ -145,7 +150,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
 {
-    Media *media = [_MODEL_MEDIA_ mediaForId:plaque.media_id];   
+    Media *media = [_MODEL_MEDIA_ mediaForId:plaque.media_id];
     MPMoviePlayerViewController *movieViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
     //error message that is logged after this line is possibly an ios 7 simulator bug...
     [self presentMoviePlayerViewControllerAnimated:movieViewController];
@@ -165,7 +170,7 @@ static NSString * const OPTION_CELL = @"option";
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     webView.alpha = 1.00;
-    
+
     //Calculate the height of the web content
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     [webView setFrame:CGRectMake(webView.frame.origin.x,
@@ -177,7 +182,6 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) continueButtonTouched
 {
-	//[_SERVICES_ updateServerPlaqueViewed:plaque.plaque_id fromLocation:0];
     [delegate instantiableViewControllerRequestsDismissal:self];
 }
 
@@ -197,7 +201,7 @@ static NSString * const OPTION_CELL = @"option";
 {
     webView.delegate = nil;
     [webView stopLoading];
-    _ARIS_NOTIF_IGNORE_ALL_(self);                            
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

@@ -25,18 +25,18 @@
 {
     //Labels as buttons (easier formatting)
     UILabel *dropBtn;
-    UILabel *destroyBtn; 
-    UILabel *pickupBtn;  
+    UILabel *destroyBtn;
+    UILabel *pickupBtn;
     UIView *line; //separator between buttons/etc...
-    
+
     ARISWebView *webView;
     ARISCollapseView *collapseView;
     ARISWebView *descriptionView;
     UIScrollView *scrollView;
     ARISMediaView *imageView;
-    
+
     UIActivityIndicatorView *activityIndicator;
-    
+
     id<InstantiableViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
@@ -68,7 +68,7 @@
     btn.textColor       = [ARISTemplate ARISColorText];
     [btn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:s]];
     [btn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
-    
+
     return btn;
 }
 
@@ -76,15 +76,15 @@
 {
     [super loadView];
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
-    
+
     int numButtons = 0;
     if(instance.owner_id == _MODEL_PLAYER_.user_id && item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
     if(instance.owner_id == _MODEL_PLAYER_.user_id && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
     //if([(NSObject *)source isKindOfClass:[Location class]] && (instance.qty > 0 || instance.infinite_qty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
-    
+
     line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
-    
+
     //Web Item
     //if(item.itemType == ItemTypeWebPage && item.url && (![item.url isEqualToString: @"0"]) &&(![item.url isEqualToString:@""]))
     if(false)
@@ -92,12 +92,12 @@
         webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
         if(numButtons > 0) webView.scrollView.contentInset = UIEdgeInsetsMake(64,0,54,0);
         else               webView.scrollView.contentInset = UIEdgeInsetsMake(64,0,10,0);
-        
+
         webView.hidden                          = YES;
         webView.scalesPageToFit                 = YES;
         webView.allowsInlineMediaPlayback       = YES;
         webView.mediaPlaybackRequiresUserAction = NO;
-        
+
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:item.url]] withAppendation:[NSString stringWithFormat:@"item_id=%d",item.item_id]];
     }
     //Normal Item
@@ -110,11 +110,11 @@
         scrollView.maximumZoomScale = 20;
         scrollView.minimumZoomScale = 1;
         scrollView.delegate = self;
-        
+
         Media *media;
         if(item.media_id) media = [_MODEL_MEDIA_ mediaForId:item.media_id];
         else                  media = [_MODEL_MEDIA_ mediaForId:item.icon_media_id];
-        
+
         if(media)
         {
             imageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,scrollView.frame.size.width,scrollView.frame.size.height-64) delegate:self];
@@ -124,7 +124,7 @@
             [scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToDescription:)]];
         }
     }
-    
+
     if(![item.desc isEqualToString:@""])
     {
         descriptionView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
@@ -136,22 +136,22 @@
         [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], item.desc] baseURL:nil];
         collapseView = [[ARISCollapseView alloc] initWithContentView:descriptionView frame:CGRectMake(0,self.view.bounds.size.height-(10+((numButtons > 0)*44)),self.view.frame.size.width,10) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     }
-    
+
     //nil subviews should be ignored
     [self.view addSubview:webView];
     [self.view addSubview:scrollView];
     [self.view addSubview:collapseView];
-    [self updateViewButtons]; 
+    [self updateViewButtons];
     [self.view addSubview:line];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     [self updateViewButtons];
-    [self refreshTitle]; 
-    
+    [self refreshTitle];
+
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
@@ -162,7 +162,7 @@
 
 - (void) refreshTitle
 {
-    if(instance.qty < 2 || instance.infinite_qty) self.title = item.name; 
+    if(instance.qty < 2 || instance.infinite_qty) self.title = item.name;
     else self.title = [NSString stringWithFormat:@"%@ x%d",item.name,instance.qty];
 }
 
@@ -174,28 +174,28 @@
 - (void) updateViewButtons
 {
     if(destroyBtn) [destroyBtn removeFromSuperview];
-    if(dropBtn)    [dropBtn    removeFromSuperview]; 
-    if(pickupBtn)  [pickupBtn  removeFromSuperview]; 
-    if(line)       [line       removeFromSuperview]; 
-    
+    if(dropBtn)    [dropBtn    removeFromSuperview];
+    if(pickupBtn)  [pickupBtn  removeFromSuperview];
+    if(line)       [line       removeFromSuperview];
+
     if(instance.qty < 1 && !instance.infinite_qty)
     {
         destroyBtn = nil;
-        dropBtn    = nil; 
-        pickupBtn  = nil; 
+        dropBtn    = nil;
+        pickupBtn  = nil;
     }
-    
+
     int numButtons = (destroyBtn != nil) + (dropBtn != nil) + (pickupBtn != nil);
     int numPlacedButtons = 0;
     if(destroyBtn) { destroyBtn.frame = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
     if(dropBtn)    { dropBtn.frame    = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
     if(pickupBtn)  { pickupBtn.frame  = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
-    
+
     [self.view addSubview:destroyBtn];
     [self.view addSubview:dropBtn];
     [self.view addSubview:pickupBtn];
     if(numButtons > 0)[self.view addSubview:line];
-    
+
     if(collapseView) [collapseView setFrame:CGRectMake(0,self.view.bounds.size.height-((descriptionView.frame.size.height+10)+((numButtons > 0) ? 44 : 0)),self.view.frame.size.width,descriptionView.frame.size.height+10)];
 }
 
@@ -210,17 +210,17 @@
 }
 
 - (void) dropButtonTouched
-{	
+{
     int amtCanDrop = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
-    
+
     if(amtCanDrop > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDropKey", @"") positive:NO maxqty:instance.qty delegate:self]; 
-        
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDropKey", @"") positive:NO maxqty:instance.qty delegate:self];
+
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else if(amtCanDrop > 0)
-        [self dropItemQty:1]; 
+        [self dropItemQty:1];
 }
 
 - (void) dropItemQty:(int)q
@@ -228,7 +228,7 @@
     if([_MODEL_ITEMS_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
-        [self updateViewButtons]; 
+        [self updateViewButtons];
         [self refreshTitle];
     }
 }
@@ -236,11 +236,11 @@
 - (void) destroyButtonTouched
 {
     int amtCanDestroy = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
-    
+
     if(amtCanDestroy > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDeleteKey", @"") positive:NO maxqty:instance.qty delegate:self]; 
-        
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDeleteKey", @"") positive:NO maxqty:instance.qty delegate:self];
+
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else if(amtCanDestroy > 0)
@@ -252,8 +252,8 @@
     if([_MODEL_ITEMS_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
-        [self updateViewButtons];  
-        [self refreshTitle];   
+        [self updateViewButtons];
+        [self refreshTitle];
     }
 }
 
@@ -261,8 +261,8 @@
 {
     int amtMoreCanHold = [_MODEL_ITEMS_ qtyAllowedToGiveForItem:item.item_id];
     int allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
-    if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;  
-    
+    if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;
+
     if(allowablePickupAmt > 1 && !instance.infinite_qty)
     {
         ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES maxqty:amtMoreCanHold delegate:self];
@@ -276,13 +276,13 @@
 {
     [_MODEL_GAME_.itemsModel giveItemToPlayer:item.item_id qtyToAdd:q];
     instance.qty -= q;
-    [self updateViewButtons];   
-    [self refreshTitle];   
+    [self updateViewButtons];
+    [self refreshTitle];
 }
 
 - (void) amtChosen:(int)amt positive:(BOOL)p
 {
-    [[self navigationController] popToViewController:self animated:YES]; 
+    [[self navigationController] popToViewController:self animated:YES];
     if(p)
         [self pickupItemQty:amt];
     else
@@ -294,7 +294,7 @@
     //[self dismissMoviePlayerViewControllerAnimated];
 }
 
-- (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView 
+- (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return imageView;
 }
@@ -312,11 +312,11 @@
 - (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
     if(wv == webView) return YES;
-    
+
     WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
     nullWebPage.url = [r.URL absoluteString];
-    [delegate displayObjectType:@"WEB_PAGE" id:0]; 
-    
+    [delegate displayObjectType:@"WEB_PAGE" id:0];
+
     return NO;
 }
 
@@ -336,12 +336,12 @@
             newHeight = (self.view.bounds.size.height - 64) * (2.0f/3.0f);
         }
         [collapseView setContentFrameHeight:newHeight];
-        
+
         if(newHeight+10 < self.view.bounds.size.height-44-64)
             [collapseView setFrameHeight:newHeight+10];
         else
             [collapseView setFrameHeight:self.view.bounds.size.height-44-64];
-        
+
         [collapseView open];
     }
 }
@@ -390,7 +390,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);                
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

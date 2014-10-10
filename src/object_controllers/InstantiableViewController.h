@@ -14,5 +14,7 @@
 - (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)ivc;
 @end
 
+@class Instance;
 @interface InstantiableViewController : ARISViewController
+- (Instance *) instance;
 @end
