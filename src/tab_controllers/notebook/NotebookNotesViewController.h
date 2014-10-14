@@ -8,6 +8,7 @@
 
 #import "ARISViewController.h"
 
+@class Tag;
 @class NotebookNotesViewController;
 
 @protocol NotebookNotesViewControllerDelegate
@@ -17,10 +18,9 @@
 @interface NotebookNotesViewController : ARISViewController
 
 - (id) initWithDelegate:(id<NotebookNotesViewControllerDelegate>)d;
-/*
+
 - (void) setModeAll;
 - (void) setModeMine;
-//- (void) setModeTag:(NoteTag *)t;
- */
+- (void) setModeTag:(Tag *)t;
 
 @end

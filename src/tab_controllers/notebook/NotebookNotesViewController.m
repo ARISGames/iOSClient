@@ -9,11 +9,9 @@
 #import "NotebookNotesViewController.h"
 #import "NoteViewController.h"
 
-#import <QuartzCore/QuartzCore.h>
-
 #import "AppModel.h"
 #import "Game.h"
-//#import "NoteCell.h"
+#import "NoteCell.h"
 
 #import "User.h"
 
@@ -23,20 +21,18 @@ const int VIEW_MODE_TAG  = 2;
 
 @interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, InstantiableViewControllerDelegate, UISearchBarDelegate>
 {
-    /*
     UITableView *table;
     UISearchBar *searchBar;
-    NSString *filterText;
-
-    int viewMode;
-    //NoteTag *filterTag;
-
-    NSArray *filteredNotes;
 
     UILabel *navTitleLabel;
     UIView *navTitleView;
 
-     */
+    NSArray *filteredNotes;
+
+    int viewMode;
+    Tag *filterTag;
+    NSString *filterText;
+
     id <NotebookNotesViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -48,18 +44,14 @@ const int VIEW_MODE_TAG  = 2;
 {
     if(self = [super init])
     {
-        //viewMode = 1;
-        //filterText = @"";
-
-  //_ARIS_NOTIF_LISTEN_(@"NewNoteListAvailable",self,@selector(newNoteListAvailable),nil);
-  //_ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);
+        viewMode = VIEW_MODE_MINE;
+        filterText = @"";
 
         delegate = d;
     }
     return self;
 }
 
-/*
 - (void) loadView
 {
     [super loadView];
@@ -78,7 +70,7 @@ const int VIEW_MODE_TAG  = 2;
     {
         case VIEW_MODE_MINE: navTitleLabel.text = NSLocalizedString(@"NotebookMyNotesKey", @"");    break;
         case VIEW_MODE_ALL:  navTitleLabel.text = NSLocalizedString(@"NotebookAllNotesKey", @"");   break;
-        case VIEW_MODE_TAG:  navTitleLabel.text = filterTag.text; break;
+        case VIEW_MODE_TAG:  navTitleLabel.text = filterTag.tag; break;
     }
 
     [navTitleView addSubview:navTitleLabel];
@@ -136,9 +128,9 @@ const int VIEW_MODE_TAG  = 2;
 - (int) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
 {
     NSArray *typeFilteredNotes;
-    if     (viewMode == VIEW_MODE_MINE) typeFilteredNotes = [_MODEL_GAME_.notesModel playerNotes];
-    else if(viewMode == VIEW_MODE_ALL)  typeFilteredNotes = [_MODEL_GAME_.notesModel listNotes];
-    else if(viewMode == VIEW_MODE_TAG)  typeFilteredNotes = [_MODEL_GAME_.notesModel notesMatchingTag:filterTag];
+    if     (viewMode == VIEW_MODE_MINE) typeFilteredNotes = [_MODEL_NOTES_ playerNotes];
+    else if(viewMode == VIEW_MODE_ALL)  typeFilteredNotes = [_MODEL_NOTES_ listNotes];
+    else if(viewMode == VIEW_MODE_TAG)  typeFilteredNotes = [_MODEL_NOTES_ notesMatchingTag:filterTag];
 
     NSMutableArray *textFilteredNotes;
     if([filterText isEqualToString:@""])
@@ -157,23 +149,27 @@ const int VIEW_MODE_TAG  = 2;
             else if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n];
             //Search owner
+            /*
             else if([n.owner.display_name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n];
+             */
             //Search tags
             else
             {
+              /*
                 for(int j = 0; j < n.tags.count; j++)
                     if([((NoteTag*)[n.tags objectAtIndex:j]).text rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                     {
                         [textFilteredNotes addObject:n];
                         break; //must break so we don't add same note multiple times
                     }
+               */
             }
         }
     }
 
     filteredNotes = _ARIS_ARRAY_SORTED_ON_(textFilteredNotes,@"created");
-    return filteredNotes.count + (1-_MODEL_GAME_.notesModel.listComplete);
+    return filteredNotes.count;
 }
 
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,37 +179,22 @@ const int VIEW_MODE_TAG  = 2;
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= filteredNotes.count)
-    {
-        [_MODEL_GAME_.notesModel getNextNotes];
-        UITableViewCell *cell;
-        if(!(cell = [table dequeueReusableCellWithIdentifier:@"loadingCell"]))
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadingCell"];
-
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            spinner.frame = CGRectMake(cell.frame.size.width-65, 15, 60, 15);
-            [cell addSubview:spinner];
-            [spinner startAnimating];
-        }
-        return cell;
-    }
-
     NoteCell *cell;
     if(!(cell = (NoteCell *)[table dequeueReusableCellWithIdentifier:[NoteCell cellIdentifier]]))
         cell = [[NoteCell alloc] initWithDelegate:self];
     Note *n = [filteredNotes objectAtIndex:indexPath.row];
-    if(n.stubbed) [_MODEL_GAME_.notesModel getDetailsForNote:n];
-    [cell populateWithNote:n loading:n.stubbed];
+    [cell populateWithNote:n];
 
     return cell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(!_MODEL_GAME_.notesModel.listComplete && indexPath.row >= filteredNotes.count)  return;
-
-    NoteViewController *nvc = [[NoteViewController alloc] initWithNote:[filteredNotes objectAtIndex:indexPath.row] delegate:self];
+    Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //create hacked instance
+    i.object_type = @"NOTE";
+    i.object_id = ((Note *)[filteredNotes objectAtIndex:indexPath.row]).note_id;
+    i.qty = 1;
+    NoteViewController *nvc = [[NoteViewController alloc] initWithInstance:i delegate:self];
     [self.navigationController pushViewController:nvc animated:YES];
 }
 
@@ -259,11 +240,11 @@ const int VIEW_MODE_TAG  = 2;
     [table reloadData];
 }
 
-- (void) setModeTag:(NoteTag *)t
+- (void) setModeTag:(Tag *)t
 {
     viewMode = VIEW_MODE_TAG;
     filterTag = t;
-    navTitleLabel.text = filterTag.text;
+    navTitleLabel.text = filterTag.tag;
     [table reloadData];
 }
 
@@ -276,6 +257,5 @@ const int VIEW_MODE_TAG  = 2;
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
-*/
 
 @end

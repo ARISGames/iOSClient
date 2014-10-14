@@ -9,14 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class Note;
-
 @protocol NoteCellDelegate
 @end
 
 @interface NoteCell : UITableViewCell
-/*
 + (NSString *) cellIdentifier;
 - (id) initWithDelegate:(id<NoteCellDelegate>)d;
-- (void) populateWithNote:(Note *)n loading:(BOOL)l;
- */
+- (void) populateWithNote:(Note *)n;
 @end

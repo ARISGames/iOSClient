@@ -17,7 +17,11 @@
 
 @interface NotesModel()
 {
-    NSMutableDictionary *notes;
+  NSMutableDictionary *notes;
+
+  NSArray *playerNotes;
+  NSArray *listNotes;
+  NSArray *notesMatchingTag;
 }
 
 @end
@@ -36,7 +40,15 @@
 
 - (void) clearGameData
 {
+    [self invalidateCaches];
     notes = [[NSMutableDictionary alloc] init];
+}
+
+- (void) invalidateCaches
+{
+  playerNotes = nil;
+  listNotes = nil;
+  notesMatchingTag = nil;
 }
 
 - (void) notesReceived:(NSNotification *)notif
@@ -46,6 +58,7 @@
 
 - (void) updateNotes:(NSArray *)newNotes
 {
+  [self invalidateCaches];
   Note *newNote;
   NSNumber *newNoteId;
   for(int i = 0; i < newNotes.count; i++)
@@ -68,6 +81,27 @@
 {
   if(!note_id) return [[Note alloc] init];
   return notes[[NSNumber numberWithInt:note_id]];
+}
+
+- (NSArray *) playerNotes
+{
+  if(playerNotes) return playerNotes;
+  playerNotes = @[];
+  return playerNotes;
+}
+
+- (NSArray *) listNotes
+{
+  if(listNotes) return listNotes;
+  listNotes = @[];
+  return listNotes;
+}
+
+- (NSArray *) notesMatchingTag:(Tag *)tag
+{
+  if(notesMatchingTag) return notesMatchingTag;
+  notesMatchingTag = @[];
+  return notesMatchingTag;
 }
 
 - (void) dealloc

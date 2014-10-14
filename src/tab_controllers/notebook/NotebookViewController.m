@@ -12,8 +12,6 @@
 #import "NoteEditorViewController.h"
 #import "NoteTagSelectorViewController.h"
 
-#import <QuartzCore/QuartzCore.h>
-
 #import "AppModel.h"
 #import "Game.h"
 #import "CircleButton.h"
@@ -110,20 +108,23 @@
     [self.view addSubview:newImageButton];
     [self.view addSubview:newVideoButton];
 
+
+    NSString *spacing = @"        "; // yes, really
+
     allNotesButton = [[UILabel alloc] init];
-    allNotesButton.text = [NSString stringWithFormat:@"%@", NSLocalizedString(@"NotebookAllNotesKey", @"")];
+    allNotesButton.text = [NSString stringWithFormat:@"%@%@", spacing, NSLocalizedString(@"NotebookAllNotesKey", @"")];
     allNotesButton.font = [ARISTemplate ARISButtonFont];
     allNotesButton.userInteractionEnabled = YES;
     [allNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(allNotesButtonTouched)]];
 
     myNotesButton = [[UILabel alloc] init];
-    myNotesButton.text = [NSString stringWithFormat:@"%@", NSLocalizedString(@"NotebookMyNotesKey", @"")];
+    myNotesButton.text = [NSString stringWithFormat:@"%@%@", spacing, NSLocalizedString(@"NotebookMyNotesKey", @"")];
     myNotesButton.font = [ARISTemplate ARISButtonFont];
     myNotesButton.userInteractionEnabled = YES;
     [myNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myNotesButtonTouched)]];
 
     labelSelectorButton = [[UILabel alloc] init];
-    labelSelectorButton.text = [NSString stringWithFormat:@"%@", NSLocalizedString(@"LabelsKey", @"")];
+    labelSelectorButton.text = [NSString stringWithFormat:@"%@%@", spacing, NSLocalizedString(@"LabelsKey", @"")];
     labelSelectorButton.font = [ARISTemplate ARISButtonFont];
     labelSelectorButton.userInteractionEnabled = YES;
     [labelSelectorButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelSelectorButtonTouched)]];
