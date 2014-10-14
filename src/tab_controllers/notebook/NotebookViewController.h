@@ -13,6 +13,6 @@
 
 @interface NotebookViewController : ARISGamePlayTabBarViewController
 
-//- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, NotebookViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, NotebookViewControllerDelegate>)d;
 
 @end

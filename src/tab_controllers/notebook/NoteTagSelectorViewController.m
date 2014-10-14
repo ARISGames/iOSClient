@@ -13,15 +13,14 @@
 {
     /*
     NoteTagEditorViewController *tagViewController;
-    id<NoteTagSelectorViewControllerDelegate> __unsafe_unretained delegate;
      */
+    id<NoteTagSelectorViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation NoteTagSelectorViewController
 
-/*
 - (id) initWithDelegate:(id<NoteTagSelectorViewControllerDelegate>)d
 {
     if(self = [super init])
@@ -31,6 +30,7 @@
     return self;
 }
 
+/*
 - (void) loadView
 {
     [super loadView];

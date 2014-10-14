@@ -8,10 +8,9 @@
 
 #import "InstantiableViewController.h"
 
-@class Note;
-@protocol NoteViewControllerDelegate
+@protocol StateControllerProtocol;
+@class Instance;
+@interface NoteViewController : InstantiableViewController
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
 @end
 
-@interface NoteViewController : InstantiableViewController
-//- (id) initWithNote:(Note *)n delegate:(id<InstantiableViewControllerDelegate, NoteViewControllerDelegate>)d;
-@end

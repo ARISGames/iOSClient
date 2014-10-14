@@ -11,13 +11,13 @@
 @class NotebookNotesViewController;
 
 @protocol NotebookNotesViewControllerDelegate
-//- (void) notesViewControllerRequestsDismissal:(NotebookNotesViewController *)n;
+- (void) notesViewControllerRequestsDismissal:(NotebookNotesViewController *)n;
 @end
 
 @interface NotebookNotesViewController : ARISViewController
 
-/*
 - (id) initWithDelegate:(id<NotebookNotesViewControllerDelegate>)d;
+/*
 - (void) setModeAll;
 - (void) setModeMine;
 //- (void) setModeTag:(NoteTag *)t;

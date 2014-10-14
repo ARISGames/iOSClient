@@ -18,9 +18,8 @@
 #import "Game.h"
 #import "CircleButton.h"
 
-@interface NotebookViewController() <InstantiableViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>
+@interface NotebookViewController() <InstantiableViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>
 {
-    /*
     UIView *navTitleView;
     UILabel *navTitleLabel;
 
@@ -28,9 +27,11 @@
     CircleButton *newAudioButton;
     CircleButton *newImageButton;
     CircleButton *newVideoButton;
+
     UILabel *allNotesButton;
     UILabel *myNotesButton;
     UILabel *labelSelectorButton;
+
     NotebookNotesViewController *notesViewController;
     NoteTagSelectorViewController *noteTagSelectorViewController;
 
@@ -39,13 +40,11 @@
     UIView *line2;
     UIView *line3;
     UIView *line4;
-     */
 }
 
 @end
 
 @implementation NotebookViewController
-/*
 
 - (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, NotebookViewControllerDelegate>)d
 {
@@ -83,11 +82,7 @@
     [self.view addSubview:line1];
     [self.view addSubview:line2];
     [self.view addSubview:line3];
-    if ([AppModel sharedAppModel].currentGame.allowShareNoteToList) {
-        [self.view addSubview:line4];
-    }
-
-
+    [self.view addSubview:line4];
 
     UIColor *fc = [UIColor whiteColor];
     UIColor *sc = [UIColor blackColor];
@@ -116,26 +111,24 @@
     [self.view addSubview:newVideoButton];
 
     allNotesButton = [[UILabel alloc] init];
-    allNotesButton.text = [NSString stringWithFormat:@"        %@", NSLocalizedString(@"NotebookAllNotesKey", @"")];
+    allNotesButton.text = [NSString stringWithFormat:@"%@", NSLocalizedString(@"NotebookAllNotesKey", @"")];
     allNotesButton.font = [ARISTemplate ARISButtonFont];
     allNotesButton.userInteractionEnabled = YES;
     [allNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(allNotesButtonTouched)]];
 
     myNotesButton = [[UILabel alloc] init];
-    myNotesButton.text = [NSString stringWithFormat:@"        %@", NSLocalizedString(@"NotebookMyNotesKey", @"")];
+    myNotesButton.text = [NSString stringWithFormat:@"%@", NSLocalizedString(@"NotebookMyNotesKey", @"")];
     myNotesButton.font = [ARISTemplate ARISButtonFont];
     myNotesButton.userInteractionEnabled = YES;
     [myNotesButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myNotesButtonTouched)]];
 
     labelSelectorButton = [[UILabel alloc] init];
-    labelSelectorButton.text = [NSString stringWithFormat:@"        %@", NSLocalizedString(@"LabelsKey", @"")];
+    labelSelectorButton.text = [NSString stringWithFormat:@"%@", NSLocalizedString(@"LabelsKey", @"")];
     labelSelectorButton.font = [ARISTemplate ARISButtonFont];
     labelSelectorButton.userInteractionEnabled = YES;
     [labelSelectorButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelSelectorButtonTouched)]];
 
-    if ([AppModel sharedAppModel].currentGame.allowShareNoteToList) {
-        [self.view addSubview:allNotesButton];
-    }
+    [self.view addSubview:allNotesButton];
     [self.view addSubview:myNotesButton];
     [self.view addSubview:labelSelectorButton];
 
@@ -146,8 +139,8 @@
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    navTitleView.frame        = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
-    navTitleLabel.frame       = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);
+    navTitleView.frame  = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
+    navTitleLabel.frame = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);
 
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2;
@@ -156,15 +149,9 @@
     newImageButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 69, buttonDiameter, buttonDiameter);
     newVideoButton.frame = CGRectMake(buttonPadding*7+buttonDiameter*3, 69, buttonDiameter, buttonDiameter);
 
-    if ([AppModel sharedAppModel].currentGame.allowShareNoteToList) {
-        allNotesButton.frame      = CGRectMake(10, 134, self.view.frame.size.width-20, 30);
-        myNotesButton.frame       = CGRectMake(10, 174, self.view.frame.size.width-20, 30);
-        labelSelectorButton.frame = CGRectMake(10, 214, self.view.frame.size.width-20, 30);
-    }
-    else{
-        myNotesButton.frame       = CGRectMake(10, 134, self.view.frame.size.width-20, 30);
-        labelSelectorButton.frame = CGRectMake(10, 174, self.view.frame.size.width-20, 30);
-    }
+    allNotesButton.frame      = CGRectMake(10, 134, self.view.frame.size.width-20, 30);
+    myNotesButton.frame       = CGRectMake(10, 174, self.view.frame.size.width-20, 30);
+    labelSelectorButton.frame = CGRectMake(10, 214, self.view.frame.size.width-20, 30);
 
     while(allNotesButton.subviews.count      > 0) [[allNotesButton.subviews      objectAtIndex:0] removeFromSuperview];
     while(myNotesButton.subviews.count       > 0) [[myNotesButton.subviews       objectAtIndex:0] removeFromSuperview];
@@ -240,33 +227,33 @@
 
 - (void) newTextButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_TEXT delegate:self] animated:YES];
+    //[self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_TEXT delegate:self] animated:YES];
 }
 
 - (void) newAudioButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_AUDIO delegate:self] animated:YES];
+    //[self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_AUDIO delegate:self] animated:YES];
 }
 
 - (void) newImageButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_IMAGE delegate:self] animated:YES];
+    //[self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_IMAGE delegate:self] animated:YES];
 }
 
 - (void) newVideoButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_VIDEO delegate:self] animated:YES];
+    //[self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_VIDEO delegate:self] animated:YES];
 }
 
 - (void) allNotesButtonTouched
 {
-    [notesViewController setModeAll];
+    //[notesViewController setModeAll];
     [self.navigationController pushViewController:notesViewController animated:YES];
 }
 
 - (void) myNotesButtonTouched
 {
-    [notesViewController setModeMine];
+    //[notesViewController setModeMine];
     [self.navigationController pushViewController:notesViewController animated:YES];
 }
 
@@ -285,10 +272,10 @@
     [self.navigationController popToViewController:self animated:YES];
 }
 
-- (void) noteTagSelectorViewControllerSelectedTag:(NoteTag *)t
+- (void) noteTagSelectorViewControllerSelectedTag:(Tag *)t
 {
     [self.navigationController popToViewController:self animated:NO];
-    [notesViewController setModeTag:t];
+    //[notesViewController setModeTag:t];
     [self.navigationController pushViewController:notesViewController animated:YES];
 }
 
@@ -296,6 +283,5 @@
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
-*/
 
 @end

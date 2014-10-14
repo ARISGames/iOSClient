@@ -13,7 +13,7 @@
 
 #import "AppModel.h"
 #import "Game.h"
-#import "NoteCell.h"
+//#import "NoteCell.h"
 
 #import "User.h"
 
@@ -21,7 +21,7 @@ const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 const int VIEW_MODE_TAG  = 2;
 
-@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, InstantiableViewControllerDelegate, NoteViewControllerDelegate, UISearchBarDelegate>
+@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, InstantiableViewControllerDelegate, UISearchBarDelegate>
 {
     /*
     UITableView *table;
@@ -36,30 +36,30 @@ const int VIEW_MODE_TAG  = 2;
     UILabel *navTitleLabel;
     UIView *navTitleView;
 
-    id <NotebookNotesViewControllerDelegate> __unsafe_unretained delegate;
      */
+    id <NotebookNotesViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation NotebookNotesViewController
 
-/*
 - (id) initWithDelegate:(id<NotebookNotesViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        viewMode = 1;
-        filterText = @"";
+        //viewMode = 1;
+        //filterText = @"";
 
-  _ARIS_NOTIF_LISTEN_(@"NewNoteListAvailable",self,@selector(newNoteListAvailable),nil);
-  _ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);
+  //_ARIS_NOTIF_LISTEN_(@"NewNoteListAvailable",self,@selector(newNoteListAvailable),nil);
+  //_ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);
 
         delegate = d;
     }
     return self;
 }
 
+/*
 - (void) loadView
 {
     [super loadView];

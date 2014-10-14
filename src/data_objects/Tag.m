@@ -14,7 +14,6 @@
 @synthesize tag_id;
 @synthesize tag;
 @synthesize media_id;
-@synthesize player_created;
 @synthesize visible;
 @synthesize sort_index;
 
@@ -25,7 +24,6 @@
         self.tag_id = 0;
         self.tag = @"Tag";
         self.media_id = 0;
-        self.player_created = 0;
         self.visible = 1;
         self.sort_index = 0;
     }
@@ -39,7 +37,6 @@
         self.tag_id         = [dict validIntForKey:@"tag_id"];
         self.tag            = [dict validObjectForKey:@"tag"];
         self.media_id       = [dict validIntForKey:@"media_id"];
-        self.player_created = [dict validIntForKey:@"player_created"];
         self.visible        = [dict validIntForKey:@"visible"];
         self.sort_index     = [dict validIntForKey:@"sort_index"];
     }
@@ -52,7 +49,6 @@
     w.tag_id = self.tag_id;
     w.tag = self.tag;
     w.media_id = self.media_id;
-    w.player_created = self.player_created;
     w.visible = self.visible;
     w.sort_index = self.sort_index;
     return w;

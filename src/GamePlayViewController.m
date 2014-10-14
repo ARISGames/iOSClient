@@ -160,8 +160,8 @@
         vc = [[DialogViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"WEB_PAGE"])
         vc = [[WebPageViewController alloc] initWithInstance:i delegate:self];
-    //if([i.object_type isEqualToString:@"NOTE"])
-        //vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
+    if([i.object_type isEqualToString:@"NOTE"])
+        vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"SCENE"]) //Special case (don't actually display anything)
     {
         [_MODEL_SCENES_ setPlayerScene:(Scene *)i.object];

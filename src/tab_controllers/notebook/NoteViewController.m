@@ -42,18 +42,18 @@
 
 @implementation NoteViewController
 
-/*
-- (id) initWithNote:(Note *)n delegate:(id<InstantiableViewControllerDelegate, NoteViewControllerDelegate>)d;
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super init])
     {
-        note = n;
-        delegate = d;
-  _ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);
-        [_MODEL_GAME_.notesModel getDetailsForNote:note];
+        //note = n;
+        //delegate = d;
+  //_ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);
+        //[_MODEL_GAME_.notesModel getDetailsForNote:note];
     }
     return self;
 }
+/*
 
 - (void) loadView
 {

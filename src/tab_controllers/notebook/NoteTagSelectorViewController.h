@@ -8,13 +8,14 @@
 
 #import "ARISViewController.h"
 
+@class Tag;
 @class NoteTagSelectorViewController;
 
 @protocol NoteTagSelectorViewControllerDelegate
-//- (void) noteTagSelectorViewControllerSelectedTag:(NoteTag *)t;
-//- (void) noteTagSelectorViewControllerRequestsDismissal:(NoteTagSelectorViewController *)n;
+- (void) noteTagSelectorViewControllerSelectedTag:(Tag *)t;
+- (void) noteTagSelectorViewControllerRequestsDismissal:(NoteTagSelectorViewController *)n;
 @end
 
 @interface NoteTagSelectorViewController : ARISViewController
-//- (id) initWithDelegate:(id<NoteTagSelectorViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<NoteTagSelectorViewControllerDelegate>)d;
 @end
