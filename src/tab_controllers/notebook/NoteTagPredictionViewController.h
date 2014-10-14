@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class NoteTag;
-
 @protocol NoteTagPredictionViewControllerDelegate
-- (void) existingTagChosen:(NoteTag *)nt;
+//- (void) existingTagChosen:(NoteTag *)nt;
 @end
 
 @interface NoteTagPredictionViewController : UIViewController

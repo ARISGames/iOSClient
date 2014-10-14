@@ -9,28 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "Note.h"
 
-@class NoteTag;
-
 @interface NotesModel : NSObject
+{
+}
 
-- (void) clearData;
-
-- (void) getNextNotes;
-- (int) listComplete;
-- (void) getNoteTags;
-
-- (Note *) noteForId:(int)noteId;
-- (void) getDetailsForNote:(Note *)n;
-- (void) deleteNote:(Note *)n;
-
-- (NSArray *) playerNotes;
-- (NSArray *) listNotes;
-- (NSArray *) mapNotes;
-- (NSArray *) notesMatchingTag:(NoteTag *)t;
-
-- (NSArray *) gameNoteTags;
-- (NSArray *) playerNoteTags;
-
-- (NoteTag *) unlabeledTag; //accessor for default tag
+- (Note *) noteForId:(int)note_id;
+- (void) requestNotes;
+- (void) clearGameData;
 
 @end

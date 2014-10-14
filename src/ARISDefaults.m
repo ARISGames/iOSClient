@@ -24,7 +24,6 @@
 @synthesize version;
 @synthesize serverURL;  
     
-@synthesize showGamesInDevelopment;
 @synthesize showPlayerOnMap;  
 
 + (ARISDefaults *) sharedDefaults
@@ -88,7 +87,6 @@
   [defaults setBool:NO forKey:@"clearCache"];
   [defaults synchronize];
 
-  showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
   showPlayerOnMap        = [defaults boolForKey:@"showPlayerOnMap"];
 
   User *u          = [[User alloc] init];

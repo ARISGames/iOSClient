@@ -47,6 +47,7 @@
 - (void) fetchDialogScripts;
 - (void) fetchDialogOptions;
 - (void) fetchWebPages;
+- (void) fetchNotes;
 - (void) fetchTags;
 - (void) fetchObjectTags;
 - (void) fetchEvents;

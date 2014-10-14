@@ -15,7 +15,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 19;
+const int gameDatasToReceive = 20;
 const int playerDatasToReceive = 7;
 
 @interface Game()
@@ -65,6 +65,7 @@ const int playerDatasToReceive = 7;
 @synthesize itemsModel;
 @synthesize dialogsModel;
 @synthesize webPagesModel;
+@synthesize notesModel;
 @synthesize tagsModel;
 @synthesize eventsModel;
 @synthesize triggersModel;
@@ -73,7 +74,6 @@ const int playerDatasToReceive = 7;
 @synthesize tabsModel;
 @synthesize logsModel;
 @synthesize questsModel;
-@synthesize notesModel;
 
 - (id) init
 {
@@ -187,6 +187,7 @@ const int playerDatasToReceive = 7;
     itemsModel     = [[ItemsModel     alloc] init];
     dialogsModel   = [[DialogsModel   alloc] init];
     webPagesModel  = [[WebPagesModel  alloc] init];
+    notesModel     = [[NotesModel     alloc] init];
     tagsModel      = [[TagsModel      alloc] init];
     eventsModel    = [[EventsModel    alloc] init];
     triggersModel  = [[TriggersModel  alloc] init];
@@ -195,8 +196,6 @@ const int playerDatasToReceive = 7;
     tabsModel      = [[TabsModel      alloc] init];
     logsModel      = [[LogsModel      alloc] init];
     questsModel    = [[QuestsModel    alloc] init];
-
-    notesModel     = [[NotesModel     alloc] init];
 }
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
@@ -212,6 +211,7 @@ const int playerDatasToReceive = 7;
     itemsModel     = nil;
     dialogsModel   = nil;
     webPagesModel  = nil;
+    notesModel     = nil;
     tagsModel      = nil;
     eventsModel    = nil;
     triggersModel  = nil;
@@ -220,8 +220,6 @@ const int playerDatasToReceive = 7;
     tabsModel      = nil;
     questsModel    = nil;
     logsModel      = nil;
-
-    notesModel     = nil;
 }
 
 - (void) requestGameData
@@ -234,6 +232,7 @@ const int playerDatasToReceive = 7;
     [itemsModel touchPlayerItemInstances];
     [dialogsModel requestDialogs]; //makes 4 "game data received" notifs (dialogs, characters, scripts, options)
     [webPagesModel requestWebPages];
+    [notesModel requestNotes];
     [tagsModel requestTags];
     [eventsModel requestEvents];
     [questsModel requestQuests];
@@ -314,6 +313,7 @@ const int playerDatasToReceive = 7;
     [itemsModel     clearGameData];
     [dialogsModel   clearGameData];
     [webPagesModel  clearGameData];
+    [notesModel     clearGameData];
     [tagsModel      clearGameData];
     [eventsModel    clearGameData];
     [questsModel    clearGameData];
@@ -330,8 +330,6 @@ const int playerDatasToReceive = 7;
     [instancesModel clearPlayerData];
     [tabsModel      clearPlayerData];
     [logsModel      clearPlayerData];
-
-    [notesModel     clearData];
 }
 
 - (int) rating

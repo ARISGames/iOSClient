@@ -8,7 +8,6 @@
 
 #import "NoteTagEditorViewController.h"
 #import "NoteTagPredictionViewController.h"
-#import "NoteTag.h"
 #import "NoteTagView.h"
 #import "AppModel.h"
 #import "NotesModel.h"
@@ -16,6 +15,7 @@
 
 @interface NoteTagEditorViewController() <UITextFieldDelegate, NoteTagViewDelegate, NoteTagPredictionViewControllerDelegate>
 {
+    /*
     NSArray *tags;
     
     UIScrollView *existingTagsScrollView;
@@ -30,10 +30,12 @@
     BOOL editing;
     
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
+     */
 }
 @end
 
 @implementation NoteTagEditorViewController
+/*
 
 - (id) initWithTags:(NSArray *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d
 {
@@ -235,5 +237,6 @@
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorAddedTag:)]) 
         [delegate noteTagEditorAddedTag:nt];
 }
+*/
 
 @end

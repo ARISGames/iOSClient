@@ -14,7 +14,6 @@
 #import "AppModel.h"
 #import "Game.h"
 #import "NoteCell.h"
-#import "NoteTag.h"
 
 #import "User.h"
 
@@ -24,12 +23,13 @@ const int VIEW_MODE_TAG  = 2;
 
 @interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, NoteCellDelegate, InstantiableViewControllerDelegate, NoteViewControllerDelegate, UISearchBarDelegate>
 {
+    /*
     UITableView *table;
     UISearchBar *searchBar;
     NSString *filterText;
 
     int viewMode;
-    NoteTag *filterTag;
+    //NoteTag *filterTag;
 
     NSArray *filteredNotes;
 
@@ -37,12 +37,14 @@ const int VIEW_MODE_TAG  = 2;
     UIView *navTitleView;
 
     id <NotebookNotesViewControllerDelegate> __unsafe_unretained delegate;
+     */
 }
 
 @end
 
 @implementation NotebookNotesViewController
 
+/*
 - (id) initWithDelegate:(id<NotebookNotesViewControllerDelegate>)d
 {
     if(self = [super init])
@@ -274,5 +276,6 @@ const int VIEW_MODE_TAG  = 2;
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
+*/
 
 @end

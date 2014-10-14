@@ -21,6 +21,7 @@
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].game.itemsModel
 #define _MODEL_DIALOGS_ [AppModel sharedAppModel].game.dialogsModel
 #define _MODEL_WEB_PAGES_ [AppModel sharedAppModel].game.webPagesModel
+#define _MODEL_NOTES_ [AppModel sharedAppModel].game.notesModel
 #define _MODEL_TAGS_ [AppModel sharedAppModel].game.tagsModel
 #define _MODEL_EVENTS_ [AppModel sharedAppModel].game.eventsModel
 #define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
@@ -40,7 +41,6 @@
 @interface AppModel : NSObject
 {
   NSString *serverURL;
-  BOOL showGamesInDevelopment;
   BOOL showPlayerOnMap;
 
   BOOL disableLeaveGame;
@@ -62,7 +62,6 @@
 }
 
 @property(nonatomic, strong) NSString *serverURL;
-@property(nonatomic, assign) BOOL showGamesInDevelopment;
 @property(nonatomic, assign) BOOL showPlayerOnMap;
 
 @property(nonatomic, assign) BOOL disableLeaveGame;

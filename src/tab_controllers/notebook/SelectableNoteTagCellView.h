@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NoteTag.h"
 
 @protocol SelectableNoteTagCellViewDelegate
-- (void) noteTagSelected:(NoteTag *)nt;
+//- (void) noteTagSelected:(NoteTag *)nt;
 @end
 @interface SelectableNoteTagCellView : UIView
-- (id) initWithFrame:(CGRect)f noteTag:(NoteTag *)nt delegate:(id<SelectableNoteTagCellViewDelegate>)d;
+//- (id) initWithFrame:(CGRect)f noteTag:(NoteTag *)nt delegate:(id<SelectableNoteTagCellViewDelegate>)d;
 @end

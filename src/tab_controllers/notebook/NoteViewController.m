@@ -20,6 +20,7 @@
 
 @interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
+    /*
     Note *note;
 
     UIView *navView;
@@ -34,12 +35,14 @@
 
 
     id<InstantiableViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
+     */
 }
 
 @end
 
 @implementation NoteViewController
 
+/*
 - (id) initWithNote:(Note *)n delegate:(id<InstantiableViewControllerDelegate, NoteViewControllerDelegate>)d;
 {
     if(self = [super init])
@@ -170,7 +173,6 @@
 
 - (void) displayDataFromNote
 {
-    /*
     if(note.tags.count > 0) tag.text = ((NoteTag*)[note.tags objectAtIndex:0]).text;
     title.text = note.name;
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -213,7 +215,6 @@
 
     [commentsDisplay setComments:note.comments];
     [self formatSubviews];
-     */
 }
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
@@ -246,7 +247,6 @@
 
 - (void) commentConfirmed:(NSString *)c
 {
-    /*
     //[[AppServices sharedAppServices] addComment:c fromPlayer:_MODEL_PLAYER_ toNote:note];
     NoteComment *nc = [[NoteComment alloc] init];
     nc.noteId = note.noteId;
@@ -255,7 +255,6 @@
     [note.comments addObject:nc];
     [commentsDisplay setComments:note.comments];
     scrollView.contentOffset = CGPointMake(0,-64);
-     */
 }
 
 - (void) backButtonTouched
@@ -300,5 +299,6 @@
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
+*/
 
 @end

@@ -19,7 +19,6 @@
     NSString *version;
     NSString *serverURL;  
     
-    BOOL showGamesInDevelopment;
     BOOL showPlayerOnMap;  
 }
 
@@ -28,7 +27,6 @@
 @property (nonatomic, strong) NSString *version;
 @property (nonatomic, strong) NSString *serverURL;  
     
-@property (nonatomic, assign) BOOL showGamesInDevelopment;
 @property (nonatomic, assign) BOOL showPlayerOnMap;  
 
 + (ARISDefaults *) sharedDefaults;

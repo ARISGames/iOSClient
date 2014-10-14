@@ -203,7 +203,6 @@
 		AABC7389172739D80074CC21 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708D172739D60074CC21 /* User.m */; };
 		AABC738A172739D80074CC21 /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC708F172739D60074CC21 /* Quest.m */; };
 		AABC738B172739D80074CC21 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7091172739D60074CC21 /* Tab.m */; };
-		AABC738C172739D80074CC21 /* NoteTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7093172739D60074CC21 /* NoteTag.m */; };
 		AABC738D172739D80074CC21 /* WebPage.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7095172739D60074CC21 /* WebPage.m */; };
 		AABC738E172739D80074CC21 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7098172739D60074CC21 /* Logger.m */; };
 		AABC738F172739D80074CC21 /* GameComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC709B172739D60074CC21 /* GameComment.m */; };
@@ -619,8 +618,6 @@
 		AABC708F172739D60074CC21 /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
 		AABC7090172739D60074CC21 /* Tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tab.h; sourceTree = "<group>"; };
 		AABC7091172739D60074CC21 /* Tab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tab.m; sourceTree = "<group>"; };
-		AABC7092172739D60074CC21 /* NoteTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTag.h; sourceTree = "<group>"; };
-		AABC7093172739D60074CC21 /* NoteTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTag.m; sourceTree = "<group>"; };
 		AABC7094172739D60074CC21 /* WebPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPage.h; sourceTree = "<group>"; };
 		AABC7095172739D60074CC21 /* WebPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPage.m; sourceTree = "<group>"; };
 		AABC7097172739D60074CC21 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
@@ -1358,8 +1355,6 @@
 				AABC7081172739D60074CC21 /* Note.m */,
 				AABC708E172739D60074CC21 /* Quest.h */,
 				AABC708F172739D60074CC21 /* Quest.m */,
-				AABC7092172739D60074CC21 /* NoteTag.h */,
-				AABC7093172739D60074CC21 /* NoteTag.m */,
 				AAA1CE2B1891C1C20005F4DC /* NoteComment.h */,
 				AAA1CE2C1891C1C20005F4DC /* NoteComment.m */,
 				AA2886C11951ED63008AFABF /* Overlay.h */,
@@ -2191,7 +2186,6 @@
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,
 				AABC738B172739D80074CC21 /* Tab.m in Sources */,
-				AABC738C172739D80074CC21 /* NoteTag.m in Sources */,
 				AABC738D172739D80074CC21 /* WebPage.m in Sources */,
 				AAC0D8941930F9D100CA1DE3 /* Scene.m in Sources */,
 				AA6EC33C192E730200D70D38 /* ARISViewController.m in Sources */,

@@ -7,7 +7,6 @@
 //
 
 #import "NoteTagPredictionViewController.h"
-#import "NoteTag.h"
 #import "SelectableNoteTagCellView.h"
 #import "AppModel.h"
 #import "Game.h"
@@ -17,18 +16,21 @@
 
 @interface NoteTagPredictionViewController() <SelectableNoteTagCellViewDelegate>
 {
+    /*
     NSArray *gameNoteTags;
     NSArray *playerNoteTags; 
-    
+
     UIScrollView *matchingNoteTagsScrollView;
-    
+
     NSString *queryString;
-    
+
     id<NoteTagPredictionViewControllerDelegate> __unsafe_unretained delegate;
+     */
 }
 @end
 
 @implementation NoteTagPredictionViewController
+/*
 
 - (id) initWithGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt delegate:(id<NoteTagPredictionViewControllerDelegate>)d
 {
@@ -151,7 +153,6 @@
     //No Tags Title
     if(matchingNoteTagsScrollView.subviews.count == 0)
     {
-        
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  
         UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
@@ -162,7 +163,7 @@
         [matchingNoteTagsScrollView addSubview:tagCell]; 
     } 
     matchingNoteTagsScrollView.contentSize = CGSizeMake(matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count);
-    
+
     return matchedTags;
 }
 
@@ -175,5 +176,6 @@
 {
     [delegate existingTagChosen:nt];
 }
+*/
 
 @end

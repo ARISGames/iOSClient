@@ -25,7 +25,6 @@
 @implementation AppModel
 
 @synthesize serverURL;
-@synthesize showGamesInDevelopment;
 @synthesize showPlayerOnMap;
 @synthesize disableLeaveGame;
 @synthesize hidePlayers;
@@ -86,7 +85,6 @@
     }
     serverURL = _DEFAULTS_.serverURL;
     [_SERVICES_ setServer:_MODEL_.serverURL];
-    showGamesInDevelopment = _DEFAULTS_.showGamesInDevelopment;
     showPlayerOnMap = _DEFAULTS_.showPlayerOnMap;
 }
 

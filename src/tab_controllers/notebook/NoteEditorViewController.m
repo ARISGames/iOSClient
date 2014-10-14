@@ -13,7 +13,6 @@
 #import "NoteRecorderViewController.h"
 #import "NoteLocationPickerController.h"
 #import "Note.h"
-#import "NoteTag.h"
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "User.h"
@@ -21,13 +20,13 @@
 
 @interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate, UIActionSheetDelegate>
 {
+    /*
     Note *note;
     
     UITextField *title;
     UILabel *owner;
     UILabel *date;
     NoteTagEditorViewController *tagViewController;  
-    NoteTag *newTag;
     UITextView *description;
     UILabel *descriptionPrompt;
     NoteContentsViewController *contentsViewController;
@@ -60,10 +59,12 @@
     BOOL newNote;
     BOOL dirtybit;
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
+     */
 }
 @end
 
 @implementation NoteEditorViewController
+/*
 
 - (id) initWithNote:(Note *)n mode:(NoteEditorMode)m delegate:(id<NoteEditorViewControllerDelegate>)d
 {
@@ -206,7 +207,6 @@
     [bottombar addSubview:imagePickerLabel];  
     [bottombar addSubview:audioPickerButton]; 
     [bottombar addSubview:audioPickerLabel];
-    /*
     if ([AppModel sharedAppModel].currentGame.allowShareNoteToMap) {
         [bottombar addSubview:locationPickerButton];
         [bottombar addSubview:locationPickerLabel];
@@ -218,7 +218,6 @@
         //[bottombar addSubview:locationPickerButton];
         //[bottombar addSubview:locationPickerLabel];
     }
-     */
     [bottombar addSubview:trashButton];
     [bottombar addSubview:trashLabel];
     
@@ -260,7 +259,6 @@
     imagePickerButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, 5, buttonDiameter, buttonDiameter);
     imagePickerLabel.frame     = CGRectMake(buttonPadding*1+buttonDiameter*0-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     
-    /*
     if ([AppModel sharedAppModel].currentGame.allowShareNoteToMap) {
         audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter);
         audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
@@ -269,7 +267,6 @@
         audioPickerButton.frame    = CGRectMake(buttonPadding*6+buttonDiameter*1, 5, buttonDiameter, buttonDiameter);
         audioPickerLabel.frame     = CGRectMake(buttonPadding*6+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     }
-     */
     locationPickerButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 5, buttonDiameter, buttonDiameter); 
     locationPickerLabel.frame  = CGRectMake(buttonPadding*5+buttonDiameter*2-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     trashButton.frame          = CGRectMake(buttonPadding*7+buttonDiameter*3, 5, buttonDiameter, buttonDiameter); 
@@ -415,12 +412,10 @@
 
 - (void) locationPickerButtonTouched
 {
-    /*
     if(note.location && note.location.latlon)
         [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:note.location.coordinate delegate:self] animated:YES];
     else
         [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES]; 
-     */
 }
 
 - (void) imagePickerButtonTouched
@@ -486,13 +481,11 @@
 
 - (void) newLocationPicked:(CLLocationCoordinate2D)l
 {
-    /*
     note.location = [[Location alloc] init];
     note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
     note.location.coordinate = l;
     [self.navigationController popToViewController:self animated:YES];
     dirtybit = YES; 
-     */
 }
 
 - (void) imageChosenWithURL:(NSURL *)url
@@ -565,5 +558,6 @@
 {
    [delegate noteEditorCancelledNoteEdit:self]; 
 }
+*/
 
 @end

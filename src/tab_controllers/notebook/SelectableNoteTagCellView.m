@@ -10,13 +10,14 @@
 
 @interface SelectableNoteTagCellView()
 {
-    NoteTag *noteTag;
-    id<SelectableNoteTagCellViewDelegate> __unsafe_unretained delegate;
+    //NoteTag *noteTag;
+    //id<SelectableNoteTagCellViewDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation SelectableNoteTagCellView
 
+/*
 - (id) initWithFrame:(CGRect)f noteTag:(NoteTag *)nt delegate:(id<SelectableNoteTagCellViewDelegate>)d
 {
     if(self = [super initWithFrame:f])
@@ -34,10 +35,13 @@
     }
     return self;
 }
+*/
 
+/*
 - (void) iWasTouched
 {
    [delegate noteTagSelected:noteTag]; 
 }
+*/
 
 @end

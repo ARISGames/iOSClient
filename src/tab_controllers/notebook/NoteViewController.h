@@ -13,5 +13,5 @@
 @end
 
 @interface NoteViewController : InstantiableViewController
-- (id) initWithNote:(Note *)n delegate:(id<InstantiableViewControllerDelegate, NoteViewControllerDelegate>)d;
+//- (id) initWithNote:(Note *)n delegate:(id<InstantiableViewControllerDelegate, NoteViewControllerDelegate>)d;
 @end

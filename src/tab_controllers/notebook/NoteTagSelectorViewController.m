@@ -11,14 +11,17 @@
 
 @interface NoteTagSelectorViewController () <NoteTagEditorViewControllerDelegate>
 {
+    /*
     NoteTagEditorViewController *tagViewController;
     id<NoteTagSelectorViewControllerDelegate> __unsafe_unretained delegate;
+     */
 }
 
 @end
 
 @implementation NoteTagSelectorViewController
 
+/*
 - (id) initWithDelegate:(id<NoteTagSelectorViewControllerDelegate>)d
 {
     if(self = [super init])
@@ -72,5 +75,6 @@
 {
     [delegate noteTagSelectorViewControllerRequestsDismissal:self];
 }
+*/
 
 @end

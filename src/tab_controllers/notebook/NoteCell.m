@@ -8,7 +8,6 @@
 
 #import "NoteCell.h"
 #import "Note.h"
-#import "NoteTag.h"
 #import "Media.h"
 #import "User.h"
 
@@ -16,6 +15,7 @@
 
 @interface NoteCell() <ARISMediaViewDelegate>
 {
+    /*
     UILabel *title;
     UILabel *label; 
     UILabel *date; 
@@ -30,11 +30,13 @@
     Note *note;
     
     id<NoteCellDelegate> __unsafe_unretained delegate;
+     */
 }
 @end
 
 @implementation NoteCell
 
+/*
 + (NSString *) cellIdentifier { return @"notecell"; };  
 
 - (id) initWithDelegate:(id<NoteCellDelegate>)d
@@ -104,7 +106,7 @@
     
     title.text = n.name;
     label.text = @"";
-    if(n.tags.count > 0) label.text = ((NoteTag *)[n.tags objectAtIndex:0]).text;
+    //if(n.tags.count > 0) label.text = ((NoteTag *)[n.tags objectAtIndex:0]).text;
     CGSize textSize = [[title text] sizeWithAttributes:@{NSFontAttributeName:[title font]}];   
     label.frame = CGRectMake(textSize.width+15,15,self.frame.size.width-previewFrameFull.size.width-(textSize.width+5)-10,14);  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -173,5 +175,6 @@
 {
     return NO;
 }
+ */
 
 @end

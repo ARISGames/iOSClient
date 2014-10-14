@@ -11,12 +11,12 @@
 
 @interface Plaque : NSObject <InstantiableProtocol>
 {
-	int      plaque_id;
-	NSString *name;
-	NSString *desc;
-	int      icon_media_id;
-   	int	     media_id; 
-   	int	     event_package_id; 
+  int plaque_id;
+  NSString *name;
+  NSString *desc;
+  int icon_media_id;
+  int media_id;
+  int event_package_id;
 }
 
 @property(nonatomic, assign) int plaque_id;
@@ -29,3 +29,4 @@
 - (id) initWithDictionary:(NSDictionary *)dict;
 
 @end
+

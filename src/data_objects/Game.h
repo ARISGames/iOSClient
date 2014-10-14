@@ -14,6 +14,7 @@
 #import "ItemsModel.h"
 #import "DialogsModel.h"
 #import "WebPagesModel.h"
+#import "NotesModel.h"
 #import "TagsModel.h"
 #import "EventsModel.h"
 #import "TriggersModel.h"
@@ -22,8 +23,6 @@
 #import "TabsModel.h"
 #import "LogsModel.h"
 #import "QuestsModel.h"
-
-#import "NotesModel.h"
 
 @interface Game : NSObject
 {
@@ -61,6 +60,7 @@
   ItemsModel      *itemsModel;
   DialogsModel    *dialogsModel;
   WebPagesModel   *webPagesModel;
+  NotesModel      *notesModel;
   TagsModel       *tagsModel;
   EventsModel     *eventsModel;
   TriggersModel   *triggersModel;
@@ -69,8 +69,6 @@
   TabsModel       *tabsModel;
   LogsModel       *logsModel;
   QuestsModel     *questsModel;
-
-  NotesModel      *notesModel;
 }
 
 @property (nonatomic, assign) int game_id;
@@ -108,6 +106,7 @@
 @property (nonatomic, strong) ItemsModel     *itemsModel;
 @property (nonatomic, strong) DialogsModel   *dialogsModel;
 @property (nonatomic, strong) WebPagesModel  *webPagesModel;
+@property (nonatomic, strong) NotesModel     *notesModel;
 @property (nonatomic, strong) TagsModel      *tagsModel;
 @property (nonatomic, strong) EventsModel    *eventsModel;
 @property (nonatomic, strong) TriggersModel  *triggersModel;
@@ -116,7 +115,6 @@
 @property (nonatomic, strong) TabsModel      *tabsModel;
 @property (nonatomic, strong) LogsModel      *logsModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;
-@property (nonatomic, strong) NotesModel     *notesModel;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromGame:(Game *)g;

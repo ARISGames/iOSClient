@@ -10,14 +10,14 @@
 
 @interface NoteTagView()
 {
-    NoteTag *noteTag;
-    BOOL editable;
-    id<NoteTagViewDelegate> __unsafe_unretained delegate;
+    //BOOL editable;
+    //id<NoteTagViewDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation NoteTagView
 
+/*
 - (id) initWithNoteTag:(NoteTag *)nt editable:(BOOL)e delegate:(id<NoteTagViewDelegate>)d
 {
     if(self = [super init])
@@ -53,5 +53,6 @@
 {
    [delegate noteTagDeleteSelected:noteTag]; 
 }
+*/
 
 @end

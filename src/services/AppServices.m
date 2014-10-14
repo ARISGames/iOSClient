@@ -112,7 +112,6 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
             @"page":[NSNumber numberWithInt:0]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getNearbyGamesForPlayer" arguments:args handler:self successSelector:@selector(parseNearbyGames:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -129,7 +128,6 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
             @"page":[NSNumber numberWithInt:0]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getAnywhereGamesForPlayer" arguments:args handler:self successSelector:@selector(parseAnywhereGames:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -146,7 +144,6 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
             @"page":[NSNumber numberWithInt:0]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -163,7 +160,6 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
             @"interval":@"MONTH",
             @"page":[NSNumber numberWithInt:0]
         };
@@ -181,7 +177,6 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
             @"text":search,
             @"page":[NSNumber numberWithInt:0]
         };
@@ -199,7 +194,6 @@
             @"user_id":[NSString stringWithFormat:@"%d",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"includeDev":[NSString stringWithFormat:@"%d",_MODEL_.showGamesInDevelopment],
             @"page":[NSNumber numberWithInt:0]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerGamesForPlayer" arguments:args handler:self successSelector:@selector(parseMineGames:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -415,6 +409,23 @@
     for(int i = 0; i < webPageDicts.count; i++)
         webPages[i] = [[WebPage alloc] initWithDictionary:webPageDicts[i]];
     _ARIS_NOTIF_SEND_(@"SERVICES_WEB_PAGES_RECEIVED", nil, @{@"webPages":webPages});
+}
+
+- (void) fetchNotes
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"notes" method:@"getNotesForGame" arguments:args handler:self successSelector:@selector(parseNotes:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+}
+- (void) parseNotes:(ARISServiceResult *)result
+{
+    NSArray *noteDicts = (NSArray *)result.resultData;
+    NSMutableArray *notes = [[NSMutableArray alloc] init];
+    for(int i = 0; i < noteDicts.count; i++)
+        notes[i] = [[Note alloc] initWithDictionary:noteDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_NOTES_RECEIVED", nil, @{@"notes":notes});
 }
 
 - (void) fetchTags

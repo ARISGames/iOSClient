@@ -20,6 +20,7 @@
 
 @interface NotebookViewController() <InstantiableViewControllerDelegate, NoteViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>
 {
+    /*
     UIView *navTitleView;
     UILabel *navTitleLabel;
 
@@ -38,11 +39,13 @@
     UIView *line2;
     UIView *line3;
     UIView *line4;
+     */
 }
 
 @end
 
 @implementation NotebookViewController
+/*
 
 - (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, NotebookViewControllerDelegate>)d
 {
@@ -80,11 +83,9 @@
     [self.view addSubview:line1];
     [self.view addSubview:line2];
     [self.view addSubview:line3];
-    /*
     if ([AppModel sharedAppModel].currentGame.allowShareNoteToList) {
         [self.view addSubview:line4];
     }
-     */
 
 
 
@@ -132,11 +133,9 @@
     labelSelectorButton.userInteractionEnabled = YES;
     [labelSelectorButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelSelectorButtonTouched)]];
 
-    /*
     if ([AppModel sharedAppModel].currentGame.allowShareNoteToList) {
         [self.view addSubview:allNotesButton];
     }
-     */
     [self.view addSubview:myNotesButton];
     [self.view addSubview:labelSelectorButton];
 
@@ -157,7 +156,6 @@
     newImageButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 69, buttonDiameter, buttonDiameter);
     newVideoButton.frame = CGRectMake(buttonPadding*7+buttonDiameter*3, 69, buttonDiameter, buttonDiameter);
 
-    /*
     if ([AppModel sharedAppModel].currentGame.allowShareNoteToList) {
         allNotesButton.frame      = CGRectMake(10, 134, self.view.frame.size.width-20, 30);
         myNotesButton.frame       = CGRectMake(10, 174, self.view.frame.size.width-20, 30);
@@ -167,7 +165,6 @@
         myNotesButton.frame       = CGRectMake(10, 134, self.view.frame.size.width-20, 30);
         labelSelectorButton.frame = CGRectMake(10, 174, self.view.frame.size.width-20, 30);
     }
-     */
 
     while(allNotesButton.subviews.count      > 0) [[allNotesButton.subviews      objectAtIndex:0] removeFromSuperview];
     while(myNotesButton.subviews.count       > 0) [[myNotesButton.subviews       objectAtIndex:0] removeFromSuperview];
@@ -299,5 +296,6 @@
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
+*/
 
 @end

@@ -27,10 +27,10 @@
         self.name = @"Plaque";
         self.desc = @"Text";
         self.icon_media_id = 0;
-        self.media_id = 0; 
+        self.media_id = 0;
         self.event_package_id = 0; 
     }
-    return self;	
+    return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict
@@ -45,24 +45,6 @@
         self.event_package_id = [dict validIntForKey:@"event_package_id"];
     }
     return self;
-}
-
-- (Plaque *) copy
-{
-    Plaque *c = [[Plaque alloc] init];
-    c.plaque_id        = self.plaque_id;
-    c.name             = self.name;
-    c.desc             = self.desc;
-    c.media_id         = self.media_id;
-    c.icon_media_id    = self.icon_media_id;
-    c.event_package_id = self.event_package_id;
-    
-    return c;
-}
-
-- (int) compareTo:(Plaque *)ob
-{
-	return (ob.plaque_id == self.plaque_id);
 }
 
 - (NSString *) description

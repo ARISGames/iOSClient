@@ -9,40 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "InstantiableProtocol.h"
 
-@class User;
-@class Tag;
-
 @interface Note : NSObject <InstantiableProtocol>
 {
-    int noteId; 
-    User *owner;
+    int note_id;
+    int user_id;
     NSString *name;
     NSString *desc;
-    NSDate *created; 
-    //Location *location; 
-    NSMutableArray *tags;
-    NSMutableArray *contents;
-    NSMutableArray *comments; 
-    BOOL publicToList;
-    BOOL publicToMap;
-    
-    BOOL stubbed;
+    int media_id;
+    NSDate *created;
 }
 
-@property (nonatomic, assign) int noteId;
-@property (nonatomic, strong) User *owner;
+@property (nonatomic, assign) int note_id;
+@property (nonatomic, assign) int user_id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
+@property (nonatomic, assign) int media_id;
 @property (nonatomic, strong) NSDate *created;
-//@property (nonatomic, strong) Location *location;
-@property (nonatomic, strong) NSMutableArray *tags;
-@property (nonatomic, strong) NSMutableArray *contents;
-@property (nonatomic, strong) NSMutableArray *comments;
-@property (nonatomic, assign) BOOL publicToList;
-@property (nonatomic, assign) BOOL publicToMap;
-@property (nonatomic, assign) BOOL stubbed;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromNote:(Note *)n;
 
 @end
+
