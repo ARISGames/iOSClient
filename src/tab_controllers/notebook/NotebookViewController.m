@@ -228,7 +228,7 @@
 
 - (void) newTextButtonTouched
 {
-    //[self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_TEXT delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_TEXT delegate:self] animated:YES];
 }
 
 - (void) newAudioButtonTouched
@@ -248,13 +248,13 @@
 
 - (void) allNotesButtonTouched
 {
-    //[notesViewController setModeAll];
+    [notesViewController setModeAll];
     [self.navigationController pushViewController:notesViewController animated:YES];
 }
 
 - (void) myNotesButtonTouched
 {
-    //[notesViewController setModeMine];
+    [notesViewController setModeMine];
     [self.navigationController pushViewController:notesViewController animated:YES];
 }
 
@@ -276,7 +276,7 @@
 - (void) noteTagSelectorViewControllerSelectedTag:(Tag *)t
 {
     [self.navigationController popToViewController:self animated:NO];
-    //[notesViewController setModeTag:t];
+    [notesViewController setModeTag:t];
     [self.navigationController pushViewController:notesViewController animated:YES];
 }
 

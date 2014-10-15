@@ -15,8 +15,7 @@
 
 @interface NoteTagEditorViewController() <UITextFieldDelegate, NoteTagViewDelegate, NoteTagPredictionViewControllerDelegate>
 {
-    /*
-    NSArray *tags;
+    Tag *tag;
     
     UIScrollView *existingTagsScrollView;
     UIImageView *plus;
@@ -30,18 +29,16 @@
     BOOL editing;
     
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
-     */
 }
 @end
 
 @implementation NoteTagEditorViewController
-/*
 
-- (id) initWithTags:(NSArray *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d
+- (id) initWithTag:(Tag *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        tags = t;
+        tag = t;
         editable = e;
         delegate = d;
         expandHeight = 100;
@@ -71,10 +68,7 @@
     tagInputField.placeholder = NSLocalizedString(@"NoteTagChooseLabelKey", @"");
     tagInputField.returnKeyType = UIReturnKeyDone; 
     
-    tagPredictionViewController = [[NoteTagPredictionViewController alloc] 
-                                   initWithGameNoteTags:_MODEL_GAME_.notesModel.gameNoteTags
-                                   playerNoteTags:_MODEL_GAME_.notesModel.playerNoteTags 
-                                   delegate:self];  
+    tagPredictionViewController = [[NoteTagPredictionViewController alloc] initWithTags:_MODEL_TAGS_.tags delegate:self];  
     
     [self stopEditing];
 }
@@ -93,9 +87,9 @@
     expandHeight = h-30; //(subtract 30 for text field)
 }
 
-- (void) setTags:(NSArray *)t
+- (void) setTag:(Tag *)t
 {
-    tags = t;
+    tag = t;
     [self refreshView];
 }
 
@@ -107,22 +101,22 @@
     
     UIView *tv;
     int x = 10;
-    for(int i = 0; i < tags.count; i++)
+    if(tag)
     {
-        tv = [[NoteTagView alloc] initWithNoteTag:[tags objectAtIndex:i] editable:editable delegate:self];
+        tv = [[NoteTagView alloc] initWithNoteTag:tag editable:editable delegate:self];
         tv.frame = CGRectMake(x,5,tv.frame.size.width,tv.frame.size.height);
         x += tv.frame.size.width+10;
         [existingTagsScrollView addSubview:tv];
     }
     existingTagsScrollView.contentSize = CGSizeMake(x+10,30);
     
-    if(editable && (editing || tags.count == 0)) [self.view addSubview:tagInputField];
-    else                                           [self.view addSubview:existingTagsScrollView];
-    if(editable && !editing && tags.count == 0)  [self.view addSubview:plus];
-    if(editable && !editing && tags.count > 0)   [self.view addSubview:ex]; 
+    if(editable && (editing || !tag)) [self.view addSubview:tagInputField];
+    else                              [self.view addSubview:existingTagsScrollView];
+    if(editable && !editing && !tag)  [self.view addSubview:plus];
+    if(editable && !editing && tag)   [self.view addSubview:ex]; 
     if(editing)
     {
-        [tagPredictionViewController setGameNoteTags:_MODEL_GAME_.notesModel.gameNoteTags playerNoteTags:_MODEL_GAME_.notesModel.playerNoteTags];
+        [tagPredictionViewController setTags:_MODEL_TAGS_.tags];
         [self.view addSubview:tagPredictionViewController.view];   
         [tagInputField becomeFirstResponder];
         [self.view addSubview:ex];
@@ -136,8 +130,8 @@
 
 - (void) dismissEditButtonTouched
 {
-    if(tags.count > 0) { [delegate noteTagEditorDeletedTag:[tags objectAtIndex:0]]; [self beginEditing]; }
-    else                 { [self stopEditing]; [self existingTagChosen:_MODEL_GAME_.notesModel.unlabeledTag]; }
+    if(tag) { [delegate noteTagEditorDeletedTag:tag]; [self beginEditing]; }
+    else    { [self stopEditing]; [self existingTagChosen:nil]; }
 }
 
 - (void) beginEditing
@@ -169,20 +163,17 @@
     if(range.location != 0 && range.length > 0 && string.length == 0) { range.location--; range.length++; }
     
     NSString *updatedInput = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    NSDictionary *matchedTags = [tagPredictionViewController queryString:updatedInput];
+    NSArray *matched = [tagPredictionViewController queryString:updatedInput];
     
-    NSArray *gnt = [matchedTags objectForKey:@"game"];
-    NSArray *pnt = [matchedTags objectForKey:@"player"]; 
-    NoteTag *nt;
+    Tag *nt;
     //If there's only one matched tag...
-    if((gnt.count == 1 && pnt.count == 0 && (nt = [gnt objectAtIndex:0])) ||
-       (gnt.count == 0 && pnt.count == 1 && (nt = [pnt objectAtIndex:0])))
+    if(matched.count == 1 && (nt = [matched objectAtIndex:0]))
     {
         //If curent input matches said tag FROM BEGINNING of string...
-        if([nt.text rangeOfString:[NSString stringWithFormat:@"^%@.*",updatedInput] options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)  
+        if([nt.tag rangeOfString:[NSString stringWithFormat:@"^%@.*",updatedInput] options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)  
         {
             //Set input to prediction with deltas highlighted for quick deletion
-            NSString *hijackedInput = nt.text;
+            NSString *hijackedInput = nt.tag;
             tagInputField.text = hijackedInput; 
             UITextPosition *start = [tagInputField positionFromPosition:tagInputField.beginningOfDocument offset:updatedInput.length];
             UITextPosition *end = [tagInputField positionFromPosition:start offset:hijackedInput.length-updatedInput.length];
@@ -201,42 +192,34 @@
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-    NSArray *allValidTags = [_MODEL_GAME_.notesModel.gameNoteTags arrayByAddingObjectsFromArray:_MODEL_GAME_.notesModel.playerNoteTags];
+    NSArray *allValidTags = _MODEL_TAGS_.tags;
     BOOL tagExists = NO;
     for(int i = 0; i < allValidTags.count; i++)
     {
-        if([[((NoteTag *)[allValidTags objectAtIndex:i]).text lowercaseString] isEqualToString:[tagInputField.text lowercaseString]])
+        if([[((Tag *)[allValidTags objectAtIndex:i]).tag lowercaseString] isEqualToString:[tagInputField.text lowercaseString]])
         {
             tagExists = YES;
             [delegate noteTagEditorAddedTag:[allValidTags objectAtIndex:i]];
             break;
         }
     }
-    if(!tagExists && ![tagInputField.text isEqualToString:@""])
-    {
-        NoteTag *newNoteTag = [[NoteTag alloc] init];
-        newNoteTag.text = tagInputField.text;
-        newNoteTag.playerCreated = YES;
-        [delegate noteTagEditorCreatedTag:newNoteTag]; 
-    }
-    else if(!tagExists)
-        [delegate noteTagEditorCreatedTag:_MODEL_GAME_.notesModel.unlabeledTag];  
+    if(!tagExists)
+        [delegate noteTagEditorCancelled];
     [self stopEditing];
     return YES;
 }
 
-- (void) noteTagDeleteSelected:(NoteTag *)nt
+- (void) noteTagDeleteSelected:(Tag *)nt
 {
     [delegate noteTagEditorDeletedTag:nt];
     [self refreshView];
 }
 
-- (void) existingTagChosen:(NoteTag *)nt
+- (void) existingTagChosen:(Tag *)nt
 {
     [self stopEditing];
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorAddedTag:)]) 
         [delegate noteTagEditorAddedTag:nt];
 }
-*/
 
 @end

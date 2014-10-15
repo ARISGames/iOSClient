@@ -20,8 +20,8 @@
 
 @interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate, UIActionSheetDelegate>
 {
-    /*
     Note *note;
+    Tag *tag;
     
     UITextField *title;
     UILabel *owner;
@@ -56,34 +56,27 @@
     NoteEditorMode mode;
     
     BOOL blockKeyboard;
-    BOOL newNote;
     BOOL dirtybit;
+    
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
-     */
 }
 @end
 
 @implementation NoteEditorViewController
-/*
 
 - (id) initWithNote:(Note *)n mode:(NoteEditorMode)m delegate:(id<NoteEditorViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         dirtybit = NO;
-        newNote = (!n);
-        if(newNote)
+        if(!n)
         {
             n = [[Note alloc] init];
             n.created = [NSDate date];
-            n.owner = _MODEL_PLAYER_;
-            //n.location = [[Location alloc] init];
-            //n.location.latlon = _MODEL_PLAYER_.location;
-            //n.location.coordinate = _MODEL_PLAYER_.location.coordinate; 
+            n.user_id = _MODEL_PLAYER_.user_id;
             dirtybit = YES;
         }
         note = n; 
-        if(n.tags.count > 0) newTag = [n.tags objectAtIndex:0]; 
         mode = m;
         delegate = d;
         
@@ -117,7 +110,7 @@
     description.contentInset = UIEdgeInsetsZero; 
     description.font = [ARISTemplate ARISBodyFont];
     
-    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:YES delegate:self]; 
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTag:tag editable:YES delegate:self]; 
     
     descriptionPrompt = [[UILabel alloc] init];
     descriptionPrompt.text = NSLocalizedString(@"NoteEditorDescriptionKey", @"");
@@ -138,7 +131,7 @@
     deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:NSLocalizedString(@"DeleteKey", @"") otherButtonTitles:nil];
     discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorContinueEditingKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
     
-    contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
+    //contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
     
     line1 = [[UIView alloc] init];
     line1.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
@@ -207,17 +200,9 @@
     [bottombar addSubview:imagePickerLabel];  
     [bottombar addSubview:audioPickerButton]; 
     [bottombar addSubview:audioPickerLabel];
-    if ([AppModel sharedAppModel].currentGame.allowShareNoteToMap) {
-        [bottombar addSubview:locationPickerButton];
-        [bottombar addSubview:locationPickerLabel];
-    }
-    else{
-        //add check here if the map tab exists, then add as a subview
-        locationPickerLabel.textColor = [UIColor grayColor];
-        locationPickerButton.enabled = NO;
-        //[bottombar addSubview:locationPickerButton];
-        //[bottombar addSubview:locationPickerLabel];
-    }
+    [bottombar addSubview:locationPickerButton];
+    [bottombar addSubview:locationPickerLabel];
+    
     [bottombar addSubview:trashButton];
     [bottombar addSubview:trashLabel];
     
@@ -226,7 +211,7 @@
     [self.view addSubview:owner];
     [self.view addSubview:description];
     [self.view addSubview:descriptionPrompt]; 
-    [self.view addSubview:contentsViewController.view];
+    //[self.view addSubview:contentsViewController.view];
     [self.view addSubview:bottombar]; 
     [self.view addSubview:tagViewController.view];  
     [self.view addSubview:line1];  
@@ -245,28 +230,24 @@
     date.frame = CGRectMake(10, 40+64, 65, 14);
     owner.frame = CGRectMake(75, 40+64, self.view.bounds.size.width-85, 14);
     
+    /*
     [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216]; 
     if(tagViewController.view.frame.size.height <= 30)
         tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, 30);   
     else
         tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
+     */
     
     line1.frame = CGRectMake(0, owner.frame.origin.y+owner.frame.size.height+3, self.view.frame.size.width, 1);
-    line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
+    //line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
     
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
     imagePickerButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, 5, buttonDiameter, buttonDiameter);
     imagePickerLabel.frame     = CGRectMake(buttonPadding*1+buttonDiameter*0-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     
-    if ([AppModel sharedAppModel].currentGame.allowShareNoteToMap) {
-        audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter);
-        audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
-    }
-    else{
-        audioPickerButton.frame    = CGRectMake(buttonPadding*6+buttonDiameter*1, 5, buttonDiameter, buttonDiameter);
-        audioPickerLabel.frame     = CGRectMake(buttonPadding*6+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
-    }
+    audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter);
+    audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     locationPickerButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 5, buttonDiameter, buttonDiameter); 
     locationPickerLabel.frame  = CGRectMake(buttonPadding*5+buttonDiameter*2-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     trashButton.frame          = CGRectMake(buttonPadding*7+buttonDiameter*3, 5, buttonDiameter, buttonDiameter); 
@@ -276,7 +257,7 @@
     //contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
     contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-200, self.view.bounds.size.width, 200);       
     
-    description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentsViewController.view.frame.size.height-bottombar.frame.size.height-5);
+    //description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentsViewController.view.frame.size.height-bottombar.frame.size.height-5);
     descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y+5, self.view.bounds.size.width, 24);  
 }
 
@@ -318,7 +299,7 @@
     if(blockKeyboard) return;
     if([title.text isEqualToString:@""] && !title.isFirstResponder)
         [title becomeFirstResponder]; 
-    else if(note.tags.count == 0)
+    else if(!tag)
         [tagViewController beginEditing];
     else if(title.isFirstResponder)
         [title resignFirstResponder];
@@ -334,11 +315,9 @@
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:note.created]; 
-    owner.text = note.owner.display_name; 
-    [contentsViewController setContents:note.contents];
-    newTag = nil; if(note.tags.count > 0) newTag = [note.tags objectAtIndex:0];   
-    if(newTag) [tagViewController setTags:@[newTag]];
-    else       [tagViewController setTags:nil];
+    owner.text = @"";//note.owner.display_name; 
+    //[contentsViewController setContents:note.contents];
+    [tagViewController setTag:tag];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
@@ -367,24 +346,21 @@
     [description resignFirstResponder];
 }
 
-- (void) noteTagEditorAddedTag:(NoteTag *)nt
+- (void) noteTagEditorAddedTag:(Tag *)nt
 {
-    newTag = nt;   
-    if(nt) [tagViewController setTags:@[nt]];
-    else   [tagViewController setTags:nil];
+    tag = nt;   
+    [tagViewController setTag:nt];
 }
 
-- (void) noteTagEditorCreatedTag:(NoteTag *)nt
+- (void) noteTagEditorCancelled
 {
-    newTag = nt;   
-    if(nt) [tagViewController setTags:@[nt]];
-    else   [tagViewController setTags:nil]; 
+    
 }
 
-- (void) noteTagEditorDeletedTag:(NoteTag *)nt
+- (void) noteTagEditorDeletedTag:(Tag *)nt
 {
-    newTag = nil;   
-    [tagViewController setTags:nil];  
+    tag = nil;   
+    [tagViewController setTag:tag];  
 }
 
 - (void) doneButtonTouched
@@ -412,10 +388,10 @@
 
 - (void) locationPickerButtonTouched
 {
-    if(note.location && note.location.latlon)
-        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:note.location.coordinate delegate:self] animated:YES];
-    else
-        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES]; 
+    //if(note.location && note.location.latlon)
+        //[self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:note.location.coordinate delegate:self] animated:YES];
+    //else
+        //[self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES]; 
 }
 
 - (void) imagePickerButtonTouched
@@ -446,11 +422,11 @@
         confirmPrompt.title = NSLocalizedString(@"NoteEditorNoteIsUntitledKey", @"");
         [confirmPrompt showInView:self.view];
     }
-    else if(!newTag)
-    {
-        confirmPrompt.title = NSLocalizedString(@"NoteEditorNoteIsntLabeled", @"");
-        [confirmPrompt showInView:self.view];
-    } 
+    //else if(!newTag)
+    //{
+        //confirmPrompt.title = NSLocalizedString(@"NoteEditorNoteIsntLabeled", @"");
+        //[confirmPrompt showInView:self.view];
+    //} 
     else [self saveNote];
 }
 
@@ -458,14 +434,12 @@
 {
     note.name = title.text;
     note.desc = description.text;
-    if(newTag) note.tags = [NSMutableArray arrayWithArray:@[newTag]];
-    else note.tags = [[NSMutableArray alloc] init];
 
     //for(int i = 0; i < mediaToUpload.count; i++)
         //[note.contents addObject:[mediaToUpload objectAtIndex:i]];
 
     //feel icky about this...
-    note.contents = mediaToUpload;
+    //note.contents = mediaToUpload;
 
     //[_SERVICES_ uploadNote:note];
 
@@ -475,15 +449,15 @@
 - (void) deleteNote
 {
     //[[AppServices sharedAppServices] deleteNoteWithNoteId:note.noteId]; 
-    [_MODEL_GAME_.notesModel deleteNote:note];
+    //[_MODEL_GAME_.notesModel deleteNote:note];
     [delegate noteEditorDeletedNoteEdit:self];  
 }
 
 - (void) newLocationPicked:(CLLocationCoordinate2D)l
 {
-    note.location = [[Location alloc] init];
-    note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
-    note.location.coordinate = l;
+    //note.location = [[Location alloc] init];
+    //note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
+    //note.location.coordinate = l;
     [self.navigationController popToViewController:self animated:YES];
     dirtybit = YES; 
 }
@@ -516,7 +490,7 @@
     m.data = [NSData dataWithContentsOfURL:m.localURL]; 
     [mediaToUpload addObject:m];   
     
-    [contentsViewController setContents:[mediaToUpload arrayByAddingObjectsFromArray:note.contents]];  
+    //[contentsViewController setContents:[mediaToUpload arrayByAddingObjectsFromArray:note.contents]];  
 }
 
 - (void) actionSheet:(UIActionSheet *)a clickedButtonAtIndex:(NSInteger)b
@@ -558,6 +532,5 @@
 {
    [delegate noteEditorCancelledNoteEdit:self]; 
 }
-*/
 
 @end

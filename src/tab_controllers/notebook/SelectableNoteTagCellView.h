@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class Tag;
+
 @protocol SelectableNoteTagCellViewDelegate
-//- (void) noteTagSelected:(NoteTag *)nt;
+- (void) noteTagSelected:(Tag *)nt;
 @end
 @interface SelectableNoteTagCellView : UIView
-//- (id) initWithFrame:(CGRect)f noteTag:(NoteTag *)nt delegate:(id<SelectableNoteTagCellViewDelegate>)d;
+- (id) initWithFrame:(CGRect)f noteTag:(Tag *)nt delegate:(id<SelectableNoteTagCellViewDelegate>)d;
 @end

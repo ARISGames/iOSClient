@@ -7,37 +7,38 @@
 //
 
 #import "NoteTagView.h"
+#import "Tag.h"
 
 @interface NoteTagView()
 {
-    //BOOL editable;
-    //id<NoteTagViewDelegate> __unsafe_unretained delegate;
+    Tag *tag;
+    BOOL editable;
+    id<NoteTagViewDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation NoteTagView
 
-/*
-- (id) initWithNoteTag:(NoteTag *)nt editable:(BOOL)e delegate:(id<NoteTagViewDelegate>)d
+- (id) initWithNoteTag:(Tag *)nt editable:(BOOL)e delegate:(id<NoteTagViewDelegate>)d
 {
     if(self = [super init])
     {
-        noteTag = nt;
+        tag = nt;
         editable = e;
         delegate = d;
         
         int width;
-        width = [nt.text sizeWithFont:[ARISTemplate ARISBodyFont]].width;
+        width = [nt.tag sizeWithFont:[ARISTemplate ARISBodyFont]].width;
         
         self.frame = CGRectMake(0,0,width,20);
-        //self.backgroundColor = [UIColor ARISColorLightBlue]; 
-        //self.layer.cornerRadius = 8;
-        //self.layer.masksToBounds = YES;
+        self.backgroundColor = [UIColor ARISColorLightBlue]; 
+        self.layer.cornerRadius = 8;
+        self.layer.masksToBounds = YES;
         
         UILabel *tagText = [[UILabel alloc] initWithFrame:self.bounds];
         tagText.font = [ARISTemplate ARISBodyFont];
-        //tagText.textColor = [UIColor whiteColor];
-        tagText.text = nt.text; 
+        tagText.textColor = [UIColor whiteColor];
+        tagText.text = nt.tag; 
         [self addSubview:tagText];   
         
         if(editable)
@@ -51,8 +52,7 @@
 
 - (void) iWasTouched
 {
-   [delegate noteTagDeleteSelected:noteTag]; 
+   [delegate noteTagDeleteSelected:tag]; 
 }
-*/
 
 @end

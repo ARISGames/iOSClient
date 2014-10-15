@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class Tag;
+
 @protocol NoteTagPredictionViewControllerDelegate
-//- (void) existingTagChosen:(NoteTag *)nt;
+- (void) existingTagChosen:(Tag *)nt;
 @end
 
 @interface NoteTagPredictionViewController : UIViewController
-- (id) initWithGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt delegate:(id<NoteTagPredictionViewControllerDelegate>)d;
-- (void) setGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt;
-- (NSDictionary *) queryString:(NSString *)qs;
+- (id) initWithTags:(NSArray *)t delegate:(id<NoteTagPredictionViewControllerDelegate>)d;
+- (void) setTags:(NSArray *)t;
+- (NSArray *) queryString:(NSString *)qs;
 @end

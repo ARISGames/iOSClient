@@ -7,18 +7,18 @@
 //
 
 #import "SelectableNoteTagCellView.h"
+#import "Tag.h"
 
 @interface SelectableNoteTagCellView()
 {
-    //NoteTag *noteTag;
-    //id<SelectableNoteTagCellViewDelegate> __unsafe_unretained delegate;
+    Tag *noteTag;
+    id<SelectableNoteTagCellViewDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation SelectableNoteTagCellView
 
-/*
-- (id) initWithFrame:(CGRect)f noteTag:(NoteTag *)nt delegate:(id<SelectableNoteTagCellViewDelegate>)d
+- (id) initWithFrame:(CGRect)f noteTag:(Tag *)nt delegate:(id<SelectableNoteTagCellViewDelegate>)d
 {
     if(self = [super initWithFrame:f])
     {
@@ -27,7 +27,7 @@
         
         UILabel *tagText = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, self.frame.size.width, self.frame.size.height-10)];
         tagText.Font = [ARISTemplate ARISButtonFont];
-        tagText.text = nt.text;
+        tagText.text = nt.tag;
         [self addSubview:tagText]; 
         
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iWasTouched)]]; 
@@ -35,13 +35,10 @@
     }
     return self;
 }
-*/
 
-/*
 - (void) iWasTouched
 {
    [delegate noteTagSelected:noteTag]; 
 }
-*/
 
 @end

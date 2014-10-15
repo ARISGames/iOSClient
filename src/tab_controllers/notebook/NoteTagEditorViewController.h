@@ -8,22 +8,20 @@
 
 #import "ARISViewController.h"
 
+@class Tag;
+
 @protocol NoteTagEditorViewControllerDelegate
 @optional
-/*
-- (void) noteTagEditorAddedTag:(NoteTag *)nt;
-- (void) noteTagEditorCreatedTag:(NoteTag *)nt;
-- (void) noteTagEditorDeletedTag:(NoteTag *)nt;
+- (void) noteTagEditorAddedTag:(Tag *)nt;
+- (void) noteTagEditorCancelled;
+- (void) noteTagEditorDeletedTag:(Tag *)nt;
 - (void) noteTagEditorWillBeginEditing;
-*/
 @end
 
 @interface NoteTagEditorViewController : ARISViewController
-/*
-- (id) initWithTags:(NSArray *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d;
+- (id) initWithTag:(Tag *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d;
 - (void) setExpandHeight:(int)h;
-- (void) setTags:(NSArray *)t;
+- (void) setTag:(Tag *)t;
 - (void) beginEditing;
 - (void) stopEditing;
- */
 @end

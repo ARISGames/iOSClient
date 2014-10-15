@@ -16,28 +16,23 @@
 
 @interface NoteTagPredictionViewController() <SelectableNoteTagCellViewDelegate>
 {
-    /*
-    NSArray *gameNoteTags;
-    NSArray *playerNoteTags; 
+    NSArray *tags;
 
     UIScrollView *matchingNoteTagsScrollView;
 
     NSString *queryString;
 
     id<NoteTagPredictionViewControllerDelegate> __unsafe_unretained delegate;
-     */
 }
 @end
 
 @implementation NoteTagPredictionViewController
-/*
 
-- (id) initWithGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt delegate:(id<NoteTagPredictionViewControllerDelegate>)d
+- (id) initWithTags:(NSArray *)t delegate:(id<NoteTagPredictionViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        gameNoteTags = gnt;
-        playerNoteTags = pnt; 
+        tags = _ARIS_ARRAY_SORTED_ON_(t,@"text");
         queryString = @"";
         delegate = d;
     }
@@ -62,94 +57,40 @@
     [self refreshMatchingTags];
 }
 
-- (void) setGameNoteTags:(NSArray *)gnt playerNoteTags:(NSArray *)pnt
+- (void) setTags:(NSArray *)t
 {
-    gameNoteTags = _ARIS_ARRAY_SORTED_ON_(gnt,@"text");
-    playerNoteTags = _ARIS_ARRAY_SORTED_ON_(pnt,@"text");
+    tags = _ARIS_ARRAY_SORTED_ON_(t,@"text");
     [self refreshMatchingTags];
 }
 
-- (NSDictionary *) queryString:(NSString *)qs
+- (NSArray *) queryString:(NSString *)qs
 {
     queryString = qs;
     return [self refreshMatchingTags]; 
 }
 
-- (NSDictionary *) refreshMatchingTags
+- (NSArray *) refreshMatchingTags
 {
-    while(matchingNoteTagsScrollView.subviews.count   > 0) [[matchingNoteTagsScrollView.subviews   objectAtIndex:0] removeFromSuperview];
+    while(matchingNoteTagsScrollView.subviews.count   > 0) [matchingNoteTagsScrollView.subviews[0] removeFromSuperview];
     
-    NSMutableArray *matchedGameTags   = [[NSMutableArray alloc] init];
-    NSMutableArray *matchedPlayerTags = [[NSMutableArray alloc] init]; 
-    NSDictionary *matchedTags = [[NSDictionary alloc] initWithObjectsAndKeys:matchedGameTags, @"game", matchedPlayerTags, @"player", nil];
+    NSMutableArray *matched = [[NSMutableArray alloc] init];
     
     NSString *regex = [NSString stringWithFormat:@".*%@.*",queryString];
     NSString *tagTest;
     UIView *tagCell;
     
-    //Unlabeled
-    tagTest = _MODEL_GAME_.notesModel.unlabeledTag.text;
-    if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
+    for(int i = 0; i < tags.count; i++)
     {
-        [matchedGameTags addObject:_MODEL_GAME_.notesModel.unlabeledTag];
-        tagCell = [self cellForTag:_MODEL_GAME_.notesModel.unlabeledTag];
-        tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
-        [matchingNoteTagsScrollView addSubview:tagCell];
-    } 
-    //Game Tag Title
-    if(gameNoteTags.count > 0 && playerNoteTags.count > 0)
-    {
-        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        tagCell.userInteractionEnabled = NO;  
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        noTagsText.text = [NSString stringWithFormat:@" %@", NSLocalizedString(@"TagViewGameTagsKey", @"")];
-        noTagsText.textColor = [UIColor ARISColorDarkGray];
-        noTagsText.font = [ARISTemplate ARISCellBoldTitleFont];
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,28,1000,1)];
-        line.backgroundColor = [UIColor ARISColorLightGray];
-        [tagCell addSubview:noTagsText];
-        [tagCell addSubview:line]; 
-        [matchingNoteTagsScrollView addSubview:tagCell];  
-    }
-    //Game Tags
-    for(int i = 0; i < gameNoteTags.count; i++)
-    {
-        tagTest = ((NoteTag *)[gameNoteTags objectAtIndex:i]).text;
+        tagTest = ((Tag *)tags[i]).tag;
         if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
         {
-            [matchedGameTags addObject:((NoteTag *)[gameNoteTags objectAtIndex:i])];
-            tagCell = [self cellForTag:((NoteTag *)[gameNoteTags objectAtIndex:i])];
+            [matched addObject:((Tag *)tags[i])];
+            tagCell = [self cellForTag:((Tag *)tags[i])];
             tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
             [matchingNoteTagsScrollView addSubview:tagCell];
         }
     } 
-    //Player Tag Title
-    if(gameNoteTags.count > 0 && playerNoteTags.count > 0)
-    {
-        tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        tagCell.userInteractionEnabled = NO;  
-        UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        noTagsText.text = [NSString stringWithFormat:@" %@", NSLocalizedString(@"TagViewPlayerCreatedTags", @"")];
-        noTagsText.textColor = [UIColor ARISColorDarkGray]; 
-        noTagsText.font = [ARISTemplate ARISCellBoldTitleFont]; 
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,28,1000,1)];
-        line.backgroundColor = [UIColor ARISColorLightGray];
-        [tagCell addSubview:noTagsText];
-        [tagCell addSubview:line];  
-        [matchingNoteTagsScrollView addSubview:tagCell];  
-    } 
-    //Player Tags
-    for(int i = 0; i < playerNoteTags.count; i++)
-    {
-        tagTest = ((NoteTag *)[playerNoteTags objectAtIndex:i]).text;
-        if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
-        {
-            [matchedGameTags addObject:((NoteTag *)[playerNoteTags objectAtIndex:i])];
-            tagCell = [self cellForTag:((NoteTag *)[playerNoteTags objectAtIndex:i])];
-            tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
-            [matchingNoteTagsScrollView addSubview:tagCell];
-        }
-    }
+    
     //No Tags Title
     if(matchingNoteTagsScrollView.subviews.count == 0)
     {
@@ -164,18 +105,17 @@
     } 
     matchingNoteTagsScrollView.contentSize = CGSizeMake(matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count);
 
-    return matchedTags;
+    return matched;
 }
 
-- (UIView *) cellForTag:(NoteTag *)nt
+- (UIView *) cellForTag:(Tag *)nt
 {
     return [[SelectableNoteTagCellView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, CELL_HEIGHT) noteTag:nt delegate:self];
 }
 
-- (void) noteTagSelected:(NoteTag *)nt
+- (void) noteTagSelected:(Tag *)nt
 {
     [delegate existingTagChosen:nt];
 }
-*/
 
 @end

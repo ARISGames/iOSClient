@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class Tag;
+
 @protocol NoteTagViewDelegate
-//- (void) noteTagDeleteSelected:(NoteTag *)nt;
+- (void) noteTagDeleteSelected:(Tag *)nt;
 @end
+
 @interface NoteTagView : UIView
-//- (id) initWithNoteTag:(NoteTag *)nt editable:(BOOL)e delegate:(id<NoteTagViewDelegate>)d;
+- (id) initWithNoteTag:(Tag *)nt editable:(BOOL)e delegate:(id<NoteTagViewDelegate>)d;
 @end
