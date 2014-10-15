@@ -719,7 +719,6 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCRIPT_OPTIONS_RECEIVED", nil, uInfo);
 }
 
-
 - (void) setQtyForInstanceId:(int)instance_id qty:(int)qty
 {
      NSDictionary *args =

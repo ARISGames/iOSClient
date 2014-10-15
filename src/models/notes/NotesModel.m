@@ -19,9 +19,9 @@
 {
   NSMutableDictionary *notes;
 
-  NSArray *playerNotes;
-  NSArray *listNotes;
-  NSArray *notesMatchingTag;
+  NSMutableArray *playerNotes;
+  NSMutableArray *listNotes;
+  NSMutableArray *notesMatchingTag;
 }
 
 @end
@@ -88,24 +88,38 @@
   return notes[[NSNumber numberWithInt:note_id]];
 }
 
+- (NSArray *) notes
+{
+    return [notes allValues];
+}
+
 - (NSArray *) playerNotes
 {
   if(playerNotes) return playerNotes;
-  playerNotes = @[];
+  playerNotes = [[NSMutableArray alloc] init];
+  NSArray *ns = [notes allValues];
+  for(int i = 0; i < ns.count; i++)
+    if(((Note *)ns[i]).user_id == _MODEL_PLAYER_.user_id) [playerNotes addObject:ns[i]];
   return playerNotes;
 }
 
 - (NSArray *) listNotes
 {
   if(listNotes) return listNotes;
-  listNotes = @[];
+  listNotes = [[NSMutableArray alloc] init];
+  NSArray *ns = [notes allValues];
+  for(int i = 0; i < ns.count; i++)
+    if(((Note *)ns[i]).user_id == _MODEL_PLAYER_.user_id) [listNotes addObject:ns[i]];
   return listNotes;
 }
 
 - (NSArray *) notesMatchingTag:(Tag *)tag
 {
   if(notesMatchingTag) return notesMatchingTag;
-  notesMatchingTag = @[];
+  notesMatchingTag = [[NSMutableArray alloc] init];
+  NSArray *ns = [notes allValues];
+  for(int i = 0; i < ns.count; i++)
+    if(((Note *)ns[i]).user_id == _MODEL_PLAYER_.user_id) [notesMatchingTag addObject:ns[i]];
   return notesMatchingTag;
 }
 

@@ -22,6 +22,7 @@
 
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m;
 
+- (NSArray *) notes;
 - (NSArray *) playerNotes;
 - (NSArray *) listNotes;
 - (NSArray *) notesMatchingTag:(Tag *)tag;
