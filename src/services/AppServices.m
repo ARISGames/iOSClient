@@ -749,6 +749,28 @@
     //nothing need be done
 }
 
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"user_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id],
+      @"name":n.name,
+      @"description":n.description,
+      @"media":
+        @{
+           @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+           @"file_name":[m.localURL absoluteString],
+           @"data":[m.data base64Encoding]
+        }
+     };
+    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+}
+- (void) parseCreateNote:(ARISServiceResult *)result
+{
+    //nothing
+}
+
 - (void) logPlayerEnteredGame
 {
     NSDictionary *args =
@@ -923,40 +945,6 @@
 
 - (void) uploadNote:(Note *)n
 {
-    /*
-  NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSNumber numberWithFloat:n.location.latlon.coordinate.latitude],  @"latitude",
-    [NSNumber numberWithFloat:n.location.latlon.coordinate.longitude], @"longitude",
-    nil];
-  NSMutableArray *media = [[NSMutableArray alloc] initWithCapacity:n.contents];
-  for(int i = 0; i < n.contents.count; i++)
-  {
-    NSDictionary *m = [[NSDictionary alloc] initWithObjectsAndKeys:
-      [NSNumber numberWithInt:_MODEL_GAME_.game_id],@"path",
-      [((Media *)[n.contents objectAtIndex:i]).localURL absoluteString],@"filename",
-      [((Media *)[n.contents objectAtIndex:i]).data base64Encoding],@"data",
-      nil];
-    [media addObject:m];
-  }
-
-  NSMutableArray *tags = [[NSMutableArray alloc] initWithCapacity:n.tags];
-  for(int i = 0; i < n.tags.count; i++)
-    [tags addObject:((NoteTag *)[n.tags objectAtIndex:i]).text];
-
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSNumber numberWithInt:_MODEL_GAME_.game_id], @"game_id",
-    [NSNumber numberWithInt:n.noteId],                                     @"noteId",
-    [NSNumber numberWithInt:_MODEL_PLAYER_.user_id],    @"user_id",
-    n.name,                                                                @"title",
-    n.desc,                                                                @"description",
-    [NSNumber numberWithBool:n.publicToMap],                               @"publicToMap",
-    [NSNumber numberWithBool:n.publicToList],                              @"publicToBook",
-    location,                                                              @"location",
-    media,                                                                 @"media",
-    tags,                                                                  @"tags",
-    nil];
-  [connection performAsynchronousRequestWithService:@"notebook" method:@"addNoteFromJSON" arguments:args handler:self successSelector:@selector(parseNoteFromJSON:) failSelector:nil retryOnFail:YES userInfo:nil];
-     */
 }
 - (void) uploadPlayerPic:(Media *)m
 {

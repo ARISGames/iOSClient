@@ -7,21 +7,22 @@
 //
 
 #import "NoteEditorViewController.h"
-#import "NoteContentsViewController.h"
 #import "NoteTagEditorViewController.h"
 #import "NoteCameraViewController.h"
 #import "NoteRecorderViewController.h"
 #import "NoteLocationPickerController.h"
+#import "ARISMediaView.h"
 #import "Note.h"
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "User.h"
 #import "CircleButton.h"
 
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate, UIActionSheetDelegate>
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, ARISMediaViewDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate, UIActionSheetDelegate>
 {
     Note *note;
     Tag *tag;
+    Media *media;
     
     UITextField *title;
     UILabel *owner;
@@ -29,7 +30,7 @@
     NoteTagEditorViewController *tagViewController;  
     UITextView *description;
     UILabel *descriptionPrompt;
-    NoteContentsViewController *contentsViewController;
+    ARISMediaView *contentView;
     
     UIView *bottombar;
     CircleButton *imagePickerButton; 
@@ -50,8 +51,6 @@
     UIActionSheet *confirmPrompt;
     UIActionSheet *deletePrompt; 
     UIActionSheet *discardChangesPrompt;  
-    
-    NSMutableArray *mediaToUpload;
     
     NoteEditorMode mode;
     
@@ -79,8 +78,6 @@
         note = n; 
         mode = m;
         delegate = d;
-        
-        mediaToUpload = [[NSMutableArray alloc] initWithCapacity:5];
     }
     return self;
 }
@@ -131,7 +128,7 @@
     deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:NSLocalizedString(@"DeleteKey", @"") otherButtonTitles:nil];
     discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorContinueEditingKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
     
-    //contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
+    contentView = [[ARISMediaView alloc] initWithDelegate:self];
     
     line1 = [[UIView alloc] init];
     line1.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
@@ -211,7 +208,7 @@
     [self.view addSubview:owner];
     [self.view addSubview:description];
     [self.view addSubview:descriptionPrompt]; 
-    //[self.view addSubview:contentsViewController.view];
+    [self.view addSubview:contentView];
     [self.view addSubview:bottombar]; 
     [self.view addSubview:tagViewController.view];  
     [self.view addSubview:line1];  
@@ -252,10 +249,9 @@
     trashLabel.frame           = CGRectMake(buttonPadding*7+buttonDiameter*3-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-40, self.view.bounds.size.width, buttonDiameter+25); 
     
-    //contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);      
-    contentsViewController.view.frame = CGRectMake(0, bottombar.frame.origin.y-200, self.view.bounds.size.width, 200);       
+    contentView.frame = CGRectMake(0, bottombar.frame.origin.y-200, self.view.bounds.size.width, 200);       
     
-    description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentsViewController.view.frame.size.height-bottombar.frame.size.height-5);
+    description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentView.frame.size.height-bottombar.frame.size.height-5);
     descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y+5, self.view.bounds.size.width, 24);  
 }
 
@@ -314,7 +310,7 @@
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:note.created]; 
     owner.text = @"";//note.owner.display_name; 
-    //[contentsViewController setContents:note.contents];
+    [contentView setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
     [tagViewController setTag:tag];
 }
 
@@ -433,13 +429,7 @@
     note.name = title.text;
     note.desc = description.text;
 
-    //for(int i = 0; i < mediaToUpload.count; i++)
-        //[note.contents addObject:[mediaToUpload objectAtIndex:i]];
-
-    //feel icky about this...
-    //note.contents = mediaToUpload;
-
-    //[_SERVICES_ uploadNote:note];
+    [_MODEL_NOTES_ createNote:note withTag:tag media:media];
 
     [delegate noteEditorConfirmedNoteEdit:self note:note];
 }
@@ -462,42 +452,40 @@
 
 - (void) imageChosenWithURL:(NSURL *)url
 {
-    [self addMediaToUploadFromURL:url];  
+    [self setTempMediaFromURL:url];  
     [self.navigationController popToViewController:self animated:YES];  
     dirtybit = YES;
 }
 
 - (void) videoChosenWithURL:(NSURL *)url
 {
-    [self addMediaToUploadFromURL:url]; 
+    [self setTempMediaFromURL:url]; 
     [self.navigationController popToViewController:self animated:YES]; 
     dirtybit = YES; 
 }
 
 - (void) audioChosenWithURL:(NSURL *)url
 {
-    [self addMediaToUploadFromURL:url];
+    [self setTempMediaFromURL:url];
     [self.navigationController popToViewController:self animated:YES];  
     dirtybit = YES; 
 }
 
-- (void) addMediaToUploadFromURL:(NSURL *)url
+- (void) setTempMediaFromURL:(NSURL *)url
 {
-    Media *m = [_MODEL_MEDIA_ newMedia];
-    m.localURL = url;
-    m.data = [NSData dataWithContentsOfURL:m.localURL]; 
-    [mediaToUpload addObject:m];   
-    
-    //[contentsViewController setContents:[mediaToUpload arrayByAddingObjectsFromArray:note.contents]];  
+    media = [_MODEL_MEDIA_ newMedia];
+    media.localURL = url;
+    media.data = [NSData dataWithContentsOfURL:media.localURL]; 
+    [contentView setMedia:media];
 }
 
 - (void) actionSheet:(UIActionSheet *)a clickedButtonAtIndex:(NSInteger)b
 {
-    if(a == confirmPrompt && b ==0) //save anyway
+    if(a == confirmPrompt && b == 0) //save anyway
         [self saveNote];
-    if(a == deletePrompt && b ==0) //delete
+    if(a == deletePrompt && b == 0) //delete
        [self deleteNote]; 
-    if(a == discardChangesPrompt && b ==0) //discard
+    if(a == discardChangesPrompt && b == 0) //discard
         [self dismissSelf];  
 }
 

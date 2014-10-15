@@ -44,6 +44,11 @@
     notes = [[NSMutableDictionary alloc] init];
 }
 
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m
+{
+    [_SERVICES_ createNote:n withTag:t media:m]; //just forward to services
+}
+
 - (void) invalidateCaches
 {
   playerNotes = nil;

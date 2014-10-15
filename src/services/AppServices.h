@@ -12,6 +12,9 @@
 #define _SERVICES_ [AppServices sharedAppServices]
 #define _SERVICES_MEDIA_ [AppServices sharedAppServices].mediaLoader
 
+@class Note;
+@class Tag;
+
 @interface AppServices : NSObject
 {
     ARISMediaLoader *mediaLoader;  
@@ -68,6 +71,7 @@
 
 - (void) setQtyForInstanceId:(int)instance_id qty:(int)qty;
 - (void) setPlayerSceneId:(int)scene_id;
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m; //actually does full media upload
 
 - (void) logPlayerEnteredGame;
 - (void) logPlayerResetGame:(int)game_id;

@@ -32,7 +32,7 @@
 {
     if(self = [super init])
     {
-        tags = _ARIS_ARRAY_SORTED_ON_(t,@"text");
+        tags = _ARIS_ARRAY_SORTED_ON_(t,@"tag");
         queryString = @"";
         delegate = d;
     }
@@ -59,7 +59,7 @@
 
 - (void) setTags:(NSArray *)t
 {
-    tags = _ARIS_ARRAY_SORTED_ON_(t,@"text");
+    tags = _ARIS_ARRAY_SORTED_ON_(t,@"tag");
     [self refreshMatchingTags];
 }
 

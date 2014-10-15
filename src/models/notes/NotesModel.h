@@ -10,6 +10,7 @@
 #import "Note.h"
 
 @class Tag;
+@class Media;
 
 @interface NotesModel : NSObject
 {
@@ -18,6 +19,8 @@
 - (Note *) noteForId:(int)note_id;
 - (void) requestNotes;
 - (void) clearGameData;
+
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m;
 
 - (NSArray *) playerNotes;
 - (NSArray *) listNotes;
