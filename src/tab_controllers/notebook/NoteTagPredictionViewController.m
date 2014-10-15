@@ -97,7 +97,7 @@
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         tagCell.userInteractionEnabled = NO;  
         UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        noTagsText.text = [NSString stringWithFormat:@"(%@)", NSLocalizedString(@"TagViewNoLabelsKey", @"")];
+        noTagsText.text = [NSString stringWithFormat:@"  (%@)", NSLocalizedString(@"TagViewNoLabelsKey", @"")];
         noTagsText.textColor = [UIColor ARISColorDarkGray]; 
         noTagsText.font = [ARISTemplate ARISCellTitleFont];  
         [tagCell addSubview:noTagsText];
