@@ -751,19 +751,22 @@
 
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m
 {
-    NSDictionary *args =
-    @{
+    NSMutableDictionary *args =
+    [@{
       @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
       @"user_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id],
       @"name":n.name,
-      @"description":n.description,
-      @"media":
+      @"description":n.desc,
+     } mutableCopy];
+    if(m)
+    {
+      args[@"media"] = 
         @{
            @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
            @"data":[m.data base64Encoding]
-        }
-     };
+        };
+    }
     [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
 }
 - (void) parseCreateNote:(ARISServiceResult *)result
