@@ -43,6 +43,11 @@ NSLog(@"NSNotification: "arg_name); \
 //More Sugar
 //
 
+#define _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(arg_path) \
+({ \
+[NSString stringWithFormat:@"%@/%@",[_MODEL_ applicationDocumentsDirectory], arg_path]; \
+})
+
 #define _ARIS_ARRAY_SORTED_ON_(arg_array,arg_attribute) \
 ({ \
 [arg_array sortedArrayUsingDescriptors:@[[[NSSortDescriptor alloc] initWithKey:arg_attribute ascending:YES]]]; \

@@ -108,12 +108,15 @@
     mr.media.data = mr.data;
     [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
 
-    NSString *newFileFolder   = [NSString stringWithFormat:@"%@/%d",[_MODEL_ applicationDocumentsDirectory],mr.media.game_id]; 
-    if(![[NSFileManager defaultManager] fileExistsAtPath:newFileFolder isDirectory:nil])
-        [[NSFileManager defaultManager] createDirectoryAtPath:newFileFolder withIntermediateDirectories:YES attributes:nil error:nil];
-    NSString *newFileFullPath = [NSString stringWithFormat:@"%@/%@",newFileFolder,[[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject]];
-    [mr.media.data writeToFile:newFileFullPath options:nil error:nil];
-    mr.media.localURL = [NSURL URLWithString:[[NSString stringWithFormat:@"file://%@",newFileFullPath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    //short names to cope with obj-c verbosity
+    NSString *g = [NSString stringWithFormat:@"%d",mr.media.game_id]; //game_id as string
+    NSString *f = [[[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
+    
+    NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+    if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
+        [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
+    [mr.media setPartialLocalURL:[NSString stringWithFormat:@"%@/%@",g,f]];
+    [mr.media.data writeToURL:mr.media.localURL options:nil error:nil];
 
     [_MODEL_MEDIA_ saveAlteredMedia:mr.media];//not as elegant as I'd like...
     NSLog(@"Media loader  : Media id:%d loaded:%@",mr.media.media_id,mr.media.remoteURL);

@@ -8,6 +8,7 @@
 
 #import "Media.h"
 #import "MediaCD.h"
+#import "AppModel.h"
 
 @interface Media()
 {
@@ -72,12 +73,13 @@
 
 - (NSURL *) localURL
 {
-    return [NSURL URLWithString:mediaCD.localURL];
+    if(!mediaCD.localURL) return nil;
+    return [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(mediaCD.localURL)]];
 }
 
-- (void) setLocalURL:(NSURL *)lURL
+- (void) setPartialLocalURL:(NSString *)lURL
 {
-    mediaCD.localURL = [lURL absoluteString];
+    mediaCD.localURL = lURL;
 }
 
 - (NSURL *) remoteURL

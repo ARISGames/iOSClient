@@ -474,7 +474,7 @@
 - (void) setTempMediaFromURL:(NSURL *)url
 {
     media = [_MODEL_MEDIA_ newMedia];
-    media.localURL = url;
+    //media.localURL = url;
     media.data = [NSData dataWithContentsOfURL:media.localURL]; 
     [contentView setMedia:media];
 }

@@ -173,16 +173,21 @@
 
 - (void) uploadImage:(UIImage *)i
 {
-    //Save to tmp dir
-    NSData *imageData = UIImageJPEGRepresentation(i, 0.4);
-    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
-    [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"];
-    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_image.jpg", [outputFormatter stringFromDate:[NSDate date]]]]]; 
-    [imageData writeToURL:imageURL atomically:YES]; 
-    
+    //short names to cope with obj-c verbosity
     Media *m = [_MODEL_MEDIA_ newMedia];
-    m.localURL = imageURL;
-    m.data = imageData; 
+    NSString *g = @"0"; //game_id as string
+    
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init]; [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"];
+    NSString *f = [NSString stringWithFormat:@"%@_image.jpg", [outputFormatter stringFromDate:[NSDate date]]]; //filename
+    
+    NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+    if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
+        [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
+    [m setPartialLocalURL:[NSString stringWithFormat:@"%@/%@",g,f]];
+    
+    m.data = UIImageJPEGRepresentation(i, 0.4);
+    [m.data writeToURL:m.localURL options:nil error:nil];
+    
     [self.playerPic setImage:i]; 
     //[_SERVICES_ uploadPlayerPic:m];
 }

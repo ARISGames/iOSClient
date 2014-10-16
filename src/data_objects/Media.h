@@ -17,11 +17,12 @@
 @property (readonly, assign) int media_id;
 @property (readonly, assign) int game_id;
 @property (readonly, assign) int user_id;
-@property (nonatomic, strong) NSURL *localURL;
+@property (nonatomic, strong, readonly) NSURL *localURL;
 @property (nonatomic, strong) NSURL *remoteURL;
 @property (nonatomic, strong) NSData *data;
 
 - (id) initWithMediaCD:(MediaCD *)mcd;
+- (void) setPartialLocalURL:(NSString *)partLocalURL;
 - (NSString *) fileExtension;
 - (NSString *) type;
 
