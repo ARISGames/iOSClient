@@ -17,12 +17,12 @@
     ARISMediaDisplayMode displayMode;
     Media *media;
     UIImage *image;
-    
+
     UIImageView *imageView;
     MPMoviePlayerViewController *avVC;
     UIImageView *playIcon;
     UIActivityIndicatorView *spinner;
-    
+
     ARISDelegateHandle *selfDelegateHandle;
     id<ARISMediaViewDelegate> __unsafe_unretained delegate;
 }
@@ -44,8 +44,8 @@
 {
     if(self = [super initWithFrame:f])
     {
-        self.frame = f; 
-    } 
+        self.frame = f;
+    }
     return self;
 }
 
@@ -54,9 +54,9 @@
     if(self = [super initWithFrame:f])
     {
         delegate = d;
-        self.frame = f; 
-    } 
-    return self; 
+        self.frame = f;
+    }
+    return self;
 }
 
 - (void) setDelegate:(id<ARISMediaViewDelegate>)d
@@ -72,7 +72,7 @@
 
 - (void) setFrame:(CGRect)f
 {
-    super.frame = f; 
+    super.frame = f;
     [self conformFrameToMode];
 }
 
@@ -80,6 +80,8 @@
 {
     if(!m.data)
     {
+        [self clear];
+        media = m;
         [self addSpinner];
         if(selfDelegateHandle) [selfDelegateHandle invalidate];
         selfDelegateHandle = [[ARISDelegateHandle alloc] initWithDelegate:self];
@@ -98,19 +100,19 @@
 
 - (void) setImage:(UIImage *)i
 {
-    [self clear]; 
+    [self clear];
     image = i;
     [self displayImage];
 }
 
 - (void) clear
 {
-    if(selfDelegateHandle) [selfDelegateHandle invalidate];
+    if(selfDelegateHandle) { [selfDelegateHandle invalidate]; selfDelegateHandle = nil; }
     image = nil;
-    media = nil; 
-    [self removeSpinner];   
+    media = nil;
+    [self removeSpinner];
     [self removePlayIcon];
-    if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; }      
+    if(avVC) { [avVC.view removeFromSuperview]; avVC = nil; }
     if(imageView) { [imageView removeFromSuperview]; imageView = nil; }
 }
 
@@ -126,7 +128,7 @@
             [self displayImage];
         }
         else if([dataType isEqualToString:@"image/jpeg"] ||
-                [dataType isEqualToString:@"image/png"]) 
+                [dataType isEqualToString:@"image/png"])
         {
             image = [UIImage imageWithData:media.data];
             [self displayImage];
@@ -151,9 +153,9 @@
 - (void) displayVideo:(Media *)m
 {
     [self addPlayIcon];
-    
+
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil); 
+  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
     avVC.moviePlayer.shouldAutoplay = NO;
     [avVC.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerThumbnailImageRequestDidFinishNotification,self,@selector(displayVideoThumbLoaded:),avVC.moviePlayer);
@@ -171,11 +173,11 @@
 - (void) displayAudio:(Media *)m
 {
     [self addPlayIcon];
-    
+
     avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);  
+  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
     avVC.moviePlayer.shouldAutoplay = NO;
-    avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;  
+    avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
     image = [UIImage imageNamed:@"sound_with_bg.png"];
     [self displayImage];
 }
@@ -183,7 +185,7 @@
 - (void) conformFrameToMode
 {
     CGRect oldFrame = self.frame;
-    
+
     switch(displayMode)
     {
         case ARISMediaDisplayModeDefault:
@@ -199,8 +201,8 @@
             imageView.contentMode = UIViewContentModeScaleAspectFit;
             break;
     }
-    
-    float mult = oldFrame.size.width/image.size.width; 
+
+    float mult = oldFrame.size.width/image.size.width;
     switch(displayMode)
     {
         case ARISMediaDisplayModeTopAlignAspectFitWidth:
@@ -208,25 +210,25 @@
             break;
         case ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight:
             imageView.frame = CGRectMake(0,0,oldFrame.size.width,image.size.height*mult);
-            //instead of getting in infinite loop with "setFrame", just handle silent cleanup here 
+            //instead of getting in infinite loop with "setFrame", just handle silent cleanup here
             super.frame = CGRectMake(oldFrame.origin.x,oldFrame.origin.y,oldFrame.size.width,imageView.frame.size.height);
         default:
             imageView.frame = self.bounds;
             break;
     }
-    
-    if(avVC) avVC.view.frame = imageView.frame;   
+
+    if(avVC) avVC.view.frame = imageView.frame;
     [self centerSpinner];
-    [self centerPlayIcon]; 
-    
+    [self centerPlayIcon];
+
     if(oldFrame.origin.x == self.frame.origin.x &&
-       oldFrame.origin.y == self.frame.origin.y && 
-       oldFrame.size.width == self.frame.size.width &&  
+       oldFrame.origin.y == self.frame.origin.y &&
+       oldFrame.size.width == self.frame.size.width &&
        oldFrame.size.height ==  self.frame.size.height)
         return; //no change to frame- don't notify delegate
-       
+
     if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewFrameUpdated:)])
-        [delegate ARISMediaViewFrameUpdated:self]; 
+        [delegate ARISMediaViewFrameUpdated:self];
 }
 
 - (void) playbackFinished:(NSNotification *)n
@@ -248,7 +250,7 @@
 
 - (void) centerSpinner
 {
-    spinner.center = self.center; 
+    spinner.center = self.center;
 }
 
 - (void) removeSpinner
@@ -272,10 +274,10 @@
 - (void) centerPlayIcon
 {
     double h = self.frame.size.height;
-    double w = self.frame.size.width; 
+    double w = self.frame.size.width;
     if(h > 60) h = 60;
-    if(w > 60) w = 60; 
-    playIcon.frame = CGRectMake((self.frame.size.width-w)/2,(self.frame.size.height-h)/2,w,h); 
+    if(w > 60) w = 60;
+    playIcon.frame = CGRectMake((self.frame.size.width-w)/2,(self.frame.size.height-h)/2,w,h);
 }
 
 - (void) removePlayIcon
@@ -300,8 +302,8 @@
     if(!media || [media.type isEqualToString:@"IMAGE"] || !avVC) return;
     [self removePlayIcon];
     avVC.view.frame = self.bounds;
-    [self addSubview:avVC.view];  
-    [avVC.moviePlayer play]; 
+    [self addSubview:avVC.view];
+    [avVC.moviePlayer play];
 }
 
 - (void) stop
@@ -316,7 +318,7 @@
 {
     uint8_t c;
     [d getBytes:&c length:1];
-   
+
     switch(c)
     {
         case 0xFF:
@@ -338,7 +340,7 @@
 - (void) dealloc
 {
     if(selfDelegateHandle) [selfDelegateHandle invalidate];
-    if(avVC) [avVC.moviePlayer cancelAllThumbnailImageRequests]; 
+    if(avVC) [avVC.moviePlayer cancelAllThumbnailImageRequests];
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
