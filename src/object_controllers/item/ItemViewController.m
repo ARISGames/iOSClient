@@ -86,8 +86,10 @@
     line.backgroundColor = [UIColor ARISColorLightGray];
 
     //Web Item
-    //if(item.itemType == ItemTypeWebPage && item.url && (![item.url isEqualToString: @"0"]) &&(![item.url isEqualToString:@""]))
-    if(false)
+    if([item.type isEqualToString:@"URL"] && 
+       item.url                                && 
+       ![item.url isEqualToString:@"0"]        && 
+       ![item.url isEqualToString:@""]         )
     {
         webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
         if(numButtons > 0) webView.scrollView.contentInset = UIEdgeInsetsMake(64,0,54,0);
@@ -98,7 +100,7 @@
         webView.allowsInlineMediaPlayback       = YES;
         webView.mediaPlaybackRequiresUserAction = NO;
 
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:item.url]] withAppendation:[NSString stringWithFormat:@"item_id=%d",item.item_id]];
+        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:item.url]] withAppendation:[NSString stringWithFormat:@"&item_id=%d",item.item_id]];
     }
     //Normal Item
     else
