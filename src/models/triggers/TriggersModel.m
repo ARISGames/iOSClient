@@ -18,6 +18,8 @@
 {
     NSMutableDictionary *triggers;
     NSArray *playerTriggers;
+
+    NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
 }
 @end
 
@@ -30,6 +32,7 @@
         [self clearGameData];
 
         _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGERS_RECEIVED",self,@selector(triggersReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGER_RECEIVED",self,@selector(triggerReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",self,@selector(playerTriggersReceived:),nil);
     }
     return self;
@@ -43,12 +46,18 @@
 - (void) clearGameData
 {
     [self clearPlayerData];
-    triggers = [[NSMutableDictionary alloc] init];
+    triggers  = [[NSMutableDictionary alloc] init];
+    blacklist = [[NSMutableDictionary alloc] init];
 }
 
 - (void) triggersReceived:(NSNotification *)notif
 {
     [self updateTriggers:notif.userInfo[@"triggers"]];
+}
+
+- (void) triggerReceived:(NSNotification *)notif
+{
+    [self updateTriggers:@[notif.userInfo[@"trigger"]]];
 }
 
 - (void) updateTriggers:(NSArray *)newTriggers
@@ -60,7 +69,10 @@
       newTrigger = [newTriggers objectAtIndex:i];
       newTriggerId = [NSNumber numberWithInt:newTrigger.trigger_id];
       if(![triggers objectForKey:newTriggerId])
+      {
         [triggers setObject:newTrigger forKey:newTriggerId];
+        [blacklist removeObjectForKey:[NSNumber numberWithInt:newTriggerId]];
+      }
       else
         [[triggers objectForKey:newTriggerId] mergeDataFromTrigger:newTrigger];
     }
@@ -124,12 +136,21 @@
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
-- (void) requestTriggers       { [_SERVICES_ fetchTriggers];   }
+- (void) requestTriggers       { [_SERVICES_ fetchTriggers]; }
+- (void) requestTrigger:(int)t { [_SERVICES_ fetchTriggerById:t]; }
 - (void) requestPlayerTriggers { [_SERVICES_ fetchTriggersForPlayer]; }
 
+// null trigger (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Trigger *) triggerForId:(int)trigger_id
 {
-  return [triggers objectForKey:[NSNumber numberWithInt:trigger_id]];
+  Trigger *t = [triggers objectForKey:[NSNumber numberWithInt:trigger_id]];
+  if(!t)
+  {
+    [blacklist setObject:@"true" forKey:[NSNumber numberWithInt:trigger_id]];
+    [self requestTrigger:trigger_id];
+    return [[Trigger alloc] init];
+  }
+  return t;
 }
 
 - (Trigger *) triggerForQRCode:(NSString *)code

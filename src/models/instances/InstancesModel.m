@@ -17,6 +17,8 @@
 @interface InstancesModel()
 {
     NSMutableDictionary *instances;
+    
+    NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
 }
 @end
 
@@ -29,6 +31,7 @@
         [self clearGameData];
 
         _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCES_RECEIVED",self,@selector(gameInstancesReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCE_RECEIVED",self,@selector(instanceReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(playerInstancesReceived:),nil); 
     }
     return self;
@@ -46,7 +49,9 @@
 
 - (void) clearGameData
 {
-    instances = [[NSMutableDictionary alloc] init]; 
+    [self clearPlayerData]; //not actually necessary- just removes player owned from list
+    instances = [[NSMutableDictionary alloc] init]; //will get cleared here anyway
+    blacklist = [[NSMutableDictionary alloc] init];
 }
 
 //only difference is notification sent- all other functionality same
@@ -54,6 +59,8 @@
 { [self updateInstances:[notif.userInfo objectForKey:@"instances"] player:YES]; }
 - (void) gameInstancesReceived:(NSNotification *)notif 
 { [self updateInstances:[notif.userInfo objectForKey:@"instances"] player:NO]; }
+- (void) instancesReceived:(NSNotification *)notif 
+{ [self updateInstances:@[[notif.userInfo objectForKey:@"instance"]] player:NO]; }
 
 - (void) updateInstances:(NSArray *)newInstances player:(BOOL)player
 {
@@ -72,6 +79,7 @@
         [fakeExistingInstance mergeDataFromInstance:newInstance];
         fakeExistingInstance.qty = 0;
         [instances setObject:fakeExistingInstance forKey:newInstanceId];
+        [blacklist removeObjectForKey:[NSNumber numberWithInt:newInstanceId]];
       }
       
       Instance *existingInstance = [instances objectForKey:newInstanceId];
@@ -103,13 +111,20 @@
 }
 
 - (void) requestInstances       { [_SERVICES_ fetchInstances];   }
+- (void) requestInstance:(int)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
 
-//null instance not flyweight!
+// null instance (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Instance *) instanceForId:(int)instance_id
 {
-  if(!instance_id) return [[Instance alloc] init]; 
-  return [instances objectForKey:[NSNumber numberWithInt:instance_id]];
+  Instance *i = [instances objectForKey:[NSNumber numberWithInt:instance_id]];
+  if(!i)
+  {
+    [blacklist setObject:@"true" forKey:[NSNumber numberWithInt:instance_id]];
+    [self requestInstance:instance_id];
+    return [[Instance alloc] init];
+  }
+  return i;
 }
 
 - (NSArray *) playerInstances

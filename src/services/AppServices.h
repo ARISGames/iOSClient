@@ -41,7 +41,7 @@
 
 - (void) fetchScenes;
 - (void) touchSceneForPlayer;
-- (void) fetchMedia; - (void) fetchMediaId:(int)media_id;
+- (void) fetchMedias;
 - (void) fetchPlaques;
 - (void) fetchItems;
 - (void) touchItemsForPlayer; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
@@ -89,5 +89,25 @@
 - (void) logPlayerReceivedItemId:(int)item_id qty:(int)qty;
 - (void) logPlayerLostItemId:(int)item_id qty:(int)qty;
 - (void) logPlayerSetSceneId:(int)scene_id;
+
+//for mid-game fetches. these are failsafes, and oughtn't occur. 
+//if you are editing your game mid-play, expect undefined behavior
+- (void) fetchSceneById:(int)scene_id;
+- (void) fetchMediaById:(int)media_id;
+- (void) fetchPlaqueById:(int)plaque_id;
+- (void) fetchItemById:(int)item_id;
+- (void) fetchDialogById:(int)dialog_id;
+- (void) fetchDialogCharacterById:(int)character_id;
+- (void) fetchDialogScriptById:(int)script_id;
+- (void) fetchDialogOptionById:(int)option_id;
+- (void) fetchWebPageById:(int)web_page_id;
+- (void) fetchNoteById:(int)note_id;
+- (void) fetchTagById:(int)tag_id;
+- (void) fetchEventById:(int)event_id;
+- (void) fetchQuestById:(int)quest_id;
+- (void) fetchInstanceById:(int)instance_id;
+- (void) fetchTriggerById:(int)trigger_id;
+- (void) fetchOverlayById:(int)overlay_id;
+- (void) fetchTabById:(int)tab_id;
 
 @end

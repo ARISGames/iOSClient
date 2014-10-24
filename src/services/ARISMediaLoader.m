@@ -76,7 +76,7 @@
         }
     }
     [metaConnections addObject:mr];
-    [_SERVICES_ fetchMediaId:mr.media.media_id];
+    [_SERVICES_ fetchMediaById:mr.media.media_id];
 }
 
 - (void) retryLoadingAllMedia

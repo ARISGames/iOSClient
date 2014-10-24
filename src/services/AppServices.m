@@ -250,31 +250,18 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_SCENE_TOUCHED", nil, nil);
 }
 
-- (void) fetchMedia
+- (void) fetchMedias
 {
     NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"media" method:@"getMediaForGame" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"media" method:@"getMediaForGame" arguments:args handler:self successSelector:@selector(parseMedias:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
 }
-- (void) parseMedia:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
+- (void) parseMedias:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
 {
     NSArray *mediaDicts = (NSArray *)result.resultData;
-    _ARIS_NOTIF_SEND_(@"SERVICES_MEDIA_RECEIVED", nil, @{@"media":mediaDicts});
-}
-- (void) fetchMediaId:(int)media_id
-{
-    NSDictionary *args =
-    @{
-      @"media_id":[NSNumber numberWithInt:media_id],
-    };
-    [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseSingleMedia:) failSelector:nil retryOnFail:NO userInfo:nil];
-}
-- (void) parseSingleMedia:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
-{
-    NSDictionary *mediaDict = (NSDictionary *)result.resultData;
-    _ARIS_NOTIF_SEND_(@"SERVICES_MEDIA_RECEIVED", nil, @{@"media":@[mediaDict]}); // fakes an entire list and does same as fetching all media
+    _ARIS_NOTIF_SEND_(@"SERVICES_MEDIAS_RECEIVED", nil, @{@"medias":mediaDicts});
 }
 
 - (void) fetchPlaques
@@ -927,6 +914,260 @@
 }
 
 
+
+- (void) fetchSceneById:(int)scene_id;
+{
+  NSDictionary *args =
+    @{
+      @"scene_id":[NSNumber numberWithInt:scene_id]
+      };
+  [connection performAsynchronousRequestWithService:@"scenes" method:@"getScene" arguments:args handler:self successSelector:@selector(parseScene:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseScene:(ARISServiceResult *)result
+{
+    NSDictionary *sceneDict= (NSDictionary *)result.resultData;
+    Scene *scene = [[Scene alloc] initWithDictionary:sceneDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_SCENE_RECEIVED", nil, @{@"scene":scene});
+}
+
+- (void) fetchMediaById:(int)media_id;
+{
+  NSDictionary *args =
+    @{
+      @"media_id":[NSNumber numberWithInt:media_id]
+      };
+  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseMedia:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
+{
+    NSDictionary *mediaDict = (NSDictionary *)result.resultData;
+    _ARIS_NOTIF_SEND_(@"SERVICES_MEDIA_RECEIVED", nil, @{@"media":mediaDict}); // fakes an entire list and does same as fetching all media
+}
+
+- (void) fetchPlaqueById:(int)plaque_id;
+{
+  NSDictionary *args =
+    @{
+      @"plaque_id":[NSNumber numberWithInt:plaque_id]
+      };
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaque" arguments:args handler:self successSelector:@selector(parsePlaque:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parsePlaque:(ARISServiceResult *)result
+{
+    NSDictionary *plaqueDict= (NSDictionary *)result.resultData;
+    Plaque *plaque = [[Plaque alloc] initWithDictionary:plaqueDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAQUE_RECEIVED", nil, @{@"plaque":plaque});
+}
+
+- (void) fetchItemById:(int)item_id;
+{
+  NSDictionary *args =
+    @{
+      @"item_id":[NSNumber numberWithInt:item_id]
+      };
+  [connection performAsynchronousRequestWithService:@"items" method:@"getItem" arguments:args handler:self successSelector:@selector(parseItem:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseItem:(ARISServiceResult *)result
+{
+    NSDictionary *itemDict= (NSDictionary *)result.resultData;
+    Item *item = [[Item alloc] initWithDictionary:itemDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_ITEM_RECEIVED", nil, @{@"item":item});
+}
+
+- (void) fetchDialogById:(int)dialog_id;
+{
+  NSDictionary *args =
+    @{
+      @"dialog_id":[NSNumber numberWithInt:dialog_id]
+      };
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialog" arguments:args handler:self successSelector:@selector(parseDialog:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseDialog:(ARISServiceResult *)result
+{
+    NSDictionary *dialogDict= (NSDictionary *)result.resultData;
+    Dialog *dialog = [[Dialog alloc] initWithDictionary:dialogDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_DIALOG_RECEIVED", nil, @{@"dialog":dialog});
+}
+
+- (void) fetchDialogCharacterById:(int)character_id;
+{
+  NSDictionary *args =
+    @{
+      @"dialog_character_id":[NSNumber numberWithInt:character_id]
+      };
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogCharacter" arguments:args handler:self successSelector:@selector(parseDialogCharacter:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseDialogCharacter:(ARISServiceResult *)result
+{
+    NSDictionary *dialogCharacterDict= (NSDictionary *)result.resultData;
+    DialogCharacter *dialogCharacter = [[DialogCharacter alloc] initWithDictionary:dialogCharacterDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_DIALOG_RECEIVED", nil, @{@"dialog_character":dialogCharacter});
+}
+
+- (void) fetchDialogScriptById:(int)script_id;
+{
+  NSDictionary *args =
+    @{
+      @"dialog_script_id":[NSNumber numberWithInt:script_id]
+      };
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogScript" arguments:args handler:self successSelector:@selector(parseDialogScript:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseDialogScript:(ARISServiceResult *)result
+{
+    NSDictionary *dialogScriptDict= (NSDictionary *)result.resultData;
+    DialogScript *dialogScript = [[DialogScript alloc] initWithDictionary:dialogScriptDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_DIALOG_RECEIVED", nil, @{@"dialog_script":dialogScript});
+}
+
+- (void) fetchDialogOptionById:(int)option_id;
+{
+  NSDictionary *args =
+    @{
+      @"dialog_option_id":[NSNumber numberWithInt:option_id]
+      };
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogOption" arguments:args handler:self successSelector:@selector(parseDialogOption:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseDialogOption:(ARISServiceResult *)result
+{
+    NSDictionary *dialogOptionDict= (NSDictionary *)result.resultData;
+    DialogOption *dialogOption = [[DialogOption alloc] initWithDictionary:dialogOptionDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_DIALOG_RECEIVED", nil, @{@"dialog_option":dialogOption});
+}
+
+- (void) fetchWebPageById:(int)web_page_id;
+{
+  NSDictionary *args =
+    @{
+      @"web_page_id":[NSNumber numberWithInt:web_page_id]
+      };
+  [connection performAsynchronousRequestWithService:@"web_pages" method:@"getWebPage" arguments:args handler:self successSelector:@selector(parseWebPage:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseWebPage:(ARISServiceResult *)result
+{
+    NSDictionary *webPageDict= (NSDictionary *)result.resultData;
+    WebPage *webPage = [[WebPage alloc] initWithDictionary:webPageDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_WEB_PAGE_RECEIVED", nil, @{@"web_page":webPage});
+}
+
+- (void) fetchNoteById:(int)note_id;
+{
+  NSDictionary *args =
+    @{
+      @"note_id":[NSNumber numberWithInt:note_id]
+      };
+  [connection performAsynchronousRequestWithService:@"notes" method:@"getNote" arguments:args handler:self successSelector:@selector(parseNote:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseNote:(ARISServiceResult *)result
+{
+    NSDictionary *noteDict= (NSDictionary *)result.resultData;
+    Note *note = [[Note alloc] initWithDictionary:noteDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_RECEIVED", nil, @{@"note":note});
+}
+
+- (void) fetchTagById:(int)tag_id;
+{
+  NSDictionary *args =
+    @{
+      @"tag_id":[NSNumber numberWithInt:tag_id]
+      };
+  [connection performAsynchronousRequestWithService:@"tags" method:@"getTag" arguments:args handler:self successSelector:@selector(parseTag:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseTag:(ARISServiceResult *)result
+{
+    NSDictionary *tagDict= (NSDictionary *)result.resultData;
+    Tag *tag = [[Tag alloc] initWithDictionary:tagDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_TAG_RECEIVED", nil, @{@"tag":tag});
+}
+
+- (void) fetchEventById:(int)event_id;
+{
+  NSDictionary *args =
+    @{
+      @"event_id":[NSNumber numberWithInt:event_id]
+      };
+  [connection performAsynchronousRequestWithService:@"events" method:@"getEvent" arguments:args handler:self successSelector:@selector(parseEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseEvent:(ARISServiceResult *)result
+{
+    NSDictionary *eventDict= (NSDictionary *)result.resultData;
+    Event *event = [[Event alloc] initWithDictionary:eventDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_EVENT_RECEIVED", nil, @{@"event":event});
+}
+
+- (void) fetchQuestById:(int)quest_id;
+{
+  NSDictionary *args =
+    @{
+      @"quest_id":[NSNumber numberWithInt:quest_id]
+      };
+  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuest" arguments:args handler:self successSelector:@selector(parseQuest:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseQuest:(ARISServiceResult *)result
+{
+    NSDictionary *questDict= (NSDictionary *)result.resultData;
+    Quest *quest = [[Quest alloc] initWithDictionary:questDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_QUEST_RECEIVED", nil, @{@"quest":quest});
+}
+
+- (void) fetchInstanceById:(int)instance_id;
+{
+  NSDictionary *args =
+    @{
+      @"instance_id":[NSNumber numberWithInt:instance_id]
+      };
+  [connection performAsynchronousRequestWithService:@"instances" method:@"getInstance" arguments:args handler:self successSelector:@selector(parseInstance:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseInstance:(ARISServiceResult *)result
+{
+    NSDictionary *instanceDict= (NSDictionary *)result.resultData;
+    Instance *instance = [[Instance alloc] initWithDictionary:instanceDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_INSTANCE_RECEIVED", nil, @{@"instance":instance});
+}
+
+- (void) fetchTriggerById:(int)trigger_id;
+{
+  NSDictionary *args =
+    @{
+      @"trigger_id":[NSNumber numberWithInt:trigger_id]
+      };
+  [connection performAsynchronousRequestWithService:@"triggers" method:@"getTrigger" arguments:args handler:self successSelector:@selector(parseTrigger:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseTrigger:(ARISServiceResult *)result
+{
+    NSDictionary *triggerDict= (NSDictionary *)result.resultData;
+    Trigger *trigger = [[Trigger alloc] initWithDictionary:triggerDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_TRIGGER_RECEIVED", nil, @{@"trigger":trigger});
+}
+
+- (void) fetchOverlayById:(int)overlay_id;
+{
+  NSDictionary *args =
+    @{
+      @"overlay_id":[NSNumber numberWithInt:overlay_id]
+      };
+  [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlay" arguments:args handler:self successSelector:@selector(parseOverlay:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseOverlay:(ARISServiceResult *)result
+{
+    NSDictionary *overlayDict= (NSDictionary *)result.resultData;
+    Overlay *overlay = [[Overlay alloc] initWithDictionary:overlayDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_OVERLAY_RECEIVED", nil, @{@"overlay":overlay});
+}
+
+- (void) fetchTabById:(int)tab_id;
+{
+  NSDictionary *args =
+    @{
+      @"tab_id":[NSNumber numberWithInt:tab_id]
+      };
+  [connection performAsynchronousRequestWithService:@"tabs" method:@"getTab" arguments:args handler:self successSelector:@selector(parseTab:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseTab:(ARISServiceResult *)result
+{
+    NSDictionary *tabDict= (NSDictionary *)result.resultData;
+    Tab *tab = [[Tab alloc] initWithDictionary:tabDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_TAB_RECEIVED", nil, @{@"tab":tab});
+}
 
 
 

@@ -29,7 +29,8 @@
     {
         [self clearGameData];
         context = c;
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIA_RECEIVED",self,@selector(mediasReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIAS_RECEIVED",self,@selector(mediasReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIA_RECEIVED",self,@selector(mediaReceived:),nil);
     }
     return self;
 }
@@ -73,7 +74,12 @@
 
 - (void) mediasReceived:(NSNotification *)notif
 {
-    [self updateMedias:notif.userInfo[@"media"]];
+    [self updateMedias:notif.userInfo[@"medias"]];
+}
+
+- (void) mediaReceived:(NSNotification *)notif
+{
+    [self updateMedias:@[notif.userInfo[@"media"]]];
 }
 
 //Different than other models, as it expects raw dicts rather than fully populated objects
@@ -115,7 +121,7 @@
 
 - (void) requestMedia
 {
-  [_SERVICES_ fetchMedia];
+  [_SERVICES_ fetchMedias];
 }
 
 - (Media *) mediaForId:(int)media_id
