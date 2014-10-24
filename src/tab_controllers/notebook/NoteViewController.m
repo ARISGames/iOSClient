@@ -42,7 +42,7 @@
 
 @implementation NoteViewController
 
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate>)d
 {
     if(self = [super init])
     {

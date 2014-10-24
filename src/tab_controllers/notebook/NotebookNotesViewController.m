@@ -19,7 +19,7 @@ const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 const int VIEW_MODE_TAG  = 2;
 
-@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, InstantiableViewControllerDelegate, UISearchBarDelegate>
+@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, InstantiableViewControllerDelegate, NoteCellDelegate, UISearchBarDelegate>
 {
     UITableView *table;
     UISearchBar *searchBar;

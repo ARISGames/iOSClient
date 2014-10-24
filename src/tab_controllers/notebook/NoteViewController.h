@@ -11,6 +11,6 @@
 @protocol StateControllerProtocol;
 @class Instance;
 @interface NoteViewController : InstantiableViewController
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
+- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate>)d;
 @end
 

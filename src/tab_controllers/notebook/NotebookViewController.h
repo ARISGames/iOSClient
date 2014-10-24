@@ -8,11 +8,11 @@
 
 #import "ARISGamePlayTabBarViewController.h"
 
-@protocol NotebookViewControllerDelegate
+@protocol NotebookViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
 @interface NotebookViewController : ARISGamePlayTabBarViewController
 
-- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, NotebookViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<NotebookViewControllerDelegate>)d;
 
 @end

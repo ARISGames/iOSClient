@@ -44,7 +44,7 @@
 
 @implementation NotebookViewController
 
-- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, NotebookViewControllerDelegate>)d
+- (id) initWithDelegate:(id<NotebookViewControllerDelegate>)d
 {
     if(self = [super initWithDelegate:d])
     {
