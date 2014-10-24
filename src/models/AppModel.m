@@ -30,6 +30,7 @@
 @synthesize hidePlayers;
 @synthesize player;
 @synthesize game;
+@synthesize usersModel;
 @synthesize gamesModel;
 @synthesize mediaModel;
 @synthesize deviceLocation;
@@ -55,6 +56,7 @@
 
     motionManager     = [[CMMotionManager alloc] init];
     servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
+    usersModel        = [[UsersModel alloc] init];  
     gamesModel        = [[GamesModel alloc] init];  
     mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]]; 
       

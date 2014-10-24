@@ -44,10 +44,20 @@
         self.email          = [dict validStringForKey:@"email"]; 
         self.media_id       = [dict validIntForKey:@"media_id"];
         self.read_write_key = [dict validStringForKey:@"read_write_key"];   
-        if([dict validFloatForKey:@"latitude"] && [dict validFloatForKey:@"longitude"])
-            self.location = [[CLLocation alloc] initWithLatitude:[dict validFloatForKey:@"latitude"] longitude:[dict validFloatForKey:@"longitude"]];
+        self.location       = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
     }
     return self;
+}
+
+- (User *) mergeDataFromUser:(User *)u
+{
+  self.user_id        = u.user_id;
+  self.user_name      = u.user_name;
+  self.display_name   = u.display_name;
+  self.email          = u.email;
+  self.media_id       = u.media_id;
+  //self.read_write_key = u.read_write_key; //DON'T merge in read/write key (oughtn't have it anyway)
+  return self;
 }
 
 - (int) compareTo:(User *)ob

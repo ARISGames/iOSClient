@@ -233,17 +233,17 @@
 
 - (void) newAudioButtonTouched
 {
-    //[self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_AUDIO delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_AUDIO delegate:self] animated:YES];
 }
 
 - (void) newImageButtonTouched
 {
-    //[self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_IMAGE delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_IMAGE delegate:self] animated:YES];
 }
 
 - (void) newVideoButtonTouched
 {
-    //[self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_VIDEO delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_VIDEO delegate:self] animated:YES];
 }
 
 - (void) allNotesButtonTouched

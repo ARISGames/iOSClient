@@ -416,11 +416,6 @@
         confirmPrompt.title = NSLocalizedString(@"NoteEditorNoteIsUntitledKey", @"");
         [confirmPrompt showInView:self.view];
     }
-    //else if(!newTag)
-    //{
-        //confirmPrompt.title = NSLocalizedString(@"NoteEditorNoteIsntLabeled", @"");
-        //[confirmPrompt showInView:self.view];
-    //} 
     else [self saveNote];
 }
 
@@ -474,7 +469,6 @@
 - (void) setTempMediaFromURL:(NSURL *)url
 {
     media = [_MODEL_MEDIA_ newMedia];
-    //media.localURL = url;
     media.data = [NSData dataWithContentsOfURL:media.localURL]; 
     [contentView setMedia:media];
 }

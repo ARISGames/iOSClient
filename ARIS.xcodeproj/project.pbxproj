@@ -43,6 +43,7 @@
 		AA09B8EB18E1EB5500A45562 /* cabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8E518E1EB5500A45562 /* cabinet@2x.png */; };
 		AA09B8F118E20AB500A45562 /* sound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F018E20AB500A45562 /* sound@2x.png */; };
 		AA09B8F718E21A7C00A45562 /* user@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA09B8F618E21A7C00A45562 /* user@2x.png */; };
+		AA0A839019FAF8E00026BB32 /* UsersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0A838D19FAF8E00026BB32 /* UsersModel.m */; };
 		AA0CDB2319312D2F00697DB6 /* ARISDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0CDB2219312D2F00697DB6 /* ARISDefaults.m */; };
 		AA0D161018EDF14500D856F1 /* clock_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160B18EDF14500D856F1 /* clock_red@2x.png */; };
 		AA0D161118EDF14500D856F1 /* globe_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0D160C18EDF14500D856F1 /* globe_red@2x.png */; };
@@ -361,6 +362,8 @@
 		AA09B8E518E1EB5500A45562 /* cabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cabinet@2x.png"; sourceTree = "<group>"; };
 		AA09B8F018E20AB500A45562 /* sound@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound@2x.png"; sourceTree = "<group>"; };
 		AA09B8F618E21A7C00A45562 /* user@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user@2x.png"; sourceTree = "<group>"; };
+		AA0A838C19FAF8E00026BB32 /* UsersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersModel.h; sourceTree = "<group>"; };
+		AA0A838D19FAF8E00026BB32 /* UsersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersModel.m; sourceTree = "<group>"; };
 		AA0CDB2119312D2F00697DB6 /* ARISDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISDefaults.h; sourceTree = "<group>"; };
 		AA0CDB2219312D2F00697DB6 /* ARISDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISDefaults.m; sourceTree = "<group>"; };
 		AA0D160B18EDF14500D856F1 /* clock_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clock_red@2x.png"; sourceTree = "<group>"; };
@@ -896,6 +899,15 @@
 				AA02477C1927D0DD00CF5CE3 /* GamesModel.m */,
 			);
 			path = games;
+			sourceTree = "<group>";
+		};
+		AA0A838919FAF8E00026BB32 /* users */ = {
+			isa = PBXGroup;
+			children = (
+				AA0A838C19FAF8E00026BB32 /* UsersModel.h */,
+				AA0A838D19FAF8E00026BB32 /* UsersModel.m */,
+			);
+			path = users;
 			sourceTree = "<group>";
 		};
 		AA0DE0DE193A3E7900DF8D35 /* triggers */ = {
@@ -1482,6 +1494,7 @@
 				AABC70DD172739D60074CC21 /* AppModel.m */,
 				AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */,
 				AA02477A1927D0DD00CF5CE3 /* games */,
+				AA0A838919FAF8E00026BB32 /* users */,
 				AA34838019C927FC000A60C2 /* scenes */,
 				AAB398E5191821D400E0E766 /* plaques */,
 				AA68B2F41912E6DF000C717B /* items */,
@@ -2299,6 +2312,7 @@
 				AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */,
 				AAFE960D19805236007F6BBD /* Event.m in Sources */,
 				AAAC4354172EDDB300C92DF0 /* InstantiableViewController.m in Sources */,
+				AA0A839019FAF8E00026BB32 /* UsersModel.m in Sources */,
 				AA372A90188F2319005528D5 /* AudioMeter.m in Sources */,
 				AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */,
 				AA701FE117342169003A840D /* GamePickersViewController.m in Sources */,

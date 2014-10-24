@@ -29,5 +29,6 @@
 @property (nonatomic, strong) CLLocation *location;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (User *) mergeDataFromUser:(User *)u;
 
 @end

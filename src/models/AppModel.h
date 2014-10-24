@@ -13,6 +13,7 @@
 
 #define _MODEL_ [AppModel sharedAppModel]
 #define _MODEL_PLAYER_ [AppModel sharedAppModel].player
+#define _MODEL_USERS_ [AppModel sharedAppModel].usersModel
 #define _MODEL_GAMES_ [AppModel sharedAppModel].gamesModel
 #define _MODEL_MEDIA_ [AppModel sharedAppModel].mediaModel
 #define _MODEL_GAME_ [AppModel sharedAppModel].game
@@ -31,7 +32,7 @@
 #define _MODEL_QUESTS_ [AppModel sharedAppModel].game.questsModel
 #define _MODEL_LOGS_ [AppModel sharedAppModel].game.logsModel
 
-#import "User.h"
+#import "UsersModel.h"
 #import "GamesModel.h"
 #import "MediaModel.h"
 #import "ARISPusherHandler.h"
@@ -48,6 +49,7 @@
 
   User *player;
   Game *game;
+  UsersModel *usersModel;  
   GamesModel *gamesModel;  
   MediaModel *mediaModel; 
   CLLocation *deviceLocation;
@@ -69,6 +71,7 @@
 
 @property(nonatomic, strong) User *player;
 @property(nonatomic, strong) Game *game;
+@property(nonatomic, strong) UsersModel *usersModel;
 @property(nonatomic, strong) GamesModel *gamesModel;
 @property(nonatomic, strong) MediaModel *mediaModel;
 @property(nonatomic, strong) CLLocation *deviceLocation;

@@ -20,7 +20,7 @@
 
 @interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
-    /*
+    Instance *instance;
     Note *note;
 
     UIView *navView;
@@ -29,13 +29,13 @@
     UILabel *tag;
     UIScrollView *scrollView;
     UILabel *desc;
-    NSMutableArray *mediaViews;
+    
+    ARISMediaView *amv;
     NoteCommentInputViewController *commentInput;
     NoteCommentsViewController *commentsDisplay;
 
 
-    id<InstantiableViewControllerDelegate, NoteViewControllerDelegate> __unsafe_unretained delegate;
-     */
+    id<InstantiableViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
@@ -46,14 +46,12 @@
 {
     if(self = [super init])
     {
-        //note = n;
-        //delegate = d;
-  //_ARIS_NOTIF_LISTEN_(@"NoteDataAvailable",self,@selector(noteDataAvailable:),nil);
-        //[_MODEL_GAME_.notesModel getDetailsForNote:note];
+        instance = i;
+        note = [_MODEL_NOTES_ noteForId:i.object_id];
+        delegate = d;
     }
     return self;
 }
-/*
 
 - (void) loadView
 {
@@ -100,10 +98,8 @@
     desc.font = [ARISTemplate ARISBodyFont];
     desc.textColor = [UIColor ARISColorDarkGray];
 
-    mediaViews = [[NSMutableArray alloc] initWithCapacity:10];
-
     commentInput    = [[NoteCommentInputViewController alloc] initWithDelegate:self];
-    commentsDisplay = [[NoteCommentsViewController     alloc] initWithNoteComments:note.comments delegate:self];
+    //commentsDisplay = [[NoteCommentsViewController     alloc] initWithNoteComments:note.comments delegate:self];
 
     [scrollView addSubview:desc];
     [scrollView addSubview:commentInput.view];
@@ -129,7 +125,7 @@
     [editButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal];
     [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     editButton.accessibilityLabel = @"Edit Button";
-    if(_MODEL_PLAYER_.user_id == note.owner.user_id)
+    if(_MODEL_PLAYER_.user_id == note.user_id)
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
 
     navView.frame = CGRectMake(0, 0, 200, 64);
@@ -157,63 +153,41 @@
     else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);
 
     int curY = desc.frame.origin.y+desc.frame.size.height;
-    for(int i = 0; i < mediaViews.count; i++)
-    {
-        ((ARISMediaView *)[mediaViews objectAtIndex:i]).frame = CGRectMake(0,curY,self.view.frame.size.width,((ARISMediaView *)[mediaViews objectAtIndex:i]).frame.size.height);
-        curY += ((ARISMediaView *)[mediaViews objectAtIndex:i]).frame.size.height;
-    }
+    amv.frame = CGRectMake(0,curY,self.view.frame.size.width,amv.frame.size.height);
+    curY += amv.frame.size.height;
 
     commentInput.view.frame = CGRectMake(0, curY, self.view.frame.size.width, commentInput.view.frame.size.height);
 
-    if(note.comments.count > 0) commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);
-    else                          commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 0);
+    //if(note.comments.count > 0) commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);
+    //else                          commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 0);
 
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);
 }
 
 - (void) displayDataFromNote
 {
-    if(note.tags.count > 0) tag.text = ((NoteTag*)[note.tags objectAtIndex:0]).text;
+    NSArray *tags = [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:note.note_id];
+    if(tags.count > 0) tag.text = ((Tag *)[tags objectAtIndex:0]).tag;
     title.text = note.name;
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
-    ownerdate.text = [NSString stringWithFormat:@"%@ %@",note.owner.display_name,[format stringFromDate:note.created]];
+    ownerdate.text = [NSString stringWithFormat:@"%@ %@",[_MODEL_USERS_ userForId:note.user_id].display_name,[format stringFromDate:note.created]];
 
     desc.text = note.desc;
 
-    NSMutableArray *tmpMediaViews = [[NSMutableArray alloc] initWithCapacity:mediaViews.count];
-    while(mediaViews.count > 0)
+    if(!amv)
     {
-        [[mediaViews objectAtIndex:0] removeFromSuperview];
-        [tmpMediaViews addObject:[mediaViews objectAtIndex:0]];
-        [mediaViews removeObjectAtIndex:0];
+        amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+        [amv setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
     }
-    for(int i = 0; i < note.contents.count; i++)
-    {
-        ARISMediaView *amv;
-        for(int j = 0; j < tmpMediaViews.count; j++)
-        {
-            //if(((Media *)[note.contents objectAtIndex:i]).media_id == ((ARISMediaView *)[tmpMediaViews objectAtIndex:j]).media.media_id)
-            if(j == i)
-                amv = [tmpMediaViews objectAtIndex:j];
-        }
-        if(!amv)
-        {
-            amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
-            [amv setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
-            [amv setMedia:[note.contents objectAtIndex:i]];
-        }
-        int y = 0;
-        if(i > 0) y = ((ARISMediaView *)[mediaViews objectAtIndex:i-1]).frame.origin.y+((ARISMediaView *)[mediaViews objectAtIndex:i-1]).frame.size.height;
-        [amv setFrame:CGRectMake(0,y,self.view.frame.size.width,amv.frame.size.height)];
-        [mediaViews addObject:amv];
+    [amv setFrame:CGRectMake(0,0,self.view.frame.size.width,amv.frame.size.height)];
 
-        if([((Media *)[note.contents objectAtIndex:i]).type isEqualToString:@"IMAGE"])
-           [[mediaViews objectAtIndex:i] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]];
-        [scrollView addSubview:[mediaViews objectAtIndex:i]];
-    }
+    if([[_MODEL_MEDIA_ mediaForId:note.media_id].type isEqualToString:@"IMAGE"])
+        [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]];
+        [scrollView addSubview:amv];
 
-    [commentsDisplay setComments:note.comments];
+    //[commentsDisplay setComments:note.comments];
     [self formatSubviews];
 }
 
@@ -225,7 +199,7 @@
 
 - (void) noteDataAvailable:(NSNotification *)n
 {
-    if(((Note *)[n.userInfo objectForKey:@"note"]).noteId != note.noteId) return;
+    if(((Note *)[n.userInfo objectForKey:@"note"]).note_id != note.note_id) return;
     note = [n.userInfo objectForKey:@"note"];
     [self displayDataFromNote];
 }
@@ -248,6 +222,7 @@
 - (void) commentConfirmed:(NSString *)c
 {
     //[[AppServices sharedAppServices] addComment:c fromPlayer:_MODEL_PLAYER_ toNote:note];
+    /*
     NoteComment *nc = [[NoteComment alloc] init];
     nc.noteId = note.noteId;
     nc.owner = _MODEL_PLAYER_;
@@ -255,6 +230,7 @@
     [note.comments addObject:nc];
     [commentsDisplay setComments:note.comments];
     scrollView.contentOffset = CGPointMake(0,-64);
+     */
 }
 
 - (void) backButtonTouched
@@ -299,6 +275,5 @@
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
-*/
 
 @end
