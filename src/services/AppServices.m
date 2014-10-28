@@ -752,7 +752,7 @@
     //nothing need be done
 }
 
-- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr
 {
     NSMutableDictionary *args =
     [@{
@@ -773,6 +773,20 @@
     [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
 }
 - (void) parseCreateNote:(ARISServiceResult *)result
+{
+    //nothing
+}
+
+- (void) deleteNoteId:(int)note_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"note_id":[NSNumber numberWithInt:note_id],
+     };
+    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(parseDeleteNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+}
+- (void) parseDeleteNote:(ARISServiceResult *)result
 {
     //nothing
 }

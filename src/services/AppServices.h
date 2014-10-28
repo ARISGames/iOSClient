@@ -14,6 +14,7 @@
 
 @class Note;
 @class Tag;
+@class Trigger;
 
 @interface AppServices : NSObject
 {
@@ -72,7 +73,8 @@
 
 - (void) setQtyForInstanceId:(int)instance_id qty:(int)qty;
 - (void) setPlayerSceneId:(int)scene_id;
-- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m; //actually does full media upload
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr; //actually does full media upload
+- (void) deleteNoteId:(int)note_id;
 
 - (void) logPlayerEnteredGame;
 - (void) logPlayerResetGame:(int)game_id;

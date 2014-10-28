@@ -44,9 +44,15 @@
     notes = [[NSMutableDictionary alloc] init];
 }
 
-- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr
 {
-    [_SERVICES_ createNote:n withTag:t media:m]; //just forward to services
+    [_SERVICES_ createNote:n withTag:t media:m trigger:tr]; //just forward to services
+}
+- (void) deleteNoteId:(int)note_id
+{
+    [_SERVICES_ deleteNoteId:note_id]; //just forward to services
+    [notes removeObjectForKey:[NSNumber numberWithInt:note_id]];
+    [self invalidateCaches];
 }
 
 - (void) invalidateCaches

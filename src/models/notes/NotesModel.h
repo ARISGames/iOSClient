@@ -11,6 +11,7 @@
 
 @class Tag;
 @class Media;
+@class Trigger;
 
 @interface NotesModel : NSObject
 {
@@ -20,7 +21,8 @@
 - (void) requestNotes;
 - (void) clearGameData;
 
-- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m;
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
+- (void) deleteNoteId:(int)note_id;
 
 - (NSArray *) notes;
 - (NSArray *) playerNotes;

@@ -309,7 +309,7 @@
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:note.created]; 
-    owner.text = @"";//note.owner.display_name; 
+    owner.text = [_MODEL_USERS_ userForId:note.user_id].display_name; 
     [contentView setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
     [tagViewController setTag:tag];
 }
@@ -424,15 +424,14 @@
     note.name = title.text;
     note.desc = description.text;
 
-    [_MODEL_NOTES_ createNote:note withTag:tag media:media];
+    [_MODEL_NOTES_ createNote:note withTag:tag media:media trigger:nil];
 
     [delegate noteEditorConfirmedNoteEdit:self note:note];
 }
 
 - (void) deleteNote
 {
-    //[[AppServices sharedAppServices] deleteNoteWithNoteId:note.noteId]; 
-    //[_MODEL_GAME_.notesModel deleteNote:note];
+    [_MODEL_NOTES_ deleteNoteId:note.note_id];
     [delegate noteEditorDeletedNoteEdit:self];  
 }
 
