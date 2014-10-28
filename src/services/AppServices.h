@@ -39,6 +39,7 @@
 - (void) fetchMineGames;
 - (void) fetchPlayerPlayedGame:(int)game_id;
 
+- (void) fetchUsers; //TBD what this actually does...
 - (void) fetchScenes;
 - (void) touchSceneForPlayer;
 - (void) fetchMedias;
@@ -92,6 +93,7 @@
 
 //for mid-game fetches. these are failsafes, and oughtn't occur. 
 //if you are editing your game mid-play, expect undefined behavior
+- (void) fetchUserById:(int)user_id;
 - (void) fetchSceneById:(int)scene_id;
 - (void) fetchMediaById:(int)media_id;
 - (void) fetchPlaqueById:(int)plaque_id;

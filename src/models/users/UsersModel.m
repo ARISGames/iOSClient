@@ -80,8 +80,8 @@
     return conformingUsers;
 }
 
-//- (void) requestUsers       { [_SERVICES_ fetchUsers]; }
-//- (void) requestUser:(int)t { [_SERVICES_ fetchUserById:t]; }
+- (void) requestUsers       { [_SERVICES_ fetchUsers]; }
+- (void) requestUser:(int)t { [_SERVICES_ fetchUserById:t]; }
 
 // null user (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (User *) userForId:(int)user_id
@@ -90,7 +90,7 @@
   if(!t)
   {
     [blacklist setObject:@"true" forKey:[NSNumber numberWithInt:user_id]];
-    //[self requestUser:user_id];
+    [self requestUser:user_id];
     return [[User alloc] init];
   }
   return t;

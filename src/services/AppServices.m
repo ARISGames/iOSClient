@@ -219,6 +219,23 @@
 - (void) gameFetchFailed   { _ARIS_NOTIF_SEND_(@"SERVICES_GAME_FETCH_FAILED", nil, nil); }
 - (void) playerFetchFailed { _ARIS_NOTIF_SEND_(@"SERVICES_GAME_FETCH_FAILED", nil, nil); }
 
+- (void) fetchUsers
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"users" method:@"getUsersForGame" arguments:args handler:self successSelector:@selector(parseUsers:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+}
+- (void) parseUsers:(ARISServiceResult *)result
+{
+    NSArray *userDicts = (NSArray *)result.resultData;
+    NSMutableArray *users = [[NSMutableArray alloc] init];
+    for(int i = 0; i < userDicts.count; i++)
+        users[i] = [[User alloc] initWithDictionary:userDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_USERS_RECEIVED", nil, @{@"users":users});
+}
+
 - (void) fetchScenes
 {
   NSDictionary *args =
@@ -914,6 +931,21 @@
 }
 
 
+
+- (void) fetchUserById:(int)user_id;
+{
+  NSDictionary *args =
+    @{
+      @"user_id":[NSNumber numberWithInt:user_id]
+      };
+  [connection performAsynchronousRequestWithService:@"users" method:@"getUser" arguments:args handler:self successSelector:@selector(parseUser:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseUser:(ARISServiceResult *)result
+{
+    NSDictionary *userDict= (NSDictionary *)result.resultData;
+    User *user = [[User alloc] initWithDictionary:userDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_USER_RECEIVED", nil, @{@"user":user});
+}
 
 - (void) fetchSceneById:(int)scene_id;
 {

@@ -15,7 +15,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 20;
+const int gameDatasToReceive = 21;
 const int playerDatasToReceive = 7;
 
 @interface Game()
@@ -241,9 +241,10 @@ const int playerDatasToReceive = 7;
     [instancesModel requestInstances];
     [tabsModel requestTabs];
 
-    //the one request not 'owned' by Game. Also, not 100% necessary
+    //the requests not 'owned' by Game. Also, not 100% necessary
     //(has ability to load on an individual basis)
     [_MODEL_MEDIA_ requestMedia];
+    [_MODEL_USERS_ requestUsers];
 }
 
 - (void) requestPlayerData
