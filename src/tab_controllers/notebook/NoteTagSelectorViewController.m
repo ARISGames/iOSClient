@@ -11,9 +11,7 @@
 
 @interface NoteTagSelectorViewController () <NoteTagEditorViewControllerDelegate>
 {
-    /*
     NoteTagEditorViewController *tagViewController;
-     */
     id<NoteTagSelectorViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -30,13 +28,12 @@
     return self;
 }
 
-/*
 - (void) loadView
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:[[NSArray alloc] init] editable:YES delegate:self];  
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTag:nil editable:YES delegate:self];  
     [self.view addSubview:tagViewController.view];
 }
 
@@ -59,22 +56,14 @@
     [tagViewController beginEditing]; 
 }
 
-- (void) noteTagEditorAddedTag:(NoteTag *)nt
+- (void) noteTagEditorAddedTag:(Tag *)t
 {
-    [delegate noteTagSelectorViewControllerSelectedTag:nt];
-}
-
-- (void) noteTagEditorCreatedTag:(NoteTag *)nt
-{
-    //disallow creation (doesn't make sense in this context)
-    [tagViewController stopEditing];  
-    [tagViewController beginEditing]; 
+    [delegate noteTagSelectorViewControllerSelectedTag:t];
 }
 
 - (void) backButtonTouched
 {
     [delegate noteTagSelectorViewControllerRequestsDismissal:self];
 }
-*/
 
 @end

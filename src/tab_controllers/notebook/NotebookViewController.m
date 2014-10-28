@@ -276,8 +276,11 @@
 - (void) noteTagSelectorViewControllerSelectedTag:(Tag *)t
 {
     [self.navigationController popToViewController:self animated:NO];
-    [notesViewController setModeTag:t];
-    [self.navigationController pushViewController:notesViewController animated:YES];
+    if(t)
+    {
+        [notesViewController setModeTag:t];
+        [self.navigationController pushViewController:notesViewController animated:YES];
+    }
 }
 
 - (void) dealloc

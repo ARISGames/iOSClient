@@ -149,21 +149,20 @@ const int VIEW_MODE_TAG  = 2;
             else if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n];
             //Search owner
-            /*
-            else if([n.owner.display_name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+            else if([[_MODEL_USERS_ userForId:n.user_id].display_name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n];
-             */
             //Search tags
             else
             {
-              /*
-                for(int j = 0; j < n.tags.count; j++)
-                    if([((NoteTag*)[n.tags objectAtIndex:j]).text rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+                NSArray *tags = [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:n.note_id];
+                for(int j = 0; j < tags.count; j++)
+                {
+                    if([((Tag *)tags[j]).tag rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                     {
                         [textFilteredNotes addObject:n];
                         break; //must break so we don't add same note multiple times
                     }
-               */
+                }
             }
         }
     }
