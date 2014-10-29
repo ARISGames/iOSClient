@@ -38,6 +38,8 @@
     UIView *line2;
     UIView *line3;
     UIView *line4;
+    
+    id<NotebookViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
@@ -46,10 +48,9 @@
 
 - (id) initWithDelegate:(id<NotebookViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
-        self.tabID = @"NOTE";
-        self.tabIconName = @"notebook";
+        delegate = d;
         self.title = NSLocalizedString(@"NotebookTitleKey",@"");
     }
     return self;
@@ -193,6 +194,13 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     self.navigationController.navigationBar.translucent = YES;
@@ -206,7 +214,7 @@
     self.navigationController.navigationBar.translucent = YES;
 }
 
-- (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)govc
+- (void) instantiableViewControllerRequestsDismissal:(id<InstantiableViewControllerProtocol>)govc
 {
     [self.navigationController popToViewController:self animated:YES];
 }
@@ -282,6 +290,16 @@
         [self.navigationController pushViewController:notesViewController animated:YES];
     }
 }
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"NOTE"; }
+- (NSString *) tabTitle { return @"Notebook"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"notebook"]; }
 
 - (void) dealloc
 {

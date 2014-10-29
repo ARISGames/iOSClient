@@ -148,8 +148,6 @@
 		AAA318E318B7C7280000E71A /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = AAA318DD18B7C7280000E71A /* release_notes.md */; };
 		AAA3FAA118CA28B500C8D016 /* ARISSelectorHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */; };
 		AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA518CA733000C8D016 /* CircleView.m */; };
-		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
-		AAAC4354172EDDB300C92DF0 /* InstantiableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* InstantiableViewController.m */; };
 		AAB398E41918166700E0E766 /* Plaque.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E31918166700E0E766 /* Plaque.m */; };
 		AAB398E8191821D400E0E766 /* PlaquesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E7191821D400E0E766 /* PlaquesModel.m */; };
 		AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */; };
@@ -544,10 +542,8 @@
 		AAA3FAA418CA733000C8D016 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
 		AAA3FAA518CA733000C8D016 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
-		AAAB7635173AB6E6007B5A75 /* ARISGamePlayTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISGamePlayTabBarViewController.h; sourceTree = "<group>"; };
-		AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISGamePlayTabBarViewController.m; sourceTree = "<group>"; };
-		AAAC4352172EDDB300C92DF0 /* InstantiableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantiableViewController.h; sourceTree = "<group>"; };
-		AAAC4353172EDDB300C92DF0 /* InstantiableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstantiableViewController.m; sourceTree = "<group>"; };
+		AAAB7635173AB6E6007B5A75 /* GamePlayTabBarViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabBarViewControllerProtocol.h; sourceTree = "<group>"; };
+		AAAC4352172EDDB300C92DF0 /* InstantiableViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantiableViewControllerProtocol.h; sourceTree = "<group>"; };
 		AAB398E21918166700E0E766 /* Plaque.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plaque.h; sourceTree = "<group>"; };
 		AAB398E31918166700E0E766 /* Plaque.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plaque.m; sourceTree = "<group>"; };
 		AAB398E6191821D400E0E766 /* PlaquesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaquesModel.h; sourceTree = "<group>"; };
@@ -1532,8 +1528,7 @@
 		AABC70EF172739D60074CC21 /* object_controllers */ = {
 			isa = PBXGroup;
 			children = (
-				AAAC4352172EDDB300C92DF0 /* InstantiableViewController.h */,
-				AAAC4353172EDDB300C92DF0 /* InstantiableViewController.m */,
+				AAAC4352172EDDB300C92DF0 /* InstantiableViewControllerProtocol.h */,
 				AABC70F2172739D60074CC21 /* item */,
 				AABC70F6172739D60074CC21 /* plaque */,
 				AAC0D86F1930F4E200CA1DE3 /* dialog */,
@@ -1608,8 +1603,7 @@
 		AABC7132172739D60074CC21 /* tab_controllers */ = {
 			isa = PBXGroup;
 			children = (
-				AAAB7635173AB6E6007B5A75 /* ARISGamePlayTabBarViewController.h */,
-				AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */,
+				AAAB7635173AB6E6007B5A75 /* GamePlayTabBarViewControllerProtocol.h */,
 				AABC71A5172739D70074CC21 /* quests */,
 				AABC7141172739D60074CC21 /* attributes */,
 				AA34837C19C79BCA000A60C2 /* scanner */,
@@ -2319,7 +2313,6 @@
 				AAC0D8911930F70E00CA1DE3 /* DialogsModel.m in Sources */,
 				AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */,
 				AAFE960D19805236007F6BBD /* Event.m in Sources */,
-				AAAC4354172EDDB300C92DF0 /* InstantiableViewController.m in Sources */,
 				AA0A839019FAF8E00026BB32 /* UsersModel.m in Sources */,
 				AA372A90188F2319005528D5 /* AudioMeter.m in Sources */,
 				AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */,
@@ -2330,7 +2323,6 @@
 				AA5FCA3D197F139A005C2A2F /* ObjectTag.m in Sources */,
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
 				AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */,
-				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
 				AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */,
 				AA383B1118283B9F00612FFB /* NoteCell.m in Sources */,
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,

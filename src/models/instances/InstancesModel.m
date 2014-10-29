@@ -117,6 +117,7 @@
 // null instance (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Instance *) instanceForId:(int)instance_id
 {
+  if(!instance_id) return [[Instance alloc] init];
   Instance *i = [instances objectForKey:[NSNumber numberWithInt:instance_id]];
   if(!i)
   {

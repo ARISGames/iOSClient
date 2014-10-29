@@ -6,11 +6,15 @@
 //  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "InstantiableViewController.h"
+#import "ARISViewController.h"
+#import "InstantiableViewControllerProtocol.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 @protocol StateControllerProtocol;
+@protocol PlaqueViewControllerDelegate <InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
+@end
+
 @class Instance;
-@interface PlaqueViewController : InstantiableViewController
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
+@interface PlaqueViewController : ARISViewController <InstantiableViewControllerProtocol, GamePlayTabBarViewControllerProtocol>
+- (id) initWithInstance:(Instance *)i delegate:(id<PlaqueViewControllerDelegate>)d;
 @end

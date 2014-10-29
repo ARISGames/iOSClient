@@ -19,7 +19,7 @@ const int VIEW_MODE_MINE = 0;
 const int VIEW_MODE_ALL  = 1;
 const int VIEW_MODE_TAG  = 2;
 
-@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, InstantiableViewControllerDelegate, NoteCellDelegate, UISearchBarDelegate>
+@interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, InstantiableViewControllerDelegate, NoteCellDelegate, NoteViewControllerDelegate, UISearchBarDelegate>
 {
     UITableView *table;
     UISearchBar *searchBar;
@@ -197,7 +197,7 @@ const int VIEW_MODE_TAG  = 2;
     [self.navigationController pushViewController:nvc animated:YES];
 }
 
-- (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)govc
+- (void) instantiableViewControllerRequestsDismissal:(id<InstantiableViewControllerProtocol>)govc
 {
     [self.navigationController popToViewController:self animated:YES];
 }

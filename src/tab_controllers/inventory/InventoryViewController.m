@@ -20,32 +20,30 @@
     UIScrollView *tagsView;
     NSMutableArray *sortableTags;
     int currentTagIndex;
-    
+
     UITableView *inventoryTable;
     //parallel arrays
     NSMutableArray *instances;
     NSMutableArray *items;
     NSMutableArray *tags;
-    
+
     UIProgressView *capBar;
     UILabel *capLabel;
-    
+
     NSMutableDictionary *iconCache;
     NSMutableDictionary *viewedList;
-    
-    id<GamePlayTabBarViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+
+    id<InventoryViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation InventoryViewController
 
-- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<InventoryViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
-        self.tabID = @"INVENTORY";
-        self.tabIconName = @"toolbox";
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
@@ -99,7 +97,13 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+
     if(capBar)
     {
         int currentWeight = _MODEL_ITEMS_.currentWeight;
@@ -392,6 +396,16 @@
     currentTagIndex = r.view.tag;
     [self refreshViews];
 }
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"INVENTORY"; }
+- (NSString *) tabTitle { return @"Inventory"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"toolbox"]; }
 
 - (void) dealloc
 {

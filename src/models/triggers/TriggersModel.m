@@ -143,6 +143,7 @@
 // null trigger (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Trigger *) triggerForId:(int)trigger_id
 {
+  if(!trigger_id) return [[Trigger alloc] init];
   Trigger *t = [triggers objectForKey:[NSNumber numberWithInt:trigger_id]];
   if(!t)
   {

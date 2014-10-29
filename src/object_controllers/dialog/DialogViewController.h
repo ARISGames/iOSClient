@@ -6,11 +6,15 @@
 //  Copyright Studio Tectorum 2009. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "InstantiableViewController.h"
+#import "ARISViewController.h"
+#import "InstantiableViewControllerProtocol.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 @protocol StateControllerProtocol;
+@protocol DialogViewControllerDelegate <InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
+@end
+
 @class Instance;
-@interface DialogViewController : InstantiableViewController
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d;
+@interface DialogViewController : ARISViewController <InstantiableViewControllerProtocol, GamePlayTabBarViewControllerProtocol>
+- (id) initWithInstance:(Instance *)i delegate:(id<DialogViewControllerDelegate>)d;
 @end

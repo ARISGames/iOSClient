@@ -35,14 +35,14 @@
     NoteCommentsViewController *commentsDisplay;
 
 
-    id<InstantiableViewControllerDelegate> __unsafe_unretained delegate;
+    id<NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation NoteViewController
 
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate>)d
+- (id) initWithInstance:(Instance *)i delegate:(id<NoteViewControllerDelegate>)d
 {
     if(self = [super init])
     {

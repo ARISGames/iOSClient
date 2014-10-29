@@ -23,14 +23,14 @@
 
     BOOL hasAppeared;
 
-    id<InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<WebPageViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation WebPageViewController
 
-- (id) initWithInstance:(Instance *)i delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d;
+- (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d;
 {
     if(self = [super init])
     {
@@ -94,6 +94,14 @@
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+
+    /*
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    */
 }
 
 - (NSString *) getTabTitle
@@ -142,6 +150,16 @@
     //[_SERVICES_ updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
     [delegate instantiableViewControllerRequestsDismissal:self];
 }
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"WEB_PAGE"; }
+- (NSString *) tabTitle { return @"Web Page"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }

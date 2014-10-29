@@ -146,6 +146,7 @@
 
 - (Tab *) tabForId:(int)tab_id
 {
+  if(!tab_id) return [[Tab alloc] init];
   return [tabs objectForKey:[NSNumber numberWithInt:tab_id]];
 }
 

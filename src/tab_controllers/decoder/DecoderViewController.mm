@@ -16,18 +16,16 @@
 {
 	UITextField *codeTextField;
     
-    id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<DecoderViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation DecoderViewController
 
-- (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<DecoderViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
-        self.tabID = @"DECODER";
-        self.tabIconName = @"qr_icon.png";
         self.title = NSLocalizedString(@"QRDecoderTitleKey", @"");
         
         delegate = d;
@@ -54,7 +52,15 @@
 - (void) viewWillAppearFirstTime:(BOOL)animated
 {
     [super viewWillAppearFirstTime:animated];
-    
+
+    /*
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    */
+
     //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
     UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
     [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
@@ -80,7 +86,7 @@
 - (void) showNav
 {
     [self clearScreenActions];
-    [super showNav];
+    [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 
 - (void) clearScreenActions
@@ -111,6 +117,11 @@
     codeTextField.text = @"";
 	return YES;
 }
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"DECODER"; }
+- (NSString *) tabTitle { return @"Decoder"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
 
 - (void) dealloc
 {

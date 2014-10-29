@@ -6,15 +6,13 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "ARISGamePlayTabBarViewController.h"
+#import "ARISViewController.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 @protocol AttributesViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
-@interface AttributesViewController : ARISGamePlayTabBarViewController
-
+@interface AttributesViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
 - (id) initWithDelegate:(id<AttributesViewControllerDelegate>)d;
 - (void) refresh;
-
 @end

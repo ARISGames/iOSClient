@@ -46,10 +46,8 @@
 
 - (id) initWithDelegate:(id<AttributesViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
-        self.tabID = @"PLAYER";
-        self.tabIconName = @"id_card";
         hasAppeared = NO;
         delegate = d;
         
@@ -66,6 +64,13 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+
     if(hasAppeared) return;
     hasAppeared = YES;
     self.view.backgroundColor = [UIColor whiteColor];
@@ -193,5 +198,15 @@
 {
 	return 60;
 }
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"PLAYER"; }
+- (NSString *) tabTitle { return @"Attributes"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"id_card"]; }
 
 @end

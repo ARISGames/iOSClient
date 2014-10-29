@@ -6,12 +6,16 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "InstantiableViewController.h"
+#import "ARISViewController.h"
+#import "InstantiableViewControllerProtocol.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 @protocol StateControllerProtocol;
+@protocol WebPageViewControllerDelegate <InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
+@end
+
 @class Instance;
-@interface WebPageViewController : InstantiableViewController 
-- (id) initWithInstance:(Instance *)i delegate:(NSObject<InstantiableViewControllerDelegate, StateControllerProtocol> *)d;
+@interface WebPageViewController : ARISViewController <InstantiableViewControllerProtocol, GamePlayTabBarViewControllerProtocol>
+- (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d;
 @end
 

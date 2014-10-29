@@ -162,6 +162,7 @@
 
 - (Quest *) questForId:(int)quest_id
 {
+  if(!quest_id) return [[Quest alloc] init];
   return [quests objectForKey:[NSNumber numberWithInt:quest_id]];
 }
 

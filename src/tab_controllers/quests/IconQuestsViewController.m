@@ -33,10 +33,8 @@
 
 - (id) initWithDelegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
-        self.tabID = @"QUESTS";
-        self.tabIconName = @"todo";
         self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
         
         delegate = d;
@@ -67,6 +65,17 @@
     questIconCollectionView.delegate = self;
     [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     [self.view addSubview:questIconCollectionView];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -148,10 +157,20 @@
     [self.navigationController popToViewController:self animated:YES];
 }
 
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);             
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"QUESTS"; }
+- (NSString *) tabTitle { return @"Quests"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }

@@ -6,13 +6,13 @@
 //
 //
 
-#import <UIKit/UIKit.h>
-#import "ARISGamePlayTabBarViewController.h"
+#import "ARISViewController.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 @protocol StateControllerProtocol;
-@protocol InventoryViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
+@protocol InventoryViewControllerDelegate <GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
 @end
 
-@interface InventoryViewController : ARISGamePlayTabBarViewController
-- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate, InventoryViewControllerDelegate, StateControllerProtocol>)d;
+@interface InventoryViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
+- (id) initWithDelegate:(id<InventoryViewControllerDelegate>)d;
 @end

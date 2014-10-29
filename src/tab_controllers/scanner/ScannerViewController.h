@@ -6,17 +6,15 @@
 //  Copyright 2009 University of Wisconsin Madison. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <ZXingWidgetController.h>
-#import "ARISGamePlayTabBarViewController.h"
-#import "AppModel.h"
+#import "ARISViewController.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 @protocol StateControllerProtocol;
 
-@protocol ScannerViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
+@protocol ScannerViewControllerDelegate <GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
 @end
 
-@interface ScannerViewController : ARISGamePlayTabBarViewController 
-- (id) initWithDelegate:(id<ScannerViewControllerDelegate, StateControllerProtocol>)d;
+@interface ScannerViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
+- (id) initWithDelegate:(id<ScannerViewControllerDelegate>)d;
 - (void) setPrompt:(NSString *)p;
 @end

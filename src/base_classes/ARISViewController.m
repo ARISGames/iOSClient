@@ -63,14 +63,9 @@
 {
 }
 
-/*
 - (NSUInteger) supportedInterfaceOrientations
 {
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return UIInterfaceOrientationMaskAll;
-    else
-        return UIInterfaceOrientationPortrait;
+    return UIInterfaceOrientationMaskPortrait;
 }
- */
 
 @end

@@ -36,14 +36,14 @@
     CGRect leftFrame;
     CGRect rightFrame;
 
-    id<InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<DialogViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation DialogViewController
 
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithInstance:(Instance *)i delegate:(id<DialogViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -107,6 +107,19 @@
 {
     [super viewWillLayoutSubviews];
    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    /*
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    */
 }
 
 /*
@@ -177,6 +190,11 @@
 - (void) exitRequested
 {
     [self dismissSelf];
+}
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 
 //implement statecontrol stuff for webpage, but just delegate any requests

@@ -46,19 +46,16 @@
 
     BOOL resetWiggle;
 
-    id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<MapViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation MapViewController
 
-- (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<MapViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
-        self.tabID = @"MAP";
-        self.tabIconName = @"map";
-
         delegate = d;
 
         _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(playerMoved),nil);
@@ -88,7 +85,7 @@
     UIColor *buttonBGColor = [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1];
 
     threeLinesButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [threeLinesButton addTarget:self action:@selector(threeLinesButtonTouched) forControlEvents:UIControlEventTouchDown];
+    [threeLinesButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchDown];
     [threeLinesButton setImage:[UIImage imageNamed:@"threelines.png"] forState:UIControlStateNormal];
     threeLinesButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
     threeLinesButton.backgroundColor = buttonBGColor;
@@ -150,7 +147,6 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationItem.leftBarButtonItem = nil;  //get rid of it from super, already added manually to view
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -532,9 +528,9 @@
     triggerLookingAt = nil;
 }
 
-- (void) threeLinesButtonTouched
+- (void) showNav
 {
-    [super showNav];
+    [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 
 #pragma mark blackout methods
@@ -587,6 +583,11 @@
     [blackoutBottom setBackgroundColor:[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
     [blackoutBottom setUserInteractionEnabled:NO];
 }
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"MAP"; }
+- (NSString *) tabTitle { return @"Map"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"map"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }

@@ -7,6 +7,7 @@
 //
 
 #import "ScannerViewController.h"
+#import <ZXingWidgetController.h>
 #import "StateControllerProtocol.h"
 #import "Decoder.h"
 #import "ARISAppDelegate.h"
@@ -20,18 +21,16 @@
     
     NSDate *lastError;
     ZXingWidgetController *widController;
-    id<ScannerViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<ScannerViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation ScannerViewController
 
-- (id) initWithDelegate:(id<ScannerViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<ScannerViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
-        self.tabID = @"QR";
-        self.tabIconName = @"qr_icon.png";
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
         
         lastError = [NSDate date];
@@ -51,7 +50,7 @@
 - (void) viewWillAppearFirstTime:(BOOL)animated
 {
     [super viewWillAppearFirstTime:animated];
-    
+
     //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
     UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
     [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
@@ -75,7 +74,7 @@
 
 - (void) showNav
 {
-    [super showNav];
+    [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 
 - (void) clearScreenActions
@@ -137,6 +136,11 @@
         else [delegate displayTrigger:t];
     }
 }
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"SCANNER"; }
+- (NSString *) tabTitle { return @"Scanner"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
 
 - (void) dealloc
 {

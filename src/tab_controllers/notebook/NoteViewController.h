@@ -6,11 +6,15 @@
 //
 //
 
-#import "InstantiableViewController.h"
+#import "ARISViewController.h"
+#import "InstantiableViewControllerProtocol.h"
 
 @protocol StateControllerProtocol;
+@protocol NoteViewControllerDelegate <InstantiableViewControllerDelegate>
+@end
+
 @class Instance;
-@interface NoteViewController : InstantiableViewController
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate>)d;
+@interface NoteViewController : ARISViewController <InstantiableViewControllerProtocol>
+- (id) initWithInstance:(Instance *)i delegate:(id<NoteViewControllerDelegate>)d;
 @end
 

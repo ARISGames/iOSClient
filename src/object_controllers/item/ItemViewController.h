@@ -6,14 +6,18 @@
 //
 //
 
-#import <UIKit/UIKit.h>
-#import "InstantiableViewController.h"
+#import "ARISViewController.h"
+#import "InstantiableViewControllerProtocol.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 @class Item;
 @class Instance;
 @protocol StateControllerProtocol;
 
-@interface ItemViewController : InstantiableViewController
+@protocol ItemViewControllerDelegate <InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
+@end
+
+@interface ItemViewController : ARISViewController <InstantiableViewControllerProtocol, GamePlayTabBarViewControllerProtocol>
 {
   Item *item;
   Instance *instance;
@@ -21,6 +25,6 @@
 @property (nonatomic, strong) Item *item;
 @property (nonatomic, strong) Instance *instance;
 
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate,StateControllerProtocol>)d;
+- (id) initWithInstance:(Instance *)i delegate:(id<ItemViewControllerDelegate>)d;
 
 @end

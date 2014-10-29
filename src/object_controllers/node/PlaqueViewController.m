@@ -35,14 +35,14 @@ static NSString * const OPTION_CELL = @"option";
     UILabel *continueLbl;
     UIImageView *arrow;
     UIView *line;
-    id <InstantiableViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id <PlaqueViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation PlaqueViewController
 
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithInstance:(Instance *)i delegate:(id<PlaqueViewControllerDelegate>)d
 {
     if((self = [super init]))
     {
@@ -102,6 +102,19 @@ static NSString * const OPTION_CELL = @"option";
     [self.view addSubview:line];
 
     [self loadPlaque];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    /*
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    */
 }
 
 - (void) viewWillLayoutSubviews
@@ -184,6 +197,16 @@ static NSString * const OPTION_CELL = @"option";
 {
     [delegate instantiableViewControllerRequestsDismissal:self];
 }
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"PLAQUE"; }
+- (NSString *) tabTitle { return @"Plaque"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }

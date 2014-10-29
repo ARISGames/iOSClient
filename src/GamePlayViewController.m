@@ -39,7 +39,29 @@
 #import "WebPage.h"
 #import "WebPageViewController.h"
 
-@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, GameNotificationViewControllerDelegate, DisplayQueueModelDelegate>
+@interface GamePlayViewController() <
+    UINavigationControllerDelegate,
+    StateControllerProtocol,
+    InstantiableViewControllerDelegate,
+    GamePlayTabBarViewControllerDelegate,
+
+    QuestsViewControllerDelegate,
+    MapViewControllerDelegate,
+    InventoryViewControllerDelegate,
+    AttributesViewControllerDelegate,
+    NotebookViewControllerDelegate,
+    DecoderViewControllerDelegate,
+
+    PlaqueViewControllerDelegate,
+    ItemViewControllerDelegate,
+    DialogViewControllerDelegate,
+    WebPageViewControllerDelegate,
+    NoteViewControllerDelegate,
+
+    GamePlayTabSelectorViewControllerDelegate,
+    GameNotificationViewControllerDelegate,
+    DisplayQueueModelDelegate
+    >
 {
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
@@ -186,9 +208,9 @@
     return YES;
 }
 
-- (void) instantiableViewControllerRequestsDismissal:(InstantiableViewController *)ivc
+- (void) instantiableViewControllerRequestsDismissal:(id<InstantiableViewControllerProtocol>)ivc
 {
-    [ivc.navigationController dismissViewControllerAnimated:NO completion:nil];
+    [((ARISViewController *)ivc).navigationController dismissViewControllerAnimated:NO completion:nil];
 
     //Phil hates that the frame changes depending on what view you add it to...
     gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,

@@ -41,10 +41,8 @@ static int const COMPLETE_SECTION = 1;
 
 - (id) initWithDelegate:(id<QuestsViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
-        self.tabID = @"QUESTS";
-        self.tabIconName = @"todo";
         self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
         
         questTypeShown = ACTIVE_SECTION;
@@ -89,6 +87,17 @@ static int const COMPLETE_SECTION = 1;
     [self.view addSubview:questsTable];
     [self.view addSubview:activeButton]; 
     [self.view addSubview:completeButton]; 
+}
+
+- (void) viewWillAppearAnimated:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
 }
 
 - (void) viewWillLayoutSubviews
@@ -247,6 +256,16 @@ static int const COMPLETE_SECTION = 1;
     [activeButton setBackgroundColor:[UIColor ARISColorLightBlue]];  
     [questsTable reloadData];
 }
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"QUESTS"; }
+- (NSString *) tabTitle { return @"Quests"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }

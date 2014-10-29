@@ -8,7 +8,7 @@
 
 #import "GamePlayTabSelectorViewController.h"
 #import "ARISNavigationController.h"
-#import "ARISGamePlayTabBarViewController.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 #import "QuestsViewController.h"
 #import "IconQuestsViewController.h"
@@ -18,6 +18,11 @@
 #import "NotebookViewController.h"
 #import "DecoderViewController.h"
 #import "ScannerViewController.h"
+
+#import "DialogViewController.h"
+#import "ItemViewController.h"
+#import "PlaqueViewController.h"
+#import "WebPageViewController.h"
 
 #import "AppModel.h"
 #import "ARISMediaView.h"
@@ -193,6 +198,39 @@
                     (id<NotebookViewControllerDelegate,StateControllerProtocol>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
             }
+            //non-standard
+            else if([tab.type isEqualToString:@"DIALOG"])
+            {
+                Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+                i.object_type = tab.type;
+                i.object_id = tab.content_id;
+                DialogViewController *dialogViewController = [[DialogViewController alloc] initWithInstance:i delegate:nil];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:dialogViewController];
+            }
+            else if([tab.type isEqualToString:@"ITEM"])
+            {
+                Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+                i.object_type = tab.type;
+                i.object_id = tab.content_id;
+                ItemViewController *itemViewController = [[ItemViewController alloc] initWithInstance:i delegate:nil];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
+            }
+            else if([tab.type isEqualToString:@"PLAQUE"])
+            {
+                Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+                i.object_type = tab.type;
+                i.object_id = tab.content_id;
+                PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithInstance:i delegate:nil];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
+            }
+            else if([tab.type isEqualToString:@"WEB_PAGE"])
+            {
+                Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+                i.object_type = tab.type;
+                i.object_id = tab.content_id;
+                WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithInstance:i delegate:nil];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
+            }
             if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];
         }
 
@@ -240,12 +278,12 @@
     c.textLabel.font = [ARISTemplate ARISButtonFont];
 
     ARISNavigationController *anc = viewControllers[indexPath.row];
-    ARISGamePlayTabBarViewController *agptbvc = anc.viewControllers[0];
+    id<GamePlayTabBarViewControllerProtocol> gptbvc = anc.viewControllers[0];
 
-    if([agptbvc isKindOfClass:[MapViewController class]])
+    if([((NSObject *)gptbvc) isKindOfClass:[MapViewController class]])
         c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
-    else c.textLabel.text = agptbvc.title;
-    c.imageView.image = [UIImage imageNamed:agptbvc.tabIconName];
+    else c.textLabel.text = gptbvc.tabTitle;
+    c.imageView.image = gptbvc.tabIcon;
 
     return c;
 }

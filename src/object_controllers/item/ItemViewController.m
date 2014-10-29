@@ -37,7 +37,7 @@
 
     UIActivityIndicatorView *activityIndicator;
 
-    id<InstantiableViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<ItemViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
@@ -46,13 +46,13 @@
 @synthesize instance;
 @synthesize item;
 
-- (id) initWithInstance:(Instance *)i delegate:(id<InstantiableViewControllerDelegate,StateControllerProtocol>)d
+- (id) initWithInstance:(Instance *)i delegate:(id<ItemViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        delegate = d;
         instance = i;
         item = [_MODEL_ITEMS_ itemForId:i.object_id];
-        delegate = d;
     }
     return self;
 }
@@ -160,6 +160,14 @@
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+
+    /*
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    */
 }
 
 - (void) refreshTitle
@@ -377,6 +385,16 @@
 {
     [self dismissSelf];
 }
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"ITEM"; }
+- (NSString *) tabTitle { return @"Item"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
