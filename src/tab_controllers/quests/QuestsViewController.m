@@ -89,7 +89,7 @@ static int const COMPLETE_SECTION = 1;
     [self.view addSubview:completeButton]; 
 }
 
-- (void) viewWillAppearAnimated:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
