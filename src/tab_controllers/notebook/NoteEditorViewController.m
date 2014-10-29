@@ -14,7 +14,6 @@
 #import "ARISMediaView.h"
 #import "Note.h"
 #import "AppModel.h"
-#import "MediaModel.h"
 #import "User.h"
 #import "CircleButton.h"
 
@@ -23,6 +22,7 @@
     Note *note;
     Tag *tag;
     Media *media;
+    Trigger *trigger;
     
     UITextField *title;
     UILabel *owner;
@@ -382,10 +382,10 @@
 
 - (void) locationPickerButtonTouched
 {
-    //if(note.location && note.location.latlon)
-        //[self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:note.location.coordinate delegate:self] animated:YES];
-    //else
-        //[self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES]; 
+    if(trigger)
+        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:trigger.location.coordinate delegate:self] animated:YES];
+    else
+        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES]; 
 }
 
 - (void) imagePickerButtonTouched
@@ -437,9 +437,8 @@
 
 - (void) newLocationPicked:(CLLocationCoordinate2D)l
 {
-    //note.location = [[Location alloc] init];
-    //note.location.latlon = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
-    //note.location.coordinate = l;
+    trigger = [_MODEL_TRIGGERS_ triggerForId:0]; //get null trigger
+    trigger.location = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
     [self.navigationController popToViewController:self animated:YES];
     dirtybit = YES; 
 }

@@ -770,9 +770,53 @@
            @"data":[m.data base64Encoding]
         };
     }
+    if(t)
+    {
+      args[@"trigger"] = 
+        @{
+           @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+           @"latitude":[NSNumber numberWithDouble:tr.location.coordinate.latitude],
+           @"longitude":[NSNumber numberWithDouble:tr.location.coordinate.longitude]
+        };
+    }
     [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
 }
 - (void) parseCreateNote:(ARISServiceResult *)result
+{
+    //nothing
+}
+
+- (void) updateNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr
+{
+    NSMutableDictionary *args =
+    [@{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"note_id":[NSNumber numberWithInt:n.note_id],
+      @"user_id":[NSNumber numberWithInt:n.user_id],
+      @"name":n.name,
+      @"description":n.desc,
+     } mutableCopy];
+    if(m)
+    {
+      args[@"media"] = 
+        @{
+           @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+           @"file_name":[m.localURL absoluteString],
+           @"data":[m.data base64Encoding]
+        };
+    }
+    if(t)
+    {
+      args[@"trigger"] = 
+        @{
+           @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+           @"latitude":[NSNumber numberWithDouble:tr.location.coordinate.latitude],
+           @"longitude":[NSNumber numberWithDouble:tr.location.coordinate.longitude]
+        };
+    }
+    [connection performAsynchronousRequestWithService:@"notes" method:@"updateNote" arguments:args handler:self successSelector:@selector(parseUpdateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+}
+- (void) parseUpdateNote:(ARISServiceResult *)result
 {
     //nothing
 }

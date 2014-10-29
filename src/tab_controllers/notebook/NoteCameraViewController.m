@@ -26,7 +26,6 @@
     if(self = [super init])
     {
         self.title = NSLocalizedString(@"CameraTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"cameraTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"cameraTabBarSelected"]]; 
         delegate = d;
     }
     return self;
