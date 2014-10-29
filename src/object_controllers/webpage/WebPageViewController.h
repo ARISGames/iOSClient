@@ -15,7 +15,9 @@
 @end
 
 @class Instance;
+@class Tab;
 @interface WebPageViewController : ARISViewController <InstantiableViewControllerProtocol, GamePlayTabBarViewControllerProtocol>
 - (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<WebPageViewControllerDelegate>)d;
 @end
 

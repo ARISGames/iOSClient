@@ -27,6 +27,7 @@ static NSString * const OPTION_CELL = @"option";
 {
     Plaque *plaque;
     Instance *instance;
+    Tab *tab;
 
     UIScrollView *scrollView;
     ARISMediaView  *mediaView;
@@ -54,11 +55,23 @@ static NSString * const OPTION_CELL = @"option";
 
     return self;
 }
+- (Instance *) instance { return instance; }
 
-- (Instance *) instance
+- (id) initWithTab:(Tab *)t delegate:(id<PlaqueViewControllerDelegate>)d
 {
-  return instance;
+    if((self = [super init]))
+    {
+        delegate = d;
+        tab = t;
+        instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+        instance.object_type = tab.type;
+        instance.object_id = tab.content_id;
+        plaque = [_MODEL_PLAQUES_ plaqueForId:instance.object_id];
+        self.title = plaque.name;
+    }
+    return self;
 }
+- (Tab *) tab { return tab; }
 
 - (void) loadView
 {

@@ -15,6 +15,8 @@
 @end
 
 @class Instance;
+@class Tab;
 @interface PlaqueViewController : ARISViewController <InstantiableViewControllerProtocol, GamePlayTabBarViewControllerProtocol>
 - (id) initWithInstance:(Instance *)i delegate:(id<PlaqueViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<PlaqueViewControllerDelegate>)d;
 @end

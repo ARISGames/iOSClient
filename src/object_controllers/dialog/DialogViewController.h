@@ -15,6 +15,8 @@
 @end
 
 @class Instance;
+@class Tab;
 @interface DialogViewController : ARISViewController <InstantiableViewControllerProtocol, GamePlayTabBarViewControllerProtocol>
 - (id) initWithInstance:(Instance *)i delegate:(id<DialogViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<DialogViewControllerDelegate>)d;
 @end

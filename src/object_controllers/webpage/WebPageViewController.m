@@ -17,6 +17,7 @@
 {
     WebPage *webPage;
     Instance *instance;
+    Tab *tab;
 
     ARISWebView *webView;
     UIActivityIndicatorView *activityIndicator;
@@ -39,25 +40,27 @@
 
         delegate = d;
         hasAppeared = NO;
-
-        //WARNING!!!! FOR DEBUGGING PURPOSES ONLY!!! REMOVE FROM PRODUCTION!!!!
-
-        // remove all cached responses
-        [[NSURLCache sharedURLCache] removeAllCachedResponses];
-
-        // set an empty cache
-        NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:0 diskPath:nil];
-        [NSURLCache setSharedURLCache:sharedCache];
-
-        //WARNING!!!! FOR DEBUGGING PURPOSES ONLY!!! REMOVE FROM PRODUCTION!!!!
     }
     return self;
 }
+- (Instance *) instance { return instance; }
 
-- (Instance *) instance
+- (id) initWithTab:(Tab *)t delegate:(id<WebPageViewControllerDelegate>)d;
 {
-  return instance;
+    if(self = [super init])
+    {
+        tab = t;
+        instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+        instance.object_type = tab.type;
+        instance.object_id = tab.content_id;
+        webPage = [_MODEL_WEB_PAGES_ webPageForId:instance.object_id];
+
+        delegate = d;
+        hasAppeared = NO;
+    }
+    return self;
 }
+- (Tab *) tab { return tab; }
 
 - (void) loadView
 {

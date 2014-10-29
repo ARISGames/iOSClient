@@ -17,6 +17,7 @@
 {
     Dialog *dialog;
     Instance *instance;
+    Tab *tab;
 
     //holds 2 DialogScriptVC's, and flips between them like a graphics buffer
     //for smooth transitions/easy organization
@@ -53,11 +54,22 @@
     }
     return self;
 }
+- (Instance *) instance { return instance; }
 
-- (Instance *) instance
+- (id) initWithTab:(Tab *)t delegate:(id<DialogViewControllerDelegate>)d
 {
-  return instance;
+    if(self = [super init])
+    {
+        tab = t;
+        instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+        instance.object_type = tab.type;
+        instance.object_id = tab.content_id;
+        dialog = [_MODEL_DIALOGS_ dialogForId:instance.object_id];
+        delegate = d;
+    }
+    return self;
 }
+- (Tab *) tab { return tab; }
 
 - (void) loadView
 {

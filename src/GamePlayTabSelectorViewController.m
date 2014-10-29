@@ -201,34 +201,22 @@
             //non-standard
             else if([tab.type isEqualToString:@"DIALOG"])
             {
-                Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
-                i.object_type = tab.type;
-                i.object_id = tab.content_id;
-                DialogViewController *dialogViewController = [[DialogViewController alloc] initWithInstance:i delegate:nil];
+                DialogViewController *dialogViewController = [[DialogViewController alloc] initWithTab:tab delegate:nil];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:dialogViewController];
             }
             else if([tab.type isEqualToString:@"ITEM"])
             {
-                Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
-                i.object_type = tab.type;
-                i.object_id = tab.content_id;
-                ItemViewController *itemViewController = [[ItemViewController alloc] initWithInstance:i delegate:nil];
+                ItemViewController *itemViewController = [[ItemViewController alloc] initWithTab:tab delegate:nil];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
             }
             else if([tab.type isEqualToString:@"PLAQUE"])
             {
-                Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
-                i.object_type = tab.type;
-                i.object_id = tab.content_id;
-                PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithInstance:i delegate:nil];
+                PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithTab:tab delegate:nil];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
             }
             else if([tab.type isEqualToString:@"WEB_PAGE"])
             {
-                Instance *i = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
-                i.object_type = tab.type;
-                i.object_id = tab.content_id;
-                WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithInstance:i delegate:nil];
+                WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithTab:tab delegate:nil];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
             }
             if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];

@@ -23,6 +23,10 @@
 
 @interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
 {
+    Item *item;
+    Instance *instance;
+    Tab *tab;
+
     //Labels as buttons (easier formatting)
     UILabel *dropBtn;
     UILabel *destroyBtn;
@@ -43,9 +47,6 @@
 
 @implementation ItemViewController
 
-@synthesize instance;
-@synthesize item;
-
 - (id) initWithInstance:(Instance *)i delegate:(id<ItemViewControllerDelegate>)d
 {
     if(self = [super init])
@@ -56,6 +57,22 @@
     }
     return self;
 }
+- (Instance *) instance { return instance; }
+
+- (id) initWithTab:(Tab *)t delegate:(id<ItemViewControllerDelegate>)d
+{
+    if(self = [super init])
+    {
+        delegate = d;
+        tab = t;
+        instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+        instance.object_type = tab.type;
+        instance.object_id = tab.content_id;
+        item = [_MODEL_ITEMS_ itemForId:instance.object_id];
+    }
+    return self;
+}
+- (Tab *) tab { return tab; }
 
 //Helper to cleanly/consistently create bottom buttons
 - (UILabel *) createItemButtonWithText:(NSString *)t selector:(SEL)s
