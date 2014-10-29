@@ -130,11 +130,6 @@
     return lastKnownTextFrameHeight;
 }
 
-//implement gameplaytabbarviewcontrollerprotocol junk
-- (NSString *) tabId { return @"DIALOG"; }
-- (NSString *) tabTitle { return @"Dialog"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
-
 //implement statecontrol stuff for webpage, but just delegate any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
 - (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }

@@ -18,6 +18,8 @@
 
 @interface NotebookViewController() <InstantiableViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>
 {
+    Tab *tab;
+    
     UIView *navTitleView;
     UILabel *navTitleLabel;
 
@@ -46,10 +48,11 @@
 
 @implementation NotebookViewController
 
-- (id) initWithDelegate:(id<NotebookViewControllerDelegate>)d
+- (id) initWithTab:(Tab *)t delegate:(id<NotebookViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        tab = t;
         delegate = d;
         self.title = NSLocalizedString(@"NotebookTitleKey",@"");
     }
@@ -298,7 +301,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"NOTE"; }
-- (NSString *) tabTitle { return @"Notebook"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Notebook"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"notebook"]; }
 
 - (void) dealloc

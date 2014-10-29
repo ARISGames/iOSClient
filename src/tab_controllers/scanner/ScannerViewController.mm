@@ -17,6 +17,7 @@
 
 @interface ScannerViewController() <ZXingDelegate, UITextFieldDelegate>
 {
+    Tab *tab;
     NSString *prompt;
     
     NSDate *lastError;
@@ -27,10 +28,11 @@
 
 @implementation ScannerViewController
 
-- (id) initWithDelegate:(id<ScannerViewControllerDelegate>)d
+- (id) initWithTab:(Tab *)t delegate:(id<ScannerViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        tab = t;
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
         
         lastError = [NSDate date];
@@ -139,7 +141,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"SCANNER"; }
-- (NSString *) tabTitle { return @"Scanner"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Scanner"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
 
 - (void) dealloc

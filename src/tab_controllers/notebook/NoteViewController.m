@@ -52,6 +52,7 @@
     }
     return self;
 }
+- (Instance *) instance { return instance; }
 
 - (void) loadView
 {

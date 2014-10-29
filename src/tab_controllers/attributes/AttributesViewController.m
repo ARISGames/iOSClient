@@ -19,13 +19,16 @@
 
 @interface AttributesViewController() <ARISMediaViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
+    Tab *tab;
+    
 	UITableView *attributesTable;
 	NSArray *attributes;
     NSMutableArray *iconCache;
     ARISMediaView *pcImage;
     BOOL hasAppeared;
-    id<AttributesViewControllerDelegate> __unsafe_unretained delegate;
     UILabel *nameLabel;
+    
+    id<AttributesViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic) UITableView *attributesTable;
@@ -44,11 +47,12 @@
 @synthesize pcImage;
 @synthesize newAttrsSinceLastView;
 
-- (id) initWithDelegate:(id<AttributesViewControllerDelegate>)d
+- (id) initWithTab:(Tab *)t delegate:(id<AttributesViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         hasAppeared = NO;
+        tab = t;
         delegate = d;
         
         self.title = NSLocalizedString(@"PlayerTitleKey",@"");
@@ -206,7 +210,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"PLAYER"; }
-- (NSString *) tabTitle { return @"Attributes"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Attributes"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"id_card"]; }
 
 @end

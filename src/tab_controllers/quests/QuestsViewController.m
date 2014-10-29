@@ -21,6 +21,8 @@ static int const COMPLETE_SECTION = 1;
 
 @interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, StateControllerProtocol, QuestCellDelegate, QuestDetailsViewControllerDelegate>
 {
+    Tab *tab;
+    
     NSArray *sortedActiveQuests;
     NSArray *sortedCompleteQuests;
     NSMutableDictionary *activeQuestCellHeights;
@@ -39,10 +41,11 @@ static int const COMPLETE_SECTION = 1;
 
 @implementation QuestsViewController
 
-- (id) initWithDelegate:(id<QuestsViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithTab:(Tab *)t delegate:(id<QuestsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        tab = t;
         self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
         
         questTypeShown = ACTIVE_SECTION;
@@ -264,7 +267,7 @@ static int const COMPLETE_SECTION = 1;
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"QUESTS"; }
-- (NSString *) tabTitle { return @"Quests"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests

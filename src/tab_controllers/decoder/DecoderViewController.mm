@@ -14,6 +14,7 @@
 
 @interface DecoderViewController() <UITextFieldDelegate>
 {
+    Tab *tab;
 	UITextField *codeTextField;
     
     id<DecoderViewControllerDelegate> __unsafe_unretained delegate;
@@ -22,10 +23,11 @@
 
 @implementation DecoderViewController
 
-- (id) initWithDelegate:(id<DecoderViewControllerDelegate>)d
+- (id) initWithTab:(Tab *)t delegate:(id<DecoderViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        tab = t;
         self.title = NSLocalizedString(@"QRDecoderTitleKey", @"");
         
         delegate = d;
@@ -120,7 +122,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"DECODER"; }
-- (NSString *) tabTitle { return @"Decoder"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Decoder"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
 
 - (void) dealloc

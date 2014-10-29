@@ -225,7 +225,7 @@ static NSString * const OPTION_CELL = @"option";
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"PLAQUE"; }
-- (NSString *) tabTitle { return @"Plaque"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(plaque.name && ![plaque.name isEqualToString:@""]) return plaque.name; return @"Plaque"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests

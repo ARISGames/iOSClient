@@ -151,50 +151,50 @@
                 //if uses icon quest view
                 if((BOOL)tab.content_id)
                 {
-                    IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:
+                    IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithTab:tab delegate:
                     (id<QuestsViewControllerDelegate,StateControllerProtocol>)delegate];
                     vc = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
                 }
                 else
                 {
-                    QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:
+                    QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithTab:tab delegate:
                     (id<QuestsViewControllerDelegate>)delegate];
                     vc = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
                 }
             }
             else if([tab.type isEqualToString:@"MAP"])
             {
-                MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:
+                MapViewController *mapViewController = [[MapViewController alloc] initWithTab:tab delegate:
                     (id<MapViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
             }
             else if([tab.type isEqualToString:@"INVENTORY"])
             {
-                InventoryViewController *inventoryViewController = [[InventoryViewController alloc] initWithDelegate:
+                InventoryViewController *inventoryViewController = [[InventoryViewController alloc] initWithTab:tab delegate:
                     (id<InventoryViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:inventoryViewController];
             }
             else if([tab.type isEqualToString:@"DECODER"]) //text only
             {
-                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:
+                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithTab:tab delegate:
                     (id<DecoderViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             }
             else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
             {
-                ScannerViewController *scannerViewController = [[ScannerViewController alloc] initWithDelegate:
+                ScannerViewController *scannerViewController = [[ScannerViewController alloc] initWithTab:tab delegate:
                     (id<ScannerViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:scannerViewController];
             }
             else if([tab.type isEqualToString:@"PLAYER"])
             {
-                AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:
+                AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithTab:tab delegate:
                     (id<AttributesViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
             }
             else if([tab.type isEqualToString:@"NOTEBOOK"])
             {
-                NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:
+                NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithTab:tab delegate:
                     (id<NotebookViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
             }

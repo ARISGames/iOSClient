@@ -14,7 +14,8 @@
 @protocol ScannerViewControllerDelegate <GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
 @end
 
+@class Tab;
 @interface ScannerViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
-- (id) initWithDelegate:(id<ScannerViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<ScannerViewControllerDelegate>)d;
 - (void) setPrompt:(NSString *)p;
 @end

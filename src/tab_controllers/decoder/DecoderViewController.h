@@ -14,6 +14,7 @@
 @protocol DecoderViewControllerDelegate <GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
 @end
 
-@interface DecoderViewController : ARISViewController <GamePlayTabBarViewControllerDelegate>
-- (id) initWithDelegate:(id<DecoderViewControllerDelegate>)d;
+@class Tab;
+@interface DecoderViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
+- (id) initWithTab:(Tab *)t delegate:(id<DecoderViewControllerDelegate>)d;
 @end

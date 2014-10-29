@@ -17,6 +17,8 @@
 
 @interface InventoryViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
+    Tab *tab;
+    
     UIScrollView *tagsView;
     NSMutableArray *sortableTags;
     int currentTagIndex;
@@ -40,10 +42,11 @@
 
 @implementation InventoryViewController
 
-- (id) initWithDelegate:(id<InventoryViewControllerDelegate>)d
+- (id) initWithTab:(Tab *)t delegate:(id<InventoryViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        tab = t;
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
@@ -404,7 +407,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"INVENTORY"; }
-- (NSString *) tabTitle { return @"Inventory"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Inventory"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"toolbox"]; }
 
 - (void) dealloc

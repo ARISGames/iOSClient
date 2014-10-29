@@ -12,6 +12,7 @@
 @protocol NotebookViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
+@class Tab;
 @interface NotebookViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
-- (id) initWithDelegate:(id<NotebookViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<NotebookViewControllerDelegate>)d;
 @end

@@ -14,6 +14,6 @@
 @end
 
 @interface MapViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
-- (id) initWithDelegate:(id<MapViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<MapViewControllerDelegate>)d;
 
 @end

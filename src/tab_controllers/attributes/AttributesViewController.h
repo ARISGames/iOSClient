@@ -12,7 +12,8 @@
 @protocol AttributesViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
+@class Tab;
 @interface AttributesViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
-- (id) initWithDelegate:(id<AttributesViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<AttributesViewControllerDelegate>)d;
 - (void) refresh;
 @end

@@ -16,6 +16,7 @@
 
 @interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
 {
+    Tab *tab;
     UICollectionView *questIconCollectionView;
     
     NSArray *activeQuests;
@@ -31,13 +32,14 @@
 
 @synthesize questIconCollectionView;
 
-- (id) initWithDelegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d
+- (id) initWithTab:(Tab *)t delegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d
 {
     if(self = [super init])
     {
+        tab = t;
+        delegate = d;
         self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
         
-        delegate = d;
         
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
@@ -169,7 +171,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"QUESTS"; }
-- (NSString *) tabTitle { return @"Quests"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests

@@ -13,6 +13,7 @@
 @protocol InventoryViewControllerDelegate <GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
 @end
 
+@class Tab;
 @interface InventoryViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
-- (id) initWithDelegate:(id<InventoryViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<InventoryViewControllerDelegate>)d;
 @end

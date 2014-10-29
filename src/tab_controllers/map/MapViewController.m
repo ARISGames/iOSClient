@@ -25,6 +25,8 @@
 
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
 {
+    Tab *tab;
+    
     MKMapView *mapView;
     MapHUD *hud;
     UIView *blackout;
@@ -52,10 +54,11 @@
 
 @implementation MapViewController
 
-- (id) initWithDelegate:(id<MapViewControllerDelegate>)d
+- (id) initWithTab:(Tab *)t delegate:(id<MapViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        tab = t;
         delegate = d;
 
         _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(playerMoved),nil);
@@ -586,7 +589,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"MAP"; }
-- (NSString *) tabTitle { return @"Map"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Map"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"map"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
