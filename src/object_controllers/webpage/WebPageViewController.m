@@ -98,13 +98,14 @@
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 
-    /*
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
-    */
+    if(tab)
+    {
+        UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+        [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+        [threeLineNavButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
+        threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    }
 }
 
 - (NSString *) getTabTitle
@@ -150,8 +151,8 @@
 {
     [webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    //[_SERVICES_ updateServerWebPageViewed:webPage.web_page_id fromLocation:0];
     [delegate instantiableViewControllerRequestsDismissal:self];
+    if(tab) [self showNav];
 }
 
 - (void) showNav

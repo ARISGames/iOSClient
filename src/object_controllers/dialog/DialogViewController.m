@@ -125,13 +125,14 @@
 {
     [super viewWillAppear:animated];
 
-    /*
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
-    */
+    if(tab)
+    {
+        UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+        [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+        [threeLineNavButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
+        threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    }
 }
 
 /*
@@ -204,6 +205,12 @@
     [self dismissSelf];
 }
 
+- (void) dismissSelf
+{
+    [delegate instantiableViewControllerRequestsDismissal:self];
+    if(tab) [self showNav];
+}
+
 - (void) showNav
 {
     [delegate gamePlayTabBarViewControllerRequestsNav];
@@ -220,10 +227,5 @@
 - (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
 - (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
 - (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
-
-- (void) dismissSelf
-{
-    [delegate instantiableViewControllerRequestsDismissal:self];
-}
 
 @end

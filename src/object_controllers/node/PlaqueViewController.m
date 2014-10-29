@@ -121,13 +121,14 @@ static NSString * const OPTION_CELL = @"option";
 {
     [super viewWillAppear:animated];
 
-    /*
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
-    */
+    if(tab)
+    {
+        UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+        [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+        [threeLineNavButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
+        threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    }
 }
 
 - (void) viewWillLayoutSubviews
@@ -185,7 +186,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
 {
-    [delegate instantiableViewControllerRequestsDismissal:self];
+    [self dismissSelf];
     WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
     nullWebPage.url = [r.URL absoluteString];
     [delegate displayObjectType:@"WEB_PAGE" id:0];
@@ -208,7 +209,13 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) continueButtonTouched
 {
+    [self dismissSelf];
+}
+
+- (void) dismissSelf
+{
     [delegate instantiableViewControllerRequestsDismissal:self];
+    if(tab) [self showNav];
 }
 
 - (void) showNav

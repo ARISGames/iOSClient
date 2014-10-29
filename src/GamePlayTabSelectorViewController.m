@@ -158,65 +158,69 @@
                 else
                 {
                     QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:
-                    (id<QuestsViewControllerDelegate,StateControllerProtocol>)delegate];
+                    (id<QuestsViewControllerDelegate>)delegate];
                     vc = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
                 }
             }
             else if([tab.type isEqualToString:@"MAP"])
             {
                 MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:
-                    (id<MapViewControllerDelegate,StateControllerProtocol>)delegate];
+                    (id<MapViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
             }
             else if([tab.type isEqualToString:@"INVENTORY"])
             {
                 InventoryViewController *inventoryViewController = [[InventoryViewController alloc] initWithDelegate:
-                    (id<InventoryViewControllerDelegate,StateControllerProtocol>)delegate];
+                    (id<InventoryViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:inventoryViewController];
             }
             else if([tab.type isEqualToString:@"DECODER"]) //text only
             {
                 DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:
-                    (id<DecoderViewControllerDelegate,StateControllerProtocol>)delegate];
+                    (id<DecoderViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             }
             else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
             {
                 ScannerViewController *scannerViewController = [[ScannerViewController alloc] initWithDelegate:
-                    (id<ScannerViewControllerDelegate,StateControllerProtocol>)delegate];
+                    (id<ScannerViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:scannerViewController];
             }
             else if([tab.type isEqualToString:@"PLAYER"])
             {
                 AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:
-                    (id<AttributesViewControllerDelegate,StateControllerProtocol>)delegate];
+                    (id<AttributesViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
             }
             else if([tab.type isEqualToString:@"NOTEBOOK"])
             {
                 NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:
-                    (id<NotebookViewControllerDelegate,StateControllerProtocol>)delegate];
+                    (id<NotebookViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
             }
             //non-standard
             else if([tab.type isEqualToString:@"DIALOG"])
             {
-                DialogViewController *dialogViewController = [[DialogViewController alloc] initWithTab:tab delegate:nil];
+                DialogViewController *dialogViewController = [[DialogViewController alloc] initWithTab:tab delegate:
+                    (id<DialogViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:dialogViewController];
             }
             else if([tab.type isEqualToString:@"ITEM"])
             {
-                ItemViewController *itemViewController = [[ItemViewController alloc] initWithTab:tab delegate:nil];
+                ItemViewController *itemViewController = [[ItemViewController alloc] initWithTab:tab delegate:
+                    (id<ItemViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
             }
             else if([tab.type isEqualToString:@"PLAQUE"])
             {
-                PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithTab:tab delegate:nil];
+                PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithTab:tab delegate:
+                    (id<PlaqueViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
             }
             else if([tab.type isEqualToString:@"WEB_PAGE"])
             {
-                WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithTab:tab delegate:nil];
+                WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithTab:tab delegate:
+                    (id<WebPageViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
             }
             if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];
