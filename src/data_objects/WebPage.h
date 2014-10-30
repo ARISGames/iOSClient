@@ -17,10 +17,10 @@
 	int icon_media_id; 
 }
 
-@property(readwrite, assign) int web_page_id;
-@property(nonatomic, strong) NSString *name;
-@property(nonatomic, strong) NSString *url;
-@property(readwrite, assign) int icon_media_id;
+@property (nonatomic, assign) int web_page_id;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *url;
+@property (nonatomic, assign) int icon_media_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 

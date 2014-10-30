@@ -7,6 +7,7 @@
 //
 
 #import "WebPage.h"
+#import "Media.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation WebPage
@@ -50,14 +51,20 @@
     return c;
 }
 
-- (int)compareTo:(WebPage *)ob
+- (int) compareTo:(WebPage *)ob
 {
 	return (ob.web_page_id == self.web_page_id);
 }
 
-- (NSString *)description
+- (NSString *) description
 {
     return [NSString stringWithFormat:@"WebPage- Id:%d\tName:%@\tURL:%@\t",self.web_page_id,self.name,self.url];
+}
+
+- (int) icon_media_id
+{
+    if(!icon_media_id) return DEFAULT_WEB_PAGE_ICON_MEDIA_ID;
+    return icon_media_id;
 }
 
 @end

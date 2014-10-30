@@ -2406,7 +2406,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Philip Dougherty (BUGLD6V3A5)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2417,7 +2417,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-v";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "07DEC69B-5E82-4A72-855E-93A0B9168C87";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 i386";
 			};
@@ -2468,7 +2468,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Philip Dougherty (BUGLD6V3A5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";
@@ -2478,7 +2478,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-v";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "07DEC69B-5E82-4A72-855E-93A0B9168C87";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 i386";
 			};

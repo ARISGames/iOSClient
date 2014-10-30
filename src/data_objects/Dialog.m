@@ -7,6 +7,7 @@
 //
 
 #import "Dialog.h"
+#import "Media.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Dialog
@@ -62,6 +63,12 @@
 - (NSString *) description
 {
   return [NSString stringWithFormat:@"Dialog- Id:%d\tName:%@\t",self.dialog_id,self.name];
+}
+
+- (int) icon_media_id
+{
+    if(!icon_media_id) return DEFAULT_DIALOG_ICON_MEDIA_ID;
+    return icon_media_id;
 }
 
 @end

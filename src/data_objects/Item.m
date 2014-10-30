@@ -7,6 +7,7 @@
 //
 
 #import "Item.h"
+#import "Media.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Item
@@ -79,6 +80,12 @@
     c.type                 = self.type; 
     
     return c;
+}
+
+- (int) icon_media_id
+{
+    if(!icon_media_id) return DEFAULT_ITEM_ICON_MEDIA_ID;
+    return icon_media_id;
 }
 
 - (NSString *)description

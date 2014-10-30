@@ -7,7 +7,7 @@
 //
 
 #import "Plaque.h"
-#import "PlaqueViewController.h"
+#import "Media.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Plaque
@@ -45,6 +45,12 @@
         self.event_package_id = [dict validIntForKey:@"event_package_id"];
     }
     return self;
+}
+
+- (int) icon_media_id
+{
+    if(!icon_media_id) return DEFAULT_PLAQUE_ICON_MEDIA_ID;
+    return icon_media_id;
 }
 
 - (NSString *) description

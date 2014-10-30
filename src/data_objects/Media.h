@@ -7,6 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+
+//oh my gosh this hack is terrible I should be ashamed
+#define DEFAULT_PLAQUE_ICON_MEDIA_ID -1
+#define DEFAULT_ITEM_ICON_MEDIA_ID -2
+#define DEFAULT_DIALOG_ICON_MEDIA_ID -3
+#define DEFAULT_WEB_PAGE_ICON_MEDIA_ID -4
+
 @class MediaCD;
 
 @interface Media : NSObject

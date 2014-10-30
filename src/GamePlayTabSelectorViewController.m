@@ -272,9 +272,7 @@
     ARISNavigationController *anc = viewControllers[indexPath.row];
     id<GamePlayTabBarViewControllerProtocol> gptbvc = anc.viewControllers[0];
 
-    if([((NSObject *)gptbvc) isKindOfClass:[MapViewController class]])
-        c.textLabel.text = NSLocalizedString(@"MapViewTitleKey",@"");
-    else c.textLabel.text = gptbvc.tabTitle;
+    c.textLabel.text = gptbvc.tabTitle;
     c.imageView.image = gptbvc.tabIcon;
 
     return c;

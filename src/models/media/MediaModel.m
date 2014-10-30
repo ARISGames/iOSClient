@@ -127,6 +127,52 @@
 - (Media *) mediaForId:(int)media_id
 {
   if(media_id == 0) return nil;
+    
+  //oh my hack
+  if(media_id == DEFAULT_PLAQUE_ICON_MEDIA_ID)
+  {
+      MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
+      mediaCD.media_id = [NSNumber numberWithInt:media_id];
+      mediaCD.game_id  = [NSNumber numberWithInt:0];
+      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"plaque_icon_120"]);
+      [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
+      return media;
+  }
+  if(media_id == DEFAULT_ITEM_ICON_MEDIA_ID)
+  {
+      MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
+      mediaCD.media_id = [NSNumber numberWithInt:media_id];
+      mediaCD.game_id  = [NSNumber numberWithInt:0];
+      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"item_icon_120"]);
+      [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
+      return media;
+  }
+  if(media_id == DEFAULT_DIALOG_ICON_MEDIA_ID)
+  {
+      MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
+      mediaCD.media_id = [NSNumber numberWithInt:media_id];
+      mediaCD.game_id  = [NSNumber numberWithInt:0];
+      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"conversation_icon_120"]);
+      [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
+      return media;
+  }
+  if(media_id == DEFAULT_WEB_PAGE_ICON_MEDIA_ID)
+  {
+      MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
+      mediaCD.media_id = [NSNumber numberWithInt:media_id];
+      mediaCD.game_id  = [NSNumber numberWithInt:0];
+      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"webpage_icon_120"]);
+      [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
+      return media;
+  }
 
   Media *media;
   if(!(media = medias[[NSNumber numberWithInt:media_id]])) //if doesn't exist in light cache...
