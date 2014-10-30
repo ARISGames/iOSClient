@@ -154,6 +154,18 @@
   return t;
 }
 
+- (NSArray *) triggersForInstanceId:(int)instance_id
+{
+    NSMutableArray *a = [[NSMutableArray alloc] init];
+    for(int i = 0; i < triggers.count; i++)
+    {
+        Trigger *t = [triggers allValues][i];
+        if(t.instance_id == instance_id)
+            [a addObject:t];
+    }
+    return a;
+}
+
 - (Trigger *) triggerForQRCode:(NSString *)code
 {
     Trigger *t;

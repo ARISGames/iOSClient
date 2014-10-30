@@ -128,6 +128,18 @@
   return i;
 }
 
+- (NSArray *) instancesForType:(NSString *)object_type id:(int)object_id
+{
+    NSMutableArray *a = [[NSMutableArray alloc] init];
+    for(int i = 0; i < instances.count; i++)
+    {
+        Instance *inst = [instances allValues][i];
+        if(inst.object_id == object_id && [inst.object_type isEqualToString:object_type])
+            [a addObject:inst];
+    }
+    return a;
+}
+
 - (NSArray *) playerInstances
 {
     NSMutableArray *pInstances = [[NSMutableArray alloc] init];

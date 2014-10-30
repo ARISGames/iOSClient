@@ -13,6 +13,8 @@
 
 - (Trigger *) triggerForId:(int)trigger_id;
 - (Trigger *) triggerForQRCode:(NSString *)code;
+- (NSArray *) triggersForInstanceId:(int)instance_id;
+
 - (NSArray *) playerTriggers;
 - (void) requestTriggers;
 - (void) requestPlayerTriggers;

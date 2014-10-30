@@ -783,7 +783,9 @@
 }
 - (void) parseCreateNote:(ARISServiceResult *)result
 {
-    //nothing
+    NSDictionary *noteDict= (NSDictionary *)result.resultData;
+    Note *note = [[Note alloc] initWithDictionary:noteDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_RECEIVED", nil, @{@"note":note});
 }
 
 - (void) updateNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr
@@ -818,7 +820,9 @@
 }
 - (void) parseUpdateNote:(ARISServiceResult *)result
 {
-    //nothing
+    NSDictionary *noteDict= (NSDictionary *)result.resultData;
+    Note *note = [[Note alloc] initWithDictionary:noteDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_RECEIVED", nil, @{@"note":note});
 }
 
 - (void) deleteNoteId:(int)note_id

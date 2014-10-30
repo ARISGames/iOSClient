@@ -384,6 +384,16 @@
 
 - (void) locationPickerButtonTouched
 {
+    if(!trigger) 
+    {
+        if(note.note_id)
+        {
+            NSArray *a = [_MODEL_INSTANCES_ instancesForType:@"NOTE" id:note.note_id];
+            if(a.count) a = [_MODEL_TRIGGERS_ triggersForInstanceId:((Instance *)a[0]).instance_id];
+            if(a.count) trigger = a[0];
+        }
+    }
+    
     if(trigger)
         [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:trigger.location.coordinate delegate:self] animated:YES];
     else
@@ -426,8 +436,8 @@
     note.name = title.text;
     note.desc = description.text;
 
-    if(note.note_id) [_MODEL_NOTES_ saveNote:note withTag:tag media:media trigger:nil];
-    else             [_MODEL_NOTES_ createNote:note withTag:tag media:media trigger:nil];
+    if(note.note_id) [_MODEL_NOTES_ saveNote:note withTag:tag media:media trigger:trigger];
+    else             [_MODEL_NOTES_ createNote:note withTag:tag media:media trigger:trigger];
 
     [delegate noteEditorConfirmedNoteEdit:self note:note];
 }
