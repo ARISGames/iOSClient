@@ -129,6 +129,8 @@
     discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorContinueEditingKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
     
     contentView = [[ARISMediaView alloc] initWithDelegate:self];
+    [contentView setDisplayMode:ARISMediaDisplayModeAspectFill];
+    contentView.clipsToBounds = YES;
     
     line1 = [[UIView alloc] init];
     line1.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
@@ -468,7 +470,8 @@
 - (void) setTempMediaFromURL:(NSURL *)url
 {
     media = [_MODEL_MEDIA_ newMedia];
-    media.data = [NSData dataWithContentsOfURL:media.localURL]; 
+    media.data = [NSData dataWithContentsOfURL:url]; 
+    [media setPartialLocalURL:[url absoluteString]]; //technically full URL- all that matters though is extension
     [contentView setMedia:media];
 }
 
