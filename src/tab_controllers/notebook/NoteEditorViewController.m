@@ -310,7 +310,7 @@
     [format setDateFormat:@"MM/dd/yy"]; 
     date.text = [format stringFromDate:note.created]; 
     owner.text = [_MODEL_USERS_ userForId:note.user_id].display_name; 
-    [contentView setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
+    if(note.media_id) [contentView setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
     [tagViewController setTag:tag];
 }
 

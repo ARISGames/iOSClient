@@ -34,7 +34,6 @@
     NoteCommentInputViewController *commentInput;
     NoteCommentsViewController *commentsDisplay;
 
-
     id<NoteViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -176,17 +175,20 @@
 
     desc.text = note.desc;
 
-    if(!amv)
+    if(note.media_id)
     {
-        amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
-        [amv setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
-        [amv setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
-    }
-    [amv setFrame:CGRectMake(0,0,self.view.frame.size.width,amv.frame.size.height)];
+        if(!amv)
+        {
+            amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+            [amv setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
+            [amv setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
+        }
+        [amv setFrame:CGRectMake(0,0,self.view.frame.size.width,amv.frame.size.height)];
 
-    if([[_MODEL_MEDIA_ mediaForId:note.media_id].type isEqualToString:@"IMAGE"])
-        [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]];
+        if([[_MODEL_MEDIA_ mediaForId:note.media_id].type isEqualToString:@"IMAGE"])
+            [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]];
         [scrollView addSubview:amv];
+    }
 
     //[commentsDisplay setComments:note.comments];
     [self formatSubviews];
