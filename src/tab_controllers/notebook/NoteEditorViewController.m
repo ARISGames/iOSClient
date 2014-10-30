@@ -424,7 +424,8 @@
     note.name = title.text;
     note.desc = description.text;
 
-    [_MODEL_NOTES_ createNote:note withTag:tag media:media trigger:nil];
+    if(note.note_id) [_MODEL_NOTES_ saveNote:note withTag:tag media:media trigger:nil];
+    else             [_MODEL_NOTES_ createNote:note withTag:tag media:media trigger:nil];
 
     [delegate noteEditorConfirmedNoteEdit:self note:note];
 }

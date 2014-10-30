@@ -22,6 +22,7 @@
 - (void) clearGameData;
 
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
+- (void) saveNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
 - (void) deleteNoteId:(int)note_id;
 
 - (NSArray *) notes;
