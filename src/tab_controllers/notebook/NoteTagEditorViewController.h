@@ -11,7 +11,6 @@
 @class Tag;
 
 @protocol NoteTagEditorViewControllerDelegate
-@optional
 - (void) noteTagEditorAddedTag:(Tag *)nt;
 - (void) noteTagEditorCancelled;
 - (void) noteTagEditorDeletedTag:(Tag *)nt;

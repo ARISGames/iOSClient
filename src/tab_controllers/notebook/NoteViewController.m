@@ -8,7 +8,6 @@
 
 #import "NoteViewController.h"
 #import "NoteComment.h"
-#import "NoteTagEditorViewController.h"
 #import "NoteCommentsViewController.h"
 #import "NoteCommentInputViewController.h"
 #import "NoteEditorViewController.h"
@@ -18,7 +17,7 @@
 #import "AppModel.h"
 #import "Game.h"
 
-@interface NoteViewController () <NoteTagEditorViewControllerDelegate, NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
+@interface NoteViewController () <NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
     Instance *instance;
     Note *note;
