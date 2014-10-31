@@ -173,6 +173,17 @@
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
+  if(media_id == LOGO_ICON_MEDIA_ID)
+  {
+      MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
+      mediaCD.media_id = [NSNumber numberWithInt:media_id];
+      mediaCD.game_id  = [NSNumber numberWithInt:0];
+      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"logo_icon"]);
+      [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
+      return media;
+  }
 
   Media *media;
   if(!(media = medias[[NSNumber numberWithInt:media_id]])) //if doesn't exist in light cache...

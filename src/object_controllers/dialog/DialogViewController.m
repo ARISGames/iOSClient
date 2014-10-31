@@ -219,7 +219,7 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"DIALOG"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(dialog.name && ![dialog.name isEqualToString:@""]) return dialog.name; return @"Dialog"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"loco_icon"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
