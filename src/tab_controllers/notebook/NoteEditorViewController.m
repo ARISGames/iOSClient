@@ -103,6 +103,7 @@
     description.contentInset = UIEdgeInsetsZero; 
     description.font = [ARISTemplate ARISBodyFont];
     
+    if(note.note_id && !tag && [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:note.note_id].count) tag = [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:note.note_id][0];
     tagViewController = [[NoteTagEditorViewController alloc] initWithTag:tag editable:YES delegate:self]; 
     
     descriptionPrompt = [[UILabel alloc] init];

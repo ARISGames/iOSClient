@@ -37,6 +37,7 @@
 - (void) clearGameData
 {
     tags = [[NSMutableDictionary alloc] init];
+    objectTags = [[NSMutableDictionary alloc] init];
 }
 
 - (void) tagsReceived:(NSNotification *)notif

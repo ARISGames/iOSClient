@@ -772,6 +772,10 @@
     }
     if(t)
     {
+        args[@"tag_id"] = [NSNumber numberWithInt:t.tag_id];
+    }
+    if(tr)
+    {
       args[@"trigger"] = 
         @{
            @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
@@ -808,6 +812,10 @@
         };
     }
     if(t)
+    {
+        args[@"tag_id"] = [NSNumber numberWithInt:t.tag_id];
+    }
+    if(tr)
     {
       args[@"trigger"] = 
         @{

@@ -111,7 +111,9 @@
     //owner.text = n.owner.display_name;
     desc.text = n.desc;
 
-    [self setPreviewMedia:[_MODEL_MEDIA_ mediaForId:n.media_id]];
+    if(n.media_id) [preview setMedia:[_MODEL_MEDIA_ mediaForId:n.media_id]];
+    else           [preview setMedia:nil];
+    [preview setFrame:previewFrameFull];
 }
 
 - (void) setPreviewMedia:(Media *)m
@@ -125,7 +127,6 @@
         [preview setDisplayMode:ARISMediaDisplayModeAspectFill];
         [preview setMedia:m];
     }
-    //if([m.type isEqualToString:@"VIDEO"]) { [preview setFrame:previewFrameFull withMode:ARISMediaDisplayModeAspectFill]; [preview setMedia:m]; }
     if([m.type isEqualToString:@"VIDEO"])
     {
         [preview setFrame:previewFrameSmall];
