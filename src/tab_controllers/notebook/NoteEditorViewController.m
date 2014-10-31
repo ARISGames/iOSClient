@@ -33,10 +33,6 @@
     ARISMediaView *contentView;
     
     UIView *bottombar;
-    CircleButton *imagePickerButton; 
-    UILabel *imagePickerLabel;
-    CircleButton *audioPickerButton;  
-    UILabel *audioPickerLabel; 
     CircleButton *locationPickerButton; 
     UILabel *locationPickerLabel;  
     CircleButton *trashButton; 
@@ -144,30 +140,6 @@
     
     bottombar = [[UIView alloc] init]; 
     
-    imagePickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    [imagePickerButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];  
-    [imagePickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
-    [imagePickerButton addTarget:self action:@selector(imagePickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];  
-    imagePickerLabel = [[UILabel alloc] init];
-    imagePickerLabel.textAlignment = NSTextAlignmentCenter;  
-    imagePickerLabel.font = [ARISTemplate ARISCellSubtextFont];
-    imagePickerLabel.textColor = [UIColor blackColor];
-    imagePickerLabel.numberOfLines = 0;
-    imagePickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    imagePickerLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"AddKey", @"") uppercaseString], [NSLocalizedString(@"ImageKey", @"") uppercaseString]];
-    
-    audioPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw]; 
-    [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
-    [audioPickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]]; 
-    [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    audioPickerLabel = [[UILabel alloc] init];
-    audioPickerLabel.textAlignment = NSTextAlignmentCenter; 
-    audioPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
-    audioPickerLabel.textColor = [UIColor blackColor]; 
-    audioPickerLabel.numberOfLines = 0; 
-    audioPickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    audioPickerLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"AddKey", @"") uppercaseString], [NSLocalizedString(@"AudioKey", @"") uppercaseString]];
-    
     locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:fc disabledStrokeColor:[UIColor grayColor] disabledtitleColor:[UIColor grayColor] strokeWidth:sw];
     [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     [locationPickerButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
@@ -195,10 +167,6 @@
     trashLabel.lineBreakMode = NSLineBreakByWordWrapping;
     trashLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"DeleteKey", @"") uppercaseString], [NSLocalizedString(@"NoteKey", @"") uppercaseString]];
     
-    [bottombar addSubview:imagePickerButton]; 
-    [bottombar addSubview:imagePickerLabel];  
-    [bottombar addSubview:audioPickerButton]; 
-    [bottombar addSubview:audioPickerLabel];
     [bottombar addSubview:locationPickerButton];
     [bottombar addSubview:locationPickerLabel];
     
@@ -240,11 +208,6 @@
     
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
-    imagePickerButton.frame    = CGRectMake(buttonPadding*1+buttonDiameter*0, 5, buttonDiameter, buttonDiameter);
-    imagePickerLabel.frame     = CGRectMake(buttonPadding*1+buttonDiameter*0-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
-    
-    audioPickerButton.frame    = CGRectMake(buttonPadding*3+buttonDiameter*1, 5, buttonDiameter, buttonDiameter);
-    audioPickerLabel.frame     = CGRectMake(buttonPadding*3+buttonDiameter*1-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     locationPickerButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 5, buttonDiameter, buttonDiameter); 
     locationPickerLabel.frame  = CGRectMake(buttonPadding*5+buttonDiameter*2-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     trashButton.frame          = CGRectMake(buttonPadding*7+buttonDiameter*3, 5, buttonDiameter, buttonDiameter); 
