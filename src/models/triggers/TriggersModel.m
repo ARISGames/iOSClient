@@ -84,7 +84,21 @@
 {
     NSMutableArray *conformingTriggers = [[NSMutableArray alloc] init];
     for(int i = 0; i < newTriggers.count; i++)
-        [conformingTriggers addObject:[self triggerForId:((Trigger *)newTriggers[i]).trigger_id]];
+    {
+        Trigger *new = newTriggers[i];
+        Trigger *exist = [self triggerForId:new.trigger_id];
+        
+        if(exist)
+        {
+            [exist mergeDataFromTrigger:new];
+            [conformingTriggers addObject:exist];
+        }
+        else
+        {
+            [triggers setObject:new forKey:[NSNumber numberWithInt:new.trigger_id]];
+            [conformingTriggers addObject:new];
+        }
+    }
     return conformingTriggers;
 }
 
