@@ -112,7 +112,6 @@
     [self.view addSubview:newImageButton];
     [self.view addSubview:newVideoButton];
 
-
     NSString *spacing = @"        "; // yes, really
 
     allNotesButton = [[UILabel alloc] init];

@@ -34,6 +34,7 @@
     {
       [self clearGameData];
       _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTES_RECEIVED",self,@selector(notesReceived:),nil);
+      _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTE_RECEIVED",self,@selector(noteReceived:),nil);
     }
     return self;
 }
@@ -69,6 +70,11 @@
 - (void) notesReceived:(NSNotification *)notif
 {
   [self updateNotes:notif.userInfo[@"notes"]];
+}
+
+- (void) noteReceived:(NSNotification *)notif
+{
+  [self updateNotes:@[notif.userInfo[@"note"]]];
 }
 
 - (void) updateNotes:(NSArray *)newNotes
