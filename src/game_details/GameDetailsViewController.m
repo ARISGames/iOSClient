@@ -105,7 +105,7 @@
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
     [self.view addSubview:mediaView];
-    [self.view addSubview:rateButton];
+    //[self.view addSubview:rateButton];
     [self.view addSubview:descriptionView];
 }
 
