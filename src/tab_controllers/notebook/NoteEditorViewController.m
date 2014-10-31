@@ -181,7 +181,7 @@
     [self.view addSubview:descriptionPrompt]; 
     [self.view addSubview:contentView];
     [self.view addSubview:bottombar]; 
-    [self.view addSubview:tagViewController.view];  
+    if([_MODEL_TAGS_ tags].count) [self.view addSubview:tagViewController.view];  
     [self.view addSubview:line1];  
     [self.view addSubview:line2];   
     
@@ -198,14 +198,18 @@
     date.frame = CGRectMake(10, 40+64, 65, 14);
     owner.frame = CGRectMake(75, 40+64, self.view.bounds.size.width-85, 14);
     
-    [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216]; 
-    if(tagViewController.view.frame.size.height <= 30)
-        tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, 30);   
-    else
-        tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
+    if([_MODEL_TAGS_ tags].count > 0)
+    {
+        [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216]; 
+        if(tagViewController.view.frame.size.height <= 30)
+            tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, 30);   
+        else
+            tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);    
+        
+        line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
+    }
     
     line1.frame = CGRectMake(0, owner.frame.origin.y+owner.frame.size.height+3, self.view.frame.size.width, 1);
-    line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
     
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
@@ -217,7 +221,14 @@
     
     contentView.frame = CGRectMake(0, bottombar.frame.origin.y-200, self.view.bounds.size.width, 200);       
     
-    description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentView.frame.size.height-bottombar.frame.size.height-5);
+    if([_MODEL_TAGS_ tags].count > 0)
+    {
+        description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentView.frame.size.height-bottombar.frame.size.height-5);
+    }
+    else
+    {
+        description.frame = CGRectMake(5, line1.frame.origin.y+line1.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-line1.frame.origin.y-line1.frame.size.height-contentView.frame.size.height-bottombar.frame.size.height-5);
+    }
     descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y+5, self.view.bounds.size.width, 24);  
 }
 
@@ -259,7 +270,7 @@
     if(blockKeyboard) return;
     if([title.text isEqualToString:@""] && !title.isFirstResponder)
         [title becomeFirstResponder]; 
-    else if(!tag)
+    else if(!tag && [_MODEL_TAGS_ tags].count)
         [tagViewController beginEditing];
     else if(title.isFirstResponder)
         [title resignFirstResponder];
