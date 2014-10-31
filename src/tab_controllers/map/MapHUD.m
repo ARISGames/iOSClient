@@ -109,7 +109,7 @@
     
     prompt.text = trigger.title;
     float distanceToWalk; 
-    if((distance <= trigger.distance && _MODEL_PLAYER_.location != nil) || trigger.infinite_distance)
+    if(_MODEL_GAME_.map_offsite_mode || trigger.infinite_distance || (distance <= trigger.distance && _MODEL_PLAYER_.location != nil))
     {
         distanceToWalk = 0;
         warning.text = @"";

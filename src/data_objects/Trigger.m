@@ -66,7 +66,7 @@
         icon_media_id = [dict validIntForKey:@"icon_media_id"]; 
         location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
         distance = [dict validIntForKey:@"distance"];
-        infinite_distance = distance < 0 || distance > 100000; 
+        infinite_distance = [dict validIntForKey:@"infinite_distance"] || distance < 0 || distance > 100000; 
         wiggle = [dict validBoolForKey:@"wiggle"];
         show_title = [dict validBoolForKey:@"show_title"];
         hidden = [dict validBoolForKey:@"hidden"];
