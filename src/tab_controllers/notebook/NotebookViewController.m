@@ -135,7 +135,7 @@
 
     [self.view addSubview:allNotesButton];
     [self.view addSubview:myNotesButton];
-    [self.view addSubview:labelSelectorButton];
+    if([_MODEL_TAGS_ tags].count) [self.view addSubview:labelSelectorButton];
 
     notesViewController = [[NotebookNotesViewController alloc] initWithDelegate:self];
     noteTagSelectorViewController = [[NoteTagSelectorViewController alloc] initWithDelegate:self];
@@ -191,7 +191,7 @@
     line1.frame = CGRectMake(0,129,self.view.bounds.size.width,1);
     line2.frame = CGRectMake(0,169,self.view.bounds.size.width,1);
     line3.frame = CGRectMake(0,209,self.view.bounds.size.width,1);
-    line4.frame = CGRectMake(0,249,self.view.bounds.size.width,1);
+    if([_MODEL_TAGS_ tags].count) line4.frame = CGRectMake(0,249,self.view.bounds.size.width,1);
 }
 
 - (void) viewWillAppear:(BOOL)animated
