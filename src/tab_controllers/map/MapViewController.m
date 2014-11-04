@@ -62,8 +62,7 @@
         delegate = d;
 
         _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(playerMoved),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
     }
@@ -251,6 +250,9 @@
         }
         [mapView addOverlay:modelOverlay];
     }
+    
+    //refresh views (ugly)
+    [mapView setCenterCoordinate:mapView.region.center animated:NO];
 }
 
 
