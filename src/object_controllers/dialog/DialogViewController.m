@@ -228,9 +228,9 @@
 - (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
 - (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
+- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; [self dismissSelf]; }
+- (void) displayTabId:(int)t           { [delegate displayTabId:t]; [self dismissSelf]; }
+- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; [self dismissSelf]; }
+- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; [self dismissSelf]; }
 
 @end
