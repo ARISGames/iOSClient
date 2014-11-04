@@ -38,7 +38,6 @@
 @synthesize requestsManagedObjectContext;
 @synthesize persistentStoreCoordinator;
 @synthesize servicesGraveyard;
-@synthesize motionManager;
 
 + (id) sharedAppModel
 {
@@ -54,7 +53,6 @@
   {
     disableLeaveGame = NO;
 
-    motionManager     = [[CMMotionManager alloc] init];
     servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
     usersModel        = [[UsersModel alloc] init];  
     gamesModel        = [[GamesModel alloc] init];  
@@ -98,6 +96,11 @@
 - (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password
 {
   [_SERVICES_ createUserWithName:user_name displayName:display_name groupName:(NSString *)group_name email:email password:password];
+}
+
+- (void) resetPasswordForEmail:(NSString *)email
+{
+  [_SERVICES_ resetPasswordForEmail:email];
 }
 
 - (void) loginReceived:(NSNotification *)n { [self logInPlayer:(User *)n.userInfo[@"user"]]; }

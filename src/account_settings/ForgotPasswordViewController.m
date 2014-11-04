@@ -7,6 +7,7 @@
 //
 
 #import "ForgotPasswordViewController.h"
+#import "AppModel.h"
 
 @interface ForgotPasswordViewController() <UITextFieldDelegate>
 {
@@ -26,19 +27,10 @@
 @synthesize emailField;
 @synthesize instructions;
 
-- (id) init
+- (id) initWithDelegate:(id<ForgotPasswordViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        viewHasAppeared = NO;
-        delegate = nil;
-    }
-    return self;
-}
-
-- (id) initWithDelegate:(id<ForgotPasswordViewControllerDelegate>)d
-{
-    if (self = [super init]) {
         viewHasAppeared = NO;
         delegate = d;
     }
@@ -95,18 +87,20 @@
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    //[_SERVICES_ resetAndEmailNewPassword:textField.text];
+    [_MODEL_ resetPasswordForEmail:textField.text];
+    [self dismissSelf];
     return YES;
 }
 
 - (void) backButtonTouched
 {
-    if (delegate) {
-        [delegate forgotPasswordWasDismissed];
-    }
-    else{
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self dismissSelf];
+}
+
+- (void) dismissSelf
+{
+    if(delegate) [delegate forgotPasswordWasDismissed];
+    else [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

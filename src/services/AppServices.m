@@ -82,6 +82,21 @@
   _ARIS_NOTIF_SEND_(@"SERVICES_LOGIN_RECEIVED",nil,@{@"user":user});
 }
 
+- (void) resetPasswordForEmail:(NSString *)email
+{
+  NSDictionary *args =
+    @{
+      @"email":email
+    };
+  [connection performAsynchronousRequestWithService:@"users" method:@"requestForgotPasswordEmail" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+
+- (void) parseResetPassword:(ARISServiceResult *)result
+{
+    //do nothing
+}
+
+
 - (NSArray *) parseGames:(NSArray *)gamesDicts
 {
     NSMutableArray *games= [[NSMutableArray alloc] init];

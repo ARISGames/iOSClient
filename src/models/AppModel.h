@@ -59,8 +59,6 @@
   NSManagedObjectContext *requestsManagedObjectContext;
   NSPersistentStoreCoordinator *persistentStoreCoordinator;
   ARISServiceGraveyard *servicesGraveyard;
-
-  CMMotionManager *motionManager;
 }
 
 @property(nonatomic, strong) NSString *serverURL;
@@ -82,12 +80,11 @@
 @property(nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property(nonatomic, strong) ARISServiceGraveyard *servicesGraveyard;
 
-@property(nonatomic, strong) CMMotionManager *motionManager;
-
 + (AppModel *) sharedAppModel;
 
 - (void) attemptLogInWithUserName:(NSString *)user_name password:(NSString *)password;
 - (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;
+- (void) resetPasswordForEmail:(NSString *)email;
 - (void) logInPlayer:(User *)user;
 - (void) logOut;
 
