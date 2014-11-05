@@ -51,6 +51,7 @@
     
     playerNameField = [[UITextField alloc] init];
     playerNameField.delegate = self;
+    playerNameField.textAlignment = NSTextAlignmentCenter;
     
     playerPic = [[ARISMediaView alloc] init];
     [playerPic addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(picTouched)]];
@@ -172,7 +173,7 @@
 - (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
     chosenMediaId = -1;
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [aPicker dismissViewControllerAnimated:NO completion:nil];
 
     UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaleToSize:CGSizeMake(1024,1024)];
 
