@@ -204,7 +204,7 @@
     for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
     {
         modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i];
-        if(![modelTrigger.type isEqualToString:@"LOCATION"]) continue;
+        if(![modelTrigger.type isEqualToString:@"LOCATION"] || modelTrigger.hidden) continue;
         shouldAdd = YES;
         for(int j = 0; j < mapAnnotations.count; j++)
         {
