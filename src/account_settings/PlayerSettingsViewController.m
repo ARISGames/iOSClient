@@ -22,6 +22,9 @@
     UITextField *playerNameField;
     int chosenMediaId;
     
+    UIButton *saveButton;
+    UIButton *cameraButton;
+    
     id<PlayerSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -44,12 +47,44 @@
 - (void) loadView
 {
     [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    playerNameField = [[UITextField alloc] init];
+    playerNameField.delegate = self;
     
     playerPic = [[ARISMediaView alloc] init];
-    playerNameField = [[UITextField alloc] init];
+    [playerPic addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(picTouched)]];
+    playerPic.userInteractionEnabled = YES;
+    playerPic.backgroundColor = [UIColor blackColor];
     
-    [self.view addSubview:playerPic];
+    cameraButton = [[UIButton alloc] init];
+    [cameraButton setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
+    [cameraButton addTarget:self action:@selector(cameraButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    
+    saveButton = [[UIButton alloc] init];
+    [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [saveButton setTitle:@"Save" forState:UIControlStateNormal];
+    [saveButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    
     [self.view addSubview:playerNameField];
+    [self.view addSubview:playerPic];
+    [self.view addSubview:cameraButton];
+    [self.view addSubview:saveButton];
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    playerNameField.frame = CGRectMake(0,74,self.view.frame.size.width,20);
+    playerPic.frame = CGRectMake(0,playerNameField.frame.origin.y+playerNameField.frame.size.height+10,self.view.frame.size.width,self.view.frame.size.width);
+    
+    cameraButton.frame = CGRectMake(10, self.view.frame.size.height-30, 100, 20);
+    saveButton.frame = CGRectMake(self.view.frame.size.width-110, self.view.frame.size.height-30, 100, 20);
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -84,7 +119,7 @@
     return YES;
 }
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void) picTouched
 {
     [playerNameField resignFirstResponder];
 }
@@ -103,7 +138,7 @@
     [delegate playerSettingsWasDismissed];
 }
 
-- (void) playerPicCamButtonTouched
+- (void) cameraButtonTouched
 {
     [self takePicture];
 }
@@ -137,7 +172,7 @@
 - (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
     chosenMediaId = -1;
-    [aPicker dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 
     UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaleToSize:CGSizeMake(1024,1024)];
 
