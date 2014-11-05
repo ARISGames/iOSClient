@@ -105,7 +105,8 @@
     ARISMediaView *gameIcon = [[ARISMediaView alloc] init];
     [gameIcon setDisplayMode:ARISMediaDisplayModeAspectFit];
     [gameIcon setFrame:CGRectMake(15, (headerHeight/2) - (35/2), 30, 35)];
-    [gameIcon setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_GAME_.icon_media_id]];
+    if(_MODEL_GAME_.icon_media_id == 0) [gameIcon setImage:[UIImage imageNamed:@"logo_icon"]];
+    else [gameIcon setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_GAME_.icon_media_id]];
     [headerView addSubview:gameIcon];
 
     [tableView setTableHeaderView:headerView];
