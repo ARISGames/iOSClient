@@ -81,8 +81,11 @@
 
     if(!_MODEL_PLAYER_)
         [self displayContentController:loginNavigationController];
-    else if(!_MODEL_GAME_)
-        [self displayContentController:gamePickersViewController];
+    else if(!currentChildViewController || currentChildViewController == loginNavigationController)
+    {
+        if(!_MODEL_GAME_)
+            [self displayContentController:gamePickersViewController];
+    }
 }
 
 - (void) playerLoggedOut
@@ -93,7 +96,7 @@
 
 - (void) playerLoggedIn
 {
-    if(false)//!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id)
+    if(!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id)
         [self displayContentController:playerSettingsNavigationController];
     else if(!_MODEL_GAME_)
         [self displayContentController:gamePickersViewController];
