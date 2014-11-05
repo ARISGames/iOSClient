@@ -96,6 +96,43 @@
     //do nothing
 }
 
+- (void) updatePlayerName:(NSString *)display_name
+{
+  NSDictionary *args =
+    @{
+      @"user_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id],
+      @"display_name":display_name
+    };
+  [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+
+- (void) parseUpdatePlayerName:(ARISServiceResult *)result
+{
+  if(!result.resultData) { _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_FAILED",nil,nil); return; }
+  User *user = [[User alloc] initWithDictionary:(NSDictionary *)result.resultData];
+  _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_RECEIVED",nil,@{@"user":user});
+}
+
+- (void) updatePlayerMedia:(Media *)media
+{
+    NSDictionary *args =
+    @{
+      @"user_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id],
+      @"media":
+        @{
+          @"file_name":[media.localURL absoluteString],
+          @"data":[media.data base64Encoding]
+        }
+     };
+    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO userInfo:nil];   
+}
+- (void) parseUpdatePlayerMedia:(ARISServiceResult *)result
+{
+  if(!result.resultData) { _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_FAILED",nil,nil); return; }
+  User *user = [[User alloc] initWithDictionary:(NSDictionary *)result.resultData];
+  _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_RECEIVED",nil,@{@"user":user});
+}
+
 
 - (NSArray *) parseGames:(NSArray *)gamesDicts
 {

@@ -18,73 +18,64 @@
 
 @interface PlayerSettingsViewController()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, ARISMediaViewDelegate, UITextFieldDelegate>
 {
-    IBOutlet ARISMediaView *playerPic;
-    IBOutlet UITextField *playerNameField;
+    ARISMediaView *playerPic;
+    UITextField *playerNameField;
     int chosenMediaId;
     
     id<PlayerSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
-@property (nonatomic) IBOutlet ARISMediaView *playerPic;
-@property (nonatomic) IBOutlet UITextField *playerNameField;
-
-- (IBAction) saveButtonTouched:(id)sender;
-- (IBAction) playerPicCamButtonTouched:(id)sender;
-
 @end
 
 @implementation PlayerSettingsViewController
 
-@synthesize playerPic;
-@synthesize playerNameField;
-
-- (id)initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d
+- (id) initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"PlayerSettingsViewController" bundle:nil])
+    if(self = [super init])
     {
-        delegate = d;
+        self.title = NSLocalizedString(@"PublicNameAndImageKey", @"");
         chosenMediaId = 0;
+        
+        delegate = d;
     }
     return self;
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) loadView
 {
-    self.title = NSLocalizedString(@"PublicNameAndImageKey", @"");
+    [super loadView];
+    
+    playerPic = [[ARISMediaView alloc] init];
+    playerNameField = [[UITextField alloc] init];
+    
+    [self.view addSubview:playerPic];
+    [self.view addSubview:playerNameField];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {    
+    [super viewDidAppear:animated];
     [self refreshView];
 }
 
 - (void) resetState
 {
-    self.playerNameField.text = @"";
+    playerNameField.text = @"";
     chosenMediaId = 0;
-    [self.playerPic setImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
-}
-
-- (void) syncLocalVars
-{
-    if([self.playerNameField.text isEqualToString:@""])
-        self.playerNameField.text = _MODEL_PLAYER_.display_name; // @"" by default
-    if(chosenMediaId == 0)
-        chosenMediaId = _MODEL_PLAYER_.media_id;
+    [playerPic setImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
 }
 
 - (void) refreshView
 {
-    [self syncLocalVars];
+    //take on values from model
+    if([playerNameField.text isEqualToString:@""]) playerNameField.text = _MODEL_PLAYER_.display_name; // @"" by default
+    if(chosenMediaId == 0)                         chosenMediaId = _MODEL_PLAYER_.media_id;
     
-    if([self.playerNameField.text isEqualToString:@""])
-        [self.playerNameField becomeFirstResponder];
+    if([playerNameField.text isEqualToString:@""]) [playerNameField becomeFirstResponder];
 
-    if(chosenMediaId > 0)
-        [self.playerPic setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
-    else if(chosenMediaId == 0)
-        [self takePicture];
-    //if chosenMediaId < 0, just leave the image as is
+    if(chosenMediaId > 0)       [playerPic setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
+    else if(chosenMediaId == 0) [self takePicture];
+    //chosenMediaId < 0 = newly chosen
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
@@ -98,22 +89,21 @@
     [playerNameField resignFirstResponder];
 }
 
-- (IBAction) saveButtonTouched:(id)sender
+- (void) saveButtonTouched
 {
-    if([self.playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
+    if([playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
     {
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ProfileSaveErrorKey", @"") message:NSLocalizedString(@"ProfileSaveErrorMessageKey", @"")];
         return;
     }
 
-    _MODEL_PLAYER_.display_name = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
-
-    //[_SERVICES_ updatePlayer:_MODEL_PLAYER_.user_id withName:_MODEL_PLAYER_.display_name];
+    _MODEL_PLAYER_.display_name = playerNameField.text;
+    [_MODEL_ updatePlayerName:playerNameField.text];
 
     [delegate playerSettingsWasDismissed];
 }
 
-- (IBAction) playerPicCamButtonTouched:(id)sender
+- (void) playerPicCamButtonTouched
 {
     [self takePicture];
 }
@@ -188,8 +178,8 @@
     m.data = UIImageJPEGRepresentation(i, 0.4);
     [m.data writeToURL:m.localURL options:nil error:nil];
     
-    [self.playerPic setImage:i]; 
-    //[_SERVICES_ uploadPlayerPic:m];
+    [playerPic setImage:i]; 
+    [_MODEL_ updatePlayerMedia:m];
 }
 
 @end
