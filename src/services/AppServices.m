@@ -96,6 +96,25 @@
     //do nothing
 }
 
+- (void) changePasswordFrom:(NSString *)oldp to:(NSString *)newp
+{
+    //requires username/pass rather than auth token
+  NSDictionary *args =
+    @{
+      @"user_name":_MODEL_PLAYER_.user_name,
+      @"old_password":oldp,
+      @"new_password":newp
+    };
+  [connection performAsynchronousRequestWithService:@"users" method:@"changePassword" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+
+- (void) parseChangePassword:(ARISServiceResult *)result
+{
+  if(!result.resultData) { _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_FAILED",nil,nil); return; }
+  User *user = [[User alloc] initWithDictionary:(NSDictionary *)result.resultData];
+  _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_RECEIVED",nil,@{@"user":user});
+}
+
 - (void) updatePlayerName:(NSString *)display_name
 {
   NSDictionary *args =

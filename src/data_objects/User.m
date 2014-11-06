@@ -56,7 +56,8 @@
   self.display_name   = u.display_name;
   self.email          = u.email;
   self.media_id       = u.media_id;
-  //self.read_write_key = u.read_write_key; //DON'T merge in read/write key (oughtn't have it anyway)
+  if(u.read_write_key && [u.read_write_key isEqualToString:@""])
+      self.read_write_key = u.read_write_key; //only merge in read_write key if exists
   return self;
 }
 

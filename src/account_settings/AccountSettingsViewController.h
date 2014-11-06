@@ -11,6 +11,7 @@
 
 @protocol AccountSettingsViewControllerDelegate
 - (void) profileEditRequested;
+- (void) passChangeRequested;
 @end
 
 @interface AccountSettingsViewController : ARISViewController

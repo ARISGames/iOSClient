@@ -15,19 +15,19 @@
 
 #import "LoginViewController.h"
 #import "PlayerSettingsViewController.h"
+#import "ChangePasswordViewController.h"
 #import "GamePickersViewController.h"
 #import "GameDetailsViewController.h"
 #import "LoadingViewController.h"
 #import "GamePlayViewController.h"
 
 #import "ARISNavigationController.h"
-#import "ForgotPasswordViewController.h"
 
-@interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, GamePickersViewControllerDelegate, GameDetailsViewControllerDelegate, LoadingViewControllerDelegate, GamePlayViewControllerDelegate>
+@interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, ChangePasswordViewControllerDelegate, GamePickersViewControllerDelegate, GameDetailsViewControllerDelegate, LoadingViewControllerDelegate, GamePlayViewControllerDelegate>
 {
     ARISNavigationController *loginNavigationController;
     ARISNavigationController *playerSettingsNavigationController;
-    ARISNavigationController *forgotPasswordNavigationController;
+    ARISNavigationController *changePasswordNavigationController;
     GamePickersViewController *gamePickersViewController;
     ARISNavigationController *gameDetailsNavigationController;
     LoadingViewController *loadingViewController;
@@ -60,6 +60,11 @@
         playerSettingsNavigationController =
             [[ARISNavigationController alloc] initWithRootViewController:
                 [[PlayerSettingsViewController alloc] initWithDelegate:self]
+             ];
+        
+        changePasswordNavigationController =
+            [[ARISNavigationController alloc] initWithRootViewController:
+                [[ChangePasswordViewController alloc] initWithDelegate:self]
              ];
 
         gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
@@ -142,7 +147,20 @@
     [self displayContentController:playerSettingsNavigationController];
 }
 
+- (void) passChangeRequested
+{
+    [self displayContentController:changePasswordNavigationController];
+}
+
 - (void) playerSettingsWasDismissed
+{
+    if(!_MODEL_GAME_)
+        [self displayContentController:gamePickersViewController];
+    else if(gamePlayViewController)
+        [self displayContentController:gamePlayViewController];
+}
+
+- (void) changePasswordWasDismissed
 {
     if(!_MODEL_GAME_)
         [self displayContentController:gamePickersViewController];

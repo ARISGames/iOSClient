@@ -111,6 +111,11 @@
     [delegate profileEditRequested];
 }
 
+- (void) passChangeRequested
+{
+    [delegate passChangeRequested];
+}
+
 - (void) logoutWasRequested
 {
     [self.gamePickersRevealController showViewController:self.gamePickersTabBarController];

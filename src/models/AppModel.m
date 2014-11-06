@@ -104,6 +104,11 @@
   [_SERVICES_ resetPasswordForEmail:email];
 }
 
+- (void) changePasswordFrom:(NSString *)oldp to:(NSString *)newp
+{
+  [_SERVICES_ changePasswordFrom:oldp to:newp];
+}
+
 - (void) updatePlayerName:(NSString *)display_name
 {
   [_SERVICES_ updatePlayerName:display_name];

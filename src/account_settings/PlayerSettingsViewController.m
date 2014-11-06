@@ -127,6 +127,9 @@
 
 - (void) saveButtonTouched
 {
+    //temporary workaround
+    [delegate playerSettingsWasDismissed]; return;
+    
     if([playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
     {
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ProfileSaveErrorKey", @"") message:NSLocalizedString(@"ProfileSaveErrorMessageKey", @"")];

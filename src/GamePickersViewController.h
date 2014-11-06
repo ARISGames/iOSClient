@@ -13,6 +13,7 @@
 
 @protocol GamePickersViewControllerDelegate
 - (void) profileEditRequested;
+- (void) passChangeRequested;
 - (void) gameDetailsRequested:(Game *)g;
 @end
 

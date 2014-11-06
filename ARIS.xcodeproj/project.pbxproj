@@ -189,7 +189,6 @@
 		AABC7375172739D80074CC21 /* AccountSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7066172739D60074CC21 /* AccountSettingsViewController.m */; };
 		AABC7378172739D80074CC21 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */; };
 		AABC737A172739D80074CC21 /* PlayerSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */; };
-		AABC737B172739D80074CC21 /* PlayerSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC706F172739D60074CC21 /* PlayerSettingsViewController.xib */; };
 		AABC737C172739D80074CC21 /* ARISAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7072172739D60074CC21 /* ARISAppDelegate.m */; };
 		AABC737D172739D80074CC21 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7075172739D60074CC21 /* Game.m */; };
 		AABC737E172739D80074CC21 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7077172739D60074CC21 /* Item.m */; };
@@ -250,6 +249,7 @@
 		AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */; };
 		AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryViewController.m */; };
+		AAD8EFE31A0AD96600E29C8F /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */; };
 		AAE2851D1810461700E2534A /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE2851C1810461700E2534A /* ItemViewController.m */; };
 		AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
@@ -595,7 +595,6 @@
 		AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
 		AABC706D172739D60074CC21 /* PlayerSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSettingsViewController.h; sourceTree = "<group>"; };
 		AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSettingsViewController.m; sourceTree = "<group>"; };
-		AABC706F172739D60074CC21 /* PlayerSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerSettingsViewController.xib; sourceTree = "<group>"; };
 		AABC7070172739D60074CC21 /* ARIS_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARIS_Prefix.pch; sourceTree = "<group>"; };
 		AABC7071172739D60074CC21 /* ARISAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISAppDelegate.h; sourceTree = "<group>"; };
 		AABC7072172739D60074CC21 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISAppDelegate.m; sourceTree = "<group>"; };
@@ -731,6 +730,8 @@
 		AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteLocationPickerController.m; sourceTree = "<group>"; };
 		AAD298C717D1160C002A4C47 /* InventoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryViewController.h; sourceTree = "<group>"; };
 		AAD298C817D1160C002A4C47 /* InventoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryViewController.m; sourceTree = "<group>"; };
+		AAD8EFE11A0AD96600E29C8F /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		AAE2851B1810461700E2534A /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AAE2851C1810461700E2534A /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAF3EEDF1938F2DD00388BE1 /* InstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstancesModel.h; sourceTree = "<group>"; };
@@ -1305,11 +1306,12 @@
 			children = (
 				AABC7065172739D60074CC21 /* AccountSettingsViewController.h */,
 				AABC7066172739D60074CC21 /* AccountSettingsViewController.m */,
+				AAD8EFE11A0AD96600E29C8F /* ChangePasswordViewController.h */,
+				AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */,
 				AABC706A172739D60074CC21 /* ForgotPasswordViewController.h */,
 				AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */,
 				AABC706D172739D60074CC21 /* PlayerSettingsViewController.h */,
 				AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */,
-				AABC706F172739D60074CC21 /* PlayerSettingsViewController.xib */,
 			);
 			path = account_settings;
 			sourceTree = "<group>";
@@ -2124,7 +2126,6 @@
 				AAB62FE718C68BCE00030F48 /* threelines.png in Resources */,
 				AABC70601727399C0074CC21 /* Science Hall.gpx in Resources */,
 				AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */,
-				AABC737B172739D80074CC21 /* PlayerSettingsViewController.xib in Resources */,
 				AA8E9EA518BE422E00F343A2 /* star_gray.png in Resources */,
 				AA04E33018E60E1E00621F0C /* delete@2x.png in Resources */,
 				AA0D161218EDF14500D856F1 /* locationarrow_red@2x.png in Resources */,
@@ -2230,6 +2231,7 @@
 				AA66CABE18A005150011FE97 /* NoteLocationPickerCrosshairsView.m in Sources */,
 				AA34838319C927FC000A60C2 /* ScenesModel.m in Sources */,
 				F97B42AD18D39DF5002FC8AD /* TriangleButton.m in Sources */,
+				AAD8EFE31A0AD96600E29C8F /* ChangePasswordViewController.m in Sources */,
 				AA34837F19C79BCA000A60C2 /* ScannerViewController.mm in Sources */,
 				AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */,
 				AABC73AA172739D80074CC21 /* LoginViewController.mm in Sources */,

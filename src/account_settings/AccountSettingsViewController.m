@@ -144,6 +144,11 @@
     [delegate profileEditRequested];
 }
 
+- (void) passButtonTouched
+{
+    [delegate passChangeRequested];
+}
+
 - (void) dealloc
 {
     

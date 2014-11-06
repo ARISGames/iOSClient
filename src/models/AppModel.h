@@ -85,6 +85,7 @@
 - (void) attemptLogInWithUserName:(NSString *)user_name password:(NSString *)password;
 - (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;
 - (void) resetPasswordForEmail:(NSString *)email;
+- (void) changePasswordFrom:(NSString *)oldp to:(NSString *)newp;
 - (void) updatePlayerName:(NSString *)display_name;
 - (void) updatePlayerMedia:(Media *)media;
 - (void) logInPlayer:(User *)user;
