@@ -13,6 +13,7 @@
 #define _SERVICES_MEDIA_ [AppServices sharedAppServices].mediaLoader
 
 @class Note;
+@class NoteComment;
 @class Tag;
 @class Trigger;
 
@@ -57,6 +58,7 @@
 - (void) fetchDialogOptions;
 - (void) fetchWebPages;
 - (void) fetchNotes;
+- (void) fetchNoteComments;
 - (void) fetchTags;
 - (void) fetchObjectTags;
 - (void) fetchEvents;
@@ -80,6 +82,9 @@
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr; //actually does full media upload
 - (void) updateNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
 - (void) deleteNoteId:(int)note_id;
+- (void) createNoteComment:(NoteComment *)n;
+- (void) updateNoteComment:(NoteComment *)n;
+- (void) deleteNoteCommentId:(int)note_comment_id;
 
 - (void) logPlayerEnteredGame;
 - (void) logPlayerResetGame:(int)game_id;

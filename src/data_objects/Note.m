@@ -41,10 +41,7 @@
         self.name     = [dict validObjectForKey:@"name"];
         self.desc     = [dict validObjectForKey:@"description"];
         self.media_id = [dict validIntForKey:@"media_id"];
-
-        NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        self.created = [df dateFromString:[dict validStringForKey:@"created"]];
+        self.created  = [dict validDateForKey:@"created"];
     }
     return self;
 }

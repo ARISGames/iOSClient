@@ -8,22 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-@class User;
-
 @interface NoteComment : NSObject
 {
-    int noteId; 
-    int commentId;
-    User *owner;
-    NSString *text;
+    int note_comment_id;
+    int note_id;
+    int user_id;
+    NSString *name;
+    NSString *desc;
     NSDate *created; 
 }
 
-@property (nonatomic, assign) int noteId;
-@property (nonatomic, assign) int commentId;
-@property (nonatomic, strong) User *owner;
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSDate *created;
+@property(nonatomic, assign) int note_comment_id;
+@property(nonatomic, assign) int note_id;
+@property(nonatomic, assign) int user_id;
+@property(nonatomic, retain) NSString *name;
+@property(nonatomic, retain) NSString *desc;
+@property(nonatomic, retain) NSDate *created; 
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 

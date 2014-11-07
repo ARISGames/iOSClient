@@ -14,10 +14,12 @@
 #import "AppServices.h"
 #import "NotesModel.h"
 #import "User.h"
+#import "NoteComment.h"
 
 @interface NotesModel()
 {
   NSMutableDictionary *notes;
+  NSMutableDictionary *note_comments;
 
   NSMutableArray *playerNotes;
   NSMutableArray *listNotes;
@@ -35,6 +37,8 @@
       [self clearGameData];
       _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTES_RECEIVED",self,@selector(notesReceived:),nil);
       _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTE_RECEIVED",self,@selector(noteReceived:),nil);
+      _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTE_COMMENTS_RECEIVED",self,@selector(noteCommentsReceived:),nil);
+      _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTE_COMMENT_RECEIVED",self,@selector(noteCommentReceived:),nil);
     }
     return self;
 }
@@ -42,7 +46,8 @@
 - (void) clearGameData
 {
     [self invalidateCaches];
-    notes = [[NSMutableDictionary alloc] init];
+    notes         = [[NSMutableDictionary alloc] init];
+    note_comments = [[NSMutableDictionary alloc] init];
 }
 
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr
@@ -58,6 +63,20 @@
     [_SERVICES_ deleteNoteId:note_id]; //just forward to services
     [notes removeObjectForKey:[NSNumber numberWithInt:note_id]];
     [self invalidateCaches];
+}
+
+- (void) createNoteComment:(NoteComment *)n
+{
+    [_SERVICES_ createNoteComment:n]; //just forward to services
+}
+- (void) saveNoteComment:(NoteComment *)n
+{
+    [_SERVICES_ updateNoteComment:n]; //just forward to services
+}
+- (void) deleteNoteCommentId:(int)note_comment_id
+{
+    [_SERVICES_ deleteNoteCommentId:note_comment_id]; //just forward to services
+    [note_comments removeObjectForKey:[NSNumber numberWithInt:note_comment_id]];
 }
 
 - (void) invalidateCaches
@@ -95,6 +114,35 @@
 - (void) requestNotes
 {
   [_SERVICES_ fetchNotes];
+}
+
+- (void) noteCommentsReceived:(NSNotification *)notif
+{
+  [self updateNoteComments:notif.userInfo[@"note_comments"]];
+}
+
+- (void) noteCommentReceived:(NSNotification *)notif
+{
+  [self updateNoteComments:@[notif.userInfo[@"note_comment"]]];
+}
+
+- (void) updateNoteComments:(NSArray *)newNoteComments
+{
+  NoteComment *newComment;
+  NSNumber *newCommentId;
+  for(int i = 0; i < newNoteComments.count; i++)
+  {
+    newComment = [newNoteComments objectAtIndex:i];
+    newCommentId = [NSNumber numberWithInt:newComment.note_id];
+    if(!notes[newCommentId]) [notes setObject:newComment forKey:newCommentId];
+  }
+  _ARIS_NOTIF_SEND_(@"MODEL_NOTE_COMMENTS_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+}
+
+- (void) requestNoteComments
+{
+  [_SERVICES_ fetchNoteComments];
 }
 
 // null note (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
@@ -137,6 +185,18 @@
   for(int i = 0; i < ns.count; i++)
     if(((Note *)ns[i]).user_id == _MODEL_PLAYER_.user_id) [notesMatchingTag addObject:ns[i]];
   return notesMatchingTag;
+}
+
+// null note (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
+- (NoteComment *) noteCommentForId:(int)note_comment_id
+{
+  if(!note_comment_id) return [[NoteComment alloc] init];
+  return note_comments[[NSNumber numberWithInt:note_comment_id]];
+}
+
+- (NSArray *) noteComments
+{
+    return [note_comments allValues];
 }
 
 - (void) dealloc

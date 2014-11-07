@@ -503,6 +503,24 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_NOTES_RECEIVED", nil, @{@"notes":notes});
 }
 
+- (void) fetchNoteComments
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"note_comments" method:@"getNoteCommentsForGame" arguments:args handler:self successSelector:@selector(parseNoteComments:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+}
+- (void) parseNoteComments:(ARISServiceResult *)result
+{
+    NSArray *noteCommentDicts = (NSArray *)result.resultData;
+    NSMutableArray *noteComments = [[NSMutableArray alloc] init];
+    for(int i = 0; i < noteCommentDicts.count; i++)
+        noteComments[i] = [[NoteComment alloc] initWithDictionary:noteCommentDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_COMMENTS_RECEIVED", nil, @{@"note_comments":noteComments});
+}
+
+
 - (void) fetchTags
 {
   NSDictionary *args =
@@ -917,6 +935,61 @@
 {
     //nothing
 }
+
+
+- (void) createNoteComment:(NoteComment *)n
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"user_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id],
+      @"note_id":[NSNumber numberWithInt:n.note_id],
+      @"name":n.name,
+      @"description":n.desc,
+      };
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"createNoteComment" arguments:args handler:self successSelector:@selector(parseCreateNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+}
+- (void) parseCreateNoteComment:(ARISServiceResult *)result
+{
+    NSDictionary *noteCommentDict= (NSDictionary *)result.resultData;
+    NoteComment *noteComment = [[NoteComment alloc] initWithDictionary:noteCommentDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_COMMENT_RECEIVED", nil, @{@"note_comment":noteComment});
+}
+
+- (void) updateNoteComment:(NoteComment *)n
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"note_comment_id":[NSNumber numberWithInt:n.note_comment_id],
+      @"user_id":[NSNumber numberWithInt:n.user_id],
+      @"note_id":[NSNumber numberWithInt:n.note_id],
+      @"name":n.name,
+      @"description":n.desc,
+     };
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"updateNoteComment" arguments:args handler:self successSelector:@selector(parseUpdateNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+}
+- (void) parseUpdateNoteComment:(ARISServiceResult *)result
+{
+    NSDictionary *noteCommentDict= (NSDictionary *)result.resultData;
+    NoteComment *noteComment = [[NoteComment alloc] initWithDictionary:noteCommentDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_COMMENT_RECEIVED", nil, @{@"note_comment":noteComment});
+}
+
+- (void) deleteNoteCommentId:(int)note_comment_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"note_comment_id":[NSNumber numberWithInt:note_comment_id],
+     };
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"deleteNoteComment" arguments:args handler:self successSelector:@selector(parseDeleteNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+}
+- (void) parseDeleteNoteComment:(ARISServiceResult *)result
+{
+    //nothing
+}
+
 
 - (void) logPlayerEnteredGame
 {

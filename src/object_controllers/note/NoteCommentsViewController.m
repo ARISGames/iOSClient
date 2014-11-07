@@ -72,7 +72,7 @@
     UILabel *author = [[UILabel alloc] initWithFrame:CGRectMake(10,0,self.view.frame.size.width-85,14)];
     author.font = [ARISTemplate ARISSubtextFont]; 
     author.textColor = [UIColor ARISColorDarkGray];   
-    author.text = c.owner.display_name;   
+    // author.text = c.owner.display_name;   
     CGSize authSize = [author.text sizeWithFont:author.font constrainedToSize:CGSizeMake(author.frame.size.width,9999999) lineBreakMode:NSLineBreakByTruncatingTail];  
     author.frame = CGRectMake(author.frame.origin.x, author.frame.origin.y, authSize.width, 14);
     
@@ -85,7 +85,7 @@
     date.text = [format stringFromDate:c.created]; 
     
     UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(10, 17, self.view.bounds.size.width-20, 20)];
-    text.text = c.text; 
+    text.text = c.desc; 
     text.lineBreakMode = NSLineBreakByWordWrapping;
     text.numberOfLines = 0; 
     text.font = [ARISTemplate ARISInputFont];

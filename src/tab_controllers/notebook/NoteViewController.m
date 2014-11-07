@@ -223,16 +223,13 @@
 
 - (void) commentConfirmed:(NSString *)c
 {
-    //[[AppServices sharedAppServices] addComment:c fromPlayer:_MODEL_PLAYER_ toNote:note];
-    /*
     NoteComment *nc = [[NoteComment alloc] init];
-    nc.noteId = note.noteId;
-    nc.owner = _MODEL_PLAYER_;
-    nc.text = c;
-    [note.comments addObject:nc];
-    [commentsDisplay setComments:note.comments];
-    scrollView.contentOffset = CGPointMake(0,-64);
-     */
+    nc.note_id = note.note_id;
+    nc.user_id = _MODEL_PLAYER_.user_id;
+    nc.desc = c;
+    [_MODEL_NOTES_ createNoteComment:nc];
+    //[commentsDisplay setComments:note.comments];
+    //scrollView.contentOffset = CGPointMake(0,-64);
 }
 
 - (void) backButtonTouched
