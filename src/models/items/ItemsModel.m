@@ -127,24 +127,25 @@
   Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
   if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty < 0) qty = 0;
-  if(qty-pII.qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
+  if(qty-pII.qty > [self qtyAllowedToGiveForItem:item_id]) qty = pII.qty+[self qtyAllowedToGiveForItem:item_id];
 
-  pII.qty += qty;
+  int oldQty = pII.qty;
+  pII.qty = qty;
   [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
-  if(qty > 0)
+  if(qty > oldQty)
   {
       [_MODEL_LOGS_ playerReceivedItemId:item_id qty:qty];
       
       //Instance model notifs. #dealwithit
-      NSDictionary *deltas = @{@"lost":@[],@"added":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty]}]}; //ridiculous construct...
+      NSDictionary *deltas = @{@"lost":@[],@"added":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty-oldQty]}]}; //ridiculous construct...
       _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_GAINED",nil,deltas);
   }
-  if(qty < 0)
+  if(qty < oldQty)
   {
       [_MODEL_LOGS_ playerLostItemId:item_id qty:qty];
       
       //Instance model notifs. #dealwithit
-      NSDictionary *deltas = @{@"added":@[],@"lost":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty]}]}; //ridiculous construct...
+      NSDictionary *deltas = @{@"added":@[],@"lost":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty-oldQty]}]}; //ridiculous construct...
       _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_LOST",nil,deltas);
   }
   _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",nil,nil);

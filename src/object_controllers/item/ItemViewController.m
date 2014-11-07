@@ -95,9 +95,9 @@
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
 
     int numButtons = 0;
-    if(instance.owner_id == _MODEL_PLAYER_.user_id && item.destroyable)      { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
-    if(instance.owner_id == _MODEL_PLAYER_.user_id && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")    selector:@selector(dropButtonTouched)];    numButtons++; }
-    //if([(NSObject *)source isKindOfClass:[Location class]] && (instance.qty > 0 || instance.infinite_qty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
+    if(instance.owner_id == _MODEL_PLAYER_.user_id && item.destroyable)       { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
+    if(instance.owner_id == _MODEL_PLAYER_.user_id && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")   selector:@selector(dropButtonTouched)];    numButtons++; }
+    if(instance.owner_id == 0 && (instance.qty > 0 || instance.infinite_qty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
 
     line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
     line.backgroundColor = [UIColor ARISColorLightGray];
@@ -304,7 +304,7 @@
 
 - (void) pickupItemQty:(int)q
 {
-    [_MODEL_GAME_.itemsModel giveItemToPlayer:item.item_id qtyToAdd:q];
+    [_MODEL_ITEMS_ giveItemToPlayer:item.item_id qtyToAdd:q];
     instance.qty -= q;
     [self updateViewButtons];
     [self refreshTitle];
@@ -417,15 +417,15 @@
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"logo_icon"]; }
 
 //implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
+- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t];    }
+- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t];  }
+- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i];   }
 - (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
+- (BOOL) displayObject:(id)o           { return [delegate displayObject:o];     }
 - (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
+- (void) displayTab:(Tab *)t                    { [delegate displayTab:t];     }
+- (void) displayTabId:(int)t                    { [delegate displayTabId:t];   }
+- (void) displayTabType:(NSString *)t           { [delegate displayTabType:t]; }
 - (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
