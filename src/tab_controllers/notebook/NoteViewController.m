@@ -215,7 +215,7 @@
 
 - (void) commentBeganEditing
 {
-    scrollView.contentOffset = CGPointMake(0,(commentInput.view.frame.origin.y+commentInput.view.frame.size.height)-(scrollView.frame.size.height-216));
+    scrollView.contentOffset = CGPointMake(0,(commentInput.view.frame.origin.y+commentInput.view.frame.size.height)-(scrollView.frame.size.height-246));
 }
 
 - (void) commentCancelled
