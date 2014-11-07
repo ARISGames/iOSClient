@@ -98,7 +98,7 @@
     desc.textColor = [UIColor ARISColorDarkGray];
 
     commentInput    = [[NoteCommentInputViewController alloc] initWithDelegate:self];
-    //commentsDisplay = [[NoteCommentsViewController     alloc] initWithNoteComments:note.comments delegate:self];
+    commentsDisplay = [[NoteCommentsViewController     alloc] initWithNoteComments:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id] delegate:self];
 
     [scrollView addSubview:desc];
     [scrollView addSubview:commentInput.view];
@@ -157,8 +157,10 @@
 
     commentInput.view.frame = CGRectMake(0, curY, self.view.frame.size.width, commentInput.view.frame.size.height);
 
-    //if(note.comments.count > 0) commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);
-    //else                          commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 0);
+    if([_MODEL_NOTES_ noteCommentsForNoteId:note.note_id].count > 0)
+        commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);
+    else
+        commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 0);
 
     scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);
 }
@@ -189,7 +191,7 @@
         [scrollView addSubview:amv];
     }
 
-    //[commentsDisplay setComments:note.comments];
+    [commentsDisplay setComments:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id]];
     [self formatSubviews];
 }
 
@@ -218,7 +220,7 @@
 
 - (void) commentCancelled
 {
-    //scrollView.contentOffset = CGPointMake(0,-64);
+    scrollView.contentOffset = CGPointMake(0,-64);
 }
 
 - (void) commentConfirmed:(NSString *)c
@@ -228,8 +230,8 @@
     nc.user_id = _MODEL_PLAYER_.user_id;
     nc.desc = c;
     [_MODEL_NOTES_ createNoteComment:nc];
-    //[commentsDisplay setComments:note.comments];
-    //scrollView.contentOffset = CGPointMake(0,-64);
+    [commentsDisplay setComments:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id]];
+    scrollView.contentOffset = CGPointMake(0,-64);
 }
 
 - (void) backButtonTouched

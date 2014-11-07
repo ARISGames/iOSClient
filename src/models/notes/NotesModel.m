@@ -134,7 +134,7 @@
   {
     newComment = [newNoteComments objectAtIndex:i];
     newCommentId = [NSNumber numberWithInt:newComment.note_id];
-    if(!notes[newCommentId]) [notes setObject:newComment forKey:newCommentId];
+    if(!note_comments[newCommentId]) [note_comments setObject:newComment forKey:newCommentId];
   }
   _ARIS_NOTIF_SEND_(@"MODEL_NOTE_COMMENTS_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
@@ -197,6 +197,15 @@
 - (NSArray *) noteComments
 {
     return [note_comments allValues];
+}
+
+- (NSArray *) noteCommentsForNoteId:(int)note_id
+{
+  NSMutableArray *noteCommentsMatchingNote = [[NSMutableArray alloc] init];
+  NSArray *ncs = [note_comments allValues];
+  for(int i = 0; i < ncs.count; i++)
+    if(((NoteComment *)ncs[i]).note_id == note_id) [noteCommentsMatchingNote addObject:ncs[i]];
+  return noteCommentsMatchingNote;
 }
 
 - (void) dealloc

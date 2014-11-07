@@ -66,6 +66,16 @@
     [delegate noteTagSelectorViewControllerRequestsDismissal:self];
 }
 
+- (void) noteTagEditorDeletedTag:(Tag *)nt
+{
+    //nope
+}
+
+- (void) noteTagEditorWillBeginEditing
+{
+    //don't care
+}
+
 - (void) backButtonTouched
 {
     [delegate noteTagSelectorViewControllerRequestsDismissal:self];

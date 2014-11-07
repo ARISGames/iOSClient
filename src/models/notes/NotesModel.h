@@ -39,5 +39,6 @@
 - (NSArray *) listNotes;
 - (NSArray *) notesMatchingTag:(Tag *)tag;
 - (NSArray *) noteComments;
+- (NSArray *) noteCommentsForNoteId:(int)note_id;
 
 @end
