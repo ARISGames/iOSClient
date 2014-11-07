@@ -51,6 +51,6 @@
 @property (nonatomic, strong)   MKCircle *mapCircle;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
-- (void) mergeDataFromTrigger:(Trigger *)t;
+- (BOOL) mergeDataFromTrigger:(Trigger *)t;
 
 @end

@@ -62,7 +62,8 @@
         delegate = d;
 
         _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(playerMoved),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_TRIGGERS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(clearLocalData),nil); //weird external model update
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
     }
@@ -163,6 +164,34 @@
 {
     [_MODEL_TRIGGERS_ requestPlayerTriggers];
     [_MODEL_OVERLAYS_ requestPlayerOverlays];
+}
+
+- (void) clearLocalData
+{
+    if(!mapView) return;
+    
+    
+    NSArray *mapAnnotations = mapView.annotations;
+    NSArray *mapOverlays = mapView.overlays;
+
+    Trigger *mapTrigger;
+    Overlay *mapOverlay;
+    
+    //Remove all locations
+    for(int i = 0; i < mapAnnotations.count; i++)
+    {
+        if(![mapAnnotations[i] isKindOfClass:[Trigger class]]) continue;
+        mapTrigger = mapAnnotations[i];
+        [mapView removeAnnotation:mapTrigger];
+        [mapView removeOverlay:mapTrigger.mapCircle];
+    }
+    
+    //Remove overlays
+    for(int i = 0; i < mapOverlays.count; i++)
+    {
+        mapOverlay = mapOverlays[i];
+        [mapView removeOverlay:mapOverlay];
+    }
 }
 
 - (void) refreshViewFromModel

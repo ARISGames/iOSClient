@@ -61,7 +61,7 @@
         instance_id = [dict validIntForKey:@"instance_id"]; 
         scene_id = [dict validIntForKey:@"scene_id"];
         type = [dict validStringForKey:@"type"];
-        title = [dict validStringForKey:@"name"];
+        name = [dict validStringForKey:@"name"];
         title = [dict validStringForKey:@"title"];
         icon_media_id = [dict validIntForKey:@"icon_media_id"]; 
         location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
@@ -77,8 +77,9 @@
     return self;
 }
 
-- (void) mergeDataFromTrigger:(Trigger *)t
+- (BOOL) mergeDataFromTrigger:(Trigger *)t //returns whether or not an update occurred
 {
+    BOOL e = [self isEqual:t];
     trigger_id = t.trigger_id;
     instance_id = t.instance_id; 
     scene_id = t.scene_id;
@@ -95,6 +96,7 @@
     trigger_on_enter = t.trigger_on_enter;
     qr_code = t.qr_code;
     mapCircle = t.mapCircle; 
+    return e;
 }
 
 //returns icon_media of instance if self's isn't set
@@ -102,6 +104,27 @@
 {
     if(icon_media_id) return icon_media_id;
     return [_MODEL_INSTANCES_ instanceForId:instance_id].icon_media_id;
+}
+
+- (BOOL) isEqual:(Trigger *)t
+{
+    return 
+    (trigger_id == t.trigger_id &&
+    instance_id == t.instance_id &&
+    scene_id == t.scene_id &&
+    ((!type && !t.type) || [type isEqualToString:t.type]) &&
+    ((!name && !t.name) || [name isEqualToString:t.name]) &&
+    ((!title && !t.title) || [title isEqualToString:t.title]) &&
+    icon_media_id == t.icon_media_id &&
+    location.coordinate.latitude == t.location.coordinate.latitude &&
+    location.coordinate.longitude == t.location.coordinate.longitude &&
+    distance == t.distance &&
+    infinite_distance == t.infinite_distance &&
+    wiggle == t.wiggle &&
+    show_title == t.show_title &&
+    hidden == t.hidden &&
+    trigger_on_enter == t.trigger_on_enter &&
+    ((!qr_code && !t.qr_code) || [qr_code isEqualToString:t.qr_code]));
 }
 
 //MKAnnotation stuff
