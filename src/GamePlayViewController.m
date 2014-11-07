@@ -192,7 +192,12 @@
         [displayQueue performSelector:@selector(dequeueTrigger) withObject:nil afterDelay:1];
         return YES;
     }
-
+    if([i.object_type isEqualToString:@"FACTORY"]) //Special case (don't actually display anything)
+    {
+        //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
+        [displayQueue performSelector:@selector(dequeueTrigger) withObject:nil afterDelay:1];
+        return YES;
+    }
 
     ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:NO completion:nil];
