@@ -95,7 +95,7 @@
     hidden            = t.hidden;
     trigger_on_enter  = t.trigger_on_enter;
     qr_code           = t.qr_code;
-    // mapCircle = t.mapCircle; //don't merge mapCircle, as it might be managed by map
+    mapCircle = t.mapCircle;
     return e;
 }
 
