@@ -25,8 +25,8 @@
 
     CircleButton *newTextButton;
     CircleButton *newAudioButton;
-    CircleButton *newImageButton;
-    CircleButton *newVideoButton;
+    CircleButton *newCameraButton;
+    CircleButton *newRollButton;
 
     UILabel *allNotesButton;
     UILabel *myNotesButton;
@@ -99,18 +99,18 @@
     [newAudioButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal];
     [newAudioButton addTarget:self action:@selector(newAudioButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 
-    newImageButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
-    [newImageButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];
-    [newImageButton addTarget:self action:@selector(newImageButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    newCameraButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
+    [newCameraButton setImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];
+    [newCameraButton addTarget:self action:@selector(newCameraButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 
-    newVideoButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
-    [newVideoButton setImage:[UIImage imageNamed:@"video.png"] forState:UIControlStateNormal];
-    [newVideoButton addTarget:self action:@selector(newVideoButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    newRollButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
+    [newRollButton setImage:[UIImage imageNamed:@"roll.png"] forState:UIControlStateNormal];
+    [newRollButton addTarget:self action:@selector(newRollButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:newTextButton];
     [self.view addSubview:newAudioButton];
-    [self.view addSubview:newImageButton];
-    [self.view addSubview:newVideoButton];
+    [self.view addSubview:newCameraButton];
+    [self.view addSubview:newRollButton];
 
     NSString *spacing = @"        "; // yes, really
 
@@ -148,10 +148,10 @@
 
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2;
-    newTextButton.frame  = CGRectMake(buttonPadding*1+buttonDiameter*0, 69, buttonDiameter, buttonDiameter);
-    newAudioButton.frame = CGRectMake(buttonPadding*3+buttonDiameter*1, 69, buttonDiameter, buttonDiameter);
-    newImageButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 69, buttonDiameter, buttonDiameter);
-    newVideoButton.frame = CGRectMake(buttonPadding*7+buttonDiameter*3, 69, buttonDiameter, buttonDiameter);
+    newTextButton.frame   = CGRectMake(buttonPadding*1+buttonDiameter*0, 69, buttonDiameter, buttonDiameter);
+    newAudioButton.frame  = CGRectMake(buttonPadding*3+buttonDiameter*1, 69, buttonDiameter, buttonDiameter);
+    newCameraButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 69, buttonDiameter, buttonDiameter);
+    newRollButton.frame   = CGRectMake(buttonPadding*7+buttonDiameter*3, 69, buttonDiameter, buttonDiameter);
 
     allNotesButton.frame      = CGRectMake(10, 134, self.view.frame.size.width-20, 30);
     myNotesButton.frame       = CGRectMake(10, 174, self.view.frame.size.width-20, 30);
@@ -246,14 +246,14 @@
     [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_AUDIO delegate:self] animated:YES];
 }
 
-- (void) newImageButtonTouched
+- (void) newCameraButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_IMAGE delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_CAMERA delegate:self] animated:YES];
 }
 
-- (void) newVideoButtonTouched
+- (void) newRollButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_VIDEO delegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil mode:NOTE_EDITOR_MODE_ROLL delegate:self] animated:YES];
 }
 
 - (void) allNotesButtonTouched

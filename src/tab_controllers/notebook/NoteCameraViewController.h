@@ -14,6 +14,14 @@
 - (void) cameraViewControllerCancelled;
 @end
 
+typedef enum
+{
+    NOTE_CAMERA_MODE_CAMERA,
+    NOTE_CAMERA_MODE_ROLL,
+    NOTE_CAMERA_MODE_NONE
+} NoteCameraMode;
+
+
 @interface NoteCameraViewController : UIViewController
-- (id) initWithDelegate:(id<NoteCameraViewControllerDelegate>)d;
+- (id) initWithMode:(NoteCameraMode)m delegate:(id<NoteCameraViewControllerDelegate>)d;
 @end

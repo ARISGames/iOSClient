@@ -252,10 +252,10 @@
 {
     [super viewDidAppear:animated];
     
-         if(mode == NOTE_EDITOR_MODE_AUDIO) [self audioPickerButtonTouched];
-    else if(mode == NOTE_EDITOR_MODE_IMAGE) [self imagePickerButtonTouched];
-    else if(mode == NOTE_EDITOR_MODE_VIDEO) [self videoPickerButtonTouched];
-    else if(mode == NOTE_EDITOR_MODE_TEXT)  [self guideNextEdit];
+         if(mode == NOTE_EDITOR_MODE_AUDIO)  [self audioPickerButtonTouched];
+    else if(mode == NOTE_EDITOR_MODE_CAMERA) [self cameraPickerButtonTouched];
+    else if(mode == NOTE_EDITOR_MODE_ROLL)   [self rollPickerButtonTouched];
+    else if(mode == NOTE_EDITOR_MODE_TEXT)   [self guideNextEdit];
     mode = NOTE_EDITOR_MODE_NONE;
 }
 
@@ -375,9 +375,9 @@
         [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES]; 
 }
 
-- (void) imagePickerButtonTouched
+- (void) cameraPickerButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithDelegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithMode:NOTE_CAMERA_MODE_CAMERA delegate:self] animated:YES];
 }
 
 - (void) audioPickerButtonTouched
@@ -385,9 +385,9 @@
     [self.navigationController pushViewController:[[NoteRecorderViewController alloc] initWithDelegate:self] animated:YES]; 
 }
 
-- (void) videoPickerButtonTouched
+- (void) rollPickerButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithDelegate:self] animated:YES]; 
+    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithMode:NOTE_CAMERA_MODE_ROLL delegate:self] animated:YES]; 
 }
 
 - (void) trashButtonTouched
