@@ -52,5 +52,6 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (BOOL) mergeDataFromTrigger:(Trigger *)t;
+- (BOOL) trigIsEqual:(Trigger *)t;
 
 @end

@@ -79,7 +79,7 @@
 
 - (BOOL) mergeDataFromTrigger:(Trigger *)t //returns whether or not an update occurred
 {
-    BOOL e = [self isEqual:t];
+    BOOL e = [self trigIsEqual:t];
     trigger_id = t.trigger_id;
     instance_id = t.instance_id; 
     scene_id = t.scene_id;
@@ -106,7 +106,7 @@
     return [_MODEL_INSTANCES_ instanceForId:instance_id].icon_media_id;
 }
 
-- (BOOL) isEqual:(Trigger *)t
+- (BOOL) trigIsEqual:(Trigger *)t
 {
     return 
     (trigger_id == t.trigger_id &&
