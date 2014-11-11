@@ -31,8 +31,8 @@
         [self clearGameData];
 
         _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCES_RECEIVED",self,@selector(gameInstancesReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCE_RECEIVED",self,@selector(instanceReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(playerInstancesReceived:),nil); 
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCE_RECEIVED",self,@selector(instanceReceived:),nil);
     }
     return self;
 }
@@ -59,7 +59,7 @@
 { [self updateInstances:[notif.userInfo objectForKey:@"instances"] player:YES]; }
 - (void) gameInstancesReceived:(NSNotification *)notif 
 { [self updateInstances:[notif.userInfo objectForKey:@"instances"] player:NO]; }
-- (void) instancesReceived:(NSNotification *)notif 
+- (void) instanceReceived:(NSNotification *)notif 
 { [self updateInstances:@[[notif.userInfo objectForKey:@"instance"]] player:NO]; }
 
 - (void) updateInstances:(NSArray *)newInstances player:(BOOL)player

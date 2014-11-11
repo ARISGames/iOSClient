@@ -56,7 +56,7 @@
     dialogTextView = [[DialogTextView alloc] initWithDelegate:self];
     dialogTextView.frame = CGRectMake(0,0,self.view.bounds.size.width,10);
     dialogTextView.userInteractionEnabled = YES;
-    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
+    collapseView = [[ARISCollapseView alloc] initWithContentView:dialogTextView frame:CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40) open:YES showHandle:NO draggable:NO tappable:NO delegate:self];
     lastKnownTextFrameHeight = 40;
 
     [self.view addSubview:mediaView];
@@ -122,7 +122,7 @@
 
 - (void) passTapToCV:(UITapGestureRecognizer *)g
 {
-    [collapseView handleTapped:g];
+    //[collapseView handleTapped:g];
 }
 
 - (int) heightOfTextBox

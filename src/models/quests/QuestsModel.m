@@ -75,8 +75,12 @@
 - (NSArray *) conformQuestListToFlyweight:(NSArray *)newQuests
 {
     NSMutableArray *conformingQuests = [[NSMutableArray alloc] init];
+    Quest *q;
     for(int i = 0; i < newQuests.count; i++)
-        [conformingQuests addObject:[self questForId:((Quest *)newQuests[i]).quest_id]];
+    {
+        if((q = [self questForId:((Quest *)newQuests[i]).quest_id]))
+            [conformingQuests addObject:q];
+    }
         
     return conformingQuests;
 }

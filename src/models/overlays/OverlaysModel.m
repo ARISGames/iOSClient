@@ -68,8 +68,12 @@
 - (NSArray *) conformOverlaysListToFlyweight:(NSArray *)newOverlays
 {
     NSMutableArray *conformingOverlays = [[NSMutableArray alloc] init];
+    Overlay *o;
     for(int i = 0; i < newOverlays.count; i++)
-        [conformingOverlays addObject:[self overlayForId:((Overlay *)newOverlays[i]).overlay_id]];
+    {
+        if((o = [self overlayForId:((Overlay *)newOverlays[i]).overlay_id]))
+           [conformingOverlays addObject:o];
+    }
 
     return conformingOverlays;
 }

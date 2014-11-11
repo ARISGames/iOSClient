@@ -174,7 +174,7 @@
     else if(hasFile)
     {
         [self.view addSubview:playButton]; 
-        [self.view addSubview:editButton]; 
+        //[self.view addSubview:editButton]; //temporarily remove
         self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithCustomView:discardButton];      
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];     
     }
@@ -211,7 +211,7 @@
 
 - (void) editButtonTouched
 {
-    [self editAudio];
+    //[self editAudio]; //temporarilly removed
 }
 
 - (void) discardButtonTouched
@@ -280,10 +280,10 @@
     [self refreshViewFromState];   
 }
 
-- (void) editAudio
+- (void) editAudio //temporarily removed
 {
-    AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithAudioURL:audioFileURL delegate:self];
-    [self.navigationController pushViewController:audioVC animated:YES];
+    //AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithAudioURL:audioFileURL delegate:self];
+    //[self.navigationController pushViewController:audioVC animated:YES];
 }
 
 - (void) saveAudio
