@@ -75,8 +75,12 @@
 - (NSArray *) conformUsersListToFlyweight:(NSArray *)newUsers
 {
     NSMutableArray *conformingUsers = [[NSMutableArray alloc] init];
+    User *u;
     for(int i = 0; i < newUsers.count; i++)
-        [conformingUsers addObject:[self userForId:((User *)newUsers[i]).user_id]];
+    {
+        if((u = [self userForId:((User *)newUsers[i]).user_id]))
+            [conformingUsers addObject:u];
+    }
     return conformingUsers;
 }
 

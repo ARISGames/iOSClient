@@ -72,8 +72,12 @@
 - (NSArray *) conformTabListToFlyweight:(NSArray *)newTabs
 {
     NSMutableArray *conformingTabs = [[NSMutableArray alloc] init];
+    Tab *t;
     for(int i = 0; i < newTabs.count; i++)
-        [conformingTabs addObject:[self tabForId:((Tab *)newTabs[i]).tab_id]];
+    {
+        if((t = [self tabForId:((Tab *)newTabs[i]).tab_id]))
+            [conformingTabs addObject:t];
+    }
 
     return conformingTabs;
 }
