@@ -23,6 +23,7 @@
 {
     if (self = [super init])
     {
+      self.note_comment_id = 0;
       self.note_id = 0;
       self.user_id = 0;
       self.name = @"";
@@ -36,27 +37,29 @@
 {
     if(self = [super init])
     {
-        self.note_id = [dict validIntForKey:@"note_id"];
-        self.user_id = [dict validIntForKey:@"user_id"];
-        self.name    = [dict validObjectForKey:@"name"];
-        self.desc    = [dict validObjectForKey:@"description"];
-        self.created = [dict validDateForKey:@"created"];
+        self.note_comment_id = [dict validIntForKey:@"note_comment_id"];
+        self.note_id         = [dict validIntForKey:@"note_id"];
+        self.user_id         = [dict validIntForKey:@"user_id"];
+        self.name            = [dict validObjectForKey:@"name"];
+        self.desc            = [dict validObjectForKey:@"description"];
+        self.created         = [dict validDateForKey:@"created"];
     }
     return self;
 }
 
 - (void) mergeDataFromNoteComment:(NoteComment *)n
 {
-  self.note_id = n.note_id;
-  self.user_id = n.user_id;
-  self.name    = n.name;
-  self.desc    = n.desc;
-  self.created = n.created;
+  self.note_comment_id = n.note_comment_id;
+  self.note_id         = n.note_id;
+  self.user_id         = n.user_id;
+  self.name            = n.name;
+  self.desc            = n.desc;
+  self.created         = n.created;
 }
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"NoteComment- Id:%d\tName:%@\tOwner:%d\t",self.note_id,self.name,self.user_id];
+    return [NSString stringWithFormat:@"NoteComment- Id:%d\tName:%@\tOwner:%d\t",self.note_comment_id,self.name,self.user_id];
 }
 
 @end
