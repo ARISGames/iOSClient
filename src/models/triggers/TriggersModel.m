@@ -85,18 +85,18 @@
     NSMutableArray *conformingTriggers = [[NSMutableArray alloc] init];
     for(int i = 0; i < newTriggers.count; i++)
     {
-        Trigger *new = newTriggers[i];
-        Trigger *exist = [self triggerForId:new.trigger_id];
+        Trigger *newt = newTriggers[i];
+        Trigger *exist = [self triggerForId:newt.trigger_id];
         
         if(exist)
         {
-            if(![exist mergeDataFromTrigger:new]) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,nil);
+            if(![exist mergeDataFromTrigger:newt]) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,nil);
             [conformingTriggers addObject:exist];
         }
         else
         {
-            [triggers setObject:new forKey:[NSNumber numberWithInt:new.trigger_id]];
-            [conformingTriggers addObject:new];
+            [triggers setObject:newt forKey:[NSNumber numberWithInt:newt.trigger_id]];
+            [conformingTriggers addObject:newt];
         }
     }
     return conformingTriggers;

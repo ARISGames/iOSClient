@@ -141,8 +141,10 @@
 //returns title of instance if self's isn't set
 - (NSString *) title
 {
+    Instance *i;
     if(title && ![title isEqualToString:@""]) return title;
-    return [_MODEL_INSTANCES_ instanceForId:instance_id].name; 
+    else if((i = [_MODEL_INSTANCES_ instanceForId:instance_id]) && i.name) return i.name;
+    return @""; 
 }
 
 - (NSString *) subtitle
