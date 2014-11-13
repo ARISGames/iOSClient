@@ -230,7 +230,9 @@
     nc.user_id = _MODEL_PLAYER_.user_id;
     nc.desc = c;
     [_MODEL_NOTES_ createNoteComment:nc];
-    [commentsDisplay setComments:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id]];
+    NSMutableArray *newComments = [NSMutableArray arrayWithArray:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id]];
+    [newComments addObject:nc];
+    [commentsDisplay setComments:newComments];
     scrollView.contentOffset = CGPointMake(0,-64);
 }
 

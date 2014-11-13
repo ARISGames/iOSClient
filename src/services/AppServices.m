@@ -717,6 +717,7 @@
      NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"tick_factories":[NSNumber numberWithInt:1]
       };
     [connection performAsynchronousRequestWithService:@"client" method:@"getTriggersForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerTriggers:) failSelector:@selector(playerFetchFailed) retryOnFail:NO userInfo:nil];
 }

@@ -69,6 +69,7 @@
 - (void) playerEnteredGame
 {
     [_SERVICES_ logPlayerEnteredGame];
+    [self playerMoved]; //start off with a move to set location
 }
 
 - (void) playerMoved

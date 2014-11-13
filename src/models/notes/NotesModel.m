@@ -133,7 +133,7 @@
   for(int i = 0; i < newNoteComments.count; i++)
   {
     newComment = [newNoteComments objectAtIndex:i];
-    newCommentId = [NSNumber numberWithInt:newComment.note_id];
+    newCommentId = [NSNumber numberWithInt:newComment.note_comment_id];
     if(!note_comments[newCommentId]) [note_comments setObject:newComment forKey:newCommentId];
   }
   _ARIS_NOTIF_SEND_(@"MODEL_NOTE_COMMENTS_AVAILABLE",nil,nil);
