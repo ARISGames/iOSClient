@@ -10,6 +10,8 @@
 #import "GamePlayTabBarViewControllerProtocol.h"
 #import "QuestsViewControllerDelegate.h"
 
+@class Tab;
+
 @interface IconQuestsViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
 - (id) initWithTab:(Tab *)t delegate:(id<QuestsViewControllerDelegate>)d;
 @end

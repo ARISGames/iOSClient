@@ -7,7 +7,6 @@
 //
 
 #import "DialogScriptViewController.h"
-#import "StateControllerProtocol.h"
 #import "ARISMediaView.h"
 #import "ARISCollapseView.h"
 #import "DialogTextView.h"
@@ -15,7 +14,7 @@
 #import "User.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface DialogScriptViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, DialogTextViewDelegate, StateControllerProtocol>
+@interface DialogScriptViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, DialogTextViewDelegate>
 {
     Dialog *dialog;
     DialogScript *script;
@@ -27,14 +26,14 @@
     
     int lastKnownTextFrameHeight;
 
-    id<DialogScriptViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<DialogScriptViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation DialogScriptViewController
 
-- (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -109,15 +108,15 @@
     else if([op.link_type isEqualToString:@"EXIT"])
         [delegate exitRequested];
     else if([op.link_type isEqualToString:@"EXIT_TO_PLAQUE"])
-        [delegate displayObjectType:@"PLAQUE" id:op.link_id];
+        [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_PLAQUES_ plaqueForId:op.link_id]];
     else if([op.link_type isEqualToString:@"EXIT_TO_ITEM"])
-        [delegate displayObjectType:@"ITEM" id:op.link_id];
+        [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_ITEMS_ itemForId:op.link_id]];
     else if([op.link_type isEqualToString:@"EXIT_TO_WEB_PAGE"])
-        [delegate displayObjectType:@"WEB_PAGE" id:op.link_id];
+        [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_WEB_PAGES_ webPageForId:op.link_id]];
     else if([op.link_type isEqualToString:@"EXIT_TO_DIALOG"])
-        [delegate displayObjectType:@"DIALOG" id:op.link_id];
+        [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:op.link_id]];
     else if([op.link_type isEqualToString:@"EXIT_TO_TAB"])
-        [delegate displayTabId:op.link_id];
+        [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForId:op.link_id]];
 }
 
 - (void) passTapToCV:(UITapGestureRecognizer *)g
@@ -129,18 +128,6 @@
 {
     return lastKnownTextFrameHeight;
 }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
 {

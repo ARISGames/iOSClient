@@ -6,14 +6,13 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "StateControllerProtocol.h"
 #import "WebPageViewController.h"
 #import "WebPage.h"
 #import "DialogViewController.h"
 #import "AppModel.h"
 #import "ARISWebView.h"
 
-@interface WebPageViewController() <ARISWebViewDelegate,StateControllerProtocol>
+@interface WebPageViewController() <ARISWebViewDelegate>
 {
     WebPage *webPage;
     Instance *instance;
@@ -164,18 +163,6 @@
 - (NSString *) tabId { return @"WEB_PAGE"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(webPage.name && ![webPage.name isEqualToString:@""]) return webPage.name; return @"Web Page"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"logo_icon"]; }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
 {

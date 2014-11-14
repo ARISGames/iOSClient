@@ -7,7 +7,6 @@
 //
 
 #import "InventoryViewController.h"
-#import "StateControllerProtocol.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "MediaModel.h"
@@ -362,7 +361,7 @@
     Item *item = items[i];
     Instance *instance = instances[i];
     
-    [delegate displayInstance:instance];
+    [_MODEL_DISPLAY_QUEUE_ enqueueInstance:instance];
     [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
 }
 

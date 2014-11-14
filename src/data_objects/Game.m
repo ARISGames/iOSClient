@@ -74,6 +74,7 @@ const int playerDatasToReceive = 7;
 @synthesize tabsModel;
 @synthesize logsModel;
 @synthesize questsModel;
+@synthesize displayQueueModel;
 
 - (id) init
 {
@@ -196,6 +197,7 @@ const int playerDatasToReceive = 7;
     tabsModel      = [[TabsModel      alloc] init];
     logsModel      = [[LogsModel      alloc] init];
     questsModel    = [[QuestsModel    alloc] init];
+    displayQueueModel = [[DisplayQueueModel alloc] init];
 }
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
@@ -220,6 +222,7 @@ const int playerDatasToReceive = 7;
     tabsModel      = nil;
     questsModel    = nil;
     logsModel      = nil;
+    displayQueueModel = nil;
 }
 
 - (void) requestGameData
@@ -332,6 +335,8 @@ const int playerDatasToReceive = 7;
     [instancesModel clearPlayerData];
     [tabsModel      clearPlayerData];
     [logsModel      clearPlayerData];
+    
+    [displayQueueModel clear];
 }
 
 - (int) rating

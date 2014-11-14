@@ -22,13 +22,13 @@
     UILabel *header;
     UILabel *prompt;
         
-    id<PopOverViewDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<PopOverViewDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation PopOverViewController
         
-- (id) initWithDelegate:(id <PopOverViewDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id <PopOverViewDelegate>)d
 {
     if(self = [super init])
     {

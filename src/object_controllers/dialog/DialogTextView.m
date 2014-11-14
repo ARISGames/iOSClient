@@ -10,7 +10,7 @@
 #import "ARISWebView.h"
 #import "DialogOption.h"
 
-@interface DialogTextView() <ARISWebViewDelegate, StateControllerProtocol>
+@interface DialogTextView() <ARISWebViewDelegate>
 {
     NSString *text;
     ARISWebView *textView;
@@ -23,13 +23,13 @@
     BOOL fetchingOptions; //this is for 'loading' of the actual list of options
     UIActivityIndicatorView *optionsLoadingIndicator;
 
-    id<DialogTextViewDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<DialogTextViewDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation DialogTextView
 
-- (id) initWithDelegate:(id<DialogTextViewDelegate, StateControllerProtocol>)d;
+- (id) initWithDelegate:(id<DialogTextViewDelegate>)d;
 {
     if(self = [super init])
     {
@@ -171,17 +171,5 @@
     for(int i = 0; i < optionButtons.count; i++)
         if(r.view == optionButtons[i]) [delegate dialogTextView:self selectedOption:i];
 }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 @end

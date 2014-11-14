@@ -7,7 +7,6 @@
 //
 
 #import "PlaqueViewController.h"
-#import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "ARISAppDelegate.h"
@@ -23,7 +22,7 @@
 
 static NSString * const OPTION_CELL = @"option";
 
-@interface PlaqueViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, StateControllerProtocol>
+@interface PlaqueViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate>
 {
     Plaque *plaque;
     Instance *instance;
@@ -189,7 +188,8 @@ static NSString * const OPTION_CELL = @"option";
     [self dismissSelf];
     WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
     nullWebPage.url = [r.URL absoluteString];
-    [delegate displayObjectType:@"WEB_PAGE" id:0];
+    
+    //[delegate displayObjectType:@"WEB_PAGE" id:0];
 
     return NO;
 }
@@ -227,18 +227,6 @@ static NSString * const OPTION_CELL = @"option";
 - (NSString *) tabId { return @"PLAQUE"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(plaque.name && ![plaque.name isEqualToString:@""]) return plaque.name; return @"Plaque"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"logo_icon"]; }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void)dealloc
 {

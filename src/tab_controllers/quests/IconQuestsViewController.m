@@ -14,7 +14,7 @@
 #import "AppModel.h"
 #import "MediaModel.h"
 
-@interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
+@interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate>
 {
     Tab *tab;
     UICollectionView *questIconCollectionView;
@@ -22,7 +22,7 @@
     NSArray *activeQuests;
     NSArray *completeQuests;
     
-    id<QuestsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) UICollectionView *questIconCollectionView;
 
@@ -32,7 +32,7 @@
 
 @synthesize questIconCollectionView;
 
-- (id) initWithTab:(Tab *)t delegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d
+- (id) initWithTab:(Tab *)t delegate:(id<QuestsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -173,17 +173,5 @@
 - (NSString *) tabId { return @"QUESTS"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 @end

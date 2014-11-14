@@ -8,15 +8,23 @@
 
 #import <Foundation/Foundation.h>
 @class Trigger;
-
-@protocol DisplayQueueModelDelegate
-- (BOOL) displayTrigger:(Trigger *)t;
-@end
+@class Instance;
+@protocol InstantiableProtocol;
+@class Tab;
 
 @interface DisplayQueueModel : NSObject
 
-- (id) initWithDelegate:(id<DisplayQueueModelDelegate>)d;
+- (void) clear;
+
 - (void) enqueueTrigger:(Trigger *)t;
-- (void) dequeueTrigger;
+- (void) injectTrigger:(Trigger *)t;
+- (void) enqueueInstance:(Instance *)i;
+- (void) injectInstance:(Instance *)i;
+- (void) enqueueObject:(id<InstantiableProtocol>)o;
+- (void) injectObject:(id<InstantiableProtocol>)o;
+- (void) enqueueTab:(Tab *)t;
+- (void) injectTab:(Tab *)t;
+
+- (id) dequeue;
 
 @end

@@ -14,7 +14,7 @@
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
 
-@interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
+@interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate>
 {
     UIScrollView *scrollView;
     ARISMediaView  *mediaView;
@@ -26,14 +26,14 @@
     
     Quest *quest; 
     NSString *mode;
-    id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<QuestDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
     
 @end
 
 @implementation QuestDetailsViewController
 
-- (id) initWithQuest:(Quest *)q mode:(NSString *)m delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d
+- (id) initWithQuest:(Quest *)q mode:(NSString *)m delegate:(id<QuestDetailsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -151,7 +151,7 @@
 {
     WebPage *w = [_MODEL_WEB_PAGES_ webPageForId:0];
     w.url = [r.URL absoluteString];
-    //[(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
+    //[delegate displayGameObject:w fromSource:self];
 
     return NO;
 }
@@ -182,20 +182,8 @@
 {
     if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"JAVASCRIPT"]) [webView hookWithParams:@""];
     else if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"]) return;
-    else [self displayTabType:([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function)];
+    else [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function)]];
 }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
 {

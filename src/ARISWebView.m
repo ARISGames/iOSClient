@@ -19,14 +19,14 @@
 {
     UIWebView *webView;
     NSMutableDictionary *audioPlayers;
-    id<ARISWebViewDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<ARISWebViewDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation ARISWebView
 
-- (id) initWithFrame:(CGRect)frame delegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
+- (id) initWithFrame:(CGRect)frame delegate:(id<ARISWebViewDelegate>)d
 {
     if(self = [super initWithFrame:frame])
     {
@@ -45,7 +45,7 @@
     return self;
 }
 
-- (id) initWithDelegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
+- (id) initWithDelegate:(id<ARISWebViewDelegate>)d
 {
     if(self = [super init])
     {
@@ -73,7 +73,7 @@
     webView.frame = self.bounds;
 }
 
-- (void) setDelegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d
+- (void) setDelegate:(id<ARISWebViewDelegate>)d
 {
     delegate = d;
 }
@@ -196,40 +196,25 @@
         if(components.count > 1) type  = [components objectAtIndex:1];
         if(components.count > 2) token = [components objectAtIndex:2];
         
+        if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
         if([type isEqualToString:@"tab"])
-        {
-            if([delegate respondsToSelector:@selector(displayTab:)])     
-                [delegate displayTabType:token];
-        }
+            [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:token]];
         else if([type isEqualToString:@"scanner"])
         {
-            if([delegate respondsToSelector:@selector(displayScannerWithPrompt:)])      
-                [delegate displayScannerWithPrompt:token];
+            [_MODEL_TABS_ tabForType:@"SCANNER"]; //set prompt
+            [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"SCANNER"]];
         }
         else if([type isEqualToString:@"plaque"])
-        {
-            if([delegate respondsToSelector:@selector(displayObjectType:id:)])       
-                [delegate displayObjectType:@"PLAQUE" id:[token intValue]];
-        }
+            [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_PLAQUES_ plaqueForId:[token intValue]]];
         else if([type isEqualToString:@"webpage"])
-        {
-            if([delegate respondsToSelector:@selector(displayObjectType:id:)])        
-                [delegate displayObjectType:@"WEB_PAGE" id:[token intValue]]; 
-        }
+            [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_WEB_PAGES_ webPageForId:[token intValue]]];
         else if([type isEqualToString:@"item"])
-        {
-            if([delegate respondsToSelector:@selector(displayObjectType:id:)])        
-                [delegate displayObjectType:@"ITEM" id:[token intValue]];  
-        }
-        else if([type isEqualToString:@"character"])
-        {
-            if([delegate respondsToSelector:@selector(displayObjectType:id:)])        
-                [delegate displayObjectType:@"DIALOG" id:[token intValue]];   
-        }
+            [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_ITEMS_ itemForId:[token intValue]]];
+        else if([type isEqualToString:@"character"] || [type isEqualToString:@"dialog"] || [type isEqualToString:@"conversation"])
+            [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:[token intValue]]];
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {
-        //[_SERVICES_ fetchAllPlayerLists];
         if([delegate respondsToSelector:@selector(ARISWebViewRequestsRefresh:)])
             [delegate ARISWebViewRequestsRefresh:self];
     }

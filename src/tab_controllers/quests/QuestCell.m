@@ -10,7 +10,7 @@
 #import "Quest.h"
 #import "ARISWebView.h"
 
-@interface QuestCell () <ARISWebViewDelegate, StateControllerProtocol>
+@interface QuestCell () <ARISWebViewDelegate>
 {
 	UILabel *titleView;
    	ARISWebView *descriptionView; 
@@ -77,17 +77,5 @@
     descriptionView.frame = CGRectMake(0,20,self.frame.size.width,newHeight);
     [delegate heightCalculated:descriptionView.frame.origin.y+descriptionView.frame.size.height forQuest:quest inCell:self];
 }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return NO; }
-- (BOOL) displayTriggerId:(int)t       { return NO; }
-- (BOOL) displayInstance:(Instance *)i { return NO; }
-- (BOOL) displayInstanceId:(int)i      { return NO; }
-- (BOOL) displayObject:(id)o           { return NO; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return NO; }
-- (void) displayTab:(Tab *)t           { }
-- (void) displayTabId:(int)t           { }
-- (void) displayTabType:(NSString *)t  { }
-- (void) displayScannerWithPrompt:(NSString *)p { }
 
 @end

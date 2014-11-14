@@ -31,6 +31,7 @@
 #define _MODEL_TABS_ [AppModel sharedAppModel].game.tabsModel
 #define _MODEL_QUESTS_ [AppModel sharedAppModel].game.questsModel
 #define _MODEL_LOGS_ [AppModel sharedAppModel].game.logsModel
+#define _MODEL_DISPLAY_QUEUE_ [AppModel sharedAppModel].game.displayQueueModel
 
 #import "UsersModel.h"
 #import "GamesModel.h"

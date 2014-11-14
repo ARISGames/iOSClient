@@ -79,8 +79,6 @@
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
 		AA383B1B1829AD2F00612FFB /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1A1829AD2F00612FFB /* NoteViewController.m */; };
 		AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */; };
-		AA3AE3FF19DDF2500074A882 /* StateControllerProtocol_Forward.impl in Sources */ = {isa = PBXBuildFile; fileRef = AA3AE3FE19DDF2500074A882 /* StateControllerProtocol_Forward.impl */; };
-		AA3AE40319DDF36D0074A882 /* StateControllerProtocol_Ignore.impl in Sources */ = {isa = PBXBuildFile; fileRef = AA3AE40219DDF36D0074A882 /* StateControllerProtocol_Ignore.impl */; };
 		AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FA8182037CB006C9715 /* SBJsonParser.m */; };
 		AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAA182037CB006C9715 /* SBJsonStreamParser.m */; };
 		AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAC182037CB006C9715 /* SBJsonStreamParserAccumulator.m */; };
@@ -418,8 +416,6 @@
 		AA383B1A1829AD2F00612FFB /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteViewController.m; path = ../../tab_controllers/notebook/NoteViewController.m; sourceTree = "<group>"; };
 		AA39FEC418970E15001F723D /* NoteTagPredictionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagPredictionViewController.h; sourceTree = "<group>"; };
 		AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagPredictionViewController.m; sourceTree = "<group>"; };
-		AA3AE3FE19DDF2500074A882 /* StateControllerProtocol_Forward.impl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StateControllerProtocol_Forward.impl; sourceTree = "<group>"; };
-		AA3AE40219DDF36D0074A882 /* StateControllerProtocol_Ignore.impl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StateControllerProtocol_Ignore.impl; sourceTree = "<group>"; };
 		AA3B7FA6182037CB006C9715 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
 		AA3B7FA7182037CB006C9715 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		AA3B7FA8182037CB006C9715 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
@@ -554,7 +550,6 @@
 		AAB62FDF18C689DD00030F48 /* barcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barcode@2x.png"; sourceTree = "<group>"; };
 		AAB62FE018C689DD00030F48 /* notebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notebook@2x.png"; sourceTree = "<group>"; };
 		AAB62FE618C68BCE00030F48 /* threelines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = threelines.png; sourceTree = "<group>"; };
-		AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateControllerProtocol.h; sourceTree = "<group>"; };
 		AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsViewController.h; sourceTree = "<group>"; };
 		AABC064318A1896500315FB5 /* CrumbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrumbPath.h; sourceTree = "<group>"; };
 		AABC064418A1896500315FB5 /* CrumbPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrumbPath.m; sourceTree = "<group>"; };
@@ -1270,9 +1265,6 @@
 				AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */,
 				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
 				AABC711C172739D60074CC21 /* Reachability.h */,
-				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
-				AA3AE3FE19DDF2500074A882 /* StateControllerProtocol_Forward.impl */,
-				AA3AE40219DDF36D0074A882 /* StateControllerProtocol_Ignore.impl */,
 				AA2B8340187DDC1200D92A28 /* ARISTemplate.h */,
 				AA2B8341187DDC1200D92A28 /* ARISTemplate.m */,
 				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
@@ -2262,7 +2254,6 @@
 				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				F92B5E3D18C68C5800D1D1A7 /* MapOverlayView.m in Sources */,
 				AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */,
-				AA3AE40319DDF36D0074A882 /* StateControllerProtocol_Ignore.impl in Sources */,
 				AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */,
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
 				AABC73E4172739D80074CC21 /* DecoderViewController.mm in Sources */,
@@ -2324,7 +2315,6 @@
 				AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */,
 				AA701FE117342169003A840D /* GamePickersViewController.m in Sources */,
 				AA7EACC61965A876003CE431 /* DisplayQueueModel.m in Sources */,
-				AA3AE3FF19DDF2500074A882 /* StateControllerProtocol_Forward.impl in Sources */,
 				AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */,
 				AA5FCA3D197F139A005C2A2F /* ObjectTag.m in Sources */,
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
