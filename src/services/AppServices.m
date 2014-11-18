@@ -842,6 +842,23 @@
     //nothing need be done
 }
 
+- (void) dropItem:(int)item_id qty:(int)qty
+{
+    NSDictionary *args = 
+    @{
+      @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
+      @"item_id":[NSNumber numberWithInt:item_id],
+      @"qty":[NSNumber numberWithInt:qty],
+      @"latitude":[NSNumber numberWithDouble:_MODEL_PLAYER_.location.coordinate.latitude],
+      @"longitude":[NSNumber numberWithDouble:_MODEL_PLAYER_.location.coordinate.longitude]
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"dropItem" arguments:args handler:self successSelector:@selector(parseDropItem:) failSelector:nil retryOnFail:NO userInfo:nil];   
+}
+- (void) parseDropItem:(ARISServiceResult *)result
+{
+    //nothin
+}
+
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr
 {
     NSMutableDictionary *args =

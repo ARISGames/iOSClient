@@ -111,6 +111,16 @@
     _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",nil,nil);
 }
 
+- (int) dropItemFromPlayer:(int)item_id qtyToRemove:(int)qty
+{
+    Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+    if(!pII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForPlayer was called...)
+    if(pII.qty < qty) qty = pII.qty;
+    
+    [_SERVICES_ dropItem:(int)item_id qty:(int)qty];
+    return [self takeItemFromPlayer:item_id qtyToRemove:qty];
+}
+
 - (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty
 {
   Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];

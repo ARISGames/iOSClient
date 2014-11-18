@@ -255,7 +255,10 @@
 
 - (void) dropItemQty:(int)q
 {
-    if([_MODEL_ITEMS_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
+    if([_MODEL_ITEMS_ dropItemFromPlayer:item.item_id qtyToRemove:q] == 0)
+    {
+        [self dismissSelf];
+    }
     else
     {
         [self updateViewButtons];
