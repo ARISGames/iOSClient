@@ -104,7 +104,7 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    [_MODEL_DISPLAY_QUEUE_ dequeue];
+    [self tryDequeue];
 }
 
 - (void) gamePlayTabBarViewControllerRequestsNav
@@ -125,18 +125,21 @@
 
 - (void) tryDequeue
 {
-    //|| !self.view.window
-    if(!self.isViewLoaded) return; //Doesn't currently have the view-heirarchy authority to display.
-    Trigger *t;
-    if((t = [_MODEL_DISPLAY_QUEUE_ dequeue]))
+    if(!(self.isViewLoaded && self.view.window)) return; //Doesn't currently have the view-heirarchy authority to display.
+    NSObject *o;
+    if((o = [_MODEL_DISPLAY_QUEUE_ dequeue]))
     {
-        [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id];
+        if     ([o isKindOfClass:[Trigger class]])  [self displayTrigger:(Trigger *)o];
+        else if([o isKindOfClass:[Instance class]]) [self displayInstance:(Instance *)o];
+        else if([o isKindOfClass:[Tab class]])      [self displayTab:(Tab *)o];
+        else if([o conformsToProtocol:@protocol(InstantiableProtocol)]) [self displayObject:(NSObject <InstantiableProtocol>*)o];
     }
 }
 
 - (void) displayTrigger:(Trigger *)t
 {
     _ARIS_NOTIF_SEND_(@"GAME_PLAY_DISPLAYED_TRIGGER",nil,@{@"trigger":t});
+    [self displayInstance:[_MODEL_INSTANCES_ instanceForId:t.instance_id]];
     [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id];
 }
 
@@ -155,27 +158,23 @@
         vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"SCENE"]) //Special case (don't actually display anything)
     {
-        /*
         [_MODEL_SCENES_ setPlayerScene:(Scene *)i.object];
         [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
         //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
-        [displayQueue performSelector:@selector(dequeueTrigger) withObject:nil afterDelay:1];
-        return YES;
-         */
+        [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
+        return;
     }
     if([i.object_type isEqualToString:@"FACTORY"]) //Special case (don't actually display anything)
     {
-        /*
         //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
-        [displayQueue performSelector:@selector(dequeueTrigger) withObject:nil afterDelay:1];
-        return YES;
-        */
+        [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
+        return;
     }
     [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
     _ARIS_NOTIF_SEND_(@"GAME_PLAY_DISPLAYED_INSTANCE",nil,@{@"instance":i});
 
     ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
-    [self presentDislay:nav];
+    [self presentDisplay:nav];
 }
 
 - (void) displayObject:(NSObject <InstantiableProtocol>*)o
@@ -217,9 +216,12 @@
       i.object_id = n.note_id;
       vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
     }
+    
+    ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
+    [self presentDisplay:nav];
 }
 
-- (void) presentDislay:(UIViewController *)vc
+- (void) presentDisplay:(UIViewController *)vc
 {
     [self presentViewController:vc animated:NO completion:nil];
 
@@ -243,23 +245,13 @@
     [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
 
     [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
-
-    [_MODEL_DISPLAY_QUEUE_ dequeue];
+    [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
 }
 
-- (void) displayTabId:(int)t
-{
-    Tab *tab = [_MODEL_TABS_ tabForId:t];
-    [self displayTab:tab];
-}
-- (void) displayTabType:(NSString *)t
-{
-    Tab *tab = [_MODEL_TABS_ tabForType:t];
-    [self displayTab:tab];
-}
 - (void) displayTab:(Tab *)t
 {
     [gamePlayTabSelectorController requestDisplayTab:t];
+    [self tryDequeue]; //no 'closing event' for tab
 }
 - (void) displayScannerWithPrompt:(NSString *)p
 {

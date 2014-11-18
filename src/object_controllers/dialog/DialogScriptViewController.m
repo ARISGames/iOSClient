@@ -106,17 +106,17 @@
     if([op.link_type isEqualToString:@"DIALOG_SCRIPT"])
         [delegate dialogScriptChosen:[_MODEL_DIALOGS_ scriptForId:op.link_id]];
     else if([op.link_type isEqualToString:@"EXIT"])
-        [delegate exitRequested];
+    {                                                                                    [delegate exitRequested]; }
     else if([op.link_type isEqualToString:@"EXIT_TO_PLAQUE"])
-        [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_PLAQUES_ plaqueForId:op.link_id]];
+    { [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_PLAQUES_ plaqueForId:op.link_id]];    [delegate exitRequested]; }
     else if([op.link_type isEqualToString:@"EXIT_TO_ITEM"])
-        [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_ITEMS_ itemForId:op.link_id]];
+    { [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_ITEMS_ itemForId:op.link_id]];        [delegate exitRequested]; }
     else if([op.link_type isEqualToString:@"EXIT_TO_WEB_PAGE"])
-        [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_WEB_PAGES_ webPageForId:op.link_id]];
+    { [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_WEB_PAGES_ webPageForId:op.link_id]]; [delegate exitRequested]; }
     else if([op.link_type isEqualToString:@"EXIT_TO_DIALOG"])
-        [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:op.link_id]];
+    { [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:op.link_id]];    [delegate exitRequested]; }
     else if([op.link_type isEqualToString:@"EXIT_TO_TAB"])
-        [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForId:op.link_id]];
+    { [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForId:op.link_id]];             [delegate exitRequested]; }
 }
 
 - (void) passTapToCV:(UITapGestureRecognizer *)g

@@ -20,11 +20,11 @@
 - (void) injectTrigger:(Trigger *)t;
 - (void) enqueueInstance:(Instance *)i;
 - (void) injectInstance:(Instance *)i;
-- (void) enqueueObject:(id<InstantiableProtocol>)o;
-- (void) injectObject:(id<InstantiableProtocol>)o;
+- (void) enqueueObject:(NSObject <InstantiableProtocol>*)o;
+- (void) injectObject:(NSObject <InstantiableProtocol>*)o;
 - (void) enqueueTab:(Tab *)t;
 - (void) injectTab:(Tab *)t;
 
-- (id) dequeue;
+- (NSObject *) dequeue;
 
 @end

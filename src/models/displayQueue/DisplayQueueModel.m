@@ -38,50 +38,51 @@
     displayBlacklist = [[NSMutableArray alloc] init];
 }
 
-- (void) inject:(id)i
+- (void) inject:(NSObject *)i
 {
   [displayQueue removeObject:i];
   [displayQueue insertObject:i atIndex:0];
   _ARIS_NOTIF_SEND_(@"MODEL_DISPLAY_NEW_ENQUEUED", nil, nil);
 }
 
-- (void) enqueue:(id)i
+- (void) enqueue:(NSObject *)i
 {
   if(![self displayInQueue:i])
     [displayQueue addObject:i];
   _ARIS_NOTIF_SEND_(@"MODEL_DISPLAY_NEW_ENQUEUED", nil, nil);
 }
 
-- (void) enqueueTrigger:(Trigger *)t               { [self enqueue:t]; }
-- (void) injectTrigger: (Trigger *)t               { [self inject:t];  }
-- (void) enqueueInstance:(Instance *)i             { [self enqueue:i]; }
-- (void) injectInstance: (Instance *)i             { [self inject:i];  }
-- (void) enqueueObject:(id<InstantiableProtocol>)o { [self enqueue:o]; }
-- (void) injectObject: (id<InstantiableProtocol>)o { [self inject:o];  }
-- (void) enqueueTab:(Tab *)t                       { [self enqueue:t];  }
-- (void) injectTab:(Tab *)t                        { [self inject:t];  }
+- (void) enqueueTrigger:(Trigger *)t                       { [self enqueue:t]; }
+- (void) injectTrigger: (Trigger *)t                       { [self inject:t];  }
+- (void) enqueueInstance:(Instance *)i                     { [self enqueue:i]; }
+- (void) injectInstance: (Instance *)i                     { [self inject:i];  }
+- (void) enqueueObject:(NSObject <InstantiableProtocol>*)o { [self enqueue:o]; }
+- (void) injectObject: (NSObject <InstantiableProtocol>*)o { [self inject:o];  }
+- (void) enqueueTab:(Tab *)t                               { [self enqueue:t];  }
+- (void) injectTab:(Tab *)t                                { [self inject:t];  }
 
-- (id) dequeue
+- (NSObject *) dequeue
 {
   [self purgeInvalidFromQueue];
-  Trigger *t;
+  NSObject *o;
   if(displayQueue.count > 0)
   {
-    t = displayQueue[0];
-    [displayQueue removeObject:t];
-    if(t.trigger_id != 0) [displayBlacklist addObject:t]; //don't bother blacklisting artificial triggers
+    o = displayQueue[0];
+    [displayQueue removeObject:o];
+      
+    if([o isKindOfClass:[Trigger class]] && ((Trigger *)o).trigger_id != 0) [displayBlacklist addObject:o];
   }
-  return t;
+  return o;
 }
 
-- (BOOL) displayInQueue:(id)d
+- (BOOL) displayInQueue:(NSObject *)d
 {
   for(int i = 0; i < displayQueue.count; i++)
     if(d == displayQueue[i]) return YES;
   return NO;
 }
 
-- (BOOL) displayBlacklisted:(id)d
+- (BOOL) displayBlacklisted:(NSObject *)d
 {
   for(int i = 0; i < displayBlacklist.count; i++)
     if(d == displayBlacklist[i]) return YES;
@@ -97,6 +98,7 @@
   for(int i = 0; i < displayQueue.count; i++)
   {
     BOOL valid = NO;
+    if(![displayQueue[i] isKindOfClass:[Trigger class]]) continue; //only triggers are blacklisted
     t = displayQueue[i];
     for(int j = 0; j < pt.count; j++)
       if(t.trigger_id == 0 || t.trigger_id == ((Trigger *)pt[j]).trigger_id) valid = YES; //allow artificial triggers to stay in queue
@@ -107,6 +109,7 @@
   for(int i = 0; i < displayBlacklist.count; i++)
   {
     BOOL valid = NO;
+    if(![displayBlacklist[i] isKindOfClass:[Trigger class]]) continue; //only triggers are blacklisted
     t = displayBlacklist[i];
     for(int j = 0; j < pt.count; j++)
       if(t == pt[j] && ([t.type isEqualToString:@"IMMEDIATE"] || ([t.type isEqualToString:@"LOCATION"] && t.trigger_on_enter && [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance))) valid = YES;
