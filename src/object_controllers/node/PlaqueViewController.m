@@ -49,6 +49,7 @@ static NSString * const OPTION_CELL = @"option";
         delegate = d;
         instance = i;
         plaque = [_MODEL_PLAQUES_ plaqueForId:instance.object_id];
+        if(plaque.event_package_id) [_MODEL_EVENTS_ runEventPackageId:plaque.event_package_id];
         self.title = plaque.name;
     }
 

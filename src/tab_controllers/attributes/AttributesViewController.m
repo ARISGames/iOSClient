@@ -19,50 +19,75 @@
 
 @interface AttributesViewController() <ARISMediaViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
-    Tab *tab;
-    
-	UITableView *attributesTable;
-	NSArray *attributes;
-    NSMutableArray *iconCache;
-    ARISMediaView *pcImage;
-    BOOL hasAppeared;
-    UILabel *nameLabel;
-    
-    id<AttributesViewControllerDelegate> __unsafe_unretained delegate;
-}
+  Tab *tab;
 
-@property (nonatomic) UITableView *attributesTable;
-@property (nonatomic) NSArray *attributes;
-@property (nonatomic) NSMutableArray *iconCache;
-@property (nonatomic) ARISMediaView *pcImage;
-@property (nonatomic) int newAttrsSinceLastView;
+  UITableView *attributesTable;
+  NSMutableArray *instances;
+
+  NSMutableArray *iconCache;
+  ARISMediaView *pcImage;
+  UILabel *nameLabel;
+
+  id<AttributesViewControllerDelegate> __unsafe_unretained delegate;
+}
 
 @end
 
 @implementation AttributesViewController
 
-@synthesize attributes;
-@synthesize iconCache;
-@synthesize attributesTable;
-@synthesize pcImage;
-@synthesize newAttrsSinceLastView;
-
 - (id) initWithTab:(Tab *)t delegate:(id<AttributesViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        hasAppeared = NO;
-        tab = t;
-        delegate = d;
-        
-        self.title = NSLocalizedString(@"PlayerTitleKey",@"");
-        self.iconCache = [[NSMutableArray alloc] initWithCapacity:10];
-        
-		//register for notifications
-  _ARIS_NOTIF_LISTEN_(@"NewlyAcquiredAttributesAvailable",self,@selector(refreshViewFromModel),nil);
-  _ARIS_NOTIF_LISTEN_(@"NewlyLostAttributesAvailable",self,@selector(refreshViewFromModel),nil);
+      tab = t;
+      delegate = d;
+
+      self.title = NSLocalizedString(@"PlayerTitleKey",@"");
+      instances = [[NSMutableArray alloc] init];
+      iconCache = [[NSMutableArray alloc] init];
+
+      _ARIS_NOTIF_LISTEN_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",self,@selector(refreshViews),nil);
     }
     return self;
+}
+
+- (void) loadView
+{
+  [super loadView];
+  self.view.backgroundColor = [UIColor whiteColor];
+  self.view.autoresizesSubviews = NO;
+
+  int playerImageWidth = 200;
+  CGRect playerImageFrame = CGRectMake((self.view.bounds.size.width / 2) - (playerImageWidth / 2), 64, playerImageWidth, 200);
+  pcImage = [[ARISMediaView alloc] initWithFrame:playerImageFrame delegate:self];
+  [pcImage setDisplayMode:ARISMediaDisplayModeAspectFit];
+
+  if(_MODEL_PLAYER_.media_id != 0)
+    [pcImage setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
+  else [pcImage setImage:[UIImage imageNamed:@"profile.png"]];
+
+  [self.view addSubview:pcImage];
+
+  nameLabel = [[UILabel alloc] init];
+  nameLabel.frame = CGRectMake(-1, pcImage.frame.origin.y + pcImage.frame.size.height + 20, self.view.bounds.size.width + 1, 30);
+
+  nameLabel.text = _MODEL_PLAYER_.user_name;
+  nameLabel.textAlignment = NSTextAlignmentCenter;
+  nameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+  nameLabel.layer.borderWidth = 1.0f;
+  [self.view addSubview:nameLabel];
+
+  attributesTable = [[UITableView alloc] initWithFrame:CGRectMake(0,nameLabel.frame.origin.y + nameLabel.frame.size.height,self.view.bounds.size.width,self.view.bounds.size.height)];
+  attributesTable.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+  attributesTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+  attributesTable.delegate = self;
+  attributesTable.dataSource = self;
+  attributesTable.backgroundColor = [UIColor clearColor];
+  attributesTable.opaque = NO;
+  attributesTable.backgroundView = nil;
+  [self.view addSubview:attributesTable];
+
+  [self refreshViews];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -74,133 +99,103 @@
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
-
-    if(hasAppeared) return;
-    hasAppeared = YES;
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    int playerImageWidth = 200;
-    CGRect playerImageFrame = CGRectMake((self.view.bounds.size.width / 2) - (playerImageWidth / 2), 64, playerImageWidth, 200);
-    pcImage = [[ARISMediaView alloc] initWithFrame:playerImageFrame delegate:self];
-    [pcImage setDisplayMode:ARISMediaDisplayModeAspectFit];
-    
-    
-    if(_MODEL_PLAYER_.media_id != 0)
-        [pcImage setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
-    else [pcImage setImage:[UIImage imageNamed:@"profile.png"]];
-    
-    [self.view addSubview:pcImage];
-    
-    nameLabel = [[UILabel alloc] init];
-    nameLabel.frame = CGRectMake(-1, pcImage.frame.origin.y + pcImage.frame.size.height + 20, self.view.bounds.size.width + 1, 30);
-    
-    
-    nameLabel.text = _MODEL_PLAYER_.user_name;
-    nameLabel.textAlignment = NSTextAlignmentCenter;
-    nameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    nameLabel.layer.borderWidth = 1.0f;
-    
-    
-    [self.view addSubview:nameLabel];
-    
-    self.attributesTable = [[UITableView alloc] initWithFrame:CGRectMake(0,nameLabel.frame.origin.y + nameLabel.frame.size.height,self.view.bounds.size.width,self.view.bounds.size.height)];
-    self.attributesTable.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.attributesTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.attributesTable.delegate = self;
-    self.attributesTable.dataSource = self;
-    self.attributesTable.backgroundColor = [UIColor clearColor];
-    self.attributesTable.opaque = NO;
-    self.attributesTable.backgroundView = nil;
-    
-    [self.view addSubview:self.attributesTable];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self refresh];
+    [self refreshViews];
 }
 
--(void)refresh
+- (void) refreshViews
 {
-    [self refreshViewFromModel];
+  if(!self.view) return;
+
+  NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_ITEMS_.attributes,@"name");
+  [instances removeAllObjects];
+
+  Instance *tmp_inst;
+  for(int i = 0; i < playerInstances.count; i++)
+  {
+    tmp_inst = playerInstances[i];
+    if(tmp_inst.qty == 0) continue;
+    [instances addObject:tmp_inst];
+  }
+  [attributesTable reloadData];
 }
 
--(void) refreshViewFromModel
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	[attributesTable reloadData];
+  return instances.count;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	return attributes.count;
-}
-
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    
-    cell.backgroundColor = [UIColor clearColor];
-    cell.opaque = NO;
-    
-    cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-    cell.backgroundView.backgroundColor = [UIColor clearColor];
-    cell.backgroundView.opaque = NO;
-    
-    cell.contentView.backgroundColor = [UIColor ARISColorTranslucentWhite];
-    cell.contentView.opaque = NO;
-    
-    cell.userInteractionEnabled = NO;
-    
-	Item *item = [attributes objectAtIndex: [indexPath row]];
-    
-	UILabel *lblTemp;
-	lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
-	lblTemp.backgroundColor = [UIColor clearColor];
-    lblTemp.font = [UIFont boldSystemFontOfSize:18.0];
-	lblTemp.text = item.name;
-	[cell.contentView addSubview:lblTemp];
-	
-	lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 39, 240, 20)];
-	lblTemp.backgroundColor = [UIColor clearColor];
-	lblTemp.font = [UIFont systemFontOfSize:11];
-	lblTemp.textColor = [UIColor ARISColorDarkGray];
-    lblTemp.text = item.desc;
-	[cell.contentView addSubview:lblTemp];
-	
-	ARISMediaView *iconViewTemp;
-	if(item.icon_media_id != 0)
-    {
-        if(self.iconCache.count <= indexPath.row)
-            [self.iconCache addObject:[_MODEL_MEDIA_ mediaForId:item.icon_media_id]];
-        iconViewTemp = [[ARISMediaView alloc] initWithFrame:CGRectMake(5, 5, 50, 50) delegate:self];
-        [iconViewTemp setDisplayMode:ARISMediaDisplayModeAspectFit];
-        [iconViewTemp setMedia:[self.iconCache objectAtIndex:indexPath.row]];
-	}
-	[cell.contentView addSubview:iconViewTemp];
-    
-    lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
-	lblTemp.font = [UIFont boldSystemFontOfSize:11];
-	lblTemp.textColor = [UIColor ARISColorDarkGray];
-	lblTemp.backgroundColor = [UIColor clearColor];
-    lblTemp.textAlignment = NSTextAlignmentRight;
-    if([_MODEL_ITEMS_ qtyOwnedForItem:item.item_id] > 1 || item.max_qty_in_inventory > 1)
-        lblTemp.text = [NSString stringWithFormat:@"%d",[_MODEL_ITEMS_ qtyOwnedForItem:item.item_id]];
-    else
-        lblTemp.text = nil;
-	[cell.contentView addSubview:lblTemp];
-    
-	return cell;
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+  if(cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+
+  cell.backgroundColor = [UIColor clearColor];
+  cell.opaque = NO;
+
+  cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+  cell.backgroundView.backgroundColor = [UIColor clearColor];
+  cell.backgroundView.opaque = NO;
+
+  cell.contentView.backgroundColor = [UIColor ARISColorTranslucentWhite];
+  cell.contentView.opaque = NO;
+
+  cell.userInteractionEnabled = NO;
+
+  Instance *instance = instances[indexPath.row];
+  Item *attrib = (Item *)instance.object;
+
+  UILabel *lblTemp;
+  lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
+  lblTemp.backgroundColor = [UIColor clearColor];
+  lblTemp.font = [UIFont boldSystemFontOfSize:18.0];
+  lblTemp.text = attrib.name;
+  [cell.contentView addSubview:lblTemp];
+
+  lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 39, 240, 20)];
+  lblTemp.backgroundColor = [UIColor clearColor];
+  lblTemp.font = [UIFont systemFontOfSize:11];
+  lblTemp.textColor = [UIColor ARISColorDarkGray];
+  lblTemp.text = attrib.desc;
+  [cell.contentView addSubview:lblTemp];
+
+  ARISMediaView *iconViewTemp;
+  if(attrib.icon_media_id != 0)
+  {
+    if(iconCache.count <= indexPath.row)
+      [iconCache addObject:[_MODEL_MEDIA_ mediaForId:attrib.icon_media_id]];
+    iconViewTemp = [[ARISMediaView alloc] initWithFrame:CGRectMake(5, 5, 50, 50) delegate:self];
+    [iconViewTemp setDisplayMode:ARISMediaDisplayModeAspectFit];
+    [iconViewTemp setMedia:[iconCache objectAtIndex:indexPath.row]];
+  }
+  [cell.contentView addSubview:iconViewTemp];
+
+  lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
+  lblTemp.font = [UIFont boldSystemFontOfSize:11];
+  lblTemp.textColor = [UIColor ARISColorDarkGray];
+  lblTemp.backgroundColor = [UIColor clearColor];
+  lblTemp.textAlignment = NSTextAlignmentRight;
+  if(instance.qty > 1 || attrib.max_qty_in_inventory > 1)
+    lblTemp.text = [NSString stringWithFormat:@"%d",instance.qty];
+  else
+    lblTemp.text = nil;
+  [cell.contentView addSubview:lblTemp];
+
+  return cell;
 }
 
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 60;
+  return 60;
 }
 
 - (void) showNav
@@ -212,5 +207,10 @@
 - (NSString *) tabId { return @"PLAYER"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Attributes"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"id_card"]; }
+
+- (void) dealloc
+{
+    _ARIS_NOTIF_IGNORE_ALL_(self);
+}
 
 @end

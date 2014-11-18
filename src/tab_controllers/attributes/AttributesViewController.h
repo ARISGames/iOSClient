@@ -15,5 +15,4 @@
 @class Tab;
 @interface AttributesViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
 - (id) initWithTab:(Tab *)t delegate:(id<AttributesViewControllerDelegate>)d;
-- (void) refresh;
 @end
