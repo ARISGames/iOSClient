@@ -72,9 +72,7 @@
 {
     [super viewWillAppear:animated];
     
-    mapView.mapType = MKMapTypeSatellite;
-    //mapView.mapType = MKMapTypeHybrid;
-    //mapView.mapType = MKMapTypeStandard;
+    mapView.mapType = MKMapTypeStandard;
     
     [mapView setCenterCoordinate:location animated:NO]; 
     
