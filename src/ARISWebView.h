@@ -10,7 +10,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StateControllerProtocol.h"
 
 @class ARISWebView;
 @protocol ARISWebViewDelegate <UIWebViewDelegate>
@@ -26,11 +25,11 @@
 
 @interface ARISWebView : UIView
 
-- (id) initWithFrame:(CGRect)frame delegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d;
+- (id) initWithFrame:(CGRect)frame delegate:(id<ARISWebViewDelegate>)d;
 - (id) initWithFrame:(CGRect)frame;
-- (id) initWithDelegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d;
+- (id) initWithDelegate:(id<ARISWebViewDelegate>)d;
 - (void) setFrame:(CGRect)frame;
-- (void) setDelegate:(id<ARISWebViewDelegate,StateControllerProtocol>)d;
+- (void) setDelegate:(id<ARISWebViewDelegate>)d;
 
 //WebView pretenders:
 - (NSString *) stringByEvaluatingJavaScriptFromString:(NSString *)s;

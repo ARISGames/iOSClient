@@ -57,7 +57,7 @@
     usersModel        = [[UsersModel alloc] init];  
     gamesModel        = [[GamesModel alloc] init];  
     mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]]; 
-      
+
     _ARIS_NOTIF_LISTEN_(@"DEFAULTS_CLEAR", self, @selector(defaultsClear), nil); 
     _ARIS_NOTIF_LISTEN_(@"DEFAULTS_UPDATED", self, @selector(defaultsUpdated), nil); 
     _ARIS_NOTIF_LISTEN_(@"DEVICE_MOVED", self, @selector(deviceMoved:), nil); 

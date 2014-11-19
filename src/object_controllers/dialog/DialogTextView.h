@@ -13,9 +13,8 @@
 - (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o;
 @end
 
-@protocol StateControllerProtocol;
 @interface DialogTextView : UIView
-- (id) initWithDelegate:(id<DialogTextViewDelegate, StateControllerProtocol>)d;
+- (id) initWithDelegate:(id<DialogTextViewDelegate>)d;
 - (void) loadText:(NSString *)text;
 - (void) setOptionsLoading;
 - (void) setOptions:(NSArray *)opts;

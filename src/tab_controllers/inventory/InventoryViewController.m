@@ -7,7 +7,6 @@
 //
 
 #import "InventoryViewController.h"
-#import "StateControllerProtocol.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "MediaModel.h"
@@ -18,7 +17,7 @@
 @interface InventoryViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     Tab *tab;
-    
+
     UIScrollView *tagsView;
     NSMutableArray *sortableTags;
     int currentTagIndex;
@@ -26,7 +25,6 @@
     UITableView *inventoryTable;
     //parallel arrays
     NSMutableArray *instances;
-    NSMutableArray *items;
     NSMutableArray *tags;
 
     UIProgressView *capBar;
@@ -48,19 +46,20 @@
     {
         tab = t;
         delegate = d;
-        
+
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        
+
         sortableTags = [[NSMutableArray alloc] init];
         [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
-        
+
         instances = [[NSMutableArray alloc] init];
-        items = [[NSMutableArray alloc] init];
         tags = [[NSMutableArray alloc] init];
-        
+
         iconCache  = [[NSMutableDictionary alloc] initWithCapacity:10];
         viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
         currentTagIndex = 0;
+        
+        _ARIS_NOTIF_LISTEN_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",self,@selector(refreshViews),nil);
     }
     return self;
 }
@@ -69,31 +68,31 @@
 {
     [super loadView];
     self.view.autoresizesSubviews = NO;
-    
+
     tagsView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,100)];
     tagsView.contentInset = UIEdgeInsetsMake(0,0,0,0);
     tagsView.backgroundColor = [UIColor ARISColorDarkGray];
     tagsView.scrollEnabled = YES;
     tagsView.bounces = YES;
     [self.view addSubview:tagsView];
-    
+
     inventoryTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     inventoryTable.frame = self.view.bounds;
     inventoryTable.dataSource = self;
     inventoryTable.delegate = self;
     [self.view addSubview:inventoryTable];
-    
+
     if(_MODEL_ITEMS_.weightCap > 0)
     {
         capBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
         capBar.progress = 0;
-        
+
         capLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
         capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), 0, 0];
     }
-    
+
     [self sizeViewsWithoutTagView];
-    
+
     [self refreshViews];
 }
 
@@ -130,14 +129,14 @@
     inventoryTable.contentInset = UIEdgeInsetsMake(0,0,0,0);
     inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
 }
-    
+
 - (void) sizeViewsWithoutTagView
 {
     tagsView.frame = CGRectMake(0,0,self.view.bounds.size.width,0);
     tagsView.contentInset = UIEdgeInsetsMake(0,0,0,0);
     inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
     inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
-    
+
     currentTagIndex = 0;
 }
 
@@ -146,7 +145,7 @@
     NSArray *inst_tags;
     Tag *tag;
     Tag *sortedTag = sortableTags[currentTagIndex];
-    
+
     int filteredCount = -1;
     for(int i = 0; i < instances.count; i++)
     {
@@ -159,7 +158,7 @@
         }
         if(currentTagIndex == 0 && inst_tags.count == 0)
             filteredCount++; //untagged selected, and current item has no tags
-        
+
         if(filteredCount == table_index) return i;
     }
     return 0; //really shouldn't get here
@@ -168,39 +167,37 @@
 - (void) refreshViews
 {
     if(!self.view) return;
-    
-    NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_INSTANCES_.playerInstances,@"name");
+
+    NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_ITEMS_.inventory,@"name");
     [instances removeAllObjects];
-    [items removeAllObjects];
     [tags removeAllObjects];
-    
+
     Instance *tmp_inst;
     for(int i = 0; i < playerInstances.count; i++)
     {
         tmp_inst = playerInstances[i];
-        if(![tmp_inst.object_type isEqualToString:@"ITEM"] || tmp_inst.qty == 0) continue;
+        if(tmp_inst.qty == 0) continue;
         [instances addObject:tmp_inst];
-        [items addObject:[_MODEL_ITEMS_ itemForId:tmp_inst.object_id]];
         [tags addObject:[_MODEL_TAGS_ tagsForObjectType:tmp_inst.object_type id:tmp_inst.object_id]];
     }
-    
+
     NSArray *allTags = _ARIS_ARRAY_SORTED_ON_(_MODEL_TAGS_.tags,@"sort_index");
     [sortableTags removeAllObjects];
     [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
-    
+
     Tag* tmp_tag;
     for(int i = 0; i < allTags.count; i++)
     {
         tmp_tag = allTags[i];
         if(tmp_tag.visible) [sortableTags addObject:tmp_tag];
     }
-    
+
     if(sortableTags.count > 1) [self sizeViewsForTagView];
     else                       [self sizeViewsWithoutTagView];
-    
+
     [self refreshTagsView];
     [inventoryTable reloadData];
-    
+
     //Apple is for some reason competing over the control of this view. Without this constantly being called, it messes everything up.
     tagsView.contentSize = CGSizeMake(sortableTags.count*100,tagsView.bounds.size.height);
 }
@@ -208,7 +205,7 @@
 - (void) refreshTagsView
 {
     while(tagsView.subviews.count > 0) [[tagsView.subviews objectAtIndex:0] removeFromSuperview];
-    
+
     Tag *tag;
     UIView *tagv;
     UILabel *label;
@@ -228,9 +225,9 @@
         label.text = tag.tag;
         if(tag.media_id != 0)
         {
-            tagv.backgroundColor = [UIColor clearColor]; 
+            tagv.backgroundColor = [UIColor clearColor];
             ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 80, 80) delegate:self];
-            [amv setDisplayMode:ARISMediaDisplayModeAspectFit]; 
+            [amv setDisplayMode:ARISMediaDisplayModeAspectFit];
             [amv setMedia:[_MODEL_MEDIA_ mediaForId:tag.media_id]];
             [tagv addSubview:amv];
         }
@@ -275,41 +272,41 @@
     CGRect label3Frame = CGRectMake(260, 12,  50, 20); //Qty
     UILabel *lblTemp;
     ARISMediaView *iconViewTemp;
-    
+
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     cell.frame = cellFrame;
-    
+
     //Initialize Label with tag 1.
     lblTemp = [[UILabel alloc] initWithFrame:label1Frame];
     lblTemp.tag = 1;
     lblTemp.font = [ARISTemplate ARISCellTitleFont];
     lblTemp.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:lblTemp];
-    
+
     //Initialize Label with tag 2.
     lblTemp = [[UILabel alloc] initWithFrame:label2Frame];
     lblTemp.tag = 2;
-    lblTemp.font = [ARISTemplate ARISCellSubtextFont]; 
+    lblTemp.font = [ARISTemplate ARISCellSubtextFont];
     lblTemp.textColor = [UIColor darkGrayColor];
     lblTemp.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:lblTemp];
-    
+
     //Init Icon with tag 3
     iconViewTemp = [[ARISMediaView alloc] initWithFrame:iconFrame];
     [iconViewTemp setDisplayMode:ARISMediaDisplayModeAspectFit];
     iconViewTemp.tag = 3;
-    iconViewTemp.backgroundColor = [UIColor clearColor]; 
+    iconViewTemp.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:iconViewTemp];
-    
+
     //Init Icon with tag 4
     lblTemp = [[UILabel alloc] initWithFrame:label3Frame];
     lblTemp.tag = 4;
     lblTemp.numberOfLines = 2;
     lblTemp.textColor = [UIColor darkGrayColor];
     lblTemp.backgroundColor = [UIColor clearColor];
-    
+
     [cell.contentView addSubview:lblTemp];
-    
+
     return cell;
 }
 
@@ -317,23 +314,23 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if(cell == nil) cell = [self getCellContentView:@"cell"];
-    
+
     cell.contentView.backgroundColor = [UIColor ARISColorWhite];
-    
+
     int i = [self listIndexForTableIndex:indexPath.row];
     Instance *instance = instances[i];
-    Item *item = items[i];
-    
+    Item *item = instance.object;
+
     ((UILabel *)[cell viewWithTag:1]).text = item.name;
     ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.desc];
     ((UILabel *)[cell viewWithTag:4]).text = [self getQtyLabelStringForQty:instance.qty maxQty:item.max_qty_in_inventory weight:item.weight];
-    
+
     NSNumber *viewed;
     if(!(viewed = viewedList[[NSNumber numberWithInt:item.item_id]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
         [viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.item_id]];
     else
         [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
-    
+
     ARISMediaView *iconView = (ARISMediaView *)[cell viewWithTag:3];
     Media *iconMedia;
     if(!(iconMedia = [iconCache objectForKey:[NSNumber numberWithInt:item.item_id]]))
@@ -351,18 +348,18 @@
         if([iconMedia.type isEqualToString:@"AUDIO"]) [iconView setImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
         if([iconMedia.type isEqualToString:@"VIDEO"]) [iconView setImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
     }
-    
+
     return cell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
     int i = [self listIndexForTableIndex:indexPath.row];
-    Item *item = items[i];
     Instance *instance = instances[i];
-    
-    [delegate displayInstance:instance];
+    Item *item = instance.object;
+
+    [_MODEL_DISPLAY_QUEUE_ enqueueInstance:instance];
     [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
 }
 
@@ -375,7 +372,7 @@
     range = [stringToStrip rangeOfString:@"</br>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
     range = [stringToStrip rangeOfString:@"<br/>"];  if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
     range = [stringToStrip rangeOfString:@"<br />"]; if(range.length != 0) stringToStrip = [stringToStrip substringToIndex:range.location];
-    
+
     while((range = [stringToStrip rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
         stringToStrip = [stringToStrip stringByReplacingCharactersInRange:range withString:@""];
     return stringToStrip;
@@ -412,7 +409,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);              
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

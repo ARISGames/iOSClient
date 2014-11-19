@@ -9,8 +9,7 @@
 #import "ARISViewController.h"
 #import "GamePlayTabBarViewControllerProtocol.h"
 
-@protocol StateControllerProtocol;
-@protocol InventoryViewControllerDelegate <GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
+@protocol InventoryViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
 @class Tab;

@@ -9,7 +9,6 @@
 #import "ARISViewController.h"
 #import "InstantiableViewControllerProtocol.h"
 
-@protocol StateControllerProtocol;
 @protocol NoteViewControllerDelegate <InstantiableViewControllerDelegate>
 @end
 

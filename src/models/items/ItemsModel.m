@@ -45,7 +45,14 @@
 - (void) clearPlayerData
 {
     playerItemInstances = [[NSMutableDictionary alloc] init];
+    [self invalidateCaches];
     currentWeight = 0;
+}
+
+- (void) invalidateCaches
+{
+    inventory = nil;
+    attributes = nil;
 }
 
 - (void) clearGameData
@@ -91,7 +98,7 @@
 - (void) playerInstancesAvailable
 {
     NSArray *newInstances = [_MODEL_INSTANCES_ playerInstances];
-    [playerItemInstances removeAllObjects];
+    [self clearPlayerData];
     
     Instance *newInstance;
     for(int i = 0; i < newInstances.count; i++)
@@ -102,6 +109,16 @@
         playerItemInstances[[NSNumber numberWithInt:newInstance.object_id]] = newInstance;
     }
     _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",nil,nil);
+}
+
+- (int) dropItemFromPlayer:(int)item_id qtyToRemove:(int)qty
+{
+    Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+    if(!pII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForPlayer was called...)
+    if(pII.qty < qty) qty = pII.qty;
+    
+    [_SERVICES_ dropItem:(int)item_id qty:(int)qty];
+    return [self takeItemFromPlayer:item_id qtyToRemove:qty];
 }
 
 - (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty
@@ -124,6 +141,7 @@
 
 - (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty
 {
+  [self invalidateCaches];
   Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
   if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty < 0) qty = 0;
@@ -198,7 +216,7 @@
   NSArray *instancearray = [playerItemInstances allValues];
   for(int i = 0; i < instancearray.count; i++)
   {
-      if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"ATTRIBUTE"]) 
+      if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"ATTRIB"]) 
           [attributes addObject:[instancearray objectAtIndex:i]]; 
   }
   return attributes;

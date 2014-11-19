@@ -11,7 +11,7 @@
 #import "ARISWebView.h"
 #import "ARISStarView.h"
 
-@interface GameCommentCell () <ARISWebViewDelegate, StateControllerProtocol>
+@interface GameCommentCell () <ARISWebViewDelegate>
 {
     ARISStarView *ratingView; 
    	UILabel *titleView; 
@@ -89,17 +89,5 @@
     commentView.frame = CGRectMake(0,20+([titleView.text isEqualToString:@""] ? 0 : 20),self.frame.size.width,newHeight);
     [delegate heightCalculated:commentView.frame.origin.y+commentView.frame.size.height forComment:gameComment inCell:self];
 }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return NO; }
-- (BOOL) displayTriggerId:(int)t       { return NO; }
-- (BOOL) displayInstance:(Instance *)i { return NO; }
-- (BOOL) displayInstanceId:(int)i      { return NO; }
-- (BOOL) displayObject:(id)o           { return NO; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return NO; }
-- (void) displayTab:(Tab *)t           { }
-- (void) displayTabId:(int)t           { }
-- (void) displayTabType:(NSString *)t  { }
-- (void) displayScannerWithPrompt:(NSString *)p { }
 
 @end

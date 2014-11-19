@@ -8,7 +8,6 @@
 
 #import "ScannerViewController.h"
 #import <ZXingWidgetController.h>
-#import "StateControllerProtocol.h"
 #import "Decoder.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
@@ -135,7 +134,7 @@
             }
             //else ignore false reading
         }
-        else [delegate displayTrigger:t];
+        else [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
     }
 }
 

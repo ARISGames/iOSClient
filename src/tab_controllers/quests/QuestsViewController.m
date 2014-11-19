@@ -19,7 +19,7 @@
 static int const ACTIVE_SECTION = 0;
 static int const COMPLETE_SECTION = 1;
 
-@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, StateControllerProtocol, QuestCellDelegate, QuestDetailsViewControllerDelegate>
+@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, QuestCellDelegate, QuestDetailsViewControllerDelegate>
 {
     Tab *tab;
     
@@ -34,7 +34,7 @@ static int const COMPLETE_SECTION = 1;
     
     int questTypeShown;
     
-    id<QuestsViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
@@ -269,18 +269,6 @@ static int const COMPLETE_SECTION = 1;
 - (NSString *) tabId { return @"QUESTS"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void)dealloc
 {

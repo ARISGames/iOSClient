@@ -21,7 +21,7 @@
 #import "ItemsModel.h"
 #import "MediaModel.h"
 
-@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ItemActionViewControllerDelegate, UITextViewDelegate>
+@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, ItemActionViewControllerDelegate, UITextViewDelegate>
 {
     Item *item;
     Instance *instance;
@@ -255,7 +255,10 @@
 
 - (void) dropItemQty:(int)q
 {
-    if([_MODEL_ITEMS_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
+    if([_MODEL_ITEMS_ dropItemFromPlayer:item.item_id qtyToRemove:q] == 0)
+    {
+        [self dismissSelf];
+    }
     else
     {
         [self updateViewButtons];
@@ -345,7 +348,7 @@
 
     WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
     nullWebPage.url = [r.URL absoluteString];
-    [delegate displayObjectType:@"WEB_PAGE" id:0];
+    //[delegate displayObjectType:@"WEB_PAGE" id:0];
 
     return NO;
 }
@@ -415,18 +418,6 @@
 - (NSString *) tabId { return @"ITEM"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(item.name && ![item.name isEqualToString:@""]) return item.name; return @"Item"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"logo_icon"]; }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t];    }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t];  }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i];   }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o];     }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t                    { [delegate displayTab:t];     }
-- (void) displayTabId:(int)t                    { [delegate displayTabId:t];   }
-- (void) displayTabType:(NSString *)t           { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
 {

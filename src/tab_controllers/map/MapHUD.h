@@ -15,7 +15,7 @@
 @end
 
 @interface MapHUD : UIViewController
-- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d;
+- (id) initWithDelegate:(id<MapHUDDelegate>)d;
 - (void) setTrigger:(Trigger *)t;
 - (void) open;
 - (void) dismiss;

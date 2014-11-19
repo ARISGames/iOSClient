@@ -15,9 +15,7 @@
 #import "ARISMediaView.h"
 #import "ARISStarView.h"
 
-#import "StateControllerProtocol.h"
-
-@interface GameDetailsViewController() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, GameCommentsViewControllerDelegate, UIWebViewDelegate>
+@interface GameDetailsViewController() <ARISMediaViewDelegate, ARISWebViewDelegate, GameCommentsViewControllerDelegate, UIWebViewDelegate>
 {
     ARISMediaView *mediaView;
     ARISWebView *descriptionView;

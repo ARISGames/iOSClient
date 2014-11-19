@@ -23,6 +23,7 @@
 #import "TabsModel.h"
 #import "LogsModel.h"
 #import "QuestsModel.h"
+#import "DisplayQueueModel.h"
 
 @interface Game : NSObject
 {
@@ -69,6 +70,7 @@
   TabsModel       *tabsModel;
   LogsModel       *logsModel;
   QuestsModel     *questsModel;
+  DisplayQueueModel *displayQueueModel;   
 }
 
 @property (nonatomic, assign) int game_id;
@@ -115,6 +117,7 @@
 @property (nonatomic, strong) TabsModel      *tabsModel;
 @property (nonatomic, strong) LogsModel      *logsModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;
+@property (nonatomic, strong) DisplayQueueModel *displayQueueModel;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromGame:(Game *)g;

@@ -79,6 +79,7 @@
 
 - (void) setQtyForInstanceId:(int)instance_id qty:(int)qty;
 - (void) setPlayerSceneId:(int)scene_id;
+- (void) dropItem:(int)item_id qty:(int)qty;
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr; //actually does full media upload
 - (void) updateNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
 - (void) deleteNoteId:(int)note_id;

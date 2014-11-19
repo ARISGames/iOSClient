@@ -9,7 +9,6 @@
 #import <MapKit/MapKit.h>
 #import "AppModel.h"
 #import "MapViewController.h"
-#import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "User.h"
 #import "AnnotationView.h"
@@ -23,7 +22,7 @@
 #import "TriangleButton.h"
 #import "ItemActionViewController.h"
 
-@interface MapViewController() <MKMapViewDelegate, MapHUDDelegate, StateControllerProtocol>
+@interface MapViewController() <MKMapViewDelegate, MapHUDDelegate>
 {
     Tab *tab;
     
@@ -557,7 +556,7 @@
 
 - (void) interactWithLocation:(TriangleButton*)sender
 {
-    if(triggerLookingAt) { if([delegate displayTrigger:triggerLookingAt]) [self dismissSelection]; }
+    if(triggerLookingAt) { [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:triggerLookingAt]; [self dismissSelection]; }
     else [self dismissSelection];
     triggerLookingAt = nil;
 }
@@ -622,18 +621,6 @@
 - (NSString *) tabId { return @"MAP"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Map"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"map"]; }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; }
 
 - (void) dealloc
 {

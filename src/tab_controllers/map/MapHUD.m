@@ -18,7 +18,7 @@
 #import "Note.h"
 #import "UIImage+Scale.h"
 
-@interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISCollapseViewDelegate>
+@interface MapHUD() <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate>
 {
     ARISCollapseView *collapseView; 
     UIView *hudView;
@@ -30,13 +30,13 @@
     ARISMediaView *whiteGradient;
     ARISMediaView *diamondImage;
     
-    id<MapHUDDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    id<MapHUDDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation MapHUD
 
-- (id) initWithDelegate:(id<MapHUDDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<MapHUDDelegate>)d
 {
     if(self = [super init])
     {

@@ -10,10 +10,9 @@
 #import "Dialog.h"
 #import "DialogScript.h"
 #import "DialogScriptViewController.h"
-#import "StateControllerProtocol.h"
 #import "AppModel.h"
 
-@interface DialogViewController() <DialogScriptViewControllerDelegate, StateControllerProtocol>
+@interface DialogViewController() <DialogScriptViewControllerDelegate>
 {
     Dialog *dialog;
     Instance *instance;
@@ -220,17 +219,5 @@
 - (NSString *) tabId { return @"DIALOG"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(dialog.name && ![dialog.name isEqualToString:@""]) return dialog.name; return @"Dialog"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"loco_icon"]; }
-
-//implement statecontrol stuff for webpage, but just delegate any requests
-- (BOOL) displayTrigger:(Trigger *)t   { return [delegate displayTrigger:t]; }
-- (BOOL) displayTriggerId:(int)t       { return [delegate displayTriggerId:t]; }
-- (BOOL) displayInstance:(Instance *)i { return [delegate displayInstance:i]; }
-- (BOOL) displayInstanceId:(int)i      { return [delegate displayInstanceId:i]; }
-- (BOOL) displayObject:(id)o           { return [delegate displayObject:o]; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return [delegate displayObjectType:type id:type_id]; }
-- (void) displayTab:(Tab *)t           { [delegate displayTab:t]; [self dismissSelf]; }
-- (void) displayTabId:(int)t           { [delegate displayTabId:t]; [self dismissSelf]; }
-- (void) displayTabType:(NSString *)t  { [delegate displayTabType:t]; [self dismissSelf]; }
-- (void) displayScannerWithPrompt:(NSString *)p { [delegate displayScannerWithPrompt:p]; [self dismissSelf]; }
 
 @end

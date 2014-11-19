@@ -153,7 +153,7 @@
                 if((BOOL)tab.content_id)
                 {
                     IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithTab:tab delegate:
-                    (id<QuestsViewControllerDelegate,StateControllerProtocol>)delegate];
+                    (id<QuestsViewControllerDelegate>)delegate];
                     vc = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
                 }
                 else

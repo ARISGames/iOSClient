@@ -7,7 +7,6 @@
 //
 
 #import "DecoderViewController.h"
-#import "StateControllerProtocol.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "ARISAlertHandler.h"
@@ -113,7 +112,7 @@
         t = [_MODEL_TRIGGERS_ triggerForQRCode:codeTextField.text];
     
     	if(!t) [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
-        else [delegate displayTrigger:t];
+        else [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
     }
         
     codeTextField.text = @"";

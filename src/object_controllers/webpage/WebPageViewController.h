@@ -10,8 +10,7 @@
 #import "InstantiableViewControllerProtocol.h"
 #import "GamePlayTabBarViewControllerProtocol.h"
 
-@protocol StateControllerProtocol;
-@protocol WebPageViewControllerDelegate <InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
+@protocol WebPageViewControllerDelegate <InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate>
 @end
 
 @class Instance;

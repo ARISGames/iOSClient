@@ -11,7 +11,6 @@
 #import "ARISAppDelegate.h"
 #import "PopOverViewController.h"
 #import "MTStatusBarOverlay.h"
-#import "StateControllerProtocol.h"
 
 @interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate>
 {
