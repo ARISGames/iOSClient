@@ -220,7 +220,12 @@
         for(int j = 0; j < _MODEL_TRIGGERS_.playerTriggers.count; j++)
         {
             modelTrigger = _MODEL_TRIGGERS_.playerTriggers[j];
-            if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldRemove = NO;
+            if(mapTrigger.trigger_id == modelTrigger.trigger_id &&
+               (
+                [_MODEL_INSTANCES_ instanceForId:mapTrigger.instance_id].qty > 0 ||
+                ![[_MODEL_INSTANCES_ instanceForId:mapTrigger.instance_id].object_type isEqualToString:@"ITEM"]
+                )
+               ) shouldRemove = NO;
         }
         if(shouldRemove)
         {
@@ -233,6 +238,8 @@
     {
         modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i];
         if(![modelTrigger.type isEqualToString:@"LOCATION"] || modelTrigger.hidden) continue;
+        if([_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].qty == 0 && [[_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].object_type isEqualToString:@"ITEM"]) continue;
+        
         shouldAdd = YES;
         for(int j = 0; j < mapAnnotations.count; j++)
         {
