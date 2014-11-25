@@ -32,6 +32,7 @@
     UILabel *destroyBtn;
     UILabel *pickupBtn;
     UIView *line; //separator between buttons/etc...
+    int lastbuttontouched; //dumb
 
     ARISWebView *webView;
     ARISCollapseView *collapseView;
@@ -54,6 +55,7 @@
         delegate = d;
         instance = i;
         item = [_MODEL_ITEMS_ itemForId:i.object_id];
+        lastbuttontouched = 0;
     }
     return self;
 }
@@ -241,6 +243,7 @@
 
 - (void) dropButtonTouched
 {
+    lastbuttontouched = 0;
     int amtCanDrop = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
 
     if(amtCanDrop > 1)
@@ -268,6 +271,7 @@
 
 - (void) destroyButtonTouched
 {
+    lastbuttontouched = 1;
     int amtCanDestroy = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
 
     if(amtCanDestroy > 1)
@@ -292,6 +296,7 @@
 
 - (void) pickupButtonTouched
 {
+    lastbuttontouched = 2;
     int amtMoreCanHold = [_MODEL_ITEMS_ qtyAllowedToGiveForItem:item.item_id];
     int allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
     if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;
@@ -318,10 +323,12 @@
 - (void) amtChosen:(int)amt positive:(BOOL)p
 {
     [[self navigationController] popToViewController:self animated:YES];
-    if(p)
-        [self pickupItemQty:amt];
-    else
+    if(lastbuttontouched == 0)
+        [self dropItemQty:amt];
+    else if(lastbuttontouched == 1)
         [self destroyItemQty:amt];
+    else if(lastbuttontouched == 2)
+        [self pickupItemQty:amt];
 }
 
 - (void) movieFinishedCallback:(NSNotification*) aNotification
