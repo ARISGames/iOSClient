@@ -7,6 +7,7 @@
 //
 
 #import "ItemViewController.h"
+#import "ARISAlertHandler.h"
 
 #import "ItemActionViewController.h"
 #import "InventoryViewController.h"
@@ -300,14 +301,18 @@
     int amtMoreCanHold = [_MODEL_ITEMS_ qtyAllowedToGiveForItem:item.item_id];
     int allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
     if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;
-
-    if(allowablePickupAmt > 1 && !instance.infinite_qty)
+    
+    if(allowablePickupAmt == 0)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES maxqty:amtMoreCanHold delegate:self];
+      [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Unable to Pick Up" message:@"Max qty already owned."];
+        return;
+    }
+    else if(allowablePickupAmt > 1 && !instance.infinite_qty)
+    {
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES maxqty:allowablePickupAmt delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
-    else if(allowablePickupAmt > 0)
-        [self pickupItemQty:1];
+    else [self pickupItemQty:1];
 }
 
 - (void) pickupItemQty:(int)q
