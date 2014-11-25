@@ -114,6 +114,14 @@
 - (void) requestInstance:(int)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
 
+- (void) setQtyForInstanceId:(int)instance_id qty:(int)qty
+{
+    Instance *i = [self instanceForId:instance_id];
+    if(!i) return;
+    i.qty = qty;
+    [_SERVICES_ setQtyForInstanceId:instance_id qty:qty];
+}
+
 // null instance (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Instance *) instanceForId:(int)instance_id
 {

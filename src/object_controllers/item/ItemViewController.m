@@ -308,7 +308,9 @@
 - (void) pickupItemQty:(int)q
 {
     [_MODEL_ITEMS_ giveItemToPlayer:item.item_id qtyToAdd:q];
-    instance.qty -= q;
+    int nq = instance.qty - q;
+    [_MODEL_INSTANCES_ setQtyForInstanceId:instance.instance_id qty:nq];
+    instance.qty = nq; //should get set in above call- but if bogus instance, can't hurt to force it
     [self updateViewButtons];
     [self refreshTitle];
 }
