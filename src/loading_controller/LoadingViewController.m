@@ -104,10 +104,10 @@
     if(!retryGameButton)
     {
         retryGameButton = [[UIButton alloc] init];
-        [retryGameButton setTitle:@"Connection Failed. Retry?" forState:UIControlStateNormal];
-        [retryGameButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-        retryGameButton.frame = CGRectMake(20,400,220,20);
+        [retryGameButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+        [retryGameButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
         [retryGameButton addTarget:self action:@selector(gameFetchRetryRequested) forControlEvents:UIControlEventTouchUpInside];
+        retryGameButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
     }
     [self.view addSubview:retryGameButton];
 }
@@ -131,10 +131,10 @@
     if(!retryPlayerButton)
     {
         retryPlayerButton = [[UIButton alloc] init];
-        [retryPlayerButton setTitle:@"Connection Failed. Retry?" forState:UIControlStateNormal];
-        [retryPlayerButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-        retryPlayerButton.frame = CGRectMake(20,400,220,20);
+        [retryPlayerButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+        [retryPlayerButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
         [retryPlayerButton addTarget:self action:@selector(playerFetchRetryRequested) forControlEvents:UIControlEventTouchUpInside];
+        retryPlayerButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
     }
     [self.view addSubview:retryPlayerButton];
 }
