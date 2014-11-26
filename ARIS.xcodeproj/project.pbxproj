@@ -250,6 +250,7 @@
 		AAD8EFE31A0AD96600E29C8F /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */; };
 		AAE2851D1810461700E2534A /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE2851C1810461700E2534A /* ItemViewController.m */; };
 		AAE2F7A11A129DE20042455A /* roll@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE2F7A01A129DE20042455A /* roll@2x.png */; };
+		AAE3C9A91A2537DD001D33CF /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE3C9A81A2537DD001D33CF /* reload.png */; };
 		AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
@@ -731,6 +732,7 @@
 		AAE2851B1810461700E2534A /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AAE2851C1810461700E2534A /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAE2F7A01A129DE20042455A /* roll@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roll@2x.png"; sourceTree = "<group>"; };
+		AAE3C9A81A2537DD001D33CF /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
 		AAF3EEDF1938F2DD00388BE1 /* InstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstancesModel.h; sourceTree = "<group>"; };
 		AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstancesModel.m; sourceTree = "<group>"; };
 		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -1181,6 +1183,7 @@
 			isa = PBXGroup;
 			children = (
 				AB45E7391A014FF800A7A77B /* object default icons */,
+				AAE3C9A81A2537DD001D33CF /* reload.png */,
 				F9B26ECB18EE08CB005A6DF3 /* Walk-WarningRED.png */,
 				F9B26EC918EE0830005A6DF3 /* White-Gradient-100-0.png */,
 				F9B26EC718EDF904005A6DF3 /* Diamond.png */,
@@ -2097,6 +2100,7 @@
 				F9B26ECA18EE0830005A6DF3 /* White-Gradient-100-0.png in Resources */,
 				AABC70421727398B0074CC21 /* error.wav in Resources */,
 				AABC70431727398B0074CC21 /* harp.wav in Resources */,
+				AAE3C9A91A2537DD001D33CF /* reload.png in Resources */,
 				AA09B8E918E1EB5500A45562 /* camera@2x.png in Resources */,
 				AABC70441727398B0074CC21 /* inventoryChange.wav in Resources */,
 				A70C6BB719115F2B00A48B4C /* Images.xcassets in Resources */,

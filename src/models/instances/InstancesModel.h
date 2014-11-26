@@ -14,6 +14,7 @@
 - (Instance *) instanceForId:(int)instance_id;
 - (NSArray *) instancesForType:(NSString *)object_type id:(int)object_id;
 
+- (void) setQtyForInstanceId:(int)instance_id qty:(int)qty;
 - (NSArray *) playerInstances;
 - (void) requestInstances;
 - (void) requestPlayerInstances;

@@ -7,6 +7,7 @@
 //
 
 #import "ItemViewController.h"
+#import "ARISAlertHandler.h"
 
 #import "ItemActionViewController.h"
 #import "InventoryViewController.h"
@@ -32,6 +33,7 @@
     UILabel *destroyBtn;
     UILabel *pickupBtn;
     UIView *line; //separator between buttons/etc...
+    int lastbuttontouched; //dumb
 
     ARISWebView *webView;
     ARISCollapseView *collapseView;
@@ -54,6 +56,7 @@
         delegate = d;
         instance = i;
         item = [_MODEL_ITEMS_ itemForId:i.object_id];
+        lastbuttontouched = 0;
     }
     return self;
 }
@@ -241,6 +244,7 @@
 
 - (void) dropButtonTouched
 {
+    lastbuttontouched = 0;
     int amtCanDrop = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
 
     if(amtCanDrop > 1)
@@ -268,6 +272,7 @@
 
 - (void) destroyButtonTouched
 {
+    lastbuttontouched = 1;
     int amtCanDestroy = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
 
     if(amtCanDestroy > 1)
@@ -292,23 +297,30 @@
 
 - (void) pickupButtonTouched
 {
+    lastbuttontouched = 2;
     int amtMoreCanHold = [_MODEL_ITEMS_ qtyAllowedToGiveForItem:item.item_id];
     int allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
     if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;
-
-    if(allowablePickupAmt > 1 && !instance.infinite_qty)
+    
+    if(allowablePickupAmt == 0)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES maxqty:amtMoreCanHold delegate:self];
+      [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Unable to Pick Up" message:@"Max qty already owned."];
+        return;
+    }
+    else if(allowablePickupAmt > 1 && !instance.infinite_qty)
+    {
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES maxqty:allowablePickupAmt delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
-    else if(allowablePickupAmt > 0)
-        [self pickupItemQty:1];
+    else [self pickupItemQty:1];
 }
 
 - (void) pickupItemQty:(int)q
 {
     [_MODEL_ITEMS_ giveItemToPlayer:item.item_id qtyToAdd:q];
-    instance.qty -= q;
+    int nq = instance.qty - q;
+    [_MODEL_INSTANCES_ setQtyForInstanceId:instance.instance_id qty:nq];
+    instance.qty = nq; //should get set in above call- but if bogus instance, can't hurt to force it
     [self updateViewButtons];
     [self refreshTitle];
 }
@@ -316,10 +328,12 @@
 - (void) amtChosen:(int)amt positive:(BOOL)p
 {
     [[self navigationController] popToViewController:self animated:YES];
-    if(p)
-        [self pickupItemQty:amt];
-    else
+    if(lastbuttontouched == 0)
+        [self dropItemQty:amt];
+    else if(lastbuttontouched == 1)
         [self destroyItemQty:amt];
+    else if(lastbuttontouched == 2)
+        [self pickupItemQty:amt];
 }
 
 - (void) movieFinishedCallback:(NSNotification*) aNotification

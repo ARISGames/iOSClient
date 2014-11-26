@@ -183,7 +183,11 @@
   notesMatchingTag = [[NSMutableArray alloc] init];
   NSArray *ns = [notes allValues];
   for(int i = 0; i < ns.count; i++)
-    if(((Note *)ns[i]).user_id == _MODEL_PLAYER_.user_id) [notesMatchingTag addObject:ns[i]];
+  {
+      NSArray *tags = [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:((Note *)ns[i]).note_id];
+      for(int j = 0; j < tags.count; j++)
+          if(tag == tags[j]) [notesMatchingTag addObject:ns[i]];
+  }
   return notesMatchingTag;
 }
 

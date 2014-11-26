@@ -148,8 +148,7 @@
   if(qty-pII.qty > [self qtyAllowedToGiveForItem:item_id]) qty = pII.qty+[self qtyAllowedToGiveForItem:item_id];
 
   int oldQty = pII.qty;
-  pII.qty = qty;
-  [_SERVICES_ setQtyForInstanceId:pII.instance_id qty:qty];
+  [_MODEL_INSTANCES_ setQtyForInstanceId:pII.instance_id qty:qty];
   if(qty > oldQty)
   {
       [_MODEL_LOGS_ playerReceivedItemId:item_id qty:qty];

@@ -46,6 +46,7 @@
     Trigger *triggerLookingAt;
 
     BOOL resetWiggle;
+    BOOL firstLoad; //for auto-centering map
 
     id<MapViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -65,6 +66,7 @@
         _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(clearLocalData),nil); //weird external model update
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        firstLoad = true;
     }
     return self;
 }
@@ -104,7 +106,7 @@
     centerButton.layer.borderWidth = 2.0f;
 
     fitToAnnotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [fitToAnnotationButton addTarget:self action:@selector(zoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
+    [fitToAnnotationButton addTarget:self action:@selector(animateZoomToFitAnnotations) forControlEvents:UIControlEventTouchDown];
     [fitToAnnotationButton setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
     fitToAnnotationButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
     fitToAnnotationButton.backgroundColor = buttonBGColor;
@@ -220,7 +222,12 @@
         for(int j = 0; j < _MODEL_TRIGGERS_.playerTriggers.count; j++)
         {
             modelTrigger = _MODEL_TRIGGERS_.playerTriggers[j];
-            if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldRemove = NO;
+            if(mapTrigger.trigger_id == modelTrigger.trigger_id &&
+               (
+                [_MODEL_INSTANCES_ instanceForId:mapTrigger.instance_id].qty > 0 ||
+                ![[_MODEL_INSTANCES_ instanceForId:mapTrigger.instance_id].object_type isEqualToString:@"ITEM"]
+                )
+               ) shouldRemove = NO;
         }
         if(shouldRemove)
         {
@@ -233,6 +240,8 @@
     {
         modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i];
         if(![modelTrigger.type isEqualToString:@"LOCATION"] || modelTrigger.hidden) continue;
+        if([_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].qty == 0 && [[_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].object_type isEqualToString:@"ITEM"]) continue;
+        
         shouldAdd = YES;
         for(int j = 0; j < mapAnnotations.count; j++)
         {
@@ -281,16 +290,9 @@
     
     //refresh views (ugly)
     [mapView setCenterCoordinate:mapView.region.center animated:NO];
+    if(firstLoad) [self zoomToFitAnnotations:YES];
+    firstLoad = false;
 }
-
-
-
-
-
-
-
-
-
 
 - (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)overlay
 {
@@ -349,7 +351,12 @@
     [mapView setRegion:region animated:NO];
 }
 
--(void) zoomToFitAnnotations
+- (void) animateZoomToFitAnnotations
+{
+    [self zoomToFitAnnotations:NO];
+}
+
+- (void) zoomToFitAnnotations:(BOOL)force
 {
     if(mapView.annotations.count == 0) return;
 
@@ -378,7 +385,7 @@
     region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.2;
 
     region = [mapView regionThatFits:region];
-    [mapView setRegion:region animated:YES];
+    [mapView setRegion:region animated:!force];
 }
 
 - (void) showLoadingIndicator
