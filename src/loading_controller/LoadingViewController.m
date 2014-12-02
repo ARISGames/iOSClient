@@ -19,6 +19,7 @@
     IBOutlet UILabel *progressLabel;
     
     UIButton *retryGameButton;
+    UIButton *retryTabButton;
     UIButton *retryPlayerButton;
     
     int gameDatasToReceive;
@@ -75,6 +76,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabDataReceived) name:@"TabDataReceived" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFetchFailed) name:@"PlayerFetchFailed" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameFetchFailed) name:@"GameFetchFailed" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabFetchFailed) name:@"TabFetchFailed" object:nil];
     }
     return self;
 }
@@ -151,6 +153,26 @@
 {
     receivedTabData++;
     [self moveProgressBar];
+}
+
+- (void) tabFetchFailed
+{
+    if(!retryTabButton)
+    {
+        retryTabButton = [[UIButton alloc] init];
+        [retryTabButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+        [retryTabButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
+        [retryTabButton addTarget:self action:@selector(tabFetchRetryRequested) forControlEvents:UIControlEventTouchUpInside];
+        retryTabButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
+    }
+    [self.view addSubview:retryTabButton];
+}
+
+- (void) tabFetchRetryRequested
+{
+    receivedTabData = 0;
+    [retryTabButton removeFromSuperview];
+    [self gameFetchRetryRequested];
 }
 
 - (void) moveProgressBar

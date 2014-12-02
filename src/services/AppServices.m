@@ -537,6 +537,12 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"GameFetchFailed" object:self userInfo:nil];
 }
 
+- (void) alertTabFetchFailed
+{
+    NSLog(@"NSNotification: TabFetchFailed");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TabFetchFailed" object:self userInfo:nil];
+}
+
 - (void)fetchGameOverlayList
 {
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -597,7 +603,7 @@
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], @"bplayerId", nil ];
     
-    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGameAndPlayer" arguments:args handler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGameAndPlayer" arguments:args handler:self successSelector:@selector(parseGameTabListFromJSON:) failSelector:@selector(alertTabFetchFailed)retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchUpdatedTabBarItems
@@ -605,7 +611,7 @@
     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], @"agameId",[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId], @"bplayerId", nil ];
     
-    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGameAndPlayer" arguments:args handler:self successSelector:@selector(parseUpdatedTabListFromJSON:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"games" method:@"getTabBarItemsForGameAndPlayer" arguments:args handler:self successSelector:@selector(parseUpdatedTabListFromJSON:) failSelector:@selector(alertTabFetchFailed)retryOnFail:NO userInfo:nil];
 }
 
 - (void) fetchQRCode:(NSString*)code
