@@ -65,6 +65,7 @@
         disableLeaveGame = NO;
         skipGameDetails  = 0;
 		defaults      = [NSUserDefaults standardUserDefaults];
+        [defaults setBool:YES forKey:@"clearCache"]; //clear cache on init- hack to get v1 working on ios8
         motionManager = [[CMMotionManager alloc] init];
         servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
         mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]]; 
