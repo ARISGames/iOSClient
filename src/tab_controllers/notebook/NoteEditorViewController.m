@@ -24,7 +24,6 @@
     Media *media;
     Trigger *trigger;
     
-    UITextField *title;
     UILabel *owner;
     UILabel *date;
     NoteTagEditorViewController *tagViewController;  
@@ -82,12 +81,6 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    title = [[UITextField alloc] init];
-    title.delegate = self;
-    title.font = [ARISTemplate ARISTitleFont];
-    title.placeholder = NSLocalizedString(@"TitleAndDescriptionTitleKey", @"");
-    title.returnKeyType = UIReturnKeyDone;
     
     date = [[UILabel alloc] init];  
     date.font = [ARISTemplate ARISSubtextFont]; 
@@ -174,7 +167,6 @@
     [bottombar addSubview:trashButton];
     [bottombar addSubview:trashLabel];
     
-    [self.view addSubview:title];
     [self.view addSubview:date];
     [self.view addSubview:owner];
     [self.view addSubview:description];
@@ -194,7 +186,6 @@
     
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
     
-    title.frame = CGRectMake(10, 15+64, self.view.bounds.size.width-20, 20);
     date.frame = CGRectMake(10, 40+64, 65, 14);
     owner.frame = CGRectMake(75, 40+64, self.view.bounds.size.width-85, 14);
     
@@ -268,19 +259,14 @@
 - (void) guideNextEdit
 {
     if(blockKeyboard) return;
-    if([title.text isEqualToString:@""] && !title.isFirstResponder)
-        [title becomeFirstResponder]; 
-    else if(!tag && [_MODEL_TAGS_ tags].count)
+    if(!tag && [_MODEL_TAGS_ tags].count)
         [tagViewController beginEditing];
-    else if(title.isFirstResponder)
-        [title resignFirstResponder];
 }
 
 - (void) refreshViewFromNote
 {
     if(!self.view) [self loadView];
     
-    title.text = note.name; 
     description.text = note.desc;
     if(![description.text isEqualToString:@""]) descriptionPrompt.hidden = YES;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
@@ -313,7 +299,6 @@
 
 - (void) noteTagEditorWillBeginEditing
 {
-    [title resignFirstResponder]; 
     [description resignFirstResponder];
 }
 
@@ -398,17 +383,11 @@
 
 - (void) saveButtonTouched
 {
-    if([title.text isEqualToString:@""])
-    {
-        confirmPrompt.title = NSLocalizedString(@"NoteEditorNoteIsUntitledKey", @"");
-        [confirmPrompt showInView:self.view];
-    }
-    else [self saveNote];
+    [self saveNote];
 }
 
 - (void) saveNote
 {
-    note.name = title.text;
     note.desc = description.text;
 
     if(note.note_id) [_MODEL_NOTES_ saveNote:note withTag:tag media:media trigger:trigger];
@@ -487,7 +466,7 @@
 
 - (void) backButtonTouched
 {
-    if(dirtybit || ![note.name isEqualToString:title.text] || ![note.desc isEqualToString:description.text])
+    if(dirtybit || ![note.desc isEqualToString:description.text])
     {
         discardChangesPrompt.title = NSLocalizedString(@"NoteEditorUnsavedChagned", @"");
         [discardChangesPrompt showInView:self.view];  

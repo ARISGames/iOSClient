@@ -142,11 +142,8 @@ const int VIEW_MODE_TAG  = 2;
         for(int i = 0; i < typeFilteredNotes.count; i++)
         {
             n = [typeFilteredNotes objectAtIndex:i];
-            //Search title
-            if([n.name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
-                [textFilteredNotes addObject:n];
             //Search description
-            else if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+            if([n.desc rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                 [textFilteredNotes addObject:n];
             //Search owner
             else if([[_MODEL_USERS_ userForId:n.user_id].display_name rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)

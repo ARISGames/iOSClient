@@ -16,7 +16,6 @@
 
 @interface NoteCell() <ARISMediaViewDelegate>
 {
-    UILabel *title;
     UILabel *label;
     UILabel *date;
     UILabel *owner;
@@ -41,9 +40,6 @@
     {
         delegate = d;
 
-        title = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.frame.size.width-65,20)];
-        title.font = [ARISTemplate ARISCellTitleFont];
-        title.adjustsFontSizeToFitWidth = NO;
         label = [[UILabel alloc] initWithFrame:CGRectMake(65,15,self.frame.size.width-85,14)];
         label.font = [ARISTemplate ARISCellSubtextFont];
         label.textColor = [UIColor ARISColorDarkGray];
@@ -64,7 +60,6 @@
         preview.clipsToBounds = YES;
         preview.userInteractionEnabled = NO;
 
-        [self addSubview:title];
         [self addSubview:label];
         [self addSubview:date];
         [self addSubview:owner];
@@ -79,13 +74,11 @@
 {
     [super setFrame:frame];
 
-    if(!title) return; //views not initted
+    if(!label) return; //views not initted
 
-    title.frame = CGRectMake(10,10,self.frame.size.width-65,20);
     previewFrameFull = CGRectMake(self.frame.size.width-(self.frame.size.height-4), 4, self.frame.size.height-8, self.frame.size.height-8);
     previewFrameSmall = CGRectMake(self.frame.size.width-(self.frame.size.height-24), 24, self.frame.size.height-48, self.frame.size.height-48);
-    CGSize textSize = [[title text] sizeWithAttributes:@{NSFontAttributeName:[title font]}];
-    label.frame = CGRectMake(textSize.width+15,15,self.frame.size.width-previewFrameFull.size.width-(textSize.width+5)-10,14);
+    label.frame = CGRectMake(15,15,self.frame.size.width-previewFrameFull.size.width-10,14);
     date.frame = CGRectMake(10,35,65,14);
     owner.frame = CGRectMake(65,35,self.frame.size.width-85,14);
     desc.frame = CGRectMake(10,54,self.frame.size.width-self.frame.size.height-20,14);
@@ -100,11 +93,9 @@
 {
     note = n;
 
-    title.text = n.name;
     label.text = @"";
     //if(n.tags.count > 0) label.text = ((NoteTag *)[n.tags objectAtIndex:0]).text;
-    CGSize textSize = [[title text] sizeWithAttributes:@{NSFontAttributeName:[title font]}];
-    label.frame = CGRectMake(textSize.width+15,15,self.frame.size.width-previewFrameFull.size.width-(textSize.width+5)-10,14);
+    label.frame = CGRectMake(15,15,self.frame.size.width-previewFrameFull.size.width-10,14);
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"MM/dd/yy"];
     date.text = [format stringFromDate:n.created];
