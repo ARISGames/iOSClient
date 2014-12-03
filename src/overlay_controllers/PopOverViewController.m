@@ -54,12 +54,14 @@
     header.textColor = [UIColor ARISColorWhite]; 
     header.textAlignment = NSTextAlignmentCenter;
     header.backgroundColor = [UIColor clearColor];
+    header.lineBreakMode = NSLineBreakByTruncatingTail;
     
     prompt = [[UILabel alloc] init];
     prompt.font = [ARISTemplate ARISSubtextFont];
     prompt.textColor = [UIColor ARISColorWhite];  
     prompt.textAlignment = NSTextAlignmentCenter; 
     prompt.backgroundColor = [UIColor clearColor];
+    prompt.lineBreakMode = NSLineBreakByTruncatingTail;
     
     iconMediaView = [[ARISMediaView alloc] initWithDelegate:self];
     [iconMediaView setDisplayMode:ARISMediaDisplayModeAspectFit];
@@ -77,8 +79,8 @@
     float radius = (self.view.bounds.size.width-60)/2;
     popOverView.frame = CGRectMake((self.view.bounds.size.width-(2*radius))/2,self.view.bounds.size.height/2-radius,radius*2,radius*2);
     [iconMediaView setFrame:CGRectMake(radius-64,radius-84,128,128)];
-    header.frame = CGRectMake(20,radius+60,2*radius-40,24);
-    prompt.frame = CGRectMake(20,radius+80,2*radius-40,24); 
+    header.frame = CGRectMake(25,radius+60,2*radius-50,24);
+    prompt.frame = CGRectMake(50,radius+80,2*radius-100,24); 
 }
 
 - (void) setHeader:(NSString *)h prompt:(NSString *)p icon_media_id:(int)m
