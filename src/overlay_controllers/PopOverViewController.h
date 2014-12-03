@@ -11,6 +11,7 @@
 
 @protocol PopOverViewDelegate
 - (void) popOverRequestsDismiss;
+- (void) popOverRequestsSubmit;
 @end
 
 @interface PopOverViewController : ARISViewController

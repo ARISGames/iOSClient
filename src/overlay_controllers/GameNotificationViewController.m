@@ -15,6 +15,7 @@
 @interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate>
 {
     PopOverViewController *popOverVC;
+    NSString *submitFunction;
 
     NSMutableArray *notifArray;
     NSMutableArray *popOverArray;
@@ -73,6 +74,7 @@
     
     NSMutableDictionary *poDict = popOverArray[0];
     [popOverVC setHeader:poDict[@"header"] prompt:poDict[@"prompt"] icon_media_id:[poDict[@"icon_media_id"] intValue]];
+    submitFunction = poDict[@"submit_function"];
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
@@ -80,8 +82,20 @@
         [self viewWillAppear:NO];//to ensure a non-zero rect. Not sure why necessary- short term fix
 }
 
+- (void) popOverRequestsSubmit
+{
+    if(submitFunction)
+    {
+        if([submitFunction isEqualToString:@"JAVASCRIPT"]) return;//[webView hookWithParams:@""];
+        else if([submitFunction isEqualToString:@"NONE"]) return;
+        else [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:submitFunction]];
+    }
+    [self popOverRequestsDismiss];
+}
+
 - (void) popOverRequestsDismiss
 {
+    submitFunction = nil;
     showingPopOver = NO;
     self.view.userInteractionEnabled = NO;
     
@@ -96,9 +110,14 @@
     [[MTStatusBarOverlay sharedInstance] postMessage:string duration:5.0];
 }
 
-- (void) enqueuePopOverNotificationWithHeader:(NSString *)header prompt:(NSString *)prompt icon_media_id:(int)icon_media_id
+- (void) enqueuePopOverNotificationWithHeader:(NSString *)header prompt:(NSString *)prompt icon_media_id:(int)icon_media_id submitFunc:(NSString *)s
 {
-    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:header,@"header",prompt,@"prompt",[NSNumber numberWithInt:icon_media_id],@"icon_media_id",nil]];
+    [popOverArray addObject:@{
+       @"header":header,
+       @"prompt":prompt,
+       @"icon_media_id":[NSNumber numberWithInt:icon_media_id],
+       @"submit_function":s
+    }];
     if(!showingPopOver) [self dequeuePopOver];
 }
 
@@ -111,7 +130,7 @@
         Quest *activeQuest = activeQuests[i];
         
         if([activeQuest.active_notification_type isEqualToString:@"FULL_SCREEN"])
-            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name icon_media_id:activeQuest.active_icon_media_id];
+            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name icon_media_id:activeQuest.active_icon_media_id submitFunc:activeQuest.active_function];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
     }
@@ -126,7 +145,7 @@
         Quest *completedQuest = completedQuests[i];      
     
         if([completedQuest.complete_notification_type isEqualToString:@"FULL_SCREEN"])
-            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name icon_media_id:completedQuest.complete_icon_media_id];
+            [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name icon_media_id:completedQuest.complete_icon_media_id submitFunc:completedQuest.complete_function];
         else
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
     }

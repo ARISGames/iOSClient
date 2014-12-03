@@ -41,12 +41,13 @@
 {
     [super loadView];
     
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)]];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(requestDismiss)]];
 
     self.view.backgroundColor = [[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.4];
     self.view.userInteractionEnabled = YES;
     
     popOverView = [[CircleView alloc] initWithFillColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.8] strokeColor:[UIColor ARISColorWhite] strokeWidth:4];
+    [popOverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(requestSubmit)]];
     popOverView.opaque = NO;
     
     header = [[UILabel alloc] init];
@@ -94,9 +95,14 @@
     else [iconMediaView setImage:[UIImage imageNamed:@"todo"]];
 }
 
-- (void) dismiss
+- (void) requestDismiss
 {
     [delegate popOverRequestsDismiss];
+}
+
+- (void) requestSubmit
+{
+    [delegate popOverRequestsSubmit];
 }
 
 @end
