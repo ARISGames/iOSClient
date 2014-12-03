@@ -173,7 +173,7 @@
   listNotes = [[NSMutableArray alloc] init];
   NSArray *ns = [notes allValues];
   for(int i = 0; i < ns.count; i++)
-    if(((Note *)ns[i]).user_id == _MODEL_PLAYER_.user_id) [listNotes addObject:ns[i]];
+    [listNotes addObject:ns[i]];
   return listNotes;
 }
 
