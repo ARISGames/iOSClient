@@ -48,6 +48,7 @@ const int VIEW_MODE_TAG  = 2;
         filterText = @"";
 
         delegate = d;
+        _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_TRIGGERS_AVAILABLE",self,@selector(newNoteListAvailable),nil);
     }
     return self;
 }

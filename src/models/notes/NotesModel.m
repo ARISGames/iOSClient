@@ -37,6 +37,7 @@
       [self clearGameData];
       _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTES_RECEIVED",self,@selector(notesReceived:),nil);
       _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTE_RECEIVED",self,@selector(noteReceived:),nil);
+      _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_TRIGGERS_AVAILABLE",self,@selector(invalidateCaches),nil);
       _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTE_COMMENTS_RECEIVED",self,@selector(noteCommentsReceived:),nil);
       _ARIS_NOTIF_LISTEN_(@"SERVICES_NOTE_COMMENT_RECEIVED",self,@selector(noteCommentReceived:),nil);
     }
@@ -174,7 +175,7 @@
 
   // NOTE do I need an NSArray just to loop like playerNotes?
   // also, does instancesForType scope to current scene?
-  //
+  // (to use in place of instanceForId)
   for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
   {
     Trigger  *trigger  = _MODEL_TRIGGERS_.playerTriggers[i];

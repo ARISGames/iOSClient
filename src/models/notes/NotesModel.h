@@ -25,6 +25,7 @@
 - (void) requestNoteComments;
 
 - (void) clearGameData;
+- (void) invalidateCaches;
 
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
 - (void) saveNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
