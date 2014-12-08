@@ -171,9 +171,22 @@
 {
   if(listNotes) return listNotes;
   listNotes = [[NSMutableArray alloc] init];
-  NSArray *ns = [notes allValues];
-  for(int i = 0; i < ns.count; i++)
-    [listNotes addObject:ns[i]];
+
+  // NOTE do I need an NSArray just to loop like playerNotes?
+  // also, does instancesForType scope to current scene?
+  //
+  for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
+  {
+    Trigger  *trigger  = _MODEL_TRIGGERS_.playerTriggers[i];
+    Instance *instance = [_MODEL_INSTANCES_ instanceForId:trigger.instance_id];
+
+    if([instance.object_type isEqualToString:@"NOTE"])
+    {
+      Note *note = instance.object;
+      [listNotes addObject:note];
+    }
+  }
+
   return listNotes;
 }
 

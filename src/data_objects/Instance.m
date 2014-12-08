@@ -78,6 +78,7 @@
     if([self.object_type isEqualToString:@"WEB_PAGE"]) return [_MODEL_WEB_PAGES_ webPageForId:self.object_id];
     if([self.object_type isEqualToString:@"DIALOG"])   return [_MODEL_DIALOGS_ dialogForId:self.object_id];
     if([self.object_type isEqualToString:@"SCENE"])    return [_MODEL_SCENES_ sceneForId:self.object_id];
+    if([self.object_type isEqualToString:@"NOTE"])     return [_MODEL_NOTES_ noteForId:self.object_id];
     return nil;
 }
 
