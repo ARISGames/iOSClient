@@ -56,18 +56,19 @@
 
 //only difference is notification sent- all other functionality same
 - (void) playerInstancesReceived:(NSNotification *)notif 
-{ [self updateInstances:[notif.userInfo objectForKey:@"instances"] player:YES]; }
+{ [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; }
 - (void) gameInstancesReceived:(NSNotification *)notif 
-{ [self updateInstances:[notif.userInfo objectForKey:@"instances"] player:NO]; }
+{ [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; }
 - (void) instanceReceived:(NSNotification *)notif 
-{ [self updateInstances:@[[notif.userInfo objectForKey:@"instance"]] player:NO]; }
+{ [self updateInstances:@[[notif.userInfo objectForKey:@"instance"]]]; }
 
-- (void) updateInstances:(NSArray *)newInstances player:(BOOL)player
+- (void) updateInstances:(NSArray *)newInstances
 {
     Instance *newInstance;
     NSNumber *newInstanceId;
-    
-    NSDictionary *deltas = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
+
+    NSDictionary *playerDeltas = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
+    NSDictionary *gameDeltas   = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
     for(int i = 0; i < newInstances.count; i++)
     {
       newInstance = [newInstances objectAtIndex:i];
@@ -81,33 +82,38 @@
         [instances setObject:fakeExistingInstance forKey:newInstanceId];
         [blacklist removeObjectForKey:[NSNumber numberWithInt:newInstanceId]];
       }
-      
+
       Instance *existingInstance = [instances objectForKey:newInstanceId];
       int delta = newInstance.qty-existingInstance.qty;
       BOOL gained = (existingInstance.qty < newInstance.qty);
       BOOL lost   = (existingInstance.qty > newInstance.qty);
       [existingInstance mergeDataFromInstance:newInstance];
-        
+
       NSDictionary *d = @{@"instance":existingInstance,@"delta":[NSNumber numberWithInt:delta]};
-      if(gained) [((NSMutableArray *)deltas[@"added"]) addObject:d];
-      if(lost)   [((NSMutableArray *)deltas[@"lost"]) addObject:d];
+      if(existingInstance.owner_id == _MODEL_PLAYER_.user_id)
+      {
+        if(gained) [((NSMutableArray *)playerDeltas[@"added"]) addObject:d];
+        if(lost)   [((NSMutableArray *)playerDeltas[@"lost" ]) addObject:d];
+      }
+      else
+      {
+        if(gained) [((NSMutableArray *)gameDeltas[@"added"]) addObject:d];
+        if(lost)   [((NSMutableArray *)gameDeltas[@"lost" ]) addObject:d];
+      }
     }
-    
-    if(player)
-    {
-        if(((NSArray *)deltas[@"added"]).count > 0) 
-            _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_GAINED",nil,deltas);
-        if(((NSArray *)deltas[@"lost"]).count  > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_LOST",  nil,deltas);
-        _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",nil,deltas);
-        _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
-    }
-    else
-    {
-        if(((NSArray *)deltas[@"added"]).count > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_GAINED",nil,deltas);
-        if(((NSArray *)deltas[@"lost"]).count  > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_LOST",  nil,deltas);
-        _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,deltas);
-        _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
-    }
+
+    // deltas for player, deltas for game
+
+    if(((NSArray *)playerDeltas[@"added"]).count > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_GAINED",nil,playerDeltas);
+    if(((NSArray *)playerDeltas[@"lost"]).count  > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_LOST",  nil,playerDeltas);
+    _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",nil,playerDeltas);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+
+
+    if(((NSArray *)gameDeltas[@"added"]).count > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_GAINED",nil,gameDeltas);
+    if(((NSArray *)gameDeltas[@"lost"]).count  > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_LOST",  nil,gameDeltas);
+    _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,gameDeltas);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestInstances       { [_SERVICES_ fetchInstances];   }
