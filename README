@@ -4,3 +4,8 @@ git clone git@github.com:ARISGames/iOSClient.git ARISiOSClient
 cd ARISiOSClient
 git submodule init
 git submodule update
+
+
+Deploying
+
+Archive ARIS.ipa into dist/ folder. Run bin/timestamp_build.sh from Project root.
