@@ -93,7 +93,7 @@ const int playerDatasToReceive = 7;
 
         game_id = [dict validIntForKey:@"game_id"];
         name = [dict validStringForKey:@"name"];
-        desc = [dict validStringForKey:@"desc"];
+        desc = [dict validStringForKey:@"description"];
         published = [dict validBoolForKey:@"published"];
         type = [dict validStringForKey:@"type"];
         location = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
