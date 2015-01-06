@@ -465,12 +465,12 @@
 
 - (void) cameraViewControllerCancelled
 {
-    [self.navigationController popToViewController:self animated:YES];   
+    [self dismissSelf];
 }
 
 - (void) recorderViewControllerCancelled
 {
-    [self.navigationController popToViewController:self animated:YES];   
+    [self dismissSelf];
 }
 
 - (void) locationPickerCancelled:(NoteLocationPickerController *)nlp
