@@ -42,11 +42,14 @@
     
     UIButton *descriptionDoneButton; 
     UIButton *saveNoteButton;
+    UIButton *backButton;
     
     UIActionSheet *confirmPrompt;
     UIActionSheet *deletePrompt; 
     UIActionSheet *discardChangesPrompt;  
-    
+
+    NoteLocationPickerController *locationPickerController;
+
     NoteEditorMode mode;
     
     BOOL blockKeyboard;
@@ -106,14 +109,24 @@
     
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [descriptionDoneButton setImage:[UIImage imageNamed:@"overarrow.png"] forState:UIControlStateNormal]; 
-    descriptionDoneButton.frame = CGRectMake(0, 0, 24, 24); 
+    [descriptionDoneButton sizeToFit];
     [descriptionDoneButton addTarget:self action:@selector(doneButtonTouched) forControlEvents:UIControlEventTouchUpInside];
        
     saveNoteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveNoteButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];
-    saveNoteButton.frame = CGRectMake(0, 0, 24, 24);
+    [saveNoteButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
+    [saveNoteButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [saveNoteButton setFont:[ARISTemplate ARISCellBoldTitleFont]];
+    [saveNoteButton sizeToFit];
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    
+
+    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    [backButton setAccessibilityLabel: @"Back Button"];
+    [backButton setTitle:NSLocalizedString(@" Cancel", nil) forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+
     confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorTitleNoteKey", @"") destructiveButtonTitle:NSLocalizedString(@"NoteEditorSaveUntitledKey", @"") otherButtonTitles:nil];
     deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:NSLocalizedString(@"DeleteKey", @"") otherButtonTitles:nil];
     discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorContinueEditingKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
@@ -227,16 +240,9 @@
 {
     [super viewWillAppear:animated];
     blockKeyboard = NO;
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0,0,19,19);
-    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    backButton.accessibilityLabel = @"Back Button";
-    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];   
-    
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
-    self.navigationItem.rightBarButtonItem = rightNavBarButton;     
+
+    self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
