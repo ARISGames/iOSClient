@@ -24,8 +24,6 @@
     Media *media;
     Trigger *trigger;
     
-    UILabel *owner;
-    UILabel *date;
     NoteTagEditorViewController *tagViewController;  
     UITextView *description;
     UILabel *descriptionPrompt;
@@ -84,16 +82,7 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    date = [[UILabel alloc] init];  
-    date.font = [ARISTemplate ARISSubtextFont]; 
-    date.textColor = [UIColor ARISColorDarkBlue];
-    date.adjustsFontSizeToFitWidth = NO;
-    
-    owner = [[UILabel alloc] init];
-    owner.font = [ARISTemplate ARISSubtextFont];
-    owner.adjustsFontSizeToFitWidth = NO;
-    
+
     description = [[UITextView alloc] init];   
     description.delegate = self;
     description.contentInset = UIEdgeInsetsZero; 
@@ -111,7 +100,7 @@
     [descriptionDoneButton setImage:[UIImage imageNamed:@"overarrow.png"] forState:UIControlStateNormal]; 
     [descriptionDoneButton sizeToFit];
     [descriptionDoneButton addTarget:self action:@selector(doneButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-       
+
     saveNoteButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [saveNoteButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
     [saveNoteButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
@@ -120,9 +109,8 @@
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
 
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     [backButton setAccessibilityLabel: @"Back Button"];
-    [backButton setTitle:NSLocalizedString(@" Cancel", nil) forState:UIControlStateNormal];
+    [backButton setTitle:NSLocalizedString(@"Cancel", nil) forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     [backButton sizeToFit];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
@@ -180,12 +168,10 @@
     [bottombar addSubview:trashButton];
     [bottombar addSubview:trashLabel];
     
-    [self.view addSubview:date];
-    [self.view addSubview:owner];
     [self.view addSubview:description];
     [self.view addSubview:descriptionPrompt]; 
     [self.view addSubview:contentView];
-    [self.view addSubview:bottombar]; 
+    //[self.view addSubview:bottombar]; 
     if([_MODEL_TAGS_ tags].count) [self.view addSubview:tagViewController.view];  
     [self.view addSubview:line1];  
     [self.view addSubview:line2];   
@@ -199,9 +185,6 @@
     
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
     
-    date.frame = CGRectMake(10, 40+64, 65, 14);
-    owner.frame = CGRectMake(75, 40+64, self.view.bounds.size.width-85, 14);
-    
     if([_MODEL_TAGS_ tags].count > 0)
     {
         [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216]; 
@@ -213,7 +196,7 @@
         line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1); 
     }
     
-    line1.frame = CGRectMake(0, owner.frame.origin.y+owner.frame.size.height+3, self.view.frame.size.width, 1);
+    line1.frame = CGRectMake(0, self.view.frame.origin.y, self.view.frame.size.width, 1);
     
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2; 
@@ -277,8 +260,6 @@
     if(![description.text isEqualToString:@""]) descriptionPrompt.hidden = YES;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
     [format setDateFormat:@"MM/dd/yy"]; 
-    date.text = [format stringFromDate:note.created]; 
-    owner.text = [_MODEL_USERS_ userForId:note.user_id].display_name; 
     if(note.media_id) [contentView setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
     [tagViewController setTag:tag];
 }
