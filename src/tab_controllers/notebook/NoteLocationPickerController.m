@@ -50,10 +50,8 @@
     mapView.delegate = self;
 
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [resetButton setTitle:NSLocalizedString(@"ResetKey", @"") forState:UIControlStateNormal];
-    [resetButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
-    resetButton.titleLabel.textAlignment = NSTextAlignmentRight;
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [resetButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
 
     [self.view addSubview:mapView];
     [self.view addSubview:resetButton];
@@ -73,8 +71,13 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    mapView.frame     = CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64);
-    resetButton.frame = CGRectMake(self.view.bounds.size.width-100, self.view.bounds.size.height-30, 95, 30);
+    mapView.frame     = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
+    resetButton.frame = CGRectMake(
+        self.view.bounds.size.width-self.view.bounds.size.width/10-10,
+        self.view.bounds.size.height-self.view.bounds.size.width/10-10,
+        self.view.bounds.size.width/10,
+        self.view.bounds.size.width/10
+    );
 }
 
 - (void)mapView:(MKMapView *)mapViewA regionDidChangeAnimated:(BOOL)animated {

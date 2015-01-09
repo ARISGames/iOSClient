@@ -128,11 +128,6 @@
     line2 = [[UIView alloc] init];
     line2.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
 
-    UIColor *fc = [UIColor whiteColor];
-    UIColor *sc = [UIColor blackColor];
-    UIColor *tc = [UIColor blackColor];
-    int sw = 1;
-
     //trashLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"DeleteKey", @"") uppercaseString], [NSLocalizedString(@"NoteKey", @"") uppercaseString]];
 
     deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -151,6 +146,7 @@
     [self.view addSubview:locationPickerController.view];
 
     [self.view addSubview:line1];
+    [self.view addSubview:line2];
 
     if([_MODEL_TAGS_ tags].count)
     {
@@ -177,14 +173,14 @@
             // TODO make relative to media coordinates
             tagViewController.view.frame = CGRectMake(
                 self.view.bounds.size.width/4,
-                CGRectGetMaxY(contentView.frame)-30,
+                CGRectGetMaxY(contentView.frame)-35,
                 self.view.bounds.size.width-self.view.bounds.size.width/4,
                 30
             );
         else
             tagViewController.view.frame = CGRectMake(
                 self.view.bounds.size.width/4,
-                CGRectGetMaxY(contentView.frame)-30,
+                CGRectGetMaxY(contentView.frame)-35,
                 self.view.bounds.size.width-self.view.bounds.size.width/4,
                 250
             );
@@ -217,11 +213,21 @@
     if(note.note_id)
     {
       deleteButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
-      locationPickerController.view.frame = CGRectMake(0, self.view.bounds.size.height-self.view.bounds.size.width, self.view.bounds.size.width, self.view.bounds.size.width-40);
+      locationPickerController.view.frame = CGRectMake(
+          0,
+          CGRectGetMaxY(description.frame),
+          self.view.bounds.size.width,
+          self.view.bounds.size.height-CGRectGetMinY(line2.frame)-40
+       );
     }
     else
     {
-      locationPickerController.view.frame = CGRectMake(0, self.view.bounds.size.height-self.view.bounds.size.width, self.view.bounds.size.width, self.view.bounds.size.width);
+      locationPickerController.view.frame = CGRectMake(
+          0,
+          CGRectGetMaxY(description.frame),
+          self.view.bounds.size.width,
+          self.view.bounds.size.height-CGRectGetMinY(line2.frame)
+      );
     }
 }
 
