@@ -25,19 +25,16 @@
     Trigger *trigger;
 
     NoteTagEditorViewController *tagViewController;
+    NoteLocationPickerController *locationPickerController;
+
     UITextView *description;
     UILabel *descriptionPrompt;
     ARISMediaView *contentView;
 
-    UIView *bottombar;
-    CircleButton *locationPickerButton;
-    UILabel *locationPickerLabel;
-    CircleButton *trashButton;
-    UILabel *trashLabel;
-
     UIView *line1;
     UIView *line2;
 
+    UIButton *deleteButton;
     UIButton *descriptionDoneButton;
     UIButton *saveNoteButton;
     UIButton *backButton;
@@ -45,8 +42,6 @@
     UIActionSheet *confirmPrompt;
     UIActionSheet *deletePrompt;
     UIActionSheet *discardChangesPrompt;
-
-    NoteLocationPickerController *locationPickerController;
 
     NoteEditorMode mode;
 
@@ -138,52 +133,25 @@
     UIColor *tc = [UIColor blackColor];
     int sw = 1;
 
-    bottombar = [[UIView alloc] init];
+    //trashLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"DeleteKey", @"") uppercaseString], [NSLocalizedString(@"NoteKey", @"") uppercaseString]];
 
-    locationPickerButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:fc disabledStrokeColor:[UIColor grayColor] disabledtitleColor:[UIColor grayColor] strokeWidth:sw];
-    [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
-    [locationPickerButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    [locationPickerButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
-    [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-
-    locationPickerLabel = [[UILabel alloc] init];
-    locationPickerLabel.textAlignment = NSTextAlignmentCenter;
-    locationPickerLabel.font = [ARISTemplate ARISCellSubtextFont];
-    locationPickerLabel.textColor = [UIColor blackColor];
-    locationPickerLabel.numberOfLines = 0;
-    locationPickerLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    locationPickerLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"SetKey", @"") uppercaseString], [NSLocalizedString(@"LocationKey", @"") uppercaseString]];
-
-    trashButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
-    [trashButton setImage:[UIImage imageNamed:@"trash_red.png"] forState:UIControlStateNormal];
-    [trashButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    [trashButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
-    [trashButton addTarget:self action:@selector(trashButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    trashLabel = [[UILabel alloc] init];
-    trashLabel.textAlignment = NSTextAlignmentCenter;
-    trashLabel.font = [ARISTemplate ARISCellSubtextFont];
-    trashLabel.textColor = [UIColor blackColor];
-    trashLabel.numberOfLines = 0;
-    trashLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    trashLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"DeleteKey", @"") uppercaseString], [NSLocalizedString(@"NoteKey", @"") uppercaseString]];
-
-    [bottombar addSubview:locationPickerButton];
-    [bottombar addSubview:locationPickerLabel];
-
-    [bottombar addSubview:trashButton];
-    [bottombar addSubview:trashLabel];
+    deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [deleteButton setTitle:NSLocalizedString(@"DeleteKey", nil) forState:UIControlStateNormal];
+    [deleteButton setBackgroundColor:[UIColor ARISColorRed]];
+    [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    deleteButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    [deleteButton addTarget:self action:@selector(trashButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:description];
     [self.view addSubview:descriptionPrompt];
     [self.view addSubview:contentView];
+    [self.view addSubview:deleteButton];
 
     // FIXME convert to view later
     [self.view addSubview:locationPickerController.view];
 
     [self.view addSubview:line1];
-    //[self.view addSubview:line2];
 
-    //[self.view addSubview:bottombar];
     if([_MODEL_TAGS_ tags].count)
     {
       [self.view addSubview:tagViewController.view];
@@ -199,7 +167,8 @@
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
 
     contentView.frame = CGRectMake(0, 64, self.view.bounds.size.width/4, self.view.bounds.size.width/4);
-    [contentView setImage:[UIImage imageNamed:@"notebooktext.png"]];
+    if(note.media_id == 0)
+      [contentView setImage:[UIImage imageNamed:@"notebooktext.png"]];
 
     if([_MODEL_TAGS_ tags].count > 0)
     {
@@ -225,16 +194,6 @@
     line2.frame = CGRectMake(0, CGRectGetMaxY(description.frame), self.view.frame.size.width, 1);
     line1.frame = CGRectMake(0, CGRectGetMaxY(contentView.frame), self.view.frame.size.width, 1);
 
-    int buttonDiameter = 50;
-    int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2;
-    locationPickerButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 5, buttonDiameter, buttonDiameter);
-    locationPickerLabel.frame  = CGRectMake(buttonPadding*5+buttonDiameter*2-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
-    trashButton.frame          = CGRectMake(buttonPadding*7+buttonDiameter*3, 5, buttonDiameter, buttonDiameter);
-    trashLabel.frame           = CGRectMake(buttonPadding*7+buttonDiameter*3-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
-    bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-40, self.view.bounds.size.width, buttonDiameter+25);
-
-
-
     if([_MODEL_TAGS_ tags].count > 0)
     {
         description.frame = CGRectMake(
@@ -255,7 +214,15 @@
     }
     descriptionPrompt.frame = CGRectMake(description.frame.origin.x+5, description.frame.origin.y+5, self.view.bounds.size.width, 24);
 
-    locationPickerController.view.frame = CGRectMake(0, self.view.bounds.size.height-self.view.bounds.size.width, self.view.bounds.size.width, self.view.bounds.size.width);
+    if(note.note_id)
+    {
+      deleteButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
+      locationPickerController.view.frame = CGRectMake(0, self.view.bounds.size.height-self.view.bounds.size.width, self.view.bounds.size.width, self.view.bounds.size.width-40);
+    }
+    else
+    {
+      locationPickerController.view.frame = CGRectMake(0, self.view.bounds.size.height-self.view.bounds.size.width, self.view.bounds.size.width, self.view.bounds.size.width);
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated

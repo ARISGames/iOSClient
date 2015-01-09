@@ -49,6 +49,9 @@ ARIS_OUTPUT_DIR=./build
 simbuild:
 	xcodebuild build -workspace ARIS.xcworkspace -scheme ARIS -sdk iphonesimulator8.1 -destination platform='iOS Simulator',OS='8.1',name='aris 6 dev two' CONFIGURATION_BUILD_DIR=$(ARIS_OUTPUT_DIR)
 
+phonebuild:
+	xcodebuild build -workspace ARIS.xcworkspace -scheme ARIS -sdk iphoneos8.1 -destination platform='iOS',name='iPod touch 8'
+
 simrun:
 	# $BUILD_PRODUCTS_DIR
 	ios-sim launch $(ARIS_OUTPUT_DIR)/ARIS.app --devicetypeid "com.apple.CoreSimulator.SimDeviceType.iPhone-6, 8.1" --exit
