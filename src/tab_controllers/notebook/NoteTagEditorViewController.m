@@ -16,18 +16,18 @@
 @interface NoteTagEditorViewController() <UITextFieldDelegate, NoteTagViewDelegate, NoteTagPredictionViewControllerDelegate>
 {
     Tag *tag;
-    
+
     UIScrollView *existingTagsScrollView;
     UIImageView *plus;
-    UIImageView *ex; 
-    
+    UIImageView *ex;
+
     UITextField *tagInputField;
     NoteTagPredictionViewController *tagPredictionViewController;
-    
+
     int expandHeight;
     BOOL editable;
     BOOL editing;
-    
+
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -42,7 +42,7 @@
         editable = e;
         delegate = d;
         expandHeight = 100;
-        editing = NO; 
+        editing = NO;
     }
     return self;
 }
@@ -51,35 +51,35 @@
 {
     [super loadView];
     existingTagsScrollView  = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
-    
+
     plus = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"plus.png"]];
     plus.frame = CGRectMake(self.view.frame.size.width-35,10,15,15);
     plus.userInteractionEnabled = YES;
     [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
-    
+
     ex = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"delete.png"]];
     ex.frame = CGRectMake(self.view.frame.size.width-35,10,15,15);
     ex.userInteractionEnabled = YES;
-    [ex addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissEditButtonTouched)]]; 
-    
+    [ex addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissEditButtonTouched)]];
+
     tagInputField = [[UITextField alloc] init];
     tagInputField.delegate = self;
     tagInputField.font = [ARISTemplate ARISTitleFont];
     tagInputField.placeholder = NSLocalizedString(@"NoteTagChooseLabelKey", @"");
-    tagInputField.returnKeyType = UIReturnKeyDone; 
-    
-    tagPredictionViewController = [[NoteTagPredictionViewController alloc] initWithTags:_MODEL_TAGS_.tags delegate:self];  
-    
+    tagInputField.returnKeyType = UIReturnKeyDone;
+
+    tagPredictionViewController = [[NoteTagPredictionViewController alloc] initWithTags:_MODEL_TAGS_.tags delegate:self];
+
     [self stopEditing];
 }
 
 - (void) viewWillLayoutSubviews
 {
-    plus.frame = CGRectMake(self.view.frame.size.width-35, 10, plus.frame.size.width, plus.frame.size.height); 
-    ex.frame = CGRectMake(self.view.frame.size.width-35, 10, ex.frame.size.width, ex.frame.size.height);  
-    existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);  
+    plus.frame = CGRectMake(self.view.frame.size.width-35, 10, plus.frame.size.width, plus.frame.size.height);
+    ex.frame = CGRectMake(self.view.frame.size.width-35, 10, ex.frame.size.width, ex.frame.size.height);
+    existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);
     tagInputField.frame = CGRectMake(10, 2, self.view.frame.size.width-20,30);
-    tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,expandHeight);  
+    tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,expandHeight);
 }
 
 - (void) setExpandHeight:(int)h
@@ -96,9 +96,9 @@
 - (void) refreshView
 {
     //remove subviews
-    while([self.view subviews].count != 0) [[[self.view subviews] objectAtIndex:0] removeFromSuperview]; 
+    while([self.view subviews].count != 0) [[[self.view subviews] objectAtIndex:0] removeFromSuperview];
     while([existingTagsScrollView subviews].count != 0) [[[existingTagsScrollView subviews] objectAtIndex:0] removeFromSuperview];
-    
+
     UIView *tv;
     int x = 10;
     if(tag)
@@ -109,15 +109,15 @@
         [existingTagsScrollView addSubview:tv];
     }
     existingTagsScrollView.contentSize = CGSizeMake(x+10,30);
-    
+
     if(editable && (editing || !tag)) [self.view addSubview:tagInputField];
     else                              [self.view addSubview:existingTagsScrollView];
     if(editable && !editing && !tag)  [self.view addSubview:plus];
-    if(editable && !editing && tag)   [self.view addSubview:ex]; 
+    if(editable && !editing && tag)   [self.view addSubview:ex];
     if(editing)
     {
         [tagPredictionViewController setTags:_MODEL_TAGS_.tags];
-        [self.view addSubview:tagPredictionViewController.view];   
+        [self.view addSubview:tagPredictionViewController.view];
         [tagInputField becomeFirstResponder];
         [self.view addSubview:ex];
     }
@@ -136,25 +136,23 @@
 
 - (void) beginEditing
 {
-    editing = YES; 
+    editing = YES;
     [tagPredictionViewController queryString:@""];
-    
+
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
-       [delegate noteTagEditorWillBeginEditing];  
-    
-    // FIXME remove multiple places that this gets resized (here and in note editor)
-    self.view.frame = CGRectMake(self.view.frame.size.width/4,self.view.frame.origin.y,self.view.frame.size.width,130); 
-    [self refreshView];    
+       [delegate noteTagEditorWillBeginEditing];
+
+    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,130);
+    [self refreshView];
 }
 
 - (void) stopEditing
 {
-    editing = NO;  
-    [tagInputField resignFirstResponder]; 
+    editing = NO;
+    [tagInputField resignFirstResponder];
     tagInputField.text = @"";
-    
-    // FIXME ^^
-    self.view.frame = CGRectMake(self.view.frame.size.width/4,self.view.frame.origin.y,self.view.frame.size.width,30); 
+
+    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,30);
     [self refreshView];
 }
 
@@ -163,27 +161,27 @@
 {
     //if backspace with already highlighted text... I know... weird
     if(range.location != 0 && range.length > 0 && string.length == 0) { range.location--; range.length++; }
-    
+
     NSString *updatedInput = [textField.text stringByReplacingCharactersInRange:range withString:string];
     NSArray *matched = [tagPredictionViewController queryString:updatedInput];
-    
+
     Tag *nt;
     //If there's only one matched tag...
     if(matched.count == 1 && (nt = [matched objectAtIndex:0]))
     {
         //If curent input matches said tag FROM BEGINNING of string...
-        if([nt.tag rangeOfString:[NSString stringWithFormat:@"^%@.*",updatedInput] options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)  
+        if([nt.tag rangeOfString:[NSString stringWithFormat:@"^%@.*",updatedInput] options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
         {
             //Set input to prediction with deltas highlighted for quick deletion
             NSString *hijackedInput = nt.tag;
-            tagInputField.text = hijackedInput; 
+            tagInputField.text = hijackedInput;
             UITextPosition *start = [tagInputField positionFromPosition:tagInputField.beginningOfDocument offset:updatedInput.length];
             UITextPosition *end = [tagInputField positionFromPosition:start offset:hijackedInput.length-updatedInput.length];
             [tagInputField setSelectedTextRange:[tagInputField textRangeFromPosition:start toPosition:end]];
             return NO;
         }
     }
-    
+
     return YES;
 }
 
@@ -220,7 +218,8 @@
 - (void) existingTagChosen:(Tag *)nt
 {
     [self stopEditing];
-    if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorAddedTag:)]) 
+    f expand("%") == ""|browse confirm w|else|confirm w|endif
+      if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorAddedTag:)])
         [delegate noteTagEditorAddedTag:nt];
 }
 
