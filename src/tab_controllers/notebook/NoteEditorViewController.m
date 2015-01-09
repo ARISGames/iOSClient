@@ -122,7 +122,7 @@
     deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:NSLocalizedString(@"DeleteKey", @"") otherButtonTitles:nil];
     discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorContinueEditingKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
 
-    locationPickerController = [[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self];
+    [self setLocationOnMap];
 
     contentView = [[ARISMediaView alloc] initWithDelegate:self];
     [contentView setDisplayMode:ARISMediaDisplayModeAspectFill];
@@ -180,13 +180,14 @@
     // FIXME convert to view later
     [self.view addSubview:locationPickerController.view];
 
-    [self.view addSubview:bottombar];
+    [self.view addSubview:line1];
+    //[self.view addSubview:line2];
+
+    //[self.view addSubview:bottombar];
     if([_MODEL_TAGS_ tags].count)
     {
       [self.view addSubview:tagViewController.view];
     }
-    [self.view addSubview:line1];
-    [self.view addSubview:line2];
 
     [self refreshViewFromNote];
 }
@@ -197,22 +198,32 @@
 
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
 
-    contentView.frame = CGRectMake(0, 64+10, self.view.bounds.size.width/4, self.view.bounds.size.width/4);
-    [contentView setImage:[UIImage imageNamed:@"defaultCharacter.png"]];
+    contentView.frame = CGRectMake(0, 64, self.view.bounds.size.width/4, self.view.bounds.size.width/4);
+    [contentView setImage:[UIImage imageNamed:@"notebooktext.png"]];
 
     if([_MODEL_TAGS_ tags].count > 0)
     {
-        [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216];
+        [tagViewController setExpandHeight:250];
         if(tagViewController.view.frame.size.height <= 30)
             // TODO make relative to media coordinates
-            tagViewController.view.frame = CGRectMake(self.view.bounds.size.width/4, 54+64+3, self.view.bounds.size.width, 30);
+            tagViewController.view.frame = CGRectMake(
+                self.view.bounds.size.width/4,
+                CGRectGetMaxY(contentView.frame)-30,
+                self.view.bounds.size.width-self.view.bounds.size.width/4,
+                30
+            );
         else
-            tagViewController.view.frame = CGRectMake(self.view.bounds.size.width/4, 54+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);
+            tagViewController.view.frame = CGRectMake(
+                self.view.bounds.size.width/4,
+                CGRectGetMaxY(contentView.frame)-30,
+                self.view.bounds.size.width-self.view.bounds.size.width/4,
+                250
+            );
 
-        line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1);
     }
 
-    line1.frame = CGRectMake(0, self.view.frame.origin.y, self.view.frame.size.width, 1);
+    line2.frame = CGRectMake(0, CGRectGetMaxY(description.frame), self.view.frame.size.width, 1);
+    line1.frame = CGRectMake(0, CGRectGetMaxY(contentView.frame), self.view.frame.size.width, 1);
 
     int buttonDiameter = 50;
     int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2;
@@ -226,13 +237,23 @@
 
     if([_MODEL_TAGS_ tags].count > 0)
     {
-        description.frame = CGRectMake(5, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-tagViewController.view.frame.origin.y-tagViewController.view.frame.size.height-contentView.frame.size.height-bottombar.frame.size.height-5);
+        description.frame = CGRectMake(
+            CGRectGetMinX(contentView.frame),
+            CGRectGetMaxY(contentView.frame)+5,
+            self.view.bounds.size.width,
+            self.view.bounds.size.width/4 // TODO line height derrived
+        );
     }
     else
     {
-        description.frame = CGRectMake(5, line1.frame.origin.y+line1.frame.size.height+5, self.view.bounds.size.width-10, self.view.bounds.size.height-line1.frame.origin.y-line1.frame.size.height-contentView.frame.size.height-bottombar.frame.size.height-5);
+        description.frame = CGRectMake(
+            CGRectGetMaxX(contentView.frame),
+            CGRectGetMinY(contentView.frame),
+            self.view.bounds.size.width-CGRectGetMaxX(contentView.frame),
+            self.view.bounds.size.width/4 // TODO line height derrived
+        );
     }
-    descriptionPrompt.frame = CGRectMake(10, description.frame.origin.y+5, self.view.bounds.size.width, 24);
+    descriptionPrompt.frame = CGRectMake(description.frame.origin.x+5, description.frame.origin.y+5, self.view.bounds.size.width, 24);
 
     locationPickerController.view.frame = CGRectMake(0, self.view.bounds.size.height-self.view.bounds.size.width, self.view.bounds.size.width, self.view.bounds.size.width);
 }
@@ -253,7 +274,7 @@
          if(mode == NOTE_EDITOR_MODE_AUDIO)  [self audioPickerButtonTouched];
     else if(mode == NOTE_EDITOR_MODE_CAMERA) [self cameraPickerButtonTouched];
     else if(mode == NOTE_EDITOR_MODE_ROLL)   [self rollPickerButtonTouched];
-    else if(mode == NOTE_EDITOR_MODE_TEXT)   [self guideNextEdit];
+    //else if(mode == NOTE_EDITOR_MODE_TEXT)   [self guideNextEdit];
     mode = NOTE_EDITOR_MODE_NONE;
 }
 
@@ -287,6 +308,11 @@
     [self guideNextEdit];
     return NO;
 }
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+ {
+     [self.view endEditing:YES];
+ }
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -344,7 +370,7 @@
     //do nothing
 }
 
-- (void) locationPickerButtonTouched
+- (void) setLocationOnMap
 {
     if(!trigger)
     {
@@ -357,9 +383,9 @@
     }
 
     if(trigger)
-        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:trigger.location.coordinate delegate:self] animated:YES];
+        locationPickerController = [[NoteLocationPickerController alloc] initWithInitialLocation:trigger.location.coordinate delegate:self];
     else
-        [self.navigationController pushViewController:[[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self] animated:YES];
+        locationPickerController = [[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self];
 }
 
 - (void) cameraPickerButtonTouched

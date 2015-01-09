@@ -291,6 +291,7 @@
 		ABE735F917D6B96600396CF5 /* arrowForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735F717D6B96600396CF5 /* arrowForward@2x.png */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
+		C06331541A6055F8002A8026 /* notebooktext@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06331531A6055F8002A8026 /* notebooktext@2x.png */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		F92B5E0F18BFE02900D1D1A7 /* CircleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E0E18BFE02900D1D1A7 /* CircleButton.m */; };
 		F92B5E3118C66DEB00D1D1A7 /* globe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F92B5E3018C66DEB00D1D1A7 /* globe@2x.png */; };
@@ -793,6 +794,7 @@
 		ABE735F717D6B96600396CF5 /* arrowForward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowForward@2x.png"; sourceTree = "<group>"; };
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		C06331531A6055F8002A8026 /* notebooktext@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notebooktext@2x.png"; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F91684FF1912C6B900114E71 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F92B5E0D18BFE02900D1D1A7 /* CircleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleButton.h; sourceTree = "<group>"; };
@@ -950,6 +952,7 @@
 		AA2D212B17DE560C00CF4198 /* gameplay_tabbar */ = {
 			isa = PBXGroup;
 			children = (
+				C06331531A6055F8002A8026 /* notebooktext@2x.png */,
 				AA04E33D18E61ACF00621F0C /* qr_icon@2x.png */,
 				AA04E33B18E6179200621F0C /* map@2x.png */,
 				AAB62FDF18C689DD00030F48 /* barcode@2x.png */,
@@ -2145,6 +2148,7 @@
 				AA2D214917DE560C00CF4198 /* star@2x.png in Resources */,
 				5B1D998D178CC3A700661453 /* pause@2x.png in Resources */,
 				5B1D998F178CC3A700661453 /* dark_play@2x.png in Resources */,
+				C06331541A6055F8002A8026 /* notebooktext@2x.png in Resources */,
 				5B1D9991178CC3A700661453 /* stop@2x.png in Resources */,
 				AA856FF517A9AFA900E9D451 /* qr.png in Resources */,
 				AA09B8F718E21A7C00A45562 /* user@2x.png in Resources */,

@@ -81,6 +81,7 @@
     CGPoint mapViewPoint = [mapViewA convertCoordinate:mapView.centerCoordinate toPointToView:mapViewA];
 
     centerAnnotationView.center = mapViewPoint;
+    [delegate newLocationPicked:mapView.centerCoordinate];
 }
 
 - (void) viewWillAppear:(BOOL)animated

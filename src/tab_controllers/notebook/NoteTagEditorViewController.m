@@ -142,7 +142,7 @@
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
        [delegate noteTagEditorWillBeginEditing];
 
-    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,130);
+    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,expandHeight+30);
     [self refreshView];
 }
 
@@ -218,9 +218,8 @@
 - (void) existingTagChosen:(Tag *)nt
 {
     [self stopEditing];
-    f expand("%") == ""|browse confirm w|else|confirm w|endif
-      if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorAddedTag:)])
-        [delegate noteTagEditorAddedTag:nt];
+    if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorAddedTag:)])
+      [delegate noteTagEditorAddedTag:nt];
 }
 
 @end
