@@ -104,7 +104,7 @@
     saveNoteButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [saveNoteButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
     [saveNoteButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    saveNoteButton.font = [ARISTemplate ARISCellBoldTitleFont];
+    saveNoteButton.titleLabel.font = [ARISTemplate ARISCellBoldTitleFont];
     [saveNoteButton sizeToFit];
     [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 
