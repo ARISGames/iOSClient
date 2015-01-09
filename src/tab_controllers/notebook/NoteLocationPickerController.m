@@ -8,6 +8,7 @@
 
 #import "NoteLocationPickerController.h"
 #import "NoteLocationPickerCrosshairsView.h"
+#import "AppModel.h"
 
 #import <MapKit/MapKit.h>
 
@@ -48,6 +49,7 @@
 
     mapView = [[MKMapView alloc] init];
     mapView.delegate = self;
+    mapView.showsUserLocation = YES;
 
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
@@ -66,6 +68,10 @@
     mapView.mapType = MKMapTypeStandard;
 
     [mapView setCenterCoordinate:location animated:NO];
+
+    // Default zoom
+    MKCoordinateSpan span = MKCoordinateSpanMake(0, 0.01);
+    [mapView setRegion:MKCoordinateRegionMake(location, span) animated:YES];
 }
 
 - (void) viewWillLayoutSubviews
@@ -118,7 +124,7 @@
 
 - (void) resetButtonTouched
 {
-    [mapView setCenterCoordinate:location animated:YES];
+    [mapView setCenterCoordinate:_MODEL_PLAYER_.location.coordinate animated:YES];
 }
 
 - (void) saveButtonTouched
