@@ -82,6 +82,9 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
+    // NOTE some hacky solutions to moving down the top
+    // self.edgesForExtendedLayout = UIRectEdgeNone;
+    // self.navigationController.navigationBar.translucent = NO;
 
     description = [[UITextView alloc] init];
     description.delegate = self;
@@ -194,13 +197,17 @@
 
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
 
+    contentView.frame = CGRectMake(0, 64+10, self.view.bounds.size.width/4, self.view.bounds.size.width/4);
+    [contentView setImage:[UIImage imageNamed:@"defaultCharacter.png"]];
+
     if([_MODEL_TAGS_ tags].count > 0)
     {
         [tagViewController setExpandHeight:self.view.frame.size.height-64-49-216];
         if(tagViewController.view.frame.size.height <= 30)
-            tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, 30);
+            // TODO make relative to media coordinates
+            tagViewController.view.frame = CGRectMake(self.view.bounds.size.width/4, 54+64+3, self.view.bounds.size.width, 30);
         else
-            tagViewController.view.frame = CGRectMake(0, 54+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);
+            tagViewController.view.frame = CGRectMake(self.view.bounds.size.width/4, 54+64+3, self.view.bounds.size.width, self.view.frame.size.height-64-49-216);
 
         line2.frame = CGRectMake(0, tagViewController.view.frame.origin.y+tagViewController.view.frame.size.height+3, self.view.frame.size.width, 1);
     }
@@ -215,7 +222,7 @@
     trashLabel.frame           = CGRectMake(buttonPadding*7+buttonDiameter*3-buttonDiameter/2+10, buttonDiameter+5, buttonDiameter*2-20, 30);
     bottombar.frame = CGRectMake(0, self.view.bounds.size.height-buttonDiameter-40, self.view.bounds.size.width, buttonDiameter+25);
 
-    contentView.frame = CGRectMake(0, bottombar.frame.origin.y-200, self.view.bounds.size.width, 200);
+
 
     if([_MODEL_TAGS_ tags].count > 0)
     {
@@ -290,9 +297,6 @@
 {
     if([description.text isEqualToString:@""]) descriptionPrompt.hidden = NO;
     [tagViewController stopEditing];
-
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:descriptionDoneButton];
-    self.navigationItem.rightBarButtonItem = rightNavBarButton;
 }
 
 - (void) noteTagEditorWillBeginEditing

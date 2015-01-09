@@ -142,7 +142,8 @@
     if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
        [delegate noteTagEditorWillBeginEditing];  
     
-    self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,130); 
+    // FIXME remove multiple places that this gets resized (here and in note editor)
+    self.view.frame = CGRectMake(self.view.frame.size.width/4,self.view.frame.origin.y,self.view.frame.size.width,130); 
     [self refreshView];    
 }
 
@@ -152,7 +153,8 @@
     [tagInputField resignFirstResponder]; 
     tagInputField.text = @"";
     
-    self.view.frame = CGRectMake(0,self.view.frame.origin.y,self.view.frame.size.width,30); 
+    // FIXME ^^
+    self.view.frame = CGRectMake(self.view.frame.size.width/4,self.view.frame.origin.y,self.view.frame.size.width,30); 
     [self refreshView];
 }
 
