@@ -12,11 +12,12 @@ help:
 	@echo "Aris Client"
 	@echo ""
 	@echo "Targets:"
-	@echo "      copy: push ipas to aris"
-	@echo " timestamp: rename dist/ARIS.ipa to version"
-	@echo "            add POSTFIX=xyz for multiple versions on the same date."
-	@echo "            ie: make timestamp POSTFIX=2"
-	@echo "     clean: remove all created ipa/plist from dist."
+	@echo "   simulate: build and run ios-sim launcher "
+	@echo "       copy: push ipas to aris"
+	@echo "  timestamp: rename dist/ARIS.ipa to version"
+	@echo "             add POSTFIX=xyz for multiple versions on the same date."
+	@echo "             ie: make timestamp POSTFIX=2"
+	@echo "      clean: remove all created ipa/plist from dist."
 	@echo ""
 	@echo "make [all|copy|timestamp|clean]"
 
@@ -42,5 +43,16 @@ timestamp:
 clean:
 	@echo "Removing dist/ARIS-*.plist/ipa"
 	@rm dist/ARIS-*.plist dist/ARIS-*.ipa
+
+ARIS_OUTPUT_DIR=./build
+
+simbuild:
+	xcodebuild build -workspace ARIS.xcworkspace -scheme ARIS -sdk iphonesimulator8.1 -destination platform='iOS Simulator',OS='8.1',name='aris 6 dev two' CONFIGURATION_BUILD_DIR=$(ARIS_OUTPUT_DIR)
+
+simrun:
+	# $BUILD_PRODUCTS_DIR
+	ios-sim launch $(ARIS_OUTPUT_DIR)/ARIS.app --devicetypeid "com.apple.CoreSimulator.SimDeviceType.iPhone-6, 8.1" --exit
+
+simulate: simbuild simrun
 
 all: timestamp copy clean
