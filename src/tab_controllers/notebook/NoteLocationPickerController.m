@@ -93,25 +93,6 @@
     [delegate newLocationPicked:mapView.centerCoordinate];
 }
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0,0,19,19);
-    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
-    backButton.accessibilityLabel = @"Back Button";
-    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-
-    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];
-    saveButton.frame = CGRectMake(0, 0, 24, 24);
-    [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
-    self.navigationItem.rightBarButtonItem = rightNavBarButton;
-}
-
 - (void) changeMapType
 {
     switch(mapView.mapType)
@@ -125,16 +106,6 @@
 - (void) resetButtonTouched
 {
     [mapView setCenterCoordinate:_MODEL_PLAYER_.location.coordinate animated:YES];
-}
-
-- (void) saveButtonTouched
-{
-    [delegate newLocationPicked:mapView.centerCoordinate];
-}
-
-- (void) backButtonTouched
-{
-    [delegate locationPickerCancelled:self];
 }
 
 - (void) dealloc
