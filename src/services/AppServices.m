@@ -897,6 +897,9 @@
     NSDictionary *noteDict= (NSDictionary *)result.resultData;
     Note *note = [[Note alloc] initWithDictionary:noteDict];
     _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_RECEIVED", nil, @{@"note":note});
+
+    // triggerGameUpdateForLogEvent
+    [_MODEL_GAME_ requestPlayerData];
 }
 
 - (void) updateNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr
@@ -1009,6 +1012,11 @@
 }
 
 
+- (void) triggerGameUpdateForLogEvent:(ARISServiceResult *)result
+{
+  [_MODEL_GAME_ requestPlayerData];
+}
+
 - (void) logPlayerEnteredGame
 {
     NSDictionary *args =
@@ -1052,7 +1060,7 @@
       @"content_type":@"PLAQUE",
       @"content_id":[NSNumber numberWithInt:plaque_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerViewedItemId:(int)item_id
 {
@@ -1062,7 +1070,7 @@
       @"content_type":@"ITEM",
       @"content_id":[NSNumber numberWithInt:item_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerViewedDialogId:(int)dialog_id
 {
@@ -1072,7 +1080,7 @@
       @"content_type":@"DIALOG",
       @"content_id":[NSNumber numberWithInt:dialog_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerViewedDialogScriptId:(int)dialog_script_id
 {
@@ -1082,7 +1090,7 @@
       @"content_type":@"DIALOG_SCRIPT",
       @"content_id":[NSNumber numberWithInt:dialog_script_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerViewedWebPageId:(int)web_page_id
 {
@@ -1092,7 +1100,7 @@
       @"content_type":@"WEB_PAGE",
       @"content_id":[NSNumber numberWithInt:web_page_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerViewedNoteId:(int)note_id
 {
@@ -1102,7 +1110,7 @@
       @"content_type":@"NOTE",
       @"content_id":[NSNumber numberWithInt:note_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerViewedSceneId:(int)scene_id
 {
@@ -1121,7 +1129,7 @@
       @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
       @"instance_id":[NSNumber numberWithInt:instance_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedInstance" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedInstance" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerTriggeredTriggerId:(int)trigger_id
 {
@@ -1130,7 +1138,7 @@
       @"game_id":[NSNumber numberWithInt:_MODEL_GAME_.game_id],
       @"trigger_id":[NSNumber numberWithInt:trigger_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerTriggeredTrigger" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerTriggeredTrigger" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil]; 
 }
 - (void) logPlayerReceivedItemId:(int)item_id qty:(int)qty
 {
