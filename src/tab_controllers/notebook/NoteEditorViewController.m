@@ -391,8 +391,6 @@
 {
     note.desc = description.text;
 
-    [self setLocationDefault];
-
     if(note.note_id) [_MODEL_NOTES_ saveNote:note withTag:tag media:media trigger:trigger];
     else             [_MODEL_NOTES_ createNote:note withTag:tag media:media trigger:trigger];
 
@@ -409,21 +407,9 @@
 {
     trigger = [_MODEL_TRIGGERS_ triggerForId:0]; //get null trigger
     trigger.location = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
-    [self.navigationController popToViewController:self animated:YES];
     dirtybit = YES;
 }
 
-
-- (void) setLocationDefault
-{
-    if(!trigger)
-    {
-      trigger = [_MODEL_TRIGGERS_ triggerForId:0]; //get null trigger
-      // NOTE is this alright? direct assignment.
-      CLLocationCoordinate2D coordinate = _MODEL_PLAYER_.location.coordinate;
-      trigger.location = [[CLLocation alloc] initWithLatitude: coordinate.latitude longitude: coordinate.longitude];
-    }
-}
 
 - (void) imageChosenWithURL:(NSURL *)url
 {

@@ -48,8 +48,6 @@
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
 
     mapView = [[MKMapView alloc] init];
-    mapView.delegate = self;
-    mapView.showsUserLocation = YES;
 
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
@@ -67,11 +65,6 @@
 
     mapView.mapType = MKMapTypeStandard;
 
-    [mapView setCenterCoordinate:location animated:NO];
-
-    // Default zoom
-    MKCoordinateSpan span = MKCoordinateSpanMake(0, 0.01);
-    [mapView setRegion:MKCoordinateRegionMake(location, span) animated:YES];
 }
 
 - (void) viewWillLayoutSubviews
@@ -84,6 +77,13 @@
         self.view.bounds.size.width/10,
         self.view.bounds.size.width/10
     );
+
+    MKCoordinateSpan span = MKCoordinateSpanMake(0, 0.01);
+    [mapView setRegion:MKCoordinateRegionMake(location, span) animated:NO];
+
+    // Default zoom
+    mapView.delegate = self;
+    mapView.showsUserLocation = YES;
 }
 
 - (void)mapView:(MKMapView *)mapViewA regionDidChangeAnimated:(BOOL)animated {
