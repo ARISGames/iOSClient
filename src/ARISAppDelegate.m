@@ -16,7 +16,6 @@
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
 #import "User.h"
-#import "TestFlight.h"
 #import <Crashlytics/Crashlytics.h>
 
 #import "ARISDefaults.h"
@@ -42,7 +41,6 @@
 {    
     application.idleTimerDisabled = YES;
     
-    [TestFlight takeOff:@"71a0800e-c39f-43b7-9308-1d4b6a4d9f73"];
     [Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];
     
     [self setApplicationUITemplates];
