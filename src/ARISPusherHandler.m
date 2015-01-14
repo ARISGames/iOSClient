@@ -56,7 +56,6 @@
     {
         self.pusherClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
         self.pusherClient.delegate = self;
-        self.pusherClient.reconnectAutomatically = YES;
 
         self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://arisgames.org/server/events/auths/private_auth.php"];
     }
