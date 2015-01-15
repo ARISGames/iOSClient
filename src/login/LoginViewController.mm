@@ -12,13 +12,13 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 
-#import <ZXingWidgetController.h>
-#import "QRCodeReader.h"
+//#import <ZXingWidgetController.h>
+//#import "QRCodeReader.h"
 
 #import "CreateAccountViewController.h"
 #import "ForgotPasswordViewController.h"
 
-@interface LoginViewController() <ZXingDelegate, CreateAccountViewControllerDelegate, UITextFieldDelegate>
+@interface LoginViewController() </*ZXingDelegate,*/ CreateAccountViewControllerDelegate, UITextFieldDelegate>
 {
   UITextField *usernameField;
   UITextField *passwordField;
@@ -201,10 +201,10 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (void) QRButtonTouched
 {
   [self resignKeyboard];
-  ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO];
-  widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
+  //ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO];
+  //widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
 
-  [self presentViewController:widController animated:NO completion:nil];
+  //[self presentViewController:widController animated:NO completion:nil];
 }
 
 - (void) changePassTouch   
@@ -221,6 +221,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   [[self navigationController] pushViewController:createAccountViewController animated:YES];
 }
 
+/*
 - (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
 {
   [self dismissViewControllerAnimated:NO completion:nil];
@@ -260,7 +261,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 {
   [self dismissViewControllerAnimated:NO completion:nil];
 }
-
+*/
 - (NSUInteger) supportedInterfaceOrientations
 {
   return UIInterfaceOrientationMaskPortrait;

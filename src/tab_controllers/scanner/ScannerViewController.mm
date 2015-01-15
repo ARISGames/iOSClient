@@ -7,20 +7,20 @@
 //
 
 #import "ScannerViewController.h"
-#import <ZXingWidgetController.h>
-#import "Decoder.h"
+//#import <ZXingWidgetController.h>
+//#import "Decoder.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
-#import "QRCodeReader.h"
+//#import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
 
-@interface ScannerViewController() <ZXingDelegate, UITextFieldDelegate>
+@interface ScannerViewController() </*ZXingDelegate, */UITextFieldDelegate>
 {
     Tab *tab;
     NSString *prompt;
     
     NSDate *lastError;
-    ZXingWidgetController *widController;
+    //ZXingWidgetController *widController;
     id<ScannerViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -92,28 +92,29 @@
 - (void) launchScanner
 {
     [self clearScreenActions];
-    widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO withPrompt:prompt];
-    widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
+    //widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO withPrompt:prompt];
+    //widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
     prompt = @"";
-    [self performSelector:@selector(addWidSubview) withObject:Nil afterDelay:0.1];
+    //[self performSelector:@selector(addWidSubview) withObject:Nil afterDelay:0.1];
 }
 
 - (void) addWidSubview
 {
-    [self.view addSubview:widController.view];
+    //[self.view addSubview:widController.view];
 }
 
-- (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
+/*- (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
 {
     [self hideWidController];
 }
-
+*/
 - (void) hideWidController
 {
-    [widController.view removeFromSuperview];
-    widController = nil;
+    //[widController.view removeFromSuperview];
+    //widController = nil;
 }
 
+/*
 - (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
 {
     [self hideWidController];
@@ -137,7 +138,7 @@
         else [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
     }
 }
-
+*/
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"SCANNER"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Scanner"; }
