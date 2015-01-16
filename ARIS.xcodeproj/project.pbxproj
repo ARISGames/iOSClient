@@ -141,9 +141,6 @@
 		AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA179D618985CAB004B82EE /* SelectableNoteTagCellView.m */; };
 		AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1CE2C1891C1C20005F4DC /* NoteComment.m */; };
 		AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA2F8C718A3F85B00B77249 /* MapHUD.m */; };
-		AAA318E118B7C7280000E71A /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA318DB18B7C7280000E71A /* libTestFlight.a */; };
-		AAA318E218B7C7280000E71A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AAA318DC18B7C7280000E71A /* README.md */; };
-		AAA318E318B7C7280000E71A /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = AAA318DD18B7C7280000E71A /* release_notes.md */; };
 		AAA3FAA118CA28B500C8D016 /* ARISSelectorHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */; };
 		AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA518CA733000C8D016 /* CircleView.m */; };
 		AAB398E41918166700E0E766 /* Plaque.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E31918166700E0E766 /* Plaque.m */; };
@@ -530,12 +527,6 @@
 		AAA1CE2C1891C1C20005F4DC /* NoteComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteComment.m; sourceTree = "<group>"; };
 		AAA2F8C618A3F85B00B77249 /* MapHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapHUD.h; sourceTree = "<group>"; };
 		AAA2F8C718A3F85B00B77249 /* MapHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapHUD.m; sourceTree = "<group>"; };
-		AAA318DB18B7C7280000E71A /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		AAA318DC18B7C7280000E71A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		AAA318DD18B7C7280000E71A /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		AAA318DE18B7C7280000E71A /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
-		AAA318DF18B7C7280000E71A /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
-		AAA318E018B7C7280000E71A /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		AAA3FA9F18CA28B500C8D016 /* ARISSelectorHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISSelectorHandle.h; sourceTree = "<group>"; };
 		AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISSelectorHandle.m; sourceTree = "<group>"; };
 		AAA3FAA418CA733000C8D016 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
@@ -838,7 +829,6 @@
 				ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */,
 				A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */,
 				ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */,
-				AAA318E118B7C7280000E71A /* libTestFlight.a in Frameworks */,
 				AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */,
 				A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */,
 				ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */,
@@ -1148,19 +1138,6 @@
 				AA9F7135194F53FA00384832 /* LogsModel.m */,
 			);
 			path = logs;
-			sourceTree = "<group>";
-		};
-		AAA318DA18B7C7280000E71A /* TestFlightSDK3.0.0 */ = {
-			isa = PBXGroup;
-			children = (
-				AAA318DB18B7C7280000E71A /* libTestFlight.a */,
-				AAA318DC18B7C7280000E71A /* README.md */,
-				AAA318DD18B7C7280000E71A /* release_notes.md */,
-				AAA318DE18B7C7280000E71A /* TestFlight+AsyncLogging.h */,
-				AAA318DF18B7C7280000E71A /* TestFlight+ManualSessions.h */,
-				AAA318E018B7C7280000E71A /* TestFlight.h */,
-			);
-			path = TestFlightSDK3.0.0;
 			sourceTree = "<group>";
 		};
 		AAB398E5191821D400E0E766 /* plaques */ = {
@@ -1723,7 +1700,6 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
-				AAA318DA18B7C7280000E71A /* TestFlightSDK3.0.0 */,
 				AB5EC6E21820DC4D00FF49A6 /* Crashlytics.framework */,
 				AAF7115117B9579900262A37 /* PKRevealController */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
@@ -2072,7 +2048,6 @@
 				AA0D161118EDF14500D856F1 /* globe_red@2x.png in Resources */,
 				AA2D213917DE560C00CF4198 /* locationarrow@2x.png in Resources */,
 				AABC6FED1727398B0074CC21 /* comment.png in Resources */,
-				AAA318E218B7C7280000E71A /* README.md in Resources */,
 				AA0D161018EDF14500D856F1 /* clock_red@2x.png in Resources */,
 				AABC6FEF1727398B0074CC21 /* defaultAudioIcon.png in Resources */,
 				AA2D215317DE560C00CF4198 /* toolbox@2x.png in Resources */,
@@ -2088,7 +2063,6 @@
 				ABE735E817D65C0100396CF5 /* arrowBack@2x.png in Resources */,
 				AABC70021727398B0074CC21 /* location.png in Resources */,
 				AB45E73F1A01502500A7A77B /* conversation_icon_120.png in Resources */,
-				AAA318E318B7C7280000E71A /* release_notes.md in Resources */,
 				AB45E7421A01502500A7A77B /* plaque_icon_120.png in Resources */,
 				AB45E7431A01502500A7A77B /* webpage_icon_120.png in Resources */,
 				AAE2F7A11A129DE20042455A /* roll@2x.png in Resources */,
