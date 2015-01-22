@@ -21,8 +21,8 @@
     NSString *prompt;
     NSDate *lastError;
     AVCaptureVideoPreviewLayer *previewLayer;
-	AVCaptureSession *session;
-	BOOL scanning;
+    AVCaptureSession *session;
+    BOOL scanning;
     id<ScannerViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -53,14 +53,14 @@
 
 - (void) viewDidLoad
 {
-	[super viewDidLoad];
-	[self loadAVMetadataScanner];
+    [super viewDidLoad];
+    [self loadAVMetadataScanner];
 }
 
 
 - (void) loadAVMetadataScanner
 {
-	scanning = NO;
+    scanning = NO;
 
     // Create a new AVCaptureSession
     session = [[AVCaptureSession alloc] init];
@@ -100,7 +100,7 @@
     [super viewWillAppearFirstTime:animated];
 
     //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];   
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
     [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
@@ -113,7 +113,7 @@
     [super viewDidAppear:animated];
 
     [session startRunning];
-	scanning = YES;
+    scanning = YES;
 }
 
 
@@ -122,7 +122,7 @@
     [super viewDidDisappear:animated];
 
     [session stopRunning];
-	scanning = NO;
+    scanning = NO;
 }
 
 
@@ -140,57 +140,57 @@
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
-	if(scanning)
-	{
-		BOOL not_found = NO;
-		scanning = NO;
+    if(scanning)
+    {
+        BOOL not_found = NO;
 
-		for (AVMetadataObject *metadata in metadataObjects)
-		{
-			AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
-			NSString *result = [transformed stringValue];
-			NSLog(@"Scanned code: %@ (%@)", metadata.type, result);
+        for (AVMetadataObject *metadata in metadataObjects)
+        {
+            scanning = NO;
 
-			Trigger *t;
-			if([result isEqualToString:@"log-out"])
-			{
-				[_MODEL_ logOut];
+            AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
+            NSString *result = [transformed stringValue];
 
-				// Leave after successful scan
-				return;
-			}
-			else
-			{
-				t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
+            Trigger *t;
+            if([result isEqualToString:@"log-out"])
+            {
+                [_MODEL_ logOut];
 
-				if(!t)
-				{
-					not_found = YES;
-				}
-				else
-				{
-					[_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
+                // Leave after successful scan
+                return;
+            }
+            else
+            {
+                t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
 
-					// Leave after successful scan
-					return;
-				}
-			}
+                if(!t)
+                {
+                    not_found = YES;
+                }
+                else
+                {
+                    [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
 
-		}
+                    // Leave after successful scan
+                    return;
+                }
+            }
 
-		// All metadata visible scanned
-		if(not_found)
-		{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-			[alert show];
-		}
-	}
+        }
+
+        // All metadata visible scanned
+        if(not_found)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+    }
 }
 
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	scanning = YES;
+    scanning = YES;
 }
 
 
