@@ -35,10 +35,10 @@
     {
         tab = t;
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
-        
+
         lastError = [NSDate date];
-        prompt = @""; 
-        
+        prompt = @"";
+
         delegate = d;
     }
     return self;
@@ -47,7 +47,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorBlack];  
+    self.view.backgroundColor = [UIColor ARISColorBlack];
 }
 
 
@@ -60,7 +60,7 @@
 
 - (void) loadAVMetadataScanner
 {
-	scanning = YES;
+	scanning = NO;
 
     // Create a new AVCaptureSession
     session = [[AVCaptureSession alloc] init];
@@ -81,7 +81,7 @@
     AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
     [session addOutput:output];
 
-    [output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypePDF417Code]];
+    [output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeUPCECode]];
     [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
 
     // Display on screen
@@ -91,129 +91,108 @@
     previewLayer.position = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
     [self.view.layer addSublayer:previewLayer];
 
-    [session startRunning];
+    [session stopRunning];
 }
+
 
 - (void) viewWillAppearFirstTime:(BOOL)animated
 {
     [super viewWillAppearFirstTime:animated];
 
     //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];   
     [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];  
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
 }
+
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self launchScanner];
+
+    [session startRunning];
+	scanning = YES;
 }
+
 
 - (void) viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self clearScreenActions];
+
+    [session stopRunning];
+	scanning = NO;
 }
+
 
 - (void) showNav
 {
     [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 
-- (void) clearScreenActions
-{
-    [self hideWidController];
-}
 
 -  (void) setPrompt:(NSString *)p
 {
     prompt = p;
-    if(self.view) [self launchScanner]; //hack to ensure view is loaded
 }
 
-- (void) launchScanner
-{
-    [self clearScreenActions];
-    //widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO withPrompt:prompt];
-    //widController.readers = [[NSMutableSet  alloc] initWithObjects:[[QRCodeReader alloc] init], nil];
-    prompt = @"";
-    //[self performSelector:@selector(addWidSubview) withObject:Nil afterDelay:0.1];
-}
-
-- (void) addWidSubview
-{
-    //[self.view addSubview:widController.view];
-}
-
-/*- (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
-{
-    [self hideWidController];
-}
-*/
-- (void) hideWidController
-{
-    //[widController.view removeFromSuperview];
-    //widController = nil;
-}
-
-/*
-- (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
-{
-    [self hideWidController];
-	
-    Trigger *t;
-    if([result isEqualToString:@"log-out"]) [_MODEL_ logOut];
-    else 
-    {
-        t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
-    
-    	if(!t) 
-        {
-            if([lastError timeIntervalSinceNow] < -3.0f)
-            { 
-                lastError = [NSDate date];
-                [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
-                [self performSelector:@selector(launchScanner) withObject:nil afterDelay:1]; 
-            }
-            //else ignore false reading
-        }
-        else [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
-    }
-}
-*/
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
-	scanning = NO;
-
-    for (AVMetadataObject *metadata in metadataObjects)
+	if(scanning)
 	{
-		AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
-		NSString *result = [transformed stringValue];
+		BOOL not_found = NO;
+		scanning = NO;
 
-		Trigger *t;
-		if([result isEqualToString:@"log-out"])
+		for (AVMetadataObject *metadata in metadataObjects)
 		{
-			[_MODEL_ logOut];
-		}
-		else
-		{
-			t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
+			AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
+			NSString *result = [transformed stringValue];
+			NSLog(@"Scanned code: %@ (%@)", metadata.type, result);
 
-			if(!t)
+			Trigger *t;
+			if([result isEqualToString:@"log-out"])
 			{
-				[[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
+				[_MODEL_ logOut];
+
+				// Leave after successful scan
+				return;
 			}
 			else
 			{
-				[_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
+				t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
+
+				if(!t)
+				{
+					not_found = YES;
+				}
+				else
+				{
+					[_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
+
+					// Leave after successful scan
+					return;
+				}
 			}
+
 		}
-    }
+
+		// All metadata visible scanned
+		if(not_found)
+		{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+			[alert show];
+		}
+	}
 }
+
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	scanning = YES;
+}
+
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"SCANNER"; }
@@ -222,7 +201,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self); 
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
