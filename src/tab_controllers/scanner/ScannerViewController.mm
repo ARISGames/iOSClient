@@ -9,18 +9,20 @@
 #import "ScannerViewController.h"
 //#import <ZXingWidgetController.h>
 //#import "Decoder.h"
+#import <AVFoundation/AVFoundation.h>
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 //#import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
 
-@interface ScannerViewController() </*ZXingDelegate, */UITextFieldDelegate>
+@interface ScannerViewController() <AVCaptureMetadataOutputObjectsDelegate, UITextFieldDelegate>
 {
     Tab *tab;
     NSString *prompt;
-    
     NSDate *lastError;
-    //ZXingWidgetController *widController;
+    AVCaptureVideoPreviewLayer *previewLayer;
+	AVCaptureSession *session;
+	BOOL scanning;
     id<ScannerViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -48,6 +50,50 @@
     self.view.backgroundColor = [UIColor ARISColorBlack];  
 }
 
+
+- (void) viewDidLoad
+{
+	[super viewDidLoad];
+	[self loadAVMetadataScanner];
+}
+
+
+- (void) loadAVMetadataScanner
+{
+	scanning = YES;
+
+    // Create a new AVCaptureSession
+    session = [[AVCaptureSession alloc] init];
+    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    NSError *error = nil;
+
+    // Want the normal device
+    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+
+    if(input) {
+        // Add the input to the session
+        [session addInput:input];
+    } else {
+        NSLog(@"error: %@", error);
+        return;
+    }
+
+    AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
+    [session addOutput:output];
+
+    [output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypePDF417Code]];
+    [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+
+    // Display on screen
+    previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+    previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    previewLayer.bounds = self.view.bounds;
+    previewLayer.position = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
+    [self.view.layer addSublayer:previewLayer];
+
+    [session startRunning];
+}
+
 - (void) viewWillAppearFirstTime:(BOOL)animated
 {
     [super viewWillAppearFirstTime:animated];
@@ -63,7 +109,6 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [self launchScanner];
 }
 
@@ -139,6 +184,37 @@
     }
 }
 */
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
+{
+	scanning = NO;
+
+    for (AVMetadataObject *metadata in metadataObjects)
+	{
+		AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
+		NSString *result = [transformed stringValue];
+
+		Trigger *t;
+		if([result isEqualToString:@"log-out"])
+		{
+			[_MODEL_ logOut];
+		}
+		else
+		{
+			t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
+
+			if(!t)
+			{
+				[[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
+			}
+			else
+			{
+				[_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
+			}
+		}
+    }
+}
+
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"SCANNER"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Scanner"; }
