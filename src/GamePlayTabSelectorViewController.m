@@ -289,6 +289,15 @@
         tab = playerTabs[i];
         if(tab == t)
         {
+
+            if([tab.type isEqualToString:@"SCANNER"])
+            {
+                ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[tab.keyString];
+                [((ScannerViewController *)navigation.topViewController) setPrompt:tab.info];
+                // clean this up later.
+                tab.info = @"";
+            }
+
             [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
             return;
         }

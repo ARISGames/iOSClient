@@ -7,12 +7,9 @@
 //
 
 #import "ScannerViewController.h"
-//#import <ZXingWidgetController.h>
-//#import "Decoder.h"
 #import <AVFoundation/AVFoundation.h>
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
-//#import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
 
 @interface ScannerViewController() <AVCaptureMetadataOutputObjectsDelegate, UITextFieldDelegate>
@@ -20,6 +17,7 @@
     Tab *tab;
     NSString *prompt;
     NSDate *lastError;
+    UILabel *promptLabel;
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureSession *session;
     BOOL scanning;
@@ -92,6 +90,26 @@
     [self.view.layer addSublayer:previewLayer];
 
     [session stopRunning];
+
+
+    // Add QR overlay
+    UIImageView *qr_overlay = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"qr"]];
+    qr_overlay.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.width);
+    qr_overlay.alpha = 0.35;
+    qr_overlay.center = CGPointMake( self.view.bounds.size.width / 2, self.view.bounds.size.height / 2);
+    [self.view addSubview:qr_overlay];
+
+    // Add Prompt
+    promptLabel = [[UILabel alloc] init];
+    promptLabel.frame = CGRectMake(0, self.view.bounds.size.height-75,self.view.bounds.size.width,75);
+    promptLabel.numberOfLines = 0;
+    promptLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    promptLabel.textAlignment = NSTextAlignmentCenter;
+    promptLabel.textColor       = [UIColor ARISColorLightGray];
+    promptLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
+    [self.view addSubview:promptLabel];
+    [self setPrompt:prompt];
+
 }
 
 
@@ -121,6 +139,7 @@
 {
     [super viewDidDisappear:animated];
 
+    [self setPrompt: @""];
     [session stopRunning];
     scanning = NO;
 }
@@ -135,6 +154,16 @@
 -  (void) setPrompt:(NSString *)p
 {
     prompt = p;
+    promptLabel.text = prompt;
+
+    if([prompt isEqualToString:@""])
+    {
+      promptLabel.hidden = YES;
+    }
+    else
+    {
+      promptLabel.hidden = NO;
+    }
 }
 
 
@@ -142,47 +171,50 @@
 {
     if(scanning)
     {
-        BOOL not_found = NO;
-
-        for (AVMetadataObject *metadata in metadataObjects)
+        if (metadataObjects != nil && [metadataObjects count] > 0)
         {
+            BOOL not_found = NO;
             scanning = NO;
 
-            AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
-            NSString *result = [transformed stringValue];
-
-            Trigger *t;
-            if([result isEqualToString:@"log-out"])
+            for (AVMetadataObject *metadata in metadataObjects)
             {
-                [_MODEL_ logOut];
 
-                // Leave after successful scan
-                return;
-            }
-            else
-            {
-                t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
+                AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
+                NSString *result = [transformed stringValue];
 
-                if(!t)
+                Trigger *t;
+                if([result isEqualToString:@"log-out"])
                 {
-                    not_found = YES;
-                }
-                else
-                {
-                    [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
+                    [_MODEL_ logOut];
 
                     // Leave after successful scan
                     return;
                 }
+                else
+                {
+                    t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
+
+                    if(!t)
+                    {
+                        not_found = YES;
+                    }
+                    else
+                    {
+                        [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
+
+                        // Leave after successful scan
+                        return;
+                    }
+                }
+
             }
 
-        }
-
-        // All metadata visible scanned
-        if(not_found)
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-            [alert show];
+            // All metadata visible scanned
+            if(not_found)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+                [alert show];
+            }
         }
     }
 }

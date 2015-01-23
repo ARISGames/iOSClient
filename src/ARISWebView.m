@@ -201,7 +201,7 @@
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:token]];
         else if([type isEqualToString:@"scanner"])
         {
-            [_MODEL_TABS_ tabForType:@"SCANNER"]; //set prompt
+            [_MODEL_TABS_ tabForType:@"SCANNER"].info = token;
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"SCANNER"]];
         }
         else if([type isEqualToString:@"plaque"])
