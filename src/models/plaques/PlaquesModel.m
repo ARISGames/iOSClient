@@ -46,10 +46,10 @@
 {
     Plaque *newPlaque;
     NSNumber *newPlaqueId;
-    for(int i = 0; i < newPlaques.count; i++)
+    for(long i = 0; i < newPlaques.count; i++)
     {
       newPlaque = [newPlaques objectAtIndex:i];
-      newPlaqueId = [NSNumber numberWithInt:newPlaque.plaque_id];
+      newPlaqueId = [NSNumber numberWithLong:newPlaque.plaque_id];
       if(!plaques[newPlaqueId]) [plaques setObject:newPlaque forKey:newPlaqueId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_PLAQUES_AVAILABLE",nil,nil);
@@ -62,10 +62,10 @@
 }
 
 // null plaque (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (Plaque *) plaqueForId:(int)plaque_id
+- (Plaque *) plaqueForId:(long)plaque_id
 {
   if(!plaque_id) return [[Plaque alloc] init];
-  return plaques[[NSNumber numberWithInt:plaque_id]];
+  return plaques[[NSNumber numberWithLong:plaque_id]];
 }
 
 - (void) dealloc

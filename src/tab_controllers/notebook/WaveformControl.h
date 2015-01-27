@@ -12,7 +12,7 @@
 
 @protocol WaveformControlDelegate <NSObject>
 - (CGPoint *) getSampleData;
-- (int) getSampleLength;
+- (long) getSampleLength;
 @end
 
 @interface WaveformControl : UIControl

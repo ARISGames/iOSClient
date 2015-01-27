@@ -24,7 +24,7 @@
     UITextField *tagInputField;
     NoteTagPredictionViewController *tagPredictionViewController;
 
-    int expandHeight;
+    long expandHeight;
     BOOL editable;
     BOOL editing;
 
@@ -82,7 +82,7 @@
     tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,expandHeight);
 }
 
-- (void) setExpandHeight:(int)h
+- (void) setExpandHeight:(long)h
 {
     expandHeight = h-30; //(subtract 30 for text field)
 }
@@ -100,7 +100,7 @@
     while([existingTagsScrollView subviews].count != 0) [[[existingTagsScrollView subviews] objectAtIndex:0] removeFromSuperview];
 
     UIView *tv;
-    int x = 10;
+    long x = 10;
     if(tag)
     {
         tv = [[NoteTagView alloc] initWithNoteTag:tag editable:editable delegate:self];
@@ -194,7 +194,7 @@
 {
     NSArray *allValidTags = _MODEL_TAGS_.tags;
     BOOL tagExists = NO;
-    for(int i = 0; i < allValidTags.count; i++)
+    for(long i = 0; i < allValidTags.count; i++)
     {
         if([[((Tag *)[allValidTags objectAtIndex:i]).tag lowercaseString] isEqualToString:[tagInputField.text lowercaseString]])
         {

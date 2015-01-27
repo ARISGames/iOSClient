@@ -56,7 +56,7 @@
         if(showTitle)
         {
             if(trigger.title) titleSize = [trigger.title sizeWithFont:[ARISTemplate ARISAnnotFont]];
-            int maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
+            long maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
             if(trigger.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
             
             titleRect = CGRectOffset(titleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);

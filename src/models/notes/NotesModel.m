@@ -59,10 +59,10 @@
 {
     [_SERVICES_ updateNote:n withTag:t media:m trigger:tr]; //just forward to services
 }
-- (void) deleteNoteId:(int)note_id
+- (void) deleteNoteId:(long)note_id
 {
     [_SERVICES_ deleteNoteId:note_id]; //just forward to services
-    [notes removeObjectForKey:[NSNumber numberWithInt:note_id]];
+    [notes removeObjectForKey:[NSNumber numberWithLong:note_id]];
     [self invalidateCaches];
 }
 
@@ -74,10 +74,10 @@
 {
     [_SERVICES_ updateNoteComment:n]; //just forward to services
 }
-- (void) deleteNoteCommentId:(int)note_comment_id
+- (void) deleteNoteCommentId:(long)note_comment_id
 {
     [_SERVICES_ deleteNoteCommentId:note_comment_id]; //just forward to services
-    [note_comments removeObjectForKey:[NSNumber numberWithInt:note_comment_id]];
+    [note_comments removeObjectForKey:[NSNumber numberWithLong:note_comment_id]];
 }
 
 - (void) invalidateCaches
@@ -102,10 +102,10 @@
   [self invalidateCaches];
   Note *newNote;
   NSNumber *newNoteId;
-  for(int i = 0; i < newNotes.count; i++)
+  for(long i = 0; i < newNotes.count; i++)
   {
     newNote = [newNotes objectAtIndex:i];
-    newNoteId = [NSNumber numberWithInt:newNote.note_id];
+    newNoteId = [NSNumber numberWithLong:newNote.note_id];
     if(!notes[newNoteId]) [notes setObject:newNote forKey:newNoteId];
   }
   _ARIS_NOTIF_SEND_(@"MODEL_NOTES_AVAILABLE",nil,nil);
@@ -131,10 +131,10 @@
 {
   NoteComment *newComment;
   NSNumber *newCommentId;
-  for(int i = 0; i < newNoteComments.count; i++)
+  for(long i = 0; i < newNoteComments.count; i++)
   {
     newComment = [newNoteComments objectAtIndex:i];
-    newCommentId = [NSNumber numberWithInt:newComment.note_comment_id];
+    newCommentId = [NSNumber numberWithLong:newComment.note_comment_id];
     if(!note_comments[newCommentId]) [note_comments setObject:newComment forKey:newCommentId];
   }
   _ARIS_NOTIF_SEND_(@"MODEL_NOTE_COMMENTS_AVAILABLE",nil,nil);
@@ -147,10 +147,10 @@
 }
 
 // null note (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (Note *) noteForId:(int)note_id
+- (Note *) noteForId:(long)note_id
 {
   if(!note_id) return [[Note alloc] init];
-  return notes[[NSNumber numberWithInt:note_id]];
+  return notes[[NSNumber numberWithLong:note_id]];
 }
 
 - (NSArray *) notes
@@ -163,7 +163,7 @@
   if(playerNotes) return playerNotes;
   playerNotes = [[NSMutableArray alloc] init];
   NSArray *ns = [notes allValues];
-  for(int i = 0; i < ns.count; i++)
+  for(long i = 0; i < ns.count; i++)
     if(((Note *)ns[i]).user_id == _MODEL_PLAYER_.user_id) [playerNotes addObject:ns[i]];
   return playerNotes;
 }
@@ -176,7 +176,7 @@
   // NOTE do I need an NSArray just to loop like playerNotes?
   // also, does instancesForType scope to current scene?
   // (to use in place of instanceForId)
-  for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
+  for(long i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
   {
     Trigger  *trigger  = _MODEL_TRIGGERS_.playerTriggers[i];
     Instance *instance = [_MODEL_INSTANCES_ instanceForId:trigger.instance_id];
@@ -196,20 +196,20 @@
   if(notesMatchingTag) return notesMatchingTag;
   notesMatchingTag = [[NSMutableArray alloc] init];
   NSArray *ns = [notes allValues];
-  for(int i = 0; i < ns.count; i++)
+  for(long i = 0; i < ns.count; i++)
   {
       NSArray *tags = [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:((Note *)ns[i]).note_id];
-      for(int j = 0; j < tags.count; j++)
+      for(long j = 0; j < tags.count; j++)
           if(tag == tags[j]) [notesMatchingTag addObject:ns[i]];
   }
   return notesMatchingTag;
 }
 
 // null note (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (NoteComment *) noteCommentForId:(int)note_comment_id
+- (NoteComment *) noteCommentForId:(long)note_comment_id
 {
   if(!note_comment_id) return [[NoteComment alloc] init];
-  return note_comments[[NSNumber numberWithInt:note_comment_id]];
+  return note_comments[[NSNumber numberWithLong:note_comment_id]];
 }
 
 - (NSArray *) noteComments
@@ -217,11 +217,11 @@
     return [note_comments allValues];
 }
 
-- (NSArray *) noteCommentsForNoteId:(int)note_id
+- (NSArray *) noteCommentsForNoteId:(long)note_id
 {
   NSMutableArray *noteCommentsMatchingNote = [[NSMutableArray alloc] init];
   NSArray *ncs = [note_comments allValues];
-  for(int i = 0; i < ncs.count; i++)
+  for(long i = 0; i < ncs.count; i++)
     if(((NoteComment *)ncs[i]).note_id == note_id) [noteCommentsMatchingNote addObject:ncs[i]];
   return noteCommentsMatchingNote;
 }

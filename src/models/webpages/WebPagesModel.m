@@ -46,10 +46,10 @@
 {
     WebPage *newWebPage;
     NSNumber *newWebPageId;
-    for(int i = 0; i < newWebPages.count; i++)
+    for(long i = 0; i < newWebPages.count; i++)
     {
       newWebPage = [newWebPages objectAtIndex:i];
-      newWebPageId = [NSNumber numberWithInt:newWebPage.web_page_id];
+      newWebPageId = [NSNumber numberWithLong:newWebPage.web_page_id];
       if(![webPages objectForKey:newWebPageId]) [webPages setObject:newWebPage forKey:newWebPageId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_WEB_PAGES_AVAILABLE",nil,nil);   
@@ -62,10 +62,10 @@
 }
 
 // null webpage (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (WebPage *) webPageForId:(int)web_page_id
+- (WebPage *) webPageForId:(long)web_page_id
 {
   if(!web_page_id) return [[WebPage alloc] init];
-  return [webPages objectForKey:[NSNumber numberWithInt:web_page_id]];
+  return [webPages objectForKey:[NSNumber numberWithLong:web_page_id]];
 }
 
 - (void) dealloc

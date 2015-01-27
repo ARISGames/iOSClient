@@ -88,7 +88,7 @@
     webView.scalesPageToFit = YES;
     webView.allowsInlineMediaPlayback = YES;
     webView.mediaPlaybackRequiresUserAction = NO;
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:webPage.url]] withAppendation:[NSString stringWithFormat:@"&web_page_id=%d",webPage.web_page_id]];
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:webPage.url]] withAppendation:[NSString stringWithFormat:@"&web_page_id=%ld",webPage.web_page_id]];
 
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);

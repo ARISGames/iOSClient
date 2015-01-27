@@ -10,6 +10,6 @@
 
 @protocol InstantiableProtocol
 - (NSString *) name;
-- (int) icon_media_id;
+- (long) icon_media_id;
 @end
 

@@ -140,7 +140,7 @@
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
 
-    int buttonSize = 40;
+    long buttonSize = 40;
     threeLinesButton.frame      = CGRectMake(15, 24,  buttonSize, buttonSize);
     centerButton.frame          = CGRectMake(15, 74,  buttonSize, buttonSize);
     fitToAnnotationButton.frame = CGRectMake(15, 124, buttonSize, buttonSize);
@@ -179,7 +179,7 @@
     Overlay *mapOverlay;
     
     //Remove all locations
-    for(int i = 0; i < mapAnnotations.count; i++)
+    for(long i = 0; i < mapAnnotations.count; i++)
     {
         if(![mapAnnotations[i] isKindOfClass:[Trigger class]]) continue;
         mapTrigger = mapAnnotations[i];
@@ -188,7 +188,7 @@
     }
     
     //Remove overlays
-    for(int i = 0; i < mapOverlays.count; i++)
+    for(long i = 0; i < mapOverlays.count; i++)
     {
         mapOverlay = mapOverlays[i];
         [mapView removeOverlay:mapOverlay];
@@ -214,12 +214,12 @@
     //
 
     //Remove locations
-    for(int i = 0; i < mapAnnotations.count; i++)
+    for(long i = 0; i < mapAnnotations.count; i++)
     {
         if(![mapAnnotations[i] isKindOfClass:[Trigger class]]) continue;
         mapTrigger = mapAnnotations[i];
         shouldRemove = YES;
-        for(int j = 0; j < _MODEL_TRIGGERS_.playerTriggers.count; j++)
+        for(long j = 0; j < _MODEL_TRIGGERS_.playerTriggers.count; j++)
         {
             modelTrigger = _MODEL_TRIGGERS_.playerTriggers[j];
             if(mapTrigger.trigger_id == modelTrigger.trigger_id &&
@@ -237,7 +237,7 @@
         }
     }
     //Add locations
-    for(int i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
+    for(long i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
     {
         modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i];
         if(![modelTrigger.type isEqualToString:@"LOCATION"] || modelTrigger.hidden) continue;
@@ -248,7 +248,7 @@
           ) continue;
 
         shouldAdd = YES;
-        for(int j = 0; j < mapAnnotations.count; j++)
+        for(long j = 0; j < mapAnnotations.count; j++)
         {
             if(![mapAnnotations[j] isKindOfClass:[Trigger class]]) continue;
             mapTrigger = mapAnnotations[j];
@@ -267,12 +267,12 @@
     //
 
     //Remove overlays
-    for(int i = 0; i < mapOverlays.count; i++)
+    for(long i = 0; i < mapOverlays.count; i++)
     {
         if(![mapOverlays[i] isKindOfClass:[Overlay class]]) continue;
         mapOverlay = mapOverlays[i];
         shouldRemove = YES;
-        for(int j = 0; j < _MODEL_OVERLAYS_.playerOverlays.count; j++)
+        for(long j = 0; j < _MODEL_OVERLAYS_.playerOverlays.count; j++)
         {
             modelOverlay = _MODEL_OVERLAYS_.playerOverlays[j];
             if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldRemove = NO;
@@ -280,11 +280,11 @@
         [mapView removeOverlay:mapOverlay];
     }
     //Add overlays
-    for(int i = 0; i < _MODEL_OVERLAYS_.playerOverlays.count; i++)
+    for(long i = 0; i < _MODEL_OVERLAYS_.playerOverlays.count; i++)
     {
         modelOverlay = _MODEL_OVERLAYS_.playerOverlays[i];
         shouldAdd = YES;
-        for(int j = 0; j < mapOverlays.count; j++)
+        for(long j = 0; j < mapOverlays.count; j++)
         {
             if(![mapOverlays[j] isKindOfClass:[Overlay class]]) continue;
             mapOverlay = mapOverlays[j];
@@ -373,7 +373,7 @@
     bottomRightCoord.latitude = 90;
     bottomRightCoord.longitude = -180;
 
-    for(int i = 0; i < mapView.annotations.count; i++)
+    for(long i = 0; i < mapView.annotations.count; i++)
     {
         id<MKAnnotation> an = mapView.annotations[i];
         topLeftCoord.longitude = fmin(topLeftCoord.longitude, an.coordinate.longitude);
@@ -409,7 +409,7 @@
 - (void) enableAnnotations
 {
     Trigger *t;
-    for (int i = 0; i < mapView.annotations.count; i++)
+    for (long i = 0; i < mapView.annotations.count; i++)
     {
         if(![mapView.annotations[i] isKindOfClass:[Trigger class]]) continue;
         t = mapView.annotations[i];
@@ -420,7 +420,7 @@
 - (void) disableAnnotations
 {
     Trigger *t;
-    for (int i = 0; i < mapView.annotations.count; i++)
+    for (long i = 0; i < mapView.annotations.count; i++)
     {
         if(![mapView.annotations[i] isKindOfClass:[Trigger class]]) continue;
         t = mapView.annotations[i];

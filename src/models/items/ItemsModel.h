@@ -12,25 +12,25 @@
 
 @interface ItemsModel : NSObject
 {
-    int currentWeight;
-    int weightCap;
+    long currentWeight;
+    long weightCap;
 }
 
-@property(nonatomic, assign) int currentWeight;
-@property(nonatomic, assign) int weightCap;
+@property(nonatomic, assign) long currentWeight;
+@property(nonatomic, assign) long weightCap;
 
-- (Item *) itemForId:(int)item_id;
+- (Item *) itemForId:(long)item_id;
 - (void) requestItems;
 - (void) touchPlayerItemInstances;
 - (NSArray *) inventory;
 - (NSArray *) attributes;
 
-- (int) dropItemFromPlayer:(int)item_id qtyToRemove:(int)qty;
-- (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty;
-- (int) giveItemToPlayer:(int)item_id qtyToAdd:(int)qty;
-- (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty;
-- (int) qtyOwnedForItem:(int)item_id;
-- (int) qtyAllowedToGiveForItem:(int)item_id;
+- (long) dropItemFromPlayer:(long)item_id qtyToRemove:(long)qty;
+- (long) takeItemFromPlayer:(long)item_id qtyToRemove:(long)qty;
+- (long) giveItemToPlayer:(long)item_id qtyToAdd:(long)qty;
+- (long) setItemsForPlayer:(long)item_id qtyToSet:(long)qty;
+- (long) qtyOwnedForItem:(long)item_id;
+- (long) qtyAllowedToGiveForItem:(long)item_id;
 - (void) clearPlayerData;
 - (void) clearGameData;
 

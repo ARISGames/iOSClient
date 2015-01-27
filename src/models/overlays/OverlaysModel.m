@@ -54,10 +54,10 @@
 {
     Overlay *newOverlay;
     NSNumber *newOverlayId;
-    for(int i = 0; i < newOverlays.count; i++)
+    for(long i = 0; i < newOverlays.count; i++)
     {
       newOverlay = [newOverlays objectAtIndex:i];
-      newOverlayId = [NSNumber numberWithInt:newOverlay.overlay_id];
+      newOverlayId = [NSNumber numberWithLong:newOverlay.overlay_id];
       if(![overlays objectForKey:newOverlayId])
         [overlays setObject:newOverlay forKey:newOverlayId];
     }
@@ -69,7 +69,7 @@
 {
     NSMutableArray *conformingOverlays = [[NSMutableArray alloc] init];
     Overlay *o;
-    for(int i = 0; i < newOverlays.count; i++)
+    for(long i = 0; i < newOverlays.count; i++)
     {
         if((o = [self overlayForId:((Overlay *)newOverlays[i]).overlay_id]))
            [conformingOverlays addObject:o];
@@ -94,11 +94,11 @@
 
     //find added
     BOOL new;
-    for(int i = 0; i < newOverlays.count; i++)
+    for(long i = 0; i < newOverlays.count; i++)
     {
         new = YES;
         newOverlay = newOverlays[i];
-        for(int j = 0; j < playerOverlays.count; j++)
+        for(long j = 0; j < playerOverlays.count; j++)
         {
             oldOverlay = playerOverlays[j];
             if(newOverlay.overlay_id == oldOverlay.overlay_id) new = NO;
@@ -108,11 +108,11 @@
 
     //find removed
     BOOL removed;
-    for(int i = 0; i < playerOverlays.count; i++)
+    for(long i = 0; i < playerOverlays.count; i++)
     {
         removed = YES;
         oldOverlay = playerOverlays[i];
-        for(int j = 0; j < newOverlays.count; j++)
+        for(long j = 0; j < newOverlays.count; j++)
         {
             newOverlay = newOverlays[j];
             if(newOverlay.overlay_id == oldOverlay.overlay_id) removed = NO;
@@ -129,9 +129,9 @@
 - (void) requestOverlays       { [_SERVICES_ fetchOverlays];   }
 - (void) requestPlayerOverlays { [_SERVICES_ fetchOverlaysForPlayer]; }
 
-- (Overlay *) overlayForId:(int)overlay_id
+- (Overlay *) overlayForId:(long)overlay_id
 {
-  return [overlays objectForKey:[NSNumber numberWithInt:overlay_id]];
+  return [overlays objectForKey:[NSNumber numberWithLong:overlay_id]];
 }
 
 - (NSArray *) playerOverlays

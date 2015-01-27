@@ -64,14 +64,14 @@
 {
     Trigger *newTrigger;
     NSNumber *newTriggerId;
-    for(int i = 0; i < newTriggers.count; i++)
+    for(long i = 0; i < newTriggers.count; i++)
     {
       newTrigger = [newTriggers objectAtIndex:i];
-      newTriggerId = [NSNumber numberWithInt:newTrigger.trigger_id];
+      newTriggerId = [NSNumber numberWithLong:newTrigger.trigger_id];
       if(![triggers objectForKey:newTriggerId])
       {
         [triggers setObject:newTrigger forKey:newTriggerId];
-        [blacklist removeObjectForKey:[NSNumber numberWithInt:newTriggerId]];
+        [blacklist removeObjectForKey:[NSNumber numberWithLong:newTriggerId]];
       }
       else
         if(![[triggers objectForKey:newTriggerId] mergeDataFromTrigger:newTrigger]) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,nil);
@@ -83,7 +83,7 @@
 - (NSArray *) conformTriggersListToFlyweight:(NSArray *)newTriggers
 {
     NSMutableArray *conformingTriggers = [[NSMutableArray alloc] init];
-    for(int i = 0; i < newTriggers.count; i++)
+    for(long i = 0; i < newTriggers.count; i++)
     {
         Trigger *newt = newTriggers[i];
         Trigger *exist = [self triggerForId:newt.trigger_id];
@@ -95,7 +95,7 @@
         }
         else
         {
-            [triggers setObject:newt forKey:[NSNumber numberWithInt:newt.trigger_id]];
+            [triggers setObject:newt forKey:[NSNumber numberWithLong:newt.trigger_id]];
             [conformingTriggers addObject:newt];
         }
     }
@@ -118,11 +118,11 @@
 
     //find added
     BOOL new;
-    for(int i = 0; i < newTriggers.count; i++)
+    for(long i = 0; i < newTriggers.count; i++)
     {
         new = YES;
         newTrigger = newTriggers[i];
-        for(int j = 0; j < playerTriggers.count; j++)
+        for(long j = 0; j < playerTriggers.count; j++)
         {
             oldTrigger = playerTriggers[j];
             if(newTrigger.trigger_id == oldTrigger.trigger_id) new = NO;
@@ -132,11 +132,11 @@
 
     //find removed
     BOOL removed;
-    for(int i = 0; i < playerTriggers.count; i++)
+    for(long i = 0; i < playerTriggers.count; i++)
     {
         removed = YES;
         oldTrigger = playerTriggers[i];
-        for(int j = 0; j < newTriggers.count; j++)
+        for(long j = 0; j < newTriggers.count; j++)
         {
             newTrigger = newTriggers[j];
             if(newTrigger.trigger_id == oldTrigger.trigger_id) removed = NO;
@@ -152,27 +152,27 @@
 }
 
 - (void) requestTriggers       { [_SERVICES_ fetchTriggers]; }
-- (void) requestTrigger:(int)t { [_SERVICES_ fetchTriggerById:t]; }
+- (void) requestTrigger:(long)t { [_SERVICES_ fetchTriggerById:t]; }
 - (void) requestPlayerTriggers { [_SERVICES_ fetchTriggersForPlayer]; }
 
 // null trigger (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (Trigger *) triggerForId:(int)trigger_id
+- (Trigger *) triggerForId:(long)trigger_id
 {
   if(!trigger_id) return [[Trigger alloc] init];
-  Trigger *t = [triggers objectForKey:[NSNumber numberWithInt:trigger_id]];
+  Trigger *t = [triggers objectForKey:[NSNumber numberWithLong:trigger_id]];
   if(!t)
   {
-    [blacklist setObject:@"true" forKey:[NSNumber numberWithInt:trigger_id]];
+    [blacklist setObject:@"true" forKey:[NSNumber numberWithLong:trigger_id]];
     [self requestTrigger:trigger_id];
     return [[Trigger alloc] init];
   }
   return t;
 }
 
-- (NSArray *) triggersForInstanceId:(int)instance_id
+- (NSArray *) triggersForInstanceId:(long)instance_id
 {
     NSMutableArray *a = [[NSMutableArray alloc] init];
-    for(int i = 0; i < triggers.count; i++)
+    for(long i = 0; i < triggers.count; i++)
     {
         Trigger *t = [triggers allValues][i];
         if(t.instance_id == instance_id)
@@ -184,7 +184,7 @@
 - (Trigger *) triggerForQRCode:(NSString *)code
 {
     Trigger *t;
-    for(int i = 0; i < playerTriggers.count; i++)
+    for(long i = 0; i < playerTriggers.count; i++)
     {
         t = playerTriggers[i];
         if([t.type isEqualToString:@"QR"] && [t.qr_code isEqualToString:code]) return t;

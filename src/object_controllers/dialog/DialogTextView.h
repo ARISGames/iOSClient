@@ -10,7 +10,7 @@
 @class DialogTextView;
 @protocol DialogTextViewDelegate
 - (void) dialogTextView:(DialogTextView *)dtv expandedToSize:(CGSize)s;
-- (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o;
+- (void) dialogTextView:(DialogTextView *)dtv selectedOption:(long)o;
 @end
 
 @interface DialogTextView : UIView

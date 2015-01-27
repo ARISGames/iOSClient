@@ -62,15 +62,15 @@
     return self;
 }
 
-- (void) loginGame:(int)game_id
+- (void) loginGame:(long)game_id
 {
-    self.gameChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",game_id]];
+    self.gameChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-game-channel",game_id]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGameChannelEventNotification:) ,self.gameChannel);
 }
 
-- (void) loginPlayer:(int)user_id
+- (void) loginPlayer:(long)user_id
 {
-    self.playerChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",user_id]];
+    self.playerChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-player-channel",user_id]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceivePlayerChannelEventNotification:) ,self.playerChannel);
 }
 
@@ -80,9 +80,9 @@
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGroupChannelEventNotification:) ,self.groupChannel);
 }
 
-- (void) loginWebPage:(int)web_page_id
+- (void) loginWebPage:(long)web_page_id
 {
-    self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",web_page_id]];
+    self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-webpage-channel",web_page_id]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveWebPageChannelEventNotification:) ,self.webPageChannel);
 }
 

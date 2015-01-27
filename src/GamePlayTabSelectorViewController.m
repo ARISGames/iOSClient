@@ -91,7 +91,7 @@
     [leaveGameButton addSubview:leaveGameLabel];
     [leaveGameButton addSubview:leaveGameArrow];
 
-    int headerHeight = 40;
+    long headerHeight = 40;
 
     CGRect headerFrame = CGRectMake(0, 0, self.view.bounds.size.width, headerHeight);
     UIView *headerView = [[UIView alloc] init];
@@ -141,7 +141,7 @@
     viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
 
     Tab *tab;
-    for(int i = 0; i < playerTabs.count; i++)
+    for(long i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
         if(!viewControllersDict[tab.keyString])
@@ -284,7 +284,7 @@
     NSArray *playerTabs = _MODEL_TABS_.playerTabs;
     Tab *tab;
     //Check by type
-    for(int i = 0; i < playerTabs.count; i++)
+    for(long i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
         if(tab == t)
@@ -305,7 +305,7 @@
     
     /*
     //Check by name
-    for(int i = 0; i < playerTabs.count; i++)
+    for(long i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
         if([[tab.name lowercaseString] isEqualToString:[t lowercaseString]])
@@ -315,7 +315,7 @@
         }
     }
     //Check by type
-    for(int i = 0; i < playerTabs.count; i++)
+    for(long i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
         if([[tab.type lowercaseString] isEqualToString:[t lowercaseString]])
@@ -331,7 +331,7 @@
 {
     NSArray *playerTabs = _MODEL_TABS_.playerTabs;
     Tab *tab;
-    for(int i = 0; i < playerTabs.count; i++)
+    for(long i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
         if([tab.type isEqualToString:@"SCANNER"])
@@ -352,7 +352,7 @@
 {
     NSDictionary *arisNavTab = notification.userInfo;
     ARISNavigationController *tab = [arisNavTab objectForKey:@"tab"];
-    for (int i = 0; i < viewControllers.count; i++) {
+    for (long i = 0; i < viewControllers.count; i++) {
         if ([tab isEqual:[viewControllers objectAtIndex:i]]) {
             [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
         }

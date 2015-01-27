@@ -460,8 +460,8 @@ static __strong NSData *CRLFCRLF;
     NSInteger responseCode = CFHTTPMessageGetResponseStatusCode(_receivedHTTPHeaders);
     
     if (responseCode >= 400) {
-        SRFastLog(@"Request failed with response code %d", responseCode);
-        [self _failWithError:[NSError errorWithDomain:@"org.lolrus.SocketRocket" code:2132 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"received bad response code from server %d", responseCode] forKey:NSLocalizedDescriptionKey]]];
+        SRFastLog(@"Request failed with response code %ld", responseCode);
+        [self _failWithError:[NSError errorWithDomain:@"org.lolrus.SocketRocket" code:2132 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"received bad response code from server %ld", responseCode] forKey:NSLocalizedDescriptionKey]]];
         return;
 
     }
@@ -530,7 +530,7 @@ static __strong NSData *CRLFCRLF;
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Upgrade"), CFSTR("websocket"));
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Connection"), CFSTR("Upgrade"));
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Sec-WebSocket-Key"), (__bridge CFStringRef)_secKey);
-    CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Sec-WebSocket-Version"), (__bridge CFStringRef)[NSString stringWithFormat:@"%d", _webSocketVersion]);
+    CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Sec-WebSocket-Version"), (__bridge CFStringRef)[NSString stringWithFormat:@"%ld", _webSocketVersion]);
     
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Origin"), (__bridge CFStringRef)_url.SR_origin);
     
@@ -638,7 +638,7 @@ static __strong NSData *CRLFCRLF;
         
         self.readyState = SR_CLOSING;
         
-        SRFastLog(@"Closing with code %d reason %@", code, reason);
+        SRFastLog(@"Closing with code %ld reason %@", code, reason);
         
         if (wasConnecting) {
             [self _disconnect];
@@ -804,7 +804,7 @@ static inline BOOL closeCodeIsValid(int closeCode) {
         [data getBytes:&closeCode length:sizeof(closeCode)];
         _closeCode = EndianU16_BtoN(closeCode);
         if (!closeCodeIsValid(_closeCode)) {
-            [self _closeWithProtocolError:[NSString stringWithFormat:@"Cannot have close code of %d", _closeCode]];
+            [self _closeWithProtocolError:[NSString stringWithFormat:@"Cannot have close code of %ld", _closeCode]];
             return;
         }
         if (dataSize > 2) {
@@ -876,7 +876,7 @@ static inline BOOL closeCodeIsValid(int closeCode) {
             [self handlePong];
             break;
         default:
-            [self _closeWithProtocolError:[NSString stringWithFormat:@"Unknown opcode %d", opcode]];
+            [self _closeWithProtocolError:[NSString stringWithFormat:@"Unknown opcode %ld", opcode]];
             // TODO: Handle invalid opcode
             break;
     }

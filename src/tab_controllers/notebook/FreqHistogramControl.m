@@ -64,7 +64,7 @@
     {
         float binWidth = self.bounds.size.width / 256; //512/2
         float currentBinCoor = binWidth / 2;
-        for(int k = 1; k < 512; k++){
+        for(long k = 1; k < 512; k++){
             float heightRatio = fourierData[k] / largestMag;
             float screenHeight = self.bounds.size.height * heightRatio;
             //float screenHeight = fourierData[k];

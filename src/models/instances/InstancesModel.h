@@ -11,10 +11,10 @@
 
 @interface InstancesModel : NSObject
 
-- (Instance *) instanceForId:(int)instance_id;
-- (NSArray *) instancesForType:(NSString *)object_type id:(int)object_id;
+- (Instance *) instanceForId:(long)instance_id;
+- (NSArray *) instancesForType:(NSString *)object_type id:(long)object_id;
 
-- (void) setQtyForInstanceId:(int)instance_id qty:(int)qty;
+- (void) setQtyForInstanceId:(long)instance_id qty:(long)qty;
 - (NSArray *) playerInstances;
 - (void) requestInstances;
 - (void) requestPlayerInstances;

@@ -110,12 +110,12 @@
     [[MTStatusBarOverlay sharedInstance] postMessage:string duration:5.0];
 }
 
-- (void) enqueuePopOverNotificationWithHeader:(NSString *)header prompt:(NSString *)prompt icon_media_id:(int)icon_media_id submitFunc:(NSString *)s
+- (void) enqueuePopOverNotificationWithHeader:(NSString *)header prompt:(NSString *)prompt icon_media_id:(long)icon_media_id submitFunc:(NSString *)s
 {
     [popOverArray addObject:@{
        @"header":header,
        @"prompt":prompt,
-       @"icon_media_id":[NSNumber numberWithInt:icon_media_id],
+       @"icon_media_id":[NSNumber numberWithLong:icon_media_id],
        @"submit_function":s
     }];
     if(!showingPopOver) [self dequeuePopOver];
@@ -125,7 +125,7 @@
 {
     NSArray *activeQuests = (NSArray *)notification.userInfo[@"added"];
     
-    for(int i = 0; i < activeQuests.count; i++)
+    for(long i = 0; i < activeQuests.count; i++)
     {
         Quest *activeQuest = activeQuests[i];
         
@@ -140,7 +140,7 @@
 {
     NSArray *completedQuests = (NSArray *)notification.userInfo[@"added"];
 
-    for(int i = 0; i < completedQuests.count; i++)
+    for(long i = 0; i < completedQuests.count; i++)
     { 
         Quest *completedQuest = completedQuests[i];      
     
@@ -154,16 +154,16 @@
 - (void) parseReceivedInstancesIntoNotifications:(NSNotification *)notification
 {
     NSArray *deltas = notification.userInfo[@"added"];
-    for(int i = 0; i < deltas.count; i++)
+    for(long i = 0; i < deltas.count; i++)
     {
         Instance *inst = deltas[i][@"instance"];
-        int qty = [deltas[i][@"delta"] intValue];
+        long qty = [deltas[i][@"delta"] intValue];
         
         NSString *notifString;
         if(((Item *)inst.object).max_qty_in_inventory == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", inst.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, inst.name, inst.qty, NSLocalizedString(@"TotalNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"+%ld %@ : %ld %@",  qty, inst.name, inst.qty, NSLocalizedString(@"TotalNotifKey", nil)];
         
         [self enqueueDropDownNotificationWithString:notifString];
     }
@@ -175,16 +175,16 @@
 - (void) parseLostInstancesIntoNotifications:(NSNotification *)notification
 {
     NSArray *deltas = notification.userInfo[@"added"];
-    for(int i = 0; i < deltas.count; i++)
+    for(long i = 0; i < deltas.count; i++)
     {
         Instance *inst = deltas[i][@"instance"];
-        int qty = [deltas[i][@"delta"] intValue];
+        long qty = [deltas[i][@"delta"] intValue];
         
         NSString *notifString;
         if(((Item *)inst.object).max_qty_in_inventory == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", inst.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"%d %@ : %d %@",  qty, inst.name, inst.qty, NSLocalizedString(@"LeftNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"%ld %@ : %ld %@",  qty, inst.name, inst.qty, NSLocalizedString(@"LeftNotifKey", nil)];
         
         [self enqueueDropDownNotificationWithString:notifString];
     }

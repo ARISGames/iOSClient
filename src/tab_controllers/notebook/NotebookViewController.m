@@ -89,7 +89,7 @@
     UIColor *fc = [UIColor whiteColor];
     UIColor *sc = [UIColor blackColor];
     UIColor *tc = [UIColor blackColor];
-    int sw = 1;
+    long sw = 1;
 
     newTextButton = [[CircleButton alloc] initWithFillColor:fc strokeColor:sc titleColor:tc disabledFillColor:tc disabledStrokeColor:tc disabledtitleColor:tc strokeWidth:sw];
     [newTextButton setImage:[UIImage imageNamed:@"notebook.png"] forState:UIControlStateNormal];
@@ -146,8 +146,8 @@
     navTitleView.frame  = CGRectMake(self.view.bounds.size.width/2-80, 5, 160, 35);
     navTitleLabel.frame = CGRectMake(0, 0, navTitleView.frame.size.width, navTitleView.frame.size.height);
 
-    int buttonDiameter = 50;
-    int buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2;
+    long buttonDiameter = 50;
+    long buttonPadding = ((self.view.frame.size.width/4)-buttonDiameter)/2;
     newTextButton.frame   = CGRectMake(buttonPadding*1+buttonDiameter*0, 69, buttonDiameter, buttonDiameter);
     newAudioButton.frame  = CGRectMake(buttonPadding*3+buttonDiameter*1, 69, buttonDiameter, buttonDiameter);
     newCameraButton.frame = CGRectMake(buttonPadding*5+buttonDiameter*2, 69, buttonDiameter, buttonDiameter);

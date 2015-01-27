@@ -11,28 +11,28 @@
 
 @interface Item : NSObject <InstantiableProtocol>
 {
-  int item_id;
+  long item_id;
   NSString *name;
   NSString *desc;
-  int icon_media_id;
-  int media_id; 
+  long icon_media_id;
+  long media_id; 
   BOOL droppable;
   BOOL destroyable; 
-  int max_qty_in_inventory;
-  int weight;
+  long max_qty_in_inventory;
+  long weight;
   NSString *url;
   NSString *type; //NORMAL, ATRIB, URL
 }
 
-@property (nonatomic, assign) int item_id;
+@property (nonatomic, assign) long item_id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
-@property (nonatomic, assign) int icon_media_id;
-@property (nonatomic, assign) int media_id;
+@property (nonatomic, assign) long icon_media_id;
+@property (nonatomic, assign) long media_id;
 @property (nonatomic, assign) BOOL droppable;
 @property (nonatomic, assign) BOOL destroyable;
-@property (nonatomic, assign) int max_qty_in_inventory;
-@property (nonatomic, assign) int weight;
+@property (nonatomic, assign) long max_qty_in_inventory;
+@property (nonatomic, assign) long weight;
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, strong) NSString *type;
 

@@ -16,7 +16,7 @@
     UISearchBar *theSearchBar;
     UIView *disableViewOverlay;
     NSString *searchText;
-    int currentPage;
+    long currentPage;
     BOOL currentlyFetchingNextPage;
     BOOL allResultsFound;
 }

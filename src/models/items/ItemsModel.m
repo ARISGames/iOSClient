@@ -76,10 +76,10 @@
 {
     Item *newItem;
     NSNumber *newItemId;
-    for(int i = 0; i < newItems.count; i++)
+    for(long i = 0; i < newItems.count; i++)
     {
       newItem = [newItems objectAtIndex:i];
-      newItemId = [NSNumber numberWithInt:newItem.item_id];
+      newItemId = [NSNumber numberWithLong:newItem.item_id];
       if(![items objectForKey:newItemId]) [items setObject:newItem forKey:newItemId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_AVAILABLE",nil,nil);   
@@ -101,60 +101,60 @@
     [self clearPlayerData];
     
     Instance *newInstance;
-    for(int i = 0; i < newInstances.count; i++)
+    for(long i = 0; i < newInstances.count; i++)
     {
         newInstance = newInstances[i];
         if(![newInstance.object_type isEqualToString:@"ITEM"] || newInstance.owner_id != _MODEL_PLAYER_.user_id) continue;
         
-        playerItemInstances[[NSNumber numberWithInt:newInstance.object_id]] = newInstance;
+        playerItemInstances[[NSNumber numberWithLong:newInstance.object_id]] = newInstance;
     }
     _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",nil,nil);
 }
 
-- (int) dropItemFromPlayer:(int)item_id qtyToRemove:(int)qty
+- (long) dropItemFromPlayer:(long)item_id qtyToRemove:(long)qty
 {
-    Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+    Instance *pII = playerItemInstances[[NSNumber numberWithLong:item_id]];
     if(!pII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForPlayer was called...)
     if(pII.qty < qty) qty = pII.qty;
     
-    [_SERVICES_ dropItem:(int)item_id qty:(int)qty];
+    [_SERVICES_ dropItem:(long)item_id qty:(long)qty];
     return [self takeItemFromPlayer:item_id qtyToRemove:qty];
 }
 
-- (int) takeItemFromPlayer:(int)item_id qtyToRemove:(int)qty
+- (long) takeItemFromPlayer:(long)item_id qtyToRemove:(long)qty
 {
-  Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+  Instance *pII = playerItemInstances[[NSNumber numberWithLong:item_id]];
   if(!pII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForPlayer was called...)
   if(pII.qty < qty) qty = pII.qty;
     
   return [self setItemsForPlayer:item_id qtyToSet:pII.qty-qty];
 }
 
-- (int) giveItemToPlayer:(int)item_id qtyToAdd:(int)qty
+- (long) giveItemToPlayer:(long)item_id qtyToAdd:(long)qty
 {
-  Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+  Instance *pII = playerItemInstances[[NSNumber numberWithLong:item_id]];
   if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
     
   return [self setItemsForPlayer:item_id qtyToSet:pII.qty+qty];
 }
 
-- (int) setItemsForPlayer:(int)item_id qtyToSet:(int)qty
+- (long) setItemsForPlayer:(long)item_id qtyToSet:(long)qty
 {
   [self invalidateCaches];
-  Instance *pII = playerItemInstances[[NSNumber numberWithInt:item_id]];
+  Instance *pII = playerItemInstances[[NSNumber numberWithLong:item_id]];
   if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty < 0) qty = 0;
   if(qty-pII.qty > [self qtyAllowedToGiveForItem:item_id]) qty = pII.qty+[self qtyAllowedToGiveForItem:item_id];
 
-  int oldQty = pII.qty;
+  long oldQty = pII.qty;
   [_MODEL_INSTANCES_ setQtyForInstanceId:pII.instance_id qty:qty];
   if(qty > oldQty)
   {
       [_MODEL_LOGS_ playerReceivedItemId:item_id qty:qty];
       
       //Instance model notifs. #dealwithit
-      NSDictionary *deltas = @{@"lost":@[],@"added":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty-oldQty]}]}; //ridiculous construct...
+      NSDictionary *deltas = @{@"lost":@[],@"added":@[@{@"instance":pII,@"delta":[NSNumber numberWithLong:qty-oldQty]}]}; //ridiculous construct...
       _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_GAINED",nil,deltas);
   }
   if(qty < oldQty)
@@ -162,7 +162,7 @@
       [_MODEL_LOGS_ playerLostItemId:item_id qty:qty];
       
       //Instance model notifs. #dealwithit
-      NSDictionary *deltas = @{@"added":@[],@"lost":@[@{@"instance":pII,@"delta":[NSNumber numberWithInt:qty-oldQty]}]}; //ridiculous construct...
+      NSDictionary *deltas = @{@"added":@[],@"lost":@[@{@"instance":pII,@"delta":[NSNumber numberWithLong:qty-oldQty]}]}; //ridiculous construct...
       _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_LOST",nil,deltas);
   }
   _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",nil,nil);
@@ -171,21 +171,21 @@
 }
 
 // null item (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (Item *) itemForId:(int)item_id
+- (Item *) itemForId:(long)item_id
 {
   if(!item_id) return [[Item alloc] init]; 
-  return [items objectForKey:[NSNumber numberWithInt:item_id]];
+  return [items objectForKey:[NSNumber numberWithLong:item_id]];
 }
 
-- (int) qtyOwnedForItem:(int)item_id
+- (long) qtyOwnedForItem:(long)item_id
 {
-    return ((Instance *)playerItemInstances[[NSNumber numberWithInt:item_id]]).qty;
+    return ((Instance *)playerItemInstances[[NSNumber numberWithLong:item_id]]).qty;
 }
 
-- (int) qtyAllowedToGiveForItem:(int)item_id
+- (long) qtyAllowedToGiveForItem:(long)item_id
 {
     Item *i = [self itemForId:item_id]; 
-    int amtMoreCanHold = i.max_qty_in_inventory-[self qtyOwnedForItem:item_id];
+    long amtMoreCanHold = i.max_qty_in_inventory-[self qtyOwnedForItem:item_id];
     while(weightCap != 0 && 
           (amtMoreCanHold*i.weight + currentWeight) > weightCap)
         amtMoreCanHold--; 
@@ -199,7 +199,7 @@
 
   inventory = [[NSMutableArray alloc] init];
   NSArray *instancearray = [playerItemInstances allValues];
-  for(int i = 0; i < instancearray.count; i++)
+  for(long i = 0; i < instancearray.count; i++)
   {
       if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"NORMAL"]) 
       [inventory addObject:[instancearray objectAtIndex:i]];
@@ -213,7 +213,7 @@
 
   attributes = [[NSMutableArray alloc] init];
   NSArray *instancearray = [playerItemInstances allValues];
-  for(int i = 0; i < instancearray.count; i++)
+  for(long i = 0; i < instancearray.count; i++)
   {
       if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"ATTRIB"]) 
           [attributes addObject:[instancearray objectAtIndex:i]]; 

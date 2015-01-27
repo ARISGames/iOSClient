@@ -10,16 +10,16 @@
 
 @interface DialogCharacter : NSObject
 {
-  int dialog_character_id;
+  long dialog_character_id;
   NSString *name;
   NSString *title;
-  int media_id;
+  long media_id;
 }
 
-@property(nonatomic, assign) int dialog_character_id;
+@property(nonatomic, assign) long dialog_character_id;
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSString *title;
-@property(nonatomic, assign) int media_id;
+@property(nonatomic, assign) long media_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 

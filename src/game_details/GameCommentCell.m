@@ -60,7 +60,7 @@
     if(!titleView) [self initViews];
     
     titleView.frame = CGRectMake(10,5,self.frame.size.width-10,24); 
-    int offset = 0;
+    long offset = 0;
     if(hasTitle) offset = 20; 
     ratingView.frame = CGRectMake(10,10+offset,60,12);
     authorView.frame = CGRectMake(80,10+offset,self.frame.size.width-70-80,15);  

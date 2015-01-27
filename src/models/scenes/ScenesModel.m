@@ -79,10 +79,10 @@
 {
     Scene *newScene;
     NSNumber *newSceneId;
-    for(int i = 0; i < newScenes.count; i++)
+    for(long i = 0; i < newScenes.count; i++)
     {
       newScene = [newScenes objectAtIndex:i];
-      newSceneId = [NSNumber numberWithInt:newScene.scene_id];
+      newSceneId = [NSNumber numberWithLong:newScene.scene_id];
       if(!scenes[newSceneId]) [scenes setObject:newScene forKey:newSceneId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_SCENES_AVAILABLE",nil,nil);
@@ -125,10 +125,10 @@
 }
 
 // null scene (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (Scene *) sceneForId:(int)scene_id
+- (Scene *) sceneForId:(long)scene_id
 {
   if(!scene_id) return [[Scene alloc] init];
-  return scenes[[NSNumber numberWithInt:scene_id]];
+  return scenes[[NSNumber numberWithLong:scene_id]];
 }
 
 - (void) dealloc

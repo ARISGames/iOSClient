@@ -24,7 +24,7 @@
     ARISCollapseView *collapseView;
     DialogTextView *dialogTextView;
     
-    int lastKnownTextFrameHeight;
+    long lastKnownTextFrameHeight;
 
     id<DialogScriptViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -62,7 +62,7 @@
     [self.view addSubview:collapseView]; 
 }
 
-- (void) loadScript:(DialogScript *)s guessedHeight:(int)h
+- (void) loadScript:(DialogScript *)s guessedHeight:(long)h
 {
     script = s;
     if(!s.dialog_character_id) //'you' character
@@ -100,7 +100,7 @@
     lastKnownTextFrameHeight = s.height;
 }
 
-- (void) dialogTextView:(DialogTextView *)dtv selectedOption:(int)o
+- (void) dialogTextView:(DialogTextView *)dtv selectedOption:(long)o
 {
     DialogOption *op = options[o];
     if([op.link_type isEqualToString:@"DIALOG_SCRIPT"])
@@ -124,7 +124,7 @@
     //[collapseView handleTapped:g];
 }
 
-- (int) heightOfTextBox
+- (long) heightOfTextBox
 {
     return lastKnownTextFrameHeight;
 }

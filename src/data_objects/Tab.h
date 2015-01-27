@@ -10,22 +10,22 @@
 
 @interface Tab : NSObject
 {
-    int tab_id;
+    long tab_id;
     NSString *type;
     NSString *name; 
-    int icon_media_id; 
-    int content_id;
+    long icon_media_id; 
+    long content_id;
     NSString *info;
-    int sort_index;
+    long sort_index;
 }
 
-@property (nonatomic, assign) int tab_id;
+@property (nonatomic, assign) long tab_id;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *name; 
-@property (nonatomic, assign) int icon_media_id; 
-@property (nonatomic, assign) int content_id;
+@property (nonatomic, assign) long icon_media_id; 
+@property (nonatomic, assign) long content_id;
 @property (nonatomic, strong) NSString *info; 
-@property (nonatomic, assign) int sort_index;
+@property (nonatomic, assign) long sort_index;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) keyString;

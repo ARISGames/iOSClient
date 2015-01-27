@@ -96,7 +96,7 @@
 
     UILabel *reviewsTextView = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-110,12,100,15)];
     reviewsTextView.font = [ARISTemplate ARISButtonFont];
-    reviewsTextView.text = [NSString stringWithFormat:@"%d %@",game.comments.count, NSLocalizedString(@"ReviewsKey", @"")];
+    reviewsTextView.text = [NSString stringWithFormat:@"%ld %@",(unsigned long)game.comments.count, NSLocalizedString(@"ReviewsKey", @"")];
 
     [rateButton addSubview:starView];
     [rateButton addSubview:reviewsTextView];
@@ -255,13 +255,13 @@
 
 //implement statecontrol stuff for webpage, but ignore any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return NO; }
-- (BOOL) displayTriggerId:(int)t       { return NO; }
+- (BOOL) displayTriggerId:(long)t       { return NO; }
 - (BOOL) displayInstance:(Instance *)i { return NO; }
-- (BOOL) displayInstanceId:(int)i      { return NO; }
+- (BOOL) displayInstanceId:(long)i      { return NO; }
 - (BOOL) displayObject:(id)o           { return NO; }
-- (BOOL) displayObjectType:(NSString *)type id:(int)type_id { return NO; }
+- (BOOL) displayObjectType:(NSString *)type id:(long)type_id { return NO; }
 - (void) displayTab:(Tab *)t           { }
-- (void) displayTabId:(int)t           { }
+- (void) displayTabId:(long)t           { }
 - (void) displayTabType:(NSString *)t  { }
 - (void) displayScannerWithPrompt:(NSString *)p { }
 

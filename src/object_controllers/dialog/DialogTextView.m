@@ -18,7 +18,7 @@
 
     NSArray *options;
     NSMutableArray *optionButtons; 
-    int optionWebViewsLoaded;
+    long optionWebViewsLoaded;
 
     BOOL fetchingOptions; //this is for 'loading' of the actual list of options
     UIActivityIndicatorView *optionsLoadingIndicator;
@@ -69,11 +69,11 @@
     textView.frame = CGRectMake(0,0,self.frame.size.width,1); 
     [textView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], text] baseURL:nil]; 
 
-    for(int i = 0; i < options.count; i++)
+    for(long i = 0; i < options.count; i++)
         [optionButtons addObject:[self buttonForOption:options[i] tagged:i]];
 }
 
-- (UIView *) buttonForOption:(DialogOption *)o tagged:(int)i
+- (UIView *) buttonForOption:(DialogOption *)o tagged:(long)i
 {
     UIView *b = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width,43)];
     [b addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
@@ -121,13 +121,13 @@
 
 - (void) layoutButtons
 {
-    int h = 0;
+    long h = 0;
     if(![[textView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML;"] isEqualToString:@""])
     {
         [self addSubview:textView];
         h = textView.frame.size.height;
     }
-    for(int i = 0; i < optionButtons.count; i++)
+    for(long i = 0; i < optionButtons.count; i++)
     {
         UIView *obv = optionButtons[i];
         obv.frame = CGRectMake(obv.frame.origin.x, h, obv.frame.size.width, obv.frame.size.height);
@@ -168,7 +168,7 @@
 
 - (void) optionSelected:(UITapGestureRecognizer *)r
 {
-    for(int i = 0; i < optionButtons.count; i++)
+    for(long i = 0; i < optionButtons.count; i++)
         if(r.view == optionButtons[i]) [delegate dialogTextView:self selectedOption:i];
 }
 

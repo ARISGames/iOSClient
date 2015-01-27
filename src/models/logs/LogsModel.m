@@ -46,10 +46,10 @@
 {
     Log *newLog;
     NSNumber *newLogId;
-    for(int i = 0; i < newLogs.count; i++)
+    for(long i = 0; i < newLogs.count; i++)
     {
       newLog = [newLogs objectAtIndex:i];
-      newLogId = [NSNumber numberWithInt:newLog.log_id];
+      newLogId = [NSNumber numberWithLong:newLog.log_id];
       if(![logs objectForKey:newLogId]) [logs setObject:newLog forKey:newLogId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_LOGS_AVAILABLE",nil,nil);
@@ -61,9 +61,9 @@
     [_SERVICES_ fetchLogsForPlayer];
 }
 
-- (Log *) logForId:(int)log_id
+- (Log *) logForId:(long)log_id
 {
-  return [logs objectForKey:[NSNumber numberWithInt:log_id]];
+  return [logs objectForKey:[NSNumber numberWithLong:log_id]];
 }
 
 - (void) playerEnteredGame
@@ -78,12 +78,12 @@
     _ARIS_NOTIF_SEND_(@"USER_MOVED",nil,nil); 
 }
 
-- (void) playerViewedTabId:(int)tab_id
+- (void) playerViewedTabId:(long)tab_id
 {
     [_SERVICES_ logPlayerViewedTabId:tab_id]; 
 }
 
-- (void) playerViewedContent:(NSString *)content id:(int)content_id
+- (void) playerViewedContent:(NSString *)content id:(long)content_id
 {
     if([content isEqualToString:@"PLAQUE"])        [_SERVICES_ logPlayerViewedPlaqueId:content_id];  
     if([content isEqualToString:@"ITEM"])          [_SERVICES_ logPlayerViewedItemId:content_id];   
@@ -94,27 +94,27 @@
     if([content isEqualToString:@"SCENE"])         [_SERVICES_ logPlayerViewedSceneId:content_id];   
 }
 
-- (void) playerViewedInstanceId:(int)instance_id
+- (void) playerViewedInstanceId:(long)instance_id
 {
     [_SERVICES_ logPlayerViewedInstanceId:instance_id];  
 }
 
-- (void) playerTriggeredTriggerId:(int)trigger_id
+- (void) playerTriggeredTriggerId:(long)trigger_id
 {
     [_SERVICES_ logPlayerTriggeredTriggerId:trigger_id];   
 }
 
-- (void) playerReceivedItemId:(int)item_id qty:(int)qty
+- (void) playerReceivedItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
 }
 
-- (void) playerLostItemId:(int)item_id qty:(int)qty
+- (void) playerLostItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
 }
 
-- (void) playerChangedSceneId:(int)scene_id
+- (void) playerChangedSceneId:(long)scene_id
 {
     [_SERVICES_ logPlayerSetSceneId:scene_id];
 }

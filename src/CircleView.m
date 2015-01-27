@@ -12,13 +12,13 @@
 {
     UIColor *fillColor;
     UIColor *strokeColor; 
-    int strokeWidth;
+    long strokeWidth;
 }
 @end
 
 @implementation CircleView
 
-- (id) initWithFillColor:(UIColor *)fc strokeColor:(UIColor *)sc strokeWidth:(int)sw
+- (id) initWithFillColor:(UIColor *)fc strokeColor:(UIColor *)sc strokeWidth:(long)sw
 {
     if(self = [super init])
     {

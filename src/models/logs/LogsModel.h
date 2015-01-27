@@ -12,18 +12,18 @@
 
 @interface LogsModel : NSObject
 
-- (Log *) logForId:(int)log_id;
+- (Log *) logForId:(long)log_id;
 - (void) requestPlayerLogs;
 - (void) clearPlayerData;
 
 - (void) playerEnteredGame;
 - (void) playerMoved;
-- (void) playerViewedTabId:(int)tab_id;
-- (void) playerViewedContent:(NSString *)content id:(int)content_id;
-- (void) playerViewedInstanceId:(int)instance_id;
-- (void) playerTriggeredTriggerId:(int)trigger_id;
-- (void) playerReceivedItemId:(int)item_id qty:(int)qty;
-- (void) playerLostItemId:(int)item_id qty:(int)qty;
-- (void) playerChangedSceneId:(int)scene_id;
+- (void) playerViewedTabId:(long)tab_id;
+- (void) playerViewedContent:(NSString *)content id:(long)content_id;
+- (void) playerViewedInstanceId:(long)instance_id;
+- (void) playerTriggeredTriggerId:(long)trigger_id;
+- (void) playerReceivedItemId:(long)item_id qty:(long)qty;
+- (void) playerLostItemId:(long)item_id qty:(long)qty;
+- (void) playerChangedSceneId:(long)scene_id;
 
 @end

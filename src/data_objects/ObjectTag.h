@@ -10,16 +10,16 @@
 
 @interface ObjectTag : NSObject
 {
-    int object_tag_id;
+    long object_tag_id;
 	NSString *object_type;
-	int object_id; 
-	int tag_id; 
+	long object_id; 
+	long tag_id; 
 }
 
-@property(readwrite, assign) int object_tag_id;
+@property(readwrite, assign) long object_tag_id;
 @property(nonatomic, strong) NSString *object_type;
-@property(readwrite, assign) int object_id;
-@property(readwrite, assign) int tag_id;
+@property(readwrite, assign) long object_id;
+@property(readwrite, assign) long tag_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 

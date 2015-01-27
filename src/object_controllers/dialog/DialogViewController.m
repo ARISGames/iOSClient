@@ -24,10 +24,10 @@
     //content/data/animations without disturbing what's currently displayed, and can be
     //quickly and cleanly swapped out with what IS currently displayed as a whole)
     NSMutableArray *youViewControllers;
-    int currentYouViewController;
+    long currentYouViewController;
 
     NSMutableArray *themViewControllers;
-    int currentThemViewController;
+    long currentThemViewController;
 
     UIButton *backButton;
 

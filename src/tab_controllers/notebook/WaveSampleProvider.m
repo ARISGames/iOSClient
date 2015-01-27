@@ -124,14 +124,14 @@
 	SInt64 NUM_FRAMES_PER_READ = 500*binSize;
     float *audio[extAFNumChannels];
 	
-    for(int i=0; i < extAFNumChannels; i++)
+    for(long i=0; i < extAFNumChannels; i++)
         audio[i] = (float *)malloc(sizeof(float)*NUM_FRAMES_PER_READ);
-	int packetReads = 0;
+	long packetReads = 0;
     
-    int i = 0;
+    long i = 0;
 	while(!extAFReachedEOF)
     {
-		int k = 0;
+		long k = 0;
         if((k = [self readConsecutive:NUM_FRAMES_PER_READ intoArray:audio]) < 0)
         { 
 			[self status:ERROR message:@"Cannot read audio file"];
@@ -153,7 +153,7 @@
 		[self status:ERROR message:@"Error closing audio file"];
 		return;
 	}
-    for(int i=0; i < extAFNumChannels; i++) free(audio[i]);
+    for(long i=0; i < extAFNumChannels; i++) free(audio[i]);
 	
 	[self normalizeSample];
 	[self status:LOADED message:@"Sample data loaded"];
@@ -181,18 +181,18 @@
 	sampleData = nil;
 }
 
-- (void) calculateSampleFromArray:(float**)audio lenght:(int)length
+- (void) calculateSampleFromArray:(float**)audio lenght:(long)length
 {
 	float maxValues[extAFNumChannels];
-	for(int i = 0; i < extAFNumChannels;i++)
+	for(long i = 0; i < extAFNumChannels;i++)
 		maxValues[i] = 0.0;
-	for(int v = 0; v < length; v+=binSize)
+	for(long v = 0; v < length; v+=binSize)
     {
-		for(int c = 0; c < extAFNumChannels;c++)
+		for(long c = 0; c < extAFNumChannels;c++)
         {
-			for(int p = 0;p < binSize;p++)
+			for(long p = 0;p < binSize;p++)
             {
-				int idx = v + p;
+				long idx = v + p;
 				if(idx < length)
                 {
 					float val = audio[c][idx];
@@ -202,7 +202,7 @@
 			}
 		}
 		float maxValue = 0;
-		for(int i = 0; i < extAFNumChannels;i++) {
+		for(long i = 0; i < extAFNumChannels;i++) {
 			if(maxValues[i] > maxValue) maxValue = maxValues[i]; 
 		}
 		NSNumber *nMaxValue = [NSNumber numberWithFloat:maxValue];
@@ -216,9 +216,9 @@
 	
     if(!extAFRef) return -1;
 	
-    int kSegmentSize;
-    if (extAFRateRatio < 1.) kSegmentSize = (int)(numFrames * extAFNumChannels / extAFRateRatio + .5);
-    else                     kSegmentSize = (int)(numFrames * extAFNumChannels * extAFRateRatio + .5);
+    long kSegmentSize;
+    if (extAFRateRatio < 1.) kSegmentSize = (long)(numFrames * extAFNumChannels / extAFRateRatio + .5);
+    else                     kSegmentSize = (long)(numFrames * extAFNumChannels * extAFRateRatio + .5);
 	
     UInt32 loadedPackets;
     
@@ -258,18 +258,18 @@
     return loadedPackets;
 }	
 
-- (float *)dataForResolution:(int)pixelWide lenght:(int *)length
+- (float *)dataForResolution:(long)pixelWide lenght:(long *)length
 {
-	int rangeLength = normalizedData.count / pixelWide + 1;
-	int retLength = pixelWide;
+	long rangeLength = normalizedData.count / pixelWide + 1;
+	long retLength = pixelWide;
 	float *ret = (float *)calloc(sizeof(float),retLength);
-	int k = 0;
-	for(int r = 0; r < normalizedData.count; r += rangeLength)
+	long k = 0;
+	for(long r = 0; r < normalizedData.count; r += rangeLength)
     {
 		float valMax = 0;
-		for(int j = 0; j < rangeLength; j++)
+		for(long j = 0; j < rangeLength; j++)
         {
-			int idx = r + j;
+			long idx = r + j;
 			if(idx < normalizedData.count)
             {
 				NSNumber *nVal = [normalizedData objectAtIndex:idx];

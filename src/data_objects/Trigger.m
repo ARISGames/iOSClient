@@ -100,7 +100,7 @@
 }
 
 //returns icon_media of instance if self's isn't set
-- (int) icon_media_id
+- (long) icon_media_id
 {
     if(icon_media_id) return icon_media_id;
     return [_MODEL_INSTANCES_ instanceForId:instance_id].icon_media_id;

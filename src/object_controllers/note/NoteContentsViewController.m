@@ -67,7 +67,7 @@
     scrollView.frame = self.view.bounds;
     pageControl.frame = CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20); 
     
-    int offset = 0;
+    long offset = 0;
     for(UIView *v in scrollView.subviews)
     {
         v.frame = CGRectMake(offset, 0, self.view.bounds.size.width, self.view.bounds.size.height);
@@ -85,9 +85,9 @@
 - (void) refreshFromContents
 {
     Media *m;
-    int offset = 0;
+    long offset = 0;
     while([scrollView subviews].count > 0) [[[scrollView subviews] objectAtIndex:0] removeFromSuperview];
-    for(int i = 0; i < contents.count; i++)
+    for(long i = 0; i < contents.count; i++)
     {
         m = (Media *)[contents objectAtIndex:i];
         ARISMediaView *amv = [[ARISMediaView alloc] initWithFrame:CGRectMake(offset,0,self.view.bounds.size.width,self.view.bounds.size.height) delegate:self];

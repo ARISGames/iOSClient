@@ -87,7 +87,7 @@
     return [self object].name;
 }
 
-- (int) icon_media_id
+- (long) icon_media_id
 {
     return [self object].icon_media_id;
 }

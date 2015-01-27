@@ -61,7 +61,7 @@
   return self;
 }
 
-- (int) compareTo:(User *)ob
+- (long) compareTo:(User *)ob
 {
     return self.user_id == ob.user_id;
 }
@@ -71,7 +71,7 @@
     return self.display_name;
 }
 
-- (int) icon_media_id
+- (long) icon_media_id
 {
     return 126853;
 }

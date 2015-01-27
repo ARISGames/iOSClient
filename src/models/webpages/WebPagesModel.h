@@ -13,7 +13,7 @@
 {
 }
 
-- (WebPage *) webPageForId:(int)web_page_id;
+- (WebPage *) webPageForId:(long)web_page_id;
 - (void) requestWebPages;
 - (void) clearGameData;
 

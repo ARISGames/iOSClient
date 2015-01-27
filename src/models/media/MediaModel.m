@@ -85,24 +85,24 @@
 //Different than other models, as it expects raw dicts rather than fully populated objects
 - (void) updateMedias:(NSArray *)mediaToCacheDicts
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(game_id = 0) OR (game_id = %d)", _MODEL_GAME_.game_id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(game_id = 0) OR (game_id = %ld)", _MODEL_GAME_.game_id];
     NSArray *currentlyCachedMediaArray = [self mediaForPredicate:predicate]; 
 
     //Turn array to dict for quick check of existence in cache
     NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] init];
-    for(int i = 0; i < currentlyCachedMediaArray.count; i++)
+    for(long i = 0; i < currentlyCachedMediaArray.count; i++)
         [currentlyCachedMediaMap setObject:currentlyCachedMediaArray[i] forKey:((MediaCD *)currentlyCachedMediaArray[i]).media_id];
 
     MediaCD *tmpMedia;
-    for(int i = 0; i < mediaToCacheDicts.count; i++)
+    for(long i = 0; i < mediaToCacheDicts.count; i++)
     {
         NSDictionary *mediaDict = mediaToCacheDicts[i];
 
-        int media_id = [mediaDict validIntForKey:@"media_id"];
-        if(!(tmpMedia = currentlyCachedMediaMap[[NSNumber numberWithInt:media_id]]))
+        long media_id = [mediaDict validIntForKey:@"media_id"];
+        if(!(tmpMedia = currentlyCachedMediaMap[[NSNumber numberWithLong:media_id]]))
         {
             tmpMedia = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-            tmpMedia.media_id = [NSNumber numberWithInt:media_id];
+            tmpMedia.media_id = [NSNumber numberWithLong:media_id];
         }
 
         NSString *remoteURL = [mediaDict validObjectForKey:@"url"];
@@ -110,9 +110,9 @@
             tmpMedia.localURL = nil;
         tmpMedia.remoteURL = remoteURL;
 
-        tmpMedia.game_id = [NSNumber numberWithInt:[mediaDict validIntForKey:@"game_id"]];
-        tmpMedia.user_id = [NSNumber numberWithInt:[mediaDict validIntForKey:@"user_id"]];
-        NSLog(@"Media cache   : Media id:%d cached:%@",media_id,tmpMedia.remoteURL);
+        tmpMedia.game_id = [NSNumber numberWithLong:[mediaDict validIntForKey:@"game_id"]];
+        tmpMedia.user_id = [NSNumber numberWithLong:[mediaDict validIntForKey:@"user_id"]];
+        NSLog(@"Media cache   : Media id:%ld cached:%@",media_id,tmpMedia.remoteURL);
     }
     [self commitContext];
     _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_AVAILABLE",nil,nil);
@@ -124,7 +124,7 @@
   [_SERVICES_ fetchMedias];
 }
 
-- (Media *) mediaForId:(int)media_id
+- (Media *) mediaForId:(long)media_id
 {
   if(media_id == 0) return nil;
     
@@ -132,9 +132,9 @@
   if(media_id == DEFAULT_PLAQUE_ICON_MEDIA_ID)
   {
       MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-      mediaCD.media_id = [NSNumber numberWithInt:media_id];
-      mediaCD.game_id  = [NSNumber numberWithInt:0];
-      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      mediaCD.media_id = [NSNumber numberWithLong:media_id];
+      mediaCD.game_id  = [NSNumber numberWithLong:0];
+      mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"plaque_icon_120"]);
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -143,9 +143,9 @@
   if(media_id == DEFAULT_ITEM_ICON_MEDIA_ID)
   {
       MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-      mediaCD.media_id = [NSNumber numberWithInt:media_id];
-      mediaCD.game_id  = [NSNumber numberWithInt:0];
-      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      mediaCD.media_id = [NSNumber numberWithLong:media_id];
+      mediaCD.game_id  = [NSNumber numberWithLong:0];
+      mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"item_icon_120"]);
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -154,9 +154,9 @@
   if(media_id == DEFAULT_DIALOG_ICON_MEDIA_ID)
   {
       MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-      mediaCD.media_id = [NSNumber numberWithInt:media_id];
-      mediaCD.game_id  = [NSNumber numberWithInt:0];
-      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      mediaCD.media_id = [NSNumber numberWithLong:media_id];
+      mediaCD.game_id  = [NSNumber numberWithLong:0];
+      mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"conversation_icon_120"]);
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -165,9 +165,9 @@
   if(media_id == DEFAULT_WEB_PAGE_ICON_MEDIA_ID)
   {
       MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-      mediaCD.media_id = [NSNumber numberWithInt:media_id];
-      mediaCD.game_id  = [NSNumber numberWithInt:0];
-      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      mediaCD.media_id = [NSNumber numberWithLong:media_id];
+      mediaCD.game_id  = [NSNumber numberWithLong:0];
+      mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"webpage_icon_120"]);
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -176,9 +176,9 @@
   if(media_id == LOGO_ICON_MEDIA_ID)
   {
       MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-      mediaCD.media_id = [NSNumber numberWithInt:media_id];
-      mediaCD.game_id  = [NSNumber numberWithInt:0];
-      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      mediaCD.media_id = [NSNumber numberWithLong:media_id];
+      mediaCD.game_id  = [NSNumber numberWithLong:0];
+      mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"logo_icon"]);
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -186,9 +186,9 @@
   }
 
   Media *media;
-  if(!(media = medias[[NSNumber numberWithInt:media_id]])) //if doesn't exist in light cache...
+  if(!(media = medias[[NSNumber numberWithLong:media_id]])) //if doesn't exist in light cache...
   {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"media_id = %d", media_id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"media_id = %ld", media_id];
     NSArray *matchingCachedMediaArray = [self mediaForPredicate:predicate];
 
     if(matchingCachedMediaArray.count != 0) //if DOES exist in disk cache
@@ -196,13 +196,13 @@
     else //if doesn't yet exist
     {
       MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-      mediaCD.media_id = [NSNumber numberWithInt:media_id];
-      mediaCD.game_id  = [NSNumber numberWithInt:0];
-      mediaCD.user_id  = [NSNumber numberWithInt:0];
+      mediaCD.media_id = [NSNumber numberWithLong:media_id];
+      mediaCD.game_id  = [NSNumber numberWithLong:0];
+      mediaCD.user_id  = [NSNumber numberWithLong:0];
       media = [[Media alloc] initWithMediaCD:mediaCD]; 
     }
   }
-  medias[[NSNumber numberWithInt:media.media_id]] = media; //set light cache
+  medias[[NSNumber numberWithLong:media.media_id]] = media; //set light cache
 
   [self commitContext];
 
@@ -212,9 +212,9 @@
 - (Media *) newMedia
 {
     MediaCD *mediaCD = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
-    mediaCD.media_id = [NSNumber numberWithInt:0];
-    mediaCD.game_id  = [NSNumber numberWithInt:0];
-    mediaCD.user_id  = [NSNumber numberWithInt:0];
+    mediaCD.media_id = [NSNumber numberWithLong:0];
+    mediaCD.game_id  = [NSNumber numberWithLong:0];
+    mediaCD.user_id  = [NSNumber numberWithLong:0];
     return [[Media alloc] initWithMediaCD:mediaCD];
 }
 

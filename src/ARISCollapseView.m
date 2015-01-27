@@ -8,8 +8,8 @@
 
 #import "ARISCollapseView.h"
 
-const int HANDLE_HEIGHT = 10;
-const int TOUCH_BUFFER_HEIGHT = 20;
+const long HANDLE_HEIGHT = 10;
+const long TOUCH_BUFFER_HEIGHT = 20;
 #define handle_buffer_height ((HANDLE_HEIGHT*handleShowing)+TOUCH_BUFFER_HEIGHT)
 
 @interface ARISCollapseView() <UIScrollViewDelegate>
@@ -19,7 +19,7 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     UIView *content;
     CGRect openFrame;
     CGRect tempDragStartFrame; //to hold state while dragging
-    int handleShowing;
+    long handleShowing;
     
     id<ARISCollapseViewDelegate> __unsafe_unretained delegate;
 }

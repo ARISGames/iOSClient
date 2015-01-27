@@ -87,7 +87,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Quest- Id:%d\tName:%@",self.quest_id,self.name];
+    return [NSString stringWithFormat:@"Quest- Id:%ld\tName:%@",self.quest_id,self.name];
 }
 
 @end

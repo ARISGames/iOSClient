@@ -16,8 +16,8 @@
 #import "WebPageViewController.h"
 #import "ARISWebView.h"
 
-static int const ACTIVE_SECTION = 0;
-static int const COMPLETE_SECTION = 1;
+static long const ACTIVE_SECTION = 0;
+static long const COMPLETE_SECTION = 1;
 
 @interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, QuestCellDelegate, QuestDetailsViewControllerDelegate>
 {
@@ -32,7 +32,7 @@ static int const COMPLETE_SECTION = 1;
     UIButton *activeButton;
     UIButton *completeButton; 
     
-    int questTypeShown;
+    long questTypeShown;
     
     id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -213,7 +213,7 @@ static int const COMPLETE_SECTION = 1;
 	return calcSize.height+30; 
 }
 
-- (void) heightCalculated:(int)h forQuest:(Quest *)q inCell:(QuestCell *)qc
+- (void) heightCalculated:(long)h forQuest:(Quest *)q inCell:(QuestCell *)qc
 {
     NSDictionary *heights; 
     if(questTypeShown == ACTIVE_SECTION)   heights = activeQuestCellHeights;
@@ -221,7 +221,7 @@ static int const COMPLETE_SECTION = 1;
     
     if(![heights objectForKey:[q description]])
     {
-        [heights setValue:[NSNumber numberWithInt:h] forKey:[q description]]; 
+        [heights setValue:[NSNumber numberWithLong:h] forKey:[q description]]; 
         [questsTable reloadData];
     }
 }

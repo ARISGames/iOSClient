@@ -56,14 +56,14 @@
   self.created  = n.created;
 }
 
-- (int) icon_media_id
+- (long) icon_media_id
 {
     return 71;
 }
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"Note- Id:%d\tName:%@\tOwner:%d\t",self.note_id,self.name,self.user_id];
+    return [NSString stringWithFormat:@"Note- Id:%ld\tName:%@\tOwner:%ld\t",self.note_id,self.name,self.user_id];
 }
 
 @end

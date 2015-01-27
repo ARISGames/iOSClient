@@ -9,7 +9,7 @@
 
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 
-//#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+//#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %ld] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 //
 //NSNotification sugar so you don't have to write a novel every time you want to send a message

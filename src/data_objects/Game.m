@@ -15,15 +15,15 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const int gameDatasToReceive = 22;
-const int playerDatasToReceive = 7;
+const long gameDatasToReceive = 22;
+const long playerDatasToReceive = 7;
 
 @interface Game()
 {
-    int receivedGameData;
+    long receivedGameData;
     BOOL gameDataReceived;
 
-    int receivedPlayerData;
+    long receivedPlayerData;
     BOOL playerDataReceived;
 
     NSTimer *poller;
@@ -121,7 +121,7 @@ const int playerDatasToReceive = 7;
         inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
 
         NSArray *authorDicts;
-        for(int i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
+        for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
             [authors addObject:[[User alloc] initWithDictionary:authorDicts[i]]];
     }
     return self;
@@ -339,18 +339,18 @@ const int playerDatasToReceive = 7;
     [displayQueueModel clear];
 }
 
-- (int) rating
+- (long) rating
 {
     if(!comments.count) return 0;
-    int rating = 0;
-    for(int i = 0; i < comments.count; i++)
+    long rating = 0;
+    for(long i = 0; i < comments.count; i++)
         rating += ((GameComment *)[comments objectAtIndex:i]).rating;
     return rating/comments.count;
 }
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"Game- Id:%d\tName:%@",game_id,name];
+    return [NSString stringWithFormat:@"Game- Id:%ld\tName:%@",game_id,name];
 }
 
 - (void) dealloc

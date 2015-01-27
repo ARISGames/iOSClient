@@ -14,13 +14,13 @@
     NSString *text;
     NSString *playerName;
     NSDate *date;
-    int rating;
+    long rating;
 }
 
 @property(copy, readwrite) NSString *title;
 @property(copy, readwrite) NSString *text;
 @property(copy, readwrite) NSString *playerName;  
 @property(copy, readwrite) NSDate *date;
-@property(readwrite) int rating;
+@property(readwrite) long rating;
 
 @end

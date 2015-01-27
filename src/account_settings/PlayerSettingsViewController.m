@@ -20,7 +20,7 @@
 {
     ARISMediaView *playerPic;
     UITextField *playerNameField;
-    int chosenMediaId;
+    long chosenMediaId;
     
     UIButton *saveButton;
     UIButton *cameraButton;

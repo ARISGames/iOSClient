@@ -15,9 +15,9 @@
 
 #import "User.h"
 
-const int VIEW_MODE_MINE = 0;
-const int VIEW_MODE_ALL  = 1;
-const int VIEW_MODE_TAG  = 2;
+const long VIEW_MODE_MINE = 0;
+const long VIEW_MODE_ALL  = 1;
+const long VIEW_MODE_TAG  = 2;
 
 @interface NotebookNotesViewController() <UITableViewDataSource, UITableViewDelegate, InstantiableViewControllerDelegate, NoteCellDelegate, NoteViewControllerDelegate, UISearchBarDelegate>
 {
@@ -29,7 +29,7 @@ const int VIEW_MODE_TAG  = 2;
 
     NSArray *filteredNotes;
 
-    int viewMode;
+    long viewMode;
     Tag *filterTag;
     NSString *filterText;
 
@@ -121,12 +121,12 @@ const int VIEW_MODE_TAG  = 2;
     [table reloadData];
 }
 
-- (int) numberOfSectionsInTableView:(UITableView *)tableView
+- (long) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-- (int) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
+- (long) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
 {
     NSArray *typeFilteredNotes;
     if     (viewMode == VIEW_MODE_MINE) typeFilteredNotes = [_MODEL_NOTES_ playerNotes];
@@ -140,7 +140,7 @@ const int VIEW_MODE_TAG  = 2;
     {
         Note *n;
         textFilteredNotes = [[NSMutableArray alloc] initWithCapacity:typeFilteredNotes.count];
-        for(int i = 0; i < typeFilteredNotes.count; i++)
+        for(long i = 0; i < typeFilteredNotes.count; i++)
         {
             n = [typeFilteredNotes objectAtIndex:i];
             //Search description
@@ -153,7 +153,7 @@ const int VIEW_MODE_TAG  = 2;
             else
             {
                 NSArray *tags = [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:n.note_id];
-                for(int j = 0; j < tags.count; j++)
+                for(long j = 0; j < tags.count; j++)
                 {
                     if([((Tag *)tags[j]).tag rangeOfString:filterText options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
                     {

@@ -14,7 +14,7 @@
     Scene *playerScene;
 }
 
-- (Scene *) sceneForId:(int)scene_id;
+- (Scene *) sceneForId:(long)scene_id;
 - (Scene *) playerScene;
 - (void) setPlayerScene:(Scene *)s;
 - (void) requestScenes;

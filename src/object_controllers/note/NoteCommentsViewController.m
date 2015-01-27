@@ -53,9 +53,9 @@
         [[self.view.subviews objectAtIndex:0] removeFromSuperview];
     
     UIView *cell;
-    int yOffset = 0;
+    long yOffset = 0;
     
-    for(int i = 0; i < comments.count; i++)
+    for(long i = 0; i < comments.count; i++)
     {
         cell = [self cellForComment:[comments objectAtIndex:i]];
         cell.frame = CGRectMake(0, yOffset, cell.frame.size.width, cell.frame.size.height);

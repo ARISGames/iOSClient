@@ -47,7 +47,7 @@
     return self;
 }
 
-- (int) icon_media_id
+- (long) icon_media_id
 {
     if(!icon_media_id) return DEFAULT_PLAQUE_ICON_MEDIA_ID;
     return icon_media_id;
@@ -55,7 +55,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"Plaque- Id:%d\tName:%@\tDesc:%@\t",self.plaque_id,self.name,self.desc];
+    return [NSString stringWithFormat:@"Plaque- Id:%ld\tName:%@\tDesc:%@\t",self.plaque_id,self.name,self.desc];
 }
 
 @end

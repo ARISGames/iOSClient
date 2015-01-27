@@ -56,7 +56,7 @@
     //Doesn't actually affect the model. just conforms services list to flyweight, and re-sends it out
     NSMutableArray *flyweightOptions = [[NSMutableArray alloc] init];
     NSArray *servicesOptions = notif.userInfo[@"options"];
-    for(int i = 0; i < servicesOptions.count; i++)
+    for(long i = 0; i < servicesOptions.count; i++)
         [flyweightOptions addObject:[self optionForId:((DialogOption *)servicesOptions[i]).dialog_option_id]];
     
     NSDictionary *uInfo = @{@"options":flyweightOptions,
@@ -69,10 +69,10 @@
 {
     Dialog *newDialog;
     NSNumber *newDialogId;
-    for(int i = 0; i < newDialogs.count; i++)
+    for(long i = 0; i < newDialogs.count; i++)
     {
       newDialog = [newDialogs objectAtIndex:i];
-      newDialogId = [NSNumber numberWithInt:newDialog.dialog_id];
+      newDialogId = [NSNumber numberWithLong:newDialog.dialog_id];
       if(![dialogs objectForKey:newDialogId]) [dialogs setObject:newDialog forKey:newDialogId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOGS_AVAILABLE",nil,nil);
@@ -82,10 +82,10 @@
 {
     DialogCharacter *newDialogCharacter;
     NSNumber *newDialogCharacterId;
-    for(int i = 0; i < newDialogCharacters.count; i++)
+    for(long i = 0; i < newDialogCharacters.count; i++)
     {
       newDialogCharacter = [newDialogCharacters objectAtIndex:i];
-      newDialogCharacterId = [NSNumber numberWithInt:newDialogCharacter.dialog_character_id];
+      newDialogCharacterId = [NSNumber numberWithLong:newDialogCharacter.dialog_character_id];
       if(![dialogCharacters objectForKey:newDialogCharacterId]) [dialogCharacters setObject:newDialogCharacter forKey:newDialogCharacterId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOG_CHARACTERS_AVAILABLE",nil,nil);
@@ -95,10 +95,10 @@
 {
     DialogScript *newDialogScript;
     NSNumber *newDialogScriptId;
-    for(int i = 0; i < newDialogScripts.count; i++)
+    for(long i = 0; i < newDialogScripts.count; i++)
     {
       newDialogScript = [newDialogScripts objectAtIndex:i];
-      newDialogScriptId = [NSNumber numberWithInt:newDialogScript.dialog_script_id];
+      newDialogScriptId = [NSNumber numberWithLong:newDialogScript.dialog_script_id];
       if(![dialogScripts objectForKey:newDialogScriptId]) [dialogScripts setObject:newDialogScript forKey:newDialogScriptId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOG_SCRIPTS_AVAILABLE",nil,nil);
@@ -108,10 +108,10 @@
 {
     DialogOption *newDialogOption;
     NSNumber *newDialogOptionId;
-    for(int i = 0; i < newDialogOptions.count; i++)
+    for(long i = 0; i < newDialogOptions.count; i++)
     {
       newDialogOption = [newDialogOptions objectAtIndex:i];
-      newDialogOptionId = [NSNumber numberWithInt:newDialogOption.dialog_option_id];
+      newDialogOptionId = [NSNumber numberWithLong:newDialogOption.dialog_option_id];
       if(![dialogOptions objectForKey:newDialogOptionId]) [dialogOptions setObject:newDialogOption forKey:newDialogOptionId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOG_OPTIONS_AVAILABLE",nil,nil);
@@ -125,31 +125,31 @@
     [_SERVICES_ fetchDialogScripts];
     [_SERVICES_ fetchDialogOptions];
 }
-- (void) requestPlayerOptionsForDialogId:(int)dialog_id scriptId:(int)dialog_script_id
+- (void) requestPlayerOptionsForDialogId:(long)dialog_id scriptId:(long)dialog_script_id
 {
     [_SERVICES_ fetchOptionsForPlayerForDialog:dialog_id script:dialog_script_id];
 }
 
 // null dialog/character/script (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (Dialog *) dialogForId:(int)dialog_id
+- (Dialog *) dialogForId:(long)dialog_id
 {
   if(!dialog_id) return [[Dialog alloc] init];
-  return [dialogs objectForKey:[NSNumber numberWithInt:dialog_id]];
+  return [dialogs objectForKey:[NSNumber numberWithLong:dialog_id]];
 }
-- (DialogCharacter *) characterForId:(int)dialog_character_id
+- (DialogCharacter *) characterForId:(long)dialog_character_id
 {
   if(!dialog_character_id) return [[DialogCharacter alloc] init];
-  return [dialogCharacters objectForKey:[NSNumber numberWithInt:dialog_character_id]];
+  return [dialogCharacters objectForKey:[NSNumber numberWithLong:dialog_character_id]];
 }
-- (DialogScript *) scriptForId:(int)dialog_script_id
+- (DialogScript *) scriptForId:(long)dialog_script_id
 {
   if(!dialog_script_id) return [[DialogScript alloc] init]; 
-  return [dialogScripts objectForKey:[NSNumber numberWithInt:dialog_script_id]];
+  return [dialogScripts objectForKey:[NSNumber numberWithLong:dialog_script_id]];
 }
-- (DialogOption *) optionForId:(int)dialog_option_id
+- (DialogOption *) optionForId:(long)dialog_option_id
 {
   if(!dialog_option_id) return [[DialogOption alloc] init]; 
-  return [dialogOptions objectForKey:[NSNumber numberWithInt:dialog_option_id]];
+  return [dialogOptions objectForKey:[NSNumber numberWithLong:dialog_option_id]];
 }
 
 - (void) dealloc

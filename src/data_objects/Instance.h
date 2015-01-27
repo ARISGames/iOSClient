@@ -11,19 +11,19 @@
 
 @interface Instance : NSObject 
 {
-    int instance_id;
+    long instance_id;
     NSString *object_type; 
-    int object_id;   
-    int owner_id;
-    int qty; 
+    long object_id;   
+    long owner_id;
+    long qty; 
     BOOL infinite_qty;
 }
 
-@property (nonatomic, assign) int instance_id;
+@property (nonatomic, assign) long instance_id;
 @property (nonatomic, strong) NSString *object_type;
-@property (nonatomic, assign) int object_id;
-@property (nonatomic, assign) int owner_id;
-@property (nonatomic, assign) int qty;
+@property (nonatomic, assign) long object_id;
+@property (nonatomic, assign) long owner_id;
+@property (nonatomic, assign) long qty;
 @property (nonatomic, assign) BOOL infinite_qty;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
@@ -32,6 +32,6 @@
 
 - (id<InstantiableProtocol>) object;
 - (NSString *) name;
-- (int) icon_media_id;
+- (long) icon_media_id;
 
 @end

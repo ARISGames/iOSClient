@@ -57,7 +57,7 @@
   self.view.backgroundColor = [UIColor whiteColor];
   self.view.autoresizesSubviews = NO;
 
-  int playerImageWidth = 200;
+  long playerImageWidth = 200;
   CGRect playerImageFrame = CGRectMake((self.view.bounds.size.width / 2) - (playerImageWidth / 2), 64, playerImageWidth, 200);
   pcImage = [[ARISMediaView alloc] initWithFrame:playerImageFrame delegate:self];
   [pcImage setDisplayMode:ARISMediaDisplayModeAspectFit];
@@ -115,7 +115,7 @@
   [instances removeAllObjects];
 
   Instance *tmp_inst;
-  for(int i = 0; i < playerInstances.count; i++)
+  for(long i = 0; i < playerInstances.count; i++)
   {
     tmp_inst = playerInstances[i];
     if(tmp_inst.qty == 0) continue;
@@ -185,7 +185,7 @@
   lblTemp.backgroundColor = [UIColor clearColor];
   lblTemp.textAlignment = NSTextAlignmentRight;
   if(instance.qty > 1 || attrib.max_qty_in_inventory > 1)
-    lblTemp.text = [NSString stringWithFormat:@"%d",instance.qty];
+    lblTemp.text = [NSString stringWithFormat:@"%ld",instance.qty];
   else
     lblTemp.text = nil;
   [cell.contentView addSubview:lblTemp];

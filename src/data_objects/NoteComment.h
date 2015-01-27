@@ -10,17 +10,17 @@
 
 @interface NoteComment : NSObject
 {
-    int note_comment_id;
-    int note_id;
-    int user_id;
+    long note_comment_id;
+    long note_id;
+    long user_id;
     NSString *name;
     NSString *desc;
     NSDate *created; 
 }
 
-@property(nonatomic, assign) int note_comment_id;
-@property(nonatomic, assign) int note_id;
-@property(nonatomic, assign) int user_id;
+@property(nonatomic, assign) long note_comment_id;
+@property(nonatomic, assign) long note_id;
+@property(nonatomic, assign) long user_id;
 @property(nonatomic, retain) NSString *name;
 @property(nonatomic, retain) NSString *desc;
 @property(nonatomic, retain) NSDate *created; 

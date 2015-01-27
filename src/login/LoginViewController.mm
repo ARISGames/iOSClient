@@ -30,7 +30,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   UIView *line2;
 
   NSString *groupName;
-  int game_id;
+  long game_id;
   BOOL newPlayer;
   BOOL disableLeaveGame;
 
@@ -71,7 +71,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   self.navigationItem.titleView = titleContainer;
   [self.navigationController.navigationBar layoutIfNeeded];
 
-  int navOffset = 66;
+  long navOffset = 66;
 
   usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
   usernameField.font = [ARISTemplate ARISInputFont];
@@ -148,7 +148,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (void) viewWillLayoutSubviews
 {
   [super viewWillLayoutSubviews];
-  int navOffset = 66;
+  long navOffset = 66;
 
   usernameField.frame    = CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20);
   passwordField.frame    = CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20);
