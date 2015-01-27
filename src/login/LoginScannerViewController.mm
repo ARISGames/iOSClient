@@ -31,7 +31,7 @@
     {
         self.title = NSLocalizedString(@"LoginScannerTitleKey", @"");
 
-        prompt = @"";
+        prompt = @"Scan Login Code";
 
         delegate = d;
     }
@@ -95,7 +95,7 @@
 
     // Add Prompt
     promptLabel = [[UILabel alloc] init];
-    promptLabel.frame = CGRectMake(0, self.view.bounds.size.height-75,self.view.bounds.size.width,75);
+    promptLabel.frame = CGRectMake(0, 0,self.view.bounds.size.width,75);
     promptLabel.numberOfLines = 0;
     promptLabel.lineBreakMode = NSLineBreakByWordWrapping;
     promptLabel.textAlignment = NSTextAlignmentCenter;
