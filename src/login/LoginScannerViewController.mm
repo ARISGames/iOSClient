@@ -18,7 +18,6 @@
     UILabel *promptLabel;
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureSession *session;
-    BOOL scanning;
     id<LoginScannerViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -54,8 +53,6 @@
 
 - (void) loadAVMetadataScanner
 {
-    scanning = NO;
-
     // Create a new AVCaptureSession
     session = [[AVCaptureSession alloc] init];
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -109,25 +106,11 @@
 }
 
 
-- (void) viewWillAppearFirstTime:(BOOL)animated
-{
-    [super viewWillAppearFirstTime:animated];
-
-    //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(cancelScanner) forControlEvents:UIControlEventTouchUpInside];
-    threeLineNavButton.accessibilityLabel = @"Back";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
-}
-
-
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
 
     [session startRunning];
-    scanning = YES;
 }
 
 
@@ -137,7 +120,6 @@
 
     [self setPrompt: @""];
     [session stopRunning];
-    scanning = NO;
 }
 
 -  (void) setPrompt:(NSString *)p
@@ -158,40 +140,10 @@
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
-    [delegate captureOutput:captureOutput didOutputMetadataObjects:metadataObjects fromConnection:connection];
-/*
-    if(scanning)
-    {
-        if (metadataObjects != nil && [metadataObjects count] > 0)
-        {
-            BOOL not_found = NO;
-            scanning = NO;
-
-            for (AVMetadataObject *metadata in metadataObjects)
-            {
-
-                AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
-                NSString *result = [transformed stringValue];
-
-                not_found = YES;
-            }
-
-            // All metadata visible scanned
-            if(not_found)
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-                [alert show];
-            }
-        }
-    }
-    */
+  [delegate captureLoginScannerOutput:captureOutput didOutputMetadataObjects:metadataObjects fromConnection:connection previewLayer:previewLayer];
 }
 
 
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    scanning = YES;
-}
 
 - (void) dealloc
 {

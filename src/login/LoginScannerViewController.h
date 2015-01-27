@@ -9,6 +9,8 @@
 
 @protocol LoginScannerViewControllerDelegate <AVCaptureMetadataOutputObjectsDelegate>
 - (void) cancelLoginScan;
+
+- (void) captureLoginScannerOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection previewLayer:(AVCaptureVideoPreviewLayer *)previewLayer;
 @end
 
 @class Tab;
