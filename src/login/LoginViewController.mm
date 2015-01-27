@@ -12,13 +12,13 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 
-//#import <ZXingWidgetController.h>
-//#import "QRCodeReader.h"
+#import <AVFoundation/AVFoundation.h>
+#import "LoginScannerViewController.h"
 
 #import "CreateAccountViewController.h"
 #import "ForgotPasswordViewController.h"
 
-@interface LoginViewController() </*ZXingDelegate,*/ CreateAccountViewControllerDelegate, UITextFieldDelegate>
+@interface LoginViewController() <LoginScannerViewControllerDelegate, CreateAccountViewControllerDelegate, UITextFieldDelegate>
 {
   UITextField *usernameField;
   UITextField *passwordField;
@@ -201,10 +201,9 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (void) QRButtonTouched
 {
   [self resignKeyboard];
-  //ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO];
-  //widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
 
-  //[self presentViewController:widController animated:NO completion:nil];
+  LoginScannerViewController *scannerController = [[LoginScannerViewController alloc] initWithDelegate:self];
+  [self presentViewController:scannerController animated:NO completion:nil];
 }
 
 - (void) changePassTouch   
@@ -219,6 +218,16 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   [self resignKeyboard];
   CreateAccountViewController *createAccountViewController = [[CreateAccountViewController alloc] initWithDelegate:self];
   [[self navigationController] pushViewController:createAccountViewController animated:YES];
+}
+
+- (void) captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
+{
+  NSLog(@"LOGIN: SCANNNNNING");
+}
+
+- (void) cancelLoginScan
+{
+  NSLog(@"LOGIN: LOGOUT LOGOUT LOGOUT");
 }
 
 /*

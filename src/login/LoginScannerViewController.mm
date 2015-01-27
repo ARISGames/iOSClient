@@ -6,34 +6,31 @@
 //  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import "ScannerViewController.h"
+#import "LoginScannerViewController.h"
+#import <AVFoundation/AVFoundation.h>
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "ARISAlertHandler.h"
 
-@interface ScannerViewController() <AVCaptureMetadataOutputObjectsDelegate, UITextFieldDelegate>
+@interface LoginScannerViewController() <AVCaptureMetadataOutputObjectsDelegate>
 {
-    Tab *tab;
     NSString *prompt;
-    NSDate *lastError;
     UILabel *promptLabel;
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureSession *session;
     BOOL scanning;
-    id<ScannerViewControllerDelegate> __unsafe_unretained delegate;
+    id<LoginScannerViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
-@implementation ScannerViewController
+@implementation LoginScannerViewController
 
-- (id) initWithTab:(Tab *)t delegate:(id<ScannerViewControllerDelegate>)d
+- (id) initWithDelegate:(id<LoginScannerViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        tab = t;
-        self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
+        self.title = NSLocalizedString(@"LoginScannerTitleKey", @"");
 
-        lastError = [NSDate date];
         prompt = @"";
 
         delegate = d;
@@ -119,8 +116,8 @@
     //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
     UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
     [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    [threeLineNavButton addTarget:self action:@selector(cancelScanner) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"Back";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
 }
 
@@ -143,13 +140,6 @@
     scanning = NO;
 }
 
-
-- (void) showNav
-{
-    [delegate gamePlayTabBarViewControllerRequestsNav];
-}
-
-
 -  (void) setPrompt:(NSString *)p
 {
     prompt = p;
@@ -168,6 +158,8 @@
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
+    [delegate captureOutput:captureOutput didOutputMetadataObjects:metadataObjects fromConnection:connection];
+/*
     if(scanning)
     {
         if (metadataObjects != nil && [metadataObjects count] > 0)
@@ -181,31 +173,7 @@
                 AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
                 NSString *result = [transformed stringValue];
 
-                Trigger *t;
-                if([result isEqualToString:@"log-out"])
-                {
-                    [_MODEL_ logOut];
-
-                    // Leave after successful scan
-                    return;
-                }
-                else
-                {
-                    t = [_MODEL_TRIGGERS_ triggerForQRCode:result];
-
-                    if(!t)
-                    {
-                        not_found = YES;
-                    }
-                    else
-                    {
-                        [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
-
-                        // Leave after successful scan
-                        return;
-                    }
-                }
-
+                not_found = YES;
             }
 
             // All metadata visible scanned
@@ -216,6 +184,7 @@
             }
         }
     }
+    */
 }
 
 
@@ -224,15 +193,10 @@
     scanning = YES;
 }
 
-
-//implement gameplaytabbarviewcontrollerprotocol junk
-- (NSString *) tabId { return @"SCANNER"; }
-- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Scanner"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
-
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
+

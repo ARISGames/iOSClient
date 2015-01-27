@@ -287,6 +287,7 @@
 		ABE735F917D6B96600396CF5 /* arrowForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735F717D6B96600396CF5 /* arrowForward@2x.png */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
+		C02FE1881A76BBB300E0B15A /* LoginScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = C02FE1861A76BBB300E0B15A /* LoginScannerViewController.mm */; };
 		C06331541A6055F8002A8026 /* notebooktext@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06331531A6055F8002A8026 /* notebooktext@2x.png */; };
 		C0878F3A1A671CCD001739E3 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = C0878F341A671CCD001739E3 /* base64.c */; };
 		C0878F3B1A671CCD001739E3 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C0878F371A671CCD001739E3 /* NSData+SRB64Additions.m */; };
@@ -790,6 +791,8 @@
 		ABE735F717D6B96600396CF5 /* arrowForward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowForward@2x.png"; sourceTree = "<group>"; };
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		C02FE1861A76BBB300E0B15A /* LoginScannerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginScannerViewController.mm; sourceTree = "<group>"; };
+		C02FE1871A76BBB300E0B15A /* LoginScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScannerViewController.h; sourceTree = "<group>"; };
 		C06331531A6055F8002A8026 /* notebooktext@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notebooktext@2x.png"; sourceTree = "<group>"; };
 		C0878F341A671CCD001739E3 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
 		C0878F351A671CCD001739E3 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
@@ -1454,6 +1457,8 @@
 		AABC70C9172739D60074CC21 /* login */ = {
 			isa = PBXGroup;
 			children = (
+				C02FE1861A76BBB300E0B15A /* LoginScannerViewController.mm */,
+				C02FE1871A76BBB300E0B15A /* LoginScannerViewController.h */,
 				AABC70CB172739D60074CC21 /* LoginViewController.h */,
 				AABC70CC172739D60074CC21 /* LoginViewController.mm */,
 				AABC70CE172739D60074CC21 /* CreateAccountViewController.h */,
@@ -2276,6 +2281,7 @@
 				AABC73D1172739D80074CC21 /* AppServices.m in Sources */,
 				AABC73D4172739D80074CC21 /* ARISConnection.m in Sources */,
 				AAF8A384196C536200CD3D71 /* DialogTextView.m in Sources */,
+				C02FE1881A76BBB300E0B15A /* LoginScannerViewController.mm in Sources */,
 				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				F92B5E3D18C68C5800D1D1A7 /* MapOverlayView.m in Sources */,
 				AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */,

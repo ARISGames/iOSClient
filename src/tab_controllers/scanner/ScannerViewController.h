@@ -6,6 +6,7 @@
 //  Copyright 2009 University of Wisconsin Madison. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
 #import "ARISViewController.h"
 #import "GamePlayTabBarViewControllerProtocol.h"
 
