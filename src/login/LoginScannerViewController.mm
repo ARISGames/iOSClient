@@ -16,6 +16,7 @@
 {
     NSString *prompt;
     UILabel *promptLabel;
+    UIButton *cancelButton;
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureSession *session;
     id<LoginScannerViewControllerDelegate> __unsafe_unretained delegate;
@@ -103,6 +104,16 @@
     [self.view addSubview:promptLabel];
     [self setPrompt:prompt];
 
+    cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setTitle:NSLocalizedString(@"CancelKey", nil) forState:UIControlStateNormal];
+    [cancelButton setBackgroundColor:[UIColor ARISColorRed]];
+    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    cancelButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    [cancelButton addTarget:self action:@selector(cancelLoginScan) forControlEvents:UIControlEventTouchUpInside];
+    cancelButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
+
+    [self.view addSubview:cancelButton];
+
 }
 
 
@@ -143,6 +154,10 @@
   [delegate captureLoginScannerOutput:captureOutput didOutputMetadataObjects:metadataObjects fromConnection:connection previewLayer:previewLayer];
 }
 
+- (void) cancelLoginScan
+{
+  [delegate cancelLoginScan];
+}
 
 
 - (void) dealloc

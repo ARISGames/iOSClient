@@ -227,9 +227,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 
 - (void) captureLoginScannerOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection previewLayer:(AVCaptureVideoPreviewLayer *)previewLayer
 {
-  //Create: 1,groupName,game_id,disableLeaveGame
-  //Login:  0,userName,password,game_id,disableLeaveGame
-
   if(scanning)
   {
       if (metadataObjects != nil && [metadataObjects count] > 0)
@@ -267,13 +264,16 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 {
   NSArray *terms  = [result componentsSeparatedByString:@","];
 
+  //Create: 1,groupName,game_id,disableLeaveGame
+  //Login:  0,userName,password,game_id,disableLeaveGame
+
   if(terms.count > 1)
   {
     game_id = 0;
     disableLeaveGame = NO;
-    if(terms.count > 0 && [[terms objectAtIndex:0] boolValue]) //create = 1
+    if([[terms objectAtIndex:0] boolValue]) //create = 1
     {
-      if(terms.count > 1) groupName        = [terms objectAtIndex:1];
+                          groupName        = [terms objectAtIndex:1];
       if(terms.count > 2) game_id          = [[terms objectAtIndex:2] intValue];
       if(terms.count > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
 
@@ -283,17 +283,20 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
       [_MODEL_ createAccountWithUserName:usernameField.text displayName:@"" groupName:groupName email:@"" password:passwordField.text];
       return true;
     }
-    else if(terms.count > 0) //create = 0
+    else //create = 0
     {
-      if(terms.count > 1) usernameField.text = [terms objectAtIndex:1];
-      if(terms.count > 2) passwordField.text = [terms objectAtIndex:2];
-      if(terms.count > 3) game_id             = [[terms objectAtIndex:3] intValue];
+      NSString *username = [terms objectAtIndex:1];
+      NSString *password = @"";
+      if(terms.count > 2) {
+          password = [terms objectAtIndex:2];
+      }
+      if(terms.count > 3) game_id            = [[terms objectAtIndex:3] intValue];
       if(terms.count > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
 
       _MODEL_.disableLeaveGame = disableLeaveGame;
       //_MODEL_.fallbackGameId = game_id;
       [self dismissViewControllerAnimated:NO completion:nil];
-      [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
+      [_MODEL_ attemptLogInWithUserName:username password:password];
       return true;
     }
     return false;
