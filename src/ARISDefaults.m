@@ -103,7 +103,8 @@
   NSLog(@"Defaults loaded: email         = %@",u.email);
   NSLog(@"Defaults loaded: media_id      = %ld",u.media_id);
   NSLog(@"Defaults loaded: read_write_key= %@",u.read_write_key);
-  if(!fallbackUser && u.user_id) fallbackUser = u;
+  if(u.user_id) fallbackUser = u;
+  else fallbackUser = nil;
 
   if(!fallbackGameId) fallbackGameId = [defaults integerForKey:@"game_id"]; 
 
