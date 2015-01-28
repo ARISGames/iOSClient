@@ -96,10 +96,17 @@
   u.email          = [defaults objectForKey:@"email"];
   u.media_id       = [defaults integerForKey:@"media_id"];
   u.read_write_key = [defaults objectForKey:@"read_write_key"];
+
+  NSLog(@"Defaults loaded: user_id       = %ld",u.user_id);
+  NSLog(@"Defaults loaded: user_name     = %@",u.user_name);
+  NSLog(@"Defaults loaded: display_name  = %@",u.display_name);
+  NSLog(@"Defaults loaded: email         = %@",u.email);
+  NSLog(@"Defaults loaded: media_id      = %ld",u.media_id);
+  NSLog(@"Defaults loaded: read_write_key= %@",u.read_write_key);
   if(!fallbackUser && u.user_id) fallbackUser = u;
 
   if(!fallbackGameId) fallbackGameId = [defaults integerForKey:@"game_id"]; 
-    
+
   _ARIS_NOTIF_SEND_(@"DEFAULTS_UPDATED",nil,nil);  
 }
 
