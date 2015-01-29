@@ -108,7 +108,9 @@
     [self startPollingLocation];
     [_DEFAULTS_ loadUserDefaults]; //check if changed since last active
     
-    if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
+    if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id &&
+       !(_MODEL_PLAYER_ && _MODEL_PLAYER_.user_id))
+            [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
     if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);   
 }
 
