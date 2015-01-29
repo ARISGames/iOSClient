@@ -12,6 +12,7 @@ help:
 	@echo "Aris Client"
 	@echo ""
 	@echo "Targets:"
+	@echo "        all: timestamp, copy, clean."
 	@echo "   simulate: build and run ios-sim launcher "
 	@echo "       copy: push ipas to aris"
 	@echo "  timestamp: rename dist/ARIS.ipa to version"
