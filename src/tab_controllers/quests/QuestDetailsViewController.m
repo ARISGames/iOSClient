@@ -9,45 +9,38 @@
 #import "QuestDetailsViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
+#import "MediaModel.h"
 #import "Quest.h"
-#import "AsyncMediaPlayerButton.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
-#import "UIColor+ARISColors.h"
 
-@interface QuestDetailsViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
+@interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate>
 {
-    Quest *quest;
+    UIScrollView *scrollView;
+    ARISMediaView  *mediaView;
     ARISWebView *webView;
-    ARISMediaView *mediaView;
-    BOOL hasAppeared;
+    UIView *goButton;
+    UILabel *goLbl; 
+    UIImageView *arrow;
+    UIView *line; 
     
-    id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    Quest *quest; 
+    NSString *mode;
+    id<QuestDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
     
-@property (nonatomic, strong) Quest *quest;
-@property (nonatomic, strong) ARISWebView *webView;
-@property (nonatomic, strong) ARISMediaView *mediaView;
-@property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
-
 @end
 
 @implementation QuestDetailsViewController
 
-@synthesize quest;
-@synthesize webView;
-@synthesize mediaView;
-@synthesize webViewSpinner;
-
-- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d;
+- (id) initWithQuest:(Quest *)q mode:(NSString *)m delegate:(id<QuestDetailsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        self.quest = q;
+        quest = q;
+        mode = m;
         delegate = d;
-        self.title = self.quest.name;
-        self.hidesBottomBarWhenPushed = YES;
-        hasAppeared = NO;
+        self.title = quest.name;
     }
     return self;
 }
@@ -55,92 +48,85 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
-    self.navigationItem.title = self.quest.name;
     
-    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width, 1) delegate:self];
-    self.webView.delegate = self;
-    self.webView.backgroundColor = [UIColor clearColor];
-    self.webView.scrollView.scrollEnabled = NO;
+    self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
+    self.navigationItem.title = quest.name; 
     
-    NSString *text = self.quest.qdescription;
-    /*
-    @"<script type='text/javascript'>"
-    @"var ARIS = {};"
-    @"ARIS.hook = function(params) { ARIS.exitToScanner('woohoo'); };"
-    @"</script>"
-    @"Yo yo yo you're a hunter blah blah hey cool quest do it."
-     */
-    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:[UIColor ARISHtmlTemplate], text];
+    scrollView = [[UIScrollView alloc] init];
+    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);  
+    scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop]; 
+    scrollView.clipsToBounds = NO; 
 
-    self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
-    self.webView.opaque = NO;
-    self.webView.backgroundColor = [UIColor clearColor];
-	[self.webView loadHTMLString:text baseURL:nil];
+    webView = [[ARISWebView alloc] initWithDelegate:self];
+    webView.backgroundColor = [UIColor clearColor];
+    webView.scrollView.bounces = NO;
+    webView.scrollView.scrollEnabled = NO;
+    webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
     
-    self.webViewSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    self.webViewSpinner.backgroundColor = [UIColor clearColor];
-    self.webViewSpinner.center = self.webView.center;
-    [self.webViewSpinner startAnimating];
-    [self.webView addSubview:self.webViewSpinner];
+    mediaView = [[ARISMediaView alloc] initWithDelegate:self];
+    [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
-    if(media && [media.type isEqualToString:@"PHOTO"] && media.url)
-    {
-        self.mediaView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
-    }
-    else if(media && ([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
-    {
-        //[self.view addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) media:media presenter:self preloadNow:NO]];
-    }
+    goButton = [[UIView alloc] init];
+    goButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+    goButton.userInteractionEnabled = YES;
+    goButton.accessibilityLabel = @"BeginQuest";
+    goLbl = [[UILabel alloc] init];
+    goLbl.textColor = [ARISTemplate ARISColorText];
+    goLbl.textAlignment = NSTextAlignmentRight;
+    goLbl.text = NSLocalizedString(@"QuestViewBeginQuestKey", @"");
+    goLbl.font = [ARISTemplate ARISButtonFont];
+    [goButton addSubview:goLbl];
+    [goButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goButtonTouched)]];
+    
+    arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    line = [[UIView alloc] init];
+    line.backgroundColor = [UIColor ARISColorLightGray];
+    
+    [self.view addSubview:scrollView];
+    
+    [self loadQuest];
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     
-    CGRect mainFrame = self.view.bounds;
-    mainFrame.origin.y = 64;
-    mainFrame.size.height = mainFrame.size.height-64;
+    scrollView.frame = self.view.bounds;
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
+    goButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+    goLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,44);
+    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19); 
+    line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
+}
+
+- (void) loadQuest
+{
+    [scrollView addSubview:webView]; 
+    webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
+    [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], ([mode isEqualToString:@"ACTIVE"] ? quest.active_desc : quest.complete_desc)] baseURL:nil];  
+    
+    Media *media = [_MODEL_MEDIA_ mediaForId:([mode isEqualToString:@"ACTIVE"] ? quest.active_media_id : quest.complete_media_id)];
     if(media)
     {
-        [self.mediaView refreshWithFrame:mainFrame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
-        [self.view addSubview:self.mediaView];
-    } 
+        [scrollView addSubview:mediaView];   
+        [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
+        [mediaView setMedia:media];
+    }  
     
-    [self.view addSubview:self.webView];  
-    
-    if(![self.quest.goFunction isEqualToString:@"NONE"])
+    if(![([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"])
     {
-        mainFrame.size.height -= 44;
-        
-        UIButton *goButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        goButton.frame = CGRectMake(0, mainFrame.origin.y+mainFrame.size.height, mainFrame.size.width, 44);
-        [goButton setBackgroundColor:[UIColor ARISColorTextBackdrop]];
-        goButton.titleEdgeInsets = UIEdgeInsetsMake(0,0,0,30);
-        [goButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
-        [goButton setTitle:@"Begin Quest" forState:UIControlStateNormal];
-        [goButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-        [goButton addTarget:self action:@selector(goButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        UIImageView *continueArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
-        continueArrow.frame = CGRectMake(self.view.bounds.size.width-25, 14, 19, 19);
-        [goButton addSubview:continueArrow];
+        scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0); 
         [self.view addSubview:goButton];
-        
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, mainFrame.origin.y+mainFrame.size.height, mainFrame.size.width, 1)];
-        line.backgroundColor = [UIColor ARISColorLightGray];
-        [self.view addSubview:line];
-    }
+        [self.view addSubview:arrow];
+        [self.view addSubview:line]; 
+    } 
+    else
+        scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);    
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if(hasAppeared) return;
-    hasAppeared = YES; 
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
@@ -150,24 +136,36 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
+    if(![([mode isEqualToString:@"ACTIVE"] ? quest.active_desc : quest.complete_desc) isEqualToString:@""])
+    {
+        webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
+        scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
+    }
+    else
+        scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,mediaView.frame.size.height);
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)theWebView
+- (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
 {
-    [self.webView injectHTMLWithARISjs];
-    self.webView.alpha = 1.00;
-    
-    float newHeight = [[self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]+5;
-    self.webView.frame = CGRectMake(self.webView.frame.origin.x,self.webView.frame.origin.y,self.webView.frame.size.width,newHeight);
-    
-    [self.webViewSpinner removeFromSuperview];
+    WebPage *w = [_MODEL_WEB_PAGES_ webPageForId:0];
+    w.url = [r.URL absoluteString];
+    //[delegate displayGameObject:w fromSource:self];
+
+    return NO;
 }
 
-- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    return ![self.webView handleARISRequestIfApplicable:request];
+    webView.alpha = 1.00;
+    
+    float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    [webView setFrame:CGRectMake(webView.frame.origin.x,
+                                      webView.frame.origin.y,
+                                      webView.frame.size.width,
+                                      newHeight)];
+    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10); 
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
@@ -175,43 +173,23 @@
     [delegate questDetailsRequestsDismissal];
 }
 
-- (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
-{
-    //Ignore refresh requests...
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [delegate displayScannerWithPrompt:p];
-}
-
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
-{
-    return [delegate displayGameObject:g fromSource:s];
-}
-
-- (void) displayTab:(NSString *)t
-{
-    [delegate displayTab:t];
-}
-
 - (void) backButtonTouched
 {
     [delegate questDetailsRequestsDismissal];
 }
 
-- (void) goButtonPressed
+- (void) goButtonTouched
 {
-    if([self.quest.goFunction isEqualToString:@"JAVASCRIPT"]) [self.webView hookWithParams:@""];
-    else if([self.quest.goFunction isEqualToString:@"NONE"]) return;
-    else [self displayTab:self.quest.goFunction];
+    if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"JAVASCRIPT"]) [webView hookWithParams:@""];
+    else if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"]) return;
+    else [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function)]];
 }
 
 - (void) dealloc
 {
-    self.webView.delegate = nil;
-    [self.webView stopLoading];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    webView.delegate = nil;
+    [webView stopLoading];
+    _ARIS_NOTIF_IGNORE_ALL_(self);                             
 }
 
 @end

@@ -9,11 +9,6 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerNearbyViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "Player.h"
-#import "GameDetailsViewController.h"
-#import "GamePickerCell.h"
 
 @implementation GamePickerNearbyViewController
 
@@ -22,34 +17,28 @@
     if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerNearbyTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"arrow_selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"arrow_unselected"]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationarrow_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationarrow.png"]]; 
+        
+        _ARIS_NOTIF_LISTEN_(@"MODEL_NEARBY_GAMES_AVAILABLE",self,@selector(nearbyGamesAvailable),nil);
     }
     return self;
 }
 
-- (void) requestNewGameList
+- (void) nearbyGamesAvailable
 {
-    [super requestNewGameList];
-    
-    if([AppModel sharedAppModel].player.location && [[AppModel sharedAppModel] player])
-    {
-        [[AppServices sharedAppServices] fetchNearbyGameListWithDistanceFilter:1000];
-        [self showLoadingIndicator];
-    }
+    [self removeLoadingIndicator];
+	games = _MODEL_GAMES_.nearbyGames;
+    [gameTable reloadData];
 }
-
 - (void) refreshViewFromModel
 {
-	self.gameList = [[AppModel sharedAppModel].nearbyGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-    [self.gameTable reloadData];
-    
-    [self removeLoadingIndicator];
+	games = _MODEL_GAMES_.pingNearbyGames;
+    [gameTable reloadData];
 }
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);       
 }
 
 @end

@@ -9,10 +9,11 @@
 #import "ARISMediaLoader.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "MediaModel.h"
+#import "ARISDelegateHandle.h"
 
 @interface ARISMediaLoader()
 {
-    //ARISMoviePlayerViewController *movieViewController; //Only required to get thumbnail for video
     NSMutableDictionary *dataConnections; 
     NSMutableArray *metaConnections;
 }
@@ -22,85 +23,73 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        dataConnections = [[NSMutableDictionary alloc] initWithCapacity:10];
-        metaConnections = [[NSMutableArray alloc] initWithCapacity:10]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryLoadingAllMedia) name:@"ReceivedMediaList" object:nil]; 
-    }
-    return self;
+  if(self = [super init])
+  {
+    dataConnections = [[NSMutableDictionary alloc] initWithCapacity:10];
+    metaConnections = [[NSMutableArray      alloc] initWithCapacity:10];
+    _ARIS_NOTIF_LISTEN_(@"MODEL_MEDIA_AVAILABLE",self,@selector(retryLoadingAllMedia),nil); 
+  }
+  return self;
 }
 
-- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d
+- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh
 {
-    //hack
-    m.url = [m.url stringByReplacingOccurrencesOfString:@"gamedata//" withString:@"gamedata/player/"]; 
-    
+    if(!m) return;
+
     MediaResult *mr = [[MediaResult alloc] init];
     mr.media = m;
-    mr.delegate = d;
-    
+    mr.delegateHandles = @[dh];
+
     [self loadMediaFromMR:mr];
 }
 
 - (void) loadMediaFromMR:(MediaResult *)mr
 {
-    if     (!mr.media.url || !mr.media.type)          [self loadMetaDataForMR:mr];
-    else if([mr.media.type isEqualToString:@"PHOTO"]) [self loadPhotoForMR:mr];
-    else if([mr.media.type isEqualToString:@"VIDEO"]) [self loadVideoFrameForMR:mr];
-    else if([mr.media.type isEqualToString:@"AUDIO"]) return;  
+    if(!mr.media.remoteURL) { [self loadMetaDataForMR:mr]; return; }
+    if(mr.media.data)       { [self mediaLoadedForMR:mr]; return; }
+
+    if(!mr.media.localURL)
+    {
+        NSURLRequest *request = [NSURLRequest requestWithURL:mr.media.remoteURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+        if(mr.connection) [mr.connection cancel];
+        mr.data = [[NSMutableData alloc] initWithCapacity:2048];
+        mr.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        [dataConnections setObject:mr forKey:mr.connection.description];
+    }
+    else
+    {
+        mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL];
+        [self mediaLoadedForMR:mr];
+    }
 }
 
 - (void) loadMetaDataForMR:(MediaResult *)mr
 {
-    for(int i = 0; i < [metaConnections count]; i++)
-        if(((MediaResult *)[metaConnections objectAtIndex:i]).media.uid == mr.media.uid) return;
-    [metaConnections addObject:mr]; 
-    [[AppServices sharedAppServices] fetchMediaMeta:mr.media]; 
+    for(long i = 0; i < metaConnections.count; i++)
+    {
+        MediaResult *existingMR = metaConnections[i];
+        if(existingMR.media.media_id == mr.media.media_id)
+        {
+          // If mediaresult already exists, merge delegates to notify rather than 1.Throwing new request out (need to keep delegate) or 2.Redundantly requesting
+          existingMR.delegateHandles = [existingMR.delegateHandles arrayByAddingObjectsFromArray:mr.delegateHandles];
+          return;
+        }
+    }
+    [metaConnections addObject:mr];
+    [_SERVICES_ fetchMediaById:mr.media.media_id];
 }
 
-- (void) loadPhotoForMR:(MediaResult *)mr
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:mr.media.url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    if(mr.connection) [mr.connection cancel];
-    mr.data = [[NSMutableData alloc] initWithCapacity:2048];
-    mr.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [dataConnections setObject:mr forKey:mr.connection.description];
-}
-
-- (void) loadVideoFrameForMR:(MediaResult *)mr
-{
-    /* 
-    NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
-    NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
-    
-    movieViewController = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:m.url]];
-    movieViewController.moviePlayer.shouldAutoplay = NO;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:movieViewController.moviePlayer];
-    [movieViewController.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
-     */
-}
-
-/*
-- (void) movieThumbDidFinish:(NSNotification*)n
-{
-    UIImage *i = [n.userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
-    media.image = UIImageJPEGRepresentation(i, 1.0);
-}
- */ 
- 
 - (void) retryLoadingAllMedia
 {
-    MediaResult *mr;
-    
     //do the ol' switcheroo so we wont get into an infinite loop of adding, removing, readding, etc...
     NSMutableArray *oldMetaConnections = metaConnections;
     metaConnections = [[NSMutableArray alloc] initWithCapacity:10];
-    
-    while([oldMetaConnections count] > 0)
+
+    MediaResult *mr;
+    while(oldMetaConnections.count > 0)
     {
         mr = [oldMetaConnections objectAtIndex:0];
-        mr.media = [[AppModel sharedAppModel] mediaForMediaId:[mr.media.uid intValue] ofType:mr.media.type];
+        mr.media = [_MODEL_MEDIA_ mediaForId:mr.media.media_id];
         [oldMetaConnections removeObjectAtIndex:0];
         [self loadMediaFromMR:mr];
     }
@@ -108,29 +97,49 @@
 
 - (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
 {
-    MediaResult *mr = [dataConnections objectForKey:c.description];
-    if(!mr) return;
+    MediaResult *mr; if(!(mr = [dataConnections objectForKey:c.description])) return;
     [mr.data appendData:d];
 }
 
 - (void) connectionDidFinishLoading:(NSURLConnection*)c
 {
-    MediaResult *mr = [dataConnections objectForKey:c.description]; 
-    if(!mr) return; 
-    [dataConnections removeObjectForKey:c.description]; 
+    MediaResult *mr; if(!(mr = [dataConnections objectForKey:c.description])) return;
+    [dataConnections removeObjectForKey:c.description];
+    mr.media.data = mr.data;
+    [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
+
+    //short names to cope with obj-c verbosity
+    NSString *g = [NSString stringWithFormat:@"%ld",mr.media.game_id]; //game_id as string
+    NSString *f = [[[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
     
-    mr.media.image = mr.data;
-    [mr cancelConnection];
-    if(mr.delegate) [mr.delegate mediaLoaded:mr.media];
-    mr.delegate = nil;
+    NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+    if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
+        [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
+    [mr.media setPartialLocalURL:[NSString stringWithFormat:@"%@/%@",g,f]];
+    [mr.media.data writeToURL:mr.media.localURL options:nil error:nil];
+
+    [_MODEL_MEDIA_ saveAlteredMedia:mr.media];//not as elegant as I'd like...
+    NSLog(@"Media loader  : Media id:%ld loaded:%@",mr.media.media_id,mr.media.remoteURL);
+    [self mediaLoadedForMR:mr];
+}
+
+- (void) mediaLoadedForMR:(MediaResult *)mr
+{
+    //This is so ugly. See comments in ARISDelegateHandle.h for reasoning
+    for(long i = 0; i < mr.delegateHandles.count; i++)
+    {
+      ARISDelegateHandle *dh = mr.delegateHandles[i];
+      if(dh.delegate && [[dh.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
+        [dh.delegate mediaLoaded:mr.media];
+    }
 }
 
 - (void) dealloc
 {
     NSArray *objects = [dataConnections allValues];
-    for(int i = 0; i < [objects count]; i++)
+    for(long i = 0; i < objects.count; i++)
         [[objects objectAtIndex:i] cancelConnection];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
@@ -142,7 +151,7 @@
 @synthesize connection;
 @synthesize start;
 @synthesize time;
-@synthesize delegate;
+@synthesize delegateHandles;
 
 - (void) cancelConnection
 {

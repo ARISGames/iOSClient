@@ -10,62 +10,29 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import "ARISMediaView.h"
-#import "ARISWebView.h"
-#import "ARISMoviePlayerViewController.h"
-#import "AppModel.h"
+#import "CircleView.h"
 #import "Media.h"
-#import "UIColor+ARISColors.h"
+#import "AppModel.h"
+#import "MediaModel.h"
 
-@interface PopOverViewController() <ARISMediaViewDelegate,ARISWebViewDelegate,StateControllerProtocol,UIWebViewDelegate>
+@interface PopOverViewController() <ARISMediaViewDelegate>
 {
-    UIView *popOverView;
-    UIView *contentView;
-    ARISWebView *descriptionView;
-    ARISMediaView *mediaView;
-    UILabel *title;
-    UILabel *subtitle;
-    UILabel *continueButton;
-    UILabel *goButton; 
-    NSString *goFunction;
-    
-    UIActivityIndicatorView *loadingIndicator;
+    CircleView *popOverView;
+    ARISMediaView *iconMediaView;
+    UILabel *header;
+    UILabel *prompt;
         
-    id<PopOverViewDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<PopOverViewDelegate> __unsafe_unretained delegate;
 }
-
-@property (nonatomic, strong) UIView *popOverView;
-@property (nonatomic, strong) UIView *contentView;
-@property (nonatomic, strong) ARISWebView *descriptionView;
-@property (nonatomic, strong) ARISMediaView *mediaView;
-@property (nonatomic, strong) UILabel *title;
-@property (nonatomic, strong) UILabel *subtitle;
-@property (nonatomic, strong) UILabel *continueButton;
-@property (nonatomic, strong) UILabel *goButton;
-@property (nonatomic, strong) NSString *goFunction;
-
-@property (nonatomic, strong) UIActivityIndicatorView *loadingIndicator;
-
 @end
 
 @implementation PopOverViewController
-
-@synthesize popOverView;
-@synthesize contentView;
-@synthesize descriptionView;
-@synthesize mediaView;
-@synthesize title;
-@synthesize subtitle;
-@synthesize continueButton;
-@synthesize goButton;
-@synthesize goFunction;
-
-@synthesize loadingIndicator;
         
-- (id) initWithDelegate:(id <PopOverViewDelegate, StateControllerProtocol>)poDelegate
+- (id) initWithDelegate:(id <PopOverViewDelegate>)d
 {
     if(self = [super init])
     {
-        delegate = poDelegate;
+        delegate = d;
     }
     return self;
 }
@@ -73,159 +40,69 @@
 - (void) loadView
 {
     [super loadView];
-}
+    
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(requestDismiss)]];
 
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor ARISColorTranslucentBlack];
+    self.view.backgroundColor = [[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.4];
     self.view.userInteractionEnabled = YES;
     
-    self.popOverView = [[UIView alloc] initWithFrame:CGRectMake(10,self.view.bounds.size.height/2-214,self.view.bounds.size.width-20,428)];
-    self.popOverView.backgroundColor = [UIColor ARISColorTextBackdrop];
-    self.popOverView.layer.cornerRadius = 10;
-    self.popOverView.layer.masksToBounds = YES;
+    popOverView = [[CircleView alloc] initWithFillColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.8] strokeColor:[UIColor ARISColorWhite] strokeWidth:4];
+    [popOverView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(requestSubmit)]];
+    popOverView.opaque = NO;
     
-    self.title    = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.popOverView.bounds.size.width-20,24)];
-    self.title.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
-    self.title.backgroundColor = [UIColor clearColor];
-    self.subtitle = [[UILabel alloc] initWithFrame:CGRectMake(10,34,self.popOverView.bounds.size.width-20,20)];
-    self.subtitle.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    self.subtitle.backgroundColor = [UIColor clearColor];
+    header = [[UILabel alloc] init];
+    header.font = [ARISTemplate ARISTitleFont];
+    header.textColor = [UIColor ARISColorWhite]; 
+    header.textAlignment = NSTextAlignmentCenter;
+    header.backgroundColor = [UIColor clearColor];
+    header.lineBreakMode = NSLineBreakByTruncatingTail;
     
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0,44+20,self.popOverView.bounds.size.width,320)];
+    prompt = [[UILabel alloc] init];
+    prompt.font = [ARISTemplate ARISSubtextFont];
+    prompt.textColor = [UIColor ARISColorWhite];  
+    prompt.textAlignment = NSTextAlignmentCenter; 
+    prompt.backgroundColor = [UIColor clearColor];
+    prompt.lineBreakMode = NSLineBreakByTruncatingTail;
     
-    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(10, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44)];
-    self.continueButton.text = @" < Dismiss";
-    self.continueButton.textAlignment = NSTextAlignmentLeft;
-    self.continueButton.backgroundColor = [UIColor clearColor];
-    self.continueButton.userInteractionEnabled = YES;
-    [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+    iconMediaView = [[ARISMediaView alloc] initWithDelegate:self];
+    [iconMediaView setDisplayMode:ARISMediaDisplayModeAspectFit];
     
-    self.goButton = [[UILabel alloc] initWithFrame:CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44)]; 
-    self.goButton.text = @"GO! > ";
-    self.goButton.textAlignment = NSTextAlignmentRight;
-    self.goButton.backgroundColor = [UIColor clearColor];
-    self.goButton.userInteractionEnabled = YES;
-    [self.goButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goButtonTouched)]]; 
+    [popOverView addSubview:header];
+    [popOverView addSubview:prompt];
+    [popOverView addSubview:iconMediaView]; 
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width, 1)];
-    line.backgroundColor = [UIColor ARISColorLightGray];
-    
-    [self.popOverView addSubview:self.title];
-    [self.popOverView addSubview:self.subtitle];
-    [self.popOverView addSubview:self.contentView];
-    [self.popOverView addSubview:self.continueButton];
-    [self.popOverView addSubview:self.goButton]; 
-    [self.popOverView addSubview:line];
-    [self.view addSubview:self.popOverView];
+    [self.view addSubview:popOverView];
 }
 
-- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt mediaId:(int)m function:(NSString *)f showDismiss:(BOOL)sd
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    float radius = (self.view.bounds.size.width-60)/2;
+    popOverView.frame = CGRectMake((self.view.bounds.size.width-(2*radius))/2,self.view.bounds.size.height/2-radius,radius*2,radius*2);
+    [iconMediaView setFrame:CGRectMake(radius-64,radius-84,128,128)];
+    header.frame = CGRectMake(25,radius+60,2*radius-50,24);
+    prompt.frame = CGRectMake(50,radius+80,2*radius-100,24); 
+}
+
+- (void) setHeader:(NSString *)h prompt:(NSString *)p icon_media_id:(long)m
 {
     if(!self.view) self.view.hidden = NO; //Just accesses view to force its load
     
-    while([self.contentView.subviews count] > 0)
-        [[self.contentView.subviews objectAtIndex:0] removeFromSuperview];
+    header.text = h;
+    prompt.text = p;
     
-    self.title.text    = t;
-    self.subtitle.text = d;
-    
-    if(![wvt isEqualToString:@""])
-    {
-        self.descriptionView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.contentView.frame.size.width,10) delegate:self];
-        self.descriptionView.scrollView.scrollEnabled = NO;
-        self.descriptionView.backgroundColor = [UIColor clearColor];
-        self.descriptionView.opaque = NO;
-        wvt = [NSString stringWithFormat:[UIColor ARISHtmlTemplate], wvt];
-        [self.descriptionView loadHTMLString:wvt baseURL:nil];
-        [self.contentView addSubview:self.descriptionView];
-    }
-    
-    if(m != 0)
-    {
-        self.mediaView = [[ARISMediaView alloc] initWithFrame:CGRectMake(10,0,self.contentView.frame.size.width-20,20) media:[[AppModel sharedAppModel] mediaForMediaId:m ofType:@"PHOTO"] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
-        [self.contentView addSubview:self.mediaView];
-    }
-    
-    self.goFunction = f;
-    if([f isEqualToString:@"NONE"])
-    {
-        self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width-20, 44);
-        self.continueButton.textAlignment = NSTextAlignmentRight;
-        self.continueButton.text = @"Dismiss > ";
-        self.continueButton.accessibilityLabel = @"Dismiss";
-        self.goButton.frame = CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, 0, 44);
-        self.goButton.text = @"";
-    }
-    else if(!sd)
-    {
-        self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, 0, 44);
-        self.continueButton.text = @"";
-        self.goButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width-20, 44);
-        self.goButton.textAlignment = NSTextAlignmentRight;
-        self.goButton.text = @"GO! > "; 
-    }
-    else
-    {
-        self.continueButton.frame = CGRectMake(10, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44);
-        self.continueButton.textAlignment = NSTextAlignmentLeft; 
-        self.continueButton.text = @" < Dismiss"; 
-        self.goButton.frame = CGRectMake(self.popOverView.frame.size.width/2, self.popOverView.frame.size.height-44, (self.popOverView.frame.size.width-20)/2, 44); 
-        self.continueButton.textAlignment = NSTextAlignmentRight;  
-        self.goButton.text = @"GO! > "; 
-    }
+    if(m != 0) [iconMediaView setMedia:[_MODEL_MEDIA_ mediaForId:m]];
+    else [iconMediaView setImage:[UIImage imageNamed:@"todo"]];
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)webView
+- (void) requestDismiss
 {
-    [self.descriptionView injectHTMLWithARISjs];
-    float newHeight = [[self.descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-    
-    self.descriptionView.frame = CGRectMake(0, self.descriptionView.frame.origin.y, self.contentView.frame.size.width, newHeight);
+    [delegate popOverRequestsDismiss];
 }
 
-- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (void) requestSubmit
 {
-    return ![self.descriptionView handleARISRequestIfApplicable:request];
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    self.descriptionView.frame = CGRectMake(0,amv.frame.size.height+10,self.contentView.frame.size.width,self.descriptionView.frame.size.height);
-}
-
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
-{
-    return NO;
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [delegate displayScannerWithPrompt:p];
-}
-
-- (void) displayTab:(NSString *)t
-{
-    [delegate displayTab:t]; 
-}
-
-- (void) continueButtonTouched
-{
-    [delegate popOverContinueButtonPressed];
-}
-
-- (void) goButtonTouched
-{
-    if([self.goFunction isEqualToString:@"JAVASCRIPT"]) [self.descriptionView hookWithParams:@""];
-    else if(![self.goFunction isEqualToString:@"NONE"]) [self displayTab:self.goFunction];
-    
-    [self continueButtonTouched];
-}
-
-- (NSUInteger) supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
+    [delegate popOverRequestsSubmit];
 }
 
 @end

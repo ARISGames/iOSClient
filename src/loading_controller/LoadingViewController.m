@@ -12,119 +12,125 @@
 
 @interface LoadingViewController()
 {
-    IBOutlet UIImageView *splashImage;
-    IBOutlet UIProgressView *progressBar;
-    IBOutlet UILabel *progressLabel;
-    
-    int gameDatasToReceive;
-    int receivedGameData;
-    BOOL gameDataReceived;
-    
-    int playerDatasToReceive;
-    int receivedPlayerData;
-    BOOL playerDataReceived;
-    
-    float epsillon;
+    UIImageView *splashImage;
+    UIProgressView *progressBar;
+    UILabel *progressLabel;
+
+    UIButton *retryGameLoadButton;
+    UIButton *retryPlayerLoadButton;
 
     id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
-
-@property(nonatomic)IBOutlet UIImageView *splashImage;
-@property(nonatomic)IBOutlet UIProgressView *progressBar;
-@property(nonatomic)IBOutlet UILabel *progressLabel;
 
 @end
 
 @implementation LoadingViewController
 
-@synthesize splashImage;
-@synthesize progressBar;
-@synthesize progressLabel;
-
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
 {
-    if(self = [super initWithNibName:@"LoadingViewController" bundle:nil])
+    if(self = [super init])
     {
         delegate = d;
-        
-        epsillon = 0.00001;
-        
-        gameDatasToReceive = 7;
-        receivedGameData = 0;
-        gameDataReceived = NO;
-        
-        playerDatasToReceive = 4;
-        receivedPlayerData = 0;
-        playerDataReceived = NO;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameDataReceived)   name:@"GamePieceReceived"   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDataReceived) name:@"PlayerPieceReceived" object:nil];
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PERCENT_LOADED",     self, @selector(percentLoaded:),    nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_DATA_LOADED",        self, @selector(gameDataLoaded),    nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_DATA_LOADED", self, @selector(playerDataLoaded),  nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_FETCH_FAILED",    self, @selector(gameFetchFailed),   nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_FETCH_FAILED",  self, @selector(playerFetchFailed), nil);
     }
     return self;
 }
 
--(void) dealloc
+- (void) loadView
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+    [super loadView];
+    self.view.backgroundColor = [UIColor ARISColorOffWhite];
 
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
-    
+    progressLabel = [[UILabel alloc] init];
+    progressBar = [[UIProgressView alloc] init];
+    retryGameLoadButton = [[UIButton alloc] init];
+    retryPlayerLoadButton = [[UIButton alloc] init];
+
     progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
+    progressLabel.font = [ARISTemplate ARISCellSubtextFont];
+    progressLabel.textColor = [UIColor ARISColorDarkBlue];
+
     progressBar.progress = 0.0;
-    [self moveProgressBar];
-}
+    progressBar.progressTintColor = [UIColor ARISColorDarkBlue];
 
--(void) gameDataReceived
-{
-    receivedGameData++;
-    [self moveProgressBar];
-}
-
--(void) playerDataReceived
-{
-    receivedPlayerData++;
-    [self moveProgressBar];
-}
-
-- (void) moveProgressBar
-{
-    float percentLoaded = ((float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive));
-    progressBar.progress = percentLoaded;
-    [progressBar setNeedsLayout];
-    [progressBar setNeedsDisplay];
-    [progressLabel setNeedsDisplay];
-    [progressLabel setNeedsLayout];
+    [retryGameLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+    [retryGameLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
+    [retryGameLoadButton addTarget:self action:@selector(retryGameFetch) forControlEvents:UIControlEventTouchUpInside];
     
-    if(!gameDataReceived && ((float)receivedGameData/(float)gameDatasToReceive) >= 1.0-epsillon)
-    {
-        gameDataReceived = YES;
-        [delegate loadingViewControllerFinishedLoadingGameData];
-    }
-    if(!playerDataReceived && ((float)receivedPlayerData/(float)playerDatasToReceive) >= 1.0-epsillon)
-    {
-        playerDataReceived = YES;
-        [delegate loadingViewControllerFinishedLoadingPlayerData];
-    }
-    if(percentLoaded >= 1.0-epsillon)
-    {
-        [self dismissViewControllerAnimated:NO completion:nil];
-        [delegate loadingViewControllerFinishedLoadingData];
-        receivedGameData   = 0;
-        gameDataReceived   = NO;
-        receivedPlayerData = 0;
-        playerDataReceived = NO;
-    }
+    [retryPlayerLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+    [retryPlayerLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
+    [retryPlayerLoadButton addTarget:self action:@selector(retryPlayerFetch) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.view addSubview:progressLabel];
+    [self.view addSubview:progressBar];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width-20, 40);
+    progressBar.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 10);
+    
+    retryGameLoadButton.frame   = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
+    retryPlayerLoadButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
+    
+    [retryGameLoadButton removeFromSuperview];
+    [retryPlayerLoadButton removeFromSuperview];
+}
+
+- (void) startLoading
+{
+    [_MODEL_GAME_ requestGameData];
+}
+
+- (void) gameDataLoaded
+{
+    [_MODEL_GAME_ requestPlayerData];
+}
+
+- (void) gameFetchFailed
+{
+    [self.view addSubview:retryGameLoadButton];
+}
+
+- (void) retryGameFetch
+{
+    [retryGameLoadButton removeFromSuperview];
+    [_MODEL_GAME_ requestGameData];
+}
+
+- (void) playerDataLoaded
+{
+    [_MODEL_ beginGame];
+}
+
+- (void) playerFetchFailed
+{
+    [self.view addSubview:retryPlayerLoadButton];
+}
+
+- (void) retryPlayerFetch
+{
+    [retryPlayerLoadButton removeFromSuperview];
+    [_MODEL_GAME_ requestPlayerData];
+}
+
+- (void) percentLoaded:(NSNotification *)notif
+{
+    progressBar.progress = [notif.userInfo[@"percent"] floatValue];
 }
 
 - (NSUInteger) supportedInterfaceOrientations
 {
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return UIInterfaceOrientationMaskAll;
-    else
-        return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+-(void) dealloc
+{
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

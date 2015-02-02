@@ -10,33 +10,47 @@
 
 @interface Quest : NSObject 
 {
-	int questId;
-	NSString *name;
-	NSString *qdescription;
-    NSString *qdescriptionNotification; 
-    NSString *goFunction;
-    NSString *notifGoFunction; 
-    int mediaId;
-	int iconMediaId;
-    int notificationMediaId;
-    int sortNum;
-    BOOL fullScreenNotification;
-    BOOL showDismiss;
-    BOOL isNullQuest; 
+    long quest_id;
+    NSString *name;
+    NSString *desc; 
+    
+    long active_icon_media_id;
+    long active_media_id; 
+    NSString *active_desc;
+    NSString *active_notification_type; 
+    NSString *active_function;  
+    long active_event_package_id;
+    
+    long complete_icon_media_id;
+    long complete_media_id; 
+    NSString *complete_desc;
+    NSString *complete_notification_type; 
+    NSString *complete_function;   
+    long complete_event_package_id;
+    
+    long sort_index;
 }
 
-@property(readwrite, assign) int questId;
-@property(copy, readwrite) NSString *name;
-@property(copy, readwrite) NSString *qdescription;
-@property(copy, readwrite) NSString *qdescriptionNotification;
-@property(copy, readwrite) NSString *goFunction;
-@property(copy, readwrite) NSString *notifGoFunction;
-@property(readwrite, assign) int mediaId;
-@property(readwrite, assign) int iconMediaId;
-@property(readwrite, assign) int notificationMediaId;
-@property(readwrite, assign) int sortNum;
-@property(readwrite, assign) BOOL fullScreenNotification;
-@property(readwrite, assign) BOOL showDismiss;
-@property(readwrite, assign) BOOL isNullQuest;
+@property (nonatomic, assign) long quest_id;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *desc; 
+    
+@property (nonatomic, assign) long active_icon_media_id;
+@property (nonatomic, assign) long active_media_id; 
+@property (nonatomic, strong) NSString *active_desc;
+@property (nonatomic, strong) NSString *active_notification_type; 
+@property (nonatomic, strong) NSString *active_function;  
+@property (nonatomic, assign) long active_event_package_id;  
+    
+@property (nonatomic, assign) long complete_icon_media_id;
+@property (nonatomic, assign) long complete_media_id; 
+@property (nonatomic, strong) NSString *complete_desc;
+@property (nonatomic, strong) NSString *complete_notification_type; 
+@property (nonatomic, strong) NSString *complete_function;   
+@property (nonatomic, assign) long complete_event_package_id;   
+    
+@property (nonatomic, assign) long sort_index;
+
+- (Quest *) initWithDictionary:(NSDictionary *)dict;
 
 @end

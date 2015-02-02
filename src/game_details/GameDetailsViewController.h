@@ -11,8 +11,7 @@
 
 @class Game;
 @protocol GameDetailsViewControllerDelegate
-- (void) gameDetailsWereConfirmed:(Game *)g;
-- (void) gameDetailsWereCanceled:(Game *)g;
+- (void) gameDetailsCanceled:(Game *)g;
 @end
 
 @interface GameDetailsViewController : ARISViewController

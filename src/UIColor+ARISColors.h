@@ -26,25 +26,4 @@
 + (UIColor *) ARISColorTranslucentBlack;
 + (UIColor *) ARISColorTranslucentWhite;
 
-+ (UIColor *) ARISColorNavBarTint;
-+ (UIColor *) ARISColorNavBarText;           
-+ (UIColor *) ARISColorTabBarTint;
-+ (UIColor *) ARISColorTabBarText;           
-+ (UIColor *) ARISColorToolBarTint;
-+ (UIColor *) ARISColorBarButtonTint;
-+ (UIColor *) ARISColorSegmentedControlTint;
-+ (UIColor *) ARISColorSearchBarTint;
-
-+ (UIColor *) ARISColorContentBackdrop; //behind fullscreen content
-+ (UIColor *) ARISColorNpcContentBackdrop; //behind npc media
-+ (UIColor *) ARISColorTextBackdrop;    //behind large amounts of text
-+ (UIColor *) ARISColorText;            //content text
-+ (UIColor *) ARISColorViewBackdrop;    //behind navigation screens
-+ (UIColor *) ARISColorViewText;        //labels on navigation screens
-+ (UIColor *) ARISColorSideNaviagtionBackdrop;
-+ (UIColor *) ARISColorSideNaviagtionText;
-
-
-+ (NSString *) ARISHtmlTemplate;
-
 @end

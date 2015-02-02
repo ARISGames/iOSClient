@@ -17,20 +17,16 @@
 
 @interface GamePickerViewController : ARISViewController <UITableViewDelegate, UITableViewDataSource>
 {
-	NSArray *gameList;
 	UITableView *gameTable;
     UIRefreshControl *refreshControl;
     
+    NSArray *games;
     id<GamePickerViewControllerDelegate> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, copy)   NSArray *gameList;
 @property (nonatomic, strong) UITableView *gameTable;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d;
-- (void) clearList;
-- (void) requestNewGameList;
 - (void) refreshViewFromModel;
 - (void) showLoadingIndicator;
 - (void) removeLoadingIndicator;

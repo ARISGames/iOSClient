@@ -6,12 +6,14 @@
 //
 //
 
-#import "GameObjectViewController.h"
+#import "ARISViewController.h"
+#import "InstantiableViewControllerProtocol.h"
 
-@class Note;
-@protocol NoteViewControllerDelegate
+@protocol NoteViewControllerDelegate <InstantiableViewControllerDelegate>
 @end
 
-@interface NoteViewController : GameObjectViewController
-- (id) initWithNote:(Note *)n delegate:(id<GameObjectViewControllerDelegate, NoteViewControllerDelegate>)d;
+@class Instance;
+@interface NoteViewController : ARISViewController <InstantiableViewControllerProtocol>
+- (id) initWithInstance:(Instance *)i delegate:(id<NoteViewControllerDelegate>)d;
 @end
+

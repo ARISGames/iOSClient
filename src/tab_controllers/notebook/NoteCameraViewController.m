@@ -4,7 +4,6 @@
 //
 //  Created by Phil Dougherty on 12/11/13.
 //
-//
 
 #import "NoteCameraViewController.h"
 #import "UIImage+Scale.h"
@@ -14,17 +13,20 @@
 @interface NoteCameraViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     id<NoteCameraViewControllerDelegate> __unsafe_unretained delegate;
+    UIImagePickerController *picker;
+    
+    NoteCameraMode mode;
 } 
 @end
 
 @implementation NoteCameraViewController
 
-- (id) initWithDelegate:(id<NoteCameraViewControllerDelegate>)d
+- (id) initWithMode:(NoteCameraMode)m delegate:(id<NoteCameraViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         self.title = NSLocalizedString(@"CameraTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"cameraTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"cameraTabBarSelected"]]; 
+        mode = m;
         delegate = d;
     }
     return self;
@@ -33,27 +35,31 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+    [self presentCamera];
+    if(mode == NOTE_CAMERA_MODE_ROLL) [self showLibrary];
+    else                              [self showCamera];
 }
 
 - (void) presentCamera
 {
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType]; 
     picker.allowsEditing = NO;
 	picker.showsCameraControls = YES;
+    
     [self presentViewController:picker animated:NO completion:nil];
 }
 
-- (void) presentLibrary
+- (void) showLibrary
 {
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType]; 
-    
-    [self presentViewController:picker animated:NO completion:nil];
+    picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+}
+
+- (void) showCamera
+{
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
 }
 
 - (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
@@ -83,7 +89,11 @@
         }
         
         NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
-        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
+        
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"];
+        
+        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@_image.jpg", [outputFormatter stringFromDate:[NSDate date]]]]];
         [imageData writeToURL:imageURL atomically:YES];
         
         // If image not selected from camera roll, save image with metadata to camera roll
@@ -98,14 +108,12 @@
                   {
                       //exists, save to roll worked
                       [delegate imageChosenWithURL:imageURL];
-                      [self.navigationController popViewControllerAnimated:NO];
                   }
                     failureBlock:^(NSError *error)
                   {
                       //doesn't exist, save to roll failed
-                      [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Warning" message:@"Your privacy settings are disallowing us from saving to your camera roll. Go into System Settings to turn these settings off."];
+                      [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"CameraWarningKey", @"") message:NSLocalizedString(@"CameraWarningMessageKey", @"")];
                       [delegate imageChosenWithURL:imageURL];
-                      [self.navigationController popViewControllerAnimated:NO];
                   }];
              }];
         }
@@ -113,24 +121,19 @@
         {
             // image from camera roll
             [delegate imageChosenWithURL:imageURL];
-            [self.navigationController popViewControllerAnimated:NO];
         }
 	}
 	else if([mediaType isEqualToString:@"public.movie"])
     {
 		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];        
         [delegate videoChosenWithURL:videoURL];
-        [self.navigationController popViewControllerAnimated:NO];
     }
-    else
-        [self.navigationController popViewControllerAnimated:NO]; //shouldn't get here, but if it does we at least need to get back
 }
 
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
 {
     [aPicker dismissViewControllerAnimated:NO completion:nil];
-    [delegate cameraViewControllerCancelled];
-    [self.navigationController popViewControllerAnimated:NO];
+    [delegate cameraViewControllerCancelled]; 
 }
 
 @end

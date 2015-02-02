@@ -9,12 +9,6 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerRecentViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "Player.h"
-#import "Location.h"
-#import "GameDetailsViewController.h"
-#import "GamePickerCell.h"
 
 @implementation GamePickerRecentViewController
 
@@ -23,34 +17,29 @@
     if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerRecentTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock_unselected.png"]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
+        
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock.png"]];   
+  _ARIS_NOTIF_LISTEN_(@"MODEL_RECENT_GAMES_AVAILABLE",self,@selector(recentGamesAvailable),nil);
     }
     return self;
 }
 
-- (void) requestNewGameList
+- (void) recentGamesAvailable
 {
-    [super requestNewGameList];
-    
-    if([AppModel sharedAppModel].player.location && [[AppModel sharedAppModel] player])
-    {
-        [[AppServices sharedAppServices] fetchRecentGameListForPlayer];
-        [self showLoadingIndicator];
-    }
+    [self removeLoadingIndicator];
+	games = _MODEL_GAMES_.recentGames;
+	[gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
-	self.gameList = [AppModel sharedAppModel].recentGameList;
-	[self.gameTable reloadData];
-    
-    [self removeLoadingIndicator];
+	games = _MODEL_GAMES_.pingRecentGames;
+	[gameTable reloadData];
 }
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);         
 }
 
 @end

@@ -9,10 +9,6 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerSearchViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "Player.h"
-#import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 
 @interface GamePickerSearchViewController() <UISearchDisplayDelegate, UISearchBarDelegate>
@@ -20,20 +16,14 @@
     UISearchBar *theSearchBar;
     UIView *disableViewOverlay;
     NSString *searchText;
-    int currentPage;
+    long currentPage;
     BOOL currentlyFetchingNextPage;
     BOOL allResultsFound;
 }
 
-@property UIView *disableViewOverlay;
-@property (nonatomic, strong) UISearchBar *theSearchBar;
-
 @end
 
 @implementation GamePickerSearchViewController
-
-@synthesize theSearchBar;
-@synthesize disableViewOverlay;
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
@@ -46,9 +36,9 @@
         
         self.title = NSLocalizedString(@"GamePickerSearchTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"magnify_selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"magnify_unselected"]];        
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"search_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"search.png"]];    
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewSearchGameListReady" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"MODEL_SEARCH_GAMES_AVAILABLE",self,@selector(searchGamesAvailable),nil);
     }
     return self;
 }
@@ -57,51 +47,44 @@
 {
     [super viewDidLoad];
     
-    self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(5,5,self.view.bounds.size.width-10,30)];
-    self.theSearchBar.delegate = self;
-    [self.theSearchBar becomeFirstResponder];
+    theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
+    theSearchBar.delegate = self;
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     gestureRecognizer.cancelsTouchesInView = NO;
     [gameTable addGestureRecognizer:gestureRecognizer];
 }
 
-- (void) requestNewGameList
+- (void) viewDidAppear:(BOOL)animated
 {
-    [super requestNewGameList];
-    
-    if([AppModel sharedAppModel].player.location && [[AppModel sharedAppModel] player])
-    {
-        currentPage = 0;
-        self.theSearchBar.text = searchText;
-        [self attemptSearch:searchText];
-    }
+    [super viewDidAppear:animated];
+    [theSearchBar becomeFirstResponder];
 }
-    
+
+- (void) searchGamesAvailable
+{
+    [self removeLoadingIndicator];
+    games = _MODEL_GAMES_.searchGames;
+	[gameTable reloadData];
+}
+
 - (void) refreshViewFromModel
 {
-    if(currentPage == 0) self.gameList = [AppModel sharedAppModel].searchGameList;
-    else                 self.gameList = [self.gameList arrayByAddingObjectsFromArray:[AppModel sharedAppModel].searchGameList];
-    
-    currentlyFetchingNextPage = NO;
-    currentPage++;
-    if([AppModel sharedAppModel].searchGameList.count == 0) allResultsFound = YES;
-    
+    games = [_MODEL_GAMES_ pingSearchGames:theSearchBar.text];
 	[gameTable reloadData];
-    
-    [self removeLoadingIndicator];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row == 0) return 40;
+    if(indexPath.row == 0) return 30;
     else return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(allResultsFound) return [super tableView:tableView numberOfRowsInSection:section]+1;
-    else                return [super tableView:tableView numberOfRowsInSection:section]+2;
+    else                return [super tableView:tableView numberOfRowsInSection:section]+1;
+    //else                return [super tableView:tableView numberOfRowsInSection:section]+2;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -111,18 +94,18 @@
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SearchCell"];
         
-        [cell addSubview:self.theSearchBar];
+        [cell addSubview:theSearchBar];
     
         return cell;
     }
-    else if(indexPath.row >= [self.gameList count]+1)
+    else if(indexPath.row >= games.count+1)
     {
         if(!currentlyFetchingNextPage && !allResultsFound) [self attemptSearch:searchText];
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"FetchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FetchCell"];
     
         if(!allResultsFound)                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchLoadingMoreKey", @"");
-        else if([self.gameList count] == 0) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoResults", @"");
+        else if(games.count == 0) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoResults", @"");
         else                                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoMoreKey", @"");
         return cell;
     }
@@ -132,7 +115,9 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [super tableView:tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+    if (indexPath.row != 0) {
+        [super tableView:tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+    }
 }
 
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar
@@ -159,17 +144,16 @@
 {
     if(searchText == nil || [searchText isEqualToString:@""]) return;
         
-    [[AppServices sharedAppServices] fetchGameListBySearch:[text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] onPage:currentPage];
     currentlyFetchingNextPage = YES;
     allResultsFound = NO;
     
-	[self showLoadingIndicator];
+    [self refreshViewFromModel];
 }
 
 - (void) searchBar:(UISearchBar *)searchBar activate:(BOOL)active
 {
-    self.gameTable.allowsSelection = !active;
-    self.gameTable.scrollEnabled   = !active;
+    gameTable.allowsSelection = !active;
+    gameTable.scrollEnabled   = !active;
     if (!active)
     {
         [disableViewOverlay removeFromSuperview];
@@ -177,16 +161,16 @@
     }
     else
     {
-        self.disableViewOverlay.alpha = 0;
-        [self.view addSubview:self.disableViewOverlay];
+        disableViewOverlay.alpha = 0;
+        [self.view addSubview:disableViewOverlay];
 		
         [UIView beginAnimations:@"FadeIn" context:nil];
         [UIView setAnimationDuration:0.5];
-        self.disableViewOverlay.alpha = 0.6;
+        disableViewOverlay.alpha = 0.6;
         [UIView commitAnimations];
 		
-        NSIndexPath *selected = [self.gameTable indexPathForSelectedRow];
-        if (selected) [self.gameTable deselectRowAtIndexPath:selected animated:NO];
+        NSIndexPath *selected = [gameTable indexPathForSelectedRow];
+        if (selected) [gameTable deselectRowAtIndexPath:selected animated:NO];
     }
     [searchBar setShowsCancelButton:active animated:YES];
 }
@@ -198,7 +182,7 @@
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);          
 }
 
 @end

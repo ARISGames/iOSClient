@@ -8,38 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class ServiceResult;
+@class ARISServiceResult;
+@class ARISServiceGraveyard;
+@class RequestCD;
 
 @interface ARISConnection : NSObject  
 
-- (id) initWithServer:(NSString *)server;
-- (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs userInfo:(NSDictionary *)dict;
-- (ServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict;
+- (id) initWithServer:(NSString *)s graveyard:(ARISServiceGraveyard *)g;
+- (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict;
+- (ARISServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict;
+- (void) setServer:(NSString *)s;
 
-@end
+- (void) performRevivalWithRequest:(RequestCD *)r;
 
-@interface ServiceResult : NSObject
-{
-    NSObject *data;
-    NSDictionary *userInfo;
-   	NSMutableData *asyncData; 
-    NSURL *url;
-    NSURLConnection *connection; 
-    id __unsafe_unretained handler;
-    SEL successSelector; 
-    SEL failSelector;   
-    
-    NSDate *start;
-    NSTimeInterval time;
-};
-@property (nonatomic, strong) NSObject *data;
-@property (nonatomic, strong) NSDictionary *userInfo;
-@property (nonatomic, strong) NSMutableData *asyncData;
-@property (nonatomic, strong) NSURL *url;
-@property (nonatomic, strong) NSURLConnection *connection;
-@property (nonatomic, assign) id handler;
-@property (nonatomic, assign) SEL successSelector;
-@property (nonatomic, assign) SEL failSelector;
-@property (nonatomic, strong) NSDate *start;
-@property (nonatomic, assign) NSTimeInterval time;
 @end

@@ -6,61 +6,60 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "StateControllerProtocol.h"
 #import "WebPageViewController.h"
 #import "WebPage.h"
-#import "AppServices.h"
-#import "NpcViewController.h"
+#import "DialogViewController.h"
+#import "AppModel.h"
 #import "ARISWebView.h"
 
-@interface WebPageViewController() <ARISWebViewDelegate,StateControllerProtocol,UIWebViewDelegate>
+@interface WebPageViewController() <ARISWebViewDelegate>
 {
     WebPage *webPage;
+    Instance *instance;
+    Tab *tab;
+
     ARISWebView *webView;
     UIActivityIndicatorView *activityIndicator;
-    
-    BOOL hasAppeared;
-    
-    id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
-}
 
-@property (nonatomic, strong) WebPage *webPage;
-@property (nonatomic, strong) ARISWebView *webView;
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+    BOOL hasAppeared;
+
+    id<WebPageViewControllerDelegate> __unsafe_unretained delegate;
+}
 
 @end
 
 @implementation WebPageViewController
 
-@synthesize webPage;
-@synthesize webView;
-@synthesize activityIndicator;
-
-- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d
+- (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d;
 {
     if(self = [super init])
     {
-        delegate = d;
-        self.webPage = w;
-        
-        hasAppeared = NO;
-        
-        
-        //WARNING!!!! FOR DEBUGGING PURPOSES ONLY!!! REMOVE FROM PRODUCTION!!!!
-        
-        // remove all cached responses
-        [[NSURLCache sharedURLCache] removeAllCachedResponses];
-        
-        // set an empty cache
-        NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:0 diskPath:nil];
-        [NSURLCache setSharedURLCache:sharedCache];
-        
-        //WARNING!!!! FOR DEBUGGING PURPOSES ONLY!!! REMOVE FROM PRODUCTION!!!!
+        instance = i;
+        webPage = [_MODEL_WEB_PAGES_ webPageForId:i.object_id];
 
-        
+        delegate = d;
+        hasAppeared = NO;
     }
     return self;
 }
+- (Instance *) instance { return instance; }
+
+- (id) initWithTab:(Tab *)t delegate:(id<WebPageViewControllerDelegate>)d;
+{
+    if(self = [super init])
+    {
+        tab = t;
+        instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+        instance.object_type = tab.type;
+        instance.object_id = tab.content_id;
+        webPage = [_MODEL_WEB_PAGES_ webPageForId:instance.object_id];
+
+        delegate = d;
+        hasAppeared = NO;
+    }
+    return self;
+}
+- (Tab *) tab { return tab; }
 
 - (void) loadView
 {
@@ -76,42 +75,55 @@
 - (void) viewWillAppearFirstTime
 {
     hasAppeared = YES;
-    
+
     self.view.backgroundColor = [UIColor blackColor];
-    
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.view.bounds];
-    [self.activityIndicator startAnimating];
-    [self.view addSubview:self.activityIndicator];
-    
-    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) delegate:self];
-    //self.webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-    self.webView.scrollView.bounces = NO;
-    self.webView.scalesPageToFit = YES;
-    self.webView.allowsInlineMediaPlayback = YES;
-    self.webView.mediaPlaybackRequiresUserAction = NO;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webPage.url]] withAppendation:[NSString stringWithFormat:@"&webPageId=%d",self.webPage.webPageId]];
-    
+
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.view.bounds];
+    [activityIndicator startAnimating];
+    [self.view addSubview:activityIndicator];
+
+    webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) delegate:self];
+    //webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    webView.scrollView.bounces = NO;
+    webView.scalesPageToFit = YES;
+    webView.allowsInlineMediaPlayback = YES;
+    webView.mediaPlaybackRequiresUserAction = NO;
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:webPage.url]] withAppendation:[NSString stringWithFormat:@"&web_page_id=%ld",webPage.web_page_id]];
+
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+
+    if(tab)
+    {
+        UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+        [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+        [threeLineNavButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
+        threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    }
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)wv
+- (NSString *) getTabTitle
 {
-    [self.webView injectHTMLWithARISjs];
-    [self.activityIndicator removeFromSuperview];
-    [self.activityIndicator stopAnimating];
-    self.activityIndicator = nil;
-    
-    [self.view addSubview:self.webView];
+    return webPage.name;
 }
 
-- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    return ![self.webView handleARISRequestIfApplicable:request];
+    [activityIndicator removeFromSuperview];
+    [activityIndicator stopAnimating];
+    activityIndicator = nil;
+
+    [self.view addSubview:webView];
+}
+
+- (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
+{
+    return YES;
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
@@ -121,30 +133,12 @@
 
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
 {
-    if([(NSObject *)delegate isKindOfClass:[NpcViewController class]])
+    if([(NSObject *)delegate isKindOfClass:[DialogViewController class]])
     {
-        //NpcViewController *npcvc = (NpcViewController *)delegate;
-        //[[AppServices sharedAppServices] fetchNpcConversations:npcvc.currentNpc.npcId afterViewingNode:npcvc.currentNode.nodeId];
+        //DialogViewController *npcvc = (DialogViewController *)delegate;
+        //[_SERVICES_ fetchDialogConversations:npcvc.currentDialog.npc_id afterViewingPlaque:npcvc.currentPlaque.plaque_id];
         //[npcvc showWaitingIndicatorForPlayerOptions];
     }
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [self dismissSelf];
-    [delegate displayScannerWithPrompt:p];
-}
-
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
-{
-    [self dismissSelf];
-    return [delegate displayGameObject:g fromSource:s];
-}
-
-- (void) displayTab:(NSString *)t
-{
-    [self dismissSelf];
-    [delegate displayTab:t];
 }
 
 - (void) backButtonTouched
@@ -154,15 +148,25 @@
 
 - (void) dismissSelf
 {
-    [self.webView clear];
+    [webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [[AppServices sharedAppServices] updateServerWebPageViewed:webPage.webPageId fromLocation:0];
-    [delegate gameObjectViewControllerRequestsDismissal:self];
+    [delegate instantiableViewControllerRequestsDismissal:self];
+    if(tab) [self showNav];
 }
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"WEB_PAGE"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(webPage.name && ![webPage.name isEqualToString:@""]) return webPage.name; return @"Web Page"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"logo_icon"]; }
 
 - (void) dealloc
 {
-    [self.webView clear];
+    [webView clear];
     webView.delegate = nil;
 }
 

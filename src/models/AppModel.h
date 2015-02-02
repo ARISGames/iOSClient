@@ -11,126 +11,94 @@
 #import <CoreMotion/CoreMotion.h>
 #import <CoreData/CoreData.h>
 
-@class Game;
-@class Player;
-@class Media;
-@class Location;
-@class Item;
-@class Node;
-@class Npc;
-@class WebPage;
-@class Panoramic;
+#define _MODEL_ [AppModel sharedAppModel]
+#define _MODEL_PLAYER_ [AppModel sharedAppModel].player
+#define _MODEL_USERS_ [AppModel sharedAppModel].usersModel
+#define _MODEL_GAMES_ [AppModel sharedAppModel].gamesModel
+#define _MODEL_MEDIA_ [AppModel sharedAppModel].mediaModel
+#define _MODEL_GAME_ [AppModel sharedAppModel].game
+#define _MODEL_SCENES_ [AppModel sharedAppModel].game.scenesModel
+#define _MODEL_PLAQUES_ [AppModel sharedAppModel].game.plaquesModel
+#define _MODEL_ITEMS_ [AppModel sharedAppModel].game.itemsModel
+#define _MODEL_DIALOGS_ [AppModel sharedAppModel].game.dialogsModel
+#define _MODEL_WEB_PAGES_ [AppModel sharedAppModel].game.webPagesModel
+#define _MODEL_NOTES_ [AppModel sharedAppModel].game.notesModel
+#define _MODEL_TAGS_ [AppModel sharedAppModel].game.tagsModel
+#define _MODEL_EVENTS_ [AppModel sharedAppModel].game.eventsModel
+#define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
+#define _MODEL_OVERLAYS_ [AppModel sharedAppModel].game.overlaysModel
+#define _MODEL_INSTANCES_ [AppModel sharedAppModel].game.instancesModel
+#define _MODEL_TABS_ [AppModel sharedAppModel].game.tabsModel
+#define _MODEL_QUESTS_ [AppModel sharedAppModel].game.questsModel
+#define _MODEL_LOGS_ [AppModel sharedAppModel].game.logsModel
+#define _MODEL_DISPLAY_QUEUE_ [AppModel sharedAppModel].game.displayQueueModel
 
-@class MediaCache;
-@class UploadMan;
-@class Overlay;
+#import "UsersModel.h"
+#import "GamesModel.h"
+#import "MediaModel.h"
+#import "ARISPusherHandler.h"
+
+@class ARISServiceGraveyard;
 
 @interface AppModel : NSObject
 {
-	NSURL *serverURL;
-    BOOL showGamesInDevelopment;
-    BOOL showPlayerOnMap;
-    
-    BOOL disableLeaveGame;
-    int skipGameDetails;
-    
-	Game *currentGame;
-    Player *player;
+  NSString *serverURL;
+  BOOL showPlayerOnMap;
 
-    int fallbackGameId;
-    
-    NSMutableArray *oneGameGameList;
-	NSMutableArray *nearbyGameList;
-	NSMutableArray *anywhereGameList;
-    NSMutableArray *popularGameList;
-    NSMutableArray *recentGamelist;
-    NSMutableArray *searchGameList;
-    
-	NSMutableArray *nearbyLocationsList;
+  BOOL disableLeaveGame;
+  BOOL hidePlayers;
 
-	NSMutableDictionary *gameMediaList;
-	NSMutableDictionary *gameItemList;
-	NSMutableDictionary *gameNodeList;
-	NSMutableDictionary *gameNpcList;
-    NSMutableDictionary *gameWebPageList;
-    NSMutableDictionary *gamePanoramicList;
-    NSMutableArray *gameTagList;
-    NSMutableArray *overlayList;
+  User *player;
+  Game *game;
+  UsersModel *usersModel;  
+  GamesModel *gamesModel;  
+  MediaModel *mediaModel; 
+  CLLocation *deviceLocation;
 
-    BOOL overlayIsVisible;
- 
-    BOOL hidePlayers;
-    
-    //CORE Data
-    NSManagedObjectModel *managedObjectModel;
-    NSManagedObjectContext *managedObjectContext;	    
-    NSPersistentStoreCoordinator *persistentStoreCoordinator;
-    UploadMan *uploadManager;
-    MediaCache *mediaCache;
-    
-    CMMotionManager *motionManager;
+  //CORE Data
+  NSManagedObjectContext *mediaManagedObjectContext;
+  NSManagedObjectContext *requestsManagedObjectContext;
+  NSPersistentStoreCoordinator *persistentStoreCoordinator;
+  ARISServiceGraveyard *servicesGraveyard;
 }
 
-@property (nonatomic, strong) NSURL *serverURL;
-@property (readwrite) BOOL showGamesInDevelopment;
-@property (readwrite) BOOL showPlayerOnMap;
-@property (readwrite) BOOL disableLeaveGame;
-@property (readwrite) int  skipGameDetails;
+@property(nonatomic, strong) NSString *serverURL;
+@property(nonatomic, assign) BOOL showPlayerOnMap;
 
-@property (readwrite) BOOL hidePlayers;
+@property(nonatomic, assign) BOOL disableLeaveGame;
+@property(nonatomic, assign) BOOL hidePlayers;
 
-@property (readwrite) BOOL overlayIsVisible;
+@property(nonatomic, strong) User *player;
+@property(nonatomic, strong) Game *game;
+@property(nonatomic, strong) UsersModel *usersModel;
+@property(nonatomic, strong) GamesModel *gamesModel;
+@property(nonatomic, strong) MediaModel *mediaModel;
+@property(nonatomic, strong) CLLocation *deviceLocation;
 
-@property (readwrite) int fallbackGameId;//Used only to recover from crashes
-
-@property (nonatomic, strong) Player *player;
-@property (nonatomic, strong) Game *currentGame;
-
-@property (nonatomic, strong) NSMutableArray *oneGameGameList;
-@property (nonatomic, strong) NSMutableArray *nearbyGameList;
-@property (nonatomic, strong) NSMutableArray *anywhereGameList;
-@property (nonatomic, strong) NSMutableArray *searchGameList;
-@property (nonatomic, strong) NSMutableArray *popularGameList;
-@property (nonatomic, strong) NSMutableArray *recentGameList;	
-
-@property (nonatomic, strong) NSMutableArray *nearbyLocationsList;	
-
-@property (nonatomic, strong) NSMutableArray *gameTagList;
-@property (nonatomic, strong) NSMutableArray *overlayList;
-@property (nonatomic, strong) NSMutableDictionary *gameMediaList;
-@property (nonatomic, strong) NSMutableDictionary *gameItemList;
-@property (nonatomic, strong) NSMutableDictionary *gameNodeList;
-@property (nonatomic, strong) NSMutableDictionary *gameNpcList;
-@property (nonatomic, strong) NSMutableDictionary *gameWebPageList;
-@property (nonatomic, strong) NSMutableDictionary *gamePanoramicList;
-
-// CORE Data
-@property (nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, strong) UploadMan *uploadManager;
-@property (nonatomic, strong) MediaCache *mediaCache;
-
-@property (nonatomic, strong) CMMotionManager *motionManager;
+  //CORE Data
+@property(nonatomic, strong) NSManagedObjectContext *mediaManagedObjectContext;
+@property(nonatomic, strong) NSManagedObjectContext *requestsManagedObjectContext;
+@property(nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property(nonatomic, strong) ARISServiceGraveyard *servicesGraveyard;
 
 + (AppModel *) sharedAppModel;
 
-- (void) resetAllGameLists;
-- (void) resetAllPlayerLists;
+- (void) attemptLogInWithUserName:(NSString *)user_name password:(NSString *)password;
+- (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;
+- (void) resetPasswordForEmail:(NSString *)email;
+- (void) changePasswordFrom:(NSString *)oldp to:(NSString *)newp;
+- (void) updatePlayerName:(NSString *)display_name;
+- (void) updatePlayerMedia:(Media *)media;
+- (void) logInPlayer:(User *)user;
+- (void) logOut;
 
-- (void) commitPlayerLogin:(Player *)p;
+- (void) chooseGame:(Game *)game;
+- (void) beginGame;
+- (void) leaveGame;
+
 - (void) setPlayerLocation:(CLLocation *)newLocation;
 
-- (void) initUserDefaults;
-- (void) saveUserDefaults;
-- (void) loadUserDefaults;
-- (void) saveCOREData;
-
-- (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type;
-- (Item *) itemForItemId:(int)mId;
-- (Node *) nodeForNodeId:(int)mId;
-- (Npc *) npcForNpcId:(int)mId;
-- (WebPage *) webPageForWebPageId:(int)mId;
-- (Panoramic *) panoramicForPanoramicId:(int)mId;
+- (void) commitCoreDataContexts;
+- (NSString *) applicationDocumentsDirectory;
 
 @end

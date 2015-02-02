@@ -2,23 +2,27 @@
 //  Tag.h
 //  ARIS
 //
-//  Created by Brian Thiel on 1/16/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Brian Thiel on 6/14/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @interface Tag : NSObject
 {
-    NSString *tagName;
-    BOOL playerCreated;
-    int tagId;
+    long tag_id;
+	NSString *tag;
+	long media_id; 
+	long visible; 
+	long sort_index; 
 }
 
-@property (nonatomic, assign) int tagId;
-@property (nonatomic, strong) NSString *tagName;
-@property (readwrite, assign) BOOL playerCreated;
+@property(readwrite, assign) long tag_id;
+@property(nonatomic, strong) NSString *tag;
+@property(readwrite, assign) long media_id;
+@property(readwrite, assign) long visible;
+@property(readwrite, assign) long sort_index;
 
-- (Tag *) initWithDictionary:(NSDictionary *)dict;
+- (id) initWithDictionary:(NSDictionary *)dict;
 
 @end

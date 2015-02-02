@@ -6,10 +6,11 @@
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "ARISGamePlayTabBarViewController.h"
+#import "ARISViewController.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 #import "QuestsViewControllerDelegate.h"
 
-@interface QuestsViewController : ARISGamePlayTabBarViewController
-- (id)initWithDelegate:(id<QuestsViewControllerDelegate>)d;
+@class Tab;
+@interface QuestsViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
+- (id) initWithTab:(Tab *)t delegate:(id<QuestsViewControllerDelegate>)d;
 @end

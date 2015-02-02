@@ -21,18 +21,27 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 
 @class ARISMediaView;
 @protocol ARISMediaViewDelegate
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv;
+@optional
+- (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv;
+- (void) ARISMediaViewFinishedPlayback:(ARISMediaView *)amv;
+- (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv;
+- (void) ARISMediaViewIsReadyToPlay:(ARISMediaView *)amv;
 @end
 
 @interface ARISMediaView : UIView
 
-- (id) initWithFrame:(CGRect)frame media:(Media *)m   mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
-- (id) initWithFrame:(CGRect)frame image:(UIImage *)i mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
+- (id) initWithDelegate:(id<ARISMediaViewDelegate>)d;
+- (id) initWithFrame:(CGRect)f delegate:(id<ARISMediaViewDelegate>)d;
+- (void) setDelegate:(id<ARISMediaViewDelegate>)d;
+- (void) setDisplayMode:(ARISMediaDisplayMode)dm;
+- (void) setFrame:(CGRect)f;
+- (void) setMedia:(Media *)m;
+- (void) setImage:(UIImage *)i;
+- (void) play;
+- (void) stop;
 
-- (void) refreshWithFrame:(CGRect)f;
-- (void) refreshWithFrame:(CGRect)frame media:(Media *)m   mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
-- (void) refreshWithFrame:(CGRect)frame image:(UIImage *)i mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d;
-
+//Ideally would be read-only/const... but whatever
+- (Media *) media;
 - (UIImage *) image;
 
 @end

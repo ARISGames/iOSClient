@@ -6,14 +6,13 @@
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "ARISGamePlayTabBarViewController.h"
+#import "ARISViewController.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
-@protocol StateControllerProtocol;
 @protocol MapViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
-@interface MapViewController : ARISGamePlayTabBarViewController
-- (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d;
+@interface MapViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
+- (id) initWithTab:(Tab *)t delegate:(id<MapViewControllerDelegate>)d;
 
 @end

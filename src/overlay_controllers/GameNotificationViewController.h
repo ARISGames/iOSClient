@@ -9,12 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ARISViewController.h"
 
-@protocol StateControllerProtocol;
+@protocol GameNotificationViewControllerDelegate
+@end
 @interface GameNotificationViewController : ARISViewController
 
-- (id) initWithDelegate:(id<StateControllerProtocol>)d;
-- (void) startListeningToModel;
-- (void) stopListeningToModel;
+- (id) initWithDelegate:(id<GameNotificationViewControllerDelegate>)d;
 - (void) cutOffGameNotifications;
 
 @end

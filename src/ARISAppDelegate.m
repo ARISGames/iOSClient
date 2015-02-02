@@ -10,27 +10,26 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVAudioPlayer.h>
 #import <AVFoundation/AVFoundation.h>
+#import <CoreLocation/CLLocation.h>
+#import <CoreLocation/CLLocationManager.h>
 #import <CoreMotion/CoreMotion.h>
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
-#import "Player.h"
-#import "UploadMan.h"
-#import "TestFlight.h"
+#import "User.h"
 #import <Crashlytics/Crashlytics.h>
 
-#import "UIColor+ARISColors.h"
-
+#import "ARISDefaults.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "RootViewController.h"
 
-@interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate>
+@interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate, CLLocationManagerDelegate>
 {
+    Reachability *reachability; 
+    CLLocationManager *locationManager;
     NSTimer *locationPoller;
+    CLLocation *lastKnownLocation;
     AVAudioPlayer *player;
-    
-    int readingCountUpToOneHundredThousand;
-    int steps;
 }
 @end
 
@@ -42,20 +41,34 @@
 {    
     application.idleTimerDisabled = YES;
     
-    [TestFlight takeOff:@"71a0800e-c39f-43b7-9308-1d4b6a4d9f73"];
     [Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];
-    
-    //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
-	//To set these defaults, edit Settings.bundle->Root.plist
-	[[AppModel sharedAppModel] initUserDefaults];
-    
-    readingCountUpToOneHundredThousand = 0;
-    steps = 0;
     
     [self setApplicationUITemplates];
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; 
     [self.window setRootViewController:[RootViewController sharedRootViewController]];
     [self.window makeKeyAndVisible];
+    
+    //init the singletons. I know. defeats the point of singletons. but they prob shouldn't be singletons then.
+    _DEFAULTS_;
+    _MODEL_;  
+    [_DEFAULTS_ loadUserDefaults]; //check if changed since last active  
+    
+    _SERVICES_;
+    
+    //Init after model, as they might be listening for updates
+    _ARIS_NOTIF_LISTEN_(kReachabilityChangedNotification,self,@selector(reachabilityChanged:),nil);
+    reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];  
+    locationManager = [[CLLocationManager alloc] init];
+    if([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+        [locationManager requestWhenInUseAuthorization];
+    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    locationManager.distanceFilter = 5; //Minimum change of 5 meters for update  
+    locationManager.delegate = self;
+    
+    if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
+    if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);  
 }
 
 - (void) setApplicationUITemplates
@@ -63,26 +76,28 @@
     self.window.rootViewController.edgesForExtendedLayout = UIRectEdgeAll;
     self.window.rootViewController.extendedLayoutIncludesOpaqueBars = NO;
     
+    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTintColor:[UIColor whiteColor]];
+
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont,
-      [UIColor ARISColorNavBarText],                          UITextAttributeTextColor,
-      [UIColor clearColor],                                   UITextAttributeTextShadowColor,
+      [ARISTemplate ARISNavTitleFont],     UITextAttributeFont,
+      [ARISTemplate ARISColorNavBarText],  UITextAttributeTextColor,
+      [UIColor clearColor],                UITextAttributeTextShadowColor,
       nil]
      ];
     
     [[UITabBarItem appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,
-      [UIColor ARISColorTabBarText],                         UITextAttributeTextColor,
+      [ARISTemplate ARISTabTitleFont],    UITextAttributeFont, 
+      [ARISTemplate ARISColorTabBarText], UITextAttributeTextColor,
       nil] 
                                              forState:UIControlStateNormal];
     
     [[UISegmentedControl appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
-      [UIColor ARISColorTabBarText],                        UITextAttributeTextColor,
-      [UIColor clearColor],                                 UITextAttributeTextShadowColor,
+      [ARISTemplate ARISButtonFont],      UITextAttributeFont,
+      [ARISTemplate ARISColorTabBarText], UITextAttributeTextColor,
+      [UIColor clearColor],               UITextAttributeTextShadowColor,
       nil]
                                                    forState:UIControlStateNormal];
 }
@@ -90,48 +105,67 @@
 - (void) applicationDidBecomeActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Application Became Active");
-	[[AppModel sharedAppModel]       loadUserDefaults];
-    [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
-    
-    if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
-        [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].fallbackGameId];
-    else if([AppModel sharedAppModel].player.playerId > 0)
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerAlreadyLoggedIn" object:nil]];
-    
-    [[[AppModel sharedAppModel] uploadManager] checkForFailedContent];
-    
     [self startPollingLocation];
+    [_DEFAULTS_ loadUserDefaults]; //check if changed since last active
+    
+    if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id &&
+       !(_MODEL_PLAYER_ && _MODEL_PLAYER_.user_id))
+            [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
+    if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);   
 }
 
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    NSLog(@"NSNotification: LowMemoryWarning");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
+  _ARIS_NOTIF_SEND_(@"LowMemoryWarning",nil,nil);
 }
 
 - (void) applicationWillResignActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Resigning Active Application");
-	[[AppModel sharedAppModel] saveUserDefaults];
-    
     [self stopPollingLocation];
 }
 
 -(void) applicationWillTerminate:(UIApplication *)application
 {
 	NSLog(@"ARIS: Terminating Application");
-	[[AppModel sharedAppModel] saveUserDefaults];
-    [[AppModel sharedAppModel] saveCOREData];
+    [_MODEL_ commitCoreDataContexts];
 }
 
 - (void) startPollingLocation
 {
-    locationPoller = [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
+    [locationManager startUpdatingLocation];
+    locationPoller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(findCurrentLocation) userInfo:nil repeats:YES];
+}
+
+- (void) findCurrentLocation
+{
+    CLLocation *l;
+    if((l = locationManager.location))
+        [self locationManager:locationManager didUpdateLocations:@[l]]; //sketchy imitate auto-update
 }
 
 - (void) stopPollingLocation
 {
+    [locationManager stopUpdatingLocation];
     [locationPoller invalidate];
+}
+
+- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    //last location in locations array (guaranteed count >= 1) is most recent
+    if(lastKnownLocation && [lastKnownLocation distanceFromLocation:locations[locations.count-1]] < 0.01f) return;
+    lastKnownLocation = locations[locations.count-1];
+    _ARIS_NOTIF_SEND_(@"DEVICE_MOVED", nil, @{@"location":lastKnownLocation});
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    // The location "unknown" error simply means the manager is currently unable to get the location.
+    // We can ignore this error for the scenario of getting a single location fix, because we already have a
+    // timeout that will stop the location manager to save power.
+    if ([error code] != kCLErrorLocationUnknown) {
+        NSLog(@"ERROR");
+        //[self stopUpdatingLocation:NSLocalizedString(@"Error", @"Error")];
+    }
 }
 
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate
@@ -171,17 +205,27 @@
     
     NSString *strPath = [[url host] lowercaseString];
     if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"])
-    {
-        NSString *gameID = [url lastPathComponent];
-        [[NSNotificationCenter defaultCenter] addObserver:window.rootViewController selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
-        [[AppServices sharedAppServices] fetchOneGameGameList:[gameID intValue]];
-    }
+  _ARIS_NOTIF_LISTEN_(@"NewOneGameGameListReady",window.rootViewController,@selector(singleGameRequestReady:),nil);
     return YES;
+}
+
+- (void) reachabilityChanged:(NSNotification *)notice
+{
+    switch ([reachability currentReachabilityStatus])
+    {
+        case NotReachable: { }
+        case ReachableViaWWAN: { } 
+        case ReachableViaWiFi:
+        {
+            _ARIS_NOTIF_SEND_(@"WifiConnected",self,nil);
+            break;            
+        }
+    }    
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);  
 }
 
 @end

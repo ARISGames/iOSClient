@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#define _PUSHER_ [ARISPusherHandler sharedPusherHandler]
+
 @interface ARISPusherHandler : NSObject
 
 + (ARISPusherHandler *) sharedPusherHandler;
 
-- (void) loginGame:(int)gameId;
-- (void) loginPlayer:(int)playerId;
+- (void) loginGame:(long)game_id;
+- (void) loginPlayer:(long)user_id;
 - (void) loginGroup:(NSString *)group;
-- (void) loginWebPage:(int)webPageId;
+- (void) loginWebPage:(long)web_page_id;
 
 - (void) logoutGame;
 - (void) logoutPlayer;

@@ -1,49 +1,31 @@
 //
-//  Game.h
+//  Overlay.h
 //  ARIS
 //
-//  Created by Ben Longoria on 2/16/09.
-//  Copyright 2009 University of Wisconsin. All rights reserved.
+//  Created by Justin Moeller on 3/4/14.
+//
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
-
-@interface Overlay : NSObject {
-    
-    int overlayId;
-    int index;
-    NSString *name;
-    NSString *description;
-    CGFloat alpha;
-    int sort_order;
-    int num_tiles;
-    
-    NSMutableArray *tileX;
-    NSMutableArray *tileY;
-    NSMutableArray *tileZ;
-    NSMutableArray *tileFileName;
-    NSMutableArray *tileMediaID;
-    NSMutableArray *tileImage;
+//<MKOverlay> adds 'coordinate' and 'boundingMapRect' accessors,
+//which are derived on the fly from the raw data
+@interface Overlay : NSObject <MKOverlay>
+{
+  long overlay_id;
+  long media_id;
+  CLLocation *top_left_corner;
+  CLLocation *top_right_corner;
+  CLLocation *bottom_left_corner;
 }
 
+@property (nonatomic, assign) long overlay_id;
+@property (nonatomic, assign) long media_id;
+@property (nonatomic, strong) CLLocation *top_left_corner;
+@property (nonatomic, strong) CLLocation *top_right_corner;
+@property (nonatomic, strong) CLLocation *bottom_left_corner;
 
-@property(readwrite, assign) int overlayId;
-@property(readwrite, assign) int index;
-@property(readwrite, assign) int sort_order;
-@property(readwrite, assign) int num_tiles;
-
-@property(nonatomic, strong) NSString *name;
-@property(nonatomic, strong) NSString *description;
-@property(nonatomic) CGFloat alpha;
-@property(nonatomic, strong) NSMutableArray *tileX;
-@property(nonatomic, strong) NSMutableArray *tileY;
-@property(nonatomic, strong) NSMutableArray *tileZ;
-@property(nonatomic, strong) NSMutableArray *tileFileName;
-@property(nonatomic, strong) NSMutableArray *tilePath;
-@property(nonatomic, strong) NSMutableArray *tileMediaID;
-@property(nonatomic, strong) NSMutableArray *tileImage;
-
+- (id) initWithDictionary:(NSDictionary *)dict;
 
 @end

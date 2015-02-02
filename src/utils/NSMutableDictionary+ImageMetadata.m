@@ -244,7 +244,7 @@
 
 // Reference: http://sylvana.net/jpegcrop/exif_orientation.html
 - (void)setImageOrientarion:(UIImageOrientation)orientation {
-    int o = 1;
+    long o = 1;
     switch (orientation) {
         case UIImageOrientationUp:
             o = 1;
@@ -279,7 +279,7 @@
             break;
     }
     
-    [self setObject:[NSNumber numberWithInt:o] forKey:(NSString*)kCGImagePropertyOrientation];
+    [self setObject:[NSNumber numberWithLong:o] forKey:(NSString*)kCGImagePropertyOrientation];
 }
 
 

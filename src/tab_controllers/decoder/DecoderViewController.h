@@ -6,17 +6,13 @@
 //  Copyright 2009 University of Wisconsin Madison. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <ZXingWidgetController.h>
-#import "ARISGamePlayTabBarViewController.h"
-#import "AppModel.h"
-
-@protocol StateControllerProtocol;
+#import "ARISViewController.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
 @protocol DecoderViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
-@interface DecoderViewController : ARISGamePlayTabBarViewController 
-- (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d inMode:(int)m;
-- (void) setPrompt:(NSString *)p;
+@class Tab;
+@interface DecoderViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
+- (id) initWithTab:(Tab *)t delegate:(id<DecoderViewControllerDelegate>)d;
 @end

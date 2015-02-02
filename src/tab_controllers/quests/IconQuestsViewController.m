@@ -12,19 +12,17 @@
 #import "Media.h"
 #import "ARISMediaView.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "UIColor+ARISColors.h"
+#import "MediaModel.h"
 
-@interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
+@interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate>
 {
+    Tab *tab;
     UICollectionView *questIconCollectionView;
     
-    int newItemsSinceLastView;
-    
     NSArray *activeQuests;
-    NSArray *completedQuests;
+    NSArray *completeQuests;
     
-    id<QuestsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
+    id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) UICollectionView *questIconCollectionView;
 
@@ -34,21 +32,19 @@
 
 @synthesize questIconCollectionView;
 
-- (id) initWithDelegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d
+- (id) initWithTab:(Tab *)t delegate:(id<QuestsViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super init])
     {
+        tab = t;
         delegate = d;
+        self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
         
-        self.tabID = @"QUESTS";
-        self.tabIconName = @"todo";
-        self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                         object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"LatestPlayerQuestListsReceived" object:nil]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyActiveQuestsAvailable"             object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyCompletedQuestsAvailable"          object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)         name:@"NewlyChangedQuestsGameNotificationSent" object:nil];
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_ACTIVE_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
     }
     return self;
 }
@@ -56,12 +52,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorViewBackdrop];
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
+    self.view.backgroundColor = [ARISTemplate ARISColorViewBackdrop];
 
     UICollectionViewFlowLayout *questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
     questIconCollectionViewLayout.itemSize = CGSizeMake(100, 120);
@@ -78,40 +69,27 @@
     [self.view addSubview:questIconCollectionView];
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];    
-	newItemsSinceLastView = 0;
-	[[AppServices sharedAppServices] updateServerQuestsViewed];
     [self refreshViewFromModel];
-	[self refresh];
-}
-
-- (void) refresh
-{
-	[[AppServices sharedAppServices] fetchPlayerQuestList];
-	[self showLoadingIndicator];
-}
-
-- (void) showLoadingIndicator
-{
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-	[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:activityIndicator]];
-	[activityIndicator startAnimating];
-}
-
-- (void) removeLoadingIndicator
-{
-	[[self navigationItem] setRightBarButtonItem:nil];
 }
 
 - (void) refreshViewFromModel
 {
-    NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES]];
-    activeQuests    = [[AppModel sharedAppModel].currentGame.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
-    completedQuests = [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
-    completedQuests = [[NSArray alloc] init];
-        
+    activeQuests   = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleActiveQuests,@"sort_index");
+    completeQuests = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleCompleteQuests,@"sort_index");
     [self.questIconCollectionView reloadData];
 }
 
@@ -122,7 +100,7 @@
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [activeQuests count] + [completedQuests count];
+    return activeQuests.count + completeQuests.count;
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -134,25 +112,32 @@
         [view removeFromSuperview];
         
     Quest *q;
-    if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
-    else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
+    
+    if(indexPath.item < activeQuests.count) q = [activeQuests   objectAtIndex:indexPath.item];
+    else                                    q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];
     
     CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-20), cell.contentView.frame.size.width, 20);
     UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
     iconTitleLabel.text = q.name;
-    iconTitleLabel.textColor = [UIColor ARISColorViewText];
+    iconTitleLabel.textColor = [ARISTemplate ARISColorViewText];
     iconTitleLabel.backgroundColor = [UIColor clearColor];
     iconTitleLabel.textAlignment = NSTextAlignmentCenter;
     iconTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
-    iconTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+    iconTitleLabel.font = [ARISTemplate ARISSubtextFont];
     [cell.contentView addSubview:iconTitleLabel];
     
-    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width);
-    ARISMediaView *icon;
-    if(q.iconMediaId != 0)
-        icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+    ARISMediaView *icon = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width) delegate:self];
+    [icon setDisplayMode:ARISMediaDisplayModeAspectFit];
+    if(indexPath.item < activeQuests.count)
+    {
+        if(q.active_icon_media_id != 0) [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.active_icon_media_id]];
+        else                            [icon setImage:[UIImage imageNamed:@"item.png"]];
+    }
     else
-        icon = [[ARISMediaView alloc] initWithFrame:iconFrame image:[UIImage imageNamed:@"item.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+    {
+        if(q.complete_icon_media_id != 0) [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.complete_icon_media_id]];
+        else                              [icon setImage:[UIImage imageNamed:@"item.png"]];    
+    }
     
     icon.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:icon];
@@ -160,36 +145,13 @@
     return cell;
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
-}
-
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {    
     Quest *q;
-    if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
-    else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
+    if(indexPath.item < activeQuests.count) q = [activeQuests    objectAtIndex:indexPath.item];
+    else                                      q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];
 
-    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self] animated:YES];
-}
-
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [self.navigationController popToViewController:self animated:NO];
-    [delegate displayScannerWithPrompt:p];
-}
-
-- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
-{
-    [self.navigationController popToViewController:self animated:NO];
-    return [delegate displayGameObject:g fromSource:s];
-}
-
-- (void) displayTab:(NSString *)t
-{
-    [self.navigationController popToViewController:self animated:NO];
-    [delegate displayTab:t];
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:((indexPath.item < activeQuests.count) ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
 }
 
 - (void) questDetailsRequestsDismissal
@@ -197,9 +159,19 @@
     [self.navigationController popToViewController:self animated:YES];
 }
 
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
+}
+
 - (void) dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
+
+//implement gameplaytabbarviewcontrollerprotocol junk
+- (NSString *) tabId { return @"QUESTS"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
+- (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
 
 @end

@@ -8,24 +8,44 @@
 
 #import "AccountSettingsViewController.h"
 #import "ForgotPasswordViewController.h"
-#import "UIColor+ARISColors.h"
+#import "ARISSelectorHandle.h"
+#import "AppModel.h"
 
-@interface AccountSettingsViewController()
+@interface AccountSettingsViewController() <UITableViewDataSource, UITableViewDelegate>
 {
-    BOOL hasAppeared;
+    UITableView *tableView;
+    UIView *logoutButton;
+    UILabel *logoutLabel;
+    UIImageView *logoutArrow;
+    UIView *logoutLine; 
+    
+    NSMutableArray *cellTitles;
+    NSMutableArray *cellIcons; 
+    NSMutableArray *cellSelectors;  
     id<AccountSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation AccountSettingsViewController
 
-- (id)initWithDelegate:(id<AccountSettingsViewControllerDelegate>)d
+- (id) initWithDelegate:(id<AccountSettingsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        hasAppeared = NO;
         delegate = d;
-        self.title = @"Account Settings";
+        self.title = NSLocalizedString(@"AccountSettingsKey", @"");
+        
+        cellTitles    = [[NSMutableArray alloc] initWithCapacity:5];
+        cellIcons     = [[NSMutableArray alloc] initWithCapacity:5]; 
+        cellSelectors = [[NSMutableArray alloc] initWithCapacity:5]; 
+        
+        [cellTitles addObject:NSLocalizedString(@"PublicNameAndImageKey", @"")];
+        [cellIcons addObject:[UIImage imageNamed:@"id_card.png"]];
+        [cellSelectors addObject:[[ARISSelectorHandle alloc] initWithHandler:self selector:@selector(profileButtonTouched)]];
+        
+        [cellTitles addObject:[NSString stringWithFormat:@"  %@", NSLocalizedString(@"ChangePasswordKey", @"")]];
+        [cellIcons addObject:[UIImage imageNamed:@"lock.png"]];
+        [cellSelectors addObject:[[ARISSelectorHandle alloc] initWithHandler:self selector:@selector(passButtonTouched)]]; 
     }
     return self;
 }
@@ -33,70 +53,105 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if(hasAppeared) return;
-    hasAppeared = YES;
+    self.view.backgroundColor = [ARISTemplate ARISColorSideNavigationBackdrop]; 
     
-    UIView *logoContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
+    tableView = [[UITableView alloc] init];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.opaque = NO;
+    tableView.backgroundColor = [UIColor clearColor];
+       
+    logoutButton = [[UIView alloc] init];
+    logoutButton.userInteractionEnabled = YES;
+    logoutButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+    logoutButton.opaque = NO;
+    [logoutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoutButtonTouched)]];  
+    
+    logoutLabel = [[UILabel alloc] init];  
+    logoutLabel.textAlignment = NSTextAlignmentLeft;
+    logoutLabel.font = [ARISTemplate ARISButtonFont];
+    logoutLabel.text = NSLocalizedString(@"LogoutTitleKey", @"");
+    logoutLabel.textColor = [ARISTemplate ARISColorText]; 
+    logoutLabel.accessibilityLabel = @"Log Out";  
+    
+    logoutArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
+       
+    logoutLine = [[UIView alloc] init];
+    logoutLine.backgroundColor = [UIColor ARISColorLightGray]; 
+    
+    [self.view addSubview:tableView];    
+    [logoutButton addSubview:logoutLine];
+    [logoutButton addSubview:logoutLabel];
+    [logoutButton addSubview:logoutArrow]; 
+    [self.view addSubview:logoutButton]; 
+    
+    UIView *logoContainer = [[UIView alloc] init];
+    logoContainer.frame = self.navigationItem.titleView.frame;
     UIImageView *logoText  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
     logoText.frame = CGRectMake(logoContainer.frame.size.width/2-50, logoContainer.frame.size.height/2-15, 100, 30);
     [logoContainer addSubview:logoText];
-    self.navigationItem.titleView = logoContainer;
+    self.navigationItem.titleView = logoContainer; 
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    tableView.frame = self.view.bounds;
+    tableView.contentInset = UIEdgeInsetsMake(64,0,44,0); 
     
-    UIButton *profileButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 84, self.view.bounds.size.width, 40)];
-	[profileButton setTitle:@"Public Name and Image" forState:UIControlStateNormal];
-	[profileButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
-    [profileButton addTarget:self action:@selector(profileButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:profileButton];
+    logoutButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44); 
+    logoutLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
+    logoutArrow.frame = CGRectMake(6,13,19,19); 
+    logoutLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
+}
+
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
+    [tableView reloadData];
+}
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return cellTitles.count;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    c.opaque = NO;
+    c.backgroundColor = [UIColor clearColor];
+    c.textLabel.textColor = [ARISTemplate ARISColorSideNavigationText];
+    c.textLabel.font = [ARISTemplate ARISButtonFont]; 
+    c.textLabel.text = [cellTitles objectAtIndex:indexPath.row];
+    c.imageView.image = [cellIcons objectAtIndex:indexPath.row];
     
-    UIButton *passButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 144, self.view.bounds.size.width, 40)];
-	[passButton setTitle:@"Change Password" forState:UIControlStateNormal];
-	[passButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
-    [passButton addTarget:self action:@selector(passButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:passButton];
-    
-    
-    UIView *logoutButton = [[UIView alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44)];
-    UILabel *logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(30,0,self.view.bounds.size.width-30,44)];
-    logoutLabel.textAlignment = NSTextAlignmentLeft;
-    logoutLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
-    logoutLabel.text = NSLocalizedString(@"LogoutKey",@"");
-    logoutLabel.textColor = [UIColor ARISColorText];
-    UIImageView *leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
-    
-    leaveGameArrow.frame = CGRectMake(6,13,19,19);
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,1)];
-    line.backgroundColor = [UIColor ARISColorLightGray];
-    [logoutButton addSubview:line];
-    [logoutButton addSubview:logoutLabel];
-    [logoutButton addSubview:leaveGameArrow];
-    logoutButton.userInteractionEnabled = YES;
-    logoutButton.backgroundColor = [UIColor ARISColorTextBackdrop];
-    logoutButton.opaque = NO;
-    [logoutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoutButtonTouched)]];
-    
-    [self.view addSubview:logoutButton];
+    return c;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [((ARISSelectorHandle *)[cellSelectors objectAtIndex:indexPath.row]) go];
 }
 
 - (void) logoutButtonTouched
 {
-	[delegate logoutWasRequested];
-}
-
-- (void) passButtonTouched
-{
-	ForgotPasswordViewController *forgotPassViewController = [[ForgotPasswordViewController alloc] init];
-	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
+    [_MODEL_ logOut];
 }
 
 - (void) profileButtonTouched
 {
-    [delegate playerSettingsRequested];
+    [delegate profileEditRequested];
+}
+
+- (void) passButtonTouched
+{
+    [delegate passChangeRequested];
+}
+
+- (void) dealloc
+{
+    
 }
 
 @end

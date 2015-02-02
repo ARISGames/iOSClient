@@ -78,13 +78,13 @@
     return self;
 }
 
-- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message
+- (void) showAlertWithTitle:(NSString *)title message:(NSString *)message
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
     [alert show];
 }
 
-- (void)showServerAlertEmailWithTitle:(NSString *)title message:(NSString *)message details:(NSString*)detail
+- (void) showServerAlertEmailWithTitle:(NSString *)title message:(NSString *)message details:(NSString*)detail
 {
     if(emailed) return;
     emailed = YES;

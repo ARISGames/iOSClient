@@ -7,10 +7,9 @@
 //
 
 #import "ARISCollapseView.h"
-#import "UIColor+ARISColors.h"
 
-const int HANDLE_HEIGHT = 10;
-const int TOUCH_BUFFER_HEIGHT = 20;
+const long HANDLE_HEIGHT = 10;
+const long TOUCH_BUFFER_HEIGHT = 20;
 #define handle_buffer_height ((HANDLE_HEIGHT*handleShowing)+TOUCH_BUFFER_HEIGHT)
 
 @interface ARISCollapseView() <UIScrollViewDelegate>
@@ -20,7 +19,7 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     UIView *content;
     CGRect openFrame;
     CGRect tempDragStartFrame; //to hold state while dragging
-    int handleShowing;
+    long handleShowing;
     
     id<ARISCollapseViewDelegate> __unsafe_unretained delegate;
 }
@@ -73,7 +72,7 @@ const int TOUCH_BUFFER_HEIGHT = 20;
         [self addSubview:self.contentContainerView];
         [self.contentContainerView addSubview:self.content];
         
-        [self setBackgroundColor:[UIColor ARISColorTextBackdrop]];
+        [self setBackgroundColor:[ARISTemplate ARISColorTextBackdrop]];
         
         if(t) [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapped:)]];
         if(d) [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanned:)]];
@@ -102,9 +101,22 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     else                                               [self close];
 }
 
+- (void) setFrameSilently:(CGRect)f
+{
+    openFrame = [self frameWithBarAndTouchBuffer:f];
+    
+    if(self.frame.size.height != handle_buffer_height) [self openSilently];
+    else                                               [self closeSilently];
+}
+
 - (void) setFrameHeight:(CGFloat)h
 {
     [self setFrame:CGRectMake(openFrame.origin.x, self.frame.origin.y+self.frame.size.height-h, openFrame.size.width, h)];
+}
+
+- (void) setFrameHeightSilently:(CGFloat)h
+{
+    [self setFrameSilently:CGRectMake(openFrame.origin.x, self.frame.origin.y+self.frame.size.height-h, openFrame.size.width, h)];
 }
 
 - (void) setContentFrame:(CGRect)f
@@ -113,9 +125,20 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     self.contentContainerView.contentSize = CGSizeMake(self.content.frame.origin.x+self.content.frame.size.width,self.content.frame.origin.y+self.content.frame.size.height);
 }
 
+- (void) setContentFrameSilently:(CGRect)f //silently is actually identical in this scenario
+{
+    self.content.frame = f;
+    self.contentContainerView.contentSize = CGSizeMake(self.content.frame.origin.x+self.content.frame.size.width,self.content.frame.origin.y+self.content.frame.size.height);
+}
+
 - (void) setContentFrameHeight:(CGFloat)h
 {
     [self setContentFrame:CGRectMake(self.content.frame.origin.x,self.content.frame.origin.y,self.content.frame.size.width,h)];
+}
+
+- (void) setContentFrameHeightSilently:(CGFloat)h
+{
+    [self setContentFrameSilently:CGRectMake(self.content.frame.origin.x,self.content.frame.origin.y,self.content.frame.size.width,h)];
 }
 
 - (void) handleTapped:(UITapGestureRecognizer *)g
@@ -162,6 +185,13 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     [UIView commitAnimations];
 }
 
+- (void) openSilently
+{
+    [super setFrame:openFrame];
+    self.contentContainerView.frame = CGRectMake(0,handle_buffer_height,openFrame.size.width,openFrame.size.height-handle_buffer_height);
+    self.contentContainerView.contentSize= self.content.frame.size;
+}
+
 - (void) close
 {
     if([(NSObject *)delegate respondsToSelector:@selector(collapseView:didStartOpen:)]) [delegate collapseView:self didStartOpen:NO];
@@ -172,6 +202,13 @@ const int TOUCH_BUFFER_HEIGHT = 20;
     self.contentContainerView.frame = CGRectMake(0,handle_buffer_height,openFrame.size.width,openFrame.size.height-handle_buffer_height);
     self.contentContainerView.contentSize= self.content.frame.size;
     [UIView commitAnimations];
+}
+
+- (void) closeSilently
+{
+    [super setFrame:CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-handle_buffer_height, openFrame.size.width, handle_buffer_height)];
+    self.contentContainerView.frame = CGRectMake(0,handle_buffer_height,openFrame.size.width,openFrame.size.height-handle_buffer_height);
+    self.contentContainerView.contentSize= self.content.frame.size;
 }
 
 - (void) setBackgroundColor:(UIColor *)backgroundColor

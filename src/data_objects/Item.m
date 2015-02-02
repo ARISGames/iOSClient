@@ -7,120 +7,90 @@
 //
 
 #import "Item.h"
-#import "ItemViewController.h"
+#import "Media.h"
 #import "NSDictionary+ValidParsers.h"
-
-@implementation ItemTag
-@synthesize name;
-@synthesize media_id;
-@end
 
 @implementation Item
 
-@synthesize itemId;
+@synthesize item_id;
 @synthesize name;
-@synthesize idescription;
-@synthesize itemType;
-@synthesize mediaId;
-@synthesize iconMediaId;
-@synthesize qty;
-@synthesize maxQty;
-@synthesize weight;
-@synthesize dropable;
+@synthesize desc;
+@synthesize icon_media_id;
+@synthesize media_id;
+@synthesize droppable;
 @synthesize destroyable;
+@synthesize max_qty_in_inventory;
+@synthesize weight;
 @synthesize url;
-@synthesize tags;
+@synthesize type;
 
-- (Item *) init
+- (id) init
 {
     if(self = [super init])
     {
-        self.itemId = 0;
+        self.item_id = 0;
         self.name = @"Item";
-        self.idescription = @"Description";
-        self.itemType = ItemTypeNormal;
-        self.mediaId = 0;
-        self.iconMediaId = 0;
-        self.qty = 0;
-        self.maxQty = 1;
-        self.weight = 0;
-        self.dropable = NO;
+        self.desc = @"";
+        self.icon_media_id = 0;
+        self.media_id = 0; 
+        self.droppable = NO;
         self.destroyable = NO;
+        self.max_qty_in_inventory = 99999999;
+        self.weight = 0; 
         self.url = @"";
-        self.tags = [[NSMutableArray alloc] init];
+        self.type = @"NORMAL";
     }
     return self;
 }
 
-- (Item *) initWithDictionary:(NSDictionary *)dict
+- (id) initWithDictionary:(NSDictionary *)dict
 {
     if(self = [super init])
     {
-        self.itemId       = [dict validIntForKey:@"item_id"];
-        self.name         = [dict validObjectForKey:@"name"];
-        self.idescription = [dict validObjectForKey:@"description"];
-        if     ([[dict validStringForKey:@"type"] isEqualToString:@"NORMAL"]) self.itemType = ItemTypeNormal;
-        else if([[dict validStringForKey:@"type"] isEqualToString:@"ATTRIB"]) self.itemType = ItemTypeAttribute;
-        else if([[dict validStringForKey:@"type"] isEqualToString:@"URL"])    self.itemType = ItemTypeWebPage;
-        self.mediaId      = [dict validIntForKey:@"media_id"];
-        self.iconMediaId  = [dict validIntForKey:@"icon_media_id"];
-        self.qty          = [dict validIntForKey:@"qty"];
-        self.maxQty       = [dict validIntForKey:@"max_qty_in_inventory"];
-        self.weight       = [dict validIntForKey:@"weight"];
-        self.dropable     = [dict validBoolForKey:@"dropable"];
-        self.destroyable  = [dict validBoolForKey:@"destroyable"];
-        self.url          = [dict validObjectForKey:@"url"];
-        self.tags = [[NSMutableArray alloc] initWithCapacity:10];
-        NSArray *rawtags = [dict validObjectForKey:@"tags"];
-        for(int i = 0; i < [rawtags count]; i++)
-        {
-            ItemTag *t = [[ItemTag alloc] init];
-            t.name = [((NSDictionary *)[rawtags objectAtIndex:i]) validStringForKey:@"tag"];
-            t.media_id = [((NSDictionary *)[rawtags objectAtIndex:i]) validIntForKey:@"media_id"];
-            [self.tags addObject:t];
-        }
+        self.item_id              = [dict validIntForKey:@"item_id"];
+        self.name                 = [dict validStringForKey:@"name"];
+        self.desc                 = [dict validStringForKey:@"description"];
+        self.icon_media_id        = [dict validIntForKey:@"icon_media_id"];
+        self.media_id             = [dict validIntForKey:@"media_id"]; 
+        self.droppable            = [dict validBoolForKey:@"droppable"];
+        self.destroyable          = [dict validBoolForKey:@"destroyable"];
+        self.max_qty_in_inventory = [dict validIntForKey:@"max_qty_in_inventory"];
+        if(self.max_qty_in_inventory < 0) self.max_qty_in_inventory = 999999; //poor man's infinity
+        self.weight               = [dict validIntForKey:@"weight"]; 
+        self.url                  = [dict validStringForKey:@"url"];
+        self.type                 = [dict validStringForKey:@"type"]; 
     }
     return self;
-}
-
-- (GameObjectType) type
-{
-    return GameObjectItem;
-}
-
-- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d fromSource:(id<ItemViewControllerSource>)s
-{
-    if(self.qty == 0) self.qty = 1;
-	return [[ItemViewController alloc] initWithItem:self delegate:d source:s];
 }
 
 - (Item *) copy
 {
     Item *c = [[Item alloc] init];
-    c.itemId = self.itemId;
-    c.name = self.name;
-    c.idescription = self.idescription;
-    c.itemType = self.itemType;
-    c.mediaId = self.mediaId;
-    c.iconMediaId = self.iconMediaId;
-    c.qty = self.qty;
-    c.maxQty = self.maxQty;
-    c.weight = self.weight;
-    c.dropable = self.dropable;
-    c.destroyable = self.destroyable;
-    c.url = self.url;
-    c.tags = self.tags;
+    
+    c.item_id              = self.item_id;
+    c.name                 = self.name;
+    c.desc                 = self.desc;
+    c.icon_media_id        = self.icon_media_id;
+    c.media_id             = self.media_id; 
+    c.droppable            = self.droppable;
+    c.destroyable          = self.destroyable;
+    c.max_qty_in_inventory = self.max_qty_in_inventory;
+    c.weight               = self.weight; 
+    c.url                  = self.url;
+    c.type                 = self.type; 
+    
     return c;
 }
 
-- (int) compareTo:(Item *)ob
+- (long) icon_media_id
 {
-	return (ob.itemId == self.itemId);
+    if(!icon_media_id) return DEFAULT_ITEM_ICON_MEDIA_ID;
+    return icon_media_id;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Item- Id:%d\tName:%@\tType:%u\tQty:%d",self.itemId,self.name,self.itemType,self.qty];
+    return [NSString stringWithFormat:@"Item- Id:%ld\tName:%@\tType:%@",self.item_id,self.name,self.type];
 }
 
 @end

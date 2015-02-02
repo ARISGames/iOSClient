@@ -46,4 +46,16 @@
     return ([theObject respondsToSelector:@selector(isEqualToString:)]) ? theObject : @"";
 }
 
+- (NSDate *) validDateForKey:(NSString *const)aKey
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    return [df dateFromString:[self validStringForKey:aKey]];
+}
+
+- (CLLocation *) validLocationForLatKey:(NSString *const)latKey lonKey:(NSString *const)lonKey
+{
+    return [[CLLocation alloc] initWithLatitude:[self validDoubleForKey:latKey] longitude:[self validDoubleForKey:lonKey]];
+}
+
 @end

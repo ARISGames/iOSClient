@@ -14,6 +14,7 @@
 @class PTPusherEvent;
 
 @protocol PTPusherConnectionDelegate <NSObject>
+- (BOOL)pusherConnectionWillConnect:(PTPusherConnection *)connection;
 - (void)pusherConnectionDidConnect:(PTPusherConnection *)connection;
 - (void)pusherConnection:(PTPusherConnection *)connection didDisconnectWithCode:(NSInteger)errorCode reason:(NSString *)reason wasClean:(BOOL)wasClean;
 - (void)pusherConnection:(PTPusherConnection *)connection didFailWithError:(NSError *)error wasConnected:(BOOL)wasConnected;
@@ -24,18 +25,49 @@ extern NSString *const PTPusherConnectionEstablishedEvent;
 extern NSString *const PTPusherConnectionPingEvent;
 
 typedef enum {
-  PTPusherConnectionClosing = 0,
-  PTPusherConnectionClosed,
-  PTPusherConnectionOpening,
-  PTPusherConnectionOpenAwaitingHandshake,
-  PTPusherConnectionOpenHandshakeReceived
+  PTPusherConnectionDisconnecting = 0,
+  PTPusherConnectionDisconnected,
+  PTPusherConnectionConnecting,
+  PTPusherConnectionAwaitingHandshake,
+  PTPusherConnectionConnected
 } PTPusherConnectionState;
 
 @interface PTPusherConnection : NSObject <SRWebSocketDelegate>
 
-@property (nonatomic, unsafe_unretained) id<PTPusherConnectionDelegate> delegate;
+@property (nonatomic, weak) id<PTPusherConnectionDelegate> delegate;
+
+/** Indicates if the connection is connected to the Pusher service.
+ 
+ @return YES, if the socket has connected and a handshake has been received from the server, otherwise NO.
+ */
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
+
+/** The unique socket ID for this connection.
+ 
+ Every time the connection connects to the service, a new socket ID is received on handshake.
+ 
+ This is normally used when authorizing private and presence channel subscriptions.
+ */
 @property (nonatomic, copy, readonly) NSString *socketID;
+
+/** The Pusher service URL.
+ */
+@property (nonatomic, readonly) NSURL *URL;
+
+/* If the connection does not receive any new data within the time specified,
+ a ping event will be sent.
+ 
+ Defaults to 120s as recommended by the Pusher protocol documentation. You should not
+ normally need to change this.
+ */
+@property (nonatomic, assign) NSTimeInterval activityTimeout;
+
+/* The amount of time to wait for a pong in response to a ping before disconnecting.
+ 
+ Defaults to 30s as recommended by the Pusher protocol documentation. You should not
+ normally need to change this.
+ */
+@property (nonatomic, assign) NSTimeInterval pongTimeout;
 
 ///------------------------------------------------------------------------------------/
 /// @name Initialisation
@@ -50,19 +82,6 @@ typedef enum {
  */
 - (id)initWithURL:(NSURL *)aURL;
 
-/** Creates a new PTPusherConnection instance.
- 
- Connections are not opened immediately; an explicit call to connect is required.
- 
- DEPRECATED IN VERSION 1.2. The secure parameter is now ignored; secure mode will be
- enabled automatically when the URL protocol is wss.
- 
- @param aURL      The websocket endpoint
- @param delegate  The delegate for this connection
- @param secure    Whether this connection should be secure (TLS)
- */
-- (id)initWithURL:(NSURL *)aURL secure:(BOOL)secure __PUSHER_DEPRECATED__;
-
 ///------------------------------------------------------------------------------------/
 /// @name Managing connections
 ///------------------------------------------------------------------------------------/
@@ -71,10 +90,15 @@ typedef enum {
  
  The delegate will only be sent a didConnect message when the web socket receives a 
  'connection_established' event from Pusher, regardless of the web socket's connection state.
+ 
+ Calling this does nothing if already connected.
  */
 - (void)connect;
 
-/** Closes the web socket connection */
+/** Closes the web socket connection 
+ 
+ Calling this does nothing if already disconnected.
+ */
 - (void)disconnect;
 
 ///------------------------------------------------------------------------------------/
@@ -87,5 +111,22 @@ typedef enum {
  that can be converted into JSON (typically, any plist compatible object).
  */
 - (void)send:(id)object;
+
+///------------------------------------------------------------------------------------/
+/// @name Deprecated methods
+///------------------------------------------------------------------------------------/
+
+/** Creates a new PTPusherConnection instance.
+ 
+ Connections are not opened immediately; an explicit call to connect is required.
+ 
+ DEPRECATED IN VERSION 1.2. The secure parameter is now ignored; secure mode will be
+ enabled automatically when the URL protocol is wss.
+ 
+ @param aURL      The websocket endpoint
+ @param delegate  The delegate for this connection
+ @param secure    Whether this connection should be secure (TLS)
+ */
+- (id)initWithURL:(NSURL *)aURL secure:(BOOL)secure __PUSHER_DEPRECATED__;
 
 @end

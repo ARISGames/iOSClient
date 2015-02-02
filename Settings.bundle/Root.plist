@@ -29,16 +29,6 @@
 			<string>PSTextFieldSpecifier</string>
 		</dict>
 		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
-			<string>showGamesInDevelopment</string>
-			<key>Title</key>
-			<string>Show Games in Devel</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
@@ -48,7 +38,7 @@
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
-        <dict>
+		<dict>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>

@@ -12,9 +12,9 @@
 @class Game;
 
 @protocol GamePickersViewControllerDelegate
-- (void) gamePickedForPlay:(Game *)g;
-- (void) playerSettingsRequested;
-- (void) logoutWasRequested;
+- (void) profileEditRequested;
+- (void) passChangeRequested;
+- (void) gameDetailsRequested:(Game *)g;
 @end
 
 @interface GamePickersViewController : ARISContainerViewController

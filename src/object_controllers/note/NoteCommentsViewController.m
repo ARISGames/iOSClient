@@ -8,8 +8,8 @@
 
 #import "NoteCommentsViewController.h"
 #import "Note.h"
-#import "Player.h"
-#import "UIColor+ARISColors.h"
+#import "NoteComment.h"
+#import "User.h"
 
 @interface NoteCommentsViewController () <UITextFieldDelegate>
 {
@@ -49,35 +49,35 @@
 
 - (void) refreshFromComments
 {
-    while([self.view.subviews count] > 0)
+    while(self.view.subviews.count > 0)
         [[self.view.subviews objectAtIndex:0] removeFromSuperview];
     
     UIView *cell;
-    int yOffset = 0;
+    long yOffset = 0;
     
-    for(int i = 0; i < [comments count]; i++)
+    for(long i = 0; i < comments.count; i++)
     {
-        cell = [self cellForComment:(Note *)[comments objectAtIndex:i]];
+        cell = [self cellForComment:[comments objectAtIndex:i]];
         cell.frame = CGRectMake(0, yOffset, cell.frame.size.width, cell.frame.size.height);
-        yOffset += cell.frame.size.height;
+        yOffset += cell.frame.size.height+10;
         [self.view addSubview:cell];
     }
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, yOffset);
 }
 
-- (UIView *) cellForComment:(Note *)c
+- (UIView *) cellForComment:(NoteComment *)c
 {
     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 40)];
     
     UILabel *author = [[UILabel alloc] initWithFrame:CGRectMake(10,0,self.view.frame.size.width-85,14)];
-    author.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
+    author.font = [ARISTemplate ARISSubtextFont]; 
     author.textColor = [UIColor ARISColorDarkGray];   
-    author.text = c.owner.displayname;   
+    // author.text = c.owner.display_name;   
     CGSize authSize = [author.text sizeWithFont:author.font constrainedToSize:CGSizeMake(author.frame.size.width,9999999) lineBreakMode:NSLineBreakByTruncatingTail];  
     author.frame = CGRectMake(author.frame.origin.x, author.frame.origin.y, authSize.width, 14);
     
     UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(author.frame.size.width+20,0,65,14)];
-    date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];  
+    date.font = [ARISTemplate ARISSubtextFont];  
     date.textColor = [UIColor ARISColorDarkBlue];
     date.adjustsFontSizeToFitWidth = NO;  
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -85,9 +85,10 @@
     date.text = [format stringFromDate:c.created]; 
     
     UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(10, 17, self.view.bounds.size.width-20, 20)];
-    text.text = c.name; 
+    text.text = c.desc; 
     text.lineBreakMode = NSLineBreakByWordWrapping;
     text.numberOfLines = 0; 
+    text.font = [ARISTemplate ARISInputFont];
     CGSize textSize = [text.text sizeWithFont:text.font constrainedToSize:CGSizeMake(text.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping];   
     text.frame = CGRectMake(text.frame.origin.x, text.frame.origin.y, text.frame.size.width, textSize.height);
     

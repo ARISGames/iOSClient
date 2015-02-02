@@ -7,81 +7,68 @@
 //
 
 #import "NoteEditorViewController.h"
-#import "NoteContentsViewController.h"
 #import "NoteTagEditorViewController.h"
 #import "NoteCameraViewController.h"
+#import "NoteRecorderViewController.h"
+#import "NoteLocationPickerController.h"
+#import "ARISMediaView.h"
 #import "Note.h"
-#import "Tag.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "UploadMan.h"
-#import "Player.h"
-#import "UIColor+ARISColors.h"
+#import "User.h"
+#import "CircleButton.h"
 
-@interface DataToUpload : NSObject
-{
-    NSString *title;
-    NSString *type;
-    NSURL *url;
-};
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSURL *url;
-@end
-@implementation DataToUpload
-@synthesize title;
-@synthesize type;
-@synthesize url;
-- (id) initWithTitle:(NSString *)t type:(NSString *)ty url:(NSURL *)u
-{
-    if(self = [super init])
-    {
-        self.title = t;
-        self.type = ty; 
-        self.url = u; 
-    }
-    return self;
-}
-@end
-
-@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, NoteContentsViewControllerDelegate, NoteCameraViewControllerDelegate>
+@interface NoteEditorViewController () <UITextFieldDelegate, UITextViewDelegate, NoteTagEditorViewControllerDelegate, ARISMediaViewDelegate, NoteCameraViewControllerDelegate, NoteRecorderViewControllerDelegate, NoteLocationPickerControllerDelegate, UIActionSheetDelegate>
 {
     Note *note;
-    
-    UITextField *title;
-    UILabel *owner;
-    UILabel *date;
-    UITextView *description;
-    UIButton *descriptionDoneButton;
+    Tag *tag;
+    Media *media;
+    Trigger *trigger;
+
     NoteTagEditorViewController *tagViewController;
-    NoteContentsViewController *contentsViewController;
-    UIButton *locationPickerButton;
-    UIButton *imagePickerButton; 
-    UIButton *audioPickerButton;  
-    UIButton *shareButton;
-    
-    NSMutableArray *datasToUpload;
-    
+    NoteLocationPickerController *locationPickerController;
+
+    UITextView *description;
+    UILabel *descriptionPrompt;
+    ARISMediaView *contentView;
+
+    UIView *line1;
+    UIView *line2;
+
+    UIButton *deleteButton;
+    UIButton *descriptionDoneButton;
+    UIButton *saveNoteButton;
+    UIButton *backButton;
+
+    UIActionSheet *confirmPrompt;
+    UIActionSheet *deletePrompt;
+    UIActionSheet *discardChangesPrompt;
+
+    NoteEditorMode mode;
+
+    BOOL blockKeyboard;
+    BOOL dirtybit;
+
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation NoteEditorViewController
 
-- (id) initWithNote:(Note *)n delegate:(id<NoteEditorViewControllerDelegate>)d
+- (id) initWithNote:(Note *)n mode:(NoteEditorMode)m delegate:(id<NoteEditorViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        dirtybit = NO;
         if(!n)
         {
             n = [[Note alloc] init];
             n.created = [NSDate date];
-            n.owner = [AppModel sharedAppModel].player;
+            n.user_id = _MODEL_PLAYER_.user_id;
+            dirtybit = YES;
         }
-        note = n; 
+        note = n;
+        mode = m;
         delegate = d;
-        
-        datasToUpload = [[NSMutableArray alloc] initWithCapacity:5];
     }
     return self;
 }
@@ -90,177 +77,407 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    title = [[UITextField alloc] initWithFrame:CGRectMake(10, 10+64, self.view.bounds.size.width-20, 20)];
-    title.delegate = self;
-    title.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20]; 
-    title.placeholder = @"Title";
-    title.returnKeyType = UIReturnKeyDone;
-    
-    date = [[UILabel alloc] initWithFrame:CGRectMake(10, 35+64, 65, 14)];  
-    date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14]; 
-    date.textColor = [UIColor ARISColorDarkBlue];
-    date.adjustsFontSizeToFitWidth = NO;
-    
-    owner = [[UILabel alloc] initWithFrame:CGRectMake(75, 35+64, self.view.bounds.size.width-85, 14)];
-    owner.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
-    owner.adjustsFontSizeToFitWidth = NO;
-    
-    description = [[UITextView alloc] initWithFrame:CGRectMake(10, 49+64, self.view.bounds.size.width-20, 170)];   
+    // NOTE some hacky solutions to moving down the top
+    // self.edgesForExtendedLayout = UIRectEdgeNone;
+    // self.navigationController.navigationBar.translucent = NO;
+
+    description = [[UITextView alloc] init];
     description.delegate = self;
-    description.contentInset = UIEdgeInsetsZero; 
-    description.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    description.contentInset = UIEdgeInsetsZero;
+    description.font = [ARISTemplate ARISBodyFont];
+
+    if(note.note_id && !tag && [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:note.note_id].count) tag = [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:note.note_id][0];
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTag:tag editable:YES delegate:self];
+
+    descriptionPrompt = [[UILabel alloc] init];
+    descriptionPrompt.text = NSLocalizedString(@"NoteEditorDescriptionKey", @"");
+    descriptionPrompt.font = [ARISTemplate ARISBodyFont];
+    descriptionPrompt.textColor = [UIColor ARISColorLightGray];
+
     descriptionDoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [descriptionDoneButton setTitle:@"Done" forState:UIControlStateNormal];
-    [descriptionDoneButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    descriptionDoneButton.frame = CGRectMake(self.view.bounds.size.width-80, 219+64-18, 70, 18);
-    [descriptionDoneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    descriptionDoneButton.hidden = YES;
-    
-    tagViewController = [[NoteTagEditorViewController alloc] initWithTags:note.tags editable:YES delegate:self];
-    tagViewController.view.frame = CGRectMake(0, 219+64, self.view.bounds.size.width, 30);
-    contentsViewController = [[NoteContentsViewController alloc] initWithNoteContents:note.contents delegate:self];
-    contentsViewController.view.frame = CGRectMake(0, 249+64, self.view.bounds.size.width, self.view.bounds.size.height-249-44-64);     
-    
-    UIView *bottombar = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
-    locationPickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [locationPickerButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
-    locationPickerButton.frame = CGRectMake(10, 10, 24, 24);
-    [locationPickerButton addTarget:self action:@selector(locationPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    imagePickerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [imagePickerButton setImage:[UIImage imageNamed:@"photo.png"] forState:UIControlStateNormal]; 
-    imagePickerButton.frame = CGRectMake(44, 10, 24, 24); 
-    [imagePickerButton addTarget:self action:@selector(imagePickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    audioPickerButton = [UIButton buttonWithType:UIButtonTypeCustom]; 
-    [audioPickerButton setImage:[UIImage imageNamed:@"microphone.png"] forState:UIControlStateNormal]; 
-    audioPickerButton.frame = CGRectMake(78, 10, 24, 24); 
-    [audioPickerButton addTarget:self action:@selector(audioPickerButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shareButton setImage:[UIImage imageNamed:@"lock.png"] forState:UIControlStateNormal]; 
-    shareButton.frame = CGRectMake(self.view.bounds.size.width-34, 10, 24, 24); 
-    [shareButton addTarget:self action:@selector(shareButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    [bottombar addSubview:locationPickerButton];
-    [bottombar addSubview:imagePickerButton]; 
-    [bottombar addSubview:audioPickerButton]; 
-    [bottombar addSubview:shareButton]; 
-    
-    [self.view addSubview:title];
-    [self.view addSubview:date];
-    [self.view addSubview:owner];
+    [descriptionDoneButton setImage:[UIImage imageNamed:@"overarrow.png"] forState:UIControlStateNormal];
+    [descriptionDoneButton sizeToFit];
+    [descriptionDoneButton addTarget:self action:@selector(doneButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+
+    saveNoteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [saveNoteButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
+    [saveNoteButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    saveNoteButton.titleLabel.font = [ARISTemplate ARISCellBoldTitleFont];
+    [saveNoteButton sizeToFit];
+    [saveNoteButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+
+    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setAccessibilityLabel: @"Back Button"];
+    [backButton setTitle:NSLocalizedString(@"Cancel", nil) forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+    [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+
+    confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorTitleNoteKey", @"") destructiveButtonTitle:NSLocalizedString(@"NoteEditorSaveUntitledKey", @"") otherButtonTitles:nil];
+    deletePrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:NSLocalizedString(@"DeleteKey", @"") otherButtonTitles:nil];
+    discardChangesPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"NoteEditorContinueEditingKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
+
+    [self setLocationOnMap];
+
+    contentView = [[ARISMediaView alloc] initWithDelegate:self];
+    [contentView setDisplayMode:ARISMediaDisplayModeAspectFill];
+    contentView.clipsToBounds = YES;
+
+    line1 = [[UIView alloc] init];
+    line1.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
+    line2 = [[UIView alloc] init];
+    line2.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
+
+    //trashLabel.text = [NSString stringWithFormat:@"%@\n%@", [NSLocalizedString(@"DeleteKey", @"") uppercaseString], [NSLocalizedString(@"NoteKey", @"") uppercaseString]];
+
+    deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [deleteButton setTitle:NSLocalizedString(@"DeleteKey", nil) forState:UIControlStateNormal];
+    [deleteButton setBackgroundColor:[UIColor ARISColorRed]];
+    [deleteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    deleteButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+    [deleteButton addTarget:self action:@selector(trashButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:description];
-    [self.view addSubview:descriptionDoneButton];
-    [self.view addSubview:tagViewController.view];
-    [self.view addSubview:contentsViewController.view];
-    [self.view addSubview:bottombar]; 
-    
+    [self.view addSubview:descriptionPrompt];
+    [self.view addSubview:contentView];
+    [self.view addSubview:deleteButton];
+
+    // FIXME convert to view later
+    [self.view addSubview:locationPickerController.view];
+
+    [self.view addSubview:line1];
+    [self.view addSubview:line2];
+
+    if([_MODEL_TAGS_ tags].count)
+    {
+      [self.view addSubview:tagViewController.view];
+    }
+
     [self refreshViewFromNote];
 }
 
-- (void) viewDidLayoutSubviews
+- (void) viewWillLayoutSubviews
 {
-    [super viewDidLayoutSubviews];
+    [super viewWillLayoutSubviews];
+
+    //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
+
+    contentView.frame = CGRectMake(0, 64, self.view.bounds.size.width/4, self.view.bounds.size.width/4);
+    if(note.media_id == 0)
+      [contentView setImage:[UIImage imageNamed:@"notebooktext.png"]];
+
+    if([_MODEL_TAGS_ tags].count > 0)
+    {
+        [tagViewController setExpandHeight:250];
+        if(tagViewController.view.frame.size.height <= 30)
+            // TODO make relative to media coordinates
+            tagViewController.view.frame = CGRectMake(
+                self.view.bounds.size.width/4,
+                CGRectGetMaxY(contentView.frame)-35,
+                self.view.bounds.size.width-self.view.bounds.size.width/4,
+                30
+            );
+        else
+            tagViewController.view.frame = CGRectMake(
+                self.view.bounds.size.width/4,
+                CGRectGetMaxY(contentView.frame)-35,
+                self.view.bounds.size.width-self.view.bounds.size.width/4,
+                250
+            );
+
+    }
+
+    line2.frame = CGRectMake(0, CGRectGetMaxY(description.frame), self.view.frame.size.width, 1);
+    line1.frame = CGRectMake(0, CGRectGetMaxY(contentView.frame), self.view.frame.size.width, 1);
+
+    if([_MODEL_TAGS_ tags].count > 0)
+    {
+        description.frame = CGRectMake(
+            CGRectGetMinX(contentView.frame),
+            CGRectGetMaxY(contentView.frame)+5,
+            self.view.bounds.size.width,
+            self.view.bounds.size.width/4 // TODO line height derrived
+        );
+    }
+    else
+    {
+        description.frame = CGRectMake(
+            CGRectGetMaxX(contentView.frame),
+            CGRectGetMinY(contentView.frame),
+            self.view.bounds.size.width-CGRectGetMaxX(contentView.frame),
+            self.view.bounds.size.width/4 // TODO line height derrived
+        );
+    }
+    descriptionPrompt.frame = CGRectMake(description.frame.origin.x+5, description.frame.origin.y+5, self.view.bounds.size.width, 24);
+
+    if(note.note_id)
+    {
+      deleteButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
+      locationPickerController.view.frame = CGRectMake(
+          0,
+          CGRectGetMaxY(description.frame),
+          self.view.bounds.size.width,
+          self.view.bounds.size.height-CGRectGetMinY(line2.frame)-40
+       );
+    }
+    else
+    {
+      locationPickerController.view.frame = CGRectMake(
+          0,
+          CGRectGetMaxY(description.frame),
+          self.view.bounds.size.width,
+          self.view.bounds.size.height-CGRectGetMinY(line2.frame)
+      );
+    }
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    blockKeyboard = NO;
+
+    self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if([title.text isEqualToString:@""])
-        [title becomeFirstResponder];
+
+         if(mode == NOTE_EDITOR_MODE_AUDIO)  [self audioPickerButtonTouched];
+    else if(mode == NOTE_EDITOR_MODE_CAMERA) [self cameraPickerButtonTouched];
+    else if(mode == NOTE_EDITOR_MODE_ROLL)   [self rollPickerButtonTouched];
+    //else if(mode == NOTE_EDITOR_MODE_TEXT)   [self guideNextEdit];
+    mode = NOTE_EDITOR_MODE_NONE;
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [self resignFirstResponder];
+    blockKeyboard = YES;
+}
+
+- (void) guideNextEdit
+{
+    if(blockKeyboard) return;
+    if(!tag && [_MODEL_TAGS_ tags].count)
+        [tagViewController beginEditing];
 }
 
 - (void) refreshViewFromNote
 {
     if(!self.view) [self loadView];
-    
-    title.text = note.name; 
-    NSDateFormatter *format = [[NSDateFormatter alloc] init]; 
-    [format setDateFormat:@"MM/dd/yy"]; 
-    date.text = [format stringFromDate:note.created]; 
-    owner.text = note.owner.displayname; 
-    [contentsViewController setContents:note.contents];
-    //[tagViewController setTags:note.tags];
+
+    description.text = note.desc;
+    if(![description.text isEqualToString:@""]) descriptionPrompt.hidden = YES;
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MM/dd/yy"];
+    if(note.media_id) [contentView setMedia:[_MODEL_MEDIA_ mediaForId:note.media_id]];
+    [tagViewController setTag:tag];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
 {
-    [title resignFirstResponder];
-    return NO; //prevents \n from being added to description
+    [self guideNextEdit];
+    return NO;
 }
 
-- (void) textFieldDidEndEditing:(UITextField *)textField
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+ {
+     [self.view endEditing:YES];
+ }
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    if([description.text isEqualToString:@""])
-        [description becomeFirstResponder];
+    [tagViewController stopEditing];
 }
 
 - (void) textViewDidBeginEditing:(UITextView *)textView
 {
-    descriptionDoneButton.hidden = NO; 
+    if([description.text isEqualToString:@""]) descriptionPrompt.hidden = NO;
+    [tagViewController stopEditing];
 }
 
-- (void) doneButtonPressed
+- (void) noteTagEditorWillBeginEditing
 {
     [description resignFirstResponder];
 }
 
+- (void) noteTagEditorAddedTag:(Tag *)nt
+{
+    tag = nt;
+    [tagViewController setTag:nt];
+}
+
+- (void) noteTagEditorCancelled
+{
+
+}
+
+- (void) noteTagEditorDeletedTag:(Tag *)nt
+{
+    tag = nil;
+    [tagViewController setTag:tag];
+}
+
+- (void) doneButtonTouched
+{
+    [description resignFirstResponder];
+}
+
+- (void) textViewDidChange:(UITextView *)textView
+{
+    descriptionPrompt.hidden = YES;
+    dirtybit = YES;
+}
+
 - (void) textViewDidEndEditing:(UITextView *)textView
 {
-    descriptionDoneButton.hidden = YES; 
+    if([description.text isEqualToString:@""]) descriptionPrompt.hidden = NO;
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:saveNoteButton];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;
 }
 
 - (void) mediaWasSelected:(Media *)m
 {
-    
+    //do nothing
 }
 
-- (void) locationPickerButtonTouched
+- (void) setLocationOnMap
 {
+    if(!trigger)
+    {
+        if(note.note_id)
+        {
+            NSArray *a = [_MODEL_INSTANCES_ instancesForType:@"NOTE" id:note.note_id];
+            if(a.count) a = [_MODEL_TRIGGERS_ triggersForInstanceId:((Instance *)a[0]).instance_id];
+            if(a.count) trigger = a[0];
+        }
+    }
+
+    if(trigger)
+        locationPickerController = [[NoteLocationPickerController alloc] initWithInitialLocation:trigger.location.coordinate delegate:self];
+    else
+        locationPickerController = [[NoteLocationPickerController alloc] initWithInitialLocation:_MODEL_PLAYER_.location.coordinate delegate:self];
 }
 
-- (void) imagePickerButtonTouched
+- (void) cameraPickerButtonTouched
 {
-    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithDelegate:self] animated:YES];
+    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithMode:NOTE_CAMERA_MODE_CAMERA delegate:self] animated:YES];
 }
 
 - (void) audioPickerButtonTouched
 {
+    [self.navigationController pushViewController:[[NoteRecorderViewController alloc] initWithDelegate:self] animated:YES];
 }
 
-- (void) shareButtonTouched
+- (void) rollPickerButtonTouched
 {
+    [self.navigationController pushViewController:[[NoteCameraViewController alloc] initWithMode:NOTE_CAMERA_MODE_ROLL delegate:self] animated:YES];
 }
+
+- (void) trashButtonTouched
+{
+    deletePrompt.title = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"DeleteKey", @""), NSLocalizedString(@"NoteKey", @"")];
+    [deletePrompt showInView:self.view];
+}
+
+- (void) saveButtonTouched
+{
+    [self saveNote];
+}
+
+- (void) saveNote
+{
+    note.desc = description.text;
+
+    if(note.note_id) [_MODEL_NOTES_ saveNote:note withTag:tag media:media trigger:trigger];
+    else             [_MODEL_NOTES_ createNote:note withTag:tag media:media trigger:trigger];
+
+    [delegate noteEditorConfirmedNoteEdit:self note:note];
+}
+
+- (void) deleteNote
+{
+    [_MODEL_NOTES_ deleteNoteId:note.note_id];
+    [delegate noteEditorDeletedNoteEdit:self];
+}
+
+- (void) newLocationPicked:(CLLocationCoordinate2D)l
+{
+    trigger = [_MODEL_TRIGGERS_ triggerForId:0]; //get null trigger
+    trigger.location = [[CLLocation alloc] initWithLatitude:l.latitude longitude:l.longitude];
+    dirtybit = YES;
+}
+
 
 - (void) imageChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@", [NSDate date]] type:@"PHOTO" url:url]]; 
-    [self.navigationController popToViewController:self animated:YES];  
+    [self setTempMediaFromURL:url];
+    [self.navigationController popToViewController:self animated:YES];
+    dirtybit = YES;
 }
 
 - (void) videoChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@", [NSDate date]] type:@"VIDEO" url:url]];
-    [self.navigationController popToViewController:self animated:YES]; 
+    [self setTempMediaFromURL:url];
+    [self.navigationController popToViewController:self animated:YES];
+    dirtybit = YES;
 }
 
 - (void) audioChosenWithURL:(NSURL *)url
 {
-    [datasToUpload addObject:[[DataToUpload alloc] initWithTitle:[NSString stringWithFormat:@"%@",[NSDate date]] type:@"AUDIO" url:url]];
-    [self.navigationController popToViewController:self animated:YES];  
+    [self setTempMediaFromURL:url];
+    [self.navigationController popToViewController:self animated:YES];
+    dirtybit = YES;
+}
+
+- (void) setTempMediaFromURL:(NSURL *)url
+{
+    media = [_MODEL_MEDIA_ newMedia];
+    media.data = [NSData dataWithContentsOfURL:url];
+    [media setPartialLocalURL:[url absoluteString]]; //technically full URL- all that matters though is extension
+    [contentView setMedia:media];
+}
+
+- (void) actionSheet:(UIActionSheet *)a clickedButtonAtIndex:(NSInteger)b
+{
+    if(a == confirmPrompt && b == 0) //save anyway
+        [self saveNote];
+    if(a == deletePrompt && b == 0) //delete
+       [self deleteNote];
+    if(a == discardChangesPrompt && b == 0) //discard
+        [self dismissSelf];
 }
 
 - (void) cameraViewControllerCancelled
 {
+    [self dismissSelf];
+}
+
+- (void) recorderViewControllerCancelled
+{
+    [self dismissSelf];
+}
+
+- (void) locationPickerCancelled:(NoteLocationPickerController *)nlp
+{
     [self.navigationController popToViewController:self animated:YES];
 }
 
-- (void) uploadAllDatas
+- (void) backButtonTouched
 {
-    DataToUpload *d;
-    for(int i = 0; i < [datasToUpload count]; i++)
+    if(dirtybit || ![note.desc isEqualToString:description.text])
     {
-        d = [datasToUpload objectAtIndex:i];
-        [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:note.noteId withTitle:d.title withText:nil withType:d.type withFileURL:d.url]; 
+        discardChangesPrompt.title = NSLocalizedString(@"NoteEditorUnsavedChagned", @"");
+        [discardChangesPrompt showInView:self.view];
     }
+    else [self dismissSelf];
+}
+
+- (void) dismissSelf
+{
+   [delegate noteEditorCancelledNoteEdit:self];
 }
 
 @end

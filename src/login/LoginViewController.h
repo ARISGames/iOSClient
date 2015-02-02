@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ARISViewController.h"
 
-@class Player;
+@class User;
 
 @protocol LoginViewControllerDelegate
-- (void) loginCredentialsApprovedForPlayer:(Player *)p toGame:(int)gameId newPlayer:(BOOL)newPlayer disableLeaveGame:(BOOL)disableLeaveGame;
 @end
 
 @interface LoginViewController : ARISViewController
 - (id) initWithDelegate:(id<LoginViewControllerDelegate>)d;
-- (void) resetState;
 @end

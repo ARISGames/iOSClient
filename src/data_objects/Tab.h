@@ -8,15 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface Tab : NSObject {
-    NSString *tabName;
-    int tabIndex;
-    int tabDetail1;
+@interface Tab : NSObject
+{
+    long tab_id;
+    NSString *type;
+    NSString *name; 
+    long icon_media_id; 
+    long content_id;
+    NSString *info;
+    long sort_index;
 }
 
-@property(nonatomic)NSString *tabName;
-@property(readwrite,assign)int tabIndex;
-@property(readwrite,assign)int tabDetail1;
+@property (nonatomic, assign) long tab_id;
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *name; 
+@property (nonatomic, assign) long icon_media_id; 
+@property (nonatomic, assign) long content_id;
+@property (nonatomic, strong) NSString *info; 
+@property (nonatomic, assign) long sort_index;
+
+- (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) keyString;
 
 @end

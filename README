@@ -15,3 +15,9 @@ Configuring and Running automated Tests
 4. Compile and Run the tests:       bwoken test
 
 Note, once you have compiled, you can quickly re-run the tests by running: bwoken test --skip-build
+
+
+=======
+Deploying
+
+Archive ARIS.ipa into dist/ folder. Run bin/timestamp_build.sh from Project root.

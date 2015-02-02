@@ -6,106 +6,183 @@
 //
 //
 
+// RULE OF THUMB:
+// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c, 
+// we can't know what data we're invalidating by replacing a ptr
+
 #import "QuestsModel.h"
-#import "Quest.h"
+#import "AppModel.h"
+#import "AppServices.h"
+
+@interface QuestsModel()
+{
+    NSMutableDictionary *quests;
+
+    NSArray *visibleActiveQuests;
+    NSArray *visibleCompleteQuests;
+}
+
+@end
 
 @implementation QuestsModel
 
-@synthesize currentActiveQuests;
-@synthesize currentCompletedQuests;
-@synthesize totalQuestsInGame;
-
 - (id) init
 {
-    self = [super init];
-    if(self)
+    if(self = [super init])
     {
-        [self clearData];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(latestPlayerQuestListsReceived:) name:@"LatestPlayerQuestListsReceived" object:nil];
+        [self clearGameData];
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_QUESTS_RECEIVED",self,@selector(questsReceived:),nil);
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_QUESTS_RECEIVED",self,@selector(playerQuestsReceived:),nil);
     }
     return self;
 }
 
-- (void) dealloc
+- (void) clearPlayerData
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    visibleActiveQuests = [[NSArray alloc] init];
+    visibleCompleteQuests = [[NSArray alloc] init]; 
 }
 
-- (void) clearData
+- (void) clearGameData
 {
-    [self updateQuestListsActive:[[NSArray alloc] init] complete:[[NSArray alloc] init]];
+    [self clearPlayerData];
+    quests = [[NSMutableDictionary alloc] init];
 }
 
-- (void) latestPlayerQuestListsReceived:(NSNotification *)notification
+- (void) questsReceived:(NSNotification *)notif
 {
-    [self updateQuestListsActive:[notification.userInfo objectForKey:@"active"] complete:[notification.userInfo objectForKey:@"completed"]];
+    [self updateQuests:[notif.userInfo objectForKey:@"quests"]];
 }
 
-- (void) updateQuestListsActive:(NSArray *)activeQuests complete:(NSArray *)completedQuests;
+- (void) updateQuests:(NSArray *)newQuests
 {
-    //Completed Quests
-    NSMutableArray *newlyCompletedQuests = [[NSMutableArray alloc] initWithCapacity:5];
-    for(Quest *newQuest in completedQuests)
+    Quest *newQuest;
+    NSNumber *newQuestId;
+    for(long i = 0; i < newQuests.count; i++)
     {
-        BOOL match = NO;
-        for(Quest *existingQuest in self.currentCompletedQuests)
-            if(newQuest.questId == existingQuest.questId) match = YES;
-        
-        if(!match)
-            [newlyCompletedQuests addObject:newQuest];
+      newQuest = [newQuests objectAtIndex:i];
+      newQuestId = [NSNumber numberWithLong:newQuest.quest_id];
+      if(![quests objectForKey:newQuestId]) [quests setObject:newQuest forKey:newQuestId];
     }
-    BOOL questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
-    for(Quest *existingQuest in self.currentCompletedQuests)
+    _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_AVAILABLE",nil,nil);    
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);       
+}
+
+- (void) requestQuests       { [_SERVICES_ fetchQuests]; }
+- (void) requestPlayerQuests { [_SERVICES_ fetchQuestsForPlayer]; }
+
+//admittedly a bit silly, but a great way to rid any risk of deviation from flyweight by catching it at the beginning
+- (NSArray *) conformQuestListToFlyweight:(NSArray *)newQuests
+{
+    NSMutableArray *conformingQuests = [[NSMutableArray alloc] init];
+    Quest *q;
+    for(long i = 0; i < newQuests.count; i++)
     {
-        BOOL match = NO;
-        for(Quest *newQuest in completedQuests)
-            if(newQuest.questId == existingQuest.questId) match = YES;
-        
-        if(!match)
-            questLost = YES;
+        if((q = [self questForId:((Quest *)newQuests[i]).quest_id]))
+            [conformingQuests addObject:q];
     }
-    self.currentCompletedQuests = completedQuests;
-    if([newlyCompletedQuests count] > 0 || questLost)
+        
+    return conformingQuests;
+}
+
+- (void) playerQuestsReceived:(NSNotification *)notification
+{
+    [self updateActiveQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"active"]]];
+    [self updateCompleteQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"complete"]]]; 
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil); 
+}
+
+- (void) updateActiveQuests:(NSArray *)newQuests
+{
+    NSDictionary *deltas = [self findDeltasInNew:newQuests fromOld:visibleActiveQuests];
+    visibleActiveQuests = newQuests; //assumes already conforms to flyweight
+    
+    NSArray *addedDeltas = deltas[@"added"];
+    if(addedDeltas.count > 0)
+        _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",nil,deltas);
+    for(long i = 0; i < addedDeltas.count; i++)
+        [_MODEL_EVENTS_ runEventPackageId:((Quest *)addedDeltas[i]).active_event_package_id];
+    
+    NSArray *removedDeltas = deltas[@"removed"];
+    if(removedDeltas.count > 0)
+        _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_LESS_AVAILABLE",nil,deltas); 
+}
+
+- (void) updateCompleteQuests:(NSArray *)newQuests
+{
+    NSDictionary *deltas = [self findDeltasInNew:newQuests fromOld:visibleCompleteQuests];
+    visibleCompleteQuests = newQuests; //assumes already conforms to flyweight
+    
+    NSArray *addedDeltas = deltas[@"added"];
+    if(addedDeltas.count > 0)
+        _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",nil,deltas);
+    for(long i = 0; i < addedDeltas.count; i++)
+        [_MODEL_EVENTS_ runEventPackageId:((Quest *)addedDeltas[i]).complete_event_package_id];
+    
+    NSArray *removedDeltas = deltas[@"removed"];
+    if(removedDeltas.count > 0)
+        _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",nil,deltas);  
+}
+
+//finds deltas in quest lists generally, so I can just use same code for complete/active
+- (NSDictionary *) findDeltasInNew:(NSArray *)newQuests fromOld:(NSArray *)oldQuests
+{
+    NSDictionary *qDeltas = @{ @"added":[[NSMutableArray alloc] init], @"removed":[[NSMutableArray alloc] init] };
+    
+    //placeholders for comparison
+    Quest *newQuest;
+    Quest *oldQuest;  
+    
+    //find added
+    BOOL new;
+    for(long i = 0; i < newQuests.count; i++)
     {
-        NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               newlyCompletedQuests,@"newlyCompletedQuests",
-                               completedQuests,     @"allCompletedQuests",
-                               nil];
-        NSLog(@"NSNotification: NewlyCompletedQuestsAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyCompletedQuestsAvailable" object:self userInfo:qDict]];
+        new = YES;
+        newQuest = newQuests[i];
+        for(long j = 0; j < oldQuests.count; j++)
+        {
+            oldQuest = oldQuests[j];
+            if(newQuest.quest_id == oldQuest.quest_id) new = NO;
+        }
+        if(new) [qDeltas[@"added"] addObject:newQuests[i]];
     }
     
-    //Active Quests
-    NSMutableArray *newlyActiveQuests = [[NSMutableArray alloc] initWithCapacity:5];
-    for(Quest *newQuest in activeQuests)
+    //find removed
+    BOOL removed;
+    for(long i = 0; i < oldQuests.count; i++)
     {
-        BOOL match = NO;
-        for(Quest *existingQuest in self.currentActiveQuests)
-            if(newQuest.questId == existingQuest.questId) match = YES;
-        
-        if(!match)
-            [newlyActiveQuests addObject:newQuest];
+        removed = YES;
+        oldQuest = oldQuests[i];
+        for(long j = 0; j < newQuests.count; j++)
+        {
+            newQuest = newQuests[j];
+            if(newQuest.quest_id == oldQuest.quest_id) removed = NO;
+        }
+        if(removed) [qDeltas[@"removed"] addObject:oldQuests[i]];
     }
-    questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
-    for(Quest *existingQuest in self.currentActiveQuests)
-    {
-        BOOL match = NO;
-        for(Quest *newQuest in activeQuests) 
-            if(newQuest.questId == existingQuest.questId) match = YES;
-        
-        if(!match)
-            questLost = YES;
-    }
-    self.currentActiveQuests = activeQuests;
-    if([newlyActiveQuests count] > 0 || questLost)
-    {
-        NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               newlyActiveQuests,@"newlyActiveQuests",
-                               activeQuests,     @"allActiveQuests",
-                               nil];
-        NSLog(@"NSNotification: NewlyActiveQuestsAvailable");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyActiveQuestsAvailable" object:self userInfo:qDict]];
-    }
+    
+    return qDeltas;
+}
+
+- (Quest *) questForId:(long)quest_id
+{
+  if(!quest_id) return [[Quest alloc] init];
+  return [quests objectForKey:[NSNumber numberWithLong:quest_id]];
+}
+
+- (NSArray *) visibleActiveQuests
+{
+    return visibleActiveQuests;
+}
+
+- (NSArray *) visibleCompleteQuests
+{
+    return visibleCompleteQuests;
+}
+
+- (void) dealloc
+{
+    _ARIS_NOTIF_IGNORE_ALL_(self);               
 }
 
 @end

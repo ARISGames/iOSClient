@@ -9,11 +9,6 @@
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerAnywhereViewController.h"
 #import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "GameDetailsViewController.h"
-#import "GamePickerCell.h"
-#import "Player.h"
 
 @implementation GamePickerAnywhereViewController
 
@@ -22,35 +17,28 @@
     if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe_unselected.png"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe.png"]];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewAnywhereGameListReady" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"MODEL_ANYWHERE_GAMES_AVAILABLE",self,@selector(anywhereGamesAvailable),nil);
     }
     return self;
 }
 
-- (void) requestNewGameList
+- (void) anywhereGamesAvailable
 {
-    [super requestNewGameList];
-    
-    if([AppModel sharedAppModel].player.location && [[AppModel sharedAppModel] player])
-    {
-        [[AppServices sharedAppServices] fetchAnywhereGameList];
-        [self showLoadingIndicator];
-    }
+    [self removeLoadingIndicator];
+	games = _MODEL_GAMES_.anywhereGames;
+    [gameTable reloadData];
 }
-
 - (void) refreshViewFromModel
 {
-	self.gameList = [[AppModel sharedAppModel].anywhereGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-    [self.gameTable reloadData];
-    
-    [self removeLoadingIndicator];
+	games = _MODEL_GAMES_.pingAnywhereGames;
+    [gameTable reloadData];
 }
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);      
 }
 
 @end

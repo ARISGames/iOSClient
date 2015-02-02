@@ -7,321 +7,265 @@
 //
 
 #import "AppModel.h"
-#import "Player.h"
+#import "AppServices.h"
+#import "ARISDefaults.h"
+
+#import "User.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "UploadMan.h"
 #import "Quest.h"
-#import "MediaCache.h"
-#import "AppServices.h"
+#import "ARISServiceGraveyard.h"
+#import "MediaModel.h"
 #import "ARISAlertHandler.h"
 
 @interface AppModel() 
-{
-   	NSUserDefaults *defaults; 
-}
 
 @end
 
 @implementation AppModel
 
 @synthesize serverURL;
-@synthesize showGamesInDevelopment;
 @synthesize showPlayerOnMap;
-@synthesize fallbackGameId;
 @synthesize disableLeaveGame;
-@synthesize skipGameDetails;
-@synthesize oneGameGameList;
-@synthesize nearbyGameList;
-@synthesize anywhereGameList;
-@synthesize searchGameList;
-@synthesize popularGameList;
-@synthesize recentGameList;
-@synthesize player;
-@synthesize currentGame;
-@synthesize gameMediaList;
-@synthesize gameItemList;
-@synthesize gameNodeList;
-@synthesize gameNpcList;
-@synthesize gameWebPageList;
-@synthesize gamePanoramicList;
-@synthesize overlayList;
-@synthesize overlayIsVisible;
-@synthesize nearbyLocationsList;
-@synthesize gameTagList;
 @synthesize hidePlayers;
-@synthesize uploadManager;
-@synthesize mediaCache;
-@synthesize motionManager;
+@synthesize player;
+@synthesize game;
+@synthesize usersModel;
+@synthesize gamesModel;
+@synthesize mediaModel;
+@synthesize deviceLocation;
+@synthesize mediaManagedObjectContext;
+@synthesize requestsManagedObjectContext;
+@synthesize persistentStoreCoordinator;
+@synthesize servicesGraveyard;
 
 + (id) sharedAppModel
 {
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
-        _sharedObject = [[self alloc] init]; // or some other init method
-    });
-    return _sharedObject;
+  static dispatch_once_t pred = 0;
+  __strong static id _sharedObject = nil;
+  dispatch_once(&pred, ^{ _sharedObject = [[self alloc] init]; });
+  return _sharedObject;
 }
 
 - (id) init
 {
-    if(self = [super init])
+  if(self = [super init])
+  {
+    disableLeaveGame = NO;
+
+    servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
+    usersModel        = [[UsersModel alloc] init];  
+    gamesModel        = [[GamesModel alloc] init];  
+    mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]]; 
+
+    _ARIS_NOTIF_LISTEN_(@"DEFAULTS_CLEAR", self, @selector(defaultsClear), nil); 
+    _ARIS_NOTIF_LISTEN_(@"DEFAULTS_UPDATED", self, @selector(defaultsUpdated), nil); 
+    _ARIS_NOTIF_LISTEN_(@"DEVICE_MOVED", self, @selector(deviceMoved:), nil); 
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_RECEIVED", self, @selector(loginReceived:), nil); 
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_FAILED", self, @selector(loginFailed:), nil); 
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_UPDATE_USER_RECEIVED", self, @selector(updateUserReceived:), nil); 
+  }
+  return self;
+}
+
+- (void) defaultsClear
+{
+    if(_MODEL_.player) [self logOut];
+}
+
+- (void) defaultsUpdated
+{
+    if(_DEFAULTS_.fallbackUser)
     {
-		//Init USerDefaults
-        disableLeaveGame = NO;
-        skipGameDetails  = 0;
-		defaults      = [NSUserDefaults standardUserDefaults];
-		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
-        overlayList   = [[NSMutableArray alloc] initWithCapacity:10];
-        motionManager = [[CMMotionManager alloc] init];
-	}
-    return self;
-}
-
-- (void) resetAllGameLists
-{
-    [self.currentGame clearLocalModels];
-    [self.gameItemList      removeAllObjects];
-    [self.gameNodeList      removeAllObjects];
-    [self.gameNpcList       removeAllObjects];
-    [self.gameMediaList     removeAllObjects];
-    [self.gameWebPageList   removeAllObjects];
-    [self.gamePanoramicList removeAllObjects];
-}
-
-- (void) resetAllPlayerLists
-{
-  self.nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
-  [self.currentGame clearLocalModels];
-  [self.overlayList removeAllObjects];
-}
-
-
-#pragma mark User Defaults
-
-- (void) loadUserDefaults
-{
-	NSLog(@"Model: Loading User Defaults");
-    NSURL *currServ = [NSURL URLWithString:[defaults stringForKey:@"baseServerString"]];
-    if([[currServ absoluteString] isEqual:@""])
+        if(_MODEL_.player && _MODEL_.player.user_id != _DEFAULTS_.fallbackUser.user_id) [self logOut];
+        if(!_MODEL_.player) [self logInPlayer:_DEFAULTS_.fallbackUser];
+    }
+    if(_DEFAULTS_.fallbackGameId)
     {
-        currServ = [NSURL URLWithString:@"http://arisgames.org/server"];
-        [defaults setObject:[currServ absoluteString] forKey:@"baseServerString"];
-        [defaults synchronize];
+        //do game loading stuff here
     }
-    if(![[defaults stringForKey:@"appVersion"] isEqualToString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] ||
-       (self.serverURL && ![currServ isEqual:self.serverURL]) ||
-       [defaults boolForKey:@"clearCache"])
-    {
-        [[AppModel sharedAppModel].mediaCache clearCache];
-        if([AppModel sharedAppModel].player)
-        {
-            NSLog(@"NSNotification: LogoutRequested");
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
-        }
-        self.serverURL = currServ;
-        [defaults setBool:NO forKey:@"clearCache"];
-        [defaults synchronize];
-        return;
-    }
-    self.serverURL = currServ;
-    self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
-    
-    //Safe to load defaults
-    if(!self.player)
-    {
-        self.player               = [[Player alloc] init];
-        self.showPlayerOnMap      = [defaults  boolForKey:@"showPlayerOnMap"];
-        self.player.playerId      = [defaults  integerForKey:@"playerId"];
-        self.player.playerMediaId = [defaults  integerForKey:@"playerMediaId"];
-        self.player.username      = [defaults  objectForKey:@"userName"];
-        self.player.displayname   = [defaults  objectForKey:@"displayName"];
-        self.player.groupname     = [defaults  objectForKey:@"groupName"];
-        self.player.groupGameId   = [[defaults objectForKey:@"groupName"] intValue];
-        
-        //load the player media immediately if possible
-        if(self.player.playerMediaId != 0)
-            [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] delegate:nil];
-    }
-    
-    self.fallbackGameId = [defaults integerForKey:@"gameId"];
+    serverURL = _DEFAULTS_.serverURL;
+    [_SERVICES_ setServer:_MODEL_.serverURL];
+    showPlayerOnMap = _DEFAULTS_.showPlayerOnMap;
 }
 
-- (void) commitPlayerLogin:(Player *)p
+- (void) attemptLogInWithUserName:(NSString *)user_name password:(NSString *)password
 {
-    self.player = p;
-    
-    [[AppServices sharedAppServices] setShowPlayerOnMap];
-    [[AppModel sharedAppModel] saveUserDefaults];
-    //Subscribe to player channel
-    //[RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
+  [_SERVICES_ logInUserWithName:user_name password:password];
 }
 
-- (void) saveUserDefaults
+- (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password
 {
-	NSLog(@"Model: Saving User Defaults");
-    [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
-    [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
-    [defaults setInteger:fallbackGameId           forKey:@"gameId"];
-    if(player)
-    {
-        [defaults setInteger:player.playerId          forKey:@"playerId"];
-        [defaults setInteger:player.playerMediaId     forKey:@"playerMediaId"];
-        [defaults setObject:player.username           forKey:@"userName"];
-        [defaults setObject:player.displayname        forKey:@"displayName"];
-    }
-    else
-    {
-        [defaults setInteger:0  forKey:@"playerId"];
-        [defaults setInteger:0  forKey:@"playerMediaId"];
-        [defaults setObject:@"" forKey:@"userName"];
-        [defaults setObject:@"" forKey:@"displayName"];
-    }
-    [defaults synchronize];
-       
-    if(self.player.playerMediaId != 0)
-        [[AppServices sharedAppServices] loadMedia:[self mediaForMediaId:self.player.playerMediaId ofType:@"PHOTO"] delegate:nil];  
+  [_SERVICES_ createUserWithName:user_name displayName:display_name groupName:(NSString *)group_name email:email password:password];
 }
 
-- (void) saveCOREData
+- (void) resetPasswordForEmail:(NSString *)email
 {
-    NSError *error = nil;
-    if (managedObjectContext != nil)
-    {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
-        {
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
-        }
-    }
+  [_SERVICES_ resetPasswordForEmail:email];
 }
 
-- (void) initUserDefaults
+- (void) changePasswordFrom:(NSString *)oldp to:(NSString *)newp
 {
-	//Load the settings bundle data into an array
-	NSDictionary *settingsDict  = [NSDictionary dictionaryWithContentsOfFile:[[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Settings.bundle"] stringByAppendingPathComponent:@"Root.plist"]];
-	NSArray *prefSpecifierArray = [settingsDict objectForKey:@"PreferenceSpecifiers"];
-	
-	//Find the Defaults
-	NSString *baseAppURLDefault             = @"Unknown Default";
-    NSNumber *showGamesInDevelopmentDefault = [NSNumber numberWithInt:0];
-    NSNumber *showPlayerOnMapDefault        = [NSNumber numberWithInt:1];
-	NSDictionary *prefItem;
-	for(prefItem in prefSpecifierArray)
-	{
-		if([[prefItem objectForKey:@"Key"] isEqualToString:@"baseServerString"])       baseAppURLDefault             = [prefItem objectForKey:@"DefaultValue"];
-        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showGamesInDevelopment"]) showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
-        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showPlayerOnMap"])        showPlayerOnMapDefault        = [prefItem objectForKey:@"DefaultValue"];
-    }
-	
-	// since no default values have been set (i.e. no preferences file created), create it here
-	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
-								 baseAppURLDefault,             @"baseServerString",
-                                 showGamesInDevelopmentDefault, @"showGamesInDevelopment",
-                                 showPlayerOnMapDefault,        @"showPlayerOnMap",
-								 nil];
-	
-	[defaults registerDefaults:appDefaults];
-	[defaults synchronize];
-    
-    uploadManager = [[UploadMan alloc]  init];
-    mediaCache    = [[MediaCache alloc] init];
+  [_SERVICES_ changePasswordFrom:oldp to:newp];
 }
 
-- (void) setPlayerLocation:(CLLocation *)newLocation
+- (void) updatePlayerName:(NSString *)display_name
 {
-    if(player)
-    {
-        player.location = newLocation;
-        [[AppServices sharedAppServices] updateServerWithPlayerLocation];
-    }
-	
-    NSDictionary *locDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:newLocation,nil] forKeys:[[NSArray alloc] initWithObjects:@"location",nil]];
-    NSLog(@"NSNotification: PlayerMoved");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil userInfo:locDict]];
+  [_SERVICES_ updatePlayerName:display_name];
 }
 
-#pragma mark Retrieving Cashed Objects 
-
-- (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type// type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
+- (void) updatePlayerMedia:(Media *)media
 {
-    if(mId == 0) return nil;
-	return [mediaCache mediaForMediaId:mId ofType:type];
+  [_SERVICES_ updatePlayerMedia:media];
 }
 
-- (Npc *) npcForNpcId:(int)mId
-{    
-	return [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
-}
-
-- (Node *) nodeForNodeId:(int)mId
+- (void) loginReceived:(NSNotification *)n { [self logInPlayer:(User *)n.userInfo[@"user"]]; }
+- (void) loginFailed:(NSNotification *)n { _ARIS_NOTIF_SEND_(@"MODEL_LOGIN_FAILED",nil,nil); }
+- (void) updateUserReceived:(NSNotification *)n
 {
-	return [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
+    [_MODEL_PLAYER_ mergeDataFromUser:n.userInfo[@"user"]];
+}
+- (void) logInPlayer:(User *)p
+{
+  _MODEL_PLAYER_ = p;
+  if(deviceLocation) _MODEL_PLAYER_.location = deviceLocation;
+  [_DEFAULTS_ saveUserDefaults];   
+  [_PUSHER_ loginPlayer:_MODEL_PLAYER_.user_id];
+  _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_IN",nil,nil);
+
+  //load the player media immediately if possible
+  //if(_MODEL_PLAYER_.media_id != 0) [_SERVICES_ loadMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id] delegateHandle:nil];
 }
 
-- (WebPage *) webPageForWebPageId:(int)mId
+- (void) logOut
 {
-	return [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
+  if(_MODEL_GAME_) [self leaveGame];
+  _MODEL_PLAYER_ = nil;
+  [_DEFAULTS_ saveUserDefaults];  
+  [_PUSHER_ logoutPlayer];    
+  _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil); 
 }
 
-- (Panoramic *) panoramicForPanoramicId:(int)mId
+- (void) chooseGame:(Game *)g
 {
-    return [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];
+  _MODEL_GAME_ = g;
+  [_MODEL_GAME_ getReadyToPlay];
+  [_DEFAULTS_ saveUserDefaults];
+  [_PUSHER_ loginGame:_MODEL_GAME_.game_id];  
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);  
 }
 
--(Item *) itemForItemId:(int)mId
+- (void) beginGame
 {
-	return [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
+  [_MODEL_LOGS_ playerEnteredGame];
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);   
 }
 
-- (NSManagedObjectContext *) managedObjectContext
+- (void) leaveGame
 {
-    if(!managedObjectContext)
-    {
-        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-        if(coordinator)
-        {
-            managedObjectContext = [[NSManagedObjectContext alloc] init];
-            [managedObjectContext setPersistentStoreCoordinator:coordinator];
-        }
-    }
-    return managedObjectContext;
+  [_MODEL_GAME_ endPlay]; 
+  _MODEL_GAME_ = nil; 
+  [_DEFAULTS_ saveUserDefaults]; 
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);    
 }
 
-- (NSManagedObjectModel *) managedObjectModel
+- (void) deviceMoved:(NSNotification *)n
 {
-    if(!managedObjectModel) {
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"UploadContent" withExtension:@"momd"];
-        managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    }
-    return managedObjectModel;
+    //don't report meaningless diffs
+    if(!deviceLocation || [deviceLocation distanceFromLocation:n.userInfo[@"location"]] > 0.01f)
+        [self setDeviceLocation:n.userInfo[@"location"]];
+}
+
+- (void) setDeviceLocation:(CLLocation *)l
+{
+  deviceLocation = l;
+  [self setPlayerLocation:l];
+}
+
+- (void) setPlayerLocation:(CLLocation *)l
+{
+  if(!player) return;
+  player.location = l;
+  if(_MODEL_GAME_)[_MODEL_LOGS_ playerMoved];
 }
 
 - (NSString *) applicationDocumentsDirectory
 {
-	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+  return [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+}
+
+- (NSManagedObjectContext *) mediaManagedObjectContext
+{
+  if(!mediaManagedObjectContext)
+  {
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if(coordinator)
+    {
+      mediaManagedObjectContext = [[NSManagedObjectContext alloc] init];
+      [mediaManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+  }
+  return mediaManagedObjectContext;
+}
+
+- (NSManagedObjectContext *) requestsManagedObjectContext
+{
+  if(!requestsManagedObjectContext)
+  {
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if(coordinator)
+    {
+      requestsManagedObjectContext = [[NSManagedObjectContext alloc] init];
+      [requestsManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+  }
+  return requestsManagedObjectContext;
 }
 
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator
 {
-    if(!persistentStoreCoordinator)
+  if(!persistentStoreCoordinator)
+  {
+    NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"ARISCoreData.sqlite"]];
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+      [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+      nil];
+
+    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
+
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
+    NSError *error;
+    if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
+      NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
+  }
+  return persistentStoreCoordinator;
+}
+
+- (void) commitCoreDataContexts
+{
+  NSError *error = nil;
+  if(mediaManagedObjectContext != nil)
+  {
+    if([mediaManagedObjectContext hasChanges] && ![mediaManagedObjectContext save:&error])
     {
-        NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"UploadContent.sqlite"]];
-        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-        NSError *error;
-        if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
-            NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
-	}
-    return persistentStoreCoordinator;
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorSavingToDiskKey", @"") message:[NSString stringWithFormat:@"%@",[error userInfo]]];
+    }
+  }
+  if(requestsManagedObjectContext != nil) 
+  {
+    if([requestsManagedObjectContext hasChanges] && ![requestsManagedObjectContext save:&error])
+    {
+      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorSavingToDiskKey", @"") message:[NSString stringWithFormat:@"%@",[error userInfo]]];
+    }
+  }
 }
 
 - (void) dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self); 
 }
 
 @end

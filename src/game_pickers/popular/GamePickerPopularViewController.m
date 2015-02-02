@@ -8,24 +8,17 @@
 
 #include <QuartzCore/QuartzCore.h>
 #import "GamePickerPopularViewController.h"
-#import "AppModel.h"
-#import "AppServices.h"
-#import "Game.h"
-#import "Player.h"
-#import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
+#import "AppModel.h"
 
 @interface GamePickerPopularViewController()
 {
-    int time;
+    long time;
     UISegmentedControl *timeControl;
 }
-@property (nonatomic, strong) UISegmentedControl *timeControl;
 @end
     
 @implementation GamePickerPopularViewController
-
-@synthesize timeControl;
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
@@ -34,9 +27,10 @@
         time = 1;
         
         self.title = NSLocalizedString(@"GamePickerPopularTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"star_selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"star_unselected"]];
+        
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"star_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"star.png"]];  
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
+  _ARIS_NOTIF_LISTEN_(@"MODEL_POPULAR_GAMES_AVAILABLE",self,@selector(popularGamesAvailable),nil);
     }
     return self;
 }
@@ -45,36 +39,29 @@
 {
     [super viewDidLoad];
     
-    self.timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Daily",@"Weekly",@"Monthly", nil]];
-    self.timeControl.frame = CGRectMake(5, 5, self.view.bounds.size.width-10, 30);
-    self.timeControl.selectedSegmentIndex = time;
-    self.timeControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    [self.timeControl addTarget:self action:@selector(controlChanged) forControlEvents:UIControlEventValueChanged];
+    timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:NSLocalizedString(@"GamePickerDailyKey", @""),NSLocalizedString(@"GamePickerWeeklyKey", @""),NSLocalizedString(@"GamePickerMonthlyKey", @""), nil]];
+    timeControl.frame = CGRectMake(5, 5, self.view.bounds.size.width-10, 30);
+    timeControl.selectedSegmentIndex = time;
+    timeControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    [timeControl addTarget:self action:@selector(controlChanged) forControlEvents:UIControlEventValueChanged];
 }
 
-- (void) requestNewGameList
+- (void) popularGamesAvailable
 {
-    [super requestNewGameList];
-    
-    if([AppModel sharedAppModel].player.location && [[AppModel sharedAppModel] player])
-    {
-        [[AppServices sharedAppServices] fetchPopularGameListForTime:time];
-        [self showLoadingIndicator];
-    }
+    [self removeLoadingIndicator];
+	games = _MODEL_GAMES_.popularGames;
+	[gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
-	self.gameList = [AppModel sharedAppModel].popularGameList;
+	games = _MODEL_GAMES_.pingPopularGames;
 	[gameTable reloadData];
-    
-    [self removeLoadingIndicator];
 }
 
 - (void) controlChanged
 {
-    time = self.timeControl.selectedSegmentIndex;
-    [self requestNewGameList];
+    time = timeControl.selectedSegmentIndex;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -93,15 +80,15 @@
     if(indexPath.row == 0)
     {
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"SegCell"];
-        if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SegCell"];
-        [cell addSubview:self.timeControl];
+        if(!cell)        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SegCell"];
+        [cell addSubview:timeControl];
         return cell;
     }
-    else if([self.gameList count] > 0)
+    else if(games.count > 0)
     {
         GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
-        Game *gameForCell = [self.gameList objectAtIndex:(indexPath.row-1)];
-        cell.distanceLabel.text = [NSString stringWithFormat:@"%d Players",gameForCell.playerCount];
+        Game *gameForCell = [games objectAtIndex:(indexPath.row-1)];
+        [cell setCustomLabelText:[NSString stringWithFormat:@"%ld %@",gameForCell.player_count, NSLocalizedString(@"PlayersKey", @"")]];
         return cell;
     }
     else
@@ -115,7 +102,7 @@
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    _ARIS_NOTIF_IGNORE_ALL_(self);        
 }
 
 @end

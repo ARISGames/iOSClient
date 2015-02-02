@@ -7,39 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
-@class Player;
-@class Location;
-@class Tag;
-@class NoteContent;
+#import "InstantiableProtocol.h"
 
-@interface Note : NSObject <GameObjectProtocol>
+@interface Note : NSObject <InstantiableProtocol>
 {
-    int noteId; 
-    Player *owner;
+    long note_id;
+    long user_id;
     NSString *name;
-    NSString *ndescription;
-    NSDate *created; 
-    Location *location; 
-    NSMutableArray *tags;
-    NSMutableArray *contents;
-    NSMutableArray *comments; 
-    BOOL publicToList;
-    BOOL publicToMap; 
+    NSString *desc;
+    long media_id;
+    NSDate *created;
 }
 
-@property (nonatomic, assign) int noteId;
-@property (nonatomic, strong) Player *owner;
+@property (nonatomic, assign) long note_id;
+@property (nonatomic, assign) long user_id;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *ndescription;
+@property (nonatomic, strong) NSString *desc;
+@property (nonatomic, assign) long media_id;
 @property (nonatomic, strong) NSDate *created;
-@property (nonatomic, strong) Location *location;
-@property (nonatomic, strong) NSMutableArray *tags;
-@property (nonatomic, strong) NSMutableArray *contents;
-@property (nonatomic, strong) NSMutableArray *comments;
-@property (nonatomic, assign) BOOL publicToList;
-@property (nonatomic, assign) BOOL publicToMap;
 
--(BOOL) isUploading;
+- (id) initWithDictionary:(NSDictionary *)dict;
+- (void) mergeDataFromNote:(Note *)n;
 
 @end
+

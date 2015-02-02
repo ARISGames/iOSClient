@@ -56,47 +56,34 @@
     {
         self.pusherClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
         self.pusherClient.delegate = self;
-        self.pusherClient.reconnectAutomatically = YES;
 
-        self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
+        self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://arisgames.org/server/events/auths/private_auth.php"];
     }
     return self;
 }
 
-- (void) loginGame:(int)gameId
+- (void) loginGame:(long)game_id
 {
-    self.gameChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",gameId]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveGameChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:self.gameChannel];
+    self.gameChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-game-channel",game_id]];
+  _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGameChannelEventNotification:) ,self.gameChannel);
 }
 
-- (void) loginPlayer:(int)playerId
+- (void) loginPlayer:(long)user_id
 {
-    self.playerChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",playerId]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceivePlayerChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:self.playerChannel];
+    self.playerChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-player-channel",user_id]];
+  _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceivePlayerChannelEventNotification:) ,self.playerChannel);
 }
 
 - (void) loginGroup:(NSString *)group
 {
     self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveGroupChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:self.groupChannel];
+  _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGroupChannelEventNotification:) ,self.groupChannel);
 }
 
-- (void) loginWebPage:(int)webPageId
+- (void) loginWebPage:(long)web_page_id
 {
-    self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",webPageId]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveWebPageChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:self.webPageChannel];
+    self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-webpage-channel",web_page_id]];
+  _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveWebPageChannelEventNotification:) ,self.webPageChannel);
 }
 
 - (void) didReceiveGameChannelEventNotification:(NSNotification *)notification
@@ -105,8 +92,8 @@
     if([event.channel rangeOfString:@"game"].location == NSNotFound) return;
     
     if([event.name isEqualToString:@"alert"])
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Game Notice" message:event.data];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherGameEventReceived" object:event]];
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"GameNoticeKey", @"") message:event.data];
+    _ARIS_NOTIF_SEND_(@"PusherGameEventReceived",event,nil);
 }
 
 - (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification
@@ -114,25 +101,23 @@
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"player"].location == NSNotFound) return;
     
-    if([event.name isEqualToString:@"alert"]) 
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Player Notice" message:event.data];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherPlayerEventReceived" object:event]];
+    if([event.name isEqualToString:@"alert"])
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"PlayerNoticeKey", @"") message:event.data];
+    _ARIS_NOTIF_SEND_(@"PusherPlayerEventReceived",event,nil);
 }
 
 - (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"group"].location == NSNotFound) return;
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherGroupEventReceived" object:event]];
+    _ARIS_NOTIF_SEND_(@"PusherGroupEventReceived",event,nil);
 }
 
 - (void) didReceiveWebPageChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"webPage"].location == NSNotFound) return;
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherWebPageEventReceived" object:event]];
+    _ARIS_NOTIF_SEND_(@"PusherWebPageEventReceived",event,nil);
 }
 
 - (void) logoutGame

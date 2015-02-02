@@ -6,86 +6,112 @@
 //
 
 #import "PlayerSettingsViewController.h"
-#import "AppServices.h"
 #import "ARISMediaView.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
-#import "Player.h"
+#import "MediaModel.h"
+#import "User.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
-#import "UploadMan.h"
 #import <ImageIO/ImageIO.h>
 
 @interface PlayerSettingsViewController()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, ARISMediaViewDelegate, UITextFieldDelegate>
 {
-    IBOutlet ARISMediaView *playerPic;
-    IBOutlet UITextField *playerNameField;
-    int chosenMediaId;
+    ARISMediaView *playerPic;
+    UITextField *playerNameField;
+    long chosenMediaId;
+    
+    UIButton *saveButton;
+    UIButton *cameraButton;
     
     id<PlayerSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
-
-@property (nonatomic) IBOutlet ARISMediaView *playerPic;
-@property (nonatomic) IBOutlet UITextField *playerNameField;
-
-- (IBAction)saveButtonTouched:(id)sender;
-- (IBAction)playerPicCamButtonTouched:(id)sender;
 
 @end
 
 @implementation PlayerSettingsViewController
 
-@synthesize playerPic;
-@synthesize playerNameField;
-
-- (id)initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d
+- (id) initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"PlayerSettingsViewController" bundle:nil])
+    if(self = [super init])
     {
-        delegate = d;
+        self.title = NSLocalizedString(@"PublicNameAndImageKey", @"");
         chosenMediaId = 0;
+        
+        delegate = d;
     }
     return self;
 }
 
+- (void) loadView
+{
+    [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    playerNameField = [[UITextField alloc] init];
+    playerNameField.delegate = self;
+    playerNameField.textAlignment = NSTextAlignmentCenter;
+    
+    playerPic = [[ARISMediaView alloc] init];
+    [playerPic addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(picTouched)]];
+    playerPic.userInteractionEnabled = YES;
+    playerPic.backgroundColor = [UIColor blackColor];
+    
+    cameraButton = [[UIButton alloc] init];
+    [cameraButton setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
+    [cameraButton addTarget:self action:@selector(cameraButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    
+    saveButton = [[UIButton alloc] init];
+    [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [saveButton setTitle:@"Save" forState:UIControlStateNormal];
+    [saveButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    
+    [self.view addSubview:playerNameField];
+    [self.view addSubview:playerPic];
+    [self.view addSubview:cameraButton];
+    [self.view addSubview:saveButton];
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    playerNameField.frame = CGRectMake(0,74,self.view.frame.size.width,20);
+    playerPic.frame = CGRectMake(0,playerNameField.frame.origin.y+playerNameField.frame.size.height+10,self.view.frame.size.width,self.view.frame.size.width);
+    
+    cameraButton.frame = CGRectMake(10, self.view.frame.size.height-30, 100, 20);
+    saveButton.frame = CGRectMake(self.view.frame.size.width-110, self.view.frame.size.height-30, 100, 20);
+}
+
 - (void) viewWillAppear:(BOOL)animated
 {
-    self.title = @"Public Name and Image";
+    [super viewWillAppear:animated];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {    
+    [super viewDidAppear:animated];
     [self refreshView];
 }
 
 - (void) resetState
 {
-    self.playerNameField.text = @"";
+    playerNameField.text = @"";
     chosenMediaId = 0;
-    [self.playerPic refreshWithFrame:self.playerPic.frame image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
-}
-
-- (void) syncLocalVars
-{
-    if([self.playerNameField.text isEqualToString:@""])
-        self.playerNameField.text = [AppModel sharedAppModel].player.displayname; // @"" by default
-    if(chosenMediaId == 0)
-        chosenMediaId = [AppModel sharedAppModel].player.playerMediaId;
+    [playerPic setImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
 }
 
 - (void) refreshView
 {
-    [self syncLocalVars];
+    //take on values from model
+    if([playerNameField.text isEqualToString:@""]) playerNameField.text = _MODEL_PLAYER_.display_name; // @"" by default
+    if(chosenMediaId == 0)                         chosenMediaId = _MODEL_PLAYER_.media_id;
     
-    if([self.playerNameField.text isEqualToString:@""])
-        [self.playerNameField becomeFirstResponder];
+    if([playerNameField.text isEqualToString:@""]) [playerNameField becomeFirstResponder];
 
-    if(chosenMediaId > 0)
-        [self.playerPic refreshWithFrame:self.playerPic.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
-    else if(chosenMediaId == 0)
-        [self takePicture];
-    //if chosenMediaId < 0, just leave the image as is
+    if(chosenMediaId > 0)       [playerPic setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
+    else if(chosenMediaId == 0) [self takePicture];
+    //chosenMediaId < 0 = newly chosen
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
@@ -94,31 +120,29 @@
     return YES;
 }
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void) picTouched
 {
     [playerNameField resignFirstResponder];
 }
 
-- (IBAction) saveButtonTouched:(id)sender
+- (void) saveButtonTouched
 {
-    if([self.playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
+    //temporary workaround
+    [delegate playerSettingsWasDismissed]; return;
+    
+    if([playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
     {
-        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Profile Save Error" message:@"Please choose a picture and name"];
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ProfileSaveErrorKey", @"") message:NSLocalizedString(@"ProfileSaveErrorMessageKey", @"")];
         return;
     }
 
-    [AppModel sharedAppModel].player.displayname = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
-
-    [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].player.playerId
-                                         withName:[AppModel sharedAppModel].player.displayname
-                                         andImage:[AppModel sharedAppModel].player.playerMediaId];
-
-    [[AppModel sharedAppModel] saveUserDefaults];
+    _MODEL_PLAYER_.display_name = playerNameField.text;
+    [_MODEL_ updatePlayerName:playerNameField.text];
 
     [delegate playerSettingsWasDismissed];
 }
 
-- (IBAction) playerPicCamButtonTouched:(id)sender
+- (void) cameraButtonTouched
 {
     [self takePicture];
 }
@@ -155,42 +179,46 @@
     [aPicker dismissViewControllerAnimated:NO completion:nil];
 
     UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaleToSize:CGSizeMake(1024,1024)];
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
-    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
-    [imageData writeToURL:imageURL atomically:YES];
 
     // If image not selected from camera roll, save image with metadata to camera roll
     if([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
     {
         ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-        [al writeImageDataToSavedPhotosAlbum:imageData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+        [al writeImageDataToSavedPhotosAlbum:UIImageJPEGRepresentation(image, 1.0) metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
             // once image is saved, get asset from assetURL
             [al assetForURL:assetURL resultBlock:^(ALAsset *asset) {
                 // save image to temporary directory to be able to upload it
-                UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage]];
-                NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
-                NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
-                [imageData writeToURL:imageURL atomically:YES];
-                    
-                [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-                [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
+                [self uploadImage:[UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage]]];
             } failureBlock:^(NSError *error) {
-                [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-                [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
+                [self uploadImage:image]; 
             }];
         }];
     }
     else
     {
-        // image from camera roll
-        [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-        [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
+        [self uploadImage:image];  
     }
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) uploadImage:(UIImage *)i
 {
+    //short names to cope with obj-c verbosity
+    Media *m = [_MODEL_MEDIA_ newMedia];
+    NSString *g = @"0"; //game_id as string
     
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init]; [outputFormatter setDateFormat:@"dd_MM_yyyy_HH_mm"];
+    NSString *f = [NSString stringWithFormat:@"%@_image.jpg", [outputFormatter stringFromDate:[NSDate date]]]; //filename
+    
+    NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+    if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
+        [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
+    [m setPartialLocalURL:[NSString stringWithFormat:@"%@/%@",g,f]];
+    
+    m.data = UIImageJPEGRepresentation(i, 0.4);
+    [m.data writeToURL:m.localURL options:nil error:nil];
+    
+    [playerPic setImage:i]; 
+    [_MODEL_ updatePlayerMedia:m];
 }
 
 @end

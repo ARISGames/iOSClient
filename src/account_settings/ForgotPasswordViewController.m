@@ -7,14 +7,14 @@
 //
 
 #import "ForgotPasswordViewController.h"
-#import "AppServices.h"
-#import "UIColor+ARISColors.h"
+#import "AppModel.h"
 
 @interface ForgotPasswordViewController() <UITextFieldDelegate>
 {
     UITextField *emailField;
     UILabel *instructions;
     BOOL viewHasAppeared;
+    id<ForgotPasswordViewControllerDelegate> delegate;
 }
 
 @property (nonatomic, strong) UITextField *emailField;
@@ -27,11 +27,12 @@
 @synthesize emailField;
 @synthesize instructions;
 
-- (id) init
+- (id) initWithDelegate:(id<ForgotPasswordViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         viewHasAppeared = NO;
+        delegate = d;
     }
     return self;
 }
@@ -56,11 +57,11 @@
     [self.navigationController.navigationBar layoutIfNeeded];
     
     emailField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20,self.view.frame.size.width-40,20)];
-    emailField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    emailField.font = [ARISTemplate ARISInputFont];
     emailField.delegate = self;
     emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     emailField.autocorrectionType = UITextAutocorrectionTypeNo;
-    emailField.placeholder = @"Email to Reset";
+    emailField.placeholder = NSLocalizedString(@"EmailToResetKey", @"");
     emailField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:emailField];
     
@@ -72,7 +73,7 @@
     instructions = [[UILabel alloc] initWithFrame:CGRectMake(20,66+20+20+20,self.view.frame.size.width-40,80)];
     instructions.numberOfLines = 0;
     instructions.lineBreakMode = NSLineBreakByWordWrapping;
-    instructions.text = @"An email will be sent to the above address with instructions on how to reset your password.";
+    instructions.text = NSLocalizedString(@"EmailInstructionsKey", @"");
     [self.view addSubview:instructions];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -86,13 +87,20 @@
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    [[AppServices sharedAppServices] resetAndEmailNewPassword:textField.text];
+    [_MODEL_ resetPasswordForEmail:textField.text];
+    [self dismissSelf];
     return YES;
 }
 
 - (void) backButtonTouched
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissSelf];
+}
+
+- (void) dismissSelf
+{
+    if(delegate) [delegate forgotPasswordWasDismissed];
+    else [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

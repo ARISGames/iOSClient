@@ -7,124 +7,122 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RootViewController.h"
-#import "AppModel.h"
-#import "MyCLController.h"
-#import "Location.h"
-#import "Game.h"
-#import "Tab.h"
-#import "Item.h"
-#import "Node.h"
-#import "Npc.h"
-#import "Media.h"
-#import "WebPage.h"
-#import "Panoramic.h"
-#import "Quest.h"
-#import "PanoramicMedia.h"
-#import "ARISAppDelegate.h"
-#import "Comment.h"
-#import "Note.h"
-#import "NoteContent.h"
-#import "Tag.h"
-#import "ARISConnection.h"
 #import "ARISMediaLoader.h"
 
+#define _SERVICES_ [AppServices sharedAppServices]
+#define _SERVICES_MEDIA_ [AppServices sharedAppServices].mediaLoader
+
+@class Note;
+@class NoteComment;
+@class Tag;
+@class Trigger;
+
 @interface AppServices : NSObject
+{
+    ARISMediaLoader *mediaLoader;  
+}
+
+@property (nonatomic, strong) ARISMediaLoader *mediaLoader;
 
 + (AppServices *)sharedAppServices;
+- (void) setServer:(NSString *)s;
 
-- (void) resetCurrentlyFetchingVars;
+- (void) retryFailedRequests;
 
-//Player
-- (void) loginUserName:(NSString *)username password:(NSString *)password userInfo:(NSMutableDictionary *)dict;
-- (void) registerNewUser:(NSString*)userName password:(NSString*)pass firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;
-- (void) createUserAndLoginWithGroup:(NSString *)groupName;
-- (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL;
-- (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid;
-- (void) resetAndEmailNewPassword:(NSString *)email;
-- (void) setShowPlayerOnMap;
+- (void) createUserWithName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;
+- (void) logInUserWithName:(NSString *)user_name password:(NSString *)password;
+- (void) resetPasswordForEmail:(NSString *)email;
+- (void) changePasswordFrom:(NSString *)oldp to:(NSString *)newp;
+- (void) updatePlayerName:(NSString *)display_name;
+- (void) updatePlayerMedia:(Media *)media;
 
-//Game Picker
-- (void) fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters;
-- (void) fetchAnywhereGameList;
-- (void) fetchRecentGameListForPlayer;
-- (void) fetchPopularGameListForTime:(int)time;
-- (void) fetchGameListBySearch:(NSString *)searchText onPage:(int)page;
+- (void) fetchGame:(long)game_id;
+- (void) fetchNearbyGames;
+- (void) fetchAnywhereGames;
+- (void) fetchRecentGames;
+- (void) fetchPopularGames;
+- (void) fetchSearchGames:(NSString *)s;
+- (void) fetchMineGames;
+- (void) fetchPlayerPlayedGame:(long)game_id;
 
-- (void) fetchOneGameGameList:(int)gameId;
+- (void) fetchUsers; //TBD what this actually does...
+- (void) fetchScenes;
+- (void) touchSceneForPlayer;
+- (void) fetchMedias;
+- (void) fetchPlaques;
+- (void) fetchItems;
+- (void) touchItemsForPlayer; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
+- (void) fetchDialogs;
+- (void) fetchDialogCharacters;
+- (void) fetchDialogScripts;
+- (void) fetchDialogOptions;
+- (void) fetchWebPages;
+- (void) fetchNotes;
+- (void) fetchNoteComments;
+- (void) fetchTags;
+- (void) fetchObjectTags;
+- (void) fetchEvents;
+- (void) fetchQuests;
+- (void) fetchInstances;
+- (void) fetchTriggers;
+- (void) fetchOverlays;
+- (void) fetchTabs;
 
-//Fetch Player State
-- (void) fetchAllPlayerLists;
-- (void) fetchPlayerLocationList;
-- (void) fetchPlayerQuestList;
-- (void) fetchPlayerInventory;
-- (void) fetchPlayerOverlayList;
-- (void) fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId;
+- (void) fetchLogsForPlayer;
+- (void) fetchSceneForPlayer; //literally a number... oh well
+- (void) fetchInstancesForPlayer;
+- (void) fetchTriggersForPlayer;
+- (void) fetchOverlaysForPlayer;
+- (void) fetchQuestsForPlayer;
+- (void) fetchTabsForPlayer;
+- (void) fetchOptionsForPlayerForDialog:(long)dialog_id script:(long)dialog_script_id; //doesn't need to be called during game load
 
-//Fetch Game Data (ONLY CALLED ONCE PER GAME!!)
-- (void) fetchAllGameLists;
-- (void) fetchGameMediaList;
-- (void) fetchTabBarItems;
-- (void) fetchGameOverlayList;
-- (void) fetchGameNpcList;
-- (void) fetchGameItemList;
-- (void) fetchGameNodeList;
-- (void) fetchGameWebPageList;
-- (void) fetchGamePanoramicList;
-- (void) fetchGameNoteTags;
+- (void) setQtyForInstanceId:(long)instance_id qty:(long)qty;
+- (void) setPlayerSceneId:(long)scene_id;
+- (void) dropItem:(long)item_id qty:(long)qty;
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr; //actually does full media upload
+- (void) updateNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
+- (void) deleteNoteId:(long)note_id;
+- (void) createNoteComment:(NoteComment *)n;
+- (void) updateNoteComment:(NoteComment *)n;
+- (void) deleteNoteCommentId:(long)note_comment_id;
 
-- (void) fetchNoteListPage:(int)page;
-- (void) fetchNoteWithId:(int)noteId;
+- (void) logPlayerEnteredGame;
+- (void) logPlayerResetGame:(long)game_id;
+- (void) logPlayerMoved;
+- (void) logPlayerViewedTabId:(long)tab_id;
+- (void) logPlayerViewedPlaqueId:(long)plaque_id;
+- (void) logPlayerViewedItemId:(long)item_id;
+- (void) logPlayerViewedDialogId:(long)dialog_id;
+- (void) logPlayerViewedDialogScriptId:(long)dialog_script_id;
+- (void) logPlayerViewedWebPageId:(long)web_page_id;
+- (void) logPlayerViewedNoteId:(long)note_id;
+- (void) logPlayerViewedSceneId:(long)scene_id;
+- (void) logPlayerViewedInstanceId:(long)instance_id;
+- (void) logPlayerTriggeredTriggerId:(long)trigger_id;
+- (void) logPlayerReceivedItemId:(long)item_id qty:(long)qty;
+- (void) logPlayerLostItemId:(long)item_id qty:(long)qty;
+- (void) logPlayerSetSceneId:(long)scene_id;
 
-//Should only be called in the case of a media appearing in the game that didn't exist when the game was initially launched (eg- someone took a picture)
-- (void) fetchMediaMeta:(Media *)m;
-- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d;
-
-//Note Stuff
-- (int) createNote;
-- (int) createNoteStartIncomplete;
-- (void) setNoteCompleteForNoteId:(int)noteId;
-- (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList;
-- (void) deleteNoteWithNoteId:(int)noteId;
-- (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate;
-- (void) addContentToNoteWithText:(NSString *)text type:(NSString *)type mediaId:(int)mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
-- (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int)noteId type:(NSString *)type;
-- (void) deleteNoteContentWithContentId:(int)contentId;
-- (void) deleteNoteLocationWithNoteId:(int)noteId;
-- (void) updateNoteContent:(int)contentId text:(NSString *)text;
-- (void) updateNoteContent:(int)contentId title:(NSString *)title;
-- (void) addTagToNote:(int)noteId tagName:(NSString *)tag;
-- (void) deleteTagFromNote:(int)noteId tagId:(int)tagId;
-- (int) addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title;
-- (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh;
-- (void) likeNote:(int)noteId;
-- (void) unLikeNote:(int)noteId;
-
-//Tell server of state
-- (void) updateServerWithPlayerLocation;
-- (void) updateServerLocationViewed:(int)locationId;
-- (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId;
-- (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId;
-- (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId;
-- (void) updateServerPanoramicViewed:(int)panoramicId fromLocation:(int)locationId;
-- (void) updateServerNpcViewed:(int)npcId fromLocation:(int)locationId;
-- (void) updateServerMapViewed;
-- (void) updateServerQuestsViewed;
-- (void) updateServerInventoryViewed;
-- (void) updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty;
-- (void) updateServerDropItemHere:(int)itemId qty:(int)qty;
-- (void) updateServerDestroyItem:(int)itemId qty:(int)qty;
-- (void) updateServerInventoryItem:(int)itemId qty:(int)qty;
-- (void) updateServerAddInventoryItem:(int)itemId addQty:(int)qty;
-- (void) updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty;
-
-//Parse individual pieces of server response
-- (Tab *) parseTabFromDictionary:(NSDictionary *)tabDictionary;
-
-- (void) updateServerGameSelected;
-- (void) fetchQRCode:(NSString*)QRcodeId;
-- (void) saveGameComment:(NSString*)comment game:(int)gameId starRating:(int)rating;
-- (void) startOverGame:(int)gameId;
+//for mid-game fetches. these are failsafes, and oughtn't occur. 
+//if you are editing your game mid-play, expect undefined behavior
+- (void) fetchUserById:(long)user_id;
+- (void) fetchSceneById:(long)scene_id;
+- (void) fetchMediaById:(long)media_id;
+- (void) fetchPlaqueById:(long)plaque_id;
+- (void) fetchItemById:(long)item_id;
+- (void) fetchDialogById:(long)dialog_id;
+- (void) fetchDialogCharacterById:(long)character_id;
+- (void) fetchDialogScriptById:(long)script_id;
+- (void) fetchDialogOptionById:(long)option_id;
+- (void) fetchWebPageById:(long)web_page_id;
+- (void) fetchNoteById:(long)note_id;
+- (void) fetchTagById:(long)tag_id;
+- (void) fetchEventById:(long)event_id;
+- (void) fetchQuestById:(long)quest_id;
+- (void) fetchInstanceById:(long)instance_id;
+- (void) fetchTriggerById:(long)trigger_id;
+- (void) fetchOverlayById:(long)overlay_id;
+- (void) fetchTabById:(long)tab_id;
 
 @end
-

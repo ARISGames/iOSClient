@@ -6,27 +6,16 @@
 //
 //
 
-#import <UIKit/UIKit.h>
-#import "GameObjectViewController.h"
+#import "ARISViewController.h"
+#import "InstantiableViewControllerProtocol.h"
+#import "GamePlayTabBarViewControllerProtocol.h"
 
-@class Item;
-@protocol StateControllerProtocol;
-
-@protocol ItemViewControllerSource
-- (BOOL) supportsDropping;
-- (BOOL) item:(Item *)i droppedQty:(int)q;
-- (BOOL) supportsDestroying;
-- (BOOL) item:(Item *)i destroyedQty:(int)q;
-- (BOOL) supportsPickingUp;
-- (BOOL) item:(Item *)i pickedUpQty:(int)q;
+@protocol ItemViewControllerDelegate <InstantiableViewControllerDelegate, GamePlayTabBarViewControllerDelegate>
 @end
 
-@interface ItemViewController : GameObjectViewController
-{
-  Item *item;
-}
-@property (nonatomic, strong) Item *item;
-
-- (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id<ItemViewControllerSource>)s;
-
+@class Instance;
+@class Tab;
+@interface ItemViewController : ARISViewController <InstantiableViewControllerProtocol, GamePlayTabBarViewControllerProtocol>
+- (id) initWithInstance:(Instance *)i delegate:(id<ItemViewControllerDelegate>)d;
+- (id) initWithTab:(Tab *)t delegate:(id<ItemViewControllerDelegate>)d;
 @end

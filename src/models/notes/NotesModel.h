@@ -8,19 +8,38 @@
 
 #import <Foundation/Foundation.h>
 #import "Note.h"
+#import "NoteComment.h"
+
+@class Tag;
+@class Media;
+@class Trigger;
 
 @interface NotesModel : NSObject
+{
+}
 
-- (void) clearData;
+- (Note *) noteForId:(long)note_id;
+- (void) requestNotes;
 
-- (void) getNextNotes;
-- (void) getDetailsForNote:(Note *)n;
+- (NoteComment *) noteCommentForId:(long)note_comment_id;
+- (void) requestNoteComments;
 
-- (Note *) noteForId:(int)noteId;
+- (void) clearGameData;
+- (void) invalidateCaches;
+
+- (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
+- (void) saveNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
+- (void) deleteNoteId:(long)note_id;
+
+- (void) createNoteComment:(NoteComment *)n;
+- (void) saveNoteComment:(NoteComment *)n;
+- (void) deleteNoteCommentId:(long)note_comment_id;
+
+- (NSArray *) notes;
 - (NSArray *) playerNotes;
 - (NSArray *) listNotes;
-- (NSArray *) mapNotes;
-
-- (int) listComplete;
+- (NSArray *) notesMatchingTag:(Tag *)tag;
+- (NSArray *) noteComments;
+- (NSArray *) noteCommentsForNoteId:(long)note_id;
 
 @end

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "Media.h"
+#import "ARISDelegateHandle.h"
 
 @protocol ARISMediaLoaderDelegate
 - (void) mediaLoaded:(Media *)m;
@@ -16,14 +17,15 @@
 
 @interface MediaResult : NSObject
 {
-    Media *media; 
-   	NSMutableData *data; 
-    NSURL *url;
-    NSURLConnection *connection; 
-    
-    NSDate *start;
-    NSTimeInterval time;
-    id <ARISMediaLoaderDelegate> delegate; //IS retained!!
+  Media *media; 
+  NSMutableData *data; 
+  NSURL *url;
+  NSURLConnection *connection; 
+
+  NSDate *start;
+  NSTimeInterval time;
+
+  NSArray *delegateHandles;
 };
 @property (nonatomic, strong) Media *media;
 @property (nonatomic, strong) NSMutableData *data;
@@ -31,7 +33,7 @@
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSDate *start;
 @property (nonatomic, assign) NSTimeInterval time;
-@property (nonatomic, strong) id<ARISMediaLoaderDelegate> delegate;
+@property (nonatomic, strong) NSArray *delegateHandles;
 
 - (void) cancelConnection;
 
@@ -39,6 +41,7 @@
 
 @interface ARISMediaLoader : NSObject
 
-- (void) loadMedia:(Media *)m delegate:(id<ARISMediaLoaderDelegate>)d;
+//Un-enforcable, but supplied delegate handle's delegate must be of type id<ARISMediaLoaderDelegate>
+- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh; 
 
 @end

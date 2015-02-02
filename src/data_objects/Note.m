@@ -7,139 +7,63 @@
 //
 
 #import "Note.h"
-#import "Player.h"
-#import "Location.h"
-#import "Tag.h"
-#import "NoteContent.h"
 #import "NSDictionary+ValidParsers.h"
 
 @implementation Note
 
-@synthesize noteId;
-@synthesize owner;
+@synthesize note_id;
+@synthesize user_id;
 @synthesize name;
-@synthesize ndescription;
+@synthesize desc;
+@synthesize media_id;
 @synthesize created;
-@synthesize location;
-@synthesize tags;
-@synthesize contents;
-@synthesize comments;
-@synthesize publicToList;
-@synthesize publicToMap;
 
-- (Note *) init
+- (id) init
 {
     if (self = [super init])
     {
-        self.noteId = 0;
-        self.owner = [[Player alloc] init]; 
-        self.name = @"";
-        self.ndescription = @"";
-        self.created = [[NSDate alloc] init]; 
-        self.location = [[Location alloc] init];
-        self.tags = [[NSMutableArray alloc] init];
-        self.contents = [[NSMutableArray alloc] init];
-        self.comments = [[NSMutableArray alloc] init];
-        self.publicToMap = NO;
-        self.publicToList = NO;
-    }
-    return self;	
-}
-
-- (Note *) initWithDictionary:(NSDictionary *)dict
-{
-    if(self = [super init])
-    {
-        self.noteId        = [dict validIntForKey:@"note_id"]; 
-        
-        NSDictionary *ownerDict = [dict validObjectForKey:@"owner"]; 
-        if(ownerDict) self.owner = [[Player alloc] initWithDictionary:ownerDict];
-       
-        self.name          = [dict validStringForKey:@"title"];
-        self.ndescription  = [dict validStringForKey:@"description"];
-        
-        NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        self.created = [df dateFromString:[dict validStringForKey:@"created"]];
-               
-        NSDictionary *locationDict = [dict validObjectForKey:@"location"]; 
-        if(locationDict) self.location = [[Location alloc] initWithDictionary:locationDict];  
-                      
-        NSArray *tagDicts = [dict validObjectForKey:@"tags"];
-        self.tags = [[NSMutableArray alloc] initWithCapacity:5];
-        for(NSDictionary *tagDict in tagDicts)
-            [self.tags addObject:[[Tag alloc] initWithDictionary:tagDict]]; 
-        
-        NSArray *contentDicts = [dict validObjectForKey:@"contents"];
-        self.contents = [[NSMutableArray alloc] initWithCapacity:5];
-        for(NSDictionary *contentDict in contentDicts)
-        {
-            NoteContent *nc = [[NoteContent alloc] initWithDictionary:contentDict];
-            if([nc.type isEqualToString:@"TEXT"]) self.ndescription = [NSString stringWithFormat:@"%@ %@",self.ndescription,nc.text];
-            else [self.contents addObject:nc];
-        }
-        
-        NSArray *commentDicts = [dict validObjectForKey:@"comments"];
-        self.comments = [[NSMutableArray alloc] initWithCapacity:5];
-        for(NSDictionary *commentDict in commentDicts)
-            [self.comments addObject:[[Note alloc] initWithDictionary:commentDict]];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"noteId" ascending:NO]];
-        self.comments = [[self.comments sortedArrayUsingDescriptors:sortDescriptors] mutableCopy]; 
-               
-        self.publicToList    = [dict validBoolForKey:@"public_to_list"];
-        self.publicToMap     = [dict validBoolForKey:@"public_to_map"];   
-        
+      self.note_id = 0;
+      self.user_id = 0;
+      self.name = @"";
+      self.desc = @"";
+      self.media_id = 0;
+      self.created = [[NSDate alloc] init];
     }
     return self;
 }
 
-- (GameObjectType) type
+- (id) initWithDictionary:(NSDictionary *)dict
 {
-    return GameObjectNote;
+    if(self = [super init])
+    {
+        self.note_id  = [dict validIntForKey:@"note_id"];
+        self.user_id  = [dict validIntForKey:@"user_id"];
+        self.name     = [dict validObjectForKey:@"name"];
+        self.desc     = [dict validObjectForKey:@"description"];
+        self.media_id = [dict validIntForKey:@"media_id"];
+        self.created  = [dict validDateForKey:@"created"];
+    }
+    return self;
 }
 
-- (int) iconMediaId
+- (void) mergeDataFromNote:(Note *)n //allows for notes to be updated easily- all things with this note pointer now have access to latest note data
+{
+  self.note_id  = n.note_id;
+  self.user_id  = n.user_id;
+  self.name     = n.name;
+  self.desc     = n.desc;
+  self.media_id = n.media_id;
+  self.created  = n.created;
+}
+
+- (long) icon_media_id
 {
     return 71;
 }
 
-- (GameObjectViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
+- (NSString *) description
 {
-    return nil;
-}
-
-/*
-- (NoteDetailsViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
-{
-    return [[NoteDetailsViewController alloc] initWithNote:self delegate:d];
-}
- */
-
--(Note *)copy
-{
-    Note *c = [[Note alloc] init];
-    //TODO
-    return c;
-}
-
-- (int)compareTo:(Note *)ob
-{
-	return (ob.noteId == self.noteId);
-}
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"Note- Id:%d\tName:%@\tOwner:%@\t",self.noteId,self.name,self.owner.username];
-}
-
-- (BOOL) isUploading
-{
-    for (int i = 0; i < [self.contents count]; i++)
-    {
-        if([[(NoteContent *)[self.contents objectAtIndex:i] type] isEqualToString:@"UPLOAD"])
-            return  YES;
-    }
-    return  NO;
+    return [NSString stringWithFormat:@"Note- Id:%ld\tName:%@\tOwner:%ld\t",self.note_id,self.name,self.user_id];
 }
 
 @end

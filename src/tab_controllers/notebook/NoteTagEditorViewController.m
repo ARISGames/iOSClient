@@ -7,32 +7,42 @@
 //
 
 #import "NoteTagEditorViewController.h"
-#import "UIColor+ARISColors.h"
-#import "Tag.h"
+#import "NoteTagPredictionViewController.h"
+#import "NoteTagView.h"
+#import "AppModel.h"
+#import "NotesModel.h"
+#import "Game.h"
 
-@interface NoteTagEditorViewController ()
+@interface NoteTagEditorViewController() <UITextFieldDelegate, NoteTagViewDelegate, NoteTagPredictionViewControllerDelegate>
 {
-    NSArray *tags;
-    
-    UIScrollView *scrollView;
-    UILabel *plus;
-    UIImageView *grad;
-    
+    Tag *tag;
+
+    UIScrollView *existingTagsScrollView;
+    UIImageView *plus;
+    UIImageView *ex;
+
+    UITextField *tagInputField;
+    NoteTagPredictionViewController *tagPredictionViewController;
+
+    long expandHeight;
     BOOL editable;
-    
+    BOOL editing;
+
     id<NoteTagEditorViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation NoteTagEditorViewController
 
-- (id) initWithTags:(NSArray *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d
+- (id) initWithTag:(Tag *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d
 {
     if(self = [super init])
     {
-        tags = t;
+        tag = t;
         editable = e;
         delegate = d;
+        expandHeight = 100;
+        editing = NO;
     }
     return self;
 }
@@ -40,82 +50,176 @@
 - (void) loadView
 {
     [super loadView];
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
-    
-    int width = [@" + " sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
-    
-    //make "plus" in similar way to tags
-    plus = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-25,5,width,20)];
-    plus.font = [UIFont fontWithName:@"HelveticaNeue-Light"  size:18];
-    plus.textColor = [UIColor whiteColor];
-    plus.backgroundColor = [UIColor ARISColorLightBlue];
-    plus.text = @" + ";
-    plus.layer.cornerRadius = 8;
-    plus.layer.masksToBounds = YES;
+    existingTagsScrollView  = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width-30,30)];
+
+    plus = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"plus.png"]];
+    plus.frame = CGRectMake(self.view.frame.size.width-35,10,15,15);
+    plus.userInteractionEnabled = YES;
     [plus addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTagButtonTouched)]];
-    
-    grad = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"left_white_gradient"]];
-    grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30);
-    
-    [self refreshViewFromTags];  
-    [self.view addSubview:scrollView]; 
-    if(editable) [self.view addSubview:plus]; 
-    [self.view addSubview:grad]; 
+
+    ex = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"delete.png"]];
+    ex.frame = CGRectMake(self.view.frame.size.width-35,10,15,15);
+    ex.userInteractionEnabled = YES;
+    [ex addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissEditButtonTouched)]];
+
+    tagInputField = [[UITextField alloc] init];
+    tagInputField.delegate = self;
+    tagInputField.font = [ARISTemplate ARISTitleFont];
+    tagInputField.placeholder = NSLocalizedString(@"NoteTagChooseLabelKey", @"");
+    tagInputField.returnKeyType = UIReturnKeyDone;
+
+    tagPredictionViewController = [[NoteTagPredictionViewController alloc] initWithTags:_MODEL_TAGS_.tags delegate:self];
+
+    [self stopEditing];
 }
 
-- (void) viewDidLayoutSubviews
+- (void) viewWillLayoutSubviews
 {
-    plus.frame = CGRectMake(self.view.frame.size.width-25, 5, plus.frame.size.width, plus.frame.size.height); 
-    scrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,self.view.frame.size.height); 
-    grad.frame = CGRectMake(self.view.frame.size.width-55,0,30,30); 
+    plus.frame = CGRectMake(self.view.frame.size.width-35, 10, plus.frame.size.width, plus.frame.size.height);
+    ex.frame = CGRectMake(self.view.frame.size.width-35, 10, ex.frame.size.width, ex.frame.size.height);
+    existingTagsScrollView.frame = CGRectMake(0,0,self.view.frame.size.width-30,30);
+    tagInputField.frame = CGRectMake(10, 2, self.view.frame.size.width-20,30);
+    tagPredictionViewController.view.frame = CGRectMake(0,30,self.view.frame.size.width,expandHeight);
 }
 
-- (void) setTags:(NSArray *)t
+- (void) setExpandHeight:(long)h
 {
-    tags = t;
-    [self refreshViewFromTags];
+    expandHeight = h-30; //(subtract 30 for text field)
 }
 
-- (UIView *) tagViewForTag:(Tag *)t
+- (void) setTag:(Tag *)t
 {
-    int width;
-    if(editable) width = [[NSString stringWithFormat:@" %@ x ",t.tagName] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
-    else         width = [[NSString stringWithFormat:@" %@ ",  t.tagName] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]].width;
-    UILabel *tagView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,width,20)];
-    tagView.font = [UIFont fontWithName:@"HelveticaNeue-Light"  size:18];
-    tagView.textColor = [UIColor whiteColor];
-    tagView.backgroundColor = [UIColor ARISColorLightBlue];
-    if(editable) tagView.text = [NSString stringWithFormat:@" %@ x ",t.tagName];
-    else         tagView.text = [NSString stringWithFormat:@" %@ ",t.tagName]; 
-    tagView.layer.cornerRadius = 8;
-    tagView.layer.masksToBounds = YES;
-    return tagView;
+    tag = t;
+    [self refreshView];
 }
 
-- (void) refreshViewFromTags
+- (void) refreshView
 {
-    while([[scrollView subviews] count] != 0) [[[scrollView subviews] objectAtIndex:0] removeFromSuperview];
-    
+    //remove subviews
+    while([self.view subviews].count != 0) [[[self.view subviews] objectAtIndex:0] removeFromSuperview];
+    while([existingTagsScrollView subviews].count != 0) [[[existingTagsScrollView subviews] objectAtIndex:0] removeFromSuperview];
+
     UIView *tv;
-    int x = 10;
-    for(int i = 0; i < [tags count]; i++)
+    long x = 10;
+    if(tag)
     {
-        tv = [self tagViewForTag:[tags objectAtIndex:i]];
+        tv = [[NoteTagView alloc] initWithNoteTag:tag editable:editable delegate:self];
         tv.frame = CGRectMake(x,5,tv.frame.size.width,tv.frame.size.height);
         x += tv.frame.size.width+10;
-        [scrollView addSubview:tv];
+        [existingTagsScrollView addSubview:tv];
     }
-    scrollView.contentSize = CGSizeMake(x,30);
+    existingTagsScrollView.contentSize = CGSizeMake(x+10,30);
+
+    if(editable && (editing || !tag)) [self.view addSubview:tagInputField];
+    else                              [self.view addSubview:existingTagsScrollView];
+    if(editable && !editing && !tag)  [self.view addSubview:plus];
+    if(editable && !editing && tag)   [self.view addSubview:ex];
+    if(editing)
+    {
+        [tagPredictionViewController setTags:_MODEL_TAGS_.tags];
+        [self.view addSubview:tagPredictionViewController.view];
+        [tagInputField becomeFirstResponder];
+        [self.view addSubview:ex];
+    }
 }
 
 - (void) addTagButtonTouched
 {
-    
+    [self beginEditing];
 }
 
-- (void) deleteTagButtonTouched:(Tag *)t
+- (void) dismissEditButtonTouched
 {
-    
+    if(tag) { [delegate noteTagEditorDeletedTag:tag]; [self beginEditing]; }
+    else    { [self stopEditing]; [self existingTagChosen:nil]; }
+}
+
+- (void) beginEditing
+{
+    editing = YES;
+    [tagPredictionViewController queryString:@""];
+
+    if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorWillBeginEditing)])
+       [delegate noteTagEditorWillBeginEditing];
+
+    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,expandHeight+30);
+    [self refreshView];
+}
+
+- (void) stopEditing
+{
+    editing = NO;
+    [tagInputField resignFirstResponder];
+    tagInputField.text = @"";
+
+    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width,30);
+    [self refreshView];
+}
+
+// totally convoluted function- essentially "textFieldDidChange"
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    //if backspace with already highlighted text... I know... weird
+    if(range.location != 0 && range.length > 0 && string.length == 0) { range.location--; range.length++; }
+
+    NSString *updatedInput = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    NSArray *matched = [tagPredictionViewController queryString:updatedInput];
+
+    Tag *nt;
+    //If there's only one matched tag...
+    if(matched.count == 1 && (nt = [matched objectAtIndex:0]))
+    {
+        //If curent input matches said tag FROM BEGINNING of string...
+        if([nt.tag rangeOfString:[NSString stringWithFormat:@"^%@.*",updatedInput] options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
+        {
+            //Set input to prediction with deltas highlighted for quick deletion
+            NSString *hijackedInput = nt.tag;
+            tagInputField.text = hijackedInput;
+            UITextPosition *start = [tagInputField positionFromPosition:tagInputField.beginningOfDocument offset:updatedInput.length];
+            UITextPosition *end = [tagInputField positionFromPosition:start offset:hijackedInput.length-updatedInput.length];
+            [tagInputField setSelectedTextRange:[tagInputField textRangeFromPosition:start toPosition:end]];
+            return NO;
+        }
+    }
+
+    return YES;
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    if(!editing) [self beginEditing];
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    NSArray *allValidTags = _MODEL_TAGS_.tags;
+    BOOL tagExists = NO;
+    for(long i = 0; i < allValidTags.count; i++)
+    {
+        if([[((Tag *)[allValidTags objectAtIndex:i]).tag lowercaseString] isEqualToString:[tagInputField.text lowercaseString]])
+        {
+            tagExists = YES;
+            [delegate noteTagEditorAddedTag:[allValidTags objectAtIndex:i]];
+            break;
+        }
+    }
+    if(!tagExists)
+        [delegate noteTagEditorCancelled];
+    [self stopEditing];
+    return YES;
+}
+
+- (void) noteTagDeleteSelected:(Tag *)nt
+{
+    [delegate noteTagEditorDeletedTag:nt];
+    [self refreshView];
+}
+
+- (void) existingTagChosen:(Tag *)nt
+{
+    [self stopEditing];
+    if((NSObject *)delegate && [((NSObject *)delegate) respondsToSelector:@selector(noteTagEditorAddedTag:)])
+      [delegate noteTagEditorAddedTag:nt];
 }
 
 @end

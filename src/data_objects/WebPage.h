@@ -7,19 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObjectProtocol.h"
+#import "InstantiableProtocol.h"
 
-@interface WebPage : NSObject <GameObjectProtocol>
+@interface WebPage : NSObject <InstantiableProtocol>
 {
-    int webPageId;
+    long web_page_id;
 	NSString *name;
 	NSString *url;    
-	int iconMediaId; 
+	long icon_media_id; 
 }
 
-@property(readwrite, assign) int webPageId;
-@property(nonatomic, strong) NSString *name;
-@property(nonatomic, strong) NSString *url;
-@property(readwrite, assign) int iconMediaId;
+@property (nonatomic, assign) long web_page_id;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *url;
+@property (nonatomic, assign) long icon_media_id;
+
+- (id) initWithDictionary:(NSDictionary *)dict;
 
 @end
