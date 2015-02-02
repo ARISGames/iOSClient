@@ -17,6 +17,6 @@
 @interface PopOverViewController : ARISViewController
 
 - (id) initWithDelegate:(id <PopOverViewDelegate>)d;
-- (void) setHeader:(NSString *)h prompt:(NSString *)p icon_media_id:(int)m;
+- (void) setHeader:(NSString *)h prompt:(NSString *)p icon_media_id:(long)m;
 
 @end

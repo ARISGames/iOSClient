@@ -14,7 +14,7 @@
 
 @interface ARISDefaults : NSObject
 {
-    int fallbackGameId;
+    long fallbackGameId;
     User *fallbackUser;
     NSString *version;
     NSString *serverURL;  
@@ -22,7 +22,7 @@
     BOOL showPlayerOnMap;  
 }
 
-@property (nonatomic, assign) int fallbackGameId;
+@property (nonatomic, assign) long fallbackGameId;
 @property (nonatomic, strong) User *fallbackUser;
 @property (nonatomic, strong) NSString *version;
 @property (nonatomic, strong) NSString *serverURL;  

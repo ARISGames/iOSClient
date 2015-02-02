@@ -11,20 +11,20 @@
 
 @interface User : NSObject 
 {
-    int user_id; 
+    long user_id; 
     NSString *user_name;
     NSString *display_name;
     NSString* email;
-    int media_id;
+    long media_id;
     NSString *read_write_key;
     CLLocation *location;
 }
 
-@property (nonatomic, assign) int user_id;
+@property (nonatomic, assign) long user_id;
 @property (nonatomic, strong) NSString *user_name;
 @property (nonatomic, strong) NSString *display_name;
 @property (nonatomic, strong) NSString *email;
-@property (nonatomic, assign) int media_id;
+@property (nonatomic, assign) long media_id;
 @property (nonatomic, strong) NSString *read_write_key;
 @property (nonatomic, strong) CLLocation *location;
 

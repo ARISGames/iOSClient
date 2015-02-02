@@ -12,9 +12,9 @@
 @interface EventsModel : NSObject
 
 - (NSArray *) events;
-- (Event *) eventForId:(int)event_id;
-- (NSArray *) eventsForEventPackageId:(int)event_package_id;
-- (void) runEventPackageId:(int)event_package_id;
+- (Event *) eventForId:(long)event_id;
+- (NSArray *) eventsForEventPackageId:(long)event_package_id;
+- (void) runEventPackageId:(long)event_package_id;
 - (void) requestEvents;
 - (void) clearGameData;
 

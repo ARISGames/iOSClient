@@ -125,9 +125,9 @@
     NSString *url = [[request URL] absoluteString];
     
     if([url rangeOfString:@"?"].location == NSNotFound)
-        url = [url stringByAppendingString:[NSString stringWithFormat:@"?game_id=%d&user_id=%d&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
+        url = [url stringByAppendingString:[NSString stringWithFormat:@"?game_id=%ld&user_id=%ld&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
     else
-        url = [url stringByAppendingString:[NSString stringWithFormat:@"&game_id=%d&user_id=%d&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
+        url = [url stringByAppendingString:[NSString stringWithFormat:@"&game_id=%ld&user_id=%ld&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
     
     [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]]; 
 }
@@ -201,7 +201,7 @@
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:token]];
         else if([type isEqualToString:@"scanner"])
         {
-            [_MODEL_TABS_ tabForType:@"SCANNER"]; //set prompt
+            [_MODEL_TABS_ tabForType:@"SCANNER"].info = token;
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"SCANNER"]];
         }
         else if([type isEqualToString:@"plaque"])
@@ -225,7 +225,7 @@
         Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
-                                "\"user_id\":%d," 
+                                "\"user_id\":%ld," 
                                 "\"user_name\":\"%@\","
                                 "\"display_name\":\"%@\"," 
                                 "\"photoURL\":\"%@\"" 
@@ -240,30 +240,30 @@
     {
         if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"get"])
         {
-            int item_id = [[components objectAtIndex:2] intValue];
-            int qty = [_MODEL_ITEMS_ qtyOwnedForItem:item_id];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,qty]];
+            long item_id = [[components objectAtIndex:2] intValue];
+            long qty = [_MODEL_ITEMS_ qtyOwnedForItem:item_id];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,qty]];
         }
         if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
         {
-            int item_id = [[components objectAtIndex:2] intValue];
-            int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [_MODEL_ITEMS_ setItemsForPlayer:item_id qtyToSet:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
+            long item_id = [[components objectAtIndex:2] intValue];
+            long qty = [[components objectAtIndex:3] intValue];
+            long newQty = [_MODEL_ITEMS_ setItemsForPlayer:item_id qtyToSet:qty];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
         }
         if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
         {
-            int item_id = [[components objectAtIndex:2] intValue];
-            int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [_MODEL_ITEMS_ giveItemToPlayer:item_id qtyToAdd:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
+            long item_id = [[components objectAtIndex:2] intValue];
+            long qty = [[components objectAtIndex:3] intValue];
+            long newQty = [_MODEL_ITEMS_ giveItemToPlayer:item_id qtyToAdd:qty];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
         }
         if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
         {
-            int item_id = [[components objectAtIndex:2] intValue];
-            int qty = [[components objectAtIndex:3] intValue];
-            int newQty = [_MODEL_ITEMS_ takeItemFromPlayer:item_id qtyToRemove:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",item_id,newQty]];
+            long item_id = [[components objectAtIndex:2] intValue];
+            long qty = [[components objectAtIndex:3] intValue];
+            long newQty = [_MODEL_ITEMS_ takeItemFromPlayer:item_id qtyToRemove:qty];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
         }
     }
     else if([mainCommand isEqualToString:@"media"])
@@ -286,35 +286,35 @@
     [webView stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
 }
 
-- (void) loadAudioFromMediaId:(int)media_id
+- (void) loadAudioFromMediaId:(long)media_id
 {
     Media* media = [_MODEL_MEDIA_ mediaForId:media_id];
     AVPlayer *player = [AVPlayer playerWithURL:media.localURL];
-    [audioPlayers setObject:player forKey:[NSNumber numberWithInt:media_id]];
+    [audioPlayers setObject:player forKey:[NSNumber numberWithLong:media_id]];
 }
 
-- (void) playAudioFromMediaId:(int)media_id
+- (void) playAudioFromMediaId:(long)media_id
 {
-    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:media_id]];
+    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithLong:media_id]];
     CMTime zero = CMTimeMakeWithSeconds(0, 600);
     [player seekToTime:zero];
     if(!player)
     {
         [self loadAudioFromMediaId:media_id];
-        player = [audioPlayers objectForKey:[NSNumber numberWithInt:media_id]];
+        player = [audioPlayers objectForKey:[NSNumber numberWithLong:media_id]];
     }
     [player play];
 }
 
-- (void) stopAudioFromMediaId:(int)media_id
+- (void) stopAudioFromMediaId:(long)media_id
 {
-    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:media_id]];
+    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithLong:media_id]];
     [player pause];
 }
 
-- (void) setMediaId:(int)media_id volumeTo:(float)volume
+- (void) setMediaId:(long)media_id volumeTo:(float)volume
 {
-    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:media_id]];
+    AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithLong:media_id]];
     
     NSArray *audioTracks = [player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
     NSMutableArray *allAudioParams = [NSMutableArray array];

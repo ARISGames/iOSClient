@@ -67,7 +67,7 @@
     UIColor *fc = [UIColor whiteColor];
     UIColor *sc = [UIColor blackColor]; 
     UIColor *tc = [UIColor blackColor]; 
-    int sw = 1;
+    long sw = 1;
     
     meter = [[AudioMeter alloc] initWithDelegate:self];
     [self.view addSubview:meter];
@@ -129,8 +129,8 @@
     
     meter.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-64);
     
-    int buttonDiameter = 50; 
-    int buttonPadding = (self.view.frame.size.width-buttonDiameter)/2; 
+    long buttonDiameter = 50; 
+    long buttonPadding = (self.view.frame.size.width-buttonDiameter)/2; 
     recordButton.frame  = CGRectMake(buttonPadding, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter); 
     finishButton.frame  = CGRectMake(buttonPadding, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);  
     stopButton.frame    = CGRectMake(buttonPadding, self.view.bounds.size.height-60, buttonDiameter, buttonDiameter);    
@@ -229,10 +229,10 @@
 {
     [session setCategory:AVAudioSessionCategoryRecord error:nil];
     NSDictionary *recordSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                    [NSNumber numberWithInt:kAudioFormatMPEG4AAC], AVFormatIDKey,
-                                    [NSNumber numberWithInt:44100.0],              AVSampleRateKey,
-                                    [NSNumber numberWithInt:1],                    AVNumberOfChannelsKey,
-                                    [NSNumber numberWithInt:AVAudioQualityMin],    AVSampleRateConverterAudioQualityKey,
+                                    [NSNumber numberWithLong:kAudioFormatMPEG4AAC], AVFormatIDKey,
+                                    [NSNumber numberWithLong:44100.0],              AVSampleRateKey,
+                                    [NSNumber numberWithLong:1],                    AVNumberOfChannelsKey,
+                                    [NSNumber numberWithLong:AVAudioQualityMin],    AVSampleRateConverterAudioQualityKey,
                                     nil];
     recorder = [[AVAudioRecorder alloc] initWithURL:audioFileURL settings:recordSettings error:nil];
     recorder.delegate = self;

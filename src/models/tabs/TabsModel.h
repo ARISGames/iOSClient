@@ -11,7 +11,7 @@
 
 @interface TabsModel : NSObject
 
-- (Tab *) tabForId:(int)tab_id;
+- (Tab *) tabForId:(long)tab_id;
 - (Tab *) tabForType:(NSString *)t;
 - (NSArray *) playerTabs;
 - (void) requestTabs;

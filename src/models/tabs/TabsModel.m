@@ -55,10 +55,10 @@
 {
     Tab *newTab;
     NSNumber *newTabId;
-    for(int i = 0; i < newTabs.count; i++)
+    for(long i = 0; i < newTabs.count; i++)
     {
       newTab = [newTabs objectAtIndex:i];
-      newTabId = [NSNumber numberWithInt:newTab.tab_id];
+      newTabId = [NSNumber numberWithLong:newTab.tab_id];
       if(![tabs objectForKey:newTabId]) [tabs setObject:newTab forKey:newTabId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_TABS_AVAILABLE",nil,nil);
@@ -73,7 +73,7 @@
 {
     NSMutableArray *conformingTabs = [[NSMutableArray alloc] init];
     Tab *t;
-    for(int i = 0; i < newTabs.count; i++)
+    for(long i = 0; i < newTabs.count; i++)
     {
         if((t = [self tabForId:((Tab *)newTabs[i]).tab_id]))
             [conformingTabs addObject:t];
@@ -108,11 +108,11 @@
 
     //find added
     BOOL new;
-    for(int i = 0; i < newTabs.count; i++)
+    for(long i = 0; i < newTabs.count; i++)
     {
         new = YES;
         newTab = newTabs[i];
-        for(int j = 0; j < oldTabs.count; j++)
+        for(long j = 0; j < oldTabs.count; j++)
         {
             oldTab = oldTabs[j];
             if(newTab.tab_id == oldTab.tab_id) new = NO;
@@ -122,11 +122,11 @@
 
     //find removed
     BOOL removed;
-    for(int i = 0; i < oldTabs.count; i++)
+    for(long i = 0; i < oldTabs.count; i++)
     {
         removed = YES;
         oldTab = oldTabs[i];
-        for(int j = 0; j < newTabs.count; j++)
+        for(long j = 0; j < newTabs.count; j++)
         {
             newTab = newTabs[j];
             if(newTab.tab_id == oldTab.tab_id) removed = NO;
@@ -140,7 +140,7 @@
 - (Tab *) tabForType:(NSString *)t
 {
     Tab *tab;
-    for(int i = 0; i < tabs.count; i++)
+    for(long i = 0; i < tabs.count; i++)
     {
         if([((Tab *)playerTabs[i]).type isEqualToString:t])
             tab = playerTabs[i];
@@ -148,10 +148,10 @@
     return tab;
 }
 
-- (Tab *) tabForId:(int)tab_id
+- (Tab *) tabForId:(long)tab_id
 {
   if(!tab_id) return [[Tab alloc] init];
-  return [tabs objectForKey:[NSNumber numberWithInt:tab_id]];
+  return [tabs objectForKey:[NSNumber numberWithLong:tab_id]];
 }
 
 - (NSArray *) playerTabs

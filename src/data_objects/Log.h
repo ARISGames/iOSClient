@@ -11,17 +11,17 @@
 
 @interface Log : NSObject 
 {
-    int log_id;
+    long log_id;
     NSString *event_type;
-    int content_id;
-    int qty;
+    long content_id;
+    long qty;
     CLLocation *location;
 }
 
-@property (nonatomic, assign) int log_id;
+@property (nonatomic, assign) long log_id;
 @property (nonatomic, strong) NSString *event_type;
-@property (nonatomic, assign) int content_id;
-@property (nonatomic, assign) int qty;
+@property (nonatomic, assign) long content_id;
+@property (nonatomic, assign) long qty;
 @property (nonatomic, strong) CLLocation *location;
 
 - (id) initWithDictionary:(NSDictionary *)dict;

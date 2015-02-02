@@ -105,11 +105,11 @@
 	return calcSize.height+30; 
 }
 
-- (void) heightCalculated:(int)h forComment:(GameComment *)gc inCell:(GameCommentCell *)gcc
+- (void) heightCalculated:(long)h forComment:(GameComment *)gc inCell:(GameCommentCell *)gcc
 {
     if(![cellSizes objectForKey:[gc description]])
     {
-        [cellSizes setValue:[NSNumber numberWithInt:h] forKey:[gc description]]; 
+        [cellSizes setValue:[NSNumber numberWithLong:h] forKey:[gc description]]; 
         [commentsTable reloadData];
     }
 }
@@ -120,7 +120,7 @@
     [self.navigationController pushViewController:gcrvc animated:YES];
 }
 
-- (void) reviewCreatedWithRating:(int)r title:(NSString *)t text:(NSString *)s
+- (void) reviewCreatedWithRating:(long)r title:(NSString *)t text:(NSString *)s
 {
     //[_SERVICES_ saveGameComment:s titled:t game:game.game_id starRating:r];
     

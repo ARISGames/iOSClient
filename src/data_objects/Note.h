@@ -11,19 +11,19 @@
 
 @interface Note : NSObject <InstantiableProtocol>
 {
-    int note_id;
-    int user_id;
+    long note_id;
+    long user_id;
     NSString *name;
     NSString *desc;
-    int media_id;
+    long media_id;
     NSDate *created;
 }
 
-@property (nonatomic, assign) int note_id;
-@property (nonatomic, assign) int user_id;
+@property (nonatomic, assign) long note_id;
+@property (nonatomic, assign) long user_id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
-@property (nonatomic, assign) int media_id;
+@property (nonatomic, assign) long media_id;
 @property (nonatomic, strong) NSDate *created;
 
 - (id) initWithDictionary:(NSDictionary *)dict;

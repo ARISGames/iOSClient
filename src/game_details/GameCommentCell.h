@@ -12,7 +12,7 @@
 @class GameCommentCell;
 
 @protocol GameCommentCellDelegate
-- (void) heightCalculated:(int)h forComment:(GameComment *)gc inCell:(GameCommentCell *)gcc;
+- (void) heightCalculated:(long)h forComment:(GameComment *)gc inCell:(GameCommentCell *)gcc;
 @end
 
 @interface GameCommentCell : UITableViewCell 

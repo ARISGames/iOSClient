@@ -51,7 +51,7 @@ NSString *const kARISServerServicePackage = @"v2";
 }
 
 - (void) setServer:(NSString *)s { server = s; }
-- (void) setAuth { auth = @{@"user_id":[NSNumber numberWithInt:_MODEL_PLAYER_.user_id],@"key":_MODEL_PLAYER_.read_write_key}; }
+- (void) setAuth { auth = @{@"user_id":[NSNumber numberWithLong:_MODEL_PLAYER_.user_id],@"key":_MODEL_PLAYER_.read_write_key}; }
 - (void) unsetAuth { auth = nil; }
 
 - (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict
@@ -159,7 +159,7 @@ NSString *const kARISServerServicePackage = @"v2";
     [urlRequest setHTTPMethod:@"POST"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [urlRequest setValue:[NSString stringWithFormat:@"%ld", [data length]] forHTTPHeaderField:@"Content-Length"];
     [urlRequest setHTTPBody:data];
 
     return urlRequest;
@@ -171,7 +171,7 @@ NSString *const kARISServerServicePackage = @"v2";
     [urlRequest setHTTPMethod:@"POST"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setValue:[NSString stringWithFormat:@"%d", [r.body length]] forHTTPHeaderField:@"Content-Length"];
+    [urlRequest setValue:[NSString stringWithFormat:@"%ld", [r.body length]] forHTTPHeaderField:@"Content-Length"];
     [urlRequest setHTTPBody:r.body];
     return urlRequest;
 }
@@ -248,11 +248,11 @@ NSString *const kARISServerServicePackage = @"v2";
         return nil;
     }
 
-    int returnCode = [[result objectForKey:@"returnCode"] intValue];
+    long returnCode = [[result objectForKey:@"returnCode"] intValue];
     if(returnCode == 0) return [result objectForKey:@"data"];
     else
     {
-        NSLog(@"JSONResult: Return code %d: %@",returnCode,[result objectForKey:@"returnCodeDescription"]);
+        NSLog(@"JSONResult: Return code %ld: %@",returnCode,[result objectForKey:@"returnCodeDescription"]);
         [_MODEL_ logOut];
         return nil;
     }

@@ -82,7 +82,7 @@
     return c;
 }
 
-- (int) icon_media_id
+- (long) icon_media_id
 {
     if(!icon_media_id) return DEFAULT_ITEM_ICON_MEDIA_ID;
     return icon_media_id;
@@ -90,7 +90,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Item- Id:%d\tName:%@\tType:%@",self.item_id,self.name,self.type];
+    return [NSString stringWithFormat:@"Item- Id:%ld\tName:%@\tType:%@",self.item_id,self.name,self.type];
 }
 
 @end

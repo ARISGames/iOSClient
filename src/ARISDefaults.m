@@ -52,7 +52,7 @@
   //Just load immutable settings from root.plist to find default defaults, and put them in easily accessible dictionary
   NSDictionary *settingsDict  = [NSDictionary dictionaryWithContentsOfFile:[[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Settings.bundle"] stringByAppendingPathComponent:@"Root.plist"]];
   NSArray *prefDictArray = settingsDict[@"PreferenceSpecifiers"];
-  for(int i = 0; i < prefDictArray.count; i++)
+  for(long i = 0; i < prefDictArray.count; i++)
   {
     if(prefDictArray[i][@"DefaultValue"]) 
         defaultDefaults[prefDictArray[i][@"Key"]] = prefDictArray[i][@"DefaultValue"];
@@ -87,7 +87,7 @@
   [defaults setBool:NO forKey:@"clearCache"];
   [defaults synchronize];
 
-  showPlayerOnMap        = [defaults boolForKey:@"showPlayerOnMap"];
+  showPlayerOnMap = [defaults boolForKey:@"showPlayerOnMap"];
 
   User *u          = [[User alloc] init];
   u.user_id        = [defaults integerForKey:@"user_id"];
@@ -96,10 +96,18 @@
   u.email          = [defaults objectForKey:@"email"];
   u.media_id       = [defaults integerForKey:@"media_id"];
   u.read_write_key = [defaults objectForKey:@"read_write_key"];
-  if(!fallbackUser && u.user_id) fallbackUser = u;
+
+  NSLog(@"Defaults loaded: user_id       = %ld",u.user_id);
+  NSLog(@"Defaults loaded: user_name     = %@",u.user_name);
+  NSLog(@"Defaults loaded: display_name  = %@",u.display_name);
+  NSLog(@"Defaults loaded: email         = %@",u.email);
+  NSLog(@"Defaults loaded: media_id      = %ld",u.media_id);
+  NSLog(@"Defaults loaded: read_write_key= %@",u.read_write_key);
+  if(u.user_id) fallbackUser = u;
+  else fallbackUser = nil;
 
   if(!fallbackGameId) fallbackGameId = [defaults integerForKey:@"game_id"]; 
-    
+
   _ARIS_NOTIF_SEND_(@"DEFAULTS_UPDATED",nil,nil);  
 }
 

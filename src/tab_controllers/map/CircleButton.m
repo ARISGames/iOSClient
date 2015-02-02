@@ -16,13 +16,13 @@
     UIColor *disabledFillColor;
     UIColor *disabledStrokeColor;  
     UIColor *disabledTitleColor;  
-    int strokeWidth;
+    long strokeWidth;
 }
 @end
 
 @implementation CircleButton
 
-- (id) initWithFillColor:(UIColor *)fc strokeColor:(UIColor *)sc titleColor:(UIColor *)tc disabledFillColor:(UIColor *)dfc disabledStrokeColor:(UIColor *)dsc disabledtitleColor:(UIColor *)dtc strokeWidth:(int)sw
+- (id) initWithFillColor:(UIColor *)fc strokeColor:(UIColor *)sc titleColor:(UIColor *)tc disabledFillColor:(UIColor *)dfc disabledStrokeColor:(UIColor *)dsc disabledtitleColor:(UIColor *)dtc strokeWidth:(long)sw
 {
     if(self = [super init])
     {

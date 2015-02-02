@@ -11,7 +11,7 @@
 
 @interface OverlaysModel : NSObject
 
-- (Overlay *) overlayForId:(int)overlay_id;
+- (Overlay *) overlayForId:(long)overlay_id;
 - (NSArray *) playerOverlays;
 - (void) requestOverlays;
 - (void) requestPlayerOverlays;

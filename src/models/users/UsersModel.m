@@ -56,14 +56,14 @@
 {
     User *newUser;
     NSNumber *newUserId;
-    for(int i = 0; i < newUsers.count; i++)
+    for(long i = 0; i < newUsers.count; i++)
     {
       newUser = [newUsers objectAtIndex:i];
-      newUserId = [NSNumber numberWithInt:newUser.user_id];
+      newUserId = [NSNumber numberWithLong:newUser.user_id];
       if(![users objectForKey:newUserId])
       {
         [users setObject:newUser forKey:newUserId];
-        [blacklist removeObjectForKey:[NSNumber numberWithInt:newUserId]];
+        [blacklist removeObjectForKey:[NSNumber numberWithLong:newUserId]];
       }
       else
         [[users objectForKey:newUserId] mergeDataFromUser:newUser];
@@ -76,7 +76,7 @@
 {
     NSMutableArray *conformingUsers = [[NSMutableArray alloc] init];
     User *u;
-    for(int i = 0; i < newUsers.count; i++)
+    for(long i = 0; i < newUsers.count; i++)
     {
         if((u = [self userForId:((User *)newUsers[i]).user_id]))
             [conformingUsers addObject:u];
@@ -85,15 +85,15 @@
 }
 
 - (void) requestUsers       { [_SERVICES_ fetchUsers]; }
-- (void) requestUser:(int)t { [_SERVICES_ fetchUserById:t]; }
+- (void) requestUser:(long)t { [_SERVICES_ fetchUserById:t]; }
 
 // null user (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (User *) userForId:(int)user_id
+- (User *) userForId:(long)user_id
 {
-  User *t = [users objectForKey:[NSNumber numberWithInt:user_id]];
+  User *t = [users objectForKey:[NSNumber numberWithLong:user_id]];
   if(!t)
   {
-    [blacklist setObject:@"true" forKey:[NSNumber numberWithInt:user_id]];
+    [blacklist setObject:@"true" forKey:[NSNumber numberWithLong:user_id]];
     [self requestUser:user_id];
     return [[User alloc] init];
   }

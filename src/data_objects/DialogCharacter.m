@@ -50,14 +50,14 @@
   return c;
 }
 
-- (int)compareTo:(DialogCharacter *)ob
+- (long)compareTo:(DialogCharacter *)ob
 {
   return (ob.dialog_character_id == self.dialog_character_id);
 }
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"DialogCharacter- Id:%d\tName:%@\t",self.dialog_character_id,self.name];
+    return [NSString stringWithFormat:@"DialogCharacter- Id:%ld\tName:%@\t",self.dialog_character_id,self.name];
 }
 
 @end

@@ -65,7 +65,7 @@
 
 - (void) loadMetaDataForMR:(MediaResult *)mr
 {
-    for(int i = 0; i < metaConnections.count; i++)
+    for(long i = 0; i < metaConnections.count; i++)
     {
         MediaResult *existingMR = metaConnections[i];
         if(existingMR.media.media_id == mr.media.media_id)
@@ -109,7 +109,7 @@
     [mr cancelConnection];//MUST do this only AFTER data has already been transferred to media
 
     //short names to cope with obj-c verbosity
-    NSString *g = [NSString stringWithFormat:@"%d",mr.media.game_id]; //game_id as string
+    NSString *g = [NSString stringWithFormat:@"%ld",mr.media.game_id]; //game_id as string
     NSString *f = [[[[mr.media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
     
     NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
@@ -119,14 +119,14 @@
     [mr.media.data writeToURL:mr.media.localURL options:nil error:nil];
 
     [_MODEL_MEDIA_ saveAlteredMedia:mr.media];//not as elegant as I'd like...
-    NSLog(@"Media loader  : Media id:%d loaded:%@",mr.media.media_id,mr.media.remoteURL);
+    NSLog(@"Media loader  : Media id:%ld loaded:%@",mr.media.media_id,mr.media.remoteURL);
     [self mediaLoadedForMR:mr];
 }
 
 - (void) mediaLoadedForMR:(MediaResult *)mr
 {
     //This is so ugly. See comments in ARISDelegateHandle.h for reasoning
-    for(int i = 0; i < mr.delegateHandles.count; i++)
+    for(long i = 0; i < mr.delegateHandles.count; i++)
     {
       ARISDelegateHandle *dh = mr.delegateHandles[i];
       if(dh.delegate && [[dh.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
@@ -137,7 +137,7 @@
 - (void) dealloc
 {
     NSArray *objects = [dataConnections allValues];
-    for(int i = 0; i < objects.count; i++)
+    for(long i = 0; i < objects.count; i++)
         [[objects objectAtIndex:i] cancelConnection];
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }

@@ -54,14 +54,14 @@
     return w;
 }
 
-- (int) compareTo:(Tag *)ob
+- (long) compareTo:(Tag *)ob
 {
 	return (ob.tag_id == self.tag_id);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Tag- Id:%d\ttag:%@",self.tag_id,self.tag];
+    return [NSString stringWithFormat:@"Tag- Id:%ld\ttag:%@",self.tag_id,self.tag];
 }
 
 @end

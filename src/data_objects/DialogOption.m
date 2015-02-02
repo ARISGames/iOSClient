@@ -66,14 +66,14 @@
   return c;
 }
 
-- (int) compareTo:(DialogOption *)ob
+- (long) compareTo:(DialogOption *)ob
 {
   return (ob.dialog_option_id == self.dialog_option_id);
 }
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"DialogOption- Id:%d\tPrompt:%@\t",self.dialog_option_id,self.prompt];
+  return [NSString stringWithFormat:@"DialogOption- Id:%ld\tPrompt:%@\t",self.dialog_option_id,self.prompt];
 }
 
 @end

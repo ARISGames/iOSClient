@@ -77,14 +77,14 @@
 
 - (BOOL) displayInQueue:(NSObject *)d
 {
-  for(int i = 0; i < displayQueue.count; i++)
+  for(long i = 0; i < displayQueue.count; i++)
     if(d == displayQueue[i]) return YES;
   return NO;
 }
 
 - (BOOL) displayBlacklisted:(NSObject *)d
 {
-  for(int i = 0; i < displayBlacklist.count; i++)
+  for(long i = 0; i < displayBlacklist.count; i++)
     if(d == displayBlacklist[i]) return YES;
   return NO;
 }
@@ -95,23 +95,23 @@
   Trigger *t;
 
   //if trigger in queue no longer available, remove from queue
-  for(int i = 0; i < displayQueue.count; i++)
+  for(long i = 0; i < displayQueue.count; i++)
   {
     BOOL valid = NO;
     if(![displayQueue[i] isKindOfClass:[Trigger class]]) continue; //only triggers are blacklisted
     t = displayQueue[i];
-    for(int j = 0; j < pt.count; j++)
+    for(long j = 0; j < pt.count; j++)
       if(t.trigger_id == 0 || t.trigger_id == ((Trigger *)pt[j]).trigger_id) valid = YES; //allow artificial triggers to stay in queue
     if(!valid) [displayQueue removeObject:t];
   }
     
   //if trigger in blacklist no longer available/within range, remove from blacklist
-  for(int i = 0; i < displayBlacklist.count; i++)
+  for(long i = 0; i < displayBlacklist.count; i++)
   {
     BOOL valid = NO;
     if(![displayBlacklist[i] isKindOfClass:[Trigger class]]) continue; //only triggers are blacklisted
     t = displayBlacklist[i];
-    for(int j = 0; j < pt.count; j++)
+    for(long j = 0; j < pt.count; j++)
       if(t == pt[j] && ([t.type isEqualToString:@"IMMEDIATE"] || ([t.type isEqualToString:@"LOCATION"] && t.trigger_on_enter && [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance))) valid = YES;
     if(!valid) [displayBlacklist removeObject:t];
   }
@@ -121,7 +121,7 @@
 {
   NSArray *pt = _MODEL_TRIGGERS_.playerTriggers;
   Trigger *t;
-  for(int i = 0; i < pt.count; i++)
+  for(long i = 0; i < pt.count; i++)
   {
     t = pt[i];
     if(([t.type isEqualToString:@"IMMEDIATE"] || ([t.type isEqualToString:@"LOCATION"] && t.trigger_on_enter && [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance)) 

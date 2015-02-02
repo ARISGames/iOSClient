@@ -27,7 +27,7 @@
         editable = e;
         delegate = d;
         
-        int width;
+        long width;
         width = [nt.tag sizeWithFont:[ARISTemplate ARISBodyFont]].width;
         
         self.frame = CGRectMake(0,0,width,20);

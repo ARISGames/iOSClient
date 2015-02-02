@@ -54,14 +54,14 @@
   return c;
 }
 
-- (int) compareTo:(DialogScript *)ob
+- (long) compareTo:(DialogScript *)ob
 {
   return (ob.dialog_script_id == self.dialog_script_id);
 }
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"DialogScript- Id:%d\tText:%@\t",self.dialog_script_id,self.text];
+  return [NSString stringWithFormat:@"DialogScript- Id:%ld\tText:%@\t",self.dialog_script_id,self.text];
 }
 
 @end

@@ -10,18 +10,18 @@
 
 @interface Tag : NSObject
 {
-    int tag_id;
+    long tag_id;
 	NSString *tag;
-	int media_id; 
-	int visible; 
-	int sort_index; 
+	long media_id; 
+	long visible; 
+	long sort_index; 
 }
 
-@property(readwrite, assign) int tag_id;
+@property(readwrite, assign) long tag_id;
 @property(nonatomic, strong) NSString *tag;
-@property(readwrite, assign) int media_id;
-@property(readwrite, assign) int visible;
-@property(readwrite, assign) int sort_index;
+@property(readwrite, assign) long media_id;
+@property(readwrite, assign) long visible;
+@property(readwrite, assign) long sort_index;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 

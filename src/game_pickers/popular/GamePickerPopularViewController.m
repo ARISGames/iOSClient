@@ -13,7 +13,7 @@
 
 @interface GamePickerPopularViewController()
 {
-    int time;
+    long time;
     UISegmentedControl *timeControl;
 }
 @end
@@ -88,7 +88,7 @@
     {
         GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
         Game *gameForCell = [games objectAtIndex:(indexPath.row-1)];
-        [cell setCustomLabelText:[NSString stringWithFormat:@"%d %@",gameForCell.player_count, NSLocalizedString(@"PlayersKey", @"")]];
+        [cell setCustomLabelText:[NSString stringWithFormat:@"%ld %@",gameForCell.player_count, NSLocalizedString(@"PlayersKey", @"")]];
         return cell;
     }
     else

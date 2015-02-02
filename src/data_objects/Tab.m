@@ -51,7 +51,7 @@
 
 - (NSString *) keyString
 {
-    return [NSString stringWithFormat:@"%d%@%@%d",self.tab_id,self.type,self.name,self.content_id];
+    return [NSString stringWithFormat:@"%ld%@%@%ld",self.tab_id,self.type,self.name,self.content_id];
 }
 
 @end

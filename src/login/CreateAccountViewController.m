@@ -50,7 +50,7 @@
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorWhite];
     
-    int navOffset = 66;
+    long navOffset = 66;
     
     titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
     UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
@@ -124,7 +124,7 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    int navOffset = 66;
+    long navOffset = 66;
     
     line4.frame = CGRectMake(20,navOffset+20+20+5,self.view.frame.size.width-40, 1);
     line3.frame = CGRectMake(20,navOffset+20+20+20+20+20+20+5, self.view.frame.size.width-40, 1);

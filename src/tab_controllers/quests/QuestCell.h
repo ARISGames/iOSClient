@@ -12,7 +12,7 @@
 @class QuestCell;
 
 @protocol QuestCellDelegate
-- (void) heightCalculated:(int)h forQuest:(Quest *)q inCell:(QuestCell *)qc;
+- (void) heightCalculated:(long)h forQuest:(Quest *)q inCell:(QuestCell *)qc;
 @end
 
 @interface QuestCell : UITableViewCell

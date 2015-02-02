@@ -111,14 +111,14 @@
     }
     else
     {
-        for(int i = 0; i < game.authors.count; i++)
+        for(long i = 0; i < game.authors.count; i++)
             authorLabel.text = [NSString stringWithFormat:@"%@%@, ",authorLabel.text,((User *)game.authors[i]).display_name];
     }
     
 	titleLabel.text  = game.name;
     starView.rating  = game.rating;
     
-	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:game.comments.count] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
+	numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithLong:game.comments.count] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
     
     if(!game.icon_media_id) [iconView setImage:[UIImage imageNamed:@"logo_icon.png"]];
     else                    [iconView setMedia:[_MODEL_MEDIA_ mediaForId:game.icon_media_id]];

@@ -26,17 +26,17 @@ typedef enum {
 {
 	ExtAudioFileRef extAFRef;
 	Float64 extAFRateRatio;
-	int extAFNumChannels;
+	long extAFNumChannels;
 	BOOL extAFReachedEOF;
 	NSString *_path;
 	WaveSampleStatus status;
 	NSString *statusMessage;
 	NSMutableArray *sampleData;
 	NSMutableArray *normalizedData;
-	int binSize;
-	//int lengthInSec;
-	int minute;
-	int sec;
+	long binSize;
+	//long lengthInSec;
+	long minute;
+	long sec;
 	NSURL *audioURL;
 	NSString *title;
     float **maximumAudioSamples;
@@ -45,13 +45,13 @@ typedef enum {
 @property (readonly, nonatomic) WaveSampleStatus status;
 @property (readonly, nonatomic) NSString *statusMessage;
 @property (readonly, nonatomic) NSURL *audioURL;
-@property (assign, nonatomic) int binSize;
-@property (assign, nonatomic) int minute;
-@property (assign, nonatomic) int sec;
+@property (assign, nonatomic) long binSize;
+@property (assign, nonatomic) long minute;
+@property (assign, nonatomic) long sec;
 @property (readonly) NSString *title;
 
 - (id) initWithURL:(NSURL *)u delegate:(id<WaveSampleProviderDelegate>)d;
 - (void) createSampleData;
-- (float *)dataForResolution:(int)pixelWide lenght:(int *)length;
+- (float *)dataForResolution:(long)pixelWide lenght:(long *)length;
 
 @end

@@ -41,34 +41,34 @@
     return self;
 }
 
-- (int) game_id
+- (long) game_id
 {
     return [mediaCD.game_id intValue];
 }
 
-- (void) setGameId:(int)gid
+- (void) setGameId:(long)gid
 {
-    mediaCD.game_id = [NSNumber numberWithInt:gid];
+    mediaCD.game_id = [NSNumber numberWithLong:gid];
 }
 
-- (int) user_id
+- (long) user_id
 {
     return [mediaCD.user_id intValue];
 }
 
-- (void) setUserId:(int)uid
+- (void) setUserId:(long)uid
 {
-    mediaCD.user_id = [NSNumber numberWithInt:uid];
+    mediaCD.user_id = [NSNumber numberWithLong:uid];
 }
 
-- (int) media_id
+- (long) media_id
 {
     return [mediaCD.media_id intValue];
 }
 
-- (void) setMediaId:(int)mid
+- (void) setMediaId:(long)mid
 {
-    mediaCD.media_id = [NSNumber numberWithInt:mid];
+    mediaCD.media_id = [NSNumber numberWithLong:mid];
 }
 
 - (NSURL *) localURL

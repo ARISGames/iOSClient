@@ -12,13 +12,13 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 
-#import <ZXingWidgetController.h>
-#import "QRCodeReader.h"
+#import <AVFoundation/AVFoundation.h>
+#import "LoginScannerViewController.h"
 
 #import "CreateAccountViewController.h"
 #import "ForgotPasswordViewController.h"
 
-@interface LoginViewController() <ZXingDelegate, CreateAccountViewControllerDelegate, UITextFieldDelegate>
+@interface LoginViewController() <LoginScannerViewControllerDelegate, CreateAccountViewControllerDelegate, UITextFieldDelegate>
 {
   UITextField *usernameField;
   UITextField *passwordField;
@@ -30,9 +30,11 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   UIView *line2;
 
   NSString *groupName;
-  int game_id;
+  long game_id;
   BOOL newPlayer;
   BOOL disableLeaveGame;
+
+  BOOL scanning;
 
   id<LoginViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -51,6 +53,8 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(resetState),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(resetState),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGIN_FAILED",self,@selector(loginFailed),nil);
+
+    scanning = NO;
   }
   return self;
 }
@@ -67,7 +71,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   self.navigationItem.titleView = titleContainer;
   [self.navigationController.navigationBar layoutIfNeeded];
 
-  int navOffset = 66;
+  long navOffset = 66;
 
   usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
   usernameField.font = [ARISTemplate ARISInputFont];
@@ -80,7 +84,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   [self.view addSubview:usernameField];
 
   passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20)];
-  passwordField.font = [ARISTemplate ARISInputFont]; 
+  passwordField.font = [ARISTemplate ARISInputFont];
   passwordField.delegate = self;
   passwordField.secureTextEntry = YES;
   passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
@@ -144,7 +148,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (void) viewWillLayoutSubviews
 {
   [super viewWillLayoutSubviews];
-  int navOffset = 66;
+  long navOffset = 66;
 
   usernameField.frame    = CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20);
   passwordField.frame    = CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20);
@@ -201,13 +205,13 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (void) QRButtonTouched
 {
   [self resignKeyboard];
-  ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self oneDMode:NO showLicense:NO];
-  widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
 
-  [self presentViewController:widController animated:NO completion:nil];
+  scanning = YES;
+  LoginScannerViewController *scannerController = [[LoginScannerViewController alloc] initWithDelegate:self];
+  [self presentViewController:scannerController animated:NO completion:nil];
 }
 
-- (void) changePassTouch   
+- (void) changePassTouch
 {
   [self resignKeyboard];
   ForgotPasswordViewController *forgotPassViewController = [[ForgotPasswordViewController alloc] init];
@@ -221,44 +225,93 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   [[self navigationController] pushViewController:createAccountViewController animated:YES];
 }
 
-- (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
+- (void) captureLoginScannerOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection previewLayer:(AVCaptureVideoPreviewLayer *)previewLayer
 {
-  [self dismissViewControllerAnimated:NO completion:nil];
+  if(scanning)
+  {
+      if (metadataObjects != nil && [metadataObjects count] > 0)
+      {
+          BOOL not_found = NO;
+          scanning = NO;
+
+          for (AVMetadataObject *metadata in metadataObjects)
+          {
+              AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
+              NSString *result = [transformed stringValue];
+
+              if([self loginWithString: result])
+              {
+                return;
+              }
+              else
+              {
+                not_found = YES;
+              }
+          }
+
+          // All metadata visible scanned
+          if(not_found)
+          {
+              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+              [alert show];
+          }
+      }
+  }
+}
+
+
+- (BOOL) loginWithString:(NSString *)result
+{
+  NSArray *terms  = [result componentsSeparatedByString:@","];
 
   //Create: 1,groupName,game_id,disableLeaveGame
   //Login:  0,userName,password,game_id,disableLeaveGame
-  NSArray *terms  = [result componentsSeparatedByString:@","];
+
   if(terms.count > 1)
   {
     game_id = 0;
     disableLeaveGame = NO;
-    if(terms.count > 0 && [[terms objectAtIndex:0] boolValue]) //create = 1
+    if([[terms objectAtIndex:0] boolValue]) //create = 1
     {
-      if(terms.count > 1) groupName        = [terms objectAtIndex:1];
+                          groupName        = [terms objectAtIndex:1];
       if(terms.count > 2) game_id          = [[terms objectAtIndex:2] intValue];
       if(terms.count > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
-       
+
       _MODEL_.disableLeaveGame = disableLeaveGame;
       //_MODEL_.fallbackGameId = game_id;
-      [_MODEL_ createAccountWithUserName:usernameField.text displayName:@"" groupName:groupName email:@"" password:passwordField.text]; 
+      [self dismissViewControllerAnimated:NO completion:nil];
+      [_MODEL_ createAccountWithUserName:usernameField.text displayName:@"" groupName:groupName email:@"" password:passwordField.text];
+      return true;
     }
-    else if(terms.count > 0) //create = 0
+    else //create = 0
     {
-      if(terms.count > 1) usernameField.text = [terms objectAtIndex:1];
-      if(terms.count > 2) passwordField.text = [terms objectAtIndex:2];
-      if(terms.count > 3) game_id             = [[terms objectAtIndex:3] intValue];
+      NSString *username = [terms objectAtIndex:1];
+      NSString *password = @"";
+      if(terms.count > 2) {
+          password = [terms objectAtIndex:2];
+      }
+      if(terms.count > 3) game_id            = [[terms objectAtIndex:3] intValue];
       if(terms.count > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
-        
+
       _MODEL_.disableLeaveGame = disableLeaveGame;
-      //_MODEL_.fallbackGameId = game_id; 
-      [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text]; 
+      //_MODEL_.fallbackGameId = game_id;
+      [self dismissViewControllerAnimated:NO completion:nil];
+      [_MODEL_ attemptLogInWithUserName:username password:password];
+      return true;
     }
+    return false;
   }
+  return false;
 }
 
-- (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
+- (void) cancelLoginScan
 {
   [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    scanning = YES;
 }
 
 - (NSUInteger) supportedInterfaceOrientations

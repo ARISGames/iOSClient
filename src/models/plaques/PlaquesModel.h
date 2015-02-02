@@ -13,7 +13,7 @@
 {
 }
 
-- (Plaque *) plaqueForId:(int)plaque_id;
+- (Plaque *) plaqueForId:(long)plaque_id;
 - (void) requestPlaques;
 - (void) clearGameData;
 

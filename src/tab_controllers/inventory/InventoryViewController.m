@@ -20,7 +20,7 @@
 
     UIScrollView *tagsView;
     NSMutableArray *sortableTags;
-    int currentTagIndex;
+    long currentTagIndex;
 
     UITableView *inventoryTable;
     //parallel arrays
@@ -108,10 +108,10 @@
 
     if(capBar)
     {
-        int currentWeight = _MODEL_ITEMS_.currentWeight;
-        int weightCap     = _MODEL_ITEMS_.weightCap;
+        long currentWeight = _MODEL_ITEMS_.currentWeight;
+        long weightCap     = _MODEL_ITEMS_.weightCap;
         capBar.progress = (float)((float)currentWeight/(float)weightCap);
-        capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
+        capLabel.text = [NSString stringWithFormat:@"%@: %ld/%ld", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
     }
 }
 
@@ -140,17 +140,17 @@
     currentTagIndex = 0;
 }
 
-- (int) listIndexForTableIndex:(int)table_index
+- (long) listIndexForTableIndex:(long)table_index
 {
     NSArray *inst_tags;
     Tag *tag;
     Tag *sortedTag = sortableTags[currentTagIndex];
 
-    int filteredCount = -1;
-    for(int i = 0; i < instances.count; i++)
+    long filteredCount = -1;
+    for(long i = 0; i < instances.count; i++)
     {
         inst_tags = tags[i];
-        for(int j = 0; j < inst_tags.count; j++)
+        for(long j = 0; j < inst_tags.count; j++)
         {
             tag = inst_tags[j];
             if([tag.tag isEqualToString:sortedTag.tag])
@@ -173,7 +173,7 @@
     [tags removeAllObjects];
 
     Instance *tmp_inst;
-    for(int i = 0; i < playerInstances.count; i++)
+    for(long i = 0; i < playerInstances.count; i++)
     {
         tmp_inst = playerInstances[i];
         if(tmp_inst.qty == 0) continue;
@@ -186,7 +186,7 @@
     [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
 
     Tag* tmp_tag;
-    for(int i = 0; i < allTags.count; i++)
+    for(long i = 0; i < allTags.count; i++)
     {
         tmp_tag = allTags[i];
         if(tmp_tag.visible) [sortableTags addObject:tmp_tag];
@@ -209,7 +209,7 @@
     Tag *tag;
     UIView *tagv;
     UILabel *label;
-    for(int i = 0; i < sortableTags.count; i++)
+    for(long i = 0; i < sortableTags.count; i++)
     {
         tag = sortableTags[i];
         tagv = [[UIView alloc] initWithFrame:CGRectMake(i*100+10,10,80,80)];
@@ -239,14 +239,14 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int rows = 0;
+    long rows = 0;
     NSArray *instTags;
     Tag *tag;
     Tag *sortedTag = sortableTags[currentTagIndex];
-    for(int i = 0; i < instances.count; i++)
+    for(long i = 0; i < instances.count; i++)
     {
         instTags = tags[i];
-        for(int j = 0; j < instTags.count; j++)
+        for(long j = 0; j < instTags.count; j++)
         {
             tag = instTags[j];
             if([tag.tag isEqualToString:sortedTag.tag])
@@ -317,7 +317,7 @@
 
     cell.contentView.backgroundColor = [UIColor ARISColorWhite];
 
-    int i = [self listIndexForTableIndex:indexPath.row];
+    long i = [self listIndexForTableIndex:indexPath.row];
     Instance *instance = instances[i];
     Item *item = instance.object;
 
@@ -326,21 +326,21 @@
     ((UILabel *)[cell viewWithTag:4]).text = [self getQtyLabelStringForQty:instance.qty maxQty:item.max_qty_in_inventory weight:item.weight];
 
     NSNumber *viewed;
-    if(!(viewed = viewedList[[NSNumber numberWithInt:item.item_id]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
-        [viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.item_id]];
+    if(!(viewed = viewedList[[NSNumber numberWithLong:item.item_id]]) || [viewed isEqualToNumber:[NSNumber numberWithLong:0]])
+        [viewedList setObject:[NSNumber numberWithLong:0] forKey:[NSNumber numberWithLong:item.item_id]];
     else
-        [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
+        [viewedList setObject:[NSNumber numberWithLong:1] forKey:[NSNumber numberWithLong:item.item_id]];
 
     ARISMediaView *iconView = (ARISMediaView *)[cell viewWithTag:3];
     Media *iconMedia;
-    if(!(iconMedia = [iconCache objectForKey:[NSNumber numberWithInt:item.item_id]]))
+    if(!(iconMedia = [iconCache objectForKey:[NSNumber numberWithLong:item.item_id]]))
     {
         if (item.icon_media_id != 0) iconMedia = [_MODEL_MEDIA_ mediaForId:item.icon_media_id];
         else if(item.media_id != 0) iconMedia = [_MODEL_MEDIA_ mediaForId:item.media_id];
     }
     if(iconMedia && [iconMedia.type isEqualToString:@"IMAGE"])
     {
-        [iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.item_id]];
+        [iconCache setObject:iconMedia forKey:[NSNumber numberWithLong:item.item_id]];
         [iconView setMedia:iconMedia];
     }
     else if(iconMedia)
@@ -355,12 +355,12 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    int i = [self listIndexForTableIndex:indexPath.row];
+    long i = [self listIndexForTableIndex:indexPath.row];
     Instance *instance = instances[i];
     Item *item = instance.object;
 
     [_MODEL_DISPLAY_QUEUE_ enqueueInstance:instance];
-    [viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.item_id]];
+    [viewedList setObject:[NSNumber numberWithLong:1] forKey:[NSNumber numberWithLong:item.item_id]];
 }
 
 //Removes all content after first <br> or </br> or <br /> tags, then removes all html
@@ -378,12 +378,12 @@
     return stringToStrip;
 }
 
-- (NSString *) getQtyLabelStringForQty:(int)qty maxQty:(int)maxQty weight:(int)weight
+- (NSString *) getQtyLabelStringForQty:(long)qty maxQty:(long)maxQty weight:(long)weight
 {
     NSString *qtyString = @"";
     NSString *weightString = @"";
-    if(qty > 1 || maxQty != 1) qtyString    = [NSString stringWithFormat:@"x%d",  qty];
-    if(weight > 1)             weightString = [NSString stringWithFormat:@"\n%@ %d",NSLocalizedString(@"WeightKey", @""), weight];
+    if(qty > 1 || maxQty != 1) qtyString    = [NSString stringWithFormat:@"x%ld",  qty];
+    if(weight > 1)             weightString = [NSString stringWithFormat:@"\n%@ %ld",NSLocalizedString(@"WeightKey", @""), weight];
     return [NSString stringWithFormat:@"%@%@", qtyString, weightString];
 }
 

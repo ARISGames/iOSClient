@@ -40,10 +40,10 @@
 - (void) clearPlayerData
 {
     NSArray *insts = [instances allValues];
-    for(int i = 0; i < insts.count; i++)
+    for(long i = 0; i < insts.count; i++)
     {
         if(((Instance *)insts[i]).owner_id == _MODEL_PLAYER_.user_id)
-            [instances removeObjectForKey:[NSNumber numberWithInt:((Instance *)insts[i]).instance_id]];
+            [instances removeObjectForKey:[NSNumber numberWithLong:((Instance *)insts[i]).instance_id]];
     }
 }
 
@@ -69,10 +69,10 @@
 
     NSDictionary *playerDeltas = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
     NSDictionary *gameDeltas   = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
-    for(int i = 0; i < newInstances.count; i++)
+    for(long i = 0; i < newInstances.count; i++)
     {
       newInstance = [newInstances objectAtIndex:i];
-      newInstanceId = [NSNumber numberWithInt:newInstance.instance_id];
+      newInstanceId = [NSNumber numberWithLong:newInstance.instance_id];
       if(![instances objectForKey:newInstanceId])
       {
         //No instance exists- give player instance with 0 qty and let it be updated like all the others
@@ -80,16 +80,16 @@
         [fakeExistingInstance mergeDataFromInstance:newInstance];
         fakeExistingInstance.qty = 0;
         [instances setObject:fakeExistingInstance forKey:newInstanceId];
-        [blacklist removeObjectForKey:[NSNumber numberWithInt:newInstanceId]];
+        [blacklist removeObjectForKey:[NSNumber numberWithLong:newInstanceId]];
       }
 
       Instance *existingInstance = [instances objectForKey:newInstanceId];
-      int delta = newInstance.qty-existingInstance.qty;
+      long delta = newInstance.qty-existingInstance.qty;
       BOOL gained = (existingInstance.qty < newInstance.qty);
       BOOL lost   = (existingInstance.qty > newInstance.qty);
       [existingInstance mergeDataFromInstance:newInstance];
 
-      NSDictionary *d = @{@"instance":existingInstance,@"delta":[NSNumber numberWithInt:delta]};
+      NSDictionary *d = @{@"instance":existingInstance,@"delta":[NSNumber numberWithLong:delta]};
       if(existingInstance.owner_id == _MODEL_PLAYER_.user_id)
       {
         if(gained) [((NSMutableArray *)playerDeltas[@"added"]) addObject:d];
@@ -117,10 +117,10 @@
 }
 
 - (void) requestInstances       { [_SERVICES_ fetchInstances];   }
-- (void) requestInstance:(int)i { [_SERVICES_ fetchInstanceById:i];   }
+- (void) requestInstance:(long)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
 
-- (void) setQtyForInstanceId:(int)instance_id qty:(int)qty
+- (void) setQtyForInstanceId:(long)instance_id qty:(long)qty
 {
     Instance *i = [self instanceForId:instance_id];
     if(!i) return;
@@ -129,23 +129,23 @@
 }
 
 // null instance (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
-- (Instance *) instanceForId:(int)instance_id
+- (Instance *) instanceForId:(long)instance_id
 {
   if(!instance_id) return [[Instance alloc] init];
-  Instance *i = [instances objectForKey:[NSNumber numberWithInt:instance_id]];
+  Instance *i = [instances objectForKey:[NSNumber numberWithLong:instance_id]];
   if(!i)
   {
-    [blacklist setObject:@"true" forKey:[NSNumber numberWithInt:instance_id]];
+    [blacklist setObject:@"true" forKey:[NSNumber numberWithLong:instance_id]];
     [self requestInstance:instance_id];
     return [[Instance alloc] init];
   }
   return i;
 }
 
-- (NSArray *) instancesForType:(NSString *)object_type id:(int)object_id
+- (NSArray *) instancesForType:(NSString *)object_type id:(long)object_id
 {
     NSMutableArray *a = [[NSMutableArray alloc] init];
-    for(int i = 0; i < instances.count; i++)
+    for(long i = 0; i < instances.count; i++)
     {
         Instance *inst = [instances allValues][i];
         if(inst.object_id == object_id && [inst.object_type isEqualToString:object_type])
@@ -158,7 +158,7 @@
 {
     NSMutableArray *pInstances = [[NSMutableArray alloc] init];
     NSArray *allInstances = [instances allValues];
-    for(int i = 0; i < allInstances.count; i++)
+    for(long i = 0; i < allInstances.count; i++)
     {
         if(((Instance *)allInstances[i]).owner_id == _MODEL_PLAYER_.user_id) 
             [pInstances addObject:allInstances[i]];

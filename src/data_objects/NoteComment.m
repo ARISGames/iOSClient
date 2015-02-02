@@ -59,7 +59,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"NoteComment- Id:%d\tName:%@\tOwner:%d\t",self.note_comment_id,self.name,self.user_id];
+    return [NSString stringWithFormat:@"NoteComment- Id:%ld\tName:%@\tOwner:%ld\t",self.note_comment_id,self.name,self.user_id];
 }
 
 @end

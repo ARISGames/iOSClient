@@ -11,7 +11,7 @@
 
 @interface UsersModel : NSObject
 
-- (User *) userForId:(int)user_id;
+- (User *) userForId:(long)user_id;
 - (void) requestUsers;
 
 - (void) clearData;

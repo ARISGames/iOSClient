@@ -79,7 +79,7 @@
     NSString *tagTest;
     UIView *tagCell;
     
-    for(int i = 0; i < tags.count; i++)
+    for(long i = 0; i < tags.count; i++)
     {
         tagTest = ((Tag *)tags[i]).tag;
         if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 

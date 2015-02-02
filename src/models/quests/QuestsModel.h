@@ -11,7 +11,7 @@
 
 @interface QuestsModel : NSObject
 
-- (Quest *) questForId:(int)quest_id;
+- (Quest *) questForId:(long)quest_id;
 - (NSArray *) visibleActiveQuests;
 - (NSArray *) visibleCompleteQuests;
 - (void) requestQuests;

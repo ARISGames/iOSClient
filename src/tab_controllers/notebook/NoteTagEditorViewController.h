@@ -19,7 +19,7 @@
 
 @interface NoteTagEditorViewController : ARISViewController
 - (id) initWithTag:(Tag *)t editable:(BOOL)e delegate:(id<NoteTagEditorViewControllerDelegate>)d;
-- (void) setExpandHeight:(int)h;
+- (void) setExpandHeight:(long)h;
 - (void) setTag:(Tag *)t;
 - (void) beginEditing;
 - (void) stopEditing;

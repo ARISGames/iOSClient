@@ -17,8 +17,8 @@
     UIPickerView *picker;
     
     NSString *prompt;
-    int maxqty;
-    int amtChosen;
+    long maxqty;
+    long amtChosen;
     BOOL positive;
     
     id<ItemActionViewControllerDelegate> __unsafe_unretained delegate;
@@ -27,7 +27,7 @@
 
 @implementation ItemActionViewController
 
-- (id) initWithPrompt:(NSString *)s positive:(BOOL)p maxqty:(int)q delegate:(id)d
+- (id) initWithPrompt:(NSString *)s positive:(BOOL)p maxqty:(long)q delegate:(id)d
 {
     if(self = [super init])
     {
@@ -79,7 +79,7 @@
 - (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     if(row == 0) return NSLocalizedString(@"MaxKey", @"");
-    else return [NSString stringWithFormat:@"%d",row];
+    else return [NSString stringWithFormat:@"%ld",(long)row];
 }
 
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component

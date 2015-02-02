@@ -11,8 +11,8 @@
 
 @interface GamesModel : NSObject
 
-- (Game *) gameForId:(int)game_id;
-- (void) requestGame:(int)game_id;
+- (Game *) gameForId:(long)game_id;
+- (void) requestGame:(long)game_id;
 
 - (NSArray *) nearbyGames;
 - (NSArray *) pingNearbyGames;
@@ -32,8 +32,8 @@
 - (NSArray *) mineGames;
 - (NSArray *) pingMineGames;
 
-- (void) requestPlayerPlayedGame:(int)game_id;
-- (void) playerResetGame:(int)game_id;
+- (void) requestPlayerPlayedGame:(long)game_id;
+- (void) playerResetGame:(long)game_id;
 
 - (void) invalidateData; //force refresh
 - (void) clearData;

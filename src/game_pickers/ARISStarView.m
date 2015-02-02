@@ -10,21 +10,21 @@
 
 @interface ARISStarView ()
 {
-    int spacing;
+    long spacing;
     float rating;
 }
 @end
 
 @implementation ARISStarView
 
-- (void) setRating:(int)r
+- (void) setRating:(long)r
 {
     rating = r;
     while(self.subviews.count > 0) [[self.subviews objectAtIndex:0] removeFromSuperview];
     
     float sWidth = self.frame.size.width/5;
     UIImageView *s;
-    for(int i = 0; i < 5; i++)
+    for(long i = 0; i < 5; i++)
     {
         if(i <= r-1) s = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"star_blue.png"]];
         else         s = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"star_gray.png"]]; 
@@ -33,12 +33,12 @@
     }
 }
 
-- (int) rating
+- (long) rating
 {
     return rating;
 }
 
-- (void) setSpacing:(int)s
+- (void) setSpacing:(long)s
 {
     spacing = s;
     [self setRating:rating];//essentially refreshes views 

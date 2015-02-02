@@ -36,14 +36,14 @@
 - (void) updatePlayerName:(NSString *)display_name;
 - (void) updatePlayerMedia:(Media *)media;
 
-- (void) fetchGame:(int)game_id;
+- (void) fetchGame:(long)game_id;
 - (void) fetchNearbyGames;
 - (void) fetchAnywhereGames;
 - (void) fetchRecentGames;
 - (void) fetchPopularGames;
 - (void) fetchSearchGames:(NSString *)s;
 - (void) fetchMineGames;
-- (void) fetchPlayerPlayedGame:(int)game_id;
+- (void) fetchPlayerPlayedGame:(long)game_id;
 
 - (void) fetchUsers; //TBD what this actually does...
 - (void) fetchScenes;
@@ -75,54 +75,54 @@
 - (void) fetchOverlaysForPlayer;
 - (void) fetchQuestsForPlayer;
 - (void) fetchTabsForPlayer;
-- (void) fetchOptionsForPlayerForDialog:(int)dialog_id script:(int)dialog_script_id; //doesn't need to be called during game load
+- (void) fetchOptionsForPlayerForDialog:(long)dialog_id script:(long)dialog_script_id; //doesn't need to be called during game load
 
-- (void) setQtyForInstanceId:(int)instance_id qty:(int)qty;
-- (void) setPlayerSceneId:(int)scene_id;
-- (void) dropItem:(int)item_id qty:(int)qty;
+- (void) setQtyForInstanceId:(long)instance_id qty:(long)qty;
+- (void) setPlayerSceneId:(long)scene_id;
+- (void) dropItem:(long)item_id qty:(long)qty;
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr; //actually does full media upload
 - (void) updateNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
-- (void) deleteNoteId:(int)note_id;
+- (void) deleteNoteId:(long)note_id;
 - (void) createNoteComment:(NoteComment *)n;
 - (void) updateNoteComment:(NoteComment *)n;
-- (void) deleteNoteCommentId:(int)note_comment_id;
+- (void) deleteNoteCommentId:(long)note_comment_id;
 
 - (void) logPlayerEnteredGame;
-- (void) logPlayerResetGame:(int)game_id;
+- (void) logPlayerResetGame:(long)game_id;
 - (void) logPlayerMoved;
-- (void) logPlayerViewedTabId:(int)tab_id;
-- (void) logPlayerViewedPlaqueId:(int)plaque_id;
-- (void) logPlayerViewedItemId:(int)item_id;
-- (void) logPlayerViewedDialogId:(int)dialog_id;
-- (void) logPlayerViewedDialogScriptId:(int)dialog_script_id;
-- (void) logPlayerViewedWebPageId:(int)web_page_id;
-- (void) logPlayerViewedNoteId:(int)note_id;
-- (void) logPlayerViewedSceneId:(int)scene_id;
-- (void) logPlayerViewedInstanceId:(int)instance_id;
-- (void) logPlayerTriggeredTriggerId:(int)trigger_id;
-- (void) logPlayerReceivedItemId:(int)item_id qty:(int)qty;
-- (void) logPlayerLostItemId:(int)item_id qty:(int)qty;
-- (void) logPlayerSetSceneId:(int)scene_id;
+- (void) logPlayerViewedTabId:(long)tab_id;
+- (void) logPlayerViewedPlaqueId:(long)plaque_id;
+- (void) logPlayerViewedItemId:(long)item_id;
+- (void) logPlayerViewedDialogId:(long)dialog_id;
+- (void) logPlayerViewedDialogScriptId:(long)dialog_script_id;
+- (void) logPlayerViewedWebPageId:(long)web_page_id;
+- (void) logPlayerViewedNoteId:(long)note_id;
+- (void) logPlayerViewedSceneId:(long)scene_id;
+- (void) logPlayerViewedInstanceId:(long)instance_id;
+- (void) logPlayerTriggeredTriggerId:(long)trigger_id;
+- (void) logPlayerReceivedItemId:(long)item_id qty:(long)qty;
+- (void) logPlayerLostItemId:(long)item_id qty:(long)qty;
+- (void) logPlayerSetSceneId:(long)scene_id;
 
 //for mid-game fetches. these are failsafes, and oughtn't occur. 
 //if you are editing your game mid-play, expect undefined behavior
-- (void) fetchUserById:(int)user_id;
-- (void) fetchSceneById:(int)scene_id;
-- (void) fetchMediaById:(int)media_id;
-- (void) fetchPlaqueById:(int)plaque_id;
-- (void) fetchItemById:(int)item_id;
-- (void) fetchDialogById:(int)dialog_id;
-- (void) fetchDialogCharacterById:(int)character_id;
-- (void) fetchDialogScriptById:(int)script_id;
-- (void) fetchDialogOptionById:(int)option_id;
-- (void) fetchWebPageById:(int)web_page_id;
-- (void) fetchNoteById:(int)note_id;
-- (void) fetchTagById:(int)tag_id;
-- (void) fetchEventById:(int)event_id;
-- (void) fetchQuestById:(int)quest_id;
-- (void) fetchInstanceById:(int)instance_id;
-- (void) fetchTriggerById:(int)trigger_id;
-- (void) fetchOverlayById:(int)overlay_id;
-- (void) fetchTabById:(int)tab_id;
+- (void) fetchUserById:(long)user_id;
+- (void) fetchSceneById:(long)scene_id;
+- (void) fetchMediaById:(long)media_id;
+- (void) fetchPlaqueById:(long)plaque_id;
+- (void) fetchItemById:(long)item_id;
+- (void) fetchDialogById:(long)dialog_id;
+- (void) fetchDialogCharacterById:(long)character_id;
+- (void) fetchDialogScriptById:(long)script_id;
+- (void) fetchDialogOptionById:(long)option_id;
+- (void) fetchWebPageById:(long)web_page_id;
+- (void) fetchNoteById:(long)note_id;
+- (void) fetchTagById:(long)tag_id;
+- (void) fetchEventById:(long)event_id;
+- (void) fetchQuestById:(long)quest_id;
+- (void) fetchInstanceById:(long)instance_id;
+- (void) fetchTriggerById:(long)trigger_id;
+- (void) fetchOverlayById:(long)overlay_id;
+- (void) fetchTabById:(long)tab_id;
 
 @end

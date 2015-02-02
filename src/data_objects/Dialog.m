@@ -55,17 +55,17 @@
   return c;
 }
 
-- (int) compareTo:(Dialog *)ob
+- (long) compareTo:(Dialog *)ob
 {
   return (ob.dialog_id == self.dialog_id);
 }
 
 - (NSString *) description
 {
-  return [NSString stringWithFormat:@"Dialog- Id:%d\tName:%@\t",self.dialog_id,self.name];
+  return [NSString stringWithFormat:@"Dialog- Id:%ld\tName:%@\t",self.dialog_id,self.name];
 }
 
-- (int) icon_media_id
+- (long) icon_media_id
 {
     if(!icon_media_id) return DEFAULT_DIALOG_ICON_MEDIA_ID;
     return icon_media_id;

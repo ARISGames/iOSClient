@@ -27,18 +27,18 @@
 
 @interface Game : NSObject
 {
-  int game_id;
+  long game_id;
   NSString *name;
   NSString *desc;
   BOOL published;
   NSString *type;
   CLLocation *location;
-  int player_count;
+  long player_count;
 
-  int icon_media_id;
-  int media_id;
+  long icon_media_id;
+  long media_id;
 
-  int intro_scene_id;
+  long intro_scene_id;
 
   NSMutableArray *authors;
   NSMutableArray *comments;
@@ -54,7 +54,7 @@
   BOOL notebook_allow_likes;
   BOOL notebook_allow_player_tags;
 
-  int inventory_weight_cap;
+  long inventory_weight_cap;
 
   ScenesModel     *scenesModel;
   PlaquesModel    *plaquesModel;
@@ -73,19 +73,19 @@
   DisplayQueueModel *displayQueueModel;   
 }
 
-@property (nonatomic, assign) int game_id;
+@property (nonatomic, assign) long game_id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, assign) BOOL published;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) CLLocation *location;
-@property (nonatomic, assign) int player_count;
-- (int) rating;
+@property (nonatomic, assign) long player_count;
+- (long) rating;
 
-@property (nonatomic, assign) int icon_media_id;
-@property (nonatomic, assign) int media_id;
+@property (nonatomic, assign) long icon_media_id;
+@property (nonatomic, assign) long media_id;
 
-@property (nonatomic, assign) int intro_scene_id;
+@property (nonatomic, assign) long intro_scene_id;
 
 @property (nonatomic, strong) NSMutableArray *authors;
 @property (nonatomic, strong) NSMutableArray *comments;
@@ -101,7 +101,7 @@
 @property (nonatomic, assign) BOOL notebook_allow_likes;
 @property (nonatomic, assign) BOOL notebook_allow_player_tags;
 
-@property (nonatomic, assign) int inventory_weight_cap;
+@property (nonatomic, assign) long inventory_weight_cap;
 
 @property (nonatomic, strong) ScenesModel    *scenesModel;
 @property (nonatomic, strong) PlaquesModel   *plaquesModel;

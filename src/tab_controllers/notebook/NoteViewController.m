@@ -151,7 +151,7 @@
     }
     else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);
 
-    int curY = desc.frame.origin.y+desc.frame.size.height;
+    long curY = desc.frame.origin.y+desc.frame.size.height;
     amv.frame = CGRectMake(0,curY,self.view.frame.size.width,amv.frame.size.height);
     curY += amv.frame.size.height;
 

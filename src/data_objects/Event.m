@@ -54,14 +54,14 @@
     return o;
 }
 
-- (int) compareTo:(Event *)ob
+- (long) compareTo:(Event *)ob
 {
 	return (ob.event_id == self.event_id);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Event- Id:%d\tevent:%@",self.event_id,self.event];
+    return [NSString stringWithFormat:@"Event- Id:%ld\tevent:%@",self.event_id,self.event];
 }
 
 @end

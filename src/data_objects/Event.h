@@ -10,18 +10,18 @@
 
 @interface Event : NSObject
 {
-    int event_id;
-	int event_package_id; 
+    long event_id;
+	long event_package_id; 
 	NSString *event;
-	int content_id; 
-    int qty;
+	long content_id; 
+    long qty;
 }
 
-@property(readwrite, assign) int event_id;
-@property(readwrite, assign) int event_package_id;
+@property(readwrite, assign) long event_id;
+@property(readwrite, assign) long event_package_id;
 @property(nonatomic, strong) NSString *event;
-@property(readwrite, assign) int content_id;
-@property(readwrite, assign) int qty;
+@property(readwrite, assign) long content_id;
+@property(readwrite, assign) long qty;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 

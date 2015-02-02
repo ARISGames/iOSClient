@@ -13,15 +13,15 @@
 //which are derived on the fly from the raw data, and 'setCoordinate' mutator, which we ignore
 @interface Trigger : NSObject <MKAnnotation>
 {
-    int trigger_id;
-    int instance_id;
-    int scene_id;
+    long trigger_id;
+    long instance_id;
+    long scene_id;
     NSString *type;
     NSString *name;
     NSString *title;
-    int icon_media_id;
+    long icon_media_id;
     CLLocation *location;
-    int distance;
+    long distance;
     BOOL infinite_distance;
     BOOL wiggle;
     BOOL show_title;
@@ -32,15 +32,15 @@
     MKCircle *mapCircle; //I would just extend this directly, but MKCircle has immutable properties :(
 }
 
-@property (nonatomic, assign) int trigger_id;
-@property (nonatomic, assign) int instance_id;
-@property (nonatomic, assign) int scene_id;
+@property (nonatomic, assign) long trigger_id;
+@property (nonatomic, assign) long instance_id;
+@property (nonatomic, assign) long scene_id;
 @property (nonatomic, copy)   NSString *type;
 @property (nonatomic, copy)   NSString *name;
 @property (nonatomic, copy)   NSString *title;
-@property (nonatomic, assign) int icon_media_id;
+@property (nonatomic, assign) long icon_media_id;
 @property (nonatomic, strong)   CLLocation *location;
-@property (nonatomic, assign) int distance;
+@property (nonatomic, assign) long distance;
 @property (nonatomic, assign) BOOL infinite_distance;
 @property (nonatomic, assign) BOOL wiggle;
 @property (nonatomic, assign) BOOL show_title;

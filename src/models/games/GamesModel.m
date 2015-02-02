@@ -99,29 +99,29 @@
 {
   Game *existingG;
   if((existingG = [self gameForId:g.game_id])) [existingG mergeDataFromGame:g];
-  else games[[NSNumber numberWithInt:g.game_id]] = g;
+  else games[[NSNumber numberWithLong:g.game_id]] = g;
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_AVAILABLE",nil,@{@"game":[self gameForId:g.game_id]});      
     
-  return games[[NSNumber numberWithInt:g.game_id]];
+  return games[[NSNumber numberWithLong:g.game_id]];
 }
 
 - (NSArray *) updateGames:(NSArray *)newGames
 {
   NSMutableArray *mergedNewGames = [[NSMutableArray alloc] initWithCapacity:newGames.count];
-  for(int i = 0; i < newGames.count; i++)
+  for(long i = 0; i < newGames.count; i++)
     [mergedNewGames addObject:[self updateGame:newGames[i]]];
   return mergedNewGames;
 }
 
-- (Game *) gameForId:(int)game_id
+- (Game *) gameForId:(long)game_id
 {
-  return [games objectForKey:[NSNumber numberWithInt:game_id]];
+  return [games objectForKey:[NSNumber numberWithLong:game_id]];
 }
-- (void) requestGame:(int)game_id
+- (void) requestGame:(long)game_id
 {
     [_SERVICES_ fetchGame:game_id];
 }
-- (void) playerResetGame:(int)game_id
+- (void) playerResetGame:(long)game_id
 {
     [_SERVICES_ logPlayerResetGame:game_id];
 }
@@ -212,7 +212,7 @@
 }
 - (NSArray *) mineGames { return mineGames; }
 
-- (void) requestPlayerPlayedGame:(int)game_id
+- (void) requestPlayerPlayedGame:(long)game_id
 {
     //when offline mode implemented, just check log here
     [_SERVICES_ fetchPlayerPlayedGame:game_id];

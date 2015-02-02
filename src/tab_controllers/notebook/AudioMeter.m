@@ -11,8 +11,8 @@
 @interface AudioMeter()
 {
 	NSMutableArray *barViews;
-	int numberofBars;
-	int spacingBetweenBars;
+	long numberofBars;
+	long spacingBetweenBars;
     double updateInterval;
 	UIColor *activeColor;
 	UIColor *inactiveColor;
@@ -44,13 +44,13 @@
 {
     [super setFrame:frame];
     
-    for(int i = 0; self.subviews.count > 0; i++) [[self.subviews objectAtIndex:0] removeFromSuperview];
+    for(long i = 0; self.subviews.count > 0; i++) [[self.subviews objectAtIndex:0] removeFromSuperview];
     
     barViews = [NSMutableArray arrayWithCapacity:numberofBars];
     float heightPerBar = (frame.size.height - (spacingBetweenBars * numberofBars)) / numberofBars; 
-    for(int i = 0; i<numberofBars; i++)
+    for(long i = 0; i<numberofBars; i++)
     {
-        int currentPosition = (self.frame.size.height - ((i+1) * (heightPerBar + spacingBetweenBars)));
+        long currentPosition = (self.frame.size.height - ((i+1) * (heightPerBar + spacingBetweenBars)));
         UIView *bar = [[UIView alloc] initWithFrame:CGRectMake(0, currentPosition, frame.size.width, heightPerBar)];
         bar.backgroundColor = inactiveColor;
         [barViews addObject:bar];
@@ -66,9 +66,9 @@
 - (void) setLevel:(double)l
 {
     level = l;
-	int numberToMakeActive = abs(round(numberofBars * level));
+	long numberToMakeActive = abs(round(numberofBars * level));
 
-	for(int i = 0; i<barViews.count; i++)
+	for(long i = 0; i<barViews.count; i++)
     {
 		UIView *bar = [barViews objectAtIndex:i];
 		if(i < numberToMakeActive) bar.backgroundColor = activeColor;

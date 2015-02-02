@@ -33,7 +33,7 @@
     UILabel *destroyBtn;
     UILabel *pickupBtn;
     UIView *line; //separator between buttons/etc...
-    int lastbuttontouched; //dumb
+    long lastbuttontouched; //dumb
 
     ARISWebView *webView;
     ARISCollapseView *collapseView;
@@ -97,7 +97,7 @@
     [super loadView];
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
 
-    int numButtons = 0;
+    long numButtons = 0;
     if(instance.owner_id == _MODEL_PLAYER_.user_id && item.destroyable)       { destroyBtn = [self createItemButtonWithText:NSLocalizedString(@"ItemDeleteKey", @"") selector:@selector(destroyButtonTouched)]; numButtons++; }
     if(instance.owner_id == _MODEL_PLAYER_.user_id && item.droppable)         { dropBtn    = [self createItemButtonWithText:NSLocalizedString(@"ItemDropKey", @"")   selector:@selector(dropButtonTouched)];    numButtons++; }
     if(instance.owner_id == 0 && (instance.qty > 0 || instance.infinite_qty)) { pickupBtn  = [self createItemButtonWithText:NSLocalizedString(@"ItemPickupKey", @"") selector:@selector(pickupButtonTouched)];  numButtons++; }
@@ -120,7 +120,7 @@
         webView.allowsInlineMediaPlayback       = YES;
         webView.mediaPlaybackRequiresUserAction = NO;
 
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:item.url]] withAppendation:[NSString stringWithFormat:@"&item_id=%d",item.item_id]];
+        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:item.url]] withAppendation:[NSString stringWithFormat:@"&item_id=%ld",item.item_id]];
     }
     //Normal Item
     else
@@ -196,7 +196,7 @@
 - (void) refreshTitle
 {
     if(instance.qty < 2 || instance.infinite_qty) self.title = item.name;
-    else self.title = [NSString stringWithFormat:@"%@ x%d",item.name,instance.qty];
+    else self.title = [NSString stringWithFormat:@"%@ x%ld",item.name,instance.qty];
 }
 
 - (NSString *) getTabTitle
@@ -218,8 +218,8 @@
         pickupBtn  = nil;
     }
 
-    int numButtons = (destroyBtn != nil) + (dropBtn != nil) + (pickupBtn != nil);
-    int numPlacedButtons = 0;
+    long numButtons = (destroyBtn != nil) + (dropBtn != nil) + (pickupBtn != nil);
+    long numPlacedButtons = 0;
     if(destroyBtn) { destroyBtn.frame = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
     if(dropBtn)    { dropBtn.frame    = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
     if(pickupBtn)  { pickupBtn.frame  = CGRectMake(numPlacedButtons*(self.view.bounds.size.width/numButtons),self.view.bounds.size.height-44,self.view.bounds.size.width/numButtons,44); numPlacedButtons++; }
@@ -245,7 +245,7 @@
 - (void) dropButtonTouched
 {
     lastbuttontouched = 0;
-    int amtCanDrop = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
+    long amtCanDrop = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
 
     if(amtCanDrop > 1)
     {
@@ -257,7 +257,7 @@
         [self dropItemQty:1];
 }
 
-- (void) dropItemQty:(int)q
+- (void) dropItemQty:(long)q
 {
     if([_MODEL_ITEMS_ dropItemFromPlayer:item.item_id qtyToRemove:q] == 0)
     {
@@ -273,7 +273,7 @@
 - (void) destroyButtonTouched
 {
     lastbuttontouched = 1;
-    int amtCanDestroy = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
+    long amtCanDestroy = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
 
     if(amtCanDestroy > 1)
     {
@@ -285,7 +285,7 @@
         [self destroyItemQty:1];
 }
 
-- (void) destroyItemQty:(int)q
+- (void) destroyItemQty:(long)q
 {
     if([_MODEL_ITEMS_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
     else
@@ -298,8 +298,8 @@
 - (void) pickupButtonTouched
 {
     lastbuttontouched = 2;
-    int amtMoreCanHold = [_MODEL_ITEMS_ qtyAllowedToGiveForItem:item.item_id];
-    int allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
+    long amtMoreCanHold = [_MODEL_ITEMS_ qtyAllowedToGiveForItem:item.item_id];
+    long allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
     if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;
     
     if(allowablePickupAmt == 0)
@@ -315,17 +315,17 @@
     else [self pickupItemQty:1];
 }
 
-- (void) pickupItemQty:(int)q
+- (void) pickupItemQty:(long)q
 {
     [_MODEL_ITEMS_ giveItemToPlayer:item.item_id qtyToAdd:q];
-    int nq = instance.qty - q;
+    long nq = instance.qty - q;
     [_MODEL_INSTANCES_ setQtyForInstanceId:instance.instance_id qty:nq];
     instance.qty = nq; //should get set in above call- but if bogus instance, can't hurt to force it
     [self updateViewButtons];
     [self refreshTitle];
 }
 
-- (void) amtChosen:(int)amt positive:(BOOL)p
+- (void) amtChosen:(long)amt positive:(BOOL)p
 {
     [[self navigationController] popToViewController:self animated:YES];
     if(lastbuttontouched == 0)

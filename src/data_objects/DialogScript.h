@@ -10,18 +10,18 @@
 
 @interface DialogScript : NSObject
 {
-  int dialog_script_id;
-  int dialog_id; 
-  int dialog_character_id;
+  long dialog_script_id;
+  long dialog_id; 
+  long dialog_character_id;
   NSString *text; 
-  int event_package_id;
+  long event_package_id;
 }
 
-@property(nonatomic, assign) int dialog_script_id;
-@property(nonatomic, assign) int dialog_id;
-@property(nonatomic, assign) int dialog_character_id;
+@property(nonatomic, assign) long dialog_script_id;
+@property(nonatomic, assign) long dialog_id;
+@property(nonatomic, assign) long dialog_character_id;
 @property(nonatomic, strong) NSString *text;
-@property(nonatomic, assign) int event_package_id;
+@property(nonatomic, assign) long event_package_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 

@@ -14,10 +14,10 @@
 
 + (ARISPusherHandler *) sharedPusherHandler;
 
-- (void) loginGame:(int)game_id;
-- (void) loginPlayer:(int)user_id;
+- (void) loginGame:(long)game_id;
+- (void) loginPlayer:(long)user_id;
 - (void) loginGroup:(NSString *)group;
-- (void) loginWebPage:(int)web_page_id;
+- (void) loginWebPage:(long)web_page_id;
 
 - (void) logoutGame;
 - (void) logoutPlayer;

@@ -10,24 +10,24 @@
 
 @interface DialogOption : NSObject
 {
-  int dialog_option_id;
-  int dialog_id; 
-  int parent_dialog_script_id;
+  long dialog_option_id;
+  long dialog_id; 
+  long parent_dialog_script_id;
   NSString *prompt;
   NSString *link_type;
-  int link_id;
+  long link_id;
   NSString *link_info;
-  int sort_index; 
+  long sort_index; 
 }
 
-@property(nonatomic, assign) int dialog_option_id;
-@property(nonatomic, assign) int dialog_id;
-@property(nonatomic, assign) int parent_dialog_script_id;
+@property(nonatomic, assign) long dialog_option_id;
+@property(nonatomic, assign) long dialog_id;
+@property(nonatomic, assign) long parent_dialog_script_id;
 @property(nonatomic, strong) NSString *prompt;
 @property(nonatomic, strong) NSString *link_type;
-@property(nonatomic, assign) int link_id;
+@property(nonatomic, assign) long link_id;
 @property(nonatomic, strong) NSString *link_info;
-@property(nonatomic, assign) int sort_index;
+@property(nonatomic, assign) long sort_index;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 
