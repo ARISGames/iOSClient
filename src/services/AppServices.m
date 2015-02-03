@@ -64,6 +64,15 @@
   [connection performAsynchronousRequestWithService:@"users" method:@"createUser" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
+- (void) generateUserFromGroup:(NSString *)group_name
+{
+  NSDictionary *args =
+    @{
+      @"group_name" :group_name
+    };
+  [connection performAsynchronousRequestWithService:@"users" method:@"autoGenerateUser" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO userInfo:nil];    
+}
+
 - (void) logInUserWithName:(NSString *)user_name password:(NSString *)password;
 {
   NSDictionary *args =

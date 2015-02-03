@@ -280,16 +280,14 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
       _MODEL_.disableLeaveGame = disableLeaveGame;
       //_MODEL_.fallbackGameId = game_id;
       [self dismissViewControllerAnimated:NO completion:nil];
-      [_MODEL_ createAccountWithUserName:usernameField.text displayName:@"" groupName:groupName email:@"" password:passwordField.text];
+        [_MODEL_ generateUserFromGroup:groupName];
       return true;
     }
     else //create = 0
     {
       NSString *username = [terms objectAtIndex:1];
       NSString *password = @"";
-      if(terms.count > 2) {
-          password = [terms objectAtIndex:2];
-      }
+      if(terms.count > 2) password           = [terms objectAtIndex:2];
       if(terms.count > 3) game_id            = [[terms objectAtIndex:3] intValue];
       if(terms.count > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
 

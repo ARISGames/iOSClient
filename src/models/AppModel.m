@@ -99,6 +99,11 @@
   [_SERVICES_ createUserWithName:user_name displayName:display_name groupName:(NSString *)group_name email:email password:password];
 }
 
+- (void) generateUserFromGroup:(NSString *)group_name
+{
+  [_SERVICES_ generateUserFromGroup:group_name];
+}
+
 - (void) resetPasswordForEmail:(NSString *)email
 {
   [_SERVICES_ resetPasswordForEmail:email];
