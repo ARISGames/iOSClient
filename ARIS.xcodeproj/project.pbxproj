@@ -3400,8 +3400,8 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "c410daa2-c863-4341-aa1e-35835bad94aa";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "c410daa2-c863-4341-aa1e-35835bad94aa";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
