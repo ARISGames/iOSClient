@@ -17,11 +17,11 @@
 
 @interface GamePickerViewController : ARISViewController <UITableViewDelegate, UITableViewDataSource>
 {
-	UITableView *gameTable;
-    UIRefreshControl *refreshControl;
-    
-    NSArray *games;
-    id<GamePickerViewControllerDelegate> __unsafe_unretained delegate;
+  UITableView *gameTable;
+  UIRefreshControl *refreshControl;
+
+  NSArray *games;
+  id<GamePickerViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) UITableView *gameTable;
