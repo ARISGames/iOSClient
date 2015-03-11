@@ -73,6 +73,7 @@
 {
     progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width-20, 40);
     progressBar.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 10);
+    progressBar.progress = 0;
     
     retryGameLoadButton.frame   = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
     retryPlayerLoadButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
