@@ -12,7 +12,7 @@
 @interface NSDictionary (ValidParsers)
 
 - (BOOL)         validBoolForKey:  (NSString *const)aKey;
-- (long)          validIntForKey:   (NSString *const)aKey;
+- (int)          validIntForKey:   (NSString *const)aKey;
 - (float)        validFloatForKey: (NSString *const)aKey;
 - (double)       validDoubleForKey:(NSString *const)aKey;
 - (id)           validObjectForKey:(NSString *const)aKey;

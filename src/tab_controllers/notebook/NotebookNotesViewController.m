@@ -121,12 +121,12 @@ const long VIEW_MODE_TAG  = 2;
     [table reloadData];
 }
 
-- (long) numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-- (long) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
 {
     NSArray *typeFilteredNotes;
     if     (viewMode == VIEW_MODE_MINE) typeFilteredNotes = [_MODEL_NOTES_ playerNotes];
@@ -169,7 +169,7 @@ const long VIEW_MODE_TAG  = 2;
     return filteredNotes.count;
 }
 
-- (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 78.0;
 }

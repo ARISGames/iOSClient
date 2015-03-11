@@ -16,7 +16,7 @@
 	return [theObject respondsToSelector:@selector(boolValue)] ? [theObject boolValue] : NO;
 }
 
-- (NSInteger) validIntForKey:(NSString *const)aKey
+- (int) validIntForKey:(NSString *const)aKey
 {
 	id theObject = [self valueForKey:aKey];
 	return [theObject respondsToSelector:@selector(intValue)] ? [theObject intValue] : 0;

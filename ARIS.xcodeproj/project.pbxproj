@@ -210,7 +210,6 @@
 		AABC73B3172739D80074CC21 /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70DD172739D60074CC21 /* AppModel.m */; };
 		AABC73B7172739D80074CC21 /* MediaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70E9172739D60074CC21 /* MediaModel.m */; };
 		AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EC172739D60074CC21 /* QuestsModel.m */; };
-		AABC73BE172739D80074CC21 /* PlaqueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70F9172739D60074CC21 /* PlaqueViewController.m */; };
 		AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC710E172739D60074CC21 /* GameNotificationViewController.m */; };
 		AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7112172739D60074CC21 /* PopOverViewController.m */; };
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
@@ -248,6 +247,7 @@
 		AAE2851D1810461700E2534A /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE2851C1810461700E2534A /* ItemViewController.m */; };
 		AAE2F7A11A129DE20042455A /* roll@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE2F7A01A129DE20042455A /* roll@2x.png */; };
 		AAE3C9A91A2537DD001D33CF /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE3C9A81A2537DD001D33CF /* reload.png */; };
+		AAE6BDE31AB0B50E00C2D083 /* PlaqueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6BDE21AB0B50E00C2D083 /* PlaqueViewController.m */; };
 		AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
@@ -642,8 +642,6 @@
 		AABC70E9172739D60074CC21 /* MediaModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaModel.m; sourceTree = "<group>"; };
 		AABC70EB172739D60074CC21 /* QuestsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestsModel.h; sourceTree = "<group>"; };
 		AABC70EC172739D60074CC21 /* QuestsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsModel.m; sourceTree = "<group>"; };
-		AABC70F8172739D60074CC21 /* PlaqueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaqueViewController.h; sourceTree = "<group>"; };
-		AABC70F9172739D60074CC21 /* PlaqueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaqueViewController.m; sourceTree = "<group>"; };
 		AABC710D172739D60074CC21 /* GameNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameNotificationViewController.h; sourceTree = "<group>"; };
 		AABC710E172739D60074CC21 /* GameNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameNotificationViewController.m; sourceTree = "<group>"; };
 		AABC7111172739D60074CC21 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
@@ -731,6 +729,8 @@
 		AAE2851C1810461700E2534A /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAE2F7A01A129DE20042455A /* roll@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roll@2x.png"; sourceTree = "<group>"; };
 		AAE3C9A81A2537DD001D33CF /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
+		AAE6BDE11AB0B50E00C2D083 /* PlaqueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaqueViewController.h; sourceTree = "<group>"; };
+		AAE6BDE21AB0B50E00C2D083 /* PlaqueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaqueViewController.m; sourceTree = "<group>"; };
 		AAF3EEDF1938F2DD00388BE1 /* InstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstancesModel.h; sourceTree = "<group>"; };
 		AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstancesModel.m; sourceTree = "<group>"; };
 		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -1529,7 +1529,7 @@
 			children = (
 				AAAC4352172EDDB300C92DF0 /* InstantiableViewControllerProtocol.h */,
 				AABC70F2172739D60074CC21 /* item */,
-				AABC70F6172739D60074CC21 /* plaque */,
+				AAE6BDE01AB0B50E00C2D083 /* plaque */,
 				AAC0D86F1930F4E200CA1DE3 /* dialog */,
 				AA2B4A68182A976100A0D2A1 /* note */,
 				AABC7108172739D60074CC21 /* webpage */,
@@ -1546,16 +1546,6 @@
 				AABC750F172860860074CC21 /* ItemActionViewController.m */,
 			);
 			path = item;
-			sourceTree = "<group>";
-		};
-		AABC70F6172739D60074CC21 /* plaque */ = {
-			isa = PBXGroup;
-			children = (
-				AABC70F8172739D60074CC21 /* PlaqueViewController.h */,
-				AABC70F9172739D60074CC21 /* PlaqueViewController.m */,
-			);
-			name = plaque;
-			path = node;
 			sourceTree = "<group>";
 		};
 		AABC7108172739D60074CC21 /* webpage */ = {
@@ -1828,6 +1818,15 @@
 				AAC0D8901930F70E00CA1DE3 /* DialogsModel.m */,
 			);
 			path = dialogs;
+			sourceTree = "<group>";
+		};
+		AAE6BDE01AB0B50E00C2D083 /* plaque */ = {
+			isa = PBXGroup;
+			children = (
+				AAE6BDE11AB0B50E00C2D083 /* PlaqueViewController.h */,
+				AAE6BDE21AB0B50E00C2D083 /* PlaqueViewController.m */,
+			);
+			path = plaque;
 			sourceTree = "<group>";
 		};
 		AAF3EEDE1938F2DD00388BE1 /* instances */ = {
@@ -2250,6 +2249,7 @@
 				AABC73A2172739D80074CC21 /* GamePickerRecentViewController.m in Sources */,
 				AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */,
 				AAFE9613198055EA007F6BBD /* EventsModel.m in Sources */,
+				AAE6BDE31AB0B50E00C2D083 /* PlaqueViewController.m in Sources */,
 				AA68B2FB1912E6DF000C717B /* ItemsModel.m in Sources */,
 				AABC73A4172739D80074CC21 /* GamePickerSearchViewController.m in Sources */,
 				AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */,
@@ -2272,7 +2272,6 @@
 				AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */,
 				AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */,
 				AA9F7139194F575100384832 /* Log.m in Sources */,
-				AABC73BE172739D80074CC21 /* PlaqueViewController.m in Sources */,
 				AA5FCA36197EF00E005C2A2F /* Tag.m in Sources */,
 				AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */,
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
