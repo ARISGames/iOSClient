@@ -150,7 +150,7 @@
             if([tab.type isEqualToString:@"QUESTS"])
             {
                 //if uses icon quest view
-                if((BOOL)tab.content_id)
+                if(tab.info && ![tab.info isEqualToString:@""])
                 {
                     IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithTab:tab delegate:
                     (id<QuestsViewControllerDelegate>)delegate];
