@@ -150,7 +150,7 @@ const long playerDatasToReceive = 7;
     published = g.published;
     type = g.type;
     location = g.location;
-    player_count = g.player_count;
+    player_count = g.player_count > 0 ? g.player_count : player_count;
 
     icon_media_id = g.icon_media_id;
     media_id = g.media_id;
