@@ -104,7 +104,7 @@
       if(t.trigger_id == 0 || t.trigger_id == ((Trigger *)pt[j]).trigger_id) valid = YES; //allow artificial triggers to stay in queue
     if(!valid) [displayQueue removeObject:t];
   }
-    
+
   //if trigger in blacklist no longer available/within range, remove from blacklist
   for(long i = 0; i < displayBlacklist.count; i++)
   {
@@ -116,10 +116,10 @@
         if(
             t == pt[j] &&
             (
-              [t.type isEqualToString:@"IMMEDIATE"] || 
+              [t.type isEqualToString:@"IMMEDIATE"] ||
               (
                 [t.type isEqualToString:@"LOCATION"] &&
-                t.trigger_on_enter && 
+                t.trigger_on_enter &&
                 (
                   t.infinite_distance ||
                   [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
