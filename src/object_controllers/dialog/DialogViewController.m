@@ -11,6 +11,7 @@
 #import "DialogScript.h"
 #import "DialogScriptViewController.h"
 #import "AppModel.h"
+#import "ARISMediaView.h"
 
 @interface DialogViewController() <DialogScriptViewControllerDelegate>
 {
@@ -218,6 +219,15 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"DIALOG"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(dialog.name && ![dialog.name isEqualToString:@""]) return dialog.name; return @"Dialog"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"loco_icon"]; }
+- (UIImage *) tabIcon
+{
+  if(dialog)
+  {
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    [amv setMedia:[_MODEL_MEDIA_ mediaForId:dialog.icon_media_id]];
+    if(amv.image) return amv.image;
+  }
+  return [UIImage imageNamed:@"logo_icon"];
+}
 
 @end
