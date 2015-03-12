@@ -108,9 +108,7 @@
     promptLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
     [self.view addSubview:promptLabel];
     [self setPrompt:prompt];
-
 }
-
 
 - (void) viewWillAppearFirstTime:(BOOL)animated
 {
@@ -138,7 +136,7 @@
 {
     [super viewDidDisappear:animated];
 
-    [self setPrompt: @""];
+    [self setPrompt:@""];
     [session stopRunning];
     scanning = NO;
 }

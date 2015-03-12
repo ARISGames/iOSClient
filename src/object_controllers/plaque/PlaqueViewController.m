@@ -213,6 +213,11 @@ static NSString * const OPTION_CELL = @"option";
     [self dismissSelf];
 }
 
+- (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
+{
+    [self dismissSelf];;
+}
+
 - (void) dismissSelf
 {
     [delegate instantiableViewControllerRequestsDismissal:self];
