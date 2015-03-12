@@ -58,7 +58,7 @@
 
 - (long) icon_media_id
 {
-    return 71;
+    return -6;
 }
 
 - (NSString *) description

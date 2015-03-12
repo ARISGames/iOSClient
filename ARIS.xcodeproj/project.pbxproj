@@ -295,6 +295,7 @@
 		C0878F421A672182001739E3 /* LICENCE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0878F3E1A672182001739E3 /* LICENCE.txt */; };
 		C0878F431A672182001739E3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C0878F401A672182001739E3 /* Reachability.m */; };
 		C0878F441A672182001739E3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C0878F411A672182001739E3 /* README.md */; };
+		C0D3B9D91AB2119D00F1D582 /* note_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0D3B9D81AB2119D00F1D582 /* note_icon.png */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		F92B5E0F18BFE02900D1D1A7 /* CircleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E0E18BFE02900D1D1A7 /* CircleButton.m */; };
 		F92B5E3118C66DEB00D1D1A7 /* globe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F92B5E3018C66DEB00D1D1A7 /* globe@2x.png */; };
@@ -804,6 +805,7 @@
 		C0878F3F1A672182001739E3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C0878F401A672182001739E3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		C0878F411A672182001739E3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C0D3B9D81AB2119D00F1D582 /* note_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note_icon.png; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F91684FF1912C6B900114E71 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F92B5E0D18BFE02900D1D1A7 /* CircleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleButton.h; sourceTree = "<group>"; };
@@ -1179,6 +1181,7 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				C0D3B9D81AB2119D00F1D582 /* note_icon.png */,
 				AB45E7391A014FF800A7A77B /* object default icons */,
 				AAE3C9A81A2537DD001D33CF /* reload.png */,
 				F9B26ECB18EE08CB005A6DF3 /* Walk-WarningRED.png */,
@@ -2131,6 +2134,7 @@
 				AABC70461727398B0074CC21 /* nearbyObject.wav in Resources */,
 				AA41A36418E4CD2F006CB373 /* save@2x.png in Resources */,
 				AABC70471727398B0074CC21 /* pingtone.wav in Resources */,
+				C0D3B9D91AB2119D00F1D582 /* note_icon.png in Resources */,
 				AABC70481727398B0074CC21 /* questChange.wav in Resources */,
 				AABC70491727398B0074CC21 /* swish.wav in Resources */,
 				AABC704A1727398B0074CC21 /* ticktick.wav in Resources */,
