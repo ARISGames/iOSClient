@@ -8,6 +8,7 @@
 
 #import "Note.h"
 #import "NSDictionary+ValidParsers.h"
+#import "AppModel.h"
 
 @implementation Note
 
@@ -27,6 +28,7 @@
       self.name = @"";
       self.desc = @"";
       self.media_id = 0;
+      self.tag_id = 0;
       self.created = [[NSDate alloc] init];
     }
     return self;
@@ -41,6 +43,7 @@
         self.name     = [dict validObjectForKey:@"name"];
         self.desc     = [dict validObjectForKey:@"description"];
         self.media_id = [dict validIntForKey:@"media_id"];
+        self.tag_id   = [dict validIntForKey:@"tag_id"];
         self.created  = [dict validDateForKey:@"created"];
     }
     return self;
@@ -53,11 +56,22 @@
   self.name     = n.name;
   self.desc     = n.desc;
   self.media_id = n.media_id;
+  self.tag_id   = n.tag_id;
   self.created  = n.created;
 }
 
 - (long) icon_media_id
 {
+    // FIXME Feels too familiar with the tags object
+    if([_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:note_id].count)
+    {
+      Tag *tag = [_MODEL_TAGS_ tagsForObjectType:@"NOTE" id:note_id][0];
+      if(tag.media_id != 0)
+      {
+        return tag.media_id;
+      }
+    }
+
     return -6;
 }
 
