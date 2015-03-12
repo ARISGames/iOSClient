@@ -77,7 +77,8 @@
   nameLabel.layer.borderWidth = 1.0f;
   [self.view addSubview:nameLabel];
 
-  attributesTable = [[UITableView alloc] initWithFrame:CGRectMake(0,nameLabel.frame.origin.y + nameLabel.frame.size.height,self.view.bounds.size.width,self.view.bounds.size.height)];
+    int attriby = nameLabel.frame.origin.y + nameLabel.frame.size.height;
+  attributesTable = [[UITableView alloc] initWithFrame:CGRectMake(0,attriby,self.view.bounds.size.width,self.view.bounds.size.height-attriby)];
   attributesTable.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
   attributesTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   attributesTable.delegate = self;
@@ -137,58 +138,69 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-  if(cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+  if(cell == nil)
+  {
+      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
 
-  cell.backgroundColor = [UIColor clearColor];
-  cell.opaque = NO;
+      cell.backgroundColor = [UIColor clearColor];
+      cell.opaque = NO;
 
-  cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-  cell.backgroundView.backgroundColor = [UIColor clearColor];
-  cell.backgroundView.opaque = NO;
+      cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+      cell.backgroundView.backgroundColor = [UIColor clearColor];
+      cell.backgroundView.opaque = NO;
 
-  cell.contentView.backgroundColor = [UIColor ARISColorTranslucentWhite];
-  cell.contentView.opaque = NO;
+      cell.contentView.backgroundColor = [UIColor ARISColorTranslucentWhite];
+      cell.contentView.opaque = NO;
 
-  cell.userInteractionEnabled = NO;
+      cell.userInteractionEnabled = NO;
+      
+      UILabel *lblTemp;
+      lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
+      lblTemp.backgroundColor = [UIColor clearColor];
+      lblTemp.font = [UIFont boldSystemFontOfSize:18.0];
+      [cell.contentView addSubview:lblTemp];
+          
+      lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 39, 240, 20)];
+      lblTemp.backgroundColor = [UIColor clearColor];
+      lblTemp.font = [UIFont systemFontOfSize:11];
+      lblTemp.textColor = [UIColor ARISColorDarkGray];
+      [cell.contentView addSubview:lblTemp];
+
+      ARISMediaView *iconViewTemp;
+      iconViewTemp = [[ARISMediaView alloc] initWithFrame:CGRectMake(5, 5, 50, 50) delegate:self];
+      [iconViewTemp setDisplayMode:ARISMediaDisplayModeAspectFit];
+      [cell.contentView addSubview:iconViewTemp];
+
+      lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
+      lblTemp.font = [UIFont boldSystemFontOfSize:11];
+      lblTemp.textColor = [UIColor ARISColorDarkGray];
+      lblTemp.backgroundColor = [UIColor clearColor];
+      lblTemp.textAlignment = NSTextAlignmentRight;
+      [cell.contentView addSubview:lblTemp];
+          
+  }
 
   Instance *instance = instances[indexPath.row];
   Item *attrib = (Item *)instance.object;
+    
+  NSArray *views = cell.contentView.subviews;
 
-  UILabel *lblTemp;
-  lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
-  lblTemp.backgroundColor = [UIColor clearColor];
-  lblTemp.font = [UIFont boldSystemFontOfSize:18.0];
-  lblTemp.text = attrib.name;
-  [cell.contentView addSubview:lblTemp];
+  ((UILabel *)views[0]).text = attrib.name;
+  ((UILabel *)views[1]).text = attrib.desc;
 
-  lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 39, 240, 20)];
-  lblTemp.backgroundColor = [UIColor clearColor];
-  lblTemp.font = [UIFont systemFontOfSize:11];
-  lblTemp.textColor = [UIColor ARISColorDarkGray];
-  lblTemp.text = attrib.desc;
-  [cell.contentView addSubview:lblTemp];
-
-  ARISMediaView *iconViewTemp;
   if(attrib.icon_media_id != 0)
   {
     if(iconCache.count <= indexPath.row)
       [iconCache addObject:[_MODEL_MEDIA_ mediaForId:attrib.icon_media_id]];
-    iconViewTemp = [[ARISMediaView alloc] initWithFrame:CGRectMake(5, 5, 50, 50) delegate:self];
-    [iconViewTemp setDisplayMode:ARISMediaDisplayModeAspectFit];
-    [iconViewTemp setMedia:[iconCache objectAtIndex:indexPath.row]];
+    [((ARISMediaView *)views[2]) setMedia:[iconCache objectAtIndex:indexPath.row]];
   }
-  [cell.contentView addSubview:iconViewTemp];
-
-  lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
-  lblTemp.font = [UIFont boldSystemFontOfSize:11];
-  lblTemp.textColor = [UIColor ARISColorDarkGray];
-  lblTemp.backgroundColor = [UIColor clearColor];
-  lblTemp.textAlignment = NSTextAlignmentRight;
-  if(instance.qty > 1 || attrib.max_qty_in_inventory > 1)
-    lblTemp.text = [NSString stringWithFormat:@"%ld",instance.qty];
   else
-    lblTemp.text = nil;
-  [cell.contentView addSubview:lblTemp];
+    [((ARISMediaView *)views[2]) setImage:nil];
+    
+  if(instance.qty > 1 || attrib.max_qty_in_inventory > 1)
+    ((UILabel *)views[3]).text = [NSString stringWithFormat:@"%ld",instance.qty];
+  else
+    ((UILabel *)views[3]).text = nil;
 
   return cell;
 }
