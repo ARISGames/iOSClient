@@ -9,6 +9,7 @@
 #import "GamePlayTabSelectorViewController.h"
 #import "ARISNavigationController.h"
 #import "GamePlayTabBarViewControllerProtocol.h"
+#import "GamePlayTabSelectorCell.h"
 
 #import "QuestsViewController.h"
 #import "IconQuestsViewController.h"
@@ -27,7 +28,7 @@
 #import "AppModel.h"
 #import "ARISMediaView.h"
 
-@interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource, GamePlayTabSelectorCellDelegate>
 {
     UITableView *tableView;
     UIView *leaveGameButton;
@@ -264,19 +265,17 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    c.opaque = NO;
-    c.backgroundColor = [UIColor clearColor];
-    c.textLabel.textColor = [ARISTemplate ARISColorSideNavigationText];
-    c.textLabel.font = [ARISTemplate ARISButtonFont];
+  GamePlayTabSelectorCell *c;
+  if(!(c = (GamePlayTabSelectorCell *)[tableView dequeueReusableCellWithIdentifier:[GamePlayTabSelectorCell cellIdentifier]]))
+    c = [[GamePlayTabSelectorCell alloc] initWithDelegate:self];
 
-    ARISNavigationController *anc = viewControllers[indexPath.row];
-    id<GamePlayTabBarViewControllerProtocol> gptbvc = anc.viewControllers[0];
+  ARISNavigationController *anc = viewControllers[indexPath.row];
+  id<GamePlayTabBarViewControllerProtocol> gptbvc = anc.viewControllers[0];
 
-    c.textLabel.text = gptbvc.tabTitle;
-    c.imageView.image = gptbvc.tabIcon;
+  [c setLabel:gptbvc.tabTitle];
+  [c setIcon:gptbvc.tabIcon];
 
-    return c;
+  return c;
 }
 
 - (void) requestDisplayTab:(Tab *)t

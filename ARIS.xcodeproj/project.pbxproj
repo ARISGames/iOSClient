@@ -25,6 +25,7 @@
 		A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7955B920F73E095005148E4 /* AudioToolbox.framework */; };
 		A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */; };
 		A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */; };
+		AA00C3B31AB3476600576B9E /* GamePlayTabSelectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA00C3B21AB3476600576B9E /* GamePlayTabSelectorCell.m */; };
 		AA02477D1927D0DD00CF5CE3 /* GamesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02477C1927D0DD00CF5CE3 /* GamesModel.m */; };
 		AA04E33018E60E1E00621F0C /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E32F18E60E1E00621F0C /* delete@2x.png */; };
 		AA04E33218E613E400621F0C /* threelines_white.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E33118E613E400621F0C /* threelines_white.png */; };
@@ -345,6 +346,8 @@
 		A7A172720F4F26280017E865 /* ARIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AA00C3B11AB3476600576B9E /* GamePlayTabSelectorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabSelectorCell.h; sourceTree = "<group>"; };
+		AA00C3B21AB3476600576B9E /* GamePlayTabSelectorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayTabSelectorCell.m; sourceTree = "<group>"; };
 		AA02477B1927D0DD00CF5CE3 /* GamesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesModel.h; sourceTree = "<group>"; };
 		AA02477C1927D0DD00CF5CE3 /* GamesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesModel.m; sourceTree = "<group>"; };
 		AA04E32F18E60E1E00621F0C /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
@@ -1250,6 +1253,8 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				AA00C3B11AB3476600576B9E /* GamePlayTabSelectorCell.h */,
+				AA00C3B21AB3476600576B9E /* GamePlayTabSelectorCell.m */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
 				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC7071172739D60074CC21 /* ARISAppDelegate.h */,
@@ -2281,6 +2286,7 @@
 				AABC73D4172739D80074CC21 /* ARISConnection.m in Sources */,
 				AAF8A384196C536200CD3D71 /* DialogTextView.m in Sources */,
 				C02FE1881A76BBB300E0B15A /* LoginScannerViewController.mm in Sources */,
+				AA00C3B31AB3476600576B9E /* GamePlayTabSelectorCell.m in Sources */,
 				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				F92B5E3D18C68C5800D1D1A7 /* MapOverlayView.m in Sources */,
 				AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */,
