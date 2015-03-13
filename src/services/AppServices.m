@@ -934,6 +934,10 @@
     {
         args[@"tag_id"] = [NSNumber numberWithLong:t.tag_id];
     }
+    else
+    {
+        args[@"tag_id"] = [NSNumber numberWithLong:0];
+    }
     if(tr)
     {
       args[@"trigger"] = 
