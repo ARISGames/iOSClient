@@ -32,10 +32,10 @@
 {
     if(self = [super init])
     {
-        self.object_tag_id         = [dict validIntForKey:@"object_tag_id"];
-        self.object_type            = [dict validObjectForKey:@"object_type"];
-        self.object_id       = [dict validIntForKey:@"object_id"];
-        self.tag_id = [dict validIntForKey:@"tag_id"];
+        self.object_tag_id = [dict validIntForKey:@"object_tag_id"];
+        self.object_type   = [dict validObjectForKey:@"object_type"];
+        self.object_id     = [dict validIntForKey:@"object_id"];
+        self.tag_id        = [dict validIntForKey:@"tag_id"];
     }
     return self;
 }

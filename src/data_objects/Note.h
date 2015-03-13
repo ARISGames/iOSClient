@@ -17,6 +17,7 @@
     NSString *desc;
     long media_id;
     long tag_id;
+    long object_tag_id;
     NSDate *created;
 }
 
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, assign) long media_id;
 @property (nonatomic, assign) long tag_id;
+@property (nonatomic, assign) long object_tag_id;
 @property (nonatomic, strong) NSDate *created;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
