@@ -246,6 +246,8 @@
             [_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].qty <= 0 &&
             [[_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].object_type isEqualToString:@"ITEM"]
           ) continue;
+        // For new notes from other players
+        if(![_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].object) continue;
 
         shouldAdd = YES;
         for(long j = 0; j < mapAnnotations.count; j++)
