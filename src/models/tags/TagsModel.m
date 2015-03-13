@@ -97,6 +97,20 @@
     return objects_tags;
 }
 
+- (void) removeTagsFromObjectType:(NSString*)t id:(long)object_id
+{
+    ObjectTag *otag;
+    NSArray *otags = [objectTags allValues];
+    for(long i = 0; i < otags.count; i++)
+    {
+        otag = otags[i];
+        if([otag.object_type isEqualToString:t] && otag.object_id == object_id)
+        {
+          [objectTags removeObjectForKey: [NSNumber numberWithLong:otag.object_tag_id]];
+        }
+    }
+}
+
 - (NSArray *) tags
 {
     return [tags allValues];

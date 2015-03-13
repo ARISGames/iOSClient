@@ -100,7 +100,11 @@
     newObjectTag.tag_id        = self.tag_id;
 
     _ARIS_NOTIF_SEND_(@"SERVICES_OBJECT_TAGS_RECEIVED", nil, @{@"object_tags":@[newObjectTag]});
-
+  }
+  else if(self.tag_id == 0 && self.object_tag_id == 0)
+  {
+    [_MODEL_TAGS_ removeTagsFromObjectType:@"NOTE" id: note_id];
+    _ARIS_NOTIF_SEND_(@"SERVICES_OBJECT_TAGS_RECEIVED", nil, @{@"object_tags":@[]});
   }
 }
 

@@ -18,6 +18,7 @@
 - (Tag *) tagForId:(long)tag_id;
 - (ObjectTag *) objectTagForId:(long)object_tag_id;
 - (NSArray *) tagsForObjectType:(NSString*)t id:(long)object_id;
+- (void) removeTagsFromObjectType:(NSString*)t id:(long)object_id;
 - (void) requestTags;
 - (void) clearGameData;
 
