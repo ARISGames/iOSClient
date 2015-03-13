@@ -108,9 +108,14 @@
     [iconView setDelegate:self];
  
     if(trigger.icon_media_id)
+    {
         [iconView setMedia:[_MODEL_MEDIA_ mediaForId:trigger.icon_media_id]];
+    }
+    // Should not be visible
     else
-        [iconView setImage:[UIImage imageNamed:@"logo.png"]];
+    {
+        [iconView setImage:[UIImage imageNamed:@"star_blue.png"]];
+    }
 
     [iconBorderView addSubview:iconView];
     [self addSubview:iconBorderView];
