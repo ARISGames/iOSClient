@@ -104,7 +104,7 @@
       if(t.trigger_id == 0 || t.trigger_id == ((Trigger *)pt[j]).trigger_id) valid = YES; //allow artificial triggers to stay in queue
     if(!valid) [displayQueue removeObject:t];
   }
-    
+
   //if trigger in blacklist no longer available/within range, remove from blacklist
   for(long i = 0; i < displayBlacklist.count; i++)
   {
@@ -112,7 +112,23 @@
     if(![displayBlacklist[i] isKindOfClass:[Trigger class]]) continue; //only triggers are blacklisted
     t = displayBlacklist[i];
     for(long j = 0; j < pt.count; j++)
-      if(t == pt[j] && ([t.type isEqualToString:@"IMMEDIATE"] || ([t.type isEqualToString:@"LOCATION"] && t.trigger_on_enter && [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance))) valid = YES;
+    {
+        if(
+            t == pt[j] &&
+            (
+              [t.type isEqualToString:@"IMMEDIATE"] ||
+              (
+                [t.type isEqualToString:@"LOCATION"] &&
+                t.trigger_on_enter &&
+                (
+                  t.infinite_distance ||
+                  [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
+                )
+              )
+            )
+          )
+            valid = YES;
+    }
     if(!valid) [displayBlacklist removeObject:t];
   }
 }
@@ -124,8 +140,20 @@
   for(long i = 0; i < pt.count; i++)
   {
     t = pt[i];
-    if(([t.type isEqualToString:@"IMMEDIATE"] || ([t.type isEqualToString:@"LOCATION"] && t.trigger_on_enter && [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance)) 
-       && ![self displayBlacklisted:t])
+    if(
+        (
+          [t.type isEqualToString:@"IMMEDIATE"] || 
+          (
+            [t.type isEqualToString:@"LOCATION"] &&
+            t.trigger_on_enter && 
+            (
+              t.infinite_distance ||
+              [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
+            )
+          )
+        ) &&
+        ![self displayBlacklisted:t]
+      )
       [self enqueueTrigger:t]; //will auto verify not already in queue
   }
 }

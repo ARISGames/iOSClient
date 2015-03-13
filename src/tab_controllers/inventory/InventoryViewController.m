@@ -319,7 +319,7 @@
 
     long i = [self listIndexForTableIndex:indexPath.row];
     Instance *instance = instances[i];
-    Item *item = instance.object;
+    Item *item = (Item *)instance.object;
 
     ((UILabel *)[cell viewWithTag:1]).text = item.name;
     ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.desc];
@@ -357,7 +357,7 @@
 
     long i = [self listIndexForTableIndex:indexPath.row];
     Instance *instance = instances[i];
-    Item *item = instance.object;
+    Item *item = (Item *)instance.object;
 
     [_MODEL_DISPLAY_QUEUE_ enqueueInstance:instance];
     [viewedList setObject:[NSNumber numberWithLong:1] forKey:[NSNumber numberWithLong:item.item_id]];

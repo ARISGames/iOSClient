@@ -11,6 +11,7 @@
 #import "DialogViewController.h"
 #import "AppModel.h"
 #import "ARISWebView.h"
+#import "ARISMediaView.h"
 
 @interface WebPageViewController() <ARISWebViewDelegate>
 {
@@ -162,7 +163,16 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"WEB_PAGE"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(webPage.name && ![webPage.name isEqualToString:@""]) return webPage.name; return @"Web Page"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"logo_icon"]; }
+- (UIImage *) tabIcon
+{
+  if(webPage)
+  {
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    [amv setMedia:[_MODEL_MEDIA_ mediaForId:webPage.icon_media_id]];
+    if(amv.image) return amv.image;
+  }
+  return [UIImage imageNamed:@"logo_icon"];
+}
 
 - (void) dealloc
 {

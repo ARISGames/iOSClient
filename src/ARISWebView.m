@@ -212,6 +212,9 @@
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_ITEMS_ itemForId:[token intValue]]];
         else if([type isEqualToString:@"character"] || [type isEqualToString:@"dialog"] || [type isEqualToString:@"conversation"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:[token intValue]]];
+        
+        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])   
+            [delegate ARISWebViewRequestsDismissal:self];
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {

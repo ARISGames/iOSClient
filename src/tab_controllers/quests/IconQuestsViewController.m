@@ -18,10 +18,10 @@
 {
     Tab *tab;
     UICollectionView *questIconCollectionView;
-    
+
     NSArray *activeQuests;
     NSArray *completeQuests;
-    
+
     id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) UICollectionView *questIconCollectionView;
@@ -38,9 +38,8 @@
     {
         tab = t;
         delegate = d;
-        self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
-        
-        
+        self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
+
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
@@ -60,13 +59,23 @@
     questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     questIconCollectionViewLayout.minimumLineSpacing = 5.0;
     questIconCollectionViewLayout.minimumInteritemSpacing = 5.0;
-    
+
     questIconCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:questIconCollectionViewLayout];
     questIconCollectionView.backgroundColor = [UIColor clearColor];
     questIconCollectionView.dataSource = self;
     questIconCollectionView.delegate = self;
     [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     [self.view addSubview:questIconCollectionView];
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+
+    //apple. so dumb.
+    questIconCollectionView.frame = self.view.bounds;
+    questIconCollectionView.contentInset = UIEdgeInsetsMake(64,0,0,0);
+    [questIconCollectionView setContentOffset:CGPointMake(0,-64)];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -82,7 +91,7 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];    
+    [super viewDidAppear:animated];
     [self refreshViewFromModel];
 }
 
@@ -106,16 +115,16 @@
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor clearColor]; 
-    
+    cell.backgroundColor = [UIColor clearColor];
+
     for(UIView *view in [cell.contentView subviews])
         [view removeFromSuperview];
-        
+
     Quest *q;
-    
+
     if(indexPath.item < activeQuests.count) q = [activeQuests   objectAtIndex:indexPath.item];
     else                                    q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];
-    
+
     CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-20), cell.contentView.frame.size.width, 20);
     UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
     iconTitleLabel.text = q.name;
@@ -125,28 +134,28 @@
     iconTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
     iconTitleLabel.font = [ARISTemplate ARISSubtextFont];
     [cell.contentView addSubview:iconTitleLabel];
-    
+
     ARISMediaView *icon = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width) delegate:self];
     [icon setDisplayMode:ARISMediaDisplayModeAspectFit];
     if(indexPath.item < activeQuests.count)
     {
         if(q.active_icon_media_id != 0) [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.active_icon_media_id]];
-        else                            [icon setImage:[UIImage imageNamed:@"item.png"]];
+        else                            [icon setImage:[UIImage imageNamed:@"logo_icon.png"]];
     }
     else
     {
         if(q.complete_icon_media_id != 0) [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.complete_icon_media_id]];
-        else                              [icon setImage:[UIImage imageNamed:@"item.png"]];    
+        else                            [icon setImage:[UIImage imageNamed:@"logo_icon.png"]];
     }
-    
+
     icon.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:icon];
-    
+
     return cell;
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{    
+{
     Quest *q;
     if(indexPath.item < activeQuests.count) q = [activeQuests    objectAtIndex:indexPath.item];
     else                                      q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];

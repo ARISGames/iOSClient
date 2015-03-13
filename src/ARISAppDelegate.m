@@ -39,6 +39,7 @@
 
 - (void) applicationDidFinishLaunching:(UIApplication *)application
 {    
+    application.statusBarOrientation = UIInterfaceOrientationPortrait;
     application.idleTimerDisabled = YES;
     
     [Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];

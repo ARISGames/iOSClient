@@ -354,7 +354,7 @@
 }
 
 - (CGPoint *) getSampleData            { return sampleData; }
-- (int) getSampleLength                { return sampleLength; }
+- (long) getSampleLength               { return sampleLength; }
 - (float) getPlayProgress              { return playProgress; }
 - (float) getEndTime                   { return endTime; }
 - (void) setAudioLength:(float)seconds { lengthInSeconds = seconds; }
@@ -363,13 +363,13 @@
 {
 	if(wsp.status == LOADED)
     {
-		int sdl = 0;
+		long sdl = 0;
 		//float *sd = [wsp dataForResolution:[self waveRect].size.width lenght:&sdl];
 		float *sd = [wsp dataForResolution:8000 lenght:&sdl];
-		[self setSampleData:sd length:sdl];
-		int dmin = wsp.minute;
-		int dsec = wsp.sec;
-        timeLabel.text = [NSString stringWithFormat:@"--:--/%02d:%02d",dmin,dsec]; 
+		[self setSampleData:sd length:(int)sdl];
+		long dmin = wsp.minute;
+		long dsec = wsp.sec;
+        timeLabel.text = [NSString stringWithFormat:@"--:--/%02ld:%02ld",dmin,dsec]; 
 		[self start];
 	}
 }

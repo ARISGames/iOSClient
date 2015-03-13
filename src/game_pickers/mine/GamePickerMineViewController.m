@@ -14,32 +14,32 @@
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
-    {
-        self.title = NSLocalizedString(@"GamePickerMineTabKey", @"");
-        
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock.png"]];   
-  _ARIS_NOTIF_LISTEN_(@"MODEL_MINE_GAMES_AVAILABLE",self,@selector(mineGamesAvailable),nil);
-    }
-    return self;
+  if(self = [super initWithDelegate:d])
+  {
+    self.title = NSLocalizedString(@"GamePickerMineTabKey", @"");
+
+    [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock.png"]];
+    _ARIS_NOTIF_LISTEN_(@"MODEL_MINE_GAMES_AVAILABLE",self,@selector(mineGamesAvailable),nil);
+  }
+  return self;
 }
 
 - (void) mineGamesAvailable
 {
-    [self removeLoadingIndicator];
-	games = _MODEL_GAMES_.mineGames;
-	[gameTable reloadData];
+  [self removeLoadingIndicator];
+  games = _MODEL_GAMES_.mineGames;
+  [gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.pingMineGames;
-	[gameTable reloadData];
+  games = _MODEL_GAMES_.pingMineGames;
+  [gameTable reloadData];
 }
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);         
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

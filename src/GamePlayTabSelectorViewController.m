@@ -9,6 +9,7 @@
 #import "GamePlayTabSelectorViewController.h"
 #import "ARISNavigationController.h"
 #import "GamePlayTabBarViewControllerProtocol.h"
+#import "GamePlayTabSelectorCell.h"
 
 #import "QuestsViewController.h"
 #import "IconQuestsViewController.h"
@@ -27,7 +28,7 @@
 #import "AppModel.h"
 #import "ARISMediaView.h"
 
-@interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource, GamePlayTabSelectorCellDelegate>
 {
     UITableView *tableView;
     UIView *leaveGameButton;
@@ -35,8 +36,8 @@
     UIImageView *leaveGameArrow;
     UIView *leaveGameLine;
 
-    NSMutableArray *viewControllers;
     NSMutableDictionary *viewControllersDict;
+    NSMutableArray *viewControllers;
 
     id<GamePlayTabSelectorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -49,10 +50,10 @@
     if(self = [super init])
     {
         delegate = d;
-        viewControllers = [[NSMutableArray alloc] init];
         viewControllersDict = [[NSMutableDictionary alloc] init];
+        viewControllers = [[NSMutableArray alloc] init];
         [self refreshFromModel];
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_NEW_AVAILABLE", self, @selector(refreshFromModel), nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_NEW_AVAILABLE",  self, @selector(refreshFromModel), nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_LESS_AVAILABLE", self, @selector(refreshFromModel), nil);
     }
     return self;
@@ -138,19 +139,19 @@
 - (void) refreshFromModel
 {
     NSArray *playerTabs = _ARIS_ARRAY_SORTED_ON_(_MODEL_TABS_.playerTabs,@"sort_index");
-    viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
+    viewControllers = [[NSMutableArray alloc] initWithCapacity:playerTabs.count];
 
     Tab *tab;
     for(long i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
-        if(!viewControllersDict[tab.keyString])
+        if(!viewControllersDict[[NSNumber numberWithLong:tab.tab_id]])
         {
             ARISNavigationController *vc;
             if([tab.type isEqualToString:@"QUESTS"])
             {
                 //if uses icon quest view
-                if((BOOL)tab.content_id)
+                if(tab.info && ![tab.info isEqualToString:@""])
                 {
                     IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithTab:tab delegate:
                     (id<QuestsViewControllerDelegate>)delegate];
@@ -224,11 +225,11 @@
                     (id<WebPageViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
             }
-            if(vc) [viewControllersDict setObject:vc forKey:tab.keyString];
+            if(vc) [viewControllersDict setObject:vc forKey:[NSNumber numberWithLong:tab.tab_id]];
         }
 
-        if (viewControllersDict[tab.keyString])[viewControllers addObject:viewControllersDict[tab.keyString]];
-        else NSLog(@"ERROR: Tab from server could not be created. KeyString %@ should exist but does not have a matching VC", tab.keyString);
+        if(viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]) [viewControllers addObject:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
+        else NSLog(@"ERROR: Tab from server could not be created. KeyString %ld should exist but does not have a matching VC", tab.tab_id);
     }
 
     if(self.view) [tableView reloadData];
@@ -264,19 +265,17 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    c.opaque = NO;
-    c.backgroundColor = [UIColor clearColor];
-    c.textLabel.textColor = [ARISTemplate ARISColorSideNavigationText];
-    c.textLabel.font = [ARISTemplate ARISButtonFont];
+  GamePlayTabSelectorCell *c;
+  if(!(c = (GamePlayTabSelectorCell *)[tableView dequeueReusableCellWithIdentifier:[GamePlayTabSelectorCell cellIdentifier]]))
+    c = [[GamePlayTabSelectorCell alloc] initWithDelegate:self];
 
-    ARISNavigationController *anc = viewControllers[indexPath.row];
-    id<GamePlayTabBarViewControllerProtocol> gptbvc = anc.viewControllers[0];
+  ARISNavigationController *anc = viewControllers[indexPath.row];
+  id<GamePlayTabBarViewControllerProtocol> gptbvc = anc.viewControllers[0];
 
-    c.textLabel.text = gptbvc.tabTitle;
-    c.imageView.image = gptbvc.tabIcon;
+  [c setLabel:gptbvc.tabTitle];
+  [c setIcon:gptbvc.tabIcon];
 
-    return c;
+  return c;
 }
 
 - (void) requestDisplayTab:(Tab *)t
@@ -289,16 +288,15 @@
         tab = playerTabs[i];
         if(tab == t)
         {
-
             if([tab.type isEqualToString:@"SCANNER"])
             {
-                ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[tab.keyString];
+                ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]];
                 [((ScannerViewController *)navigation.topViewController) setPrompt:tab.info];
                 // clean this up later.
                 tab.info = @"";
             }
 
-            [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
+            [delegate viewControllerRequestedDisplay:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
             return;
         }
     }
@@ -310,7 +308,7 @@
         tab = playerTabs[i];
         if([[tab.name lowercaseString] isEqualToString:[t lowercaseString]])
         {
-            [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
+            [delegate viewControllerRequestedDisplay:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
             return;
         }
     }
@@ -320,7 +318,7 @@
         tab = playerTabs[i];
         if([[tab.type lowercaseString] isEqualToString:[t lowercaseString]])
         {
-            [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
+            [delegate viewControllerRequestedDisplay:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
             return;
         }
     }
@@ -336,8 +334,8 @@
         tab = playerTabs[i];
         if([tab.type isEqualToString:@"SCANNER"])
         {
-            [((ScannerViewController *)viewControllersDict[tab.keyString]) setPrompt:p];
-            [delegate viewControllerRequestedDisplay:viewControllersDict[tab.keyString]];
+            [((ScannerViewController *)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]) setPrompt:p];
+            [delegate viewControllerRequestedDisplay:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
             return;
         }
     }

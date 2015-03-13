@@ -183,8 +183,8 @@
 
     if([instance.object_type isEqualToString:@"NOTE"])
     {
-      Note *note = instance.object;
-      [listNotes addObject:note];
+      Note *note = (Note *)instance.object;
+      if(note) [listNotes addObject:note];
     }
   }
 

@@ -124,6 +124,7 @@
 - (void) gameLeft
 {
     [self displayContentController:gamePickersViewController];
+    gamePlayViewController = nil; //immediately dealloc
 }
 
 - (void) gameDetailsRequested:(Game *)g
