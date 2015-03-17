@@ -51,7 +51,12 @@
 
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    resetButton.imageEdgeInsets = UIEdgeInsetsMake(6,6,6,6);
     [resetButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+
+    resetButton.backgroundColor =  [UIColor colorWithRed:242/255.0 green:241/255.0 blue:237/255.0 alpha:1];
+    resetButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    resetButton.layer.borderWidth = 2.0f;
 
     [self.view addSubview:mapView];
     [self.view addSubview:resetButton];
@@ -72,10 +77,10 @@
     [super viewWillLayoutSubviews];
     mapView.frame     = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
     resetButton.frame = CGRectMake(
-        self.view.bounds.size.width-self.view.bounds.size.width/10-10,
-        self.view.bounds.size.height-self.view.bounds.size.width/10-10,
-        self.view.bounds.size.width/10,
-        self.view.bounds.size.width/10
+        self.view.bounds.size.width-self.view.bounds.size.width/7-10,
+        self.view.bounds.size.height-self.view.bounds.size.width/7-10,
+        self.view.bounds.size.width/7,
+        self.view.bounds.size.width/7
     );
 
     MKCoordinateSpan span = MKCoordinateSpanMake(0, 0.01);
