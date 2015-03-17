@@ -10,7 +10,7 @@
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate>
 {
-	UIWindow *window;
+  UIWindow *window;
 }
 
 @property (nonatomic, strong) UIWindow *window;

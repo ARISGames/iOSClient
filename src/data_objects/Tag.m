@@ -15,6 +15,7 @@
 @synthesize tag;
 @synthesize media_id;
 @synthesize visible;
+@synthesize curated;
 @synthesize sort_index;
 
 - (id) init
@@ -25,6 +26,7 @@
         self.tag = @"Tag";
         self.media_id = 0;
         self.visible = 1;
+        self.curated = 1;
         self.sort_index = 0;
     }
     return self;	
@@ -38,6 +40,7 @@
         self.tag            = [dict validObjectForKey:@"tag"];
         self.media_id       = [dict validIntForKey:@"media_id"];
         self.visible        = [dict validIntForKey:@"visible"];
+        self.curated        = [dict validIntForKey:@"curated"];
         self.sort_index     = [dict validIntForKey:@"sort_index"];
     }
     return self;
@@ -50,6 +53,7 @@
     w.tag = self.tag;
     w.media_id = self.media_id;
     w.visible = self.visible;
+    w.curated = self.curated;
     w.sort_index = self.sort_index;
     return w;
 }

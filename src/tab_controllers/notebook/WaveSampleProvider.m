@@ -107,11 +107,11 @@
     clientFormat.mFormatID           = kAudioFormatLinearPCM;
     clientFormat.mSampleRate         = sampleRate;
     clientFormat.mFormatFlags        = kAudioFormatFlagIsFloat;//kAudioFormatFlagsCanonical;//kAudioFormatFlagIsFloat | kAudioFormatFlagIsAlignedHigh | kAudioFormatFlagsCanonical;// | kAudioFormatFlagIsPacked | kAudioFormatFlagsNativeEndian;// |  kAudioFormatFlagIsNonInterleaved;
-    clientFormat.mChannelsPerFrame   = extAFNumChannels;
+    clientFormat.mChannelsPerFrame   = (unsigned int)extAFNumChannels;
     clientFormat.mBitsPerChannel     = sizeof(float) * 8;
     clientFormat.mFramesPerPacket    = 1;
-    clientFormat.mBytesPerFrame      = extAFNumChannels * sizeof(float);
-    clientFormat.mBytesPerPacket     = extAFNumChannels * sizeof(float);
+    clientFormat.mBytesPerFrame      = (unsigned int)extAFNumChannels * sizeof(float);
+    clientFormat.mBytesPerPacket     = (unsigned int)extAFNumChannels * sizeof(float);
 //    clientFormat.mReserved           = 0;
 	
     err = ExtAudioFileSetProperty(extAFRef, kExtAudioFileProperty_ClientDataFormat, propSize, &clientFormat);
@@ -225,12 +225,12 @@
     float *data = (float*)malloc(kSegmentSize*sizeof(float));
     if(!data) return -1;
     
-    UInt32 numPackets = numFrames; // Frames to read
-    UInt32 samples = numPackets * extAFNumChannels; // 2 channels (samples) per frame
+    UInt32 numPackets = (unsigned int)numFrames; // Frames to read
+    UInt32 samples = numPackets * (unsigned int)extAFNumChannels; // 2 channels (samples) per frame
     
     AudioBufferList bufList;
     bufList.mNumberBuffers = 1;
-    bufList.mBuffers[0].mNumberChannels = extAFNumChannels; // Always 2 channels in this example
+    bufList.mBuffers[0].mNumberChannels = (unsigned int)extAFNumChannels; // Always 2 channels in this example
     bufList.mBuffers[0].mData = data; // data is a pointer (float*) to our sample buffer
     bufList.mBuffers[0].mDataByteSize = samples * sizeof(float);
     

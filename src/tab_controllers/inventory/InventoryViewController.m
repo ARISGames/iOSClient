@@ -185,13 +185,43 @@
     [sortableTags removeAllObjects];
     [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
 
+    /*
+    // Only display tags if you have an item with that tag
+    Tag* tmp_tag;
+    NSArray *inst_tags;
+    for(long i = 0; i < allTags.count; i++)
+    {
+        tmp_tag = allTags[i];
+        if(tmp_tag.visible && tmp_tag.curated)
+        {
+            bool found = false;
+            for(long i = 0; i < instances.count && !found; i++)
+            {
+                inst_tags = tags[i];
+                for(long j = 0; j < inst_tags.count && !found; j++)
+                {
+                    if([((Tag *)inst_tags[j]).tag isEqualToString:tmp_tag.tag])
+                    {
+                        [sortableTags addObject:tmp_tag];
+                        found = true;
+                    }
+                }
+            }
+            
+        }
+    }
+    */
+    
+    // Display all curated tags
     Tag* tmp_tag;
     for(long i = 0; i < allTags.count; i++)
     {
         tmp_tag = allTags[i];
-        if(tmp_tag.visible) [sortableTags addObject:tmp_tag];
+        if(tmp_tag.visible && tmp_tag.curated)
+            [sortableTags addObject:tmp_tag];
     }
-
+    
+    
     if(sortableTags.count > 1) [self sizeViewsForTagView];
     else                       [self sizeViewsWithoutTagView];
 

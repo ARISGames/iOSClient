@@ -263,7 +263,7 @@
     return viewControllers.count;
 }
 
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   GamePlayTabSelectorCell *c;
   if(!(c = (GamePlayTabSelectorCell *)[tableView dequeueReusableCellWithIdentifier:[GamePlayTabSelectorCell cellIdentifier]]))
