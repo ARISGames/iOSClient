@@ -163,8 +163,13 @@
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
 
     contentView.frame = CGRectMake(0, 64, self.view.bounds.size.width/4, self.view.bounds.size.width/4);
-    if(note.media_id == 0)
+    if(media) {
+      [contentView setMedia:media];
+    }
+    else if(note.media_id == 0)
+    {
       [contentView setImage:[UIImage imageNamed:@"notebooktext.png"]];
+    }
 
     if([_MODEL_TAGS_ tags].count > 0)
     {
