@@ -106,31 +106,6 @@
   [preview setFrame:previewFrameFull];
 }
 
-- (void) setPreviewMedia:(Media *)m
-{
-  [preview setImage:nil];
-  if(!m) return;
-
-  if([m.type isEqualToString:@"IMAGE"])
-  {
-    [preview setFrame:previewFrameFull];
-    [preview setDisplayMode:ARISMediaDisplayModeAspectFill];
-    [preview setMedia:m];
-  }
-  if([m.type isEqualToString:@"VIDEO"])
-  {
-    [preview setFrame:previewFrameSmall];
-    [preview setDisplayMode:ARISMediaDisplayModeAspectFit];
-    [preview setImage:[UIImage imageNamed:@"video.png"]];
-  }
-  if([m.type isEqualToString:@"AUDIO"])
-  {
-    [preview setFrame:previewFrameSmall];
-    [preview setDisplayMode:ARISMediaDisplayModeAspectFit];
-    [preview setImage:[UIImage imageNamed:@"microphone.png"]];
-  }
-}
-
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv
 {
   return NO;

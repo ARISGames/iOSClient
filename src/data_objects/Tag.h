@@ -14,6 +14,7 @@
 	NSString *tag;
 	long media_id; 
 	long visible; 
+	long curated; 
 	long sort_index; 
 }
 
@@ -21,6 +22,7 @@
 @property(nonatomic, strong) NSString *tag;
 @property(readwrite, assign) long media_id;
 @property(readwrite, assign) long visible;
+@property(readwrite, assign) long curated;
 @property(readwrite, assign) long sort_index;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
