@@ -30,14 +30,13 @@
         long width;
         width = [nt.tag sizeWithFont:[ARISTemplate ARISBodyFont]].width;
         
-        self.frame = CGRectMake(0,0,width,20);
-        self.backgroundColor = [UIColor ARISColorLightBlue]; 
-        self.layer.cornerRadius = 8;
+        self.frame = CGRectMake(0,0,width+30,30);
         self.layer.masksToBounds = YES;
         
         UILabel *tagText = [[UILabel alloc] initWithFrame:self.bounds];
+        [tagText setTextAlignment:NSTextAlignmentCenter];
         tagText.font = [ARISTemplate ARISBodyFont];
-        tagText.textColor = [UIColor whiteColor];
+        tagText.textColor = [UIColor ARISColorDarkBlue];
         tagText.text = nt.tag; 
         [self addSubview:tagText];   
         
