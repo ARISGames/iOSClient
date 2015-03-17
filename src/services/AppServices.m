@@ -1344,9 +1344,13 @@
 }
 - (void) parseNote:(ARISServiceResult *)result
 {
-    NSDictionary *noteDict= (NSDictionary *)result.resultData;
-    Note *note = [[Note alloc] initWithDictionary:noteDict];
-    _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_RECEIVED", nil, @{@"note":note});
+    // Since note is one of the few items a client gets individually, prevent trying to retrieve a deleted note.
+    if(result.resultData != [NSNull null])
+    {
+      NSDictionary *noteDict= (NSDictionary *)result.resultData;
+      Note *note = [[Note alloc] initWithDictionary:noteDict];
+      _ARIS_NOTIF_SEND_(@"SERVICES_NOTE_RECEIVED", nil, @{@"note":note});
+    }
 }
 
 - (void) fetchTagById:(long)tag_id;
