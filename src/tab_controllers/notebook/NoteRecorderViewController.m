@@ -104,14 +104,17 @@
     [editButton addTarget:self action:@selector(editButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
     
     discardButton = [[UIButton alloc] init]; 
-    [discardButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];   
+    [discardButton setTitle:NSLocalizedString(@"RetakeKey", nil) forState:UIControlStateNormal];
+    [discardButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [discardButton sizeToFit];
     [discardButton addTarget:self action:@selector(discardButtonTouched) forControlEvents:UIControlEventTouchUpInside];     
-    discardButton.frame = CGRectMake(0,0, 20, 20);      
     
     saveButton = [[UIButton alloc] init];
-    [saveButton setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];   
+    [saveButton setTitle:NSLocalizedString(@"UseKey", nil) forState:UIControlStateNormal];
+    [saveButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    saveButton.titleLabel.font = [ARISTemplate ARISCellBoldTitleFont];
+    [saveButton sizeToFit];
     [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];    
-    saveButton.frame    = CGRectMake(0,0, 24, 24);    
     
     confirmPrompt = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:NSLocalizedString(@"DiscardKey", @"") otherButtonTitles:nil];
 }
@@ -155,8 +158,11 @@
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0,0,19,19);
-    [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
+    [backButton setTitle:NSLocalizedString(@"CancelKey", nil) forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [backButton sizeToFit];
+
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];    
     self.navigationItem.rightBarButtonItem = nil;       

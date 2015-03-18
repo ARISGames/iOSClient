@@ -100,7 +100,7 @@
     [descriptionDoneButton addTarget:self action:@selector(doneButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 
     saveNoteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveNoteButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
+    [saveNoteButton setTitle:NSLocalizedString(@"SaveKey", nil) forState:UIControlStateNormal];
     [saveNoteButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     saveNoteButton.titleLabel.font = [ARISTemplate ARISCellBoldTitleFont];
     [saveNoteButton sizeToFit];
@@ -108,7 +108,7 @@
 
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton setAccessibilityLabel: @"Back Button"];
-    [backButton setTitle:NSLocalizedString(@"Cancel", nil) forState:UIControlStateNormal];
+    [backButton setTitle:NSLocalizedString(@"CancelKey", nil) forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     [backButton sizeToFit];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
