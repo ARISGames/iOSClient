@@ -23,7 +23,7 @@
 
 - (id) initWithOverlay:(Overlay *)o
 {
-    if(self = [super init])
+    if(self = [super initWithOverlay:o])
     {
         overlay = o;
         mediaView = [[ARISMediaView alloc] init];

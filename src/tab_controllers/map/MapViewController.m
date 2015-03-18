@@ -22,11 +22,43 @@
 #import "TriangleButton.h"
 #import "ItemActionViewController.h"
 
+// simple struct to hold annotation/overlay pairs so they can be added/removed together
+@interface MapViewAnnotationOverlay : NSObject
+{
+    id<MKAnnotation> annotation;
+    id<MKOverlay> overlay;
+}
+@property(nonatomic, strong) id<MKAnnotation> annotation;
+@property(nonatomic, strong) id<MKOverlay> overlay;
+
+- (id) initWithAnnotation:(id<MKAnnotation>)a overlay:(id<MKOverlay>)o;
+@end
+
+@implementation MapViewAnnotationOverlay
+
+@synthesize annotation;
+@synthesize overlay;
+
+- (id) initWithAnnotation:(id<MKAnnotation>)a overlay:(id<MKOverlay>)o
+{
+    if(self = [super init])
+    {
+        annotation = a;
+        overlay = o;
+    }
+    return self;
+}
+
+@end
+
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate>
 {
     Tab *tab;
     
     MKMapView *mapView;
+    NSMutableArray *annotationOverlays; //annot/overlays (triggers/circles) added to map
+    NSMutableArray *overlays; //overlays (custom maps) added to map
+    
     MapHUD *hud;
     UIView *blackout;
     UIView *blackoutRight;
@@ -63,13 +95,20 @@
 
         _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(playerMoved),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_TRIGGERS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(clearLocalData),nil); //weird external model update
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(triggersInvalidated:),nil); //weird external model update
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         firstLoad = true;
+        
+        annotationOverlays = [[NSMutableArray alloc] init];
+        overlays = [[NSMutableArray alloc] init];
     }
     return self;
 }
+
+// helpers because obj c doesn't have typed arrays...
+- (MapViewAnnotationOverlay *) mvaoAt:(long)i { return annotationOverlays[i]; }
+- (id<MKOverlay>) mvoAt:(long)i { return overlays[i]; }
 
 - (void) loadView
 {
@@ -167,45 +206,59 @@
     [_MODEL_OVERLAYS_ requestPlayerOverlays];
 }
 
+- (void) triggersInvalidated:(NSNotification *)n
+{
+    NSMutableArray *invalidated = n.userInfo[@"invalidated_triggers"];
+    
+    Trigger *invalidatedTrigger;
+    Trigger *mapTrigger;
+    MapViewAnnotationOverlay *mvao;
+    
+    for(long i = 0; i < invalidated.count; i++)
+    {
+        mvao = nil;
+        invalidatedTrigger = invalidated[i];
+        for(long j = 0; j < annotationOverlays.count; j++)
+        {
+            mapTrigger = [self mvaoAt:j].annotation;
+            if(mapTrigger.trigger_id == invalidatedTrigger.trigger_id) mvao = [self mvaoAt:j];
+        }
+        if(mvao)
+        {
+            [mapView removeAnnotation:mvao.annotation];
+            [mapView removeOverlay:mvao.overlay];
+            [annotationOverlays removeObject:mvao];
+        }
+    }
+}
+
 - (void) clearLocalData
 {
     if(!mapView) return;
     
-    
-    NSArray *mapAnnotations = mapView.annotations;
-    NSArray *mapOverlays = mapView.overlays;
-
-    Trigger *mapTrigger;
-    Overlay *mapOverlay;
-    
-    //Remove all locations
-    for(long i = 0; i < mapAnnotations.count; i++)
+    for(long i = 0; i < annotationOverlays.count; i++)
     {
-        if(![mapAnnotations[i] isKindOfClass:[Trigger class]]) continue;
-        mapTrigger = mapAnnotations[i];
-        [mapView removeAnnotation:mapTrigger];
-        [mapView removeOverlay:mapTrigger.mapCircle];
+        [mapView removeAnnotation:[self mvaoAt:i].annotation];
+        [mapView removeOverlay:[self mvaoAt:i].overlay];
     }
-    
-    //Remove overlays
-    for(long i = 0; i < mapOverlays.count; i++)
+    for(long i = 0; i < overlays.count; i++)
     {
-        mapOverlay = mapOverlays[i];
-        [mapView removeOverlay:mapOverlay];
+        [mapView removeOverlay:[self mvoAt:i]];
     }
+    annotationOverlays = [[NSMutableArray alloc] init];
+    overlays = [[NSMutableArray alloc] init];
 }
 
 - (void) refreshViewFromModel
 {
     if(!mapView) return;
 
-    NSArray *mapAnnotations = mapView.annotations;
-    NSArray *mapOverlays = mapView.overlays;
     BOOL shouldRemove;
     BOOL shouldAdd;
 
     Trigger *mapTrigger;
     Trigger *modelTrigger;
+    Instance *modelInstance;
     Overlay *mapOverlay;
     Overlay *modelOverlay;
 
@@ -214,10 +267,9 @@
     //
 
     //Remove locations
-    for(long i = 0; i < mapAnnotations.count; i++)
+    for(long i = 0; i < annotationOverlays.count; i++)
     {
-        if(![mapAnnotations[i] isKindOfClass:[Trigger class]]) continue;
-        mapTrigger = mapAnnotations[i];
+        mapTrigger = [self mvaoAt:i].annotation;
         shouldRemove = YES;
         for(long j = 0; j < _MODEL_TRIGGERS_.playerTriggers.count; j++)
         {
@@ -232,34 +284,46 @@
         }
         if(shouldRemove)
         {
-            [mapView removeAnnotation:mapTrigger];
-            [mapView removeOverlay:mapTrigger.mapCircle];
+            MapViewAnnotationOverlay *mvao = [self mvaoAt:i];
+            [mapView removeAnnotation:mvao.annotation];
+            [mapView removeOverlay:mvao.overlay];
+            [annotationOverlays removeObject:mvao];
+            i--;
         }
     }
     //Add locations
     for(long i = 0; i < _MODEL_TRIGGERS_.playerTriggers.count; i++)
     {
         modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i];
-        if(![modelTrigger.type isEqualToString:@"LOCATION"] || modelTrigger.hidden) continue;
+        modelInstance = [_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id];
+        if(modelInstance.instance_id == 0 || !modelInstance.object) continue;
+        
         if(
-           ![_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].infinite_qty &&
-            [_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].qty <= 0 &&
-            [[_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].object_type isEqualToString:@"ITEM"]
+           ( //trigger not eligible for map
+            ![modelTrigger.type isEqualToString:@"LOCATION"] || modelTrigger.hidden
+           )
+           ||
+           ( //instance not eligible for map
+            [modelInstance.object_type isEqualToString:@"ITEM"] &&
+            !modelInstance.infinite_qty &&
+             modelInstance.qty <= 0
+           )
           ) continue;
-        // For new notes from other players
-        if(![_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id].object) continue;
 
         shouldAdd = YES;
-        for(long j = 0; j < mapAnnotations.count; j++)
+        for(long j = 0; j < annotationOverlays.count; j++)
         {
-            if(![mapAnnotations[j] isKindOfClass:[Trigger class]]) continue;
-            mapTrigger = mapAnnotations[j];
+            mapTrigger = [self mvaoAt:j].annotation;
             if(mapTrigger.trigger_id == modelTrigger.trigger_id) shouldAdd = NO;
         }
         if(shouldAdd)
         {
-            [mapView addAnnotation:modelTrigger];
-            [mapView addOverlay:modelTrigger.mapCircle];
+            MKCircle *circle = [MKCircle circleWithCenterCoordinate:modelTrigger.location.coordinate radius:(modelTrigger.infinite_distance ? 0 : modelTrigger.distance)]; 
+            MapViewAnnotationOverlay *mvao = [[MapViewAnnotationOverlay alloc] initWithAnnotation:modelTrigger overlay:circle];
+            
+            [mapView addAnnotation:mvao.annotation];
+            [mapView addOverlay:mvao.overlay];
+            [annotationOverlays addObject:mvao];
         }
     }
 
@@ -269,30 +333,37 @@
     //
 
     //Remove overlays
-    for(long i = 0; i < mapOverlays.count; i++)
+    for(long i = 0; i < overlays.count; i++)
     {
-        if(![mapOverlays[i] isKindOfClass:[Overlay class]]) continue;
-        mapOverlay = mapOverlays[i];
+        mapOverlay = [self mvoAt:i];
         shouldRemove = YES;
         for(long j = 0; j < _MODEL_OVERLAYS_.playerOverlays.count; j++)
         {
             modelOverlay = _MODEL_OVERLAYS_.playerOverlays[j];
             if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldRemove = NO;
         }
-        [mapView removeOverlay:mapOverlay];
+        if(shouldRemove)
+        {
+            [mapView removeOverlay:mapOverlay];
+            [overlays removeObject:mapOverlay];
+            i--;
+        }
     }
     //Add overlays
     for(long i = 0; i < _MODEL_OVERLAYS_.playerOverlays.count; i++)
     {
         modelOverlay = _MODEL_OVERLAYS_.playerOverlays[i];
         shouldAdd = YES;
-        for(long j = 0; j < mapOverlays.count; j++)
+        for(long j = 0; j < overlays.count; j++)
         {
-            if(![mapOverlays[j] isKindOfClass:[Overlay class]]) continue;
-            mapOverlay = mapOverlays[j];
+            mapOverlay = [self mvoAt:j];
             if(mapOverlay.overlay_id == modelOverlay.overlay_id) shouldAdd = NO;
         }
-        [mapView addOverlay:modelOverlay];
+        if(shouldAdd)
+        {
+            [mapView addOverlay:modelOverlay];
+            [overlays addObject:modelOverlay];
+        }
     }
     
     //refresh views (ugly)

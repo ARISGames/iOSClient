@@ -27,7 +27,6 @@
 @synthesize hidden;
 @synthesize trigger_on_enter;
 @synthesize qr_code;
-@synthesize mapCircle;
 
 - (id) init
 {
@@ -48,7 +47,6 @@
         hidden = NO;
         trigger_on_enter = NO;
         qr_code = @"";
-        mapCircle = [MKCircle circleWithCenterCoordinate:location.coordinate radius:(infinite_distance ? 0 : distance)];
     }
     return self;
 }
@@ -72,7 +70,6 @@
         hidden            = [dict validBoolForKey:@"hidden"];
         trigger_on_enter  = [dict validBoolForKey:@"trigger_on_enter"];
         qr_code           = [dict validStringForKey:@"qr_code"];
-        mapCircle         = [MKCircle circleWithCenterCoordinate:location.coordinate radius:(infinite_distance ? 0 : distance)]; 
     }
     return self;
 }
@@ -95,7 +92,6 @@
     hidden            = t.hidden;
     trigger_on_enter  = t.trigger_on_enter;
     qr_code           = t.qr_code;
-    mapCircle = t.mapCircle;
     return e;
 }
 
@@ -115,7 +111,7 @@
     [type isEqualToString:t.type]                        &&
     [name isEqualToString:t.name]                        &&
     [title isEqualToString:t.title]                      &&
-    icon_media_id                 == t.icon_media_id     &&
+    self.icon_media_id            == t.icon_media_id     && //must use 'self' to parallel fallthrough to parent
     location.coordinate.latitude  == t.location.coordinate.latitude  &&
     location.coordinate.longitude == t.location.coordinate.longitude &&
     distance                      == t.distance          &&
