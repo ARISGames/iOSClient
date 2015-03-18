@@ -296,6 +296,7 @@
 		C0878F421A672182001739E3 /* LICENCE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0878F3E1A672182001739E3 /* LICENCE.txt */; };
 		C0878F431A672182001739E3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C0878F401A672182001739E3 /* Reachability.m */; };
 		C0878F441A672182001739E3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C0878F411A672182001739E3 /* README.md */; };
+		C0A4418E1ABA1CD900F97685 /* discard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0A4418D1ABA1CD900F97685 /* discard@2x.png */; };
 		C0D3B9D91AB2119D00F1D582 /* note_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0D3B9D81AB2119D00F1D582 /* note_icon.png */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		F92B5E0F18BFE02900D1D1A7 /* CircleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F92B5E0E18BFE02900D1D1A7 /* CircleButton.m */; };
@@ -808,6 +809,7 @@
 		C0878F3F1A672182001739E3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C0878F401A672182001739E3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		C0878F411A672182001739E3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C0A4418D1ABA1CD900F97685 /* discard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "discard@2x.png"; sourceTree = "<group>"; };
 		C0D3B9D81AB2119D00F1D582 /* note_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note_icon.png; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F91684FF1912C6B900114E71 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1037,6 +1039,7 @@
 		AA527E4317E0B6830040AB75 /* notebook */ = {
 			isa = PBXGroup;
 			children = (
+				C0A4418D1ABA1CD900F97685 /* discard@2x.png */,
 				AA0D161718EE00C100D856F1 /* trash_red@2x.png */,
 				AA04E34318E62A6400621F0C /* sound_with_bg@2x.png */,
 				AA04E34118E6267E00621F0C /* speech_bubble@2x.png */,
@@ -2141,6 +2144,7 @@
 				C0D3B9D91AB2119D00F1D582 /* note_icon.png in Resources */,
 				AABC70481727398B0074CC21 /* questChange.wav in Resources */,
 				AABC70491727398B0074CC21 /* swish.wav in Resources */,
+				C0A4418E1ABA1CD900F97685 /* discard@2x.png in Resources */,
 				AABC704A1727398B0074CC21 /* ticktick.wav in Resources */,
 				AABC70571727399C0074CC21 /* Bascom Hall.gpx in Resources */,
 				AABC70581727399C0074CC21 /* Bascom Hill.gpx in Resources */,

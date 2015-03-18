@@ -55,7 +55,7 @@
     postButton.userInteractionEnabled = YES; 
     
     cancelButton = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-80, 28, 15, 15)];
-    [cancelButton setImage:[UIImage imageNamed:@"delete.png"]];
+    [cancelButton setImage:[UIImage imageNamed:@"discard.png"]];
     [cancelButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonTouched)]]; 
     cancelButton.userInteractionEnabled = YES;
     
