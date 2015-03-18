@@ -64,6 +64,7 @@
 {
     Trigger *newTrigger;
     NSNumber *newTriggerId;
+    NSMutableArray *invalidatedTriggers = [[NSMutableArray alloc] init];
     for(long i = 0; i < newTriggers.count; i++)
     {
       newTrigger = [newTriggers objectAtIndex:i];
@@ -74,8 +75,10 @@
         [blacklist removeObjectForKey:[NSNumber numberWithLong:newTriggerId]];
       }
       else
-        if(![[triggers objectForKey:newTriggerId] mergeDataFromTrigger:newTrigger]) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,nil);
+        if(![[triggers objectForKey:newTriggerId] mergeDataFromTrigger:newTrigger])
+            [invalidatedTriggers addObject:[triggers objectForKey:newTriggerId]];
     }
+    if(invalidatedTriggers.count) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,@{@"invalidated_triggers":invalidatedTriggers});
     _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -83,6 +86,7 @@
 - (NSArray *) conformTriggersListToFlyweight:(NSArray *)newTriggers
 {
     NSMutableArray *conformingTriggers = [[NSMutableArray alloc] init];
+    NSMutableArray *invalidatedTriggers = [[NSMutableArray alloc] init];
     for(long i = 0; i < newTriggers.count; i++)
     {
         Trigger *newt = newTriggers[i];
@@ -90,7 +94,7 @@
         
         if(exist)
         {
-            if(![exist mergeDataFromTrigger:newt]) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,nil);
+            if(![exist mergeDataFromTrigger:newt]) [invalidatedTriggers addObject:exist];
             [conformingTriggers addObject:exist];
         }
         else
@@ -99,6 +103,7 @@
             [conformingTriggers addObject:newt];
         }
     }
+    if(invalidatedTriggers.count) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,@{@"invalidated_triggers":invalidatedTriggers});
     return conformingTriggers;
 }
 

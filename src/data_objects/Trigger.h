@@ -28,8 +28,6 @@
     BOOL hidden;
     BOOL trigger_on_enter;
     NSString *qr_code;
-
-    MKCircle *mapCircle; //I would just extend this directly, but MKCircle has immutable properties :(
 }
 
 @property (nonatomic, assign) long trigger_id;
@@ -39,7 +37,7 @@
 @property (nonatomic, copy)   NSString *name;
 @property (nonatomic, copy)   NSString *title;
 @property (nonatomic, assign) long icon_media_id;
-@property (nonatomic, strong)   CLLocation *location;
+@property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, assign) long distance;
 @property (nonatomic, assign) BOOL infinite_distance;
 @property (nonatomic, assign) BOOL wiggle;
@@ -47,8 +45,6 @@
 @property (nonatomic, assign) BOOL hidden;
 @property (nonatomic, assign) BOOL trigger_on_enter;
 @property (nonatomic, copy)   NSString *qr_code;
-
-@property (nonatomic, strong)   MKCircle *mapCircle;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (BOOL) mergeDataFromTrigger:(Trigger *)t;
