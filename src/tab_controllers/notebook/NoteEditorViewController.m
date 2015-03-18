@@ -174,13 +174,13 @@
     if([_MODEL_TAGS_ tags].count > 0)
     {
         [tagViewController setExpandHeight:250];
-        if(tagViewController.view.frame.size.height <= 30)
+        if(tagViewController.view.frame.size.height <= 35)
             // TODO make relative to media coordinates
             tagViewController.view.frame = CGRectMake(
                 self.view.bounds.size.width/4,
                 CGRectGetMaxY(contentView.frame)-35,
                 self.view.bounds.size.width-self.view.bounds.size.width/4,
-                30
+                35
             );
         else
             tagViewController.view.frame = CGRectMake(

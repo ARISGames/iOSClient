@@ -32,11 +32,12 @@
         
         self.frame = CGRectMake(0,0,width+30,30);
         self.layer.masksToBounds = YES;
-        
+
         UILabel *tagText = [[UILabel alloc] initWithFrame:self.bounds];
         [tagText setTextAlignment:NSTextAlignmentCenter];
         tagText.font = [ARISTemplate ARISBodyFont];
         tagText.textColor = [UIColor ARISColorDarkBlue];
+        tagText.numberOfLines = 0;
         tagText.text = nt.tag; 
         [self addSubview:tagText];   
         
