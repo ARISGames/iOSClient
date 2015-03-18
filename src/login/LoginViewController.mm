@@ -93,13 +93,14 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
   [self.view addSubview:passwordField];
 
   loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-  loginButton.backgroundColor = [UIColor clearColor];
-  [loginButton setBackgroundImage:[UIImage imageNamed:@"arrowForward"] forState:UIControlStateNormal];
+  [loginButton setImage:[UIImage imageNamed:@"arrowForward"] forState:UIControlStateNormal];
   [loginButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
   [loginButton.titleLabel setFont:[ARISTemplate ARISButtonFont]];
   loginButton.accessibilityLabel = @"Login";
-  loginButton.frame = CGRectMake(self.view.frame.size.width-50, navOffset+100, 20, 20);
+  loginButton.imageEdgeInsets = UIEdgeInsetsMake(10,10,10,10);
+  loginButton.frame = CGRectMake(self.view.frame.size.width-60, navOffset+100, 60, 50);
   [loginButton addTarget:self action:@selector(loginButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+
   [self.view addSubview:loginButton];
 
   qrButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -152,7 +153,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 
   usernameField.frame    = CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20);
   passwordField.frame    = CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20);
-  loginButton.frame      = CGRectMake(self.view.frame.size.width-50, navOffset+100, 20, 20);
+  loginButton.frame      = CGRectMake(self.view.frame.size.width-60, navOffset+100, 60, 50);
   qrButton.frame         = CGRectMake(80, self.view.frame.size.height-(self.view.frame.size.width-160)-80, self.view.frame.size.width-160, self.view.frame.size.width-160);
   newAccountButton.frame = CGRectMake(0, self.view.frame.size.height-60, self.view.frame.size.width, 20);
   changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
