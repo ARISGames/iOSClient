@@ -48,13 +48,13 @@
     commentPromptText.font = [ARISTemplate ARISInputFont];
     commentPromptText.text = NSLocalizedString(@"CommentTitleKey", @"");
     
-    postButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 24, 50, 20)];
+    postButton = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-55, 14, 50, 20)];
     postButton.text = NSLocalizedString(@"PostKey", @"");
     postButton.textColor = [UIColor ARISColorDarkBlue];  
     [postButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postButtonTouched)]];
     postButton.userInteractionEnabled = YES; 
     
-    cancelButton = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-80, 28, 15, 15)];
+    cancelButton = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-80, 18, 15, 15)];
     [cancelButton setImage:[UIImage imageNamed:@"discard.png"]];
     [cancelButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonTouched)]]; 
     cancelButton.userInteractionEnabled = YES;
@@ -85,8 +85,8 @@
 
 - (void) textViewDidBeginEditing:(UITextView *)textView
 {
-    self.view.frame = CGRectMake(0, self.view.frame.origin.y, self.view.frame.size.width, 70); 
-    commentArea.frame = CGRectMake(10,10,self.view.frame.size.width-20-50,50);
+    self.view.frame = CGRectMake(0, self.view.frame.origin.y, self.view.frame.size.width, 50); 
+    commentArea.frame = CGRectMake(10,10,self.view.frame.size.width-20-50,30);
     [self.view addSubview:postButton]; 
     [self.view addSubview:cancelButton];  
     [delegate commentBeganEditing];
