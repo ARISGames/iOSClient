@@ -74,7 +74,14 @@
 - (NSURL *) localURL
 {
     if(!mediaCD.localURL) return nil;
-    return [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(mediaCD.localURL)]];
+    if([mediaCD.localURL hasPrefix:@"file://"])
+    {
+      return [NSURL URLWithString:[NSString stringWithFormat:@"%@",mediaCD.localURL]];
+    }
+    else
+    {
+      return [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(mediaCD.localURL)]];
+    }
 }
 
 - (void) setPartialLocalURL:(NSString *)lURL
@@ -105,7 +112,7 @@
     NSString *ext = [[self fileExtension] lowercaseString];
     if([ext isEqualToString:@"jpg"]  ||
        [ext isEqualToString:@"jpeg"] ||
-       [ext isEqualToString:@"png"]  || 
+       [ext isEqualToString:@"png"]  ||
        [ext isEqualToString:@"gif"])
     {
         return @"IMAGE";
