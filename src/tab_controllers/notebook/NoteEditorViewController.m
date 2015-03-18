@@ -100,7 +100,7 @@
     [descriptionDoneButton addTarget:self action:@selector(doneButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 
     saveNoteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveNoteButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
+    [saveNoteButton setTitle:NSLocalizedString(@"SaveKey", nil) forState:UIControlStateNormal];
     [saveNoteButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     saveNoteButton.titleLabel.font = [ARISTemplate ARISCellBoldTitleFont];
     [saveNoteButton sizeToFit];
@@ -108,7 +108,7 @@
 
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton setAccessibilityLabel: @"Back Button"];
-    [backButton setTitle:NSLocalizedString(@"Cancel", nil) forState:UIControlStateNormal];
+    [backButton setTitle:NSLocalizedString(@"CancelKey", nil) forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     [backButton sizeToFit];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
@@ -163,19 +163,24 @@
     //order of sizing not top to bottom- calculate edge views to derive sizes of middle views
 
     contentView.frame = CGRectMake(0, 64, self.view.bounds.size.width/4, self.view.bounds.size.width/4);
-    if(note.media_id == 0)
+    if(media) {
+      [contentView setMedia:media];
+    }
+    else if(note.media_id == 0)
+    {
       [contentView setImage:[UIImage imageNamed:@"notebooktext.png"]];
+    }
 
     if([_MODEL_TAGS_ tags].count > 0)
     {
         [tagViewController setExpandHeight:250];
-        if(tagViewController.view.frame.size.height <= 30)
+        if(tagViewController.view.frame.size.height <= 35)
             // TODO make relative to media coordinates
             tagViewController.view.frame = CGRectMake(
                 self.view.bounds.size.width/4,
                 CGRectGetMaxY(contentView.frame)-35,
                 self.view.bounds.size.width-self.view.bounds.size.width/4,
-                30
+                35
             );
         else
             tagViewController.view.frame = CGRectMake(
