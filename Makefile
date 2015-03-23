@@ -15,9 +15,10 @@ help:
 	@echo "        all: timestamp, copy, clean."
 	@echo "   simulate: build and run ios-sim launcher "
 	@echo "       copy: push ipas to aris"
-	@echo "  timestamp: rename dist/ARIS.ipa to version"
+	@echo "  timestamp: rename dist/ARIS.ipa to current version"
 	@echo "             add POSTFIX=xyz for multiple versions on the same date."
 	@echo "             ie: make timestamp POSTFIX=2"
+	@echo "        tag: create git tag from current version"
 	@echo "      clean: remove all created ipa/plist from dist."
 	@echo ""
 	@echo "make [all|copy|timestamp|clean]"
@@ -37,13 +38,19 @@ copy:
 	@echo "   $(OK_COLOR)(Done)$(CLEAR)"
 
 timestamp:
-	@echo "Generating timestamped .ipa/.plist"
+	@echo "Generating timestamped .ipa/.plist from Info.plist version"
 	@bin/timestamp_build.sh $(POSTFIX)
+	@echo "   $(OK_COLOR)(Done)$(CLEAR)"
+
+tag:
+	@echo "Creating git tag from Info.plist version."
+	@bin/tag_release.sh
 	@echo "   $(OK_COLOR)(Done)$(CLEAR)"
 
 clean:
 	@echo "Removing dist/ARIS-*.plist/ipa"
 	@rm dist/ARIS-*.plist dist/ARIS-*.ipa
+	@echo "   $(OK_COLOR)(Done)$(CLEAR)"
 
 ARIS_OUTPUT_DIR=./build
 
