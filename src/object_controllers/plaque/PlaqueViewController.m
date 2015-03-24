@@ -210,12 +210,13 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) continueButtonTouched
 {
+    [webView hookWithParams:@""];
     [self dismissSelf];
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
-    [self dismissSelf];;
+    [self dismissSelf];
 }
 
 - (void) dismissSelf

@@ -10,8 +10,6 @@
 
 @interface ARISViewController ()
 {
-    BOOL willAppearFirstTime;
-    BOOL didAppearFirstTime; 
 }
 @end
 
@@ -20,8 +18,6 @@
 - (void) initialize
 {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    willAppearFirstTime = NO;
-    didAppearFirstTime = NO; 
 }
 
 - (id) init
@@ -41,26 +37,6 @@
         [self initialize]; 
     }
     return self;
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if(!willAppearFirstTime) { [self viewWillAppearFirstTime:animated]; willAppearFirstTime = YES; }
-}
-
-- (void) viewWillAppearFirstTime:(BOOL)animated
-{
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if(!didAppearFirstTime) { [self viewDidAppearFirstTime:animated]; didAppearFirstTime = YES; }
-}
-
-- (void) viewDidAppearFirstTime:(BOOL)animated
-{
 }
 
 - (NSUInteger) supportedInterfaceOrientations

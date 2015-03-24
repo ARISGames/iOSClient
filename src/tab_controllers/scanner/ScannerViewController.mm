@@ -20,6 +20,7 @@
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureSession *session;
     BOOL scanning;
+    UIBarButtonItem *leftNavButton;
     id<ScannerViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -45,6 +46,12 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorBlack];
+    
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+    leftNavButton = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
 }
 
 
@@ -52,8 +59,8 @@
 {
     [super viewDidLoad];
     [self loadAVMetadataScanner];
+    self.navigationItem.leftBarButtonItem = leftNavButton;
 }
-
 
 - (void) loadAVMetadataScanner
 {
@@ -110,19 +117,6 @@
     [self setPrompt:prompt];
 }
 
-- (void) viewWillAppearFirstTime:(BOOL)animated
-{
-    [super viewWillAppearFirstTime:animated];
-
-    //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
-}
-
-
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -130,7 +124,6 @@
     [session startRunning];
     scanning = YES;
 }
-
 
 - (void) viewDidDisappear:(BOOL)animated
 {
@@ -141,28 +134,17 @@
     scanning = NO;
 }
 
-
 - (void) showNav
 {
     [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 
-
 -  (void) setPrompt:(NSString *)p
 {
     prompt = p;
     promptLabel.text = prompt;
-
-    if([prompt isEqualToString:@""])
-    {
-      promptLabel.hidden = YES;
-    }
-    else
-    {
-      promptLabel.hidden = NO;
-    }
+    promptLabel.hidden = [prompt isEqualToString:@""];
 }
-
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {

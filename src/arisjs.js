@@ -84,8 +84,8 @@ var ARISJS = function(_ARIS)
             request.open('POST', url, true);
             request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             request.send(POSTparams);
-            console.log("POSTparams:" + POSTparams);
-            console.log("url:" + url);
+            //console.log("POSTparams:" + POSTparams);
+            //console.log("url:" + url);
         }
         else
         {
@@ -120,44 +120,12 @@ var ARISJS = function(_ARIS)
     /*
      * ARIS CALLBACK FUNCTIONS
      */
-    if(typeof(_ARIS.didUpdateItemQty) === 'undefined')
-    {
-        _ARIS.didUpdateItemQty = function(updatedItemId,qty)
-        {
-            alert("Item '"+updatedItemId+"' qty was updated to '"+qty+"'. Override ARIS.didUpdateItemQty(updatedItemId,qty) to handle this event however you want! (Or, just add 'ARIS.didUpdateItemQty = function(updatedItemId,qty){return;};' to your code to just get rid of this message)");
-        }
-    }
-
-    if(typeof(_ARIS.didReceivePlayer) === 'undefined')
-    {
-        _ARIS.didReceivePlayer = function(player)
-        {
-            alert("The player's name is "+player.name+". Override ARIS.didReceivePlayer(player) to handle this event however you want! (Or, just add 'ARIS.didReceivePlayer = function(player){return;};' to your code to just get rid of this message)");
-        }
-    }
-
-    if(typeof(_ARIS.hook) === 'undefined')
-    {
-        _ARIS.hook = function(paramsJSON)
-        {
-            alert("Just recieved a hook from ARIS with this information: '"+paramsJSON+"'. Override ARIS.hook(paramsJSON) to handle this event however you want! (Or, just add 'ARIS.hook = function(paramsJSON){return;};' to your code to just get rid of this message)");
-        }
-    }
-
-    if(typeof(_ARIS.ready) === 'undefined')
-    {
-        _ARIS.ready = function()
-        {
-            return;
-        }
-    }
-
-    if(typeof(_ARIS.callbacksEnabled) !== 'undefined' && !_ARIS.callbacksEnabled)
-    {
-      _ARIS.didUpdateItemQty = function(updatedItemId,qty) {};
-      _ARIS.didReceivePlayer = function(player)            {};
-      _ARIS.hook             = function(paramsJSON)        {};
-    }
+    var enabled = (typeof(_ARIS.callbacksEnabled) === 'undefined' || _ARIS.callbacksEnabled);
+    
+    if(!enabled || typeof(_ARIS.didUpdateItemQty) === 'undefined') { _ARIS.didUpdateItemQty = function(updatedItemId,qty) {} }
+    if(!enabled || typeof(_ARIS.didReceivePlayer) === 'undefined') { _ARIS.didReceivePlayer = function(player)            {} }
+    if(!enabled || typeof(_ARIS.hook)             === 'undefined') { _ARIS.hook             = function(paramsJSON)        {} }
+    if(            typeof(_ARIS.ready)            === 'undefined') { _ARIS.ready            = function()                  {} }
 
     return _ARIS;
 }

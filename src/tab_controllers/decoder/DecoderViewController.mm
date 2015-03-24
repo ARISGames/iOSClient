@@ -15,6 +15,7 @@
 {
     Tab *tab;
 	UITextField *codeTextField;
+    BOOL firstTime;
     
     id<DecoderViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -28,6 +29,7 @@
     {
         tab = t;
         self.title = NSLocalizedString(@"QRDecoderTitleKey", @"");
+        firstTime = YES;
         
         delegate = d;
     }
@@ -50,25 +52,20 @@
     [self.view addSubview:codeTextField];
 }
 
-- (void) viewWillAppearFirstTime:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppearFirstTime:animated];
-
-    /*
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
-    */
-
-    //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
-    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    threeLineNavButton.accessibilityLabel = @"In-Game Menu";
-    [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];  
+    [super viewWillAppear:animated];
+    if(firstTime)
+    {
+        firstTime = NO;
+        //overwrite the nav button written by superview so we can listen for touchDOWN events as well (to dismiss camera)
+        UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+        [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
+        [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+        threeLineNavButton.accessibilityLabel = @"In-Game Menu";
+        [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];  
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated

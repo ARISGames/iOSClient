@@ -336,9 +336,10 @@
     
 }
 
-- (void) hookWithParams:(NSString *)params
+- (BOOL) hookWithParams:(NSString *)params
 {
     [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.hook(%@);",params]];
+    return false;
 }
 
 - (void) clear
