@@ -41,14 +41,18 @@ var ARISJS = function(_ARIS)
         _ARIS.dequeueRequest();
     }
 
-    _ARIS.closeMe             = function()                 { _ARIS.enqueueRequest("aris://closeMe"); }
+    //legacy
+    _ARIS.closeMe             = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.hideLeaveButton     = function()                 { _ARIS.enqueueRequest("aris://leaveButton/disable"); }
-    _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exitTo/tab/"+tab); }
-    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exitTo/scanner/"+prompt); }
-    _ARIS.exitToPlaque        = function(plaque_id)        { _ARIS.enqueueRequest("aris://exitTo/plaque/"+plaque_id); }
-    _ARIS.exitToWebpage       = function(webpageId)        { _ARIS.enqueueRequest("aris://exitTo/webpage/"+webpageId); }
-    _ARIS.exitToItem          = function(item_id)          { _ARIS.enqueueRequest("aris://exitTo/item/"+item_id); }
-    _ARIS.exitToCharacter     = function(dialog_id)        { _ARIS.enqueueRequest("aris://exitTo/character/"+dialog_id); }
+    
+    _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
+    _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
+    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+prompt); }
+    _ARIS.exitToPlaque        = function(plaque_id)        { _ARIS.enqueueRequest("aris://exit/plaque/"+plaque_id); }
+    _ARIS.exitToWebpage       = function(webpageId)        { _ARIS.enqueueRequest("aris://exit/webpage/"+webpageId); }
+    _ARIS.exitToItem          = function(item_id)          { _ARIS.enqueueRequest("aris://exit/item/"+item_id); }
+    _ARIS.exitToCharacter     = function(dialog_id)        { _ARIS.enqueueRequest("aris://exit/character/"+dialog_id); }
+    _ARIS.exitGame            = function()                 { _ARIS.enqueueRequest("aris://exit/game/"); }
     _ARIS.prepareMedia        = function(media_id)         { _ARIS.enqueueRequest("aris://media/prepare/" + media_id); }
     _ARIS.playMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/play/" + media_id); }
     _ARIS.playMediaAndVibrate = function(media_id)         { _ARIS.enqueueRequest("aris://media/playAndVibrate/" + media_id); }

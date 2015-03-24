@@ -175,19 +175,7 @@
     NSString *mainCommand = [[request URL] host];
     NSArray *components   = [[request URL] pathComponents];
     
-    if([mainCommand isEqualToString:@"closeMe"])
-    {
-        [self clear];
-        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])   
-            [delegate ARISWebViewRequestsDismissal:self];
-    }
-    else if([mainCommand isEqualToString:@"leaveButton"])
-    {
-        if(components.count > 1 && [[components objectAtIndex:1] isEqualToString:@"disable"])
-            if([delegate respondsToSelector:@selector(ARISWebViewRequestsHideButton:)])    
-                [delegate ARISWebViewRequestsHideButton:self];
-    }
-    else if([mainCommand isEqualToString:@"exitTo"])
+    if([mainCommand isEqualToString:@"exit"])
     {
         [self clear];
         
@@ -197,7 +185,10 @@
         if(components.count > 2) token = [components objectAtIndex:2];
         
         if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
-        if([type isEqualToString:@"tab"])
+        
+        if([type isEqualToString:@"game"])
+            [_MODEL_ leaveGame];
+        else if([type isEqualToString:@"tab"])
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:token]];
         else if([type isEqualToString:@"scanner"])
         {
