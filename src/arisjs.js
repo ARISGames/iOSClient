@@ -43,7 +43,8 @@ var ARISJS = function(_ARIS)
 
     //legacy
     _ARIS.closeMe             = function()                 { _ARIS.enqueueRequest("aris://exit"); }
-    _ARIS.hideLeaveButton     = function()                 { _ARIS.enqueueRequest("aris://leaveButton/disable"); }
+    _ARIS.hideLeaveButton     = function()                 { }
+    _ARIS.playMediaAndVibrate = function(media_id)         { }
     
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
@@ -55,9 +56,9 @@ var ARISJS = function(_ARIS)
     _ARIS.exitGame            = function()                 { _ARIS.enqueueRequest("aris://exit/game/"); }
     _ARIS.prepareMedia        = function(media_id)         { _ARIS.enqueueRequest("aris://media/prepare/" + media_id); }
     _ARIS.playMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/play/" + media_id); }
-    _ARIS.playMediaAndVibrate = function(media_id)         { _ARIS.enqueueRequest("aris://media/playAndVibrate/" + media_id); }
     _ARIS.stopMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/stop/" + media_id); }
     _ARIS.setMediaVolume      = function(media_id, volume) { _ARIS.enqueueRequest("aris://media/setVolume/" + media_id + "/" + volume); }
+    _ARIS.vibrate             = function()                 { _ARIS.enqueueRequest("aris://vibrate"); }
     _ARIS.getItemCount        = function(item_id)          { _ARIS.enqueueRequest("aris://inventory/get/" + item_id); }
     _ARIS.setItemCount        = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/set/" + item_id + "/" + qty); }
     _ARIS.giveItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/give/" + item_id + "/" + qty); }

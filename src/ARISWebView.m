@@ -270,11 +270,10 @@
             [self stopAudioFromMediaId:[[components objectAtIndex:2] intValue]];
         else if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"setVolume"])
             [self setMediaId:[[components objectAtIndex:2] intValue] volumeTo:[[components objectAtIndex:3] floatValue]];
-        else if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"playAndVibrate"])
-        {
-            [self playAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-            [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
-        }
+    }
+    else if([mainCommand isEqualToString:@"vibrate"])
+    {
+        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
     }
     
     [webView stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
