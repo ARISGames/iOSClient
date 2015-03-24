@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h> //for check if camera available
 
 #import "RootViewController.h"
 
@@ -101,7 +102,10 @@
 
 - (void) playerLoggedIn
 {
-    if(!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id)
+    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    
+    if((status != AVAuthorizationStatusDenied && status != AVAuthorizationStatusRestricted) &&
+       (!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id))
         [self displayContentController:playerSettingsNavigationController];
     else if(!_MODEL_GAME_)
         [self displayContentController:gamePickersViewController];
