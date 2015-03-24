@@ -88,6 +88,7 @@
     {
         if([submitFunction isEqualToString:@"JAVASCRIPT"]) return;//[webView hookWithParams:@""];
         else if([submitFunction isEqualToString:@"NONE"]) return;
+        else if([submitFunction isEqualToString:@"PICKGAME"]) [_MODEL_ leaveGame];
         else [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:submitFunction]];
     }
     [self popOverRequestsDismiss];

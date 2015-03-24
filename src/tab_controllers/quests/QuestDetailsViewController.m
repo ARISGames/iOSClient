@@ -182,6 +182,7 @@
 {
     if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"JAVASCRIPT"]) [webView hookWithParams:@""];
     else if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"]) return;
+    else if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"PICKGAME"]) [_MODEL_ leaveGame];
     else [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function)]];
 }
 
