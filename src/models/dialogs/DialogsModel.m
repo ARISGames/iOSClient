@@ -57,7 +57,10 @@
     NSMutableArray *flyweightOptions = [[NSMutableArray alloc] init];
     NSArray *servicesOptions = notif.userInfo[@"options"];
     for(long i = 0; i < servicesOptions.count; i++)
-        [flyweightOptions addObject:[self optionForId:((DialogOption *)servicesOptions[i]).dialog_option_id]];
+    {
+        DialogOption *o = [self optionForId:((DialogOption *)servicesOptions[i]).dialog_option_id];
+        if(o) [flyweightOptions addObject:o];
+    }
     
     NSDictionary *uInfo = @{@"options":flyweightOptions,
                             @"dialog_id":notif.userInfo[@"dialog_id"],
