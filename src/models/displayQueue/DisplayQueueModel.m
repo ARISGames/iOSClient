@@ -28,6 +28,7 @@
     [self clear];
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(enqueueNewImmediates),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(purgeInvalidFromQueue),nil);
+    _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(reevaluateImmediates),nil);
   }
   return self;
 }
@@ -87,6 +88,12 @@
   for(long i = 0; i < displayBlacklist.count; i++)
     if(d == displayBlacklist[i]) return YES;
   return NO;
+}
+
+- (void) reevaluateImmediates
+{
+    [self purgeInvalidFromQueue];
+    [self enqueueNewImmediates];
 }
 
 - (void) purgeInvalidFromQueue
