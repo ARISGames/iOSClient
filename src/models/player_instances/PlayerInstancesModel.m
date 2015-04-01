@@ -152,8 +152,9 @@
   NSArray *instancearray = [playerInstances allValues];
   for(long i = 0; i < instancearray.count; i++)
   {
-      if([((Item *)((Instance *)[instancearray objectAtIndex:i]).object).type isEqualToString:@"NORMAL"])
-      [inventory addObject:[instancearray objectAtIndex:i]];
+      Item *item = ((Item *)((Instance *)[instancearray objectAtIndex:i]).object);
+      if([item.type isEqualToString:@"NORMAL"] || [item.type isEqualToString:@"URL"])
+          [inventory addObject:[instancearray objectAtIndex:i]];
   }
   return inventory;
 }
