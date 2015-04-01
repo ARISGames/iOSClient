@@ -20,6 +20,7 @@
 #import "TriggersModel.h"
 #import "OverlaysModel.h"
 #import "InstancesModel.h"
+#import "PlayerInstancesModel.h"
 #import "TabsModel.h"
 #import "LogsModel.h"
 #import "QuestsModel.h"
@@ -67,6 +68,7 @@
   TriggersModel   *triggersModel;
   OverlaysModel   *overlaysModel;
   InstancesModel  *instancesModel;
+  PlayerInstancesModel  *playerInstancesModel;
   TabsModel       *tabsModel;
   LogsModel       *logsModel;
   QuestsModel     *questsModel;
@@ -114,6 +116,7 @@
 @property (nonatomic, strong) TriggersModel  *triggersModel;
 @property (nonatomic, strong) OverlaysModel  *overlaysModel;
 @property (nonatomic, strong) InstancesModel *instancesModel;
+@property (nonatomic, strong) PlayerInstancesModel *playerInstancesModel;
 @property (nonatomic, strong) TabsModel      *tabsModel;
 @property (nonatomic, strong) LogsModel      *logsModel;
 @property (nonatomic, strong) QuestsModel    *questsModel;

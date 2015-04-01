@@ -6,7 +6,6 @@
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-
 // Functions both as "Game" data object and Game Model
 
 #import "Game.h"
@@ -71,6 +70,7 @@ const long playerDatasToReceive = 7;
 @synthesize triggersModel;
 @synthesize overlaysModel;
 @synthesize instancesModel;
+@synthesize playerInstancesModel;
 @synthesize tabsModel;
 @synthesize logsModel;
 @synthesize questsModel;
@@ -183,21 +183,22 @@ const long playerDatasToReceive = 7;
     receivedPlayerData = 0;
     playerDataReceived = NO;
 
-    scenesModel    = [[ScenesModel    alloc] init];
-    plaquesModel   = [[PlaquesModel   alloc] init];
-    itemsModel     = [[ItemsModel     alloc] init];
-    dialogsModel   = [[DialogsModel   alloc] init];
-    webPagesModel  = [[WebPagesModel  alloc] init];
-    notesModel     = [[NotesModel     alloc] init];
-    tagsModel      = [[TagsModel      alloc] init];
-    eventsModel    = [[EventsModel    alloc] init];
-    triggersModel  = [[TriggersModel  alloc] init];
-    overlaysModel  = [[OverlaysModel  alloc] init];
-    instancesModel = [[InstancesModel alloc] init];
-    tabsModel      = [[TabsModel      alloc] init];
-    logsModel      = [[LogsModel      alloc] init];
-    questsModel    = [[QuestsModel    alloc] init];
-    displayQueueModel = [[DisplayQueueModel alloc] init];
+    scenesModel          = [[ScenesModel          alloc] init];
+    plaquesModel         = [[PlaquesModel         alloc] init];
+    itemsModel           = [[ItemsModel           alloc] init];
+    dialogsModel         = [[DialogsModel         alloc] init];
+    webPagesModel        = [[WebPagesModel        alloc] init];
+    notesModel           = [[NotesModel           alloc] init];
+    tagsModel            = [[TagsModel            alloc] init];
+    eventsModel          = [[EventsModel          alloc] init];
+    triggersModel        = [[TriggersModel        alloc] init];
+    overlaysModel        = [[OverlaysModel        alloc] init];
+    instancesModel       = [[InstancesModel       alloc] init];
+    playerInstancesModel = [[PlayerInstancesModel alloc] init];
+    tabsModel            = [[TabsModel            alloc] init];
+    logsModel            = [[LogsModel            alloc] init];
+    questsModel          = [[QuestsModel          alloc] init];
+    displayQueueModel    = [[DisplayQueueModel    alloc] init];
 }
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
@@ -208,21 +209,22 @@ const long playerDatasToReceive = 7;
     receivedPlayerData = 0;
     playerDataReceived = NO;
 
-    scenesModel    = nil;
-    plaquesModel   = nil;
-    itemsModel     = nil;
-    dialogsModel   = nil;
-    webPagesModel  = nil;
-    notesModel     = nil;
-    tagsModel      = nil;
-    eventsModel    = nil;
-    triggersModel  = nil;
-    overlaysModel  = nil;
-    instancesModel = nil;
-    tabsModel      = nil;
-    questsModel    = nil;
-    logsModel      = nil;
-    displayQueueModel = nil;
+    scenesModel          = nil;
+    plaquesModel         = nil;
+    itemsModel           = nil;
+    dialogsModel         = nil;
+    webPagesModel        = nil;
+    notesModel           = nil;
+    tagsModel            = nil;
+    eventsModel          = nil;
+    triggersModel        = nil;
+    overlaysModel        = nil;
+    instancesModel       = nil;
+    playerInstancesModel = nil;
+    tabsModel            = nil;
+    questsModel          = nil;
+    logsModel            = nil;
+    displayQueueModel    = nil;
 }
 
 - (void) requestGameData
@@ -232,7 +234,7 @@ const long playerDatasToReceive = 7;
     [scenesModel touchPlayerScene];
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
-    [itemsModel touchPlayerItemInstances];
+    [playerInstancesModel touchPlayerInstances];
     [dialogsModel requestDialogs]; //makes 4 "game data received" notifs (dialogs, characters, scripts, options)
     [webPagesModel requestWebPages];
     [notesModel requestNotes];
@@ -313,28 +315,29 @@ const long playerDatasToReceive = 7;
     receivedPlayerData = 0;
     playerDataReceived = NO;
 
-    [scenesModel    clearGameData];
-    [plaquesModel   clearGameData];
-    [itemsModel     clearGameData];
-    [dialogsModel   clearGameData];
-    [webPagesModel  clearGameData];
-    [notesModel     clearGameData];
-    [tagsModel      clearGameData];
-    [eventsModel    clearGameData];
-    [questsModel    clearGameData];
-    [triggersModel  clearGameData];
-    [overlaysModel  clearGameData];
-    [instancesModel clearGameData];
-    [tabsModel      clearGameData];
+    [scenesModel          clearGameData];
+    [plaquesModel         clearGameData];
+    [itemsModel           clearGameData];
+    [dialogsModel         clearGameData];
+    [webPagesModel        clearGameData];
+    [notesModel           clearGameData];
+    [tagsModel            clearGameData];
+    [eventsModel          clearGameData];
+    [questsModel          clearGameData];
+    [triggersModel        clearGameData];
+    [overlaysModel        clearGameData];
+    [instancesModel       clearGameData];
+    [playerInstancesModel clearGameData];
+    [tabsModel            clearGameData];
 
-    [scenesModel    clearPlayerData];
-    [itemsModel     clearPlayerData];
-    [questsModel    clearPlayerData];
-    [triggersModel  clearPlayerData];
-    [overlaysModel  clearPlayerData];
-    [instancesModel clearPlayerData];
-    [tabsModel      clearPlayerData];
-    [logsModel      clearPlayerData];
+    [scenesModel          clearPlayerData];
+    [questsModel          clearPlayerData];
+    [triggersModel        clearPlayerData];
+    [overlaysModel        clearPlayerData];
+    [instancesModel       clearPlayerData];
+    [playerInstancesModel clearPlayerData];
+    [tabsModel            clearPlayerData];
+    [logsModel            clearPlayerData];
     
     [displayQueueModel clear];
 }

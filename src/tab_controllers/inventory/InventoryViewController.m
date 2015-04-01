@@ -58,8 +58,8 @@
         iconCache  = [[NSMutableDictionary alloc] initWithCapacity:10];
         viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
         currentTagIndex = 0;
-        
-        _ARIS_NOTIF_LISTEN_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",self,@selector(refreshViews),nil);
+
+        _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_INSTANCES_AVAILABLE",self,@selector(refreshViews),nil);
     }
     return self;
 }
@@ -82,7 +82,7 @@
     inventoryTable.delegate = self;
     [self.view addSubview:inventoryTable];
 
-    if(_MODEL_ITEMS_.weightCap > 0)
+    if(_MODEL_GAME_.inventory_weight_cap > 0)
     {
         capBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
         capBar.progress = 0;
@@ -108,8 +108,8 @@
 
     if(capBar)
     {
-        long currentWeight = _MODEL_ITEMS_.currentWeight;
-        long weightCap     = _MODEL_ITEMS_.weightCap;
+        long currentWeight = _MODEL_PLAYER_INSTANCES_.currentWeight;
+        long weightCap     = _MODEL_GAME_.inventory_weight_cap;
         capBar.progress = (float)((float)currentWeight/(float)weightCap);
         capLabel.text = [NSString stringWithFormat:@"%@: %ld/%ld", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
     }
@@ -168,7 +168,7 @@
 {
     if(!self.view) return;
 
-    NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_ITEMS_.inventory,@"name");
+    NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_PLAYER_INSTANCES_.inventory,@"name");
     [instances removeAllObjects];
     [tags removeAllObjects];
 
@@ -207,11 +207,11 @@
                     }
                 }
             }
-            
+
         }
     }
     */
-    
+
     // Display all curated tags
     Tag* tmp_tag;
     for(long i = 0; i < allTags.count; i++)
@@ -220,8 +220,7 @@
         if(tmp_tag.visible && tmp_tag.curated)
             [sortableTags addObject:tmp_tag];
     }
-    
-    
+
     if(sortableTags.count > 1) [self sizeViewsForTagView];
     else                       [self sizeViewsWithoutTagView];
 

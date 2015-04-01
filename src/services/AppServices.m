@@ -407,7 +407,7 @@
 }
 - (void) parseItemTouch:(ARISServiceResult *)result
 {
-    _ARIS_NOTIF_SEND_(@"SERVICES_ITEMS_TOUCHED", nil, nil);
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_TOUCHED", nil, nil);
 }
 
 - (void) fetchDialogs

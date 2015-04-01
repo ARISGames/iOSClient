@@ -235,28 +235,28 @@
         if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"get"])
         {
             long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [_MODEL_ITEMS_ qtyOwnedForItem:item_id];
+            long qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,qty]];
         }
         if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
         {
             long item_id = [[components objectAtIndex:2] intValue];
             long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_ITEMS_ setItemsForPlayer:item_id qtyToSet:qty];
+            long newQty = [_MODEL_PLAYER_INSTANCES_ setItemsForPlayer:item_id qtyToSet:qty];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
         }
         if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
         {
             long item_id = [[components objectAtIndex:2] intValue];
             long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_ITEMS_ giveItemToPlayer:item_id qtyToAdd:qty];
+            long newQty = [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:item_id qtyToAdd:qty];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
         }
         if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
         {
             long item_id = [[components objectAtIndex:2] intValue];
             long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_ITEMS_ takeItemFromPlayer:item_id qtyToRemove:qty];
+            long newQty = [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:item_id qtyToRemove:qty];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
         }
     }

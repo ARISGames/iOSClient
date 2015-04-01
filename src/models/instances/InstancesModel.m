@@ -17,7 +17,7 @@
 @interface InstancesModel()
 {
     NSMutableDictionary *instances;
-    
+
     NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
 }
 @end
@@ -31,7 +31,7 @@
         [self clearGameData];
 
         _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCES_RECEIVED",self,@selector(gameInstancesReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(playerInstancesReceived:),nil); 
+        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(playerInstancesReceived:),nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCE_RECEIVED",self,@selector(instanceReceived:),nil);
     }
     return self;
@@ -55,11 +55,11 @@
 }
 
 //only difference is notification sent- all other functionality same
-- (void) playerInstancesReceived:(NSNotification *)notif 
+- (void) playerInstancesReceived:(NSNotification *)notif
 { [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; }
-- (void) gameInstancesReceived:(NSNotification *)notif 
+- (void) gameInstancesReceived:(NSNotification *)notif
 { [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; }
-- (void) instanceReceived:(NSNotification *)notif 
+- (void) instanceReceived:(NSNotification *)notif
 { [self updateInstances:@[[notif.userInfo objectForKey:@"instance"]]]; }
 
 - (void) updateInstances:(NSArray *)newInstances
@@ -102,30 +102,52 @@
       }
     }
 
-    // deltas for player, deltas for game
+    [self sendNotifsForGameDeltas:gameDeltas playerDeltas:playerDeltas];
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+}
 
+- (void) sendNotifsForGameDeltas:(NSDictionary *)gameDeltas playerDeltas:(NSDictionary *)playerDeltas
+{
+  if(playerDeltas)
+  {
     if(((NSArray *)playerDeltas[@"added"]).count > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_GAINED",nil,playerDeltas);
     if(((NSArray *)playerDeltas[@"lost"]).count  > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_LOST",  nil,playerDeltas);
     _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",nil,playerDeltas);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  }
 
-
+  if(gameDeltas)
+  {
     if(((NSArray *)gameDeltas[@"added"]).count > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_GAINED",nil,gameDeltas);
     if(((NSArray *)gameDeltas[@"lost"]).count  > 0) _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_LOST",  nil,gameDeltas);
     _ARIS_NOTIF_SEND_(@"MODEL_INSTANCES_AVAILABLE",nil,gameDeltas);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  }
 }
 
 - (void) requestInstances       { [_SERVICES_ fetchInstances];   }
 - (void) requestInstance:(long)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
 
-- (void) setQtyForInstanceId:(long)instance_id qty:(long)qty
+- (int) setQtyForInstanceId:(long)instance_id qty:(long)qty
 {
-    Instance *i = [self instanceForId:instance_id];
-    if(!i) return;
-    i.qty = qty;
-    [_SERVICES_ setQtyForInstanceId:instance_id qty:qty];
+  Instance *i = [self instanceForId:instance_id];
+  if(!i) return 0;
+  if(qty < 0) qty = 0;
+
+  long oldQty = i.qty;
+  i.qty = qty;
+  NSDictionary *deltas;
+  if(qty > oldQty) deltas = @{@"lost":@[],@"added":@[@{@"instance":i,@"delta":[NSNumber numberWithLong:qty-oldQty]}]};
+  if(qty < oldQty) deltas = @{@"added":@[],@"lost":@[@{@"instance":i,@"delta":[NSNumber numberWithLong:qty-oldQty]}]};
+
+  if(deltas)
+  {
+    if(i.owner_id == _MODEL_PLAYER_.user_id) [self sendNotifsForGameDeltas:nil playerDeltas:deltas];
+    else                                     [self sendNotifsForGameDeltas:deltas playerDeltas:nil];
+  }
+
+  [_SERVICES_ setQtyForInstanceId:instance_id qty:qty];
+  return qty;
 }
 
 // null instance (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
@@ -160,7 +182,7 @@
     NSArray *allInstances = [instances allValues];
     for(long i = 0; i < allInstances.count; i++)
     {
-        if(((Instance *)allInstances[i]).owner_id == _MODEL_PLAYER_.user_id) 
+        if(((Instance *)allInstances[i]).owner_id == _MODEL_PLAYER_.user_id)
             [pInstances addObject:allInstances[i]];
     }
     return pInstances;

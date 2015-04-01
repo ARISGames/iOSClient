@@ -73,7 +73,18 @@
     author.font = [ARISTemplate ARISSubtextFont]; 
     author.textColor = [UIColor ARISColorDarkGray];   
     // author.text = c.owner.display_name;   
-    CGSize authSize = [author.text sizeWithFont:author.font constrainedToSize:CGSizeMake(author.frame.size.width,9999999) lineBreakMode:NSLineBreakByTruncatingTail];  
+    
+    NSMutableParagraphStyle *paragraphStyle;
+    CGRect textRect;
+    
+    paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    textRect = [author.text boundingRectWithSize:CGSizeMake(author.frame.size.width,9999999)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName:author.font,NSParagraphStyleAttributeName:paragraphStyle}
+                                         context:nil];
+    
+    CGSize authSize = textRect.size;
     author.frame = CGRectMake(author.frame.origin.x, author.frame.origin.y, authSize.width, 14);
     
     UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(author.frame.size.width+20,0,65,14)];
@@ -89,7 +100,15 @@
     text.lineBreakMode = NSLineBreakByWordWrapping;
     text.numberOfLines = 0; 
     text.font = [ARISTemplate ARISInputFont];
-    CGSize textSize = [text.text sizeWithFont:text.font constrainedToSize:CGSizeMake(text.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping];   
+    
+    paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    textRect = [text.text boundingRectWithSize:CGSizeMake(text.frame.size.width,9999999)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName:text.font,NSParagraphStyleAttributeName:paragraphStyle}
+                                         context:nil];
+    CGSize textSize = textRect.size;
+    
     text.frame = CGRectMake(text.frame.origin.x, text.frame.origin.y, text.frame.size.width, textSize.height);
     
     cell.frame = CGRectMake(0, 0, self.view.bounds.size.width, text.frame.origin.y+text.frame.size.height);

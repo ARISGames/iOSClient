@@ -101,7 +101,15 @@
     if([cellSizes objectForKey:[gc description]])
         return [((NSNumber *)[cellSizes objectForKey:[gc description]])intValue];
     
-	CGSize calcSize = [gc.text sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:CGSizeMake(self.view.bounds.size.width, 2000000) lineBreakMode:NSLineBreakByWordWrapping];
+    NSMutableParagraphStyle *paragraphStyle;
+    CGRect textRect;
+    paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    textRect = [gc.text boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 2000000)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle}
+                                         context:nil];
+    CGSize calcSize = textRect.size;
 	return calcSize.height+30; 
 }
 

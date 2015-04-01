@@ -81,24 +81,24 @@
 
   [[UINavigationBar appearance] setTitleTextAttributes:
     [NSDictionary dictionaryWithObjectsAndKeys:
-    [ARISTemplate ARISNavTitleFont],     UITextAttributeFont,
-    [ARISTemplate ARISColorNavBarText],  UITextAttributeTextColor,
-    [UIColor clearColor],                UITextAttributeTextShadowColor,
+    [ARISTemplate ARISNavTitleFont],     NSFontAttributeName,
+    [ARISTemplate ARISColorNavBarText],  NSForegroundColorAttributeName,
+    //[UIColor clearColor],                NSShadowAttributeName,
     nil]
       ];
 
   [[UITabBarItem appearance] setTitleTextAttributes:
     [NSDictionary dictionaryWithObjectsAndKeys:
-    [ARISTemplate ARISTabTitleFont],    UITextAttributeFont,
-    [ARISTemplate ARISColorTabBarText], UITextAttributeTextColor,
+    [ARISTemplate ARISTabTitleFont],    NSFontAttributeName,
+    [ARISTemplate ARISColorTabBarText], NSForegroundColorAttributeName,
     nil]
       forState:UIControlStateNormal];
 
   [[UISegmentedControl appearance] setTitleTextAttributes:
     [NSDictionary dictionaryWithObjectsAndKeys:
-    [ARISTemplate ARISButtonFont],      UITextAttributeFont,
-    [ARISTemplate ARISColorTabBarText], UITextAttributeTextColor,
-    [UIColor clearColor],               UITextAttributeTextShadowColor,
+    [ARISTemplate ARISButtonFont],      NSFontAttributeName,
+    [ARISTemplate ARISColorTabBarText], NSForegroundColorAttributeName,
+    //[UIColor clearColor],               NSShadowAttributeName,
     nil]
       forState:UIControlStateNormal];
 }

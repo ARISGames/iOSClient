@@ -8,30 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "Item.h"
-#import "Instance.h"
 
 @interface ItemsModel : NSObject
 {
-    long currentWeight;
-    long weightCap;
 }
-
-@property(nonatomic, assign) long currentWeight;
-@property(nonatomic, assign) long weightCap;
 
 - (Item *) itemForId:(long)item_id;
 - (void) requestItems;
-- (void) touchPlayerItemInstances;
-- (NSArray *) inventory;
-- (NSArray *) attributes;
-
-- (long) dropItemFromPlayer:(long)item_id qtyToRemove:(long)qty;
-- (long) takeItemFromPlayer:(long)item_id qtyToRemove:(long)qty;
-- (long) giveItemToPlayer:(long)item_id qtyToAdd:(long)qty;
-- (long) setItemsForPlayer:(long)item_id qtyToSet:(long)qty;
-- (long) qtyOwnedForItem:(long)item_id;
-- (long) qtyAllowedToGiveForItem:(long)item_id;
-- (void) clearPlayerData;
 - (void) clearGameData;
 
 @end

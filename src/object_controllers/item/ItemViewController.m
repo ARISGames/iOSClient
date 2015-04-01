@@ -245,7 +245,7 @@
 - (void) dropButtonTouched
 {
     lastbuttontouched = 0;
-    long amtCanDrop = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
+    long amtCanDrop = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item.item_id];
 
     if(amtCanDrop > 1)
     {
@@ -259,7 +259,7 @@
 
 - (void) dropItemQty:(long)q
 {
-    if([_MODEL_ITEMS_ dropItemFromPlayer:item.item_id qtyToRemove:q] == 0)
+    if([_MODEL_PLAYER_INSTANCES_ dropItemFromPlayer:item.item_id qtyToRemove:q] == 0)
     {
         [self dismissSelf];
     }
@@ -273,7 +273,7 @@
 - (void) destroyButtonTouched
 {
     lastbuttontouched = 1;
-    long amtCanDestroy = [_MODEL_ITEMS_ qtyOwnedForItem:item.item_id];
+    long amtCanDestroy = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item.item_id];
 
     if(amtCanDestroy > 1)
     {
@@ -287,7 +287,7 @@
 
 - (void) destroyItemQty:(long)q
 {
-    if([_MODEL_ITEMS_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
+    if([_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:item.item_id qtyToRemove:q] == 0) [self dismissSelf];
     else
     {
         [self updateViewButtons];
@@ -298,7 +298,7 @@
 - (void) pickupButtonTouched
 {
     lastbuttontouched = 2;
-    long amtMoreCanHold = [_MODEL_ITEMS_ qtyAllowedToGiveForItem:item.item_id];
+    long amtMoreCanHold = [_MODEL_PLAYER_INSTANCES_ qtyAllowedToGiveForItem:item.item_id];
     long allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
     if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;
     
@@ -317,7 +317,7 @@
 
 - (void) pickupItemQty:(long)q
 {
-    [_MODEL_ITEMS_ giveItemToPlayer:item.item_id qtyToAdd:q];
+    [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:item.item_id qtyToAdd:q];
     long nq = instance.qty - q;
     [_MODEL_INSTANCES_ setQtyForInstanceId:instance.instance_id qty:nq];
     instance.qty = nq; //should get set in above call- but if bogus instance, can't hurt to force it

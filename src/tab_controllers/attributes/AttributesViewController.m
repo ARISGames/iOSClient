@@ -46,7 +46,7 @@
       instances = [[NSMutableArray alloc] init];
       iconCache = [[NSMutableArray alloc] init];
 
-      _ARIS_NOTIF_LISTEN_(@"MODEL_ITEMS_PLAYER_INSTANCES_AVAILABLE",self,@selector(refreshViews),nil);
+      _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_INSTANCES_AVAILABLE",self,@selector(refreshViews),nil);
     }
     return self;
 }
@@ -112,7 +112,7 @@
 {
   if(!self.view) return;
 
-  NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_ITEMS_.attributes,@"name");
+  NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_PLAYER_INSTANCES_.attributes,@"name");
   [instances removeAllObjects];
 
   Instance *tmp_inst;
@@ -153,13 +153,13 @@
       cell.contentView.opaque = NO;
 
       cell.userInteractionEnabled = NO;
-      
+
       UILabel *lblTemp;
       lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 20)];
       lblTemp.backgroundColor = [UIColor clearColor];
       lblTemp.font = [UIFont boldSystemFontOfSize:18.0];
       [cell.contentView addSubview:lblTemp];
-          
+
       lblTemp = [[UILabel alloc] initWithFrame:CGRectMake(70, 39, 240, 20)];
       lblTemp.backgroundColor = [UIColor clearColor];
       lblTemp.font = [UIFont systemFontOfSize:11];
@@ -177,12 +177,12 @@
       lblTemp.backgroundColor = [UIColor clearColor];
       lblTemp.textAlignment = NSTextAlignmentRight;
       [cell.contentView addSubview:lblTemp];
-          
+
   }
 
   Instance *instance = instances[indexPath.row];
   Item *attrib = (Item *)instance.object;
-    
+
   NSArray *views = cell.contentView.subviews;
 
   ((UILabel *)views[0]).text = attrib.name;
@@ -196,7 +196,7 @@
   }
   else
     [((ARISMediaView *)views[2]) setImage:nil];
-    
+
   if(instance.qty > 1 || attrib.max_qty_in_inventory > 1)
     ((UILabel *)views[3]).text = [NSString stringWithFormat:@"%ld",instance.qty];
   else

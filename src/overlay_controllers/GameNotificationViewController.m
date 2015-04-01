@@ -21,7 +21,7 @@
     NSMutableArray *popOverArray;
     BOOL showingDropDown;
     BOOL showingPopOver;
-    
+
     id<GameNotificationViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -37,18 +37,18 @@
         popOverArray = [[NSMutableArray alloc] initWithCapacity:5];
         showingDropDown = NO;
         showingPopOver  = NO;
-        
+
         MTStatusBarOverlay *o = [MTStatusBarOverlay sharedInstance];
         o.animation = MTStatusBarOverlayAnimationFallDown;
         o.delegate = self;
-        
+
         delegate = d;
-        
+
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",self,@selector(parseActiveQuestsIntoNotifications:),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",self,@selector(parseCompleteQuestsIntoNotifications:),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_GAINED",self,@selector(parseReceivedInstancesIntoNotifications:),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_LOST",self,@selector(parseLostInstancesIntoNotifications:),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(parseAvailableTriggersIntoNotifications:),nil); 
+        _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(parseAvailableTriggersIntoNotifications:),nil);
     }
     return self;
 }
@@ -57,7 +57,7 @@
 {
     [super loadView];
     self.view.userInteractionEnabled = NO;
-    
+
     popOverVC = [[PopOverViewController alloc] initWithDelegate:self];
 }
 
@@ -71,14 +71,14 @@
 - (void) dequeuePopOver
 {
     showingPopOver = YES;
-    
+
     NSMutableDictionary *poDict = popOverArray[0];
     [popOverVC setHeader:poDict[@"header"] prompt:poDict[@"prompt"] icon_media_id:[poDict[@"icon_media_id"] intValue]];
     submitFunction = poDict[@"submit_function"];
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
     self.view.userInteractionEnabled = YES;
-    if(self.view.frame.size.height == 0) 
+    if(self.view.frame.size.height == 0)
         [self viewWillAppear:NO];//to ensure a non-zero rect. Not sure why necessary- short term fix
 }
 
@@ -99,7 +99,7 @@
     submitFunction = nil;
     showingPopOver = NO;
     self.view.userInteractionEnabled = NO;
-    
+
     if(popOverArray.count > 0)
         [self dequeuePopOver];
     else
@@ -125,11 +125,11 @@
 - (void) parseActiveQuestsIntoNotifications:(NSNotification *)notification
 {
     NSArray *activeQuests = (NSArray *)notification.userInfo[@"added"];
-    
+
     for(long i = 0; i < activeQuests.count; i++)
     {
         Quest *activeQuest = activeQuests[i];
-        
+
         if([activeQuest.active_notification_type isEqualToString:@"FULL_SCREEN"])
             [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name icon_media_id:activeQuest.active_icon_media_id submitFunc:activeQuest.active_function];
         else
@@ -142,9 +142,9 @@
     NSArray *completedQuests = (NSArray *)notification.userInfo[@"added"];
 
     for(long i = 0; i < completedQuests.count; i++)
-    { 
-        Quest *completedQuest = completedQuests[i];      
-    
+    {
+        Quest *completedQuest = completedQuests[i];
+
         if([completedQuest.complete_notification_type isEqualToString:@"FULL_SCREEN"])
             [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name icon_media_id:completedQuest.complete_icon_media_id submitFunc:completedQuest.complete_function];
         else
@@ -159,34 +159,34 @@
     {
         Instance *inst = deltas[i][@"instance"];
         long qty = [deltas[i][@"delta"] intValue];
-        
+
         NSString *notifString;
         if(((Item *)inst.object).max_qty_in_inventory == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", inst.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
         else
             notifString = [NSString stringWithFormat:@"+%ld %@ : %ld %@",  qty, inst.name, inst.qty, NSLocalizedString(@"TotalNotifKey", nil)];
-        
+
         [self enqueueDropDownNotificationWithString:notifString];
     }
     if(deltas.count > 0)
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-        
+
 }
 
 - (void) parseLostInstancesIntoNotifications:(NSNotification *)notification
 {
-    NSArray *deltas = notification.userInfo[@"added"];
+    NSArray *deltas = notification.userInfo[@"lost"];
     for(long i = 0; i < deltas.count; i++)
     {
         Instance *inst = deltas[i][@"instance"];
         long qty = [deltas[i][@"delta"] intValue];
-        
+
         NSString *notifString;
         if(((Item *)inst.object).max_qty_in_inventory == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", inst.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
             notifString = [NSString stringWithFormat:@"%ld %@ : %ld %@",  qty, inst.name, inst.qty, NSLocalizedString(@"LeftNotifKey", nil)];
-        
+
         [self enqueueDropDownNotificationWithString:notifString];
     }
     if(deltas.count > 0)
@@ -209,7 +209,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);      
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

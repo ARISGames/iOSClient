@@ -65,9 +65,9 @@
     {
         e = es[i];
         if([e.event isEqualToString:@"TAKE_ITEM"])
-            [_MODEL_ITEMS_ takeItemFromPlayer:e.content_id qtyToRemove:e.qty];
+            [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:e.content_id qtyToRemove:e.qty];
         if([e.event isEqualToString:@"GIVE_ITEM"])
-            [_MODEL_ITEMS_ giveItemToPlayer:e.content_id qtyToAdd:e.qty];
+            [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:e.content_id qtyToAdd:e.qty];
     }
 }
 

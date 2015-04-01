@@ -18,7 +18,8 @@
   {
     self.title = NSLocalizedString(@"GamePickerMineTabKey", @"");
 
-    [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock.png"]];
+    [self.tabBarItem setImage:[[UIImage imageNamed:@"clock.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"clock_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     _ARIS_NOTIF_LISTEN_(@"MODEL_MINE_GAMES_AVAILABLE",self,@selector(mineGamesAvailable),nil);
   }
   return self;

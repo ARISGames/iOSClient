@@ -144,6 +144,7 @@
 		AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA2F8C718A3F85B00B77249 /* MapHUD.m */; };
 		AAA3FAA118CA28B500C8D016 /* ARISSelectorHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */; };
 		AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA518CA733000C8D016 /* CircleView.m */; };
+		AAA682ED1ACC64C000C99951 /* PlayerInstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA682EC1ACC64C000C99951 /* PlayerInstancesModel.m */; };
 		AAB398E41918166700E0E766 /* Plaque.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E31918166700E0E766 /* Plaque.m */; };
 		AAB398E8191821D400E0E766 /* PlaquesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E7191821D400E0E766 /* PlaquesModel.m */; };
 		AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */; };
@@ -542,6 +543,8 @@
 		AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISSelectorHandle.m; sourceTree = "<group>"; };
 		AAA3FAA418CA733000C8D016 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
 		AAA3FAA518CA733000C8D016 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
+		AAA682EB1ACC64C000C99951 /* PlayerInstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInstancesModel.h; sourceTree = "<group>"; };
+		AAA682EC1ACC64C000C99951 /* PlayerInstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerInstancesModel.m; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAAB7635173AB6E6007B5A75 /* GamePlayTabBarViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabBarViewControllerProtocol.h; sourceTree = "<group>"; };
 		AAAC4352172EDDB300C92DF0 /* InstantiableViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantiableViewControllerProtocol.h; sourceTree = "<group>"; };
@@ -1165,6 +1168,15 @@
 			path = logs;
 			sourceTree = "<group>";
 		};
+		AAA682EA1ACC64C000C99951 /* player_instances */ = {
+			isa = PBXGroup;
+			children = (
+				AAA682EB1ACC64C000C99951 /* PlayerInstancesModel.h */,
+				AAA682EC1ACC64C000C99951 /* PlayerInstancesModel.m */,
+			);
+			path = player_instances;
+			sourceTree = "<group>";
+		};
 		AAB398E5191821D400E0E766 /* plaques */ = {
 			isa = PBXGroup;
 			children = (
@@ -1509,6 +1521,7 @@
 				AA4685A51940C90000721B2B /* tabs */,
 				AA0DE0DE193A3E7900DF8D35 /* triggers */,
 				AAF3EEDE1938F2DD00388BE1 /* instances */,
+				AAA682EA1ACC64C000C99951 /* player_instances */,
 				AA9F7133194F53FA00384832 /* logs */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70E7172739D60074CC21 /* media */,
@@ -2255,6 +2268,7 @@
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
 				AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */,
 				AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */,
+				AAA682ED1ACC64C000C99951 /* PlayerInstancesModel.m in Sources */,
 				AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */,
 				AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */,
 				AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */,
