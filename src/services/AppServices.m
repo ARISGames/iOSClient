@@ -233,14 +233,14 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchPopularGames
+- (void) fetchPopularGamesInterval:(NSString *)i
 {
     NSDictionary *args =
         @{
             @"user_id":[NSString stringWithFormat:@"%ld",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"interval":@"MONTH",
+            @"interval":i,//@"MONTH",
             @"page":[NSNumber numberWithLong:0]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getPopularGamesForPlayer" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO userInfo:nil];

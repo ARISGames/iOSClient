@@ -28,9 +28,10 @@
         
         self.title = NSLocalizedString(@"GamePickerPopularTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"star_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"star.png"]];  
+        [self.tabBarItem setImage:[[UIImage imageNamed:@"star.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+        [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"star_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
 
-  _ARIS_NOTIF_LISTEN_(@"MODEL_POPULAR_GAMES_AVAILABLE",self,@selector(popularGamesAvailable),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_POPULAR_GAMES_AVAILABLE",self,@selector(popularGamesAvailable),nil);
     }
     return self;
 }
@@ -42,7 +43,6 @@
     timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:NSLocalizedString(@"GamePickerDailyKey", @""),NSLocalizedString(@"GamePickerWeeklyKey", @""),NSLocalizedString(@"GamePickerMonthlyKey", @""), nil]];
     timeControl.frame = CGRectMake(5, 5, self.view.bounds.size.width-10, 30);
     timeControl.selectedSegmentIndex = time;
-    timeControl.segmentedControlStyle = UISegmentedControlStyleBar;
     [timeControl addTarget:self action:@selector(controlChanged) forControlEvents:UIControlEventValueChanged];
 }
 
@@ -55,13 +55,19 @@
 
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.pingPopularGames;
+    switch(time)
+    {
+      case 0: games = [_MODEL_GAMES_ pingPopularGames:@"DAY"]; break;
+      case 1: games = [_MODEL_GAMES_ pingPopularGames:@"WEEK"]; break;
+      case 2: games = [_MODEL_GAMES_ pingPopularGames:@"MONTH"]; break;
+    }
 	[gameTable reloadData];
 }
 
 - (void) controlChanged
 {
     time = timeControl.selectedSegmentIndex;
+    [self refreshViewFromModel];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

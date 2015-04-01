@@ -19,7 +19,7 @@
   NSMutableDictionary *games;
   NSArray *nearbyGames;   NSDate *nearbyStamp; CLLocation *location;
   NSArray *anywhereGames; NSDate *anywhereStamp;
-  NSArray *popularGames;  NSDate *popularStamp;
+  NSArray *popularGames;  NSDate *popularStamp; NSString *interval;
   NSArray *recentGames;   NSDate *recentStamp;
   NSArray *searchGames;   NSDate *searchStamp; NSString *search;
   NSArray *mineGames;     NSDate *mineStamp;
@@ -64,7 +64,7 @@
 {
   nearbyStamp = nil; location = nil;
   anywhereStamp = nil;
-  popularStamp = nil;
+  popularStamp = nil; interval = nil;
   recentStamp = nil;
   searchStamp = nil; search = nil; 
   mineStamp = nil;
@@ -158,12 +158,14 @@
 }
 - (NSArray *) anywhereGames { return anywhereGames; }
 
-- (NSArray *) pingPopularGames
+- (NSArray *) pingPopularGames:(NSString *)i
 {
-    if(!popularStamp || [popularStamp timeIntervalSinceNow] < -10) 
+    if(!popularStamp || [popularStamp timeIntervalSinceNow] < -10 ||
+       ![interval isEqualToString:i]) 
     {
         popularStamp = [[NSDate alloc] init]; 
-        [_SERVICES_ fetchPopularGames];    
+        interval = i;
+        [_SERVICES_ fetchPopularGamesInterval:interval];    
     } 
     else [self performSelector:@selector(notifPopularGames) withObject:nil afterDelay:1];
         

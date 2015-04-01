@@ -21,7 +21,7 @@
 - (NSArray *) pingAnywhereGames;
 
 - (NSArray *) popularGames;
-- (NSArray *) pingPopularGames;
+- (NSArray *) pingPopularGames:(NSString *)interval;
 
 - (NSArray *) recentGames;
 - (NSArray *) pingRecentGames;

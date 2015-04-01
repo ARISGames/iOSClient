@@ -41,7 +41,7 @@
 - (void) fetchNearbyGames;
 - (void) fetchAnywhereGames;
 - (void) fetchRecentGames;
-- (void) fetchPopularGames;
+- (void) fetchPopularGamesInterval:(NSString *)i;
 - (void) fetchSearchGames:(NSString *)s;
 - (void) fetchMineGames;
 - (void) fetchPlayerPlayedGame:(long)game_id;
