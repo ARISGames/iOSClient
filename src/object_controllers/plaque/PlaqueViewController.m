@@ -184,13 +184,13 @@ static NSString * const OPTION_CELL = @"option";
     return NO;
 }
 
-- (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
+- (BOOL) ARISWebView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
 {
-    [self dismissSelf];
     WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
     nullWebPage.url = [r.URL absoluteString];
     
-    //[delegate displayObjectType:@"WEB_PAGE" id:0];
+    [_MODEL_DISPLAY_QUEUE_ enqueueObject:nullWebPage];
+    [self dismissSelf];
 
     return NO;
 }

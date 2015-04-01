@@ -64,6 +64,7 @@
 
     GameNotificationViewController *gameNotificationViewController;
 
+    BOOL viewingObject; //because apple's heirarchy design is terrible
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -81,6 +82,7 @@
         gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
         
+        viewingObject = NO;
         _ARIS_NOTIF_LISTEN_(@"MODEL_DISPLAY_NEW_ENQUEUED", self, @selector(tryDequeue), nil);
     }
     return self;
@@ -125,7 +127,9 @@
 
 - (void) tryDequeue
 {
-    if(!(self.isViewLoaded && self.view.window)) return; //Doesn't currently have the view-heirarchy authority to display.
+    //Doesn't currently have the view-heirarchy authority to display.
+    //if(!(self.isViewLoaded && self.view.window)) //should work but apple's timing is terrible
+    if(viewingObject) return;
     NSObject *o;
     if((o = [_MODEL_DISPLAY_QUEUE_ dequeue]))
     {
@@ -224,6 +228,7 @@
 - (void) presentDisplay:(UIViewController *)vc
 {
     [self presentViewController:vc animated:NO completion:nil];
+    viewingObject = YES;
 
     //Phil hates that the frame changes depending on what view you add it to...
     gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
@@ -236,6 +241,7 @@
 - (void) instantiableViewControllerRequestsDismissal:(id<InstantiableViewControllerProtocol>)ivc
 {
     [((ARISViewController *)ivc).navigationController dismissViewControllerAnimated:NO completion:nil];
+    viewingObject = NO;
 
     //Phil hates that the frame changes depending on what view you add it to...
     gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
