@@ -167,7 +167,11 @@
         paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = NSLineBreakByTruncatingMiddle;
         paragraphStyle.alignment = NSTextAlignmentCenter;
-        [self.annotation.title drawInRect:titleRect withAttributes:@{NSFontAttributeName:[ARISTemplate ARISAnnotFont],NSParagraphStyleAttributeName:paragraphStyle}];
+        
+        //draw rect give breathing room for 'g','y','q',etc...
+        CGRect drawRect = CGRectMake(titleRect.origin.x,titleRect.origin.y,titleRect.size.width,titleRect.size.height+5);
+        
+        [self.annotation.title drawInRect:drawRect withAttributes:@{NSFontAttributeName:[ARISTemplate ARISAnnotFont],NSParagraphStyleAttributeName:paragraphStyle}];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 1.0f);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
