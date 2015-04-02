@@ -55,9 +55,9 @@
         
         if(showTitle)
         {
-            if(trigger.title) titleSize = [trigger.title sizeWithFont:[ARISTemplate ARISAnnotFont]];
+            if(trigger.title) titleSize = [trigger.title sizeWithAttributes:@{NSFontAttributeName:[ARISTemplate ARISAnnotFont]}];
             long maxWidth = (titleSize.width < ANNOTATION_MAX_WIDTH) ? titleSize.width : ANNOTATION_MAX_WIDTH;
-            if(trigger.title) titleRect = CGRectMake(0, 0, maxWidth, titleSize.height-6);
+            if(trigger.title) titleRect = CGRectMake(0, 0, maxWidth+1, titleSize.height-2);
             
             titleRect = CGRectOffset(titleRect, ANNOTATION_PADDING, IMAGE_HEIGHT+POINTER_LENGTH+ANNOTATION_PADDING);
             
@@ -162,7 +162,12 @@
         CGContextFillPath(UIGraphicsGetCurrentContext());
         //[[UIColor ARISColorWhite] set];
         [[UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f] set];
-        [self.annotation.title drawInRect:titleRect withFont:[ARISTemplate ARISAnnotFont] lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+        
+        NSMutableParagraphStyle *paragraphStyle;
+        paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByTruncatingMiddle;
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+        [self.annotation.title drawInRect:titleRect withAttributes:@{NSFontAttributeName:[ARISTemplate ARISAnnotFont],NSParagraphStyleAttributeName:paragraphStyle}];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 1.0f);
         CGContextStrokePath(UIGraphicsGetCurrentContext());

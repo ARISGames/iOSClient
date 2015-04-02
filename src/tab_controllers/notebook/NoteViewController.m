@@ -146,7 +146,15 @@
 
     if([note.desc length] > 0)
     {
-        CGSize descSize = [desc.text sizeWithFont:desc.font constrainedToSize:CGSizeMake(desc.frame.size.width,9999999) lineBreakMode:NSLineBreakByWordWrapping];
+        NSMutableParagraphStyle *paragraphStyle;
+        CGRect textRect;
+        paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        textRect = [desc.text boundingRectWithSize:CGSizeMake(desc.frame.size.width,9999999)
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                 attributes:@{NSFontAttributeName:desc.font,NSParagraphStyleAttributeName:paragraphStyle}
+                                             context:nil];
+        CGSize descSize = textRect.size;
         desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,descSize.height+10);
     }
     else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);

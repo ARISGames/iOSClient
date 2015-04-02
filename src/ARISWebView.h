@@ -42,7 +42,7 @@
 - (void) setAllowsInlineMediaPlayback:(BOOL)a;
 - (void) setMediaPlaybackRequiresUserAction:(BOOL)m;
 
-- (void) hookWithParams:(NSString *)params;
+- (BOOL) hookWithParams:(NSString *)params;
 - (void) clear;
 
 @end

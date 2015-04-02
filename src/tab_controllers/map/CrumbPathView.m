@@ -148,11 +148,18 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r)
                     path = CGPathCreateMutable();
                 if (needsMove)
                 {
+                    //Deprecated- apple's comment is "Use an MKOverlayRenderer instead".
+                    //so, putting off fixing until later.
+                    //(The next 4 lines are commented out because of this deprecation)
+                    /*(dep)
                     CGPoint lastCGPoint = [self pointForMapPoint:lastPoint];
                     CGPathMoveToPoint(path, NULL, lastCGPoint.x, lastCGPoint.y);
+                     */
                 }
+                /*(dep)
                 CGPoint cgPoint = [self pointForMapPoint:point];
                 CGPathAddLineToPoint(path, NULL, cgPoint.x, cgPoint.y);
+                */
             }
             else
             {
@@ -173,11 +180,16 @@ static BOOL lineIntersectsRect(MKMapPoint p0, MKMapPoint p1, MKMapRect r)
             path = CGPathCreateMutable();
         if (needsMove)
         {
+            //Next 4 lines commented out because of apple's deprecation
+            /*(dep)
             CGPoint lastCGPoint = [self pointForMapPoint:lastPoint];
             CGPathMoveToPoint(path, NULL, lastCGPoint.x, lastCGPoint.y);
+             */
         }
+            /*(dep)
         CGPoint cgPoint = [self pointForMapPoint:point];
         CGPathAddLineToPoint(path, NULL, cgPoint.x, cgPoint.y);
+             */
     }
     
     return path;
