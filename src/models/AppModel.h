@@ -26,6 +26,7 @@
 #define _MODEL_TAGS_ [AppModel sharedAppModel].game.tagsModel
 #define _MODEL_EVENTS_ [AppModel sharedAppModel].game.eventsModel
 #define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
+#define _MODEL_FACTORIES_ [AppModel sharedAppModel].game.factoriesModel
 #define _MODEL_OVERLAYS_ [AppModel sharedAppModel].game.overlaysModel
 #define _MODEL_INSTANCES_ [AppModel sharedAppModel].game.instancesModel
 #define _MODEL_PLAYER_INSTANCES_ [AppModel sharedAppModel].game.playerInstancesModel
@@ -104,3 +105,4 @@
 - (NSString *) applicationDocumentsDirectory;
 
 @end
+

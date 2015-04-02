@@ -13,21 +13,21 @@
 //which are derived on the fly from the raw data, and 'setCoordinate' mutator, which we ignore
 @interface Trigger : NSObject <MKAnnotation>
 {
-    long trigger_id;
-    long instance_id;
-    long scene_id;
-    NSString *type;
-    NSString *name;
-    NSString *title;
-    long icon_media_id;
-    CLLocation *location;
-    long distance;
-    BOOL infinite_distance;
-    BOOL wiggle;
-    BOOL show_title;
-    BOOL hidden;
-    BOOL trigger_on_enter;
-    NSString *qr_code;
+  long trigger_id;
+  long instance_id;
+  long scene_id;
+  NSString *type;
+  NSString *name;
+  NSString *title;
+  long icon_media_id;
+  CLLocation *location;
+  long distance;
+  BOOL infinite_distance;
+  BOOL wiggle;
+  BOOL show_title;
+  BOOL hidden;
+  BOOL trigger_on_enter;
+  NSString *qr_code;
 }
 
 @property (nonatomic, assign) long trigger_id;

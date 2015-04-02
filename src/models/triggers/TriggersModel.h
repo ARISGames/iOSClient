@@ -22,4 +22,7 @@
 - (void) clearPlayerData;
 - (void) clearGameData;
 
+//odd one-off function
+- (void) expireTriggersForInstanceId:(long)instance_id;
+
 @end

@@ -202,6 +202,17 @@
   return playerTriggers;
 }
 
+- (void) expireTriggersForInstanceId:(long)instance_id
+{
+    NSMutableArray *newTriggers = [[NSMutableArray alloc] init];
+    for(long i = 0; i < playerTriggers.count; i++)
+    {
+        if(((Trigger *)playerTriggers[i]).instance_id != instance_id)
+            [newTriggers addObject:playerTriggers[i]];
+    }
+    [self updatePlayerTriggers:newTriggers];
+}
+
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);

@@ -145,6 +145,8 @@
 		AAA3FAA118CA28B500C8D016 /* ARISSelectorHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */; };
 		AAA3FAA618CA733000C8D016 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3FAA518CA733000C8D016 /* CircleView.m */; };
 		AAA682ED1ACC64C000C99951 /* PlayerInstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA682EC1ACC64C000C99951 /* PlayerInstancesModel.m */; };
+		AAA682F01ACDA4F300C99951 /* Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA682EF1ACDA4F300C99951 /* Factory.m */; };
+		AAA682F41ACDAE1900C99951 /* FactoriesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA682F31ACDAE1900C99951 /* FactoriesModel.m */; };
 		AAB398E41918166700E0E766 /* Plaque.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E31918166700E0E766 /* Plaque.m */; };
 		AAB398E8191821D400E0E766 /* PlaquesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB398E7191821D400E0E766 /* PlaquesModel.m */; };
 		AAB62FC718C64D0F00030F48 /* ARISDelegateHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */; };
@@ -545,6 +547,10 @@
 		AAA3FAA518CA733000C8D016 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		AAA682EB1ACC64C000C99951 /* PlayerInstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerInstancesModel.h; sourceTree = "<group>"; };
 		AAA682EC1ACC64C000C99951 /* PlayerInstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerInstancesModel.m; sourceTree = "<group>"; };
+		AAA682EE1ACDA4F300C99951 /* Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Factory.h; sourceTree = "<group>"; };
+		AAA682EF1ACDA4F300C99951 /* Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Factory.m; sourceTree = "<group>"; };
+		AAA682F21ACDAE1900C99951 /* FactoriesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactoriesModel.h; sourceTree = "<group>"; };
+		AAA682F31ACDAE1900C99951 /* FactoriesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactoriesModel.m; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAAB7635173AB6E6007B5A75 /* GamePlayTabBarViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabBarViewControllerProtocol.h; sourceTree = "<group>"; };
 		AAAC4352172EDDB300C92DF0 /* InstantiableViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantiableViewControllerProtocol.h; sourceTree = "<group>"; };
@@ -1177,6 +1183,15 @@
 			path = player_instances;
 			sourceTree = "<group>";
 		};
+		AAA682F11ACDAE1900C99951 /* factories */ = {
+			isa = PBXGroup;
+			children = (
+				AAA682F21ACDAE1900C99951 /* FactoriesModel.h */,
+				AAA682F31ACDAE1900C99951 /* FactoriesModel.m */,
+			);
+			path = factories;
+			sourceTree = "<group>";
+		};
 		AAB398E5191821D400E0E766 /* plaques */ = {
 			isa = PBXGroup;
 			children = (
@@ -1352,6 +1367,8 @@
 				AAC0D8931930F9D100CA1DE3 /* Scene.m */,
 				AAC0D88B1930F6E100CA1DE3 /* Trigger.h */,
 				AAC0D88C1930F6E100CA1DE3 /* Trigger.m */,
+				AAA682EE1ACDA4F300C99951 /* Factory.h */,
+				AAA682EF1ACDA4F300C99951 /* Factory.m */,
 				AA6EC330192E6FFB00D70D38 /* InstantiableProtocol.h */,
 				AA68B2FC1912E73E000C717B /* Instance.h */,
 				AA68B2FD1912E73E000C717B /* Instance.m */,
@@ -1520,6 +1537,7 @@
 				AABC70EA172739D60074CC21 /* quests */,
 				AA4685A51940C90000721B2B /* tabs */,
 				AA0DE0DE193A3E7900DF8D35 /* triggers */,
+				AAA682F11ACDAE1900C99951 /* factories */,
 				AAF3EEDE1938F2DD00388BE1 /* instances */,
 				AAA682EA1ACC64C000C99951 /* player_instances */,
 				AA9F7133194F53FA00384832 /* logs */,
@@ -2255,6 +2273,7 @@
 				AABC738D172739D80074CC21 /* WebPage.m in Sources */,
 				AAC0D8941930F9D100CA1DE3 /* Scene.m in Sources */,
 				AA6EC33C192E730200D70D38 /* ARISViewController.m in Sources */,
+				AAA682F01ACDA4F300C99951 /* Factory.m in Sources */,
 				C0878F3C1A671CCD001739E3 /* SRWebSocket.m in Sources */,
 				AABC738E172739D80074CC21 /* Logger.m in Sources */,
 				AAC0D8801930F4E200CA1DE3 /* DialogScriptViewController.m in Sources */,
@@ -2374,6 +2393,7 @@
 				AA701FE117342169003A840D /* GamePickersViewController.m in Sources */,
 				AA7EACC61965A876003CE431 /* DisplayQueueModel.m in Sources */,
 				C0878F431A672182001739E3 /* Reachability.m in Sources */,
+				AAA682F41ACDAE1900C99951 /* FactoriesModel.m in Sources */,
 				AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */,
 				AA5FCA3D197F139A005C2A2F /* ObjectTag.m in Sources */,
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
