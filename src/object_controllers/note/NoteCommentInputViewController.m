@@ -58,11 +58,6 @@
     [postButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postButtonTouched)]];
     postButton.userInteractionEnabled = YES;
 
-    cancelButton = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-85, 22, 15, 15)];
-    [cancelButton setImage:[UIImage imageNamed:@"discard.png"]];
-    [cancelButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelButtonTouched)]];
-    cancelButton.userInteractionEnabled = YES;
-
     [self.view addSubview:commentArea];
     [self.view addSubview:commentPromptImg];
     [self.view addSubview:commentPromptText];
@@ -75,16 +70,12 @@
     commentArea.text = @"";
 }
 
-- (void) cancelButtonTouched
-{
-    [commentArea resignFirstResponder];
-    [delegate commentCancelled];
-    commentArea.text = @"";
-}
 
 - (void) dismissKeyboard
 {
     [commentArea resignFirstResponder];
+    [delegate commentCancelled];
+    commentArea.text = @"";
 }
 
 - (void) textViewDidBeginEditing:(UITextView *)textView
@@ -102,7 +93,6 @@
 {
     commentArea.frame = CGRectMake(0,10,self.view.frame.size.width,40);
     [postButton removeFromSuperview];
-    [cancelButton removeFromSuperview];
 
     [self.view addSubview:commentPromptImg];
     [self.view addSubview:commentPromptText];

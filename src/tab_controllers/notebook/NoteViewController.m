@@ -191,6 +191,8 @@
         [scrollView addSubview:amv];
     }
 
+    [scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]];
+
     [commentsDisplay setComments:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id]];
     [self formatSubviews];
 }
@@ -215,6 +217,7 @@
 
 - (void) commentBeganEditing
 {
+    // TODO respond to soft keyboard show event to adjust height (or not when hardware keyboard present)
     scrollView.contentOffset = CGPointMake(0,(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height)-(scrollView.frame.size.height-250-commentInput.view.frame.size.height));
     commentInput.view.frame = CGRectMake(0, self.view.bounds.size.height-commentInput.view.frame.size.height-250, self.view.frame.size.width, commentInput.view.frame.size.height);
 }
@@ -235,7 +238,8 @@
     NSMutableArray *newComments = [NSMutableArray arrayWithArray:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id]];
     [newComments addObject:nc];
     [commentsDisplay setComments:newComments];
-    scrollView.contentOffset = CGPointMake(0,-64);
+    // Reset position
+    [self commentCancelled];
 }
 
 - (void) backButtonTouched
