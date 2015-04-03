@@ -69,7 +69,7 @@
 {
     UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 40)];
 
-    UILabel *author = [[UILabel alloc] initWithFrame:CGRectMake(10,0,self.view.frame.size.width-85,14)];
+    UILabel *author = [[UILabel alloc] initWithFrame:CGRectMake(70,0,self.view.frame.size.width-85,14)];
     author.font = [ARISTemplate ARISSubtextFont];
     author.textColor = [UIColor ARISColorDarkGray];
     author.text = c.user_display_name;
@@ -87,7 +87,7 @@
     CGSize authSize = textRect.size;
     author.frame = CGRectMake(author.frame.origin.x, author.frame.origin.y, authSize.width, 14);
 
-    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(author.frame.size.width+20,0,65,14)];
+    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(10,0,65,14)];
     date.font = [ARISTemplate ARISSubtextFont];
     date.textColor = [UIColor ARISColorDarkBlue];
     date.adjustsFontSizeToFitWidth = NO;
