@@ -10,6 +10,7 @@
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 
 //#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %ld] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define _ARIS_LOG_(format, ...) NSLog(format, ##__VA_ARGS__)
 
 //
 //NSNotification sugar so you don't have to write a novel every time you want to send a message
@@ -19,7 +20,7 @@
 
 #define _ARIS_NOTIF_SEND_(arg_name,arg_object,arg_info) \
 ({ \
-NSLog(@"NSNotification: "arg_name); \
+_ARIS_LOG_(@"NSNotification: "arg_name); \
 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:arg_name object:arg_object userInfo:arg_info]]; \
 })
 

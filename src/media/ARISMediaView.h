@@ -19,6 +19,13 @@ ARISMediaDisplayModeTopAlignAspectFitWidth,
 ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 } ARISMediaDisplayMode;
 
+typedef enum
+{
+ARISMediaContentTypeDefault,
+ARISMediaContentTypeFull,
+ARISMediaContentTypeThumb
+} ARISMediaContentType;
+
 @class ARISMediaView;
 @protocol ARISMediaViewDelegate
 @optional
@@ -34,14 +41,15 @@ ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight
 - (id) initWithFrame:(CGRect)f delegate:(id<ARISMediaViewDelegate>)d;
 - (void) setDelegate:(id<ARISMediaViewDelegate>)d;
 - (void) setDisplayMode:(ARISMediaDisplayMode)dm;
+- (void) setContentType:(ARISMediaContentType)ct;
 - (void) setFrame:(CGRect)f;
 - (void) setMedia:(Media *)m;
 - (void) setImage:(UIImage *)i;
 - (void) play;
 - (void) stop;
 
-//Ideally would be read-only/const... but whatever
 - (Media *) media;
 - (UIImage *) image;
 
 @end
+

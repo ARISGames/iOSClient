@@ -25,11 +25,12 @@
 @synthesize localURL;
 @synthesize remoteURL;
 @synthesize data;
+@synthesize thumb;
 
 - (id) init
 {
-    NSLog(@"SHOULDNT MANUALLY INIT MEDIA- get it from mediaModel");
-    return nil; 
+    _ARIS_LOG_(@"SHOULDNT MANUALLY INIT MEDIA- get it from mediaModel");
+    return nil;
 }
 
 - (id) initWithMediaCD:(MediaCD *)mcd
@@ -119,21 +120,57 @@
     }
     else if([ext isEqualToString:@"mov"] ||
             [ext isEqualToString:@"avi"] ||
-            [ext isEqualToString:@"3gp"] || 
-            [ext isEqualToString:@"m4v"] ||  
+            [ext isEqualToString:@"3gp"] ||
+            [ext isEqualToString:@"m4v"] ||
             [ext isEqualToString:@"mp4"])
     {
         return @"VIDEO";
-    } 
+    }
     else if([ext isEqualToString:@"mp3"] ||
             [ext isEqualToString:@"wav"] ||
-            [ext isEqualToString:@"m4a"] || 
+            [ext isEqualToString:@"m4a"] ||
             [ext isEqualToString:@"ogg"] ||
             [ext isEqualToString:@"caf"])
     {
         return @"AUDIO";
-    }  
+    }
     else return @"";
 }
 
+- (NSData *) thumb
+{
+  if(!thumb)
+  {
+    if(!data) return nil;
+
+    NSString *type = [self type];
+    if([type isEqualToString:@"IMAGE"])
+    {
+      int s = 128;
+      int w = s;
+      int h = s;
+      UIImage *image = [UIImage imageWithData:data];
+      if(image.size.width > image.size.height)
+          h = image.size.height * (128/image.size.width);
+      else
+          w = image.size.width * (128/image.size.height);
+      UIGraphicsBeginImageContext(CGSizeMake(w,h));
+      [image drawInRect:CGRectMake(0,0,w,h)];
+      UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+      UIGraphicsEndImageContext();
+      thumb = UIImagePNGRepresentation(newImage);
+    }
+    else if([type isEqualToString:@"VIDEO"])
+    {
+      thumb = nil;
+    }
+    else if([type isEqualToString:@"AUDIO"])
+    {
+      thumb = nil;
+    }
+  }
+  return thumb;
+}
+
 @end
+

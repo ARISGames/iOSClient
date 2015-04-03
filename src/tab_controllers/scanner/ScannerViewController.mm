@@ -78,7 +78,7 @@
         // Add the input to the session
         [session addInput:input];
     } else {
-        NSLog(@"error: %@", error);
+        _ARIS_LOG_(@"error: %@", error);
         return;
     }
 

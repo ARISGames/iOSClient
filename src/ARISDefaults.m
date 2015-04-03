@@ -45,7 +45,7 @@
 
 - (void) loadDefaultUserDefaults
 {
-  NSLog(@"DefaultsState : Loading default defaults");
+  _ARIS_LOG_(@"DefaultsState : Loading default defaults");
 
   defaultDefaults = [[NSMutableDictionary alloc] init];
 
@@ -61,7 +61,7 @@
 
 - (void) loadUserDefaults
 {
-  NSLog(@"DefaultsState : Loading");
+  _ARIS_LOG_(@"DefaultsState : Loading");
   defaults = [NSUserDefaults standardUserDefaults];
 
   NSString *defaultServer;
@@ -97,12 +97,12 @@
   u.media_id       = [defaults integerForKey:@"media_id"];
   u.read_write_key = [defaults objectForKey:@"read_write_key"];
 
-  NSLog(@"Defaults loaded: user_id       = %ld",u.user_id);
-  NSLog(@"Defaults loaded: user_name     = %@",u.user_name);
-  NSLog(@"Defaults loaded: display_name  = %@",u.display_name);
-  NSLog(@"Defaults loaded: email         = %@",u.email);
-  NSLog(@"Defaults loaded: media_id      = %ld",u.media_id);
-  NSLog(@"Defaults loaded: read_write_key= %@",u.read_write_key);
+  _ARIS_LOG_(@"Defaults loaded: user_id       = %ld",u.user_id);
+  _ARIS_LOG_(@"Defaults loaded: user_name     = %@",u.user_name);
+  _ARIS_LOG_(@"Defaults loaded: display_name  = %@",u.display_name);
+  _ARIS_LOG_(@"Defaults loaded: email         = %@",u.email);
+  _ARIS_LOG_(@"Defaults loaded: media_id      = %ld",u.media_id);
+  _ARIS_LOG_(@"Defaults loaded: read_write_key= %@",u.read_write_key);
   if(u.user_id) fallbackUser = u;
   else fallbackUser = nil;
 
@@ -113,7 +113,7 @@
 
 - (void) saveUserDefaults
 {
-  NSLog(@"DefaultsState : Saving");
+  _ARIS_LOG_(@"DefaultsState : Saving");
 
   [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
   [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];

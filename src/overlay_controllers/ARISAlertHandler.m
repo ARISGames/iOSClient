@@ -102,7 +102,7 @@
 {
 	if(buttonIndex == 1)//Since only the server error alert with email has button 1, we know who we are dealing with
     {
-		NSLog(@"RootViewController: AlertView button wants to send an email" );
+		_ARIS_LOG_(@"RootViewController: AlertView button wants to send an email" );
 		self.mailComposeViewController = [[MFMailComposeViewController alloc] init];
 		self.mailComposeViewController.mailComposeDelegate = self;
 		[self.mailComposeViewController setToRecipients:[NSMutableArray arrayWithObjects:@"arisgames-dev@googlegroups.com",nil]];

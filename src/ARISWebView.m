@@ -115,7 +115,7 @@
 
 - (void) loadRequest:(NSURLRequest *)request
 {
-    NSLog(@"ARISWebView loadingRequest: %@",request);
+    _ARIS_LOG_(@"ARISWebView loadingRequest: %@",request);
     //[[NSURLCache sharedURLCache] removeAllCachedResponses];//Uncomment to clear cache
     [webView loadRequest:request]; 
 }
@@ -169,7 +169,7 @@
 
 - (void) handleARISRequest:(NSURLRequest *)request
 {
-    NSLog(@"ARISWebView   : %@",[[request URL] absoluteString]);
+    _ARIS_LOG_(@"ARISWebView   : %@",[[request URL] absoluteString]);
     [webView stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
     
     NSString *mainCommand = [[request URL] host];

@@ -80,9 +80,9 @@ NSString *const kARISServerServicePackage = @"v2";
     {
         if([requestDupMap objectForKey:[self hashFromURLReq:rURL]])
         {
-            NSLog(@"Dup req abort : %@",rURL.URL.absoluteString);
+            _ARIS_LOG_(@"Dup req abort : %@",rURL.URL.absoluteString);
             #ifdef CONNECTION_DEBUG
-            NSLog(@"Dup req data  : %@", [[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]);
+            _ARIS_LOG_(@"Dup req data  : %@", [[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]);
             #endif
             return;
         }
@@ -91,9 +91,9 @@ NSString *const kARISServerServicePackage = @"v2";
 
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSLog(@"Req asynch URL: %@", rURL.URL);
+    _ARIS_LOG_(@"Req asynch URL: %@", rURL.URL);
     #ifdef CONNECTION_DEBUG
-    NSLog(@"Req async data: %@", [[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]);
+    _ARIS_LOG_(@"Req async data: %@", [[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]);
     #endif
 
     ARISServiceResult *rs = [[ARISServiceResult alloc] init];
@@ -114,7 +114,7 @@ NSString *const kARISServerServicePackage = @"v2";
 - (ARISServiceResult *) performSyncURLRequest:(NSURLRequest *)rURL userInfo:(NSDictionary *)u
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSLog(@"Req synchr URL: %@", rURL.URL);
+    _ARIS_LOG_(@"Req synchr URL: %@", rURL.URL);
 
     ARISServiceResult *sr = [[ARISServiceResult alloc] init];
     sr.userInfo = u;
@@ -131,7 +131,7 @@ NSString *const kARISServerServicePackage = @"v2";
 
     if(!result)
     {
-      NSLog(@"ARISConnection: performSynchronousRequest Error");
+      _ARIS_LOG_(@"ARISConnection: performSynchronousRequest Error");
       ///* silently handle errors */[[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
       return nil;
     }
@@ -190,9 +190,9 @@ NSString *const kARISServerServicePackage = @"v2";
     [requestDupMap removeObjectForKey:[self hashFromURLReq:sr.urlRequest]];
 
     sr.time = -1*[sr.start timeIntervalSinceNow];
-    NSLog(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time);
+    _ARIS_LOG_(@"Fin asynch URL: %@\t(%f)", sr.urlRequest.URL, sr.time);
     #ifdef CONNECTION_DEBUG
-    NSLog(@"Fin async data: %@", [[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]);
+    _ARIS_LOG_(@"Fin async data: %@", [[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]);
     #endif
 
     sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];
@@ -213,8 +213,8 @@ NSString *const kARISServerServicePackage = @"v2";
     [requestDupMap removeObjectForKey:[self hashFromURLReq:sr.urlRequest]];
 
     sr.time = -1*[sr.start timeIntervalSinceNow];
-    NSLog(@"Fail async URL: %@\t(%f)", sr.urlRequest.URL, sr.time);
-    NSLog(@"Fail async URL: Info: %@ , %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+    _ARIS_LOG_(@"Fail async URL: %@\t(%f)", sr.urlRequest.URL, sr.time);
+    _ARIS_LOG_(@"Fail async URL: Info: %@ , %@",[error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 
     [connections removeObjectForKey:c.description];
     if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -231,7 +231,7 @@ NSString *const kARISServerServicePackage = @"v2";
 {
     if(response)
     {
-        NSLog(@"%@",response);
+        _ARIS_LOG_(@"%@",response);
     }
     return request;
 }
@@ -241,7 +241,7 @@ NSString *const kARISServerServicePackage = @"v2";
     NSDictionary *result = [jsonParser objectWithString:json];
     if(!result)
     {
-        NSLog(@"JSONResult: Error parsing JSON String: %@.", json);
+        _ARIS_LOG_(@"JSONResult: Error parsing JSON String: %@.", json);
         /* no need to show error to user
         [[ARISAlertHandler sharedAlertHandler] showServerAlertEmailWithTitle:NSLocalizedString(@"BadServerResponseTitleKey",@"") message:NSLocalizedString(@"BadServerResponseMessageKey",@"") details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@",json]];
          */
@@ -252,7 +252,7 @@ NSString *const kARISServerServicePackage = @"v2";
     if(returnCode == 0) return [result objectForKey:@"data"];
     else
     {
-        NSLog(@"JSONResult: Return code %ld: %@",returnCode,[result objectForKey:@"returnCodeDescription"]);
+        _ARIS_LOG_(@"JSONResult: Return code %ld: %@",returnCode,[result objectForKey:@"returnCodeDescription"]);
         [_MODEL_ logOut];
         return nil;
     }
