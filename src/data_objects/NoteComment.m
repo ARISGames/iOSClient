@@ -17,6 +17,7 @@
 @synthesize user_id;
 @synthesize name;
 @synthesize desc;
+@synthesize user_display_name;
 @synthesize created; 
 
 - (id) init
@@ -28,6 +29,7 @@
       self.user_id = 0;
       self.name = @"";
       self.desc = @"";
+      self.user_display_name = @"";
       self.created = [[NSDate alloc] init];
     }
     return self;
@@ -43,18 +45,24 @@
         self.name            = [dict validObjectForKey:@"name"];
         self.desc            = [dict validObjectForKey:@"description"];
         self.created         = [dict validDateForKey:@"created"];
+
+        if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"] != nil)
+        {
+          self.user_display_name = [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"];
+        }
     }
     return self;
 }
 
 - (void) mergeDataFromNoteComment:(NoteComment *)n
 {
-  self.note_comment_id = n.note_comment_id;
-  self.note_id         = n.note_id;
-  self.user_id         = n.user_id;
-  self.name            = n.name;
-  self.desc            = n.desc;
-  self.created         = n.created;
+  self.note_comment_id   = n.note_comment_id;
+  self.note_id           = n.note_id;
+  self.user_id           = n.user_id;
+  self.name              = n.name;
+  self.desc              = n.desc;
+  self.user_display_name = n.user_display_name;
+  self.created           = n.created;
 }
 
 - (NSString *) description

@@ -16,6 +16,7 @@
 @synthesize user_id;
 @synthesize name;
 @synthesize desc;
+@synthesize user_display_name;
 @synthesize media_id;
 @synthesize tag_id;
 @synthesize object_tag_id;
@@ -29,6 +30,7 @@
       self.user_id = 0;
       self.name = @"";
       self.desc = @"";
+      self.user_display_name = @"";
       self.media_id = 0;
       self.tag_id = 0;
       self.object_tag_id = 0;
@@ -50,6 +52,11 @@
         self.object_tag_id = [dict validIntForKey:@"object_tag_id"];
         self.created       = [dict validDateForKey:@"created"];
 
+        if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"] != nil)
+        {
+          self.user_display_name = [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"];
+        }
+
         [self createObjectTag];
     }
     return self;
@@ -57,14 +64,15 @@
 
 - (void) mergeDataFromNote:(Note *)n //allows for notes to be updated easily- all things with this note pointer now have access to latest note data
 {
-  self.note_id  = n.note_id;
-  self.user_id  = n.user_id;
-  self.name     = n.name;
-  self.desc     = n.desc;
-  self.media_id = n.media_id;
-  self.tag_id   = n.tag_id;
+  self.note_id       = n.note_id;
+  self.user_id       = n.user_id;
+  self.name          = n.name;
+  self.desc          = n.desc;
+  self.media_id      = n.media_id;
+  self.tag_id        = n.tag_id;
   self.object_tag_id = n.object_tag_id;
-  self.created  = n.created;
+  self.created       = n.created;
+  self.user_display_name = n.user_display_name;
 }
 
 - (long) icon_media_id
