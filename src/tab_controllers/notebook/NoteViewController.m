@@ -144,6 +144,12 @@
 {
     scrollView.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
 
+    long curY = 0;
+
+    amv.frame = CGRectMake(0,curY,self.view.frame.size.width,amv.frame.size.height);
+
+    curY = amv.frame.origin.y+amv.frame.size.height;
+
     if([note.desc length] > 0)
     {
         NSMutableParagraphStyle *paragraphStyle;
@@ -155,13 +161,11 @@
                                                  attributes:@{NSFontAttributeName:desc.font,NSParagraphStyleAttributeName:paragraphStyle}
                                              context:nil];
         CGSize descSize = textRect.size;
-        desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,descSize.height+10);
+        desc.frame = CGRectMake(10,curY,self.view.frame.size.width-20,descSize.height+10);
     }
-    else desc.frame = CGRectMake(10,0,self.view.frame.size.width-20,0);
+    else desc.frame = CGRectMake(10,curY,self.view.frame.size.width-20,0);
 
-    long curY = desc.frame.origin.y+desc.frame.size.height;
-    amv.frame = CGRectMake(0,curY,self.view.frame.size.width,amv.frame.size.height);
-    curY += amv.frame.size.height + 20;
+    curY += desc.frame.size.height + 20;
 
     commentInput.view.frame = CGRectMake(0, self.view.bounds.size.height-commentInput.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);
 
