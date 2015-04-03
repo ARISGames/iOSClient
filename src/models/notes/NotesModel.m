@@ -220,7 +220,7 @@
   NSArray *ncs = [note_comments allValues];
   for(long i = 0; i < ncs.count; i++)
     if(((NoteComment *)ncs[i]).note_id == note_id) [noteCommentsMatchingNote addObject:ncs[i]];
-  return noteCommentsMatchingNote;
+  return _ARIS_ARRAY_SORTED_ON_(noteCommentsMatchingNote,@"created");
 }
 
 - (void) dealloc
