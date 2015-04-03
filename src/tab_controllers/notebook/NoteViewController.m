@@ -101,9 +101,9 @@
     commentsDisplay = [[NoteCommentsViewController     alloc] initWithNoteComments:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id] delegate:self];
 
     [scrollView addSubview:desc];
-    [scrollView addSubview:commentInput.view];
     [scrollView addSubview:commentsDisplay.view];
     [self.view addSubview:scrollView];
+    [self.view addSubview:commentInput.view];
 
     [self displayDataFromNote];
 }
@@ -161,16 +161,16 @@
 
     long curY = desc.frame.origin.y+desc.frame.size.height;
     amv.frame = CGRectMake(0,curY,self.view.frame.size.width,amv.frame.size.height);
-    curY += amv.frame.size.height;
+    curY += amv.frame.size.height + 20;
 
-    commentInput.view.frame = CGRectMake(0, curY, self.view.frame.size.width, commentInput.view.frame.size.height);
+    commentInput.view.frame = CGRectMake(0, self.view.bounds.size.height-commentInput.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);
 
     if([_MODEL_NOTES_ noteCommentsForNoteId:note.note_id].count > 0)
-        commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, commentsDisplay.view.frame.size.height);
+        commentsDisplay.view.frame = CGRectMake(0, curY, self.view.frame.size.width, commentsDisplay.view.frame.size.height);
     else
-        commentsDisplay.view.frame = CGRectMake(0, commentInput.view.frame.origin.y+commentInput.view.frame.size.height, self.view.frame.size.width, 0);
+        commentsDisplay.view.frame = CGRectMake(0, curY, self.view.frame.size.width, 0);
 
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 216);
+    scrollView.contentSize = CGSizeMake(self.view.frame.size.width, commentsDisplay.view.frame.origin.y + commentsDisplay.view.frame.size.height + 266);
 }
 
 - (void) displayDataFromNote
@@ -199,6 +199,8 @@
         [scrollView addSubview:amv];
     }
 
+    [scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissComment)]];
+
     [commentsDisplay setComments:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id]];
     [self formatSubviews];
 }
@@ -223,12 +225,15 @@
 
 - (void) commentBeganEditing
 {
-    scrollView.contentOffset = CGPointMake(0,(commentInput.view.frame.origin.y+commentInput.view.frame.size.height)-(scrollView.frame.size.height-246));
+    // TODO respond to soft keyboard show event to adjust height (or not when hardware keyboard present)
+    scrollView.contentOffset = CGPointMake(0,(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height)-(scrollView.frame.size.height-250-commentInput.view.frame.size.height));
+    commentInput.view.frame = CGRectMake(0, self.view.bounds.size.height-commentInput.view.frame.size.height-250, self.view.frame.size.width, commentInput.view.frame.size.height);
 }
 
 - (void) commentCancelled
 {
-    scrollView.contentOffset = CGPointMake(0,-64);
+    scrollView.contentOffset = CGPointMake(0,(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height)-(scrollView.frame.size.height-commentInput.view.frame.size.height));
+    commentInput.view.frame = CGRectMake(0, self.view.bounds.size.height-commentInput.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);
 }
 
 - (void) commentConfirmed:(NSString *)c
@@ -241,7 +246,8 @@
     NSMutableArray *newComments = [NSMutableArray arrayWithArray:[_MODEL_NOTES_ noteCommentsForNoteId:note.note_id]];
     [newComments addObject:nc];
     [commentsDisplay setComments:newComments];
-    scrollView.contentOffset = CGPointMake(0,-64);
+    // Reset position
+    [self commentCancelled];
 }
 
 - (void) backButtonTouched
