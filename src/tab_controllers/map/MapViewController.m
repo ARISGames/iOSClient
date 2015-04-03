@@ -388,8 +388,8 @@
     }
     if([overlay isKindOfClass:[Overlay class]])
     {
-        MapOverlayView *mapOverlayView = [[MapOverlayView alloc] initWithOverlay:overlay];
-        return mapOverlayView;
+        //(dep) MapOverlayView *mapOverlayView = [[MapOverlayView alloc] initWithOverlay:overlay];
+        //(dep) return mapOverlayView;
     }
     return nil;
 }

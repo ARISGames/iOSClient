@@ -14,7 +14,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const long gameDatasToReceive = 22;
+const long gameDatasToReceive = 23;
 const long playerDatasToReceive = 7;
 
 @interface Game()
@@ -68,6 +68,7 @@ const long playerDatasToReceive = 7;
 @synthesize tagsModel;
 @synthesize eventsModel;
 @synthesize triggersModel;
+@synthesize factoriesModel;
 @synthesize overlaysModel;
 @synthesize instancesModel;
 @synthesize playerInstancesModel;
@@ -192,6 +193,7 @@ const long playerDatasToReceive = 7;
     tagsModel            = [[TagsModel            alloc] init];
     eventsModel          = [[EventsModel          alloc] init];
     triggersModel        = [[TriggersModel        alloc] init];
+    factoriesModel       = [[FactoriesModel       alloc] init];
     overlaysModel        = [[OverlaysModel        alloc] init];
     instancesModel       = [[InstancesModel       alloc] init];
     playerInstancesModel = [[PlayerInstancesModel alloc] init];
@@ -218,6 +220,7 @@ const long playerDatasToReceive = 7;
     tagsModel            = nil;
     eventsModel          = nil;
     triggersModel        = nil;
+    factoriesModel       = nil;
     overlaysModel        = nil;
     instancesModel       = nil;
     playerInstancesModel = nil;
@@ -243,6 +246,7 @@ const long playerDatasToReceive = 7;
     [eventsModel requestEvents];
     [questsModel requestQuests];
     [triggersModel requestTriggers];
+    [factoriesModel requestFactories];
     [overlaysModel requestOverlays];
     [instancesModel requestInstances];
     [tabsModel requestTabs];
@@ -325,6 +329,7 @@ const long playerDatasToReceive = 7;
     [eventsModel          clearGameData];
     [questsModel          clearGameData];
     [triggersModel        clearGameData];
+    [factoriesModel       clearGameData];
     [overlaysModel        clearGameData];
     [instancesModel       clearGameData];
     [playerInstancesModel clearGameData];
@@ -338,7 +343,7 @@ const long playerDatasToReceive = 7;
     [playerInstancesModel clearPlayerData];
     [tabsModel            clearPlayerData];
     [logsModel            clearPlayerData];
-    
+
     [displayQueueModel clear];
 }
 
@@ -362,3 +367,4 @@ const long playerDatasToReceive = 7;
 }
 
 @end
+

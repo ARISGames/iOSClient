@@ -18,7 +18,7 @@
 #import "MediaModel.h"
 #import "ARISAlertHandler.h"
 
-@interface AppModel() 
+@interface AppModel()
 
 @end
 
@@ -54,16 +54,16 @@
     disableLeaveGame = NO;
 
     servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
-    usersModel        = [[UsersModel alloc] init];  
-    gamesModel        = [[GamesModel alloc] init];  
-    mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]]; 
+    usersModel        = [[UsersModel alloc] init];
+    gamesModel        = [[GamesModel alloc] init];
+    mediaModel        = [[MediaModel alloc] initWithContext:[self mediaManagedObjectContext]];
 
-    _ARIS_NOTIF_LISTEN_(@"DEFAULTS_CLEAR", self, @selector(defaultsClear), nil); 
-    _ARIS_NOTIF_LISTEN_(@"DEFAULTS_UPDATED", self, @selector(defaultsUpdated), nil); 
-    _ARIS_NOTIF_LISTEN_(@"DEVICE_MOVED", self, @selector(deviceMoved:), nil); 
-    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_RECEIVED", self, @selector(loginReceived:), nil); 
-    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_FAILED", self, @selector(loginFailed:), nil); 
-    _ARIS_NOTIF_LISTEN_(@"SERVICES_UPDATE_USER_RECEIVED", self, @selector(updateUserReceived:), nil); 
+    _ARIS_NOTIF_LISTEN_(@"DEFAULTS_CLEAR", self, @selector(defaultsClear), nil);
+    _ARIS_NOTIF_LISTEN_(@"DEFAULTS_UPDATED", self, @selector(defaultsUpdated), nil);
+    _ARIS_NOTIF_LISTEN_(@"DEVICE_MOVED", self, @selector(deviceMoved:), nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_RECEIVED", self, @selector(loginReceived:), nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_LOGIN_FAILED", self, @selector(loginFailed:), nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_UPDATE_USER_RECEIVED", self, @selector(updateUserReceived:), nil);
   }
   return self;
 }
@@ -134,7 +134,7 @@
 {
   _MODEL_PLAYER_ = p;
   if(deviceLocation) _MODEL_PLAYER_.location = deviceLocation;
-  [_DEFAULTS_ saveUserDefaults];   
+  [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ loginPlayer:_MODEL_PLAYER_.user_id];
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_IN",nil,nil);
 
@@ -146,9 +146,9 @@
 {
   if(_MODEL_GAME_) [self leaveGame];
   _MODEL_PLAYER_ = nil;
-  [_DEFAULTS_ saveUserDefaults];  
-  [_PUSHER_ logoutPlayer];    
-  _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil); 
+  [_DEFAULTS_ saveUserDefaults];
+  [_PUSHER_ logoutPlayer];
+  _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil);
 }
 
 - (void) chooseGame:(Game *)g
@@ -156,22 +156,22 @@
   _MODEL_GAME_ = g;
   [_MODEL_GAME_ getReadyToPlay];
   [_DEFAULTS_ saveUserDefaults];
-  [_PUSHER_ loginGame:_MODEL_GAME_.game_id];  
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);  
+  [_PUSHER_ loginGame:_MODEL_GAME_.game_id];
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);
 }
 
 - (void) beginGame
 {
   [_MODEL_LOGS_ playerEnteredGame];
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);   
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
 }
 
 - (void) leaveGame
 {
-  [_MODEL_GAME_ endPlay]; 
-  _MODEL_GAME_ = nil; 
-  [_DEFAULTS_ saveUserDefaults]; 
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);    
+  [_MODEL_GAME_ endPlay];
+  _MODEL_GAME_ = nil;
+  [_DEFAULTS_ saveUserDefaults];
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);
 }
 
 - (void) deviceMoved:(NSNotification *)n
@@ -237,7 +237,7 @@
       [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
       nil];
 
-    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
+    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
     NSError *error;
@@ -258,7 +258,7 @@
       [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorSavingToDiskKey", @"") message:[NSString stringWithFormat:@"%@",[error userInfo]]];
     }
   }
-  if(requestsManagedObjectContext != nil) 
+  if(requestsManagedObjectContext != nil)
   {
     if([requestsManagedObjectContext hasChanges] && ![requestsManagedObjectContext save:&error])
     {
@@ -270,7 +270,8 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self); 
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
+

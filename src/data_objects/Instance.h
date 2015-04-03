@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "InstantiableProtocol.h"
 
-@interface Instance : NSObject 
+@interface Instance : NSObject
 {
-    long instance_id;
-    NSString *object_type; 
-    long object_id;   
-    long owner_id;
-    long qty; 
-    BOOL infinite_qty;
+  long instance_id;
+  NSString *object_type;
+  long object_id;
+  long owner_id;
+  long qty;
+  BOOL infinite_qty;
+  long factory_id;
 }
 
 @property (nonatomic, assign) long instance_id;
@@ -25,6 +26,7 @@
 @property (nonatomic, assign) long owner_id;
 @property (nonatomic, assign) long qty;
 @property (nonatomic, assign) BOOL infinite_qty;
+@property (nonatomic, assign) long factory_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (void) mergeDataFromInstance:(Instance *)i;

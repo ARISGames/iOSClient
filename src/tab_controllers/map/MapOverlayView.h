@@ -9,8 +9,9 @@
 #import <MapKit/MapKit.h>
 #import "Overlay.h"
 
-@interface MapOverlayView : MKOverlayView
+//NOTE- This whole class (MKOverlayView 'n friends) is depricated. So that needs fixing...
+@interface MapOverlayView : NSObject //(dep) MKOverlayView
 
-- (id) initWithOverlay:(Overlay *)o;
+//(dep) - (id) initWithOverlay:(Overlay *)o;
 
 @end

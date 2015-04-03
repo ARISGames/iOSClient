@@ -66,6 +66,7 @@
 - (void) fetchQuests;
 - (void) fetchInstances;
 - (void) fetchTriggers;
+- (void) fetchFactories;
 - (void) fetchOverlays;
 - (void) fetchTabs;
 
@@ -123,6 +124,7 @@
 - (void) fetchQuestById:(long)quest_id;
 - (void) fetchInstanceById:(long)instance_id;
 - (void) fetchTriggerById:(long)trigger_id;
+- (void) fetchFactoryById:(long)factory_id;
 - (void) fetchOverlayById:(long)overlay_id;
 - (void) fetchTabById:(long)tab_id;
 

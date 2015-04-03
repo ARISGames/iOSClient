@@ -128,7 +128,7 @@
 - (void) requestInstance:(long)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
 
-- (int) setQtyForInstanceId:(long)instance_id qty:(long)qty
+- (long) setQtyForInstanceId:(long)instance_id qty:(long)qty
 {
   Instance *i = [self instanceForId:instance_id];
   if(!i) return 0;

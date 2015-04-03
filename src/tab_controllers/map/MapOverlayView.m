@@ -11,6 +11,7 @@
 #import "Overlay.h"
 #import "ARISMediaView.h"
 
+/*(dep)
 @interface MapOverlayView()
 {
     Overlay *overlay;
@@ -18,9 +19,11 @@
     UIImage *imageOverlay;
 }
 @end
+*/
 
 @implementation MapOverlayView
 
+/*(dep)
 - (id) initWithOverlay:(Overlay *)o
 {
     if(self = [super initWithOverlay:o])
@@ -47,4 +50,5 @@
     CGContextDrawImage(context, theRect, imageReference);
 }
 
+ */
 @end

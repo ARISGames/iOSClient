@@ -176,6 +176,12 @@
     }
     [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
     _ARIS_NOTIF_SEND_(@"GAME_PLAY_DISPLAYED_INSTANCE",nil,@{@"instance":i});
+    if(i.factory_id)
+    {
+        Factory *f = [_MODEL_FACTORIES_ factoryForId:i.factory_id];
+        if(f.produce_expire_on_view)
+            [_MODEL_TRIGGERS_ expireTriggersForInstanceId:i.instance_id];
+    }
 
     ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
     [self presentDisplay:nav];

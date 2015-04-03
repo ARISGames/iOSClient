@@ -35,8 +35,8 @@
         searchText = @"";
         
         self.title = NSLocalizedString(@"GamePickerSearchTabKey", @"");
-        
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"search_red.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"search.png"]];    
+        [self.tabBarItem setImage:[[UIImage imageNamed:@"search.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+        [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"search_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         
   _ARIS_NOTIF_LISTEN_(@"MODEL_SEARCH_GAMES_AVAILABLE",self,@selector(searchGamesAvailable),nil);
     }

@@ -149,7 +149,7 @@
       @"media":
         @{
           @"file_name":[media.localURL absoluteString],
-          @"data":[media.data base64Encoding]
+          @"data":[media.data base64EncodedDataWithOptions:0]
         }
      };
     [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO userInfo:nil];   
@@ -634,6 +634,23 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_TRIGGERS_RECEIVED", nil, @{@"triggers":triggers});
 }
 
+- (void) fetchFactories
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"factories" method:@"getFactoriesForGame" arguments:args handler:self successSelector:@selector(parseFactories:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+}
+- (void) parseFactories:(ARISServiceResult *)result
+{
+    NSArray *factoryDicts = (NSArray *)result.resultData;
+    NSMutableArray *factories = [[NSMutableArray alloc] init];
+    for(long i = 0; i < factoryDicts.count; i++)
+        factories[i] = [[Factory alloc] initWithDictionary:factoryDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_FACTORIES_RECEIVED", nil, @{@"factories":factories});
+}
+
 - (void) fetchOverlays
 {
     NSDictionary *args =
@@ -883,7 +900,7 @@
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
-           @"data":[m.data base64Encoding]
+           @"data":[m.data base64EncodedDataWithOptions:0]
         };
     }
     if(t)
@@ -927,7 +944,7 @@
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
-           @"data":[m.data base64Encoding]
+           @"data":[m.data base64EncodedDataWithOptions:0]
         };
     }
     if(t)
@@ -1428,6 +1445,21 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_TRIGGER_RECEIVED", nil, @{@"trigger":trigger});
 }
 
+- (void) fetchFactoryById:(long)factory_id;
+{
+  NSDictionary *args =
+    @{
+      @"factory_id":[NSNumber numberWithLong:factory_id]
+      };
+  [connection performAsynchronousRequestWithService:@"factories" method:@"getFactory" arguments:args handler:self successSelector:@selector(parseFactory:) failSelector:nil retryOnFail:NO userInfo:nil];
+}
+- (void) parseFactory:(ARISServiceResult *)result
+{
+    NSDictionary *factoryDict= (NSDictionary *)result.resultData;
+    Factory *factory = [[Factory alloc] initWithDictionary:factoryDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_FACTORY_RECEIVED", nil, @{@"factory":factory});
+}
+
 - (void) fetchOverlayById:(long)overlay_id;
 {
   NSDictionary *args =
@@ -1482,7 +1514,7 @@
 {
   NSDictionary *mdict = [[NSDictionary alloc] initWithObjectsAndKeys:
     [m.localURL absoluteString],@"filename",
-    [m.data base64Encoding],@"data",
+    [m.data base64EncodedDataWithOptions:0],@"data",
     nil];
 
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:

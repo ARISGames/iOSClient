@@ -28,7 +28,7 @@
         delegate = d;
         
         long width;
-        width = [nt.tag sizeWithFont:[ARISTemplate ARISBodyFont]].width;
+        width = [nt.tag sizeWithAttributes:@{NSFontAttributeName:[ARISTemplate ARISBodyFont]}].width;
         
         self.frame = CGRectMake(0,0,width+30,30);
         self.layer.masksToBounds = YES;

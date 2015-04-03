@@ -18,6 +18,7 @@
 #import "TagsModel.h"
 #import "EventsModel.h"
 #import "TriggersModel.h"
+#import "FactoriesModel.h"
 #import "OverlaysModel.h"
 #import "InstancesModel.h"
 #import "PlayerInstancesModel.h"
@@ -66,13 +67,14 @@
   TagsModel       *tagsModel;
   EventsModel     *eventsModel;
   TriggersModel   *triggersModel;
+  FactoriesModel  *factoriesModel;
   OverlaysModel   *overlaysModel;
   InstancesModel  *instancesModel;
   PlayerInstancesModel  *playerInstancesModel;
   TabsModel       *tabsModel;
   LogsModel       *logsModel;
   QuestsModel     *questsModel;
-  DisplayQueueModel *displayQueueModel;   
+  DisplayQueueModel *displayQueueModel;
 }
 
 @property (nonatomic, assign) long game_id;
@@ -114,6 +116,7 @@
 @property (nonatomic, strong) TagsModel      *tagsModel;
 @property (nonatomic, strong) EventsModel    *eventsModel;
 @property (nonatomic, strong) TriggersModel  *triggersModel;
+@property (nonatomic, strong) FactoriesModel *factoriesModel;
 @property (nonatomic, strong) OverlaysModel  *overlaysModel;
 @property (nonatomic, strong) InstancesModel *instancesModel;
 @property (nonatomic, strong) PlayerInstancesModel *playerInstancesModel;
