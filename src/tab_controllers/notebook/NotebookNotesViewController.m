@@ -166,6 +166,8 @@ const long VIEW_MODE_TAG  = 2;
   }
 
   filteredNotes = _ARIS_ARRAY_SORTED_ON_(textFilteredNotes,@"created");
+
+  filteredNotes = [[filteredNotes reverseObjectEnumerator] allObjects];
   return filteredNotes.count;
 }
 
