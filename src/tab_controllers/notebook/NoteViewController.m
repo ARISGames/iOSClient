@@ -230,13 +230,27 @@
 - (void) commentBeganEditing
 {
     // TODO respond to soft keyboard show event to adjust height (or not when hardware keyboard present)
-    scrollView.contentOffset = CGPointMake(0,(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height)-(scrollView.frame.size.height-250-commentInput.view.frame.size.height));
+    if(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height < self.view.bounds.size.height-(250+65))
+    {
+      scrollView.contentOffset = CGPointMake(0,-65);
+    }
+    else
+    {
+      scrollView.contentOffset = CGPointMake(0,(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height)-(scrollView.frame.size.height-250-commentInput.view.frame.size.height));
+    }
     commentInput.view.frame = CGRectMake(0, self.view.bounds.size.height-commentInput.view.frame.size.height-250, self.view.frame.size.width, commentInput.view.frame.size.height);
 }
 
 - (void) commentCancelled
 {
-    scrollView.contentOffset = CGPointMake(0,(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height)-(scrollView.frame.size.height-commentInput.view.frame.size.height));
+    if(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height < self.view.bounds.size.height-65)
+    {
+      scrollView.contentOffset = CGPointMake(0,-65);
+    }
+    else
+    {
+      scrollView.contentOffset = CGPointMake(0,(commentsDisplay.view.frame.origin.y+commentsDisplay.view.frame.size.height)-(scrollView.frame.size.height-commentInput.view.frame.size.height));
+    }
     commentInput.view.frame = CGRectMake(0, self.view.bounds.size.height-commentInput.view.frame.size.height, self.view.frame.size.width, commentInput.view.frame.size.height);
 }
 
