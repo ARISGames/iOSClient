@@ -229,7 +229,7 @@
         }
 
         if(viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]) [viewControllers addObject:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
-        else NSLog(@"ERROR: Tab from server could not be created. KeyString %ld should exist but does not have a matching VC", tab.tab_id);
+        else _ARIS_LOG_(@"ERROR: Tab from server could not be created. KeyString %ld should exist but does not have a matching VC", tab.tab_id);
     }
 
     if(self.view) [tableView reloadData];

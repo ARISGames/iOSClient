@@ -20,7 +20,8 @@
 
 @interface Media : NSObject
 {
-    NSData *data; 
+  NSData *data;
+  NSData *thumb;
 }
 
 @property (readonly, assign) long media_id;
@@ -29,6 +30,7 @@
 @property (nonatomic, strong, readonly) NSURL *localURL;
 @property (nonatomic, strong) NSURL *remoteURL;
 @property (nonatomic, strong) NSData *data;
+@property (nonatomic, strong) NSData *thumb;
 
 - (id) initWithMediaCD:(MediaCD *)mcd;
 - (void) setPartialLocalURL:(NSString *)partLocalURL;

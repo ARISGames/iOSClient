@@ -483,7 +483,7 @@
     ExtAudioFileRef extAFRef; 
 	if(ExtAudioFileOpenURL((__bridge CFURLRef)audioURL, &extAFRef) != noErr) 
     {
-        NSLog(@"Cannot open audio file");
+        _ARIS_LOG_(@"Cannot open audio file");
         return;
     }
     
@@ -495,7 +495,7 @@
     memset(&fileFormat, 0, sizeof(AudioStreamBasicDescription));
     
     err = ExtAudioFileGetProperty(extAFRef, kExtAudioFileProperty_FileDataFormat, &propSize, &fileFormat);
-	if(err != noErr) NSLog(@"Cannot get audio file properties");
+	if(err != noErr) _ARIS_LOG_(@"Cannot get audio file properties");
     
     float startingSample = (sampleRate * playProgress * lengthInSeconds);
     
@@ -514,13 +514,13 @@
     
     err = ExtAudioFileSetProperty(extAFRef, kExtAudioFileProperty_ClientDataFormat, propSize, &clientFormat);
 	if(err != noErr) {
-		NSLog(@"Couldn't convert audio file to PCM format");
+		_ARIS_LOG_(@"Couldn't convert audio file to PCM format");
 		return;
 	}
     
     err = ExtAudioFileSeek(extAFRef, startingSample);
     if(err != noErr) {
-		NSLog(@"Error in seeking in file");
+		_ARIS_LOG_(@"Error in seeking in file");
 		return;
 	}
     
@@ -537,7 +537,7 @@
     err = ExtAudioFileRead(extAFRef, &loadedPackets, &bufList);
     if(err != noErr)
     {
-		NSLog(@"Error in reading the file");
+		_ARIS_LOG_(@"Error in reading the file");
 		return;
 	}
     freqControl.fourierData = [self computeFFTForData:returnData forSampleSize:1024];

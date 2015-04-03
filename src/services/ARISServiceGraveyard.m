@@ -45,7 +45,7 @@
 {
     NSError *error; 
     if(![context save:&error])
-        NSLog(@"Error saving request context - error:%@",error); 
+        _ARIS_LOG_(@"Error saving request context - error:%@",error); 
 }
 
 - (void) clearCache
@@ -55,7 +55,7 @@
     for(NSManagedObject *managedObject in cachedRequestsArray)
     {
         [context deleteObject:managedObject];
-        NSLog(@"Request deleted"); //this is really only useful because this potentially takes a while, and this shows that its not frozen
+        _ARIS_LOG_(@"Request deleted"); //this is really only useful because this potentially takes a while, and this shows that its not frozen
     }
     
     [self commitContext];

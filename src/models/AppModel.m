@@ -242,7 +242,7 @@
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
     NSError *error;
     if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
-      NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
+      _ARIS_LOG_(@"AppModel: Error getting the persistentStoreCoordinator");
   }
   return persistentStoreCoordinator;
 }
@@ -254,7 +254,7 @@
   {
     if([mediaManagedObjectContext hasChanges] && ![mediaManagedObjectContext save:&error])
     {
-      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      _ARIS_LOG_(@"Unresolved error %@, %@", error, [error userInfo]);
       [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorSavingToDiskKey", @"") message:[NSString stringWithFormat:@"%@",[error userInfo]]];
     }
   }
@@ -262,7 +262,7 @@
   {
     if([requestsManagedObjectContext hasChanges] && ![requestsManagedObjectContext save:&error])
     {
-      NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+      _ARIS_LOG_(@"Unresolved error %@, %@", error, [error userInfo]);
       [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorSavingToDiskKey", @"") message:[NSString stringWithFormat:@"%@",[error userInfo]]];
     }
   }

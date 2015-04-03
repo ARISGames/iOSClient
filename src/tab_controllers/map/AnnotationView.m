@@ -81,14 +81,13 @@
     return self;
 }
 
-
 - (void) formatFrame
 {
     if (showTitle) {
         [self setFrame:CGRectUnion(bubbleRect, imageViewFrame)] ;
     }
     else{
-        //NSLog(@"CurrOffset: X: %f Y: %f", self.centerOffset.x, self.centerOffset.y);
+        //_ARIS_LOG_(@"CurrOffset: X: %f Y: %f", self.centerOffset.x, self.centerOffset.y);
         [self setFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, imageViewFrame.size.width, imageViewFrame.size.height)];
     }
     

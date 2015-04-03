@@ -65,6 +65,7 @@
     customLabel.textAlignment = NSTextAlignmentRight;
     [numReviewsLabel setFont:[ARISTemplate ARISCellSubtextFont]];  
     [iconView setDisplayMode:ARISMediaDisplayModeAspectFill];
+    [iconView setContentType:ARISMediaContentTypeThumb];
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;  
     

@@ -69,7 +69,7 @@
   locationManager.delegate = self;
 
   if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
-  if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
+  if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
 }
 
 - (void) setApplicationUITemplates
@@ -105,14 +105,14 @@
 
 - (void) applicationDidBecomeActive:(UIApplication *)application
 {
-  NSLog(@"ARIS: Application Became Active");
+  _ARIS_LOG_(@"ARIS: Application Became Active");
   [self startPollingLocation];
   [_DEFAULTS_ loadUserDefaults]; //check if changed since last active
 
   if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id &&
       !(_MODEL_PLAYER_ && _MODEL_PLAYER_.user_id))
     [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
-  if(_DEFAULTS_.fallbackGameId) NSLog(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
+  if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
 }
 
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
@@ -122,13 +122,13 @@
 
 - (void) applicationWillResignActive:(UIApplication *)application
 {
-  NSLog(@"ARIS: Resigning Active Application");
+  _ARIS_LOG_(@"ARIS: Resigning Active Application");
   [self stopPollingLocation];
 }
 
 -(void) applicationWillTerminate:(UIApplication *)application
 {
-  NSLog(@"ARIS: Terminating Application");
+  _ARIS_LOG_(@"ARIS: Terminating Application");
   [_MODEL_ commitCoreDataContexts];
 }
 
@@ -164,7 +164,7 @@
   // We can ignore this error for the scenario of getting a single location fix, because we already have a
   // timeout that will stop the location manager to save power.
   if ([error code] != kCLErrorLocationUnknown) {
-    NSLog(@"ERROR");
+    _ARIS_LOG_(@"ERROR");
     //[self stopUpdatingLocation:NSLocalizedString(@"Error", @"Error")];
   }
 }

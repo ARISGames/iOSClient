@@ -51,7 +51,7 @@
 {
     NSError *error; 
     if(![context save:&error])
-        NSLog(@"Error saving media context - error:%@",error); 
+        _ARIS_LOG_(@"Error saving media context - error:%@",error); 
 }
 
 - (void) clearCache
@@ -61,7 +61,7 @@
     for(NSManagedObject *managedObject in cachedMediaArray)
     {
         [context deleteObject:managedObject];
-        NSLog(@"Media object deleted"); //this is really only useful because this potentially takes a while, and this shows that its not frozen
+        _ARIS_LOG_(@"Media object deleted"); //this is really only useful because this potentially takes a while, and this shows that its not frozen
     }
 
     [self commitContext];
@@ -112,7 +112,7 @@
 
         tmpMedia.game_id = [NSNumber numberWithLong:[mediaDict validIntForKey:@"game_id"]];
         tmpMedia.user_id = [NSNumber numberWithLong:[mediaDict validIntForKey:@"user_id"]];
-        NSLog(@"Media cache   : Media id:%ld cached:%@",media_id,tmpMedia.remoteURL);
+        _ARIS_LOG_(@"Media cache   : Media id:%ld cached:%@",media_id,tmpMedia.remoteURL);
     }
     [self commitContext];
     _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_AVAILABLE",nil,nil);

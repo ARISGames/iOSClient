@@ -29,14 +29,14 @@
     [array removeObject:@""];
     
     //Example indexes into array:
-    //NSLog(@"Stack = %@", [array objectAtIndex:0]);
-    //NSLog(@"Framework = %@", [array objectAtIndex:1]);
-    //NSLog(@"Memory address = %@", [array objectAtIndex:2]);
-    //NSLog(@"Class caller = %@", [array objectAtIndex:3]);
-    //NSLog(@"Function caller = %@", [array objectAtIndex:4]);
-    //NSLog(@"Line caller = %@", [array objectAtIndex:5]);
+    //_ARIS_LOG_(@"Stack = %@", [array objectAtIndex:0]);
+    //_ARIS_LOG_(@"Framework = %@", [array objectAtIndex:1]);
+    //_ARIS_LOG_(@"Memory address = %@", [array objectAtIndex:2]);
+    //_ARIS_LOG_(@"Class caller = %@", [array objectAtIndex:3]);
+    //_ARIS_LOG_(@"Function caller = %@", [array objectAtIndex:4]);
+    //_ARIS_LOG_(@"Line caller = %@", [array objectAtIndex:5]);
     
-    NSLog(@"%@: %@ Debug: %@", [array objectAtIndex:3], [array objectAtIndex:4], string);
+    //_ARIS_LOG_(@"%@: %@ Debug: %@", [array objectAtIndex:3], [array objectAtIndex:4], string);
 #endif
 }
 

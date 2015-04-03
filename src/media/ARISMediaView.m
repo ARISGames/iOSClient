@@ -15,6 +15,7 @@
 @interface ARISMediaView() <ARISMediaLoaderDelegate>
 {
   ARISMediaDisplayMode displayMode;
+  ARISMediaContentType contentType;
   Media *media;
   UIImage *image;
 
@@ -67,6 +68,12 @@
 - (void) setDisplayMode:(ARISMediaDisplayMode)dm
 {
   displayMode = dm;
+  [self conformFrameToMode];
+}
+
+- (void) setContentType:(ARISMediaContentType)ct
+{
+  contentType = ct;
   [self conformFrameToMode];
 }
 
@@ -130,7 +137,17 @@
     else if([dataType isEqualToString:@"image/jpeg"] ||
         [dataType isEqualToString:@"image/png"])
     {
-      image = [UIImage imageWithData:media.data];
+      switch(contentType)
+      {
+        case ARISMediaContentTypeThumb:
+          image = [UIImage imageWithData:media.thumb];
+          break;
+        case ARISMediaContentTypeFull:
+        case ARISMediaContentTypeDefault:
+        default:
+          image = [UIImage imageWithData:media.data];
+          break;
+      }
       [self displayImage];
     }
   }
@@ -188,10 +205,6 @@
 
   switch(displayMode)
   {
-    case ARISMediaDisplayModeDefault:
-    case ARISMediaDisplayModeAspectFill:
-      imageView.contentMode = UIViewContentModeScaleAspectFill;
-      break;
     case ARISMediaDisplayModeStretchFill:
       imageView.contentMode = UIViewContentModeScaleToFill;
       break;
@@ -199,6 +212,11 @@
     case ARISMediaDisplayModeTopAlignAspectFitWidth:
     case ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight:
       imageView.contentMode = UIViewContentModeScaleAspectFit;
+      break;
+    case ARISMediaDisplayModeAspectFill:
+    case ARISMediaDisplayModeDefault:
+    default:
+      imageView.contentMode = UIViewContentModeScaleAspectFill;
       break;
   }
 
