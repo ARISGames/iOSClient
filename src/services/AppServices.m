@@ -149,7 +149,7 @@
       @"media":
         @{
           @"file_name":[media.localURL absoluteString],
-          @"data":[media.data base64EncodedDataWithOptions:0]
+          @"data":[media.data base64Encoding]
         }
      };
     [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO userInfo:nil];   
@@ -900,7 +900,7 @@
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
-           @"data":[m.data base64EncodedDataWithOptions:0]
+          @"data":[m.data base64Encoding]
         };
     }
     if(t)
@@ -944,7 +944,7 @@
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
-           @"data":[m.data base64EncodedDataWithOptions:0]
+           @"data":[m.data base64Encoding]
         };
     }
     if(t)
@@ -1514,7 +1514,7 @@
 {
   NSDictionary *mdict = [[NSDictionary alloc] initWithObjectsAndKeys:
     [m.localURL absoluteString],@"filename",
-    [m.data base64EncodedDataWithOptions:0],@"data",
+    [m.data base64Encoding],@"data",
     nil];
 
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
