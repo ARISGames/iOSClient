@@ -58,6 +58,7 @@
     desc.textColor = [UIColor ARISColorDarkGray];
     desc.adjustsFontSizeToFitWidth = NO;
     preview = [[ARISMediaView alloc] initWithDelegate:self];
+    preview.contentType = ARISMediaContentTypeThumb;
     preview.clipsToBounds = YES;
     preview.userInteractionEnabled = NO;
 

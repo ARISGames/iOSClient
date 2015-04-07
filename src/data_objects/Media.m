@@ -162,10 +162,12 @@
     }
     else if([type isEqualToString:@"VIDEO"])
     {
-      thumb = nil;
+      //will handle loading and caching here in mediaview. this should be a red flag, but works for now.
     }
     else if([type isEqualToString:@"AUDIO"])
     {
+      UIImage *i = [UIImage imageNamed:@"microphone"]; //hack
+      thumb = UIImagePNGRepresentation(i);
       thumb = nil;
     }
   }

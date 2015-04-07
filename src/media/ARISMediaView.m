@@ -172,16 +172,26 @@
   [self addPlayIcon];
 
   avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
   avVC.moviePlayer.shouldAutoplay = NO;
-  [avVC.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
-  _ARIS_NOTIF_LISTEN_(MPMoviePlayerThumbnailImageRequestDidFinishNotification,self,@selector(displayVideoThumbLoaded:),avVC.moviePlayer);
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
+  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
+  if(m.thumb) [self displayVideoThumb:m.thumb];
+  else
+  {
+      _ARIS_NOTIF_LISTEN_(MPMoviePlayerThumbnailImageRequestDidFinishNotification,self,@selector(displayVideoThumbLoaded:),avVC.moviePlayer);
+      [avVC.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
+  }
 }
 
 - (void) displayVideoThumbLoaded:(NSNotification*)notification
 {
-  image = [UIImage imageWithData:UIImageJPEGRepresentation([notification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey], 1.0)];
+    [self displayVideoThumb:UIImageJPEGRepresentation(notification.userInfo[MPMoviePlayerThumbnailImageKey], 1.0)];
+}
+
+- (void) displayVideoThumb:(NSData *)d
+{
+  media.thumb = d;
+  image = [UIImage imageWithData:d];
   [self displayImage];
   if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewIsReadyToPlay:)])
     [delegate ARISMediaViewIsReadyToPlay:self];
