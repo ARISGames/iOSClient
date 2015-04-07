@@ -28,6 +28,7 @@
     [self clear];
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(enqueueNewImmediates),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(purgeInvalidFromQueue),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(reevaluateImmediates),nil);
     _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(reevaluateImmediates),nil);
   }
   return self;
@@ -116,25 +117,27 @@
   for(long i = 0; i < displayBlacklist.count; i++)
   {
     BOOL valid = NO;
-    if(![displayBlacklist[i] isKindOfClass:[Trigger class]]) continue; //only triggers are blacklisted
-    t = displayBlacklist[i];
-    for(long j = 0; j < pt.count; j++)
+    if([displayBlacklist[i] isKindOfClass:[Trigger class]]) //only triggers are blacklisted
     {
-        if(
-            t == pt[j] &&
-            (
-              [t.type isEqualToString:@"IMMEDIATE"] ||
-              (
-                [t.type isEqualToString:@"LOCATION"] &&
-                t.trigger_on_enter &&
+        t = displayBlacklist[i];
+        for(long j = 0; j < pt.count; j++)
+        {
+            if(
+                t == pt[j] &&
                 (
-                  t.infinite_distance ||
-                  [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
+                  [t.type isEqualToString:@"IMMEDIATE"] ||
+                  (
+                    [t.type isEqualToString:@"LOCATION"] &&
+                    t.trigger_on_enter &&
+                    (
+                      t.infinite_distance ||
+                      [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
+                    )
+                  )
                 )
               )
-            )
-          )
-            valid = YES;
+                valid = YES;
+        }
     }
     if(!valid) [displayBlacklist removeObject:t];
   }
