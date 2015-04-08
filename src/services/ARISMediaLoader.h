@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "Media.h"
 #import "ARISDelegateHandle.h"
+#import <AVFoundation/AVFoundation.h>
 
 @protocol ARISMediaLoaderDelegate
 - (void) mediaLoaded:(Media *)m;

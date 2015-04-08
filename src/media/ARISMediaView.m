@@ -126,35 +126,59 @@
 - (void) displayMedia //simply routes to displayImage, displayVideo, or displayAudio
 {
   NSString *type = media.type;
-  if([type isEqualToString:@"IMAGE"])
+  switch(contentType)
   {
-    NSString *dataType = [self contentTypeForImageData:media.data];
-    if     ([dataType isEqualToString:@"image/gif"])
-    {
-      image = [UIImage animatedImageWithAnimatedGIFData:media.data];
-      [self displayImage];
-    }
-    else if([dataType isEqualToString:@"image/jpeg"] ||
-        [dataType isEqualToString:@"image/png"])
-    {
-      switch(contentType)
+    case ARISMediaContentTypeThumb:
+      if([type isEqualToString:@"IMAGE"])
       {
-        case ARISMediaContentTypeThumb:
+        NSString *dataType = [self contentTypeForImageData:media.data];
+        if     ([dataType isEqualToString:@"image/gif"])
+        {
+          image = [UIImage animatedImageWithAnimatedGIFData:media.data];
+          [self displayImage];
+        }
+        else if([dataType isEqualToString:@"image/jpeg"] ||
+            [dataType isEqualToString:@"image/png"])
+        {
           image = [UIImage imageWithData:media.thumb];
-          break;
-        case ARISMediaContentTypeFull:
-        case ARISMediaContentTypeDefault:
-        default:
-          image = [UIImage imageWithData:media.data];
-          break;
+          [self displayImage];
+        }
       }
-      [self displayImage];
-    }
+      else if([type isEqualToString:@"VIDEO"])
+      {
+          image = [UIImage imageWithData:media.thumb];
+          [self displayImage];
+      }
+      else if([type isEqualToString:@"AUDIO"])
+      {
+          image = [UIImage imageWithData:media.thumb];
+          [self displayImage];
+      }
+      break;
+    case ARISMediaContentTypeFull:
+    case ARISMediaContentTypeDefault:
+    default:
+      if([type isEqualToString:@"IMAGE"])
+      {
+        NSString *dataType = [self contentTypeForImageData:media.data];
+        if     ([dataType isEqualToString:@"image/gif"])
+        {
+          image = [UIImage animatedImageWithAnimatedGIFData:media.data];
+          [self displayImage];
+        }
+        else if([dataType isEqualToString:@"image/jpeg"] ||
+            [dataType isEqualToString:@"image/png"])
+        {
+          image = [UIImage imageWithData:media.data];
+          [self displayImage];
+        }
+      }
+      else if([type isEqualToString:@"VIDEO"])
+          [self displayVideo:media];
+      else if([type isEqualToString:@"AUDIO"])
+          [self displayAudio:media];
+      break;
   }
-  else if([type isEqualToString:@"VIDEO"])
-    [self displayVideo:media];
-  else if([type isEqualToString:@"AUDIO"])
-    [self displayAudio:media];
 }
 
 - (void) displayImage
@@ -175,24 +199,11 @@
   avVC.moviePlayer.shouldAutoplay = NO;
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
-  if(m.thumb) [self displayVideoThumb:m.thumb];
-  else
+  if(m.thumb)
   {
-      _ARIS_NOTIF_LISTEN_(MPMoviePlayerThumbnailImageRequestDidFinishNotification,self,@selector(displayVideoThumbLoaded:),avVC.moviePlayer);
-      [avVC.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
+    image = [UIImage imageWithData:m.thumb];
+    [self displayImage];
   }
-}
-
-- (void) displayVideoThumbLoaded:(NSNotification*)notification
-{
-    [self displayVideoThumb:UIImageJPEGRepresentation(notification.userInfo[MPMoviePlayerThumbnailImageKey], 1.0)];
-}
-
-- (void) displayVideoThumb:(NSData *)d
-{
-  media.thumb = d;
-  image = [UIImage imageWithData:d];
-  [self displayImage];
   if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewIsReadyToPlay:)])
     [delegate ARISMediaViewIsReadyToPlay:self];
 }
@@ -202,11 +213,14 @@
   [self addPlayIcon];
 
   avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
   avVC.moviePlayer.shouldAutoplay = NO;
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
-  image = [UIImage imageNamed:@"sound_with_bg.png"];
-  [self displayImage];
+  _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
+  if(m.thumb)
+  {
+    image = [UIImage imageWithData:m.thumb];
+    [self displayImage];
+  }
 }
 
 - (void) conformFrameToMode
