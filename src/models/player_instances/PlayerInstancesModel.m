@@ -137,7 +137,7 @@
 {
     Item *i = [_MODEL_ITEMS_ itemForId:item_id];
     long amtMoreCanHold = i.max_qty_in_inventory-[self qtyOwnedForItem:item_id];
-    while(_MODEL_GAME_.inventory_weight_cap != 0 &&
+    while(_MODEL_GAME_.inventory_weight_cap > 0 &&
           (amtMoreCanHold*i.weight + currentWeight) > _MODEL_GAME_.inventory_weight_cap)
         amtMoreCanHold--;
 
