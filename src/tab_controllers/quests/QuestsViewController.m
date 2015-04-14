@@ -278,7 +278,7 @@ static long const COMPLETE_SECTION = 1;
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
 - (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
 
-- (void)dealloc
+- (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);                               
 }

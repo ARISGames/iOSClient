@@ -154,6 +154,7 @@
     {
         i = [UIImage imageNamed:@"microphone"]; //hack
     }
+    if(!i) i = [UIImage imageNamed:@"logo_icon"];
 
     int s = 128;
     int w = s;
