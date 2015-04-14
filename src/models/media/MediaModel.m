@@ -137,6 +137,7 @@
       mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"plaque_icon_120"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -148,6 +149,7 @@
       mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"item_icon_120"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -159,6 +161,7 @@
       mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"conversation_icon_120"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -170,6 +173,7 @@
       mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"webpage_icon_120"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -181,6 +185,7 @@
       mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"logo_icon"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -192,6 +197,7 @@
       mediaCD.user_id  = [NSNumber numberWithLong:0];
       Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"note_icon"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
