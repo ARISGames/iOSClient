@@ -272,7 +272,7 @@ const long playerDatasToReceive = 7;
 - (void) gamePieceReceived
 {
     receivedGameData++;
-    if(receivedGameData >= gameDatasToReceive)
+    if(!gameDataReceived && receivedGameData >= gameDatasToReceive)
     {
         _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);
         gameDataReceived = YES;
