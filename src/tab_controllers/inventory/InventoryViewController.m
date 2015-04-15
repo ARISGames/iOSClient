@@ -47,7 +47,7 @@
         tab = t;
         delegate = d;
 
-        self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
+        self.title = self.tabTitle;
 
         sortableTags = [[NSMutableArray alloc] init];
         [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists

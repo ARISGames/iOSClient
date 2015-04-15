@@ -38,7 +38,7 @@
     {
         tab = t;
         delegate = d;
-        self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
+        self.title = self.tabTitle;
 
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);

@@ -32,7 +32,7 @@
     if(self = [super init])
     {
         tab = t;
-        self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
+        self.title = self.tabTitle;
 
         lastError = [NSDate date];
         prompt = @"";

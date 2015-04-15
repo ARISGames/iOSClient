@@ -195,13 +195,8 @@
 
 - (void) refreshTitle
 {
-    if(instance.qty < 2 || instance.infinite_qty) self.title = item.name;
-    else self.title = [NSString stringWithFormat:@"%@ x%ld",item.name,instance.qty];
-}
-
-- (NSString *) getTabTitle
-{
-    return item.name;
+    if(instance.qty < 2 || instance.infinite_qty) self.title = self.tabTitle;
+    else self.title = [NSString stringWithFormat:@"%@ x%ld",self.tabTitle,instance.qty];
 }
 
 - (void) updateViewButtons

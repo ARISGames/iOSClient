@@ -68,7 +68,7 @@
 
   navTitleLabel = [[UILabel alloc] init];
   navTitleLabel.font = [ARISTemplate ARISTitleFont];
-  navTitleLabel.text = NSLocalizedString(@"NotebookTitleKey", @"");
+  navTitleLabel.text = self.tabTitle;
   navTitleLabel.textAlignment = NSTextAlignmentCenter;
 
   [navTitleView addSubview:navTitleLabel];

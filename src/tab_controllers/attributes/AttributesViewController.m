@@ -42,7 +42,7 @@
       tab = t;
       delegate = d;
 
-      self.title = NSLocalizedString(@"PlayerTitleKey",@"");
+        self.title = self.tabTitle;
       instances = [[NSMutableArray alloc] init];
       iconCache = [[NSMutableArray alloc] init];
 

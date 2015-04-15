@@ -28,7 +28,7 @@
     if(self = [super init])
     {
         tab = t;
-        self.title = NSLocalizedString(@"QRDecoderTitleKey", @"");
+        self.title = self.tabTitle;
         firstTime = YES;
         
         delegate = d;

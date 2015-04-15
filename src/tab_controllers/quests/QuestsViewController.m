@@ -46,7 +46,7 @@ static long const COMPLETE_SECTION = 1;
     if(self = [super init])
     {
         tab = t;
-        self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
+        self.title = self.tabTitle; 
         
         questTypeShown = ACTIVE_SECTION;
         sortedActiveQuests = [[NSArray alloc] init];

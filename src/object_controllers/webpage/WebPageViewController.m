@@ -108,11 +108,6 @@
     }
 }
 
-- (NSString *) getTabTitle
-{
-    return webPage.name;
-}
-
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     [activityIndicator removeFromSuperview];
