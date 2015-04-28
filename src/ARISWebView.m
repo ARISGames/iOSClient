@@ -171,11 +171,25 @@
 {
     _ARIS_LOG_(@"ARISWebView   : %@",[[request URL] absoluteString]);
     [webView stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
-    
+
     NSString *mainCommand = [[request URL] host];
     NSArray *components   = [[request URL] pathComponents];
-    
-    if([mainCommand isEqualToString:@"exit"])
+
+    if([mainCommand isEqual:@"cache"])
+    {
+        NSArray *items = _MODEL_ITEMS_.items;
+        long item_id;
+        long item_qty;
+        for(long i = 0; i < items.count; i++)
+        {
+            item_id = ((Item *)items[i]).item_id; 
+            item_qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItem(%ld,%ld);",item_id,item_qty]];       
+        }
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.detach()"]];       
+        return; //return before "currentlyCalling" stuff (doesn't use queue)
+    }
+    else if([mainCommand isEqualToString:@"exit"])
     {
         [self clear];
         

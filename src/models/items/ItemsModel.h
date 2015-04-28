@@ -13,6 +13,7 @@
 {
 }
 
+- (NSArray *) items;
 - (Item *) itemForId:(long)item_id;
 - (void) requestItems;
 - (void) clearGameData;

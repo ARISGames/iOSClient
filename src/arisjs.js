@@ -6,7 +6,7 @@ var ARISJS = function(_ARIS)
     _ARIS.enqueueRequest = function(nextRequest)
     {
         _ARIS.requestsQueue.push(nextRequest);
-        if(!_ARIS.currentlyCalling) 
+        if(!_ARIS.currentlyCalling)
         {
             _ARIS.currentlyCalling = true;
             _ARIS.dequeueRequest();
@@ -20,18 +20,10 @@ var ARISJS = function(_ARIS)
 
     _ARIS.dequeueRequest = function()
     {
-        if(_ARIS.requestsQueue.length) 
+        if(_ARIS.requestsQueue.length)
         {
             var req = _ARIS.requestsQueue.shift();
             window.location = req;
-
-            /* DEBUG - uncomment to use in browser without error */
-            /*
-            _ARIS.isCurrentlyCalling();
-            if(req == "aris://inventory/get/" + 99999999)
-                _ARIS.didUpdateItemQty(99999999,1);
-            _ARIS.isNotCurrentlyCalling();
-            //*/
         }
     }
 
@@ -45,7 +37,7 @@ var ARISJS = function(_ARIS)
     _ARIS.closeMe             = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.hideLeaveButton     = function()                 { }
     _ARIS.playMediaAndVibrate = function(media_id)         { }
-    
+
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
     _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+prompt); }
@@ -63,7 +55,7 @@ var ARISJS = function(_ARIS)
     _ARIS.setItemCount        = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/set/" + item_id + "/" + qty); }
     _ARIS.giveItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/give/" + item_id + "/" + qty); }
     _ARIS.takeItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/take/" + item_id + "/" + qty); }
-    _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); } 
+    _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); }
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, callback, GETparams, POSTparams)
@@ -101,7 +93,7 @@ var ARISJS = function(_ARIS)
     }
 
     //Not ARIS related... just kinda useful
-    _ARIS.parseURLParams = function(url) 
+    _ARIS.parseURLParams = function(url)
     {
         var queryStart = url.indexOf("?") + 1;
         var queryEnd   = url.indexOf("#") + 1 || url.length + 1;
@@ -125,12 +117,32 @@ var ARISJS = function(_ARIS)
     /*
      * ARIS CALLBACK FUNCTIONS
      */
-    var enabled = (typeof(_ARIS.callbacksEnabled) === 'undefined' || _ARIS.callbacksEnabled);
-    
-    if(!enabled || typeof(_ARIS.didUpdateItemQty) === 'undefined') { _ARIS.didUpdateItemQty = function(updatedItemId,qty) {} }
-    if(!enabled || typeof(_ARIS.didReceivePlayer) === 'undefined') { _ARIS.didReceivePlayer = function(player)            {} }
-    if(!enabled || typeof(_ARIS.hook)             === 'undefined') { _ARIS.hook             = function(paramsJSON)        {} }
-    if(            typeof(_ARIS.ready)            === 'undefined') { _ARIS.ready            = function()                  {} }
+    var callbacks_enabled = (typeof(_ARIS.callbacksEnabled) === 'undefined' || _ARIS.callbacksEnabled);
+
+    if(!callbacks_enabled || typeof(_ARIS.didUpdateItemQty) === 'undefined') { _ARIS.didUpdateItemQty = function(updatedItemId,qty) {} }
+    if(!callbacks_enabled || typeof(_ARIS.didReceivePlayer) === 'undefined') { _ARIS.didReceivePlayer = function(player)            {} }
+    if(!callbacks_enabled || typeof(_ARIS.hook)             === 'undefined') { _ARIS.hook             = function(paramsJSON)        {} }
+    if(                      typeof(_ARIS.ready)            === 'undefined') { _ARIS.ready            = function()                  {} }
+
+    /*
+     * ARIS CACHE FUNCTIONS (USER DO NOT TOUCH)
+     */
+    var cache_enabled = (typeof(_ARIS.dataCacheEnabled) !== 'undefined' && _ARIS.dataCacheEnabled);
+
+    if(cache_enabled)
+    {
+      var cache_items = [];
+
+      _ARIS.cache = {};
+      _ARIS.cache.preload = function() {
+        _ARIS.enqueueRequest("aris://cache/preload");
+      };
+      _ARIS.cache.getItemCount = function(item_id) { if(typeof(cache_items[item_id]) === 'undefined') return 0; return cache_items[item_id]; }
+      _ARIS.cache.setItem = function(item_id, qty) { cache_items[item_id] = qty; }
+      _ARIS.cache.detach = function() { _ARIS.cache.setItem = undefined; _ARIS.ready(); }
+
+      _ARIS.cache.wholeCache = function() { return cache_items; } //FOR DEBUGGING
+    }
 
     return _ARIS;
 }
@@ -138,4 +150,5 @@ var ARISJS = function(_ARIS)
 if(typeof(ARIS) === 'undefined') var ARIS = ARISJS({});
 else ARIS = ARISJS(ARIS);
 
-ARIS.ready();
+if(ARIS.dataCacheEnabled) ARIS.cache.preload();
+else ARIS.ready();

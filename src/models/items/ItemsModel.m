@@ -61,6 +61,11 @@
     [_SERVICES_ fetchItems];
 }
 
+- (NSArray *) items
+{
+    return [items allValues];
+}
+
 // null item (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Item *) itemForId:(long)item_id
 {
