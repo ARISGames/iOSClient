@@ -37,6 +37,7 @@ var ARISJS = function(_ARIS)
     _ARIS.closeMe             = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.hideLeaveButton     = function()                 { }
     _ARIS.playMediaAndVibrate = function(media_id)         { }
+    _ARIS.exitToCharacter     = function(dialog_id)        { _ARIS.enqueueRequest("aris://exit/character/"+dialog_id); }
 
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
@@ -44,7 +45,7 @@ var ARISJS = function(_ARIS)
     _ARIS.exitToPlaque        = function(plaque_id)        { _ARIS.enqueueRequest("aris://exit/plaque/"+plaque_id); }
     _ARIS.exitToWebpage       = function(webpageId)        { _ARIS.enqueueRequest("aris://exit/webpage/"+webpageId); }
     _ARIS.exitToItem          = function(item_id)          { _ARIS.enqueueRequest("aris://exit/item/"+item_id); }
-    _ARIS.exitToCharacter     = function(dialog_id)        { _ARIS.enqueueRequest("aris://exit/character/"+dialog_id); }
+    _ARIS.exitToDialog        = function(dialog_id)        { _ARIS.enqueueRequest("aris://exit/character/"+dialog_id); }
     _ARIS.exitGame            = function()                 { _ARIS.enqueueRequest("aris://exit/game/"); }
     _ARIS.prepareMedia        = function(media_id)         { _ARIS.enqueueRequest("aris://media/prepare/" + media_id); }
     _ARIS.playMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/play/" + media_id); }
@@ -148,7 +149,12 @@ var ARISJS = function(_ARIS)
 }
 
 if(typeof(ARIS) === 'undefined') var ARIS = ARISJS({});
-else ARIS = ARISJS(ARIS);
+else
+{
+  if(typeof ARIS.dataCacheEnabled === 'undefined')
+    ARIS.dataCacheEnabled = true;
+  ARIS = ARISJS(ARIS);
+}
 
 if(ARIS.dataCacheEnabled) ARIS.cache.preload();
 else ARIS.ready();
