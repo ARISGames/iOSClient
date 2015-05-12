@@ -461,6 +461,8 @@
     region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
     region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.2;
     region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.2;
+    if(region.span.latitudeDelta > 180) region.span.latitudeDelta = 180;
+    if(region.span.longitudeDelta > 360) region.span.longitudeDelta = 360;
 
     region = [mapView regionThatFits:region];
     [mapView setRegion:region animated:!force];
