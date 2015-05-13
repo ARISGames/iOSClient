@@ -46,7 +46,7 @@
 
 + (NSString *) ARISHtmlTemplate
 {
-    return 
+    return
     @"<html>"
     @"<head>"
     @"  <style type='text/css'><!--"

@@ -28,7 +28,7 @@
     UILabel *tag;
     UIScrollView *scrollView;
     UILabel *desc;
-    
+
     ARISMediaView *amv;
     NoteCommentInputViewController *commentInput;
     NoteCommentsViewController *commentsDisplay;

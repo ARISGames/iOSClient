@@ -41,7 +41,7 @@
     if(self = [super initWithFrame:frame])
     {
         [self initialize];
-    } 
+    }
     return self;
 }
 
@@ -60,9 +60,9 @@
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
     webView = [[UIWebView alloc] initWithFrame:self.bounds];
-    webView.delegate = self; 
+    webView.delegate = self;
     webView.backgroundColor = [UIColor clearColor];
-    webView.opaque = NO; 
+    webView.opaque = NO;
     [self addSubview:webView];
     audioPlayers = [[NSMutableDictionary alloc] initWithCapacity:10];
 }
@@ -105,31 +105,31 @@
 
 - (void) setAllowsInlineMediaPlayback:(BOOL)a
 {
-    webView.allowsInlineMediaPlayback = a; 
+    webView.allowsInlineMediaPlayback = a;
 }
 
 - (void) setMediaPlaybackRequiresUserAction:(BOOL)m
 {
-    webView.mediaPlaybackRequiresUserAction = m; 
+    webView.mediaPlaybackRequiresUserAction = m;
 }
 
 - (void) loadRequest:(NSURLRequest *)request
 {
     _ARIS_LOG_(@"ARISWebView loadingRequest: %@",request);
     //[[NSURLCache sharedURLCache] removeAllCachedResponses];//Uncomment to clear cache
-    [webView loadRequest:request]; 
+    [webView loadRequest:request];
 }
 
 - (void) loadRequest:(NSURLRequest *)request withAppendation:(NSString *)appendation
 {
     NSString *url = [[request URL] absoluteString];
-    
+
     if([url rangeOfString:@"?"].location == NSNotFound)
         url = [url stringByAppendingString:[NSString stringWithFormat:@"?game_id=%ld&user_id=%ld&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
     else
         url = [url stringByAppendingString:[NSString stringWithFormat:@"&game_id=%ld&user_id=%ld&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
-    
-    [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]]; 
+
+    [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
 }
 
 - (BOOL) webView:(UIWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
@@ -137,12 +137,12 @@
     NSString *url = [r URL].absoluteString;
     if([url isEqualToString:@"about:blank"]) return YES;
     if([self isARISRequest:r]) { [self handleARISRequest:r]; return NO; }
-    
-    if([delegate respondsToSelector:@selector(ARISWebView:shouldStartLoadWithRequest:navigationType:)])  
+
+    if([delegate respondsToSelector:@selector(ARISWebView:shouldStartLoadWithRequest:navigationType:)])
         return [delegate ARISWebView:self shouldStartLoadWithRequest:r navigationType:nt];
     return NO;
 }
-    
+
 - (void) webViewDidStartLoad:(UIWebView *)webView
 {
     if([delegate respondsToSelector:@selector(ARISWebViewDidStartLoad:)])
@@ -152,7 +152,7 @@
 - (void) webViewDidFinishLoad:(UIWebView *)wv
 {
     [self injectHTMLWithARISjs];
-    if([delegate respondsToSelector:@selector(ARISWebViewDidFinishLoad:)]) 
+    if([delegate respondsToSelector:@selector(ARISWebViewDidFinishLoad:)])
         [delegate ARISWebViewDidFinishLoad:self];
 }
 
@@ -182,24 +182,24 @@
         long item_qty;
         for(long i = 0; i < items.count; i++)
         {
-            item_id = ((Item *)items[i]).item_id; 
+            item_id = ((Item *)items[i]).item_id;
             item_qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItem(%ld,%ld);",item_id,item_qty]];       
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItem(%ld,%ld);",item_id,item_qty]];
         }
-        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.detach()"]];       
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.detach()"]];
         return; //return before "currentlyCalling" stuff (doesn't use queue)
     }
     else if([mainCommand isEqualToString:@"exit"])
     {
         [self clear];
-        
+
         NSString *type = @"";
         NSString *token = @"";
         if(components.count > 1) type  = [components objectAtIndex:1];
         if(components.count > 2) token = [components objectAtIndex:2];
-        
+
         if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
-        
+
         if([type isEqualToString:@"game"])
             [_MODEL_ leaveGame];
         else if([type isEqualToString:@"tab"])
@@ -217,8 +217,8 @@
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_ITEMS_ itemForId:[token intValue]]];
         else if([type isEqualToString:@"character"] || [type isEqualToString:@"dialog"] || [type isEqualToString:@"conversation"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:[token intValue]]];
-        
-        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])   
+
+        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])
             [delegate ARISWebViewRequestsDismissal:self];
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
@@ -233,14 +233,14 @@
         Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
-                                "\"user_id\":%ld," 
+                                "\"user_id\":%ld,"
                                 "\"user_name\":\"%@\","
-                                "\"display_name\":\"%@\"," 
-                                "\"photoURL\":\"%@\"" 
+                                "\"display_name\":\"%@\","
+                                "\"photoURL\":\"%@\""
                                 "}",
                                 _MODEL_PLAYER_.user_id,
-                                _MODEL_PLAYER_.user_name, 
-                                _MODEL_PLAYER_.display_name, 
+                                _MODEL_PLAYER_.user_name,
+                                _MODEL_PLAYER_.display_name,
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
@@ -289,7 +289,7 @@
     {
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
     }
-    
+
     [webView stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
 }
 
@@ -322,7 +322,7 @@
 - (void) setMediaId:(long)media_id volumeTo:(float)volume
 {
     AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithLong:media_id]];
-    
+
     NSArray *audioTracks = [player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
     NSMutableArray *allAudioParams = [NSMutableArray array];
     for (AVAssetTrack *track in audioTracks) {
@@ -332,12 +332,12 @@
         [audioInputParams setTrackID:[track trackID]];
         [allAudioParams addObject:audioInputParams];
     }
-    
+
     AVMutableAudioMix *audioMix = [AVMutableAudioMix audioMix];
     [audioMix setInputParameters:allAudioParams];
-    
+
     player.currentItem.audioMix = audioMix;
-    
+
 }
 
 - (BOOL) hookWithParams:(NSString *)params
@@ -349,7 +349,7 @@
 - (void) clear
 {
     [webView stopLoading];
-    webView.delegate = nil; 
+    webView.delegate = nil;
     [webView loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
     [audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         AVPlayer *player = obj;

@@ -70,7 +70,7 @@
     @{
       @"group_name" :group_name
     };
-  [connection performAsynchronousRequestWithService:@"users" method:@"autoGenerateUser" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO userInfo:nil];    
+  [connection performAsynchronousRequestWithService:@"users" method:@"autoGenerateUser" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 
 - (void) logInUserWithName:(NSString *)user_name password:(NSString *)password;
@@ -152,7 +152,7 @@
           @"data":[media.data base64Encoding]
         }
      };
-    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseUpdatePlayerMedia:(ARISServiceResult *)result
 {
@@ -822,7 +822,7 @@
      NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
-      @"dialog_id":[NSNumber numberWithLong:dialog_id], 
+      @"dialog_id":[NSNumber numberWithLong:dialog_id],
       @"dialog_script_id":[NSNumber numberWithLong:dialog_script_id],
       };
     [connection performAsynchronousRequestWithService:@"client" method:@"getOptionsForPlayerForDialogScript" arguments:args handler:self successSelector:@selector(parsePlayerOptionsForScript:) failSelector:nil retryOnFail:NO userInfo:@{@"dialog_script_id":[NSNumber numberWithLong:dialog_script_id],@"dialog_id":[NSNumber numberWithLong:dialog_id]}];
@@ -844,7 +844,7 @@
      NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
-      @"instance_id":[NSNumber numberWithLong:instance_id], 
+      @"instance_id":[NSNumber numberWithLong:instance_id],
       @"qty":[NSNumber numberWithLong:qty],
       };
     [connection performAsynchronousRequestWithService:@"client" method:@"setQtyForInstance" arguments:args handler:self successSelector:@selector(parseSetQtyForInstance:) failSelector:nil retryOnFail:NO userInfo:nil];
@@ -861,7 +861,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"scene_id":[NSNumber numberWithLong:scene_id]
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"setPlayerScene" arguments:args handler:self successSelector:@selector(parseSetPlayerScene:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"client" method:@"setPlayerScene" arguments:args handler:self successSelector:@selector(parseSetPlayerScene:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseSetPlayerScene:(ARISServiceResult *)result
 {
@@ -870,7 +870,7 @@
 
 - (void) dropItem:(long)item_id qty:(long)qty
 {
-    NSDictionary *args = 
+    NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"item_id":[NSNumber numberWithLong:item_id],
@@ -878,7 +878,7 @@
       @"latitude":[NSNumber numberWithDouble:_MODEL_PLAYER_.location.coordinate.latitude],
       @"longitude":[NSNumber numberWithDouble:_MODEL_PLAYER_.location.coordinate.longitude]
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"dropItem" arguments:args handler:self successSelector:@selector(parseDropItem:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"client" method:@"dropItem" arguments:args handler:self successSelector:@selector(parseDropItem:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseDropItem:(ARISServiceResult *)result
 {
@@ -896,7 +896,7 @@
      } mutableCopy];
     if(m)
     {
-      args[@"media"] = 
+      args[@"media"] =
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
@@ -909,14 +909,14 @@
     }
     if(tr)
     {
-      args[@"trigger"] = 
+      args[@"trigger"] =
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"latitude":[NSNumber numberWithDouble:tr.location.coordinate.latitude],
            @"longitude":[NSNumber numberWithDouble:tr.location.coordinate.longitude]
         };
     }
-    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseCreateNote:(ARISServiceResult *)result
 {
@@ -940,7 +940,7 @@
      } mutableCopy];
     if(m)
     {
-      args[@"media"] = 
+      args[@"media"] =
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
@@ -957,14 +957,14 @@
     }
     if(tr)
     {
-      args[@"trigger"] = 
+      args[@"trigger"] =
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"latitude":[NSNumber numberWithDouble:tr.location.coordinate.latitude],
            @"longitude":[NSNumber numberWithDouble:tr.location.coordinate.longitude]
         };
     }
-    [connection performAsynchronousRequestWithService:@"notes" method:@"updateNote" arguments:args handler:self successSelector:@selector(parseUpdateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"notes" method:@"updateNote" arguments:args handler:self successSelector:@selector(parseUpdateNote:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseUpdateNote:(ARISServiceResult *)result
 {
@@ -980,7 +980,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"note_id":[NSNumber numberWithLong:note_id],
      };
-    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(parseDeleteNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(parseDeleteNote:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseDeleteNote:(ARISServiceResult *)result
 {
@@ -998,7 +998,7 @@
       @"name":n.name,
       @"description":n.desc,
       };
-    [connection performAsynchronousRequestWithService:@"note_comments" method:@"createNoteComment" arguments:args handler:self successSelector:@selector(parseCreateNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"createNoteComment" arguments:args handler:self successSelector:@selector(parseCreateNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseCreateNoteComment:(ARISServiceResult *)result
 {
@@ -1018,7 +1018,7 @@
       @"name":n.name,
       @"description":n.desc,
      };
-    [connection performAsynchronousRequestWithService:@"note_comments" method:@"updateNoteComment" arguments:args handler:self successSelector:@selector(parseUpdateNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"updateNoteComment" arguments:args handler:self successSelector:@selector(parseUpdateNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseUpdateNoteComment:(ARISServiceResult *)result
 {
@@ -1034,7 +1034,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"note_comment_id":[NSNumber numberWithLong:note_comment_id],
      };
-    [connection performAsynchronousRequestWithService:@"note_comments" method:@"deleteNoteComment" arguments:args handler:self successSelector:@selector(parseDeleteNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"deleteNoteComment" arguments:args handler:self successSelector:@selector(parseDeleteNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) parseDeleteNoteComment:(ARISServiceResult *)result
 {
@@ -1168,7 +1168,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"trigger_id":[NSNumber numberWithLong:trigger_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerTriggeredTrigger" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerTriggeredTrigger" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
 }
 - (void) logPlayerReceivedItemId:(long)item_id qty:(long)qty
 {

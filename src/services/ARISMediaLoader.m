@@ -134,7 +134,7 @@
 {
     NSData *data = mr.media.data;
     UIImage *i;
-    
+
     NSString *type = [mr.media type];
     if([type isEqualToString:@"IMAGE"])
     {
@@ -167,7 +167,7 @@
     [i drawInRect:CGRectMake(0,0,w,h)];
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+
     mr.media.thumb = UIImagePNGRepresentation(newImage);
     [self loadMediaFromMR:mr];
 }

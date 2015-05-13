@@ -13,7 +13,7 @@
 
 @interface ARISServiceGraveyard()
 {
-    NSManagedObjectContext *context; 
+    NSManagedObjectContext *context;
 }
 
 @end
@@ -37,42 +37,42 @@
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     NSArray *cachedRequestArray = [context executeFetchRequest:fetchRequest error:&error] ;
-    
+
     return cachedRequestArray;
 }
 
 - (void) commitContext
 {
-    NSError *error; 
+    NSError *error;
     if(![context save:&error])
-        _ARIS_LOG_(@"Error saving request context - error:%@",error); 
+        _ARIS_LOG_(@"Error saving request context - error:%@",error);
 }
 
 - (void) clearCache
 {
     NSArray *cachedRequestsArray = [self requestsForPredicate:nil];
-    
+
     for(NSManagedObject *managedObject in cachedRequestsArray)
     {
         [context deleteObject:managedObject];
         _ARIS_LOG_(@"Request deleted"); //this is really only useful because this potentially takes a while, and this shows that its not frozen
     }
-    
+
     [self commitContext];
 }
 
 - (void) addServiceResult:(ARISServiceResult *)sr
 {
-    RequestCD *requestCD = [NSEntityDescription insertNewObjectForEntityForName:@"RequestCD" inManagedObjectContext:context]; 
-    requestCD.url = [sr.urlRequest.URL absoluteString]; 
+    RequestCD *requestCD = [NSEntityDescription insertNewObjectForEntityForName:@"RequestCD" inManagedObjectContext:context];
+    requestCD.url = [sr.urlRequest.URL absoluteString];
     requestCD.method = sr.urlRequest.HTTPMethod;
-    requestCD.body = sr.urlRequest.HTTPBody; 
+    requestCD.body = sr.urlRequest.HTTPBody;
     [self commitContext];
 }
 
 - (void) reviveRequestsWithConnection:(ARISConnection *)c
 {
-    NSArray *deadRequests = [self requestsForPredicate:nil]; 
+    NSArray *deadRequests = [self requestsForPredicate:nil];
     for(long i = 0; i < deadRequests.count; i++)
     {
         [c performRevivalWithRequest:[deadRequests objectAtIndex:i]];

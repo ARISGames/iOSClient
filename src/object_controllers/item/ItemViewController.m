@@ -106,9 +106,9 @@
     line.backgroundColor = [UIColor ARISColorLightGray];
 
     //Web Item
-    if([item.type isEqualToString:@"URL"] && 
-       item.url                                && 
-       ![item.url isEqualToString:@"0"]        && 
+    if([item.type isEqualToString:@"URL"] &&
+       item.url                                &&
+       ![item.url isEqualToString:@"0"]        &&
        ![item.url isEqualToString:@""]         )
     {
         webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
@@ -296,7 +296,7 @@
     long amtMoreCanHold = [_MODEL_PLAYER_INSTANCES_ qtyAllowedToGiveForItem:item.item_id];
     long allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
     if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;
-    
+
     if(allowablePickupAmt == 0)
     {
       [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Unable to Pick Up" message:@"Max qty already owned."];

@@ -15,9 +15,9 @@
   NSString *name;
   NSString *desc;
   long icon_media_id;
-  long media_id; 
+  long media_id;
   BOOL droppable;
-  BOOL destroyable; 
+  BOOL destroyable;
   long max_qty_in_inventory;
   long weight;
   NSString *url;

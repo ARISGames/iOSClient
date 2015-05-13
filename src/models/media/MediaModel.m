@@ -49,9 +49,9 @@
 
 - (void) commitContext
 {
-    NSError *error; 
+    NSError *error;
     if(![context save:&error])
-        _ARIS_LOG_(@"Error saving media context - error:%@",error); 
+        _ARIS_LOG_(@"Error saving media context - error:%@",error);
 }
 
 - (void) clearCache
@@ -86,7 +86,7 @@
 - (void) updateMedias:(NSArray *)mediaToCacheDicts
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(game_id = 0) OR (game_id = %ld)", _MODEL_GAME_.game_id];
-    NSArray *currentlyCachedMediaArray = [self mediaForPredicate:predicate]; 
+    NSArray *currentlyCachedMediaArray = [self mediaForPredicate:predicate];
 
     //Turn array to dict for quick check of existence in cache
     NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] init];
@@ -127,7 +127,7 @@
 - (Media *) mediaForId:(long)media_id
 {
   if(media_id == 0) return nil;
-    
+
   //oh my hack
   if(media_id == DEFAULT_PLAQUE_ICON_MEDIA_ID)
   {
@@ -135,7 +135,7 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"plaque_icon_120"]);
       media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -147,7 +147,7 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"item_icon_120"]);
       media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -159,7 +159,7 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"conversation_icon_120"]);
       media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -171,7 +171,7 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"webpage_icon_120"]);
       media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -183,7 +183,7 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"logo_icon"]);
       media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -195,7 +195,7 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"note_icon"]);
       media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
@@ -216,7 +216,7 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      media = [[Media alloc] initWithMediaCD:mediaCD];
     }
   }
   medias[[NSNumber numberWithLong:media.media_id]] = media; //set light cache

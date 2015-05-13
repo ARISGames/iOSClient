@@ -12,14 +12,14 @@
 {
     NSObject *resultData;
     NSDictionary *userInfo;
-   	NSMutableData *asyncData; 
+   	NSMutableData *asyncData;
     NSURLRequest *urlRequest;
-    NSURLConnection *connection; 
+    NSURLConnection *connection;
     id __unsafe_unretained handler;
-    SEL successSelector; 
-    SEL failSelector;   
+    SEL successSelector;
+    SEL failSelector;
     BOOL retryOnFail;
-    
+
     NSDate *start;
     NSTimeInterval time;
 };

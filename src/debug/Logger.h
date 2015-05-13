@@ -11,7 +11,7 @@
 #define DEBUGMODE 1
 
 @interface Logger : NSObject {
-    
+
 }
 
 + (Logger *)sharedLogger;

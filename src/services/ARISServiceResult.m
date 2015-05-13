@@ -12,15 +12,15 @@
 
 @synthesize resultData;
 @synthesize userInfo;
-@synthesize asyncData; 
-@synthesize urlRequest; 
-@synthesize connection; 
+@synthesize asyncData;
+@synthesize urlRequest;
+@synthesize connection;
 @synthesize handler;
-@synthesize successSelector; 
-@synthesize failSelector;  
-@synthesize retryOnFail;  
-@synthesize start;  
-@synthesize time;  
+@synthesize successSelector;
+@synthesize failSelector;
+@synthesize retryOnFail;
+@synthesize start;
+@synthesize time;
 
 - (void) dealloc
 {

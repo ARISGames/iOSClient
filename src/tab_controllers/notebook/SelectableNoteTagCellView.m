@@ -24,13 +24,13 @@
     {
         noteTag = nt;
         delegate = d;
-        
+
         UILabel *tagText = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, self.frame.size.width, self.frame.size.height-10)];
         tagText.Font = [ARISTemplate ARISButtonFont];
         tagText.text = nt.tag;
-        [self addSubview:tagText]; 
-        
-        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iWasTouched)]]; 
+        [self addSubview:tagText];
+
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iWasTouched)]];
         self.userInteractionEnabled = YES;
     }
     return self;
@@ -38,7 +38,7 @@
 
 - (void) iWasTouched
 {
-   [delegate noteTagSelected:noteTag]; 
+   [delegate noteTagSelected:noteTag];
 }
 
 @end

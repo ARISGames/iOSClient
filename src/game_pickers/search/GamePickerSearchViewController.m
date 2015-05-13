@@ -12,7 +12,7 @@
 #import "GamePickerCell.h"
 
 @interface GamePickerSearchViewController() <UISearchDisplayDelegate, UISearchBarDelegate>
-{    
+{
     UISearchBar *theSearchBar;
     UIView *disableViewOverlay;
     NSString *searchText;
@@ -28,16 +28,16 @@
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
     if(self = [super initWithDelegate:d])
-    {        
+    {
         currentPage = 0;
         currentlyFetchingNextPage = NO;
         allResultsFound = YES;
         searchText = @"";
-        
+
         self.title = NSLocalizedString(@"GamePickerSearchTabKey", @"");
         [self.tabBarItem setImage:[[UIImage imageNamed:@"search.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"search_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-        
+
   _ARIS_NOTIF_LISTEN_(@"MODEL_SEARCH_GAMES_AVAILABLE",self,@selector(searchGamesAvailable),nil);
     }
     return self;
@@ -46,10 +46,10 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    
+
     theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
     theSearchBar.delegate = self;
-    
+
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
     gestureRecognizer.cancelsTouchesInView = NO;
     [gameTable addGestureRecognizer:gestureRecognizer];
@@ -93,9 +93,9 @@
     {
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SearchCell"];
-        
+
         [cell addSubview:theSearchBar];
-    
+
         return cell;
     }
     else if(indexPath.row >= games.count+1)
@@ -103,7 +103,7 @@
         if(!currentlyFetchingNextPage && !allResultsFound) [self attemptSearch:searchText];
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"FetchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FetchCell"];
-    
+
         if(!allResultsFound)                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchLoadingMoreKey", @"");
         else if(games.count == 0) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoResults", @"");
         else                                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoMoreKey", @"");
@@ -143,10 +143,10 @@
 - (void) attemptSearch:(NSString *)text
 {
     if(searchText == nil || [searchText isEqualToString:@""]) return;
-        
+
     currentlyFetchingNextPage = YES;
     allResultsFound = NO;
-    
+
     [self refreshViewFromModel];
 }
 
@@ -182,7 +182,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);          
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

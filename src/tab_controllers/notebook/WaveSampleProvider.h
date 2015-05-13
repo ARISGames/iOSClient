@@ -22,7 +22,7 @@ typedef enum {
 	ERROR
 } WaveSampleStatus;
 
-@interface WaveSampleProvider : NSObject 
+@interface WaveSampleProvider : NSObject
 {
 	ExtAudioFileRef extAFRef;
 	Float64 extAFRateRatio;

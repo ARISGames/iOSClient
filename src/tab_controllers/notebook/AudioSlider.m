@@ -67,7 +67,7 @@
 - (void) drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     //draw the two triangles
     CGContextSaveGState(context);
     [self drawTriangleForContext:context width:self.bounds.size.width height:TRIANGLE_HEIGHT color:[UIColor ARISColorRed]];
@@ -75,10 +75,10 @@
     CGContextScaleCTM(context, 1, -1);
     [self drawTriangleForContext:context width:self.bounds.size.width height:TRIANGLE_HEIGHT color:[UIColor ARISColorRed]];
     CGContextRestoreGState(context);
-    
+
     CGPoint startPoint = CGPointMake((self.bounds.size.width / 2.0) - 0.5, TRIANGLE_HEIGHT);
     CGPoint endPoint = CGPointMake((self.bounds.size.width / 2.0) - 0.5, self.bounds.size.height - TRIANGLE_HEIGHT);
-    [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor blackColor].CGColor]; 
+    [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor blackColor].CGColor];
 }
 
 @end

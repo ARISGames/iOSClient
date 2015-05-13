@@ -37,17 +37,17 @@
 		activeColor = [UIColor blackColor];
 		inactiveColor = [UIColor clearColor];
     }
-    return self;   
+    return self;
 }
 
 - (void) setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    
+
     for(long i = 0; self.subviews.count > 0; i++) [[self.subviews objectAtIndex:0] removeFromSuperview];
-    
+
     barViews = [NSMutableArray arrayWithCapacity:numberofBars];
-    float heightPerBar = (frame.size.height - (spacingBetweenBars * numberofBars)) / numberofBars; 
+    float heightPerBar = (frame.size.height - (spacingBetweenBars * numberofBars)) / numberofBars;
     for(long i = 0; i<numberofBars; i++)
     {
         long currentPosition = (self.frame.size.height - ((i+1) * (heightPerBar + spacingBetweenBars)));
@@ -55,7 +55,7 @@
         bar.backgroundColor = inactiveColor;
         [barViews addObject:bar];
         [self addSubview:bar];
-    } 
+    }
 }
 
 - (double) level

@@ -94,7 +94,7 @@
 {
     return [events allValues];
 }
-    
+
 // null event (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Event *) eventForId:(long)event_id
 {

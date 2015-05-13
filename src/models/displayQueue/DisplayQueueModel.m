@@ -12,7 +12,7 @@
 @interface DisplayQueueModel ()
 {
   NSMutableArray *displayQueue;
-    
+
   //blacklist triggered triggers from auto-enqueue until they become unavailable for at least one refresh
   //(prevents constant triggering if somone has bad requirements)
   NSMutableArray *displayBlacklist;
@@ -71,7 +71,7 @@
   {
     o = displayQueue[0];
     [displayQueue removeObject:o];
-      
+
     if([o isKindOfClass:[Trigger class]] && ((Trigger *)o).trigger_id != 0) [displayBlacklist addObject:o];
   }
   return o;
@@ -152,10 +152,10 @@
     t = pt[i];
     if(
         (
-          [t.type isEqualToString:@"IMMEDIATE"] || 
+          [t.type isEqualToString:@"IMMEDIATE"] ||
           (
             [t.type isEqualToString:@"LOCATION"] &&
-            t.trigger_on_enter && 
+            t.trigger_on_enter &&
             (
               t.infinite_distance ||
               [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
@@ -170,7 +170,7 @@
 
 - (void) dealloc
 {
-  _ARIS_NOTIF_IGNORE_ALL_(self);   
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

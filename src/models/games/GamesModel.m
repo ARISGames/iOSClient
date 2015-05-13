@@ -7,7 +7,7 @@
 //
 
 // RULE OF THUMB:
-// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c, 
+// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c,
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "GamesModel.h"
@@ -49,9 +49,9 @@
 - (void) clearData
 {
   [self invalidateData];
-    
+
   games = [[NSMutableDictionary alloc] init];
-    
+
   nearbyGames   = [[NSArray alloc] init];
   anywhereGames = [[NSArray alloc] init];
   popularGames  = [[NSArray alloc] init];
@@ -66,7 +66,7 @@
   anywhereStamp = nil;
   popularStamp = nil; interval = nil;
   recentStamp = nil;
-  searchStamp = nil; search = nil; 
+  searchStamp = nil; search = nil;
   mineStamp = nil;
 }
 
@@ -100,8 +100,8 @@
   Game *existingG;
   if((existingG = [self gameForId:g.game_id])) [existingG mergeDataFromGame:g];
   else games[[NSNumber numberWithLong:g.game_id]] = g;
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_AVAILABLE",nil,@{@"game":[self gameForId:g.game_id]});      
-    
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_AVAILABLE",nil,@{@"game":[self gameForId:g.game_id]});
+
   return games[[NSNumber numberWithLong:g.game_id]];
 }
 
@@ -129,18 +129,18 @@
 - (NSArray *) pingNearbyGames
 {
     if(!nearbyStamp || [nearbyStamp timeIntervalSinceNow] < -10 ||
-       (_MODEL_PLAYER_.location && (!location || 
-        location.coordinate.latitude  != _MODEL_PLAYER_.location.coordinate.latitude || 
+       (_MODEL_PLAYER_.location && (!location ||
+        location.coordinate.latitude  != _MODEL_PLAYER_.location.coordinate.latitude ||
         location.coordinate.longitude != _MODEL_PLAYER_.location.coordinate.longitude
         )
        ))
     {
         nearbyStamp = [[NSDate alloc] init];
         location = [_MODEL_PLAYER_.location copy];
-        [_SERVICES_ fetchNearbyGames];  
+        [_SERVICES_ fetchNearbyGames];
     }
     else [self performSelector:@selector(notifNearbyGames) withObject:nil afterDelay:1];
-    
+
     return nearbyGames;
 }
 - (NSArray *) nearbyGames { return nearbyGames; }
@@ -149,68 +149,68 @@
 {
     if(!anywhereStamp || [anywhereStamp timeIntervalSinceNow] < -10)
     {
-        anywhereStamp = [[NSDate alloc] init]; 
-        [_SERVICES_ fetchAnywhereGames];   
+        anywhereStamp = [[NSDate alloc] init];
+        [_SERVICES_ fetchAnywhereGames];
     }
     else [self performSelector:@selector(notifAnywhereGames) withObject:nil afterDelay:1];
-        
-    return anywhereGames; 
+
+    return anywhereGames;
 }
 - (NSArray *) anywhereGames { return anywhereGames; }
 
 - (NSArray *) pingPopularGames:(NSString *)i
 {
     if(!popularStamp || [popularStamp timeIntervalSinceNow] < -10 ||
-       ![interval isEqualToString:i]) 
+       ![interval isEqualToString:i])
     {
-        popularStamp = [[NSDate alloc] init]; 
+        popularStamp = [[NSDate alloc] init];
         interval = i;
-        [_SERVICES_ fetchPopularGamesInterval:interval];    
-    } 
+        [_SERVICES_ fetchPopularGamesInterval:interval];
+    }
     else [self performSelector:@selector(notifPopularGames) withObject:nil afterDelay:1];
-        
-    return popularGames;  
+
+    return popularGames;
 }
 - (NSArray *) popularGames { return popularGames; }
 
 - (NSArray *) pingRecentGames
 {
-    if(!recentStamp || [recentStamp timeIntervalSinceNow] < -10) 
+    if(!recentStamp || [recentStamp timeIntervalSinceNow] < -10)
     {
-        recentStamp = [[NSDate alloc] init]; 
-        [_SERVICES_ fetchRecentGames];     
-    }  
+        recentStamp = [[NSDate alloc] init];
+        [_SERVICES_ fetchRecentGames];
+    }
     else [self performSelector:@selector(notifRecentGames) withObject:nil afterDelay:1];
-    
-    return recentGames;   
+
+    return recentGames;
 }
 - (NSArray *) recentGames { return recentGames; }
 
 - (NSArray *) pingSearchGames:(NSString *)s
 {
     if(!searchStamp || [searchStamp timeIntervalSinceNow] < -10 ||
-       ![search isEqualToString:s]) 
+       ![search isEqualToString:s])
     {
-        searchStamp = [[NSDate alloc] init]; 
+        searchStamp = [[NSDate alloc] init];
         search = s;
-        [_SERVICES_ fetchSearchGames:s];      
+        [_SERVICES_ fetchSearchGames:s];
     }
     else [self performSelector:@selector(notifSearchGames) withObject:nil afterDelay:1];
-    
-    return searchGames;    
+
+    return searchGames;
 }
 - (NSArray *) searchGames { return searchGames; }
 
 - (NSArray *) pingMineGames
 {
-    if(!mineStamp || [mineStamp timeIntervalSinceNow] < -10) 
+    if(!mineStamp || [mineStamp timeIntervalSinceNow] < -10)
     {
-        mineStamp = [[NSDate alloc] init]; 
-        [_SERVICES_ fetchMineGames];     
-    }  
+        mineStamp = [[NSDate alloc] init];
+        [_SERVICES_ fetchMineGames];
+    }
     else [self performSelector:@selector(notifMineGames) withObject:nil afterDelay:1];
-    
-    return mineGames;   
+
+    return mineGames;
 }
 - (NSArray *) mineGames { return mineGames; }
 

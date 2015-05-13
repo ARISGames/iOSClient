@@ -17,7 +17,7 @@
     BOOL webViewLoaded;
 
     NSArray *options;
-    NSMutableArray *optionButtons; 
+    NSMutableArray *optionButtons;
     long optionWebViewsLoaded;
 
     BOOL fetchingOptions; //this is for 'loading' of the actual list of options
@@ -53,21 +53,21 @@
 - (void) setFrame:(CGRect)f
 {
     BOOL invalidatesWidth = (f.size.width != self.frame.size.width);
-    [super setFrame:f]; 
+    [super setFrame:f];
     if(invalidatesWidth) [self invalidateLayout];
 }
 
 - (void) invalidateLayout
 {
     while(self.subviews.count > 0)
-        [self.subviews[0] removeFromSuperview]; 
-    [optionButtons removeAllObjects]; 
+        [self.subviews[0] removeFromSuperview];
+    [optionButtons removeAllObjects];
 
     webViewLoaded = NO;
     optionWebViewsLoaded = 0;
 
-    textView.frame = CGRectMake(0,0,self.frame.size.width,1); 
-    [textView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], text] baseURL:nil]; 
+    textView.frame = CGRectMake(0,0,self.frame.size.width,1);
+    [textView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], text] baseURL:nil];
 
     for(long i = 0; i < options.count; i++)
         [optionButtons addObject:[self buttonForOption:options[i] tagged:i]];
@@ -77,7 +77,7 @@
 {
     UIView *b = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width,43)];
     [b addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
-    
+
     ARISWebView *wv = [[ARISWebView alloc] initWithDelegate:self];
     wv.tag = i;
     wv.frame = CGRectMake(0,0,self.frame.size.width-30,43);
@@ -96,16 +96,16 @@
 
     UIImageView *arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowForward"]];
     arrow.frame = CGRectMake(self.bounds.size.width-25, 10, 19, 19);
-    
+
     [b addSubview:wv];
     [b addSubview:arrow];
-    
+
     return b;
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    CGFloat height = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]; 
+    CGFloat height = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     wv.frame = CGRectMake(wv.frame.origin.x, wv.frame.origin.y, wv.frame.size.width, height);
 
     if(wv == textView) webViewLoaded = YES;
@@ -153,7 +153,7 @@
     [optionButtons removeAllObjects];
     fetchingOptions = YES;
 
-    [self invalidateLayout]; 
+    [self invalidateLayout];
 }
 
 - (void) setOptions:(NSArray *)opts
@@ -161,7 +161,7 @@
     optionWebViewsLoaded = 0;
     options = opts;
     [optionButtons removeAllObjects];
-    fetchingOptions = NO; 
+    fetchingOptions = NO;
 
     [self invalidateLayout];
 }

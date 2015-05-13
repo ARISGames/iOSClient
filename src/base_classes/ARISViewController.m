@@ -31,10 +31,10 @@
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    
+
     if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
-        [self initialize]; 
+        [self initialize];
     }
     return self;
 }

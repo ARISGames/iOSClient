@@ -37,7 +37,7 @@
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.clipsToBounds = YES;
-    
+
     noMediaNotice = [[UILabel alloc] init];
     noMediaNotice.text = [NSString stringWithFormat:@"(%@)", NSLocalizedString(@"NotebookNoMediaKey", @"")];
     noMediaNotice.font = [ARISTemplate ARISBodyFont];
@@ -51,29 +51,29 @@
     scrollView.delegate = self;
     pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20)];
     pageControl.currentPageIndicatorTintColor = [UIColor ARISColorDarkBlue];
-    pageControl.pageIndicatorTintColor = [UIColor ARISColorLightBlue]; 
+    pageControl.pageIndicatorTintColor = [UIColor ARISColorLightBlue];
     [self refreshFromContents];
-    
+
     [self.view addSubview:noMediaNotice];
     [self.view addSubview:scrollView];
     [self.view addSubview:pageControl];
 }
-    
+
 - (void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
+
     noMediaNotice.frame = CGRectMake(0,self.view.bounds.size.height/2-15,self.view.bounds.size.width,30);
     scrollView.frame = self.view.bounds;
-    pageControl.frame = CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20); 
-    
+    pageControl.frame = CGRectMake(0,self.view.bounds.size.height-20,self.view.bounds.size.width,20);
+
     long offset = 0;
     for(UIView *v in scrollView.subviews)
     {
         v.frame = CGRectMake(offset, 0, self.view.bounds.size.width, self.view.bounds.size.height);
         offset += self.view.bounds.size.width;
     }
-    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);  
+    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);
 }
 
 - (void) setContents:(NSArray *)c
@@ -95,11 +95,11 @@
         [amv setMedia:m];
         [amv addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ARISMediaViewTouched)]];
         amv.clipsToBounds = YES;
-        
+
         [scrollView addSubview:amv];
         offset += self.view.bounds.size.width;
     }
-    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);  
+    scrollView.contentSize = CGSizeMake(offset,self.view.bounds.size.height);
     pageControl.numberOfPages = contents.count;
 }
 

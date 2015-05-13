@@ -28,7 +28,7 @@
         self.desc = @"Text";
         self.icon_media_id = 0;
         self.media_id = 0;
-        self.event_package_id = 0; 
+        self.event_package_id = 0;
     }
     return self;
 }

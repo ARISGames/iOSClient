@@ -19,7 +19,7 @@
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
         [self.tabBarItem setImage:[[UIImage imageNamed:@"globe.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"globe_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-        
+
         _ARIS_NOTIF_LISTEN_(@"MODEL_ANYWHERE_GAMES_AVAILABLE",self,@selector(anywhereGamesAvailable),nil);
     }
     return self;
@@ -39,7 +39,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);      
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

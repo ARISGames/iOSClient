@@ -18,7 +18,7 @@
 @synthesize name;
 @synthesize desc;
 @synthesize user_display_name;
-@synthesize created; 
+@synthesize created;
 
 - (id) init
 {

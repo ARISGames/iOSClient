@@ -54,11 +54,11 @@
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate>
 {
     Tab *tab;
-    
+
     MKMapView *mapView;
     NSMutableArray *annotationOverlays; //annot/overlays (triggers/circles) added to map
     NSMutableArray *overlays; //overlays (custom maps) added to map
-    
+
     MapHUD *hud;
     UIView *blackout;
     UIView *blackoutRight;
@@ -99,7 +99,7 @@
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         firstLoad = true;
-        
+
         annotationOverlays = [[NSMutableArray alloc] init];
         overlays = [[NSMutableArray alloc] init];
     }
@@ -209,11 +209,11 @@
 - (void) triggersInvalidated:(NSNotification *)n
 {
     NSMutableArray *invalidated = n.userInfo[@"invalidated_triggers"];
-    
+
     Trigger *invalidatedTrigger;
     Trigger *mapTrigger;
     MapViewAnnotationOverlay *mvao;
-    
+
     for(long i = 0; i < invalidated.count; i++)
     {
         mvao = nil;
@@ -235,7 +235,7 @@
 - (void) clearLocalData
 {
     if(!mapView) return;
-    
+
     for(long i = 0; i < annotationOverlays.count; i++)
     {
         [mapView removeAnnotation:[self mvaoAt:i].annotation];
@@ -297,7 +297,7 @@
         modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i];
         modelInstance = [_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id];
         if(modelInstance.instance_id == 0 || !modelInstance.object) continue;
-        
+
         if(
            ( //trigger not eligible for map
             ![modelTrigger.type isEqualToString:@"LOCATION"] || modelTrigger.hidden
@@ -318,9 +318,9 @@
         }
         if(shouldAdd)
         {
-            MKCircle *circle = [MKCircle circleWithCenterCoordinate:modelTrigger.location.coordinate radius:(modelTrigger.infinite_distance ? 0 : modelTrigger.distance)]; 
+            MKCircle *circle = [MKCircle circleWithCenterCoordinate:modelTrigger.location.coordinate radius:(modelTrigger.infinite_distance ? 0 : modelTrigger.distance)];
             MapViewAnnotationOverlay *mvao = [[MapViewAnnotationOverlay alloc] initWithAnnotation:modelTrigger overlay:circle];
-            
+
             [mapView addAnnotation:mvao.annotation];
             [mapView addOverlay:mvao.overlay];
             [annotationOverlays addObject:mvao];
@@ -365,7 +365,7 @@
             [overlays addObject:modelOverlay];
         }
     }
-    
+
     //refresh views (ugly)
     [mapView setCenterCoordinate:mapView.region.center animated:NO];
     if(firstLoad) [self zoomToFitAnnotations:YES];

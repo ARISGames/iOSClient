@@ -14,15 +14,15 @@
 {
     UIAlertView *waitingIndicator;
     UIActivityIndicatorView *loadingSpiral;
-    
+
     UIAlertView *networkAlert;
     UIAlertView *serverAlert;
-    
+
     MFMailComposeViewController *mailComposeViewController;
-    
+
     NSString *errorMessage;
     NSString *errorDetail;
-    
+
     BOOL emailed;
 }
 
@@ -60,19 +60,19 @@
         self.loadingSpiral = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         self.loadingSpiral.center = CGPointMake(142,73);//CGPointMake(super.bounds.size.width / 2, super.bounds.size.height - 40); didn't work
         [self.waitingIndicator addSubview:self.loadingSpiral];
-    
+
         self.networkAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PoorConnectionTitleKey", @"")
                                                        message:NSLocalizedString(@"PoorConnectionMessageKey", @"")
                                                       delegate:self
                                              cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
                                              otherButtonTitles:nil];
-    
+
         self.serverAlert = [[UIAlertView alloc] initWithTitle:@""
                                                       message:@""
                                                      delegate:self
                                             cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"")
                                             otherButtonTitles:NSLocalizedString(@"ReportKey", @""),nil];
-        
+
         emailed = NO;
     }
     return self;
@@ -88,13 +88,13 @@
 {
     if(emailed) return;
     emailed = YES;
-    
+
 	errorMessage = message;
     errorDetail  = detail;
-    
+
     self.serverAlert.title = title;
     self.serverAlert.message = [NSString stringWithFormat:@"%@-%@",NSLocalizedString(@"ARISAppDelegateWIFIErrorMessageKey", @""),message];
-    
+
     [self.serverAlert show];
 }
 

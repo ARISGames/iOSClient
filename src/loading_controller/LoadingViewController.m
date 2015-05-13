@@ -60,7 +60,7 @@
     [retryGameLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
     [retryGameLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
     [retryGameLoadButton addTarget:self action:@selector(retryGameFetch) forControlEvents:UIControlEventTouchUpInside];
-    
+
     [retryPlayerLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
     [retryPlayerLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
     [retryPlayerLoadButton addTarget:self action:@selector(retryPlayerFetch) forControlEvents:UIControlEventTouchUpInside];
@@ -74,10 +74,10 @@
     progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width-20, 40);
     progressBar.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 10);
     progressBar.progress = 0;
-    
+
     retryGameLoadButton.frame   = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
     retryPlayerLoadButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
-    
+
     [retryGameLoadButton removeFromSuperview];
     [retryPlayerLoadButton removeFromSuperview];
 }

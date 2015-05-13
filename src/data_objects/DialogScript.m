@@ -22,10 +22,10 @@
   if(self = [super init])
   {
     self.dialog_script_id = 0;
-    self.dialog_id = 0; 
+    self.dialog_id = 0;
     self.dialog_character_id = 0;
     self.text = @"";
-    self.event_package_id = 0; 
+    self.event_package_id = 0;
   }
   return self;
 }
@@ -35,10 +35,10 @@
   if(self = [super init])
   {
     self.dialog_script_id        = [dict validIntForKey:@"dialog_script_id"];
-    self.dialog_id               = [dict validIntForKey:@"dialog_id"]; 
+    self.dialog_id               = [dict validIntForKey:@"dialog_id"];
     self.dialog_character_id     = [dict validIntForKey:@"dialog_character_id"];
     self.text                    = [dict validStringForKey:@"text"];
-    self.event_package_id        = [dict validIntForKey:@"event_package_id"];  
+    self.event_package_id        = [dict validIntForKey:@"event_package_id"];
   }
   return self;
 }
@@ -47,10 +47,10 @@
 {
   DialogScript *c = [[DialogScript alloc] init];
   c.dialog_script_id        = self.dialog_script_id;
-  c.dialog_id               = self.dialog_id; 
+  c.dialog_id               = self.dialog_id;
   c.dialog_character_id     = self.dialog_character_id;
   c.text                    = self.text;
-  c.event_package_id        = self.event_package_id; 
+  c.event_package_id        = self.event_package_id;
   return c;
 }
 

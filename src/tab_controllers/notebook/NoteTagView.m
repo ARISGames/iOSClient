@@ -26,10 +26,10 @@
         tag = nt;
         editable = e;
         delegate = d;
-        
+
         long width;
         width = [nt.tag sizeWithAttributes:@{NSFontAttributeName:[ARISTemplate ARISBodyFont]}].width;
-        
+
         self.frame = CGRectMake(0,0,width+30,30);
         self.layer.masksToBounds = YES;
 
@@ -38,12 +38,12 @@
         tagText.font = [ARISTemplate ARISBodyFont];
         tagText.textColor = [UIColor ARISColorDarkBlue];
         tagText.numberOfLines = 0;
-        tagText.text = nt.tag; 
-        [self addSubview:tagText];   
-        
+        tagText.text = nt.tag;
+        [self addSubview:tagText];
+
         if(editable)
         {
-            [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iWasTouched)]]; 
+            [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iWasTouched)]];
             self.userInteractionEnabled = YES;
         }
     }
@@ -52,7 +52,7 @@
 
 - (void) iWasTouched
 {
-   [delegate noteTagDeleteSelected:tag]; 
+   [delegate noteTagDeleteSelected:tag];
 }
 
 @end

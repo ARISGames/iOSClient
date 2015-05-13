@@ -121,7 +121,7 @@
 		
         CGRect clipRect = waveRect;
         CGContextClipToRect(cx,clipRect);
-        
+
         [[UIColor whiteColor] setFill];
         CGContextAddPath(cx, path);
         CGContextFillPath(cx);
@@ -131,7 +131,7 @@
         CGContextStrokePath(cx);
 		CGPathRelease(path); // clean up!
 	}
-    
+
 	[[UIColor clearColor] setFill];
 	CGContextRestoreGState(cx);
 }

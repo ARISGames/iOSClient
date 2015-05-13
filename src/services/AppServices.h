@@ -19,7 +19,7 @@
 
 @interface AppServices : NSObject
 {
-    ARISMediaLoader *mediaLoader;  
+    ARISMediaLoader *mediaLoader;
 }
 
 @property (nonatomic, strong) ARISMediaLoader *mediaLoader;
@@ -106,7 +106,7 @@
 - (void) logPlayerLostItemId:(long)item_id qty:(long)qty;
 - (void) logPlayerSetSceneId:(long)scene_id;
 
-//for mid-game fetches. these are failsafes, and oughtn't occur. 
+//for mid-game fetches. these are failsafes, and oughtn't occur.
 //if you are editing your game mid-play, expect undefined behavior
 - (void) fetchUserById:(long)user_id;
 - (void) fetchSceneById:(long)scene_id;

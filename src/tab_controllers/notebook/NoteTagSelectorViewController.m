@@ -32,14 +32,14 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    tagViewController = [[NoteTagEditorViewController alloc] initWithTag:nil editable:YES delegate:self];  
+
+    tagViewController = [[NoteTagEditorViewController alloc] initWithTag:nil editable:YES delegate:self];
     [self.view addSubview:tagViewController.view];
 }
 
 - (void) viewWillLayoutSubviews
 {
-    [super viewWillLayoutSubviews]; 
+    [super viewWillLayoutSubviews];
     tagViewController.view.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
     [tagViewController setExpandHeight:self.view.frame.size.height-64-216];
 }
@@ -52,8 +52,8 @@
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     backButton.accessibilityLabel = @"Back Button";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];   
-    [tagViewController beginEditing]; 
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    [tagViewController beginEditing];
 }
 
 - (void) noteTagEditorAddedTag:(Tag *)t

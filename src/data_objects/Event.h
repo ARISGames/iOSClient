@@ -11,9 +11,9 @@
 @interface Event : NSObject
 {
     long event_id;
-	long event_package_id; 
+	long event_package_id;
 	NSString *event;
-	long content_id; 
+	long content_id;
     long qty;
 }
 

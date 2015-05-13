@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CLLocation.h>
 
-@interface Log : NSObject 
+@interface Log : NSObject
 {
     long log_id;
     NSString *event_type;

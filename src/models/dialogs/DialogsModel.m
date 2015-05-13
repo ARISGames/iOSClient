@@ -61,11 +61,11 @@
         DialogOption *o = [self optionForId:((DialogOption *)servicesOptions[i]).dialog_option_id];
         if(o) [flyweightOptions addObject:o];
     }
-    
+
     NSDictionary *uInfo = @{@"options":flyweightOptions,
                             @"dialog_id":notif.userInfo[@"dialog_id"],
                             @"dialog_script_id":notif.userInfo[@"dialog_script_id"]};
-    _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_SCRIPT_OPTIONS_AVAILABLE",nil,uInfo); 
+    _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_SCRIPT_OPTIONS_AVAILABLE",nil,uInfo);
 }
 
 - (void) updateDialogs:(NSArray *)newDialogs
@@ -146,12 +146,12 @@
 }
 - (DialogScript *) scriptForId:(long)dialog_script_id
 {
-  if(!dialog_script_id) return [[DialogScript alloc] init]; 
+  if(!dialog_script_id) return [[DialogScript alloc] init];
   return [dialogScripts objectForKey:[NSNumber numberWithLong:dialog_script_id]];
 }
 - (DialogOption *) optionForId:(long)dialog_option_id
 {
-  if(!dialog_option_id) return [[DialogOption alloc] init]; 
+  if(!dialog_option_id) return [[DialogOption alloc] init];
   return [dialogOptions objectForKey:[NSNumber numberWithLong:dialog_option_id]];
 }
 

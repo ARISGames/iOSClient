@@ -7,7 +7,7 @@
 //
 
 // RULE OF THUMB:
-// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c, 
+// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c,
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "TabsModel.h"
@@ -94,8 +94,8 @@
     if(((NSArray *)deltas[@"added"]).count > 0)
         _ARIS_NOTIF_SEND_(@"MODEL_TABS_NEW_AVAILABLE",nil,deltas);
     if(((NSArray *)deltas[@"removed"]).count > 0)
-        _ARIS_NOTIF_SEND_(@"MODEL_TABS_LESS_AVAILABLE",nil,deltas); 
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);  
+        _ARIS_NOTIF_SEND_(@"MODEL_TABS_LESS_AVAILABLE",nil,deltas);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (NSDictionary *) findDeltasInNew:(NSArray *)newTabs fromOld:(NSArray *)oldTabs
@@ -104,7 +104,7 @@
 
     //placeholders for comparison
     Tab *newTab;
-    Tab *oldTab;  
+    Tab *oldTab;
 
     //find added
     BOOL new;
@@ -161,7 +161,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);               
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

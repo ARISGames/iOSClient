@@ -12,9 +12,9 @@
 @interface ARISTemplate : NSObject
 
 + (UIColor *) ARISColorNavBarTint;
-+ (UIColor *) ARISColorNavBarText;           
++ (UIColor *) ARISColorNavBarText;
 + (UIColor *) ARISColorTabBarTint;
-+ (UIColor *) ARISColorTabBarText;           
++ (UIColor *) ARISColorTabBarText;
 + (UIColor *) ARISColorToolBarTint;
 + (UIColor *) ARISColorBarButtonTint;
 + (UIColor *) ARISColorSegmentedControlTint;

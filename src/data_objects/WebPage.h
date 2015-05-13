@@ -13,8 +13,8 @@
 {
     long web_page_id;
 	NSString *name;
-	NSString *url;    
-	long icon_media_id; 
+	NSString *url;
+	long icon_media_id;
 }
 
 @property (nonatomic, assign) long web_page_id;

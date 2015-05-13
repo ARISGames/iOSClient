@@ -38,7 +38,7 @@
       self.event_type = [dict validStringForKey:@"event_type"];
       self.content_id = [dict validIntForKey:@"content_id"];
       self.qty = [dict validIntForKey:@"qty"];
-      self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]]; 
+      self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
     }
     return self;
 }

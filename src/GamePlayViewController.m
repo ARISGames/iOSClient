@@ -81,7 +81,7 @@
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
-        
+
         viewingObject = NO;
         _ARIS_NOTIF_LISTEN_(@"MODEL_DISPLAY_NEW_ENQUEUED", self, @selector(tryDequeue), nil);
     }
@@ -226,7 +226,7 @@
       i.object_id = n.note_id;
       vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
     }
-    
+
     ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
     [self presentDisplay:nav];
 }

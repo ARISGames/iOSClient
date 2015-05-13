@@ -23,7 +23,7 @@
     ARISMediaView *mediaView;
     ARISCollapseView *collapseView;
     DialogTextView *dialogTextView;
-    
+
     long lastKnownTextFrameHeight;
 
     id<DialogScriptViewControllerDelegate> __unsafe_unretained delegate;
@@ -41,7 +41,7 @@
         delegate = d;
         _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_SCRIPT_OPTIONS_AVAILABLE", self, @selector(scriptOptionsAvailable:), nil);
     }
-    return self; 
+    return self;
 }
 
 - (void) loadView
@@ -59,7 +59,7 @@
     lastKnownTextFrameHeight = 40;
 
     [self.view addSubview:mediaView];
-    [self.view addSubview:collapseView]; 
+    [self.view addSubview:collapseView];
 }
 
 - (void) loadScript:(DialogScript *)s guessedHeight:(long)h
@@ -79,9 +79,9 @@
         [delegate setNavTitle:c.name];
     }
     [dialogTextView loadText:s.text];
-    [dialogTextView setOptionsLoading]; 
+    [dialogTextView setOptionsLoading];
     [collapseView setContentFrameHeightSilently:h];
-    [collapseView setFrameHeightSilently:h+10]; 
+    [collapseView setFrameHeightSilently:h+10];
     lastKnownTextFrameHeight = h;
     [_MODEL_DIALOGS_ requestPlayerOptionsForDialogId:dialog.dialog_id scriptId:s.dialog_script_id];
 }
@@ -96,7 +96,7 @@
 - (void) dialogTextView:(DialogTextView *)dtv expandedToSize:(CGSize)s
 {
     [collapseView setContentFrameHeight:s.height];
-    [collapseView setFrameHeight:s.height+10]; 
+    [collapseView setFrameHeight:s.height+10];
     lastKnownTextFrameHeight = s.height;
 }
 

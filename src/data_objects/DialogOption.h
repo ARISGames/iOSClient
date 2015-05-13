@@ -11,13 +11,13 @@
 @interface DialogOption : NSObject
 {
   long dialog_option_id;
-  long dialog_id; 
+  long dialog_id;
   long parent_dialog_script_id;
   NSString *prompt;
   NSString *link_type;
   long link_id;
   NSString *link_info;
-  long sort_index; 
+  long sort_index;
 }
 
 @property(nonatomic, assign) long dialog_option_id;

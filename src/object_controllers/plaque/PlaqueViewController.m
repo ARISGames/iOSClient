@@ -188,7 +188,7 @@ static NSString * const OPTION_CELL = @"option";
 {
     WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
     nullWebPage.url = [r.URL absoluteString];
-    
+
     [_MODEL_DISPLAY_QUEUE_ enqueueObject:nullWebPage];
     [self dismissSelf];
 

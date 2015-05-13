@@ -10,7 +10,7 @@
 
 @interface GameComment : NSObject
 {
-    NSString *title; 
+    NSString *title;
     NSString *text;
     NSString *playerName;
     NSDate *date;
@@ -19,7 +19,7 @@
 
 @property(copy, readwrite) NSString *title;
 @property(copy, readwrite) NSString *text;
-@property(copy, readwrite) NSString *playerName;  
+@property(copy, readwrite) NSString *playerName;
 @property(copy, readwrite) NSDate *date;
 @property(readwrite) long rating;
 

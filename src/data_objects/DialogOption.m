@@ -25,9 +25,9 @@
   if(self = [super init])
   {
     self.dialog_option_id = 0;
-    self.dialog_id = 0; 
+    self.dialog_id = 0;
     self.parent_dialog_script_id = 0;
-    self.prompt = @""; 
+    self.prompt = @"";
     self.link_type = @"EXIT";
     self.link_id = 0;
     self.link_info = @"";
@@ -41,13 +41,13 @@
   if(self = [super init])
   {
     self.dialog_option_id        = [dict validIntForKey:@"dialog_option_id"];
-    self.dialog_id               = [dict validIntForKey:@"dialog_id"]; 
+    self.dialog_id               = [dict validIntForKey:@"dialog_id"];
     self.parent_dialog_script_id = [dict validIntForKey:@"parent_dialog_script_id"];
-    self.prompt                  = [dict validStringForKey:@"prompt"]; 
-    self.link_type               = [dict validStringForKey:@"link_type"]; 
-    self.link_id                 = [dict validIntForKey:@"link_id"]; 
-    self.link_info               = [dict validStringForKey:@"link_info"]; 
-    self.sort_index              = [dict validIntForKey:@"sort_index"]; 
+    self.prompt                  = [dict validStringForKey:@"prompt"];
+    self.link_type               = [dict validStringForKey:@"link_type"];
+    self.link_id                 = [dict validIntForKey:@"link_id"];
+    self.link_info               = [dict validStringForKey:@"link_info"];
+    self.sort_index              = [dict validIntForKey:@"sort_index"];
   }
   return self;
 }
@@ -56,9 +56,9 @@
 {
   DialogOption *c = [[DialogOption alloc] init];
   c.dialog_option_id        = self.dialog_option_id;
-  c.dialog_id               = self.dialog_id; 
+  c.dialog_id               = self.dialog_id;
   c.parent_dialog_script_id = self.parent_dialog_script_id;
-  c.prompt                  = self.prompt; 
+  c.prompt                  = self.prompt;
   c.link_type               = self.link_type;
   c.link_id                 = self.link_id;
   c.link_info               = self.link_info;

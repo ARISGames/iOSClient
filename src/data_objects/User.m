@@ -23,13 +23,13 @@
 {
     if(self = [super init])
     {
-        self.user_id        = 0; 
+        self.user_id        = 0;
         self.user_name      = @"Unknown Player";
         self.display_name   = @"Unknown Player";
-        self.email          = @""; 
+        self.email          = @"";
         self.media_id       = 0;
-        self.read_write_key = @"";  
-        self.location = [[CLLocation alloc] initWithLatitude:0.0 longitude:0.0]; 
+        self.read_write_key = @"";
+        self.location = [[CLLocation alloc] initWithLatitude:0.0 longitude:0.0];
     }
     return self;
 }
@@ -38,12 +38,12 @@
 {
     if(self = [super init])
     {
-        self.user_id        = [dict validIntForKey:@"user_id"]; 
+        self.user_id        = [dict validIntForKey:@"user_id"];
         self.user_name      = [dict validStringForKey:@"user_name"];
         self.display_name   = [dict validStringForKey:@"display_name"];
-        self.email          = [dict validStringForKey:@"email"]; 
+        self.email          = [dict validStringForKey:@"email"];
         self.media_id       = [dict validIntForKey:@"media_id"];
-        self.read_write_key = [dict validStringForKey:@"read_write_key"];   
+        self.read_write_key = [dict validStringForKey:@"read_write_key"];
         self.location       = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
     }
     return self;

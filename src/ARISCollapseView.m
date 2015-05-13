@@ -20,7 +20,7 @@ const long TOUCH_BUFFER_HEIGHT = 20;
     CGRect openFrame;
     CGRect tempDragStartFrame; //to hold state while dragging
     long handleShowing;
-    
+
     id<ARISCollapseViewDelegate> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) UIView *handle;
@@ -38,17 +38,17 @@ const long TOUCH_BUFFER_HEIGHT = 20;
     if(self = [super initWithFrame:f])
     {
         openFrame = [self frameWithBarAndTouchBuffer:f];
-        
+
         handleShowing = h ? 1 : 0;
-        
+
         if(!o) [super setFrame:CGRectMake(openFrame.origin.x,
                                        openFrame.origin.y+openFrame.size.height-handle_buffer_height,
                                        openFrame.size.width,
                                        handle_buffer_height)];
-            
+
         self.userInteractionEnabled = YES;
         self.clipsToBounds = YES;
-        
+
         if(h)
         {
             self.handle = [[UIView alloc] initWithFrame:CGRectMake(0,TOUCH_BUFFER_HEIGHT,f.size.width,HANDLE_HEIGHT)];
@@ -61,7 +61,7 @@ const long TOUCH_BUFFER_HEIGHT = 20;
             [self.handle addSubview:dots];
             [self addSubview:self.handle];
         }
-            
+
         self.contentContainerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, handle_buffer_height, openFrame.size.width, openFrame.size.height-handle_buffer_height)];
         self.contentContainerView.clipsToBounds = YES;
         self.contentContainerView.userInteractionEnabled = YES;
@@ -71,12 +71,12 @@ const long TOUCH_BUFFER_HEIGHT = 20;
         [self setContentFrame:self.content.frame];
         [self addSubview:self.contentContainerView];
         [self.contentContainerView addSubview:self.content];
-        
+
         [self setBackgroundColor:[ARISTemplate ARISColorTextBackdrop]];
-        
+
         if(t) [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapped:)]];
         if(d) [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanned:)]];
-        
+
         delegate = del;
     }
     return self;
@@ -85,18 +85,18 @@ const long TOUCH_BUFFER_HEIGHT = 20;
 - (CGRect) frameWithBarAndTouchBuffer:(CGRect)f
 {
     if(handleShowing && f.size.height < HANDLE_HEIGHT) { f.origin.y-=(HANDLE_HEIGHT-f.size.height); f.size.height = HANDLE_HEIGHT; }
-    
+
     //invisible touch area buffer
     f.size.height += TOUCH_BUFFER_HEIGHT;
     f.origin.y    -= TOUCH_BUFFER_HEIGHT;
-    
+
     return f;
 }
 
 - (void) setFrame:(CGRect)f
 {
     openFrame = [self frameWithBarAndTouchBuffer:f];
-    
+
     if(self.frame.size.height != handle_buffer_height) [self open];
     else                                               [self close];
 }
@@ -104,7 +104,7 @@ const long TOUCH_BUFFER_HEIGHT = 20;
 - (void) setFrameSilently:(CGRect)f
 {
     openFrame = [self frameWithBarAndTouchBuffer:f];
-    
+
     if(self.frame.size.height != handle_buffer_height) [self openSilently];
     else                                               [self closeSilently];
 }
@@ -149,7 +149,7 @@ const long TOUCH_BUFFER_HEIGHT = 20;
 
 - (void) handlePanned:(UIPanGestureRecognizer *)g
 {
-    if(g.state == UIGestureRecognizerStateBegan) 
+    if(g.state == UIGestureRecognizerStateBegan)
         tempDragStartFrame = self.frame;
     else if(g.state == UIGestureRecognizerStateEnded)
     {
@@ -160,15 +160,15 @@ const long TOUCH_BUFFER_HEIGHT = 20;
     }
     //else if((self.contentContainerView.contentOffset.y == 0 && [g translationInView:self].y < 0) ||
     //(self.contentContainerView.frame.size.height + self.contentContainerView.contentOffset.y == self.contentContainerView.contentSize.height && [g translationInView:self].y > 0))
-    else 
+    else
     {
         CGFloat drag = [g translationInView:self].y;
         if(tempDragStartFrame.origin.y+drag < openFrame.origin.y)      drag = openFrame.origin.y - tempDragStartFrame.origin.y;
         if(tempDragStartFrame.size.height-drag < handle_buffer_height) drag = tempDragStartFrame.size.height - handle_buffer_height;
-        
+
         [super setFrame:CGRectMake(tempDragStartFrame.origin.x, tempDragStartFrame.origin.y+drag, tempDragStartFrame.size.width, tempDragStartFrame.size.height-drag)];
     }
-    
+
     if([(NSObject *)delegate respondsToSelector:@selector(collapseView:wasDragged:)])
         [delegate collapseView:self wasDragged:g];
 }

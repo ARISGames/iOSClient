@@ -64,15 +64,15 @@
         overridden = YES;
         s = [scenes allValues][0]; //choose arbitrary scene to ensure valid state
     }
-         
+
     if(overridden) [self setPlayerScene:s];
     [self updatePlayerScene:s];
 }
 
 - (void) sceneTouched:(NSNotification *)notif
 {
-    _ARIS_NOTIF_SEND_(@"MODEL_SCENE_TOUCHED",nil,nil);   
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);      
+    _ARIS_NOTIF_SEND_(@"MODEL_SCENE_TOUCHED",nil,nil);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updateScenes:(NSArray *)newScenes

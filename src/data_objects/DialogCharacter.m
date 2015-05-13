@@ -35,7 +35,7 @@
     self.dialog_character_id = [dict validIntForKey:@"dialog_character_id"];
     self.name                = [dict validStringForKey:@"name"];
     self.title               = [dict validStringForKey:@"title"];
-    self.media_id            = [dict validIntForKey:@"media_id"]; 
+    self.media_id            = [dict validIntForKey:@"media_id"];
   }
   return self;
 }

@@ -12,8 +12,8 @@
 
 @interface ARISDefaults()
 {
-    NSUserDefaults *defaults; 
-    NSMutableDictionary *defaultDefaults; //yeah good work on naming scheme there apple... 
+    NSUserDefaults *defaults;
+    NSMutableDictionary *defaultDefaults; //yeah good work on naming scheme there apple...
 }
 @end
 
@@ -54,7 +54,7 @@
   NSArray *prefDictArray = settingsDict[@"PreferenceSpecifiers"];
   for(long i = 0; i < prefDictArray.count; i++)
   {
-    if(prefDictArray[i][@"DefaultValue"]) 
+    if(prefDictArray[i][@"DefaultValue"])
         defaultDefaults[prefDictArray[i][@"Key"]] = prefDictArray[i][@"DefaultValue"];
   }
 }
@@ -65,11 +65,11 @@
   defaults = [NSUserDefaults standardUserDefaults];
 
   NSString *defaultServer;
-  if(!(defaultServer = [defaults stringForKey:@"baseServerString"])) 
+  if(!(defaultServer = [defaults stringForKey:@"baseServerString"]))
     defaultServer = defaultDefaults[@"baseServerString"];
 
   NSString *defaultVersion;
-  if(!(defaultVersion = [defaults stringForKey:@"appVersion"])) 
+  if(!(defaultVersion = [defaults stringForKey:@"appVersion"]))
     defaultVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 
   if(
@@ -77,11 +77,11 @@
     (version && ![defaultVersion isEqualToString:version]) || //new version
     [defaults boolForKey:@"clearCache"] //requested clear
     )
-  _ARIS_NOTIF_SEND_(@"DEFAULTS_CLEAR",nil,nil); 
-    
+  _ARIS_NOTIF_SEND_(@"DEFAULTS_CLEAR",nil,nil);
+
   serverURL = defaultServer;
-  version = defaultVersion; 
-  
+  version = defaultVersion;
+
   [defaults setObject:serverURL forKey:@"baseServerString"];
   [defaults setObject:version forKey:@"appVersion"];
   [defaults setBool:NO forKey:@"clearCache"];
@@ -106,9 +106,9 @@
   if(u.user_id) fallbackUser = u;
   else fallbackUser = nil;
 
-  if(!fallbackGameId) fallbackGameId = [defaults integerForKey:@"game_id"]; 
+  if(!fallbackGameId) fallbackGameId = [defaults integerForKey:@"game_id"];
 
-  _ARIS_NOTIF_SEND_(@"DEFAULTS_UPDATED",nil,nil);  
+  _ARIS_NOTIF_SEND_(@"DEFAULTS_UPDATED",nil,nil);
 }
 
 - (void) saveUserDefaults
@@ -120,7 +120,7 @@
   if(_MODEL_GAME_)
       [defaults setInteger:_MODEL_GAME_.game_id forKey:@"game_id"];
   else
-      [defaults setInteger:0 forKey:@"game_id"]; 
+      [defaults setInteger:0 forKey:@"game_id"];
   if(_MODEL_PLAYER_)
   {
     [defaults setInteger:_MODEL_PLAYER_.user_id        forKey:@"user_id"];

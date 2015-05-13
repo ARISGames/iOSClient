@@ -12,14 +12,14 @@
 @implementation Scene
 
 @synthesize scene_id;
-@synthesize name; 
+@synthesize name;
 
 - (id) init
 {
     if(self = [super init])
     {
         self.scene_id = 0;
-        self.name = @""; 
+        self.name = @"";
     }
     return self;
 }

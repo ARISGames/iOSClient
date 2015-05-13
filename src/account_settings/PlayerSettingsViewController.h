@@ -13,7 +13,7 @@
 - (void) playerSettingsWasDismissed;
 @end
 
-@interface PlayerSettingsViewController : ARISViewController 
+@interface PlayerSettingsViewController : ARISViewController
 
 - (id) initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d;
 - (void) resetState;

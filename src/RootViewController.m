@@ -62,7 +62,7 @@
             [[ARISNavigationController alloc] initWithRootViewController:
                 [[PlayerSettingsViewController alloc] initWithDelegate:self]
              ];
-        
+
         changePasswordNavigationController =
             [[ARISNavigationController alloc] initWithRootViewController:
                 [[ChangePasswordViewController alloc] initWithDelegate:self]
@@ -103,7 +103,7 @@
 - (void) playerLoggedIn
 {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    
+
     if((status != AVAuthorizationStatusDenied && status != AVAuthorizationStatusRestricted) &&
        (!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id))
         [self displayContentController:playerSettingsNavigationController];

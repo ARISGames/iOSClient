@@ -91,7 +91,7 @@
     {
         Trigger *newt = newTriggers[i];
         Trigger *exist = [self triggerForId:newt.trigger_id];
-        
+
         if(exist)
         {
             if(![exist mergeDataFromTrigger:newt]) [invalidatedTriggers addObject:exist];

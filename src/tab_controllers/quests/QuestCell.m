@@ -13,8 +13,8 @@
 @interface QuestCell () <ARISWebViewDelegate>
 {
 	UILabel *titleView;
-   	ARISWebView *descriptionView; 
-    
+   	ARISWebView *descriptionView;
+
     Quest *quest;
     id<QuestCellDelegate> __unsafe_unretained delegate;
 }
@@ -35,7 +35,7 @@
 {
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
-        [self initializeViews]; 
+        [self initializeViews];
     }
     return self;
 }
@@ -48,17 +48,17 @@
 - (void) initializeViews
 {
     titleView = [[UILabel alloc] init];
-    descriptionView = [[ARISWebView alloc] initWithDelegate:self]; 
-    
+    descriptionView = [[ARISWebView alloc] initWithDelegate:self];
+
     titleView.font = [ARISTemplate ARISCellTitleFont];
     descriptionView.scrollView.scrollEnabled = NO;
-    
-    titleView.frame = CGRectMake(10,10,self.frame.size.width-20,20);  
+
+    titleView.frame = CGRectMake(10,10,self.frame.size.width-20,20);
     descriptionView.frame = CGRectMake(0, 20, self.frame.size.width, 15);
-    
-    titleView.userInteractionEnabled = NO;  
-    descriptionView.userInteractionEnabled = NO;   
-    
+
+    titleView.userInteractionEnabled = NO;
+    descriptionView.userInteractionEnabled = NO;
+
     [self addSubview:titleView];
     [self addSubview:descriptionView];
 }
@@ -66,14 +66,14 @@
 - (void) setQuest:(Quest *)q
 {
     quest = q;
-    titleView.text = quest.name; 
+    titleView.text = quest.name;
     descriptionView.frame = CGRectMake(0,20,self.frame.size.width,15);
-    [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], q.desc] baseURL:nil];   
+    [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], q.desc] baseURL:nil];
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    float newHeight = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]; 
+    float newHeight = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     descriptionView.frame = CGRectMake(0,20,self.frame.size.width,newHeight);
     [delegate heightCalculated:descriptionView.frame.origin.y+descriptionView.frame.size.height forQuest:quest inCell:self];
 }

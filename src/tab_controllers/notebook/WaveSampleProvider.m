@@ -11,7 +11,7 @@
 
 @interface WaveSampleProvider ()
 {
-    id<WaveSampleProviderDelegate> __unsafe_unretained delegate;; 
+    id<WaveSampleProviderDelegate> __unsafe_unretained delegate;;
 }
 @end
 
@@ -27,7 +27,7 @@
 		binSize = 50;
 		audioURL = u;
 		title = [[u lastPathComponent] copy];
-        [self status:LOADING message:@"Processing"]; 
+        [self status:LOADING message:@"Processing"];
 	}
 	return self;
 }
@@ -51,7 +51,7 @@
 
 - (void) informDelegateOfFinish
 {
-	if(delegate != nil && [delegate respondsToSelector:@selector(sampleProcessed:)]) 
+	if(delegate != nil && [delegate respondsToSelector:@selector(sampleProcessed:)])
         [delegate sampleProcessed:self];
 }
 
@@ -127,22 +127,22 @@
     for(long i=0; i < extAFNumChannels; i++)
         audio[i] = (float *)malloc(sizeof(float)*NUM_FRAMES_PER_READ);
 	long packetReads = 0;
-    
+
     long i = 0;
 	while(!extAFReachedEOF)
     {
 		long k = 0;
         if((k = [self readConsecutive:NUM_FRAMES_PER_READ intoArray:audio]) < 0)
-        { 
+        {
 			[self status:ERROR message:@"Cannot read audio file"];
 			return;
         }
 		[self calculateSampleFromArray:audio lenght:k];
-        
+
 		packetReads += k;
         i++;
 	}
-    
+
 	float allSec = packetReads / 44100;
     [delegate setAudioLength:allSec];
 	minute = allSec / 60;
@@ -203,7 +203,7 @@
 		}
 		float maxValue = 0;
 		for(long i = 0; i < extAFNumChannels;i++) {
-			if(maxValues[i] > maxValue) maxValue = maxValues[i]; 
+			if(maxValues[i] > maxValue) maxValue = maxValues[i];
 		}
 		NSNumber *nMaxValue = [NSNumber numberWithFloat:maxValue];
 		[sampleData addObject:nMaxValue];
@@ -221,21 +221,21 @@
     else                     kSegmentSize = (long)(numFrames * extAFNumChannels * extAFRateRatio + .5);
 	
     UInt32 loadedPackets;
-    
+
     float *data = (float*)malloc(kSegmentSize*sizeof(float));
     if(!data) return -1;
-    
+
     UInt32 numPackets = (unsigned int)numFrames; // Frames to read
     UInt32 samples = numPackets * (unsigned int)extAFNumChannels; // 2 channels (samples) per frame
-    
+
     AudioBufferList bufList;
     bufList.mNumberBuffers = 1;
     bufList.mBuffers[0].mNumberChannels = (unsigned int)extAFNumChannels; // Always 2 channels in this example
     bufList.mBuffers[0].mData = data; // data is a pointer (float*) to our sample buffer
     bufList.mBuffers[0].mDataByteSize = samples * sizeof(float);
-    
+
     loadedPackets = numPackets;
-    
+
     err = ExtAudioFileRead(extAFRef, &loadedPackets, &bufList);
     if(!err)
     {

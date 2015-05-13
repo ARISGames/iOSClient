@@ -7,7 +7,7 @@
 //
 
 // RULE OF THUMB:
-// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c, 
+// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c,
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "LogsModel.h"
@@ -75,33 +75,33 @@
 - (void) playerMoved
 {
     [_SERVICES_ logPlayerMoved];
-    _ARIS_NOTIF_SEND_(@"USER_MOVED",nil,nil); 
+    _ARIS_NOTIF_SEND_(@"USER_MOVED",nil,nil);
 }
 
 - (void) playerViewedTabId:(long)tab_id
 {
-    [_SERVICES_ logPlayerViewedTabId:tab_id]; 
+    [_SERVICES_ logPlayerViewedTabId:tab_id];
 }
 
 - (void) playerViewedContent:(NSString *)content id:(long)content_id
 {
-    if([content isEqualToString:@"PLAQUE"])        [_SERVICES_ logPlayerViewedPlaqueId:content_id];  
-    if([content isEqualToString:@"ITEM"])          [_SERVICES_ logPlayerViewedItemId:content_id];   
-    if([content isEqualToString:@"DIALOG"])        [_SERVICES_ logPlayerViewedDialogId:content_id];   
-    if([content isEqualToString:@"DIALOG_SCRIPT"]) [_SERVICES_ logPlayerViewedDialogScriptId:content_id];   
-    if([content isEqualToString:@"WEB_PAGE"])      [_SERVICES_ logPlayerViewedWebPageId:content_id];   
-    if([content isEqualToString:@"NOTE"])          [_SERVICES_ logPlayerViewedNoteId:content_id];   
-    if([content isEqualToString:@"SCENE"])         [_SERVICES_ logPlayerViewedSceneId:content_id];   
+    if([content isEqualToString:@"PLAQUE"])        [_SERVICES_ logPlayerViewedPlaqueId:content_id];
+    if([content isEqualToString:@"ITEM"])          [_SERVICES_ logPlayerViewedItemId:content_id];
+    if([content isEqualToString:@"DIALOG"])        [_SERVICES_ logPlayerViewedDialogId:content_id];
+    if([content isEqualToString:@"DIALOG_SCRIPT"]) [_SERVICES_ logPlayerViewedDialogScriptId:content_id];
+    if([content isEqualToString:@"WEB_PAGE"])      [_SERVICES_ logPlayerViewedWebPageId:content_id];
+    if([content isEqualToString:@"NOTE"])          [_SERVICES_ logPlayerViewedNoteId:content_id];
+    if([content isEqualToString:@"SCENE"])         [_SERVICES_ logPlayerViewedSceneId:content_id];
 }
 
 - (void) playerViewedInstanceId:(long)instance_id
 {
-    [_SERVICES_ logPlayerViewedInstanceId:instance_id];  
+    [_SERVICES_ logPlayerViewedInstanceId:instance_id];
 }
 
 - (void) playerTriggeredTriggerId:(long)trigger_id
 {
-    [_SERVICES_ logPlayerTriggeredTriggerId:trigger_id];   
+    [_SERVICES_ logPlayerTriggeredTriggerId:trigger_id];
 }
 
 - (void) playerReceivedItemId:(long)item_id qty:(long)qty
