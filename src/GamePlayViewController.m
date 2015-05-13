@@ -83,9 +83,7 @@
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
-        
-        _MODEL_GAME_.tick_delay = 5;
-        _MODEL_GAME_.tick_script = @"<html><script type='text/javascript'>var ARIS = {}; ARIS.tick = function() { ARIS.giveItemCount(12650,1); }</script><body>hello</body></html>";
+
         if(_MODEL_GAME_.tick_delay)
         {
             ticker = [[ARISWebView alloc] initWithDelegate:self];
