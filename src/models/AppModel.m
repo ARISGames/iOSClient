@@ -26,6 +26,7 @@
 
 @synthesize serverURL;
 @synthesize showPlayerOnMap;
+@synthesize preferred_game_id;
 @synthesize disableLeaveGame;
 @synthesize hidePlayers;
 @synthesize player;
@@ -162,6 +163,7 @@
 
 - (void) beginGame
 {
+  _MODEL_.preferred_game_id = 0; //assume the preference was met
   [_MODEL_LOGS_ playerEnteredGame];
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
 }

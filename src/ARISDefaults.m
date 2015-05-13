@@ -64,23 +64,23 @@
   _ARIS_LOG_(@"DefaultsState : Loading");
   defaults = [NSUserDefaults standardUserDefaults];
 
-  NSString *defaultServer;
-  if(!(defaultServer = [defaults stringForKey:@"baseServerString"]))
-    defaultServer = defaultDefaults[@"baseServerString"];
+  NSString *tmpServer;
+  if(!(tmpServer = [defaults stringForKey:@"baseServerString"]))
+    tmpServer = defaultDefaults[@"baseServerString"];
 
-  NSString *defaultVersion;
-  if(!(defaultVersion = [defaults stringForKey:@"appVersion"]))
-    defaultVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+  NSString *tmpVersion;
+  if(!(tmpVersion = [defaults stringForKey:@"appVersion"]))
+    tmpVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 
   if(
-    (serverURL && ![defaultServer isEqualToString:serverURL]) || //new server
-    (version && ![defaultVersion isEqualToString:version]) || //new version
+    (serverURL && ![tmpServer isEqualToString:serverURL]) || //new server
+    (version && ![tmpVersion isEqualToString:version]) || //new version
     [defaults boolForKey:@"clearCache"] //requested clear
     )
   _ARIS_NOTIF_SEND_(@"DEFAULTS_CLEAR",nil,nil);
 
-  serverURL = defaultServer;
-  version = defaultVersion;
+  serverURL = tmpServer;
+  version = tmpVersion;
 
   [defaults setObject:serverURL forKey:@"baseServerString"];
   [defaults setObject:version forKey:@"appVersion"];
@@ -117,10 +117,10 @@
 
   [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
   [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
-  if(_MODEL_GAME_)
-      [defaults setInteger:_MODEL_GAME_.game_id forKey:@"game_id"];
-  else
-      [defaults setInteger:0 forKey:@"game_id"];
+
+  if(_MODEL_GAME_) [defaults setInteger:_MODEL_GAME_.game_id forKey:@"game_id"];
+  else             [defaults setInteger:0                    forKey:@"game_id"];
+
   if(_MODEL_PLAYER_)
   {
     [defaults setInteger:_MODEL_PLAYER_.user_id        forKey:@"user_id"];

@@ -67,6 +67,7 @@
 @property(nonatomic, strong) NSString *serverURL;
 @property(nonatomic, assign) BOOL showPlayerOnMap;
 
+@property(nonatomic, assign) long preferred_game_id;
 @property(nonatomic, assign) BOOL disableLeaveGame;
 @property(nonatomic, assign) BOOL hidePlayers;
 

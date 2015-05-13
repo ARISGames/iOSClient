@@ -259,7 +259,6 @@
   }
 }
 
-
 - (BOOL) loginWithString:(NSString *)result
 {
   NSArray *terms  = [result componentsSeparatedByString:@","];
@@ -278,7 +277,7 @@
       if(terms.count > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
 
       _MODEL_.disableLeaveGame = disableLeaveGame;
-      //_MODEL_.fallbackGameId = game_id;
+      _MODEL_.preferred_game_id = game_id;
       [self dismissViewControllerAnimated:NO completion:nil];
       [_MODEL_ generateUserFromGroup:groupName];
       return true;
@@ -292,7 +291,7 @@
       if(terms.count > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
 
       _MODEL_.disableLeaveGame = disableLeaveGame;
-      //_MODEL_.fallbackGameId = game_id;
+      _MODEL_.preferred_game_id = game_id;
       [self dismissViewControllerAnimated:NO completion:nil];
       [_MODEL_ attemptLogInWithUserName:username password:password];
       return true;
