@@ -10,6 +10,7 @@
 
 #import "ARISAlertHandler.h"
 #import "ARISNavigationController.h"
+#import "ARISWebView.h"
 
 #import "GameNotificationViewController.h"
 #import "DisplayQueueModel.h"
@@ -34,8 +35,6 @@
 
 //needed for orientation hack
 #import "AudioVisualizerViewController.h"
-#import "WebPage.h"
-#import "WebPageViewController.h"
 
 @interface GamePlayViewController() <
     UINavigationControllerDelegate,
@@ -56,13 +55,16 @@
     NoteViewControllerDelegate,
 
     GamePlayTabSelectorViewControllerDelegate,
-    GameNotificationViewControllerDelegate
+    GameNotificationViewControllerDelegate,
+    ARISWebViewDelegate
     >
 {
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
 
     GameNotificationViewController *gameNotificationViewController;
+    NSTimer *tickerTimer;
+    ARISWebView *ticker;
 
     BOOL viewingObject; //because apple's heirarchy design is terrible
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
@@ -81,6 +83,15 @@
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
         gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
+        
+        _MODEL_GAME_.tick_delay = 5;
+        _MODEL_GAME_.tick_script = @"<html><script type='text/javascript'>var ARIS = {}; ARIS.tick = function() { ARIS.giveItemCount(12650,1); }</script><body>hello</body></html>";
+        if(_MODEL_GAME_.tick_delay)
+        {
+            ticker = [[ARISWebView alloc] initWithDelegate:self];
+            [ticker loadHTMLString:_MODEL_GAME_.tick_script baseURL:nil];
+            tickerTimer = [NSTimer scheduledTimerWithTimeInterval:_MODEL_GAME_.tick_delay target:self selector:@selector(tickTicker) userInfo:nil repeats:YES];
+        }
 
         viewingObject = NO;
         _ARIS_NOTIF_LISTEN_(@"MODEL_DISPLAY_NEW_ENQUEUED", self, @selector(tryDequeue), nil);
@@ -276,14 +287,25 @@
     //if ([[notesNavigationController topViewController] isKindOfClass:[AudioVisualizerViewController class]]) {
         //return UIInterfaceOrientationMaskLandscape;
     //}
-    //else{
+    //else {
         return UIInterfaceOrientationMaskPortrait;
     //}
 }
 
+- (void) tickTicker
+{
+  [ticker tickWithParams:@""];
+}
+
+- (void) destroy //wouldn't be necessary if you could reliably dealloc...
+{
+  if(tickerTimer) [tickerTimer invalidate];
+}
+
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  [self destroy];
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

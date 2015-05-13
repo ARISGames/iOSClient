@@ -96,6 +96,7 @@
 
 - (void) playerLoggedOut
 {
+  if(gamePlayViewController) [gamePlayViewController destroy];
   gamePlayViewController = nil;
   [self displayContentController:loginNavigationController];
 }
@@ -132,6 +133,7 @@
 - (void) gameLeft
 {
   [self displayContentController:gamePickersViewController];
+  if(gamePlayViewController) [gamePlayViewController destroy];
   gamePlayViewController = nil; //immediately dealloc
 }
 

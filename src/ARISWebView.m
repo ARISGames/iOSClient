@@ -187,7 +187,13 @@
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItem(%ld,%ld);",item_id,item_qty]];
         }
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.detach()"]];
-        return; //return before "currentlyCalling" stuff (doesn't use queue)
+    }
+    else if([mainCommand isEqualToString:@"logout"])
+    {
+      [self clear];
+      if(!_MODEL_PLAYER_) return; //can't log out if noone logged in
+        
+      [_MODEL_ logOut];
     }
     else if([mainCommand isEqualToString:@"exit"])
     {
@@ -343,6 +349,12 @@
 - (BOOL) hookWithParams:(NSString *)params
 {
     [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.hook(%@);",params]];
+    return false;
+}
+
+- (BOOL) tickWithParams:(NSString*)params
+{
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.tick(%@);",params]];
     return false;
 }
 

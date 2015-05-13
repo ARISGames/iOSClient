@@ -43,6 +43,7 @@
 - (void) setMediaPlaybackRequiresUserAction:(BOOL)m;
 
 - (BOOL) hookWithParams:(NSString *)params;
+- (BOOL) tickWithParams:(NSString *)params;
 - (void) clear;
 
 @end

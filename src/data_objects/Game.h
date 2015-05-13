@@ -32,6 +32,8 @@
   long game_id;
   NSString *name;
   NSString *desc;
+  NSString *tick_script;
+  long tick_delay;
   BOOL published;
   NSString *type;
   CLLocation *location;
@@ -80,6 +82,8 @@
 @property (nonatomic, assign) long game_id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *tick_script;
+@property (nonatomic, assign) long tick_delay;
 @property (nonatomic, assign) BOOL published;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) CLLocation *location;

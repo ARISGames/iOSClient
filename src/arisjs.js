@@ -39,6 +39,7 @@ var ARISJS = function(_ARIS)
     _ARIS.playMediaAndVibrate = function(media_id)         { }
     _ARIS.exitToCharacter     = function(dialog_id)        { _ARIS.enqueueRequest("aris://exit/character/"+dialog_id); }
 
+    _ARIS.logOut              = function()                 { _ARIS.enqueueRequest("aris://logout"); }
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
     _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+prompt); }
@@ -123,6 +124,7 @@ var ARISJS = function(_ARIS)
     if(!callbacks_enabled || typeof(_ARIS.didUpdateItemQty) === 'undefined') { _ARIS.didUpdateItemQty = function(updatedItemId,qty) {} }
     if(!callbacks_enabled || typeof(_ARIS.didReceivePlayer) === 'undefined') { _ARIS.didReceivePlayer = function(player)            {} }
     if(!callbacks_enabled || typeof(_ARIS.hook)             === 'undefined') { _ARIS.hook             = function(paramsJSON)        {} }
+    if(!callbacks_enabled || typeof(_ARIS.tick)             === 'undefined') { _ARIS.tick             = function(paramsJSON)        {} }
     if(                      typeof(_ARIS.ready)            === 'undefined') { _ARIS.ready            = function()                  {} }
 
     /*
