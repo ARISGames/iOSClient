@@ -52,6 +52,7 @@
     playerNameField = [[UITextField alloc] init];
     playerNameField.delegate = self;
     playerNameField.textAlignment = NSTextAlignmentCenter;
+    playerNameField.autocorrectionType = UITextAutocorrectionTypeNo;
     
     playerPic = [[ARISMediaView alloc] init];
     [playerPic addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(picTouched)]];

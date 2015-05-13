@@ -170,7 +170,7 @@
 
 - (void) loginFailed
 {
-    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Login Failed" message:@"Invalid Username/Password"];
+  [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Login Failed" message:@"Invalid Username/Password"];
 }
 
 - (void) resignKeyboard
@@ -229,33 +229,33 @@
 {
   if(scanning)
   {
-      if (metadataObjects != nil && [metadataObjects count] > 0)
+    if (metadataObjects != nil && [metadataObjects count] > 0)
+    {
+      BOOL not_found = NO;
+      scanning = NO;
+
+      for (AVMetadataObject *metadata in metadataObjects)
       {
-          BOOL not_found = NO;
-          scanning = NO;
+        AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
+        NSString *result = [transformed stringValue];
 
-          for (AVMetadataObject *metadata in metadataObjects)
-          {
-              AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
-              NSString *result = [transformed stringValue];
-
-              if([self loginWithString: result])
-              {
-                return;
-              }
-              else
-              {
-                not_found = YES;
-              }
-          }
-
-          // All metadata visible scanned
-          if(not_found)
-          {
-              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-              [alert show];
-          }
+        if([self loginWithString: result])
+        {
+          return;
+        }
+        else
+        {
+          not_found = YES;
+        }
       }
+
+      // All metadata visible scanned
+      if(not_found)
+      {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+        [alert show];
+      }
+    }
   }
 }
 
@@ -280,7 +280,7 @@
       _MODEL_.disableLeaveGame = disableLeaveGame;
       //_MODEL_.fallbackGameId = game_id;
       [self dismissViewControllerAnimated:NO completion:nil];
-        [_MODEL_ generateUserFromGroup:groupName];
+      [_MODEL_ generateUserFromGroup:groupName];
       return true;
     }
     else //create = 0
@@ -309,7 +309,7 @@
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    scanning = YES;
+  scanning = YES;
 }
 
 - (NSUInteger) supportedInterfaceOrientations

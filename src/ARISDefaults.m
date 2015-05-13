@@ -22,9 +22,9 @@
 @synthesize fallbackGameId;
 @synthesize fallbackUser;
 @synthesize version;
-@synthesize serverURL;  
-    
-@synthesize showPlayerOnMap;  
+@synthesize serverURL;
+
+@synthesize showPlayerOnMap;
 
 + (ARISDefaults *) sharedDefaults
 {

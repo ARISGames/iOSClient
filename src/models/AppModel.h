@@ -52,9 +52,9 @@
 
   User *player;
   Game *game;
-  UsersModel *usersModel;  
-  GamesModel *gamesModel;  
-  MediaModel *mediaModel; 
+  UsersModel *usersModel;
+  GamesModel *gamesModel;
+  MediaModel *mediaModel;
   CLLocation *deviceLocation;
 
   //CORE Data
