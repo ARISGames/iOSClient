@@ -158,6 +158,7 @@
     for(long i = 0; i < deltas.count; i++)
     {
         Instance *inst = deltas[i][@"instance"];
+        if(!((Item *)inst.object).delta_notification) continue;
         long qty = [deltas[i][@"delta"] intValue];
 
         NSString *notifString;
@@ -179,6 +180,7 @@
     for(long i = 0; i < deltas.count; i++)
     {
         Instance *inst = deltas[i][@"instance"];
+        if(!((Item *)inst.object).delta_notification) continue;
         long qty = [deltas[i][@"delta"] intValue];
 
         NSString *notifString;

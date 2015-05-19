@@ -23,6 +23,7 @@
 @synthesize weight;
 @synthesize url;
 @synthesize type;
+@synthesize delta_notification;
 
 - (id) init
 {
@@ -39,6 +40,7 @@
         self.weight = 0;
         self.url = @"";
         self.type = @"NORMAL";
+        self.delta_notification = 1;
     }
     return self;
 }
@@ -59,6 +61,7 @@
         self.weight               = [dict validIntForKey:@"weight"];
         self.url                  = [dict validStringForKey:@"url"];
         self.type                 = [dict validStringForKey:@"type"];
+        self.delta_notification   = [dict validBoolForKey:@"delta_notification"];
     }
     return self;
 }
@@ -78,6 +81,7 @@
     c.weight               = self.weight;
     c.url                  = self.url;
     c.type                 = self.type;
+    c.delta_notification   = self.delta_notification;
 
     return c;
 }
