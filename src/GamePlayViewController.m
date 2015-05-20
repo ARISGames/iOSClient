@@ -451,6 +451,7 @@
 
 - (void) dealloc
 {
+    if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

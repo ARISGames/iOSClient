@@ -66,7 +66,7 @@
 - (void) setLevel:(double)l
 {
     level = l;
-	int numberToMakeActive = abs(round(numberofBars * level));
+	int numberToMakeActive = abs((int)round(numberofBars * level));
 
 	for(int i = 0; i<[barViews count]; i++)
     {

@@ -18,6 +18,7 @@
     IBOutlet UIProgressView *progressBar;
     IBOutlet UILabel *progressLabel;
     
+    NSTimer *refreshTimer;
     UIButton *retryGameButton;
     UIButton *retryTabButton;
     UIButton *retryPlayerButton;
@@ -35,6 +36,7 @@
     BOOL tabDataReceived;
     
     float epsillon;
+    BOOL allocd;
 
     id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -55,6 +57,7 @@
 {
     if(self = [super initWithNibName:@"LoadingViewController" bundle:nil])
     {
+        allocd = YES;
         delegate = d;
         
         epsillon = 0.00001;
@@ -84,6 +87,16 @@
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
+    allocd = NO;
+}
+
+- (void) resetTimer
+{
+    if(!allocd) return;
+    if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
+    if(!allocd) return; //this is bizarre, but necessary. dealloc somehow gets called between prev line and this...
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(gameFetchFailed) userInfo:nil repeats:NO];   
 }
 
 - (void) viewDidLoad
@@ -99,6 +112,8 @@
 {
     receivedGameData++;
     [self moveProgressBar];
+    
+    [self resetTimer];
 }
 
 - (void) gameFetchFailed
@@ -112,6 +127,7 @@
         retryGameButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
     }
     [self.view addSubview:retryGameButton];
+    [self resetTimer];
 }
 
 - (void) gameFetchRetryRequested
@@ -120,12 +136,16 @@
     [[AppServices sharedAppServices] fetchAllGameLists];
     [self moveProgressBar];
     [retryGameButton removeFromSuperview];
+    
+    [self resetTimer];
 }
 
 - (void) playerDataReceived
 {
     receivedPlayerData++;
     [self moveProgressBar];
+    
+    [self resetTimer];
 }
 
 - (void) playerFetchFailed
@@ -139,6 +159,8 @@
         retryPlayerButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
     }
     [self.view addSubview:retryPlayerButton];
+    
+    [self resetTimer];
 }
 
 - (void) playerFetchRetryRequested
@@ -147,12 +169,14 @@
     [[AppServices sharedAppServices] fetchAllPlayerLists];
     [self moveProgressBar];
     [retryPlayerButton removeFromSuperview];
+    [self resetTimer];
 }
 
 - (void) tabDataReceived
 {
     receivedTabData++;
     [self moveProgressBar];
+    [self resetTimer];
 }
 
 - (void) tabFetchFailed
@@ -166,6 +190,7 @@
         retryTabButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
     }
     [self.view addSubview:retryTabButton];
+    [self resetTimer];
 }
 
 - (void) tabFetchRetryRequested
@@ -173,6 +198,7 @@
     receivedTabData = 0;
     [retryTabButton removeFromSuperview];
     [self gameFetchRetryRequested];
+    [self resetTimer];
 }
 
 - (void) moveProgressBar
@@ -208,6 +234,7 @@
         tabDataReceived = NO;
         [self dismissViewControllerAnimated:NO completion:nil];
         [delegate loadingViewControllerFinishedLoadingData];
+        if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
     }
 }
 
