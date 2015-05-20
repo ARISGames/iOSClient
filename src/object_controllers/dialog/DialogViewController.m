@@ -219,15 +219,16 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"DIALOG"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(dialog.name && ![dialog.name isEqualToString:@""]) return dialog.name; return @"Dialog"; }
-- (UIImage *) tabIcon
+- (ARISMediaView *) tabIcon
 {
-  if(dialog)
-  {
-    ARISMediaView *amv = [[ARISMediaView alloc] init];
+  ARISMediaView *amv = [[ARISMediaView alloc] init];
+  if(tab.icon_media_id)
+    [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+  else if(dialog.icon_media_id)
     [amv setMedia:[_MODEL_MEDIA_ mediaForId:dialog.icon_media_id]];
-    if(amv.image) return amv.image;
-  }
-  return [UIImage imageNamed:@"logo_icon"];
+  else
+    [amv setImage:[UIImage imageNamed:@"logo_icon"]];
+  return amv;
 }
 
 @end

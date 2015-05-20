@@ -208,7 +208,15 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"SCANNER"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Scanner"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
+- (ARISMediaView *) tabIcon
+{
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"qr_icon"]];
+    return amv;
+}
 
 - (void) dealloc
 {

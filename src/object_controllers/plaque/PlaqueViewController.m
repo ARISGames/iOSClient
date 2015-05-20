@@ -233,15 +233,16 @@ static NSString * const OPTION_CELL = @"option";
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"PLAQUE"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(plaque.name && ![plaque.name isEqualToString:@""]) return plaque.name; return @"Plaque"; }
-- (UIImage *) tabIcon
+- (ARISMediaView *) tabIcon
 {
-  if(plaque)
-  {
     ARISMediaView *amv = [[ARISMediaView alloc] init];
-    [amv setMedia:[_MODEL_MEDIA_ mediaForId:plaque.icon_media_id]];
-    if(amv.image) return amv.image;
-  }
-  return [UIImage imageNamed:@"logo_icon"];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else if(plaque.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:plaque.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"logo_icon"]];
+    return amv;
 }
 
 - (void)dealloc

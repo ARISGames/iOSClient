@@ -181,6 +181,14 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"QUESTS"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
+- (ARISMediaView *) tabIcon
+{
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"todo"]];
+    return amv;
+}
 
 @end
