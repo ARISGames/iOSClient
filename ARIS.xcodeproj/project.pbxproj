@@ -248,6 +248,7 @@
 		AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryViewController.m */; };
 		AAD8EFE31A0AD96600E29C8F /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */; };
+		AADA6B2F1B14DFA600C0C7A0 /* LoadingIndicatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AADA6B2E1B14DFA600C0C7A0 /* LoadingIndicatorViewController.m */; };
 		AAE2851D1810461700E2534A /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE2851C1810461700E2534A /* ItemViewController.m */; };
 		AAE2F7A11A129DE20042455A /* roll@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE2F7A01A129DE20042455A /* roll@2x.png */; };
 		AAE3C9A91A2537DD001D33CF /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE3C9A81A2537DD001D33CF /* reload.png */; };
@@ -739,6 +740,8 @@
 		AAD298C817D1160C002A4C47 /* InventoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryViewController.m; sourceTree = "<group>"; };
 		AAD8EFE11A0AD96600E29C8F /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
 		AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		AADA6B2D1B14DFA600C0C7A0 /* LoadingIndicatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingIndicatorViewController.h; sourceTree = "<group>"; };
+		AADA6B2E1B14DFA600C0C7A0 /* LoadingIndicatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingIndicatorViewController.m; sourceTree = "<group>"; };
 		AAE2851B1810461700E2534A /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AAE2851C1810461700E2534A /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAE2F7A01A129DE20042455A /* roll@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roll@2x.png"; sourceTree = "<group>"; };
@@ -1602,6 +1605,8 @@
 		AABC710C172739D60074CC21 /* overlay_controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AADA6B2D1B14DFA600C0C7A0 /* LoadingIndicatorViewController.h */,
+				AADA6B2E1B14DFA600C0C7A0 /* LoadingIndicatorViewController.m */,
 				AABC710D172739D60074CC21 /* GameNotificationViewController.h */,
 				AABC710E172739D60074CC21 /* GameNotificationViewController.m */,
 				AABC7111172739D60074CC21 /* PopOverViewController.h */,
@@ -2270,6 +2275,7 @@
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,
 				AABC738B172739D80074CC21 /* Tab.m in Sources */,
+				AADA6B2F1B14DFA600C0C7A0 /* LoadingIndicatorViewController.m in Sources */,
 				AABC738D172739D80074CC21 /* WebPage.m in Sources */,
 				AAC0D8941930F9D100CA1DE3 /* Scene.m in Sources */,
 				AA6EC33C192E730200D70D38 /* ARISViewController.m in Sources */,

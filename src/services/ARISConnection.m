@@ -89,7 +89,6 @@ NSString *const kARISServerServicePackage = @"v2";
         else [requestDupMap setObject:[rURL.URL absoluteString] forKey:[self hashFromURLReq:rURL]];
     }
 
-
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     _ARIS_LOG_(@"Req asynch URL: %@", rURL.URL);
     #ifdef CONNECTION_DEBUG
