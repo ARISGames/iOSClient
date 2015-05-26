@@ -22,8 +22,7 @@
   UILabel *owner;
   UILabel *desc;
   ARISMediaView *preview;
-  CGRect previewFrameFull;
-  CGRect previewFrameSmall;
+  CGRect previewFrame;
 
   Note *note;
 
@@ -78,12 +77,12 @@
 
   if(!label) return; //views not initted
 
-  previewFrameFull = CGRectMake(self.frame.size.width-(self.frame.size.height-4), 4, self.frame.size.height-8, self.frame.size.height-8);
-  previewFrameSmall = CGRectMake(self.frame.size.width-(self.frame.size.height-24), 24, self.frame.size.height-48, self.frame.size.height-48);
-  label.frame = CGRectMake(10,15,self.frame.size.width-previewFrameFull.size.width-10,14);
+  previewFrame = CGRectMake(self.frame.size.width-(self.frame.size.height-4), 4, self.frame.size.height-8, self.frame.size.height-8);
+  label.frame = CGRectMake(10,15,self.frame.size.width-previewFrame.size.width-10,14);
   date.frame = CGRectMake(10,35,65,14);
   owner.frame = CGRectMake(70,35,self.frame.size.width-85,14);
   desc.frame = CGRectMake(10,54,self.frame.size.width-self.frame.size.height-20,14);
+  if(preview) [preview setFrame:previewFrame];
 }
 
 - (void) setSelected:(BOOL)selected animated:(BOOL)animated
@@ -103,16 +102,24 @@
     //label.text = @"TAG";
   }
 
-  label.frame = CGRectMake(15,15,self.frame.size.width-previewFrameFull.size.width-10,14);
+  label.frame = CGRectMake(15,15,self.frame.size.width-previewFrame.size.width-10,14);
   NSDateFormatter *format = [[NSDateFormatter alloc] init];
   [format setDateFormat:@"MM/dd/yy"];
   date.text = [format stringFromDate:n.created];
   desc.text = n.desc;
   owner.text = n.user_display_name;
 
-  if(n.media_id) [preview setMedia:[_MODEL_MEDIA_ mediaForId:n.media_id]];
-  else           [preview setMedia:nil];
-  [preview setFrame:previewFrameFull];
+  if(n.media_id)
+  {
+    [preview setMedia:[_MODEL_MEDIA_ mediaForId:n.media_id]];
+    preview.hidden = NO;
+  }
+  else      
+  {
+    [preview setMedia:nil];
+    preview.hidden = YES;
+  }
+  [preview setFrame:previewFrame];
 }
 
 - (BOOL) ARISMediaViewShouldPlayButtonTouched:(ARISMediaView *)amv

@@ -292,7 +292,7 @@
 
 - (void) centerSpinner
 {
-  spinner.center = self.center;
+  spinner.frame = self.bounds;
 }
 
 - (void) removeSpinner
