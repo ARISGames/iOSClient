@@ -47,7 +47,8 @@
   NSString *serverURL;
   BOOL showPlayerOnMap;
 
-  BOOL disableLeaveGame;
+  BOOL leave_game_enabled;
+  BOOL auto_profile_enabled;
   BOOL hidePlayers;
 
   User *player;
@@ -68,7 +69,8 @@
 @property(nonatomic, assign) BOOL showPlayerOnMap;
 
 @property(nonatomic, assign) long preferred_game_id;
-@property(nonatomic, assign) BOOL disableLeaveGame;
+@property(nonatomic, assign) BOOL leave_game_enabled;
+@property(nonatomic, assign) BOOL auto_profile_enabled;
 @property(nonatomic, assign) BOOL hidePlayers;
 
 @property(nonatomic, strong) User *player;

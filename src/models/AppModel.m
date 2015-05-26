@@ -27,7 +27,8 @@
 @synthesize serverURL;
 @synthesize showPlayerOnMap;
 @synthesize preferred_game_id;
-@synthesize disableLeaveGame;
+@synthesize leave_game_enabled;
+@synthesize auto_profile_enabled;
 @synthesize hidePlayers;
 @synthesize player;
 @synthesize game;
@@ -52,7 +53,8 @@
 {
   if(self = [super init])
   {
-    disableLeaveGame = NO;
+    leave_game_enabled = YES;
+    auto_profile_enabled = YES;
 
     servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
     usersModel        = [[UsersModel alloc] init];
@@ -147,6 +149,8 @@
 {
   if(_MODEL_GAME_) [self leaveGame];
   _MODEL_PLAYER_ = nil;
+  _MODEL_.auto_profile_enabled = YES;
+  _MODEL_.leave_game_enabled = YES;
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ logoutPlayer];
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil);
@@ -172,6 +176,7 @@
 {
   [_MODEL_GAME_ endPlay];
   _MODEL_GAME_ = nil;
+  _MODEL_.leave_game_enabled = YES;
   [_DEFAULTS_ saveUserDefaults];
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);
 }

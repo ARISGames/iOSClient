@@ -113,7 +113,7 @@
     [tableView setTableHeaderView:headerView];
 
     [self.view addSubview:tableView];
-    if(!_MODEL_.disableLeaveGame) [self.view addSubview:leaveGameButton];
+    if(_MODEL_.leave_game_enabled) [self.view addSubview:leaveGameButton];
 }
 
 - (void) viewWillLayoutSubviews
@@ -121,8 +121,8 @@
     [super viewWillLayoutSubviews];
 
     tableView.frame = self.view.bounds;
-    if(_MODEL_.disableLeaveGame) tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
-    else                         tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
+    if(_MODEL_.leave_game_enabled) tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
+    else                           tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
 
     leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
     leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);

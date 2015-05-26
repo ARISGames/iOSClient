@@ -28,10 +28,11 @@
   UIView *line1;
   UIView *line2;
 
-  NSString *groupName;
+  NSString *group_name;
+  BOOL auto_profile_enabled;
   long game_id;
   BOOL newPlayer;
-  BOOL disableLeaveGame;
+  BOOL leave_game_enabled;
 
   BOOL scanning;
 
@@ -261,44 +262,66 @@
 
 - (BOOL) loginWithString:(NSString *)result
 {
-  NSArray *terms  = [result componentsSeparatedByString:@","];
-
-  //Create: 1,groupName,game_id,disableLeaveGame
-  //Login:  0,userName,password,game_id,disableLeaveGame
-
-  if(terms.count > 1)
-  {
+    NSArray *terms  = [result componentsSeparatedByString:@","];
+    
+    //(DON'T USE) - // 0,user_name,password,game_id,disable_leave_game
+    //v1.0 (dep)  - // 1,group_name,game_id,disable_leave_game
+    //v2.0        - // 2,auto_profile_enabled,group_name,game_id,leave_game_enabled
+    
+    /*
+     examples (v2):
+     2                creates empty transient user
+     2,,,,            same as above (empty string = keep default)
+     2,0              creates user, skips taking pic (no group)
+     2,1,bill_class_4 creates user in group 'bill_class_4' (GROUP CANNOT CONTAIN ',')
+     2,0,abc,123      creates user in group abc, pushes to game 123
+     2,1,def,246,0    creates user in group def, pushes to game 246, disables leave game
+     2,,,135          creates user, uses defaults for all options, push to game 135
+     */
+    
+    auto_profile_enabled = YES;
+    group_name = @"";
     game_id = 0;
-    disableLeaveGame = NO;
-    if([[terms objectAtIndex:0] boolValue]) //create = 1
+    leave_game_enabled = YES;
+    if([[terms objectAtIndex:0] intValue] == 2) //v2.0
     {
-                          groupName        = [terms objectAtIndex:1];
-      if(terms.count > 2) game_id          = [[terms objectAtIndex:2] intValue];
-      if(terms.count > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
-
-      _MODEL_.disableLeaveGame = disableLeaveGame;
-      _MODEL_.preferred_game_id = game_id;
-      [self dismissViewControllerAnimated:NO completion:nil];
-      [_MODEL_ generateUserFromGroup:groupName];
-      return true;
+        int i = 1;
+        if(terms.count > i && ![[terms objectAtIndex:i] isEqual:@""])
+            auto_profile_enabled = [[terms objectAtIndex:i] boolValue];
+        i++;
+        if(terms.count > i && ![[terms objectAtIndex:i] isEqual:@""])
+            group_name = [terms objectAtIndex:i];
+        i++;
+        if(terms.count > i && ![[terms objectAtIndex:i] isEqual:@""])
+            game_id = [[terms objectAtIndex:i] intValue];
+        i++;
+        if(terms.count > i && ![[terms objectAtIndex:i] isEqual:@""])
+            leave_game_enabled = [[terms objectAtIndex:i] boolValue];
     }
-    else //create = 0
+    else if([[terms objectAtIndex:0] intValue] == 1) //v1.0 (deprecated)
     {
-      NSString *username = [terms objectAtIndex:1];
-      NSString *password = @"";
-      if(terms.count > 2) password           = [terms objectAtIndex:2];
-      if(terms.count > 3) game_id            = [[terms objectAtIndex:3] intValue];
-      if(terms.count > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
-
-      _MODEL_.disableLeaveGame = disableLeaveGame;
-      _MODEL_.preferred_game_id = game_id;
-      [self dismissViewControllerAnimated:NO completion:nil];
-      [_MODEL_ attemptLogInWithUserName:username password:password];
-      return true;
+        group_name        = [terms objectAtIndex:1];
+        if(terms.count > 2) game_id            = [[terms objectAtIndex:2] intValue];
+        if(terms.count > 3) leave_game_enabled = ![[terms objectAtIndex:3] boolValue];
     }
-    return false;
-  }
-  return false;
+    else //v0.0 DO NOT USE
+    {
+        /*
+         //DEPRECATED
+         NSString *username = [terms objectAtIndex:1];
+         NSString *password = @"";
+         if(terms.count > 2) password           = [terms objectAtIndex:2];
+         if(terms.count > 3) game_id            = [[terms objectAtIndex:3] intValue];
+         if(terms.count > 4) leave_game_enabled = ![[terms objectAtIndex:4] boolValue];
+         */
+        return false;
+    }
+    _MODEL_.auto_profile_enabled = auto_profile_enabled;
+    _MODEL_.leave_game_enabled = leave_game_enabled;
+    _MODEL_.preferred_game_id = game_id;
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [_MODEL_ generateUserFromGroup:group_name];
+    return true;
 }
 
 - (void) cancelLoginScan

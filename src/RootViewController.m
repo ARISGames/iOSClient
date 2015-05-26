@@ -106,7 +106,7 @@
   AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
 
   if((status != AVAuthorizationStatusDenied && status != AVAuthorizationStatusRestricted) &&
-      (!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id))
+      _MODEL_.auto_profile_enabled && (!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id))
     [self displayContentController:playerSettingsNavigationController];
   else if(!_MODEL_GAME_)
   {
