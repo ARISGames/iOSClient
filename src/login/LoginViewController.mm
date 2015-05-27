@@ -240,7 +240,7 @@
         AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
         NSString *result = [transformed stringValue];
         
-        if([self loginWithString: result])
+        if([self loginWithString:result])
           return;
         else
           not_found = YES;
@@ -278,8 +278,8 @@
     for(int i = 1; i < terms.count; i++)
     {
       const char *c = [terms[i] UTF8String]; //to not deal with awful NSString
-      if(c[0] == 'p') auto_profile_enabled = c[1] > 0;
-      if(c[0] == 'l') leave_game_enabled   = c[1] > 0;
+      if(c[0] == 'p') auto_profile_enabled = c[1] != '0';
+      if(c[0] == 'l') leave_game_enabled   = c[1] != '0';
       if(c[0] == 'g')
       {
         if(c[1] == 'r')
