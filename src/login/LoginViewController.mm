@@ -27,15 +27,15 @@
   UIButton *changePassButton;
   UIView *line1;
   UIView *line2;
-
+  
   NSString *group_name;
   BOOL auto_profile_enabled;
   long game_id;
   BOOL newPlayer;
   BOOL leave_game_enabled;
-
+  
   BOOL scanning;
-
+  
   id<LoginViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -49,11 +49,11 @@
   {
     delegate = d;
     self.title = NSLocalizedString(@"LoginTitleKey", @"");
-
+    
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(resetState),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(resetState),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGIN_FAILED",self,@selector(loginFailed),nil);
-
+    
     scanning = NO;
   }
   return self;
@@ -63,16 +63,16 @@
 {
   [super loadView];
   self.view.backgroundColor = [UIColor ARISColorWhite];
-
+  
   UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
   UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
   logoText.frame = CGRectMake(titleContainer.frame.size.width/2-50, titleContainer.frame.size.height/2-15, 100, 30);
   [titleContainer addSubview:logoText];
   self.navigationItem.titleView = titleContainer;
   [self.navigationController.navigationBar layoutIfNeeded];
-
+  
   long navOffset = 66;
-
+  
   usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
   usernameField.font = [ARISTemplate ARISInputFont];
   usernameField.delegate = self;
@@ -82,7 +82,7 @@
   usernameField.accessibilityLabel = @"Username Field";
   usernameField.clearButtonMode = UITextFieldViewModeAlways;
   [self.view addSubview:usernameField];
-
+  
   passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20)];
   passwordField.font = [ARISTemplate ARISInputFont];
   passwordField.delegate = self;
@@ -91,7 +91,7 @@
   passwordField.clearButtonMode = UITextFieldViewModeAlways;
   passwordField.accessibilityLabel = @"Password Field";
   [self.view addSubview:passwordField];
-
+  
   loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
   [loginButton setImage:[UIImage imageNamed:@"arrowForward"] forState:UIControlStateNormal];
   [loginButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
@@ -100,9 +100,9 @@
   loginButton.imageEdgeInsets = UIEdgeInsetsMake(10,10,10,10);
   loginButton.frame = CGRectMake(self.view.frame.size.width-60, navOffset+100, 60, 50);
   [loginButton addTarget:self action:@selector(loginButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-
+  
   [self.view addSubview:loginButton];
-
+  
   qrButton = [UIButton buttonWithType:UIButtonTypeCustom];
   qrButton.backgroundColor = [UIColor clearColor];
   qrButton.alpha = 0.1;
@@ -111,7 +111,7 @@
   qrButton.frame = CGRectMake(80, self.view.frame.size.height-(self.view.frame.size.width-160)-80, self.view.frame.size.width-160, self.view.frame.size.width-160);
   [qrButton addTarget:self action:@selector(QRButtonTouched) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:qrButton];
-
+  
   newAccountButton = [UIButton buttonWithType:UIButtonTypeCustom];
   newAccountButton.backgroundColor = [UIColor clearColor];
   [newAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
@@ -120,7 +120,7 @@
   newAccountButton.frame = CGRectMake(0, self.view.frame.size.height-60, self.view.frame.size.width, 20);
   [newAccountButton addTarget:self action:@selector(newAccountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:newAccountButton];
-
+  
   changePassButton = [UIButton buttonWithType:UIButtonTypeCustom];
   changePassButton.backgroundColor = [UIColor clearColor];
   [changePassButton setTitle:NSLocalizedString(@"ForgotPasswordKey", @"") forState:UIControlStateNormal];
@@ -129,11 +129,11 @@
   changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
   [changePassButton addTarget:self action:@selector(changePassTouch) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:changePassButton];
-
+  
   line1 = [[UIView alloc] initWithFrame:CGRectMake(20, navOffset+20+20+5, self.view.frame.size.width-40, 1)];
   line1.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
   [self.view addSubview:line1];
-
+  
   line2 = [[UIView alloc] initWithFrame:CGRectMake(20, navOffset+20+20+20+20+5, self.view.frame.size.width-40, 1)];
   line2.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
   [self.view addSubview:line2];
@@ -142,7 +142,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-
+  
   [self resetState];
 }
 
@@ -150,7 +150,7 @@
 {
   [super viewWillLayoutSubviews];
   long navOffset = 66;
-
+  
   usernameField.frame    = CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20);
   passwordField.frame    = CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20);
   loginButton.frame      = CGRectMake(self.view.frame.size.width-60, navOffset+100, 60, 50);
@@ -206,7 +206,7 @@
 - (void) QRButtonTouched
 {
   [self resignKeyboard];
-
+  
   scanning = YES;
   LoginScannerViewController *scannerController = [[LoginScannerViewController alloc] initWithDelegate:self];
   [self presentViewController:scannerController animated:NO completion:nil];
@@ -234,22 +234,18 @@
     {
       BOOL not_found = NO;
       scanning = NO;
-
+      
       for (AVMetadataObject *metadata in metadataObjects)
       {
         AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
         NSString *result = [transformed stringValue];
-
+        
         if([self loginWithString: result])
-        {
           return;
-        }
         else
-        {
           not_found = YES;
-        }
       }
-
+      
       // All metadata visible scanned
       if(not_found)
       {
@@ -262,66 +258,61 @@
 
 - (BOOL) loginWithString:(NSString *)result
 {
-    NSArray *terms  = [result componentsSeparatedByString:@","];
-    
-    //(DON'T USE) - // 0,user_name,password,game_id,disable_leave_game
-    //v1.0 (dep)  - // 1,group_name,game_id,disable_leave_game
-    //v2.0        - // 2,auto_profile_enabled,group_name,game_id,leave_game_enabled
-    
+  NSArray *terms  = [result componentsSeparatedByString:@","];
+  
+  //(DON'T USE) - // 0,user_name,password,game_id,disable_leave_game
+  //v1.0 (dep)  - // 1,group_name,game_id,disable_leave_game
+  //v2.0        - // 2,pauto_profile_enabled,grgroup_name,ggame_id,lleave_game_enabled
+  //v2 keys:
+  //p - auto_profile_enabled
+  //gr - group_name
+  //g - game_id
+  //l - leave_game_enabled
+  
+  auto_profile_enabled = YES;
+  group_name = @"";
+  game_id = 0;
+  leave_game_enabled = YES;
+  if([terms[0] intValue] == 2) //v2.0
+  {
+    for(int i = 1; i < terms.count; i++)
+    {
+      const char *c = [terms[i] UTF8String]; //to not deal with awful NSString
+      if(c[0] == 'p') auto_profile_enabled = c[1] > 0;
+      if(c[0] == 'l') leave_game_enabled   = c[1] > 0;
+      if(c[0] == 'g')
+      {
+        if(c[1] == 'r')
+          group_name = [NSString stringWithUTF8String:c+2];
+        else
+          game_id = [[NSString stringWithUTF8String:c+1] intValue];
+      }
+    }
+  }
+  else if([terms[0] intValue] == 1) //v1.0 (deprecated)
+  {
+    group_name = terms[1];
+    if(terms.count > 2) game_id            = [terms[2] intValue];
+    if(terms.count > 3) leave_game_enabled = ![terms[3] boolValue];
+  }
+  else //v0.0 DO NOT USE
+  {
     /*
-     examples (v2):
-     2                creates empty transient user
-     2,,,,            same as above (empty string = keep default)
-     2,0              creates user, skips taking pic (no group)
-     2,1,bill_class_4 creates user in group 'bill_class_4' (GROUP CANNOT CONTAIN ',')
-     2,0,abc,123      creates user in group abc, pushes to game 123
-     2,1,def,246,0    creates user in group def, pushes to game 246, disables leave game
-     2,,,135          creates user, uses defaults for all options, push to game 135
+     //DEPRECATED
+     NSString *username = terms[1];
+     NSString *password = @"";
+     if(terms.count > 2) password           = terms[2];
+     if(terms.count > 3) game_id            = [terms[3] intValue];
+     if(terms.count > 4) leave_game_enabled = ![terms[4] boolValue];
      */
-    
-    auto_profile_enabled = YES;
-    group_name = @"";
-    game_id = 0;
-    leave_game_enabled = YES;
-    if([[terms objectAtIndex:0] intValue] == 2) //v2.0
-    {
-        int i = 1;
-        if(terms.count > i && ![[terms objectAtIndex:i] isEqual:@""])
-            auto_profile_enabled = [[terms objectAtIndex:i] boolValue];
-        i++;
-        if(terms.count > i && ![[terms objectAtIndex:i] isEqual:@""])
-            group_name = [terms objectAtIndex:i];
-        i++;
-        if(terms.count > i && ![[terms objectAtIndex:i] isEqual:@""])
-            game_id = [[terms objectAtIndex:i] intValue];
-        i++;
-        if(terms.count > i && ![[terms objectAtIndex:i] isEqual:@""])
-            leave_game_enabled = [[terms objectAtIndex:i] boolValue];
-    }
-    else if([[terms objectAtIndex:0] intValue] == 1) //v1.0 (deprecated)
-    {
-        group_name        = [terms objectAtIndex:1];
-        if(terms.count > 2) game_id            = [[terms objectAtIndex:2] intValue];
-        if(terms.count > 3) leave_game_enabled = ![[terms objectAtIndex:3] boolValue];
-    }
-    else //v0.0 DO NOT USE
-    {
-        /*
-         //DEPRECATED
-         NSString *username = [terms objectAtIndex:1];
-         NSString *password = @"";
-         if(terms.count > 2) password           = [terms objectAtIndex:2];
-         if(terms.count > 3) game_id            = [[terms objectAtIndex:3] intValue];
-         if(terms.count > 4) leave_game_enabled = ![[terms objectAtIndex:4] boolValue];
-         */
-        return false;
-    }
-    _MODEL_.auto_profile_enabled = auto_profile_enabled;
-    _MODEL_.leave_game_enabled = leave_game_enabled;
-    _MODEL_.preferred_game_id = game_id;
-    [self dismissViewControllerAnimated:NO completion:nil];
-    [_MODEL_ generateUserFromGroup:group_name];
-    return true;
+    return false;
+  }
+  _MODEL_.auto_profile_enabled = auto_profile_enabled;
+  _MODEL_.leave_game_enabled = leave_game_enabled;
+  _MODEL_.preferred_game_id = game_id;
+  [self dismissViewControllerAnimated:NO completion:nil];
+  [_MODEL_ generateUserFromGroup:group_name];
+  return true;
 }
 
 - (void) cancelLoginScan
