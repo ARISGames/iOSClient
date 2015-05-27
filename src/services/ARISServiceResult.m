@@ -10,6 +10,7 @@
 
 @implementation ARISServiceResult
 
+@synthesize humanDescription;
 @synthesize resultData;
 @synthesize userInfo;
 @synthesize asyncData;

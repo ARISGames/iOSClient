@@ -13,6 +13,7 @@
 #import "ARISWebView.h"
 
 #import "GameNotificationViewController.h"
+#import "LoadingIndicatorViewController.h"
 #import "DisplayQueueModel.h"
 #import "AppModel.h"
 
@@ -56,6 +57,7 @@
 
     GamePlayTabSelectorViewControllerDelegate,
     GameNotificationViewControllerDelegate,
+    LoadingIndicatorViewControllerDelegate,
     ARISWebViewDelegate
     >
 {
@@ -63,6 +65,7 @@
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
 
     GameNotificationViewController *gameNotificationViewController;
+    LoadingIndicatorViewController *loadingIndicatorViewController;
     NSTimer *tickerTimer;
     ARISWebView *ticker;
 
@@ -81,6 +84,7 @@
         delegate = d;
 
         gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
+        loadingIndicatorViewController = [[LoadingIndicatorViewController alloc] initWithDelegate:self];
         gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
 
@@ -101,8 +105,8 @@
 {
     [super loadView];
 
-    gameNotificationViewController.view.frame = CGRectMake(0,0,0,0);
-    [self.view addSubview:gameNotificationViewController.view];
+    gameNotificationViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    loadingIndicatorViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -110,7 +114,10 @@
     [super viewWillAppear:animated];
 
     if(!currentChildViewController)
+    {
         [self displayContentController:gamePlayRevealController];
+        [self reSetOverlayControllersInVC:self atYDelta:0];
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -244,29 +251,36 @@
 {
     [self presentViewController:vc animated:NO completion:nil];
     viewingObject = YES;
-
-    //Phil hates that the frame changes depending on what view you add it to...
-    gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
-                                                           gameNotificationViewController.view.frame.origin.y+20,
-                                                           gameNotificationViewController.view.frame.size.width,
-                                                           gameNotificationViewController.view.frame.size.height);
-    [vc.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+    
+    [self reSetOverlayControllersInVC:vc atYDelta:20];
 }
 
 - (void) instantiableViewControllerRequestsDismissal:(id<InstantiableViewControllerProtocol>)ivc
 {
     [((ARISViewController *)ivc).navigationController dismissViewControllerAnimated:NO completion:nil];
     viewingObject = NO;
-
-    //Phil hates that the frame changes depending on what view you add it to...
-    gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
-                                                                gameNotificationViewController.view.frame.origin.y-20,
-                                                                gameNotificationViewController.view.frame.size.width,
-                                                                gameNotificationViewController.view.frame.size.height);
-    [self.view addSubview:gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+    
+    [self reSetOverlayControllersInVC:self atYDelta:-20];
 
     [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
     [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
+}
+
+- (void) reSetOverlayControllersInVC:(UIViewController *)vc atYDelta:(int)ydelt
+{
+    //Phil hates that the frame changes depending on what view you add it to...
+    gameNotificationViewController.view.frame = CGRectMake(gameNotificationViewController.view.frame.origin.x,
+                                                           gameNotificationViewController.view.frame.origin.y+ydelt,
+                                                           gameNotificationViewController.view.frame.size.width,
+                                                           gameNotificationViewController.view.frame.size.height);
+
+    loadingIndicatorViewController.view.frame = CGRectMake(loadingIndicatorViewController.view.frame.origin.x,
+                                                           loadingIndicatorViewController.view.frame.origin.y+ydelt,
+                                                           loadingIndicatorViewController.view.frame.size.width,
+                                                           loadingIndicatorViewController.view.frame.size.height);
+    
+    [vc.view addSubview:gameNotificationViewController.view];
+    [vc.view addSubview:loadingIndicatorViewController.view];
 }
 
 - (void) displayTab:(Tab *)t

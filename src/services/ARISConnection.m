@@ -28,6 +28,8 @@ NSString *const kARISServerServicePackage = @"v2";
     NSMutableDictionary *connections;
     NSMutableDictionary *requestDupMap;
     NSDictionary *auth;
+    
+    NSTimer *progressPoller;
 }
 @end
 
@@ -43,6 +45,8 @@ NSString *const kARISServerServicePackage = @"v2";
         graveyard = g;
         connections   = [[NSMutableDictionary alloc] initWithCapacity:20];
         requestDupMap = [[NSMutableDictionary alloc] initWithCapacity:20];
+        
+        progressPoller = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pollProgress) userInfo:nil repeats:YES];
 
         _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN", self, @selector(setAuth), nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT", self, @selector(unsetAuth), nil);
@@ -54,9 +58,9 @@ NSString *const kARISServerServicePackage = @"v2";
 - (void) setAuth { auth = @{@"user_id":[NSNumber numberWithLong:_MODEL_PLAYER_.user_id],@"key":_MODEL_PLAYER_.read_write_key}; }
 - (void) unsetAuth { auth = nil; }
 
-- (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r userInfo:(NSDictionary *)dict
+- (void) performAsynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r humanDesc:(NSString *)desc userInfo:(NSDictionary *)dict
 {
-    [self performAsyncURLRequest:[self createRequestURLFromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r allowDuplicates:NO userInfo:dict];
+    [self performAsyncURLRequest:[self createRequestURLFromService:s method:m arguments:args] handler:h successSelector:ss failSelector:fs retryOnFail:r allowDuplicates:NO humanDesc:desc userInfo:dict];
 }
 
 - (ARISServiceResult *) performSynchronousRequestWithService:(NSString *)s method:(NSString *)m arguments:(NSDictionary *)args userInfo:(NSDictionary *)dict
@@ -66,7 +70,7 @@ NSString *const kARISServerServicePackage = @"v2";
 
 - (void) performRevivalWithRequest:(RequestCD *)r
 {
-    [self performAsyncURLRequest:[self createRequestURLWithRequest:r] handler:nil successSelector:nil failSelector:nil retryOnFail:YES allowDuplicates:NO userInfo:nil];
+    [self performAsyncURLRequest:[self createRequestURLWithRequest:r] handler:nil successSelector:nil failSelector:nil retryOnFail:YES allowDuplicates:NO humanDesc:@"Retrying failed request..." userInfo:nil];
 }
 
 - (NSString *) hashFromURLReq:(NSURLRequest *)rURL
@@ -74,7 +78,7 @@ NSString *const kARISServerServicePackage = @"v2";
     //used to store in dict
     return [NSString stringWithFormat:@"%@%@",[rURL.URL absoluteString],[[NSString alloc] initWithData:rURL.HTTPBody encoding:NSUTF8StringEncoding]];
 }
-- (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r allowDuplicates:(BOOL)d userInfo:(NSDictionary *)u
+- (void) performAsyncURLRequest:(NSURLRequest *)rURL handler:(id)h successSelector:(SEL)ss failSelector:(SEL)fs retryOnFail:(BOOL)r allowDuplicates:(BOOL)d humanDesc:(NSString *)desc userInfo:(NSDictionary *)u
 {
     if(!d)
     {
@@ -96,6 +100,7 @@ NSString *const kARISServerServicePackage = @"v2";
     #endif
 
     ARISServiceResult *rs = [[ARISServiceResult alloc] init];
+    rs.humanDescription = desc;
     rs.asyncData = [[NSMutableData alloc] initWithCapacity:2048];
     rs.userInfo = u;
     rs.urlRequest = rURL;
@@ -255,6 +260,27 @@ NSString *const kARISServerServicePackage = @"v2";
         [_MODEL_ logOut];
         return nil;
     }
+}
+
+- (void) pollProgress
+{
+  ARISServiceResult *r;
+  NSArray *connarr = [connections allValues];
+  NSMutableArray *laggers = [[NSMutableArray alloc] init];
+  for(int i = 0; i < connarr.count; i++)
+  {
+    r = connarr[i];
+    if([r.start timeIntervalSinceNow] > 2)
+      [laggers addObject:r];
+  }
+  if(connarr.count)
+    _ARIS_NOTIF_SEND_(@"CONNECTION_LAG",nil,@{@"laggers":laggers});
+}
+
+- (void) dealloc
+{
+  [progressPoller invalidate];
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

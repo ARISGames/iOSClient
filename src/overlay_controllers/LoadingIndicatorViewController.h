@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "ARISViewController.h"
 
-@protocol LoadingIndicatorViewDelegate
+@protocol LoadingIndicatorViewControllerDelegate
 @end
 
 @interface LoadingIndicatorViewController : ARISViewController
 
-- (id) initWithDelegate:(id <LoadingIndicatorViewDelegate>)d;
+- (id) initWithDelegate:(id <LoadingIndicatorViewControllerDelegate>)d;
 
 @end
 

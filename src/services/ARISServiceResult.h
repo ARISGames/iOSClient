@@ -10,6 +10,7 @@
 
 @interface ARISServiceResult : NSObject
 {
+    NSString *humanDescription;
     NSObject *resultData;
     NSDictionary *userInfo;
    	NSMutableData *asyncData;
@@ -23,6 +24,7 @@
     NSDate *start;
     NSTimeInterval time;
 };
+@property (nonatomic, strong) NSString *humanDescription;
 @property (nonatomic, strong) NSObject *resultData;
 @property (nonatomic, strong) NSDictionary *userInfo;
 @property (nonatomic, strong) NSMutableData *asyncData;

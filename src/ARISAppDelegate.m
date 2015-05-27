@@ -223,6 +223,7 @@
 
 - (void)dealloc
 {
+  [self stopPollingLocation];
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
