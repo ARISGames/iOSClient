@@ -16,6 +16,7 @@
 @synthesize asyncData;
 @synthesize urlRequest;
 @synthesize connection;
+@synthesize progress;
 @synthesize handler;
 @synthesize successSelector;
 @synthesize failSelector;

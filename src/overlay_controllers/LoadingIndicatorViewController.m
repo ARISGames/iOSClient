@@ -13,7 +13,7 @@
 {
   NSMutableArray *connections; // ARISServiceResult
   NSMutableArray *labels;      // UILabel
-  //NSMutableArray *bars;        // UIProgressView
+  NSMutableArray *bars;        // UIProgressView
   NSMutableArray *spinners;    // UIActivityIndicatorView
   
   NSTimer *progressPoller;
@@ -29,7 +29,7 @@
   {
     connections = [[NSMutableArray alloc] init];
     labels      = [[NSMutableArray alloc] init];
-    //bars        = [[NSMutableArray alloc] init];
+    bars        = [[NSMutableArray alloc] init];
     spinners    = [[NSMutableArray alloc] init];
     delegate = d;
     
@@ -49,21 +49,21 @@
 - (void) viewWillLayoutSubviews
 {
   [super viewWillLayoutSubviews];
-  
+
   int h = self.view.frame.size.height;
   UILabel *l;
-  //UIProgressView *b;
+  UIProgressView *b;
   UIActivityIndicatorView *s;
   for(long i = 0; i < connections.count; i++)
   {
     l = labels[i];
-    //b = bars[i];
+    b = bars[i];
     s = spinners[i];
-    
+
     l.frame = CGRectMake(10+10+10,h-55,self.view.frame.size.width-20-10-10,20);
-    //b.frame = CGRectMake(10,h-30,self.view.frame.size.width-20,20);
+    b.frame = CGRectMake(10,h-30,self.view.frame.size.width-20,20);
     s.frame = CGRectMake(10,h-50,10,10);
-    
+
     h-=30;
   }
 }
@@ -105,40 +105,43 @@
       i--;
     }
   }
+  for(int i = 0; i < connections.count; i++)
+    ((UIProgressView *)bars[i]).progress = ((ARISServiceResult *)connections[i]).progress;
 }
 
 - (void) addConnection:(ARISServiceResult *)a
 {
   UILabel *l = [[UILabel alloc] init];
-  //UIProgressView *b = [[UIProgressView alloc] init];
+  UIProgressView *b = [[UIProgressView alloc] init];
   UIActivityIndicatorView *s = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
   
   l.text = a.humanDescription;
   l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
   l.userInteractionEnabled = NO;
-  //b.userInteractionEnabled = NO;
+  b.userInteractionEnabled = NO;
+  b.progress = a.progress;
   [s startAnimating];
   s.userInteractionEnabled = NO;
   
   [connections addObject:a];
   [labels      addObject:l];
-  //[bars        addObject:b];
+  [bars        addObject:b];
   [spinners    addObject:s];
   
   [self.view addSubview:l];
-  //[self.view addSubview:b];
+  [self.view addSubview:b];
   [self.view addSubview:s];
 }
 
 - (void) removeConnectionAt:(int)i
 {
   [labels[i] removeFromSuperview];
-  //[bars[i] removeFromSuperview];
+  [bars[i] removeFromSuperview];
   [spinners[i] removeFromSuperview];
   
   [connections removeObject:connections[i]];
   [labels      removeObject:labels[i]];
-  //[bars        removeObject:bars[i]];
+  [bars        removeObject:bars[i]];
   [spinners    removeObject:spinners[i]];
 }
 

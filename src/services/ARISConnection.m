@@ -19,7 +19,7 @@
 
 NSString *const kARISServerServicePackage = @"v2";
 
-@interface ARISConnection() <NSURLConnectionDelegate>
+@interface ARISConnection() <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
     SBJsonParser *jsonParser;
     SBJsonWriter *jsonWriter;
@@ -240,6 +240,12 @@ NSString *const kARISServerServicePackage = @"v2";
     return request;
 }
 
+- (void) connection:(NSURLConnection *)c didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+{
+    ARISServiceResult *sr = [connections objectForKey:c.description];
+    sr.progress = (float)totalBytesWritten/(float)totalBytesExpectedToWrite;
+}
+
 - (NSObject *) parseJSONString:(NSString *)json
 {
     NSDictionary *result = [jsonParser objectWithString:json];
@@ -270,7 +276,7 @@ NSString *const kARISServerServicePackage = @"v2";
   for(int i = 0; i < connarr.count; i++)
   {
     r = connarr[i];
-    if([r.start timeIntervalSinceNow] > 2)
+    if([r.start timeIntervalSinceNow] < -2)
       [laggers addObject:r];
   }
   if(connarr.count)
