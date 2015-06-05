@@ -16,10 +16,11 @@
 
 - (long) setQtyForInstanceId:(long)instance_id qty:(long)qty;
 - (NSArray *) playerInstances;
+- (NSArray *) gameOwnedInstances;
 - (void) requestInstances;
-- (void) requestPlayerInstances;
+- (void) requestPlayerInstances; //game-owned fits in this category
 
-- (void) clearPlayerData;
+- (void) clearPlayerData; //game-owned fits in this category
 - (void) clearGameData;
 
 @end

@@ -114,6 +114,16 @@
     [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
 }
 
+- (void) gameReceivedItemId:(long)item_id qty:(long)qty
+{
+    [_SERVICES_ logGameReceivedItemId:item_id qty:qty];
+}
+
+- (void) gameLostItemId:(long)item_id qty:(long)qty
+{
+    [_SERVICES_ logGameLostItemId:item_id qty:qty];
+}
+
 - (void) playerChangedSceneId:(long)scene_id
 {
     [_SERVICES_ logPlayerSetSceneId:scene_id];

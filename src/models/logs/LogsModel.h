@@ -24,6 +24,8 @@
 - (void) playerTriggeredTriggerId:(long)trigger_id;
 - (void) playerReceivedItemId:(long)item_id qty:(long)qty;
 - (void) playerLostItemId:(long)item_id qty:(long)qty;
+- (void) gameReceivedItemId:(long)item_id qty:(long)qty;
+- (void) gameLostItemId:(long)item_id qty:(long)qty;
 - (void) playerChangedSceneId:(long)scene_id;
 
 @end

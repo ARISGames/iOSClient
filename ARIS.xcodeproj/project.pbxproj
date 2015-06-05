@@ -268,6 +268,7 @@
 		AAF9233B188715C20026A4FC /* Playhead.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92332188715C20026A4FC /* Playhead.m */; };
 		AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92334188715C20026A4FC /* WaveformControl.m */; };
 		AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92336188715C20026A4FC /* WaveSampleProvider.m */; };
+		AAFC09571B2211E300A8D861 /* GameInstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFC09561B2211E300A8D861 /* GameInstancesModel.m */; };
 		AAFE960D19805236007F6BBD /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE960C19805236007F6BBD /* Event.m */; };
 		AAFE9613198055EA007F6BBD /* EventsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE9612198055EA007F6BBD /* EventsModel.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
@@ -778,6 +779,8 @@
 		AAF92334188715C20026A4FC /* WaveformControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveformControl.m; sourceTree = "<group>"; };
 		AAF92335188715C20026A4FC /* WaveSampleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveSampleProvider.h; sourceTree = "<group>"; };
 		AAF92336188715C20026A4FC /* WaveSampleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveSampleProvider.m; sourceTree = "<group>"; };
+		AAFC09551B2211E300A8D861 /* GameInstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInstancesModel.h; sourceTree = "<group>"; };
+		AAFC09561B2211E300A8D861 /* GameInstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameInstancesModel.m; sourceTree = "<group>"; };
 		AAFE960B19805236007F6BBD /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		AAFE960C19805236007F6BBD /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		AAFE9611198055EA007F6BBD /* EventsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsModel.h; sourceTree = "<group>"; };
@@ -1543,6 +1546,7 @@
 				AAA682F11ACDAE1900C99951 /* factories */,
 				AAF3EEDE1938F2DD00388BE1 /* instances */,
 				AAA682EA1ACC64C000C99951 /* player_instances */,
+				AAFC09541B2211E300A8D861 /* game_instances */,
 				AA9F7133194F53FA00384832 /* logs */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70E7172739D60074CC21 /* media */,
@@ -1941,6 +1945,15 @@
 				AAF92336188715C20026A4FC /* WaveSampleProvider.m */,
 			);
 			name = AudioVisHelpers;
+			sourceTree = "<group>";
+		};
+		AAFC09541B2211E300A8D861 /* game_instances */ = {
+			isa = PBXGroup;
+			children = (
+				AAFC09551B2211E300A8D861 /* GameInstancesModel.h */,
+				AAFC09561B2211E300A8D861 /* GameInstancesModel.m */,
+			);
+			path = game_instances;
 			sourceTree = "<group>";
 		};
 		AAFE9610198055EA007F6BBD /* events */ = {
@@ -2356,6 +2369,7 @@
 				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,
 				AA33A72A1860C0CE00D48789 /* Media.m in Sources */,
 				AA30AC131857724600068667 /* NoteCommentsViewController.m in Sources */,
+				AAFC09571B2211E300A8D861 /* GameInstancesModel.m in Sources */,
 				AA6EC33A192E730200D70D38 /* ARISContainerViewController.m in Sources */,
 				AA3B7FC1182037CB006C9715 /* SBJsonStreamWriter.m in Sources */,
 				AA0DE0E1193A3E7900DF8D35 /* TriggersModel.m in Sources */,

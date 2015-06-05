@@ -188,6 +188,18 @@
     return pInstances;
 }
 
+- (NSArray *) gameOwnedInstances
+{
+    NSMutableArray *gInstances = [[NSMutableArray alloc] init];
+    NSArray *allInstances = [instances allValues];
+    for(long i = 0; i < allInstances.count; i++)
+    {
+        if([((Instance *)allInstances[i]).owner_type isEqualToString:@"GAME"])
+            [gInstances addObject:allInstances[i]];
+    }
+    return gInstances;
+}
+
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);

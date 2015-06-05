@@ -53,6 +53,7 @@
 - (void) fetchPlaques;
 - (void) fetchItems;
 - (void) touchItemsForPlayer; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
+- (void) touchItemsForGame; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
 - (void) fetchDialogs;
 - (void) fetchDialogCharacters;
 - (void) fetchDialogScripts;
@@ -104,6 +105,8 @@
 - (void) logPlayerTriggeredTriggerId:(long)trigger_id;
 - (void) logPlayerReceivedItemId:(long)item_id qty:(long)qty;
 - (void) logPlayerLostItemId:(long)item_id qty:(long)qty;
+- (void) logGameReceivedItemId:(long)item_id qty:(long)qty;
+- (void) logGameLostItemId:(long)item_id qty:(long)qty;
 - (void) logPlayerSetSceneId:(long)scene_id;
 
 //for mid-game fetches. these are failsafes, and oughtn't occur.

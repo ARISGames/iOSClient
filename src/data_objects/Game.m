@@ -14,7 +14,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const long gameDatasToReceive = 23;
+const long gameDatasToReceive = 24;
 const long playerDatasToReceive = 7;
 
 @interface Game()
@@ -74,6 +74,7 @@ const long playerDatasToReceive = 7;
 @synthesize overlaysModel;
 @synthesize instancesModel;
 @synthesize playerInstancesModel;
+@synthesize gameInstancesModel;
 @synthesize tabsModel;
 @synthesize logsModel;
 @synthesize questsModel;
@@ -203,6 +204,7 @@ const long playerDatasToReceive = 7;
     overlaysModel        = [[OverlaysModel        alloc] init];
     instancesModel       = [[InstancesModel       alloc] init];
     playerInstancesModel = [[PlayerInstancesModel alloc] init];
+    gameInstancesModel   = [[GameInstancesModel   alloc] init];
     tabsModel            = [[TabsModel            alloc] init];
     logsModel            = [[LogsModel            alloc] init];
     questsModel          = [[QuestsModel          alloc] init];
@@ -230,6 +232,7 @@ const long playerDatasToReceive = 7;
     overlaysModel        = nil;
     instancesModel       = nil;
     playerInstancesModel = nil;
+    gameInstancesModel   = nil;
     tabsModel            = nil;
     questsModel          = nil;
     logsModel            = nil;
@@ -244,6 +247,7 @@ const long playerDatasToReceive = 7;
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
     [playerInstancesModel touchPlayerInstances];
+    [gameInstancesModel touchGameInstances];
     [dialogsModel requestDialogs]; //makes 4 "game data received" notifs (dialogs, characters, scripts, options)
     [webPagesModel requestWebPages];
     [notesModel requestNotes];
@@ -339,6 +343,7 @@ const long playerDatasToReceive = 7;
     [overlaysModel        clearGameData];
     [instancesModel       clearGameData];
     [playerInstancesModel clearGameData];
+    [gameInstancesModel   clearGameData];
     [tabsModel            clearGameData];
 
     [scenesModel          clearPlayerData];
@@ -347,6 +352,7 @@ const long playerDatasToReceive = 7;
     [overlaysModel        clearPlayerData];
     [instancesModel       clearPlayerData];
     [playerInstancesModel clearPlayerData];
+    [gameInstancesModel   clearPlayerData];
     [tabsModel            clearPlayerData];
     [logsModel            clearPlayerData];
 

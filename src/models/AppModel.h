@@ -30,6 +30,7 @@
 #define _MODEL_OVERLAYS_ [AppModel sharedAppModel].game.overlaysModel
 #define _MODEL_INSTANCES_ [AppModel sharedAppModel].game.instancesModel
 #define _MODEL_PLAYER_INSTANCES_ [AppModel sharedAppModel].game.playerInstancesModel
+#define _MODEL_GAME_INSTANCES_ [AppModel sharedAppModel].game.gameInstancesModel
 #define _MODEL_TABS_ [AppModel sharedAppModel].game.tabsModel
 #define _MODEL_QUESTS_ [AppModel sharedAppModel].game.questsModel
 #define _MODEL_LOGS_ [AppModel sharedAppModel].game.logsModel
