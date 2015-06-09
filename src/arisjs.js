@@ -38,6 +38,10 @@ var ARISJS = function(_ARIS)
     _ARIS.hideLeaveButton     = function()                 { }
     _ARIS.playMediaAndVibrate = function(media_id)         { }
     _ARIS.exitToCharacter     = function(dialog_id)        { _ARIS.enqueueRequest("aris://exit/character/"+dialog_id); }
+    _ARIS.getItemCount        = function(item_id)          { _ARIS.enqueueRequest("aris://instances/player/get/" + item_id); }
+    _ARIS.setItemCount        = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/player/set/" + item_id + "/" + qty); }
+    _ARIS.giveItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/player/give/" + item_id + "/" + qty); }
+    _ARIS.takeItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/player/take/" + item_id + "/" + qty); }
 
     _ARIS.logOut              = function()                 { _ARIS.enqueueRequest("aris://logout"); }
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
@@ -53,10 +57,14 @@ var ARISJS = function(_ARIS)
     _ARIS.stopMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/stop/" + media_id); }
     _ARIS.setMediaVolume      = function(media_id, volume) { _ARIS.enqueueRequest("aris://media/setVolume/" + media_id + "/" + volume); }
     _ARIS.vibrate             = function()                 { _ARIS.enqueueRequest("aris://vibrate"); }
-    _ARIS.getItemCount        = function(item_id)          { _ARIS.enqueueRequest("aris://inventory/get/" + item_id); }
-    _ARIS.setItemCount        = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/set/" + item_id + "/" + qty); }
-    _ARIS.giveItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/give/" + item_id + "/" + qty); }
-    _ARIS.takeItemCount       = function(item_id,qty)      { _ARIS.enqueueRequest("aris://inventory/take/" + item_id + "/" + qty); }
+    _ARIS.getPlayerItemCount  = function(item_id)          { _ARIS.enqueueRequest("aris://instances/player/get/" + item_id); }
+    _ARIS.setPlayerItemCount  = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/player/set/" + item_id + "/" + qty); }
+    _ARIS.givePlayerItemCount = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/player/give/" + item_id + "/" + qty); }
+    _ARIS.takePlayerItemCount = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/player/take/" + item_id + "/" + qty); }
+    _ARIS.getGameItemCount    = function(item_id)          { _ARIS.enqueueRequest("aris://instances/game/get/" + item_id); }
+    _ARIS.setGameItemCount    = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/game/set/" + item_id + "/" + qty); }
+    _ARIS.giveGameItemCount   = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/game/give/" + item_id + "/" + qty); }
+    _ARIS.takeGameItemCount   = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/game/take/" + item_id + "/" + qty); }
     _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); }
 
     //Call ARIS API directly (USE WITH CAUTION)
@@ -119,13 +127,15 @@ var ARISJS = function(_ARIS)
     /*
      * ARIS CALLBACK FUNCTIONS
      */
-    var callbacks_enabled = (typeof(_ARIS.callbacksEnabled) === 'undefined' || _ARIS.callbacksEnabled);
+    var callbacks_enabled = (typeof(_ARIS.callbacksEnabled)     === 'undefined' || _ARIS.callbacksEnabled);
 
-    if(!callbacks_enabled || typeof(_ARIS.didUpdateItemQty) === 'undefined') { _ARIS.didUpdateItemQty = function(updatedItemId,qty) {} }
-    if(!callbacks_enabled || typeof(_ARIS.didReceivePlayer) === 'undefined') { _ARIS.didReceivePlayer = function(player)            {} }
-    if(!callbacks_enabled || typeof(_ARIS.hook)             === 'undefined') { _ARIS.hook             = function(paramsJSON)        {} }
-    if(!callbacks_enabled || typeof(_ARIS.tick)             === 'undefined') { _ARIS.tick             = function(paramsJSON)        {} }
-    if(                      typeof(_ARIS.ready)            === 'undefined') { _ARIS.ready            = function()                  {} }
+    if(!callbacks_enabled || typeof(_ARIS.didUpdateItemQty)       === 'undefined') { _ARIS.didUpdateItemQty       = function(updatedItemId,qty) {} }
+    if(!callbacks_enabled || typeof(_ARIS.didUpdatePlayerItemQty) === 'undefined') { _ARIS.didUpdatePlayerItemQty = function(updatedItemId,qty) {} }
+    if(!callbacks_enabled || typeof(_ARIS.didUpdateGameItemQty)   === 'undefined') { _ARIS.didUpdateGameItemQty   = function(updatedItemId,qty) {} }
+    if(!callbacks_enabled || typeof(_ARIS.didReceivePlayer)       === 'undefined') { _ARIS.didReceivePlayer       = function(player)            {} }
+    if(!callbacks_enabled || typeof(_ARIS.hook)                   === 'undefined') { _ARIS.hook                   = function(paramsJSON)        {} }
+    if(!callbacks_enabled || typeof(_ARIS.tick)                   === 'undefined') { _ARIS.tick                   = function(paramsJSON)        {} }
+    if(                      typeof(_ARIS.ready)                  === 'undefined') { _ARIS.ready                  = function()                  {} }
 
     /*
      * ARIS CACHE FUNCTIONS (USER DO NOT TOUCH)

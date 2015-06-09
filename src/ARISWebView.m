@@ -201,8 +201,8 @@
 
         NSString *type = @"";
         NSString *token = @"";
-        if(components.count > 1) type  = [components objectAtIndex:1];
-        if(components.count > 2) token = [components objectAtIndex:2];
+        if(components.count > 1) type  = components[1];
+        if(components.count > 2) token = components[2];
 
         if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
 
@@ -250,46 +250,83 @@
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
-    else if([mainCommand isEqualToString:@"inventory"])
+    else if([mainCommand isEqualToString:@"instances"])
     {
-        if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"get"])
+        if(components.count > 1 && [components[1] isEqualToString:@"player"])
         {
-            long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,qty]];
+            if(components.count > 2 && [components[2] isEqualToString:@"get"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,qty]];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,qty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"set"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[3] intValue];
+                long newQty = [_MODEL_PLAYER_INSTANCES_ setItemsForPlayer:item_id qtyToSet:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"give"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:item_id qtyToAdd:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"take"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:item_id qtyToRemove:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,newQty]];
+            }
         }
-        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
+        if(components.count > 1 && [components[1] isEqualToString:@"game"])
         {
-            long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_PLAYER_INSTANCES_ setItemsForPlayer:item_id qtyToSet:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
-        }
-        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
-        {
-            long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:item_id qtyToAdd:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
-        }
-        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
-        {
-            long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:item_id qtyToRemove:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+            if(components.count > 2 && [components[2] isEqualToString:@"get"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [_MODEL_GAME_INSTANCES_ qtyOwnedForItem:item_id];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,qty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"set"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GAME_INSTANCES_ setItemsForGame:item_id qtyToSet:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"give"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GAME_INSTANCES_ giveItemToGame:item_id qtyToAdd:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"take"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GAME_INSTANCES_ takeItemFromGame:item_id qtyToRemove:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,newQty]];
+            }
         }
     }
     else if([mainCommand isEqualToString:@"media"])
     {
-        if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"prepare"])
-            [self loadAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"play"])
-            [self playAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"stop"])
-            [self stopAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"setVolume"])
-            [self setMediaId:[[components objectAtIndex:2] intValue] volumeTo:[[components objectAtIndex:3] floatValue]];
+        if(components.count > 2 && [components[1] isEqualToString:@"prepare"])
+            [self loadAudioFromMediaId:[components[2] intValue]];
+        else if(components.count > 2 && [components[1] isEqualToString:@"play"])
+            [self playAudioFromMediaId:[components[2] intValue]];
+        else if(components.count > 2 && [components[1] isEqualToString:@"stop"])
+            [self stopAudioFromMediaId:[components[2] intValue]];
+        else if(components.count > 3 && [components[1] isEqualToString:@"setVolume"])
+            [self setMediaId:[components[2] intValue] volumeTo:[components[3] floatValue]];
     }
     else if([mainCommand isEqualToString:@"vibrate"])
     {
