@@ -250,6 +250,8 @@
     NSError *error;
     if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
       _ARIS_LOG_(@"AppModel: Error getting the persistentStoreCoordinator");
+    
+    [storeUrl setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
   }
   return persistentStoreCoordinator;
 }
