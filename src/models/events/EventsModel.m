@@ -64,10 +64,20 @@
     for(long i = 0; i < es.count; i++)
     {
         e = es[i];
+        //legacy
         if([e.event isEqualToString:@"TAKE_ITEM"])
             [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:e.content_id qtyToRemove:e.qty];
         if([e.event isEqualToString:@"GIVE_ITEM"])
             [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:e.content_id qtyToAdd:e.qty];
+      
+        if([e.event isEqualToString:@"TAKE_ITEM_PLAYER"])
+            [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:e.content_id qtyToRemove:e.qty];
+        if([e.event isEqualToString:@"GIVE_ITEM_PLAYER"])
+            [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:e.content_id qtyToAdd:e.qty];
+        if([e.event isEqualToString:@"TAKE_ITEM_GAME"])
+            [_MODEL_GAME_INSTANCES_ takeItemFromGame:e.content_id qtyToRemove:e.qty];
+        if([e.event isEqualToString:@"GIVE_ITEM_GAME"])
+            [_MODEL_GAME_INSTANCES_ giveItemToGame:e.content_id qtyToAdd:e.qty];
     }
 }
 

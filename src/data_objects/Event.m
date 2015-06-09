@@ -23,7 +23,7 @@
     {
         self.event_id = 0;
         self.event_package_id = 0;
-        self.event = @"GIVE_ITEM";
+        self.event = @"GIVE_ITEM_PLAYER";
         self.content_id = 0;
         self.qty = 0;
     }
