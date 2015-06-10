@@ -25,6 +25,7 @@
 #define _MODEL_NOTES_ [AppModel sharedAppModel].game.notesModel
 #define _MODEL_TAGS_ [AppModel sharedAppModel].game.tagsModel
 #define _MODEL_EVENTS_ [AppModel sharedAppModel].game.eventsModel
+#define _MODEL_REQUIREMENTS_ [AppModel sharedAppModel].game.requirementsModel
 #define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
 #define _MODEL_FACTORIES_ [AppModel sharedAppModel].game.factoriesModel
 #define _MODEL_OVERLAYS_ [AppModel sharedAppModel].game.overlaysModel

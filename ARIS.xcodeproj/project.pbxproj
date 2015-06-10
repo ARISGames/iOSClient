@@ -133,6 +133,8 @@
 		AA942B9B17CD4F86004EDEA1 /* logo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9717CD4F86004EDEA1 /* logo_icon.png */; };
 		AA942B9C17CD4F86004EDEA1 /* logo_text_nav.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9817CD4F86004EDEA1 /* logo_text_nav.png */; };
 		AA942B9D17CD4F86004EDEA1 /* logo_text.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B9917CD4F86004EDEA1 /* logo_text.png */; };
+		AA957CAF1B288A290005137D /* Requirement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA957CAE1B288A290005137D /* Requirement.m */; };
+		AA957CB31B2894150005137D /* RequirementsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA957CB21B2894150005137D /* RequirementsModel.m */; };
 		AA9A6D98182D7ECA000CC323 /* NoteTagEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */; };
 		AA9A6D9A182DA3EB000CC323 /* left_white_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9A6D99182DA3EB000CC323 /* left_white_gradient.png */; };
 		AA9F7131194F418B00384832 /* DialogCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9F712E194F418B00384832 /* DialogCharacter.m */; };
@@ -526,6 +528,10 @@
 		AA942B9717CD4F86004EDEA1 /* logo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_icon.png; sourceTree = "<group>"; };
 		AA942B9817CD4F86004EDEA1 /* logo_text_nav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text_nav.png; sourceTree = "<group>"; };
 		AA942B9917CD4F86004EDEA1 /* logo_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text.png; sourceTree = "<group>"; };
+		AA957CAD1B288A290005137D /* Requirement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Requirement.h; sourceTree = "<group>"; };
+		AA957CAE1B288A290005137D /* Requirement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Requirement.m; sourceTree = "<group>"; };
+		AA957CB11B2894150005137D /* RequirementsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequirementsModel.h; sourceTree = "<group>"; };
+		AA957CB21B2894150005137D /* RequirementsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequirementsModel.m; sourceTree = "<group>"; };
 		AA9A6D96182D7ECA000CC323 /* NoteTagEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagEditorViewController.h; sourceTree = "<group>"; };
 		AA9A6D97182D7ECA000CC323 /* NoteTagEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagEditorViewController.m; sourceTree = "<group>"; };
 		AA9A6D99182DA3EB000CC323 /* left_white_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_white_gradient.png; sourceTree = "<group>"; };
@@ -1171,6 +1177,15 @@
 			path = logo;
 			sourceTree = "<group>";
 		};
+		AA957CB01B2894150005137D /* requirements */ = {
+			isa = PBXGroup;
+			children = (
+				AA957CB11B2894150005137D /* RequirementsModel.h */,
+				AA957CB21B2894150005137D /* RequirementsModel.m */,
+			);
+			path = requirements;
+			sourceTree = "<group>";
+		};
 		AA9F7133194F53FA00384832 /* logs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1398,6 +1413,8 @@
 				AA5FCA3C197F139A005C2A2F /* ObjectTag.m */,
 				AAFE960B19805236007F6BBD /* Event.h */,
 				AAFE960C19805236007F6BBD /* Event.m */,
+				AA957CAD1B288A290005137D /* Requirement.h */,
+				AA957CAE1B288A290005137D /* Requirement.m */,
 				AABC7080172739D60074CC21 /* Note.h */,
 				AABC7081172739D60074CC21 /* Note.m */,
 				AAA1CE2B1891C1C20005F4DC /* NoteComment.h */,
@@ -1539,6 +1556,7 @@
 				AA5D8D2F191AB20800116FA1 /* webpages */,
 				AA5FCA37197EFEAB005C2A2F /* tags */,
 				AAFE9610198055EA007F6BBD /* events */,
+				AA957CB01B2894150005137D /* requirements */,
 				AA7EACC31965A876003CE431 /* displayQueue */,
 				AABC70EA172739D60074CC21 /* quests */,
 				AA4685A51940C90000721B2B /* tabs */,
@@ -2346,6 +2364,7 @@
 				AABC73D4172739D80074CC21 /* ARISConnection.m in Sources */,
 				AAF8A384196C536200CD3D71 /* DialogTextView.m in Sources */,
 				C02FE1881A76BBB300E0B15A /* LoginScannerViewController.mm in Sources */,
+				AA957CB31B2894150005137D /* RequirementsModel.m in Sources */,
 				AA00C3B31AB3476600576B9E /* GamePlayTabSelectorCell.m in Sources */,
 				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				F92B5E3D18C68C5800D1D1A7 /* MapOverlayView.m in Sources */,
@@ -2414,6 +2433,7 @@
 				AA7EACC61965A876003CE431 /* DisplayQueueModel.m in Sources */,
 				C0878F431A672182001739E3 /* Reachability.m in Sources */,
 				AAA682F41ACDAE1900C99951 /* FactoriesModel.m in Sources */,
+				AA957CAF1B288A290005137D /* Requirement.m in Sources */,
 				AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */,
 				AA5FCA3D197F139A005C2A2F /* ObjectTag.m in Sources */,
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,

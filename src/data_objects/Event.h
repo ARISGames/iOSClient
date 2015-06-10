@@ -10,11 +10,11 @@
 
 @interface Event : NSObject
 {
-    long event_id;
-	long event_package_id;
-	NSString *event;
-	long content_id;
-    long qty;
+  long event_id;
+  long event_package_id;
+  NSString *event;
+  long content_id;
+  long qty;
 }
 
 @property(readwrite, assign) long event_id;

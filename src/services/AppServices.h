@@ -70,6 +70,9 @@
 - (void) fetchFactories;
 - (void) fetchOverlays;
 - (void) fetchTabs;
+- (void) fetchRequirementRoots;
+- (void) fetchRequirementAnds;
+- (void) fetchRequirementAtoms;
 
 - (void) fetchLogsForPlayer;
 - (void) fetchSceneForPlayer; //literally a number... oh well

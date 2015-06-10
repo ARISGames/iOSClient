@@ -17,6 +17,7 @@
 #import "NotesModel.h"
 #import "TagsModel.h"
 #import "EventsModel.h"
+#import "RequirementsModel.h"
 #import "TriggersModel.h"
 #import "FactoriesModel.h"
 #import "OverlaysModel.h"
@@ -61,23 +62,24 @@
 
   long inventory_weight_cap;
 
-  ScenesModel     *scenesModel;
-  PlaquesModel    *plaquesModel;
-  ItemsModel      *itemsModel;
-  DialogsModel    *dialogsModel;
-  WebPagesModel   *webPagesModel;
-  NotesModel      *notesModel;
-  TagsModel       *tagsModel;
-  EventsModel     *eventsModel;
-  TriggersModel   *triggersModel;
-  FactoriesModel  *factoriesModel;
-  OverlaysModel   *overlaysModel;
-  InstancesModel  *instancesModel;
+  ScenesModel       *scenesModel;
+  PlaquesModel      *plaquesModel;
+  ItemsModel        *itemsModel;
+  DialogsModel      *dialogsModel;
+  WebPagesModel     *webPagesModel;
+  NotesModel        *notesModel;
+  TagsModel         *tagsModel;
+  EventsModel       *eventsModel;
+  RequirementsModel *requirementsModel;
+  TriggersModel     *triggersModel;
+  FactoriesModel    *factoriesModel;
+  OverlaysModel     *overlaysModel;
+  InstancesModel    *instancesModel;
   PlayerInstancesModel  *playerInstancesModel;
   GameInstancesModel *gameInstancesModel;
-  TabsModel       *tabsModel;
-  LogsModel       *logsModel;
-  QuestsModel     *questsModel;
+  TabsModel         *tabsModel;
+  LogsModel         *logsModel;
+  QuestsModel       *questsModel;
   DisplayQueueModel *displayQueueModel;
 }
 
@@ -113,23 +115,24 @@
 
 @property (nonatomic, assign) long inventory_weight_cap;
 
-@property (nonatomic, strong) ScenesModel    *scenesModel;
-@property (nonatomic, strong) PlaquesModel   *plaquesModel;
-@property (nonatomic, strong) ItemsModel     *itemsModel;
-@property (nonatomic, strong) DialogsModel   *dialogsModel;
-@property (nonatomic, strong) WebPagesModel  *webPagesModel;
-@property (nonatomic, strong) NotesModel     *notesModel;
-@property (nonatomic, strong) TagsModel      *tagsModel;
-@property (nonatomic, strong) EventsModel    *eventsModel;
-@property (nonatomic, strong) TriggersModel  *triggersModel;
-@property (nonatomic, strong) FactoriesModel *factoriesModel;
-@property (nonatomic, strong) OverlaysModel  *overlaysModel;
-@property (nonatomic, strong) InstancesModel *instancesModel;
+@property (nonatomic, strong) ScenesModel       *scenesModel;
+@property (nonatomic, strong) PlaquesModel      *plaquesModel;
+@property (nonatomic, strong) ItemsModel        *itemsModel;
+@property (nonatomic, strong) DialogsModel      *dialogsModel;
+@property (nonatomic, strong) WebPagesModel     *webPagesModel;
+@property (nonatomic, strong) NotesModel        *notesModel;
+@property (nonatomic, strong) TagsModel         *tagsModel;
+@property (nonatomic, strong) EventsModel       *eventsModel;
+@property (nonatomic, strong) RequirementsModel *requirementsModel;
+@property (nonatomic, strong) TriggersModel     *triggersModel;
+@property (nonatomic, strong) FactoriesModel    *factoriesModel;
+@property (nonatomic, strong) OverlaysModel     *overlaysModel;
+@property (nonatomic, strong) InstancesModel    *instancesModel;
 @property (nonatomic, strong) PlayerInstancesModel *playerInstancesModel;
 @property (nonatomic, strong) GameInstancesModel *gameInstancesModel;
-@property (nonatomic, strong) TabsModel      *tabsModel;
-@property (nonatomic, strong) LogsModel      *logsModel;
-@property (nonatomic, strong) QuestsModel    *questsModel;
+@property (nonatomic, strong) TabsModel         *tabsModel;
+@property (nonatomic, strong) LogsModel         *logsModel;
+@property (nonatomic, strong) QuestsModel       *questsModel;
 @property (nonatomic, strong) DisplayQueueModel *displayQueueModel;
 
 - (id) initWithDictionary:(NSDictionary *)dict;

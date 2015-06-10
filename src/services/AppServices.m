@@ -700,23 +700,57 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_TABS_RECEIVED", nil, @{@"tabs":tabs});
 }
 
-- (void) fetchSceneForPlayer
+- (void) fetchRequirementRoots
 {
-     NSDictionary *args =
+    NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getSceneForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerScene:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Scene..." userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"requirements" method:@"getRequirementRootPackagesForGame" arguments:args handler:self successSelector:@selector(parseRequirementRootPackages:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Requirement Roots..." userInfo:nil];
 }
-- (void) parsePlayerScene:(ARISServiceResult *)result
+- (void) parseRequirementRootPackages:(ARISServiceResult *)result
 {
-    Scene *s;
-    if(result.resultData && ![result.resultData isEqual:[NSNull null]])
-        s = [[Scene alloc] initWithDictionary:(NSDictionary *)result.resultData];
-    else
-        s = [[Scene alloc] init];
-    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCENE_RECEIVED", nil, @{@"scene":s});
+    NSArray *rrpDicts = (NSArray *)result.resultData;
+    NSMutableArray *rrps = [[NSMutableArray alloc] init];
+    for(long i = 0; i < rrpDicts.count; i++)
+        rrps[i] = [[RequirementRootPackage alloc] initWithDictionary:rrpDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_REQUIREMENT_ROOT_PACKAGES_RECEIVED", nil, @{@"requirement_root_packages":rrps});
 }
+
+- (void) fetchRequirementAnds
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"requirements" method:@"getRequirementAndPackagesForGame" arguments:args handler:self successSelector:@selector(parseRequirementAndPackages:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Requirement Ands..." userInfo:nil];
+}
+- (void) parseRequirementAndPackages:(ARISServiceResult *)result
+{
+    NSArray *rapDicts = (NSArray *)result.resultData;
+    NSMutableArray *raps = [[NSMutableArray alloc] init];
+    for(long i = 0; i < rapDicts.count; i++)
+        raps[i] = [[RequirementAndPackage alloc] initWithDictionary:rapDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_REQUIREMENT_AND_PACKAGES_RECEIVED", nil, @{@"requirement_and_packages":raps});
+}
+
+- (void) fetchRequirementAtoms
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"requirements" method:@"getRequirementAtomPackagesForGame" arguments:args handler:self successSelector:@selector(parseRequirementAtomPackages:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Requirement Atoms..." userInfo:nil];
+}
+- (void) parseRequirementAtomPackages:(ARISServiceResult *)result
+{
+    NSArray *aDicts = (NSArray *)result.resultData;
+    NSMutableArray *as = [[NSMutableArray alloc] init];
+    for(long i = 0; i < aDicts.count; i++)
+        as[i] = [[RequirementAtom alloc] initWithDictionary:aDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_REQUIREMENT_ATOMS_RECEIVED", nil, @{@"requirement_atoms":as});
+}
+
 
 - (void) fetchLogsForPlayer
 {
@@ -733,6 +767,24 @@
     for(long i = 0; i < logDicts.count; i++)
         logs[i] = [[Log alloc] initWithDictionary:logDicts[i]];
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_LOGS_RECEIVED", nil, @{@"logs":logs});
+}
+
+- (void) fetchSceneForPlayer
+{
+     NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"getSceneForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerScene:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Scene..." userInfo:nil];
+}
+- (void) parsePlayerScene:(ARISServiceResult *)result
+{
+    Scene *s;
+    if(result.resultData && ![result.resultData isEqual:[NSNull null]])
+        s = [[Scene alloc] initWithDictionary:(NSDictionary *)result.resultData];
+    else
+        s = [[Scene alloc] init];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCENE_RECEIVED", nil, @{@"scene":s});
 }
 
 - (void) fetchInstancesForPlayer

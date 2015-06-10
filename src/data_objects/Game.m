@@ -14,7 +14,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const long gameDatasToReceive = 24;
+const long gameDatasToReceive = 27;
 const long playerDatasToReceive = 7;
 
 @interface Game()
@@ -69,6 +69,7 @@ const long playerDatasToReceive = 7;
 @synthesize notesModel;
 @synthesize tagsModel;
 @synthesize eventsModel;
+@synthesize requirementsModel;
 @synthesize triggersModel;
 @synthesize factoriesModel;
 @synthesize overlaysModel;
@@ -199,6 +200,7 @@ const long playerDatasToReceive = 7;
     notesModel           = [[NotesModel           alloc] init];
     tagsModel            = [[TagsModel            alloc] init];
     eventsModel          = [[EventsModel          alloc] init];
+    requirementsModel    = [[RequirementsModel    alloc] init];
     triggersModel        = [[TriggersModel        alloc] init];
     factoriesModel       = [[FactoriesModel       alloc] init];
     overlaysModel        = [[OverlaysModel        alloc] init];
@@ -227,6 +229,7 @@ const long playerDatasToReceive = 7;
     notesModel           = nil;
     tagsModel            = nil;
     eventsModel          = nil;
+    requirementsModel    = nil;
     triggersModel        = nil;
     factoriesModel       = nil;
     overlaysModel        = nil;
@@ -254,6 +257,7 @@ const long playerDatasToReceive = 7;
     [notesModel requestNoteComments];
     [tagsModel requestTags];
     [eventsModel requestEvents];
+    [requirementsModel requestRequirements]; //makes 3 "game data received" notifs (roots, ands, atoms)
     [questsModel requestQuests];
     [triggersModel requestTriggers];
     [factoriesModel requestFactories];
@@ -337,6 +341,7 @@ const long playerDatasToReceive = 7;
     [notesModel           clearGameData];
     [tagsModel            clearGameData];
     [eventsModel          clearGameData];
+    [requirementsModel    clearGameData];
     [questsModel          clearGameData];
     [triggersModel        clearGameData];
     [factoriesModel       clearGameData];
