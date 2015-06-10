@@ -18,6 +18,7 @@
 
 - (void) clearPlayerData;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end
 

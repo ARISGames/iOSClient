@@ -16,6 +16,7 @@
 @interface ItemsModel()
 {
     NSMutableDictionary *items;
+    long game_info_recvd;
 }
 
 @end
@@ -35,6 +36,12 @@
 - (void) clearGameData
 {
     items = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
 }
 
 - (void) itemsReceived:(NSNotification *)notif
@@ -52,6 +59,7 @@
       newItemId = [NSNumber numberWithLong:newItem.item_id];
       if(![items objectForKey:newItemId]) [items setObject:newItem forKey:newItemId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

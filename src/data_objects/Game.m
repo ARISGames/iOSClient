@@ -286,10 +286,12 @@ const long playerDatasToReceive = 7;
 - (void) gamePieceReceived
 {
     receivedGameData++;
-    if(!gameDataReceived && receivedGameData >= gameDatasToReceive)
+    //if(!gameDataReceived && receivedGameData >= gameDatasToReceive)
+    if([self allGameDataReceived])
     {
-        _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);
-        gameDataReceived = YES;
+      receivedGameData = gameDatasToReceive;
+      gameDataReceived = YES;
+      _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);
     }
     [self percentLoadedChanged];
 }
@@ -299,8 +301,8 @@ const long playerDatasToReceive = 7;
     receivedPlayerData++;
     if(receivedPlayerData >= playerDatasToReceive)
     {
-        _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);
         playerDataReceived = YES;
+        _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);
     }
     [self percentLoadedChanged];
 }
@@ -323,6 +325,31 @@ const long playerDatasToReceive = 7;
 - (void) gameLeft
 {
     [poller invalidate];
+}
+
+- (BOOL) allGameDataReceived
+{
+  if(![scenesModel gameInfoRecvd]) { NSLog(@"Missing scenesModel"); return NO; }
+  if(![plaquesModel gameInfoRecvd]) { NSLog(@"Missing plaquesModel"); return NO; }
+  if(![itemsModel gameInfoRecvd]) { NSLog(@"Missing itemsModel"); return NO; }
+  if(![playerInstancesModel gameInfoRecvd]) { NSLog(@"Missing playerInstancesModel"); return NO; }
+  if(![gameInstancesModel gameInfoRecvd]) { NSLog(@"Missing gameInstancesModel"); return NO; }
+  if(![dialogsModel gameInfoRecvd]) { NSLog(@"Missing dialogsModel"); return NO; }
+  if(![webPagesModel gameInfoRecvd]) { NSLog(@"Missing webPagesModel"); return NO; }
+  if(![notesModel gameInfoRecvd]) { NSLog(@"Missing notesModel"); return NO; }
+  if(![tagsModel gameInfoRecvd]) { NSLog(@"Missing tagsModel"); return NO; }
+  if(![eventsModel gameInfoRecvd]) { NSLog(@"Missing eventsModel"); return NO; }
+  if(![requirementsModel gameInfoRecvd]) { NSLog(@"Missing requirementsModel"); return NO; }
+  if(![questsModel gameInfoRecvd]) { NSLog(@"Missing questsModel"); return NO; }
+  if(![triggersModel gameInfoRecvd]) { NSLog(@"Missing triggersModel"); return NO; }
+  if(![factoriesModel gameInfoRecvd]) { NSLog(@"Missing factoriesModel"); return NO; }
+  if(![overlaysModel gameInfoRecvd]) { NSLog(@"Missing overlaysModel"); return NO; }
+  if(![instancesModel gameInfoRecvd]) { NSLog(@"Missing instancesModel"); return NO; }
+  if(![tabsModel gameInfoRecvd]) { NSLog(@"Missing tabsModel"); return NO; }
+ 
+  if(![_MODEL_MEDIA_ gameInfoRecvd]) { NSLog(@"Missing _MODEL_MEDIA_"); return NO; }
+  if(![_MODEL_USERS_ gameInfoRecvd]) { NSLog(@"Missing _MODEL_USERS_"); return NO; }
+  return YES;
 }
 
 - (void) clearModels
@@ -350,7 +377,10 @@ const long playerDatasToReceive = 7;
     [playerInstancesModel clearGameData];
     [gameInstancesModel   clearGameData];
     [tabsModel            clearGameData];
-
+  
+    [_MODEL_MEDIA_ clearGameData];
+    [_MODEL_USERS_ clearGameData];
+  
     [scenesModel          clearPlayerData];
     [questsModel          clearPlayerData];
     [triggersModel        clearPlayerData];

@@ -17,6 +17,7 @@
 {
     NSMutableDictionary *medias; //light cache on mediaCD wrappers ('Media' objects)
     NSManagedObjectContext *context;
+    long game_info_recvd;
 }
 
 @end
@@ -70,7 +71,14 @@
 - (void) clearGameData
 {
     medias = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
 }
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
+}
+
 
 - (void) mediasReceived:(NSNotification *)notif
 {
@@ -115,6 +123,7 @@
         _ARIS_LOG_(@"Media cache   : Media id:%ld cached:%@",media_id,tmpMedia.remoteURL);
     }
     [self commitContext];
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

@@ -17,5 +17,6 @@
 - (void) runEventPackageId:(long)event_package_id;
 - (void) requestEvents;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end

@@ -20,6 +20,7 @@
 - (DialogOption *) optionForId:(long)dialog_option_id;
 - (void) requestDialogs;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 - (void) requestPlayerOptionsForDialogId:(long)dialog_id scriptId:(long)dialog_script_id;
 
 @end

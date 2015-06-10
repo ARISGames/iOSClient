@@ -18,6 +18,7 @@
     NSMutableDictionary *tabs;
 
     NSArray *playerTabs;
+    long game_info_recvd;
 }
 
 @end
@@ -44,6 +45,12 @@
 {
     [self clearPlayerData];
     tabs = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
 }
 
 - (void) tabsReceived:(NSNotification *)notif
@@ -61,6 +68,7 @@
       newTabId = [NSNumber numberWithLong:newTab.tab_id];
       if(![tabs objectForKey:newTabId]) [tabs setObject:newTab forKey:newTabId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_TABS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

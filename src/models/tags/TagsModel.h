@@ -21,5 +21,6 @@
 - (void) removeTagsFromObjectType:(NSString*)t id:(long)object_id;
 - (void) requestTags;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end

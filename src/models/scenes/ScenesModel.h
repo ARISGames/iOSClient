@@ -21,6 +21,7 @@
 - (void) touchPlayerScene;
 - (void) requestPlayerScene;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 - (void) clearPlayerData;
 
 @end

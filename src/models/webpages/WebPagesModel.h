@@ -16,5 +16,6 @@
 - (WebPage *) webPageForId:(long)web_page_id;
 - (void) requestWebPages;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end

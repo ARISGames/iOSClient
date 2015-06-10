@@ -740,9 +740,9 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"requirements" method:@"getRequirementAtomPackagesForGame" arguments:args handler:self successSelector:@selector(parseRequirementAtomPackages:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Requirement Atoms..." userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"requirements" method:@"getRequirementAtomsForGame" arguments:args handler:self successSelector:@selector(parseRequirementAtoms:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Requirement Atoms..." userInfo:nil];
 }
-- (void) parseRequirementAtomPackages:(ARISServiceResult *)result
+- (void) parseRequirementAtoms:(ARISServiceResult *)result
 {
     NSArray *aDicts = (NSArray *)result.resultData;
     NSMutableArray *as = [[NSMutableArray alloc] init];

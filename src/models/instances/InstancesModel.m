@@ -19,6 +19,7 @@
     NSMutableDictionary *instances;
 
     NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
+    long game_info_recvd;
 }
 @end
 
@@ -52,13 +53,27 @@
     [self clearPlayerData]; //not actually necessary- just removes player owned from list
     instances = [[NSMutableDictionary alloc] init]; //will get cleared here anyway
     blacklist = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
 }
 
 //only difference is notification sent- all other functionality same
 - (void) playerInstancesReceived:(NSNotification *)notif
-{ [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; }
+{ 
+  [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; 
+  game_info_recvd++;
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+}
 - (void) gameInstancesReceived:(NSNotification *)notif
-{ [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; }
+{
+  [self updateInstances:[notif.userInfo objectForKey:@"instances"]];
+  game_info_recvd++;
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+}
 - (void) instanceReceived:(NSNotification *)notif
 { [self updateInstances:@[[notif.userInfo objectForKey:@"instance"]]]; }
 
@@ -103,8 +118,6 @@
     }
 
     [self sendNotifsForGameDeltas:gameDeltas playerDeltas:playerDeltas];
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) sendNotifsForGameDeltas:(NSDictionary *)gameDeltas playerDeltas:(NSDictionary *)playerDeltas

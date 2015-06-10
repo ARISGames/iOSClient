@@ -19,6 +19,7 @@
   NSMutableDictionary *requirementRootPackages;
   NSMutableDictionary *requirementAndPackages;
   NSMutableDictionary *requirementAtoms;
+  long game_info_recvd;
 }
 
 @end
@@ -32,7 +33,7 @@
     [self clearGameData];
     _ARIS_NOTIF_LISTEN_(@"SERVICES_REQUIREMENT_ROOT_PACKAGES_RECEIVED",self,@selector(requirementRootPackagesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_REQUIREMENT_AND_PACKAGES_RECEIVED",self,@selector(requirementAndPackagesReceived:),nil);
-    _ARIS_NOTIF_LISTEN_(@"SERVICES_REQUIREMENT_ATOM_RECEIVED",self,@selector(requirementAtomsReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_REQUIREMENT_ATOMS_RECEIVED",self,@selector(requirementAtomsReceived:),nil);
   }
   return self;
 }
@@ -42,6 +43,12 @@
   requirementRootPackages = [[NSMutableDictionary alloc] init];
   requirementAndPackages = [[NSMutableDictionary alloc] init];
   requirementAtoms = [[NSMutableDictionary alloc] init];
+  game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 3;
 }
 
 - (void) requestRequirements
@@ -66,6 +73,7 @@
     newRRPId = [NSNumber numberWithLong:newRRP.requirement_root_package_id];
     if(![requirementRootPackages objectForKey:newRRPId]) [requirementRootPackages setObject:newRRP forKey:newRRPId];
   }
+  game_info_recvd++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_ROOT_PACKAGES_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -85,16 +93,17 @@
     newRAPId = [NSNumber numberWithLong:newRAP.requirement_and_package_id];
     if(![requirementAndPackages objectForKey:newRAPId]) [requirementAndPackages setObject:newRAP forKey:newRAPId];
   }
+  game_info_recvd++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_AND_PACKAGES_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 //ATOM
-- (void) requirementAtomReceived:(NSNotification *)notif
+- (void) requirementAtomsReceived:(NSNotification *)notif
 {
-  [self updateRequirementAtom:[notif.userInfo objectForKey:@"requirement_root_packages"]];
+  [self updateRequirementAtoms:[notif.userInfo objectForKey:@"requirement_root_packages"]];
 }
-- (void) updateRequirementAtom:(NSArray *)newRAs
+- (void) updateRequirementAtoms:(NSArray *)newRAs
 {
   RequirementAtom *newRA;
   NSNumber *newRAId;
@@ -104,6 +113,7 @@
     newRAId = [NSNumber numberWithLong:newRA.requirement_atom_id];
     if(![requirementAtoms objectForKey:newRAId]) [requirementAtoms setObject:newRA forKey:newRAId];
   }
+  game_info_recvd++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_ATOMS_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

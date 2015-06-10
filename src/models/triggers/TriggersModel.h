@@ -21,6 +21,7 @@
 
 - (void) clearPlayerData;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 //odd one-off function
 - (void) expireTriggersForInstanceId:(long)instance_id;

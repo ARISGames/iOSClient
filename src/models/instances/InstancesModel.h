@@ -22,5 +22,6 @@
 
 - (void) clearPlayerData; //game-owned fits in this category
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end

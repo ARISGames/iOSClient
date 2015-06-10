@@ -19,6 +19,7 @@
   NSMutableDictionary *dialogCharacters;
   NSMutableDictionary *dialogScripts;
   NSMutableDictionary *dialogOptions;
+  long game_info_recvd;
 }
 
 @end
@@ -45,6 +46,12 @@
     dialogCharacters = [[NSMutableDictionary alloc] init];
     dialogScripts = [[NSMutableDictionary alloc] init];
     dialogOptions = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 4;
 }
 
 - (void) dialogsReceived:(NSNotification *)notif          { [self updateDialogs:[notif.userInfo objectForKey:@"dialogs"]]; }
@@ -78,6 +85,7 @@
       newDialogId = [NSNumber numberWithLong:newDialog.dialog_id];
       if(![dialogs objectForKey:newDialogId]) [dialogs setObject:newDialog forKey:newDialogId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOGS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -91,6 +99,7 @@
       newDialogCharacterId = [NSNumber numberWithLong:newDialogCharacter.dialog_character_id];
       if(![dialogCharacters objectForKey:newDialogCharacterId]) [dialogCharacters setObject:newDialogCharacter forKey:newDialogCharacterId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOG_CHARACTERS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -104,6 +113,7 @@
       newDialogScriptId = [NSNumber numberWithLong:newDialogScript.dialog_script_id];
       if(![dialogScripts objectForKey:newDialogScriptId]) [dialogScripts setObject:newDialogScript forKey:newDialogScriptId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOG_SCRIPTS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -117,6 +127,7 @@
       newDialogOptionId = [NSNumber numberWithLong:newDialogOption.dialog_option_id];
       if(![dialogOptions objectForKey:newDialogOptionId]) [dialogOptions setObject:newDialogOption forKey:newDialogOptionId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_DIALOG_OPTIONS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

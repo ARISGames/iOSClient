@@ -17,6 +17,7 @@
 @interface EventsModel()
 {
     NSMutableDictionary *events;
+    long game_info_recvd;
 }
 
 @end
@@ -36,6 +37,12 @@
 - (void) clearGameData
 {
     events = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
 }
 
 - (void) eventsReceived:(NSNotification *)notif
@@ -53,6 +60,7 @@
       newEventId = [NSNumber numberWithLong:newEvent.event_id];
       if(![events objectForKey:newEventId]) [events setObject:newEvent forKey:newEventId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_EVENTS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

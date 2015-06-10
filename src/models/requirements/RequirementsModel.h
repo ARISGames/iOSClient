@@ -17,5 +17,6 @@
 - (BOOL) evaluateRequirementRoot:(long)requirement_root_package_id;
 - (void) requestRequirements;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end

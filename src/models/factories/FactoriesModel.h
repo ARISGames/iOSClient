@@ -16,5 +16,6 @@
 - (Factory *) factoryForId:(long)factory_id;
 - (void) requestFactories;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end

@@ -20,6 +20,7 @@
 
     NSMutableArray *inventory;
     NSMutableArray *attributes;
+    long game_info_recvd;
 }
 
 @end
@@ -55,10 +56,17 @@
 - (void) clearGameData
 {
     [self clearPlayerData];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
 }
 
 - (void) playerInstancesTouched:(NSNotification *)notif
 {
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_INSTANCES_TOUCHED",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

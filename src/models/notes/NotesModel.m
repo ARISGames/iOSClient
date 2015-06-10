@@ -24,6 +24,7 @@
   NSMutableArray *playerNotes;
   NSMutableArray *listNotes;
   NSMutableArray *notesMatchingTag;
+  long game_info_recvd;
 }
 
 @end
@@ -49,6 +50,12 @@
     [self invalidateCaches];
     notes         = [[NSMutableDictionary alloc] init];
     note_comments = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 2;
 }
 
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr
@@ -108,6 +115,7 @@
     newNoteId = [NSNumber numberWithLong:newNote.note_id];
     if(!notes[newNoteId]) [notes setObject:newNote forKey:newNoteId];
   }
+  game_info_recvd++;
   _ARIS_NOTIF_SEND_(@"MODEL_NOTES_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -137,6 +145,7 @@
     newCommentId = [NSNumber numberWithLong:newComment.note_comment_id];
     if(!note_comments[newCommentId]) [note_comments setObject:newComment forKey:newCommentId];
   }
+  game_info_recvd++;
   _ARIS_NOTIF_SEND_(@"MODEL_NOTE_COMMENTS_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

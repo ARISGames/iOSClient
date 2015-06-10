@@ -19,6 +19,7 @@
     NSMutableDictionary *users;
 
     NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
+    long game_info_recvd;
 }
 @end
 
@@ -40,6 +41,16 @@
 {
     users  = [[NSMutableDictionary alloc] init];
     blacklist = [[NSMutableDictionary alloc] init];
+}
+
+- (void) clearGameData
+{
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+    return game_info_recvd >= 1;
 }
 
 - (void) usersReceived:(NSNotification *)notif
@@ -68,6 +79,7 @@
       else
         [[users objectForKey:newUserId] mergeDataFromUser:newUser];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_USERS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil); //weird... not "game" piece. whatever.
 }

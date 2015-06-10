@@ -18,6 +18,7 @@
 {
   NSMutableDictionary *instances;
   NSMutableArray *gameOwnedInstances;
+  long game_info_recvd;
 }
 
 @end
@@ -32,7 +33,7 @@
     {
         [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_INSTANCES_TOUCHED",self,@selector(gameInstancesTouched:),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",self,@selector(playerInstancesAvailable),nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",self,@selector(gameInstancesAvailable),nil);
     }
     return self;
 }
@@ -52,10 +53,17 @@
 - (void) clearGameData
 {
     [self clearPlayerData];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
 }
 
 - (void) gameInstancesTouched:(NSNotification *)notif
 {
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_INSTANCES_TOUCHED",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -65,7 +73,7 @@
     [_SERVICES_ touchItemsForGame];
 }
 
-- (void) playerInstancesAvailable
+- (void) gameInstancesAvailable
 {
     NSArray *newInstances = [_MODEL_INSTANCES_ gameOwnedInstances];
     [self clearPlayerData];

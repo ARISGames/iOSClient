@@ -20,6 +20,7 @@
 
     NSArray *visibleActiveQuests;
     NSArray *visibleCompleteQuests;
+    long game_info_recvd;
 }
 
 @end
@@ -47,6 +48,12 @@
 {
     [self clearPlayerData];
     quests = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
 }
 
 - (void) questsReceived:(NSNotification *)notif
@@ -64,6 +71,7 @@
       newQuestId = [NSNumber numberWithLong:newQuest.quest_id];
       if(![quests objectForKey:newQuestId]) [quests setObject:newQuest forKey:newQuestId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }

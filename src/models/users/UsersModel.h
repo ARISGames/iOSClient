@@ -15,5 +15,7 @@
 - (void) requestUsers;
 
 - (void) clearData;
+- (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end

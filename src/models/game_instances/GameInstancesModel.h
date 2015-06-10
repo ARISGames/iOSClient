@@ -27,5 +27,6 @@
 - (long) qtyAllowedToGiveForItem:(long)item_id;
 - (void) clearPlayerData;
 - (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 @end

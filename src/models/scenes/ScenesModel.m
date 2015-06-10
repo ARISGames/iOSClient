@@ -17,6 +17,7 @@
 @interface ScenesModel()
 {
     NSMutableDictionary *scenes;
+    long game_info_recvd;
 }
 
 @end
@@ -38,7 +39,14 @@
 - (void) clearGameData
 {
     scenes = [[NSMutableDictionary alloc] init];
+    game_info_recvd = 0;
 }
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 2;
+}
+
 - (void) clearPlayerData
 {
     playerScene = nil;
@@ -71,6 +79,7 @@
 
 - (void) sceneTouched:(NSNotification *)notif
 {
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_SCENE_TOUCHED",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -85,6 +94,7 @@
       newSceneId = [NSNumber numberWithLong:newScene.scene_id];
       if(!scenes[newSceneId]) [scenes setObject:newScene forKey:newSceneId];
     }
+    game_info_recvd++;
     _ARIS_NOTIF_SEND_(@"MODEL_SCENES_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
