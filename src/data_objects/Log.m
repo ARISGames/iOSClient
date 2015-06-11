@@ -34,7 +34,7 @@
 {
     if(self = [super init])
     {
-      self.log_id = [dict validIntForKey:@"log_id"];
+      self.log_id = [dict validIntForKey:@"user_log_id"];
       self.event_type = [dict validStringForKey:@"event_type"];
       self.content_id = [dict validIntForKey:@"content_id"];
       self.qty = [dict validIntForKey:@"qty"];

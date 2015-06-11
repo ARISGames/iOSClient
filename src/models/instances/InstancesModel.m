@@ -19,6 +19,7 @@
     NSMutableDictionary *instances;
 
     NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
+    long player_info_recvd;
     long game_info_recvd;
 }
 @end
@@ -46,6 +47,7 @@
         if(((Instance *)insts[i]).owner_id == _MODEL_PLAYER_.user_id)
             [instances removeObjectForKey:[NSNumber numberWithLong:((Instance *)insts[i]).instance_id]];
     }
+    player_info_recvd = 0;
 }
 
 - (void) clearGameData
@@ -61,11 +63,11 @@
   return game_info_recvd >= 1;
 }
 
-//only difference is notification sent- all other functionality same
+//only difference at this point is notification sent- all other functionality same (merge into all known insts)
 - (void) playerInstancesReceived:(NSNotification *)notif
 { 
   [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; 
-  game_info_recvd++;
+  player_info_recvd++;
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 - (void) gameInstancesReceived:(NSNotification *)notif
@@ -139,7 +141,15 @@
 
 - (void) requestInstances       { [_SERVICES_ fetchInstances];   }
 - (void) requestInstance:(long)i { [_SERVICES_ fetchInstanceById:i];   }
-- (void) requestPlayerInstances { [_SERVICES_ fetchInstancesForPlayer]; }
+- (void) requestPlayerInstances
+{
+  if(player_info_recvd && [_MODEL_GAME_.network_level isEqualToString:@"NONE_STRICT"])
+  {
+    NSArray *pinsts = [instances allValues];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",nil,@{@"instances":pinsts});
+  }
+  else [_SERVICES_ fetchInstancesForPlayer];
+}
 
 - (long) setQtyForInstanceId:(long)instance_id qty:(long)qty
 {
