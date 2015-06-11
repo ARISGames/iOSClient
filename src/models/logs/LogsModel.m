@@ -17,7 +17,8 @@
 @interface LogsModel()
 {
     NSMutableDictionary *logs;
-    int local_log_id; //starts at 1, no way it will ever catch up to actual logs
+    long local_log_id; //starts at 1, no way it will ever catch up to actual logs
+    long game_info_recvd;
 }
 
 @end
@@ -28,7 +29,7 @@
 {
     if(self = [super init])
     {
-        [self clearPlayerData];
+        [self clearGameData];
         _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_LOGS_RECEIVED",self,@selector(logsReceived:),nil);
     }
     return self;
@@ -37,6 +38,18 @@
 - (void) clearPlayerData
 {
     logs = [[NSMutableDictionary alloc] init];
+}
+
+- (void) clearGameData
+{
+  [self clearPlayerData];
+  local_log_id = 1;
+  game_info_recvd = 0;
+}
+
+- (BOOL) gameInfoRecvd
+{
+  return game_info_recvd >= 1;
 }
 
 - (void) logsReceived:(NSNotification *)notif
@@ -55,7 +68,8 @@
       if(![logs objectForKey:newLogId]) [logs setObject:newLog forKey:newLogId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_LOGS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+    game_info_recvd++;
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) addLogType:(NSString *)type content:(long)content_id qty:(long)qty

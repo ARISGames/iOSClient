@@ -15,6 +15,8 @@
 - (Log *) logForId:(long)log_id;
 - (void) requestPlayerLogs;
 - (void) clearPlayerData;
+- (void) clearGameData;
+- (BOOL) gameInfoRecvd;
 
 - (void) playerEnteredGame;
 - (void) playerMoved;

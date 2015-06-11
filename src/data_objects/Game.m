@@ -14,8 +14,8 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const long gameDatasToReceive = 27;
-const long playerDatasToReceive = 7;
+const long gameDatasToReceive = 28;
+const long playerDatasToReceive = 6;
 
 @interface Game()
 {
@@ -274,6 +274,7 @@ const long playerDatasToReceive = 7;
     [overlaysModel requestOverlays];
     [instancesModel requestInstances];
     [tabsModel requestTabs];
+    [logsModel requestPlayerLogs];
 
     //the requests not 'owned' by Game. Also, not 100% necessary
     //(has ability to load on an individual basis)
@@ -290,7 +291,6 @@ const long playerDatasToReceive = 7;
     [overlaysModel requestPlayerOverlays];
     [questsModel requestPlayerQuests];
     [tabsModel requestPlayerTabs];
-    [logsModel requestPlayerLogs]; //should really only call this once...
 }
 
 - (void) gamePieceReceived
@@ -356,6 +356,7 @@ const long playerDatasToReceive = 7;
   if(![overlaysModel gameInfoRecvd]) return NO;
   if(![instancesModel gameInfoRecvd]) return NO;
   if(![tabsModel gameInfoRecvd]) return NO;
+  if(![logsModel gameInfoRecvd]) return NO;
  
   if(![_MODEL_MEDIA_ gameInfoRecvd]) { NSLog(@"Missing _MODEL_MEDIA_"); return NO; }
   if(![_MODEL_USERS_ gameInfoRecvd]) { NSLog(@"Missing _MODEL_USERS_"); return NO; }
