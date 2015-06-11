@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "DialogsModel.h"
+#import "AppModel.h"
 #import "AppServices.h"
 
 @interface DialogsModel()
@@ -141,7 +142,24 @@
 }
 - (void) requestPlayerOptionsForDialogId:(long)dialog_id scriptId:(long)dialog_script_id
 {
-    [_SERVICES_ fetchOptionsForPlayerForDialog:dialog_id script:dialog_script_id];
+  if([_MODEL_GAME_.network_level isEqualToString:@"NONE_STRICT"])
+  {
+    NSMutableArray *pops = [[NSMutableArray alloc] init];
+    NSDictionary *uInfo = @{@"options":pops,
+                            @"dialog_id":[NSNumber numberWithLong:dialog_id],
+                            @"dialog_script_id":[NSNumber numberWithLong:dialog_script_id]};
+    NSArray *os = [dialogOptions allValues];
+    for(int i = 0; i < os.count; i++)
+    {
+      DialogOption *o = os[i];
+      if(o.dialog_id == dialog_id &&
+         o.parent_dialog_script_id == dialog_script_id &&
+         [_MODEL_REQUIREMENTS_ evaluateRequirementRoot:o.requirement_root_package_id])
+        [pops addObject:o];
+    }
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCRIPT_OPTIONS_RECEIVED", nil, uInfo);
+  }
+  else [_SERVICES_ fetchOptionsForPlayerForDialog:dialog_id script:dialog_script_id];
 }
 
 // null dialog/character/script (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
