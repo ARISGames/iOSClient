@@ -150,6 +150,7 @@
 
 - (BOOL) evaluateRequirementRoot:(long)requirement_root_package_id
 {
+  if(!requirement_root_package_id) return YES;
   NSArray *ands = [self andPackagesForRootPackageId:requirement_root_package_id];
   if(ands.count == 0) return YES;
   for(int i = 0; i < ands.count; i++)
@@ -160,6 +161,7 @@
 }
 - (BOOL) evaluateRequirementAnd:(long)requirement_and_package_id
 {
+  if(!requirement_and_package_id) return YES;
   NSArray *atoms = [self atomsForAndPackageId:requirement_and_package_id];
   if(atoms.count == 0) return YES;
   for(int i = 0; i < atoms.count; i++)
@@ -170,7 +172,99 @@
 }
 - (BOOL) evaluateRequirementAtom:(long)requirement_atom_id
 {
-  //welp
+  if(!requirement_atom_id) return YES;
+  RequirementAtom *a = [self requirementAtomForId:requirement_atom_id];
+  if(a.requirement_atom_id == 0) return YES; //'null' req atom
+  
+  if([a.requirement isEqualToString:@"ALWAYS_TRUE"])
+  {
+    return a.bool_operator == YES;
+  }
+  if([a.requirement isEqualToString:@"ALWAYS_FALSE"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_ITEM"])
+  {
+    return a.bool_operator == ([_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:a.content_id] >= a.qty);
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_TAGGED_ITEM"])
+  {
+    return a.bool_operator == ([_MODEL_PLAYER_INSTANCES_ qtyOwnedForTag:a.content_id] >= a.qty);
+  }
+  if([a.requirement isEqualToString:@"GAME_HAS_ITEM"])
+  {
+    return a.bool_operator == ([_MODEL_GAME_INSTANCES_ qtyOwnedForItem:a.content_id] >= a.qty);
+  }
+  if([a.requirement isEqualToString:@"GAME_HAS_TAGGED_ITEM"])
+  {
+    return a.bool_operator == ([_MODEL_GAME_INSTANCES_ qtyOwnedForTag:a.content_id] >= a.qty);
+  }
+  if([a.requirement isEqualToString:@"PLAYER_VIEWED_ITEM"])
+  {
+    return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"VIEW_ITEM" content:a.content_id];
+  }
+  if([a.requirement isEqualToString:@"PLAYER_VIEWED_PLAQUE"])
+  {
+    return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"VIEW_PLAQUE" content:a.content_id];
+  }
+  if([a.requirement isEqualToString:@"PLAYER_VIEWED_DIALOG"])
+  {
+    return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"VIEW_DIALOG" content:a.content_id];
+  }
+  if([a.requirement isEqualToString:@"PLAYER_VIEWED_DIALOG_SCRIPT"])
+  {
+    return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"VIEW_DIALOG_SCRIPT" content:a.content_id];
+  }
+  if([a.requirement isEqualToString:@"PLAYER_VIEWED_WEB_PAGE"])
+  {
+    return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"VIEW_WEB_PAGE" content:a.content_id];
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM_IMAGE"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM_AUDIO"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM_VIDEO"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_COMPLETED_QUEST"])
+  {
+    return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"COMPLETE_QUEST" content:a.content_id];
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_RECEIVED_INCOMING_WEB_HOOK"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_NOTE"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_NOTE_WITH_TAG"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_NOTE_WITH_LIKES"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_NOTE_WITH_COMMENTS"])
+  {
+    return a.bool_operator == NO;
+  }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_GIVEN_NOTE_COMMENTS"])
+  {
+    return a.bool_operator == NO;
+  }
+  
   return YES;
 }
 

@@ -60,6 +60,7 @@ const long playerDatasToReceive = 7;
 @synthesize notebook_allow_player_tags;
 
 @synthesize inventory_weight_cap;
+@synthesize network_level;
 
 @synthesize scenesModel;
 @synthesize plaquesModel;
@@ -126,6 +127,13 @@ const long playerDatasToReceive = 7;
         notebook_allow_player_tags = [dict validBoolForKey:@"notebook_allow_player_tags"];
 
         inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
+        network_level = @"NORMAL";
+        /*
+        NONE_STRICT = disallow any features that require it (can't create notes, etc...)
+        STATIC_GAME = no updates of server info at playtime, but allow writes
+        NORMAL = do whatever local calculations possible, but continue polling for updates on everything
+        CHATTY = rely on server as authority for often updates
+        */
 
         NSArray *authorDicts;
         for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
@@ -144,6 +152,8 @@ const long playerDatasToReceive = 7;
 
     authors  = [NSMutableArray arrayWithCapacity:5];
     comments = [NSMutableArray arrayWithCapacity:5];
+  
+    network_level = @"NORMAL";
 
     _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
@@ -289,7 +299,7 @@ const long playerDatasToReceive = 7;
     //if(!gameDataReceived && receivedGameData >= gameDatasToReceive)
     if([self allGameDataReceived])
     {
-      receivedGameData = gameDatasToReceive;
+      receivedGameData = gameDatasToReceive; //should already be exactly this...
       gameDataReceived = YES;
       _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);
     }
@@ -329,23 +339,23 @@ const long playerDatasToReceive = 7;
 
 - (BOOL) allGameDataReceived
 {
-  if(![scenesModel gameInfoRecvd]) { NSLog(@"Missing scenesModel"); return NO; }
-  if(![plaquesModel gameInfoRecvd]) { NSLog(@"Missing plaquesModel"); return NO; }
-  if(![itemsModel gameInfoRecvd]) { NSLog(@"Missing itemsModel"); return NO; }
-  if(![playerInstancesModel gameInfoRecvd]) { NSLog(@"Missing playerInstancesModel"); return NO; }
-  if(![gameInstancesModel gameInfoRecvd]) { NSLog(@"Missing gameInstancesModel"); return NO; }
-  if(![dialogsModel gameInfoRecvd]) { NSLog(@"Missing dialogsModel"); return NO; }
-  if(![webPagesModel gameInfoRecvd]) { NSLog(@"Missing webPagesModel"); return NO; }
-  if(![notesModel gameInfoRecvd]) { NSLog(@"Missing notesModel"); return NO; }
-  if(![tagsModel gameInfoRecvd]) { NSLog(@"Missing tagsModel"); return NO; }
-  if(![eventsModel gameInfoRecvd]) { NSLog(@"Missing eventsModel"); return NO; }
-  if(![requirementsModel gameInfoRecvd]) { NSLog(@"Missing requirementsModel"); return NO; }
-  if(![questsModel gameInfoRecvd]) { NSLog(@"Missing questsModel"); return NO; }
-  if(![triggersModel gameInfoRecvd]) { NSLog(@"Missing triggersModel"); return NO; }
-  if(![factoriesModel gameInfoRecvd]) { NSLog(@"Missing factoriesModel"); return NO; }
-  if(![overlaysModel gameInfoRecvd]) { NSLog(@"Missing overlaysModel"); return NO; }
-  if(![instancesModel gameInfoRecvd]) { NSLog(@"Missing instancesModel"); return NO; }
-  if(![tabsModel gameInfoRecvd]) { NSLog(@"Missing tabsModel"); return NO; }
+  if(![scenesModel gameInfoRecvd]) return NO;
+  if(![plaquesModel gameInfoRecvd]) return NO;
+  if(![itemsModel gameInfoRecvd]) return NO;
+  if(![playerInstancesModel gameInfoRecvd]) return NO;
+  if(![gameInstancesModel gameInfoRecvd]) return NO;
+  if(![dialogsModel gameInfoRecvd]) return NO;
+  if(![webPagesModel gameInfoRecvd]) return NO;
+  if(![notesModel gameInfoRecvd]) return NO;
+  if(![tagsModel gameInfoRecvd]) return NO;
+  if(![eventsModel gameInfoRecvd]) return NO;
+  if(![requirementsModel gameInfoRecvd]) return NO;
+  if(![questsModel gameInfoRecvd]) return NO;
+  if(![triggersModel gameInfoRecvd]) return NO;
+  if(![factoriesModel gameInfoRecvd]) return NO;
+  if(![overlaysModel gameInfoRecvd]) return NO;
+  if(![instancesModel gameInfoRecvd]) return NO;
+  if(![tabsModel gameInfoRecvd]) return NO;
  
   if(![_MODEL_MEDIA_ gameInfoRecvd]) { NSLog(@"Missing _MODEL_MEDIA_"); return NO; }
   if(![_MODEL_USERS_ gameInfoRecvd]) { NSLog(@"Missing _MODEL_USERS_"); return NO; }

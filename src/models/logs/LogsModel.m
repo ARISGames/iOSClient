@@ -11,11 +11,13 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "LogsModel.h"
+#import "AppModel.h"
 #import "AppServices.h"
 
 @interface LogsModel()
 {
     NSMutableDictionary *logs;
+    int local_log_id; //starts at 1, no way it will ever catch up to actual logs
 }
 
 @end
@@ -56,6 +58,16 @@
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
+- (void) addLogType:(NSString *)type content:(long)content_id qty:(long)qty
+{
+  Log *l = [[Log alloc] init];
+  l.log_id = local_log_id++;
+  l.event_type = type;
+  l.content_id = content_id;
+  l.qty = qty;
+  [logs setObject:l forKey:[NSNumber numberWithLong:l.log_id]];
+}
+
 - (void) requestPlayerLogs
 {
     [_SERVICES_ fetchLogsForPlayer];
@@ -81,6 +93,7 @@
 - (void) playerViewedTabId:(long)tab_id
 {
     [_SERVICES_ logPlayerViewedTabId:tab_id];
+    [self addLogType:@"VIEW_TAB" content:tab_id qty:0];
 }
 
 - (void) playerViewedContent:(NSString *)content id:(long)content_id
@@ -92,41 +105,101 @@
     if([content isEqualToString:@"WEB_PAGE"])      [_SERVICES_ logPlayerViewedWebPageId:content_id];
     if([content isEqualToString:@"NOTE"])          [_SERVICES_ logPlayerViewedNoteId:content_id];
     if([content isEqualToString:@"SCENE"])         [_SERVICES_ logPlayerViewedSceneId:content_id];
+
+    if([content isEqualToString:@"PLAQUE"])        [self addLogType:@"VIEW_PLAQUE" content:content_id qty:0];
+    if([content isEqualToString:@"ITEM"])          [self addLogType:@"VIEW_ITEM" content:content_id qty:0];
+    if([content isEqualToString:@"DIALOG"])        [self addLogType:@"VIEW_DIALOG" content:content_id qty:0];
+    if([content isEqualToString:@"DIALOG_SCRIPT"]) [self addLogType:@"VIEW_DIALOG_SCRIPT" content:content_id qty:0];
+    if([content isEqualToString:@"WEB_PAGE"])      [self addLogType:@"VIEW_WEB_PAGE" content:content_id qty:0];
+    if([content isEqualToString:@"NOTE"])          [self addLogType:@"VIEW_NOTE" content:content_id qty:0];
+    if([content isEqualToString:@"SCENE"])         [self addLogType:@"CHANGE_SCENE" content:content_id qty:0];
 }
 
 - (void) playerViewedInstanceId:(long)instance_id
 {
     [_SERVICES_ logPlayerViewedInstanceId:instance_id];
+    [self addLogType:@"VIEW_INSTANCE" content:instance_id qty:0];
 }
 
 - (void) playerTriggeredTriggerId:(long)trigger_id
 {
     [_SERVICES_ logPlayerTriggeredTriggerId:trigger_id];
+    [self addLogType:@"TRIGGER_TRIGGER" content:trigger_id qty:0];
 }
 
 - (void) playerReceivedItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
+    [self addLogType:@"RECEIVE_ITEM" content:item_id qty:qty];
 }
 
 - (void) playerLostItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
+    [self addLogType:@"LOSE_ITEM" content:item_id qty:qty];
 }
 
 - (void) gameReceivedItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logGameReceivedItemId:item_id qty:qty];
+    [self addLogType:@"GAME_RECEIVE_ITEM" content:item_id qty:qty];
 }
 
 - (void) gameLostItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logGameLostItemId:item_id qty:qty];
+    [self addLogType:@"GAME_LOSE_ITEM" content:item_id qty:qty];
 }
 
 - (void) playerChangedSceneId:(long)scene_id
 {
     [_SERVICES_ logPlayerSetSceneId:scene_id];
+    [self addLogType:@"CHANGE_SCENE" content:scene_id qty:0];
+}
+
+- (void) playerCompletedQuestId:(long)quest_id
+{
+    [_SERVICES_ logPlayerCompletedQuestId:quest_id];
+    [self addLogType:@"COMPLETE_QUEST" content:quest_id qty:0];
+}
+
+- (BOOL) hasLogType:(NSString *)type
+{
+  NSArray *alllogs = [logs allValues];
+  for(int i = 0; i < alllogs.count; i++)
+  {
+    Log *l = alllogs[i];
+    if([l.event_type isEqualToString:type])
+      return YES;
+  }
+  return NO;
+}
+
+- (BOOL) hasLogType:(NSString *)type content:(long)content_id
+{
+  NSArray *alllogs = [logs allValues];
+  for(int i = 0; i < alllogs.count; i++)
+  {
+    Log *l = alllogs[i];
+    if([l.event_type isEqualToString:type] &&
+       l.content_id == content_id)
+      return YES;
+  }
+  return NO;
+}
+
+- (BOOL) hasLogType:(NSString *)type content:(long)content_id qty:(long)qty
+{
+  NSArray *alllogs = [logs allValues];
+  for(int i = 0; i < alllogs.count; i++)
+  {
+    Log *l = alllogs[i];
+    if([l.event_type isEqualToString:type] &&
+       l.content_id == content_id &&
+       l.qty == qty)
+      return YES;
+  }
+  return NO;
 }
 
 - (void) dealloc

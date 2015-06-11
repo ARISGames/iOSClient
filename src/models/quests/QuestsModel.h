@@ -16,6 +16,7 @@
 - (NSArray *) visibleCompleteQuests;
 - (void) requestQuests;
 - (void) requestPlayerQuests;
+- (void) logAnyNewlyCompletedQuests;
 
 - (void) clearPlayerData;
 - (void) clearGameData;

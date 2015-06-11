@@ -111,6 +111,7 @@
 - (void) logGameReceivedItemId:(long)item_id qty:(long)qty;
 - (void) logGameLostItemId:(long)item_id qty:(long)qty;
 - (void) logPlayerSetSceneId:(long)scene_id;
+- (void) logPlayerCompletedQuestId:(long)quest_id;
 
 //for mid-game fetches. these are failsafes, and oughtn't occur.
 //if you are editing your game mid-play, expect undefined behavior

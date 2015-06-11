@@ -1282,9 +1282,18 @@
     NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
-      @"item_id":[NSNumber numberWithLong:scene_id]
+      @"scene_id":[NSNumber numberWithLong:scene_id]
     };
     [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerSetScene" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Scene Change..." userInfo:nil];
+}
+- (void) logPlayerCompletedQuestId:(long)quest_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"quest_id":[NSNumber numberWithLong:quest_id]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerCompleteQuest" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Quest Complete..." userInfo:nil];
 }
 
 

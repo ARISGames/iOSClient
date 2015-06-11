@@ -21,6 +21,7 @@
 @synthesize active_notification_type;
 @synthesize active_function;
 @synthesize active_event_package_id;
+@synthesize active_requirement_root_package_id;
 
 @synthesize complete_icon_media_id;
 @synthesize complete_media_id;
@@ -28,6 +29,7 @@
 @synthesize complete_notification_type;
 @synthesize complete_function;
 @synthesize complete_event_package_id;
+@synthesize complete_requirement_root_package_id;
 
 @synthesize sort_index;
 
@@ -45,6 +47,7 @@
         active_notification_type = @"NONE";
         active_function = @"NONE";
         active_event_package_id = 0;
+        active_requirement_root_package_id = 0;
 
         complete_icon_media_id = 0;
         complete_media_id = 0;
@@ -52,6 +55,7 @@
         complete_notification_type = @"NONE";
         complete_function = @"NONE";
         complete_event_package_id = 0;
+        complete_requirement_root_package_id = 0;
 
         sort_index = 0;
     }
@@ -62,25 +66,27 @@
 {
     if(self = [super init])
     {
-        quest_id                   = [dict validIntForKey:@"quest_id"];
-        name                       = [dict validStringForKey:@"name"];
-        desc                       = [dict validStringForKey:@"description"];
+        quest_id                             = [dict validIntForKey:@"quest_id"];
+        name                                 = [dict validStringForKey:@"name"];
+        desc                                 = [dict validStringForKey:@"description"];
 
-        active_icon_media_id       = [dict validIntForKey:@"active_icon_media_id"];
-        active_media_id            = [dict validIntForKey:@"active_media_id"];
-        active_desc                = [dict validStringForKey:@"active_description"];
-        active_notification_type   = [dict validStringForKey:@"active_notification_type"];
-        active_function            = [dict validStringForKey:@"active_function"];
-        active_event_package_id    = [dict validIntForKey:@"active_event_package_id"];
+        active_icon_media_id                 = [dict validIntForKey:@"active_icon_media_id"];
+        active_media_id                      = [dict validIntForKey:@"active_media_id"];
+        active_desc                          = [dict validStringForKey:@"active_description"];
+        active_notification_type             = [dict validStringForKey:@"active_notification_type"];
+        active_function                      = [dict validStringForKey:@"active_function"];
+        active_event_package_id              = [dict validIntForKey:@"active_event_package_id"];
+        active_requirement_root_package_id   = [dict validIntForKey:@"active_requirement_root_package_id"];
 
-        complete_icon_media_id     = [dict validIntForKey:@"complete_icon_media_id"];
-        complete_media_id          = [dict validIntForKey:@"complete_media_id"];
-        complete_desc              = [dict validStringForKey:@"complete_description"];
-        complete_notification_type = [dict validStringForKey:@"complete_notification_type"];
-        complete_function          = [dict validStringForKey:@"complete_function"];
-        complete_event_package_id  = [dict validIntForKey:@"complete_event_package_id"];
+        complete_icon_media_id               = [dict validIntForKey:@"complete_icon_media_id"];
+        complete_media_id                    = [dict validIntForKey:@"complete_media_id"];
+        complete_desc                        = [dict validStringForKey:@"complete_description"];
+        complete_notification_type           = [dict validStringForKey:@"complete_notification_type"];
+        complete_function                    = [dict validStringForKey:@"complete_function"];
+        complete_event_package_id            = [dict validIntForKey:@"complete_event_package_id"];
+        complete_requirement_root_package_id = [dict validIntForKey:@"complete_requirement_root_package_id"];
 
-        sort_index                 = [dict validIntForKey:@"sort_index"];
+        sort_index                           = [dict validIntForKey:@"sort_index"];
     }
     return self;	
 }

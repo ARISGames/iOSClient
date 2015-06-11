@@ -13,6 +13,7 @@
 @implementation Trigger
 
 @synthesize trigger_id;
+@synthesize requirement_root_package_id;
 @synthesize instance_id;
 @synthesize scene_id;
 @synthesize type;
@@ -33,6 +34,7 @@
   if(self = [super init])
   {
     trigger_id = 0;
+    requirement_root_package_id = 0;
     instance_id = 0;
     scene_id = 0;
     type = @"IMMEDIATE";
@@ -55,21 +57,22 @@
 {
   if(self = [super init])
   {
-    trigger_id        = [dict validIntForKey:@"trigger_id"];
-    instance_id       = [dict validIntForKey:@"instance_id"];
-    scene_id          = [dict validIntForKey:@"scene_id"];
-    type              = [dict validStringForKey:@"type"];
-    name              = [dict validStringForKey:@"name"];
-    title             = [dict validStringForKey:@"title"];
-    icon_media_id     = [dict validIntForKey:@"icon_media_id"];
-    location          = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
-    distance          = [dict validIntForKey:@"distance"];
-    infinite_distance = [dict validIntForKey:@"infinite_distance"] || distance < 0 || distance > 100000;
-    wiggle            = [dict validBoolForKey:@"wiggle"];
-    show_title        = [dict validBoolForKey:@"show_title"];
-    hidden            = [dict validBoolForKey:@"hidden"];
-    trigger_on_enter  = [dict validBoolForKey:@"trigger_on_enter"];
-    qr_code           = [dict validStringForKey:@"qr_code"];
+    trigger_id                  = [dict validIntForKey:@"trigger_id"];
+    requirement_root_package_id = [dict validIntForKey:@"requirement_root_package_id"];
+    instance_id                 = [dict validIntForKey:@"instance_id"];
+    scene_id                    = [dict validIntForKey:@"scene_id"];
+    type                        = [dict validStringForKey:@"type"];
+    name                        = [dict validStringForKey:@"name"];
+    title                       = [dict validStringForKey:@"title"];
+    icon_media_id               = [dict validIntForKey:@"icon_media_id"];
+    location                    = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
+    distance                    = [dict validIntForKey:@"distance"];
+    infinite_distance           = [dict validIntForKey:@"infinite_distance"] || distance < 0 || distance > 100000;
+    wiggle                      = [dict validBoolForKey:@"wiggle"];
+    show_title                  = [dict validBoolForKey:@"show_title"];
+    hidden                      = [dict validBoolForKey:@"hidden"];
+    trigger_on_enter            = [dict validBoolForKey:@"trigger_on_enter"];
+    qr_code                     = [dict validStringForKey:@"qr_code"];
   }
   return self;
 }
@@ -78,6 +81,7 @@
 {
   BOOL e = [self trigIsEqual:t];
   trigger_id        = t.trigger_id;
+  requirement_root_package_id = t.requirement_root_package_id;
   instance_id       = t.instance_id;
   scene_id          = t.scene_id;
   type              = t.type;
@@ -105,21 +109,22 @@
 - (BOOL) trigIsEqual:(Trigger *)t
 {
   return
-    (trigger_id                   == t.trigger_id        &&
-     instance_id                   == t.instance_id       &&
-     scene_id                      == t.scene_id          &&
-     [type isEqualToString:t.type]                        &&
-     [name isEqualToString:t.name]                        &&
-     [title isEqualToString:t.title]                      &&
-     self.icon_media_id            == t.icon_media_id     && //must use 'self' to parallel fallthrough to parent
+    (trigger_id                    == t.trigger_id                    &&
+     requirement_root_package_id   == t.requirement_root_package_id   &&
+     instance_id                   == t.instance_id                   &&
+     scene_id                      == t.scene_id                      &&
+     [type isEqualToString:t.type]                                    &&
+     [name isEqualToString:t.name]                                    &&
+     [title isEqualToString:t.title]                                  &&
+     self.icon_media_id            == t.icon_media_id                 && //must use 'self' to parallel fallthrough to parent
      location.coordinate.latitude  == t.location.coordinate.latitude  &&
      location.coordinate.longitude == t.location.coordinate.longitude &&
-     distance                      == t.distance          &&
-     infinite_distance             == t.infinite_distance &&
-     wiggle                        == t.wiggle            &&
-     show_title                    == t.show_title        &&
-     hidden                        == t.hidden            &&
-     trigger_on_enter              == t.trigger_on_enter  &&
+     distance                      == t.distance                      &&
+     infinite_distance             == t.infinite_distance             &&
+     wiggle                        == t.wiggle                        &&
+     show_title                    == t.show_title                    &&
+     hidden                        == t.hidden                        &&
+     trigger_on_enter              == t.trigger_on_enter              &&
      [qr_code isEqualToString:t.qr_code]);
 }
 

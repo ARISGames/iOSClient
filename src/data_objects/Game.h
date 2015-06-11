@@ -61,6 +61,7 @@
   BOOL notebook_allow_player_tags;
 
   long inventory_weight_cap;
+  NSString *network_level;
 
   ScenesModel       *scenesModel;
   PlaquesModel      *plaquesModel;
@@ -114,6 +115,7 @@
 @property (nonatomic, assign) BOOL notebook_allow_player_tags;
 
 @property (nonatomic, assign) long inventory_weight_cap;
+@property (nonatomic, strong) NSString *network_level;
 
 @property (nonatomic, strong) ScenesModel       *scenesModel;
 @property (nonatomic, strong) PlaquesModel      *plaquesModel;

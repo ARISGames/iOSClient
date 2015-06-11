@@ -26,6 +26,7 @@
 - (long) giveItemToPlayer:(long)item_id qtyToAdd:(long)qty;
 - (long) setItemsForPlayer:(long)item_id qtyToSet:(long)qty;
 - (long) qtyOwnedForItem:(long)item_id;
+- (long) qtyOwnedForTag:(long)tag_id;
 - (long) qtyAllowedToGiveForItem:(long)item_id;
 - (void) clearPlayerData;
 - (void) clearGameData;

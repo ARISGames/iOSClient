@@ -14,6 +14,7 @@
 @interface Trigger : NSObject <MKAnnotation>
 {
   long trigger_id;
+  long requirement_root_package_id;
   long instance_id;
   long scene_id;
   NSString *type;
@@ -31,6 +32,7 @@
 }
 
 @property (nonatomic, assign) long trigger_id;
+@property (nonatomic, assign) long requirement_root_package_id;
 @property (nonatomic, assign) long instance_id;
 @property (nonatomic, assign) long scene_id;
 @property (nonatomic, copy)   NSString *type;

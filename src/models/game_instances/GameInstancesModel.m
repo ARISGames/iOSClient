@@ -138,6 +138,15 @@
     return ((Instance *)instances[[NSNumber numberWithLong:item_id]]).qty;
 }
 
+- (long) qtyOwnedForTag:(long)tag_id
+{
+  long q = 0;
+  NSArray *item_ids = [_MODEL_TAGS_ objectIdsOfType:@"ITEM" tag:tag_id];
+  for(int i = 0; i < item_ids.count; i++)
+    q += [self qtyOwnedForItem:((NSNumber *)item_ids[i]).longValue];
+  return q;
+}
+
 - (long) qtyAllowedToGiveForItem:(long)item_id
 {
     Item *i = [_MODEL_ITEMS_ itemForId:item_id];

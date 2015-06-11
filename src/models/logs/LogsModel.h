@@ -27,5 +27,10 @@
 - (void) gameReceivedItemId:(long)item_id qty:(long)qty;
 - (void) gameLostItemId:(long)item_id qty:(long)qty;
 - (void) playerChangedSceneId:(long)scene_id;
+- (void) playerCompletedQuestId:(long)quest_id;
+
+- (BOOL) hasLogType:(NSString *)type;
+- (BOOL) hasLogType:(NSString *)type content:(long)content_id;
+- (BOOL) hasLogType:(NSString *)type content:(long)content_id qty:(long)qty;
 
 @end

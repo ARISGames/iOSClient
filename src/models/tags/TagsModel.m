@@ -106,6 +106,19 @@
     return objects_tags;
 }
 
+- (NSArray *) objectIdsOfType:(NSString *)t tag:(long)tag_id
+{
+  NSMutableArray *objs = [[NSMutableArray alloc] init];
+  NSArray *otags = [objectTags allValues];
+  for(int i = 0; i < otags.count; i++)
+  {
+    ObjectTag *ot = otags[i];
+    if([ot.object_type isEqualToString:t] && ot.tag_id == tag_id)
+      [objs addObject:[NSNumber numberWithLong:ot.object_id]];
+  }
+  return objs;
+}
+
 - (void) removeTagsFromObjectType:(NSString*)t id:(long)object_id
 {
     ObjectTag *otag;
