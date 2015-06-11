@@ -113,6 +113,8 @@
     if([content isEqualToString:@"WEB_PAGE"])      [self addLogType:@"VIEW_WEB_PAGE" content:content_id qty:0];
     if([content isEqualToString:@"NOTE"])          [self addLogType:@"VIEW_NOTE" content:content_id qty:0];
     if([content isEqualToString:@"SCENE"])         [self addLogType:@"CHANGE_SCENE" content:content_id qty:0];
+  
+    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) playerViewedInstanceId:(long)instance_id
@@ -131,24 +133,28 @@
 {
     [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
     [self addLogType:@"RECEIVE_ITEM" content:item_id qty:qty];
+    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) playerLostItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
     [self addLogType:@"LOSE_ITEM" content:item_id qty:qty];
+    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) gameReceivedItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logGameReceivedItemId:item_id qty:qty];
     [self addLogType:@"GAME_RECEIVE_ITEM" content:item_id qty:qty];
+    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) gameLostItemId:(long)item_id qty:(long)qty
 {
     [_SERVICES_ logGameLostItemId:item_id qty:qty];
     [self addLogType:@"GAME_LOSE_ITEM" content:item_id qty:qty];
+    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) playerChangedSceneId:(long)scene_id
@@ -161,6 +167,7 @@
 {
     [_SERVICES_ logPlayerCompletedQuestId:quest_id];
     [self addLogType:@"COMPLETE_QUEST" content:quest_id qty:0];
+    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (BOOL) hasLogType:(NSString *)type

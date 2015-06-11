@@ -127,7 +127,7 @@ const long playerDatasToReceive = 7;
         notebook_allow_player_tags = [dict validBoolForKey:@"notebook_allow_player_tags"];
 
         inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
-        network_level = @"NORMAL";
+        network_level = @"NONE_STRICT";
         /*
         NONE_STRICT = disallow any features that require it (can't create notes, etc...)
         STATIC_GAME = no updates of server info at playtime, but allow writes
@@ -290,7 +290,7 @@ const long playerDatasToReceive = 7;
     [overlaysModel requestPlayerOverlays];
     [questsModel requestPlayerQuests];
     [tabsModel requestPlayerTabs];
-    [logsModel requestPlayerLogs];
+    [logsModel requestPlayerLogs]; //should really only call this once...
 }
 
 - (void) gamePieceReceived

@@ -82,6 +82,7 @@
 {
   if([_MODEL_GAME_.network_level isEqualToString:@"NONE_STRICT"])
   {
+    [self logAnyNewlyCompletedQuests];
     NSDictionary *pquests =
     @{
       @"active"   : [[NSMutableArray alloc] init],
@@ -93,7 +94,7 @@
       Quest *q = qs[i];
       if([_MODEL_REQUIREMENTS_ evaluateRequirementRoot:q.active_requirement_root_package_id])
       {
-        if([_MODEL_LOGS_ hasLogType:@"QUEST_COMPLETE" content:q.quest_id])
+        if([_MODEL_LOGS_ hasLogType:@"COMPLETE_QUEST" content:q.quest_id])
           [pquests[@"complete"] addObject:q];
         else
           [pquests[@"active"] addObject:q];
@@ -110,7 +111,7 @@
   for(int i = 0; i < qs.count; i++)
   {
     Quest *q = qs[i];
-    if(![_MODEL_LOGS_ hasLogType:@"QUEST_COMPLETE" content:q.quest_id])
+    if(![_MODEL_LOGS_ hasLogType:@"COMPLETE_QUEST" content:q.quest_id])
     {
       if([_MODEL_REQUIREMENTS_ evaluateRequirementRoot:q.complete_requirement_root_package_id])
         [_MODEL_LOGS_ playerCompletedQuestId:q.quest_id];

@@ -81,7 +81,7 @@
 //AND
 - (void) requirementAndPackagesReceived:(NSNotification *)notif
 {
-  [self updateRequirementAndPackages:[notif.userInfo objectForKey:@"requirement_root_packages"]];
+  [self updateRequirementAndPackages:[notif.userInfo objectForKey:@"requirement_and_packages"]];
 }
 - (void) updateRequirementAndPackages:(NSArray *)newRAPs
 {
@@ -101,7 +101,7 @@
 //ATOM
 - (void) requirementAtomsReceived:(NSNotification *)notif
 {
-  [self updateRequirementAtoms:[notif.userInfo objectForKey:@"requirement_root_packages"]];
+  [self updateRequirementAtoms:[notif.userInfo objectForKey:@"requirement_atoms"]];
 }
 - (void) updateRequirementAtoms:(NSArray *)newRAs
 {
@@ -166,7 +166,7 @@
   if(atoms.count == 0) return YES;
   for(int i = 0; i < atoms.count; i++)
   {
-    if(![self evaluateRequirementAnd:((RequirementAtom *)atoms[i]).requirement_atom_id]) return NO;
+    if(![self evaluateRequirementAtom:((RequirementAtom *)atoms[i]).requirement_atom_id]) return NO;
   }
   return YES;
 }
