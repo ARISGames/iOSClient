@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "TabsModel.h"
+#import "AppModel.h"
 #import "AppServices.h"
 
 @interface TabsModel()
@@ -74,7 +75,23 @@
 }
 
 - (void) requestTabs       { [_SERVICES_ fetchTabs]; }
-- (void) requestPlayerTabs { [_SERVICES_ fetchTabsForPlayer]; }
+
+- (void) requestPlayerTabs
+{
+  if([_MODEL_GAME_.network_level isEqualToString:@"NONE_STRICT"])
+  {
+    NSMutableArray *ptabs = [[NSMutableArray alloc] init];
+    NSArray *ts = [tabs allValues];
+    for(int i = 0; i < ts.count; i++)
+    {
+      Tab *t = ts[i];
+      if([_MODEL_REQUIREMENTS_ evaluateRequirementRoot:t.requirement_root_package_id])
+        [ptabs addObject:t];
+    }
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TABS_RECEIVED",nil,@{@"tabs":ptabs});
+  }
+  else [_SERVICES_ fetchTabsForPlayer];
+}
 
 //admittedly a bit silly, but a great way to rid any risk of deviation from flyweight by catching it at the beginning
 - (NSArray *) conformTabListToFlyweight:(NSArray *)newTabs

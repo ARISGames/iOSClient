@@ -17,6 +17,7 @@
     long content_id;
     NSString *info;
     long sort_index;
+    long requirement_root_package_id;
 }
 
 @property (nonatomic, assign) long tab_id;
@@ -26,6 +27,7 @@
 @property (nonatomic, assign) long content_id;
 @property (nonatomic, strong) NSString *info;
 @property (nonatomic, assign) long sort_index;
+@property (nonatomic, assign) long requirement_root_package_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) keyString;
