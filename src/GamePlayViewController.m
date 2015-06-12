@@ -68,6 +68,17 @@
     LoadingIndicatorViewController *loadingIndicatorViewController;
     NSTimer *tickerTimer;
     ARISWebView *ticker;
+  
+    //queue of dequeued instances to be displayed but were not yet loaded
+    //yes, the fact that we need this second layer of queue points
+    //to something being wrong with our architecture.
+    //the culprit is the global nature of all our services.
+    //the fact that we send off a global event and wait for another
+    //global event yields too many oportunities for the code flow
+    //to go somewhere else or stop and never come back, potentially leaving us
+    //in an invalid state. hopefully this provides a sufficient temporary
+    //buffer to protect us from that...
+    NSMutableArray *local_inst_queue;
 
     BOOL viewingObject; //because apple's heirarchy design is terrible
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
@@ -95,7 +106,9 @@
             tickerTimer = [NSTimer scheduledTimerWithTimeInterval:_MODEL_GAME_.tick_delay target:self selector:@selector(tickTicker) userInfo:nil repeats:YES];
         }
 
+        local_inst_queue = [[NSMutableArray alloc] init];
         viewingObject = NO;
+        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE", self, @selector(flushBufferQueuedInstances), nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_DISPLAY_NEW_ENQUEUED", self, @selector(tryDequeue), nil);
     }
     return self;
@@ -156,11 +169,35 @@
     }
 }
 
+- (void) flushBufferQueuedInstances
+{
+  for(int i = 0; i < local_inst_queue.count; i++)
+  {
+    Instance *inst = [_MODEL_INSTANCES_ instanceForId:((NSNumber *)local_inst_queue[i]).longValue];
+    if(inst.instance_id)
+    {
+      [_MODEL_DISPLAY_QUEUE_ enqueueInstance:inst];
+      [local_inst_queue removeObjectAtIndex:i];
+      i--;
+    }
+  }
+}
+
 - (void) displayTrigger:(Trigger *)t
 {
-    _ARIS_NOTIF_SEND_(@"GAME_PLAY_DISPLAYED_TRIGGER",nil,@{@"trigger":t});
-    [self displayInstance:[_MODEL_INSTANCES_ instanceForId:t.instance_id]];
-    [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id];
+    Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
+    if(!i.instance_id)
+    {
+      //this is bad and points to a need for a non-global service architecture.
+      //see notes by 'local_inst_queue'
+      [local_inst_queue addObject:[NSNumber numberWithLong:t.instance_id]];
+    }
+    else
+    {
+      _ARIS_NOTIF_SEND_(@"GAME_PLAY_DISPLAYED_TRIGGER",nil,@{@"trigger":t});
+      [self displayInstance:i];
+      [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id];
+    }
 }
 
 - (void) displayInstance:(Instance *)i
