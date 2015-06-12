@@ -193,7 +193,8 @@
 
 - (void) playerCompletedQuestId:(long)quest_id
 {
-    [_SERVICES_ logPlayerCompletedQuestId:quest_id];
+    //let server figure it out on its own, for now
+    //[_SERVICES_ logPlayerCompletedQuestId:quest_id];
     [self addLogType:@"COMPLETE_QUEST" content:quest_id qty:0];
     [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }

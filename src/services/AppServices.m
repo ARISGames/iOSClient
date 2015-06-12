@@ -1331,7 +1331,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"quest_id":[NSNumber numberWithLong:quest_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerCompleteQuest" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Quest Complete..." userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerCompletedQuest" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Quest Complete..." userInfo:nil];
 }
 
 

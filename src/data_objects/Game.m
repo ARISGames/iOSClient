@@ -128,7 +128,7 @@ const long playerDatasToReceive = 6;
         notebook_allow_player_tags = [dict validBoolForKey:@"notebook_allow_player_tags"];
 
         inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
-        network_level = @"NONE_STRICT";
+        network_level = @"NORMAL";
         /*
         NONE_STRICT = disallow any features that require it (can't create notes, etc...)
         STATIC_GAME = no updates of server info at playtime, but allow writes
