@@ -14,7 +14,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const long gameDatasToReceive = 28;
+const long gameDatasToReceive = 29;
 const long playerDatasToReceive = 6;
 
 @interface Game()
@@ -77,6 +77,7 @@ const long playerDatasToReceive = 6;
 @synthesize instancesModel;
 @synthesize playerInstancesModel;
 @synthesize gameInstancesModel;
+@synthesize groupInstancesModel;
 @synthesize tabsModel;
 @synthesize logsModel;
 @synthesize questsModel;
@@ -217,6 +218,7 @@ const long playerDatasToReceive = 6;
     instancesModel       = [[InstancesModel       alloc] init];
     playerInstancesModel = [[PlayerInstancesModel alloc] init];
     gameInstancesModel   = [[GameInstancesModel   alloc] init];
+    groupInstancesModel  = [[GroupInstancesModel  alloc] init];
     tabsModel            = [[TabsModel            alloc] init];
     logsModel            = [[LogsModel            alloc] init];
     questsModel          = [[QuestsModel          alloc] init];
@@ -246,6 +248,7 @@ const long playerDatasToReceive = 6;
     instancesModel       = nil;
     playerInstancesModel = nil;
     gameInstancesModel   = nil;
+    groupInstancesModel  = nil;
     tabsModel            = nil;
     questsModel          = nil;
     logsModel            = nil;
@@ -261,6 +264,7 @@ const long playerDatasToReceive = 6;
     [itemsModel requestItems];
     [playerInstancesModel touchPlayerInstances];
     [gameInstancesModel touchGameInstances];
+    [groupInstancesModel touchGroupInstances];
     [dialogsModel requestDialogs]; //makes 4 "game data received" notifs (dialogs, characters, scripts, options)
     [webPagesModel requestWebPages];
     [notesModel requestNotes];
@@ -344,6 +348,7 @@ const long playerDatasToReceive = 6;
   if(![itemsModel gameInfoRecvd]) return NO;
   if(![playerInstancesModel gameInfoRecvd]) return NO;
   if(![gameInstancesModel gameInfoRecvd]) return NO;
+  if(![groupInstancesModel gameInfoRecvd]) return NO;
   if(![dialogsModel gameInfoRecvd]) return NO;
   if(![webPagesModel gameInfoRecvd]) return NO;
   if(![notesModel gameInfoRecvd]) return NO;
@@ -387,6 +392,7 @@ const long playerDatasToReceive = 6;
     [instancesModel       clearGameData];
     [playerInstancesModel clearGameData];
     [gameInstancesModel   clearGameData];
+    [groupInstancesModel  clearGameData];
     [tabsModel            clearGameData];
   
     [_MODEL_MEDIA_ clearGameData];
@@ -399,6 +405,7 @@ const long playerDatasToReceive = 6;
     [instancesModel       clearPlayerData];
     [playerInstancesModel clearPlayerData];
     [gameInstancesModel   clearPlayerData];
+    [groupInstancesModel  clearPlayerData];
     [tabsModel            clearPlayerData];
     [logsModel            clearPlayerData];
 

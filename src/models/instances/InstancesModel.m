@@ -201,31 +201,48 @@
 
 - (NSArray *) playerInstances
 {
-    NSMutableArray *pInstances = [[NSMutableArray alloc] init];
-    NSArray *allInstances = [instances allValues];
-    for(long i = 0; i < allInstances.count; i++)
-    {
-        if(((Instance *)allInstances[i]).owner_id == _MODEL_PLAYER_.user_id)
-            [pInstances addObject:allInstances[i]];
-    }
-    return pInstances;
+  NSMutableArray *pInstances = [[NSMutableArray alloc] init];
+  NSArray *allInstances = [instances allValues];
+  for(long i = 0; i < allInstances.count; i++)
+  {
+    Instance *inst = allInstances[i];
+    if([inst.owner_type isEqualToString:@"USER"] &&
+       inst.owner_id == _MODEL_PLAYER_.user_id)
+      [pInstances addObject:allInstances[i]];
+  }
+  return pInstances;
 }
 
 - (NSArray *) gameOwnedInstances
 {
-    NSMutableArray *gInstances = [[NSMutableArray alloc] init];
-    NSArray *allInstances = [instances allValues];
-    for(long i = 0; i < allInstances.count; i++)
-    {
-        if([((Instance *)allInstances[i]).owner_type isEqualToString:@"GAME"])
-            [gInstances addObject:allInstances[i]];
-    }
-    return gInstances;
+  NSMutableArray *gInstances = [[NSMutableArray alloc] init];
+  NSArray *allInstances = [instances allValues];
+  for(long i = 0; i < allInstances.count; i++)
+  {
+    Instance *inst = allInstances[i];
+    if([inst.owner_type isEqualToString:@"GAME"])
+      [gInstances addObject:allInstances[i]];
+  }
+  return gInstances;
+}
+
+- (NSArray *) groupOwnedInstances
+{
+  NSMutableArray *gInstances = [[NSMutableArray alloc] init];
+  NSArray *allInstances = [instances allValues];
+  for(long i = 0; i < allInstances.count; i++)
+  {
+    Instance *inst = allInstances[i];
+    if([inst.owner_type isEqualToString:@"GROUP"] &&
+       inst.owner_id == 0) //need to replace with group_id
+      [gInstances addObject:allInstances[i]];
+  }
+  return gInstances;
 }
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

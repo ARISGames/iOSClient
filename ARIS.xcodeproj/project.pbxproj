@@ -99,6 +99,7 @@
 		AA4685A81940C90000721B2B /* TabsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4685A71940C90000721B2B /* TabsModel.m */; };
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
+		AA4A75551B2B2F0000C434A7 /* GroupInstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4A75541B2B2F0000C434A7 /* GroupInstancesModel.m */; };
 		AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
 		AA5D8D32191AB20800116FA1 /* WebPagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5D8D31191AB20800116FA1 /* WebPagesModel.m */; };
@@ -466,6 +467,8 @@
 		AA4685A71940C90000721B2B /* TabsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabsModel.m; sourceTree = "<group>"; };
 		AA49A25B17AAE6C200629C87 /* ARISMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaView.h; sourceTree = "<group>"; };
 		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
+		AA4A75531B2B2F0000C434A7 /* GroupInstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupInstancesModel.h; sourceTree = "<group>"; };
+		AA4A75541B2B2F0000C434A7 /* GroupInstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupInstancesModel.m; sourceTree = "<group>"; };
 		AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCell.h; sourceTree = "<group>"; };
 		AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestCell.m; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
@@ -1048,6 +1051,15 @@
 			path = tabs;
 			sourceTree = "<group>";
 		};
+		AA4A75521B2B2F0000C434A7 /* group_instances */ = {
+			isa = PBXGroup;
+			children = (
+				AA4A75531B2B2F0000C434A7 /* GroupInstancesModel.h */,
+				AA4A75541B2B2F0000C434A7 /* GroupInstancesModel.m */,
+			);
+			path = group_instances;
+			sourceTree = "<group>";
+		};
 		AA527E3E17E0B6830040AB75 /* navbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1565,6 +1577,7 @@
 				AAF3EEDE1938F2DD00388BE1 /* instances */,
 				AAA682EA1ACC64C000C99951 /* player_instances */,
 				AAFC09541B2211E300A8D861 /* game_instances */,
+				AA4A75521B2B2F0000C434A7 /* group_instances */,
 				AA9F7133194F53FA00384832 /* logs */,
 				AA5F5ACA183147AC0057AC1C /* notes */,
 				AABC70E7172739D60074CC21 /* media */,
@@ -2317,6 +2330,7 @@
 				AABC738F172739D80074CC21 /* GameComment.m in Sources */,
 				AA6EC33B192E730200D70D38 /* ARISNavigationController.m in Sources */,
 				AABC7390172739D80074CC21 /* GameCommentCell.m in Sources */,
+				AA4A75551B2B2F0000C434A7 /* GroupInstancesModel.m in Sources */,
 				AAC0D8811930F4E200CA1DE3 /* DialogViewController.m in Sources */,
 				AA6D4099183EBCA8009D72F9 /* ARISMediaLoader.m in Sources */,
 				AAC0D8891930F6D900CA1DE3 /* Dialog.m in Sources */,

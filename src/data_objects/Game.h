@@ -24,6 +24,7 @@
 #import "InstancesModel.h"
 #import "PlayerInstancesModel.h"
 #import "GameInstancesModel.h"
+#import "GroupInstancesModel.h"
 #import "TabsModel.h"
 #import "LogsModel.h"
 #import "QuestsModel.h"
@@ -132,6 +133,7 @@
 @property (nonatomic, strong) InstancesModel    *instancesModel;
 @property (nonatomic, strong) PlayerInstancesModel *playerInstancesModel;
 @property (nonatomic, strong) GameInstancesModel *gameInstancesModel;
+@property (nonatomic, strong) GroupInstancesModel *groupInstancesModel;
 @property (nonatomic, strong) TabsModel         *tabsModel;
 @property (nonatomic, strong) LogsModel         *logsModel;
 @property (nonatomic, strong) QuestsModel       *questsModel;

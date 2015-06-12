@@ -171,6 +171,20 @@
     [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
+- (void) groupReceivedItemId:(long)item_id qty:(long)qty
+{
+    [_SERVICES_ logGroupReceivedItemId:item_id qty:qty];
+    [self addLogType:@"GROUP_RECEIVE_ITEM" content:item_id qty:qty];
+    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+}
+
+- (void) groupLostItemId:(long)item_id qty:(long)qty
+{
+    [_SERVICES_ logGroupLostItemId:item_id qty:qty];
+    [self addLogType:@"GROUP_LOSE_ITEM" content:item_id qty:qty];
+    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+}
+
 - (void) playerChangedSceneId:(long)scene_id
 {
     [_SERVICES_ logPlayerSetSceneId:scene_id];

@@ -54,6 +54,7 @@
 - (void) fetchItems;
 - (void) touchItemsForPlayer; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
 - (void) touchItemsForGame; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
+- (void) touchItemsForGroup; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
 - (void) fetchDialogs;
 - (void) fetchDialogCharacters;
 - (void) fetchDialogScripts;
@@ -110,6 +111,8 @@
 - (void) logPlayerLostItemId:(long)item_id qty:(long)qty;
 - (void) logGameReceivedItemId:(long)item_id qty:(long)qty;
 - (void) logGameLostItemId:(long)item_id qty:(long)qty;
+- (void) logGroupReceivedItemId:(long)item_id qty:(long)qty;
+- (void) logGroupLostItemId:(long)item_id qty:(long)qty;
 - (void) logPlayerSetSceneId:(long)scene_id;
 - (void) logPlayerCompletedQuestId:(long)quest_id;
 

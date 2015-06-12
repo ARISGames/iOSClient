@@ -425,6 +425,22 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_GAME_INSTANCES_TOUCHED", nil, nil);
 }
 
+//creates game owned item instances (qty 0) for all items not already owned
+//makes any item qty transfers 100000x easier
+- (void) touchItemsForGroup
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:0]
+      };
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGroup" arguments:args handler:self successSelector:@selector(parseGroupItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
+}
+- (void) parseGroupItemTouch:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_GROUP_INSTANCES_TOUCHED", nil, nil);
+}
+
 - (void) fetchDialogs
 {
   NSDictionary *args =
@@ -1276,6 +1292,28 @@
       @"qty":[NSNumber numberWithLong:qty]
     };
     [connection performAsynchronousRequestWithService:@"client" method:@"logGameLostItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Global Value Update..." userInfo:nil];
+}
+- (void) logGroupReceivedItemId:(long)item_id qty:(long)qty
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:0],
+      @"item_id":[NSNumber numberWithLong:item_id],
+      @"qty":[NSNumber numberWithLong:qty]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logGroupReceivedItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Global Value Update..." userInfo:nil];
+}
+- (void) logGroupLostItemId:(long)item_id qty:(long)qty
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:0],
+      @"item_id":[NSNumber numberWithLong:item_id],
+      @"qty":[NSNumber numberWithLong:qty]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logGroupLostItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Global Value Update..." userInfo:nil];
 }
 - (void) logPlayerSetSceneId:(long)scene_id
 {

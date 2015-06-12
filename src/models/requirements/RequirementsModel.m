@@ -200,6 +200,14 @@
   {
     return a.bool_operator == ([_MODEL_GAME_INSTANCES_ qtyOwnedForTag:a.content_id] >= a.qty);
   }
+  if([a.requirement isEqualToString:@"GROUP_HAS_ITEM"])
+  {
+    return a.bool_operator == ([_MODEL_GROUP_INSTANCES_ qtyOwnedForItem:a.content_id] >= a.qty);
+  }
+  if([a.requirement isEqualToString:@"GROUP_HAS_TAGGED_ITEM"])
+  {
+    return a.bool_operator == ([_MODEL_GROUP_INSTANCES_ qtyOwnedForTag:a.content_id] >= a.qty);
+  }
   if([a.requirement isEqualToString:@"PLAYER_VIEWED_ITEM"])
   {
     return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"VIEW_ITEM" content:a.content_id];

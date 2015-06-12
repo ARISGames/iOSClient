@@ -28,6 +28,8 @@
 - (void) playerLostItemId:(long)item_id qty:(long)qty;
 - (void) gameReceivedItemId:(long)item_id qty:(long)qty;
 - (void) gameLostItemId:(long)item_id qty:(long)qty;
+- (void) groupReceivedItemId:(long)item_id qty:(long)qty;
+- (void) groupLostItemId:(long)item_id qty:(long)qty;
 - (void) playerChangedSceneId:(long)scene_id;
 - (void) playerCompletedQuestId:(long)quest_id;
 
