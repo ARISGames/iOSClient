@@ -142,7 +142,7 @@
 }
 - (void) requestPlayerOptionsForDialogId:(long)dialog_id scriptId:(long)dialog_script_id
 {
-  if([_MODEL_GAME_.network_level isEqualToString:@"NONE_STRICT"])
+  if([_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
   {
     NSMutableArray *pops = [[NSMutableArray alloc] init];
     NSDictionary *uInfo = @{@"options":pops,

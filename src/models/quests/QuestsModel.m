@@ -80,7 +80,7 @@
 
 - (void) requestPlayerQuests
 {
-  if([_MODEL_GAME_.network_level isEqualToString:@"NONE_STRICT"])
+  if([_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
   {
     [self logAnyNewlyCompletedQuests];
     NSDictionary *pquests =

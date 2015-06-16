@@ -143,7 +143,7 @@
 - (void) requestInstance:(long)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances
 {
-  if(player_info_recvd && [_MODEL_GAME_.network_level isEqualToString:@"NONE_STRICT"])
+  if(player_info_recvd && [_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
   {
     NSArray *pinsts = [instances allValues];
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",nil,@{@"instances":pinsts});

@@ -78,7 +78,7 @@
 
 - (void) requestPlayerTabs
 {
-  if([_MODEL_GAME_.network_level isEqualToString:@"NONE_STRICT"])
+  if([_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
   {
     NSMutableArray *ptabs = [[NSMutableArray alloc] init];
     NSArray *ts = [tabs allValues];
