@@ -65,6 +65,10 @@ var ARISJS = function(_ARIS)
     _ARIS.setGameItemCount    = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/game/set/" + item_id + "/" + qty); }
     _ARIS.giveGameItemCount   = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/game/give/" + item_id + "/" + qty); }
     _ARIS.takeGameItemCount   = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/game/take/" + item_id + "/" + qty); }
+    _ARIS.getGroupItemCount   = function(item_id)          { _ARIS.enqueueRequest("aris://instances/group/get/" + item_id); }
+    _ARIS.setGroupItemCount   = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/group/set/" + item_id + "/" + qty); }
+    _ARIS.giveGroupItemCount  = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/group/give/" + item_id + "/" + qty); }
+    _ARIS.takeGroupItemCount  = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/group/take/" + item_id + "/" + qty); }
     _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); }
 
     //Call ARIS API directly (USE WITH CAUTION)
@@ -132,6 +136,7 @@ var ARISJS = function(_ARIS)
     if(!callbacks_enabled || typeof(_ARIS.didUpdateItemQty)       === 'undefined') { _ARIS.didUpdateItemQty       = function(updatedItemId,qty) {} }
     if(!callbacks_enabled || typeof(_ARIS.didUpdatePlayerItemQty) === 'undefined') { _ARIS.didUpdatePlayerItemQty = function(updatedItemId,qty) {} }
     if(!callbacks_enabled || typeof(_ARIS.didUpdateGameItemQty)   === 'undefined') { _ARIS.didUpdateGameItemQty   = function(updatedItemId,qty) {} }
+    if(!callbacks_enabled || typeof(_ARIS.didUpdateGroupItemQty)  === 'undefined') { _ARIS.didUpdateGroupItemQty  = function(updatedItemId,qty) {} }
     if(!callbacks_enabled || typeof(_ARIS.didReceivePlayer)       === 'undefined') { _ARIS.didReceivePlayer       = function(player)            {} }
     if(!callbacks_enabled || typeof(_ARIS.hook)                   === 'undefined') { _ARIS.hook                   = function(paramsJSON)        {} }
     if(!callbacks_enabled || typeof(_ARIS.tick)                   === 'undefined') { _ARIS.tick                   = function(paramsJSON)        {} }
@@ -144,17 +149,34 @@ var ARISJS = function(_ARIS)
 
     if(cache_enabled)
     {
-      var cache_items = [];
+      var cache_player = [];
+      var cache_game = [];
+      var cache_group = [];
 
       _ARIS.cache = {};
       _ARIS.cache.preload = function() {
         _ARIS.enqueueRequest("aris://cache/preload");
       };
-      _ARIS.cache.getItemCount = function(item_id) { if(typeof(cache_items[item_id]) === 'undefined') return 0; return cache_items[item_id]; }
-      _ARIS.cache.setItem = function(item_id, qty) { cache_items[item_id] = qty; }
-      _ARIS.cache.detach = function() { _ARIS.cache.setItem = undefined; _ARIS.ready(); }
+      
+      _ARIS.cache.getPlayerItemCount = function(item_id) { if(typeof(cache_player[item_id]) === 'undefined') return 0; return cache_player[item_id]; }
+      _ARIS.cache.getGameItemCount   = function(item_id) { if(typeof(cache_game[item_id]) === 'undefined')   return 0; return cache_game[item_id]; }
+      _ARIS.cache.getGroupItemCount  = function(item_id) { if(typeof(cache_group[item_id]) === 'undefined')  return 0; return cache_group[item_id]; }
+      
+      _ARIS.cache.setPlayerItem = function(item_id, qty) { cache_player[item_id] = qty; }
+      _ARIS.cache.setGameItem   = function(item_id, qty) { cache_game[item_id]   = qty; }
+      _ARIS.cache.setGroupItem  = function(item_id, qty) { cache_group[item_id]  = qty; }
+      
+      _ARIS.cache.setPlayer = function(player) { _ARIS.cache.player = player; };
+      
+      _ARIS.cache.detach = function()
+      {
+        _ARIS.cache.setPlayerItem = undefined;
+        _ARIS.cache.setGameItem = undefined;
+        _ARIS.cache.setGroupItem = undefined;
+        _ARIS.ready();
+      }
 
-      _ARIS.cache.wholeCache = function() { return cache_items; } //FOR DEBUGGING
+      _ARIS.cache.wholeCache = function() { return {"player":cache_player,"game":cache_game,"group":cache_group}; } //FOR DEBUGGING
     }
 
     return _ARIS;

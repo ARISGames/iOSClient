@@ -184,8 +184,30 @@
         {
             item_id = ((Item *)items[i]).item_id;
             item_qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItem(%ld,%ld);",item_id,item_qty]];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setPlayerItem(%ld,%ld);",item_id,item_qty]];
+            item_qty = [_MODEL_GAME_INSTANCES_ qtyOwnedForItem:item_id];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setGameItem(%ld,%ld);",item_id,item_qty]];
+            item_qty = [_MODEL_GROUP_INSTANCES_ qtyOwnedForItem:item_id];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setGroupItem(%ld,%ld);",item_id,item_qty]];
         }
+      
+        Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
+        NSString *playerJSON = [NSString stringWithFormat:
+                                @"{"
+                                "\"user_id\":%ld,"
+                                "\"key\":\"%@\","
+                                "\"user_name\":\"%@\","
+                                "\"display_name\":\"%@\","
+                                "\"photoURL\":\"%@\""
+                                "}",
+                                _MODEL_PLAYER_.user_id,
+                                _MODEL_PLAYER_.read_write_key,
+                                _MODEL_PLAYER_.user_name,
+                                _MODEL_PLAYER_.display_name,
+                                playerMedia.remoteURL];
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setPlayer(%@);",playerJSON]];
+      
+      
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.detach()"]];
     }
     else if([mainCommand isEqualToString:@"logout"])
@@ -240,11 +262,13 @@
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
                                 "\"user_id\":%ld,"
+                                "\"key\":\"%@\","
                                 "\"user_name\":\"%@\","
                                 "\"display_name\":\"%@\","
                                 "\"photoURL\":\"%@\""
                                 "}",
                                 _MODEL_PLAYER_.user_id,
+                                _MODEL_PLAYER_.read_write_key,
                                 _MODEL_PLAYER_.user_name,
                                 _MODEL_PLAYER_.display_name,
                                 playerMedia.remoteURL];
@@ -314,6 +338,36 @@
                 long qty = [components[4] intValue];
                 long newQty = [_MODEL_GAME_INSTANCES_ takeItemFromGame:item_id qtyToRemove:qty];
                 [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,newQty]];
+            }
+        }
+        if(components.count > 1 && [components[1] isEqualToString:@"group"])
+        {
+            if(components.count > 2 && [components[2] isEqualToString:@"get"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [_MODEL_GROUP_INSTANCES_ qtyOwnedForItem:item_id];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGroupItemQty(%ld,%ld);",item_id,qty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"set"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GROUP_INSTANCES_ setItemsForGroup:item_id qtyToSet:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGroupItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"give"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GROUP_INSTANCES_ giveItemToGroup:item_id qtyToAdd:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGroupItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"take"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GROUP_INSTANCES_ takeItemFromGroup:item_id qtyToRemove:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGroupItemQty(%ld,%ld);",item_id,newQty]];
             }
         }
     }

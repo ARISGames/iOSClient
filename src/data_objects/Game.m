@@ -128,12 +128,13 @@ const long playerDatasToReceive = 6;
         notebook_allow_player_tags = [dict validBoolForKey:@"notebook_allow_player_tags"];
 
         inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
-        network_level = @"NORMAL";
+        network_level = [dict validStringForKey:@"network_level"];
+        if([network_level isEqualToString:@""]) network_level = @"HYBRID";
         /*
-        NONE_STRICT = disallow any features that require it (can't create notes, etc...)
-        STATIC_GAME = no updates of server info at playtime, but allow writes
-        NORMAL = do whatever local calculations possible, but continue polling for updates on everything
-        CHATTY = rely on server as authority for often updates
+        LOCAL = disallow any features that require it (can't create notes, etc...)
+        REMOTE_WRITE = no updates of server info at playtime, but allow writes
+        HYBRID = do whatever local calculations possible, but continue polling for updates on everything
+        REMOTE = rely on server as authority for often updates
         */
 
         NSArray *authorDicts;
