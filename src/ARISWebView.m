@@ -207,7 +207,6 @@
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setPlayer(%@);",playerJSON]];
       
-      
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.detach()"]];
     }
     else if([mainCommand isEqualToString:@"logout"])
