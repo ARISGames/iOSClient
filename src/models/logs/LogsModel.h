@@ -31,6 +31,7 @@
 - (void) groupReceivedItemId:(long)item_id qty:(long)qty;
 - (void) groupLostItemId:(long)item_id qty:(long)qty;
 - (void) playerChangedSceneId:(long)scene_id;
+- (void) playerRanEventPackageId:(long)event_package_id;
 - (void) playerCompletedQuestId:(long)quest_id;
 
 - (BOOL) hasLogType:(NSString *)type;

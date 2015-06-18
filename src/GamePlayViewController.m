@@ -221,6 +221,14 @@
         [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
         return;
     }
+    if([i.object_type isEqualToString:@"EVENT_PACKAGE"]) //Special case (don't actually display anything)
+    {
+        [_MODEL_EVENTS_ runEventPackageId:i.object_id];
+        [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
+        //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
+        [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
+        return;
+    }
     if([i.object_type isEqualToString:@"FACTORY"]) //Special case (don't actually display anything)
     {
         //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...

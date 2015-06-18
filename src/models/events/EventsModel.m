@@ -78,15 +78,39 @@
         if([e.event isEqualToString:@"GIVE_ITEM"])
             [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:e.content_id qtyToAdd:e.qty];
       
+        if(!e.event || [e.event isEqualToString:@"NONE"])
+          return;
+      
         if([e.event isEqualToString:@"TAKE_ITEM_PLAYER"])
             [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:e.content_id qtyToRemove:e.qty];
         if([e.event isEqualToString:@"GIVE_ITEM_PLAYER"])
             [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:e.content_id qtyToAdd:e.qty];
+        if([e.event isEqualToString:@"SET_ITEM_PLAYER"])
+            [_MODEL_PLAYER_INSTANCES_ setItemsForPlayer:e.content_id qtyToSet:e.qty];
+      
         if([e.event isEqualToString:@"TAKE_ITEM_GAME"])
             [_MODEL_GAME_INSTANCES_ takeItemFromGame:e.content_id qtyToRemove:e.qty];
         if([e.event isEqualToString:@"GIVE_ITEM_GAME"])
             [_MODEL_GAME_INSTANCES_ giveItemToGame:e.content_id qtyToAdd:e.qty];
+        if([e.event isEqualToString:@"SET_ITEM_GAME"])
+            [_MODEL_GAME_INSTANCES_ setItemsForGame:e.content_id qtyToSet:e.qty];
+      
+        if([e.event isEqualToString:@"TAKE_ITEM_GROuP"])
+            [_MODEL_GROUP_INSTANCES_ takeItemFromGroup:e.content_id qtyToRemove:e.qty];
+        if([e.event isEqualToString:@"GIVE_ITEM_GROUP"])
+            [_MODEL_GROUP_INSTANCES_ giveItemToGroup:e.content_id qtyToAdd:e.qty];
+        if([e.event isEqualToString:@"SET_ITEM_GROUP"])
+            [_MODEL_GROUP_INSTANCES_ setItemsForGroup:e.content_id qtyToSet:e.qty];
+      
+        if([e.event isEqualToString:@"SET_SCENE"])
+          [_MODEL_SCENES_ setPlayerScene:[_MODEL_SCENES_ sceneForId:e.content_id]];
+      
+        /* NEEDS IMPL
+        if([e.event isEqualToString:@"SET_GROUP"])
+          //?
+        */
     }
+    [_MODEL_LOGS_ playerRanEventPackageId:event_package_id];
 }
 
 - (void) requestEvents

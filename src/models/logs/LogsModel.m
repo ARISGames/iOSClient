@@ -191,6 +191,12 @@
     [self addLogType:@"CHANGE_SCENE" content:scene_id qty:0];
 }
 
+- (void) playerRanEventPackageId:(long)event_package_id
+{
+    [_SERVICES_ logPlayerRanEventPackageId:event_package_id];
+    [self addLogType:@"RUN_EVENT_PACAKGE" content:event_package_id qty:0];
+}
+
 - (void) playerCompletedQuestId:(long)quest_id
 {
     //let server figure it out on its own, for now

@@ -1324,6 +1324,15 @@
     };
     [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerSetScene" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Scene Change..." userInfo:nil];
 }
+- (void) logPlayerRanEventPackageId:(long)event_package_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"event_package_id":[NSNumber numberWithLong:event_package_id]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerRanEventPackage" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Event Run..." userInfo:nil];
+}
 - (void) logPlayerCompletedQuestId:(long)quest_id
 {
     NSDictionary *args =

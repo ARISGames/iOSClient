@@ -114,6 +114,7 @@
 - (void) logGroupReceivedItemId:(long)item_id qty:(long)qty;
 - (void) logGroupLostItemId:(long)item_id qty:(long)qty;
 - (void) logPlayerSetSceneId:(long)scene_id;
+- (void) logPlayerRanEventPackageId:(long)event_package_id;
 - (void) logPlayerCompletedQuestId:(long)quest_id;
 
 //for mid-game fetches. these are failsafes, and oughtn't occur.
