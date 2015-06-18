@@ -178,11 +178,14 @@
     if([mainCommand isEqual:@"cache"])
     {
         NSArray *items = _MODEL_ITEMS_.items;
+        Item *item;
         long item_id;
         long item_qty;
         for(long i = 0; i < items.count; i++)
         {
-            item_id = ((Item *)items[i]).item_id;
+            item = items[i];
+            item_id = item.item_id;
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItemName(%ld,\"%@\");",item_id,item.name]];
             item_qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setPlayerItem(%ld,%ld);",item_id,item_qty]];
             item_qty = [_MODEL_GAME_INSTANCES_ qtyOwnedForItem:item_id];
@@ -287,7 +290,7 @@
             if(components.count > 2 && [components[2] isEqualToString:@"set"])
             {
                 long item_id = [components[3] intValue];
-                long qty = [components[3] intValue];
+                long qty = [components[4] intValue];
                 long newQty = [_MODEL_PLAYER_INSTANCES_ setItemsForPlayer:item_id qtyToSet:qty];
                 [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
                 [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,newQty]];

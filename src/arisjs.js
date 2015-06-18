@@ -139,6 +139,7 @@ var ARISJS = function(_ARIS)
 
     if(cache_enabled)
     {
+      var name_map = [];
       var cache_player = [];
       var cache_game = [];
       var cache_group = [];
@@ -148,13 +149,16 @@ var ARISJS = function(_ARIS)
         _ARIS.enqueueRequest("aris://cache/preload");
       };
       
+      _ARIS.cache.idForItemName = function(item_name) { if(name_map[item_name] === 'undefined') return 0; return name_map[item_name]; }
+      
       _ARIS.cache.getPlayerItemCount = function(item_id) { if(typeof(cache_player[item_id]) === 'undefined') return 0; return cache_player[item_id]; }
       _ARIS.cache.getGameItemCount   = function(item_id) { if(typeof(cache_game[item_id]) === 'undefined')   return 0; return cache_game[item_id]; }
       _ARIS.cache.getGroupItemCount  = function(item_id) { if(typeof(cache_group[item_id]) === 'undefined')  return 0; return cache_group[item_id]; }
       
-      _ARIS.cache.setPlayerItem = function(item_id, qty) { cache_player[item_id] = qty; }
-      _ARIS.cache.setGameItem   = function(item_id, qty) { cache_game[item_id]   = qty; }
-      _ARIS.cache.setGroupItem  = function(item_id, qty) { cache_group[item_id]  = qty; }
+      _ARIS.cache.setItemName   = function(item_id, name) { name_map[name] = item_id; }
+      _ARIS.cache.setPlayerItem = function(item_id, qty)  { cache_player[item_id] = qty; }
+      _ARIS.cache.setGameItem   = function(item_id, qty)  { cache_game[item_id]   = qty; }
+      _ARIS.cache.setGroupItem  = function(item_id, qty)  { cache_group[item_id]  = qty; }
       
       _ARIS.cache.setPlayer = function(player)
       {
@@ -166,6 +170,7 @@ var ARISJS = function(_ARIS)
       
       _ARIS.cache.detach = function()
       {
+        _ARIS.cache.setItemName = undefined;
         _ARIS.cache.setPlayerItem = undefined;
         _ARIS.cache.setGameItem = undefined;
         _ARIS.cache.setGroupItem = undefined;
