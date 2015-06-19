@@ -16,6 +16,7 @@
 @synthesize event;
 @synthesize content_id;
 @synthesize qty;
+@synthesize script;
 
 - (id) init
 {
@@ -26,6 +27,7 @@
     self.event = @"GIVE_ITEM_PLAYER";
     self.content_id = 0;
     self.qty = 0;
+    self.script = @"";
   }
   return self;	
 }
@@ -36,9 +38,10 @@
   {
     self.event_id         = [dict validIntForKey:@"event_id"];
     self.event_package_id = [dict validIntForKey:@"event_package_id"];
-    self.event            = [dict validObjectForKey:@"event"];
+    self.event            = [dict validStringForKey:@"event"];
     self.content_id       = [dict validIntForKey:@"content_id"];
     self.qty              = [dict validIntForKey:@"qty"];
+    self.script           = [dict validStringForKey:@"script"];
   }
   return self;
 }
@@ -51,6 +54,7 @@
   o.event = self.event;
   o.content_id = self.content_id;
   o.qty = self.qty;
+  o.script = self.script;
   return o;
 }
 

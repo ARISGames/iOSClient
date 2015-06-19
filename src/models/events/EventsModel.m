@@ -13,10 +13,12 @@
 #import "EventsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "ARISWebView.h"
 
-@interface EventsModel()
+@interface EventsModel() <ARISWebViewDelegate>
 {
     NSMutableDictionary *events;
+    ARISWebView *runner; //only running one at once
     long game_info_recvd;
 }
 
@@ -109,6 +111,12 @@
         if([e.event isEqualToString:@"SET_GROUP"])
           //?
         */
+      
+        if([e.event isEqualToString:@"RUN_SCRIPT"])
+        {
+          runner = [[ARISWebView alloc] initWithDelegate:self];
+          [runner loadHTMLString:e.script baseURL:nil];
+        }
     }
     [_MODEL_LOGS_ playerRanEventPackageId:event_package_id];
 }

@@ -15,6 +15,7 @@
   NSString *event;
   long content_id;
   long qty;
+  NSString *script;
 }
 
 @property(readwrite, assign) long event_id;
@@ -22,6 +23,7 @@
 @property(nonatomic, strong) NSString *event;
 @property(readwrite, assign) long content_id;
 @property(readwrite, assign) long qty;
+@property(nonatomic, strong) NSString *script;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 
