@@ -152,6 +152,14 @@
   return [events objectForKey:[NSNumber numberWithLong:event_id]];
 }
 
+// NOT flyweight!!! (because joke objects)
+- (EventPackage *) eventPackageForId:(long)event_package_id
+{
+  EventPackage *ep = [[EventPackage alloc] init];
+  ep.event_package_id = event_package_id;
+  return ep;
+}
+
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);

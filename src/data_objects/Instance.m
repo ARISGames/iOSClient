@@ -88,6 +88,7 @@
   if([self.object_type isEqualToString:@"PLAQUE"])   return [_MODEL_PLAQUES_ plaqueForId:self.object_id];
   if([self.object_type isEqualToString:@"WEB_PAGE"]) return [_MODEL_WEB_PAGES_ webPageForId:self.object_id];
   if([self.object_type isEqualToString:@"DIALOG"])   return [_MODEL_DIALOGS_ dialogForId:self.object_id];
+  if([self.object_type isEqualToString:@"EVENT_PACKAGE"]) return [_MODEL_EVENTS_ eventPackageForId:self.object_id];
   if([self.object_type isEqualToString:@"SCENE"])    return [_MODEL_SCENES_ sceneForId:self.object_id];
   if([self.object_type isEqualToString:@"NOTE"])
   {

@@ -213,6 +213,13 @@
         vc = [[WebPageViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"NOTE"])
         vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
+    if([i.object_type isEqualToString:@"EVENT_PACKAGE"]) //Special case (don't actually display anything)
+    {
+        [_MODEL_EVENTS_ runEventPackageId:i.object_id]; //will take care of log
+        //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
+        [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
+        return;
+    }
     if([i.object_type isEqualToString:@"SCENE"]) //Special case (don't actually display anything)
     {
         [_MODEL_SCENES_ setPlayerScene:(Scene *)i.object];
