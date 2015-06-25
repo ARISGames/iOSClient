@@ -228,6 +228,10 @@
   {
     return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"VIEW_WEB_PAGE" content:a.content_id];
   }
+  if([a.requirement isEqualToString:@"PLAYER_RAN_EVENT_PACKAGE"])
+  {
+    return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"RUN_EVENT_PACKAGE" content:a.content_id];
+  }
   if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM"])
   {
     return a.bool_operator == NO;
