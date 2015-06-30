@@ -109,7 +109,8 @@
   qrButton.opaque = NO;
   [qrButton setImage:[UIImage imageNamed:@"qr.png"] forState:UIControlStateNormal];
   qrButton.frame = CGRectMake(80, self.view.frame.size.height-(self.view.frame.size.width-160)-80, self.view.frame.size.width-160, self.view.frame.size.width-160);
-  [qrButton addTarget:self action:@selector(QRButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+  //[qrButton addTarget:self action:@selector(QRButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+  [qrButton addTarget:self action:@selector(testLoginString) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:qrButton];
   
   newAccountButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -254,6 +255,12 @@
       }
     }
   }
+}
+
+- (void) testLoginString
+{
+  NSString *result = @"2,p0,grPCA1,g3259";
+  [self loginWithString:result];
 }
 
 - (BOOL) loginWithString:(NSString *)result

@@ -191,6 +191,12 @@
     [self addLogType:@"CHANGE_SCENE" content:scene_id qty:0];
 }
 
+- (void) playerChangedGroupId:(long)group_id
+{
+    [_SERVICES_ logPlayerJoinedGroupId:group_id];
+    [self addLogType:@"JOIN_GROUP" content:group_id qty:0];
+}
+
 - (void) playerRanEventPackageId:(long)event_package_id
 {
     [_SERVICES_ logPlayerRanEventPackageId:event_package_id];

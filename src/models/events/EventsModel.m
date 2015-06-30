@@ -107,10 +107,10 @@
         if([e.event isEqualToString:@"SET_SCENE"])
           [_MODEL_SCENES_ setPlayerScene:[_MODEL_SCENES_ sceneForId:e.content_id]];
       
-        /* NEEDS IMPL
         if([e.event isEqualToString:@"SET_GROUP"])
-          //?
-        */
+        {
+          [_MODEL_GROUPS_ setPlayerGroup:[_MODEL_GROUPS_ groupForId:e.content_id]];
+        }
       
         if([e.event isEqualToString:@"RUN_SCRIPT"])
         {

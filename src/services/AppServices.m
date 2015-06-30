@@ -347,6 +347,37 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_SCENE_TOUCHED", nil, nil);
 }
 
+- (void) fetchGroups
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
+    };
+  [connection performAsynchronousRequestWithService:@"groups" method:@"getGroupsForGame" arguments:args handler:self successSelector:@selector(parseGroups:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Groups..." userInfo:nil];
+}
+- (void) parseGroups:(ARISServiceResult *)result
+{
+    NSArray *groupDicts = (NSArray *)result.resultData;
+    NSMutableArray *groups = [[NSMutableArray alloc] init];
+    for(long i = 0; i < groupDicts.count; i++)
+        groups[i] = [[Group alloc] initWithDictionary:groupDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_GROUPS_RECEIVED", nil, @{@"groups":groups});
+}
+
+//creates player group for game if not already created
+- (void) touchGroupForPlayer
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchGroupForPlayer" arguments:args handler:self successSelector:@selector(parseGroupTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Game..." userInfo:nil]; //technically a game fetch
+}
+- (void) parseGroupTouch:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_GROUP_TOUCHED", nil, nil);
+}
+
 - (void) fetchMedias
 {
     NSDictionary *args =
@@ -803,6 +834,24 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCENE_RECEIVED", nil, @{@"scene":s});
 }
 
+- (void) fetchGroupForPlayer
+{
+     NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"getGroupForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerGroup:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Group..." userInfo:nil];
+}
+- (void) parsePlayerGroup:(ARISServiceResult *)result
+{
+    Group *s;
+    if(result.resultData && ![result.resultData isEqual:[NSNull null]])
+        s = [[Group alloc] initWithDictionary:(NSDictionary *)result.resultData];
+    else
+        s = [[Group alloc] init];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_GROUP_RECEIVED", nil, @{@"group":s});
+}
+
 - (void) fetchInstancesForPlayer
 {
      NSDictionary *args =
@@ -947,6 +996,20 @@
     [connection performAsynchronousRequestWithService:@"client" method:@"setPlayerScene" arguments:args handler:self successSelector:@selector(parseSetPlayerScene:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Scene..." userInfo:nil];
 }
 - (void) parseSetPlayerScene:(ARISServiceResult *)result
+{
+    //nothing need be done
+}
+
+- (void) setPlayerGroupId:(long)group_id
+{
+     NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:group_id]
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"setPlayerGroup" arguments:args handler:self successSelector:@selector(parseSetPlayerGroup:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Group..." userInfo:nil];
+}
+- (void) parseSetPlayerGroup:(ARISServiceResult *)result
 {
     //nothing need be done
 }
@@ -1324,6 +1387,15 @@
     };
     [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerSetScene" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Scene Change..." userInfo:nil];
 }
+- (void) logPlayerJoinedGroupId:(long)group_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:group_id]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerJoinedGroup" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Group Change..." userInfo:nil];
+}
 - (void) logPlayerRanEventPackageId:(long)event_package_id
 {
     NSDictionary *args =
@@ -1372,6 +1444,21 @@
     NSDictionary *sceneDict= (NSDictionary *)result.resultData;
     Scene *scene = [[Scene alloc] initWithDictionary:sceneDict];
     _ARIS_NOTIF_SEND_(@"SERVICES_SCENE_RECEIVED", nil, @{@"scene":scene});
+}
+
+- (void) fetchGroupById:(long)group_id;
+{
+  NSDictionary *args =
+    @{
+      @"group_id":[NSNumber numberWithLong:group_id]
+      };
+  [connection performAsynchronousRequestWithService:@"groups" method:@"getGroup" arguments:args handler:self successSelector:@selector(parseGroup:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Group..." userInfo:nil];
+}
+- (void) parseGroup:(ARISServiceResult *)result
+{
+    NSDictionary *groupDict= (NSDictionary *)result.resultData;
+    Group *group = [[Group alloc] initWithDictionary:groupDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_GROUP_RECEIVED", nil, @{@"group":group});
 }
 
 - (void) fetchMediaById:(long)media_id;

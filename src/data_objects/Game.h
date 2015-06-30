@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "ScenesModel.h"
+#import "GroupsModel.h"
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
 #import "DialogsModel.h"
@@ -65,6 +66,7 @@
   NSString *network_level;
 
   ScenesModel       *scenesModel;
+  GroupsModel       *groupsModel;
   PlaquesModel      *plaquesModel;
   ItemsModel        *itemsModel;
   DialogsModel      *dialogsModel;
@@ -119,6 +121,7 @@
 @property (nonatomic, strong) NSString *network_level;
 
 @property (nonatomic, strong) ScenesModel       *scenesModel;
+@property (nonatomic, strong) GroupsModel       *groupsModel;
 @property (nonatomic, strong) PlaquesModel      *plaquesModel;
 @property (nonatomic, strong) ItemsModel        *itemsModel;
 @property (nonatomic, strong) DialogsModel      *dialogsModel;

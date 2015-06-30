@@ -157,6 +157,8 @@
 		AAB62FE118C689DD00030F48 /* barcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB62FDF18C689DD00030F48 /* barcode@2x.png */; };
 		AAB62FE218C689DD00030F48 /* notebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB62FE018C689DD00030F48 /* notebook@2x.png */; };
 		AAB62FE718C68BCE00030F48 /* threelines.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB62FE618C68BCE00030F48 /* threelines.png */; };
+		AAB679BD1B4309B200766B0D /* GroupsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB679BC1B4309B200766B0D /* GroupsModel.m */; };
+		AAB679C01B430B2000766B0D /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB679BF1B430B2000766B0D /* Group.m */; };
 		AABC064718A1896500315FB5 /* CrumbPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064418A1896500315FB5 /* CrumbPath.m */; };
 		AABC064818A1896500315FB5 /* CrumbPathView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC064618A1896500315FB5 /* CrumbPathView.m */; };
 		AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F3A172738CD0074CC21 /* Settings.bundle */; };
@@ -577,6 +579,10 @@
 		AAB62FDF18C689DD00030F48 /* barcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barcode@2x.png"; sourceTree = "<group>"; };
 		AAB62FE018C689DD00030F48 /* notebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notebook@2x.png"; sourceTree = "<group>"; };
 		AAB62FE618C68BCE00030F48 /* threelines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = threelines.png; sourceTree = "<group>"; };
+		AAB679BB1B4309B200766B0D /* GroupsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsModel.h; sourceTree = "<group>"; };
+		AAB679BC1B4309B200766B0D /* GroupsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsModel.m; sourceTree = "<group>"; };
+		AAB679BE1B430B2000766B0D /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
+		AAB679BF1B430B2000766B0D /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
 		AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsViewController.h; sourceTree = "<group>"; };
 		AABC064318A1896500315FB5 /* CrumbPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrumbPath.h; sourceTree = "<group>"; };
 		AABC064418A1896500315FB5 /* CrumbPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrumbPath.m; sourceTree = "<group>"; };
@@ -1237,6 +1243,15 @@
 			path = plaques;
 			sourceTree = "<group>";
 		};
+		AAB679BA1B4309B200766B0D /* groups */ = {
+			isa = PBXGroup;
+			children = (
+				AAB679BB1B4309B200766B0D /* GroupsModel.h */,
+				AAB679BC1B4309B200766B0D /* GroupsModel.m */,
+			);
+			path = groups;
+			sourceTree = "<group>";
+		};
 		AABC6F3C1727398B0074CC21 /* assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1403,6 +1418,8 @@
 				AA9F7138194F575100384832 /* Log.m */,
 				AAC0D8921930F9D100CA1DE3 /* Scene.h */,
 				AAC0D8931930F9D100CA1DE3 /* Scene.m */,
+				AAB679BE1B430B2000766B0D /* Group.h */,
+				AAB679BF1B430B2000766B0D /* Group.m */,
 				AAC0D88B1930F6E100CA1DE3 /* Trigger.h */,
 				AAC0D88C1930F6E100CA1DE3 /* Trigger.m */,
 				AAA682EE1ACDA4F300C99951 /* Factory.h */,
@@ -1567,6 +1584,7 @@
 				AA02477A1927D0DD00CF5CE3 /* games */,
 				AA0A838919FAF8E00026BB32 /* users */,
 				AA34838019C927FC000A60C2 /* scenes */,
+				AAB679BA1B4309B200766B0D /* groups */,
 				AAB398E5191821D400E0E766 /* plaques */,
 				AA68B2F41912E6DF000C717B /* items */,
 				AAC0D88E1930F70E00CA1DE3 /* dialogs */,
@@ -2323,8 +2341,10 @@
 				AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */,
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,
+				AAB679BD1B4309B200766B0D /* GroupsModel.m in Sources */,
 				AABC738B172739D80074CC21 /* Tab.m in Sources */,
 				AADA6B2F1B14DFA600C0C7A0 /* LoadingIndicatorViewController.m in Sources */,
+				AAB679C01B430B2000766B0D /* Group.m in Sources */,
 				AABC738D172739D80074CC21 /* WebPage.m in Sources */,
 				AAC0D8941930F9D100CA1DE3 /* Scene.m in Sources */,
 				AA6EC33C192E730200D70D38 /* ARISViewController.m in Sources */,

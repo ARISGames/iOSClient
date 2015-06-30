@@ -49,6 +49,8 @@
 - (void) fetchUsers; //TBD what this actually does...
 - (void) fetchScenes;
 - (void) touchSceneForPlayer;
+- (void) fetchGroups;
+- (void) touchGroupForPlayer;
 - (void) fetchMedias;
 - (void) fetchPlaques;
 - (void) fetchItems;
@@ -77,6 +79,7 @@
 
 - (void) fetchLogsForPlayer;
 - (void) fetchSceneForPlayer; //literally a number... oh well
+- (void) fetchGroupForPlayer; //literally a number... oh well
 - (void) fetchInstancesForPlayer;
 - (void) fetchTriggersForPlayer;
 - (void) fetchOverlaysForPlayer;
@@ -86,6 +89,7 @@
 
 - (void) setQtyForInstanceId:(long)instance_id qty:(long)qty;
 - (void) setPlayerSceneId:(long)scene_id;
+- (void) setPlayerGroupId:(long)group_id;
 - (void) dropItem:(long)item_id qty:(long)qty;
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr; //actually does full media upload
 - (void) updateNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
@@ -114,6 +118,7 @@
 - (void) logGroupReceivedItemId:(long)item_id qty:(long)qty;
 - (void) logGroupLostItemId:(long)item_id qty:(long)qty;
 - (void) logPlayerSetSceneId:(long)scene_id;
+- (void) logPlayerJoinedGroupId:(long)group_id;
 - (void) logPlayerRanEventPackageId:(long)event_package_id;
 - (void) logPlayerCompletedQuestId:(long)quest_id;
 
@@ -121,6 +126,7 @@
 //if you are editing your game mid-play, expect undefined behavior
 - (void) fetchUserById:(long)user_id;
 - (void) fetchSceneById:(long)scene_id;
+- (void) fetchGroupById:(long)group_id;
 - (void) fetchMediaById:(long)media_id;
 - (void) fetchPlaqueById:(long)plaque_id;
 - (void) fetchItemById:(long)item_id;

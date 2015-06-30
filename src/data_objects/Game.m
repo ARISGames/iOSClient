@@ -14,8 +14,8 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 
-const long gameDatasToReceive = 29;
-const long playerDatasToReceive = 6;
+const long gameDatasToReceive = 31;
+const long playerDatasToReceive = 7;
 
 @interface Game()
 {
@@ -63,6 +63,7 @@ const long playerDatasToReceive = 6;
 @synthesize network_level;
 
 @synthesize scenesModel;
+@synthesize groupsModel;
 @synthesize plaquesModel;
 @synthesize itemsModel;
 @synthesize dialogsModel;
@@ -205,6 +206,7 @@ const long playerDatasToReceive = 6;
     playerDataReceived = NO;
 
     scenesModel          = [[ScenesModel          alloc] init];
+    groupsModel          = [[GroupsModel          alloc] init];
     plaquesModel         = [[PlaquesModel         alloc] init];
     itemsModel           = [[ItemsModel           alloc] init];
     dialogsModel         = [[DialogsModel         alloc] init];
@@ -235,6 +237,7 @@ const long playerDatasToReceive = 6;
     playerDataReceived = NO;
 
     scenesModel          = nil;
+    groupsModel          = nil;
     plaquesModel         = nil;
     itemsModel           = nil;
     dialogsModel         = nil;
@@ -261,6 +264,8 @@ const long playerDatasToReceive = 6;
     receivedGameData = 0;
     [scenesModel requestScenes];
     [scenesModel touchPlayerScene];
+    [groupsModel requestGroups];
+    [groupsModel touchPlayerGroup];
     [plaquesModel requestPlaques];
     [itemsModel requestItems];
     [playerInstancesModel touchPlayerInstances];
@@ -291,6 +296,7 @@ const long playerDatasToReceive = 6;
 {
     receivedPlayerData = 0;
     [scenesModel requestPlayerScene];
+    [groupsModel requestPlayerGroup];
     [instancesModel requestPlayerInstances];
     [triggersModel requestPlayerTriggers];
     [overlaysModel requestPlayerOverlays];
@@ -345,6 +351,7 @@ const long playerDatasToReceive = 6;
 - (BOOL) allGameDataReceived
 {
   if(![scenesModel gameInfoRecvd]) return NO;
+  if(![groupsModel gameInfoRecvd]) return NO;
   if(![plaquesModel gameInfoRecvd]) return NO;
   if(![itemsModel gameInfoRecvd]) return NO;
   if(![playerInstancesModel gameInfoRecvd]) return NO;
@@ -378,6 +385,7 @@ const long playerDatasToReceive = 6;
     playerDataReceived = NO;
 
     [scenesModel          clearGameData];
+    [groupsModel          clearGameData];
     [plaquesModel         clearGameData];
     [itemsModel           clearGameData];
     [dialogsModel         clearGameData];
@@ -400,6 +408,7 @@ const long playerDatasToReceive = 6;
     [_MODEL_USERS_ clearGameData];
   
     [scenesModel          clearPlayerData];
+    [groupsModel          clearPlayerData];
     [questsModel          clearPlayerData];
     [triggersModel        clearPlayerData];
     [overlaysModel        clearPlayerData];
@@ -433,4 +442,3 @@ const long playerDatasToReceive = 6;
 }
 
 @end
-
