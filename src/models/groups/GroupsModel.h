@@ -16,7 +16,7 @@
 
 - (Group *) groupForId:(long)group_id;
 - (Group *) playerGroup;
-- (void) setPlayerGroup:(Group *)s;
+- (void) setPlayerGroup:(Group *)g;
 - (void) requestGroups;
 - (void) touchPlayerGroup;
 - (void) requestPlayerGroup;

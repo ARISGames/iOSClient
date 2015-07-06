@@ -234,7 +234,7 @@
   {
     Instance *inst = allInstances[i];
     if([inst.owner_type isEqualToString:@"GROUP"] &&
-       inst.owner_id == 0) //need to replace with group_id
+       inst.owner_id == _MODEL_GROUPS_.playerGroup.group_id)
       [gInstances addObject:allInstances[i]];
   }
   return gInstances;

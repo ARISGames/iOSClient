@@ -458,14 +458,13 @@
 
 //creates game owned item instances (qty 0) for all items not already owned
 //makes any item qty transfers 100000x easier
-- (void) touchItemsForGroup
+- (void) touchItemsForGroups
 {
   NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
-      @"group_id":[NSNumber numberWithLong:0]
       };
-  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGroup" arguments:args handler:self successSelector:@selector(parseGroupItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGroups" arguments:args handler:self successSelector:@selector(parseGroupItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
 }
 - (void) parseGroupItemTouch:(ARISServiceResult *)result
 {

@@ -56,7 +56,7 @@
 - (void) fetchItems;
 - (void) touchItemsForPlayer; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
 - (void) touchItemsForGame; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
-- (void) touchItemsForGroup; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
+- (void) touchItemsForGroups; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
 - (void) fetchDialogs;
 - (void) fetchDialogCharacters;
 - (void) fetchDialogScripts;

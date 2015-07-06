@@ -70,7 +70,7 @@
 
 - (void) touchGroupInstances
 {
-    [_SERVICES_ touchItemsForGroup];
+    [_SERVICES_ touchItemsForGroups];
 }
 
 - (void) groupInstancesAvailable
@@ -92,7 +92,7 @@
 - (long) dropItemFromGroup:(long)item_id qtyToRemove:(long)qty
 {
     Instance *gII = instances[[NSNumber numberWithLong:item_id]];
-    if(!gII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForGroup was called...)
+    if(!gII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForGroups was called...)
     if(gII.qty < qty) qty = gII.qty;
 
     [_SERVICES_ dropItem:(long)item_id qty:(long)qty];
@@ -102,7 +102,7 @@
 - (long) takeItemFromGroup:(long)item_id qtyToRemove:(long)qty
 {
   Instance *gII = instances[[NSNumber numberWithLong:item_id]];
-  if(!gII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForGroup was called...)
+  if(!gII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForGroups was called...)
   if(gII.qty < qty) qty = gII.qty;
 
   return [self setItemsForGroup:item_id qtyToSet:gII.qty-qty];
@@ -111,7 +111,7 @@
 - (long) giveItemToGroup:(long)item_id qtyToAdd:(long)qty
 {
   Instance *gII = instances[[NSNumber numberWithLong:item_id]];
-  if(!gII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForGroup was called...)
+  if(!gII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForGroups was called...)
   if(qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
 
   return [self setItemsForGroup:item_id qtyToSet:gII.qty+qty];

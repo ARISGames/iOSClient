@@ -276,6 +276,14 @@
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
+    else if([mainCommand isEqualToString:@"group"])
+    {
+        [_MODEL_GROUPS_ setPlayerGroup:[_MODEL_GROUPS_ groupForId:[components[2] integerValue]]];
+    }
+    else if([mainCommand isEqualToString:@"scene"])
+    {
+        [_MODEL_SCENES_ setPlayerScene:[_MODEL_SCENES_ sceneForId:[components[2] integerValue]]];
+    }
     else if([mainCommand isEqualToString:@"instances"])
     {
         if(components.count > 1 && [components[1] isEqualToString:@"player"])

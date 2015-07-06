@@ -69,6 +69,8 @@ var ARISJS = function(_ARIS)
     _ARIS.setGroupItemCount   = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/group/set/" + item_id + "/" + qty); }
     _ARIS.giveGroupItemCount  = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/group/give/" + item_id + "/" + qty); }
     _ARIS.takeGroupItemCount  = function(item_id,qty)      { _ARIS.enqueueRequest("aris://instances/group/take/" + item_id + "/" + qty); }
+    _ARIS.setGroup            = function(group_id)         { _ARIS.enqueueRequest("aris://group/set/" + group_id); }
+    _ARIS.setScene            = function(scene_id)         { _ARIS.enqueueRequest("aris://scene/set/" + scene_id); }
     _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); }
 
     //Call ARIS API directly (USE WITH CAUTION)

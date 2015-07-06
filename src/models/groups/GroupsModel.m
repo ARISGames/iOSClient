@@ -112,11 +112,11 @@
     return playerGroup;
 }
 
-- (void) setPlayerGroup:(Group *)s
+- (void) setPlayerGroup:(Group *)g
 {
-    playerGroup = s;
-    [_MODEL_LOGS_ playerChangedGroupId:s.group_id];
-    [_SERVICES_ setPlayerGroupId:s.group_id];
+    playerGroup = g;
+    [_MODEL_LOGS_ playerChangedGroupId:g.group_id];
+    [_SERVICES_ setPlayerGroupId:g.group_id];
     _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_PLAYER_GROUP_AVAILABLE",nil,nil);
 }
 

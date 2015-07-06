@@ -108,14 +108,13 @@
           [_MODEL_SCENES_ setPlayerScene:[_MODEL_SCENES_ sceneForId:e.content_id]];
       
         if([e.event isEqualToString:@"SET_GROUP"])
-        {
           [_MODEL_GROUPS_ setPlayerGroup:[_MODEL_GROUPS_ groupForId:e.content_id]];
-        }
       
         if([e.event isEqualToString:@"RUN_SCRIPT"])
         {
           runner = [[ARISWebView alloc] initWithDelegate:self];
-          [runner loadHTMLString:e.script baseURL:nil];
+          runner.userInteractionEnabled = NO;
+          [runner loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], e.script] baseURL:nil];
         }
     }
     [_MODEL_LOGS_ playerRanEventPackageId:event_package_id];
