@@ -171,7 +171,6 @@
     }
     if(deltas.count > 0)
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-
 }
 
 - (void) parseLostInstancesIntoNotifications:(NSNotification *)notification

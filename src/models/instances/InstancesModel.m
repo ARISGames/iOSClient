@@ -165,8 +165,10 @@
 
   if(deltas)
   {
-    if(i.owner_id == _MODEL_PLAYER_.user_id) [self sendNotifsForGameDeltas:nil playerDeltas:deltas];
-    else                                     [self sendNotifsForGameDeltas:deltas playerDeltas:nil];
+    if([i.owner_type isEqualToString:@"USER"] && i.owner_id == _MODEL_PLAYER_.user_id)
+      [self sendNotifsForGameDeltas:nil playerDeltas:deltas];
+    else if([i.owner_type isEqualToString:@"GAME_CONTENT"])
+      [self sendNotifsForGameDeltas:deltas playerDeltas:nil];
   }
 
   [_SERVICES_ setQtyForInstanceId:instance_id qty:qty];
