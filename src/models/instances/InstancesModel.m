@@ -102,20 +102,22 @@
 
       Instance *existingInstance = [instances objectForKey:newInstanceId];
       long delta = newInstance.qty-existingInstance.qty;
-      BOOL gained = (existingInstance.qty < newInstance.qty);
-      BOOL lost   = (existingInstance.qty > newInstance.qty);
       [existingInstance mergeDataFromInstance:newInstance];
 
       NSDictionary *d = @{@"instance":existingInstance,@"delta":[NSNumber numberWithLong:delta]};
       if(existingInstance.owner_id == _MODEL_PLAYER_.user_id)
       {
-        if(gained) [((NSMutableArray *)playerDeltas[@"added"]) addObject:d];
-        if(lost)   [((NSMutableArray *)playerDeltas[@"lost" ]) addObject:d];
+        if(!player_info_recvd) //only local should be making changes to player. fixes race cond (+1, -1, +1 notifs)
+        {
+          if(delta > 0) [((NSMutableArray *)playerDeltas[@"added"]) addObject:d];
+          if(delta < 0) [((NSMutableArray *)playerDeltas[@"lost" ]) addObject:d];
+        }
       }
       else
       {
-        if(gained) [((NSMutableArray *)gameDeltas[@"added"]) addObject:d];
-        if(lost)   [((NSMutableArray *)gameDeltas[@"lost" ]) addObject:d];
+        //race cond (above) still applies here, but notifs oughtn't be a problem, and fixes self over time
+        if(delta > 0) [((NSMutableArray *)gameDeltas[@"added"]) addObject:d];
+        if(delta < 0) [((NSMutableArray *)gameDeltas[@"lost" ]) addObject:d];
       }
     }
 
