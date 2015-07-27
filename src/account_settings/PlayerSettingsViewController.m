@@ -129,7 +129,8 @@
 - (void) saveButtonTouched
 {
     //temporary workaround
-    [delegate playerSettingsWasDismissed]; return;
+    //[delegate playerSettingsWasDismissed];
+    //return;
 
     if([playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
     {
