@@ -71,7 +71,7 @@
   nameLabel = [[UILabel alloc] init];
   nameLabel.frame = CGRectMake(-1, pcImage.frame.origin.y + pcImage.frame.size.height + 20, self.view.bounds.size.width + 1, 30);
 
-  nameLabel.text = _MODEL_PLAYER_.user_name;
+  nameLabel.text = _MODEL_PLAYER_.display_name;
   nameLabel.textAlignment = NSTextAlignmentCenter;
   nameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
   nameLabel.layer.borderWidth = 1.0f;
@@ -217,7 +217,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"PLAYER"; }
-- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Attributes"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Player"; }
 - (ARISMediaView *) tabIcon
   {
     ARISMediaView *amv = [[ARISMediaView alloc] init];
