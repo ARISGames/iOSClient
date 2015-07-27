@@ -113,6 +113,11 @@
     if(chosenMediaId > 0)       [playerPic setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
     else if(chosenMediaId == 0) [self takePicture];
     //chosenMediaId < 0 = newly chosen
+
+    // handle a saved image with newly-scanned login QR code
+    if (chosenMediaId < 0 && playerPic.image && _MODEL_PLAYER_.media_id == 0) {
+        [self uploadImage: playerPic.image];
+    }
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
