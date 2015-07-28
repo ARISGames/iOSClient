@@ -216,6 +216,10 @@
     {
       [self clear];
       if(!_MODEL_PLAYER_) return; //can't log out if noone logged in
+      
+      //dismiss self before trying to log out
+      if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])
+          [delegate ARISWebViewRequestsDismissal:self];
         
       [_MODEL_ logOut];
     }
@@ -229,6 +233,10 @@
         if(components.count > 2) token = components[2];
 
         if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
+      
+        //dismiss self before enqueueing anything
+        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])
+            [delegate ARISWebViewRequestsDismissal:self];
 
         if([type isEqualToString:@"game"])
             [_MODEL_ leaveGame];
@@ -247,9 +255,6 @@
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_ITEMS_ itemForId:[token intValue]]];
         else if([type isEqualToString:@"character"] || [type isEqualToString:@"dialog"] || [type isEqualToString:@"conversation"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:[token intValue]]];
-
-        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])
-            [delegate ARISWebViewRequestsDismissal:self];
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {
