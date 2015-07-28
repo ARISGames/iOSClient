@@ -153,13 +153,19 @@
         if (metadataObjects != nil && [metadataObjects count] > 0)
         {
             BOOL not_found = NO;
-            scanning = NO;
 
             for (AVMetadataObject *metadata in metadataObjects)
             {
+                AVMetadataObject *transformed = [previewLayer transformedMetadataObjectForMetadataObject:metadata];
+                AVMetadataMachineReadableCodeObject *code;
+                if ([transformed isKindOfClass:[AVMetadataMachineReadableCodeObject class]]) {
+                    code = (AVMetadataMachineReadableCodeObject *) transformed;
+                    scanning = NO;
+                } else {
+                    continue;
+                }
 
-                AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
-                NSString *result = [transformed stringValue];
+                NSString *result = [code stringValue];
 
                 Trigger *t;
                 if([result isEqualToString:@"log-out"])

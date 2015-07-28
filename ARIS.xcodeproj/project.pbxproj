@@ -424,7 +424,7 @@
 		AA33A7281860C0CE00D48789 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
 		AA33A7291860C0CE00D48789 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		AA34837D19C79BCA000A60C2 /* ScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannerViewController.h; sourceTree = "<group>"; };
-		AA34837E19C79BCA000A60C2 /* ScannerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScannerViewController.mm; sourceTree = "<group>"; };
+		AA34837E19C79BCA000A60C2 /* ScannerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScannerViewController.mm; sourceTree = "<group>"; tabWidth = 4; };
 		AA34838119C927FC000A60C2 /* ScenesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScenesModel.h; sourceTree = "<group>"; };
 		AA34838219C927FC000A60C2 /* ScenesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScenesModel.m; sourceTree = "<group>"; };
 		AA372A8E188F2319005528D5 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
