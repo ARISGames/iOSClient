@@ -266,28 +266,35 @@
       i.object_id = p.plaque_id;
       vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
     }
-    if([o isKindOfClass:[Item class]])
+    else if([o isKindOfClass:[Item class]])
     {
       Item *it = (Item *)o;
       i.object_type = @"ITEM";
       i.object_id = it.item_id;
       vc = [[ItemViewController alloc] initWithInstance:i delegate:self];
     }
-    if([o isKindOfClass:[Dialog class]])
+    else if([o isKindOfClass:[Dialog class]])
     {
       Dialog *d = (Dialog *)o;
       i.object_type = @"DIALOG";
       i.object_id = d.dialog_id;
       vc = [[DialogViewController alloc] initWithInstance:i delegate:self];
     }
-    if([o isKindOfClass:[WebPage class]])
+    else if([o isKindOfClass:[WebPage class]])
     {
       WebPage *w = (WebPage *)o;
-      i.object_type = @"WEB_PAGE";
-      i.object_id = w.web_page_id;
-      vc = [[WebPageViewController alloc] initWithInstance:i delegate:self];
+      if(w.web_page_id == 0) //assume ad hoc (created from some webview href maybe?)
+      {
+        vc = [[WebPageViewController alloc] initWithWebPage:w delegate:self];
+      }
+      else
+      {
+        i.object_type = @"WEB_PAGE";
+        i.object_id = w.web_page_id;
+        vc = [[WebPageViewController alloc] initWithInstance:i delegate:self];
+      }
     }
-    if([o isKindOfClass:[Note class]])
+    else if([o isKindOfClass:[Note class]])
     {
       Note *n = (Note *)o;
       i.object_type = @"NOTE";

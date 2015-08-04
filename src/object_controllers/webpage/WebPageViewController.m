@@ -31,34 +31,51 @@
 
 @implementation WebPageViewController
 
-- (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d;
+- (id) initWithWebPage:(WebPage *)w delegate:(id<WebPageViewControllerDelegate>)d
 {
-    if(self = [super init])
-    {
-        instance = i;
-        webPage = [_MODEL_WEB_PAGES_ webPageForId:i.object_id];
+  if(self = [super init])
+  {
+    Instance *i = [_MODEL_INSTANCES_ instanceForId:0];
+    i.object_type = @"WEB_PAGE";
+    i.object_id = w.web_page_id;
+    
+    instance = i;
+    webPage = w;
 
-        delegate = d;
-        hasAppeared = NO;
-    }
-    return self;
+    delegate = d;
+    hasAppeared = NO;
+  }
+  return self; 
+}
+
+- (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d
+{
+  if(self = [super init])
+  {
+    instance = i;
+    webPage = [_MODEL_WEB_PAGES_ webPageForId:i.object_id];
+    
+    delegate = d;
+    hasAppeared = NO;
+  }
+  return self;
 }
 - (Instance *) instance { return instance; }
 
 - (id) initWithTab:(Tab *)t delegate:(id<WebPageViewControllerDelegate>)d;
 {
-    if(self = [super init])
-    {
-        tab = t;
-        instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
-        instance.object_type = tab.type;
-        instance.object_id = tab.content_id;
-        webPage = [_MODEL_WEB_PAGES_ webPageForId:instance.object_id];
-
-        delegate = d;
-        hasAppeared = NO;
-    }
-    return self;
+  if(self = [super init])
+  {
+    tab = t;
+    instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+    instance.object_type = tab.type;
+    instance.object_id = tab.content_id;
+    webPage = [_MODEL_WEB_PAGES_ webPageForId:instance.object_id];
+    
+    delegate = d;
+    hasAppeared = NO;
+  }
+  return self;
 }
 - (Tab *) tab { return tab; }
 

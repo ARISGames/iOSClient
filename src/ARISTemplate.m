@@ -58,7 +58,7 @@
     @"      margin:0;"
     @"      padding:10;"
     @"  }"
-    @"  a { color: #FFFFFF; text-decoration: underline; }"
+    @"  a { color: #000000; text-decoration: underline; }"
     @"  --></style>"
     @"</head>"
     @"<body>%@</body>"
