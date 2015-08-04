@@ -132,7 +132,7 @@
 
         if([activeQuest.active_notification_type isEqualToString:@"FULL_SCREEN"])
             [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestViewNewQuestKey", nil) prompt:activeQuest.name icon_media_id:activeQuest.active_icon_media_id submitFunc:activeQuest.active_function];
-        else
+        else if([activeQuest.active_notification_type isEqualToString:@"DROP_DOWN"])
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
     }
 }
@@ -147,7 +147,7 @@
 
         if([completedQuest.complete_notification_type isEqualToString:@"FULL_SCREEN"])
             [self enqueuePopOverNotificationWithHeader:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) prompt:completedQuest.name icon_media_id:completedQuest.complete_icon_media_id submitFunc:completedQuest.complete_function];
-        else
+        else if([completedQuest.complete_notification_type isEqualToString:@"DROP_DOWN"])
             [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
     }
 }
