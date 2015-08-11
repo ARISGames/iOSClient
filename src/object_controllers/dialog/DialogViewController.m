@@ -117,8 +117,9 @@
 
 - (void) viewWillLayoutSubviews
 {
-    [super viewWillLayoutSubviews];
-   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+  [super viewWillLayoutSubviews];
+  if(!dialog || dialog.enable_back_button)
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated
