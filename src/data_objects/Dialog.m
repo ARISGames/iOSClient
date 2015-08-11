@@ -17,7 +17,7 @@
 @synthesize desc;
 @synthesize icon_media_id;
 @synthesize intro_dialog_script_id;
-@synthesize enable_back_button;
+@synthesize back_button_enabled;
 
 - (id) init
 {
@@ -28,7 +28,7 @@
     self.desc = @"";
     self.icon_media_id = 0;
     self.intro_dialog_script_id = 0;
-    self.enable_back_button = 1;
+    self.back_button_enabled = YES;
   }
   return self;
 }
@@ -42,7 +42,7 @@
     self.desc                   = [dict validStringForKey:@"description"];
     self.icon_media_id          = [dict validIntForKey:@"icon_media_id"];
     self.intro_dialog_script_id = [dict validIntForKey:@"intro_dialog_script_id"];
-    self.enable_back_button     = [dict validIntForKey:@"enable_back_button"];
+    self.back_button_enabled    = [dict validBoolForKey:@"back_button_enabled"];
   }
   return self;
 }
@@ -55,7 +55,7 @@
   c.desc                   = self.desc;
   c.icon_media_id          = self.icon_media_id;
   c.intro_dialog_script_id = self.intro_dialog_script_id;
-  c.enable_back_button     = self.enable_back_button;
+  c.back_button_enabled    = self.back_button_enabled;
   return c;
 }
 

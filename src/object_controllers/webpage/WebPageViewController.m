@@ -114,7 +114,7 @@
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
   
-    if(!webPage || webPage.enable_back_button) 
+    if(!webPage || webPage.back_button_enabled) 
       self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 
     if(tab)

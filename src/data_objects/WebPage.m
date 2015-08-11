@@ -16,7 +16,7 @@
 @synthesize name;
 @synthesize url;
 @synthesize icon_media_id;
-@synthesize enable_back_button;
+@synthesize back_button_enabled;
 
 - (id) init
 {
@@ -26,7 +26,7 @@
         self.name = @"WebPage";
         self.url = @"http://www.arisgames.org";
         self.icon_media_id = 0;
-        self.enable_back_button = 0;
+        self.back_button_enabled = YES;
     }
     return self;	
 }
@@ -35,11 +35,11 @@
 {
     if(self = [super init])
     {
-        self.web_page_id        = [dict validIntForKey:@"web_page_id"];
-        self.name               = [dict validObjectForKey:@"name"];
-        self.url                = [dict validObjectForKey:@"url"];
-        self.icon_media_id      = [dict validIntForKey:@"icon_media_id"];
-        self.enable_back_button = [dict validBoolForKey:@"enable_back_button"];
+        self.web_page_id         = [dict validIntForKey:@"web_page_id"];
+        self.name                = [dict validObjectForKey:@"name"];
+        self.url                 = [dict validObjectForKey:@"url"];
+        self.icon_media_id       = [dict validIntForKey:@"icon_media_id"];
+        self.back_button_enabled = [dict validBoolForKey:@"back_button_enabled"];
     }
     return self;
 }
@@ -51,7 +51,7 @@
     c.name = self.name;
     c.url = self.url;
     c.icon_media_id = self.icon_media_id;
-    c.enable_back_button = self.enable_back_button;
+    c.back_button_enabled = self.back_button_enabled;
     return c;
 }
 

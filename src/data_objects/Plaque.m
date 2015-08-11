@@ -18,7 +18,7 @@
 @synthesize icon_media_id;
 @synthesize media_id;
 @synthesize event_package_id;
-@synthesize enable_back_button;
+@synthesize back_button_enabled;
 
 - (id) init
 {
@@ -30,7 +30,7 @@
         self.icon_media_id = 0;
         self.media_id = 0;
         self.event_package_id = 0;
-        self.enable_back_button = 1;
+        self.back_button_enabled = YES;
     }
     return self;
 }
@@ -39,13 +39,13 @@
 {
     if(self = [super init])
     {
-        self.plaque_id          = [dict validIntForKey:@"plaque_id"];
-        self.name               = [dict validObjectForKey:@"name"];
-        self.desc               = [dict validObjectForKey:@"description"];
-        self.media_id           = [dict validIntForKey:@"media_id"];
-        self.icon_media_id      = [dict validIntForKey:@"icon_media_id"];
-        self.event_package_id   = [dict validIntForKey:@"event_package_id"];
-        self.enable_back_button = [dict validBoolForKey:@"enable_back_button"];
+        self.plaque_id           = [dict validIntForKey:@"plaque_id"];
+        self.name                = [dict validObjectForKey:@"name"];
+        self.desc                = [dict validObjectForKey:@"description"];
+        self.media_id            = [dict validIntForKey:@"media_id"];
+        self.icon_media_id       = [dict validIntForKey:@"icon_media_id"];
+        self.event_package_id    = [dict validIntForKey:@"event_package_id"];
+        self.back_button_enabled = [dict validBoolForKey:@"back_button_enabled"];
     }
     return self;
 }
