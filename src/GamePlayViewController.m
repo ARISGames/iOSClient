@@ -99,13 +99,6 @@
         gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
 
-        if(_MODEL_GAME_.tick_delay)
-        {
-            ticker = [[ARISWebView alloc] initWithDelegate:self];
-            [ticker loadHTMLString:_MODEL_GAME_.tick_script baseURL:nil];
-            tickerTimer = [NSTimer scheduledTimerWithTimeInterval:_MODEL_GAME_.tick_delay target:self selector:@selector(tickTicker) userInfo:nil repeats:YES];
-        }
-
         local_inst_queue = [[NSMutableArray alloc] init];
         viewingObject = NO;
         _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE", self, @selector(flushBufferQueuedInstances), nil);

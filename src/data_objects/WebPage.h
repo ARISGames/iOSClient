@@ -11,16 +11,18 @@
 
 @interface WebPage : NSObject <InstantiableProtocol>
 {
-    long web_page_id;
+  long web_page_id;
 	NSString *name;
 	NSString *url;
 	long icon_media_id;
+	BOOL enable_back_button;
 }
 
 @property (nonatomic, assign) long web_page_id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, assign) long icon_media_id;
+@property (nonatomic, assign) BOOL enable_back_button;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 
