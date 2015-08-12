@@ -74,13 +74,8 @@
     // Want the normal device
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
 
-    if(input) {
-        // Add the input to the session
-        [session addInput:input];
-    } else {
-        _ARIS_LOG_(@"error: %@", error);
-        return;
-    }
+    if(input) [session addInput:input];
+    else { _ARIS_LOG_(@"error: %@", error); return; }
 
     AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
     [session addOutput:output];

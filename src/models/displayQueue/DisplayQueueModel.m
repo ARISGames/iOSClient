@@ -36,8 +36,8 @@
 
 - (void) clear
 {
-    displayQueue = [[NSMutableArray alloc] init];
-    displayBlacklist = [[NSMutableArray alloc] init];
+  displayQueue = [[NSMutableArray alloc] init];
+  displayBlacklist = [[NSMutableArray alloc] init];
 }
 
 - (void) inject:(NSObject *)i
@@ -93,8 +93,8 @@
 
 - (void) reevaluateImmediates
 {
-    [self purgeInvalidFromQueue];
-    [self enqueueNewImmediates];
+  [self purgeInvalidFromQueue];
+  [self enqueueNewImmediates];
 }
 
 - (void) purgeInvalidFromQueue
@@ -119,25 +119,25 @@
     BOOL valid = NO;
     if([displayBlacklist[i] isKindOfClass:[Trigger class]]) //only triggers are blacklisted
     {
-        t = displayBlacklist[i];
-        for(long j = 0; j < pt.count; j++)
-        {
-            if(
-                t == pt[j] &&
-                (
-                  [t.type isEqualToString:@"IMMEDIATE"] ||
-                  (
-                    [t.type isEqualToString:@"LOCATION"] &&
-                    t.trigger_on_enter &&
-                    (
-                      t.infinite_distance ||
-                      [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
-                    )
-                  )
-                )
+      t = displayBlacklist[i];
+      for(long j = 0; j < pt.count; j++)
+      {
+        if(
+            t == pt[j] &&
+            (
+             [t.type isEqualToString:@"IMMEDIATE"] ||
+             (
+              [t.type isEqualToString:@"LOCATION"] &&
+              t.trigger_on_enter &&
+              (
+               t.infinite_distance ||
+               [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
               )
-                valid = YES;
-        }
+             )
+            )
+          )
+          valid = YES;
+      }
     }
     if(!valid) [displayBlacklist removeObject:t];
   }
@@ -152,15 +152,15 @@
     t = pt[i];
     if(
         (
-          [t.type isEqualToString:@"IMMEDIATE"] ||
+         [t.type isEqualToString:@"IMMEDIATE"] ||
+         (
+          [t.type isEqualToString:@"LOCATION"] &&
+          t.trigger_on_enter &&
           (
-            [t.type isEqualToString:@"LOCATION"] &&
-            t.trigger_on_enter &&
-            (
-              t.infinite_distance ||
-              [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
-            )
+           t.infinite_distance ||
+           [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
           )
+         )
         ) &&
         ![self displayBlacklisted:t]
       )

@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Trigger.h"
 
-@interface TriggersModel : NSObject
+@interface TriggersModel : ARISModel
 
 - (Trigger *) triggerForId:(long)trigger_id;
 - (Trigger *) triggerForQRCode:(NSString *)code;
@@ -19,11 +20,8 @@
 - (void) requestTriggers;
 - (void) requestPlayerTriggers;
 
-- (void) clearPlayerData;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
-
 //odd one-off function
 - (void) expireTriggersForInstanceId:(long)instance_id;
 
 @end
+

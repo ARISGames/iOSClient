@@ -18,7 +18,6 @@
 {
     NSMutableDictionary *logs;
     long local_log_id; //starts at 1, no way it will ever catch up to actual logs
-    long game_info_recvd;
 }
 
 @end
@@ -40,16 +39,19 @@
     logs = [[NSMutableDictionary alloc] init];
 }
 
+- (void) requestGameData
+{
+  [self requestPlayerLogs];
+}
 - (void) clearGameData
 {
   [self clearPlayerData];
   local_log_id = 1;
-  game_info_recvd = 0;
+  n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 1;
+  return 1;
 }
 
 - (void) logsReceived:(NSNotification *)notif
@@ -68,7 +70,7 @@
       if(![logs objectForKey:newLogId]) [logs setObject:newLog forKey:newLogId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_LOGS_AVAILABLE",nil,nil);
-    game_info_recvd++;
+    n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 

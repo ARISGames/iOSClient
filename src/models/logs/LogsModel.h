@@ -7,16 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Log.h"
 #import "Tab.h"
 
-@interface LogsModel : NSObject
+@interface LogsModel : ARISModel
 
 - (Log *) logForId:(long)log_id;
 - (void) requestPlayerLogs;
-- (void) clearPlayerData;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
 
 - (void) playerEnteredGame;
 - (void) playerMoved;
@@ -40,3 +38,4 @@
 - (BOOL) hasLogType:(NSString *)type content:(long)content_id qty:(long)qty;
 
 @end
+

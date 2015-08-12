@@ -16,9 +16,8 @@
 
 @interface OverlaysModel()
 {
-    NSMutableDictionary *overlays;
-    NSArray *playerOverlays;
-    long game_info_recvd;
+  NSMutableDictionary *overlays;
+  NSArray *playerOverlays;
 }
 @end
 
@@ -35,55 +34,67 @@
   return self;
 }
 
+- (void) requestPlayerData
+{
+  [self requestPlayerOverlays];
+}
 - (void) clearPlayerData
 {
-    playerOverlays = [[NSArray alloc] init];
+  playerOverlays = [[NSArray alloc] init];
+  n_player_data_received = 0;
+}
+- (long) nPlayerDataToReceive
+{
+  return 1;
 }
 
+- (void) requestGameData
+{
+  [self requestOverlays];
+}
 - (void) clearGameData
 {
-    [self clearPlayerData];
-    overlays = [[NSMutableDictionary alloc] init];
-    game_info_recvd = 0;
+  [self clearPlayerData];
+  overlays = [[NSMutableDictionary alloc] init];
+  n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 1;
+  return 1;
 }
 
 - (void) overlaysReceived:(NSNotification *)notif
 {
-    [self updateOverlays:notif.userInfo[@"overlays"]];
+  [self updateOverlays:notif.userInfo[@"overlays"]];
 }
 
 - (void) updateOverlays:(NSArray *)newOverlays
 {
-    Overlay *newOverlay;
-    NSNumber *newOverlayId;
-    for(long i = 0; i < newOverlays.count; i++)
-    {
-      newOverlay = [newOverlays objectAtIndex:i];
-      newOverlayId = [NSNumber numberWithLong:newOverlay.overlay_id];
-      if(![overlays objectForKey:newOverlayId])
-        [overlays setObject:newOverlay forKey:newOverlayId];
-    }
-    game_info_recvd++;
-    _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  Overlay *newOverlay;
+  NSNumber *newOverlayId;
+  for(long i = 0; i < newOverlays.count; i++)
+  {
+    newOverlay = [newOverlays objectAtIndex:i];
+    newOverlayId = [NSNumber numberWithLong:newOverlay.overlay_id];
+    if(![overlays objectForKey:newOverlayId])
+      [overlays setObject:newOverlay forKey:newOverlayId];
+  }
+  n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (NSArray *) conformOverlaysListToFlyweight:(NSArray *)newOverlays
 {
-    NSMutableArray *conformingOverlays = [[NSMutableArray alloc] init];
-    Overlay *o;
-    for(long i = 0; i < newOverlays.count; i++)
-    {
-        if((o = [self overlayForId:((Overlay *)newOverlays[i]).overlay_id]))
-           [conformingOverlays addObject:o];
-    }
-
-    return conformingOverlays;
+  NSMutableArray *conformingOverlays = [[NSMutableArray alloc] init];
+  Overlay *o;
+  for(long i = 0; i < newOverlays.count; i++)
+  {
+    if((o = [self overlayForId:((Overlay *)newOverlays[i]).overlay_id]))
+      [conformingOverlays addObject:o];
+  }
+  
+  return conformingOverlays;
 }
 
 - (void) playerOverlaysReceived:(NSNotification *)notif
@@ -93,45 +104,46 @@
 
 - (void) updatePlayerOverlays:(NSArray *)newOverlays
 {
-    NSMutableArray *addedOverlays = [[NSMutableArray alloc] init];
-    NSMutableArray *removedOverlays = [[NSMutableArray alloc] init];
-
-    //placeholders for comparison
-    Overlay *newOverlay;
-    Overlay *oldOverlay;
-
-    //find added
-    BOOL new;
-    for(long i = 0; i < newOverlays.count; i++)
+  NSMutableArray *addedOverlays = [[NSMutableArray alloc] init];
+  NSMutableArray *removedOverlays = [[NSMutableArray alloc] init];
+  
+  //placeholders for comparison
+  Overlay *newOverlay;
+  Overlay *oldOverlay;
+  
+  //find added
+  BOOL new;
+  for(long i = 0; i < newOverlays.count; i++)
+  {
+    new = YES;
+    newOverlay = newOverlays[i];
+    for(long j = 0; j < playerOverlays.count; j++)
     {
-        new = YES;
-        newOverlay = newOverlays[i];
-        for(long j = 0; j < playerOverlays.count; j++)
-        {
-            oldOverlay = playerOverlays[j];
-            if(newOverlay.overlay_id == oldOverlay.overlay_id) new = NO;
-        }
-        if(new) [addedOverlays addObject:newOverlays[i]];
+      oldOverlay = playerOverlays[j];
+      if(newOverlay.overlay_id == oldOverlay.overlay_id) new = NO;
     }
-
-    //find removed
-    BOOL removed;
-    for(long i = 0; i < playerOverlays.count; i++)
+    if(new) [addedOverlays addObject:newOverlays[i]];
+  }
+  
+  //find removed
+  BOOL removed;
+  for(long i = 0; i < playerOverlays.count; i++)
+  {
+    removed = YES;
+    oldOverlay = playerOverlays[i];
+    for(long j = 0; j < newOverlays.count; j++)
     {
-        removed = YES;
-        oldOverlay = playerOverlays[i];
-        for(long j = 0; j < newOverlays.count; j++)
-        {
-            newOverlay = newOverlays[j];
-            if(newOverlay.overlay_id == oldOverlay.overlay_id) removed = NO;
-        }
-        if(removed) [removedOverlays addObject:playerOverlays[i]];
+      newOverlay = newOverlays[j];
+      if(newOverlay.overlay_id == oldOverlay.overlay_id) removed = NO;
     }
-
-    playerOverlays = newOverlays;
-    if(addedOverlays.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_NEW_AVAILABLE",nil,@{@"added":addedOverlays});
-    if(removedOverlays.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_LESS_AVAILABLE",nil,@{@"removed":removedOverlays});
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+    if(removed) [removedOverlays addObject:playerOverlays[i]];
+  }
+  
+  playerOverlays = newOverlays;
+  n_player_data_received++;
+  if(addedOverlays.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_NEW_AVAILABLE",nil,@{@"added":addedOverlays});
+  if(removedOverlays.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_LESS_AVAILABLE",nil,@{@"removed":removedOverlays});
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestOverlays       { [_SERVICES_ fetchOverlays];   }
@@ -149,7 +161,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

@@ -16,8 +16,7 @@
 
 @interface GroupsModel()
 {
-    NSMutableDictionary *groups;
-    long game_info_recvd;
+  NSMutableDictionary *groups;
 }
 
 @end
@@ -26,98 +25,112 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self clearGameData];
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_GROUPS_RECEIVED",self,@selector(groupsReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_GROUP_TOUCHED",self,@selector(groupTouched:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_GROUP_RECEIVED",self,@selector(playerGroupReceived:),nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    [self clearGameData];
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_GROUPS_RECEIVED",self,@selector(groupsReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_GROUP_TOUCHED",self,@selector(groupTouched:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_GROUP_RECEIVED",self,@selector(playerGroupReceived:),nil);
+  }
+  return self;
 }
 
+- (void) requestGameData
+{
+  [self requestGroups];
+  [self touchPlayerGroup];
+}
 - (void) clearGameData
 {
-    groups = [[NSMutableDictionary alloc] init];
-    game_info_recvd = 0;
+  groups = [[NSMutableDictionary alloc] init];
+  n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 2;
+  return 2;
 }
 
+- (void) requestPlayerData
+{
+  [self requestPlayerGroup];
+}
 - (void) clearPlayerData
 {
-    playerGroup = nil;
+  playerGroup = nil;
+  n_player_data_received = 0;
+}
+- (long) nPlayerDataToReceive
+{
+  return 1;
 }
 
 - (void) groupsReceived:(NSNotification *)notif
 {
-    [self updateGroups:notif.userInfo[@"groups"]];
+  [self updateGroups:notif.userInfo[@"groups"]];
 }
 
 - (void) playerGroupReceived:(NSNotification *)notif
 {
-    Group *s = [self groupForId:((Group *)notif.userInfo[@"group"]).group_id];
-    [self updatePlayerGroup:s];
+  Group *s = [self groupForId:((Group *)notif.userInfo[@"group"]).group_id];
+  [self updatePlayerGroup:s];
 }
 
 - (void) groupTouched:(NSNotification *)notif
 {
-    game_info_recvd++;
-    _ARIS_NOTIF_SEND_(@"MODEL_GROUP_TOUCHED",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"MODEL_GROUP_TOUCHED",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updateGroups:(NSArray *)newGroups
 {
-    Group *newGroup;
-    NSNumber *newGroupId;
-    for(long i = 0; i < newGroups.count; i++)
-    {
-      newGroup = [newGroups objectAtIndex:i];
-      newGroupId = [NSNumber numberWithLong:newGroup.group_id];
-      if(!groups[newGroupId]) [groups setObject:newGroup forKey:newGroupId];
-    }
-    game_info_recvd++;
-    _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  Group *newGroup;
+  NSNumber *newGroupId;
+  for(long i = 0; i < newGroups.count; i++)
+  {
+    newGroup = [newGroups objectAtIndex:i];
+    newGroupId = [NSNumber numberWithLong:newGroup.group_id];
+    if(!groups[newGroupId]) [groups setObject:newGroup forKey:newGroupId];
+  }
+  n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updatePlayerGroup:(Group *)newGroup
 {
-    playerGroup = newGroup;
-    _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_PLAYER_GROUP_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  playerGroup = newGroup;
+  n_player_data_received++;
+  _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_PLAYER_GROUP_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestGroups
 {
-    [_SERVICES_ fetchGroups];
+  [_SERVICES_ fetchGroups];
 }
 
 - (void) touchPlayerGroup
 {
-    [_SERVICES_ touchGroupForPlayer];
+  [_SERVICES_ touchGroupForPlayer];
 }
 
 - (void) requestPlayerGroup
 {
-    [_SERVICES_ fetchGroupForPlayer];
+  [_SERVICES_ fetchGroupForPlayer];
 }
 
 - (Group *) playerGroup
 {
-    return playerGroup;
+  return playerGroup;
 }
 
 - (void) setPlayerGroup:(Group *)g
 {
-    playerGroup = g;
-    [_MODEL_LOGS_ playerChangedGroupId:g.group_id];
-    [_SERVICES_ setPlayerGroupId:g.group_id];
-    _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_PLAYER_GROUP_AVAILABLE",nil,nil);
+  playerGroup = g;
+  [_MODEL_LOGS_ playerChangedGroupId:g.group_id];
+  [_SERVICES_ setPlayerGroupId:g.group_id];
+  _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_PLAYER_GROUP_AVAILABLE",nil,nil);
 }
 
 // null group (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
@@ -129,7 +142,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

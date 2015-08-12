@@ -19,7 +19,6 @@
   NSMutableDictionary *requirementRootPackages;
   NSMutableDictionary *requirementAndPackages;
   NSMutableDictionary *requirementAtoms;
-  long game_info_recvd;
 }
 
 @end
@@ -38,17 +37,20 @@
   return self;
 }
 
+- (void) requestGameData
+{
+  [self requestRequirements]; //should be three different models
+}
 - (void) clearGameData
 {
   requirementRootPackages = [[NSMutableDictionary alloc] init];
   requirementAndPackages = [[NSMutableDictionary alloc] init];
   requirementAtoms = [[NSMutableDictionary alloc] init];
-  game_info_recvd = 0;
+  n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 3;
+  return 3;
 }
 
 - (void) requestRequirements
@@ -73,7 +75,7 @@
     newRRPId = [NSNumber numberWithLong:newRRP.requirement_root_package_id];
     if(![requirementRootPackages objectForKey:newRRPId]) [requirementRootPackages setObject:newRRP forKey:newRRPId];
   }
-  game_info_recvd++;
+  n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_ROOT_PACKAGES_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -93,7 +95,7 @@
     newRAPId = [NSNumber numberWithLong:newRAP.requirement_and_package_id];
     if(![requirementAndPackages objectForKey:newRAPId]) [requirementAndPackages setObject:newRAP forKey:newRAPId];
   }
-  game_info_recvd++;
+  n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_AND_PACKAGES_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -113,7 +115,7 @@
     newRAId = [NSNumber numberWithLong:newRA.requirement_atom_id];
     if(![requirementAtoms objectForKey:newRAId]) [requirementAtoms setObject:newRA forKey:newRAId];
   }
-  game_info_recvd++;
+  n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_ATOMS_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -175,7 +177,7 @@
   if(!requirement_atom_id) return YES;
   RequirementAtom *a = [self requirementAtomForId:requirement_atom_id];
   if(a.requirement_atom_id == 0) return YES; //'null' req atom
-  
+
   if([a.requirement isEqualToString:@"ALWAYS_TRUE"])
   {
     return a.bool_operator == YES;
@@ -276,7 +278,7 @@
   {
     return a.bool_operator == NO;
   }
-  
+
   return YES;
 }
 

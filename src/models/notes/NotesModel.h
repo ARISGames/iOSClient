@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Note.h"
 #import "NoteComment.h"
 
@@ -14,9 +15,7 @@
 @class Media;
 @class Trigger;
 
-@interface NotesModel : NSObject
-{
-}
+@interface NotesModel : ARISModel
 
 - (Note *) noteForId:(long)note_id;
 - (void) requestNotes;
@@ -24,8 +23,6 @@
 - (NoteComment *) noteCommentForId:(long)note_comment_id;
 - (void) requestNoteComments;
 
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
 - (void) invalidateCaches;
 
 - (void) createNote:(Note *)n withTag:(Tag *)t media:(Media *)m trigger:(Trigger *)tr;
@@ -44,3 +41,4 @@
 - (NSArray *) noteCommentsForNoteId:(long)note_id;
 
 @end
+

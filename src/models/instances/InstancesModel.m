@@ -16,11 +16,8 @@
 
 @interface InstancesModel()
 {
-    NSMutableDictionary *instances;
-
-    NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
-    long player_info_recvd;
-    long game_info_recvd;
+  NSMutableDictionary *instances;
+  NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
 }
 @end
 
@@ -28,52 +25,63 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self clearGameData];
+  if(self = [super init])
+  {
+    [self clearGameData];
 
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCES_RECEIVED",self,@selector(gameInstancesReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(playerInstancesReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCE_RECEIVED",self,@selector(instanceReceived:),nil);
-    }
-    return self;
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCES_RECEIVED",self,@selector(gameInstancesReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",self,@selector(playerInstancesReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_INSTANCE_RECEIVED",self,@selector(instanceReceived:),nil);
+  }
+  return self;
 }
 
-- (void) clearPlayerData
+- (void) requestGameData
 {
-    NSArray *insts = [instances allValues];
-    for(long i = 0; i < insts.count; i++)
-    {
-        if(((Instance *)insts[i]).owner_id == _MODEL_PLAYER_.user_id)
-            [instances removeObjectForKey:[NSNumber numberWithLong:((Instance *)insts[i]).instance_id]];
-    }
-    player_info_recvd = 0;
+  [self requestInstances];
 }
-
 - (void) clearGameData
 {
-    [self clearPlayerData]; //not actually necessary- just removes player owned from list
-    instances = [[NSMutableDictionary alloc] init]; //will get cleared here anyway
-    blacklist = [[NSMutableDictionary alloc] init];
-    game_info_recvd = 0;
+  [self clearPlayerData]; //not actually necessary- just removes player owned from list
+  instances = [[NSMutableDictionary alloc] init]; //will get cleared here anyway
+  blacklist = [[NSMutableDictionary alloc] init];
+  n_game_data_received = 0;
+}
+- (long) nGameDataToReceive
+{
+  return 1;
 }
 
-- (BOOL) gameInfoRecvd
+- (void) requestPlayerData
 {
-  return game_info_recvd >= 1;
+  [self requestPlayerInstances];
+}
+- (void) clearPlayerData
+{
+  NSArray *insts = [instances allValues];
+  for(long i = 0; i < insts.count; i++)
+  {
+    if(((Instance *)insts[i]).owner_id == _MODEL_PLAYER_.user_id)
+      [instances removeObjectForKey:[NSNumber numberWithLong:((Instance *)insts[i]).instance_id]];
+  }
+  n_player_data_received = 0;
+}
+- (long) nPlayerDataToReceive
+{
+  return 1;
 }
 
 //only difference at this point is notification sent- all other functionality same (merge into all known insts)
 - (void) playerInstancesReceived:(NSNotification *)notif
 { 
   [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; 
-  player_info_recvd++;
+  n_player_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 - (void) gameInstancesReceived:(NSNotification *)notif
 {
   [self updateInstances:[notif.userInfo objectForKey:@"instances"]];
-  game_info_recvd++;
+  n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 - (void) instanceReceived:(NSNotification *)notif
@@ -81,47 +89,47 @@
 
 - (void) updateInstances:(NSArray *)newInstances
 {
-    Instance *newInstance;
-    NSNumber *newInstanceId;
+  Instance *newInstance;
+  NSNumber *newInstanceId;
 
-    NSDictionary *playerDeltas = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
-    NSDictionary *gameDeltas   = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
-    for(long i = 0; i < newInstances.count; i++)
+  NSDictionary *playerDeltas = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
+  NSDictionary *gameDeltas   = @{@"added":[[NSMutableArray alloc] init],@"lost":[[NSMutableArray alloc] init]};
+  for(long i = 0; i < newInstances.count; i++)
+  {
+    newInstance = [newInstances objectAtIndex:i];
+    newInstanceId = [NSNumber numberWithLong:newInstance.instance_id];
+    if(![instances objectForKey:newInstanceId])
     {
-      newInstance = [newInstances objectAtIndex:i];
-      newInstanceId = [NSNumber numberWithLong:newInstance.instance_id];
-      if(![instances objectForKey:newInstanceId])
-      {
-        //No instance exists- give player instance with 0 qty and let it be updated like all the others
-        Instance *fakeExistingInstance = [[Instance alloc] init];
-        [fakeExistingInstance mergeDataFromInstance:newInstance];
-        fakeExistingInstance.qty = 0;
-        [instances setObject:fakeExistingInstance forKey:newInstanceId];
-        [blacklist removeObjectForKey:[NSNumber numberWithLong:newInstanceId]];
-      }
-
-      Instance *existingInstance = [instances objectForKey:newInstanceId];
-      long delta = newInstance.qty-existingInstance.qty;
-      [existingInstance mergeDataFromInstance:newInstance];
-
-      NSDictionary *d = @{@"instance":existingInstance,@"delta":[NSNumber numberWithLong:delta]};
-      if(existingInstance.owner_id == _MODEL_PLAYER_.user_id)
-      {
-        if(!player_info_recvd) //only local should be making changes to player. fixes race cond (+1, -1, +1 notifs)
-        {
-          if(delta > 0) [((NSMutableArray *)playerDeltas[@"added"]) addObject:d];
-          if(delta < 0) [((NSMutableArray *)playerDeltas[@"lost" ]) addObject:d];
-        }
-      }
-      else
-      {
-        //race cond (above) still applies here, but notifs oughtn't be a problem, and fixes self over time
-        if(delta > 0) [((NSMutableArray *)gameDeltas[@"added"]) addObject:d];
-        if(delta < 0) [((NSMutableArray *)gameDeltas[@"lost" ]) addObject:d];
-      }
+      //No instance exists- give player instance with 0 qty and let it be updated like all the others
+      Instance *fakeExistingInstance = [[Instance alloc] init];
+      [fakeExistingInstance mergeDataFromInstance:newInstance];
+      fakeExistingInstance.qty = 0;
+      [instances setObject:fakeExistingInstance forKey:newInstanceId];
+      [blacklist removeObjectForKey:[NSNumber numberWithLong:newInstanceId]];
     }
 
-    [self sendNotifsForGameDeltas:gameDeltas playerDeltas:playerDeltas];
+    Instance *existingInstance = [instances objectForKey:newInstanceId];
+    long delta = newInstance.qty-existingInstance.qty;
+    [existingInstance mergeDataFromInstance:newInstance];
+
+    NSDictionary *d = @{@"instance":existingInstance,@"delta":[NSNumber numberWithLong:delta]};
+    if(existingInstance.owner_id == _MODEL_PLAYER_.user_id)
+    {
+      if(![self playerDataReceived]) //only local should be making changes to player. fixes race cond (+1, -1, +1 notifs)
+      {
+        if(delta > 0) [((NSMutableArray *)playerDeltas[@"added"]) addObject:d];
+        if(delta < 0) [((NSMutableArray *)playerDeltas[@"lost" ]) addObject:d];
+      }
+    }
+    else
+    {
+      //race cond (above) still applies here, but notifs oughtn't be a problem, and fixes self over time
+      if(delta > 0) [((NSMutableArray *)gameDeltas[@"added"]) addObject:d];
+      if(delta < 0) [((NSMutableArray *)gameDeltas[@"lost" ]) addObject:d];
+    }
+  }
+
+  [self sendNotifsForGameDeltas:gameDeltas playerDeltas:playerDeltas];
 }
 
 - (void) sendNotifsForGameDeltas:(NSDictionary *)gameDeltas playerDeltas:(NSDictionary *)playerDeltas
@@ -145,7 +153,7 @@
 - (void) requestInstance:(long)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances
 {
-  if(player_info_recvd && [_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+  if([self playerDataReceived] && [_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
   {
     NSArray *pinsts = [instances allValues];
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",nil,@{@"instances":pinsts});
@@ -193,14 +201,14 @@
 
 - (NSArray *) instancesForType:(NSString *)object_type id:(long)object_id
 {
-    NSMutableArray *a = [[NSMutableArray alloc] init];
-    for(long i = 0; i < instances.count; i++)
-    {
-        Instance *inst = [instances allValues][i];
-        if(inst.object_id == object_id && [inst.object_type isEqualToString:object_type])
-            [a addObject:inst];
-    }
-    return a;
+  NSMutableArray *a = [[NSMutableArray alloc] init];
+  for(long i = 0; i < instances.count; i++)
+  {
+    Instance *inst = [instances allValues][i];
+    if(inst.object_id == object_id && [inst.object_type isEqualToString:object_type])
+      [a addObject:inst];
+  }
+  return a;
 }
 
 - (NSArray *) playerInstances
@@ -211,7 +219,7 @@
   {
     Instance *inst = allInstances[i];
     if([inst.owner_type isEqualToString:@"USER"] &&
-       inst.owner_id == _MODEL_PLAYER_.user_id)
+        inst.owner_id == _MODEL_PLAYER_.user_id)
       [pInstances addObject:allInstances[i]];
   }
   return pInstances;
@@ -238,7 +246,7 @@
   {
     Instance *inst = allInstances[i];
     if([inst.owner_type isEqualToString:@"GROUP"] &&
-       inst.owner_id == _MODEL_GROUPS_.playerGroup.group_id)
+        inst.owner_id == _MODEL_GROUPS_.playerGroup.group_id)
       [gInstances addObject:allInstances[i]];
   }
   return gInstances;

@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Item.h"
 #import "Instance.h"
 
-@interface PlayerInstancesModel : NSObject
+@interface PlayerInstancesModel : ARISModel
 {
     long currentWeight;
 }
@@ -28,8 +29,6 @@
 - (long) qtyOwnedForItem:(long)item_id;
 - (long) qtyOwnedForTag:(long)tag_id;
 - (long) qtyAllowedToGiveForItem:(long)item_id;
-- (void) clearPlayerData;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
 
 @end
+

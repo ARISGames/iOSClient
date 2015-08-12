@@ -15,8 +15,7 @@
 
 @interface ItemsModel()
 {
-    NSMutableDictionary *items;
-    long game_info_recvd;
+  NSMutableDictionary *items;
 }
 
 @end
@@ -25,53 +24,56 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self clearGameData];
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    [self clearGameData];
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_ITEMS_RECEIVED",self,@selector(itemsReceived:),nil);
+  }
+  return self;
 }
 
+- (void) requestGameData
+{
+  [self requestItems];
+}
 - (void) clearGameData
 {
-    items = [[NSMutableDictionary alloc] init];
-    game_info_recvd = 0;
+  items = [[NSMutableDictionary alloc] init];
+  n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 1;
+  return 1;
 }
 
 - (void) itemsReceived:(NSNotification *)notif
 {
-    [self updateItems:[notif.userInfo objectForKey:@"items"]];
+  [self updateItems:[notif.userInfo objectForKey:@"items"]];
 }
 
 - (void) updateItems:(NSArray *)newItems
 {
-    Item *newItem;
-    NSNumber *newItemId;
-    for(long i = 0; i < newItems.count; i++)
-    {
-      newItem = [newItems objectAtIndex:i];
-      newItemId = [NSNumber numberWithLong:newItem.item_id];
-      if(![items objectForKey:newItemId]) [items setObject:newItem forKey:newItemId];
-    }
-    game_info_recvd++;
-    _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  Item *newItem;
+  NSNumber *newItemId;
+  for(long i = 0; i < newItems.count; i++)
+  {
+    newItem = [newItems objectAtIndex:i];
+    newItemId = [NSNumber numberWithLong:newItem.item_id];
+    if(![items objectForKey:newItemId]) [items setObject:newItem forKey:newItemId];
+  }
+  n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestItems
 {
-    [_SERVICES_ fetchItems];
+  [_SERVICES_ fetchItems];
 }
 
 - (NSArray *) items
 {
-    return [items allValues];
+  return [items allValues];
 }
 
 // null item (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
@@ -83,7 +85,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

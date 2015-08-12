@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
+
 @class Trigger;
 @class Instance;
 @protocol InstantiableProtocol;
 @class Tab;
 
-@interface DisplayQueueModel : NSObject
+@interface DisplayQueueModel : ARISModel
 
 - (void) clear;
 
@@ -28,3 +30,4 @@
 - (NSObject *) dequeue;
 
 @end
+

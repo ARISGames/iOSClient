@@ -119,116 +119,116 @@
 }
 - (void) requestGame:(long)game_id
 {
-    [_SERVICES_ fetchGame:game_id];
+  [_SERVICES_ fetchGame:game_id];
 }
 - (void) playerResetGame:(long)game_id
 {
-    [_SERVICES_ logPlayerResetGame:game_id];
+  [_SERVICES_ logPlayerResetGame:game_id];
 }
 
 - (NSArray *) pingNearbyGames
 {
-    if(!nearbyStamp || [nearbyStamp timeIntervalSinceNow] < -10 ||
-       (_MODEL_PLAYER_.location && (!location ||
-        location.coordinate.latitude  != _MODEL_PLAYER_.location.coordinate.latitude ||
-        location.coordinate.longitude != _MODEL_PLAYER_.location.coordinate.longitude
-        )
-       ))
-    {
-        nearbyStamp = [[NSDate alloc] init];
-        location = [_MODEL_PLAYER_.location copy];
-        [_SERVICES_ fetchNearbyGames];
-    }
-    else [self performSelector:@selector(notifNearbyGames) withObject:nil afterDelay:1];
+  if(!nearbyStamp || [nearbyStamp timeIntervalSinceNow] < -10 ||
+      (_MODEL_PLAYER_.location && (!location ||
+                                   location.coordinate.latitude  != _MODEL_PLAYER_.location.coordinate.latitude ||
+                                   location.coordinate.longitude != _MODEL_PLAYER_.location.coordinate.longitude
+                                  )
+      ))
+  {
+    nearbyStamp = [[NSDate alloc] init];
+    location = [_MODEL_PLAYER_.location copy];
+    [_SERVICES_ fetchNearbyGames];
+  }
+  else [self performSelector:@selector(notifNearbyGames) withObject:nil afterDelay:1];
 
-    return nearbyGames;
+  return nearbyGames;
 }
 - (NSArray *) nearbyGames { return nearbyGames; }
 
 - (NSArray *) pingAnywhereGames
 {
-    if(!anywhereStamp || [anywhereStamp timeIntervalSinceNow] < -10)
-    {
-        anywhereStamp = [[NSDate alloc] init];
-        [_SERVICES_ fetchAnywhereGames];
-    }
-    else [self performSelector:@selector(notifAnywhereGames) withObject:nil afterDelay:1];
+  if(!anywhereStamp || [anywhereStamp timeIntervalSinceNow] < -10)
+  {
+    anywhereStamp = [[NSDate alloc] init];
+    [_SERVICES_ fetchAnywhereGames];
+  }
+  else [self performSelector:@selector(notifAnywhereGames) withObject:nil afterDelay:1];
 
-    return anywhereGames;
+  return anywhereGames;
 }
 - (NSArray *) anywhereGames { return anywhereGames; }
 
 - (NSArray *) pingPopularGames:(NSString *)i
 {
-    if(!popularStamp || [popularStamp timeIntervalSinceNow] < -10 ||
-       ![interval isEqualToString:i])
-    {
-        popularStamp = [[NSDate alloc] init];
-        interval = i;
-        [_SERVICES_ fetchPopularGamesInterval:interval];
-    }
-    else [self performSelector:@selector(notifPopularGames) withObject:nil afterDelay:1];
+  if(!popularStamp || [popularStamp timeIntervalSinceNow] < -10 ||
+      ![interval isEqualToString:i])
+  {
+    popularStamp = [[NSDate alloc] init];
+    interval = i;
+    [_SERVICES_ fetchPopularGamesInterval:interval];
+  }
+  else [self performSelector:@selector(notifPopularGames) withObject:nil afterDelay:1];
 
-    return popularGames;
+  return popularGames;
 }
 - (NSArray *) popularGames { return popularGames; }
 
 - (NSArray *) pingRecentGames
 {
-    if(!recentStamp || [recentStamp timeIntervalSinceNow] < -10)
-    {
-        recentStamp = [[NSDate alloc] init];
-        [_SERVICES_ fetchRecentGames];
-    }
-    else [self performSelector:@selector(notifRecentGames) withObject:nil afterDelay:1];
+  if(!recentStamp || [recentStamp timeIntervalSinceNow] < -10)
+  {
+    recentStamp = [[NSDate alloc] init];
+    [_SERVICES_ fetchRecentGames];
+  }
+  else [self performSelector:@selector(notifRecentGames) withObject:nil afterDelay:1];
 
-    return recentGames;
+  return recentGames;
 }
 - (NSArray *) recentGames { return recentGames; }
 
 - (NSArray *) pingSearchGames:(NSString *)s
 {
-    if(!searchStamp || [searchStamp timeIntervalSinceNow] < -10 ||
-       ![search isEqualToString:s])
-    {
-        searchStamp = [[NSDate alloc] init];
-        search = s;
-        [_SERVICES_ fetchSearchGames:s];
-    }
-    else [self performSelector:@selector(notifSearchGames) withObject:nil afterDelay:1];
+  if(!searchStamp || [searchStamp timeIntervalSinceNow] < -10 ||
+      ![search isEqualToString:s])
+  {
+    searchStamp = [[NSDate alloc] init];
+    search = s;
+    [_SERVICES_ fetchSearchGames:s];
+  }
+  else [self performSelector:@selector(notifSearchGames) withObject:nil afterDelay:1];
 
-    return searchGames;
+  return searchGames;
 }
 - (NSArray *) searchGames { return searchGames; }
 
 - (NSArray *) pingMineGames
 {
-    if(!mineStamp || [mineStamp timeIntervalSinceNow] < -10)
-    {
-        mineStamp = [[NSDate alloc] init];
-        [_SERVICES_ fetchMineGames];
-    }
-    else [self performSelector:@selector(notifMineGames) withObject:nil afterDelay:1];
+  if(!mineStamp || [mineStamp timeIntervalSinceNow] < -10)
+  {
+    mineStamp = [[NSDate alloc] init];
+    [_SERVICES_ fetchMineGames];
+  }
+  else [self performSelector:@selector(notifMineGames) withObject:nil afterDelay:1];
 
-    return mineGames;
+  return mineGames;
 }
 - (NSArray *) mineGames { return mineGames; }
 
 - (void) requestPlayerPlayedGame:(long)game_id
 {
-    //when offline mode implemented, just check log here
-    [_SERVICES_ fetchPlayerPlayedGame:game_id];
+  //when offline mode implemented, just check log here
+  [_SERVICES_ fetchPlayerPlayedGame:game_id];
 }
 
 - (void) playerPlayedGameReceived:(NSNotification *)notif
 {
-    //just turn event around and re-send it
-    _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE",nil,notif.userInfo);
+  //just turn event around and re-send it
+  _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE",nil,notif.userInfo);
 }
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

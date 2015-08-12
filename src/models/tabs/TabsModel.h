@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Tab.h"
 
-@interface TabsModel : NSObject
+@interface TabsModel : ARISModel
 
 - (Tab *) tabForId:(long)tab_id;
 - (Tab *) tabForType:(NSString *)t;
@@ -17,8 +18,5 @@
 - (void) requestTabs;
 - (void) requestPlayerTabs;
 
-- (void) clearPlayerData;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
-
 @end
+

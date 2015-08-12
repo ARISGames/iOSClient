@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Group.h"
 
-@interface GroupsModel : NSObject
+@interface GroupsModel : ARISModel
 {
     Group *playerGroup;
 }
@@ -20,8 +21,6 @@
 - (void) requestGroups;
 - (void) touchPlayerGroup;
 - (void) requestPlayerGroup;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
-- (void) clearPlayerData;
 
 @end
+

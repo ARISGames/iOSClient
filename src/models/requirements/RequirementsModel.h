@@ -7,16 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Requirement.h"
 
-@interface RequirementsModel : NSObject
+@interface RequirementsModel : ARISModel
 
 - (RequirementRootPackage *) requirementRootPackageForId:(long)requirement_root_package_id;
 - (RequirementAndPackage *) requirementAndPackageForId:(long)requirement_and_package_id;
 - (RequirementAtom *) requirementAtomForId:(long)requirement_atom_id;
 - (BOOL) evaluateRequirementRoot:(long)requirement_root_package_id;
 - (void) requestRequirements;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
 
 @end
+

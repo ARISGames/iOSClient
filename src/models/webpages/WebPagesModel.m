@@ -16,7 +16,6 @@
 @interface WebPagesModel()
 {
     NSMutableDictionary *webPages;
-    long game_info_recvd;
 }
 
 @end
@@ -33,15 +32,18 @@
     return self;
 }
 
+- (void) requestGameData
+{
+  [self requestWebPages];
+}
 - (void) clearGameData
 {
     webPages = [[NSMutableDictionary alloc] init];
-    game_info_recvd = 0;
+    n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 1;
+  return 1;
 }
 
 - (void) webPagesReceived:(NSNotification *)notif
@@ -61,7 +63,7 @@
     }
     _ARIS_NOTIF_SEND_(@"MODEL_WEB_PAGES_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
-    game_info_recvd = YES;
+    n_game_data_received++;
 }
 
 - (void) requestWebPages

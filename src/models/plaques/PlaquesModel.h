@@ -7,15 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Plaque.h"
 
-@interface PlaquesModel : NSObject
-{
-}
+@interface PlaquesModel : ARISModel
 
 - (Plaque *) plaqueForId:(long)plaque_id;
 - (void) requestPlaques;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
 
 @end
+

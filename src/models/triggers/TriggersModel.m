@@ -16,11 +16,10 @@
 
 @interface TriggersModel()
 {
-    NSMutableDictionary *triggers;
-    NSArray *playerTriggers;
-
-    NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
-    long game_info_recvd;
+  NSMutableDictionary *triggers;
+  NSArray *playerTriggers;
+  
+  NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
 }
 @end
 
@@ -28,91 +27,104 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self clearGameData];
-
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGERS_RECEIVED",self,@selector(triggersReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGER_RECEIVED",self,@selector(triggerReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",self,@selector(playerTriggersReceived:),nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    [self clearGameData];
+    
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGERS_RECEIVED",self,@selector(triggersReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGER_RECEIVED",self,@selector(triggerReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",self,@selector(playerTriggersReceived:),nil);
+  }
+  return self;
 }
 
+- (void) requestPlayerData
+{
+  [self requestPlayerTriggers];
+}
 - (void) clearPlayerData
 {
-    playerTriggers = [[NSArray alloc] init];
+  playerTriggers = [[NSArray alloc] init];
+  n_player_data_received = 0;
+}
+- (long) nPlayerDataToReceive
+{
+  return 1;
 }
 
+- (void) requestGameData
+{
+  [self requestTriggers];
+}
 - (void) clearGameData
 {
-    [self clearPlayerData];
-    triggers  = [[NSMutableDictionary alloc] init];
-    blacklist = [[NSMutableDictionary alloc] init];
-    game_info_recvd = 0;
+  [self clearPlayerData];
+  triggers  = [[NSMutableDictionary alloc] init];
+  blacklist = [[NSMutableDictionary alloc] init];
+  n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 1;
+  return 1;
 }
 
 - (void) triggersReceived:(NSNotification *)notif
 {
-    [self updateTriggers:notif.userInfo[@"triggers"]];
+  [self updateTriggers:notif.userInfo[@"triggers"]];
 }
 
 - (void) triggerReceived:(NSNotification *)notif
 {
-    [self updateTriggers:@[notif.userInfo[@"trigger"]]];
+  [self updateTriggers:@[notif.userInfo[@"trigger"]]];
 }
 
 - (void) updateTriggers:(NSArray *)newTriggers
 {
-    Trigger *newTrigger;
-    NSNumber *newTriggerId;
-    NSMutableArray *invalidatedTriggers = [[NSMutableArray alloc] init];
-    for(long i = 0; i < newTriggers.count; i++)
+  Trigger *newTrigger;
+  NSNumber *newTriggerId;
+  NSMutableArray *invalidatedTriggers = [[NSMutableArray alloc] init];
+  for(long i = 0; i < newTriggers.count; i++)
+  {
+    newTrigger = [newTriggers objectAtIndex:i];
+    newTriggerId = [NSNumber numberWithLong:newTrigger.trigger_id];
+    if(![triggers objectForKey:newTriggerId])
     {
-      newTrigger = [newTriggers objectAtIndex:i];
-      newTriggerId = [NSNumber numberWithLong:newTrigger.trigger_id];
-      if(![triggers objectForKey:newTriggerId])
-      {
-        [triggers setObject:newTrigger forKey:newTriggerId];
-        [blacklist removeObjectForKey:[NSNumber numberWithLong:newTriggerId]];
-      }
-      else
-        if(![[triggers objectForKey:newTriggerId] mergeDataFromTrigger:newTrigger])
-            [invalidatedTriggers addObject:[triggers objectForKey:newTriggerId]];
+      [triggers setObject:newTrigger forKey:newTriggerId];
+      [blacklist removeObjectForKey:[NSNumber numberWithLong:newTriggerId]];
     }
-    if(invalidatedTriggers.count) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,@{@"invalidated_triggers":invalidatedTriggers});
-    _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
-    game_info_recvd = YES;
+    else
+      if(![[triggers objectForKey:newTriggerId] mergeDataFromTrigger:newTrigger])
+        [invalidatedTriggers addObject:[triggers objectForKey:newTriggerId]];
+  }
+  if(invalidatedTriggers.count) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,@{@"invalidated_triggers":invalidatedTriggers});
+  
+  n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (NSArray *) conformTriggersListToFlyweight:(NSArray *)newTriggers
 {
-    NSMutableArray *conformingTriggers = [[NSMutableArray alloc] init];
-    NSMutableArray *invalidatedTriggers = [[NSMutableArray alloc] init];
-    for(long i = 0; i < newTriggers.count; i++)
+  NSMutableArray *conformingTriggers = [[NSMutableArray alloc] init];
+  NSMutableArray *invalidatedTriggers = [[NSMutableArray alloc] init];
+  for(long i = 0; i < newTriggers.count; i++)
+  {
+    Trigger *newt = newTriggers[i];
+    Trigger *exist = [self triggerForId:newt.trigger_id];
+    
+    if(exist)
     {
-        Trigger *newt = newTriggers[i];
-        Trigger *exist = [self triggerForId:newt.trigger_id];
-
-        if(exist)
-        {
-            if(![exist mergeDataFromTrigger:newt]) [invalidatedTriggers addObject:exist];
-            [conformingTriggers addObject:exist];
-        }
-        else
-        {
-            [triggers setObject:newt forKey:[NSNumber numberWithLong:newt.trigger_id]];
-            [conformingTriggers addObject:newt];
-        }
+      if(![exist mergeDataFromTrigger:newt]) [invalidatedTriggers addObject:exist];
+      [conformingTriggers addObject:exist];
     }
-    if(invalidatedTriggers.count) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,@{@"invalidated_triggers":invalidatedTriggers});
-    return conformingTriggers;
+    else
+    {
+      [triggers setObject:newt forKey:[NSNumber numberWithLong:newt.trigger_id]];
+      [conformingTriggers addObject:newt];
+    }
+  }
+  if(invalidatedTriggers.count) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,@{@"invalidated_triggers":invalidatedTriggers});
+  return conformingTriggers;
 }
 
 - (void) playerTriggersReceived:(NSNotification *)notif
@@ -122,46 +134,48 @@
 
 - (void) updatePlayerTriggers:(NSArray *)newTriggers
 {
-    NSMutableArray *addedTriggers = [[NSMutableArray alloc] init];
-    NSMutableArray *removedTriggers = [[NSMutableArray alloc] init];
-
-    //placeholders for comparison
-    Trigger *newTrigger;
-    Trigger *oldTrigger;
-
-    //find added
-    BOOL new;
-    for(long i = 0; i < newTriggers.count; i++)
+  NSMutableArray *addedTriggers = [[NSMutableArray alloc] init];
+  NSMutableArray *removedTriggers = [[NSMutableArray alloc] init];
+  
+  //placeholders for comparison
+  Trigger *newTrigger;
+  Trigger *oldTrigger;
+  
+  //find added
+  BOOL new;
+  for(long i = 0; i < newTriggers.count; i++)
+  {
+    new = YES;
+    newTrigger = newTriggers[i];
+    for(long j = 0; j < playerTriggers.count; j++)
     {
-        new = YES;
-        newTrigger = newTriggers[i];
-        for(long j = 0; j < playerTriggers.count; j++)
-        {
-            oldTrigger = playerTriggers[j];
-            if(newTrigger.trigger_id == oldTrigger.trigger_id) new = NO;
-        }
-        if(new) [addedTriggers addObject:newTriggers[i]];
+      oldTrigger = playerTriggers[j];
+      if(newTrigger.trigger_id == oldTrigger.trigger_id) new = NO;
     }
-
-    //find removed
-    BOOL removed;
-    for(long i = 0; i < playerTriggers.count; i++)
+    if(new) [addedTriggers addObject:newTriggers[i]];
+  }
+  
+  //find removed
+  BOOL removed;
+  for(long i = 0; i < playerTriggers.count; i++)
+  {
+    removed = YES;
+    oldTrigger = playerTriggers[i];
+    for(long j = 0; j < newTriggers.count; j++)
     {
-        removed = YES;
-        oldTrigger = playerTriggers[i];
-        for(long j = 0; j < newTriggers.count; j++)
-        {
-            newTrigger = newTriggers[j];
-            if(newTrigger.trigger_id == oldTrigger.trigger_id) removed = NO;
-        }
-        if(removed) [removedTriggers addObject:playerTriggers[i]];
+      newTrigger = newTriggers[j];
+      if(newTrigger.trigger_id == oldTrigger.trigger_id) removed = NO;
     }
-
-    playerTriggers = newTriggers;
-    if(addedTriggers.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_NEW_AVAILABLE",nil,@{@"added":addedTriggers});
-    if(removedTriggers.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_LESS_AVAILABLE",nil,@{@"removed":removedTriggers});
-    _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_TRIGGERS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+    if(removed) [removedTriggers addObject:playerTriggers[i]];
+  }
+  
+  playerTriggers = newTriggers;
+  n_player_data_received++;
+  
+  if(addedTriggers.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_NEW_AVAILABLE",nil,@{@"added":addedTriggers});
+  if(removedTriggers.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_LESS_AVAILABLE",nil,@{@"removed":removedTriggers});
+  _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_TRIGGERS_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestTriggers { [_SERVICES_ fetchTriggers]; }
@@ -199,25 +213,25 @@
 
 - (NSArray *) triggersForInstanceId:(long)instance_id
 {
-    NSMutableArray *a = [[NSMutableArray alloc] init];
-    for(long i = 0; i < triggers.count; i++)
-    {
-        Trigger *t = [triggers allValues][i];
-        if(t.instance_id == instance_id)
-            [a addObject:t];
-    }
-    return a;
+  NSMutableArray *a = [[NSMutableArray alloc] init];
+  for(long i = 0; i < triggers.count; i++)
+  {
+    Trigger *t = [triggers allValues][i];
+    if(t.instance_id == instance_id)
+      [a addObject:t];
+  }
+  return a;
 }
 
 - (Trigger *) triggerForQRCode:(NSString *)code
 {
-    Trigger *t;
-    for(long i = 0; i < playerTriggers.count; i++)
-    {
-        t = playerTriggers[i];
-        if([t.type isEqualToString:@"QR"] && [t.qr_code isEqualToString:code]) return t;
-    }
-    return nil;
+  Trigger *t;
+  for(long i = 0; i < playerTriggers.count; i++)
+  {
+    t = playerTriggers[i];
+    if([t.type isEqualToString:@"QR"] && [t.qr_code isEqualToString:code]) return t;
+  }
+  return nil;
 }
 
 - (NSArray *) playerTriggers
@@ -227,18 +241,18 @@
 
 - (void) expireTriggersForInstanceId:(long)instance_id
 {
-    NSMutableArray *newTriggers = [[NSMutableArray alloc] init];
-    for(long i = 0; i < playerTriggers.count; i++)
-    {
-        if(((Trigger *)playerTriggers[i]).instance_id != instance_id)
-            [newTriggers addObject:playerTriggers[i]];
-    }
-    [self updatePlayerTriggers:newTriggers];
+  NSMutableArray *newTriggers = [[NSMutableArray alloc] init];
+  for(long i = 0; i < playerTriggers.count; i++)
+  {
+    if(((Trigger *)playerTriggers[i]).instance_id != instance_id)
+      [newTriggers addObject:playerTriggers[i]];
+  }
+  [self updatePlayerTriggers:newTriggers];
 }
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

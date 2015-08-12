@@ -7,16 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Item.h"
 
-@interface ItemsModel : NSObject
-{
-}
+@interface ItemsModel : ARISModel
 
 - (NSArray *) items;
 - (Item *) itemForId:(long)item_id;
 - (void) requestItems;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
 
 @end
+

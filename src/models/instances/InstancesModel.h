@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Instance.h"
 
-@interface InstancesModel : NSObject
+@interface InstancesModel : ARISModel
 
 - (Instance *) instanceForId:(long)instance_id;
 - (NSArray *) instancesForType:(NSString *)object_type id:(long)object_id;
@@ -22,7 +23,6 @@
 - (void) requestPlayerInstances; //game-owned fits in this category
 
 - (void) clearPlayerData; //game-owned fits in this category
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
 
 @end
+

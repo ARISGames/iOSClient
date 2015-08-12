@@ -15,8 +15,7 @@
 
 @interface FactoriesModel()
 {
-    NSMutableDictionary *factories;
-    long game_info_recvd;
+  NSMutableDictionary *factories;
 }
 
 @end
@@ -25,48 +24,51 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self clearGameData];
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_FACTORIES_RECEIVED",self,@selector(factoriesReceived:),nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    [self clearGameData];
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_FACTORIES_RECEIVED",self,@selector(factoriesReceived:),nil);
+  }
+  return self;
 }
 
+- (void) requestGameData
+{
+  [self requestFactories];
+}
 - (void) clearGameData
 {
-    factories = [[NSMutableDictionary alloc] init];
-    game_info_recvd = 0;
+  factories = [[NSMutableDictionary alloc] init];
+  n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 1;
+  return 1;
 }
 
 - (void) factoriesReceived:(NSNotification *)notif
 {
-    [self updateFactories:notif.userInfo[@"factories"]];
+  [self updateFactories:notif.userInfo[@"factories"]];
 }
 
 - (void) updateFactories:(NSArray *)newFactories
 {
-    Factory *newFactory;
-    NSNumber *newFactoryId;
-    for(long i = 0; i < newFactories.count; i++)
-    {
-      newFactory = [newFactories objectAtIndex:i];
-      newFactoryId = [NSNumber numberWithLong:newFactory.factory_id];
-      if(!factories[newFactoryId]) [factories setObject:newFactory forKey:newFactoryId];
-    }
-    _ARIS_NOTIF_SEND_(@"MODEL_FACTORIES_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
-    game_info_recvd = YES;
+  Factory *newFactory;
+  NSNumber *newFactoryId;
+  for(long i = 0; i < newFactories.count; i++)
+  {
+    newFactory = [newFactories objectAtIndex:i];
+    newFactoryId = [NSNumber numberWithLong:newFactory.factory_id];
+    if(!factories[newFactoryId]) [factories setObject:newFactory forKey:newFactoryId];
+  }
+  _ARIS_NOTIF_SEND_(@"MODEL_FACTORIES_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  n_game_data_received = 1;
 }
 
 - (void) requestFactories
 {
-    [_SERVICES_ fetchFactories];
+  [_SERVICES_ fetchFactories];
 }
 
 // null factory (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
@@ -78,7 +80,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

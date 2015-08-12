@@ -101,6 +101,7 @@
 		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
 		AA4A75551B2B2F0000C434A7 /* GroupInstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4A75541B2B2F0000C434A7 /* GroupInstancesModel.m */; };
 		AA4A755A1B3CA91A00C434A7 /* EventPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4A75591B3CA91A00C434A7 /* EventPackage.m */; };
+		AA4AC3CC1B7BE97D00E0BBD1 /* ARISModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4AC3CB1B7BE97D00E0BBD1 /* ARISModel.m */; };
 		AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
 		AA5D8D32191AB20800116FA1 /* WebPagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5D8D31191AB20800116FA1 /* WebPagesModel.m */; };
@@ -474,6 +475,8 @@
 		AA4A75541B2B2F0000C434A7 /* GroupInstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupInstancesModel.m; sourceTree = "<group>"; };
 		AA4A75581B3CA91A00C434A7 /* EventPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventPackage.h; sourceTree = "<group>"; };
 		AA4A75591B3CA91A00C434A7 /* EventPackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventPackage.m; sourceTree = "<group>"; };
+		AA4AC3CA1B7BE97D00E0BBD1 /* ARISModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISModel.h; sourceTree = "<group>"; };
+		AA4AC3CB1B7BE97D00E0BBD1 /* ARISModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISModel.m; sourceTree = "<group>"; };
 		AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCell.h; sourceTree = "<group>"; };
 		AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestCell.m; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
@@ -1578,6 +1581,8 @@
 		AABC70DB172739D60074CC21 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				AA4AC3CA1B7BE97D00E0BBD1 /* ARISModel.h */,
+				AA4AC3CB1B7BE97D00E0BBD1 /* ARISModel.m */,
 				AABC70DC172739D60074CC21 /* AppModel.h */,
 				AABC70DD172739D60074CC21 /* AppModel.m */,
 				AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */,
@@ -2342,6 +2347,7 @@
 				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,
 				AAB679BD1B4309B200766B0D /* GroupsModel.m in Sources */,
+				AA4AC3CC1B7BE97D00E0BBD1 /* ARISModel.m in Sources */,
 				AABC738B172739D80074CC21 /* Tab.m in Sources */,
 				AADA6B2F1B14DFA600C0C7A0 /* LoadingIndicatorViewController.m in Sources */,
 				AAB679C01B430B2000766B0D /* Group.m in Sources */,

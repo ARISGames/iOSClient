@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Scene.h"
 
-@interface ScenesModel : NSObject
+@interface ScenesModel : ARISModel
 {
     Scene *playerScene;
 }
@@ -20,8 +21,6 @@
 - (void) requestScenes;
 - (void) touchPlayerScene;
 - (void) requestPlayerScene;
-- (void) clearGameData;
-- (BOOL) gameInfoRecvd;
-- (void) clearPlayerData;
 
 @end
+

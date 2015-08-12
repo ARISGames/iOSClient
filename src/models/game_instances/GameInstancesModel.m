@@ -18,7 +18,6 @@
 {
   NSMutableDictionary *instances;
   NSMutableArray *gameOwnedInstances;
-  long game_info_recvd;
 }
 
 @end
@@ -29,20 +28,20 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self clearGameData];
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_INSTANCES_TOUCHED",self,@selector(gameInstancesTouched:),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",self,@selector(gameInstancesAvailable),nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    [self clearGameData];
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_INSTANCES_TOUCHED",self,@selector(gameInstancesTouched:),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE",self,@selector(gameInstancesAvailable),nil);
+  }
+  return self;
 }
 
 - (void) clearPlayerData
 {
-    instances = [[NSMutableDictionary alloc] init];
-    [self invalidateCaches];
-    currentWeight = 0;
+  instances = [[NSMutableDictionary alloc] init];
+  [self invalidateCaches];
+  currentWeight = 0;
 }
 
 - (void) invalidateCaches
@@ -50,53 +49,56 @@
   gameOwnedInstances = nil;
 }
 
+- (void) requestGameData
+{
+  [self touchGameInstances];
+}
 - (void) clearGameData
 {
-    [self clearPlayerData];
-    game_info_recvd = 0;
+  [self clearPlayerData];
+  n_game_data_received = 0;
 }
-
-- (BOOL) gameInfoRecvd
+- (long) nGameDataToReceive
 {
-  return game_info_recvd >= 1;
+  return 1;
 }
 
 - (void) gameInstancesTouched:(NSNotification *)notif
 {
-    game_info_recvd++;
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_INSTANCES_TOUCHED",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_INSTANCES_TOUCHED",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) touchGameInstances
 {
-    [_SERVICES_ touchItemsForGame];
+  [_SERVICES_ touchItemsForGame];
 }
 
 - (void) gameInstancesAvailable
 {
-    NSArray *newInstances = [_MODEL_INSTANCES_ gameOwnedInstances];
-    [self clearPlayerData];
+  NSArray *newInstances = [_MODEL_INSTANCES_ gameOwnedInstances];
+  [self clearPlayerData];
 
-    Instance *newInstance;
-    for(long i = 0; i < newInstances.count; i++)
-    {
-        newInstance = newInstances[i];
-        if(![newInstance.object_type isEqualToString:@"ITEM"] || ![newInstance.owner_type isEqualToString:@"GAME"]) continue;
+  Instance *newInstance;
+  for(long i = 0; i < newInstances.count; i++)
+  {
+    newInstance = newInstances[i];
+    if(![newInstance.object_type isEqualToString:@"ITEM"] || ![newInstance.owner_type isEqualToString:@"GAME"]) continue;
 
-        instances[[NSNumber numberWithLong:newInstance.object_id]] = newInstance;
-    }
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_INSTANCES_AVAILABLE",nil,nil);
+    instances[[NSNumber numberWithLong:newInstance.object_id]] = newInstance;
+  }
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_INSTANCES_AVAILABLE",nil,nil);
 }
 
 - (long) dropItemFromGame:(long)item_id qtyToRemove:(long)qty
 {
-    Instance *gII = instances[[NSNumber numberWithLong:item_id]];
-    if(!gII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForGame was called...)
-    if(gII.qty < qty) qty = gII.qty;
+  Instance *gII = instances[[NSNumber numberWithLong:item_id]];
+  if(!gII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForGame was called...)
+  if(gII.qty < qty) qty = gII.qty;
 
-    [_SERVICES_ dropItem:(long)item_id qty:(long)qty];
-    return [self takeItemFromGame:item_id qtyToRemove:qty];
+  [_SERVICES_ dropItem:(long)item_id qty:(long)qty];
+  return [self takeItemFromGame:item_id qtyToRemove:qty];
 }
 
 - (long) takeItemFromGame:(long)item_id qtyToRemove:(long)qty
@@ -135,7 +137,7 @@
 
 - (long) qtyOwnedForItem:(long)item_id
 {
-    return ((Instance *)instances[[NSNumber numberWithLong:item_id]]).qty;
+  return ((Instance *)instances[[NSNumber numberWithLong:item_id]]).qty;
 }
 
 - (long) qtyOwnedForTag:(long)tag_id
@@ -149,13 +151,13 @@
 
 - (long) qtyAllowedToGiveForItem:(long)item_id
 {
-    Item *i = [_MODEL_ITEMS_ itemForId:item_id];
-    long amtMoreCanHold = i.max_qty_in_inventory-[self qtyOwnedForItem:item_id];
-    while(_MODEL_GAME_.inventory_weight_cap > 0 &&
-          (amtMoreCanHold*i.weight + currentWeight) > _MODEL_GAME_.inventory_weight_cap)
-        amtMoreCanHold--;
+  Item *i = [_MODEL_ITEMS_ itemForId:item_id];
+  long amtMoreCanHold = i.max_qty_in_inventory-[self qtyOwnedForItem:item_id];
+  while(_MODEL_GAME_.inventory_weight_cap > 0 &&
+      (amtMoreCanHold*i.weight + currentWeight) > _MODEL_GAME_.inventory_weight_cap)
+    amtMoreCanHold--;
 
-    return amtMoreCanHold;
+  return amtMoreCanHold;
 }
 
 //because it's 1 to 1 (unlike player instances to attribs + inventory), very simple
@@ -172,7 +174,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
