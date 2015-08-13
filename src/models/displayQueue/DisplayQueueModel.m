@@ -25,7 +25,7 @@
 {
   if(self = [super init])
   {
-    [self clear];
+    [self clearPlayerData];
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(enqueueNewImmediates),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(purgeInvalidFromQueue),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(reevaluateImmediates),nil);
@@ -34,7 +34,7 @@
   return self;
 }
 
-- (void) clear
+- (void) clearPlayerData
 {
   displayQueue = [[NSMutableArray alloc] init];
   displayBlacklist = [[NSMutableArray alloc] init];

@@ -16,7 +16,7 @@
 
 @interface DisplayQueueModel : ARISModel
 
-- (void) clear;
+- (void) clearPlayerData;
 
 - (void) enqueueTrigger:(Trigger *)t;
 - (void) injectTrigger:(Trigger *)t;

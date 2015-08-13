@@ -12,7 +12,7 @@
 
 - (void) requestGameData { }
 - (void) requestPlayerData { }
-- (void) clearGameData { }
+- (void) clearGameData { [self clearPlayerData]; }
 - (void) clearPlayerData { }
 
 - (long) nGameDataToReceive { return 0; }
@@ -39,4 +39,3 @@
 }
 
 @end
-
