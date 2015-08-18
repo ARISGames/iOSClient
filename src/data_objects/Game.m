@@ -331,7 +331,7 @@
   for(long i = 0; i < models.count; i++)
     [(ARISModel *)models[i] clearGameData];
   
-  [displayQueueModel clear]; //what...? should conform to clearPlayerData, even though there is no 'requestPlayerData'
+  [displayQueueModel clearPlayerData];
 }
 
 - (long) rating
