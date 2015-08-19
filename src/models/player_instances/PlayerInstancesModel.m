@@ -94,6 +94,21 @@
   _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_INSTANCES_AVAILABLE",nil,nil);
 }
 
+- (void) calculateWeight
+{
+  currentWeight = 0;
+  NSArray *insts = [playerInstances allValues];
+  for(long i = 0; i < insts.count; i++)
+  {
+    Instance *inst = insts[i];
+    if( [inst.object_type isEqualToString:@"ITEM"] )
+    {
+      Item *item = [_MODEL_ITEMS_ itemForId:inst.object_id];
+      currentWeight += item.weight * inst.qty;
+    }
+  }
+}
+
 - (long) dropItemFromPlayer:(long)item_id qtyToRemove:(long)qty
 {
   Instance *pII = playerInstances[[NSNumber numberWithLong:item_id]];
@@ -154,10 +169,12 @@
 
 - (long) qtyAllowedToGiveForItem:(long)item_id
 {
+  [self calculateWeight];
+
   Item *i = [_MODEL_ITEMS_ itemForId:item_id];
   long amtMoreCanHold = i.max_qty_in_inventory-[self qtyOwnedForItem:item_id];
   while(_MODEL_GAME_.inventory_weight_cap > 0 &&
-      (amtMoreCanHold*i.weight + currentWeight) > _MODEL_GAME_.inventory_weight_cap)
+        (amtMoreCanHold*i.weight + currentWeight) > _MODEL_GAME_.inventory_weight_cap)
     amtMoreCanHold--;
 
   return amtMoreCanHold;
