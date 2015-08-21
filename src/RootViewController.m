@@ -185,8 +185,15 @@
 
 - (void) choosePreferredGame
 {
-  Game *g = [[Game alloc] init];
-  g.game_id = _MODEL_.preferred_game_id;
+  Game *g = [_MODEL_GAMES_ gameForId:_MODEL_.preferred_game_id];
+  if(!g)
+  {
+    g = [[Game alloc] init];
+    g.game_id = _MODEL_.preferred_game_id;
+    [_MODEL_GAMES_ mergeInGame:g];
+    [_MODEL_GAMES_ requestGame:_MODEL_.preferred_game_id];
+  }
+
   [_MODEL_ chooseGame:g];
 }
 
