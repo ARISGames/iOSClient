@@ -50,7 +50,7 @@
     self.view.backgroundColor = [UIColor blackColor];
 
     CGRect b = self.view.bounds;
-    CGRect mediaViewRect = CGRectMake(b.origin.x,b.origin.y+64,b.size.width,b.size.height);
+    CGRect mediaViewRect = CGRectMake(b.origin.x,b.origin.y+64,b.size.width,b.size.height-64);
     mediaView = [[ARISMediaView alloc] initWithFrame:mediaViewRect delegate:self];
     [mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToCV:)]];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
