@@ -238,7 +238,8 @@
 
 - (ARISNavigationController *) firstViewController
 {
-    return viewControllers[0];
+  if(viewControllers.count < 1) return nil;
+  return viewControllers[0];
 }
 
 - (void) leaveGameButtonTouched

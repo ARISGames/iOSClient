@@ -49,7 +49,9 @@
     [super loadView];
     self.view.backgroundColor = [UIColor blackColor];
 
-    mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
+    CGRect b = self.view.bounds;
+    CGRect mediaViewRect = CGRectMake(b.origin.x,b.origin.y+64,b.size.width,b.size.height);
+    mediaView = [[ARISMediaView alloc] initWithFrame:mediaViewRect delegate:self];
     [mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToCV:)]];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
     dialogTextView = [[DialogTextView alloc] initWithDelegate:self];
