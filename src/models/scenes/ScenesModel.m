@@ -130,8 +130,16 @@
 }
 
 - (void) requestPlayerScene
-{
-  [_SERVICES_ fetchSceneForPlayer];
+{ 
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+  {
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",nil,@{@"scene":playerScene}); //just return current
+  }
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchSceneForPlayer];
 }
 
 - (Scene *) playerScene

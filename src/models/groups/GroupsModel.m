@@ -116,8 +116,16 @@
 }
 
 - (void) requestPlayerGroup
-{
-  [_SERVICES_ fetchGroupForPlayer];
+{ 
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+  {
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",nil,@{@"group":playerGroup}); //just return current
+  }
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchGroupForPlayer];
 }
 
 - (Group *) playerGroup

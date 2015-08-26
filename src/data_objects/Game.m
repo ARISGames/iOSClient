@@ -147,7 +147,7 @@
   authors  = [NSMutableArray arrayWithCapacity:5];
   comments = [NSMutableArray arrayWithCapacity:5];
   
-  network_level = @"NORMAL";
+  network_level = @"HYBRID";
   
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);

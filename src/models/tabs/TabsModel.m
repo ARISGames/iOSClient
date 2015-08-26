@@ -88,7 +88,8 @@
 
 - (void) requestPlayerTabs
 {
-  if([_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {
     NSMutableArray *ptabs = [[NSMutableArray alloc] init];
     NSArray *ts = [tabs allValues];
@@ -100,7 +101,10 @@
     }
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TABS_RECEIVED",nil,@{@"tabs":ptabs});
   }
-  else [_SERVICES_ fetchTabsForPlayer];
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchTabsForPlayer];
 }
 
 //admittedly a bit silly, but a great way to rid any risk of deviation from flyweight by catching it at the beginning

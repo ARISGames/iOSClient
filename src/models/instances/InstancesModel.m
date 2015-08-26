@@ -153,12 +153,16 @@
 - (void) requestInstance:(long)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances
 {
-  if([self playerDataReceived] && [_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {
     NSArray *pinsts = [instances allValues];
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",nil,@{@"instances":pinsts});
   }
-  else [_SERVICES_ fetchInstancesForPlayer];
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchInstancesForPlayer];
 }
 
 - (long) setQtyForInstanceId:(long)instance_id qty:(long)qty
