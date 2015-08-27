@@ -165,7 +165,7 @@
 {
   if(!requirement_and_package_id) return YES;
   NSArray *atoms = [self atomsForAndPackageId:requirement_and_package_id];
-  if(atoms.count == 0) return YES;
+  if(atoms.count == 0) return NO;
   for(int i = 0; i < atoms.count; i++)
   {
     if(![self evaluateRequirementAtom:((RequirementAtom *)atoms[i]).requirement_atom_id]) return NO;
