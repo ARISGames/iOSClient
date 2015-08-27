@@ -115,7 +115,8 @@
   if(!pII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForPlayer was called...)
   if(pII.qty < qty) qty = pII.qty;
 
-  [_SERVICES_ dropItem:(long)item_id qty:(long)qty];
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+    [_SERVICES_ dropItem:(long)item_id qty:(long)qty];
   return [self takeItemFromPlayer:item_id qtyToRemove:qty];
 }
 

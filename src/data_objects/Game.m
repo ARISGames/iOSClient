@@ -181,6 +181,7 @@
   notebook_allow_player_tags = g.notebook_allow_player_tags;
   
   inventory_weight_cap = g.inventory_weight_cap;
+  network_level = g.network_level;
 }
 
 - (void) getReadyToPlay

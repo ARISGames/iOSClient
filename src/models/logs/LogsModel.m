@@ -96,24 +96,29 @@
 
 - (void) playerEnteredGame
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerEnteredGame];
-    [self playerMoved]; //start off with a move to set location
+  [self playerMoved]; //start off with a move to set location
 }
 
 - (void) playerMoved
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerMoved];
-    _ARIS_NOTIF_SEND_(@"USER_MOVED",nil,nil);
+  _ARIS_NOTIF_SEND_(@"USER_MOVED",nil,nil);
 }
 
 - (void) playerViewedTabId:(long)tab_id
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerViewedTabId:tab_id];
-    [self addLogType:@"VIEW_TAB" content:tab_id qty:0];
+  [self addLogType:@"VIEW_TAB" content:tab_id qty:0];
 }
 
 - (void) playerViewedContent:(NSString *)content id:(long)content_id
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+  {
     if([content isEqualToString:@"PLAQUE"])        [_SERVICES_ logPlayerViewedPlaqueId:content_id];
     if([content isEqualToString:@"ITEM"])          [_SERVICES_ logPlayerViewedItemId:content_id];
     if([content isEqualToString:@"DIALOG"])        [_SERVICES_ logPlayerViewedDialogId:content_id];
@@ -121,96 +126,110 @@
     if([content isEqualToString:@"WEB_PAGE"])      [_SERVICES_ logPlayerViewedWebPageId:content_id];
     if([content isEqualToString:@"NOTE"])          [_SERVICES_ logPlayerViewedNoteId:content_id];
     if([content isEqualToString:@"SCENE"])         [_SERVICES_ logPlayerViewedSceneId:content_id];
+  }
 
-    if([content isEqualToString:@"PLAQUE"])        [self addLogType:@"VIEW_PLAQUE" content:content_id qty:0];
-    if([content isEqualToString:@"ITEM"])          [self addLogType:@"VIEW_ITEM" content:content_id qty:0];
-    if([content isEqualToString:@"DIALOG"])        [self addLogType:@"VIEW_DIALOG" content:content_id qty:0];
-    if([content isEqualToString:@"DIALOG_SCRIPT"]) [self addLogType:@"VIEW_DIALOG_SCRIPT" content:content_id qty:0];
-    if([content isEqualToString:@"WEB_PAGE"])      [self addLogType:@"VIEW_WEB_PAGE" content:content_id qty:0];
-    if([content isEqualToString:@"NOTE"])          [self addLogType:@"VIEW_NOTE" content:content_id qty:0];
-    if([content isEqualToString:@"SCENE"])         [self addLogType:@"CHANGE_SCENE" content:content_id qty:0];
-  
-    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+  if([content isEqualToString:@"PLAQUE"])        [self addLogType:@"VIEW_PLAQUE" content:content_id qty:0];
+  if([content isEqualToString:@"ITEM"])          [self addLogType:@"VIEW_ITEM" content:content_id qty:0];
+  if([content isEqualToString:@"DIALOG"])        [self addLogType:@"VIEW_DIALOG" content:content_id qty:0];
+  if([content isEqualToString:@"DIALOG_SCRIPT"]) [self addLogType:@"VIEW_DIALOG_SCRIPT" content:content_id qty:0];
+  if([content isEqualToString:@"WEB_PAGE"])      [self addLogType:@"VIEW_WEB_PAGE" content:content_id qty:0];
+  if([content isEqualToString:@"NOTE"])          [self addLogType:@"VIEW_NOTE" content:content_id qty:0];
+  if([content isEqualToString:@"SCENE"])         [self addLogType:@"CHANGE_SCENE" content:content_id qty:0];
+
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) playerViewedInstanceId:(long)instance_id
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerViewedInstanceId:instance_id];
-    [self addLogType:@"VIEW_INSTANCE" content:instance_id qty:0];
+  [self addLogType:@"VIEW_INSTANCE" content:instance_id qty:0];
 }
 
 - (void) playerTriggeredTriggerId:(long)trigger_id
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerTriggeredTriggerId:trigger_id];
-    [self addLogType:@"TRIGGER_TRIGGER" content:trigger_id qty:0];
+  [self addLogType:@"TRIGGER_TRIGGER" content:trigger_id qty:0];
 }
 
 - (void) playerReceivedItemId:(long)item_id qty:(long)qty
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerReceivedItemId:item_id qty:qty];
-    [self addLogType:@"RECEIVE_ITEM" content:item_id qty:qty];
-    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+  [self addLogType:@"RECEIVE_ITEM" content:item_id qty:qty];
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) playerLostItemId:(long)item_id qty:(long)qty
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerLostItemId:item_id qty:qty];
-    [self addLogType:@"LOSE_ITEM" content:item_id qty:qty];
-    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+  [self addLogType:@"LOSE_ITEM" content:item_id qty:qty];
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) gameReceivedItemId:(long)item_id qty:(long)qty
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logGameReceivedItemId:item_id qty:qty];
-    [self addLogType:@"GAME_RECEIVE_ITEM" content:item_id qty:qty];
-    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+  [self addLogType:@"GAME_RECEIVE_ITEM" content:item_id qty:qty];
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) gameLostItemId:(long)item_id qty:(long)qty
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logGameLostItemId:item_id qty:qty];
-    [self addLogType:@"GAME_LOSE_ITEM" content:item_id qty:qty];
-    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+  [self addLogType:@"GAME_LOSE_ITEM" content:item_id qty:qty];
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) groupReceivedItemId:(long)item_id qty:(long)qty
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logGroupReceivedItemId:item_id qty:qty];
-    [self addLogType:@"GROUP_RECEIVE_ITEM" content:item_id qty:qty];
-    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+  [self addLogType:@"GROUP_RECEIVE_ITEM" content:item_id qty:qty];
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) groupLostItemId:(long)item_id qty:(long)qty
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logGroupLostItemId:item_id qty:qty];
-    [self addLogType:@"GROUP_LOSE_ITEM" content:item_id qty:qty];
-    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+  [self addLogType:@"GROUP_LOSE_ITEM" content:item_id qty:qty];
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) playerChangedSceneId:(long)scene_id
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerSetSceneId:scene_id];
-    [self addLogType:@"CHANGE_SCENE" content:scene_id qty:0];
+  [self addLogType:@"CHANGE_SCENE" content:scene_id qty:0];
 }
 
 - (void) playerChangedGroupId:(long)group_id
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerJoinedGroupId:group_id];
-    [self addLogType:@"JOIN_GROUP" content:group_id qty:0];
+  [self addLogType:@"JOIN_GROUP" content:group_id qty:0];
 }
 
 - (void) playerRanEventPackageId:(long)event_package_id
 {
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
     [_SERVICES_ logPlayerRanEventPackageId:event_package_id];
-    [self addLogType:@"RUN_EVENT_PACKAGE" content:event_package_id qty:0];
+  [self addLogType:@"RUN_EVENT_PACKAGE" content:event_package_id qty:0];
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (void) playerCompletedQuestId:(long)quest_id
 {
-    //let server figure it out on its own, for now
-    //[_SERVICES_ logPlayerCompletedQuestId:quest_id];
-    [self addLogType:@"COMPLETE_QUEST" content:quest_id qty:0];
-    [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
+  //let server figure it out on its own, for now
+  //if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+  //  [_SERVICES_ logPlayerCompletedQuestId:quest_id];
+  [self addLogType:@"COMPLETE_QUEST" content:quest_id qty:0];
+  [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
 - (BOOL) hasLogType:(NSString *)type
