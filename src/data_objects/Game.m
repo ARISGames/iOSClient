@@ -57,6 +57,7 @@
 
 @synthesize inventory_weight_cap;
 @synthesize network_level;
+@synthesize preload_media;
 
 @synthesize scenesModel;
 @synthesize groupsModel;
@@ -132,6 +133,8 @@
      REMOTE = rely on server as authority for often updates
      */
     
+    preload_media = [dict validBoolForKey:@"preload_media"];
+    
     NSArray *authorDicts;
     for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
       [authors addObject:[[User alloc] initWithDictionary:authorDicts[i]]];
@@ -182,6 +185,7 @@
   
   inventory_weight_cap = g.inventory_weight_cap;
   network_level = g.network_level;
+  preload_media = g.preload_media;
 }
 
 - (void) getReadyToPlay

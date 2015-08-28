@@ -131,11 +131,18 @@
 
 - (void) playerDataLoaded
 {
-  [self.view addSubview:mediaLabel];
-  [self.view addSubview:mediaCountLabel];
-  [self performSelector:@selector(sendOffRequestMediaData) withObject:nil afterDelay:1]; //to let added subviews render...
+  if(_MODEL_GAME_.preload_media)
+  {
+    [self.view addSubview:mediaLabel];
+    [self.view addSubview:mediaCountLabel];
+    [self performSelector:@selector(sendOffRequestMediaData) withObject:nil afterDelay:1]; //to let added subviews render...
+  }
+  else
+  {
+    [_MODEL_ beginGame];
+  }
 }
-   
+
 - (void) sendOffRequestMediaData //this is only a function so it can fit in 'performselector'
 {
   [_MODEL_MEDIA_ requestMediaData];
@@ -160,7 +167,7 @@
 
 - (void) mediaDataComplete
 {
-    [_MODEL_ beginGame];
+  [_MODEL_ beginGame];
 }
 
 - (void) mediaDataFetchFailed

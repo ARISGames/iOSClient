@@ -62,6 +62,7 @@
 
   long inventory_weight_cap;
   NSString *network_level;
+  BOOL preload_media;
 
   ScenesModel       *scenesModel;
   GroupsModel       *groupsModel;
@@ -115,6 +116,7 @@
 
 @property (nonatomic, assign) long inventory_weight_cap;
 @property (nonatomic, strong) NSString *network_level;
+@property (nonatomic, assign) BOOL preload_media;
 
 @property (nonatomic, strong) ScenesModel       *scenesModel;
 @property (nonatomic, strong) GroupsModel       *groupsModel;
