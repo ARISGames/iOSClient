@@ -15,9 +15,13 @@
     UIImageView *splashImage;
     UIProgressView *progressBar;
     UILabel *progressLabel;
+    UILabel *mediaLabel;
+    UILabel *mediaCountLabel;
+    int mediaCount;
 
     UIButton *retryGameLoadButton;
     UIButton *retryPlayerLoadButton;
+    UIButton *retryMediaDataLoadButton;
 
     id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -34,6 +38,8 @@
         _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PERCENT_LOADED",     self, @selector(percentLoaded:),    nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_DATA_LOADED",        self, @selector(gameDataLoaded),    nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_DATA_LOADED", self, @selector(playerDataLoaded),  nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_MEDIA_DATA_LOADED",       self, @selector(mediaDataLoaded),   nil);
+        _ARIS_NOTIF_LISTEN_(@"MODEL_MEDIA_DATA_COMPLETE",     self, @selector(mediaDataComplete), nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_FETCH_FAILED",    self, @selector(gameFetchFailed),   nil);
         _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_FETCH_FAILED",  self, @selector(playerFetchFailed), nil);
     }
@@ -46,13 +52,24 @@
     self.view.backgroundColor = [UIColor ARISColorOffWhite];
 
     progressLabel = [[UILabel alloc] init];
+    mediaLabel = [[UILabel alloc] init];
+    mediaCountLabel = [[UILabel alloc] init];
     progressBar = [[UIProgressView alloc] init];
     retryGameLoadButton = [[UIButton alloc] init];
     retryPlayerLoadButton = [[UIButton alloc] init];
+    retryMediaDataLoadButton = [[UIButton alloc] init];
 
     progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
     progressLabel.font = [ARISTemplate ARISCellSubtextFont];
     progressLabel.textColor = [UIColor ARISColorDarkBlue];
+  
+    mediaLabel.text = @"Fetching Media... (this could take a while)";
+    mediaLabel.font = [ARISTemplate ARISCellSubtextFont];
+    mediaLabel.textColor = [UIColor ARISColorDarkBlue];
+  
+    mediaCountLabel.text = @"0 loaded...";
+    mediaCountLabel.font = [ARISTemplate ARISCellSubtextFont];
+    mediaCountLabel.textColor = [UIColor ARISColorDarkBlue];
 
     progressBar.progress = 0.0;
     progressBar.progressTintColor = [UIColor ARISColorDarkBlue];
@@ -65,6 +82,11 @@
     [retryPlayerLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
     [retryPlayerLoadButton addTarget:self action:@selector(retryPlayerFetch) forControlEvents:UIControlEventTouchUpInside];
 
+
+    [retryMediaDataLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+    [retryMediaDataLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
+    [retryMediaDataLoadButton addTarget:self action:@selector(retryMediaDataFetch) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:progressLabel];
     [self.view addSubview:progressBar];
 }
@@ -72,14 +94,18 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width-20, 40);
+    mediaLabel.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 40);
+    mediaCountLabel.frame = CGRectMake(10, 120, self.view.frame.size.width-20, 40);
     progressBar.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 10);
     progressBar.progress = 0;
 
     retryGameLoadButton.frame   = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
     retryPlayerLoadButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
+    retryMediaDataLoadButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
 
     [retryGameLoadButton removeFromSuperview];
     [retryPlayerLoadButton removeFromSuperview];
+    [retryMediaDataLoadButton removeFromSuperview];
 }
 
 - (void) startLoading
@@ -105,7 +131,9 @@
 
 - (void) playerDataLoaded
 {
-    [_MODEL_ beginGame];
+  [self.view addSubview:mediaLabel];
+  [self.view addSubview:mediaCountLabel];
+  [_MODEL_MEDIA_ requestMediaData];
 }
 
 - (void) playerFetchFailed
@@ -117,6 +145,28 @@
 {
     [retryPlayerLoadButton removeFromSuperview];
     [_MODEL_GAME_ requestPlayerData];
+}
+
+- (void) mediaDataLoaded
+{
+  mediaCount++;
+  mediaCountLabel.text = [NSString stringWithFormat:@"%d loaded...",mediaCount];
+}
+
+- (void) mediaDataComplete
+{
+    [_MODEL_ beginGame];
+}
+
+- (void) mediaDataFetchFailed
+{
+    [self.view addSubview:retryMediaDataLoadButton];
+}
+
+- (void) retryMediaDataFetch
+{
+    [retryMediaDataLoadButton removeFromSuperview];
+    [_MODEL_MEDIA_ requestMediaData];
 }
 
 - (void) percentLoaded:(NSNotification *)notif

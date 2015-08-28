@@ -16,6 +16,7 @@
 - (Media *) mediaForId:(long)media_id;
 - (Media *) newMedia;
 - (void) requestMedia;
+- (void) requestMediaData;
 - (void) clearCache;
 
 - (void) saveAlteredMedia:(Media *)m; //don't like this...

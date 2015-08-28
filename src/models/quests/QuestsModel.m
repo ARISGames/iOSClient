@@ -129,7 +129,10 @@
     if(![_MODEL_LOGS_ hasLogType:@"COMPLETE_QUEST" content:q.quest_id])
     {
       if([_MODEL_REQUIREMENTS_ evaluateRequirementRoot:q.complete_requirement_root_package_id])
+      {
+        [_MODEL_REQUIREMENTS_ evaluateRequirementRoot:q.complete_requirement_root_package_id];
         [_MODEL_LOGS_ playerCompletedQuestId:q.quest_id];
+      }
     }
   }
 }
@@ -198,17 +201,17 @@
   Quest *oldQuest;
 
   //find added
-  BOOL new;
+  BOOL newq;
   for(long i = 0; i < newQuests.count; i++)
   {
-    new = YES;
+    newq = YES;
     newQuest = newQuests[i];
     for(long j = 0; j < oldQuests.count; j++)
     {
       oldQuest = oldQuests[j];
-      if(newQuest.quest_id == oldQuest.quest_id) new = NO;
+      if(newQuest.quest_id == oldQuest.quest_id) newq = NO;
     }
-    if(new) [qDeltas[@"added"] addObject:newQuests[i]];
+    if(newq) [qDeltas[@"added"] addObject:newQuests[i]];
   }
 
   //find removed

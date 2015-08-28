@@ -24,7 +24,7 @@
 
 @synthesize mediaLoader;
 
-+ (id) sharedAppServices
++ (AppServices *) sharedAppServices
 {
   static dispatch_once_t pred = 0;
   __strong static id _sharedObject = nil;
@@ -1453,6 +1453,7 @@
       };
   [connection performAsynchronousRequestWithService:@"groups" method:@"getGroup" arguments:args handler:self successSelector:@selector(parseGroup:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Group..." userInfo:nil];
 }
+
 - (void) parseGroup:(ARISServiceResult *)result
 {
     NSDictionary *groupDict= (NSDictionary *)result.resultData;

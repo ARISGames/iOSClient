@@ -164,7 +164,9 @@
         ) &&
         ![self displayBlacklisted:t]
       )
+    {
       [self enqueueTrigger:t]; //will auto verify not already in queue
+    }
   }
 }
 

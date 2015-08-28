@@ -70,8 +70,6 @@
 
     gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
 
-    loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
-
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(playerLoggedIn),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(playerLoggedOut),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_CHOSEN",self,@selector(gameChosen),nil);
@@ -120,6 +118,7 @@
 
 - (void) gameChosen
 {
+  loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
   [self displayContentController:loadingViewController];
   [loadingViewController startLoading];
 }

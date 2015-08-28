@@ -83,18 +83,14 @@
 
 - (void) formatFrame
 {
-    if (showTitle) {
-        [self setFrame:CGRectUnion(bubbleRect, imageViewFrame)] ;
-    }
-    else{
-        //_ARIS_LOG_(@"CurrOffset: X: %f Y: %f", self.centerOffset.x, self.centerOffset.y);
-        [self setFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, imageViewFrame.size.width, imageViewFrame.size.height)];
-    }
+    if(showTitle) [self setFrame:CGRectUnion(bubbleRect, imageViewFrame)] ;
+    else          [self setFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, imageViewFrame.size.width, imageViewFrame.size.height)];
 
     iconBorderView.frame = imageViewFrame;
-    if (showTitle) {
-        iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
-        iconBorderView.layer.borderWidth = 1.0f;
+    if(showTitle)
+    {
+      iconBorderView.layer.borderColor = [UIColor colorWithRed:93.0f/255.0f green:93.0f/255.0f blue:93.0f/255.0f alpha:1.0f].CGColor;
+      iconBorderView.layer.borderWidth = 1.0f;
     }
 
     CGRect imageInnerFrame = imageViewFrame;
