@@ -217,7 +217,7 @@
     case NotReachable: break;
     case ReachableViaWWAN:
     case ReachableViaWiFi:
-        _ARIS_NOTIF_SEND_(@"WifiConnected",self,nil); break;
+        _ARIS_NOTIF_SEND_(@"WIFI_CONNECTED",self,nil); break;
   }
 }
 

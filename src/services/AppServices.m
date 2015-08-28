@@ -40,7 +40,7 @@
   {
     connection = [[ARISConnection alloc] initWithServer:_MODEL_.serverURL graveyard:_MODEL_.servicesGraveyard];
     mediaLoader = [[ARISMediaLoader alloc] init];
-  _ARIS_NOTIF_LISTEN_(@"WifiConnected",self,@selector(retryFailedRequests),nil);
+  _ARIS_NOTIF_LISTEN_(@"WIFI_CONNECTED",self,@selector(retryFailedRequests),nil);
   }
   return self;
 }
@@ -48,6 +48,7 @@
 
 - (void) retryFailedRequests
 {
+  _ARIS_LOG_(@"Retrying Failed Requests...");
   [_MODEL_.servicesGraveyard reviveRequestsWithConnection:connection];
 }
 

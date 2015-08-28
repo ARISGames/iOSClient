@@ -666,7 +666,6 @@
 		AABC710E172739D60074CC21 /* GameNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameNotificationViewController.m; sourceTree = "<group>"; };
 		AABC7111172739D60074CC21 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
 		AABC7112172739D60074CC21 /* PopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverViewController.m; sourceTree = "<group>"; };
-		AABC711C172739D60074CC21 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		AABC711D172739D60074CC21 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		AABC711E172739D60074CC21 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		AABC7120172739D60074CC21 /* AppServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppServices.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1338,7 +1337,6 @@
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
 				AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */,
 				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
-				AABC711C172739D60074CC21 /* Reachability.h */,
 				AA2B8340187DDC1200D92A28 /* ARISTemplate.h */,
 				AA2B8341187DDC1200D92A28 /* ARISTemplate.m */,
 				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
