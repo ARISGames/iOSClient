@@ -133,6 +133,11 @@
 {
   [self.view addSubview:mediaLabel];
   [self.view addSubview:mediaCountLabel];
+  [self performSelector:@selector(sendOffRequestMediaData) withObject:nil afterDelay:1]; //to let added subviews render...
+}
+   
+- (void) sendOffRequestMediaData //this is only a function so it can fit in 'performselector'
+{
   [_MODEL_MEDIA_ requestMediaData];
 }
 
