@@ -1062,7 +1062,7 @@
            @"longitude":[NSNumber numberWithDouble:tr.location.coordinate.longitude]
         };
     }
-    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO humanDesc:@"Creating Note..." userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:YES humanDesc:@"Creating Note..." userInfo:nil];
 }
 - (void) parseCreateNote:(ARISServiceResult *)result
 {
