@@ -16,6 +16,7 @@
   //blacklist triggered triggers from auto-enqueue until they become unavailable for at least one refresh
   //(prevents constant triggering if somone has bad requirements)
   NSMutableArray *displayBlacklist;
+  NSTimer *timerPoller;
 }
 @end
 
@@ -25,11 +26,12 @@
 {
   if(self = [super init])
   {
+    timerPoller = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tickAndEnqueueAvailableTimers) userInfo:nil repeats:YES];
     [self clearPlayerData];
-    _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(enqueueNewImmediates),nil);
-    _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(purgeInvalidFromQueue),nil);
-    _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(reevaluateImmediates),nil);
-    _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(reevaluateImmediates),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_NEW_AVAILABLE",self,@selector(reevaluateAutoTriggers),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(reevaluateAutoTriggers),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(reevaluateAutoTriggers),nil);
+    _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(reevaluateAutoTriggers),nil);
   }
   return self;
 }
@@ -91,9 +93,10 @@
   return NO;
 }
 
-- (void) reevaluateImmediates
+- (void) reevaluateAutoTriggers
 {
   [self purgeInvalidFromQueue];
+  //[self tickAndEnqueueAvailableTimers]; //will be called by poller
   [self enqueueNewImmediates];
 }
 
@@ -143,6 +146,33 @@
   }
 }
 
+- (void) tickAndEnqueueAvailableTimers
+{
+  NSArray *pt = _MODEL_TRIGGERS_.playerTriggers;
+  Trigger *t;
+  for(long i = 0; i < pt.count; i++)
+  {
+    t = pt[i];
+    
+    if([t.type isEqualToString:@"TIMER"])
+    {
+      BOOL inQueue = NO;
+      for(long i = 0; i < displayQueue.count; i++)
+      {
+        if(displayQueue[i] == t) inQueue = YES;
+      }
+      if(!inQueue && t.time_left > 0) 
+        t.time_left--;
+      
+      if(t.time_left <= 0)
+      {
+        t.time_left = t.timer;
+        [self enqueueTrigger:t]; //will auto verify not already in queue
+      }
+    }
+  }
+}
+
 - (void) enqueueNewImmediates
 {
   NSArray *pt = _MODEL_TRIGGERS_.playerTriggers;
@@ -172,6 +202,7 @@
 
 - (void) dealloc
 {
+  [timerPoller invalidate];
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
