@@ -28,7 +28,7 @@
 @synthesize hidden;
 @synthesize trigger_on_enter;
 @synthesize qr_code;
-@synthesize timer;
+@synthesize seconds;
 @synthesize time_left;
 
 - (id) init
@@ -51,7 +51,7 @@
     hidden = NO;
     trigger_on_enter = NO;
     qr_code = @"";
-    timer = 0;
+    seconds = 0;
     time_left = 0;
   }
   return self;
@@ -77,8 +77,8 @@
     hidden                      = [dict validBoolForKey:@"hidden"];
     trigger_on_enter            = [dict validBoolForKey:@"trigger_on_enter"];
     qr_code                     = [dict validStringForKey:@"qr_code"];
-    timer                       = [dict validIntForKey:@"timer"];
-    time_left                   = timer;
+    seconds                     = [dict validIntForKey:@"seconds"];
+    time_left                   = seconds;
   }
   return self;
 }
@@ -102,8 +102,8 @@
   hidden            = t.hidden;
   trigger_on_enter  = t.trigger_on_enter;
   qr_code           = t.qr_code;
-  timer             = t.timer;
-  if(time_left > timer) time_left = timer;
+  seconds           = t.seconds;
+  if(time_left > seconds) time_left = seconds;
   return e;
 }
 
@@ -134,7 +134,7 @@
      hidden                        == t.hidden                        &&
      trigger_on_enter              == t.trigger_on_enter              &&
      [qr_code isEqualToString:t.qr_code])                             &&
-     timer                         == t.timer;
+     seconds                       == t.seconds;
      //time_left                     == t.time_left // 
 }
 

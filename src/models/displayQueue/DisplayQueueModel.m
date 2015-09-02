@@ -164,9 +164,9 @@
       if(!inQueue && t.time_left > 0) 
         t.time_left--;
       
-      if(t.time_left <= 0)
+      if(t.time_left <= 0 && t.seconds > 0)
       {
-        t.time_left = t.timer;
+        t.time_left = t.seconds;
         [self enqueueTrigger:t]; //will auto verify not already in queue
       }
     }
