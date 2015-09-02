@@ -29,4 +29,6 @@
 
 - (NSObject *) dequeue;
 
+- (void) endPlay;
+
 @end

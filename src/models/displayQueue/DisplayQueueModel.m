@@ -200,6 +200,12 @@
   }
 }
 
+- (void) endPlay
+{
+  [timerPoller invalidate];
+  _ARIS_NOTIF_IGNORE_ALL_(self);
+}
+
 - (void) dealloc
 {
   [timerPoller invalidate];

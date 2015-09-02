@@ -261,6 +261,8 @@
   tabsModel            = nil;
   questsModel          = nil;
   logsModel            = nil;
+  
+  [displayQueueModel endPlay]; //garble garble ARC won't reliably dealloc garble garble
   displayQueueModel    = nil;
 }
 
