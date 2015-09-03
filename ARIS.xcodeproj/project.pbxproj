@@ -556,7 +556,7 @@
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAAB7635173AB6E6007B5A75 /* GamePlayTabBarViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabBarViewControllerProtocol.h; sourceTree = "<group>"; };
 		AAAC4352172EDDB300C92DF0 /* InstantiableViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantiableViewControllerProtocol.h; sourceTree = "<group>"; };
-		AAB398E21918166700E0E766 /* Plaque.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plaque.h; sourceTree = "<group>"; };
+		AAB398E21918166700E0E766 /* Plaque.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; path = Plaque.h; sourceTree = "<group>"; tabWidth = 2; };
 		AAB398E31918166700E0E766 /* Plaque.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plaque.m; sourceTree = "<group>"; };
 		AAB398E6191821D400E0E766 /* PlaquesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaquesModel.h; sourceTree = "<group>"; };
 		AAB398E7191821D400E0E766 /* PlaquesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaquesModel.m; sourceTree = "<group>"; };

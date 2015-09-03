@@ -18,6 +18,7 @@
   long media_id;
   long event_package_id;
   BOOL back_button_enabled;
+  NSString *continue_function;
 }
 
 @property(nonatomic, assign) long plaque_id;
@@ -27,6 +28,7 @@
 @property(nonatomic, assign) long media_id;
 @property(nonatomic, assign) long event_package_id;
 @property(nonatomic, assign) BOOL back_button_enabled;
+@property(nonatomic, strong) NSString *continue_function;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 

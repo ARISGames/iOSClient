@@ -93,26 +93,30 @@ static NSString * const OPTION_CELL = @"option";
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
 
-    continueButton = [[UIView alloc] init];
-    continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
-    continueButton.userInteractionEnabled = YES;
-    continueButton.accessibilityLabel = @"Continue";
-    continueLbl = [[UILabel alloc] init];
-    continueLbl.textColor = [ARISTemplate ARISColorText];
-    continueLbl.textAlignment = NSTextAlignmentRight;
-    continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
-    continueLbl.font = [ARISTemplate ARISButtonFont];
-    [continueButton addSubview:continueLbl];
-    [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
-
-    arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
-    line = [[UIView alloc] init];
-    line.backgroundColor = [UIColor ARISColorLightGray];
+    if (![plaque.continue_function isEqualToString:@"NONE"]) {
+        continueButton = [[UIView alloc] init];
+        continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+        continueButton.userInteractionEnabled = YES;
+        continueButton.accessibilityLabel = @"Continue";
+        continueLbl = [[UILabel alloc] init];
+        continueLbl.textColor = [ARISTemplate ARISColorText];
+        continueLbl.textAlignment = NSTextAlignmentRight;
+        continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
+        continueLbl.font = [ARISTemplate ARISButtonFont];
+        [continueButton addSubview:continueLbl];
+        [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+        
+        arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+        line = [[UIView alloc] init];
+        line.backgroundColor = [UIColor ARISColorLightGray];
+    }
 
     [self.view addSubview:scrollView];
-    [self.view addSubview:continueButton];
-    [self.view addSubview:arrow];
-    [self.view addSubview:line];
+    if (![plaque.continue_function isEqualToString:@"NONE"]) {
+        [self.view addSubview:continueButton];
+        [self.view addSubview:arrow];
+        [self.view addSubview:line];
+    }
 
     [self loadPlaque];
 }
@@ -210,8 +214,13 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) continueButtonTouched
 {
-    [webView hookWithParams:@""];
-    [self dismissSelf];
+    if ([plaque.continue_function isEqualToString:@"JAVASCRIPT"]) {
+        [webView hookWithParams:@""];
+    } else if ([plaque.continue_function isEqualToString:@"EXIT"]) {
+        [self dismissSelf];
+    } else {
+        // this shouldn't happen, the button shouldn't have been drawn
+    }
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
