@@ -147,6 +147,15 @@
 */
 - (void) dialogScriptChosen:(DialogScript *)s
 {
+    // switch dialogs if necessary
+    if (s.dialog_id != dialog.dialog_id) {
+        dialog = [_MODEL_DIALOGS_ dialogForId:s.dialog_id];
+        ((DialogScriptViewController *)youViewControllers[0]).dialog = dialog;
+        ((DialogScriptViewController *)youViewControllers[1]).dialog = dialog;
+        ((DialogScriptViewController *)themViewControllers[0]).dialog = dialog;
+        ((DialogScriptViewController *)themViewControllers[1]).dialog = dialog;
+    }
+    
     if(s.event_package_id) [_MODEL_EVENTS_ runEventPackageId:s.event_package_id];
     [_MODEL_LOGS_ playerViewedContent:@"DIALOG_SCRIPT" id:s.dialog_script_id];
     if(s.dialog_character_id == 0)
