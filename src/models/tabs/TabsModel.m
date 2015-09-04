@@ -180,10 +180,21 @@
 - (Tab *) tabForType:(NSString *)t
 {
   Tab *tab;
-  for(long i = 0; i < tabs.count; i++)
+  
+  //first, search player tabs
+  for(long i = 0; i < playerTabs.count; i++)
   {
     if([((Tab *)playerTabs[i]).type isEqualToString:t])
       tab = playerTabs[i];
+  }
+  if(tab) return tab;
+  
+  //if not found, try to get any game tab
+  NSArray *gameTabs = [tabs allValues];
+  for(long i = 0; i < gameTabs.count; i++)
+  {
+    if([((Tab *)gameTabs[i]).type isEqualToString:t])
+      tab = gameTabs[i];
   }
   return tab;
 }
