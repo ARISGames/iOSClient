@@ -117,7 +117,7 @@
     mapView = [[MKMapView alloc] init];
     mapView.delegate = self;
     mapView.showsUserLocation = _MODEL_GAME_.map_show_player;
-
+  
     if     ([_MODEL_GAME_.map_type isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([_MODEL_GAME_.map_type isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                          mapView.mapType = MKMapTypeStandard;
@@ -368,7 +368,13 @@
 
     //refresh views (ugly)
     [mapView setCenterCoordinate:mapView.region.center animated:NO];
-    if(firstLoad) [self zoomToFitAnnotations:YES];
+    if(firstLoad)
+    {
+      NSLog(@"%@ %f",_MODEL_GAME_.map_focus,_MODEL_GAME_.map_location.coordinate.latitude);
+      if     ([_MODEL_GAME_.map_focus isEqualToString:@"PLAYER"])        [self centerMapOnPlayer];
+      else if([_MODEL_GAME_.map_focus isEqualToString:@"LOCATION"])      [self centerMapOnLoc:_MODEL_GAME_.map_location.coordinate zoom:_MODEL_GAME_.map_zoom_level];
+      else if([_MODEL_GAME_.map_focus isEqualToString:@"FIT_LOCATIONS"]) [self zoomToFitAnnotations:NO];
+    }
     firstLoad = false;
 }
 
@@ -416,9 +422,7 @@
 
 - (void) centerMapOnPlayer
 {
-    [self centerMapOnLoc:_MODEL_PLAYER_.location.coordinate];
-    MKCoordinateRegion region = mapView.region;
-    region.span = MKCoordinateSpanMake(0.001f, 0.001f);
+    [self centerMapOnLoc:_MODEL_PLAYER_.location.coordinate zoom:1.f];
 }
 
 - (void) centerMapOnLoc:(CLLocationCoordinate2D)loc
@@ -429,12 +433,22 @@
     [mapView setRegion:region animated:NO];
 }
 
-- (void) animateZoomToFitAnnotations
+- (void) centerMapOnLoc:(CLLocationCoordinate2D)loc zoom:(float)z
 {
-    [self zoomToFitAnnotations:NO];
+    MKCoordinateRegion region = mapView.region;
+    region.center = loc;
+    if(z > 3.) z = 3.;
+    region.span = MKCoordinateSpanMake(0.001f*pow(10,z), 0.001f*pow(10,z));
+
+    [mapView setRegion:region animated:NO];
 }
 
-- (void) zoomToFitAnnotations:(BOOL)force
+- (void) animateZoomToFitAnnotations
+{
+    [self zoomToFitAnnotations:YES];
+}
+
+- (void) zoomToFitAnnotations:(BOOL)animate
 {
     if(mapView.annotations.count == 0) return;
 
@@ -465,7 +479,7 @@
     if(region.span.longitudeDelta > 360) region.span.longitudeDelta = 360;
 
     region = [mapView regionThatFits:region];
-    [mapView setRegion:region animated:!force];
+    [mapView setRegion:region animated:animate];
 }
 
 - (void) showLoadingIndicator

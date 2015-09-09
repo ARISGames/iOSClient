@@ -45,6 +45,7 @@
 @synthesize comments;
 
 @synthesize map_type;
+@synthesize map_focus;
 @synthesize map_location;
 @synthesize map_zoom_level;
 @synthesize map_show_player;
@@ -113,7 +114,8 @@
     //comments = [dict validObjectForKey:@"comments"];
     
     map_type = [dict validStringForKey:@"map_type"];
-    location = [dict validLocationForLatKey:@"map_latitude" lonKey:@"map_longitude"];
+    map_focus = [dict validStringForKey:@"map_focus"];
+    map_location = [dict validLocationForLatKey:@"map_latitude" lonKey:@"map_longitude"];
     map_zoom_level = [dict validDoubleForKey:@"map_zoom_level"];
     map_show_player = [dict validBoolForKey:@"map_show_player"];
     map_show_players = [dict validBoolForKey:@"map_show_players"];
@@ -173,7 +175,8 @@
   comments = g.comments;
   
   map_type = g.map_type;
-  location = g.location;
+  map_focus = g.map_focus;
+  map_location = g.map_location;
   map_zoom_level = g.map_zoom_level;
   map_show_player = g.map_show_player;
   map_show_players = g.map_show_players;
