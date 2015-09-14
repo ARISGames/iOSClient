@@ -16,7 +16,6 @@
 
 @interface DialogScriptViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, DialogTextViewDelegate>
 {
-    Dialog *dialog;
     DialogScript *script;
     NSArray *options;
 
@@ -32,6 +31,7 @@
 @end
 
 @implementation DialogScriptViewController
+@synthesize dialog;
 
 - (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate>)d
 {
@@ -49,7 +49,9 @@
     [super loadView];
     self.view.backgroundColor = [UIColor blackColor];
 
-    mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds delegate:self];
+    CGRect b = self.view.bounds;
+    CGRect mediaViewRect = CGRectMake(b.origin.x,b.origin.y+64,b.size.width,b.size.height-64);
+    mediaView = [[ARISMediaView alloc] initWithFrame:mediaViewRect delegate:self];
     [mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToCV:)]];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidth];
     dialogTextView = [[DialogTextView alloc] initWithDelegate:self];
@@ -114,7 +116,10 @@
     else if([op.link_type isEqualToString:@"EXIT_TO_WEB_PAGE"])
     { [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_WEB_PAGES_ webPageForId:op.link_id]]; [delegate exitRequested]; }
     else if([op.link_type isEqualToString:@"EXIT_TO_DIALOG"])
-    { [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:op.link_id]];    [delegate exitRequested]; }
+    {
+        // Optimized: reuse the same controllers, just switch it to a new dialog
+        [delegate dialogScriptChosen:[_MODEL_DIALOGS_ scriptForId:[_MODEL_DIALOGS_ dialogForId:op.link_id].intro_dialog_script_id]];
+    }
     else if([op.link_type isEqualToString:@"EXIT_TO_TAB"])
     { [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForId:op.link_id]];             [delegate exitRequested]; }
 }

@@ -24,7 +24,7 @@
 
 @synthesize mediaLoader;
 
-+ (id) sharedAppServices
++ (AppServices *) sharedAppServices
 {
   static dispatch_once_t pred = 0;
   __strong static id _sharedObject = nil;
@@ -40,7 +40,7 @@
   {
     connection = [[ARISConnection alloc] initWithServer:_MODEL_.serverURL graveyard:_MODEL_.servicesGraveyard];
     mediaLoader = [[ARISMediaLoader alloc] init];
-  _ARIS_NOTIF_LISTEN_(@"WifiConnected",self,@selector(retryFailedRequests),nil);
+  _ARIS_NOTIF_LISTEN_(@"WIFI_CONNECTED",self,@selector(retryFailedRequests),nil);
   }
   return self;
 }
@@ -48,6 +48,7 @@
 
 - (void) retryFailedRequests
 {
+  _ARIS_LOG_(@"Retrying Failed Requests...");
   [_MODEL_.servicesGraveyard reviveRequestsWithConnection:connection];
 }
 
@@ -1061,7 +1062,7 @@
            @"longitude":[NSNumber numberWithDouble:tr.location.coordinate.longitude]
         };
     }
-    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO humanDesc:@"Creating Note..." userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:YES humanDesc:@"Creating Note..." userInfo:nil];
 }
 - (void) parseCreateNote:(ARISServiceResult *)result
 {
@@ -1453,6 +1454,7 @@
       };
   [connection performAsynchronousRequestWithService:@"groups" method:@"getGroup" arguments:args handler:self successSelector:@selector(parseGroup:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Group..." userInfo:nil];
 }
+
 - (void) parseGroup:(ARISServiceResult *)result
 {
     NSDictionary *groupDict= (NSDictionary *)result.resultData;

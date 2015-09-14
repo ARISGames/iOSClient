@@ -45,6 +45,7 @@
 @synthesize comments;
 
 @synthesize map_type;
+@synthesize map_focus;
 @synthesize map_location;
 @synthesize map_zoom_level;
 @synthesize map_show_player;
@@ -57,6 +58,7 @@
 
 @synthesize inventory_weight_cap;
 @synthesize network_level;
+@synthesize preload_media;
 
 @synthesize scenesModel;
 @synthesize groupsModel;
@@ -112,7 +114,8 @@
     //comments = [dict validObjectForKey:@"comments"];
     
     map_type = [dict validStringForKey:@"map_type"];
-    location = [dict validLocationForLatKey:@"map_latitude" lonKey:@"map_longitude"];
+    map_focus = [dict validStringForKey:@"map_focus"];
+    map_location = [dict validLocationForLatKey:@"map_latitude" lonKey:@"map_longitude"];
     map_zoom_level = [dict validDoubleForKey:@"map_zoom_level"];
     map_show_player = [dict validBoolForKey:@"map_show_player"];
     map_show_players = [dict validBoolForKey:@"map_show_players"];
@@ -132,6 +135,8 @@
      REMOTE = rely on server as authority for often updates
      */
     
+    preload_media = [dict validBoolForKey:@"preload_media"];
+    
     NSArray *authorDicts;
     for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
       [authors addObject:[[User alloc] initWithDictionary:authorDicts[i]]];
@@ -147,7 +152,7 @@
   authors  = [NSMutableArray arrayWithCapacity:5];
   comments = [NSMutableArray arrayWithCapacity:5];
   
-  network_level = @"NORMAL";
+  network_level = @"HYBRID";
   
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
@@ -170,7 +175,8 @@
   comments = g.comments;
   
   map_type = g.map_type;
-  location = g.location;
+  map_focus = g.map_focus;
+  map_location = g.map_location;
   map_zoom_level = g.map_zoom_level;
   map_show_player = g.map_show_player;
   map_show_players = g.map_show_players;
@@ -181,6 +187,8 @@
   notebook_allow_player_tags = g.notebook_allow_player_tags;
   
   inventory_weight_cap = g.inventory_weight_cap;
+  network_level = g.network_level;
+  preload_media = g.preload_media;
 }
 
 - (void) getReadyToPlay
@@ -256,6 +264,8 @@
   tabsModel            = nil;
   questsModel          = nil;
   logsModel            = nil;
+  
+  [displayQueueModel endPlay]; //garble garble ARC won't reliably dealloc garble garble
   displayQueueModel    = nil;
 }
 
@@ -331,7 +341,7 @@
   for(long i = 0; i < models.count; i++)
     [(ARISModel *)models[i] clearGameData];
   
-  [displayQueueModel clear]; //what...? should conform to clearPlayerData, even though there is no 'requestPlayerData'
+  [displayQueueModel clearPlayerData];
 }
 
 - (long) rating

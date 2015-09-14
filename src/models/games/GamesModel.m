@@ -70,6 +70,8 @@
   mineStamp = nil;
 }
 
+- (void) mergeInGame:(Game *)g { [self updateGames:@[g]]; }
+
 - (void) nearbyGamesReceived:(NSNotification *)n { [self updateNearbyGames:n.userInfo[@"games"]]; }
 - (void) updateNearbyGames:(NSArray *)gs { nearbyGames = [self updateGames:gs]; [self notifNearbyGames]; }
 - (void) notifNearbyGames { _ARIS_NOTIF_SEND_(@"MODEL_NEARBY_GAMES_AVAILABLE",nil,nil); }

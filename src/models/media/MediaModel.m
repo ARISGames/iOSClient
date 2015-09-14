@@ -13,10 +13,14 @@
 
 #import "NSDictionary+ValidParsers.h"
 
-@interface MediaModel()
+@interface MediaModel() <ARISMediaLoaderDelegate>
 {
-    NSMutableDictionary *medias; //light cache on mediaCD wrappers ('Media' objects)
-    NSManagedObjectContext *context;
+  NSMutableDictionary *medias; //light cache on mediaCD wrappers ('Media' objects)
+  NSManagedObjectContext *context;
+  NSMutableDictionary *mediaIdsToLoad;
+  NSMutableArray *mediaDataLoadDelegateHandles;
+  NSMutableArray *mediaDataLoadMedia;
+  int mediaDataLoaded;
 }
 
 @end
@@ -74,13 +78,13 @@
 - (void) clearGameData
 {
     medias = [[NSMutableDictionary alloc] init];
+    mediaIdsToLoad = [[NSMutableDictionary alloc] init];
     n_game_data_received = 0;
 }
 - (long) nGameDataToReceive
 {
   return 1;
 }
-
 
 - (void) mediasReceived:(NSNotification *)notif
 {
@@ -109,6 +113,7 @@
         NSDictionary *mediaDict = mediaToCacheDicts[i];
 
         long media_id = [mediaDict validIntForKey:@"media_id"];
+        [mediaIdsToLoad setObject:[NSNumber numberWithLong:media_id] forKey:[NSNumber numberWithLong:media_id]];
         if(!(tmpMedia = currentlyCachedMediaMap[[NSNumber numberWithLong:media_id]]))
         {
             tmpMedia = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
@@ -133,6 +138,45 @@
 - (void) requestMedia
 {
   [_SERVICES_ fetchMedias];
+}
+
+- (void) requestMediaData
+{
+  NSArray *media_ids = [mediaIdsToLoad allKeys];
+  Media *m;
+  ARISDelegateHandle *d;
+  
+  mediaDataLoadDelegateHandles = [[NSMutableArray alloc] init];
+  mediaDataLoadMedia = [[NSMutableArray alloc] init];
+  mediaDataLoaded = 0;
+  
+  for(int i = 0; i < media_ids.count; i++)
+  {
+    m = [self mediaForId:[((NSNumber *)media_ids[i]) longValue]];
+    if(!m.data)
+    {
+      d = [[ARISDelegateHandle alloc] initWithDelegate:self];
+      [mediaDataLoadDelegateHandles addObject:d];
+      [mediaDataLoadMedia addObject:m];
+    }
+  }
+  if(mediaDataLoadDelegateHandles.count == 0)
+    [self mediaLoaded:nil];
+  
+  for(int i = 0; i < mediaDataLoadMedia.count; i++) //needs separate loop so notif doesn't get sent in same stack as generating count
+      [_SERVICES_MEDIA_ loadMedia:mediaDataLoadMedia[i] delegateHandle:mediaDataLoadDelegateHandles[i]]; //calls 'mediaLoaded' upon complete
+}
+
+- (void) mediaLoaded:(Media *)m
+{
+  mediaDataLoaded++;
+  _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_DATA_LOADED",nil,nil);
+  if(mediaDataLoaded >= mediaDataLoadDelegateHandles.count)
+  {
+    _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_DATA_COMPLETE",nil,nil);
+    mediaDataLoadMedia = nil;
+    mediaDataLoadDelegateHandles = nil;
+  }
 }
 
 - (Media *) mediaForId:(long)media_id

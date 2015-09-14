@@ -130,8 +130,16 @@
 }
 
 - (void) requestPlayerScene
-{
-  [_SERVICES_ fetchSceneForPlayer];
+{ 
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+  {
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCENE_RECEIVED",nil,@{@"scene":playerScene}); //just return current
+  }
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchSceneForPlayer];
 }
 
 - (Scene *) playerScene
@@ -143,7 +151,8 @@
 {
   playerScene = s;
   [_MODEL_LOGS_ playerChangedSceneId:s.scene_id];
-  [_SERVICES_ setPlayerSceneId:s.scene_id];
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+    [_SERVICES_ setPlayerSceneId:s.scene_id];
   _ARIS_NOTIF_SEND_(@"MODEL_SCENES_PLAYER_SCENE_AVAILABLE",nil,nil);
 }
 

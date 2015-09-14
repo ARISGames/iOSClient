@@ -93,7 +93,7 @@ var ARISJS = function(_ARIS)
         };
         body.auth = auth;
         request.open('POST', url, true);
-        request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        request.setRequestHeader("Content-type","application/json");
         debugLog(JSON.stringify(body));
         request.send(JSON.stringify(body));
     }

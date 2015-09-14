@@ -19,6 +19,7 @@
 @synthesize media_id;
 @synthesize event_package_id;
 @synthesize back_button_enabled;
+@synthesize continue_function;
 
 - (id) init
 {
@@ -31,6 +32,7 @@
         self.media_id = 0;
         self.event_package_id = 0;
         self.back_button_enabled = YES;
+        self.continue_function = @"EXIT";
     }
     return self;
 }
@@ -46,6 +48,7 @@
         self.icon_media_id       = [dict validIntForKey:@"icon_media_id"];
         self.event_package_id    = [dict validIntForKey:@"event_package_id"];
         self.back_button_enabled = [dict validBoolForKey:@"back_button_enabled"];
+        self.continue_function   = [dict validObjectForKey:@"continue_function"];
     }
     return self;
 }

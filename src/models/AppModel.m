@@ -41,7 +41,7 @@
 @synthesize persistentStoreCoordinator;
 @synthesize servicesGraveyard;
 
-+ (id) sharedAppModel
++ (AppModel *) sharedAppModel
 {
   static dispatch_once_t pred = 0;
   __strong static id _sharedObject = nil;

@@ -115,7 +115,7 @@
     NSDictionary *d = @{@"instance":existingInstance,@"delta":[NSNumber numberWithLong:delta]};
     if(existingInstance.owner_id == _MODEL_PLAYER_.user_id)
     {
-      if(![self playerDataReceived]) //only local should be making changes to player. fixes race cond (+1, -1, +1 notifs)
+      if(![self playerDataReceived] || [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"]) //only local should be making changes to player. fixes race cond (+1, -1, +1 notifs)
       {
         if(delta > 0) [((NSMutableArray *)playerDeltas[@"added"]) addObject:d];
         if(delta < 0) [((NSMutableArray *)playerDeltas[@"lost" ]) addObject:d];
@@ -153,12 +153,16 @@
 - (void) requestInstance:(long)i { [_SERVICES_ fetchInstanceById:i];   }
 - (void) requestPlayerInstances
 {
-  if([self playerDataReceived] && [_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {
     NSArray *pinsts = [instances allValues];
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_RECEIVED",nil,@{@"instances":pinsts});
   }
-  else [_SERVICES_ fetchInstancesForPlayer];
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchInstancesForPlayer];
 }
 
 - (long) setQtyForInstanceId:(long)instance_id qty:(long)qty
@@ -167,21 +171,25 @@
   if(!i) return 0;
   if(qty < 0) qty = 0;
 
-  long oldQty = i.qty;
-  i.qty = qty;
-  NSDictionary *deltas;
-  if(qty > oldQty) deltas = @{@"lost":@[],@"added":@[@{@"instance":i,@"delta":[NSNumber numberWithLong:qty-oldQty]}]};
-  if(qty < oldQty) deltas = @{@"added":@[],@"lost":@[@{@"instance":i,@"delta":[NSNumber numberWithLong:qty-oldQty]}]};
-
-  if(deltas)
+  if(![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {
-    if([i.owner_type isEqualToString:@"USER"] && i.owner_id == _MODEL_PLAYER_.user_id)
-      [self sendNotifsForGameDeltas:nil playerDeltas:deltas];
-    else if([i.owner_type isEqualToString:@"GAME_CONTENT"])
-      [self sendNotifsForGameDeltas:deltas playerDeltas:nil];
+    long oldQty = i.qty;
+    i.qty = qty;
+    NSDictionary *deltas;
+    if(qty > oldQty) deltas = @{@"lost":@[],@"added":@[@{@"instance":i,@"delta":[NSNumber numberWithLong:qty-oldQty]}]};
+    if(qty < oldQty) deltas = @{@"added":@[],@"lost":@[@{@"instance":i,@"delta":[NSNumber numberWithLong:qty-oldQty]}]};
+
+    if(deltas)
+    {
+      if([i.owner_type isEqualToString:@"USER"] && i.owner_id == _MODEL_PLAYER_.user_id)
+        [self sendNotifsForGameDeltas:nil playerDeltas:deltas];
+      else if([i.owner_type isEqualToString:@"GAME_CONTENT"])
+        [self sendNotifsForGameDeltas:deltas playerDeltas:nil];
+    }
   }
 
-  [_SERVICES_ setQtyForInstanceId:instance_id qty:qty];
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+    [_SERVICES_ setQtyForInstanceId:instance_id qty:qty];
   return qty;
 }
 

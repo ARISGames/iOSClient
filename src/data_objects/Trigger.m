@@ -28,6 +28,8 @@
 @synthesize hidden;
 @synthesize trigger_on_enter;
 @synthesize qr_code;
+@synthesize seconds;
+@synthesize time_left;
 
 - (id) init
 {
@@ -49,6 +51,8 @@
     hidden = NO;
     trigger_on_enter = NO;
     qr_code = @"";
+    seconds = 0;
+    time_left = 0;
   }
   return self;
 }
@@ -73,6 +77,8 @@
     hidden                      = [dict validBoolForKey:@"hidden"];
     trigger_on_enter            = [dict validBoolForKey:@"trigger_on_enter"];
     qr_code                     = [dict validStringForKey:@"qr_code"];
+    seconds                     = [dict validIntForKey:@"seconds"];
+    time_left                   = seconds;
   }
   return self;
 }
@@ -96,6 +102,8 @@
   hidden            = t.hidden;
   trigger_on_enter  = t.trigger_on_enter;
   qr_code           = t.qr_code;
+  seconds           = t.seconds;
+  if(time_left > seconds) time_left = seconds;
   return e;
 }
 
@@ -125,7 +133,9 @@
      show_title                    == t.show_title                    &&
      hidden                        == t.hidden                        &&
      trigger_on_enter              == t.trigger_on_enter              &&
-     [qr_code isEqualToString:t.qr_code]);
+     [qr_code isEqualToString:t.qr_code])                             &&
+     seconds                       == t.seconds;
+     //time_left                     == t.time_left // 
 }
 
 //MKAnnotation stuff

@@ -29,6 +29,8 @@
   BOOL hidden;
   BOOL trigger_on_enter;
   NSString *qr_code;
+  int seconds;
+  int time_left; //client only!
 }
 
 @property (nonatomic, assign) long trigger_id;
@@ -47,6 +49,8 @@
 @property (nonatomic, assign) BOOL hidden;
 @property (nonatomic, assign) BOOL trigger_on_enter;
 @property (nonatomic, copy)   NSString *qr_code;
+@property (nonatomic, assign) int seconds;
+@property (nonatomic, assign) int time_left;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (BOOL) mergeDataFromTrigger:(Trigger *)t;

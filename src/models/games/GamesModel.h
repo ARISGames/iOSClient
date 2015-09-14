@@ -14,6 +14,7 @@
 
 - (Game *) gameForId:(long)game_id;
 - (void) requestGame:(long)game_id;
+- (void) mergeInGame:(Game *)g;
 
 - (NSArray *) nearbyGames;
 - (NSArray *) pingNearbyGames;

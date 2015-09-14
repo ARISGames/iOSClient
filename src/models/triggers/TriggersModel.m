@@ -182,19 +182,23 @@
 - (void) requestTrigger:(long)t { [_SERVICES_ fetchTriggerById:t]; }
 - (void) requestPlayerTriggers
 { 
-  if([_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {
     NSMutableArray *ptrigs = [[NSMutableArray alloc] init];
     NSArray *ts = [triggers allValues];
     for(int i = 0; i < ts.count; i++)
     {
       Trigger *t = ts[i];
-      if([_MODEL_REQUIREMENTS_ evaluateRequirementRoot:t.requirement_root_package_id])
+      if(t.scene_id == _MODEL_SCENES_.playerScene.scene_id  && [_MODEL_REQUIREMENTS_ evaluateRequirementRoot:t.requirement_root_package_id])
         [ptrigs addObject:t];
     }
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",nil,@{@"triggers":ptrigs});
   }
-  else [_SERVICES_ fetchTriggersForPlayer];
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchTriggersForPlayer];
 }
 
 // null trigger (id == 0) NOT flyweight!!! (to allow for temporary customization safety)

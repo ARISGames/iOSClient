@@ -70,8 +70,6 @@
 
     gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
 
-    loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
-
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(playerLoggedIn),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(playerLoggedOut),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_CHOSEN",self,@selector(gameChosen),nil);
@@ -120,6 +118,7 @@
 
 - (void) gameChosen
 {
+  loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
   [self displayContentController:loadingViewController];
   [loadingViewController startLoading];
 }
@@ -185,8 +184,15 @@
 
 - (void) choosePreferredGame
 {
-  Game *g = [[Game alloc] init];
-  g.game_id = _MODEL_.preferred_game_id;
+  Game *g = [_MODEL_GAMES_ gameForId:_MODEL_.preferred_game_id];
+  if(!g)
+  {
+    g = [[Game alloc] init];
+    g.game_id = _MODEL_.preferred_game_id;
+    [_MODEL_GAMES_ mergeInGame:g];
+    [_MODEL_GAMES_ requestGame:_MODEL_.preferred_game_id];
+  }
+
   [_MODEL_ chooseGame:g];
 }
 

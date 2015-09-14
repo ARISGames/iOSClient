@@ -88,7 +88,8 @@
 
 - (void) requestPlayerTabs
 {
-  if([_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {
     NSMutableArray *ptabs = [[NSMutableArray alloc] init];
     NSArray *ts = [tabs allValues];
@@ -100,7 +101,10 @@
     }
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TABS_RECEIVED",nil,@{@"tabs":ptabs});
   }
-  else [_SERVICES_ fetchTabsForPlayer];
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchTabsForPlayer];
 }
 
 //admittedly a bit silly, but a great way to rid any risk of deviation from flyweight by catching it at the beginning
@@ -176,10 +180,21 @@
 - (Tab *) tabForType:(NSString *)t
 {
   Tab *tab;
-  for(long i = 0; i < tabs.count; i++)
+  
+  //first, search player tabs
+  for(long i = 0; i < playerTabs.count; i++)
   {
     if([((Tab *)playerTabs[i]).type isEqualToString:t])
       tab = playerTabs[i];
+  }
+  if(tab) return tab;
+  
+  //if not found, try to get any game tab
+  NSArray *gameTabs = [tabs allValues];
+  for(long i = 0; i < gameTabs.count; i++)
+  {
+    if([((Tab *)gameTabs[i]).type isEqualToString:t])
+      tab = gameTabs[i];
   }
   return tab;
 }

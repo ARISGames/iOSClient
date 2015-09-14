@@ -165,7 +165,7 @@
 {
   if(!requirement_and_package_id) return YES;
   NSArray *atoms = [self atomsForAndPackageId:requirement_and_package_id];
-  if(atoms.count == 0) return YES;
+  if(atoms.count == 0) return NO;
   for(int i = 0; i < atoms.count; i++)
   {
     if(![self evaluateRequirementAtom:((RequirementAtom *)atoms[i]).requirement_atom_id]) return NO;
@@ -297,6 +297,28 @@
 {
   if(!requirement_atom_id) return [[RequirementAtom alloc] init];
   return [requirementAtoms objectForKey:[NSNumber numberWithLong:requirement_atom_id]];
+}
+
+- (void) logRequirementTree:(long)requirement_root_package_id
+{
+  _ARIS_LOG_(@"Root: %ld",requirement_root_package_id);
+  NSArray *ands = [self andPackagesForRootPackageId:requirement_root_package_id];
+  for(int i = 0; i < ands.count; i++)
+    [self logRequirementAnd:((RequirementAndPackage *)ands[i]).requirement_and_package_id];
+}
+- (void) logRequirementAnd:(long)requirement_and_package_id
+{
+  _ARIS_LOG_(@"  And: %ld",requirement_and_package_id);
+  NSArray *atoms = [self atomsForAndPackageId:requirement_and_package_id];
+  for(int i = 0; i < atoms.count; i++)
+    [self logRequirementAtom:((RequirementAtom *)atoms[i]).requirement_atom_id];
+}
+- (void) logRequirementAtom:(long)requirement_atom_id
+{
+  _ARIS_LOG_(@"    Atom: %ld",requirement_atom_id);
+  RequirementAtom *a = [self requirementAtomForId:requirement_atom_id];
+  if(a.bool_operator) _ARIS_LOG_(@"      Req: %@ %ld",a.requirement,a.content_id);
+  else _ARIS_LOG_(@"      Req: Not %@ %ld",a.requirement,a.content_id);
 }
 
 - (void) dealloc

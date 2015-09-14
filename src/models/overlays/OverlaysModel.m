@@ -147,7 +147,29 @@
 }
 
 - (void) requestOverlays       { [_SERVICES_ fetchOverlays];   }
-- (void) requestPlayerOverlays { [_SERVICES_ fetchOverlaysForPlayer]; }
+- (void) requestPlayerOverlays
+{
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+  {
+    NSMutableArray *ptrigs = [[NSMutableArray alloc] init];
+    /*
+     // copied impl from triggers- haven't yet actually designed overlays...
+    NSArray *os = [overlays allValues];
+    for(int i = 0; i < os.count; i++)
+    {
+      Overlay *o = os[i];
+      if([_MODEL_REQUIREMENTS_ evaluateRequirementRoot:o.requirement_root_package_id])
+        [ptrigs addObject:o];
+    }
+     */
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_OVERLAYS_RECEIVED",nil,@{@"triggers":ptrigs});
+  }
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+  [_SERVICES_ fetchOverlaysForPlayer];
+}
 
 - (Overlay *) overlayForId:(long)overlay_id
 {

@@ -116,8 +116,16 @@
 }
 
 - (void) requestPlayerGroup
-{
-  [_SERVICES_ fetchGroupForPlayer];
+{ 
+  if([self playerDataReceived] &&
+     ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+  {
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_GROUP_RECEIVED",nil,@{@"group":playerGroup}); //just return current
+  }
+  if(![self playerDataReceived] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"] ||
+     [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
+    [_SERVICES_ fetchGroupForPlayer];
 }
 
 - (Group *) playerGroup
@@ -129,7 +137,8 @@
 {
   playerGroup = g;
   [_MODEL_LOGS_ playerChangedGroupId:g.group_id];
-  [_SERVICES_ setPlayerGroupId:g.group_id];
+  if(![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"])
+    [_SERVICES_ setPlayerGroupId:g.group_id];
   _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_PLAYER_GROUP_AVAILABLE",nil,nil);
 }
 
