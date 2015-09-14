@@ -42,8 +42,7 @@
   application.statusBarOrientation = UIInterfaceOrientationPortrait;
   application.idleTimerDisabled = YES;
 
-  [Crashlytics startWithAPIKey:@"998e417813fdeb68d423930898cf8efc3001db1a"];
-
+  [NewRelicAgent startWithApplicationToken:@"AAf54358abb9b1392483832d54b6d6cbf006e94cc3"];
   [self setApplicationUITemplates];
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
