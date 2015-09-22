@@ -345,7 +345,7 @@
     [gamePlayTabSelectorController requestDisplayScannerWithPrompt:p];
 }
 
-- (NSUInteger) supportedInterfaceOrientations
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
     //BAD BAD HACK
     //if ([[notesNavigationController topViewController] isKindOfClass:[AudioVisualizerViewController class]]) {

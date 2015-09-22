@@ -42,7 +42,7 @@
   application.statusBarOrientation = UIInterfaceOrientationPortrait;
   application.idleTimerDisabled = YES;
 
-  [NewRelicAgent startWithApplicationToken:@"AAf54358abb9b1392483832d54b6d6cbf006e94cc3"];
+  //[NewRelicAgent startWithApplicationToken:@"AAf54358abb9b1392483832d54b6d6cbf006e94cc3"];
   [self setApplicationUITemplates];
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

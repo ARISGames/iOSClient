@@ -70,7 +70,7 @@
                             completion:^(BOOL finished) { [oldC removeFromParentViewController]; [newC didMoveToParentViewController:self]; }];
 }
 
-- (NSUInteger) supportedInterfaceOrientations
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         return UIInterfaceOrientationMaskAll;

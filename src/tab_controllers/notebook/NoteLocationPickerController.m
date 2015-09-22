@@ -105,6 +105,7 @@
         case MKMapTypeStandard: mapView.mapType = MKMapTypeSatellite; break;
         case MKMapTypeSatellite:mapView.mapType = MKMapTypeHybrid;    break;
         case MKMapTypeHybrid:   mapView.mapType = MKMapTypeStandard;  break;
+        default: break;
     }
 }
 

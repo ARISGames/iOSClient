@@ -25,9 +25,7 @@
 		A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7955B920F73E095005148E4 /* AudioToolbox.framework */; };
 		A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */; };
 		A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */; };
-		A7E7AE501BA67F2A0094C539 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E7AE4F1BA67F2A0094C539 /* NewRelicAgent.framework */; };
 		A7E7AE521BA680230094C539 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E7AE511BA680230094C539 /* CoreTelephony.framework */; };
-		A7E7AE541BA680480094C539 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E7AE531BA680480094C539 /* libc++.dylib */; };
 		AA00C3B31AB3476600576B9E /* GamePlayTabSelectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA00C3B21AB3476600576B9E /* GamePlayTabSelectorCell.m */; };
 		AA02477D1927D0DD00CF5CE3 /* GamesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA02477C1927D0DD00CF5CE3 /* GamesModel.m */; };
 		AA04E33018E60E1E00621F0C /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA04E32F18E60E1E00621F0C /* delete@2x.png */; };
@@ -347,7 +345,6 @@
 		A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A7E7AE4F1BA67F2A0094C539 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		A7E7AE511BA680230094C539 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		A7E7AE531BA680480094C539 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		AA00C3B11AB3476600576B9E /* GamePlayTabSelectorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabSelectorCell.h; sourceTree = "<group>"; };
 		AA00C3B21AB3476600576B9E /* GamePlayTabSelectorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayTabSelectorCell.m; sourceTree = "<group>"; };
 		AA02477B1927D0DD00CF5CE3 /* GamesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesModel.h; sourceTree = "<group>"; };
@@ -856,7 +853,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7E7AE541BA680480094C539 /* libc++.dylib in Frameworks */,
 				ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */,
 				A7E7AE521BA680230094C539 /* CoreTelephony.framework in Frameworks */,
 				3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */,
@@ -866,7 +862,6 @@
 				113F56DE14E4435300525BE6 /* AssetsLibrary.framework in Frameworks */,
 				A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */,
 				AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */,
-				A7E7AE501BA67F2A0094C539 /* NewRelicAgent.framework in Frameworks */,
 				D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */,
 				AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */,
 				4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */,
@@ -905,7 +900,6 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				A7E7AE531BA680480094C539 /* libc++.dylib */,
 				A7E7AE511BA680230094C539 /* CoreTelephony.framework */,
 				AABC74E317273A0F0074CC21 /* Info.plist */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
@@ -2112,7 +2106,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0700;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = 94WTN6924S;
@@ -2269,7 +2263,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAf54358abb9b1392483832d54b6d6cbf006e94cc3\"";
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n#/bin/sh \"${SCRIPT}\" \"AAf54358abb9b1392483832d54b6d6cbf006e94cc3\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2511,6 +2505,7 @@
 					"-all_load",
 					"-v",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.beta;
 				PRODUCT_NAME = ARIS;
 				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
@@ -2567,6 +2562,7 @@
 					"-all_load",
 					"-v",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.beta;
 				PRODUCT_NAME = ARIS;
 				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
@@ -2580,6 +2576,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";

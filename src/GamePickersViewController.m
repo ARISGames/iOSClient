@@ -122,7 +122,7 @@
     [_MODEL_ logOut];
 }
 
-- (NSUInteger) supportedInterfaceOrientations
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
