@@ -253,6 +253,7 @@
 		AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */; };
 		AAC6573C187200940063EAF7 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC6573B187200940063EAF7 /* play.png */; };
 		AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */; };
+		AACB0AE51BB2040E000D3060 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AACB0AE41BB2040E000D3060 /* Launch Screen.storyboard */; settings = {ASSET_TAGS = (); }; };
 		AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryViewController.m */; };
 		AAD8EFE31A0AD96600E29C8F /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */; };
@@ -740,6 +741,7 @@
 		AAC6573B187200940063EAF7 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		AAC8290D18A53A68000EA4C7 /* ARISServiceResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISServiceResult.h; sourceTree = "<group>"; };
 		AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISServiceResult.m; sourceTree = "<group>"; };
+		AACB0AE41BB2040E000D3060 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		AACE25E0189C1EF000E6A680 /* NoteLocationPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteLocationPickerController.h; sourceTree = "<group>"; };
 		AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteLocationPickerController.m; sourceTree = "<group>"; };
 		AAD298C717D1160C002A4C47 /* InventoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryViewController.h; sourceTree = "<group>"; };
@@ -1323,6 +1325,7 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				AACB0AE41BB2040E000D3060 /* Launch Screen.storyboard */,
 				AA00C3B11AB3476600576B9E /* GamePlayTabSelectorCell.h */,
 				AA00C3B21AB3476600576B9E /* GamePlayTabSelectorCell.m */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
@@ -2224,6 +2227,7 @@
 				AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */,
 				AA04E33418E6140300621F0C /* location_white.png in Resources */,
 				AA09B8E618E1EB5500A45562 /* video@2x.png in Resources */,
+				AACB0AE51BB2040E000D3060 /* Launch Screen.storyboard in Resources */,
 				AA09B8EA18E1EB5500A45562 /* microphone@2x.png in Resources */,
 				AA0D161818EE00C100D856F1 /* trash_red@2x.png in Resources */,
 				AA04E33C18E6179200621F0C /* map@2x.png in Resources */,
