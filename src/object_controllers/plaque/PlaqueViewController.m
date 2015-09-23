@@ -140,7 +140,8 @@ static NSString * const OPTION_CELL = @"option";
     [super viewWillLayoutSubviews];
     scrollView.frame = self.view.bounds;
     scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
+    if(scrollView.contentSize.height < self.view.bounds.size.height-64-44)
+      scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
 
     webView.frame = CGRectMake(0, mediaView.frame.origin.y+mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height > 10 ? webView.frame.size.height : 10);
 
@@ -201,7 +202,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    webView.alpha = 1.00;
+    webView.alpha = 1.0;
 
     //Calculate the height of the web content
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
