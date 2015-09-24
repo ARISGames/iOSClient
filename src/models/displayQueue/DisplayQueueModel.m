@@ -153,7 +153,7 @@
   for(long i = 0; i < pt.count; i++)
   {
     t = pt[i];
-    
+
     if([t.type isEqualToString:@"TIMER"])
     {
       BOOL inQueue = NO;
@@ -161,9 +161,9 @@
       {
         if(displayQueue[i] == t) inQueue = YES;
       }
-      if(!inQueue && t.time_left > 0) 
+      if(!inQueue && t.time_left > 0)
         t.time_left--;
-      
+
       if(t.time_left <= 0 && t.seconds > 0)
       {
         t.time_left = t.seconds;

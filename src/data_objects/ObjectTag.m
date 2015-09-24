@@ -25,7 +25,7 @@
         self.object_id = 0;
         self.tag_id = 0;
     }
-    return self;	
+    return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict
@@ -52,7 +52,7 @@
 
 - (long) compareTo:(ObjectTag *)ob
 {
-	return (ob.object_tag_id == self.object_tag_id);
+  return (ob.object_tag_id == self.object_tag_id);
 }
 
 - (NSString *)description

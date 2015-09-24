@@ -155,7 +155,7 @@
         ((DialogScriptViewController *)themViewControllers[0]).dialog = dialog;
         ((DialogScriptViewController *)themViewControllers[1]).dialog = dialog;
     }
-    
+
     if(s.event_package_id) [_MODEL_EVENTS_ runEventPackageId:s.event_package_id];
     [_MODEL_LOGS_ playerViewedContent:@"DIALOG_SCRIPT" id:s.dialog_script_id];
     if(s.dialog_character_id == 0)

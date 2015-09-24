@@ -11,11 +11,11 @@
 @interface Tag : NSObject
 {
     long tag_id;
-	NSString *tag;
-	long media_id;
-	long visible;
-	long curated;
-	long sort_index;
+  NSString *tag;
+  long media_id;
+  long visible;
+  long curated;
+  long sort_index;
 }
 
 @property(readwrite, assign) long tag_id;

@@ -69,7 +69,7 @@
 - (Instance *) copy
 {
   Instance *c = [[Instance alloc] init];
-  
+
   c.instance_id = self.instance_id;
   c.object_type = self.object_type;
   c.object_id = self.object_id;
@@ -78,7 +78,7 @@
   c.qty = self.qty;
   c.infinite_qty = self.infinite_qty;
   c.factory_id = self.factory_id;
-  
+
   return c;
 }
 

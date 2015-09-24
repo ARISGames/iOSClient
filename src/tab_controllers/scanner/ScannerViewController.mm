@@ -46,7 +46,7 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorBlack];
-    
+
     UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
     [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];

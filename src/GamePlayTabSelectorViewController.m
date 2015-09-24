@@ -284,7 +284,7 @@
 {
     Tab *tab;
     ARISNavigationController *vc;
-  
+
     for(long i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
@@ -321,7 +321,7 @@
                     (id<WebPageViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
             }
-                    
+
             if(vc) //new vc was created- replace old one
             {
               for(long i = 0; i < viewControllers.count; i++)

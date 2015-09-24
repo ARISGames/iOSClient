@@ -29,7 +29,7 @@
         self.curated = 1;
         self.sort_index = 0;
     }
-    return self;	
+    return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict
@@ -60,7 +60,7 @@
 
 - (long) compareTo:(Tag *)ob
 {
-	return (ob.tag_id == self.tag_id);
+  return (ob.tag_id == self.tag_id);
 }
 
 - (NSString *)description

@@ -64,9 +64,9 @@
     Float64 sampleRate;
     int numBins;
 
-	WaveSampleProvider *wsp;
-	AVPlayer *player;
-	NSString *infoString;
+  WaveSampleProvider *wsp;
+  AVPlayer *player;
+  NSString *infoString;
 
     id<AudioVisualizerViewControllerDelegate> __unsafe_unretained delegate;
 
@@ -288,7 +288,7 @@
 
 - (void) start
 {
-	if(wsp.status != LOADED) return;
+  if(wsp.status != LOADED) return;
 
     player = [[AVPlayer alloc] initWithURL:wsp.audioURL];
     [self addTimeObserver];
@@ -332,24 +332,24 @@
 
 - (void) setSampleData:(float *)sd length:(int)length
 {
-	sampleLength = 0;
-	
-	length += 2;
-	CGPoint *tempData = (CGPoint *)calloc(sizeof(CGPoint),length);
-	tempData[0] = CGPointMake(0.0,0.0);
-	tempData[length-1] = CGPointMake(length-1,0.0);
-	for(int i = 1; i < length-1;i++)
-		tempData[i] = CGPointMake(i, sd[i]);
-	
-	CGPoint *oldData = sampleData;
-	
-	sampleData = tempData;
-	sampleLength = length;
-	
-	if(oldData != nil) free(oldData);
-	free(sd);
+  sampleLength = 0;
 
-	[wfControl setNeedsDisplay];
+  length += 2;
+  CGPoint *tempData = (CGPoint *)calloc(sizeof(CGPoint),length);
+  tempData[0] = CGPointMake(0.0,0.0);
+  tempData[length-1] = CGPointMake(length-1,0.0);
+  for(int i = 1; i < length-1;i++)
+    tempData[i] = CGPointMake(i, sd[i]);
+
+  CGPoint *oldData = sampleData;
+
+  sampleData = tempData;
+  sampleLength = length;
+
+  if(oldData != nil) free(oldData);
+  free(sd);
+
+  [wfControl setNeedsDisplay];
     [freqControl setNeedsDisplay];
 }
 
@@ -361,24 +361,24 @@
 
 - (void) sampleProcessed:(WaveSampleProvider *)provider
 {
-	if(wsp.status == LOADED)
+  if(wsp.status == LOADED)
     {
-		long sdl = 0;
-		//float *sd = [wsp dataForResolution:[self waveRect].size.width lenght:&sdl];
-		float *sd = [wsp dataForResolution:8000 lenght:&sdl];
-		[self setSampleData:sd length:(int)sdl];
-		long dmin = wsp.minute;
-		long dsec = wsp.sec;
+    long sdl = 0;
+    //float *sd = [wsp dataForResolution:[self waveRect].size.width lenght:&sdl];
+    float *sd = [wsp dataForResolution:8000 lenght:&sdl];
+    [self setSampleData:sd length:(int)sdl];
+    long dmin = wsp.minute;
+    long dsec = wsp.sec;
         timeLabel.text = [NSString stringWithFormat:@"--:--/%02ld:%02ld",dmin,dsec];
-		[self start];
-	}
+    [self start];
+  }
 }
 
 - (void) playheadControl:(Playhead *)playhead wasTouched:(NSSet *)touches
 {
     UITouch *touch = [touches anyObject];
-	CGPoint local_point = [touch locationInView:self.view];
-	if(CGRectContainsPoint(self.view.bounds,local_point) && player != nil)
+  CGPoint local_point = [touch locationInView:self.view];
+  if(CGRectContainsPoint(self.view.bounds,local_point) && player != nil)
     {
         CGFloat x = local_point.x - self.view.bounds.origin.x;
         float sel = x / self.view.bounds.size.width;
@@ -387,7 +387,7 @@
         CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
         [player seekToTime:tm];
         [self loadAudio];
-	}
+  }
 }
 
 - (void) freqHistogramControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches
@@ -481,7 +481,7 @@
 - (void) loadAudio
 {
     ExtAudioFileRef extAFRef;
-	if(ExtAudioFileOpenURL((__bridge CFURLRef)audioURL, &extAFRef) != noErr)
+  if(ExtAudioFileOpenURL((__bridge CFURLRef)audioURL, &extAFRef) != noErr)
     {
         _ARIS_LOG_(@"Cannot open audio file");
         return;
@@ -495,7 +495,7 @@
     memset(&fileFormat, 0, sizeof(AudioStreamBasicDescription));
 
     err = ExtAudioFileGetProperty(extAFRef, kExtAudioFileProperty_FileDataFormat, &propSize, &fileFormat);
-	if(err != noErr) _ARIS_LOG_(@"Cannot get audio file properties");
+  if(err != noErr) _ARIS_LOG_(@"Cannot get audio file properties");
 
     float startingSample = (sampleRate * playProgress * lengthInSeconds);
 
@@ -513,16 +513,16 @@
     clientFormat.mBytesPerPacket     = extAFNumChannels * sizeof(float);
 
     err = ExtAudioFileSetProperty(extAFRef, kExtAudioFileProperty_ClientDataFormat, propSize, &clientFormat);
-	if(err != noErr) {
-		_ARIS_LOG_(@"Couldn't convert audio file to PCM format");
-		return;
-	}
+  if(err != noErr) {
+    _ARIS_LOG_(@"Couldn't convert audio file to PCM format");
+    return;
+  }
 
     err = ExtAudioFileSeek(extAFRef, startingSample);
     if(err != noErr) {
-		_ARIS_LOG_(@"Error in seeking in file");
-		return;
-	}
+    _ARIS_LOG_(@"Error in seeking in file");
+    return;
+  }
 
     float *returnData = (float *)malloc(sizeof(float) * 1024);
 
@@ -537,9 +537,9 @@
     err = ExtAudioFileRead(extAFRef, &loadedPackets, &bufList);
     if(err != noErr)
     {
-		_ARIS_LOG_(@"Error in reading the file");
-		return;
-	}
+    _ARIS_LOG_(@"Error in reading the file");
+    return;
+  }
     freqControl.fourierData = [self computeFFTForData:returnData forSampleSize:1024];
     [freqControl setNeedsDisplay];
 }

@@ -15,8 +15,8 @@
 @interface NoteRecorderViewController() <AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioMeterDelegate, AudioVisualizerViewControllerDelegate, UIActionSheetDelegate>
 {
     AVAudioSession *session;
-	AVAudioRecorder *recorder;
-	AVAudioPlayer *player;
+  AVAudioRecorder *recorder;
+  AVAudioPlayer *player;
 
     NSURL *audioFileURL;
     BOOL hasFile;
@@ -26,8 +26,8 @@
     UIButton *playButton;
     UIButton *stopButton;
     UIButton *editButton;
-   	UIButton *discardButton;
-   	UIButton *saveButton;
+     UIButton *discardButton;
+     UIButton *saveButton;
 
     UIActionSheet *confirmPrompt;
 
@@ -164,7 +164,7 @@
     [backButton sizeToFit];
 
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.rightBarButtonItem = nil;
 
     if(recorder)

@@ -49,8 +49,8 @@
 - (void) popularGamesAvailable
 {
     [self removeLoadingIndicator];
-	games = _MODEL_GAMES_.popularGames;
-	[gameTable reloadData];
+  games = _MODEL_GAMES_.popularGames;
+  [gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
@@ -61,7 +61,7 @@
       case 1: games = [_MODEL_GAMES_ pingPopularGames:@"WEEK"]; break;
       case 2: games = [_MODEL_GAMES_ pingPopularGames:@"MONTH"]; break;
     }
-	[gameTable reloadData];
+  [gameTable reloadData];
 }
 
 - (void) controlChanged

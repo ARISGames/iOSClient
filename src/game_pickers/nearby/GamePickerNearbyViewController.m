@@ -28,12 +28,12 @@
 - (void) nearbyGamesAvailable
 {
     [self removeLoadingIndicator];
-	games = _MODEL_GAMES_.nearbyGames;
+  games = _MODEL_GAMES_.nearbyGames;
     [gameTable reloadData];
 }
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.pingNearbyGames;
+  games = _MODEL_GAMES_.pingNearbyGames;
     [gameTable reloadData];
 }
 

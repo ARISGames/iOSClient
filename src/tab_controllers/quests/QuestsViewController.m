@@ -28,7 +28,7 @@ static long const COMPLETE_SECTION = 1;
     NSMutableDictionary *activeQuestCellHeights;
     NSMutableDictionary *completeQuestCellHeights;
 
-	UITableView *questsTable;
+  UITableView *questsTable;
     UIButton *activeButton;
     UIButton *completeButton;
 
@@ -120,13 +120,13 @@ static long const COMPLETE_SECTION = 1;
 {
     [super viewDidAppear:animated];
     [self refreshViewFromModel];
-	[self refreshModels];
+  [self refreshModels];
 }
 
 - (void) refreshModels
 {
     [_MODEL_QUESTS_ requestPlayerQuests];
-	[self showLoadingIndicator];
+  [self showLoadingIndicator];
 }
 
 -(void) refreshViewFromModel
@@ -156,15 +156,15 @@ static long const COMPLETE_SECTION = 1;
 
 -(void)showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[[self navigationItem] setRightBarButtonItem:barButton];
-	[activityIndicator startAnimating];
+  UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+  UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+  [[self navigationItem] setRightBarButtonItem:barButton];
+  [activityIndicator startAnimating];
 }
 
 -(void)removeLoadingIndicator
 {
-	[[self navigationItem] setRightBarButtonItem:nil];
+  [[self navigationItem] setRightBarButtonItem:nil];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -218,7 +218,7 @@ static long const COMPLETE_SECTION = 1;
                                              attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle}
                                          context:nil];
     CGSize calcSize = textRect.size;
-	return calcSize.height+30;
+  return calcSize.height+30;
 }
 
 - (void) heightCalculated:(long)h forQuest:(Quest *)q inCell:(QuestCell *)qc

@@ -19,7 +19,7 @@
 @interface GameCommentsViewController () <UITableViewDelegate,UITableViewDataSource,GameCommentsReviewViewcontrollerDelegate, GameCommentCellDelegate>
 {
     UIButton *writeAReviewButton;
-	UITableView *commentsTable;
+  UITableView *commentsTable;
 
     NSMutableDictionary *cellSizes; //parallel to game.comments. can't store in cell since they are reused
     Game *game;
@@ -71,12 +71,12 @@
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
-	[commentsTable reloadData];
+  [commentsTable reloadData];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -110,7 +110,7 @@
                                              attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle}
                                          context:nil];
     CGSize calcSize = textRect.size;
-	return calcSize.height+30;
+  return calcSize.height+30;
 }
 
 - (void) heightCalculated:(long)h forComment:(GameComment *)gc inCell:(GameCommentCell *)gcc

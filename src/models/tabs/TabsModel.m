@@ -117,7 +117,7 @@
     if((t = [self tabForId:((Tab *)newTabs[i]).tab_id]))
       [conformingTabs addObject:t];
   }
-  
+
   return conformingTabs;
 }
 
@@ -141,11 +141,11 @@
 - (NSDictionary *) findDeltasInNew:(NSArray *)newTabs fromOld:(NSArray *)oldTabs
 {
   NSDictionary *qDeltas = @{ @"added":[[NSMutableArray alloc] init], @"removed":[[NSMutableArray alloc] init] };
-  
+
   //placeholders for comparison
   Tab *newTab;
   Tab *oldTab;
-  
+
   //find added
   BOOL new;
   for(long i = 0; i < newTabs.count; i++)
@@ -159,7 +159,7 @@
     }
     if(new) [qDeltas[@"added"] addObject:newTabs[i]];
   }
-  
+
   //find removed
   BOOL removed;
   for(long i = 0; i < oldTabs.count; i++)
@@ -173,14 +173,14 @@
     }
     if(removed) [qDeltas[@"removed"] addObject:oldTabs[i]];
   }
-  
+
   return qDeltas;
 }
 
 - (Tab *) tabForType:(NSString *)t
 {
   Tab *tab;
-  
+
   //first, search player tabs
   for(long i = 0; i < playerTabs.count; i++)
   {
@@ -188,7 +188,7 @@
       tab = playerTabs[i];
   }
   if(tab) return tab;
-  
+
   //if not found, try to get any game tab
   NSArray *gameTabs = [tabs allValues];
   for(long i = 0; i < gameTabs.count; i++)

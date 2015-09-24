@@ -145,11 +145,11 @@
   NSArray *media_ids = [mediaIdsToLoad allKeys];
   Media *m;
   ARISDelegateHandle *d;
-  
+
   mediaDataLoadDelegateHandles = [[NSMutableArray alloc] init];
   mediaDataLoadMedia = [[NSMutableArray alloc] init];
   mediaDataLoaded = 0;
-  
+
   for(int i = 0; i < media_ids.count; i++)
   {
     m = [self mediaForId:[((NSNumber *)media_ids[i]) longValue]];
@@ -162,7 +162,7 @@
   }
   if(mediaDataLoadDelegateHandles.count == 0)
     [self mediaLoaded:nil];
-  
+
   for(int i = 0; i < mediaDataLoadMedia.count; i++) //needs separate loop so notif doesn't get sent in same stack as generating count
       [_SERVICES_MEDIA_ loadMedia:mediaDataLoadMedia[i] delegateHandle:mediaDataLoadDelegateHandles[i]]; //calls 'mediaLoaded' upon complete
 }

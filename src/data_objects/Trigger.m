@@ -135,7 +135,7 @@
      trigger_on_enter              == t.trigger_on_enter              &&
      [qr_code isEqualToString:t.qr_code])                             &&
      seconds                       == t.seconds;
-     //time_left                     == t.time_left // 
+     //time_left                     == t.time_left //
 }
 
 //MKAnnotation stuff

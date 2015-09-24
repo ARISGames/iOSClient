@@ -29,7 +29,7 @@
     self.qty = 0;
     self.script = @"";
   }
-  return self;	
+  return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict

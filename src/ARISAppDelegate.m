@@ -170,7 +170,7 @@
 
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate
 {
-  if (shouldVibrate == YES) [NSThread detachNewThreadSelector:@selector(vibrate) toTarget:self withObject:nil];	
+  if (shouldVibrate == YES) [NSThread detachNewThreadSelector:@selector(vibrate) toTarget:self withObject:nil];
   [NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
 }
 

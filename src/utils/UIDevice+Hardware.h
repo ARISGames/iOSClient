@@ -10,7 +10,7 @@
 
 
 @interface UIDevice (Hardware)
-    
+
 - (NSString *) platform;
 
 @end

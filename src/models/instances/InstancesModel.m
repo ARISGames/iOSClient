@@ -73,8 +73,8 @@
 
 //only difference at this point is notification sent- all other functionality same (merge into all known insts)
 - (void) playerInstancesReceived:(NSNotification *)notif
-{ 
-  [self updateInstances:[notif.userInfo objectForKey:@"instances"]]; 
+{
+  [self updateInstances:[notif.userInfo objectForKey:@"instances"]];
   n_player_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
 }

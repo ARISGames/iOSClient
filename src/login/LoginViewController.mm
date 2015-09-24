@@ -27,15 +27,15 @@
   UIButton *changePassButton;
   UIView *line1;
   UIView *line2;
-  
+
   NSString *group_name;
   BOOL auto_profile_enabled;
   long game_id;
   BOOL newPlayer;
   BOOL leave_game_enabled;
-  
+
   BOOL scanning;
-  
+
   id<LoginViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -49,11 +49,11 @@
   {
     delegate = d;
     self.title = NSLocalizedString(@"LoginTitleKey", @"");
-    
+
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(resetState),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(resetState),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_LOGIN_FAILED",self,@selector(loginFailed),nil);
-    
+
     scanning = NO;
   }
   return self;
@@ -63,16 +63,16 @@
 {
   [super loadView];
   self.view.backgroundColor = [UIColor ARISColorWhite];
-  
+
   UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
   UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
   logoText.frame = CGRectMake(titleContainer.frame.size.width/2-50, titleContainer.frame.size.height/2-15, 100, 30);
   [titleContainer addSubview:logoText];
   self.navigationItem.titleView = titleContainer;
   [self.navigationController.navigationBar layoutIfNeeded];
-  
+
   long navOffset = 66;
-  
+
   usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
   usernameField.font = [ARISTemplate ARISInputFont];
   usernameField.delegate = self;
@@ -82,7 +82,7 @@
   usernameField.accessibilityLabel = @"Username Field";
   usernameField.clearButtonMode = UITextFieldViewModeAlways;
   [self.view addSubview:usernameField];
-  
+
   passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20)];
   passwordField.font = [ARISTemplate ARISInputFont];
   passwordField.delegate = self;
@@ -91,7 +91,7 @@
   passwordField.clearButtonMode = UITextFieldViewModeAlways;
   passwordField.accessibilityLabel = @"Password Field";
   [self.view addSubview:passwordField];
-  
+
   loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
   [loginButton setImage:[UIImage imageNamed:@"arrowForward"] forState:UIControlStateNormal];
   [loginButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
@@ -100,9 +100,9 @@
   loginButton.imageEdgeInsets = UIEdgeInsetsMake(10,10,10,10);
   loginButton.frame = CGRectMake(self.view.frame.size.width-60, navOffset+100, 60, 50);
   [loginButton addTarget:self action:@selector(loginButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-  
+
   [self.view addSubview:loginButton];
-  
+
   qrButton = [UIButton buttonWithType:UIButtonTypeCustom];
   qrButton.backgroundColor = [UIColor clearColor];
   qrButton.alpha = 0.1;
@@ -112,7 +112,7 @@
   [qrButton addTarget:self action:@selector(QRButtonTouched) forControlEvents:UIControlEventTouchUpInside];
   //[qrButton addTarget:self action:@selector(testLoginString) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:qrButton];
-  
+
   newAccountButton = [UIButton buttonWithType:UIButtonTypeCustom];
   newAccountButton.backgroundColor = [UIColor clearColor];
   [newAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
@@ -121,7 +121,7 @@
   newAccountButton.frame = CGRectMake(0, self.view.frame.size.height-60, self.view.frame.size.width, 20);
   [newAccountButton addTarget:self action:@selector(newAccountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:newAccountButton];
-  
+
   changePassButton = [UIButton buttonWithType:UIButtonTypeCustom];
   changePassButton.backgroundColor = [UIColor clearColor];
   [changePassButton setTitle:NSLocalizedString(@"ForgotPasswordKey", @"") forState:UIControlStateNormal];
@@ -130,11 +130,11 @@
   changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
   [changePassButton addTarget:self action:@selector(changePassTouch) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:changePassButton];
-  
+
   line1 = [[UIView alloc] initWithFrame:CGRectMake(20, navOffset+20+20+5, self.view.frame.size.width-40, 1)];
   line1.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
   [self.view addSubview:line1];
-  
+
   line2 = [[UIView alloc] initWithFrame:CGRectMake(20, navOffset+20+20+20+20+5, self.view.frame.size.width-40, 1)];
   line2.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
   [self.view addSubview:line2];
@@ -143,7 +143,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  
+
   [self resetState];
 }
 
@@ -151,7 +151,7 @@
 {
   [super viewWillLayoutSubviews];
   long navOffset = 66;
-  
+
   usernameField.frame    = CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20);
   passwordField.frame    = CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20);
   loginButton.frame      = CGRectMake(self.view.frame.size.width-60, navOffset+100, 60, 50);
@@ -207,7 +207,7 @@
 - (void) QRButtonTouched
 {
   [self resignKeyboard];
-  
+
   scanning = YES;
   LoginScannerViewController *scannerController = [[LoginScannerViewController alloc] initWithDelegate:self];
   [self presentViewController:scannerController animated:NO completion:nil];
@@ -234,7 +234,7 @@
     if (metadataObjects != nil && [metadataObjects count] > 0)
     {
       BOOL not_found = NO;
-      
+
       for (AVMetadataObject *metadata in metadataObjects)
       {
         AVMetadataObject *transformed = [previewLayer transformedMetadataObjectForMetadataObject:metadata];
@@ -246,13 +246,13 @@
           continue;
         }
         NSString *result = [code stringValue];
-        
+
         if([self loginWithString:result])
           return;
         else
           not_found = YES;
       }
-      
+
       // All metadata visible scanned
       if(not_found)
       {
@@ -272,7 +272,7 @@
 - (BOOL) loginWithString:(NSString *)result
 {
   NSArray *terms  = [result componentsSeparatedByString:@","];
-  
+
   //(DON'T USE) - // 0,user_name,password,game_id,disable_leave_game
   //v1.0 (dep)  - // 1,group_name,game_id,disable_leave_game
   //v2.0        - // 2,pauto_profile_enabled,grgroup_name,ggame_id,lleave_game_enabled
@@ -281,7 +281,7 @@
   //gr - group_name
   //g - game_id
   //l - leave_game_enabled
-  
+
   auto_profile_enabled = YES;
   group_name = @"";
   game_id = 0;

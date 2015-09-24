@@ -56,9 +56,9 @@
 
 - (id)initWithCenterCoordinate:(CLLocationCoordinate2D)coord
 {
-	self = [super init];
+  self = [super init];
     if (self)
-	{
+  {
         // initialize point storage and place this first coordinate in it
         pointSpace = INITIAL_POINT_SPACE;
         points = malloc(sizeof(MKMapPoint) * pointSpace);

@@ -62,11 +62,11 @@
     progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
     progressLabel.font = [ARISTemplate ARISCellSubtextFont];
     progressLabel.textColor = [UIColor ARISColorDarkBlue];
-  
+
     mediaLabel.text = @"Fetching Media... (this could take a while)";
     mediaLabel.font = [ARISTemplate ARISCellSubtextFont];
     mediaLabel.textColor = [UIColor ARISColorDarkBlue];
-  
+
     mediaCountLabel.text = @"0 loaded...";
     mediaCountLabel.font = [ARISTemplate ARISCellSubtextFont];
     mediaCountLabel.textColor = [UIColor ARISColorDarkBlue];

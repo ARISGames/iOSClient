@@ -22,7 +22,7 @@
     self.requirement_root_package_id = 0;
     self.name = @"";
   }
-  return self;	
+  return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict
@@ -53,7 +53,7 @@
     self.requirement_root_package_id = 0;
     self.name = @"";
   }
-  return self;	
+  return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict
@@ -97,7 +97,7 @@
     self.latitude = 0;
     self.longitude = 0;
   }
-  return self;	
+  return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict

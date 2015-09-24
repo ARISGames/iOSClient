@@ -105,7 +105,7 @@ static NSString * const OPTION_CELL = @"option";
         continueLbl.font = [ARISTemplate ARISButtonFont];
         [continueButton addSubview:continueLbl];
         [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
-        
+
         arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
         line = [[UIView alloc] init];
         line.backgroundColor = [UIColor ARISColorLightGray];

@@ -19,7 +19,7 @@
   {
     self.event_package_id = 0;
   }
-  return self;	
+  return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict

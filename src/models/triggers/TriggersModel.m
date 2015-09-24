@@ -18,7 +18,7 @@
 {
   NSMutableDictionary *triggers;
   NSArray *playerTriggers;
-  
+
   NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
 }
 @end
@@ -30,7 +30,7 @@
   if(self = [super init])
   {
     [self clearGameData];
-    
+
     _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGERS_RECEIVED",self,@selector(triggersReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGER_RECEIVED",self,@selector(triggerReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",self,@selector(playerTriggersReceived:),nil);
@@ -97,7 +97,7 @@
         [invalidatedTriggers addObject:[triggers objectForKey:newTriggerId]];
   }
   if(invalidatedTriggers.count) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_INVALIDATED",nil,@{@"invalidated_triggers":invalidatedTriggers});
-  
+
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
@@ -111,7 +111,7 @@
   {
     Trigger *newt = newTriggers[i];
     Trigger *exist = [self triggerForId:newt.trigger_id];
-    
+
     if(exist)
     {
       if(![exist mergeDataFromTrigger:newt]) [invalidatedTriggers addObject:exist];
@@ -136,11 +136,11 @@
 {
   NSMutableArray *addedTriggers = [[NSMutableArray alloc] init];
   NSMutableArray *removedTriggers = [[NSMutableArray alloc] init];
-  
+
   //placeholders for comparison
   Trigger *newTrigger;
   Trigger *oldTrigger;
-  
+
   //find added
   BOOL new;
   for(long i = 0; i < newTriggers.count; i++)
@@ -154,7 +154,7 @@
     }
     if(new) [addedTriggers addObject:newTriggers[i]];
   }
-  
+
   //find removed
   BOOL removed;
   for(long i = 0; i < playerTriggers.count; i++)
@@ -168,10 +168,10 @@
     }
     if(removed) [removedTriggers addObject:playerTriggers[i]];
   }
-  
+
   playerTriggers = newTriggers;
   n_player_data_received++;
-  
+
   if(addedTriggers.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_NEW_AVAILABLE",nil,@{@"added":addedTriggers});
   if(removedTriggers.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_LESS_AVAILABLE",nil,@{@"removed":removedTriggers});
   _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_TRIGGERS_AVAILABLE",nil,nil);
@@ -181,7 +181,7 @@
 - (void) requestTriggers { [_SERVICES_ fetchTriggers]; }
 - (void) requestTrigger:(long)t { [_SERVICES_ fetchTriggerById:t]; }
 - (void) requestPlayerTriggers
-{ 
+{
   if([self playerDataReceived] &&
      ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {

@@ -68,7 +68,7 @@
     LoadingIndicatorViewController *loadingIndicatorViewController;
     NSTimer *tickerTimer;
     ARISWebView *ticker;
-  
+
     //queue of dequeued instances to be displayed but were not yet loaded
     //yes, the fact that we need this second layer of queue points
     //to something being wrong with our architecture.
@@ -303,7 +303,7 @@
 {
     [self presentViewController:vc animated:NO completion:nil];
     viewingObject = YES;
-    
+
     [self reSetOverlayControllersInVC:vc atYDelta:20];
 }
 
@@ -311,7 +311,7 @@
 {
     [((ARISViewController *)ivc).navigationController dismissViewControllerAnimated:NO completion:nil];
     viewingObject = NO;
-    
+
     [self reSetOverlayControllersInVC:self atYDelta:-20];
 
     [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
@@ -330,7 +330,7 @@
                                                            loadingIndicatorViewController.view.frame.origin.y+ydelt,
                                                            loadingIndicatorViewController.view.frame.size.width,
                                                            loadingIndicatorViewController.view.frame.size.height);
-    
+
     [vc.view addSubview:gameNotificationViewController.view];
     [vc.view addSubview:loadingIndicatorViewController.view];
 }

@@ -234,7 +234,7 @@
 
         }
     }
-     
+
     // Display all curated tags
     Tag* tmp_tag;
     for(long i = 0; i < allTags.count; i++)

@@ -11,9 +11,9 @@
 @interface ObjectTag : NSObject
 {
     long object_tag_id;
-	NSString *object_type;
-	long object_id;
-	long tag_id;
+  NSString *object_type;
+  long object_id;
+  long tag_id;
 }
 
 @property(readwrite, assign) long object_tag_id;

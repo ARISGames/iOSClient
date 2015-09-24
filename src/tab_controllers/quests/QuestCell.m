@@ -12,8 +12,8 @@
 
 @interface QuestCell () <ARISWebViewDelegate>
 {
-	UILabel *titleView;
-   	ARISWebView *descriptionView;
+  UILabel *titleView;
+     ARISWebView *descriptionView;
 
     Quest *quest;
     id<QuestCellDelegate> __unsafe_unretained delegate;

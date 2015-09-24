@@ -65,13 +65,13 @@
 {
     [self removeLoadingIndicator];
     games = _MODEL_GAMES_.searchGames;
-	[gameTable reloadData];
+  [gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
     games = [_MODEL_GAMES_ pingSearchGames:theSearchBar.text];
-	[gameTable reloadData];
+  [gameTable reloadData];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,7 +134,7 @@
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     searchText = searchBar.text;
-	
+
     [self searchBar:searchBar activate:NO];
     currentPage = 0;
     [self attemptSearch:searchText];
@@ -163,12 +163,12 @@
     {
         disableViewOverlay.alpha = 0;
         [self.view addSubview:disableViewOverlay];
-		
+
         [UIView beginAnimations:@"FadeIn" context:nil];
         [UIView setAnimationDuration:0.5];
         disableViewOverlay.alpha = 0.6;
         [UIView commitAnimations];
-		
+
         NSIndexPath *selected = [gameTable indexPathForSelectedRow];
         if (selected) [gameTable deselectRowAtIndexPath:selected animated:NO];
     }

@@ -47,7 +47,7 @@
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
     picker.allowsEditing = NO;
-	picker.showsCameraControls = YES;
+  picker.showsCameraControls = YES;
 
     [self presentViewController:picker animated:NO completion:nil];
 }
@@ -66,8 +66,8 @@
 {
     [aPicker dismissViewControllerAnimated:NO completion:nil];
 
-	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-	if([mediaType isEqualToString:@"public.image"])
+  NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+  if([mediaType isEqualToString:@"public.image"])
     {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
@@ -122,10 +122,10 @@
             // image from camera roll
             [delegate imageChosenWithURL:imageURL];
         }
-	}
-	else if([mediaType isEqualToString:@"public.movie"])
+  }
+  else if([mediaType isEqualToString:@"public.movie"])
     {
-		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+    NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
         [delegate videoChosenWithURL:videoURL];
     }
 }

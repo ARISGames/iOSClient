@@ -14,10 +14,10 @@
 @interface GameCommentCell () <ARISWebViewDelegate>
 {
     ARISStarView *ratingView;
-   	UILabel *titleView;
-	UILabel *authorView;
-   	UILabel *dateView;
-   	ARISWebView *commentView;
+     UILabel *titleView;
+  UILabel *authorView;
+     UILabel *dateView;
+     ARISWebView *commentView;
 
     GameComment *gameComment;
     id<GameCommentCellDelegate> __unsafe_unretained delegate;

@@ -93,7 +93,7 @@
     if((o = [self overlayForId:((Overlay *)newOverlays[i]).overlay_id]))
       [conformingOverlays addObject:o];
   }
-  
+
   return conformingOverlays;
 }
 
@@ -106,11 +106,11 @@
 {
   NSMutableArray *addedOverlays = [[NSMutableArray alloc] init];
   NSMutableArray *removedOverlays = [[NSMutableArray alloc] init];
-  
+
   //placeholders for comparison
   Overlay *newOverlay;
   Overlay *oldOverlay;
-  
+
   //find added
   BOOL new;
   for(long i = 0; i < newOverlays.count; i++)
@@ -124,7 +124,7 @@
     }
     if(new) [addedOverlays addObject:newOverlays[i]];
   }
-  
+
   //find removed
   BOOL removed;
   for(long i = 0; i < playerOverlays.count; i++)
@@ -138,7 +138,7 @@
     }
     if(removed) [removedOverlays addObject:playerOverlays[i]];
   }
-  
+
   playerOverlays = newOverlays;
   n_player_data_received++;
   if(addedOverlays.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_NEW_AVAILABLE",nil,@{@"added":addedOverlays});

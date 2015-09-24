@@ -12,10 +12,10 @@
 
 @interface AnnotationView() <ARISMediaViewDelegate>
 {
-	CGRect titleRect;
-	CGRect bubbleRect;
-	UIView *iconBorderView;
-   	ARISMediaView *iconView;
+  CGRect titleRect;
+  CGRect bubbleRect;
+  UIView *iconBorderView;
+     ARISMediaView *iconView;
     bool showTitle;
     bool shouldWiggle;
     float totalWiggleOffsetFromOriginalPosition;
@@ -34,7 +34,7 @@
 
 - (id) initWithAnnotation:(id<MKAnnotation>)location reuseIdentifier:(NSString *)reuseIdentifier
 {
-	if (self = [super initWithAnnotation:location reuseIdentifier:reuseIdentifier])
+  if (self = [super initWithAnnotation:location reuseIdentifier:reuseIdentifier])
     {
         trigger = (Trigger *)location;
 

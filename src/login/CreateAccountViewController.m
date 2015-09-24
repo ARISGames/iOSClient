@@ -13,10 +13,10 @@
 @interface CreateAccountViewController() <UITextFieldDelegate, UITextViewDelegate>
 {
     UIView *titleContainer;
-	UITextField *usernameField;
-	UITextField *passwordField;
-	UITextField *emailField;
-	UIButton *createAccountButton;
+  UITextField *usernameField;
+  UITextField *passwordField;
+  UITextField *emailField;
+  UIButton *createAccountButton;
 
     UIView *line1;
     UIView *line2;
@@ -40,8 +40,8 @@
         self.title = NSLocalizedString(@"CreateAccountTitleKey", @"");
         _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(dismissSelf),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_LOGIN_FAILED",self,@selector(loginFailed),nil);
-	}
-	
+  }
+
     return self;
 }
 
@@ -83,14 +83,14 @@
     passwordField.font = [ARISTemplate ARISInputFont];
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
-	passwordField.placeholder = NSLocalizedString(@"PasswordKey",@"");
+  passwordField.placeholder = NSLocalizedString(@"PasswordKey",@"");
     passwordField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:passwordField];
 
     emailField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20+20+20,self.view.frame.size.width-40,20)];
     emailField.font = [ARISTemplate ARISInputFont];
     emailField.delegate = self;
-	emailField.placeholder = NSLocalizedString(@"EmailKey",@"");
+  emailField.placeholder = NSLocalizedString(@"EmailKey",@"");
     emailField.keyboardType = UIKeyboardTypeEmailAddress;
     emailField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:emailField];
@@ -118,7 +118,7 @@
 
     self.navigationItem.titleView = titleContainer;
     [self.navigationController.navigationBar layoutIfNeeded];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) viewWillLayoutSubviews
@@ -140,7 +140,7 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-	[usernameField becomeFirstResponder];
+  [usernameField becomeFirstResponder];
 }
 
 - (void) attemptRegistration
@@ -152,12 +152,12 @@
 {
     [self attemptRegistration];
 }
-	
+
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-	if(textField == usernameField) [passwordField becomeFirstResponder];
-	if(textField == passwordField) [emailField becomeFirstResponder];
-	if(textField == emailField)    [self attemptRegistration];
+  if(textField == usernameField) [passwordField becomeFirstResponder];
+  if(textField == passwordField) [emailField becomeFirstResponder];
+  if(textField == emailField)    [self attemptRegistration];
     return YES;
 }
 

@@ -12,32 +12,32 @@
 
 - (BOOL) validBoolForKey:(NSString *const)aKey
 {
-	id theObject = [self valueForKey:aKey];
-	return [theObject respondsToSelector:@selector(boolValue)] ? [theObject boolValue] : NO;
+  id theObject = [self valueForKey:aKey];
+  return [theObject respondsToSelector:@selector(boolValue)] ? [theObject boolValue] : NO;
 }
 
 - (int) validIntForKey:(NSString *const)aKey
 {
-	id theObject = [self valueForKey:aKey];
-	return [theObject respondsToSelector:@selector(intValue)] ? [theObject intValue] : 0;
+  id theObject = [self valueForKey:aKey];
+  return [theObject respondsToSelector:@selector(intValue)] ? [theObject intValue] : 0;
 }
 
 - (float) validFloatForKey:(NSString *const)aKey
 {
-	id theObject = [self valueForKey:aKey];
-	return [theObject respondsToSelector:@selector(floatValue)] ? [theObject floatValue] : 0.0;
+  id theObject = [self valueForKey:aKey];
+  return [theObject respondsToSelector:@selector(floatValue)] ? [theObject floatValue] : 0.0;
 }
 
 - (double) validDoubleForKey:(NSString *const)aKey
 {
-	id theObject = [self valueForKey:aKey];
-	return [theObject respondsToSelector:@selector(doubleValue)] ? [theObject doubleValue] : 0.0;
+  id theObject = [self valueForKey:aKey];
+  return [theObject respondsToSelector:@selector(doubleValue)] ? [theObject doubleValue] : 0.0;
 }
 
 - (id) validObjectForKey:(NSString *const)aKey
 {
-	id theObject = [self valueForKey:aKey];
-	return (theObject == [NSNull null]) ? nil : theObject;
+  id theObject = [self valueForKey:aKey];
+  return (theObject == [NSNull null]) ? nil : theObject;
 }
 
 - (NSString *) validStringForKey:(NSString *const)aKey

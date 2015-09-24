@@ -14,9 +14,9 @@
 @interface DecoderViewController() <UITextFieldDelegate>
 {
     Tab *tab;
-	UITextField *codeTextField;
+  UITextField *codeTextField;
     BOOL firstTime;
-    
+
     id<DecoderViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
@@ -30,7 +30,7 @@
         tab = t;
         self.title = self.tabTitle;
         firstTime = YES;
-        
+
         delegate = d;
     }
     return self;
@@ -39,9 +39,9 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorBlack];  
+    self.view.backgroundColor = [UIColor ARISColorBlack];
 
-    self.view.backgroundColor = [UIColor ARISColorWhite]; 
+    self.view.backgroundColor = [UIColor ARISColorWhite];
     codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
     codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     codeTextField.spellCheckingType = UITextSpellCheckingTypeNo;
@@ -64,14 +64,14 @@
         [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
         threeLineNavButton.accessibilityLabel = @"In-Game Menu";
         [threeLineNavButton addTarget:self action:@selector(clearScreenActions) forControlEvents:UIControlEventTouchDown];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];  
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
     }
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+
     [codeTextField becomeFirstResponder];
 }
 
@@ -93,27 +93,27 @@
 }
 
 - (BOOL) textFieldShouldBeginEditing:(UITextField *)textField
-{    
+{
     return YES;
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
-{	
-	[textField resignFirstResponder]; 
-	
-	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
+{
+  [textField resignFirstResponder];
+
+  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
     Trigger *t;
     if([codeTextField.text isEqualToString:@"log-out"]) [_MODEL_ logOut];
-    else 
+    else
     {
         t = [_MODEL_TRIGGERS_ triggerForQRCode:codeTextField.text];
-    
-    	if(!t) [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
+
+      if(!t) [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"") message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")];
         else [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
     }
-        
+
     codeTextField.text = @"";
-	return YES;
+  return YES;
 }
 
 //implement gameplaytabbarviewcontrollerprotocol junk
@@ -131,7 +131,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self); 
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

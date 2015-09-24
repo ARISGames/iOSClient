@@ -27,14 +27,14 @@
 - (void) recentGamesAvailable
 {
     [self removeLoadingIndicator];
-	games = _MODEL_GAMES_.recentGames;
-	[gameTable reloadData];
+  games = _MODEL_GAMES_.recentGames;
+  [gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.pingRecentGames;
-	[gameTable reloadData];
+  games = _MODEL_GAMES_.pingRecentGames;
+  [gameTable reloadData];
 }
 
 - (void) dealloc

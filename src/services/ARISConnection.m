@@ -28,7 +28,7 @@ NSString *const kARISServerServicePackage = @"v2";
     NSMutableDictionary *connections;
     NSMutableDictionary *requestDupMap;
     NSDictionary *auth;
-    
+
     NSTimer *progressPoller;
 }
 @end
@@ -45,7 +45,7 @@ NSString *const kARISServerServicePackage = @"v2";
         graveyard = g;
         connections   = [[NSMutableDictionary alloc] initWithCapacity:20];
         requestDupMap = [[NSMutableDictionary alloc] initWithCapacity:20];
-        
+
         progressPoller = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pollProgress) userInfo:nil repeats:YES];
 
         _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN", self, @selector(setAuth), nil);

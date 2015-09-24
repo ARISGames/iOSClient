@@ -28,7 +28,7 @@
         self.icon_media_id = 0;
         self.back_button_enabled = YES;
     }
-    return self;	
+    return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict
@@ -57,7 +57,7 @@
 
 - (long) compareTo:(WebPage *)ob
 {
-	return (ob.web_page_id == self.web_page_id);
+  return (ob.web_page_id == self.web_page_id);
 }
 
 - (NSString *) description

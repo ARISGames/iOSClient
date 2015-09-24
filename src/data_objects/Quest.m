@@ -59,7 +59,7 @@
 
         sort_index = 0;
     }
-    return self;	
+    return self;
 }
 
 - (Quest *) initWithDictionary:(NSDictionary *)dict
@@ -88,7 +88,7 @@
 
         sort_index                           = [dict validIntForKey:@"sort_index"];
     }
-    return self;	
+    return self;
 }
 
 - (NSString *)description

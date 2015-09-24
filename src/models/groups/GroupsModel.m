@@ -116,7 +116,7 @@
 }
 
 - (void) requestPlayerGroup
-{ 
+{
   if([self playerDataReceived] &&
      ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {

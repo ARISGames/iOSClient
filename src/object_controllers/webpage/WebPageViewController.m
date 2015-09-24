@@ -38,14 +38,14 @@
     Instance *i = [_MODEL_INSTANCES_ instanceForId:0];
     i.object_type = @"WEB_PAGE";
     i.object_id = w.web_page_id;
-    
+
     instance = i;
     webPage = w;
 
     delegate = d;
     hasAppeared = NO;
   }
-  return self; 
+  return self;
 }
 
 - (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d
@@ -54,7 +54,7 @@
   {
     instance = i;
     webPage = [_MODEL_WEB_PAGES_ webPageForId:i.object_id];
-    
+
     delegate = d;
     hasAppeared = NO;
   }
@@ -71,7 +71,7 @@
     instance.object_type = tab.type;
     instance.object_id = tab.content_id;
     webPage = [_MODEL_WEB_PAGES_ webPageForId:instance.object_id];
-    
+
     delegate = d;
     hasAppeared = NO;
   }
@@ -113,8 +113,8 @@
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-  
-    if(!webPage || webPage.back_button_enabled) 
+
+    if(!webPage || webPage.back_button_enabled)
       self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 
     if(tab)

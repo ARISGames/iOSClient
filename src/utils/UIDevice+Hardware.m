@@ -15,9 +15,9 @@
 /*
  Platforms
  iPhone1,1 -> iPhone 1G
- iPhone1,2 -> iPhone 3G 
- iPod1,1   -> iPod touch 1G 
- iPod2,1   -> iPod touch 2G 
+ iPhone1,2 -> iPhone 3G
+ iPod1,1   -> iPod touch 1G
+ iPod2,1   -> iPod touch 2G
  */
 
 - (NSString *) platform

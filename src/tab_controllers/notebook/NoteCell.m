@@ -114,7 +114,7 @@
     [preview setMedia:[_MODEL_MEDIA_ mediaForId:n.media_id]];
     preview.hidden = NO;
   }
-  else      
+  else
   {
     [preview setMedia:nil];
     preview.hidden = YES;

@@ -20,9 +20,9 @@
   long n_game_data_received;
   long n_player_data_to_receive;
   long n_player_data_received;
-  
+
   NSMutableArray *models;
-  
+
   NSTimer *poller;
 }
 @end
@@ -96,7 +96,7 @@
   if(self = [super init])
   {
     [self initialize];
-    
+
     game_id = [dict validIntForKey:@"game_id"];
     name = [dict validStringForKey:@"name"];
     desc = [dict validStringForKey:@"description"];
@@ -104,15 +104,15 @@
     type = [dict validStringForKey:@"type"];
     location = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
     player_count = [dict validIntForKey:@"player_count"];
-    
+
     icon_media_id = [dict validIntForKey:@"icon_media_id"];
     media_id = [dict validIntForKey:@"media_id"];
-    
+
     intro_scene_id = [dict validIntForKey:@"intro_scene_id"];
-    
+
     //authors = [dict validObjectForKey:@"authors"];
     //comments = [dict validObjectForKey:@"comments"];
-    
+
     map_type = [dict validStringForKey:@"map_type"];
     map_focus = [dict validStringForKey:@"map_focus"];
     map_location = [dict validLocationForLatKey:@"map_latitude" lonKey:@"map_longitude"];
@@ -120,11 +120,11 @@
     map_show_player = [dict validBoolForKey:@"map_show_player"];
     map_show_players = [dict validBoolForKey:@"map_show_players"];
     map_offsite_mode = [dict validBoolForKey:@"map_offsite_mode"];
-    
+
     notebook_allow_comments = [dict validBoolForKey:@"notebook_allow_comments"];
     notebook_allow_likes = [dict validBoolForKey:@"notebook_allow_likes"];
     notebook_allow_player_tags = [dict validBoolForKey:@"notebook_allow_player_tags"];
-    
+
     inventory_weight_cap = [dict validIntForKey:@"inventory_weight_cap"];
     network_level = [dict validStringForKey:@"network_level"];
     if([network_level isEqualToString:@""]) network_level = @"HYBRID";
@@ -134,9 +134,9 @@
      HYBRID = do whatever local calculations possible, but continue polling for updates on everything
      REMOTE = rely on server as authority for often updates
      */
-    
+
     preload_media = [dict validBoolForKey:@"preload_media"];
-    
+
     NSArray *authorDicts;
     for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
       [authors addObject:[[User alloc] initWithDictionary:authorDicts[i]]];
@@ -148,12 +148,12 @@
 {
   n_game_data_received = 0;
   n_player_data_received = 0;
-  
+
   authors  = [NSMutableArray arrayWithCapacity:5];
   comments = [NSMutableArray arrayWithCapacity:5];
-  
+
   network_level = @"HYBRID";
-  
+
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
 }
@@ -167,13 +167,13 @@
   type = g.type;
   location = g.location;
   player_count = g.player_count > 0 ? g.player_count : player_count;
-  
+
   icon_media_id = g.icon_media_id;
   media_id = g.media_id;
-  
+
   authors  = g.authors;
   comments = g.comments;
-  
+
   map_type = g.map_type;
   map_focus = g.map_focus;
   map_location = g.map_location;
@@ -181,11 +181,11 @@
   map_show_player = g.map_show_player;
   map_show_players = g.map_show_players;
   map_offsite_mode = g.map_offsite_mode;
-  
+
   notebook_allow_comments = g.notebook_allow_comments;
   notebook_allow_likes = g.notebook_allow_likes;
   notebook_allow_player_tags = g.notebook_allow_player_tags;
-  
+
   inventory_weight_cap = g.inventory_weight_cap;
   network_level = g.network_level;
   preload_media = g.preload_media;
@@ -195,12 +195,12 @@
 {
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",self,@selector(gamePlayerPieceReceived),nil);
-  
+
   n_game_data_received = 0;
   n_player_data_received = 0;
-  
+
   models = [[NSMutableArray alloc] init];
-  
+
   scenesModel          = [[ScenesModel          alloc] init]; [models addObject:scenesModel];
   groupsModel          = [[GroupsModel          alloc] init]; [models addObject:groupsModel];
   plaquesModel         = [[PlaquesModel         alloc] init]; [models addObject:plaquesModel];
@@ -225,7 +225,7 @@
   //not 'owned' by game, still need to be run
   [models addObject:_MODEL_USERS_];
   [models addObject:_MODEL_MEDIA_];
-  
+
   n_game_data_to_receive = 0;
   n_player_data_to_receive = 0;
   for(long i = 0; i < models.count; i++)
@@ -241,9 +241,9 @@
   n_game_data_received = 0;
   n_player_data_to_receive = 0;
   n_player_data_received = 0;
-  
+
   models = nil;
-  
+
   scenesModel          = nil;
   groupsModel          = nil;
   plaquesModel         = nil;
@@ -264,7 +264,7 @@
   tabsModel            = nil;
   questsModel          = nil;
   logsModel            = nil;
-  
+
   [displayQueueModel endPlay]; //garble garble ARC won't reliably dealloc garble garble
   displayQueueModel    = nil;
 }
@@ -335,12 +335,12 @@
 {
   n_game_data_received = 0;
   n_player_data_received = 0;
-  
+
   for(long i = 0; i < models.count; i++)
     [(ARISModel *)models[i] clearPlayerData];
   for(long i = 0; i < models.count; i++)
     [(ARISModel *)models[i] clearGameData];
-  
+
   [displayQueueModel clearPlayerData];
 }
 

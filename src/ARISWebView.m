@@ -193,7 +193,7 @@
             item_qty = [_MODEL_GROUP_INSTANCES_ qtyOwnedForItem:item_id];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setGroupItem(%ld,%ld);",item_id,item_qty]];
         }
-      
+
         Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
@@ -209,18 +209,18 @@
                                 _MODEL_PLAYER_.display_name,
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setPlayer(%@);",playerJSON]];
-      
+
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.detach()"]];
     }
     else if([mainCommand isEqualToString:@"logout"])
     {
       [self clear];
       if(!_MODEL_PLAYER_) return; //can't log out if noone logged in
-      
+
       //dismiss self before trying to log out
       if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])
           [delegate ARISWebViewRequestsDismissal:self];
-        
+
       [_MODEL_ logOut];
     }
     else if([mainCommand isEqualToString:@"exit"])
@@ -233,7 +233,7 @@
         if(components.count > 2) token = components[2];
 
         if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
-      
+
         //dismiss self before enqueueing anything
         if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])
             [delegate ARISWebViewRequestsDismissal:self];

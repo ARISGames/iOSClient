@@ -33,22 +33,22 @@
 
 - (void) drawRoundRect:(CGRect)bounds fillColor:(UIColor *)fillColor strokeColor:(UIColor *)strokeColor radius:(CGFloat)radius lineWidht:(CGFloat)lineWidth
 {
-	CGRect rrect = CGRectMake(bounds.origin.x+(lineWidth/2), bounds.origin.y+(lineWidth/2), bounds.size.width - lineWidth, bounds.size.height - lineWidth);
-	
-	CGFloat minx = CGRectGetMinX(rrect), midx = CGRectGetMidX(rrect), maxx = CGRectGetMaxX(rrect);
-	CGFloat miny = CGRectGetMinY(rrect), midy = CGRectGetMidY(rrect), maxy = CGRectGetMaxY(rrect);
-	CGContextRef cx = UIGraphicsGetCurrentContext();
-	
-	CGContextMoveToPoint(cx, minx, midy);
-	CGContextAddArcToPoint(cx, minx, miny, midx, miny, radius);
-	CGContextAddArcToPoint(cx, maxx, miny, maxx, midy, radius);
-	CGContextAddArcToPoint(cx, maxx, maxy, midx, maxy, radius);
-	CGContextAddArcToPoint(cx, minx, maxy, minx, midy, radius);
-	CGContextClosePath(cx);
-	
-	CGContextSetStrokeColorWithColor(cx, strokeColor.CGColor);
-	CGContextSetFillColorWithColor(cx, fillColor.CGColor);
-	CGContextDrawPath(cx, kCGPathFillStroke);
+  CGRect rrect = CGRectMake(bounds.origin.x+(lineWidth/2), bounds.origin.y+(lineWidth/2), bounds.size.width - lineWidth, bounds.size.height - lineWidth);
+
+  CGFloat minx = CGRectGetMinX(rrect), midx = CGRectGetMidX(rrect), maxx = CGRectGetMaxX(rrect);
+  CGFloat miny = CGRectGetMinY(rrect), midy = CGRectGetMidY(rrect), maxy = CGRectGetMaxY(rrect);
+  CGContextRef cx = UIGraphicsGetCurrentContext();
+
+  CGContextMoveToPoint(cx, minx, midy);
+  CGContextAddArcToPoint(cx, minx, miny, midx, miny, radius);
+  CGContextAddArcToPoint(cx, maxx, miny, maxx, midy, radius);
+  CGContextAddArcToPoint(cx, maxx, maxy, midx, maxy, radius);
+  CGContextAddArcToPoint(cx, minx, maxy, minx, midy, radius);
+  CGContextClosePath(cx);
+
+  CGContextSetStrokeColorWithColor(cx, strokeColor.CGColor);
+  CGContextSetFillColorWithColor(cx, fillColor.CGColor);
+  CGContextDrawPath(cx, kCGPathFillStroke);
 }
 
 -(void)drawSquareRect:(CGRect)bounds fillColor:(UIColor *)fillColor strokeColor:(UIColor *)strokeColor radius:(CGFloat)radius lineWidth:(CGFloat)lineWidth
@@ -75,50 +75,50 @@
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef cx = UIGraphicsGetCurrentContext();
-	CGContextSaveGState(cx);
-	
-	CGContextSetFillColorWithColor(cx, [UIColor clearColor].CGColor);
-	CGContextFillRect(cx, self.bounds);
-	
+  CGContextSaveGState(cx);
+
+  CGContextSetFillColorWithColor(cx, [UIColor clearColor].CGColor);
+  CGContextFillRect(cx, self.bounds);
+
     //drawing weird white background behind gray background
-	//[self drawRoundRect:self.bounds fillColor:[UIColor whiteColor] strokeColor:[UIColor clearColor] radius:8.0 lineWidht:2.0];
-	
-	CGRect waveRect = [self waveRect];
+  //[self drawRoundRect:self.bounds fillColor:[UIColor whiteColor] strokeColor:[UIColor clearColor] radius:8.0 lineWidht:2.0];
+
+  CGRect waveRect = [self waveRect];
     [self drawSquareRect:waveRect fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
-	
-	
-	if([delegate getSampleLength] > 0)
+
+
+  if([delegate getSampleLength] > 0)
     {
-		CGMutablePathRef halfPath = CGPathCreateMutable();
-		CGPathAddLines( halfPath, NULL,[delegate getSampleData], [delegate getSampleLength]); // magic!
-		
-		CGMutablePathRef path = CGPathCreateMutable();
-		
-		double xscale = (CGRectGetWidth(waveRect)) / (float)[delegate getSampleLength];
-		// Transform to fit the waveform ([0,1] range) into the vertical space
-		// ([halfHeight,height] range)
-		double halfHeight = floor( CGRectGetHeight(waveRect) / 2.0 );//waveRect.size.height / 2.0;
-		CGAffineTransform xf = CGAffineTransformIdentity;
-		xf = CGAffineTransformTranslate( xf, waveRect.origin.x, halfHeight + waveRect.origin.y);
-		xf = CGAffineTransformScale( xf, xscale, -(halfHeight) );
+    CGMutablePathRef halfPath = CGPathCreateMutable();
+    CGPathAddLines( halfPath, NULL,[delegate getSampleData], [delegate getSampleLength]); // magic!
+
+    CGMutablePathRef path = CGPathCreateMutable();
+
+    double xscale = (CGRectGetWidth(waveRect)) / (float)[delegate getSampleLength];
+    // Transform to fit the waveform ([0,1] range) into the vertical space
+    // ([halfHeight,height] range)
+    double halfHeight = floor( CGRectGetHeight(waveRect) / 2.0 );//waveRect.size.height / 2.0;
+    CGAffineTransform xf = CGAffineTransformIdentity;
+    xf = CGAffineTransformTranslate( xf, waveRect.origin.x, halfHeight + waveRect.origin.y);
+    xf = CGAffineTransformScale( xf, xscale, -(halfHeight) );
         //xf = CGAffineTransformScale(xf, xscale, -120);
-		CGPathAddPath( path, &xf, halfPath );
-		
-		// Transform to fit the waveform ([0,1] range) into the vertical space
-		// ([0,halfHeight] range), flipping the Y axis
-		xf = CGAffineTransformIdentity;
-		xf = CGAffineTransformTranslate( xf, waveRect.origin.x, halfHeight + waveRect.origin.y);
-		xf = CGAffineTransformScale( xf, xscale, (halfHeight));
-		CGPathAddPath( path, &xf, halfPath );
-		
-		CGPathRelease( halfPath ); // clean up!
-		// Now, path contains the full waveform path.
-		CGContextRef cx = UIGraphicsGetCurrentContext();
-		
+    CGPathAddPath( path, &xf, halfPath );
+
+    // Transform to fit the waveform ([0,1] range) into the vertical space
+    // ([0,halfHeight] range), flipping the Y axis
+    xf = CGAffineTransformIdentity;
+    xf = CGAffineTransformTranslate( xf, waveRect.origin.x, halfHeight + waveRect.origin.y);
+    xf = CGAffineTransformScale( xf, xscale, (halfHeight));
+    CGPathAddPath( path, &xf, halfPath );
+
+    CGPathRelease( halfPath ); // clean up!
+    // Now, path contains the full waveform path.
+    CGContextRef cx = UIGraphicsGetCurrentContext();
+
         [[UIColor lightGrayColor] set];
-		CGContextAddPath(cx, path);
-		CGContextStrokePath(cx);
-		
+    CGContextAddPath(cx, path);
+    CGContextStrokePath(cx);
+
         CGRect clipRect = waveRect;
         CGContextClipToRect(cx,clipRect);
 
@@ -129,11 +129,11 @@
         [[UIColor lightGrayColor] set];
         CGContextAddPath(cx, path);
         CGContextStrokePath(cx);
-		CGPathRelease(path); // clean up!
-	}
+    CGPathRelease(path); // clean up!
+  }
 
-	[[UIColor clearColor] setFill];
-	CGContextRestoreGState(cx);
+  [[UIColor clearColor] setFill];
+  CGContextRestoreGState(cx);
 }
 
 @end

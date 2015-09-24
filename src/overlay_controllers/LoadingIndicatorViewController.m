@@ -15,7 +15,7 @@
   NSMutableArray *labels;      // UILabel
   NSMutableArray *bars;        // UIProgressView
   NSMutableArray *spinners;    // UIActivityIndicatorView
-  
+
   NSTimer *progressPoller;
   id<LoadingIndicatorViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -32,7 +32,7 @@
     bars        = [[NSMutableArray alloc] init];
     spinners    = [[NSMutableArray alloc] init];
     delegate = d;
-    
+
     progressPoller = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(pollProgress) userInfo:nil repeats:YES];
     _ARIS_NOTIF_LISTEN_(@"CONNECTION_LAG",self,@selector(connectionsLagging:),nil);
   }
@@ -42,7 +42,7 @@
 - (void) loadView
 {
   [super loadView];
-  
+
   self.view.userInteractionEnabled = NO;
 }
 
@@ -71,7 +71,7 @@
 - (void) connectionsLagging:(NSNotification *)n
 {
   NSArray *laggers = n.userInfo[@"laggers"];
-  
+
   for(int i = 0; i < connections.count; i++)
   {
     BOOL found = NO;
@@ -83,7 +83,7 @@
       i--;
     }
   }
-  
+
   for(int i = 0; i < laggers.count; i++)
   {
     BOOL found = NO;
@@ -114,7 +114,7 @@
   UILabel *l = [[UILabel alloc] init];
   UIProgressView *b = [[UIProgressView alloc] init];
   UIActivityIndicatorView *s = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-  
+
   l.text = a.humanDescription;
   l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
   l.userInteractionEnabled = NO;
@@ -122,12 +122,12 @@
   b.progress = a.progress;
   [s startAnimating];
   s.userInteractionEnabled = NO;
-  
+
   [connections addObject:a];
   [labels      addObject:l];
   [bars        addObject:b];
   [spinners    addObject:s];
-  
+
   [self.view addSubview:l];
   [self.view addSubview:b];
   [self.view addSubview:s];
@@ -138,7 +138,7 @@
   [labels[i] removeFromSuperview];
   [bars[i] removeFromSuperview];
   [spinners[i] removeFromSuperview];
-  
+
   [connections removeObject:connections[i]];
   [labels      removeObject:labels[i]];
   [bars        removeObject:bars[i]];
