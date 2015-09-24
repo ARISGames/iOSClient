@@ -151,7 +151,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *groups_a = [groups allValues];
+  Group *g_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"groups\":["];
+  for(long i = 0; i < groups_a.count; i++)
+  {
+    g_o = groups_a[i];
+    [r appendString:[g_o serialize]];
+    if(i != groups_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

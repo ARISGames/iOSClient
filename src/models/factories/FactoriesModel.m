@@ -80,7 +80,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *factories_a = [factories allValues];
+  Factory *f_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"factories\":["];
+  for(long i = 0; i < factories_a.count; i++)
+  {
+    f_o = factories_a[i];
+    [r appendString:[f_o serialize]];
+    if(i != factories_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

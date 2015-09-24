@@ -165,7 +165,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *scenes_a = [scenes allValues];
+  Scene *s_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"scenes\":["];
+  for(long i = 0; i < scenes_a.count; i++)
+  {
+    s_o = scenes_a[i];
+    [r appendString:[s_o serialize]];
+    if(i != scenes_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

@@ -85,7 +85,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *items_a = [items allValues];
+  Item *i_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"items\":["];
+  for(long i = 0; i < items_a.count; i++)
+  {
+    i_o = items_a[i];
+    [r appendString:[i_o serialize]];
+    if(i != items_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

@@ -212,7 +212,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *instances_a = [playerInstances allValues];
+  Instance *i_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"instances\":["];
+  for(long i = 0; i < instances_a.count; i++)
+  {
+    i_o = instances_a[i];
+    [r appendString:[i_o serialize]];
+    if(i != instances_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

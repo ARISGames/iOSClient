@@ -323,7 +323,38 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *roots_a = [requirementRootPackages allValues];
+  NSArray *ands_a = [requirementAndPackages allValues];
+  NSArray *atoms_a = [requirementAtoms allValues];
+
+  RequirementRootPackage *root_o;
+  RequirementAndPackage *and_o;
+  RequirementAtom *atom_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"requirement_root_packages\":["];
+  for(long i = 0; i < roots_a.count; i++)
+  {
+    root_o = roots_a[i];
+    [r appendString:[root_o serialize]];
+    if(i != roots_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"],\"requirement_and_packages\":["];
+  for(long i = 0; i < ands_a.count; i++)
+  {
+    and_o = ands_a[i];
+    [r appendString:[and_o serialize]];
+    if(i != ands_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"],\"requirement_atoms\":["];
+  for(long i = 0; i < atoms_a.count; i++)
+  {
+    atom_o = atoms_a[i];
+    [r appendString:[atom_o serialize]];
+    if(i != atoms_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

@@ -273,7 +273,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *logs_a = [logs allValues];
+  Log *l_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"logs\":["];
+  for(long i = 0; i < logs_a.count; i++)
+  {
+    l_o = logs_a[i];
+    [r appendString:[l_o serialize]];
+    if(i != logs_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

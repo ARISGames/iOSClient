@@ -183,7 +183,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *overlays_a = [overlays allValues];
+  Overlay *o_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"overlays\":["];
+  for(long i = 0; i < overlays_a.count; i++)
+  {
+    o_o = overlays_a[i];
+    [r appendString:[o_o serialize]];
+    if(i != overlays_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

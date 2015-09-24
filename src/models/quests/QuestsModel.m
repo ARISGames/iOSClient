@@ -249,7 +249,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *quests_a = [quests allValues];
+  Quest *q_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"quests\":["];
+  for(long i = 0; i < quests_a.count; i++)
+  {
+    q_o = quests_a[i];
+    [r appendString:[q_o serialize]];
+    if(i != quests_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

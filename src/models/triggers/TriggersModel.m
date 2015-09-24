@@ -256,7 +256,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *triggers_a = [triggers allValues];
+  Trigger *t_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"triggers\":["];
+  for(long i = 0; i < triggers_a.count; i++)
+  {
+    t_o = triggers_a[i];
+    [r appendString:[t_o serialize]];
+    if(i != triggers_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

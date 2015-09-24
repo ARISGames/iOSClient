@@ -80,7 +80,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *web_pages_a = [webPages allValues];
+  WebPage *w_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"web_pages\":["];
+  for(long i = 0; i < web_pages_a.count; i++)
+  {
+    w_o = web_pages_a[i];
+    [r appendString:[w_o serialize]];
+    if(i != web_pages_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

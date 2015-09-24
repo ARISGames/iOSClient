@@ -156,7 +156,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *tags_a = [tags allValues];
+  Tag *t_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"tags\":["];
+  for(long i = 0; i < tags_a.count; i++)
+  {
+    t_o = tags_a[i];
+    [r appendString:[t_o serialize]];
+    if(i != tags_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

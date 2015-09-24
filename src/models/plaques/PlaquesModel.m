@@ -80,7 +80,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *plaques_a = [plaques allValues];
+  Plaque *p_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"plaques\":["];
+  for(long i = 0; i < plaques_a.count; i++)
+  {
+    p_o = plaques_a[i];
+    [r appendString:[p_o serialize]];
+    if(i != plaques_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

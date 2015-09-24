@@ -188,7 +188,46 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *dialogs_a = [dialogs allValues];
+  NSArray *dialog_characters_a = [dialogCharacters allValues];
+  NSArray *dialog_scripts_a = [dialogScripts allValues];
+  NSArray *dialog_options_a = [dialogOptions allValues];
+  Dialog *d_o;
+  DialogCharacter *dc_o;
+  DialogScript *ds_o;
+  DialogOption *do_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"dialogs\":["];
+  for(long i = 0; i < dialogs_a.count; i++)
+  {
+    d_o = dialogs_a[i];
+    [r appendString:[d_o serialize]];
+    if(i != dialogs_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"],\"dialog_characters\":["];
+  for(long i = 0; i < dialog_characters_a.count; i++)
+  {
+    dc_o = dialog_characters_a[i];
+    [r appendString:[dc_o serialize]];
+    if(i != dialog_characters_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"],\"dialog_scripts\":["];
+  for(long i = 0; i < dialog_scripts_a.count; i++)
+  {
+    ds_o = dialog_scripts_a[i];
+    [r appendString:[ds_o serialize]];
+    if(i != dialog_scripts_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"],\"dialog_options\":["];
+  for(long i = 0; i < dialog_options_a.count; i++)
+  {
+    do_o = dialog_options_a[i];
+    [r appendString:[do_o serialize]];
+    if(i != dialog_options_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

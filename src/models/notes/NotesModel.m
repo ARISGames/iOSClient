@@ -237,7 +237,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *notes_a = [notes allValues];
+  Note *n_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"notes\":["];
+  for(long i = 0; i < notes_a.count; i++)
+  {
+    n_o = notes_a[i];
+    [r appendString:[n_o serialize]];
+    if(i != notes_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

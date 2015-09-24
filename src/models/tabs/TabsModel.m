@@ -212,7 +212,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *tabs_a = [tabs allValues];
+  Tab *t_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"tabs\":["];
+  for(long i = 0; i < tabs_a.count; i++)
+  {
+    t_o = tabs_a[i];
+    [r appendString:[t_o serialize]];
+    if(i != tabs_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data

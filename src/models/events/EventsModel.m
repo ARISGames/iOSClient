@@ -163,7 +163,19 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *events_a = [events allValues];
+  Event *e_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"events\":["];
+  for(long i = 0; i < events_a.count; i++)
+  {
+    e_o = events_a[i];
+    [r appendString:[e_o serialize]];
+    if(i != events_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data
