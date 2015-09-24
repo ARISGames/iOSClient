@@ -321,6 +321,16 @@
   else _ARIS_LOG_(@"      Req: Not %@ %ld",a.requirement,a.content_id);
 }
 
+- (NSString *) serializeModel
+{
+  return @"";
+}
+
+- (void) deserializeModel:(NSString *)data
+{
+
+}
+
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);

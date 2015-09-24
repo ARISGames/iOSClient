@@ -228,6 +228,16 @@
   _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE",nil,notif.userInfo);
 }
 
+- (NSString *) serializeModel
+{
+  return @"";
+}
+
+- (void) deserializeModel:(NSString *)data
+{
+
+}
+
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);

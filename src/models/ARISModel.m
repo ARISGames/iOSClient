@@ -5,7 +5,7 @@
 //  Created by Phil Dougherty on 2/13/13.
 //
 //
-    
+
 #include "ARISModel.h"
 
 @implementation ARISModel
@@ -38,4 +38,15 @@
   return n_player_data_received >= [self nPlayerDataToReceive];
 }
 
+- (NSString *) serializeModel
+{
+  return @"";
+}
+
+- (void) deserializeModel:(NSString *)data
+{
+
+}
+
 @end
+

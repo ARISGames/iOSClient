@@ -235,6 +235,16 @@
   return _ARIS_ARRAY_SORTED_ON_(noteCommentsMatchingNote,@"created");
 }
 
+- (NSString *) serializeModel
+{
+  return @"";
+}
+
+- (void) deserializeModel:(NSString *)data
+{
+
+}
+
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);

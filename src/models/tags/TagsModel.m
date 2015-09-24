@@ -154,6 +154,16 @@
   return [objectTags objectForKey:[NSNumber numberWithLong:object_tag_id]];
 }
 
+- (NSString *) serializeModel
+{
+  return @"";
+}
+
+- (void) deserializeModel:(NSString *)data
+{
+
+}
+
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);

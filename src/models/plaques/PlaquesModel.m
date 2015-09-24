@@ -78,6 +78,16 @@
   return plaques[[NSNumber numberWithLong:plaque_id]];
 }
 
+- (NSString *) serializeModel
+{
+  return @"";
+}
+
+- (void) deserializeModel:(NSString *)data
+{
+
+}
+
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);

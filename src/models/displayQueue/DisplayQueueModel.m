@@ -206,6 +206,16 @@
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
+- (NSString *) serializeModel
+{
+  return @"";
+}
+
+- (void) deserializeModel:(NSString *)data
+{
+
+}
+
 - (void) dealloc
 {
   [timerPoller invalidate];
@@ -213,3 +223,4 @@
 }
 
 @end
+
