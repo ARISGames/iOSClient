@@ -22,5 +22,7 @@
 @property(readwrite, assign) long tag_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

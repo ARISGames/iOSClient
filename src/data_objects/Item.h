@@ -39,5 +39,7 @@
 @property (nonatomic, assign) BOOL delta_notification;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSDate *created;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (void) mergeDataFromNote:(Note *)n;
 
 @end

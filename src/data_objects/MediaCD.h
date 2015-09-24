@@ -18,3 +18,4 @@
 @property (nonatomic, strong) NSString *remoteURL;
 
 @end
+

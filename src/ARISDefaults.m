@@ -12,8 +12,8 @@
 
 @interface ARISDefaults()
 {
-    NSUserDefaults *defaults;
-    NSMutableDictionary *defaultDefaults; //yeah good work on naming scheme there apple...
+  NSUserDefaults *defaults;
+  NSMutableDictionary *defaultDefaults; //yeah good work on naming scheme there apple...
 }
 @end
 
@@ -36,11 +36,11 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self loadDefaultUserDefaults];
-    }
-    return self;
+  if(self = [super init])
+  {
+    [self loadDefaultUserDefaults];
+  }
+  return self;
 }
 
 - (void) loadDefaultUserDefaults

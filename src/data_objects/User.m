@@ -36,17 +36,31 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-        self.user_id        = [dict validIntForKey:@"user_id"];
-        self.user_name      = [dict validStringForKey:@"user_name"];
-        self.display_name   = [dict validStringForKey:@"display_name"];
-        self.email          = [dict validStringForKey:@"email"];
-        self.media_id       = [dict validIntForKey:@"media_id"];
-        self.read_write_key = [dict validStringForKey:@"read_write_key"];
-        self.location       = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
-    }
-    return self;
+  if(self = [super init])
+  {
+    self.user_id        = [dict validIntForKey:@"user_id"];
+    self.user_name      = [dict validStringForKey:@"user_name"];
+    self.display_name   = [dict validStringForKey:@"display_name"];
+    self.email          = [dict validStringForKey:@"email"];
+    self.media_id       = [dict validIntForKey:@"media_id"];
+    self.read_write_key = [dict validStringForKey:@"read_write_key"];
+    self.location       = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.user_id]];
+  [r appendString:self.user_name];
+  [r appendString:self.display_name];
+  [r appendString:self.email];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.media_id]];
+  [r appendString:self.read_write_key];
+  [r appendString:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude]];
+  [r appendString:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude]];
+  return r;
 }
 
 - (User *) mergeDataFromUser:(User *)u
@@ -77,3 +91,4 @@
 }
 
 @end
+

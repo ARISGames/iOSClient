@@ -27,5 +27,7 @@
 @property (nonatomic, strong) CLLocation *bottom_left_corner;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

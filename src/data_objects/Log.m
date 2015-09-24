@@ -32,15 +32,27 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-      self.log_id = [dict validIntForKey:@"user_log_id"];
-      self.event_type = [dict validStringForKey:@"event_type"];
-      self.content_id = [dict validIntForKey:@"content_id"];
-      self.qty = [dict validIntForKey:@"qty"];
-      self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
-    }
-    return self;
+  if(self = [super init])
+  {
+    self.log_id = [dict validIntForKey:@"user_log_id"];
+    self.event_type = [dict validStringForKey:@"event_type"];
+    self.content_id = [dict validIntForKey:@"content_id"];
+    self.qty = [dict validIntForKey:@"qty"];
+    self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.log_id]];
+  [r appendString:self.event_type];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.content_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.qty]];
+  [r appendString:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude]];
+  [r appendString:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude]];
+  return r;
 }
 
 @end

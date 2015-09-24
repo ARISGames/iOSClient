@@ -21,7 +21,7 @@
   double production_probability;
   long max_production;
   long produce_expiration_time;
-  long produce_expire_on_view;
+  BOOL produce_expire_on_view;
   NSString *production_bound_type;
   NSString *location_bound_type;
   long min_production_distance;
@@ -52,7 +52,7 @@
 @property (nonatomic, assign) double production_probability;
 @property (nonatomic, assign) long max_production;
 @property (nonatomic, assign) long produce_expiration_time;
-@property (nonatomic, assign) long produce_expire_on_view;
+@property (nonatomic, assign) BOOL produce_expire_on_view;
 @property (nonatomic, copy) NSString *production_bound_type;
 @property (nonatomic, copy) NSString *location_bound_type;
 @property (nonatomic, assign) long min_production_distance;
@@ -73,6 +73,8 @@
 @property (nonatomic, assign) long trigger_scene_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (void) mergeDataFromFactory:(Factory *)f;
 
 @end
+

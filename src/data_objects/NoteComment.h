@@ -28,5 +28,7 @@
 @property(nonatomic, retain) NSDate *created;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

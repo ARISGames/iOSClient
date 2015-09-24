@@ -83,6 +83,29 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",trigger_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",requirement_root_package_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",instance_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",scene_id]];
+  [r appendString:type];
+  [r appendString:name];
+  [r appendString:title];
+  [r appendString:[NSString stringWithFormat:@"%ld",icon_media_id]];
+  [r appendString:[NSString stringWithFormat:@"%f",location.coordinate.latitude]];
+  [r appendString:[NSString stringWithFormat:@"%f",location.coordinate.longitude]];
+  [r appendString:[NSString stringWithFormat:@"%ld",distance]];
+  [r appendString:[NSString stringWithFormat:@"%d",infinite_distance]];
+  [r appendString:[NSString stringWithFormat:@"%d",wiggle]];
+  [r appendString:[NSString stringWithFormat:@"%d",show_title]];
+  [r appendString:[NSString stringWithFormat:@"%d",hidden]];
+  [r appendString:[NSString stringWithFormat:@"%d",trigger_on_enter]];
+  [r appendString:qr_code];
+  return r;
+}
+
 - (BOOL) mergeDataFromTrigger:(Trigger *)t //returns whether or not an update occurred
 {
   BOOL e = [self trigIsEqual:t];
@@ -164,3 +187,4 @@
 }
 
 @end
+

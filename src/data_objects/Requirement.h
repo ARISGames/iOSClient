@@ -19,6 +19,7 @@
 @property(nonatomic, strong) NSString *name;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
 
@@ -36,6 +37,7 @@
 @property(nonatomic, strong) NSString *name;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
 
@@ -65,5 +67,7 @@
 @property(readwrite, assign) double longitude;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

@@ -53,7 +53,9 @@
 @property (nonatomic, assign) int time_left;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (BOOL) mergeDataFromTrigger:(Trigger *)t;
 - (BOOL) trigIsEqual:(Trigger *)t;
 
 @end
+

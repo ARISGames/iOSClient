@@ -31,6 +31,7 @@
 @property (nonatomic, assign) long factory_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (void) mergeDataFromInstance:(Instance *)i;
 - (Instance *) copy;
 
@@ -39,3 +40,4 @@
 - (long) icon_media_id;
 
 @end
+

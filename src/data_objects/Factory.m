@@ -105,7 +105,7 @@
     trigger_title                       = [dict validStringForKey:@"trigger_title"];
     trigger_icon_media_id               = [dict validIntForKey:@"trigger_icon_media_id"];
     trigger_location                    = [dict validLocationForLatKey:@"trigger_latitude" lonKey:@"trigger_longitude"];
-    trigger_infinite_distance           = [dict validIntForKey:@"trigger_infinite_distance"];
+    trigger_infinite_distance           = [dict validBoolForKey:@"trigger_infinite_distance"];
     trigger_wiggle                      = [dict validBoolForKey:@"trigger_wiggle"];
     trigger_show_title                  = [dict validBoolForKey:@"trigger_show_title"];
     trigger_hidden                      = [dict validBoolForKey:@"trigger_hidden"];
@@ -114,6 +114,42 @@
     trigger_scene_id                    = [dict validIntForKey:@"trigger_scene_id"];
   }
   return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",factory_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",game_id]];
+  [r appendString:name];
+  [r appendString:desc];
+  [r appendString:object_type];
+  [r appendString:[NSString stringWithFormat:@"%ld",object_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",seconds_per_production]];
+  [r appendString:[NSString stringWithFormat:@"%f",production_probability]];
+  [r appendString:[NSString stringWithFormat:@"%ld",max_production]];
+  [r appendString:[NSString stringWithFormat:@"%ld",produce_expiration_time]];
+  [r appendString:[NSString stringWithFormat:@"%d",produce_expire_on_view]];
+  [r appendString:production_bound_type];
+  [r appendString:location_bound_type];
+  [r appendString:[NSString stringWithFormat:@"%ld",min_production_distance]];
+  [r appendString:[NSString stringWithFormat:@"%ld",max_production_distance]];
+  [r appendString:[production_timestamp descriptionWithLocale:nil]];
+  [r appendString:[NSString stringWithFormat:@"%ld",requirement_root_package_id]];
+
+  [r appendString:[NSString stringWithFormat:@"%ld",trigger_distance]];
+  [r appendString:trigger_title];
+  [r appendString:[NSString stringWithFormat:@"%ld",trigger_icon_media_id]];
+  [r appendString:[NSString stringWithFormat:@"%f",trigger_location.coordinate.latitude]];
+  [r appendString:[NSString stringWithFormat:@"%f",trigger_location.coordinate.longitude]];
+  [r appendString:[NSString stringWithFormat:@"%d",trigger_infinite_distance]];
+  [r appendString:[NSString stringWithFormat:@"%d",trigger_wiggle]];
+  [r appendString:[NSString stringWithFormat:@"%d",trigger_show_title]];
+  [r appendString:[NSString stringWithFormat:@"%d",trigger_hidden]];
+  [r appendString:[NSString stringWithFormat:@"%d",trigger_on_enter]];
+  [r appendString:[NSString stringWithFormat:@"%ld",trigger_requirement_root_package_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",trigger_scene_id]];
+  return r;
 }
 
 - (void) mergeDataFromFactory:(Factory *)f

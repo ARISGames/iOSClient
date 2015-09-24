@@ -144,6 +144,43 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",game_id]];
+  [r appendString:name];
+  [r appendString:desc];
+  [r appendString:[NSString stringWithFormat:@"%d",published]];
+  [r appendString:type];
+  [r appendString:[NSString stringWithFormat:@"%f",location.coordinate.latitude]];
+  [r appendString:[NSString stringWithFormat:@"%f",location.coordinate.longitude]];
+  [r appendString:[NSString stringWithFormat:@"%ld",player_count]];
+
+  [r appendString:[NSString stringWithFormat:@"%ld",icon_media_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",media_id]];
+
+  [r appendString:[NSString stringWithFormat:@"%ld",intro_scene_id]];
+
+  [r appendString:map_type];
+  [r appendString:map_focus];
+  [r appendString:[NSString stringWithFormat:@"%f",map_location.coordinate.latitude]];
+  [r appendString:[NSString stringWithFormat:@"%f",map_location.coordinate.longitude]];
+  [r appendString:[NSString stringWithFormat:@"%f",map_zoom_level]];
+  [r appendString:[NSString stringWithFormat:@"%d",map_show_player]];
+  [r appendString:[NSString stringWithFormat:@"%d",map_show_players]];
+  [r appendString:[NSString stringWithFormat:@"%d",map_offsite_mode]];
+
+  [r appendString:[NSString stringWithFormat:@"%d",notebook_allow_comments]];
+  [r appendString:[NSString stringWithFormat:@"%d",notebook_allow_likes]];
+  [r appendString:[NSString stringWithFormat:@"%d",notebook_allow_player_tags]];
+
+  [r appendString:[NSString stringWithFormat:@"%ld",inventory_weight_cap]];
+  [r appendString:network_level];
+
+  [r appendString:[NSString stringWithFormat:@"%d",preload_media]];
+  return r;
+}
+
 - (void) initialize //call in all init funcs (why apple doesn't provide functionality for this, I have no idea)
 {
   n_game_data_received = 0;
@@ -364,3 +401,4 @@
 }
 
 @end
+

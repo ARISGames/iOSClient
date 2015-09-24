@@ -41,25 +41,40 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
+  if(self = [super init])
+  {
+    self.note_id       = [dict validIntForKey:@"note_id"];
+    self.user_id       = [dict validIntForKey:@"user_id"];
+    self.name          = [dict validStringForKey:@"name"];
+    self.desc          = [dict validStringForKey:@"description"];
+    self.media_id      = [dict validIntForKey:@"media_id"];
+    self.tag_id        = [dict validIntForKey:@"tag_id"];
+    self.object_tag_id = [dict validIntForKey:@"object_tag_id"];
+    self.created       = [dict validDateForKey:@"created"];
+
+    if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validStringForKey:@"display_name"] != nil)
     {
-        self.note_id       = [dict validIntForKey:@"note_id"];
-        self.user_id       = [dict validIntForKey:@"user_id"];
-        self.name          = [dict validObjectForKey:@"name"];
-        self.desc          = [dict validObjectForKey:@"description"];
-        self.media_id      = [dict validIntForKey:@"media_id"];
-        self.tag_id        = [dict validIntForKey:@"tag_id"];
-        self.object_tag_id = [dict validIntForKey:@"object_tag_id"];
-        self.created       = [dict validDateForKey:@"created"];
-
-        if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"] != nil)
-        {
-          self.user_display_name = [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"];
-        }
-
-        [self createObjectTag];
+      self.user_display_name = [[dict validObjectForKey:@"user"] validStringForKey:@"display_name"];
     }
-    return self;
+
+    [self createObjectTag];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.note_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.user_id]];
+  [r appendString:self.name];
+  [r appendString:self.desc];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.media_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.tag_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.object_tag_id]];
+  [r appendString:[self.created descriptionWithLocale:nil]];
+
+  return r;
 }
 
 - (void) mergeDataFromNote:(Note *)n //allows for notes to be updated easily- all things with this note pointer now have access to latest note data
@@ -118,3 +133,4 @@
 }
 
 @end
+

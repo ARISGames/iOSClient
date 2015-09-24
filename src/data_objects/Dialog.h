@@ -27,5 +27,7 @@
 @property(nonatomic, assign) BOOL back_button_enabled;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

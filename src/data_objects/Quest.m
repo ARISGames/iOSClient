@@ -64,31 +64,58 @@
 
 - (Quest *) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-        quest_id                             = [dict validIntForKey:@"quest_id"];
-        name                                 = [dict validStringForKey:@"name"];
-        desc                                 = [dict validStringForKey:@"description"];
+  if(self = [super init])
+  {
+    quest_id                             = [dict validIntForKey:@"quest_id"];
+    name                                 = [dict validStringForKey:@"name"];
+    desc                                 = [dict validStringForKey:@"description"];
 
-        active_icon_media_id                 = [dict validIntForKey:@"active_icon_media_id"];
-        active_media_id                      = [dict validIntForKey:@"active_media_id"];
-        active_desc                          = [dict validStringForKey:@"active_description"];
-        active_notification_type             = [dict validStringForKey:@"active_notification_type"];
-        active_function                      = [dict validStringForKey:@"active_function"];
-        active_event_package_id              = [dict validIntForKey:@"active_event_package_id"];
-        active_requirement_root_package_id   = [dict validIntForKey:@"active_requirement_root_package_id"];
+    active_icon_media_id                 = [dict validIntForKey:@"active_icon_media_id"];
+    active_media_id                      = [dict validIntForKey:@"active_media_id"];
+    active_desc                          = [dict validStringForKey:@"active_description"];
+    active_notification_type             = [dict validStringForKey:@"active_notification_type"];
+    active_function                      = [dict validStringForKey:@"active_function"];
+    active_event_package_id              = [dict validIntForKey:@"active_event_package_id"];
+    active_requirement_root_package_id   = [dict validIntForKey:@"active_requirement_root_package_id"];
 
-        complete_icon_media_id               = [dict validIntForKey:@"complete_icon_media_id"];
-        complete_media_id                    = [dict validIntForKey:@"complete_media_id"];
-        complete_desc                        = [dict validStringForKey:@"complete_description"];
-        complete_notification_type           = [dict validStringForKey:@"complete_notification_type"];
-        complete_function                    = [dict validStringForKey:@"complete_function"];
-        complete_event_package_id            = [dict validIntForKey:@"complete_event_package_id"];
-        complete_requirement_root_package_id = [dict validIntForKey:@"complete_requirement_root_package_id"];
+    complete_icon_media_id               = [dict validIntForKey:@"complete_icon_media_id"];
+    complete_media_id                    = [dict validIntForKey:@"complete_media_id"];
+    complete_desc                        = [dict validStringForKey:@"complete_description"];
+    complete_notification_type           = [dict validStringForKey:@"complete_notification_type"];
+    complete_function                    = [dict validStringForKey:@"complete_function"];
+    complete_event_package_id            = [dict validIntForKey:@"complete_event_package_id"];
+    complete_requirement_root_package_id = [dict validIntForKey:@"complete_requirement_root_package_id"];
 
-        sort_index                           = [dict validIntForKey:@"sort_index"];
-    }
-    return self;
+    sort_index                           = [dict validIntForKey:@"sort_index"];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",quest_id]];
+  [r appendString:name];
+  [r appendString:desc];
+
+  [r appendString:[NSString stringWithFormat:@"%ld",active_icon_media_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",active_media_id]];
+  [r appendString:active_desc];
+  [r appendString:active_notification_type];
+  [r appendString:active_function];
+  [r appendString:[NSString stringWithFormat:@"%ld",active_event_package_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",active_requirement_root_package_id]];
+
+  [r appendString:[NSString stringWithFormat:@"%ld",complete_icon_media_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",complete_media_id]];
+  [r appendString:complete_desc];
+  [r appendString:complete_notification_type];
+  [r appendString:complete_function];
+  [r appendString:[NSString stringWithFormat:@"%ld",complete_event_package_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",complete_requirement_root_package_id]];
+
+  [r appendString:[NSString stringWithFormat:@"%ld",sort_index]];
+  return r;
 }
 
 - (NSString *)description
@@ -97,3 +124,4 @@
 }
 
 @end
+

@@ -54,6 +54,20 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.instance_id]];
+  [r appendString:self.object_type];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.object_id]];
+  [r appendString:self.owner_type];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.owner_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.qty]];
+  [r appendString:[NSString stringWithFormat:@"%d",self.infinite_qty]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.factory_id]];
+  return r;
+}
+
 - (void) mergeDataFromInstance:(Instance *)i
 {
   self.instance_id = i.instance_id;
@@ -112,3 +126,4 @@
 }
 
 @end
+

@@ -26,5 +26,7 @@
 @property(nonatomic, strong) NSString *script;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

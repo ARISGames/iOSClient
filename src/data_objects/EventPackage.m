@@ -31,6 +31,13 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.event_package_id]];
+  return r;
+}
+
 - (id) copy
 {
   EventPackage *o = [[EventPackage alloc] init];
@@ -59,3 +66,4 @@
 }
 
 @end
+

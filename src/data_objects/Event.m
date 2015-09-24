@@ -46,6 +46,18 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.event_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.event_package_id]];
+  [r appendString:self.event];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.content_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.qty]];
+  [r appendString:self.script];
+  return r;
+}
+
 - (id) copy
 {
   Event *o = [[Event alloc] init];
@@ -69,3 +81,4 @@
 }
 
 @end
+

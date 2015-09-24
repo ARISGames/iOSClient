@@ -37,21 +37,34 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-        self.note_comment_id = [dict validIntForKey:@"note_comment_id"];
-        self.note_id         = [dict validIntForKey:@"note_id"];
-        self.user_id         = [dict validIntForKey:@"user_id"];
-        self.name            = [dict validObjectForKey:@"name"];
-        self.desc            = [dict validObjectForKey:@"description"];
-        self.created         = [dict validDateForKey:@"created"];
+  if(self = [super init])
+  {
+    self.note_comment_id = [dict validIntForKey:@"note_comment_id"];
+    self.note_id         = [dict validIntForKey:@"note_id"];
+    self.user_id         = [dict validIntForKey:@"user_id"];
+    self.name            = [dict validStringForKey:@"name"];
+    self.desc            = [dict validStringForKey:@"description"];
+    self.created         = [dict validDateForKey:@"created"];
 
-        if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"] != nil)
-        {
-          self.user_display_name = [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"];
-        }
+    if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validStringForKey:@"display_name"] != nil)
+    {
+      self.user_display_name = [[dict validObjectForKey:@"user"] validStringForKey:@"display_name"];
     }
-    return self;
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.note_comment_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.note_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.user_id]];
+  [r appendString:self.name];
+  [r appendString:self.desc];
+  [r appendString:[self.created descriptionWithLocale:nil]];
+
+  return r;
 }
 
 - (void) mergeDataFromNoteComment:(NoteComment *)n
@@ -71,3 +84,4 @@
 }
 
 @end
+

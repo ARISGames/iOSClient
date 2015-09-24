@@ -55,6 +55,21 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_option_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.parent_dialog_script_id]];
+  [r appendString:self.prompt];
+  [r appendString:self.link_type];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.link_id]];
+  [r appendString:self.link_info];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.sort_index]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id]];
+  return r;
+}
+
 - (DialogOption *) copy
 {
   DialogOption *c = [[DialogOption alloc] init];
@@ -81,3 +96,4 @@
 }
 
 @end
+

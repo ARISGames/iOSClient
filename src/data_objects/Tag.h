@@ -26,5 +26,7 @@
 @property(readwrite, assign) long sort_index;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

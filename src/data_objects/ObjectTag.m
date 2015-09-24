@@ -30,24 +30,34 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-        self.object_tag_id = [dict validIntForKey:@"object_tag_id"];
-        self.object_type   = [dict validObjectForKey:@"object_type"];
-        self.object_id     = [dict validIntForKey:@"object_id"];
-        self.tag_id        = [dict validIntForKey:@"tag_id"];
-    }
-    return self;
+  if(self = [super init])
+  {
+    self.object_tag_id = [dict validIntForKey:@"object_tag_id"];
+    self.object_type   = [dict validStringForKey:@"object_type"];
+    self.object_id     = [dict validIntForKey:@"object_id"];
+    self.tag_id        = [dict validIntForKey:@"tag_id"];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.object_tag_id]];
+  [r appendString:self.object_type];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.object_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.tag_id]];
+  return r;
 }
 
 - (id) copy
 {
-    ObjectTag *o = [[ObjectTag alloc] init];
-    o.object_tag_id = self.object_tag_id;
-    o.object_type = self.object_type;
-    o.object_id = self.object_id;
-    o.tag_id = self.tag_id;
-    return o;
+  ObjectTag *o = [[ObjectTag alloc] init];
+  o.object_tag_id = self.object_tag_id;
+  o.object_type = self.object_type;
+  o.object_id = self.object_id;
+  o.tag_id = self.tag_id;
+  return o;
 }
 
 - (long) compareTo:(ObjectTag *)ob
@@ -61,3 +71,4 @@
 }
 
 @end
+

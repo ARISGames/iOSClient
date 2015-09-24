@@ -143,6 +143,7 @@
 @property (nonatomic, strong) DisplayQueueModel *displayQueueModel;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (void) mergeDataFromGame:(Game *)g;
 - (void) getReadyToPlay;
 - (void) requestGameData;
@@ -151,3 +152,4 @@
 - (void) clearModels;
 
 @end
+

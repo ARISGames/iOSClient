@@ -17,5 +17,7 @@
 @property(readwrite, assign) long event_package_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

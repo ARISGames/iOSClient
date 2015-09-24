@@ -47,6 +47,18 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_id]];
+  [r appendString:self.name];
+  [r appendString:self.desc];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.icon_media_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.intro_dialog_script_id]];
+  [r appendString:[NSString stringWithFormat:@"%d",self.back_button_enabled]];
+  return r;
+}
+
 - (Dialog *) copy
 {
   Dialog *c = [[Dialog alloc] init];
@@ -76,3 +88,4 @@
 }
 
 @end
+

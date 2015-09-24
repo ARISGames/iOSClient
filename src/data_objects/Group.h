@@ -20,5 +20,7 @@
 @property (nonatomic, strong) NSString *name;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

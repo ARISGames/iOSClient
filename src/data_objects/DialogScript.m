@@ -43,6 +43,17 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_script_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_character_id]];
+  [r appendString:self.text];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.event_package_id]];
+  return r;
+}
+
 - (DialogScript *) copy
 {
   DialogScript *c = [[DialogScript alloc] init];
@@ -65,3 +76,4 @@
 }
 
 @end
+

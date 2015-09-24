@@ -40,6 +40,16 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_character_id]];
+  [r appendString:self.name];
+  [r appendString:self.title];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.media_id]];
+  return r;
+}
+
 - (DialogCharacter *) copy
 {
   DialogCharacter *c = [[DialogCharacter alloc] init];

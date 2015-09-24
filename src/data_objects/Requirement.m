@@ -35,6 +35,14 @@
   return self;
 }
 
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id]];
+  [r appendString:self.name];
+  return r;
+}
+
 @end
 
 
@@ -65,6 +73,15 @@
     self.name                        = [dict validObjectForKey:@"name"];
   }
   return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_and_package_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id]];
+  [r appendString:self.name];
+  return r;
 }
 
 @end
@@ -116,5 +133,21 @@
   }
   return self;
 }
+
+- (NSString *) serialize
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_atom_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_and_package_id]];
+  [r appendString:[NSString stringWithFormat:@"%d",self.bool_operator]];
+  [r appendString:self.requirement];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.content_id]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.distance]];
+  [r appendString:[NSString stringWithFormat:@"%ld",self.qty]];
+  [r appendString:[NSString stringWithFormat:@"%f",self.latitude]];
+  [r appendString:[NSString stringWithFormat:@"%f",self.longitude]];
+  return r;
+}
+
 
 @end

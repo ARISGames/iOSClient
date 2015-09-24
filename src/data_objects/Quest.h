@@ -56,5 +56,7 @@
 @property (nonatomic, assign) long sort_index;
 
 - (Quest *) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

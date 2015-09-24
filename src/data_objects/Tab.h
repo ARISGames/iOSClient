@@ -30,6 +30,8 @@
 @property (nonatomic, assign) long requirement_root_package_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (NSString *) keyString;
 
 @end
+

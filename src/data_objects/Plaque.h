@@ -31,6 +31,7 @@
 @property(nonatomic, strong) NSString *continue_function;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
 

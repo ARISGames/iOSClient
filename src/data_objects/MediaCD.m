@@ -12,3 +12,4 @@
 @implementation MediaCD
 @dynamic media_id, game_id, user_id, localURL, remoteURL;
 @end
+
