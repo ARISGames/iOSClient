@@ -63,6 +63,7 @@
 
   long inventory_weight_cap;
   NSString *network_level;
+  BOOL allow_download;
   BOOL preload_media;
 
   NSMutableArray *models;
@@ -120,6 +121,7 @@
 
 @property (nonatomic, assign) long inventory_weight_cap;
 @property (nonatomic, strong) NSString *network_level;
+@property (nonatomic, assign) BOOL allow_download;
 @property (nonatomic, assign) BOOL preload_media;
 
 @property (nonatomic, strong) NSMutableArray *models;

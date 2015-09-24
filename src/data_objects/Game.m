@@ -57,6 +57,7 @@
 
 @synthesize inventory_weight_cap;
 @synthesize network_level;
+@synthesize allow_download;
 @synthesize preload_media;
 
 @synthesize models;
@@ -135,6 +136,7 @@
      REMOTE = rely on server as authority for often updates
      */
 
+    allow_download = [dict validBoolForKey:@"allow_download"];
     preload_media = [dict validBoolForKey:@"preload_media"];
 
     NSArray *authorDicts;
@@ -177,6 +179,7 @@
   [d setObject:[NSString stringWithFormat:@"%ld",inventory_weight_cap] forKey:@"inventory_weight_cap"];
   [d setObject:network_level forKey:@"network_level"];
 
+  [d setObject:[NSString stringWithFormat:@"%d",allow_download] forKey:@"allow_download"];
   [d setObject:[NSString stringWithFormat:@"%d",preload_media] forKey:@"preload_media"];
   return [NSString JSONFromFlatStringDict:d];
 }
@@ -225,6 +228,7 @@
 
   inventory_weight_cap = g.inventory_weight_cap;
   network_level = g.network_level;
+  allow_download = g.allow_download;
   preload_media = g.preload_media;
 }
 
