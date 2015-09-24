@@ -24,6 +24,7 @@
     UIButton *startButton;
     UIButton *resumeButton;
     UIButton *resetButton;
+    UIButton *downloadButton;
     UIButton *rateButton;
 
     Game *game;
@@ -87,6 +88,12 @@
     [resetButton setBackgroundColor:[UIColor ARISColorRed]];
     [resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     resetButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+  
+    downloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [downloadButton setTitle:@"Download" forState:UIControlStateNormal];
+    [downloadButton setBackgroundColor:[UIColor ARISColorDarkGray]];
+    [downloadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    downloadButton.titleLabel.font = [ARISTemplate ARISButtonFont];
 
     rateButton  = [UIButton buttonWithType:UIButtonTypeCustom];
     [rateButton setBackgroundColor:[UIColor ARISColorOffWhite]];
@@ -104,6 +111,7 @@
     [startButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [resumeButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [downloadButton addTarget:self action:@selector(downloadButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [rateButton  addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside];
 
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -127,20 +135,32 @@
 
 - (void) viewWillLayoutSubviews
 {
-    [super viewWillLayoutSubviews];
+  [super viewWillLayoutSubviews];
 
-    [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
-    rateButton.frame = CGRectMake(0, startButton.frame.origin.y-40, self.view.bounds.size.width, 40);
+  [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
+  rateButton.frame = CGRectMake(0, startButton.frame.origin.y-40, self.view.bounds.size.width, 40);
 
-    scrollView.frame = self.view.bounds;
-    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
+  scrollView.frame = self.view.bounds;
+  scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
+  scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
 
-    startButton.frame = CGRectMake(0,self.view.bounds.size.height-40,self.view.bounds.size.width,40);
-    resumeButton.frame = CGRectMake((self.view.bounds.size.width/2),self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
-    resetButton.frame = CGRectMake(0,self.view.bounds.size.height-40,(self.view.bounds.size.width/2),40);
+  long n_buttons = 0;
+  n_buttons++; //either resume or start
+  if(!loading_has_been_played && has_been_played) n_buttons++; //reset
+  if(game.allow_download) n_buttons++; //download
+  
+  long b_y = self.view.bounds.size.height-40;
+  long b_w = self.view.bounds.size.width/n_buttons;
+  long b_h = 40;
+  
+  long i = 0;
+  startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
+  resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
+  if(!loading_has_been_played && has_been_played) i++;
+  resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
+  if(game.allow_download) i++;
+  downloadButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
 }
-
 
 - (void) loadGame
 {
@@ -177,28 +197,30 @@
 
 - (void) refreshFromGame
 {
-    self.title = game.name;
+  self.title = game.name;
 
-    [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], game.desc] baseURL:nil];
+  [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], game.desc] baseURL:nil];
 
-    if(game.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:game.media_id]];
-    else              [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]];
+  if(game.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:game.media_id]];
+  else              [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]];
 
-    [startButton removeFromSuperview];
-    [resumeButton removeFromSuperview];
-    [resetButton removeFromSuperview];
-    if(loading_has_been_played)
+  [startButton removeFromSuperview];
+  [resumeButton removeFromSuperview];
+  [resetButton removeFromSuperview];
+  [downloadButton removeFromSuperview];
+
+  if(!loading_has_been_played)
+  {
+    if(has_been_played)
     {
-    }
-    else if(has_been_played)
-    {
-        [self.view addSubview:resetButton];
-        [self.view addSubview:resumeButton];
+      [self.view addSubview:resetButton];
+      [self.view addSubview:resumeButton];
     }
     else
-    {
-        [self.view addSubview:startButton];
-    }
+      [self.view addSubview:startButton];
+    if(game.allow_download)
+      [self.view addSubview:downloadButton];
+  }
 
 }
 
@@ -223,6 +245,10 @@
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles:NSLocalizedString(@"GameDetailsResetKey", @""), nil];
     [alert show];
+}
+
+- (void) downloadButtonTouched
+{
 }
 
 - (void) rateButtonTouched
