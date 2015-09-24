@@ -8,6 +8,7 @@
 
 #import "Tab.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Tab
 
@@ -54,16 +55,16 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.tab_id]];
-  [r appendString:self.type];
-  [r appendString:self.name];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.content_id]];
-  [r appendString:self.info];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.sort_index]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.tab_id] forKey:@"tab_id"];
+  [d setObject:self.type forKey:@"type"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.content_id] forKey:@"content_id"];
+  [d setObject:self.info forKey:@"info"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.sort_index] forKey:@"sort_index"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id] forKey:@"requirement_root_package_id"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (NSString *) keyString

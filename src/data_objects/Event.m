@@ -8,6 +8,7 @@
 
 #import "Event.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Event
 
@@ -48,14 +49,14 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.event_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.event_package_id]];
-  [r appendString:self.event];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.content_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.qty]];
-  [r appendString:self.script];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.event_id] forKey:@"event_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.event_package_id] forKey:@"event_package_id"];
+  [d setObject:self.event forKey:@"event"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.content_id] forKey:@"content_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.qty] forKey:@"qty"];
+  [d setObject:self.script forKey:@"script"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (id) copy

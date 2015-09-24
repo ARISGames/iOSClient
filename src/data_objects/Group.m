@@ -8,6 +8,7 @@
 
 #import "Group.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Group
 
@@ -36,10 +37,10 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.group_id]];
-  [r appendString:self.name];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.group_id] forKey:@"group_id"];
+  [d setObject:self.name forKey:@"name"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 //To comply w/ instantiable protocol. should get default image later.

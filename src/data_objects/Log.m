@@ -8,6 +8,7 @@
 
 #import "Log.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Log
 
@@ -45,14 +46,14 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.log_id]];
-  [r appendString:self.event_type];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.content_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.qty]];
-  [r appendString:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.log_id] forKey:@"log_id"];
+  [d setObject:self.event_type forKey:@"event_type"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.content_id] forKey:@"content_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.qty] forKey:@"qty"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude] forKey:@"self.location.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude] forKey:@"self.location.coordinate.longitude"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 @end

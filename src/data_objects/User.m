@@ -8,6 +8,7 @@
 
 #import "User.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation User
 
@@ -51,16 +52,16 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.user_id]];
-  [r appendString:self.user_name];
-  [r appendString:self.display_name];
-  [r appendString:self.email];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.media_id]];
-  [r appendString:self.read_write_key];
-  [r appendString:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.user_id] forKey:@"user_id"];
+  [d setObject:self.user_name forKey:@"user_name"];
+  [d setObject:self.display_name forKey:@"display_name"];
+  [d setObject:self.email forKey:@"email"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
+  [d setObject:self.read_write_key forKey:@"read_write_key"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude] forKey:@"self.location.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude] forKey:@"self.location.coordinate.longitude"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (User *) mergeDataFromUser:(User *)u

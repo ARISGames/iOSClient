@@ -8,6 +8,7 @@
 
 #import "ObjectTag.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation ObjectTag
 
@@ -42,12 +43,12 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.object_tag_id]];
-  [r appendString:self.object_type];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.object_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.tag_id]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.object_tag_id] forKey:@"object_tag_id"];
+  [d setObject:self.object_type forKey:@"object_type"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.object_id] forKey:@"object_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.tag_id] forKey:@"tag_id"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (id) copy

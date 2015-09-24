@@ -8,6 +8,7 @@
 
 #import "Overlay.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Overlay
 
@@ -45,16 +46,16 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",overlay_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",media_id]];
-  [r appendString:[NSString stringWithFormat:@"%f",top_left_corner.coordinate.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",top_left_corner.coordinate.longitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",top_right_corner.coordinate.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",top_right_corner.coordinate.longitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",bottom_left_corner.coordinate.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",bottom_left_corner.coordinate.longitude]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",overlay_id] forKey:@"overlay_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",media_id] forKey:@"media_id"];
+  [d setObject:[NSString stringWithFormat:@"%f",top_left_corner.coordinate.latitude] forKey:@"top_left_corner.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",top_left_corner.coordinate.longitude] forKey:@"top_left_corner.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",top_right_corner.coordinate.latitude] forKey:@"top_right_corner.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",top_right_corner.coordinate.longitude] forKey:@"top_right_corner.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",bottom_left_corner.coordinate.latitude] forKey:@"bottom_left_corner.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",bottom_left_corner.coordinate.longitude] forKey:@"bottom_left_corner.coordinate.longitude"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 //MKOverlay stuff

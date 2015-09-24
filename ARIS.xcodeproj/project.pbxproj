@@ -254,6 +254,7 @@
 		AAC6573C187200940063EAF7 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC6573B187200940063EAF7 /* play.png */; };
 		AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */; };
 		AACB0AE51BB2040E000D3060 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AACB0AE41BB2040E000D3060 /* Launch Screen.storyboard */; settings = {ASSET_TAGS = (); }; };
+		AACB0AE81BB45C9D000D3060 /* NSString+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB0AE71BB45C9D000D3060 /* NSString+JSON.m */; settings = {ASSET_TAGS = (); }; };
 		AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryViewController.m */; };
 		AAD8EFE31A0AD96600E29C8F /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */; };
@@ -742,6 +743,8 @@
 		AAC8290D18A53A68000EA4C7 /* ARISServiceResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISServiceResult.h; sourceTree = "<group>"; };
 		AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISServiceResult.m; sourceTree = "<group>"; };
 		AACB0AE41BB2040E000D3060 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		AACB0AE61BB45C9D000D3060 /* NSString+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSON.h"; sourceTree = "<group>"; };
+		AACB0AE71BB45C9D000D3060 /* NSString+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSON.m"; sourceTree = "<group>"; };
 		AACE25E0189C1EF000E6A680 /* NoteLocationPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteLocationPickerController.h; sourceTree = "<group>"; };
 		AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteLocationPickerController.m; sourceTree = "<group>"; };
 		AAD298C717D1160C002A4C47 /* InventoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryViewController.h; sourceTree = "<group>"; };
@@ -1870,6 +1873,8 @@
 		AABC7362172739D80074CC21 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				AACB0AE61BB45C9D000D3060 /* NSString+JSON.h */,
+				AACB0AE71BB45C9D000D3060 /* NSString+JSON.m */,
 				AA2A8AC217F1DF5C002DA8C4 /* UIImage+animatedGIF.h */,
 				AA2A8AC317F1DF5C002DA8C4 /* UIImage+animatedGIF.m */,
 				AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */,
@@ -2327,6 +2332,7 @@
 				AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */,
 				AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */,
 				AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */,
+				AACB0AE81BB45C9D000D3060 /* NSString+JSON.m in Sources */,
 				AAA179D718985CAB004B82EE /* SelectableNoteTagCellView.m in Sources */,
 				AABC73A2172739D80074CC21 /* GamePickerRecentViewController.m in Sources */,
 				AAA1CE2D1891C1C20005F4DC /* NoteComment.m in Sources */,

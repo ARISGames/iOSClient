@@ -8,6 +8,7 @@
 
 #import "Requirement.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 //ROOT
 @implementation RequirementRootPackage
@@ -37,10 +38,10 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id]];
-  [r appendString:self.name];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id] forKey:@"requirement_root_package_id"];
+  [d setObject:self.name forKey:@"name"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 @end
@@ -77,11 +78,11 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_and_package_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id]];
-  [r appendString:self.name];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.requirement_and_package_id] forKey:@"requirement_and_package_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id] forKey:@"requirement_root_package_id"];
+  [d setObject:self.name forKey:@"name"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 @end
@@ -136,18 +137,17 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_atom_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_and_package_id]];
-  [r appendString:[NSString stringWithFormat:@"%d",self.bool_operator]];
-  [r appendString:self.requirement];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.content_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.distance]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.qty]];
-  [r appendString:[NSString stringWithFormat:@"%f",self.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",self.longitude]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.requirement_atom_id] forKey:@"requirement_atom_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.requirement_and_package_id] forKey:@"requirement_and_package_id"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.bool_operator] forKey:@"bool_operator"];
+  [d setObject:self.requirement forKey:@"requirement"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.content_id] forKey:@"content_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.distance] forKey:@"distance"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.qty] forKey:@"qty"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.latitude] forKey:@"latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.longitude] forKey:@"longitude"];
+  return [NSString JSONFromFlatStringDict:d];
 }
-
 
 @end

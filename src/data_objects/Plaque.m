@@ -9,6 +9,7 @@
 #import "Plaque.h"
 #import "Media.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Plaque
 
@@ -55,16 +56,16 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.plaque_id]];
-  [r appendString:self.name];
-  [r appendString:self.desc];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.event_package_id]];
-  [r appendString:[NSString stringWithFormat:@"%d",self.back_button_enabled]];
-  [r appendString:self.continue_function];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.plaque_id] forKey:@"plaque_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.event_package_id] forKey:@"event_package_id"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.back_button_enabled] forKey:@"back_button_enabled"];
+  [d setObject:self.continue_function forKey:@"continue_function"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (long) icon_media_id

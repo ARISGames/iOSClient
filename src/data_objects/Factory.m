@@ -9,6 +9,7 @@
 #import "Factory.h"
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Factory
 
@@ -118,38 +119,38 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",factory_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",game_id]];
-  [r appendString:name];
-  [r appendString:desc];
-  [r appendString:object_type];
-  [r appendString:[NSString stringWithFormat:@"%ld",object_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",seconds_per_production]];
-  [r appendString:[NSString stringWithFormat:@"%f",production_probability]];
-  [r appendString:[NSString stringWithFormat:@"%ld",max_production]];
-  [r appendString:[NSString stringWithFormat:@"%ld",produce_expiration_time]];
-  [r appendString:[NSString stringWithFormat:@"%d",produce_expire_on_view]];
-  [r appendString:production_bound_type];
-  [r appendString:location_bound_type];
-  [r appendString:[NSString stringWithFormat:@"%ld",min_production_distance]];
-  [r appendString:[NSString stringWithFormat:@"%ld",max_production_distance]];
-  [r appendString:[production_timestamp descriptionWithLocale:nil]];
-  [r appendString:[NSString stringWithFormat:@"%ld",requirement_root_package_id]];
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",factory_id] forKey:@"factory_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",game_id] forKey:@"game_id"];
+  [d setObject:name forKey:@"name"];
+  [d setObject:desc forKey:@"desc"];
+  [d setObject:object_type forKey:@"object_type"];
+  [d setObject:[NSString stringWithFormat:@"%ld",object_id] forKey:@"object_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",seconds_per_production] forKey:@"seconds_per_production"];
+  [d setObject:[NSString stringWithFormat:@"%f",production_probability] forKey:@"production_probability"];
+  [d setObject:[NSString stringWithFormat:@"%ld",max_production] forKey:@"max_production"];
+  [d setObject:[NSString stringWithFormat:@"%ld",produce_expiration_time] forKey:@"produce_expiration_time"];
+  [d setObject:[NSString stringWithFormat:@"%d",produce_expire_on_view] forKey:@"produce_expire_on_view"];
+  [d setObject:production_bound_type forKey:@"production_bound_type"];
+  [d setObject:location_bound_type forKey:@"location_bound_type"];
+  [d setObject:[NSString stringWithFormat:@"%ld",min_production_distance] forKey:@"min_production_distance"];
+  [d setObject:[NSString stringWithFormat:@"%ld",max_production_distance] forKey:@"max_production_distance"];
+  [d setObject:[production_timestamp descriptionWithLocale:nil] forKey:@"production_timestamp"];
+  [d setObject:[NSString stringWithFormat:@"%ld",requirement_root_package_id] forKey:@"requirement_root_package_id"];
 
-  [r appendString:[NSString stringWithFormat:@"%ld",trigger_distance]];
-  [r appendString:trigger_title];
-  [r appendString:[NSString stringWithFormat:@"%ld",trigger_icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%f",trigger_location.coordinate.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",trigger_location.coordinate.longitude]];
-  [r appendString:[NSString stringWithFormat:@"%d",trigger_infinite_distance]];
-  [r appendString:[NSString stringWithFormat:@"%d",trigger_wiggle]];
-  [r appendString:[NSString stringWithFormat:@"%d",trigger_show_title]];
-  [r appendString:[NSString stringWithFormat:@"%d",trigger_hidden]];
-  [r appendString:[NSString stringWithFormat:@"%d",trigger_on_enter]];
-  [r appendString:[NSString stringWithFormat:@"%ld",trigger_requirement_root_package_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",trigger_scene_id]];
-  return r;
+  [d setObject:[NSString stringWithFormat:@"%ld",trigger_distance] forKey:@"trigger_distance"];
+  [d setObject:trigger_title forKey:@"trigger_title"];
+  [d setObject:[NSString stringWithFormat:@"%ld",trigger_icon_media_id] forKey:@"trigger_icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.latitude] forKey:@"trigger_location.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.longitude] forKey:@"trigger_location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%d",trigger_infinite_distance] forKey:@"trigger_infinite_distance"];
+  [d setObject:[NSString stringWithFormat:@"%d",trigger_wiggle] forKey:@"trigger_wiggle"];
+  [d setObject:[NSString stringWithFormat:@"%d",trigger_show_title] forKey:@"trigger_show_title"];
+  [d setObject:[NSString stringWithFormat:@"%d",trigger_hidden] forKey:@"trigger_hidden"];
+  [d setObject:[NSString stringWithFormat:@"%d",trigger_on_enter] forKey:@"trigger_on_enter"];
+  [d setObject:[NSString stringWithFormat:@"%ld",trigger_requirement_root_package_id] forKey:@"trigger_requirement_root_package_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",trigger_scene_id] forKey:@"trigger_scene_id"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (void) mergeDataFromFactory:(Factory *)f

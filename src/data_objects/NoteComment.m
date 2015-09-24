@@ -8,6 +8,7 @@
 
 #import "NoteComment.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 #import "User.h"
 
 @implementation NoteComment
@@ -56,15 +57,14 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.note_comment_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.note_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.user_id]];
-  [r appendString:self.name];
-  [r appendString:self.desc];
-  [r appendString:[self.created descriptionWithLocale:nil]];
-
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.note_comment_id] forKey:@"note_comment_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.note_id] forKey:@"note_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.user_id] forKey:@"user_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:[self.created descriptionWithLocale:nil] forKey:@"created"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (void) mergeDataFromNoteComment:(NoteComment *)n

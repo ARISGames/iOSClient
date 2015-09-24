@@ -8,6 +8,7 @@
 
 #import "Quest.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Quest
 
@@ -93,29 +94,29 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",quest_id]];
-  [r appendString:name];
-  [r appendString:desc];
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",quest_id] forKey:@"quest_id"];
+  [d setObject:name forKey:@"name"];
+  [d setObject:desc forKey:@"desc"];
 
-  [r appendString:[NSString stringWithFormat:@"%ld",active_icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",active_media_id]];
-  [r appendString:active_desc];
-  [r appendString:active_notification_type];
-  [r appendString:active_function];
-  [r appendString:[NSString stringWithFormat:@"%ld",active_event_package_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",active_requirement_root_package_id]];
+  [d setObject:[NSString stringWithFormat:@"%ld",active_icon_media_id] forKey:@"active_icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",active_media_id] forKey:@"active_media_id"];
+  [d setObject:active_desc forKey:@"active_desc"];
+  [d setObject:active_notification_type forKey:@"active_notification_type"];
+  [d setObject:active_function forKey:@"active_function"];
+  [d setObject:[NSString stringWithFormat:@"%ld",active_event_package_id] forKey:@"active_event_package_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",active_requirement_root_package_id] forKey:@"active_requirement_root_package_id"];
 
-  [r appendString:[NSString stringWithFormat:@"%ld",complete_icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",complete_media_id]];
-  [r appendString:complete_desc];
-  [r appendString:complete_notification_type];
-  [r appendString:complete_function];
-  [r appendString:[NSString stringWithFormat:@"%ld",complete_event_package_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",complete_requirement_root_package_id]];
+  [d setObject:[NSString stringWithFormat:@"%ld",complete_icon_media_id] forKey:@"complete_icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",complete_media_id] forKey:@"complete_media_id"];
+  [d setObject:complete_desc forKey:@"complete_desc"];
+  [d setObject:complete_notification_type forKey:@"complete_notification_type"];
+  [d setObject:complete_function forKey:@"complete_function"];
+  [d setObject:[NSString stringWithFormat:@"%ld",complete_event_package_id] forKey:@"complete_event_package_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",complete_requirement_root_package_id] forKey:@"complete_requirement_root_package_id"];
 
-  [r appendString:[NSString stringWithFormat:@"%ld",sort_index]];
-  return r;
+  [d setObject:[NSString stringWithFormat:@"%ld",sort_index] forKey:@"sort_index"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (NSString *)description

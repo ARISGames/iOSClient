@@ -9,6 +9,7 @@
 #import "Item.h"
 #import "Media.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Item
 
@@ -68,20 +69,20 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.item_id]];
-  [r appendString:self.name];
-  [r appendString:self.desc];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.media_id]];
-  [r appendString:[NSString stringWithFormat:@"%d",self.droppable]];
-  [r appendString:[NSString stringWithFormat:@"%d",self.destroyable]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.max_qty_in_inventory]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.weight]];
-  [r appendString:self.url];
-  [r appendString:self.type];
-  [r appendString:[NSString stringWithFormat:@"%d",self.delta_notification]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.item_id] forKey:@"item_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.droppable] forKey:@"droppable"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.destroyable] forKey:@"destroyable"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.max_qty_in_inventory] forKey:@"max_qty_in_inventory"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.weight] forKey:@"weight"];
+  [d setObject:self.url forKey:@"url"];
+  [d setObject:self.type forKey:@"type"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.delta_notification] forKey:@"delta_notification"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (Item *) copy

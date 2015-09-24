@@ -8,6 +8,7 @@
 
 #import "DialogOption.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation DialogOption
 
@@ -57,17 +58,17 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_option_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.parent_dialog_script_id]];
-  [r appendString:self.prompt];
-  [r appendString:self.link_type];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.link_id]];
-  [r appendString:self.link_info];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.sort_index]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.dialog_option_id] forKey:@"dialog_option_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.dialog_id] forKey:@"dialog_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.parent_dialog_script_id] forKey:@"parent_dialog_script_id"];
+  [d setObject:self.prompt forKey:@"prompt"];
+  [d setObject:self.link_type forKey:@"link_type"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.link_id] forKey:@"link_id"];
+  [d setObject:self.link_info forKey:@"link_info"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.sort_index] forKey:@"sort_index"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.requirement_root_package_id] forKey:@"requirement_root_package_id"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (DialogOption *) copy

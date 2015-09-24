@@ -8,6 +8,7 @@
 
 #import "Tag.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Tag
 
@@ -48,14 +49,14 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.tag_id]];
-  [r appendString:self.tag];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.visible]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.curated]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.sort_index]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.tag_id] forKey:@"tag_id"];
+  [d setObject:self.tag forKey:@"tag"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.visible] forKey:@"visible"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.curated] forKey:@"curated"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.sort_index] forKey:@"sort_index"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (id) copy

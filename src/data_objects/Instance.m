@@ -10,6 +10,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Instance
 
@@ -56,16 +57,16 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.instance_id]];
-  [r appendString:self.object_type];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.object_id]];
-  [r appendString:self.owner_type];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.owner_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.qty]];
-  [r appendString:[NSString stringWithFormat:@"%d",self.infinite_qty]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.factory_id]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.instance_id] forKey:@"instance_id"];
+  [d setObject:self.object_type forKey:@"object_type"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.object_id] forKey:@"object_id"];
+  [d setObject:self.owner_type forKey:@"owner_type"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.owner_id] forKey:@"owner_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.qty] forKey:@"qty"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.infinite_qty] forKey:@"infinite_qty"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.factory_id] forKey:@"factory_id"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (void) mergeDataFromInstance:(Instance *)i

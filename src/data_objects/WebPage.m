@@ -9,6 +9,7 @@
 #import "WebPage.h"
 #import "Media.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation WebPage
 
@@ -46,13 +47,13 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.web_page_id]];
-  [r appendString:self.name];
-  [r appendString:self.url];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%d",self.back_button_enabled]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.web_page_id] forKey:@"web_page_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.url forKey:@"url"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.back_button_enabled] forKey:@"back_button_enabled"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (id) copy

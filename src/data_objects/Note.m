@@ -8,6 +8,7 @@
 
 #import "Note.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 #import "AppModel.h"
 
 @implementation Note
@@ -64,17 +65,16 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.note_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.user_id]];
-  [r appendString:self.name];
-  [r appendString:self.desc];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.tag_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.object_tag_id]];
-  [r appendString:[self.created descriptionWithLocale:nil]];
-
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.note_id] forKey:@"note_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.user_id] forKey:@"user_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.tag_id] forKey:@"tag_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.object_tag_id] forKey:@"object_tag_id"];
+  [d setObject:[self.created descriptionWithLocale:nil] forKey:@"created"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (void) mergeDataFromNote:(Note *)n //allows for notes to be updated easily- all things with this note pointer now have access to latest note data

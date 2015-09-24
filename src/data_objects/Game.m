@@ -13,6 +13,7 @@
 #import "GameComment.h"
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @interface Game()
 {
@@ -146,39 +147,39 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",game_id]];
-  [r appendString:name];
-  [r appendString:desc];
-  [r appendString:[NSString stringWithFormat:@"%d",published]];
-  [r appendString:type];
-  [r appendString:[NSString stringWithFormat:@"%f",location.coordinate.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",location.coordinate.longitude]];
-  [r appendString:[NSString stringWithFormat:@"%ld",player_count]];
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",game_id] forKey:@"game_id"];
+  [d setObject:name forKey:@"name"];
+  [d setObject:desc forKey:@"desc"];
+  [d setObject:[NSString stringWithFormat:@"%d",published] forKey:@"published"];
+  [d setObject:type forKey:@"type"];
+  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"location.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.longitude] forKey:@"location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%ld",player_count] forKey:@"player_count"];
 
-  [r appendString:[NSString stringWithFormat:@"%ld",icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",media_id]];
+  [d setObject:[NSString stringWithFormat:@"%ld",icon_media_id] forKey:@"icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",media_id] forKey:@"media_id"];
 
-  [r appendString:[NSString stringWithFormat:@"%ld",intro_scene_id]];
+  [d setObject:[NSString stringWithFormat:@"%ld",intro_scene_id] forKey:@"intro_scene_id"];
 
-  [r appendString:map_type];
-  [r appendString:map_focus];
-  [r appendString:[NSString stringWithFormat:@"%f",map_location.coordinate.latitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",map_location.coordinate.longitude]];
-  [r appendString:[NSString stringWithFormat:@"%f",map_zoom_level]];
-  [r appendString:[NSString stringWithFormat:@"%d",map_show_player]];
-  [r appendString:[NSString stringWithFormat:@"%d",map_show_players]];
-  [r appendString:[NSString stringWithFormat:@"%d",map_offsite_mode]];
+  [d setObject:map_type forKey:@"map_type"];
+  [d setObject:map_focus forKey:@"map_focus"];
+  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.latitude] forKey:@"map_location.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.longitude] forKey:@"map_location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",map_zoom_level] forKey:@"map_zoom_level"];
+  [d setObject:[NSString stringWithFormat:@"%d",map_show_player] forKey:@"map_show_player"];
+  [d setObject:[NSString stringWithFormat:@"%d",map_show_players] forKey:@"map_show_players"];
+  [d setObject:[NSString stringWithFormat:@"%d",map_offsite_mode] forKey:@"map_offsite_mode"];
 
-  [r appendString:[NSString stringWithFormat:@"%d",notebook_allow_comments]];
-  [r appendString:[NSString stringWithFormat:@"%d",notebook_allow_likes]];
-  [r appendString:[NSString stringWithFormat:@"%d",notebook_allow_player_tags]];
+  [d setObject:[NSString stringWithFormat:@"%d",notebook_allow_comments] forKey:@"notebook_allow_comments"];
+  [d setObject:[NSString stringWithFormat:@"%d",notebook_allow_likes] forKey:@"notebook_allow_likes"];
+  [d setObject:[NSString stringWithFormat:@"%d",notebook_allow_player_tags] forKey:@"notebook_allow_player_tags"];
 
-  [r appendString:[NSString stringWithFormat:@"%ld",inventory_weight_cap]];
-  [r appendString:network_level];
+  [d setObject:[NSString stringWithFormat:@"%ld",inventory_weight_cap] forKey:@"inventory_weight_cap"];
+  [d setObject:network_level forKey:@"network_level"];
 
-  [r appendString:[NSString stringWithFormat:@"%d",preload_media]];
-  return r;
+  [d setObject:[NSString stringWithFormat:@"%d",preload_media] forKey:@"preload_media"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (void) initialize //call in all init funcs (why apple doesn't provide functionality for this, I have no idea)

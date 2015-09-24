@@ -9,6 +9,7 @@
 #import "Dialog.h"
 #import "Media.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Dialog
 
@@ -49,14 +50,14 @@
 
 - (NSString *) serialize
 {
-  NSMutableString *r = [[NSMutableString alloc] init];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.dialog_id]];
-  [r appendString:self.name];
-  [r appendString:self.desc];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.icon_media_id]];
-  [r appendString:[NSString stringWithFormat:@"%ld",self.intro_dialog_script_id]];
-  [r appendString:[NSString stringWithFormat:@"%d",self.back_button_enabled]];
-  return r;
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.dialog_id] forKey:@"dialog_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.intro_dialog_script_id] forKey:@"intro_dialog_script_id"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.back_button_enabled] forKey:@"back_button_enabled"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (Dialog *) copy
