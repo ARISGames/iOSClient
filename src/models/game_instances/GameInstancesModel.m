@@ -173,6 +173,11 @@
   return gameOwnedInstances;
 }
 
+- (NSString *) serializedName
+{
+  return @"game_instances";
+}
+
 - (NSString *) serializeModel
 {
   return @"";

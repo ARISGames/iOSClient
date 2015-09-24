@@ -271,6 +271,11 @@
   return NO;
 }
 
+- (NSString *) serializedName
+{
+  return @"logs";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *logs_a = [logs allValues];

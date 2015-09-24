@@ -78,6 +78,11 @@
   return factories[[NSNumber numberWithLong:factory_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"factories";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *factories_a = [factories allValues];

@@ -210,6 +210,11 @@
   return playerTabs;
 }
 
+- (NSString *) serializedName
+{
+  return @"tabs";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *tabs_a = [tabs allValues];

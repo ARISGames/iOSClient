@@ -186,6 +186,11 @@
   return [dialogOptions objectForKey:[NSNumber numberWithLong:dialog_option_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"dialogs";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *dialogs_a = [dialogs allValues];

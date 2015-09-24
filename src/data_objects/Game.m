@@ -22,8 +22,6 @@
   long n_player_data_to_receive;
   long n_player_data_received;
 
-  NSMutableArray *models;
-
   NSTimer *poller;
 }
 @end
@@ -61,6 +59,7 @@
 @synthesize network_level;
 @synthesize preload_media;
 
+@synthesize models;
 @synthesize scenesModel;
 @synthesize groupsModel;
 @synthesize plaquesModel;

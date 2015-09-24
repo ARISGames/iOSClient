@@ -113,6 +113,11 @@
   return t;
 }
 
+- (NSString *) serializedName
+{
+  return @"users";
+}
+
 - (NSString *) serializeModel
 {
   return @"";

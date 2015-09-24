@@ -78,6 +78,11 @@
   return plaques[[NSNumber numberWithLong:plaque_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"plaques";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *plaques_a = [plaques allValues];

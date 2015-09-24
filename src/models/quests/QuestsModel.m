@@ -247,6 +247,11 @@
   return visibleCompleteQuests;
 }
 
+- (NSString *) serializedName
+{
+  return @"quests";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *quests_a = [quests allValues];

@@ -83,6 +83,11 @@
   return [items objectForKey:[NSNumber numberWithLong:item_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"items";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *items_a = [items allValues];

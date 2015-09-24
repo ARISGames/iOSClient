@@ -206,6 +206,11 @@
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
+- (NSString *) serializedName
+{
+  return @"display_queue";
+}
+
 - (NSString *) serializeModel
 {
   return @"";

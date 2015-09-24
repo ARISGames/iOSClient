@@ -38,6 +38,11 @@
   return n_player_data_received >= [self nPlayerDataToReceive];
 }
 
+- (NSString *) serializedName
+{
+  return @"aris";
+}
+
 - (NSString *) serializeModel
 {
   return @"";

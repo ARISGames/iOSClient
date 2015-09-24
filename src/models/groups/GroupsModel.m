@@ -149,6 +149,11 @@
   return groups[[NSNumber numberWithLong:group_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"groups";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *groups_a = [groups allValues];

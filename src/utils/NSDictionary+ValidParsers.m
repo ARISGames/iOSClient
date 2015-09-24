@@ -48,9 +48,11 @@
 
 - (NSDate *) validDateForKey:(NSString *const)aKey
 {
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    return [df dateFromString:[self validStringForKey:aKey]];
+  NSDateFormatter *df = [[NSDateFormatter alloc] init];
+  [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+  NSDate *d = [df dateFromString:[self validStringForKey:aKey]];
+  if(!d) return [df dateFromString:@"0001-01-01 00:00:00"];
+  return d;
 }
 
 - (CLLocation *) validLocationForLatKey:(NSString *const)latKey lonKey:(NSString *const)lonKey

@@ -254,6 +254,11 @@
   [self updatePlayerTriggers:newTriggers];
 }
 
+- (NSString *) serializedName
+{
+  return @"triggers";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *triggers_a = [triggers allValues];

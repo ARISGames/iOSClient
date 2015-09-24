@@ -163,6 +163,11 @@
   return scenes[[NSNumber numberWithLong:scene_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"scenes";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *scenes_a = [scenes allValues];

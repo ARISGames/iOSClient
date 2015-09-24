@@ -235,6 +235,11 @@
   return _ARIS_ARRAY_SORTED_ON_(noteCommentsMatchingNote,@"created");
 }
 
+- (NSString *) serializedName
+{
+  return @"notes";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *notes_a = [notes allValues];

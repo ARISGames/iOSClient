@@ -228,6 +228,11 @@
   _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE",nil,notif.userInfo);
 }
 
+- (NSString *) serializedName
+{
+  return @"games";
+}
+
 - (NSString *) serializeModel
 {
   return @"";

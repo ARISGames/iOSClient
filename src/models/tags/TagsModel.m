@@ -154,6 +154,11 @@
   return [objectTags objectForKey:[NSNumber numberWithLong:object_tag_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"tags";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *tags_a = [tags allValues];

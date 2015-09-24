@@ -181,6 +181,11 @@
   return playerOverlays;
 }
 
+- (NSString *) serializedName
+{
+  return @"overlays";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *overlays_a = [overlays allValues];

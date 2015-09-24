@@ -321,6 +321,11 @@
   else _ARIS_LOG_(@"      Req: Not %@ %ld",a.requirement,a.content_id);
 }
 
+- (NSString *) serializedName
+{
+  return @"requirements";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *roots_a = [requirementRootPackages allValues];

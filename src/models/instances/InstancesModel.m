@@ -260,6 +260,11 @@
   return gInstances;
 }
 
+- (NSString *) serializedName
+{
+  return @"instances";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *instances_a = [instances allValues];

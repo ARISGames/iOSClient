@@ -65,6 +65,8 @@
   NSString *network_level;
   BOOL preload_media;
 
+  NSMutableArray *models;
+
   ScenesModel       *scenesModel;
   GroupsModel       *groupsModel;
   PlaquesModel      *plaquesModel;
@@ -120,6 +122,7 @@
 @property (nonatomic, strong) NSString *network_level;
 @property (nonatomic, assign) BOOL preload_media;
 
+@property (nonatomic, strong) NSMutableArray *models;
 @property (nonatomic, strong) ScenesModel       *scenesModel;
 @property (nonatomic, strong) GroupsModel       *groupsModel;
 @property (nonatomic, strong) PlaquesModel      *plaquesModel;

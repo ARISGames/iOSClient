@@ -173,6 +173,11 @@
   return groupOwnedInstances;
 }
 
+- (NSString *) serializedName
+{
+  return @"group_instances";
+}
+
 - (NSString *) serializeModel
 {
   return @"";

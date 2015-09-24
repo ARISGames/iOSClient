@@ -78,6 +78,11 @@
   return [webPages objectForKey:[NSNumber numberWithLong:web_page_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"web_pages";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *web_pages_a = [webPages allValues];

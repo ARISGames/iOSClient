@@ -161,6 +161,11 @@
   return ep;
 }
 
+- (NSString *) serializedName
+{
+  return @"events";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *events_a = [events allValues];

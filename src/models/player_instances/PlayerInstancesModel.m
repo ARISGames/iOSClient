@@ -210,6 +210,11 @@
   return attributes;
 }
 
+- (NSString *) serializedName
+{
+  return @"player_instances";
+}
+
 - (NSString *) serializeModel
 {
   NSArray *instances_a = [playerInstances allValues];
