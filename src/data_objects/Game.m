@@ -82,6 +82,7 @@
 @synthesize logsModel;
 @synthesize questsModel;
 @synthesize displayQueueModel;
+@synthesize downloaded;
 
 - (id) init
 {
@@ -138,6 +139,9 @@
 
     allow_download = [dict validBoolForKey:@"allow_download"];
     preload_media = [dict validBoolForKey:@"preload_media"];
+    
+    
+    downloaded = [[NSFileManager defaultManager] fileExistsAtPath:[[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld/game.json",game_id]]];
 
     NSArray *authorDicts;
     for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
@@ -193,6 +197,8 @@
   comments = [NSMutableArray arrayWithCapacity:5];
 
   network_level = @"HYBRID";
+  
+  downloaded = NO;
 
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
@@ -230,6 +236,8 @@
   network_level = g.network_level;
   allow_download = g.allow_download;
   preload_media = g.preload_media;
+  
+  downloaded = g.downloaded;
 }
 
 - (void) getReadyToPlay
@@ -405,4 +413,3 @@
 }
 
 @end
-

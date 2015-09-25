@@ -129,6 +129,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if(game.downloaded) [downloadButton setTitle:@"\U00002713 Download" forState:UIControlStateNormal];
+    else                [downloadButton setTitle:@"Download" forState:UIControlStateNormal];
 
     [self refreshFromGame];
 }

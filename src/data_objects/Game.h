@@ -88,6 +88,8 @@
   LogsModel         *logsModel;
   QuestsModel       *questsModel;
   DisplayQueueModel *displayQueueModel;
+  
+  BOOL downloaded;
 }
 
 @property (nonatomic, assign) long game_id;
@@ -146,6 +148,8 @@
 @property (nonatomic, strong) LogsModel         *logsModel;
 @property (nonatomic, strong) QuestsModel       *questsModel;
 @property (nonatomic, strong) DisplayQueueModel *displayQueueModel;
+
+@property (nonatomic, assign) BOOL downloaded;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) serialize;

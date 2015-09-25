@@ -280,6 +280,7 @@
     [data writeToFile:file atomically:YES];
     [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
   }
+  _MODEL_GAME_.downloaded = YES;
 }
 
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator
