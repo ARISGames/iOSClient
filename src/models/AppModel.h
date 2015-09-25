@@ -54,6 +54,7 @@
   BOOL leave_game_enabled;
   BOOL auto_profile_enabled;
   BOOL download_not_play; //yikes
+  BOOL play_using_download;
   BOOL hidePlayers;
 
   User *player;
@@ -77,6 +78,7 @@
 @property(nonatomic, assign) BOOL leave_game_enabled;
 @property(nonatomic, assign) BOOL auto_profile_enabled;
 @property(nonatomic, assign) BOOL download_not_play;
+@property(nonatomic, assign) BOOL play_using_download;
 @property(nonatomic, assign) BOOL hidePlayers;
 
 @property(nonatomic, strong) User *player;
@@ -104,7 +106,7 @@
 - (void) logInPlayer:(User *)user;
 - (void) logOut;
 
-- (void) chooseGame:(Game *)game;
+- (void) chooseGame:(Game *)game useDownloaded:(BOOL)d;
 - (void) downloadGame:(Game *)game;
 - (void) beginGame;
 - (void) leaveGame;

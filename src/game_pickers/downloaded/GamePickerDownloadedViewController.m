@@ -38,6 +38,12 @@
   [gameTable reloadData];
 }
 
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  if(games.count == 0) return;
+  [delegate gamePicked:games[indexPath.row] downloaded:YES];
+}
+
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);

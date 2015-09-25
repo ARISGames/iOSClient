@@ -30,6 +30,7 @@
     Game *game;
     BOOL loading_has_been_played;
     BOOL has_been_played;
+    BOOL use_downloaded_contents;
     id<GameDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -37,7 +38,7 @@
 
 @implementation GameDetailsViewController
 
-- (id) initWithGame:(Game *)g delegate:(id<GameDetailsViewControllerDelegate>)d
+- (id) initWithGame:(Game *)g downloaded:(BOOL)downloaded delegate:(id<GameDetailsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -45,8 +46,18 @@
         game = g;
         _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE", self, @selector(gamePlayedReceived:), nil);
 
-        loading_has_been_played = YES;
-        [_MODEL_GAMES_ requestPlayerPlayedGame:game.game_id];
+        use_downloaded_contents = downloaded;
+      
+        if(use_downloaded_contents)
+        {
+          loading_has_been_played = NO;
+          has_been_played = NO;
+        }
+        else
+        {
+          loading_has_been_played = YES;
+          [_MODEL_GAMES_ requestPlayerPlayedGame:game.game_id];
+        }
     }
     return self;
 }
@@ -240,7 +251,7 @@
 
 - (void) startButtonTouched
 {
-  [_MODEL_ chooseGame:game];
+  [_MODEL_ chooseGame:game useDownloaded:use_downloaded_contents];
 }
 
 - (void) resetButtonTouched
