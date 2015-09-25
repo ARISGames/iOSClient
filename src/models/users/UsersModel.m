@@ -13,6 +13,7 @@
 #import "UsersModel.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "SBJson.h"
 
 @interface UsersModel()
 {

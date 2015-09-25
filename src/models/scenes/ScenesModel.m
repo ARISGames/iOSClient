@@ -13,6 +13,7 @@
 #import "ScenesModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface ScenesModel()
 {
@@ -187,6 +188,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_scenes = d_data[@"scenes"];
+  for(long i = 0; i < d_scenes.count; i++)
+  {
+    Scene *s = [[Scene alloc] initWithDictionary:d_scenes[i]];
+    [scenes setObject:s forKey:[NSNumber numberWithLong:s.scene_id]];
+  }
 
 }
 

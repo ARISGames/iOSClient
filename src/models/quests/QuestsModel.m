@@ -13,6 +13,7 @@
 #import "QuestsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface QuestsModel()
 {
@@ -271,6 +272,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_quests = d_data[@"quests"];
+  for(long i = 0; i < d_quests.count; i++)
+  {
+    Quest *q = [[Quest alloc] initWithDictionary:d_quests[i]];
+    [quests setObject:q forKey:[NSNumber numberWithLong:q.quest_id]];
+  }
 
 }
 

@@ -289,6 +289,22 @@
   _MODEL_GAME_.downloaded = YES;
 }
 
+- (void) restoreGame
+{
+  NSError *error;
+  NSString *file;
+  
+  NSString *folder = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id]];
+  
+  ARISModel *m;
+  for(long i = 0; i < _MODEL_GAME_.models.count; i++)
+  {
+    m = _MODEL_GAME_.models[i];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.json",m.serializedName]];
+    [m deserializeModel:[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error]];
+  }
+}
+
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator
 {
   if(!persistentStoreCoordinator)

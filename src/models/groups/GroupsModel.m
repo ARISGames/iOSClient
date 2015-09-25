@@ -13,6 +13,7 @@
 #import "GroupsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface GroupsModel()
 {
@@ -173,7 +174,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_groups = d_data[@"groups"];
+  for(long i = 0; i < d_groups.count; i++)
+  {
+    Group *g = [[Group alloc] initWithDictionary:d_groups[i]];
+    [groups setObject:g forKey:[NSNumber numberWithLong:g.group_id]];
+  }
 }
 
 - (void) dealloc

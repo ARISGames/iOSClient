@@ -13,6 +13,7 @@
 #import "OverlaysModel.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "SBJson.h"
 
 @interface OverlaysModel()
 {
@@ -205,7 +206,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_overlays = d_data[@"overlays"];
+  for(long i = 0; i < d_overlays.count; i++)
+  {
+    Overlay *o = [[Overlay alloc] initWithDictionary:d_overlays[i]];
+    [overlays setObject:o forKey:[NSNumber numberWithLong:o.overlay_id]];
+  }
 }
 
 - (void) dealloc

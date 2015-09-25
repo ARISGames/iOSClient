@@ -13,6 +13,7 @@
 #import "TabsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface TabsModel()
 {
@@ -234,6 +235,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_tabs = d_data[@"tabs"];
+  for(long i = 0; i < d_tabs.count; i++)
+  {
+    Tab *t = [[Tab alloc] initWithDictionary:d_tabs[i]];
+    [tabs setObject:t forKey:[NSNumber numberWithLong:t.tab_id]];
+  }
 
 }
 

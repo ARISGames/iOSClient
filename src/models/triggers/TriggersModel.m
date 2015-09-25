@@ -13,6 +13,7 @@
 #import "TriggersModel.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "SBJson.h"
 
 @interface TriggersModel()
 {
@@ -278,6 +279,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_triggers = d_data[@"triggers"];
+  for(long i = 0; i < d_triggers.count; i++)
+  {
+    Trigger *t = [[Trigger alloc] initWithDictionary:d_triggers[i]];
+    [triggers setObject:t forKey:[NSNumber numberWithLong:t.trigger_id]];
+  }
 
 }
 

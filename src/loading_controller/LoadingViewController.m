@@ -110,23 +110,26 @@
 
 - (void) startLoading
 {
+  if(_MODEL_.play_using_download)
+    [_MODEL_ restoreGame];
+  else
     [_MODEL_GAME_ requestGameData];
 }
 
 - (void) gameDataLoaded
 {
-    [_MODEL_GAME_ requestPlayerData];
+  [_MODEL_GAME_ requestPlayerData];
 }
 
 - (void) gameFetchFailed
 {
-    [self.view addSubview:retryGameLoadButton];
+  [self.view addSubview:retryGameLoadButton];
 }
 
 - (void) retryGameFetch
 {
-    [retryGameLoadButton removeFromSuperview];
-    [_MODEL_GAME_ requestGameData];
+  [retryGameLoadButton removeFromSuperview];
+  [_MODEL_GAME_ requestGameData];
 }
 
 - (void) playerDataLoaded

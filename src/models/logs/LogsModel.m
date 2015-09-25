@@ -13,6 +13,7 @@
 #import "LogsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface LogsModel()
 {
@@ -295,7 +296,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_logs = d_data[@"logs"];
+  for(long i = 0; i < d_logs.count; i++)
+  {
+    Log *l = [[Log alloc] initWithDictionary:d_logs[i]];
+    [logs setObject:l forKey:[NSNumber numberWithLong:l.log_id]];
+  }
 }
 
 - (void) dealloc

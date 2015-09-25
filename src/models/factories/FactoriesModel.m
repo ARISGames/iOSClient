@@ -12,6 +12,7 @@
 
 #import "FactoriesModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface FactoriesModel()
 {
@@ -102,7 +103,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_factories = d_data[@"factories"];
+  for(long i = 0; i < d_factories.count; i++)
+  {
+    Factory *f = [[Factory alloc] initWithDictionary:d_factories[i]];
+    [factories setObject:f forKey:[NSNumber numberWithLong:f.factory_id]];
+  }
 }
 
 - (void) dealloc

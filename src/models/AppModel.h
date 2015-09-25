@@ -116,5 +116,8 @@
 - (void) commitCoreDataContexts;
 - (NSString *) applicationDocumentsDirectory;
 
+- (void) storeGame;
+- (void) restoreGame;
+
 @end
 

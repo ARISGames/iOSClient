@@ -12,6 +12,7 @@
 
 #import "ItemsModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface ItemsModel()
 {
@@ -107,7 +108,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_items = d_data[@"items"];
+  for(long i = 0; i < d_items.count; i++)
+  {
+    Item *it = [[Item alloc] initWithDictionary:d_items[i]];
+    [items setObject:it forKey:[NSNumber numberWithLong:it.item_id]];
+  }
 }
 
 - (void) dealloc

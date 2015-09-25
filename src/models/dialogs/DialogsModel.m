@@ -13,6 +13,7 @@
 #import "DialogsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface DialogsModel()
 {
@@ -237,7 +238,38 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+
+  NSArray *d_dialogs = d_data[@"dialogs"];
+  for(long i = 0; i < d_dialogs.count; i++)
+  {
+    Dialog *d = [[Dialog alloc] initWithDictionary:d_dialogs[i]];
+    [dialogs setObject:d forKey:[NSNumber numberWithLong:d.dialog_id]];
+  }
+
+  NSArray *d_dialog_characters = d_data[@"dialog_characters"];
+  for(long i = 0; i < d_dialog_characters.count; i++)
+  {
+    DialogCharacter *dc = [[DialogCharacter alloc] initWithDictionary:d_dialog_characters[i]];
+    [dialogCharacters setObject:dc forKey:[NSNumber numberWithLong:dc.dialog_character_id]];
+  }
+
+  NSArray *d_dialog_scripts = d_data[@"dialog_scripts"];
+  for(long i = 0; i < d_dialog_scripts.count; i++)
+  {
+    DialogScript *ds = [[DialogScript alloc] initWithDictionary:d_dialog_scripts[i]];
+    [dialogScripts setObject:ds forKey:[NSNumber numberWithLong:ds.dialog_script_id]];
+  }
+
+  NSArray *d_dialog_options = d_data[@"dialog_options"];
+  for(long i = 0; i < d_dialog_options.count; i++)
+  {
+    DialogOption *d_o = [[DialogOption alloc] initWithDictionary:d_dialog_options[i]];
+    [dialogOptions setObject:d_o forKey:[NSNumber numberWithLong:d_o.dialog_option_id]];
+  }
 }
 
 - (void) dealloc

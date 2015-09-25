@@ -12,6 +12,7 @@
 
 #import "TagsModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface TagsModel()
 {
@@ -178,6 +179,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_tags = d_data[@"tags"];
+  for(long i = 0; i < d_tags.count; i++)
+  {
+    Tag *t = [[Tag alloc] initWithDictionary:d_tags[i]];
+    [tags setObject:t forKey:[NSNumber numberWithLong:t.tag_id]];
+  }
 
 }
 

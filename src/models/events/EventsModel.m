@@ -14,6 +14,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "ARISWebView.h"
+#import "SBJson.h"
 
 @interface EventsModel() <ARISWebViewDelegate>
 {
@@ -185,7 +186,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_events = d_data[@"events"];
+  for(long i = 0; i < d_events.count; i++)
+  {
+    Event *e = [[Event alloc] initWithDictionary:d_events[i]];
+    [events setObject:e forKey:[NSNumber numberWithLong:e.event_id]];
+  }
 }
 
 - (void) dealloc

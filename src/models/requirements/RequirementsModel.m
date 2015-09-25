@@ -13,6 +13,7 @@
 #import "RequirementsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface RequirementsModel()
 {
@@ -364,6 +365,29 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSArray *d_roots = d_data[@"requirement_roots"];
+  for(long i = 0; i < d_roots.count; i++)
+  {
+    RequirementRootPackage *r = [[RequirementRootPackage alloc] initWithDictionary:d_roots[i]];
+    [requirementRootPackages setObject:r forKey:[NSNumber numberWithLong:r.requirement_root_package_id]];
+  }
+  NSArray *d_ands = d_data[@"requirement_ands"];
+  for(long i = 0; i < d_ands.count; i++)
+  {
+    RequirementAndPackage *r = [[RequirementAndPackage alloc] initWithDictionary:d_ands[i]];
+    [requirementAndPackages setObject:r forKey:[NSNumber numberWithLong:r.requirement_and_package_id]];
+  }
+  NSArray *d_atoms = d_data[@"requirement_atoms"];
+  for(long i = 0; i < d_atoms.count; i++)
+  {
+    RequirementAtom *r = [[RequirementAtom alloc] initWithDictionary:d_atoms[i]];
+    [requirementAtoms setObject:r forKey:[NSNumber numberWithLong:r.requirement_atom_id]];
+  }
 
 }
 

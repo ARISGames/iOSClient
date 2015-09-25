@@ -13,6 +13,7 @@
 #import "InstancesModel.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "SBJson.h"
 
 @interface InstancesModel()
 {
@@ -284,6 +285,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_instances = d_data[@"instances"];
+  for(long i = 0; i < d_instances.count; i++)
+  {
+    Instance *in = [[Instance alloc] initWithDictionary:d_instances[i]];
+    [instances setObject:in forKey:[NSNumber numberWithLong:in.instance_id]];
+  }
 
 }
 

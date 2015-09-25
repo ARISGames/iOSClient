@@ -13,6 +13,7 @@
 #import "GroupInstancesModel.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "SBJson.h"
 
 @interface GroupInstancesModel()
 {

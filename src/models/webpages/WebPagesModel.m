@@ -12,6 +12,7 @@
 
 #import "WebPagesModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface WebPagesModel()
 {
@@ -102,6 +103,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_web_pages = d_data[@"web_pages"];
+  for(long i = 0; i < d_web_pages.count; i++)
+  {
+    WebPage *w = [[WebPage alloc] initWithDictionary:d_web_pages[i]];
+    [webPages setObject:w forKey:[NSNumber numberWithLong:w.web_page_id]];
+  }
 
 }
 

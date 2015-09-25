@@ -13,6 +13,7 @@
 #import "GameInstancesModel.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "SBJson.h"
 
 @interface GameInstancesModel()
 {

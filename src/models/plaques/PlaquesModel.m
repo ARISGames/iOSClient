@@ -12,6 +12,7 @@
 
 #import "PlaquesModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface PlaquesModel()
 {
@@ -102,7 +103,16 @@
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_plaques = d_data[@"plaques"];
+  for(long i = 0; i < d_plaques.count; i++)
+  {
+    Plaque *p = [[Plaque alloc] initWithDictionary:d_plaques[i]];
+    [plaques setObject:p forKey:[NSNumber numberWithLong:p.plaque_id]];
+  }
 }
 
 - (void) dealloc
