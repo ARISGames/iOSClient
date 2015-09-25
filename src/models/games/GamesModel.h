@@ -34,6 +34,9 @@
 - (NSArray *) mineGames;
 - (NSArray *) pingMineGames;
 
+- (NSArray *) downloadedGames;
+- (NSArray *) pingDownloadedGames;
+
 - (void) requestPlayerPlayedGame:(long)game_id;
 - (void) playerResetGame:(long)game_id;
 

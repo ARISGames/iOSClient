@@ -14,6 +14,7 @@
 #import "GamePickerRecentViewController.h"
 #import "GamePickerSearchViewController.h"
 #import "GamePickerMineViewController.h"
+#import "GamePickerDownloadedViewController.h"
 
 #import "PKRevealController.h"
 #import "AccountSettingsViewController.h"
@@ -62,12 +63,14 @@
     self.gamePickersTabBarController.delegate = self;
 
     //init pickervcs
-    GamePickerNearbyViewController   *gpnvc = [[GamePickerNearbyViewController   alloc] initWithDelegate:self];
-    GamePickerPopularViewController  *gppvc = [[GamePickerPopularViewController  alloc] initWithDelegate:self];
-    GamePickerRecentViewController   *gprvc = [[GamePickerRecentViewController   alloc] initWithDelegate:self];
-    GamePickerSearchViewController   *gpsvc = [[GamePickerSearchViewController   alloc] initWithDelegate:self];
-    GamePickerMineViewController     *gpmvc = [[GamePickerMineViewController     alloc] initWithDelegate:self];
-    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gppvc,gprvc,gpsvc,gpmvc,nil];
+    GamePickerNearbyViewController     *gpnvc = [[GamePickerNearbyViewController     alloc] initWithDelegate:self];
+    GamePickerPopularViewController    *gppvc = [[GamePickerPopularViewController    alloc] initWithDelegate:self];
+    GamePickerRecentViewController     *gprvc = [[GamePickerRecentViewController     alloc] initWithDelegate:self];
+    GamePickerSearchViewController     *gpsvc = [[GamePickerSearchViewController     alloc] initWithDelegate:self];
+    GamePickerMineViewController       *gpmvc = [[GamePickerMineViewController       alloc] initWithDelegate:self];
+    GamePickerDownloadedViewController *gpdvc = [[GamePickerDownloadedViewController alloc] initWithDelegate:self];
+  
+    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gppvc,gprvc,gpsvc,gpmvc,gpdvc,nil];
     self.gamePickersNavigationController = [[ARISNavigationController alloc] initWithRootViewController:self.gamePickersTabBarController];
     self.gamePickersNavigationController.automaticallyAdjustsScrollViewInsets = NO;
 

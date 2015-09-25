@@ -13,16 +13,18 @@
 #import "GamesModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface GamesModel()
 {
   NSMutableDictionary *games;
-  NSArray *nearbyGames;   NSDate *nearbyStamp; CLLocation *location;
-  NSArray *anywhereGames; NSDate *anywhereStamp;
-  NSArray *popularGames;  NSDate *popularStamp; NSString *interval;
-  NSArray *recentGames;   NSDate *recentStamp;
-  NSArray *searchGames;   NSDate *searchStamp; NSString *search;
-  NSArray *mineGames;     NSDate *mineStamp;
+  NSArray *nearbyGames;     NSDate *nearbyStamp; CLLocation *location;
+  NSArray *anywhereGames;   NSDate *anywhereStamp;
+  NSArray *popularGames;    NSDate *popularStamp; NSString *interval;
+  NSArray *recentGames;     NSDate *recentStamp;
+  NSArray *searchGames;     NSDate *searchStamp; NSString *search;
+  NSArray *mineGames;       NSDate *mineStamp;
+  NSArray *downloadedGames; NSDate *downloadedStamp;
 }
 
 @end
@@ -40,6 +42,7 @@
     _ARIS_NOTIF_LISTEN_(@"SERVICES_RECENT_GAMES_RECEIVED",self,@selector(recentGamesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_SEARCH_GAMES_RECEIVED",self,@selector(searchGamesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_MINE_GAMES_RECEIVED",self,@selector(mineGamesReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_DOWNLOADED_GAMES_RECEIVED",self,@selector(downloadedGamesReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_RECEIVED",self,@selector(gameReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_PLAYED_GAME_RECEIVED",self,@selector(playerPlayedGameReceived:),nil);
   }
@@ -52,12 +55,13 @@
 
   games = [[NSMutableDictionary alloc] init];
 
-  nearbyGames   = [[NSArray alloc] init];
-  anywhereGames = [[NSArray alloc] init];
-  popularGames  = [[NSArray alloc] init];
-  recentGames   = [[NSArray alloc] init];
-  searchGames   = [[NSArray alloc] init];
-  mineGames   = [[NSArray alloc] init];
+  nearbyGames     = [[NSArray alloc] init];
+  anywhereGames   = [[NSArray alloc] init];
+  popularGames    = [[NSArray alloc] init];
+  recentGames     = [[NSArray alloc] init];
+  searchGames     = [[NSArray alloc] init];
+  mineGames       = [[NSArray alloc] init];
+  downloadedGames = [[NSArray alloc] init];
 }
 
 - (void) invalidateData
@@ -68,6 +72,7 @@
   recentStamp = nil;
   searchStamp = nil; search = nil;
   mineStamp = nil;
+  downloadedStamp = nil;
 }
 
 - (void) mergeInGame:(Game *)g { [self updateGames:@[g]]; }
@@ -95,6 +100,10 @@
 - (void) mineGamesReceived:(NSNotification *)n { [self updateMineGames:n.userInfo[@"games"]]; }
 - (void) updateMineGames:(NSArray *)gs { mineGames = [self updateGames:gs]; [self notifMineGames]; }
 - (void) notifMineGames { _ARIS_NOTIF_SEND_(@"MODEL_MINE_GAMES_AVAILABLE",nil,nil); }
+
+- (void) downloadedGamesReceived:(NSNotification *)n { [self updateDownloadedGames:n.userInfo[@"games"]]; }
+- (void) updateDownloadedGames:(NSArray *)gs { downloadedGames = [self updateGames:gs]; [self notifDownloadedGames]; }
+- (void) notifDownloadedGames { _ARIS_NOTIF_SEND_(@"MODEL_DOWNLOADED_GAMES_AVAILABLE",nil,nil); }
 
 - (void) gameReceived:(NSNotification *)n { [self updateGame:n.userInfo[@"game"]]; }
 - (Game *) updateGame:(Game *)g
@@ -215,6 +224,38 @@
   return mineGames;
 }
 - (NSArray *) mineGames { return mineGames; }
+
+- (NSArray *) pingDownloadedGames
+{
+  if(!downloadedStamp || [downloadedStamp timeIntervalSinceNow] < -10)
+  {
+    downloadedStamp = [[NSDate alloc] init];
+    //gen downloaded games
+    
+    NSMutableArray *d_games = [[NSMutableArray alloc] init];
+    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+    NSString *rootString = [_MODEL_ applicationDocumentsDirectory];
+    
+    NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rootString error:NULL];
+    for(long i = 0; i < directoryContent.count; i++)
+    {
+      NSString *gameFolderString = [rootString stringByAppendingPathComponent:directoryContent[i]];
+      NSString *gameDataString = [gameFolderString stringByAppendingPathComponent:@"game.json"];
+      if([[NSFileManager defaultManager] fileExistsAtPath:gameDataString])
+      {
+        NSString *content = [NSString stringWithContentsOfFile:gameDataString encoding:NSUTF8StringEncoding error:nil];
+        Game *g = [[Game alloc] initWithDictionary:[jsonParser objectWithString:content]];
+        [d_games addObject:g];
+      }
+    }
+    //emulate 'services' for consistency's sake
+    if(d_games.count > 0) _ARIS_NOTIF_SEND_(@"SERVICES_DOWNLOADED_GAMES_RECEIVED", nil, @{@"games":d_games});
+  }
+  else [self performSelector:@selector(notifDownloadedGames) withObject:nil afterDelay:1];
+
+  return downloadedGames;
+}
+- (NSArray *) downloadedGames { return downloadedGames; }
 
 - (void) requestPlayerPlayedGame:(long)game_id
 {
