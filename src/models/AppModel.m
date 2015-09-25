@@ -29,6 +29,7 @@
 @synthesize preferred_game_id;
 @synthesize leave_game_enabled;
 @synthesize auto_profile_enabled;
+@synthesize download_not_play;
 @synthesize hidePlayers;
 @synthesize player;
 @synthesize game;
@@ -55,6 +56,7 @@
   {
     leave_game_enabled = YES;
     auto_profile_enabled = YES;
+    download_not_play = NO;
 
     servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
     usersModel        = [[UsersModel alloc] init];
@@ -150,6 +152,7 @@
   if(_MODEL_GAME_) [self leaveGame];
   _MODEL_PLAYER_ = nil;
   _MODEL_.auto_profile_enabled = YES;
+  _MODEL_.download_not_play = NO;
   _MODEL_.leave_game_enabled = YES;
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ logoutPlayer];
@@ -159,17 +162,36 @@
 - (void) chooseGame:(Game *)g
 {
   _MODEL_GAME_ = g;
+  _MODEL_.download_not_play = NO;
   [_MODEL_GAME_ getReadyToPlay];
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ loginGame:_MODEL_GAME_.game_id];
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);
 }
 
+- (void) downloadGame:(Game *)g
+{
+  _MODEL_GAME_ = g;
+  _MODEL_.download_not_play = YES;
+  [_MODEL_GAME_ getReadyToPlay];
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);
+}
+
 - (void) beginGame
 {
   _MODEL_.preferred_game_id = 0; //assume the preference was met
-  [_MODEL_LOGS_ playerEnteredGame];
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
+  if(_MODEL_.download_not_play)
+  {
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
+    _MODEL_.download_not_play = NO;
+    [_MODEL_ storeGame];
+    [self leaveGame];
+  }
+  else
+  {
+    [_MODEL_LOGS_ playerEnteredGame];
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
+  }
 }
 
 - (void) leaveGame

@@ -226,29 +226,30 @@
 
 - (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSURL *requestURL = [request URL];
+  NSURL *requestURL = [request URL];
 
-    if(([[requestURL scheme] isEqualToString:@"http"] ||
-        [[requestURL scheme] isEqualToString:@"https"]) &&
-       (navigationType == UIWebViewNavigationTypeLinkClicked))
-        return ![[UIApplication sharedApplication] openURL:requestURL];
+  if(([[requestURL scheme] isEqualToString:@"http"] ||
+      [[requestURL scheme] isEqualToString:@"https"]) &&
+     (navigationType == UIWebViewNavigationTypeLinkClicked))
+      return ![[UIApplication sharedApplication] openURL:requestURL];
 
-    return YES;
+  return YES;
 }
 
 - (void) startButtonTouched
 {
-    [_MODEL_ chooseGame:game];
+  [_MODEL_ chooseGame:game];
 }
 
 - (void) resetButtonTouched
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles:NSLocalizedString(@"GameDetailsResetKey", @""), nil];
-    [alert show];
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles:NSLocalizedString(@"GameDetailsResetKey", @""), nil];
+  [alert show];
 }
 
 - (void) downloadButtonTouched
 {
+  [_MODEL_ downloadGame:game];
 }
 
 - (void) rateButtonTouched
