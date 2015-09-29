@@ -70,7 +70,7 @@
     GamePickerMineViewController       *gpmvc = [[GamePickerMineViewController       alloc] initWithDelegate:self];
     GamePickerDownloadedViewController *gpdvc = [[GamePickerDownloadedViewController alloc] initWithDelegate:self];
   
-    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gppvc,gprvc,gpsvc,gpmvc,gpdvc,nil];
+    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:gpnvc,gppvc,gprvc,gpsvc,gpmvc,/*gpdvc,*/nil];
     self.gamePickersNavigationController = [[ARISNavigationController alloc] initWithRootViewController:self.gamePickersTabBarController];
     self.gamePickersNavigationController.automaticallyAdjustsScrollViewInsets = NO;
 
