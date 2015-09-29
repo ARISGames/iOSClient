@@ -277,7 +277,17 @@
   return @"logs";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
+{
+  return @"";
+}
+
+- (void) deserializeGameData:(NSString *)data
+{
+  [self clearGameData];
+}
+
+- (NSString *) serializePlayerData
 {
   NSArray *logs_a = [logs allValues];
   Log *l_o;
@@ -294,9 +304,9 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializePlayerData:(NSString *)data
 {
-  [self clearGameData];
+  [self clearPlayerData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
   NSDictionary *d_data = [jsonParser objectWithString:data];

@@ -260,7 +260,7 @@
   return @"triggers";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *triggers_a = [triggers allValues];
   Trigger *t_o;
@@ -277,7 +277,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -289,6 +289,39 @@
     Trigger *t = [[Trigger alloc] initWithDictionary:d_triggers[i]];
     [triggers setObject:t forKey:[NSNumber numberWithLong:t.trigger_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  NSArray *triggers_a = playerTriggers;
+  Trigger *t_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"triggers\":["];
+  for(long i = 0; i < triggers_a.count; i++)
+  {
+    t_o = triggers_a[i];
+    [r appendString:[t_o serialize]];
+    if(i != triggers_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+  [self clearPlayerData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_triggers = d_data[@"triggers"];
+  NSMutableArray *pts = [[NSMutableArray alloc] init];
+  for(long i = 0; i < d_triggers.count; i++)
+  {
+    Trigger *t = [[Trigger alloc] initWithDictionary:d_triggers[i]];
+    [pts addObject:[_MODEL_TRIGGERS_ triggerForId:t.trigger_id]];
+  }
+  playerTriggers = pts;
 }
 
 - (void) dealloc

@@ -84,7 +84,7 @@
   return @"factories";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *factories_a = [factories allValues];
   Factory *f_o;
@@ -101,7 +101,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -113,6 +113,16 @@
     Factory *f = [[Factory alloc] initWithDictionary:d_factories[i]];
     [factories setObject:f forKey:[NSNumber numberWithLong:f.factory_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

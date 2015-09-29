@@ -84,7 +84,7 @@
   return @"web_pages";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *web_pages_a = [webPages allValues];
   WebPage *w_o;
@@ -101,7 +101,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -113,6 +113,16 @@
     WebPage *w = [[WebPage alloc] initWithDictionary:d_web_pages[i]];
     [webPages setObject:w forKey:[NSNumber numberWithLong:w.web_page_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

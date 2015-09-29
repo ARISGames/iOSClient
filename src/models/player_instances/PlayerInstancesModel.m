@@ -216,7 +216,17 @@
   return @"player_instances";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
+{
+  return @"";
+}
+
+- (void) deserializeGameData:(NSString *)data
+{
+  [self clearGameData];
+}
+
+- (NSString *) serializePlayerData
 {
   NSArray *instances_a = [playerInstances allValues];
   Instance *i_o;
@@ -233,9 +243,9 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializePlayerData:(NSString *)data
 {
-  [self clearGameData];
+  [self clearPlayerData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
   NSDictionary *d_data = [jsonParser objectWithString:data];
@@ -243,7 +253,7 @@
   for(long i = 0; i < d_instances.count; i++)
   {
     Instance *in = [[Instance alloc] initWithDictionary:d_instances[i]];
-    [playerInstances setObject:in forKey:[NSNumber numberWithLong:in.instance_id]];
+    [playerInstances setObject:[_MODEL_INSTANCES_ instanceForId:in.instance_id] forKey:[NSNumber numberWithLong:in.instance_id]];
   }
 }
 

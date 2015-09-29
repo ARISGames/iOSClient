@@ -84,7 +84,7 @@
   return @"plaques";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *plaques_a = [plaques allValues];
   Plaque *p_o;
@@ -101,7 +101,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -113,6 +113,16 @@
     Plaque *p = [[Plaque alloc] initWithDictionary:d_plaques[i]];
     [plaques setObject:p forKey:[NSNumber numberWithLong:p.plaque_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

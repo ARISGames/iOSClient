@@ -155,7 +155,7 @@
   return @"groups";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *groups_a = [groups allValues];
   Group *g_o;
@@ -172,7 +172,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -184,6 +184,25 @@
     Group *g = [[Group alloc] initWithDictionary:d_groups[i]];
     [groups setObject:g forKey:[NSNumber numberWithLong:g.group_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"group\":"];
+  [r appendString:[playerGroup serialize]];
+  [r appendString:@"}"];
+  return r;
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  Group *g = [[Group alloc] initWithDictionary:d_data[@"group"]];
+  playerGroup = [_MODEL_GROUPS_ groupForId:g.group_id];
 }
 
 - (void) dealloc

@@ -169,7 +169,7 @@
   return @"scenes";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *scenes_a = [scenes allValues];
   Scene *s_o;
@@ -186,7 +186,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -198,6 +198,25 @@
     Scene *s = [[Scene alloc] initWithDictionary:d_scenes[i]];
     [scenes setObject:s forKey:[NSNumber numberWithLong:s.scene_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"scene\":"];
+  [r appendString:[playerScene serialize]];
+  [r appendString:@"}"];
+  return r;
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+  [self clearPlayerData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  Scene *s = [[Scene alloc] initWithDictionary:d_data[@"scene"]];
+  playerScene = [_MODEL_SCENES_ sceneForId:s.scene_id];
 }
 
 - (void) dealloc

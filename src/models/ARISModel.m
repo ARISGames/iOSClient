@@ -43,12 +43,22 @@
   return @"aris";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   return @"";
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
+{
+
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
 {
 
 }

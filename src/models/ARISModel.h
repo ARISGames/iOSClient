@@ -29,8 +29,10 @@
 - (BOOL) playerDataReceived;
 
 - (NSString *) serializedName;
-- (NSString *) serializeModel;
-- (void) deserializeModel:(NSString *)data;
+- (NSString *) serializeGameData;
+- (void) deserializeGameData:(NSString *)data;
+- (NSString *) serializePlayerData;
+- (void) deserializePlayerData:(NSString *)data;
 
 @end
 

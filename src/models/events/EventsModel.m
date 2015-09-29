@@ -167,7 +167,7 @@
   return @"events";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *events_a = [events allValues];
   Event *e_o;
@@ -184,7 +184,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -196,6 +196,16 @@
     Event *e = [[Event alloc] initWithDictionary:d_events[i]];
     [events setObject:e forKey:[NSNumber numberWithLong:e.event_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

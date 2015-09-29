@@ -216,7 +216,7 @@
   return @"tabs";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *tabs_a = [tabs allValues];
   Tab *t_o;
@@ -233,7 +233,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -245,6 +245,39 @@
     Tab *t = [[Tab alloc] initWithDictionary:d_tabs[i]];
     [tabs setObject:t forKey:[NSNumber numberWithLong:t.tab_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  NSArray *tabs_a = playerTabs;
+  Tab *t_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"tabs\":["];
+  for(long i = 0; i < tabs_a.count; i++)
+  {
+    t_o = tabs_a[i];
+    [r appendString:[t_o serialize]];
+    if(i != tabs_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+  [self clearPlayerData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_tabs = d_data[@"tabs"];
+  NSMutableArray *pts = [[NSMutableArray alloc] init];
+  for(long i = 0; i < d_tabs.count; i++)
+  {
+    Tab *t = [[Tab alloc] initWithDictionary:d_tabs[i]];
+    [pts addObject:[_MODEL_TABS_ tabForId:t.tab_id]];
+  }
+  playerTabs = pts;
 }
 
 - (void) dealloc

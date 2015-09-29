@@ -192,7 +192,7 @@
   return @"dialogs";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *dialogs_a = [dialogs allValues];
   NSArray *dialog_characters_a = [dialogCharacters allValues];
@@ -236,7 +236,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -270,6 +270,16 @@
     DialogOption *d_o = [[DialogOption alloc] initWithDictionary:d_dialog_options[i]];
     [dialogOptions setObject:d_o forKey:[NSNumber numberWithLong:d_o.dialog_option_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

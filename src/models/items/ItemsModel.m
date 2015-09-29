@@ -89,7 +89,7 @@
   return @"items";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *items_a = [items allValues];
   Item *i_o;
@@ -106,7 +106,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -118,6 +118,15 @@
     Item *it = [[Item alloc] initWithDictionary:d_items[i]];
     [items setObject:it forKey:[NSNumber numberWithLong:it.item_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
 }
 
 - (void) dealloc

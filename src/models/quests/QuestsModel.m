@@ -253,7 +253,7 @@
   return @"quests";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *quests_a = [quests allValues];
   Quest *q_o;
@@ -270,7 +270,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -282,6 +282,56 @@
     Quest *q = [[Quest alloc] initWithDictionary:d_quests[i]];
     [quests setObject:q forKey:[NSNumber numberWithLong:q.quest_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  NSArray *quests_a = visibleCompleteQuests;
+  Quest *q_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"complete_quests\":["];
+  for(long i = 0; i < quests_a.count; i++)
+  {
+    q_o = quests_a[i];
+    [r appendString:[q_o serialize]];
+    if(i != quests_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"],\"active_quests\":["];
+  quests_a = visibleActiveQuests;
+  for(long i = 0; i < quests_a.count; i++)
+  {
+    q_o = quests_a[i];
+    [r appendString:[q_o serialize]];
+    if(i != quests_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+  [self clearPlayerData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_quests = d_data[@"complete_quests"];
+  NSMutableArray *qs = [[NSMutableArray alloc] init];
+  for(long i = 0; i < d_quests.count; i++)
+  {
+    Quest *q = [[Quest alloc] initWithDictionary:d_quests[i]];
+    [qs addObject:[_MODEL_QUESTS_ questForId:q.quest_id]];
+  }
+  visibleCompleteQuests = qs;
+  
+  d_quests = d_data[@"active_quests"];
+  qs = [[NSMutableArray alloc] init];
+  for(long i = 0; i < d_quests.count; i++)
+  {
+    Quest *q = [[Quest alloc] initWithDictionary:d_quests[i]];
+    [qs addObject:[_MODEL_QUESTS_ questForId:q.quest_id]];
+  }
+  visibleActiveQuests = qs;
 }
 
 - (void) dealloc

@@ -187,7 +187,7 @@
   return @"overlays";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *overlays_a = [overlays allValues];
   Overlay *o_o;
@@ -204,7 +204,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -216,6 +216,16 @@
     Overlay *o = [[Overlay alloc] initWithDictionary:d_overlays[i]];
     [overlays setObject:o forKey:[NSNumber numberWithLong:o.overlay_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

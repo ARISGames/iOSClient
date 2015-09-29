@@ -281,8 +281,16 @@
   for(long i = 0; i < _MODEL_GAME_.models.count; i++)
   {
     m = _MODEL_GAME_.models[i];
-    data = [[m serializeModel] dataUsingEncoding:NSUTF8StringEncoding];
-    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.json",m.serializedName]];
+    data = [[m serializeGameData] dataUsingEncoding:NSUTF8StringEncoding];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_game.json",m.serializedName]];
+    [data writeToFile:file atomically:YES];
+    [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  }
+  for(long i = 0; i < _MODEL_GAME_.models.count; i++)
+  {
+    m = _MODEL_GAME_.models[i];
+    data = [[m serializePlayerData] dataUsingEncoding:NSUTF8StringEncoding];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",m.serializedName]];
     [data writeToFile:file atomically:YES];
     [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
   }
@@ -293,15 +301,21 @@
 {
   NSError *error;
   NSString *file;
-  
+
   NSString *folder = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id]];
-  
+
   ARISModel *m;
   for(long i = 0; i < _MODEL_GAME_.models.count; i++)
   {
     m = _MODEL_GAME_.models[i];
-    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.json",m.serializedName]];
-    [m deserializeModel:[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error]];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_game.json",m.serializedName]];
+    [m deserializeGameData:[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error]];
+  }
+  for(long i = 0; i < _MODEL_GAME_.models.count; i++)
+  {
+    m = _MODEL_GAME_.models[i];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",m.serializedName]];
+    [m deserializePlayerData:[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error]];
   }
 }
 
@@ -353,12 +367,22 @@
   return @"app";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   return @"";
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
+{
+
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
 {
 
 }

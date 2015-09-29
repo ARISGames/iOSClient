@@ -327,7 +327,7 @@
   return @"requirements";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *roots_a = [requirementRootPackages allValues];
   NSArray *ands_a = [requirementAndPackages allValues];
@@ -363,7 +363,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -388,6 +388,16 @@
     RequirementAtom *r = [[RequirementAtom alloc] initWithDictionary:d_atoms[i]];
     [requirementAtoms setObject:r forKey:[NSNumber numberWithLong:r.requirement_atom_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

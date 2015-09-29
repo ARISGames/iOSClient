@@ -160,7 +160,7 @@
   return @"tags";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
   NSArray *tags_a = [tags allValues];
   Tag *t_o;
@@ -177,7 +177,7 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
@@ -189,6 +189,16 @@
     Tag *t = [[Tag alloc] initWithDictionary:d_tags[i]];
     [tags setObject:t forKey:[NSNumber numberWithLong:t.tag_id]];
   }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

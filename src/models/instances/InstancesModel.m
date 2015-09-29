@@ -266,8 +266,9 @@
   return @"instances";
 }
 
-- (NSString *) serializeModel
+- (NSString *) serializeGameData
 {
+  //also serializes player data
   NSArray *instances_a = [instances allValues];
   Instance *i_o;
 
@@ -283,8 +284,9 @@
   return r;
 }
 
-- (void) deserializeModel:(NSString *)data
+- (void) deserializeGameData:(NSString *)data
 {
+  //also deserializes player data
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
@@ -297,9 +299,20 @@
   }
 }
 
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+  //don't clear 'player data', as player data was actually received by deserializing game data
+}
+
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
+
