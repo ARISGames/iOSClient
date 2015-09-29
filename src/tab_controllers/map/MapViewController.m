@@ -671,25 +671,29 @@
 
 - (void) initBlackoutsAndSetFrame
 {
-    blackout = [[UIView alloc] init];
-    blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, (self.view.bounds.size.height/2) - 28);
-    [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackout.userInteractionEnabled = NO;
+  int icon_w = 56*2;
+  int screen_w = self.view.bounds.size.width;
+  int screen_h = self.view.bounds.size.height;
 
-    blackoutRight = [[UIView alloc] init];
-    blackoutRight.frame = CGRectMake(220, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
-    [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutRight.userInteractionEnabled = NO;
+  blackout = [[UIView alloc] init];
+  blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, screen_w, (screen_h-(icon_w/2))/2);
+  [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+  blackout.userInteractionEnabled = NO;
 
-    blackoutLeft = [[UIView alloc] init];
-    blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
-    [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutLeft.userInteractionEnabled = NO;
+  blackoutLeft = [[UIView alloc] init];
+  blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, (screen_w-icon_w)/2, screen_h-blackout.frame.size.height);
+  [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+  blackoutLeft.userInteractionEnabled = NO;
+  
+  blackoutRight = [[UIView alloc] init];
+  blackoutRight.frame = CGRectMake((screen_w+icon_w)/2, blackout.frame.size.height, (screen_w-icon_w)/2, screen_h-blackout.frame.size.height);
+  [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+  blackoutRight.userInteractionEnabled = NO;
 
-    blackoutBottom = [[UIView alloc] init];
-    blackoutBottom.frame = CGRectMake(100, (self.view.bounds.size.height / 2) + 92, 120, self.view.bounds.size.height - ((self.view.bounds.size.height / 2) + 92));
-    [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutBottom.userInteractionEnabled = NO;
+  blackoutBottom = [[UIView alloc] init];
+  blackoutBottom.frame = CGRectMake((screen_w-icon_w)/2, blackout.frame.size.height+icon_w, icon_w, screen_h-(blackout.frame.size.height+icon_w));
+  [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+  blackoutBottom.userInteractionEnabled = NO;
 }
 
 - (void) displayBlackout
