@@ -168,8 +168,11 @@
   NSArray *addedDeltas = deltas[@"added"];
   if(addedDeltas.count > 0)
     _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",nil,deltas);
-  for(long i = 0; i < addedDeltas.count; i++)
-    [_MODEL_EVENTS_ runEventPackageId:((Quest *)addedDeltas[i]).active_event_package_id];
+  if([self playerDataReceived])
+  {
+    for(long i = 0; i < addedDeltas.count; i++)
+      [_MODEL_EVENTS_ runEventPackageId:((Quest *)addedDeltas[i]).active_event_package_id];
+  }
 
   NSArray *removedDeltas = deltas[@"removed"];
   if(removedDeltas.count > 0)
@@ -184,8 +187,11 @@
   NSArray *addedDeltas = deltas[@"added"];
   if(addedDeltas.count > 0)
     _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",nil,deltas);
-  for(long i = 0; i < addedDeltas.count; i++)
-    [_MODEL_EVENTS_ runEventPackageId:((Quest *)addedDeltas[i]).complete_event_package_id];
+  if([self playerDataReceived])
+  {
+    for(long i = 0; i < addedDeltas.count; i++)
+      [_MODEL_EVENTS_ runEventPackageId:((Quest *)addedDeltas[i]).complete_event_package_id];
+  }
 
   NSArray *removedDeltas = deltas[@"removed"];
   if(removedDeltas.count > 0)

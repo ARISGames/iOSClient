@@ -160,7 +160,7 @@
   long n_buttons = 0;
   n_buttons++; //either resume or start
   if(!loading_has_been_played && has_been_played) n_buttons++; //reset
-  if(game.allow_download) n_buttons++; //download
+  if(game.allow_download && !use_downloaded_contents) n_buttons++; //download
   
   long b_y = self.view.bounds.size.height-40;
   long b_w = self.view.bounds.size.width/n_buttons;
@@ -171,7 +171,7 @@
   resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
   if(!loading_has_been_played && has_been_played) i++;
   resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
-  if(game.allow_download) i++;
+  if(game.allow_download && !use_downloaded_contents) i++;
   downloadButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
 }
 
@@ -231,7 +231,7 @@
     }
     else
       [self.view addSubview:startButton];
-    if(game.allow_download)
+    if(game.allow_download && !use_downloaded_contents)
       [self.view addSubview:downloadButton];
   }
 
