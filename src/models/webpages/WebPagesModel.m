@@ -113,7 +113,6 @@
     WebPage *w = [[WebPage alloc] initWithDictionary:d_web_pages[i]];
     [webPages setObject:w forKey:[NSNumber numberWithLong:w.web_page_id]];
   }
-
 }
 
 - (void) dealloc

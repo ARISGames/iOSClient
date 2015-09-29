@@ -189,7 +189,6 @@
     Tag *t = [[Tag alloc] initWithDictionary:d_tags[i]];
     [tags setObject:t forKey:[NSNumber numberWithLong:t.tag_id]];
   }
-
 }
 
 - (void) dealloc

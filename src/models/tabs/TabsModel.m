@@ -245,7 +245,6 @@
     Tab *t = [[Tab alloc] initWithDictionary:d_tabs[i]];
     [tabs setObject:t forKey:[NSNumber numberWithLong:t.tab_id]];
   }
-
 }
 
 - (void) dealloc

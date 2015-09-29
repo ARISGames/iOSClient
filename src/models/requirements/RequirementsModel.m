@@ -369,7 +369,7 @@
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
   NSDictionary *d_data = [jsonParser objectWithString:data];
-  
+
   NSArray *d_roots = d_data[@"requirement_roots"];
   for(long i = 0; i < d_roots.count; i++)
   {
@@ -388,7 +388,6 @@
     RequirementAtom *r = [[RequirementAtom alloc] initWithDictionary:d_atoms[i]];
     [requirementAtoms setObject:r forKey:[NSNumber numberWithLong:r.requirement_atom_id]];
   }
-
 }
 
 - (void) dealloc

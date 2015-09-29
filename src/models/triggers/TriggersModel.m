@@ -289,7 +289,6 @@
     Trigger *t = [[Trigger alloc] initWithDictionary:d_triggers[i]];
     [triggers setObject:t forKey:[NSNumber numberWithLong:t.trigger_id]];
   }
-
 }
 
 - (void) dealloc

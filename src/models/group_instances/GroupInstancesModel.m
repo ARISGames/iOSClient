@@ -181,12 +181,33 @@
 
 - (NSString *) serializeModel
 {
-  return @"";
+  NSArray *instances_a = [instances allValues];
+  Instance *i_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"instances\":["];
+  for(long i = 0; i < instances_a.count; i++)
+  {
+    i_o = instances_a[i];
+    [r appendString:[i_o serialize]];
+    if(i != instances_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
 }
 
 - (void) deserializeModel:(NSString *)data
 {
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_instances = d_data[@"instances"];
+  for(long i = 0; i < d_instances.count; i++)
+  {
+    Instance *in = [[Instance alloc] initWithDictionary:d_instances[i]];
+    [instances setObject:in forKey:[NSNumber numberWithLong:in.instance_id]];
+  }
 }
 
 - (void) dealloc

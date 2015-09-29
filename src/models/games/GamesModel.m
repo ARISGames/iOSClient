@@ -281,7 +281,6 @@
 
 - (void) deserializeModel:(NSString *)data
 {
-
 }
 
 - (void) dealloc

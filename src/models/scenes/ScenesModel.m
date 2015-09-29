@@ -198,7 +198,6 @@
     Scene *s = [[Scene alloc] initWithDictionary:d_scenes[i]];
     [scenes setObject:s forKey:[NSNumber numberWithLong:s.scene_id]];
   }
-
 }
 
 - (void) dealloc

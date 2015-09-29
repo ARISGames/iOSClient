@@ -218,7 +218,6 @@
 
 - (NSString *) serializeModel
 {
-  /*
   NSArray *instances_a = [playerInstances allValues];
   Instance *i_o;
 
@@ -232,13 +231,10 @@
   }
   [r appendString:@"]}"];
   return r;
-  */
-  return @"";
 }
 
 - (void) deserializeModel:(NSString *)data
 {
-  /*
   [self clearGameData];
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
@@ -246,10 +242,9 @@
   NSArray *d_instances = d_data[@"instances"];
   for(long i = 0; i < d_instances.count; i++)
   {
-    Instance *i = [[Instance alloc] initWithDictionary:d_instances[i]];
-    [instances setObject:i forKey:[NSNumber numberWithLong:i.instance_id]];
+    Instance *in = [[Instance alloc] initWithDictionary:d_instances[i]];
+    [playerInstances setObject:in forKey:[NSNumber numberWithLong:in.instance_id]];
   }
-   */
 }
 
 - (void) dealloc

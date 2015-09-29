@@ -295,7 +295,6 @@
     Instance *in = [[Instance alloc] initWithDictionary:d_instances[i]];
     [instances setObject:in forKey:[NSNumber numberWithLong:in.instance_id]];
   }
-
 }
 
 - (void) dealloc

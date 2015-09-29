@@ -282,7 +282,6 @@
     Quest *q = [[Quest alloc] initWithDictionary:d_quests[i]];
     [quests setObject:q forKey:[NSNumber numberWithLong:q.quest_id]];
   }
-
 }
 
 - (void) dealloc
