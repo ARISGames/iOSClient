@@ -233,7 +233,6 @@
 		AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71A9172739D70074CC21 /* IconQuestsViewController.m */; };
 		AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */; };
 		AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B0172739D70074CC21 /* QuestsViewController.m */; };
-		AABC7450172739D80074CC21 /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABC7225172739D70074CC21 /* libPusher-combined.a */; };
 		AABC74DB172739D80074CC21 /* NSDictionary+ValidParsers.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7364172739D80074CC21 /* NSDictionary+ValidParsers.m */; };
 		AABC74DC172739D80074CC21 /* NSMutableDictionary+ImageMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7366172739D80074CC21 /* NSMutableDictionary+ImageMetadata.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74DD172739D80074CC21 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7369172739D80074CC21 /* UIDevice+Hardware.m */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -303,11 +302,9 @@
 		ABE735F917D6B96600396CF5 /* arrowForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735F717D6B96600396CF5 /* arrowForward@2x.png */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
+		BE6DFD06EAAC87A8972086B4 /* libPods-ARIS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDEFDD71454153A152F5672 /* libPods-ARIS.a */; };
 		C02FE1881A76BBB300E0B15A /* LoginScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = C02FE1861A76BBB300E0B15A /* LoginScannerViewController.mm */; };
 		C06331541A6055F8002A8026 /* notebooktext@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06331531A6055F8002A8026 /* notebooktext@2x.png */; };
-		C0878F3A1A671CCD001739E3 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = C0878F341A671CCD001739E3 /* base64.c */; };
-		C0878F3B1A671CCD001739E3 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C0878F371A671CCD001739E3 /* NSData+SRB64Additions.m */; };
-		C0878F3C1A671CCD001739E3 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C0878F391A671CCD001739E3 /* SRWebSocket.m */; };
 		C0878F421A672182001739E3 /* LICENCE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0878F3E1A672182001739E3 /* LICENCE.txt */; };
 		C0878F431A672182001739E3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C0878F401A672182001739E3 /* Reachability.m */; };
 		C0878F441A672182001739E3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C0878F411A672182001739E3 /* README.md */; };
@@ -331,6 +328,7 @@
 		11BE779E13B0FCC7000D037B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		11BE77A613B26515000D037B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2EDEFDD71454153A152F5672 /* libPods-ARIS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARIS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AB24ACA152B8CE500B49876 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4AD5C40714E0661E00081B20 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5B1D9981178CC3A700661453 /* shuffle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shuffle@2x.png"; sourceTree = "<group>"; };
@@ -338,6 +336,8 @@
 		5B1D9985178CC3A700661453 /* dark_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark_play@2x.png"; sourceTree = "<group>"; };
 		5B1D9987178CC3A700661453 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
 		5BBA6A6417822F5E00387DBD /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		899886A99577378298DEC8C9 /* Pods-ARIS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARIS.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARIS/Pods-ARIS.release.xcconfig"; sourceTree = "<group>"; };
+		9CC22A53E3957B1FCEA9FD06 /* Pods-ARIS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARIS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARIS/Pods-ARIS.debug.xcconfig"; sourceTree = "<group>"; };
 		A70C6BB619115F2B00A48B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A78FD8AF0F4B7E9400820FEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -688,23 +688,6 @@
 		AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; };
 		AABC71AF172739D70074CC21 /* QuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestsViewController.h; sourceTree = "<group>"; };
 		AABC71B0172739D70074CC21 /* QuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsViewController.m; sourceTree = "<group>"; };
-		AABC7225172739D70074CC21 /* libPusher-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPusher-combined.a"; sourceTree = "<group>"; };
-		AABC7226172739D70074CC21 /* PTEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTEventListener.h; sourceTree = "<group>"; };
-		AABC7227172739D70074CC21 /* PTJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTJSON.h; sourceTree = "<group>"; };
-		AABC7228172739D70074CC21 /* PTJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTJSONParser.h; sourceTree = "<group>"; };
-		AABC7229172739D70074CC21 /* PTPusher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusher.h; sourceTree = "<group>"; };
-		AABC722A172739D70074CC21 /* PTPusherAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherAPI.h; sourceTree = "<group>"; };
-		AABC722B172739D70074CC21 /* PTPusherChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherChannel.h; sourceTree = "<group>"; };
-		AABC722C172739D70074CC21 /* PTPusherConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherConnection.h; sourceTree = "<group>"; };
-		AABC722D172739D70074CC21 /* PTPusherDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherDelegate.h; sourceTree = "<group>"; };
-		AABC722E172739D70074CC21 /* PTPusherErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherErrors.h; sourceTree = "<group>"; };
-		AABC722F172739D70074CC21 /* PTPusherEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherEvent.h; sourceTree = "<group>"; };
-		AABC7230172739D70074CC21 /* PTPusherEventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherEventDispatcher.h; sourceTree = "<group>"; };
-		AABC7231172739D70074CC21 /* PTPusherEventPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherEventPublisher.h; sourceTree = "<group>"; };
-		AABC7232172739D70074CC21 /* PTPusherMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherMacros.h; sourceTree = "<group>"; };
-		AABC7233172739D70074CC21 /* PTPusherMockConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherMockConnection.h; sourceTree = "<group>"; };
-		AABC7234172739D70074CC21 /* PTPusherPresenceChannelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherPresenceChannelDelegate.h; sourceTree = "<group>"; };
-		AABC7235172739D70074CC21 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		AABC7363172739D80074CC21 /* NSDictionary+ValidParsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ValidParsers.h"; sourceTree = "<group>"; };
 		AABC7364172739D80074CC21 /* NSDictionary+ValidParsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ValidParsers.m"; sourceTree = "<group>"; };
 		AABC7365172739D80074CC21 /* NSMutableDictionary+ImageMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+ImageMetadata.h"; sourceTree = "<group>"; };
@@ -825,12 +808,6 @@
 		C02FE1861A76BBB300E0B15A /* LoginScannerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginScannerViewController.mm; sourceTree = "<group>"; };
 		C02FE1871A76BBB300E0B15A /* LoginScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScannerViewController.h; sourceTree = "<group>"; };
 		C06331531A6055F8002A8026 /* notebooktext@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notebooktext@2x.png"; sourceTree = "<group>"; };
-		C0878F341A671CCD001739E3 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
-		C0878F351A671CCD001739E3 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
-		C0878F361A671CCD001739E3 /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SRB64Additions.h"; sourceTree = "<group>"; };
-		C0878F371A671CCD001739E3 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
-		C0878F381A671CCD001739E3 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
-		C0878F391A671CCD001739E3 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
 		C0878F3E1A672182001739E3 /* LICENCE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENCE.txt; sourceTree = "<group>"; };
 		C0878F3F1A672182001739E3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C0878F401A672182001739E3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -890,7 +867,7 @@
 				AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */,
 				AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */,
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
-				AABC7450172739D80074CC21 /* libPusher-combined.a in Frameworks */,
+				BE6DFD06EAAC87A8972086B4 /* libPods-ARIS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,6 +893,8 @@
 				AABC704B1727399C0074CC21 /* gpx_locations */,
 				AABC6F3C1727398B0074CC21 /* assets */,
 				AABC7062172739D60074CC21 /* src */,
+				682A0304208BAB48D76C4238 /* Pods */,
+				A715069B7B8BD49277059151 /* Frameworks */,
 			);
 			name = ARIS;
 			sourceTree = "<group>";
@@ -929,6 +908,23 @@
 				5B1D9987178CC3A700661453 /* stop@2x.png */,
 			);
 			path = audio_visualizer;
+			sourceTree = "<group>";
+		};
+		682A0304208BAB48D76C4238 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9CC22A53E3957B1FCEA9FD06 /* Pods-ARIS.debug.xcconfig */,
+				899886A99577378298DEC8C9 /* Pods-ARIS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A715069B7B8BD49277059151 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2EDEFDD71454153A152F5672 /* libPods-ARIS.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		AA02477A1927D0DD00CF5CE3 /* games */ = {
@@ -1813,11 +1809,9 @@
 			children = (
 				A7E7AE4F1BA67F2A0094C539 /* NewRelicAgent.framework */,
 				C0878F3D1A672182001739E3 /* Reachability */,
-				C0878F331A671CCD001739E3 /* SocketRocket */,
 				AAF7115117B9579900262A37 /* PKRevealController */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71C0172739D70074CC21 /* JSON */,
-				AABC7224172739D70074CC21 /* pusher */,
 			);
 			path = third_party;
 			sourceTree = "<group>";
@@ -1848,30 +1842,6 @@
 				AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */,
 			);
 			path = JSON;
-			sourceTree = "<group>";
-		};
-		AABC7224172739D70074CC21 /* pusher */ = {
-			isa = PBXGroup;
-			children = (
-				AABC7225172739D70074CC21 /* libPusher-combined.a */,
-				AABC7226172739D70074CC21 /* PTEventListener.h */,
-				AABC7227172739D70074CC21 /* PTJSON.h */,
-				AABC7228172739D70074CC21 /* PTJSONParser.h */,
-				AABC7229172739D70074CC21 /* PTPusher.h */,
-				AABC722A172739D70074CC21 /* PTPusherAPI.h */,
-				AABC722B172739D70074CC21 /* PTPusherChannel.h */,
-				AABC722C172739D70074CC21 /* PTPusherConnection.h */,
-				AABC722D172739D70074CC21 /* PTPusherDelegate.h */,
-				AABC722E172739D70074CC21 /* PTPusherErrors.h */,
-				AABC722F172739D70074CC21 /* PTPusherEvent.h */,
-				AABC7230172739D70074CC21 /* PTPusherEventDispatcher.h */,
-				AABC7231172739D70074CC21 /* PTPusherEventPublisher.h */,
-				AABC7232172739D70074CC21 /* PTPusherMacros.h */,
-				AABC7233172739D70074CC21 /* PTPusherMockConnection.h */,
-				AABC7234172739D70074CC21 /* PTPusherPresenceChannelDelegate.h */,
-				AABC7235172739D70074CC21 /* SRWebSocket.h */,
-			);
-			path = pusher;
 			sourceTree = "<group>";
 		};
 		AABC7362172739D80074CC21 /* utils */ = {
@@ -2067,19 +2037,6 @@
 			name = "object default icons";
 			sourceTree = "<group>";
 		};
-		C0878F331A671CCD001739E3 /* SocketRocket */ = {
-			isa = PBXGroup;
-			children = (
-				C0878F341A671CCD001739E3 /* base64.c */,
-				C0878F351A671CCD001739E3 /* base64.h */,
-				C0878F361A671CCD001739E3 /* NSData+SRB64Additions.h */,
-				C0878F371A671CCD001739E3 /* NSData+SRB64Additions.m */,
-				C0878F381A671CCD001739E3 /* SRWebSocket.h */,
-				C0878F391A671CCD001739E3 /* SRWebSocket.m */,
-			);
-			path = SocketRocket;
-			sourceTree = "<group>";
-		};
 		C0878F3D1A672182001739E3 /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
@@ -2107,10 +2064,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ARIS" */;
 			buildPhases = (
+				A7C8C40C7BEFFAE8CD71642C /* Check Pods Manifest.lock */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				AB508AC8119330710002FCFA /* Run Script */,
+				1844493E170AEDC7DE669856 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2273,6 +2232,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1844493E170AEDC7DE669856 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARIS/Pods-ARIS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A7C8C40C7BEFFAE8CD71642C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		AB508AC8119330710002FCFA /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2327,7 +2316,6 @@
 				AAC0D8941930F9D100CA1DE3 /* Scene.m in Sources */,
 				AA6EC33C192E730200D70D38 /* ARISViewController.m in Sources */,
 				AAA682F01ACDA4F300C99951 /* Factory.m in Sources */,
-				C0878F3C1A671CCD001739E3 /* SRWebSocket.m in Sources */,
 				AABC738E172739D80074CC21 /* Logger.m in Sources */,
 				AAC0D8801930F4E200CA1DE3 /* DialogScriptViewController.m in Sources */,
 				AABC738F172739D80074CC21 /* GameComment.m in Sources */,
@@ -2469,11 +2457,9 @@
 				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,
 				AA2B4A6D182AA6FF00A0D2A1 /* NoteContentsViewController.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,
-				C0878F3B1A671CCD001739E3 /* NSData+SRB64Additions.m in Sources */,
 				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,
 				AAD298C917D1160C002A4C47 /* InventoryViewController.m in Sources */,
 				AAF9233B188715C20026A4FC /* Playhead.m in Sources */,
-				C0878F3A1A671CCD001739E3 /* base64.c in Sources */,
 				AA714F1C18D8E23900E91682 /* NotebookNotesViewController.m in Sources */,
 				AA2B4A70182AB84500A0D2A1 /* NoteEditorViewController.m in Sources */,
 				AA2886C31951ED63008AFABF /* Overlay.m in Sources */,
@@ -2499,6 +2485,7 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CC22A53E3957B1FCEA9FD06 /* Pods-ARIS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2518,7 +2505,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PROFILING_CODE = NO;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/src/third_party/SocketRocket";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -2526,6 +2513,7 @@
 					"$(SRCROOT)/**",
 				);
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-all_load",
 					"-v",
 				);
@@ -2558,6 +2546,7 @@
 		};
 		AB1CA8BC13C7D2B700131F81 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 899886A99577378298DEC8C9 /* Pods-ARIS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2575,7 +2564,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PROFILING_CODE = NO;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/src/third_party/SocketRocket";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -2583,6 +2572,7 @@
 					"$(SRCROOT)/**",
 				);
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-all_load",
 					"-v",
 				);
