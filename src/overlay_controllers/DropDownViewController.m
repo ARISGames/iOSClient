@@ -70,7 +70,7 @@
 
 - (void) requestDismiss
 {
-  [UIView animateWithDuration:1 animations:^{self.view.frame = CGRectMake(0,22,self.view.bounds.size.width,1); } completion:^(BOOL finished){[delegate dropDownRequestsDismiss];}];
+  [UIView animateWithDuration:1 animations:^{self.view.frame = CGRectMake(0,22,self.view.bounds.size.width,1); } completion:^(BOOL finished){if(finished) [delegate dropDownRequestsDismiss];}];
 }
 
 @end
