@@ -108,6 +108,7 @@
 
 - (void) enqueueDropDownNotificationWithString:(NSString *)string
 {
+  if([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedAscending) //if < iOS9 (great, simple, readable API, apple...)
     [[MTStatusBarOverlay sharedInstance] postMessage:string duration:5.0];
 }
 

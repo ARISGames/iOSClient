@@ -39,12 +39,14 @@ void mt_dispatch_sync_on_main_thread(dispatch_block_t block);
 #pragma mark Defines
 ////////////////////////////////////////////////////////////////////////
 
+// macro to check if running on at least iOS 8
+#define kMTIsOperatingSystemAtLeast8 [[NSProcessInfo processInfo] respondsToSelector:@selector(isOperatingSystemAtLeastVersion:)] ? [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){8.0, 0.0, 0.0}] : NO
 // the height of the status bar
 #define kStatusBarHeight 20.f
-// width of the screen in portrait-orientation
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-// height of the screen in portrait-orientation
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+// width of the screen in present orientation
+#define kScreenWidth ((kMTIsOperatingSystemAtLeast8) ? [UIScreen mainScreen].nativeBounds.size.width/[UIScreen mainScreen].nativeScale : [UIScreen mainScreen].bounds.size.width)
+// height of the screen in present orientation
+#define kScreenHeight ((kMTIsOperatingSystemAtLeast8) ? [UIScreen mainScreen].nativeBounds.size.height/[UIScreen mainScreen].nativeScale : [UIScreen mainScreen].bounds.size.height)
 // macro for checking if we are on the iPad
 #define IsIPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 // macro for checking if we are on the iPad in iPhone-Emulation mode
@@ -392,8 +394,12 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 		finishedLabel_.backgroundColor = [UIColor clearColor];
 		finishedLabel_.hidden = YES;
 		finishedLabel_.text = kFinishedText;
+#ifdef __IPHONE_6_0
 		finishedLabel_.textAlignment = NSTextAlignmentCenter;
-		finishedLabel_.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:kFinishedFontSize];
+#else
+		finishedLabel_.textAlignment = UITextAlignmentCenter;
+#endif
+		finishedLabel_.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:kFinishedFontSize];
         finishedLabel_.adjustsFontSizeToFitWidth = YES;
 		[self addSubviewToBackgroundView:finishedLabel_];
         
@@ -402,9 +408,14 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 		statusLabel1_.backgroundColor = [UIColor clearColor];
 		statusLabel1_.shadowOffset = CGSizeMake(0.f, 1.f);
 		statusLabel1_.font = [UIFont boldSystemFontOfSize:kStatusLabelSize];
-		statusLabel1_.textAlignment = NSTextAlignmentCenter;
 		statusLabel1_.numberOfLines = 1;
+#ifdef __IPHONE_6_0
+		statusLabel1_.textAlignment = NSTextAlignmentCenter;
 		statusLabel1_.lineBreakMode = NSLineBreakByTruncatingTail;
+#else
+		statusLabel1_.textAlignment = UITextAlignmentCenter;
+		statusLabel1_.lineBreakMode = UILineBreakModeTailTruncation;
+#endif
 		statusLabel1_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self addSubviewToBackgroundView:statusLabel1_];
         
@@ -413,9 +424,14 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 		statusLabel2_.shadowOffset = CGSizeMake(0.f, 1.f);
 		statusLabel2_.backgroundColor = [UIColor clearColor];
 		statusLabel2_.font = [UIFont boldSystemFontOfSize:kStatusLabelSize];
-		statusLabel2_.textAlignment = NSTextAlignmentCenter;
 		statusLabel2_.numberOfLines = 1;
+#ifdef __IPHONE_6_0
+		statusLabel2_.textAlignment = NSTextAlignmentCenter;
 		statusLabel2_.lineBreakMode = NSLineBreakByTruncatingTail;
+#else
+		statusLabel2_.textAlignment = UITextAlignmentCenter;
+		statusLabel2_.lineBreakMode = UILineBreakModeTailTruncation;
+#endif
 		statusLabel2_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self addSubviewToBackgroundView:statusLabel2_];
         
@@ -458,6 +474,15 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
 	delegate_ = nil;
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIWindow
+////////////////////////////////////////////////////////////////////////
+
+- (UIViewController *)rootViewController {
+    return [UIApplication sharedApplication].delegate.window.rootViewController;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -602,7 +627,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 		[self.messageQueue removeObjectsInArray:clearedMessages];
         
 		// call delegate
-		if (false){//(self.delegate && [self.delegate respondsToSelector:@selector(statusBarOverlayDidClearMessageQueue:)] && clearedMessages.count > 0) {
+		if ([self.delegate respondsToSelector:@selector(statusBarOverlayDidClearMessageQueue:)] && clearedMessages.count > 0) {
 			[self.delegate statusBarOverlayDidClearMessageQueue:clearedMessages];
 		}
 	}
@@ -784,19 +809,18 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 	// hide status bar overlay with animation
     [UIView animateWithDuration:self.shrinked ? 0. : kAppearAnimationDuration
                           delay:0 
-                        options:UIViewAnimationOptionAllowUserInteraction
+                        options:UIViewAnimationOptionAllowUserInteraction 
                      animations:^{
 		[self setHidden:YES useAlpha:YES];
 	} completion:^(BOOL finished) {
 		// call delegate
-		if (false){//(self.delegate && [self.delegate respondsToSelector:@selector(statusBarOverlayDidHide)]) {
+		if ([self.delegate respondsToSelector:@selector(statusBarOverlayDidHide)]) {
 			[self.delegate statusBarOverlayDidHide];
 		}
 	}];
 }
 
-- (void) hideTemporary
-{
+- (void)hideTemporary {
     self.forcedToHide = YES;
     
     // hide status bar overlay with animation
@@ -1116,7 +1140,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
             }
         }
         
-		if (false){//(self.delegate && [self.delegate respondsToSelector:@selector(statusBarOverlayDidRecognizeGesture:)]) {
+		if ([self.delegate respondsToSelector:@selector(statusBarOverlayDidRecognizeGesture:)]) {
 			[self.delegate statusBarOverlayDidRecognizeGesture:gestureRecognizer];
 		}
 	}
@@ -1126,7 +1150,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 	if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
 		[self setDetailViewHidden:YES animated:YES];
         
-		if (false){//(self.delegate && [self.delegate respondsToSelector:@selector(statusBarOverlayDidRecognizeGesture:)]) {
+		if ([self.delegate respondsToSelector:@selector(statusBarOverlayDidRecognizeGesture:)]) {
 			[self.delegate statusBarOverlayDidRecognizeGesture:gestureRecognizer];
 		}
 	}
@@ -1136,7 +1160,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 	if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
 		[self setDetailViewHidden:NO animated:YES];
         
-		if (false){//(self.delegate && [self.delegate respondsToSelector:@selector(statusBarOverlayDidRecognizeGesture:)]) {
+		if ([self.delegate respondsToSelector:@selector(statusBarOverlayDidRecognizeGesture:)]) {
 			[self.delegate statusBarOverlayDidRecognizeGesture:gestureRecognizer];
 		}
 	}
@@ -1231,19 +1255,19 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 		// set color of labels depending on messageType
         switch(messageType) {
             case MTMessageTypeFinish:
-                self.statusLabel1.textColor = kDarkThemeFinishedMessageTextColor;
-                self.statusLabel2.textColor = kDarkThemeFinishedMessageTextColor;
-                self.finishedLabel.textColor = kDarkThemeFinishedMessageTextColor;
+                self.statusLabel1.textColor = self.customTextColor ? self.customTextColor: kDarkThemeFinishedMessageTextColor;
+                self.statusLabel2.textColor = self.customTextColor ? self.customTextColor: kDarkThemeFinishedMessageTextColor;
+                self.finishedLabel.textColor = self.customTextColor ? self.customTextColor: kDarkThemeFinishedMessageTextColor;
                 break;
             case MTMessageTypeError:
-                self.statusLabel1.textColor = kDarkThemeErrorMessageTextColor;
-                self.statusLabel2.textColor = kDarkThemeErrorMessageTextColor;
-                self.finishedLabel.textColor = kDarkThemeErrorMessageTextColor;
+                self.statusLabel1.textColor = self.customTextColor ? self.customTextColor: kDarkThemeErrorMessageTextColor;
+                self.statusLabel2.textColor = self.customTextColor ? self.customTextColor: kDarkThemeErrorMessageTextColor;
+                self.finishedLabel.textColor = self.customTextColor ? self.customTextColor: kDarkThemeErrorMessageTextColor;
                 break;
             default:
-                self.statusLabel1.textColor = kDarkThemeTextColor;
-                self.statusLabel2.textColor = kDarkThemeTextColor;
-                self.finishedLabel.textColor = kDarkThemeTextColor;
+                self.statusLabel1.textColor = self.customTextColor ? self.customTextColor: kDarkThemeTextColor;
+                self.statusLabel2.textColor = self.customTextColor ? self.customTextColor: kDarkThemeTextColor;
+                self.finishedLabel.textColor = self.customTextColor ? self.customTextColor: kDarkThemeTextColor;
                 break;
         }
         self.statusLabel1.shadowColor = nil;
@@ -1292,7 +1316,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 			[self.activityIndicator stopAnimating];
             
 			// update font and text
-			self.finishedLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:kFinishedFontSize];
+			self.finishedLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:kFinishedFontSize];
 			self.finishedLabel.text = kFinishedText;
             self.progress = 1.0;
 			break;
@@ -1323,7 +1347,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 }
 
 - (void)callDelegateWithNewMessage:(NSString *)newMessage {
-	if (false){//(self.delegate && [self.delegate respondsToSelector:@selector(statusBarOverlayDidSwitchFromOldMessage:toNewMessage:)]) {
+	if ([self.delegate respondsToSelector:@selector(statusBarOverlayDidSwitchFromOldMessage:toNewMessage:)]) {
 		NSString *oldMessage = nil;
         
 		if (self.messageHistory.count > 0) {
