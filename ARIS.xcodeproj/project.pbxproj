@@ -91,7 +91,6 @@
 		AA3B7FC2182037CB006C9715 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB6182037CB006C9715 /* SBJsonStreamWriterAccumulator.m */; };
 		AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB8182037CB006C9715 /* SBJsonStreamWriterState.m */; };
 		AA3B7FC4182037CB006C9715 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */; };
-		AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */; };
 		AA41A35F18E4CCAE006CB373 /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A35D18E4CCAE006CB373 /* checkmark@2x.png */; };
 		AA41A36018E4CCAE006CB373 /* pencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A35E18E4CCAE006CB373 /* pencil@2x.png */; };
 		AA41A36418E4CD2F006CB373 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A36318E4CD2F006CB373 /* save@2x.png */; };
@@ -263,6 +262,7 @@
 		AAE2F7A11A129DE20042455A /* roll@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE2F7A01A129DE20042455A /* roll@2x.png */; };
 		AAE3C9A91A2537DD001D33CF /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE3C9A81A2537DD001D33CF /* reload.png */; };
 		AAE6BDE31AB0B50E00C2D083 /* PlaqueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6BDE21AB0B50E00C2D083 /* PlaqueViewController.m */; };
+		AAEB74521BBC714B002F49FA /* DropDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAEB74511BBC714B002F49FA /* DropDownViewController.m */; settings = {ASSET_TAGS = (); }; };
 		AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
@@ -447,8 +447,6 @@
 		AA3B7FB8182037CB006C9715 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
 		AA3B7FB9182037CB006C9715 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
-		AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
 		AA41A35D18E4CCAE006CB373 /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
 		AA41A35E18E4CCAE006CB373 /* pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pencil@2x.png"; sourceTree = "<group>"; };
 		AA41A36318E4CD2F006CB373 /* save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
@@ -745,6 +743,8 @@
 		AAE3C9A81A2537DD001D33CF /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
 		AAE6BDE11AB0B50E00C2D083 /* PlaqueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaqueViewController.h; sourceTree = "<group>"; };
 		AAE6BDE21AB0B50E00C2D083 /* PlaqueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaqueViewController.m; sourceTree = "<group>"; };
+		AAEB74501BBC714B002F49FA /* DropDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownViewController.h; sourceTree = "<group>"; };
+		AAEB74511BBC714B002F49FA /* DropDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownViewController.m; sourceTree = "<group>"; };
 		AAF3EEDF1938F2DD00388BE1 /* InstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstancesModel.h; sourceTree = "<group>"; };
 		AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstancesModel.m; sourceTree = "<group>"; };
 		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -1030,15 +1030,6 @@
 				AA34838219C927FC000A60C2 /* ScenesModel.m */,
 			);
 			path = scenes;
-			sourceTree = "<group>";
-		};
-		AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */ = {
-			isa = PBXGroup;
-			children = (
-				AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */,
-				AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */,
-			);
-			path = MTStatusBarOverlay;
 			sourceTree = "<group>";
 		};
 		AA4685A51940C90000721B2B /* tabs */ = {
@@ -1656,6 +1647,8 @@
 		AABC710C172739D60074CC21 /* overlay_controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AAEB74501BBC714B002F49FA /* DropDownViewController.h */,
+				AAEB74511BBC714B002F49FA /* DropDownViewController.m */,
 				AADA6B2D1B14DFA600C0C7A0 /* LoadingIndicatorViewController.h */,
 				AADA6B2E1B14DFA600C0C7A0 /* LoadingIndicatorViewController.m */,
 				AABC710D172739D60074CC21 /* GameNotificationViewController.h */,
@@ -1810,7 +1803,6 @@
 				A7E7AE4F1BA67F2A0094C539 /* NewRelicAgent.framework */,
 				C0878F3D1A672182001739E3 /* Reachability */,
 				AAF7115117B9579900262A37 /* PKRevealController */,
-				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71C0172739D70074CC21 /* JSON */,
 			);
 			path = third_party;
@@ -2346,6 +2338,7 @@
 				AA66CABE18A005150011FE97 /* NoteLocationPickerCrosshairsView.m in Sources */,
 				AA34838319C927FC000A60C2 /* ScenesModel.m in Sources */,
 				F97B42AD18D39DF5002FC8AD /* TriangleButton.m in Sources */,
+				AAEB74521BBC714B002F49FA /* DropDownViewController.m in Sources */,
 				AAD8EFE31A0AD96600E29C8F /* ChangePasswordViewController.m in Sources */,
 				AA34837F19C79BCA000A60C2 /* ScannerViewController.mm in Sources */,
 				AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */,
@@ -2450,7 +2443,6 @@
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AA4A755A1B3CA91A00C434A7 /* EventPackage.m in Sources */,
 				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
-				AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */,
 				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
 				AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */,
 				AA9F7136194F53FA00384832 /* LogsModel.m in Sources */,
