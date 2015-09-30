@@ -21,10 +21,10 @@
     ARISMediaView *mediaView;
     ARISWebView   *descriptionView;
 
-    UIButton *startButton;
-    UIButton *resumeButton;
     UIButton *resetButton;
     UIButton *downloadButton;
+    UIButton *startButton;
+    UIButton *resumeButton;
     UIButton *rateButton;
 
     Game *game;
@@ -82,18 +82,6 @@
     descriptionView.scrollView.scrollEnabled = NO;
     descriptionView.alpha = 0.0; //The descriptionView will resore alpha once it's loaded to avoid the ugly white blob
 
-    startButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal];
-    [startButton setBackgroundColor:[UIColor ARISColorLightBlue]];
-    [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    startButton.titleLabel.font = [ARISTemplate ARISButtonFont];
-
-    resumeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [resumeButton setTitle:NSLocalizedString(@"GameDetailsResumeKey", @"") forState:UIControlStateNormal];
-    [resumeButton setBackgroundColor:[UIColor ARISColorLightBlue]];
-    [resumeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    resumeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
-
     resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [resetButton setTitle:NSLocalizedString(@"GameDetailsResetKey", nil) forState:UIControlStateNormal];
     [resetButton setBackgroundColor:[UIColor ARISColorRed]];
@@ -105,6 +93,18 @@
     [downloadButton setBackgroundColor:[UIColor ARISColorDarkGray]];
     [downloadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     downloadButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+
+    startButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal];
+    [startButton setBackgroundColor:[UIColor ARISColorLightBlue]];
+    [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    startButton.titleLabel.font = [ARISTemplate ARISButtonFont];
+
+    resumeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [resumeButton setTitle:NSLocalizedString(@"GameDetailsResumeKey", @"") forState:UIControlStateNormal];
+    [resumeButton setBackgroundColor:[UIColor ARISColorLightBlue]];
+    [resumeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    resumeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
 
     rateButton  = [UIButton buttonWithType:UIButtonTypeCustom];
     [rateButton setBackgroundColor:[UIColor ARISColorOffWhite]];
@@ -119,10 +119,10 @@
     [rateButton addSubview:starView];
     [rateButton addSubview:reviewsTextView];
 
-    [startButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    [resumeButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [downloadButton addTarget:self action:@selector(downloadButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [startButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [resumeButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [rateButton  addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside];
 
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -158,21 +158,21 @@
   scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
 
   long n_buttons = 0;
-  n_buttons++; //either resume or start
   if(!loading_has_been_played && has_been_played) n_buttons++; //reset
   if(game.allow_download && !use_downloaded_contents) n_buttons++; //download
+  n_buttons++; //either resume or start
   
   long b_y = self.view.bounds.size.height-40;
   long b_w = self.view.bounds.size.width/n_buttons;
   long b_h = 40;
   
   long i = 0;
+  resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
+  if(!loading_has_been_played && has_been_played) i++;
+  downloadButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
+  if(game.allow_download && !use_downloaded_contents) i++;
   startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
   resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
-  if(!loading_has_been_played && has_been_played) i++;
-  resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
-  if(game.allow_download && !use_downloaded_contents) i++;
-  downloadButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
 }
 
 - (void) loadGame
@@ -217,10 +217,10 @@
   if(game.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:game.media_id]];
   else              [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]];
 
-  [startButton removeFromSuperview];
-  [resumeButton removeFromSuperview];
   [resetButton removeFromSuperview];
   [downloadButton removeFromSuperview];
+  [startButton removeFromSuperview];
+  [resumeButton removeFromSuperview];
 
   if(!loading_has_been_played)
   {
