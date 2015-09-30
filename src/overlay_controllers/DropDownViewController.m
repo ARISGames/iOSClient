@@ -15,12 +15,12 @@
 {
     UIView *dropDownView;
     UILabel *label;
-
-    id<DropDownViewDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation DropDownViewController
+
+@synthesize delegate;
 
 - (id) initWithDelegate:(id <DropDownViewDelegate>)d
 {
@@ -70,7 +70,9 @@
 
 - (void) requestDismiss
 {
-  [UIView animateWithDuration:1 animations:^{self.view.frame = CGRectMake(0,22,self.view.bounds.size.width,1); } completion:^(BOOL finished){if(finished) [delegate dropDownRequestsDismiss];}];
+  [UIView animateWithDuration:1
+                   animations:^{self.view.frame = CGRectMake(0,22,self.view.bounds.size.width,1); }
+                   completion:^(BOOL finished){if(delegate)[delegate dropDownRequestsDismiss];}];
 }
 
 @end

@@ -14,6 +14,11 @@
 @end
 
 @interface DropDownViewController : ARISViewController
+{
+  id<DropDownViewDelegate> __weak delegate;
+}
+
+@property (nonatomic, weak) id delegate;
 
 - (id) initWithDelegate:(id <DropDownViewDelegate>)d;
 - (void) setString:(NSString *)s;

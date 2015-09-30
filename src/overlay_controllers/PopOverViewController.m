@@ -21,12 +21,12 @@
     ARISMediaView *iconMediaView;
     UILabel *header;
     UILabel *prompt;
-
-    id<PopOverViewDelegate> __unsafe_unretained delegate;
 }
 @end
 
 @implementation PopOverViewController
+
+@synthesize delegate;
 
 - (id) initWithDelegate:(id <PopOverViewDelegate>)d
 {

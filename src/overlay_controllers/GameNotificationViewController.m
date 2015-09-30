@@ -228,6 +228,8 @@
 
 - (void) dealloc
 {
+  if(popOverVC.delegate == self) popOverVC.delegate = nil;
+  if(dropDownVC.delegate == self) dropDownVC.delegate = nil;
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
