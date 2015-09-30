@@ -332,7 +332,7 @@
                                                            loadingIndicatorViewController.view.frame.size.height);
 
     [vc.view addSubview:gameNotificationViewController.view];
-    [vc.view addSubview:loadingIndicatorViewController.view];
+    //[vc.view addSubview:loadingIndicatorViewController.view]; //disabled for now (should work fine though!)
 }
 
 - (void) displayTab:(Tab *)t
