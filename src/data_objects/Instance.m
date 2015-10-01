@@ -22,6 +22,7 @@
 @synthesize qty;
 @synthesize infinite_qty;
 @synthesize factory_id;
+@synthesize created;
 
 - (id) init
 {
@@ -35,6 +36,7 @@
     self.qty = 0;
     self.infinite_qty = NO;
     self.factory_id = 0;
+    self.created = [NSDate date];
   }
   return self;
 }
@@ -51,6 +53,7 @@
     self.qty = [dict validIntForKey:@"qty"];
     self.infinite_qty = [dict validBoolForKey:@"infinite_qty"];
     self.factory_id = [dict validIntForKey:@"factory_id"];
+    self.created = [dict validDateForKey:@"created"];
   }
   return self;
 }
@@ -66,6 +69,7 @@
   [d setObject:[NSString stringWithFormat:@"%ld",self.qty] forKey:@"qty"];
   [d setObject:[NSString stringWithFormat:@"%d",self.infinite_qty] forKey:@"infinite_qty"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.factory_id] forKey:@"factory_id"];
+  [d setObject:[self.created descriptionWithLocale:nil] forKey:@"created"];
   return [NSString JSONFromFlatStringDict:d];
 }
 
@@ -79,6 +83,7 @@
   self.qty = i.qty;
   self.infinite_qty = i.infinite_qty;
   self.factory_id = i.factory_id;
+  self.created = i.created;
 }
 
 - (Instance *) copy
@@ -93,6 +98,7 @@
   c.qty = self.qty;
   c.infinite_qty = self.infinite_qty;
   c.factory_id = self.factory_id;
+  c.created = self.created;
 
   return c;
 }
