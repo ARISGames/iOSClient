@@ -53,7 +53,7 @@
     self.qty = [dict validIntForKey:@"qty"];
     self.infinite_qty = [dict validBoolForKey:@"infinite_qty"];
     self.factory_id = [dict validIntForKey:@"factory_id"];
-    self.created = [dict validDateForKey:@"created"]; //can't trust? out of sync?
+    //self.created = [dict validDateForKey:@"created"]; //can't trust? out of sync?
     self.created = [NSDate date];
   }
   return self;

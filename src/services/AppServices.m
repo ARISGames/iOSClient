@@ -1656,6 +1656,7 @@
 - (void) parseInstance:(ARISServiceResult *)result
 {
     NSDictionary *instanceDict= (NSDictionary *)result.resultData;
+  if(!result.resultData || [result.resultData isEqual:[NSNull null]]) return;
     Instance *instance = [[Instance alloc] initWithDictionary:instanceDict];
     _ARIS_NOTIF_SEND_(@"SERVICES_INSTANCE_RECEIVED", nil, @{@"instance":instance});
 }
