@@ -186,14 +186,32 @@
   if([self playerDataReceived] &&
      ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
   {
+    NSMutableArray *rejected = [[NSMutableArray alloc] init]; 
     NSMutableArray *ptrigs = [[NSMutableArray alloc] init];
     NSArray *ts = [triggers allValues];
     for(int i = 0; i < ts.count; i++)
     {
       Trigger *t = ts[i];
-      if(t.scene_id == _MODEL_SCENES_.playerScene.scene_id  && [_MODEL_REQUIREMENTS_ evaluateRequirementRoot:t.requirement_root_package_id])
-        [ptrigs addObject:t];
+      if(!t.scene_id == _MODEL_SCENES_.playerScene.scene_id  || ![_MODEL_REQUIREMENTS_ evaluateRequirementRoot:t.requirement_root_package_id]) continue;
+      
+      Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
+      if(!i) continue;
+      
+      if(i.factory_id)
+      {
+        Factory *f = [_MODEL_FACTORIES_ factoryForId:i.factory_id];
+        if(!f) continue;
+        int time = [[NSDate date] timeIntervalSinceDate:i.created];
+        NSLog(@"%d",time);
+        if(time > f.produce_expiration_time)
+        {
+          [rejected addObject:i];
+          continue;
+        }
+      }
+      [ptrigs addObject:t];
     }
+    NSLog(@"Accepted: %lu, Rejected: %lu",(unsigned long)ptrigs.count,(unsigned long)rejected.count);
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",nil,@{@"triggers":ptrigs});
   }
   if(![self playerDataReceived] ||

@@ -53,7 +53,8 @@
     self.qty = [dict validIntForKey:@"qty"];
     self.infinite_qty = [dict validBoolForKey:@"infinite_qty"];
     self.factory_id = [dict validIntForKey:@"factory_id"];
-    self.created = [dict validDateForKey:@"created"];
+    self.created = [dict validDateForKey:@"created"]; //can't trust? out of sync?
+    self.created = [NSDate date];
   }
   return self;
 }
@@ -83,7 +84,8 @@
   self.qty = i.qty;
   self.infinite_qty = i.infinite_qty;
   self.factory_id = i.factory_id;
-  self.created = i.created;
+  //self.created = i.created; //can't trust (see above)
+  if(!self.created) self.created = i.created;
 }
 
 - (Instance *) copy
