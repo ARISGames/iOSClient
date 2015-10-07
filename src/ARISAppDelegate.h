@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate>
 {
   UIWindow *window;
+  Reachability *reachability;
 }
 
 @property (nonatomic, strong) UIWindow *window;
+@property (nonatomic, strong) Reachability *reachability;
 
 - (void) vibrate;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;

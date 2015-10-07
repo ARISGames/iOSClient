@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 
+#import "ARISAppDelegate.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 
@@ -183,7 +184,10 @@
 
 - (void) attemptLogin
 {
-  [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
+  ARISAppDelegate *ad = [[UIApplication sharedApplication] delegate];
+  if([ad.reachability currentReachabilityStatus] == NotReachable)
+    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"No Connection" message:@"Ensure you are connected to the internet, then try again."];
+  else [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField

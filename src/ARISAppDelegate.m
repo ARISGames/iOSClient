@@ -14,7 +14,6 @@
 #import <CoreLocation/CLLocationManager.h>
 #import <CoreMotion/CoreMotion.h>
 #import "AudioToolbox/AudioToolbox.h"
-#import "Reachability.h"
 #import "User.h"
 #import <Crashlytics/Crashlytics.h>
 
@@ -25,7 +24,6 @@
 
 @interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate, CLLocationManagerDelegate>
 {
-  Reachability *reachability;
   CLLocationManager *locationManager;
   NSTimer *locationPoller;
   CLLocation *lastKnownLocation;
@@ -36,6 +34,7 @@
 @implementation ARISAppDelegate
 
 @synthesize window;
+@synthesize reachability;
 
 - (void) applicationDidFinishLaunching:(UIApplication *)application
 {
