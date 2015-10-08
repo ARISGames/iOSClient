@@ -6,6 +6,8 @@
 //
 
 #import "PlayerSettingsViewController.h"
+
+#import <AVFoundation/AVFoundation.h> //for check if camera available
 #import "ARISMediaView.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
@@ -156,25 +158,28 @@
 
 - (void) takePicture
 {
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+  AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
 
-        UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(40, 12, 300, 33)];
-        instructions.backgroundColor = [UIColor clearColor];
-        instructions.textColor = [UIColor whiteColor];
-        instructions.text = NSLocalizedString(@"TakeYourPictureKey", @"");
+  if((status != AVAuthorizationStatusDenied && status != AVAuthorizationStatusRestricted) &&
+    [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+  {
+      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
 
-        [picker.view addSubview:instructions];
-        picker.delegate = self;
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        if([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
-            picker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-        else
-            picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-        picker.allowsEditing = YES;
-        picker.showsCameraControls = YES;
-        [self presentViewController:picker animated:NO completion:nil];
+      UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(40, 12, 300, 33)];
+      instructions.backgroundColor = [UIColor clearColor];
+      instructions.textColor = [UIColor whiteColor];
+      instructions.text = NSLocalizedString(@"TakeYourPictureKey", @"");
+
+      [picker.view addSubview:instructions];
+      picker.delegate = self;
+      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+      if([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
+          picker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+      else
+          picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+      picker.allowsEditing = YES;
+      picker.showsCameraControls = YES;
+      [self presentViewController:picker animated:NO completion:nil];
     }
 
     return;
