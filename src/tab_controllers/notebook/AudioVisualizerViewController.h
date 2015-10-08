@@ -13,6 +13,6 @@
 - (void) fileWasTrimmed:(NSURL *)u;
 @end
 
-@interface AudioVisualizerViewController : ARISViewController 
+@interface AudioVisualizerViewController : ARISViewController
 - (id) initWithAudioURL:(NSURL *)u delegate:(id<AudioVisualizerViewControllerDelegate>)d;
 @end

@@ -8,6 +8,7 @@
 
 #import "NoteComment.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 #import "User.h"
 
 @implementation NoteComment
@@ -18,7 +19,7 @@
 @synthesize name;
 @synthesize desc;
 @synthesize user_display_name;
-@synthesize created; 
+@synthesize created;
 
 - (id) init
 {
@@ -37,21 +38,33 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-        self.note_comment_id = [dict validIntForKey:@"note_comment_id"];
-        self.note_id         = [dict validIntForKey:@"note_id"];
-        self.user_id         = [dict validIntForKey:@"user_id"];
-        self.name            = [dict validObjectForKey:@"name"];
-        self.desc            = [dict validObjectForKey:@"description"];
-        self.created         = [dict validDateForKey:@"created"];
+  if(self = [super init])
+  {
+    self.note_comment_id = [dict validIntForKey:@"note_comment_id"];
+    self.note_id         = [dict validIntForKey:@"note_id"];
+    self.user_id         = [dict validIntForKey:@"user_id"];
+    self.name            = [dict validStringForKey:@"name"];
+    self.desc            = [dict validStringForKey:@"description"];
+    self.created         = [dict validDateForKey:@"created"];
 
-        if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"] != nil)
-        {
-          self.user_display_name = [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"];
-        }
+    if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validStringForKey:@"display_name"] != nil)
+    {
+      self.user_display_name = [[dict validObjectForKey:@"user"] validStringForKey:@"display_name"];
     }
-    return self;
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.note_comment_id] forKey:@"note_comment_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.note_id] forKey:@"note_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.user_id] forKey:@"user_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:[self.created descriptionWithLocale:nil] forKey:@"created"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (void) mergeDataFromNoteComment:(NoteComment *)n
@@ -71,3 +84,4 @@
 }
 
 @end
+

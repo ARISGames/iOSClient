@@ -24,7 +24,7 @@
 
 @synthesize mediaLoader;
 
-+ (id) sharedAppServices
++ (AppServices *) sharedAppServices
 {
   static dispatch_once_t pred = 0;
   __strong static id _sharedObject = nil;
@@ -40,7 +40,7 @@
   {
     connection = [[ARISConnection alloc] initWithServer:_MODEL_.serverURL graveyard:_MODEL_.servicesGraveyard];
     mediaLoader = [[ARISMediaLoader alloc] init];
-  _ARIS_NOTIF_LISTEN_(@"WifiConnected",self,@selector(retryFailedRequests),nil);
+  _ARIS_NOTIF_LISTEN_(@"WIFI_CONNECTED",self,@selector(retryFailedRequests),nil);
   }
   return self;
 }
@@ -48,6 +48,7 @@
 
 - (void) retryFailedRequests
 {
+  _ARIS_LOG_(@"Retrying Failed Requests...");
   [_MODEL_.servicesGraveyard reviveRequestsWithConnection:connection];
 }
 
@@ -61,7 +62,7 @@
       @"email"        :email,
       @"password"     :password
     };
-  [connection performAsynchronousRequestWithService:@"users" method:@"createUser" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"users" method:@"createUser" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO humanDesc:@"Creating User..." userInfo:nil];
 }
 
 - (void) generateUserFromGroup:(NSString *)group_name
@@ -70,7 +71,7 @@
     @{
       @"group_name" :group_name
     };
-  [connection performAsynchronousRequestWithService:@"users" method:@"autoGenerateUser" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO userInfo:nil];    
+  [connection performAsynchronousRequestWithService:@"users" method:@"autoGenerateUser" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO humanDesc:@"Creating User..." userInfo:nil];
 }
 
 - (void) logInUserWithName:(NSString *)user_name password:(NSString *)password;
@@ -81,7 +82,7 @@
       @"password"   :password,
       @"permission" :@"read_write"
     };
-  [connection performAsynchronousRequestWithService:@"users" method:@"logIn" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"users" method:@"logIn" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO humanDesc:@"Loggin In..." userInfo:nil];
 }
 
 - (void) parseLoginResponse:(ARISServiceResult *)result
@@ -97,7 +98,7 @@
     @{
       @"email":email
     };
-  [connection performAsynchronousRequestWithService:@"users" method:@"requestForgotPasswordEmail" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"users" method:@"requestForgotPasswordEmail" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO humanDesc:@"Sending Reset Email..." userInfo:nil];
 }
 
 - (void) parseResetPassword:(ARISServiceResult *)result
@@ -114,7 +115,7 @@
       @"old_password":oldp,
       @"new_password":newp
     };
-  [connection performAsynchronousRequestWithService:@"users" method:@"changePassword" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"users" method:@"changePassword" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO humanDesc:@"Changing Password..." userInfo:nil];
 }
 
 - (void) parseChangePassword:(ARISServiceResult *)result
@@ -131,7 +132,7 @@
       @"user_id":[NSNumber numberWithLong:_MODEL_PLAYER_.user_id],
       @"display_name":display_name
     };
-  [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseResetPassword:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Player..." userInfo:nil];
 }
 
 - (void) parseUpdatePlayerName:(ARISServiceResult *)result
@@ -149,10 +150,10 @@
       @"media":
         @{
           @"file_name":[media.localURL absoluteString],
-          @"data":[media.data base64Encoding]
+          @"data":[media.data base64EncodedStringWithOptions:0]
         }
      };
-    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Player..." userInfo:nil];
 }
 - (void) parseUpdatePlayerMedia:(ARISServiceResult *)result
 {
@@ -178,7 +179,7 @@
         @{
           @"game_id":[NSNumber numberWithLong:game_id]
         };
-  [connection performAsynchronousRequestWithService:@"games" method:@"getFullGame" arguments:args handler:self successSelector:@selector(parseGame:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"games" method:@"getFullGame" arguments:args handler:self successSelector:@selector(parseGame:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Game..." userInfo:nil];
 }
 - (void) parseGame:(ARISServiceResult *)result
 {
@@ -194,7 +195,7 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"page":[NSNumber numberWithLong:0]
         };
-  [connection performAsynchronousRequestWithService:@"client" method:@"getNearbyGamesForPlayer" arguments:args handler:self successSelector:@selector(parseNearbyGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getNearbyGamesForPlayer" arguments:args handler:self successSelector:@selector(parseNearbyGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Nearby Games..." userInfo:nil];
 }
 - (void) parseNearbyGames:(ARISServiceResult *)result
 {
@@ -210,7 +211,7 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"page":[NSNumber numberWithLong:0]
         };
-  [connection performAsynchronousRequestWithService:@"client" method:@"getAnywhereGamesForPlayer" arguments:args handler:self successSelector:@selector(parseAnywhereGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getAnywhereGamesForPlayer" arguments:args handler:self successSelector:@selector(parseAnywhereGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Anywhere Games..." userInfo:nil];
 }
 - (void) parseAnywhereGames:(ARISServiceResult *)result
 {
@@ -226,7 +227,7 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"page":[NSNumber numberWithLong:0]
         };
-  [connection performAsynchronousRequestWithService:@"client" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Recent Games..." userInfo:nil];
 }
 - (void) parseRecentGames:(ARISServiceResult *)result
 {
@@ -243,7 +244,7 @@
             @"interval":i,//@"MONTH",
             @"page":[NSNumber numberWithLong:0]
         };
-  [connection performAsynchronousRequestWithService:@"client" method:@"getPopularGamesForPlayer" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getPopularGamesForPlayer" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Popular Games..." userInfo:nil];
 }
 - (void) parsePopularGames:(ARISServiceResult *)result
 {
@@ -260,7 +261,7 @@
             @"text":search,
             @"page":[NSNumber numberWithLong:0]
         };
-  [connection performAsynchronousRequestWithService:@"client" method:@"getSearchGamesForPlayer" arguments:args handler:self successSelector:@selector(parseSearchGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getSearchGamesForPlayer" arguments:args handler:self successSelector:@selector(parseSearchGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Search for Games..." userInfo:nil];
 }
 - (void) parseSearchGames:(ARISServiceResult *)result
 {
@@ -276,7 +277,7 @@
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"page":[NSNumber numberWithLong:0]
         };
-  [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerGamesForPlayer" arguments:args handler:self successSelector:@selector(parseMineGames:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerGamesForPlayer" arguments:args handler:self successSelector:@selector(parseMineGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching My Games..." userInfo:nil];
 }
 - (void) parseMineGames:(ARISServiceResult *)result
 {
@@ -289,7 +290,7 @@
         @{
             @"game_id":[NSString stringWithFormat:@"%ld",game_id],
         };
-  [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerPlayedGame" arguments:args handler:self successSelector:@selector(parsePlayerPlayedGame:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"client" method:@"getPlayerPlayedGame" arguments:args handler:self successSelector:@selector(parsePlayerPlayedGame:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Game Progress..." userInfo:nil];
 }
 - (void) parsePlayerPlayedGame:(ARISServiceResult *)result
 {
@@ -305,7 +306,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"users" method:@"getUsersForGame" arguments:args handler:self successSelector:@selector(parseUsers:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"users" method:@"getUsersForGame" arguments:args handler:self successSelector:@selector(parseUsers:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Users..." userInfo:nil];
 }
 - (void) parseUsers:(ARISServiceResult *)result
 {
@@ -322,7 +323,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"scenes" method:@"getScenesForGame" arguments:args handler:self successSelector:@selector(parseScenes:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"scenes" method:@"getScenesForGame" arguments:args handler:self successSelector:@selector(parseScenes:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Scenes..." userInfo:nil];
 }
 - (void) parseScenes:(ARISServiceResult *)result
 {
@@ -340,11 +341,42 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"client" method:@"touchSceneForPlayer" arguments:args handler:self successSelector:@selector(parseSceneTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil]; //technically a game fetch
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchSceneForPlayer" arguments:args handler:self successSelector:@selector(parseSceneTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Game..." userInfo:nil]; //technically a game fetch
 }
 - (void) parseSceneTouch:(ARISServiceResult *)result
 {
     _ARIS_NOTIF_SEND_(@"SERVICES_SCENE_TOUCHED", nil, nil);
+}
+
+- (void) fetchGroups
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
+    };
+  [connection performAsynchronousRequestWithService:@"groups" method:@"getGroupsForGame" arguments:args handler:self successSelector:@selector(parseGroups:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Groups..." userInfo:nil];
+}
+- (void) parseGroups:(ARISServiceResult *)result
+{
+    NSArray *groupDicts = (NSArray *)result.resultData;
+    NSMutableArray *groups = [[NSMutableArray alloc] init];
+    for(long i = 0; i < groupDicts.count; i++)
+        groups[i] = [[Group alloc] initWithDictionary:groupDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_GROUPS_RECEIVED", nil, @{@"groups":groups});
+}
+
+//creates player group for game if not already created
+- (void) touchGroupForPlayer
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchGroupForPlayer" arguments:args handler:self successSelector:@selector(parseGroupTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Game..." userInfo:nil]; //technically a game fetch
+}
+- (void) parseGroupTouch:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_GROUP_TOUCHED", nil, nil);
 }
 
 - (void) fetchMedias
@@ -353,7 +385,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"media" method:@"getMediaForGame" arguments:args handler:self successSelector:@selector(parseMedias:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"media" method:@"getMediaForGame" arguments:args handler:self successSelector:@selector(parseMedias:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Media..." userInfo:nil];
 }
 - (void) parseMedias:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
 {
@@ -367,7 +399,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaquesForGame" arguments:args handler:self successSelector:@selector(parsePlaques:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaquesForGame" arguments:args handler:self successSelector:@selector(parsePlaques:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Plaques..." userInfo:nil];
 }
 - (void) parsePlaques:(ARISServiceResult *)result
 {
@@ -384,7 +416,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForGame" arguments:args handler:self successSelector:@selector(parseItems:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"items" method:@"getItemsForGame" arguments:args handler:self successSelector:@selector(parseItems:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Items..." userInfo:nil];
 }
 - (void) parseItems:(ARISServiceResult *)result
 {
@@ -403,11 +435,41 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForPlayer" arguments:args handler:self successSelector:@selector(parseItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil]; //technically a game fetch
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
 }
-- (void) parseItemTouch:(ARISServiceResult *)result
+- (void) parsePlayerItemTouch:(ARISServiceResult *)result
 {
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_INSTANCES_TOUCHED", nil, nil);
+}
+
+//creates game owned item instances (qty 0) for all items not already owned
+//makes any item qty transfers 100000x easier
+- (void) touchItemsForGame
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGame" arguments:args handler:self successSelector:@selector(parseGameItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
+}
+- (void) parseGameItemTouch:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_GAME_INSTANCES_TOUCHED", nil, nil);
+}
+
+//creates game owned item instances (qty 0) for all items not already owned
+//makes any item qty transfers 100000x easier
+- (void) touchItemsForGroups
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGroups" arguments:args handler:self successSelector:@selector(parseGroupItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
+}
+- (void) parseGroupItemTouch:(ARISServiceResult *)result
+{
+    _ARIS_NOTIF_SEND_(@"SERVICES_GROUP_INSTANCES_TOUCHED", nil, nil);
 }
 
 - (void) fetchDialogs
@@ -416,7 +478,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogsForGame" arguments:args handler:self successSelector:@selector(parseDialogs:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogsForGame" arguments:args handler:self successSelector:@selector(parseDialogs:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Dialogs..." userInfo:nil];
 }
 - (void) parseDialogs:(ARISServiceResult *)result
 {
@@ -433,7 +495,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogCharactersForGame" arguments:args handler:self successSelector:@selector(parseDialogCharacters:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogCharactersForGame" arguments:args handler:self successSelector:@selector(parseDialogCharacters:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Characters..." userInfo:nil];
 }
 - (void) parseDialogCharacters:(ARISServiceResult *)result
 {
@@ -450,7 +512,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
     };
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogScriptsForGame" arguments:args handler:self successSelector:@selector(parseDialogScripts:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogScriptsForGame" arguments:args handler:self successSelector:@selector(parseDialogScripts:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Scripts..." userInfo:nil];
 }
 - (void) parseDialogScripts:(ARISServiceResult *)result
 {
@@ -467,7 +529,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
     };
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogOptionsForGame" arguments:args handler:self successSelector:@selector(parseDialogOptions:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogOptionsForGame" arguments:args handler:self successSelector:@selector(parseDialogOptions:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Options..." userInfo:nil];
 }
 - (void) parseDialogOptions:(ARISServiceResult *)result
 {
@@ -484,7 +546,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"web_pages" method:@"getWebPagesForGame" arguments:args handler:self successSelector:@selector(parseWebPages:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"web_pages" method:@"getWebPagesForGame" arguments:args handler:self successSelector:@selector(parseWebPages:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Web Pages..." userInfo:nil];
 }
 - (void) parseWebPages:(ARISServiceResult *)result
 {
@@ -501,7 +563,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"notes" method:@"getNotesForGame" arguments:args handler:self successSelector:@selector(parseNotes:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"getNotesForGame" arguments:args handler:self successSelector:@selector(parseNotes:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Notes..." userInfo:nil];
 }
 - (void) parseNotes:(ARISServiceResult *)result
 {
@@ -518,7 +580,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"note_comments" method:@"getNoteCommentsForGame" arguments:args handler:self successSelector:@selector(parseNoteComments:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"note_comments" method:@"getNoteCommentsForGame" arguments:args handler:self successSelector:@selector(parseNoteComments:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Comments..." userInfo:nil];
 }
 - (void) parseNoteComments:(ARISServiceResult *)result
 {
@@ -536,7 +598,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"tags" method:@"getTagsForGame" arguments:args handler:self successSelector:@selector(parseTags:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"tags" method:@"getTagsForGame" arguments:args handler:self successSelector:@selector(parseTags:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Tags..." userInfo:nil];
 }
 - (void) parseTags:(ARISServiceResult *)result
 {
@@ -554,7 +616,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"tags" method:@"getObjectTagsForGame" arguments:args handler:self successSelector:@selector(parseObjectTags:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"tags" method:@"getObjectTagsForGame" arguments:args handler:self successSelector:@selector(parseObjectTags:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Tags..." userInfo:nil];
 }
 - (void) parseObjectTags:(ARISServiceResult *)result
 {
@@ -571,7 +633,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"events" method:@"getEventsForGame" arguments:args handler:self successSelector:@selector(parseEvents:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"events" method:@"getEventsForGame" arguments:args handler:self successSelector:@selector(parseEvents:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Events..." userInfo:nil];
 }
 - (void) parseEvents:(ARISServiceResult *)result
 {
@@ -588,7 +650,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForGame" arguments:args handler:self successSelector:@selector(parseQuests:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuestsForGame" arguments:args handler:self successSelector:@selector(parseQuests:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Quests..." userInfo:nil];
 }
 - (void) parseQuests:(ARISServiceResult *)result
 {
@@ -606,7 +668,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"owner_id":[NSNumber numberWithLong:0] //could leave this out and get same result, but would rather be explicit
       };
-    [connection performAsynchronousRequestWithService:@"instances" method:@"getInstancesForGame" arguments:args handler:self successSelector:@selector(parseInstances:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"instances" method:@"getInstancesForGame" arguments:args handler:self successSelector:@selector(parseInstances:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Instances..." userInfo:nil];
 }
 - (void) parseInstances:(ARISServiceResult *)result
 {
@@ -623,7 +685,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"triggers" method:@"getTriggersForGame" arguments:args handler:self successSelector:@selector(parseTriggers:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"triggers" method:@"getTriggersForGame" arguments:args handler:self successSelector:@selector(parseTriggers:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Triggers..." userInfo:nil];
 }
 - (void) parseTriggers:(ARISServiceResult *)result
 {
@@ -640,7 +702,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"factories" method:@"getFactoriesForGame" arguments:args handler:self successSelector:@selector(parseFactories:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"factories" method:@"getFactoriesForGame" arguments:args handler:self successSelector:@selector(parseFactories:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Factories..." userInfo:nil];
 }
 - (void) parseFactories:(ARISServiceResult *)result
 {
@@ -657,7 +719,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForGame" arguments:args handler:self successSelector:@selector(parseOverlays:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlaysForGame" arguments:args handler:self successSelector:@selector(parseOverlays:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Overlays..." userInfo:nil];
 }
 - (void) parseOverlays:(ARISServiceResult *)result
 {
@@ -674,7 +736,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"tabs" method:@"getTabsForGame" arguments:args handler:self successSelector:@selector(parseTabs:) failSelector:@selector(gameFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"tabs" method:@"getTabsForGame" arguments:args handler:self successSelector:@selector(parseTabs:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Tabs..." userInfo:nil];
 }
 - (void) parseTabs:(ARISServiceResult *)result
 {
@@ -685,13 +747,82 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_TABS_RECEIVED", nil, @{@"tabs":tabs});
 }
 
+- (void) fetchRequirementRoots
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"requirements" method:@"getRequirementRootPackagesForGame" arguments:args handler:self successSelector:@selector(parseRequirementRootPackages:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Requirement Roots..." userInfo:nil];
+}
+- (void) parseRequirementRootPackages:(ARISServiceResult *)result
+{
+    NSArray *rrpDicts = (NSArray *)result.resultData;
+    NSMutableArray *rrps = [[NSMutableArray alloc] init];
+    for(long i = 0; i < rrpDicts.count; i++)
+        rrps[i] = [[RequirementRootPackage alloc] initWithDictionary:rrpDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_REQUIREMENT_ROOT_PACKAGES_RECEIVED", nil, @{@"requirement_root_packages":rrps});
+}
+
+- (void) fetchRequirementAnds
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"requirements" method:@"getRequirementAndPackagesForGame" arguments:args handler:self successSelector:@selector(parseRequirementAndPackages:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Requirement Ands..." userInfo:nil];
+}
+- (void) parseRequirementAndPackages:(ARISServiceResult *)result
+{
+    NSArray *rapDicts = (NSArray *)result.resultData;
+    NSMutableArray *raps = [[NSMutableArray alloc] init];
+    for(long i = 0; i < rapDicts.count; i++)
+        raps[i] = [[RequirementAndPackage alloc] initWithDictionary:rapDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_REQUIREMENT_AND_PACKAGES_RECEIVED", nil, @{@"requirement_and_packages":raps});
+}
+
+- (void) fetchRequirementAtoms
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"requirements" method:@"getRequirementAtomsForGame" arguments:args handler:self successSelector:@selector(parseRequirementAtoms:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching Requirement Atoms..." userInfo:nil];
+}
+- (void) parseRequirementAtoms:(ARISServiceResult *)result
+{
+    NSArray *aDicts = (NSArray *)result.resultData;
+    NSMutableArray *as = [[NSMutableArray alloc] init];
+    for(long i = 0; i < aDicts.count; i++)
+        as[i] = [[RequirementAtom alloc] initWithDictionary:aDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_REQUIREMENT_ATOMS_RECEIVED", nil, @{@"requirement_atoms":as});
+}
+
+
+- (void) fetchLogsForPlayer
+{
+     NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"getLogsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerLogs:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Logs..." userInfo:nil];
+}
+- (void) parsePlayerLogs:(ARISServiceResult *)result
+{
+    NSArray *logDicts = (NSArray *)result.resultData;
+    NSMutableArray *logs = [[NSMutableArray alloc] init];
+    for(long i = 0; i < logDicts.count; i++)
+        logs[i] = [[Log alloc] initWithDictionary:logDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_LOGS_RECEIVED", nil, @{@"logs":logs});
+}
+
 - (void) fetchSceneForPlayer
 {
      NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getSceneForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerScene:) failSelector:@selector(playerFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"getSceneForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerScene:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Scene..." userInfo:nil];
 }
 - (void) parsePlayerScene:(ARISServiceResult *)result
 {
@@ -703,21 +834,22 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_SCENE_RECEIVED", nil, @{@"scene":s});
 }
 
-- (void) fetchLogsForPlayer
+- (void) fetchGroupForPlayer
 {
      NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getLogsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerLogs:) failSelector:@selector(playerFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"getGroupForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerGroup:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Group..." userInfo:nil];
 }
-- (void) parsePlayerLogs:(ARISServiceResult *)result
+- (void) parsePlayerGroup:(ARISServiceResult *)result
 {
-    NSArray *logDicts = (NSArray *)result.resultData;
-    NSMutableArray *logs = [[NSMutableArray alloc] init];
-    for(long i = 0; i < logDicts.count; i++)
-        logs[i] = [[Log alloc] initWithDictionary:logDicts[i]];
-    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_LOGS_RECEIVED", nil, @{@"logs":logs});
+    Group *s;
+    if(result.resultData && ![result.resultData isEqual:[NSNull null]])
+        s = [[Group alloc] initWithDictionary:(NSDictionary *)result.resultData];
+    else
+        s = [[Group alloc] init];
+    _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_GROUP_RECEIVED", nil, @{@"group":s});
 }
 
 - (void) fetchInstancesForPlayer
@@ -727,7 +859,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"owner_id":[NSNumber numberWithLong:_MODEL_PLAYER_.user_id]
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getInstancesForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerInstances:) failSelector:@selector(playerFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"getInstancesForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerInstances:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Instances..." userInfo:nil];
 }
 - (void) parsePlayerInstances:(ARISServiceResult *)result
 {
@@ -745,7 +877,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"tick_factories":[NSNumber numberWithLong:1]
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getTriggersForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerTriggers:) failSelector:@selector(playerFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"getTriggersForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerTriggers:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Triggers..." userInfo:nil];
 }
 - (void) parsePlayerTriggers:(ARISServiceResult *)result
 {
@@ -762,7 +894,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerOverlays:) failSelector:@selector(playerFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"getOverlaysForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerOverlays:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Overlays..." userInfo:nil];
 }
 - (void) parsePlayerOverlays:(ARISServiceResult *)result
 {
@@ -779,7 +911,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerQuests:) failSelector:@selector(playerFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"getQuestsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerQuests:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Quests..." userInfo:nil];
 }
 - (void) parsePlayerQuests:(ARISServiceResult *)result
 {
@@ -806,7 +938,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getTabsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerTabs:) failSelector:@selector(playerFetchFailed) retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"getTabsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerTabs:) failSelector:@selector(playerFetchFailed) retryOnFail:NO humanDesc:@"Fetching Current Tabs..." userInfo:nil];
 }
 - (void) parsePlayerTabs:(ARISServiceResult *)result
 {
@@ -822,10 +954,10 @@
      NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
-      @"dialog_id":[NSNumber numberWithLong:dialog_id], 
+      @"dialog_id":[NSNumber numberWithLong:dialog_id],
       @"dialog_script_id":[NSNumber numberWithLong:dialog_script_id],
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"getOptionsForPlayerForDialogScript" arguments:args handler:self successSelector:@selector(parsePlayerOptionsForScript:) failSelector:nil retryOnFail:NO userInfo:@{@"dialog_script_id":[NSNumber numberWithLong:dialog_script_id],@"dialog_id":[NSNumber numberWithLong:dialog_id]}];
+    [connection performAsynchronousRequestWithService:@"client" method:@"getOptionsForPlayerForDialogScript" arguments:args handler:self successSelector:@selector(parsePlayerOptionsForScript:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Current Options..." userInfo:@{@"dialog_script_id":[NSNumber numberWithLong:dialog_script_id],@"dialog_id":[NSNumber numberWithLong:dialog_id]}];
 }
 - (void) parsePlayerOptionsForScript:(ARISServiceResult *)result
 {
@@ -844,10 +976,10 @@
      NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
-      @"instance_id":[NSNumber numberWithLong:instance_id], 
+      @"instance_id":[NSNumber numberWithLong:instance_id],
       @"qty":[NSNumber numberWithLong:qty],
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"setQtyForInstance" arguments:args handler:self successSelector:@selector(parseSetQtyForInstance:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"setQtyForInstance" arguments:args handler:self successSelector:@selector(parseSetQtyForInstance:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Inventory..." userInfo:nil];
 }
 - (void) parseSetQtyForInstance:(ARISServiceResult *)result
 {
@@ -861,16 +993,30 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"scene_id":[NSNumber numberWithLong:scene_id]
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"setPlayerScene" arguments:args handler:self successSelector:@selector(parseSetPlayerScene:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"client" method:@"setPlayerScene" arguments:args handler:self successSelector:@selector(parseSetPlayerScene:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Scene..." userInfo:nil];
 }
 - (void) parseSetPlayerScene:(ARISServiceResult *)result
 {
     //nothing need be done
 }
 
+- (void) setPlayerGroupId:(long)group_id
+{
+     NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:group_id]
+      };
+    [connection performAsynchronousRequestWithService:@"client" method:@"setPlayerGroup" arguments:args handler:self successSelector:@selector(parseSetPlayerGroup:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Group..." userInfo:nil];
+}
+- (void) parseSetPlayerGroup:(ARISServiceResult *)result
+{
+    //nothing need be done
+}
+
 - (void) dropItem:(long)item_id qty:(long)qty
 {
-    NSDictionary *args = 
+    NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"item_id":[NSNumber numberWithLong:item_id],
@@ -878,7 +1024,7 @@
       @"latitude":[NSNumber numberWithDouble:_MODEL_PLAYER_.location.coordinate.latitude],
       @"longitude":[NSNumber numberWithDouble:_MODEL_PLAYER_.location.coordinate.longitude]
       };
-    [connection performAsynchronousRequestWithService:@"client" method:@"dropItem" arguments:args handler:self successSelector:@selector(parseDropItem:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"client" method:@"dropItem" arguments:args handler:self successSelector:@selector(parseDropItem:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Map..." userInfo:nil];
 }
 - (void) parseDropItem:(ARISServiceResult *)result
 {
@@ -896,11 +1042,11 @@
      } mutableCopy];
     if(m)
     {
-      args[@"media"] = 
+      args[@"media"] =
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
-          @"data":[m.data base64Encoding]
+          @"data":[m.data base64EncodedStringWithOptions:0]
         };
     }
     if(t)
@@ -909,14 +1055,14 @@
     }
     if(tr)
     {
-      args[@"trigger"] = 
+      args[@"trigger"] =
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"latitude":[NSNumber numberWithDouble:tr.location.coordinate.latitude],
            @"longitude":[NSNumber numberWithDouble:tr.location.coordinate.longitude]
         };
     }
-    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"notes" method:@"createNote" arguments:args handler:self successSelector:@selector(parseCreateNote:) failSelector:nil retryOnFail:YES humanDesc:@"Creating Note..." userInfo:nil];
 }
 - (void) parseCreateNote:(ARISServiceResult *)result
 {
@@ -940,11 +1086,11 @@
      } mutableCopy];
     if(m)
     {
-      args[@"media"] = 
+      args[@"media"] =
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"file_name":[m.localURL absoluteString],
-           @"data":[m.data base64Encoding]
+           @"data":[m.data base64EncodedStringWithOptions:0]
         };
     }
     if(t)
@@ -957,14 +1103,14 @@
     }
     if(tr)
     {
-      args[@"trigger"] = 
+      args[@"trigger"] =
         @{
            @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
            @"latitude":[NSNumber numberWithDouble:tr.location.coordinate.latitude],
            @"longitude":[NSNumber numberWithDouble:tr.location.coordinate.longitude]
         };
     }
-    [connection performAsynchronousRequestWithService:@"notes" method:@"updateNote" arguments:args handler:self successSelector:@selector(parseUpdateNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"notes" method:@"updateNote" arguments:args handler:self successSelector:@selector(parseUpdateNote:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Note..." userInfo:nil];
 }
 - (void) parseUpdateNote:(ARISServiceResult *)result
 {
@@ -980,7 +1126,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"note_id":[NSNumber numberWithLong:note_id],
      };
-    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(parseDeleteNote:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"notes" method:@"deleteNote" arguments:args handler:self successSelector:@selector(parseDeleteNote:) failSelector:nil retryOnFail:NO humanDesc:@"Deleting Note..." userInfo:nil];
 }
 - (void) parseDeleteNote:(ARISServiceResult *)result
 {
@@ -998,7 +1144,7 @@
       @"name":n.name,
       @"description":n.desc,
       };
-    [connection performAsynchronousRequestWithService:@"note_comments" method:@"createNoteComment" arguments:args handler:self successSelector:@selector(parseCreateNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"createNoteComment" arguments:args handler:self successSelector:@selector(parseCreateNoteComment:) failSelector:nil retryOnFail:NO humanDesc:@"Creating Comment..." userInfo:nil];
 }
 - (void) parseCreateNoteComment:(ARISServiceResult *)result
 {
@@ -1018,7 +1164,7 @@
       @"name":n.name,
       @"description":n.desc,
      };
-    [connection performAsynchronousRequestWithService:@"note_comments" method:@"updateNoteComment" arguments:args handler:self successSelector:@selector(parseUpdateNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"updateNoteComment" arguments:args handler:self successSelector:@selector(parseUpdateNoteComment:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Comment..." userInfo:nil];
 }
 - (void) parseUpdateNoteComment:(ARISServiceResult *)result
 {
@@ -1034,7 +1180,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"note_comment_id":[NSNumber numberWithLong:note_comment_id],
      };
-    [connection performAsynchronousRequestWithService:@"note_comments" method:@"deleteNoteComment" arguments:args handler:self successSelector:@selector(parseDeleteNoteComment:) failSelector:nil retryOnFail:NO userInfo:nil];   
+    [connection performAsynchronousRequestWithService:@"note_comments" method:@"deleteNoteComment" arguments:args handler:self successSelector:@selector(parseDeleteNoteComment:) failSelector:nil retryOnFail:NO humanDesc:@"Deleting Comment..." userInfo:nil];
 }
 - (void) parseDeleteNoteComment:(ARISServiceResult *)result
 {
@@ -1053,7 +1199,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerBeganGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerBeganGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Game Entry..." userInfo:nil];
 }
 - (void) logPlayerResetGame:(long)game_id
 {
@@ -1061,7 +1207,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:game_id],
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerResetGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerResetGame" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Game Reset..." userInfo:nil];
 }
 - (void) logPlayerMoved
 {
@@ -1071,7 +1217,7 @@
       @"latitude":[NSNumber numberWithDouble:_MODEL_PLAYER_.location.coordinate.latitude],
       @"longitude":[NSNumber numberWithDouble:_MODEL_PLAYER_.location.coordinate.longitude]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerMoved" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerMoved" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Movement..." userInfo:nil];
 }
 - (void) logPlayerViewedTabId:(long)tab_id
 {
@@ -1080,7 +1226,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"tab_id":[NSNumber numberWithLong:tab_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedTab" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedTab" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Tab View..." userInfo:nil];
 }
 - (void) logPlayerViewedPlaqueId:(long)plaque_id
 {
@@ -1090,7 +1236,7 @@
       @"content_type":@"PLAQUE",
       @"content_id":[NSNumber numberWithLong:plaque_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Logging Plaque View..." userInfo:nil];
 }
 - (void) logPlayerViewedItemId:(long)item_id
 {
@@ -1100,7 +1246,7 @@
       @"content_type":@"ITEM",
       @"content_id":[NSNumber numberWithLong:item_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Logging Item View..." userInfo:nil];
 }
 - (void) logPlayerViewedDialogId:(long)dialog_id
 {
@@ -1110,7 +1256,7 @@
       @"content_type":@"DIALOG",
       @"content_id":[NSNumber numberWithLong:dialog_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Logging Dialog View..." userInfo:nil];
 }
 - (void) logPlayerViewedDialogScriptId:(long)dialog_script_id
 {
@@ -1120,7 +1266,7 @@
       @"content_type":@"DIALOG_SCRIPT",
       @"content_id":[NSNumber numberWithLong:dialog_script_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Logging Script View..." userInfo:nil];
 }
 - (void) logPlayerViewedWebPageId:(long)web_page_id
 {
@@ -1130,7 +1276,7 @@
       @"content_type":@"WEB_PAGE",
       @"content_id":[NSNumber numberWithLong:web_page_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Logging Web Page View..." userInfo:nil];
 }
 - (void) logPlayerViewedNoteId:(long)note_id
 {
@@ -1140,7 +1286,7 @@
       @"content_type":@"NOTE",
       @"content_id":[NSNumber numberWithLong:note_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Logging Note View..." userInfo:nil];
 }
 - (void) logPlayerViewedSceneId:(long)scene_id
 {
@@ -1150,7 +1296,7 @@
       @"content_type":@"SCENE",
       @"content_id":[NSNumber numberWithLong:scene_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedContent" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Scene Entry..." userInfo:nil];
 }
 - (void) logPlayerViewedInstanceId:(long)instance_id
 {
@@ -1159,7 +1305,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"instance_id":[NSNumber numberWithLong:instance_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedInstance" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerViewedInstance" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Logging Instance View..." userInfo:nil];
 }
 - (void) logPlayerTriggeredTriggerId:(long)trigger_id
 {
@@ -1168,7 +1314,7 @@
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       @"trigger_id":[NSNumber numberWithLong:trigger_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerTriggeredTrigger" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO userInfo:nil]; 
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerTriggeredTrigger" arguments:args handler:self successSelector:@selector(triggerGameUpdateForLogEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Logging Trigger..." userInfo:nil];
 }
 - (void) logPlayerReceivedItemId:(long)item_id qty:(long)qty
 {
@@ -1178,7 +1324,7 @@
       @"item_id":[NSNumber numberWithLong:item_id],
       @"qty":[NSNumber numberWithLong:qty]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerReceivedItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerReceivedItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Inventory Update..." userInfo:nil];
 }
 - (void) logPlayerLostItemId:(long)item_id qty:(long)qty
 {
@@ -1188,18 +1334,86 @@
       @"item_id":[NSNumber numberWithLong:item_id],
       @"qty":[NSNumber numberWithLong:qty]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerLostItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerLostItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Inventory Update..." userInfo:nil];
+}
+- (void) logGameReceivedItemId:(long)item_id qty:(long)qty
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"item_id":[NSNumber numberWithLong:item_id],
+      @"qty":[NSNumber numberWithLong:qty]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logGameReceivedItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Global Value Update..." userInfo:nil];
+}
+- (void) logGameLostItemId:(long)item_id qty:(long)qty
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"item_id":[NSNumber numberWithLong:item_id],
+      @"qty":[NSNumber numberWithLong:qty]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logGameLostItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Global Value Update..." userInfo:nil];
+}
+- (void) logGroupReceivedItemId:(long)item_id qty:(long)qty
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:0],
+      @"item_id":[NSNumber numberWithLong:item_id],
+      @"qty":[NSNumber numberWithLong:qty]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logGroupReceivedItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Global Value Update..." userInfo:nil];
+}
+- (void) logGroupLostItemId:(long)item_id qty:(long)qty
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:0],
+      @"item_id":[NSNumber numberWithLong:item_id],
+      @"qty":[NSNumber numberWithLong:qty]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logGroupLostItem" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Global Value Update..." userInfo:nil];
 }
 - (void) logPlayerSetSceneId:(long)scene_id
 {
     NSDictionary *args =
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
-      @"item_id":[NSNumber numberWithLong:scene_id]
+      @"scene_id":[NSNumber numberWithLong:scene_id]
     };
-    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerSetScene" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO userInfo:nil];
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerSetScene" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Scene Change..." userInfo:nil];
 }
-
+- (void) logPlayerJoinedGroupId:(long)group_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"group_id":[NSNumber numberWithLong:group_id]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerJoinedGroup" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Group Change..." userInfo:nil];
+}
+- (void) logPlayerRanEventPackageId:(long)event_package_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"event_package_id":[NSNumber numberWithLong:event_package_id]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerRanEventPackage" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Event Run..." userInfo:nil];
+}
+- (void) logPlayerCompletedQuestId:(long)quest_id
+{
+    NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
+      @"quest_id":[NSNumber numberWithLong:quest_id]
+    };
+    [connection performAsynchronousRequestWithService:@"client" method:@"logPlayerCompletedQuest" arguments:args handler:self successSelector:nil failSelector:nil retryOnFail:NO humanDesc:@"Logging Quest Complete..." userInfo:nil];
+}
 
 
 - (void) fetchUserById:(long)user_id;
@@ -1208,7 +1422,7 @@
     @{
       @"user_id":[NSNumber numberWithLong:user_id]
       };
-  [connection performAsynchronousRequestWithService:@"users" method:@"getUser" arguments:args handler:self successSelector:@selector(parseUser:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"users" method:@"getUser" arguments:args handler:self successSelector:@selector(parseUser:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching User..." userInfo:nil];
 }
 - (void) parseUser:(ARISServiceResult *)result
 {
@@ -1223,7 +1437,7 @@
     @{
       @"scene_id":[NSNumber numberWithLong:scene_id]
       };
-  [connection performAsynchronousRequestWithService:@"scenes" method:@"getScene" arguments:args handler:self successSelector:@selector(parseScene:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"scenes" method:@"getScene" arguments:args handler:self successSelector:@selector(parseScene:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Scene..." userInfo:nil];
 }
 - (void) parseScene:(ARISServiceResult *)result
 {
@@ -1232,13 +1446,29 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_SCENE_RECEIVED", nil, @{@"scene":scene});
 }
 
+- (void) fetchGroupById:(long)group_id;
+{
+  NSDictionary *args =
+    @{
+      @"group_id":[NSNumber numberWithLong:group_id]
+      };
+  [connection performAsynchronousRequestWithService:@"groups" method:@"getGroup" arguments:args handler:self successSelector:@selector(parseGroup:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Group..." userInfo:nil];
+}
+
+- (void) parseGroup:(ARISServiceResult *)result
+{
+    NSDictionary *groupDict= (NSDictionary *)result.resultData;
+    Group *group = [[Group alloc] initWithDictionary:groupDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_GROUP_RECEIVED", nil, @{@"group":group});
+}
+
 - (void) fetchMediaById:(long)media_id;
 {
   NSDictionary *args =
     @{
       @"media_id":[NSNumber numberWithLong:media_id]
       };
-  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Media..." userInfo:nil];
 }
 - (void) parseMedia:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
 {
@@ -1252,7 +1482,7 @@
     @{
       @"plaque_id":[NSNumber numberWithLong:plaque_id]
       };
-  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaque" arguments:args handler:self successSelector:@selector(parsePlaque:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"plaques" method:@"getPlaque" arguments:args handler:self successSelector:@selector(parsePlaque:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Plaque..." userInfo:nil];
 }
 - (void) parsePlaque:(ARISServiceResult *)result
 {
@@ -1267,7 +1497,7 @@
     @{
       @"item_id":[NSNumber numberWithLong:item_id]
       };
-  [connection performAsynchronousRequestWithService:@"items" method:@"getItem" arguments:args handler:self successSelector:@selector(parseItem:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"items" method:@"getItem" arguments:args handler:self successSelector:@selector(parseItem:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Item..." userInfo:nil];
 }
 - (void) parseItem:(ARISServiceResult *)result
 {
@@ -1282,7 +1512,7 @@
     @{
       @"dialog_id":[NSNumber numberWithLong:dialog_id]
       };
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialog" arguments:args handler:self successSelector:@selector(parseDialog:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialog" arguments:args handler:self successSelector:@selector(parseDialog:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Dialog..." userInfo:nil];
 }
 - (void) parseDialog:(ARISServiceResult *)result
 {
@@ -1297,7 +1527,7 @@
     @{
       @"dialog_character_id":[NSNumber numberWithLong:character_id]
       };
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogCharacter" arguments:args handler:self successSelector:@selector(parseDialogCharacter:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogCharacter" arguments:args handler:self successSelector:@selector(parseDialogCharacter:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Character..." userInfo:nil];
 }
 - (void) parseDialogCharacter:(ARISServiceResult *)result
 {
@@ -1312,7 +1542,7 @@
     @{
       @"dialog_script_id":[NSNumber numberWithLong:script_id]
       };
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogScript" arguments:args handler:self successSelector:@selector(parseDialogScript:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogScript" arguments:args handler:self successSelector:@selector(parseDialogScript:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Script..." userInfo:nil];
 }
 - (void) parseDialogScript:(ARISServiceResult *)result
 {
@@ -1327,7 +1557,7 @@
     @{
       @"dialog_option_id":[NSNumber numberWithLong:option_id]
       };
-  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogOption" arguments:args handler:self successSelector:@selector(parseDialogOption:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"dialogs" method:@"getDialogOption" arguments:args handler:self successSelector:@selector(parseDialogOption:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Option..." userInfo:nil];
 }
 - (void) parseDialogOption:(ARISServiceResult *)result
 {
@@ -1342,7 +1572,7 @@
     @{
       @"web_page_id":[NSNumber numberWithLong:web_page_id]
       };
-  [connection performAsynchronousRequestWithService:@"web_pages" method:@"getWebPage" arguments:args handler:self successSelector:@selector(parseWebPage:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"web_pages" method:@"getWebPage" arguments:args handler:self successSelector:@selector(parseWebPage:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Web Page..." userInfo:nil];
 }
 - (void) parseWebPage:(ARISServiceResult *)result
 {
@@ -1357,7 +1587,7 @@
     @{
       @"note_id":[NSNumber numberWithLong:note_id]
       };
-  [connection performAsynchronousRequestWithService:@"notes" method:@"getNote" arguments:args handler:self successSelector:@selector(parseNote:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"notes" method:@"getNote" arguments:args handler:self successSelector:@selector(parseNote:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Note..." userInfo:nil];
 }
 - (void) parseNote:(ARISServiceResult *)result
 {
@@ -1376,7 +1606,7 @@
     @{
       @"tag_id":[NSNumber numberWithLong:tag_id]
       };
-  [connection performAsynchronousRequestWithService:@"tags" method:@"getTag" arguments:args handler:self successSelector:@selector(parseTag:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"tags" method:@"getTag" arguments:args handler:self successSelector:@selector(parseTag:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Tag..." userInfo:nil];
 }
 - (void) parseTag:(ARISServiceResult *)result
 {
@@ -1391,7 +1621,7 @@
     @{
       @"event_id":[NSNumber numberWithLong:event_id]
       };
-  [connection performAsynchronousRequestWithService:@"events" method:@"getEvent" arguments:args handler:self successSelector:@selector(parseEvent:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"events" method:@"getEvent" arguments:args handler:self successSelector:@selector(parseEvent:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Event..." userInfo:nil];
 }
 - (void) parseEvent:(ARISServiceResult *)result
 {
@@ -1406,7 +1636,7 @@
     @{
       @"quest_id":[NSNumber numberWithLong:quest_id]
       };
-  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuest" arguments:args handler:self successSelector:@selector(parseQuest:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"quests" method:@"getQuest" arguments:args handler:self successSelector:@selector(parseQuest:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Quest..." userInfo:nil];
 }
 - (void) parseQuest:(ARISServiceResult *)result
 {
@@ -1421,11 +1651,12 @@
     @{
       @"instance_id":[NSNumber numberWithLong:instance_id]
       };
-  [connection performAsynchronousRequestWithService:@"instances" method:@"getInstance" arguments:args handler:self successSelector:@selector(parseInstance:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"instances" method:@"getInstance" arguments:args handler:self successSelector:@selector(parseInstance:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Instance..." userInfo:nil];
 }
 - (void) parseInstance:(ARISServiceResult *)result
 {
     NSDictionary *instanceDict= (NSDictionary *)result.resultData;
+  if(!result.resultData || [result.resultData isEqual:[NSNull null]]) return;
     Instance *instance = [[Instance alloc] initWithDictionary:instanceDict];
     _ARIS_NOTIF_SEND_(@"SERVICES_INSTANCE_RECEIVED", nil, @{@"instance":instance});
 }
@@ -1436,7 +1667,7 @@
     @{
       @"trigger_id":[NSNumber numberWithLong:trigger_id]
       };
-  [connection performAsynchronousRequestWithService:@"triggers" method:@"getTrigger" arguments:args handler:self successSelector:@selector(parseTrigger:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"triggers" method:@"getTrigger" arguments:args handler:self successSelector:@selector(parseTrigger:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Trigger..." userInfo:nil];
 }
 - (void) parseTrigger:(ARISServiceResult *)result
 {
@@ -1451,7 +1682,7 @@
     @{
       @"factory_id":[NSNumber numberWithLong:factory_id]
       };
-  [connection performAsynchronousRequestWithService:@"factories" method:@"getFactory" arguments:args handler:self successSelector:@selector(parseFactory:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"factories" method:@"getFactory" arguments:args handler:self successSelector:@selector(parseFactory:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Factory..." userInfo:nil];
 }
 - (void) parseFactory:(ARISServiceResult *)result
 {
@@ -1466,7 +1697,7 @@
     @{
       @"overlay_id":[NSNumber numberWithLong:overlay_id]
       };
-  [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlay" arguments:args handler:self successSelector:@selector(parseOverlay:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"overlays" method:@"getOverlay" arguments:args handler:self successSelector:@selector(parseOverlay:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Overlay..." userInfo:nil];
 }
 - (void) parseOverlay:(ARISServiceResult *)result
 {
@@ -1481,7 +1712,7 @@
     @{
       @"tab_id":[NSNumber numberWithLong:tab_id]
       };
-  [connection performAsynchronousRequestWithService:@"tabs" method:@"getTab" arguments:args handler:self successSelector:@selector(parseTab:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"tabs" method:@"getTab" arguments:args handler:self successSelector:@selector(parseTab:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Tab..." userInfo:nil];
 }
 - (void) parseTab:(ARISServiceResult *)result
 {
@@ -1514,14 +1745,14 @@
 {
   NSDictionary *mdict = [[NSDictionary alloc] initWithObjectsAndKeys:
     [m.localURL absoluteString],@"filename",
-    [m.data base64Encoding],@"data",
+    [m.data base64EncodedStringWithOptions:0],@"data",
     nil];
 
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
     [NSNumber numberWithLong:_MODEL_PLAYER_.user_id],    @"user_id",
     mdict,                                                                 @"media",
     nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"uploadPlayerMediaFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:nil retryOnFail:NO userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"players" method:@"uploadPlayerMediaFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:nil retryOnFail:NO humanDesc:@"Uploading Player Pic..." userInfo:nil];
 }
 
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(long) noteId type: (NSString *)type
@@ -1536,7 +1767,7 @@
   NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
     @"object", @"key",
     nil];
-  [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(noteContentUploadDidFinish:) failSelector:@selector(uploadNoteContentDidFail:) retryOnFail:NO userInfo:userInfo];
+  [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(noteContentUploadDidFinish:) failSelector:@selector(uploadNoteContentDidFail:) retryOnFail:NO humanDesc:@"Uploading Note Content..." userInfo:userInfo];
 }
 
 @end

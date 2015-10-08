@@ -30,7 +30,7 @@
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     if (isPointingLeft) {
         CGContextBeginPath(context);
         CGContextMoveToPoint(context, CGRectGetMaxX(rect), CGRectGetMinY(rect));
@@ -48,7 +48,7 @@
         CGContextClosePath(context);
         [self setTitleEdgeInsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 10.0f)];
     }
-    
+
     const CGFloat *colorComponents = CGColorGetComponents(triangleColor.CGColor);
     CGContextSetRGBFillColor(context, colorComponents[0], colorComponents[1], colorComponents[2], 1);
     CGContextFillPath(context);

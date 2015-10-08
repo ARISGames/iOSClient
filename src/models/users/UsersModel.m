@@ -13,12 +13,12 @@
 #import "UsersModel.h"
 #import "AppServices.h"
 #import "AppModel.h"
+#import "SBJson.h"
 
 @interface UsersModel()
 {
-    NSMutableDictionary *users;
-
-    NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
+  NSMutableDictionary *users;
+  NSMutableDictionary *blacklist; //list of ids attempting / attempted and failed to load
 }
 @end
 
@@ -26,62 +26,76 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self clearData];
+  if(self = [super init])
+  {
+    [self clearData];
 
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_USERS_RECEIVED",self,@selector(usersReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_USER_RECEIVED",self,@selector(userReceived:),nil);
-    }
-    return self;
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_USERS_RECEIVED",self,@selector(usersReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_USER_RECEIVED",self,@selector(userReceived:),nil);
+  }
+  return self;
 }
 
 - (void) clearData
 {
-    users  = [[NSMutableDictionary alloc] init];
-    blacklist = [[NSMutableDictionary alloc] init];
+  users  = [[NSMutableDictionary alloc] init];
+  blacklist = [[NSMutableDictionary alloc] init];
+}
+
+- (void) requestGameData
+{
+  [self requestUsers];
+}
+- (void) clearGameData
+{
+  n_game_data_received = 0;
+}
+- (long) nGameDataToReceive
+{
+  return 1;
 }
 
 - (void) usersReceived:(NSNotification *)notif
 {
-    [self updateUsers:notif.userInfo[@"users"]];
+  [self updateUsers:notif.userInfo[@"users"]];
 }
 
 - (void) userReceived:(NSNotification *)notif
 {
-    [self updateUsers:@[notif.userInfo[@"user"]]];
+  [self updateUsers:@[notif.userInfo[@"user"]]];
 }
 
 - (void) updateUsers:(NSArray *)newUsers
 {
-    User *newUser;
-    NSNumber *newUserId;
-    for(long i = 0; i < newUsers.count; i++)
+  User *newUser;
+  NSNumber *newUserId;
+  for(long i = 0; i < newUsers.count; i++)
+  {
+    newUser = [newUsers objectAtIndex:i];
+    newUserId = [NSNumber numberWithLong:newUser.user_id];
+    if(![users objectForKey:newUserId])
     {
-      newUser = [newUsers objectAtIndex:i];
-      newUserId = [NSNumber numberWithLong:newUser.user_id];
-      if(![users objectForKey:newUserId])
-      {
-        [users setObject:newUser forKey:newUserId];
-        [blacklist removeObjectForKey:[NSNumber numberWithLong:newUserId]];
-      }
-      else
-        [[users objectForKey:newUserId] mergeDataFromUser:newUser];
+      [users setObject:newUser forKey:newUserId];
+      [blacklist removeObjectForKey:[NSNumber numberWithLong:newUserId]];
     }
-    _ARIS_NOTIF_SEND_(@"MODEL_USERS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil); //weird... not "game" piece. whatever.
+    else
+      [[users objectForKey:newUserId] mergeDataFromUser:newUser];
+  }
+  n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"MODEL_USERS_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil); //weird... not "game" piece. whatever.
 }
 
 - (NSArray *) conformUsersListToFlyweight:(NSArray *)newUsers
 {
-    NSMutableArray *conformingUsers = [[NSMutableArray alloc] init];
-    User *u;
-    for(long i = 0; i < newUsers.count; i++)
-    {
-        if((u = [self userForId:((User *)newUsers[i]).user_id]))
-            [conformingUsers addObject:u];
-    }
-    return conformingUsers;
+  NSMutableArray *conformingUsers = [[NSMutableArray alloc] init];
+  User *u;
+  for(long i = 0; i < newUsers.count; i++)
+  {
+    if((u = [self userForId:((User *)newUsers[i]).user_id]))
+      [conformingUsers addObject:u];
+  }
+  return conformingUsers;
 }
 
 - (void) requestUsers       { [_SERVICES_ fetchUsers]; }
@@ -100,9 +114,34 @@
   return t;
 }
 
+- (NSString *) serializedName
+{
+  return @"users";
+}
+
+- (NSString *) serializeGameData
+{
+  return @"";
+}
+
+- (void) deserializeGameData:(NSString *)data
+{
+
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
+}
+
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

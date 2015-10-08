@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "Media.h"
 #import "ARISDelegateHandle.h"
+#import <AVFoundation/AVFoundation.h>
 
 @protocol ARISMediaLoaderDelegate
 - (void) mediaLoaded:(Media *)m;
@@ -17,10 +18,10 @@
 
 @interface MediaResult : NSObject
 {
-  Media *media; 
-  NSMutableData *data; 
+  Media *media;
+  NSMutableData *data;
   NSURL *url;
-  NSURLConnection *connection; 
+  NSURLConnection *connection;
 
   NSDate *start;
   NSTimeInterval time;
@@ -42,6 +43,6 @@
 @interface ARISMediaLoader : NSObject
 
 //Un-enforcable, but supplied delegate handle's delegate must be of type id<ARISMediaLoaderDelegate>
-- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh; 
+- (void) loadMedia:(Media *)m delegateHandle:(ARISDelegateHandle *)dh;
 
 @end

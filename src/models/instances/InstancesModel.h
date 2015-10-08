@@ -7,19 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Instance.h"
 
-@interface InstancesModel : NSObject
+@interface InstancesModel : ARISModel
 
 - (Instance *) instanceForId:(long)instance_id;
 - (NSArray *) instancesForType:(NSString *)object_type id:(long)object_id;
 
 - (long) setQtyForInstanceId:(long)instance_id qty:(long)qty;
 - (NSArray *) playerInstances;
+- (NSArray *) gameOwnedInstances;
+- (NSArray *) groupOwnedInstances;
 - (void) requestInstances;
-- (void) requestPlayerInstances;
+- (void) requestPlayerInstances; //game-owned fits in this category
 
-- (void) clearPlayerData;
-- (void) clearGameData;
+- (void) clearPlayerData; //game-owned fits in this category
 
 @end
+

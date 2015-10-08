@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Log.h"
 #import "Tab.h"
 
-@interface LogsModel : NSObject
+@interface LogsModel : ARISModel
 
 - (Log *) logForId:(long)log_id;
 - (void) requestPlayerLogs;
-- (void) clearPlayerData;
 
 - (void) playerEnteredGame;
 - (void) playerMoved;
@@ -24,6 +24,18 @@
 - (void) playerTriggeredTriggerId:(long)trigger_id;
 - (void) playerReceivedItemId:(long)item_id qty:(long)qty;
 - (void) playerLostItemId:(long)item_id qty:(long)qty;
+- (void) gameReceivedItemId:(long)item_id qty:(long)qty;
+- (void) gameLostItemId:(long)item_id qty:(long)qty;
+- (void) groupReceivedItemId:(long)item_id qty:(long)qty;
+- (void) groupLostItemId:(long)item_id qty:(long)qty;
 - (void) playerChangedSceneId:(long)scene_id;
+- (void) playerChangedGroupId:(long)group_id;
+- (void) playerRanEventPackageId:(long)event_package_id;
+- (void) playerCompletedQuestId:(long)quest_id;
+
+- (BOOL) hasLogType:(NSString *)type;
+- (BOOL) hasLogType:(NSString *)type content:(long)content_id;
+- (BOOL) hasLogType:(NSString *)type content:(long)content_id qty:(long)qty;
 
 @end
+

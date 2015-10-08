@@ -38,15 +38,15 @@
 - (void) drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context
 {
     UIImageView *imageView = ([mediaView.subviews[0] isKindOfClass:[UIImageView class]]) ? mediaView.subviews[0] : nil;
-    imageOverlay = imageView.image; 
+    imageOverlay = imageView.image;
     CGImageRef imageReference = imageOverlay.CGImage;
-    
+
     MKMapRect theMapRect = [overlay boundingMapRect];
     CGRect theRect = [self rectForMapRect:theMapRect];
-    
+
     CGContextScaleCTM(context, 1.0, -1.0);
     CGContextTranslateCTM(context, 0.0, -theRect.size.height);
-    
+
     CGContextDrawImage(context, theRect, imageReference);
 }
 

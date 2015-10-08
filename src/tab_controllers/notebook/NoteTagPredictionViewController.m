@@ -52,8 +52,8 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    matchingNoteTagsScrollView.frame       = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height); 
-    matchingNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height); 
+    matchingNoteTagsScrollView.frame       = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
+    matchingNoteTagsScrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height);
     [self refreshMatchingTags];
 }
 
@@ -66,43 +66,43 @@
 - (NSArray *) queryString:(NSString *)qs
 {
     queryString = qs;
-    return [self refreshMatchingTags]; 
+    return [self refreshMatchingTags];
 }
 
 - (NSArray *) refreshMatchingTags
 {
     while(matchingNoteTagsScrollView.subviews.count   > 0) [matchingNoteTagsScrollView.subviews[0] removeFromSuperview];
-    
+
     NSMutableArray *matched = [[NSMutableArray alloc] init];
-    
+
     NSString *regex = [NSString stringWithFormat:@".*%@.*",queryString];
     NSString *tagTest;
     UIView *tagCell;
-    
+
     for(long i = 0; i < tags.count; i++)
     {
         tagTest = ((Tag *)tags[i]).tag;
-        if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound) 
+        if([tagTest rangeOfString:regex options:NSRegularExpressionSearch|NSCaseInsensitiveSearch].location != NSNotFound)
         {
             [matched addObject:((Tag *)tags[i])];
             tagCell = [self cellForTag:((Tag *)tags[i])];
             tagCell.frame = CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT);
             [matchingNoteTagsScrollView addSubview:tagCell];
         }
-    } 
-    
+    }
+
     //No Tags Title
     if(matchingNoteTagsScrollView.subviews.count == 0)
     {
         tagCell = [[UIView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
-        tagCell.userInteractionEnabled = NO;  
+        tagCell.userInteractionEnabled = NO;
         UILabel *noTagsText = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT)];
         noTagsText.text = [NSString stringWithFormat:@"  (%@)", NSLocalizedString(@"TagViewNoLabelsKey", @"")];
-        noTagsText.textColor = [UIColor ARISColorDarkGray]; 
-        noTagsText.font = [ARISTemplate ARISCellTitleFont];  
+        noTagsText.textColor = [UIColor ARISColorDarkGray];
+        noTagsText.font = [ARISTemplate ARISCellTitleFont];
         [tagCell addSubview:noTagsText];
-        [matchingNoteTagsScrollView addSubview:tagCell]; 
-    } 
+        [matchingNoteTagsScrollView addSubview:tagCell];
+    }
     matchingNoteTagsScrollView.contentSize = CGSizeMake(matchingNoteTagsScrollView.bounds.size.width, CELL_HEIGHT*matchingNoteTagsScrollView.subviews.count);
 
     return matched;

@@ -18,6 +18,7 @@
 #define _MODEL_MEDIA_ [AppModel sharedAppModel].mediaModel
 #define _MODEL_GAME_ [AppModel sharedAppModel].game
 #define _MODEL_SCENES_ [AppModel sharedAppModel].game.scenesModel
+#define _MODEL_GROUPS_ [AppModel sharedAppModel].game.groupsModel
 #define _MODEL_PLAQUES_ [AppModel sharedAppModel].game.plaquesModel
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].game.itemsModel
 #define _MODEL_DIALOGS_ [AppModel sharedAppModel].game.dialogsModel
@@ -25,11 +26,14 @@
 #define _MODEL_NOTES_ [AppModel sharedAppModel].game.notesModel
 #define _MODEL_TAGS_ [AppModel sharedAppModel].game.tagsModel
 #define _MODEL_EVENTS_ [AppModel sharedAppModel].game.eventsModel
+#define _MODEL_REQUIREMENTS_ [AppModel sharedAppModel].game.requirementsModel
 #define _MODEL_TRIGGERS_ [AppModel sharedAppModel].game.triggersModel
 #define _MODEL_FACTORIES_ [AppModel sharedAppModel].game.factoriesModel
 #define _MODEL_OVERLAYS_ [AppModel sharedAppModel].game.overlaysModel
 #define _MODEL_INSTANCES_ [AppModel sharedAppModel].game.instancesModel
 #define _MODEL_PLAYER_INSTANCES_ [AppModel sharedAppModel].game.playerInstancesModel
+#define _MODEL_GAME_INSTANCES_ [AppModel sharedAppModel].game.gameInstancesModel
+#define _MODEL_GROUP_INSTANCES_ [AppModel sharedAppModel].game.groupInstancesModel
 #define _MODEL_TABS_ [AppModel sharedAppModel].game.tabsModel
 #define _MODEL_QUESTS_ [AppModel sharedAppModel].game.questsModel
 #define _MODEL_LOGS_ [AppModel sharedAppModel].game.logsModel
@@ -47,14 +51,17 @@
   NSString *serverURL;
   BOOL showPlayerOnMap;
 
-  BOOL disableLeaveGame;
+  BOOL leave_game_enabled;
+  BOOL auto_profile_enabled;
+  BOOL download_not_play; //yikes
+  BOOL play_using_download;
   BOOL hidePlayers;
 
   User *player;
   Game *game;
-  UsersModel *usersModel;  
-  GamesModel *gamesModel;  
-  MediaModel *mediaModel; 
+  UsersModel *usersModel;
+  GamesModel *gamesModel;
+  MediaModel *mediaModel;
   CLLocation *deviceLocation;
 
   //CORE Data
@@ -67,7 +74,11 @@
 @property(nonatomic, strong) NSString *serverURL;
 @property(nonatomic, assign) BOOL showPlayerOnMap;
 
-@property(nonatomic, assign) BOOL disableLeaveGame;
+@property(nonatomic, assign) long preferred_game_id;
+@property(nonatomic, assign) BOOL leave_game_enabled;
+@property(nonatomic, assign) BOOL auto_profile_enabled;
+@property(nonatomic, assign) BOOL download_not_play;
+@property(nonatomic, assign) BOOL play_using_download;
 @property(nonatomic, assign) BOOL hidePlayers;
 
 @property(nonatomic, strong) User *player;
@@ -95,7 +106,8 @@
 - (void) logInPlayer:(User *)user;
 - (void) logOut;
 
-- (void) chooseGame:(Game *)game;
+- (void) chooseGame:(Game *)game useDownloaded:(BOOL)d;
+- (void) downloadGame:(Game *)game;
 - (void) beginGame;
 - (void) leaveGame;
 
@@ -103,6 +115,9 @@
 
 - (void) commitCoreDataContexts;
 - (NSString *) applicationDocumentsDirectory;
+
+- (void) storeGame;
+- (void) restoreGame;
 
 @end
 

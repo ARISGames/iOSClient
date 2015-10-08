@@ -8,6 +8,7 @@
 
 #import "Event.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Event
 
@@ -16,52 +17,69 @@
 @synthesize event;
 @synthesize content_id;
 @synthesize qty;
+@synthesize script;
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        self.event_id = 0;
-        self.event_package_id = 0;
-        self.event = @"GIVE_ITEM";
-        self.content_id = 0;
-        self.qty = 0;
-    }
-    return self;	
+  if(self = [super init])
+  {
+    self.event_id = 0;
+    self.event_package_id = 0;
+    self.event = @"GIVE_ITEM_PLAYER";
+    self.content_id = 0;
+    self.qty = 0;
+    self.script = @"";
+  }
+  return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-        self.event_id         = [dict validIntForKey:@"event_id"];
-        self.event_package_id = [dict validIntForKey:@"event_package_id"];
-        self.event            = [dict validObjectForKey:@"event"];
-        self.content_id       = [dict validIntForKey:@"content_id"];
-        self.qty              = [dict validIntForKey:@"qty"];
-    }
-    return self;
+  if(self = [super init])
+  {
+    self.event_id         = [dict validIntForKey:@"event_id"];
+    self.event_package_id = [dict validIntForKey:@"event_package_id"];
+    self.event            = [dict validStringForKey:@"event"];
+    self.content_id       = [dict validIntForKey:@"content_id"];
+    self.qty              = [dict validIntForKey:@"qty"];
+    self.script           = [dict validStringForKey:@"script"];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.event_id] forKey:@"event_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.event_package_id] forKey:@"event_package_id"];
+  [d setObject:self.event forKey:@"event"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.content_id] forKey:@"content_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.qty] forKey:@"qty"];
+  [d setObject:self.script forKey:@"script"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (id) copy
 {
-    Event *o = [[Event alloc] init];
-    o.event_id = self.event_id;
-    o.event_package_id = self.event_package_id;
-    o.event = self.event;
-    o.content_id = self.content_id;
-    o.qty = self.qty;
-    return o;
+  Event *o = [[Event alloc] init];
+  o.event_id = self.event_id;
+  o.event_package_id = self.event_package_id;
+  o.event = self.event;
+  o.content_id = self.content_id;
+  o.qty = self.qty;
+  o.script = self.script;
+  return o;
 }
 
 - (long) compareTo:(Event *)ob
 {
-	return (ob.event_id == self.event_id);
+  return (ob.event_id == self.event_id);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Event- Id:%ld\tevent:%@",self.event_id,self.event];
+  return [NSString stringWithFormat:@"Event- Id:%ld\tevent:%@",self.event_id,self.event];
 }
 
 @end
+

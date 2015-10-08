@@ -14,7 +14,7 @@
 @protocol GamePickersViewControllerDelegate
 - (void) profileEditRequested;
 - (void) passChangeRequested;
-- (void) gameDetailsRequested:(Game *)g;
+- (void) gameDetailsRequested:(Game *)g downloaded:(BOOL)d;
 @end
 
 @interface GamePickersViewController : ARISContainerViewController

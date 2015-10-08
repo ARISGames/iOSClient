@@ -10,12 +10,12 @@
 
 @interface AudioMeter()
 {
-	NSMutableArray *barViews;
-	long numberofBars;
-	long spacingBetweenBars;
+  NSMutableArray *barViews;
+  long numberofBars;
+  long spacingBetweenBars;
     double updateInterval;
-	UIColor *activeColor;
-	UIColor *inactiveColor;
+  UIColor *activeColor;
+  UIColor *inactiveColor;
     NSTimer *updateTimer;
     double level;
     id<AudioMeterDelegate> __unsafe_unretained delegate;
@@ -30,24 +30,24 @@
     if(self = [super init])
     {
         delegate = d;
-		self.backgroundColor = [UIColor clearColor];
-		numberofBars = 30;
-		spacingBetweenBars = 2;
+    self.backgroundColor = [UIColor clearColor];
+    numberofBars = 30;
+    spacingBetweenBars = 2;
         updateInterval = 0.1;
-		activeColor = [UIColor blackColor];
-		inactiveColor = [UIColor clearColor];
+    activeColor = [UIColor blackColor];
+    inactiveColor = [UIColor clearColor];
     }
-    return self;   
+    return self;
 }
 
 - (void) setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    
+
     for(long i = 0; self.subviews.count > 0; i++) [[self.subviews objectAtIndex:0] removeFromSuperview];
-    
+
     barViews = [NSMutableArray arrayWithCapacity:numberofBars];
-    float heightPerBar = (frame.size.height - (spacingBetweenBars * numberofBars)) / numberofBars; 
+    float heightPerBar = (frame.size.height - (spacingBetweenBars * numberofBars)) / numberofBars;
     for(long i = 0; i<numberofBars; i++)
     {
         long currentPosition = (self.frame.size.height - ((i+1) * (heightPerBar + spacingBetweenBars)));
@@ -55,7 +55,7 @@
         bar.backgroundColor = inactiveColor;
         [barViews addObject:bar];
         [self addSubview:bar];
-    } 
+    }
 }
 
 - (double) level
@@ -66,14 +66,14 @@
 - (void) setLevel:(double)l
 {
     level = l;
-	long numberToMakeActive = abs(round(numberofBars * level));
+  long numberToMakeActive = abs((int)round(numberofBars * level));
 
-	for(long i = 0; i<barViews.count; i++)
+  for(long i = 0; i<barViews.count; i++)
     {
-		UIView *bar = [barViews objectAtIndex:i];
-		if(i < numberToMakeActive) bar.backgroundColor = activeColor;
-		else                       bar.backgroundColor = inactiveColor;
-	}
+    UIView *bar = [barViews objectAtIndex:i];
+    if(i < numberToMakeActive) bar.backgroundColor = activeColor;
+    else                       bar.backgroundColor = inactiveColor;
+  }
 }
 
 - (void) startRequestingLevels

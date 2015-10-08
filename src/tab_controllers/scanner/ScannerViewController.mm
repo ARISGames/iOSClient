@@ -32,7 +32,7 @@
     if(self = [super init])
     {
         tab = t;
-        self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
+        self.title = self.tabTitle;
 
         lastError = [NSDate date];
         prompt = @"";
@@ -46,7 +46,7 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorBlack];
-    
+
     UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
     [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
@@ -74,13 +74,8 @@
     // Want the normal device
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
 
-    if(input) {
-        // Add the input to the session
-        [session addInput:input];
-    } else {
-        _ARIS_LOG_(@"error: %@", error);
-        return;
-    }
+    if(input) [session addInput:input];
+    else { _ARIS_LOG_(@"error: %@", error); return; }
 
     AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
     [session addOutput:output];
@@ -153,13 +148,19 @@
         if (metadataObjects != nil && [metadataObjects count] > 0)
         {
             BOOL not_found = NO;
-            scanning = NO;
 
             for (AVMetadataObject *metadata in metadataObjects)
             {
+                AVMetadataObject *transformed = [previewLayer transformedMetadataObjectForMetadataObject:metadata];
+                AVMetadataMachineReadableCodeObject *code;
+                if ([transformed isKindOfClass:[AVMetadataMachineReadableCodeObject class]]) {
+                    code = (AVMetadataMachineReadableCodeObject *) transformed;
+                    scanning = NO;
+                } else {
+                    continue;
+                }
 
-                AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
-                NSString *result = [transformed stringValue];
+                NSString *result = [code stringValue];
 
                 Trigger *t;
                 if([result isEqualToString:@"log-out"])
@@ -208,7 +209,15 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"SCANNER"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Scanner"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"qr_icon"]; }
+- (ARISMediaView *) tabIcon
+{
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"qr_icon"]];
+    return amv;
+}
 
 - (void) dealloc
 {

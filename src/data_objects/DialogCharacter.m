@@ -8,6 +8,7 @@
 
 #import "DialogCharacter.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation DialogCharacter
 
@@ -35,9 +36,19 @@
     self.dialog_character_id = [dict validIntForKey:@"dialog_character_id"];
     self.name                = [dict validStringForKey:@"name"];
     self.title               = [dict validStringForKey:@"title"];
-    self.media_id            = [dict validIntForKey:@"media_id"]; 
+    self.media_id            = [dict validIntForKey:@"media_id"];
   }
   return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.dialog_character_id] forKey:@"dialog_character_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.title forKey:@"title"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (DialogCharacter *) copy

@@ -16,6 +16,7 @@
   NSString *desc;
   long icon_media_id;
   long intro_dialog_script_id;
+  BOOL back_button_enabled;
 }
 
 @property(nonatomic, assign) long dialog_id;
@@ -23,7 +24,10 @@
 @property(nonatomic, strong) NSString *desc;
 @property(nonatomic, assign) long icon_media_id;
 @property(nonatomic, assign) long intro_dialog_script_id;
+@property(nonatomic, assign) BOOL back_button_enabled;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

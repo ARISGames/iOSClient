@@ -4,7 +4,7 @@
 //
 //  Created by Phil Dougherty on 1/8/14.
 //
-//  Wraps UIWebView rather than subclassing it. Apple gets angry when 
+//  Wraps UIWebView rather than subclassing it. Apple gets angry when
 //  UIWebView is subclassed. So this manually fakes webview interface
 //  and passes it along.
 //
@@ -43,6 +43,7 @@
 - (void) setMediaPlaybackRequiresUserAction:(BOOL)m;
 
 - (BOOL) hookWithParams:(NSString *)params;
+- (BOOL) tickWithParams:(NSString *)params;
 - (void) clear;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARISMediaView.h"
 
 @class GamePlayTabSelector;
 @protocol GamePlayTabSelectorCellDelegate
@@ -17,6 +18,6 @@
 - (id) initWithDelegate:(id<GamePlayTabSelectorCellDelegate>)d;
 
 - (void) setLabel:(NSString *)t;
-- (void) setIcon:(UIImage *)i;
+- (void) setIcon:(ARISMediaView *)i;
 
 @end

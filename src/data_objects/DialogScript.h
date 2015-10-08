@@ -11,9 +11,9 @@
 @interface DialogScript : NSObject
 {
   long dialog_script_id;
-  long dialog_id; 
+  long dialog_id;
   long dialog_character_id;
-  NSString *text; 
+  NSString *text;
   long event_package_id;
 }
 
@@ -24,5 +24,7 @@
 @property(nonatomic, assign) long event_package_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

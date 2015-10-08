@@ -27,7 +27,7 @@
     NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
     NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString  componentsSeparatedByCharactersInSet:separatorSet]];
     [array removeObject:@""];
-    
+
     //Example indexes into array:
     //_ARIS_LOG_(@"Stack = %@", [array objectAtIndex:0]);
     //_ARIS_LOG_(@"Framework = %@", [array objectAtIndex:1]);
@@ -35,7 +35,7 @@
     //_ARIS_LOG_(@"Class caller = %@", [array objectAtIndex:3]);
     //_ARIS_LOG_(@"Function caller = %@", [array objectAtIndex:4]);
     //_ARIS_LOG_(@"Line caller = %@", [array objectAtIndex:5]);
-    
+
     //_ARIS_LOG_(@"%@: %@ Debug: %@", [array objectAtIndex:3], [array objectAtIndex:4], string);
 #endif
 }

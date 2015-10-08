@@ -21,3 +21,5 @@ integration/tmp/*
 
 dist/*.ipa
 dist/*.plist
+
+Pods

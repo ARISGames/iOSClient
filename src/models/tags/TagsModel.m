@@ -12,6 +12,7 @@
 
 #import "TagsModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface TagsModel()
 {
@@ -34,10 +35,19 @@
     return self;
 }
 
+- (void) requestGameData
+{
+  [self requestTags];
+}
 - (void) clearGameData
 {
     tags = [[NSMutableDictionary alloc] init];
     objectTags = [[NSMutableDictionary alloc] init];
+    n_game_data_received = 0;
+}
+- (long) nGameDataToReceive
+{
+  return 2;
 }
 
 - (void) tagsReceived:(NSNotification *)notif
@@ -59,6 +69,7 @@
       newTagId = [NSNumber numberWithLong:newTag.tag_id];
       if(![tags objectForKey:newTagId]) [tags setObject:newTag forKey:newTagId];
     }
+    n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_TAGS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -73,6 +84,7 @@
       newObjectTagId = [NSNumber numberWithLong:newObjectTag.object_tag_id];
       if(![objectTags objectForKey:newObjectTagId]) [objectTags setObject:newObjectTag forKey:newObjectTagId];
     }
+    n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_OBJECT_TAGS_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -97,6 +109,19 @@
     return objects_tags;
 }
 
+- (NSArray *) objectIdsOfType:(NSString *)t tag:(long)tag_id
+{
+  NSMutableArray *objs = [[NSMutableArray alloc] init];
+  NSArray *otags = [objectTags allValues];
+  for(int i = 0; i < otags.count; i++)
+  {
+    ObjectTag *ot = otags[i];
+    if([ot.object_type isEqualToString:t] && ot.tag_id == tag_id)
+      [objs addObject:[NSNumber numberWithLong:ot.object_id]];
+  }
+  return objs;
+}
+
 - (void) removeTagsFromObjectType:(NSString*)t id:(long)object_id
 {
     ObjectTag *otag;
@@ -115,7 +140,7 @@
 {
     return [tags allValues];
 }
-    
+
 // null tag (id == 0) NOT flyweight!!! (to allow for temporary customization safety)
 - (Tag *) tagForId:(long)tag_id
 {
@@ -128,6 +153,52 @@
 {
   if(!object_tag_id) return [[ObjectTag alloc] init];
   return [objectTags objectForKey:[NSNumber numberWithLong:object_tag_id]];
+}
+
+- (NSString *) serializedName
+{
+  return @"tags";
+}
+
+- (NSString *) serializeGameData
+{
+  NSArray *tags_a = [tags allValues];
+  Tag *t_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"tags\":["];
+  for(long i = 0; i < tags_a.count; i++)
+  {
+    t_o = tags_a[i];
+    [r appendString:[t_o serialize]];
+    if(i != tags_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
+}
+
+- (void) deserializeGameData:(NSString *)data
+{
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_tags = d_data[@"tags"];
+  for(long i = 0; i < d_tags.count; i++)
+  {
+    Tag *t = [[Tag alloc] initWithDictionary:d_tags[i]];
+    [tags setObject:t forKey:[NSNumber numberWithLong:t.tag_id]];
+  }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

@@ -22,6 +22,7 @@
 @property(nonatomic, assign) long media_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
 

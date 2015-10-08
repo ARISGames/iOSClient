@@ -137,40 +137,5 @@
     else return @"";
 }
 
-- (NSData *) thumb
-{
-  if(!thumb)
-  {
-    if(!data) return nil;
-
-    NSString *type = [self type];
-    if([type isEqualToString:@"IMAGE"])
-    {
-      int s = 128;
-      int w = s;
-      int h = s;
-      UIImage *image = [UIImage imageWithData:data];
-      if(image.size.width > image.size.height)
-          h = image.size.height * (128/image.size.width);
-      else
-          w = image.size.width * (128/image.size.height);
-      UIGraphicsBeginImageContext(CGSizeMake(w,h));
-      [image drawInRect:CGRectMake(0,0,w,h)];
-      UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-      UIGraphicsEndImageContext();
-      thumb = UIImagePNGRepresentation(newImage);
-    }
-    else if([type isEqualToString:@"VIDEO"])
-    {
-      thumb = nil;
-    }
-    else if([type isEqualToString:@"AUDIO"])
-    {
-      thumb = nil;
-    }
-  }
-  return thumb;
-}
-
 @end
 

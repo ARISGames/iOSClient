@@ -27,19 +27,19 @@
 - (void) recentGamesAvailable
 {
     [self removeLoadingIndicator];
-	games = _MODEL_GAMES_.recentGames;
-	[gameTable reloadData];
+  games = _MODEL_GAMES_.recentGames;
+  [gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.pingRecentGames;
-	[gameTable reloadData];
+  games = _MODEL_GAMES_.pingRecentGames;
+  [gameTable reloadData];
 }
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);         
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

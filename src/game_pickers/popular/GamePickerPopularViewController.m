@@ -17,7 +17,7 @@
     UISegmentedControl *timeControl;
 }
 @end
-    
+
 @implementation GamePickerPopularViewController
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
@@ -25,9 +25,9 @@
     if(self = [super initWithDelegate:d])
     {
         time = 1;
-        
+
         self.title = NSLocalizedString(@"GamePickerPopularTabKey", @"");
-        
+
         [self.tabBarItem setImage:[[UIImage imageNamed:@"star.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"star_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
 
@@ -39,7 +39,7 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    
+
     timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:NSLocalizedString(@"GamePickerDailyKey", @""),NSLocalizedString(@"GamePickerWeeklyKey", @""),NSLocalizedString(@"GamePickerMonthlyKey", @""), nil]];
     timeControl.frame = CGRectMake(5, 5, self.view.bounds.size.width-10, 30);
     timeControl.selectedSegmentIndex = time;
@@ -49,8 +49,8 @@
 - (void) popularGamesAvailable
 {
     [self removeLoadingIndicator];
-	games = _MODEL_GAMES_.popularGames;
-	[gameTable reloadData];
+  games = _MODEL_GAMES_.popularGames;
+  [gameTable reloadData];
 }
 
 - (void) refreshViewFromModel
@@ -61,7 +61,7 @@
       case 1: games = [_MODEL_GAMES_ pingPopularGames:@"WEEK"]; break;
       case 2: games = [_MODEL_GAMES_ pingPopularGames:@"MONTH"]; break;
     }
-	[gameTable reloadData];
+  [gameTable reloadData];
 }
 
 - (void) controlChanged
@@ -108,7 +108,7 @@
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);        
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

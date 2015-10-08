@@ -90,7 +90,7 @@
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"game"].location == NSNotFound) return;
-    
+
     if([event.name isEqualToString:@"alert"])
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"GameNoticeKey", @"") message:event.data];
     _ARIS_NOTIF_SEND_(@"PusherGameEventReceived",event,nil);
@@ -100,7 +100,7 @@
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"player"].location == NSNotFound) return;
-    
+
     if([event.name isEqualToString:@"alert"])
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"PlayerNoticeKey", @"") message:event.data];
     _ARIS_NOTIF_SEND_(@"PusherPlayerEventReceived",event,nil);

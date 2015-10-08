@@ -15,6 +15,11 @@
 @end
 
 @interface PopOverViewController : ARISViewController
+{
+  id<PopOverViewDelegate> __weak delegate;
+}
+
+@property (nonatomic, weak) id delegate;
 
 - (id) initWithDelegate:(id <PopOverViewDelegate>)d;
 - (void) setHeader:(NSString *)h prompt:(NSString *)p icon_media_id:(long)m;

@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 
+#import "ARISAppDelegate.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 
@@ -28,10 +29,11 @@
   UIView *line1;
   UIView *line2;
 
-  NSString *groupName;
+  NSString *group_name;
+  BOOL auto_profile_enabled;
   long game_id;
   BOOL newPlayer;
-  BOOL disableLeaveGame;
+  BOOL leave_game_enabled;
 
   BOOL scanning;
 
@@ -109,6 +111,7 @@
   [qrButton setImage:[UIImage imageNamed:@"qr.png"] forState:UIControlStateNormal];
   qrButton.frame = CGRectMake(80, self.view.frame.size.height-(self.view.frame.size.width-160)-80, self.view.frame.size.width-160, self.view.frame.size.width-160);
   [qrButton addTarget:self action:@selector(QRButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+  //[qrButton addTarget:self action:@selector(testLoginString) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:qrButton];
 
   newAccountButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -170,7 +173,7 @@
 
 - (void) loginFailed
 {
-    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Login Failed" message:@"Invalid Username/Password"];
+  [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Login Failed" message:@"Invalid Username/Password"];
 }
 
 - (void) resignKeyboard
@@ -181,7 +184,10 @@
 
 - (void) attemptLogin
 {
-  [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
+  ARISAppDelegate *ad = [[UIApplication sharedApplication] delegate];
+  if([ad.reachability currentReachabilityStatus] == NotReachable)
+    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"No Connection" message:@"Ensure you are connected to the internet, then try again."];
+  else [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
@@ -229,77 +235,101 @@
 {
   if(scanning)
   {
-      if (metadataObjects != nil && [metadataObjects count] > 0)
+    if (metadataObjects != nil && [metadataObjects count] > 0)
+    {
+      BOOL not_found = NO;
+
+      for (AVMetadataObject *metadata in metadataObjects)
       {
-          BOOL not_found = NO;
+        AVMetadataObject *transformed = [previewLayer transformedMetadataObjectForMetadataObject:metadata];
+        AVMetadataMachineReadableCodeObject *code;
+        if ([transformed isKindOfClass:[AVMetadataMachineReadableCodeObject class]]) {
+          code = (AVMetadataMachineReadableCodeObject *) transformed;
           scanning = NO;
+        } else {
+          continue;
+        }
+        NSString *result = [code stringValue];
 
-          for (AVMetadataObject *metadata in metadataObjects)
-          {
-              AVMetadataMachineReadableCodeObject *transformed = (AVMetadataMachineReadableCodeObject *)[previewLayer transformedMetadataObjectForMetadataObject:metadata];
-              NSString *result = [transformed stringValue];
-
-              if([self loginWithString: result])
-              {
-                return;
-              }
-              else
-              {
-                not_found = YES;
-              }
-          }
-
-          // All metadata visible scanned
-          if(not_found)
-          {
-              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-              [alert show];
-          }
+        if([self loginWithString:result])
+          return;
+        else
+          not_found = YES;
       }
+
+      // All metadata visible scanned
+      if(not_found)
+      {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+        [alert show];
+      }
+    }
   }
 }
 
+- (void) testLoginString
+{
+  NSString *result = @"2,p0,grPCA1,g3259";
+  [self loginWithString:result];
+}
 
 - (BOOL) loginWithString:(NSString *)result
 {
   NSArray *terms  = [result componentsSeparatedByString:@","];
 
-  //Create: 1,groupName,game_id,disableLeaveGame
-  //Login:  0,userName,password,game_id,disableLeaveGame
+  //(DON'T USE) - // 0,user_name,password,game_id,disable_leave_game
+  //v1.0 (dep)  - // 1,group_name,game_id,disable_leave_game
+  //v2.0        - // 2,pauto_profile_enabled,grgroup_name,ggame_id,lleave_game_enabled
+  //v2 keys:
+  //p - auto_profile_enabled
+  //gr - group_name
+  //g - game_id
+  //l - leave_game_enabled
 
-  if(terms.count > 1)
+  auto_profile_enabled = YES;
+  group_name = @"";
+  game_id = 0;
+  leave_game_enabled = YES;
+  if([terms[0] intValue] == 2) //v2.0
   {
-    game_id = 0;
-    disableLeaveGame = NO;
-    if([[terms objectAtIndex:0] boolValue]) //create = 1
+    for(int i = 1; i < terms.count; i++)
     {
-                          groupName        = [terms objectAtIndex:1];
-      if(terms.count > 2) game_id          = [[terms objectAtIndex:2] intValue];
-      if(terms.count > 3) disableLeaveGame = [[terms objectAtIndex:3] boolValue];
-
-      _MODEL_.disableLeaveGame = disableLeaveGame;
-      //_MODEL_.fallbackGameId = game_id;
-      [self dismissViewControllerAnimated:NO completion:nil];
-        [_MODEL_ generateUserFromGroup:groupName];
-      return true;
+      const char *c = [terms[i] UTF8String]; //to not deal with awful NSString
+      if(c[0] == 'p') auto_profile_enabled = c[1] != '0';
+      if(c[0] == 'l') leave_game_enabled   = c[1] != '0';
+      if(c[0] == 'g')
+      {
+        if(c[1] == 'r')
+          group_name = [NSString stringWithUTF8String:c+2];
+        else
+          game_id = [[NSString stringWithUTF8String:c+1] intValue];
+      }
     }
-    else //create = 0
-    {
-      NSString *username = [terms objectAtIndex:1];
-      NSString *password = @"";
-      if(terms.count > 2) password           = [terms objectAtIndex:2];
-      if(terms.count > 3) game_id            = [[terms objectAtIndex:3] intValue];
-      if(terms.count > 4) disableLeaveGame   = [[terms objectAtIndex:4] boolValue];
-
-      _MODEL_.disableLeaveGame = disableLeaveGame;
-      //_MODEL_.fallbackGameId = game_id;
-      [self dismissViewControllerAnimated:NO completion:nil];
-      [_MODEL_ attemptLogInWithUserName:username password:password];
-      return true;
-    }
+  }
+  else if([terms[0] intValue] == 1) //v1.0 (deprecated)
+  {
+    group_name = terms[1];
+    if(terms.count > 2) game_id            = [terms[2] intValue];
+    if(terms.count > 3) leave_game_enabled = ![terms[3] boolValue];
+  }
+  else //v0.0 DO NOT USE
+  {
+    /*
+     //DEPRECATED
+     NSString *username = terms[1];
+     NSString *password = @"";
+     if(terms.count > 2) password           = terms[2];
+     if(terms.count > 3) game_id            = [terms[3] intValue];
+     if(terms.count > 4) leave_game_enabled = ![terms[4] boolValue];
+     */
     return false;
   }
-  return false;
+  _MODEL_.auto_profile_enabled = auto_profile_enabled;
+  _MODEL_.leave_game_enabled = leave_game_enabled;
+  _MODEL_.preferred_game_id = game_id;
+  [self dismissViewControllerAnimated:NO completion:nil];
+  [_MODEL_ generateUserFromGroup:group_name];
+  return true;
 }
 
 - (void) cancelLoginScan
@@ -309,7 +339,7 @@
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    scanning = YES;
+  scanning = YES;
 }
 
 - (NSUInteger) supportedInterfaceOrientations

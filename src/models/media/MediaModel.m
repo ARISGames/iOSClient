@@ -13,10 +13,14 @@
 
 #import "NSDictionary+ValidParsers.h"
 
-@interface MediaModel()
+@interface MediaModel() <ARISMediaLoaderDelegate>
 {
-    NSMutableDictionary *medias; //light cache on mediaCD wrappers ('Media' objects)
-    NSManagedObjectContext *context;
+  NSMutableDictionary *medias; //light cache on mediaCD wrappers ('Media' objects)
+  NSManagedObjectContext *context;
+  NSMutableDictionary *mediaIdsToLoad;
+  NSMutableArray *mediaDataLoadDelegateHandles;
+  NSMutableArray *mediaDataLoadMedia;
+  int mediaDataLoaded;
 }
 
 @end
@@ -49,9 +53,9 @@
 
 - (void) commitContext
 {
-    NSError *error; 
+    NSError *error;
     if(![context save:&error])
-        _ARIS_LOG_(@"Error saving media context - error:%@",error); 
+        _ARIS_LOG_(@"Error saving media context - error:%@",error);
 }
 
 - (void) clearCache
@@ -67,9 +71,19 @@
     [self commitContext];
 }
 
+- (void) requestGameData
+{
+  [self requestMedia];
+}
 - (void) clearGameData
 {
     medias = [[NSMutableDictionary alloc] init];
+    mediaIdsToLoad = [[NSMutableDictionary alloc] init];
+    n_game_data_received = 0;
+}
+- (long) nGameDataToReceive
+{
+  return 1;
 }
 
 - (void) mediasReceived:(NSNotification *)notif
@@ -86,7 +100,7 @@
 - (void) updateMedias:(NSArray *)mediaToCacheDicts
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(game_id = 0) OR (game_id = %ld)", _MODEL_GAME_.game_id];
-    NSArray *currentlyCachedMediaArray = [self mediaForPredicate:predicate]; 
+    NSArray *currentlyCachedMediaArray = [self mediaForPredicate:predicate];
 
     //Turn array to dict for quick check of existence in cache
     NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] init];
@@ -99,6 +113,7 @@
         NSDictionary *mediaDict = mediaToCacheDicts[i];
 
         long media_id = [mediaDict validIntForKey:@"media_id"];
+        [mediaIdsToLoad setObject:[NSNumber numberWithLong:media_id] forKey:[NSNumber numberWithLong:media_id]];
         if(!(tmpMedia = currentlyCachedMediaMap[[NSNumber numberWithLong:media_id]]))
         {
             tmpMedia = [NSEntityDescription insertNewObjectForEntityForName:@"MediaCD" inManagedObjectContext:context];
@@ -115,6 +130,7 @@
         _ARIS_LOG_(@"Media cache   : Media id:%ld cached:%@",media_id,tmpMedia.remoteURL);
     }
     [self commitContext];
+    n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -124,10 +140,49 @@
   [_SERVICES_ fetchMedias];
 }
 
+- (void) requestMediaData
+{
+  NSArray *media_ids = [mediaIdsToLoad allKeys];
+  Media *m;
+  ARISDelegateHandle *d;
+
+  mediaDataLoadDelegateHandles = [[NSMutableArray alloc] init];
+  mediaDataLoadMedia = [[NSMutableArray alloc] init];
+  mediaDataLoaded = 0;
+
+  for(int i = 0; i < media_ids.count; i++)
+  {
+    m = [self mediaForId:[((NSNumber *)media_ids[i]) longValue]];
+    if(!m.data)
+    {
+      d = [[ARISDelegateHandle alloc] initWithDelegate:self];
+      [mediaDataLoadDelegateHandles addObject:d];
+      [mediaDataLoadMedia addObject:m];
+    }
+  }
+  if(mediaDataLoadDelegateHandles.count == 0)
+    [self mediaLoaded:nil];
+
+  for(int i = 0; i < mediaDataLoadMedia.count; i++) //needs separate loop so notif doesn't get sent in same stack as generating count
+      [_SERVICES_MEDIA_ loadMedia:mediaDataLoadMedia[i] delegateHandle:mediaDataLoadDelegateHandles[i]]; //calls 'mediaLoaded' upon complete
+}
+
+- (void) mediaLoaded:(Media *)m
+{
+  mediaDataLoaded++;
+  _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_DATA_LOADED",nil,nil);
+  if(mediaDataLoaded >= mediaDataLoadDelegateHandles.count)
+  {
+    _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_DATA_COMPLETE",nil,nil);
+    mediaDataLoadMedia = nil;
+    mediaDataLoadDelegateHandles = nil;
+  }
+}
+
 - (Media *) mediaForId:(long)media_id
 {
   if(media_id == 0) return nil;
-    
+
   //oh my hack
   if(media_id == DEFAULT_PLAQUE_ICON_MEDIA_ID)
   {
@@ -135,8 +190,9 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"plaque_icon_120"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -146,8 +202,9 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"item_icon_120"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -157,8 +214,9 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"conversation_icon_120"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -168,8 +226,9 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"webpage_icon_120"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -179,8 +238,9 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"logo_icon"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -190,8 +250,9 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      Media *media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      Media *media = [[Media alloc] initWithMediaCD:mediaCD];
       media.data =  UIImagePNGRepresentation([UIImage imageNamed:@"note_icon"]);
+      media.thumb = media.data;
       [media setPartialLocalURL:@"blah.png"]; //fake name to get it to know it's of type "IMAGE"
       return media;
   }
@@ -210,7 +271,7 @@
       mediaCD.media_id = [NSNumber numberWithLong:media_id];
       mediaCD.game_id  = [NSNumber numberWithLong:0];
       mediaCD.user_id  = [NSNumber numberWithLong:0];
-      media = [[Media alloc] initWithMediaCD:mediaCD]; 
+      media = [[Media alloc] initWithMediaCD:mediaCD];
     }
   }
   medias[[NSNumber numberWithLong:media.media_id]] = media; //set light cache

@@ -22,18 +22,18 @@ static long const COMPLETE_SECTION = 1;
 @interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, ARISWebViewDelegate, QuestCellDelegate, QuestDetailsViewControllerDelegate>
 {
     Tab *tab;
-    
+
     NSArray *sortedActiveQuests;
     NSArray *sortedCompleteQuests;
     NSMutableDictionary *activeQuestCellHeights;
-    NSMutableDictionary *completeQuestCellHeights; 
-    
-	UITableView *questsTable;
+    NSMutableDictionary *completeQuestCellHeights;
+
+  UITableView *questsTable;
     UIButton *activeButton;
-    UIButton *completeButton; 
-    
+    UIButton *completeButton;
+
     long questTypeShown;
-    
+
     id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -46,16 +46,16 @@ static long const COMPLETE_SECTION = 1;
     if(self = [super init])
     {
         tab = t;
-        self.title = NSLocalizedString(@"QuestViewTitleKey",@""); 
-        
+        self.title = self.tabTitle;
+
         questTypeShown = ACTIVE_SECTION;
         sortedActiveQuests = [[NSArray alloc] init];
         sortedCompleteQuests = [[NSArray alloc] init];
         activeQuestCellHeights = [[NSMutableDictionary alloc] initWithCapacity:10];
-        completeQuestCellHeights = [[NSMutableDictionary alloc] initWithCapacity:10];  
-        
+        completeQuestCellHeights = [[NSMutableDictionary alloc] initWithCapacity:10];
+
         delegate = d;
-        
+
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
@@ -68,28 +68,28 @@ static long const COMPLETE_SECTION = 1;
 {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     questsTable = [[UITableView alloc]  init];
     questsTable.dataSource = self;
-    questsTable.delegate = self; 
-    
+    questsTable.delegate = self;
+
     activeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [activeButton setTitle:NSLocalizedString(@"QuestsActiveTitleKey", @"") forState:UIControlStateNormal];
-    [activeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
+    [activeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     activeButton.backgroundColor = [UIColor ARISColorDarkBlue];
     activeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
     [activeButton addTarget:self action:@selector(activeButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-       
+
     completeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [completeButton setTitle:NSLocalizedString(@"QuestsCompleteTitleKey", @"") forState:UIControlStateNormal];
-    [completeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
-    completeButton.backgroundColor = [UIColor ARISColorLightBlue]; 
+    [completeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    completeButton.backgroundColor = [UIColor ARISColorLightBlue];
     completeButton.titleLabel.font = [ARISTemplate ARISButtonFont];
-    [completeButton addTarget:self action:@selector(completeButtonTouched) forControlEvents:UIControlEventTouchUpInside]; 
-    
+    [completeButton addTarget:self action:@selector(completeButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:questsTable];
-    [self.view addSubview:activeButton]; 
-    [self.view addSubview:completeButton]; 
+    [self.view addSubview:activeButton];
+    [self.view addSubview:completeButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -106,43 +106,43 @@ static long const COMPLETE_SECTION = 1;
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
+
     activeButton.frame   = CGRectMake(0, 64, self.view.bounds.size.width/2, 40);
-    completeButton.frame = CGRectMake(self.view.bounds.size.width/2, 64, self.view.bounds.size.width/2, 40);  
-    
+    completeButton.frame = CGRectMake(self.view.bounds.size.width/2, 64, self.view.bounds.size.width/2, 40);
+
     //apple. so dumb.
     questsTable.frame = self.view.bounds;
     questsTable.contentInset = UIEdgeInsetsMake(104,0,40,0);
-    [questsTable setContentOffset:CGPointMake(0,-104)]; 
+    [questsTable setContentOffset:CGPointMake(0,-104)];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self refreshViewFromModel];
-	[self refreshModels];
+  [self refreshModels];
 }
 
 - (void) refreshModels
 {
     [_MODEL_QUESTS_ requestPlayerQuests];
-	[self showLoadingIndicator];
+  [self showLoadingIndicator];
 }
 
 -(void) refreshViewFromModel
 {
     sortedActiveQuests = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleActiveQuests, @"sort_index");
     sortedCompleteQuests = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleCompleteQuests, @"sort_index");
-    
-    if(sortedActiveQuests.count == 0)   
+
+    if(sortedActiveQuests.count == 0)
     {
         Quest *nullQuest = [_MODEL_QUESTS_ questForId:0];
         //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
         nullQuest.name = NSLocalizedString(@"EmptyKey", @"");
         nullQuest.active_desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoQuestsAvailableKey", @"")];
-        sortedActiveQuests = [NSArray arrayWithObjects:nullQuest, nil]; 
+        sortedActiveQuests = [NSArray arrayWithObjects:nullQuest, nil];
     }
-    if(sortedCompleteQuests.count == 0)  
+    if(sortedCompleteQuests.count == 0)
     {
         Quest *nullQuest = [_MODEL_QUESTS_ questForId:0];
         //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
@@ -150,21 +150,21 @@ static long const COMPLETE_SECTION = 1;
         nullQuest.complete_desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNocompleteQuestsKey", @"")];
         sortedCompleteQuests = [NSArray arrayWithObjects:nullQuest, nil];
     }
-    
+
     [questsTable reloadData];
 }
 
 -(void)showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[[self navigationItem] setRightBarButtonItem:barButton];
-	[activityIndicator startAnimating];
+  UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+  UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+  [[self navigationItem] setRightBarButtonItem:barButton];
+  [activityIndicator startAnimating];
 }
 
 -(void)removeLoadingIndicator
 {
-	[[self navigationItem] setRightBarButtonItem:nil];
+  [[self navigationItem] setRightBarButtonItem:nil];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -178,14 +178,14 @@ static long const COMPLETE_SECTION = 1;
 {
     QuestCell *cell = [questsTable dequeueReusableCellWithIdentifier:@"QuestCell"];
     if(!cell) cell = [[QuestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"QuestCell"];
-    
+
     if(questTypeShown == ACTIVE_SECTION)
-        [cell setQuest:[sortedActiveQuests objectAtIndex:indexPath.row]]; 
+        [cell setQuest:[sortedActiveQuests objectAtIndex:indexPath.row]];
     if(questTypeShown == COMPLETE_SECTION)
-        [cell setQuest:[sortedCompleteQuests objectAtIndex:indexPath.row]]; 
-    
+        [cell setQuest:[sortedCompleteQuests objectAtIndex:indexPath.row]];
+
     [cell setDelegate:self];
-    
+
     return cell;
 }
 
@@ -194,21 +194,21 @@ static long const COMPLETE_SECTION = 1;
     Quest *q;
     NSArray *quests;
     NSDictionary *heights;
-    if(questTypeShown == ACTIVE_SECTION) 
+    if(questTypeShown == ACTIVE_SECTION)
     {
         quests = sortedActiveQuests;
         heights = activeQuestCellHeights;
     }
-    if(questTypeShown == COMPLETE_SECTION) 
+    if(questTypeShown == COMPLETE_SECTION)
     {
         quests = sortedCompleteQuests;
-        heights = completeQuestCellHeights; 
+        heights = completeQuestCellHeights;
     }
-    
+
     q = [quests objectAtIndex:indexPath.row];
     if([heights objectForKey:[q description]])
-        return [((NSNumber *)[heights objectForKey:[q description]])intValue];  
-    
+        return [((NSNumber *)[heights objectForKey:[q description]])intValue];
+
     NSMutableParagraphStyle *paragraphStyle;
     CGRect textRect;
     paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -218,18 +218,18 @@ static long const COMPLETE_SECTION = 1;
                                              attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle}
                                          context:nil];
     CGSize calcSize = textRect.size;
-	return calcSize.height+30; 
+  return calcSize.height+30;
 }
 
 - (void) heightCalculated:(long)h forQuest:(Quest *)q inCell:(QuestCell *)qc
 {
-    NSDictionary *heights; 
+    NSDictionary *heights;
     if(questTypeShown == ACTIVE_SECTION)   heights = activeQuestCellHeights;
-    if(questTypeShown == COMPLETE_SECTION) heights = completeQuestCellHeights; 
-    
+    if(questTypeShown == COMPLETE_SECTION) heights = completeQuestCellHeights;
+
     if(![heights objectForKey:[q description]])
     {
-        [heights setValue:[NSNumber numberWithLong:h] forKey:[q description]]; 
+        [heights setValue:[NSNumber numberWithLong:h] forKey:[q description]];
         [questsTable reloadData];
     }
 }
@@ -240,11 +240,11 @@ static long const COMPLETE_SECTION = 1;
     if(questTypeShown == ACTIVE_SECTION)
         q = [sortedActiveQuests objectAtIndex:indexPath.row];
     if(questTypeShown == COMPLETE_SECTION)
-        q = [sortedCompleteQuests objectAtIndex:indexPath.row]; 
-    
+        q = [sortedCompleteQuests objectAtIndex:indexPath.row];
+
     if(q.quest_id < 1) return;
-    
-    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:((questTypeShown == ACTIVE_SECTION) ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES]; 
+
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:((questTypeShown == ACTIVE_SECTION) ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
 }
 
 - (void) questDetailsRequestsDismissal
@@ -256,7 +256,7 @@ static long const COMPLETE_SECTION = 1;
 {
     questTypeShown = ACTIVE_SECTION;
     [activeButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
-    [completeButton setBackgroundColor:[UIColor ARISColorLightBlue]];   
+    [completeButton setBackgroundColor:[UIColor ARISColorLightBlue]];
     [questsTable reloadData];
 }
 
@@ -264,7 +264,7 @@ static long const COMPLETE_SECTION = 1;
 {
     questTypeShown = COMPLETE_SECTION;
     [completeButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
-    [activeButton setBackgroundColor:[UIColor ARISColorLightBlue]];  
+    [activeButton setBackgroundColor:[UIColor ARISColorLightBlue]];
     [questsTable reloadData];
 }
 
@@ -276,11 +276,19 @@ static long const COMPLETE_SECTION = 1;
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"QUESTS"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"todo"]; }
-
-- (void)dealloc
+- (ARISMediaView *) tabIcon
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);                               
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"todo"]];
+    return amv;
+}
+
+- (void) dealloc
+{
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

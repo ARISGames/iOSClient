@@ -8,6 +8,7 @@
 
 #import "User.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation User
 
@@ -23,30 +24,44 @@
 {
     if(self = [super init])
     {
-        self.user_id        = 0; 
+        self.user_id        = 0;
         self.user_name      = @"Unknown Player";
         self.display_name   = @"Unknown Player";
-        self.email          = @""; 
+        self.email          = @"";
         self.media_id       = 0;
-        self.read_write_key = @"";  
-        self.location = [[CLLocation alloc] initWithLatitude:0.0 longitude:0.0]; 
+        self.read_write_key = @"";
+        self.location = [[CLLocation alloc] initWithLatitude:0.0 longitude:0.0];
     }
     return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-        self.user_id        = [dict validIntForKey:@"user_id"]; 
-        self.user_name      = [dict validStringForKey:@"user_name"];
-        self.display_name   = [dict validStringForKey:@"display_name"];
-        self.email          = [dict validStringForKey:@"email"]; 
-        self.media_id       = [dict validIntForKey:@"media_id"];
-        self.read_write_key = [dict validStringForKey:@"read_write_key"];   
-        self.location       = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
-    }
-    return self;
+  if(self = [super init])
+  {
+    self.user_id        = [dict validIntForKey:@"user_id"];
+    self.user_name      = [dict validStringForKey:@"user_name"];
+    self.display_name   = [dict validStringForKey:@"display_name"];
+    self.email          = [dict validStringForKey:@"email"];
+    self.media_id       = [dict validIntForKey:@"media_id"];
+    self.read_write_key = [dict validStringForKey:@"read_write_key"];
+    self.location       = [dict validLocationForLatKey:@"latitude" lonKey:@"longitude"];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.user_id] forKey:@"user_id"];
+  [d setObject:self.user_name forKey:@"user_name"];
+  [d setObject:self.display_name forKey:@"display_name"];
+  [d setObject:self.email forKey:@"email"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
+  [d setObject:self.read_write_key forKey:@"read_write_key"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude] forKey:@"self.location.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude] forKey:@"self.location.coordinate.longitude"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (User *) mergeDataFromUser:(User *)u
@@ -77,3 +92,4 @@
 }
 
 @end
+

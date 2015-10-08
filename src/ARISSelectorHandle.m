@@ -9,7 +9,7 @@
 #import "ARISSelectorHandle.h"
 @interface ARISSelectorHandle()
 {
-    SEL selector; 
+    SEL selector;
     id __unsafe_unretained handler;
 }
 @end
@@ -19,7 +19,7 @@
 {
     if(self = [super init])
     {
-        handler = h; 
+        handler = h;
         selector = s;
     }
     return self;

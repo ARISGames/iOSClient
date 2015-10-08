@@ -7,16 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Media.h"
 
-@interface MediaModel : NSObject
+@interface MediaModel : ARISModel
 
 - (id) initWithContext:(NSManagedObjectContext *)c;
 - (Media *) mediaForId:(long)media_id;
 - (Media *) newMedia;
 - (void) requestMedia;
+- (void) requestMediaData;
 - (void) clearCache;
 
 - (void) saveAlteredMedia:(Media *)m; //don't like this...
 
 @end
+

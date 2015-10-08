@@ -15,5 +15,5 @@
 @end
 
 @interface GameDetailsViewController : ARISViewController
-- (id) initWithGame:(Game *)g delegate:(id<GameDetailsViewControllerDelegate>)d;
+- (id) initWithGame:(Game *)g downloaded:(BOOL)downloaded delegate:(id<GameDetailsViewControllerDelegate>)d;
 @end

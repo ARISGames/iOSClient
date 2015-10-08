@@ -17,28 +17,28 @@
 @end
 
 typedef enum {
-	LOADING,
-	LOADED,
-	ERROR
+  LOADING,
+  LOADED,
+  ERROR
 } WaveSampleStatus;
 
-@interface WaveSampleProvider : NSObject 
+@interface WaveSampleProvider : NSObject
 {
-	ExtAudioFileRef extAFRef;
-	Float64 extAFRateRatio;
-	long extAFNumChannels;
-	BOOL extAFReachedEOF;
-	NSString *_path;
-	WaveSampleStatus status;
-	NSString *statusMessage;
-	NSMutableArray *sampleData;
-	NSMutableArray *normalizedData;
-	long binSize;
-	//long lengthInSec;
-	long minute;
-	long sec;
-	NSURL *audioURL;
-	NSString *title;
+  ExtAudioFileRef extAFRef;
+  Float64 extAFRateRatio;
+  long extAFNumChannels;
+  BOOL extAFReachedEOF;
+  NSString *_path;
+  WaveSampleStatus status;
+  NSString *statusMessage;
+  NSMutableArray *sampleData;
+  NSMutableArray *normalizedData;
+  long binSize;
+  //long lengthInSec;
+  long minute;
+  long sec;
+  NSURL *audioURL;
+  NSString *title;
     float **maximumAudioSamples;
 }
 

@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "User.h"
 
-@interface UsersModel : NSObject
+@interface UsersModel : ARISModel
 
 - (User *) userForId:(long)user_id;
 - (void) requestUsers;
@@ -17,3 +18,4 @@
 - (void) clearData;
 
 @end
+

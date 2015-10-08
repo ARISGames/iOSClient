@@ -31,34 +31,51 @@
 
 @implementation WebPageViewController
 
-- (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d;
+- (id) initWithWebPage:(WebPage *)w delegate:(id<WebPageViewControllerDelegate>)d
 {
-    if(self = [super init])
-    {
-        instance = i;
-        webPage = [_MODEL_WEB_PAGES_ webPageForId:i.object_id];
+  if(self = [super init])
+  {
+    Instance *i = [_MODEL_INSTANCES_ instanceForId:0];
+    i.object_type = @"WEB_PAGE";
+    i.object_id = w.web_page_id;
 
-        delegate = d;
-        hasAppeared = NO;
-    }
-    return self;
+    instance = i;
+    webPage = w;
+
+    delegate = d;
+    hasAppeared = NO;
+  }
+  return self;
+}
+
+- (id) initWithInstance:(Instance *)i delegate:(id<WebPageViewControllerDelegate>)d
+{
+  if(self = [super init])
+  {
+    instance = i;
+    webPage = [_MODEL_WEB_PAGES_ webPageForId:i.object_id];
+
+    delegate = d;
+    hasAppeared = NO;
+  }
+  return self;
 }
 - (Instance *) instance { return instance; }
 
 - (id) initWithTab:(Tab *)t delegate:(id<WebPageViewControllerDelegate>)d;
 {
-    if(self = [super init])
-    {
-        tab = t;
-        instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
-        instance.object_type = tab.type;
-        instance.object_id = tab.content_id;
-        webPage = [_MODEL_WEB_PAGES_ webPageForId:instance.object_id];
+  if(self = [super init])
+  {
+    tab = t;
+    instance = [_MODEL_INSTANCES_ instanceForId:0]; //get null inst
+    instance.object_type = tab.type;
+    instance.object_id = tab.content_id;
+    webPage = [_MODEL_WEB_PAGES_ webPageForId:instance.object_id];
 
-        delegate = d;
-        hasAppeared = NO;
-    }
-    return self;
+    delegate = d;
+    hasAppeared = NO;
+  }
+  return self;
 }
 - (Tab *) tab { return tab; }
 
@@ -96,7 +113,9 @@
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+
+    if(!webPage || webPage.back_button_enabled)
+      self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 
     if(tab)
     {
@@ -106,11 +125,6 @@
         threeLineNavButton.accessibilityLabel = @"In-Game Menu";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
     }
-}
-
-- (NSString *) getTabTitle
-{
-    return webPage.name;
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
@@ -163,15 +177,16 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"WEB_PAGE"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(webPage.name && ![webPage.name isEqualToString:@""]) return webPage.name; return @"Web Page"; }
-- (UIImage *) tabIcon
+- (ARISMediaView *) tabIcon
 {
-  if(webPage)
-  {
     ARISMediaView *amv = [[ARISMediaView alloc] init];
-    [amv setMedia:[_MODEL_MEDIA_ mediaForId:webPage.icon_media_id]];
-    if(amv.image) return amv.image;
-  }
-  return [UIImage imageNamed:@"logo_icon"];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else if(webPage.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:webPage.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"logo_icon"]];
+    return amv;
 }
 
 - (void) dealloc

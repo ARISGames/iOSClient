@@ -12,8 +12,8 @@
 
 @interface ARISDefaults()
 {
-    NSUserDefaults *defaults; 
-    NSMutableDictionary *defaultDefaults; //yeah good work on naming scheme there apple... 
+  NSUserDefaults *defaults;
+  NSMutableDictionary *defaultDefaults; //yeah good work on naming scheme there apple...
 }
 @end
 
@@ -22,9 +22,9 @@
 @synthesize fallbackGameId;
 @synthesize fallbackUser;
 @synthesize version;
-@synthesize serverURL;  
-    
-@synthesize showPlayerOnMap;  
+@synthesize serverURL;
+
+@synthesize showPlayerOnMap;
 
 + (ARISDefaults *) sharedDefaults
 {
@@ -36,11 +36,11 @@
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        [self loadDefaultUserDefaults];
-    }
-    return self;
+  if(self = [super init])
+  {
+    [self loadDefaultUserDefaults];
+  }
+  return self;
 }
 
 - (void) loadDefaultUserDefaults
@@ -54,7 +54,7 @@
   NSArray *prefDictArray = settingsDict[@"PreferenceSpecifiers"];
   for(long i = 0; i < prefDictArray.count; i++)
   {
-    if(prefDictArray[i][@"DefaultValue"]) 
+    if(prefDictArray[i][@"DefaultValue"])
         defaultDefaults[prefDictArray[i][@"Key"]] = prefDictArray[i][@"DefaultValue"];
   }
 }
@@ -64,24 +64,24 @@
   _ARIS_LOG_(@"DefaultsState : Loading");
   defaults = [NSUserDefaults standardUserDefaults];
 
-  NSString *defaultServer;
-  if(!(defaultServer = [defaults stringForKey:@"baseServerString"])) 
-    defaultServer = defaultDefaults[@"baseServerString"];
+  NSString *tmpServer;
+  if(!(tmpServer = [defaults stringForKey:@"baseServerString"]))
+    tmpServer = defaultDefaults[@"baseServerString"];
 
-  NSString *defaultVersion;
-  if(!(defaultVersion = [defaults stringForKey:@"appVersion"])) 
-    defaultVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+  NSString *tmpVersion;
+  if(!(tmpVersion = [defaults stringForKey:@"appVersion"]))
+    tmpVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 
   if(
-    (serverURL && ![defaultServer isEqualToString:serverURL]) || //new server
-    (version && ![defaultVersion isEqualToString:version]) || //new version
+    (serverURL && ![tmpServer isEqualToString:serverURL]) || //new server
+    (version && ![tmpVersion isEqualToString:version]) || //new version
     [defaults boolForKey:@"clearCache"] //requested clear
     )
-  _ARIS_NOTIF_SEND_(@"DEFAULTS_CLEAR",nil,nil); 
-    
-  serverURL = defaultServer;
-  version = defaultVersion; 
-  
+  _ARIS_NOTIF_SEND_(@"DEFAULTS_CLEAR",nil,nil);
+
+  serverURL = tmpServer;
+  version = tmpVersion;
+
   [defaults setObject:serverURL forKey:@"baseServerString"];
   [defaults setObject:version forKey:@"appVersion"];
   [defaults setBool:NO forKey:@"clearCache"];
@@ -106,9 +106,9 @@
   if(u.user_id) fallbackUser = u;
   else fallbackUser = nil;
 
-  if(!fallbackGameId) fallbackGameId = [defaults integerForKey:@"game_id"]; 
+  if(!fallbackGameId) fallbackGameId = [defaults integerForKey:@"game_id"];
 
-  _ARIS_NOTIF_SEND_(@"DEFAULTS_UPDATED",nil,nil);  
+  _ARIS_NOTIF_SEND_(@"DEFAULTS_UPDATED",nil,nil);
 }
 
 - (void) saveUserDefaults
@@ -117,10 +117,10 @@
 
   [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
   [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
-  if(_MODEL_GAME_)
-      [defaults setInteger:_MODEL_GAME_.game_id forKey:@"game_id"];
-  else
-      [defaults setInteger:0 forKey:@"game_id"]; 
+
+  if(_MODEL_GAME_) [defaults setInteger:_MODEL_GAME_.game_id forKey:@"game_id"];
+  else             [defaults setInteger:0                    forKey:@"game_id"];
+
   if(_MODEL_PLAYER_)
   {
     [defaults setInteger:_MODEL_PLAYER_.user_id        forKey:@"user_id"];

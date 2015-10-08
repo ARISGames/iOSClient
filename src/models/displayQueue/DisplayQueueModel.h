@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
+
 @class Trigger;
 @class Instance;
 @protocol InstantiableProtocol;
 @class Tab;
 
-@interface DisplayQueueModel : NSObject
+@interface DisplayQueueModel : ARISModel
 
-- (void) clear;
+- (void) clearPlayerData;
 
 - (void) enqueueTrigger:(Trigger *)t;
 - (void) injectTrigger:(Trigger *)t;
@@ -26,5 +28,7 @@
 - (void) injectTab:(Tab *)t;
 
 - (NSObject *) dequeue;
+
+- (void) endPlay;
 
 @end

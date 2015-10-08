@@ -50,7 +50,7 @@ static NSString * const OPTION_CELL = @"option";
         instance = i;
         plaque = [_MODEL_PLAQUES_ plaqueForId:instance.object_id];
         if(plaque.event_package_id) [_MODEL_EVENTS_ runEventPackageId:plaque.event_package_id];
-        self.title = plaque.name;
+        self.title = self.tabTitle;
     }
 
     return self;
@@ -93,26 +93,30 @@ static NSString * const OPTION_CELL = @"option";
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
 
-    continueButton = [[UIView alloc] init];
-    continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
-    continueButton.userInteractionEnabled = YES;
-    continueButton.accessibilityLabel = @"Continue";
-    continueLbl = [[UILabel alloc] init];
-    continueLbl.textColor = [ARISTemplate ARISColorText];
-    continueLbl.textAlignment = NSTextAlignmentRight;
-    continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
-    continueLbl.font = [ARISTemplate ARISButtonFont];
-    [continueButton addSubview:continueLbl];
-    [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+    if (![plaque.continue_function isEqualToString:@"NONE"]) {
+        continueButton = [[UIView alloc] init];
+        continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+        continueButton.userInteractionEnabled = YES;
+        continueButton.accessibilityLabel = @"Continue";
+        continueLbl = [[UILabel alloc] init];
+        continueLbl.textColor = [ARISTemplate ARISColorText];
+        continueLbl.textAlignment = NSTextAlignmentRight;
+        continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
+        continueLbl.font = [ARISTemplate ARISButtonFont];
+        [continueButton addSubview:continueLbl];
+        [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
 
-    arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
-    line = [[UIView alloc] init];
-    line.backgroundColor = [UIColor ARISColorLightGray];
+        arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+        line = [[UIView alloc] init];
+        line.backgroundColor = [UIColor ARISColorLightGray];
+    }
 
     [self.view addSubview:scrollView];
-    [self.view addSubview:continueButton];
-    [self.view addSubview:arrow];
-    [self.view addSubview:line];
+    if (![plaque.continue_function isEqualToString:@"NONE"]) {
+        [self.view addSubview:continueButton];
+        [self.view addSubview:arrow];
+        [self.view addSubview:line];
+    }
 
     [self loadPlaque];
 }
@@ -136,7 +140,8 @@ static NSString * const OPTION_CELL = @"option";
     [super viewWillLayoutSubviews];
     scrollView.frame = self.view.bounds;
     scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
+    if(scrollView.contentSize.height < self.view.bounds.size.height-64-44)
+      scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
 
     webView.frame = CGRectMake(0, mediaView.frame.origin.y+mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height > 10 ? webView.frame.size.height : 10);
 
@@ -188,7 +193,7 @@ static NSString * const OPTION_CELL = @"option";
 {
     WebPage *nullWebPage = [_MODEL_WEB_PAGES_ webPageForId:0];
     nullWebPage.url = [r.URL absoluteString];
-    
+
     [_MODEL_DISPLAY_QUEUE_ enqueueObject:nullWebPage];
     [self dismissSelf];
 
@@ -197,7 +202,7 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
-    webView.alpha = 1.00;
+    webView.alpha = 1.0;
 
     //Calculate the height of the web content
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
@@ -210,8 +215,13 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) continueButtonTouched
 {
-    [webView hookWithParams:@""];
-    [self dismissSelf];
+    if ([plaque.continue_function isEqualToString:@"JAVASCRIPT"]) {
+        [webView hookWithParams:@""];
+    } else if ([plaque.continue_function isEqualToString:@"EXIT"]) {
+        [self dismissSelf];
+    } else {
+        // this shouldn't happen, the button shouldn't have been drawn
+    }
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
@@ -233,15 +243,16 @@ static NSString * const OPTION_CELL = @"option";
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"PLAQUE"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(plaque.name && ![plaque.name isEqualToString:@""]) return plaque.name; return @"Plaque"; }
-- (UIImage *) tabIcon
+- (ARISMediaView *) tabIcon
 {
-  if(plaque)
-  {
     ARISMediaView *amv = [[ARISMediaView alloc] init];
-    [amv setMedia:[_MODEL_MEDIA_ mediaForId:plaque.icon_media_id]];
-    if(amv.image) return amv.image;
-  }
-  return [UIImage imageNamed:@"logo_icon"];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else if(plaque.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:plaque.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"logo_icon"]];
+    return amv;
 }
 
 - (void)dealloc

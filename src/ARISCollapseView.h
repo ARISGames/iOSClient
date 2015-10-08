@@ -11,7 +11,7 @@
 @class ARISCollapseView;
 
 @protocol ARISCollapseViewDelegate
-@optional 
+@optional
 - (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o;
 - (void) collapseView:(ARISCollapseView *)cv didFinishOpen:(BOOL)o;
 - (void) collapseView:(ARISCollapseView *)cv wasDragged:(UIPanGestureRecognizer *)r;

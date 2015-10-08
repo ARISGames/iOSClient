@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "ScenesModel.h"
+#import "GroupsModel.h"
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
 #import "DialogsModel.h"
@@ -17,11 +18,14 @@
 #import "NotesModel.h"
 #import "TagsModel.h"
 #import "EventsModel.h"
+#import "RequirementsModel.h"
 #import "TriggersModel.h"
 #import "FactoriesModel.h"
 #import "OverlaysModel.h"
 #import "InstancesModel.h"
 #import "PlayerInstancesModel.h"
+#import "GameInstancesModel.h"
+#import "GroupInstancesModel.h"
 #import "TabsModel.h"
 #import "LogsModel.h"
 #import "QuestsModel.h"
@@ -46,6 +50,7 @@
   NSMutableArray *comments;
 
   NSString *map_type;
+  NSString *map_focus;
   CLLocation *map_location;
   double map_zoom_level;
   BOOL map_show_player;
@@ -57,24 +62,34 @@
   BOOL notebook_allow_player_tags;
 
   long inventory_weight_cap;
+  NSString *network_level;
+  BOOL allow_download;
+  BOOL preload_media;
 
-  ScenesModel     *scenesModel;
-  PlaquesModel    *plaquesModel;
-  ItemsModel      *itemsModel;
-  DialogsModel    *dialogsModel;
-  WebPagesModel   *webPagesModel;
-  NotesModel      *notesModel;
-  TagsModel       *tagsModel;
-  EventsModel     *eventsModel;
-  TriggersModel   *triggersModel;
-  FactoriesModel  *factoriesModel;
-  OverlaysModel   *overlaysModel;
-  InstancesModel  *instancesModel;
+  NSMutableArray *models;
+
+  ScenesModel       *scenesModel;
+  GroupsModel       *groupsModel;
+  PlaquesModel      *plaquesModel;
+  ItemsModel        *itemsModel;
+  DialogsModel      *dialogsModel;
+  WebPagesModel     *webPagesModel;
+  NotesModel        *notesModel;
+  TagsModel         *tagsModel;
+  EventsModel       *eventsModel;
+  RequirementsModel *requirementsModel;
+  TriggersModel     *triggersModel;
+  FactoriesModel    *factoriesModel;
+  OverlaysModel     *overlaysModel;
+  InstancesModel    *instancesModel;
   PlayerInstancesModel  *playerInstancesModel;
-  TabsModel       *tabsModel;
-  LogsModel       *logsModel;
-  QuestsModel     *questsModel;
+  GameInstancesModel *gameInstancesModel;
+  TabsModel         *tabsModel;
+  LogsModel         *logsModel;
+  QuestsModel       *questsModel;
   DisplayQueueModel *displayQueueModel;
+  
+  BOOL downloaded;
 }
 
 @property (nonatomic, assign) long game_id;
@@ -95,6 +110,7 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 
 @property (nonatomic, strong) NSString *map_type;
+@property (nonatomic, strong) NSString *map_focus;
 @property (nonatomic, strong) CLLocation *map_location;
 @property (nonatomic, assign) double map_zoom_level;
 @property (nonatomic, assign) BOOL map_show_player;
@@ -106,26 +122,37 @@
 @property (nonatomic, assign) BOOL notebook_allow_player_tags;
 
 @property (nonatomic, assign) long inventory_weight_cap;
+@property (nonatomic, strong) NSString *network_level;
+@property (nonatomic, assign) BOOL allow_download;
+@property (nonatomic, assign) BOOL preload_media;
 
-@property (nonatomic, strong) ScenesModel    *scenesModel;
-@property (nonatomic, strong) PlaquesModel   *plaquesModel;
-@property (nonatomic, strong) ItemsModel     *itemsModel;
-@property (nonatomic, strong) DialogsModel   *dialogsModel;
-@property (nonatomic, strong) WebPagesModel  *webPagesModel;
-@property (nonatomic, strong) NotesModel     *notesModel;
-@property (nonatomic, strong) TagsModel      *tagsModel;
-@property (nonatomic, strong) EventsModel    *eventsModel;
-@property (nonatomic, strong) TriggersModel  *triggersModel;
-@property (nonatomic, strong) FactoriesModel *factoriesModel;
-@property (nonatomic, strong) OverlaysModel  *overlaysModel;
-@property (nonatomic, strong) InstancesModel *instancesModel;
+@property (nonatomic, strong) NSMutableArray *models;
+@property (nonatomic, strong) ScenesModel       *scenesModel;
+@property (nonatomic, strong) GroupsModel       *groupsModel;
+@property (nonatomic, strong) PlaquesModel      *plaquesModel;
+@property (nonatomic, strong) ItemsModel        *itemsModel;
+@property (nonatomic, strong) DialogsModel      *dialogsModel;
+@property (nonatomic, strong) WebPagesModel     *webPagesModel;
+@property (nonatomic, strong) NotesModel        *notesModel;
+@property (nonatomic, strong) TagsModel         *tagsModel;
+@property (nonatomic, strong) EventsModel       *eventsModel;
+@property (nonatomic, strong) RequirementsModel *requirementsModel;
+@property (nonatomic, strong) TriggersModel     *triggersModel;
+@property (nonatomic, strong) FactoriesModel    *factoriesModel;
+@property (nonatomic, strong) OverlaysModel     *overlaysModel;
+@property (nonatomic, strong) InstancesModel    *instancesModel;
 @property (nonatomic, strong) PlayerInstancesModel *playerInstancesModel;
-@property (nonatomic, strong) TabsModel      *tabsModel;
-@property (nonatomic, strong) LogsModel      *logsModel;
-@property (nonatomic, strong) QuestsModel    *questsModel;
+@property (nonatomic, strong) GameInstancesModel *gameInstancesModel;
+@property (nonatomic, strong) GroupInstancesModel *groupInstancesModel;
+@property (nonatomic, strong) TabsModel         *tabsModel;
+@property (nonatomic, strong) LogsModel         *logsModel;
+@property (nonatomic, strong) QuestsModel       *questsModel;
 @property (nonatomic, strong) DisplayQueueModel *displayQueueModel;
 
+@property (nonatomic, assign) BOOL downloaded;
+
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (void) mergeDataFromGame:(Game *)g;
 - (void) getReadyToPlay;
 - (void) requestGameData;
@@ -134,3 +161,4 @@
 - (void) clearModels;
 
 @end
+

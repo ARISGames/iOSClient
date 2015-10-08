@@ -19,7 +19,7 @@
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
         [self.tabBarItem setImage:[[UIImage imageNamed:@"globe.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"globe_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-        
+
         _ARIS_NOTIF_LISTEN_(@"MODEL_ANYWHERE_GAMES_AVAILABLE",self,@selector(anywhereGamesAvailable),nil);
     }
     return self;
@@ -28,18 +28,18 @@
 - (void) anywhereGamesAvailable
 {
     [self removeLoadingIndicator];
-	games = _MODEL_GAMES_.anywhereGames;
+  games = _MODEL_GAMES_.anywhereGames;
     [gameTable reloadData];
 }
 - (void) refreshViewFromModel
 {
-	games = _MODEL_GAMES_.pingAnywhereGames;
+  games = _MODEL_GAMES_.pingAnywhereGames;
     [gameTable reloadData];
 }
 
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);      
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

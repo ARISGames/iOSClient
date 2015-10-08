@@ -7,11 +7,12 @@
 //
 
 // RULE OF THUMB:
-// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c, 
+// Merge any new object data rather than replace. Becuase 'everything is pointers' in obj c,
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "WebPagesModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface WebPagesModel()
 {
@@ -32,9 +33,18 @@
     return self;
 }
 
+- (void) requestGameData
+{
+  [self requestWebPages];
+}
 - (void) clearGameData
 {
     webPages = [[NSMutableDictionary alloc] init];
+    n_game_data_received = 0;
+}
+- (long) nGameDataToReceive
+{
+  return 1;
 }
 
 - (void) webPagesReceived:(NSNotification *)notif
@@ -52,8 +62,9 @@
       newWebPageId = [NSNumber numberWithLong:newWebPage.web_page_id];
       if(![webPages objectForKey:newWebPageId]) [webPages setObject:newWebPage forKey:newWebPageId];
     }
-    _ARIS_NOTIF_SEND_(@"MODEL_WEB_PAGES_AVAILABLE",nil,nil);   
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);       
+    _ARIS_NOTIF_SEND_(@"MODEL_WEB_PAGES_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    n_game_data_received++;
 }
 
 - (void) requestWebPages
@@ -68,9 +79,55 @@
   return [webPages objectForKey:[NSNumber numberWithLong:web_page_id]];
 }
 
+- (NSString *) serializedName
+{
+  return @"web_pages";
+}
+
+- (NSString *) serializeGameData
+{
+  NSArray *web_pages_a = [webPages allValues];
+  WebPage *w_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"web_pages\":["];
+  for(long i = 0; i < web_pages_a.count; i++)
+  {
+    w_o = web_pages_a[i];
+    [r appendString:[w_o serialize]];
+    if(i != web_pages_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
+}
+
+- (void) deserializeGameData:(NSString *)data
+{
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_web_pages = d_data[@"web_pages"];
+  for(long i = 0; i < d_web_pages.count; i++)
+  {
+    WebPage *w = [[WebPage alloc] initWithDictionary:d_web_pages[i]];
+    [webPages setObject:w forKey:[NSNumber numberWithLong:w.web_page_id]];
+  }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
+}
+
 - (void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);                                 
+    _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

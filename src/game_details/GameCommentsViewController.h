@@ -13,6 +13,6 @@
 @protocol GameCommentsViewControllerDelegate
 @end
 
-@interface GameCommentsViewController : ARISViewController 
+@interface GameCommentsViewController : ARISViewController
 - (id) initWithGame:(Game*)g delegate:(id<GameCommentsViewControllerDelegate>)d;
 @end

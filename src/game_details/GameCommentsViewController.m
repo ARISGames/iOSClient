@@ -19,8 +19,8 @@
 @interface GameCommentsViewController () <UITableViewDelegate,UITableViewDataSource,GameCommentsReviewViewcontrollerDelegate, GameCommentCellDelegate>
 {
     UIButton *writeAReviewButton;
-	UITableView *commentsTable;
-    
+  UITableView *commentsTable;
+
     NSMutableDictionary *cellSizes; //parallel to game.comments. can't store in cell since they are reused
     Game *game;
     id <GameCommentsViewControllerDelegate> __unsafe_unretained delegate;
@@ -42,41 +42,41 @@
 
 - (void) loadView
 {
-    [super loadView]; 
+    [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     writeAReviewButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [writeAReviewButton setTitle:NSLocalizedString(@"WriteReviewKey", @"") forState:UIControlStateNormal];
     [writeAReviewButton setBackgroundColor:[UIColor ARISColorDarkBlue]];
-    [writeAReviewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal]; 
-    writeAReviewButton.titleLabel.font = [ARISTemplate ARISButtonFont]; 
+    [writeAReviewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    writeAReviewButton.titleLabel.font = [ARISTemplate ARISButtonFont];
     [writeAReviewButton addTarget:self action:@selector(writeAReviewButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    
-    commentsTable = [[UITableView alloc] init]; 
+
+    commentsTable = [[UITableView alloc] init];
     commentsTable.dataSource = self;
-    commentsTable.delegate = self; 
-    
+    commentsTable.delegate = self;
+
     [self.view addSubview:writeAReviewButton];
-    [self.view addSubview:commentsTable]; 
+    [self.view addSubview:commentsTable];
 }
 
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     writeAReviewButton.frame = CGRectMake(0+4,64+4,self.view.bounds.size.width-8,40-8);
-    commentsTable.frame = CGRectMake(0,104,self.view.bounds.size.width,self.view.bounds.size.height-104); 
-    
+    commentsTable.frame = CGRectMake(0,104,self.view.bounds.size.width,self.view.bounds.size.height-104);
+
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0,0,19,19);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton]; 
+  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
-	[commentsTable reloadData];
+  [commentsTable reloadData];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -88,10 +88,10 @@
 {
     GameCommentCell *cell = [commentsTable dequeueReusableCellWithIdentifier:@"GCommentCell"];
     if(!cell) cell = [[GameCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GCommentCell"];
-    
+
     [cell setComment:[game.comments objectAtIndex:indexPath.row]];
     [cell setDelegate:self];
-    
+
     return cell;
 }
 
@@ -100,7 +100,7 @@
     GameComment *gc = [game.comments objectAtIndex:indexPath.row];
     if([cellSizes objectForKey:[gc description]])
         return [((NSNumber *)[cellSizes objectForKey:[gc description]])intValue];
-    
+
     NSMutableParagraphStyle *paragraphStyle;
     CGRect textRect;
     paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -110,14 +110,14 @@
                                              attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle}
                                          context:nil];
     CGSize calcSize = textRect.size;
-	return calcSize.height+30; 
+  return calcSize.height+30;
 }
 
 - (void) heightCalculated:(long)h forComment:(GameComment *)gc inCell:(GameCommentCell *)gcc
 {
     if(![cellSizes objectForKey:[gc description]])
     {
-        [cellSizes setValue:[NSNumber numberWithLong:h] forKey:[gc description]]; 
+        [cellSizes setValue:[NSNumber numberWithLong:h] forKey:[gc description]];
         [commentsTable reloadData];
     }
 }
@@ -131,15 +131,15 @@
 - (void) reviewCreatedWithRating:(long)r title:(NSString *)t text:(NSString *)s
 {
     //[_SERVICES_ saveGameComment:s titled:t game:game.game_id starRating:r];
-    
+
     GameComment *gc = [[GameComment alloc] init];
     gc.title = t;
-    gc.text = s; 
+    gc.text = s;
     gc.rating = r;
     gc.playerName = _MODEL_PLAYER_.user_name;
     [game.comments addObject:gc];
     [commentsTable reloadData];
-    [self.navigationController popToViewController:self animated:YES];  
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (void) backButtonTouched

@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface User : NSObject 
+@interface User : NSObject
 {
-    long user_id; 
+    long user_id;
     NSString *user_name;
     NSString *display_name;
     NSString* email;
@@ -29,6 +29,8 @@
 @property (nonatomic, strong) CLLocation *location;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (User *) mergeDataFromUser:(User *)u;
 
 @end
+

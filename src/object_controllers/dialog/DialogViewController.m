@@ -117,8 +117,9 @@
 
 - (void) viewWillLayoutSubviews
 {
-    [super viewWillLayoutSubviews];
-   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+  [super viewWillLayoutSubviews];
+  if(!dialog || dialog.back_button_enabled)
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -146,6 +147,15 @@
 */
 - (void) dialogScriptChosen:(DialogScript *)s
 {
+    // switch dialogs if necessary
+    if (s.dialog_id != dialog.dialog_id) {
+        dialog = [_MODEL_DIALOGS_ dialogForId:s.dialog_id];
+        ((DialogScriptViewController *)youViewControllers[0]).dialog = dialog;
+        ((DialogScriptViewController *)youViewControllers[1]).dialog = dialog;
+        ((DialogScriptViewController *)themViewControllers[0]).dialog = dialog;
+        ((DialogScriptViewController *)themViewControllers[1]).dialog = dialog;
+    }
+
     if(s.event_package_id) [_MODEL_EVENTS_ runEventPackageId:s.event_package_id];
     [_MODEL_LOGS_ playerViewedContent:@"DIALOG_SCRIPT" id:s.dialog_script_id];
     if(s.dialog_character_id == 0)
@@ -196,8 +206,8 @@
 
 - (void) setNavTitle:(NSString *)title
 {
-    self.title = title;
-   self.navigationItem.title = title;
+  self.title = title;
+  self.navigationItem.title = title;
 }
 
 - (void) exitRequested
@@ -219,15 +229,16 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"DIALOG"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(dialog.name && ![dialog.name isEqualToString:@""]) return dialog.name; return @"Dialog"; }
-- (UIImage *) tabIcon
+- (ARISMediaView *) tabIcon
 {
-  if(dialog)
-  {
-    ARISMediaView *amv = [[ARISMediaView alloc] init];
+  ARISMediaView *amv = [[ARISMediaView alloc] init];
+  if(tab.icon_media_id)
+    [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+  else if(dialog.icon_media_id)
     [amv setMedia:[_MODEL_MEDIA_ mediaForId:dialog.icon_media_id]];
-    if(amv.image) return amv.image;
-  }
-  return [UIImage imageNamed:@"logo_icon"];
+  else
+    [amv setImage:[UIImage imageNamed:@"logo_icon"]];
+  return amv;
 }
 
 @end

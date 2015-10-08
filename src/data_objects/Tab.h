@@ -12,22 +12,26 @@
 {
     long tab_id;
     NSString *type;
-    NSString *name; 
-    long icon_media_id; 
+    NSString *name;
+    long icon_media_id;
     long content_id;
     NSString *info;
     long sort_index;
+    long requirement_root_package_id;
 }
 
 @property (nonatomic, assign) long tab_id;
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSString *name; 
-@property (nonatomic, assign) long icon_media_id; 
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) long icon_media_id;
 @property (nonatomic, assign) long content_id;
-@property (nonatomic, strong) NSString *info; 
+@property (nonatomic, strong) NSString *info;
 @property (nonatomic, assign) long sort_index;
+@property (nonatomic, assign) long requirement_root_package_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (NSString *) keyString;
 
 @end
+

@@ -36,6 +36,7 @@
     UIImageView *leaveGameArrow;
     UIView *leaveGameLine;
 
+    NSArray *playerTabs;
     NSMutableDictionary *viewControllersDict;
     NSMutableArray *viewControllers;
 
@@ -113,7 +114,7 @@
     [tableView setTableHeaderView:headerView];
 
     [self.view addSubview:tableView];
-    if(!_MODEL_.disableLeaveGame) [self.view addSubview:leaveGameButton];
+    if(_MODEL_.leave_game_enabled) [self.view addSubview:leaveGameButton];
 }
 
 - (void) viewWillLayoutSubviews
@@ -121,8 +122,8 @@
     [super viewWillLayoutSubviews];
 
     tableView.frame = self.view.bounds;
-    if(_MODEL_.disableLeaveGame) tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
-    else                         tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
+    if(_MODEL_.leave_game_enabled) tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
+    else                           tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
 
     leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
     leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
@@ -138,7 +139,7 @@
 
 - (void) refreshFromModel
 {
-    NSArray *playerTabs = _ARIS_ARRAY_SORTED_ON_(_MODEL_TABS_.playerTabs,@"sort_index");
+    playerTabs = _ARIS_ARRAY_SORTED_ON_(_MODEL_TABS_.playerTabs,@"sort_index");
     viewControllers = [[NSMutableArray alloc] initWithCapacity:playerTabs.count];
 
     Tab *tab;
@@ -237,7 +238,8 @@
 
 - (ARISNavigationController *) firstViewController
 {
-    return viewControllers[0];
+  if(viewControllers.count < 1) return nil;
+  return viewControllers[0];
 }
 
 - (void) leaveGameButtonTouched
@@ -280,9 +282,9 @@
 
 - (void) requestDisplayTab:(Tab *)t
 {
-    NSArray *playerTabs = _MODEL_TABS_.playerTabs;
     Tab *tab;
-    //Check by type
+    ARISNavigationController *vc;
+
     for(long i = 0; i < playerTabs.count; i++)
     {
         tab = playerTabs[i];
@@ -295,12 +297,48 @@
                 // clean this up later.
                 tab.info = @"";
             }
+            else if([tab.type isEqualToString:@"DIALOG"])
+            {
+                DialogViewController *dialogViewController = [[DialogViewController alloc] initWithTab:tab delegate:
+                    (id<DialogViewControllerDelegate>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:dialogViewController];
+            }
+            else if([tab.type isEqualToString:@"ITEM"])
+            {
+                ItemViewController *itemViewController = [[ItemViewController alloc] initWithTab:tab delegate:
+                    (id<ItemViewControllerDelegate>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:itemViewController];
+            }
+            else if([tab.type isEqualToString:@"PLAQUE"])
+            {
+                PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithTab:tab delegate:
+                    (id<PlaqueViewControllerDelegate>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
+            }
+            else if([tab.type isEqualToString:@"WEB_PAGE"])
+            {
+                WebPageViewController *webPageViewController = [[WebPageViewController alloc] initWithTab:tab delegate:
+                    (id<WebPageViewControllerDelegate>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:webPageViewController];
+            }
+
+            if(vc) //new vc was created- replace old one
+            {
+              for(long i = 0; i < viewControllers.count; i++)
+              {
+                if(viewControllers[i] == viewControllersDict[[NSNumber numberWithLong:tab.tab_id]])
+                {
+                  [viewControllersDict setObject:vc forKey:[NSNumber numberWithLong:tab.tab_id]];
+                  [viewControllers setObject:vc atIndexedSubscript:(NSUInteger)i];
+                }
+              }
+            }
 
             [delegate viewControllerRequestedDisplay:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
             return;
         }
     }
-    
+
     /*
     //Check by name
     for(long i = 0; i < playerTabs.count; i++)
@@ -327,7 +365,6 @@
 
 - (void) requestDisplayScannerWithPrompt:(NSString *)p
 {
-    NSArray *playerTabs = _MODEL_TABS_.playerTabs;
     Tab *tab;
     for(long i = 0; i < playerTabs.count; i++)
     {
@@ -343,18 +380,8 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [delegate viewControllerRequestedDisplay:viewControllers[indexPath.row]];
-}
-
-- (void) selectTab:(NSNotification *) notification
-{
-    NSDictionary *arisNavTab = notification.userInfo;
-    ARISNavigationController *tab = [arisNavTab objectForKey:@"tab"];
-    for (long i = 0; i < viewControllers.count; i++) {
-        if ([tab isEqual:[viewControllers objectAtIndex:i]]) {
-            [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
-        }
-    }
+  Tab *tab = playerTabs[indexPath.row];
+  [self requestDisplayTab:tab];
 }
 
 - (void) refreshTabTable

@@ -8,6 +8,7 @@
 
 #import "Note.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 #import "AppModel.h"
 
 @implementation Note
@@ -41,25 +42,39 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
+  if(self = [super init])
+  {
+    self.note_id       = [dict validIntForKey:@"note_id"];
+    self.user_id       = [dict validIntForKey:@"user_id"];
+    self.name          = [dict validStringForKey:@"name"];
+    self.desc          = [dict validStringForKey:@"description"];
+    self.media_id      = [dict validIntForKey:@"media_id"];
+    self.tag_id        = [dict validIntForKey:@"tag_id"];
+    self.object_tag_id = [dict validIntForKey:@"object_tag_id"];
+    self.created       = [dict validDateForKey:@"created"];
+
+    if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validStringForKey:@"display_name"] != nil)
     {
-        self.note_id       = [dict validIntForKey:@"note_id"];
-        self.user_id       = [dict validIntForKey:@"user_id"];
-        self.name          = [dict validObjectForKey:@"name"];
-        self.desc          = [dict validObjectForKey:@"description"];
-        self.media_id      = [dict validIntForKey:@"media_id"];
-        self.tag_id        = [dict validIntForKey:@"tag_id"];
-        self.object_tag_id = [dict validIntForKey:@"object_tag_id"];
-        self.created       = [dict validDateForKey:@"created"];
-
-        if([dict validObjectForKey:@"user"] != nil && [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"] != nil)
-        {
-          self.user_display_name = [[dict validObjectForKey:@"user"] validObjectForKey:@"display_name"];
-        }
-
-        [self createObjectTag];
+      self.user_display_name = [[dict validObjectForKey:@"user"] validStringForKey:@"display_name"];
     }
-    return self;
+
+    [self createObjectTag];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.note_id] forKey:@"note_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.user_id] forKey:@"user_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.tag_id] forKey:@"tag_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.object_tag_id] forKey:@"object_tag_id"];
+  [d setObject:[self.created descriptionWithLocale:nil] forKey:@"created"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (void) mergeDataFromNote:(Note *)n //allows for notes to be updated easily- all things with this note pointer now have access to latest note data
@@ -118,3 +133,4 @@
 }
 
 @end
+

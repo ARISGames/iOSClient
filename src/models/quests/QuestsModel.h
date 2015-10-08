@@ -7,17 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Quest.h"
 
-@interface QuestsModel : NSObject
+@interface QuestsModel : ARISModel
 
 - (Quest *) questForId:(long)quest_id;
 - (NSArray *) visibleActiveQuests;
 - (NSArray *) visibleCompleteQuests;
 - (void) requestQuests;
 - (void) requestPlayerQuests;
-
-- (void) clearPlayerData;
-- (void) clearGameData;
+- (void) logAnyNewlyCompletedQuests;
 
 @end
+

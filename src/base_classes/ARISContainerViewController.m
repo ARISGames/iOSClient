@@ -14,7 +14,7 @@
 {
     if(self = [super init])
     {
-        
+
     }
     return self;
 }
@@ -37,12 +37,12 @@
 - (void) displayContentController:(UIViewController*)content
 {
     if(currentChildViewController) [self hideContentController:currentChildViewController];
-    
+
     [self addChildViewController:content];
     content.view.frame = self.view.bounds;
     [self.view addSubview:content.view];
     [content didMoveToParentViewController:self];
-    
+
     currentChildViewController = content;
 }
 
@@ -51,7 +51,7 @@
     [content willMoveToParentViewController:nil];
     [content.view removeFromSuperview];
     [content removeFromParentViewController];
-    
+
     currentChildViewController = nil;
 }
 
@@ -70,7 +70,7 @@
                             completion:^(BOOL finished) { [oldC removeFromParentViewController]; [newC didMoveToParentViewController:self]; }];
 }
 
-- (NSUInteger) supportedInterfaceOrientations
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         return UIInterfaceOrientationMaskAll;

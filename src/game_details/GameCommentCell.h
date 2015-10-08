@@ -15,7 +15,7 @@
 - (void) heightCalculated:(long)h forComment:(GameComment *)gc inCell:(GameCommentCell *)gcc;
 @end
 
-@interface GameCommentCell : UITableViewCell 
+@interface GameCommentCell : UITableViewCell
 - (void) setComment:(GameComment *)gc;
 - (void) setDelegate:(id<GameCommentCellDelegate>)d;
 @end

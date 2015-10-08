@@ -7,14 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "WebPage.h"
 
-@interface WebPagesModel : NSObject
-{
-}
+@interface WebPagesModel : ARISModel
 
 - (WebPage *) webPageForId:(long)web_page_id;
 - (void) requestWebPages;
-- (void) clearGameData;
 
 @end
+

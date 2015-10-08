@@ -45,10 +45,10 @@
 
 - (void) loadMediaFromMR:(MediaResult *)mr
 {
-  if(!mr.media.remoteURL) { [self loadMetaDataForMR:mr]; return; }
-  if(mr.media.data)       { [self mediaLoadedForMR:mr]; return; }
-
-  if(!mr.media.localURL)
+       if(mr.media.thumb)      { [self mediaLoadedForMR:mr]; }
+  else if(mr.media.data)       { [self deriveThumbForMR:mr]; }
+  else if(mr.media.localURL)   { mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL]; [self loadMediaFromMR:mr]; }
+  else if(mr.media.remoteURL)
   {
     NSURLRequest *request = [NSURLRequest requestWithURL:mr.media.remoteURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     if(mr.connection) [mr.connection cancel];
@@ -56,11 +56,7 @@
     mr.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [dataConnections setObject:mr forKey:mr.connection.description];
   }
-  else
-  {
-    mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL];
-    [self mediaLoadedForMR:mr];
-  }
+  else if(!mr.media.remoteURL) { [self loadMetaDataForMR:mr]; }
 }
 
 - (void) loadMetaDataForMR:(MediaResult *)mr
@@ -117,10 +113,11 @@
     [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
   [mr.media setPartialLocalURL:[NSString stringWithFormat:@"%@/%@",g,f]];
   [mr.media.data writeToURL:mr.media.localURL options:nil error:nil];
+  [mr.media.localURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
 
   [_MODEL_MEDIA_ saveAlteredMedia:mr.media];//not as elegant as I'd like...
   _ARIS_LOG_(@"Media loader  : Media id:%ld loaded:%@",mr.media.media_id,mr.media.remoteURL);
-  [self mediaLoadedForMR:mr];
+  [self loadMediaFromMR:mr];
 }
 
 - (void) mediaLoadedForMR:(MediaResult *)mr
@@ -132,6 +129,54 @@
     if(dh.delegate && [[dh.delegate class] conformsToProtocol:@protocol(ARISMediaLoaderDelegate)])
       [dh.delegate mediaLoaded:mr.media];
   }
+}
+
+- (void) deriveThumbForMR:(MediaResult *)mr
+{
+    NSData *data = mr.media.data;
+    UIImage *i;
+
+    NSString *type = [mr.media type];
+    if([type isEqualToString:@"IMAGE"])
+    {
+        i = [UIImage imageWithData:data];
+    }
+    else if([type isEqualToString:@"VIDEO"])
+    {
+        AVAsset *asset = [AVAsset assetWithURL:mr.media.localURL];
+        AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc]initWithAsset:asset];
+        CMTime t = [asset duration];
+        t.value = 1000;
+        CGImageRef imageRef = [imageGenerator copyCGImageAtTime:t actualTime:NULL error:NULL];
+        i = [UIImage imageWithCGImage:imageRef];
+        CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
+    }
+    else if([type isEqualToString:@"AUDIO"])
+    {
+        i = [UIImage imageNamed:@"microphone"]; //hack
+    }
+    if(!i) i = [UIImage imageNamed:@"logo_icon"];
+
+    int s = 128;
+    int w = s;
+    int h = s;
+    if(i.size.width > i.size.height)
+        h = i.size.height * (s/i.size.width);
+    else
+        w = i.size.width * (s/i.size.height);
+    UIGraphicsBeginImageContext(CGSizeMake(w,h));
+    [i drawInRect:CGRectMake(0,0,w,h)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    mr.media.thumb = UIImagePNGRepresentation(newImage);
+    [self loadMediaFromMR:mr];
+}
+
+- (void) mediaResultThumbFound:(NSNotification*)notification
+{
+    MediaResult *mr = notification.userInfo[@"media_result"];
+    [self loadMediaFromMR:mr];
 }
 
 - (void) dealloc

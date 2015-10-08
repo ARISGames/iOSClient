@@ -14,15 +14,15 @@
 {
     UIAlertView *waitingIndicator;
     UIActivityIndicatorView *loadingSpiral;
-    
+
     UIAlertView *networkAlert;
     UIAlertView *serverAlert;
-    
+
     MFMailComposeViewController *mailComposeViewController;
-    
+
     NSString *errorMessage;
     NSString *errorDetail;
-    
+
     BOOL emailed;
 }
 
@@ -60,19 +60,19 @@
         self.loadingSpiral = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         self.loadingSpiral.center = CGPointMake(142,73);//CGPointMake(super.bounds.size.width / 2, super.bounds.size.height - 40); didn't work
         [self.waitingIndicator addSubview:self.loadingSpiral];
-    
+
         self.networkAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PoorConnectionTitleKey", @"")
                                                        message:NSLocalizedString(@"PoorConnectionMessageKey", @"")
                                                       delegate:self
                                              cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
                                              otherButtonTitles:nil];
-    
+
         self.serverAlert = [[UIAlertView alloc] initWithTitle:@""
                                                       message:@""
                                                      delegate:self
                                             cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"")
                                             otherButtonTitles:NSLocalizedString(@"ReportKey", @""),nil];
-        
+
         emailed = NO;
     }
     return self;
@@ -88,33 +88,33 @@
 {
     if(emailed) return;
     emailed = YES;
-    
-	errorMessage = message;
+
+  errorMessage = message;
     errorDetail  = detail;
-    
+
     self.serverAlert.title = title;
     self.serverAlert.message = [NSString stringWithFormat:@"%@-%@",NSLocalizedString(@"ARISAppDelegateWIFIErrorMessageKey", @""),message];
-    
+
     [self.serverAlert show];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if(buttonIndex == 1)//Since only the server error alert with email has button 1, we know who we are dealing with
+  if(buttonIndex == 1)//Since only the server error alert with email has button 1, we know who we are dealing with
     {
-		_ARIS_LOG_(@"RootViewController: AlertView button wants to send an email" );
-		self.mailComposeViewController = [[MFMailComposeViewController alloc] init];
-		self.mailComposeViewController.mailComposeDelegate = self;
-		[self.mailComposeViewController setToRecipients:[NSMutableArray arrayWithObjects:@"arisgames-dev@googlegroups.com",nil]];
-		[self.mailComposeViewController setSubject:@"ARIS Error Report"];
-		[self.mailComposeViewController setMessageBody:[NSString stringWithFormat:@"%@\n\nDetails:\n%@", errorMessage, errorDetail] isHTML:NO];
+    _ARIS_LOG_(@"RootViewController: AlertView button wants to send an email" );
+    self.mailComposeViewController = [[MFMailComposeViewController alloc] init];
+    self.mailComposeViewController.mailComposeDelegate = self;
+    [self.mailComposeViewController setToRecipients:[NSMutableArray arrayWithObjects:@"arisgames-dev@googlegroups.com",nil]];
+    [self.mailComposeViewController setSubject:@"ARIS Error Report"];
+    [self.mailComposeViewController setMessageBody:[NSString stringWithFormat:@"%@\n\nDetails:\n%@", errorMessage, errorDetail] isHTML:NO];
         [[RootViewController sharedRootViewController] presentViewController:self.mailComposeViewController animated:NO completion:nil];
-	}
+  }
 }
 
 - (void) mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error;
 {
-	[self.mailComposeViewController dismissViewControllerAnimated:NO completion:nil];
+  [self.mailComposeViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)showNetworkAlert
@@ -124,7 +124,7 @@
 
 - (void)removeNetworkAlert
 {
-	[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
+  [self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (void)showWaitingIndicator:(NSString *)message
@@ -137,7 +137,7 @@
 - (void)removeWaitingIndicator
 {
     [self.loadingSpiral stopAnimating];
-	[self.waitingIndicator dismissWithClickedButtonIndex:0 animated:YES];
+  [self.waitingIndicator dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 @end

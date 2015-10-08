@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Game.h"
 
-@interface GamesModel : NSObject
+@interface GamesModel : ARISModel
 
 - (Game *) gameForId:(long)game_id;
 - (void) requestGame:(long)game_id;
+- (void) mergeInGame:(Game *)g;
 
 - (NSArray *) nearbyGames;
 - (NSArray *) pingNearbyGames;
@@ -32,6 +34,9 @@
 - (NSArray *) mineGames;
 - (NSArray *) pingMineGames;
 
+- (NSArray *) downloadedGames;
+- (NSArray *) pingDownloadedGames;
+
 - (void) requestPlayerPlayedGame:(long)game_id;
 - (void) playerResetGame:(long)game_id;
 
@@ -39,3 +44,4 @@
 - (void) clearData;
 
 @end
+

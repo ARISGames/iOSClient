@@ -41,7 +41,7 @@
     if(self = [super initWithFrame:frame])
     {
         [self initialize];
-    } 
+    }
     return self;
 }
 
@@ -60,9 +60,9 @@
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
     webView = [[UIWebView alloc] initWithFrame:self.bounds];
-    webView.delegate = self; 
+    webView.delegate = self;
     webView.backgroundColor = [UIColor clearColor];
-    webView.opaque = NO; 
+    webView.opaque = NO;
     [self addSubview:webView];
     audioPlayers = [[NSMutableDictionary alloc] initWithCapacity:10];
 }
@@ -105,31 +105,31 @@
 
 - (void) setAllowsInlineMediaPlayback:(BOOL)a
 {
-    webView.allowsInlineMediaPlayback = a; 
+    webView.allowsInlineMediaPlayback = a;
 }
 
 - (void) setMediaPlaybackRequiresUserAction:(BOOL)m
 {
-    webView.mediaPlaybackRequiresUserAction = m; 
+    webView.mediaPlaybackRequiresUserAction = m;
 }
 
 - (void) loadRequest:(NSURLRequest *)request
 {
     _ARIS_LOG_(@"ARISWebView loadingRequest: %@",request);
     //[[NSURLCache sharedURLCache] removeAllCachedResponses];//Uncomment to clear cache
-    [webView loadRequest:request]; 
+    [webView loadRequest:request];
 }
 
 - (void) loadRequest:(NSURLRequest *)request withAppendation:(NSString *)appendation
 {
     NSString *url = [[request URL] absoluteString];
-    
+
     if([url rangeOfString:@"?"].location == NSNotFound)
         url = [url stringByAppendingString:[NSString stringWithFormat:@"?game_id=%ld&user_id=%ld&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
     else
         url = [url stringByAppendingString:[NSString stringWithFormat:@"&game_id=%ld&user_id=%ld&aris=1%@",_MODEL_GAME_.game_id, _MODEL_PLAYER_.user_id, appendation]];
-    
-    [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]]; 
+
+    [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
 }
 
 - (BOOL) webView:(UIWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
@@ -137,12 +137,12 @@
     NSString *url = [r URL].absoluteString;
     if([url isEqualToString:@"about:blank"]) return YES;
     if([self isARISRequest:r]) { [self handleARISRequest:r]; return NO; }
-    
-    if([delegate respondsToSelector:@selector(ARISWebView:shouldStartLoadWithRequest:navigationType:)])  
+
+    if([delegate respondsToSelector:@selector(ARISWebView:shouldStartLoadWithRequest:navigationType:)])
         return [delegate ARISWebView:self shouldStartLoadWithRequest:r navigationType:nt];
     return NO;
 }
-    
+
 - (void) webViewDidStartLoad:(UIWebView *)webView
 {
     if([delegate respondsToSelector:@selector(ARISWebViewDidStartLoad:)])
@@ -152,7 +152,7 @@
 - (void) webViewDidFinishLoad:(UIWebView *)wv
 {
     [self injectHTMLWithARISjs];
-    if([delegate respondsToSelector:@selector(ARISWebViewDidFinishLoad:)]) 
+    if([delegate respondsToSelector:@selector(ARISWebViewDidFinishLoad:)])
         [delegate ARISWebViewDidFinishLoad:self];
 }
 
@@ -171,21 +171,73 @@
 {
     _ARIS_LOG_(@"ARISWebView   : %@",[[request URL] absoluteString]);
     [webView stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
-    
+
     NSString *mainCommand = [[request URL] host];
     NSArray *components   = [[request URL] pathComponents];
-    
-    if([mainCommand isEqualToString:@"exit"])
+
+    if([mainCommand isEqual:@"cache"])
+    {
+        NSArray *items = _MODEL_ITEMS_.items;
+        Item *item;
+        long item_id;
+        long item_qty;
+        for(long i = 0; i < items.count; i++)
+        {
+            item = items[i];
+            item_id = item.item_id;
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItemName(%ld,\"%@\");",item_id,item.name]];
+            item_qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setPlayerItem(%ld,%ld);",item_id,item_qty]];
+            item_qty = [_MODEL_GAME_INSTANCES_ qtyOwnedForItem:item_id];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setGameItem(%ld,%ld);",item_id,item_qty]];
+            item_qty = [_MODEL_GROUP_INSTANCES_ qtyOwnedForItem:item_id];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setGroupItem(%ld,%ld);",item_id,item_qty]];
+        }
+
+        Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
+        NSString *playerJSON = [NSString stringWithFormat:
+                                @"{"
+                                "\"user_id\":%ld,"
+                                "\"key\":\"%@\","
+                                "\"user_name\":\"%@\","
+                                "\"display_name\":\"%@\","
+                                "\"photoURL\":\"%@\""
+                                "}",
+                                _MODEL_PLAYER_.user_id,
+                                _MODEL_PLAYER_.read_write_key,
+                                _MODEL_PLAYER_.user_name,
+                                _MODEL_PLAYER_.display_name,
+                                playerMedia.remoteURL];
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setPlayer(%@);",playerJSON]];
+
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.detach()"]];
+    }
+    else if([mainCommand isEqualToString:@"logout"])
+    {
+      [self clear];
+      if(!_MODEL_PLAYER_) return; //can't log out if noone logged in
+
+      //dismiss self before trying to log out
+      if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])
+          [delegate ARISWebViewRequestsDismissal:self];
+
+      [_MODEL_ logOut];
+    }
+    else if([mainCommand isEqualToString:@"exit"])
     {
         [self clear];
-        
+
         NSString *type = @"";
         NSString *token = @"";
-        if(components.count > 1) type  = [components objectAtIndex:1];
-        if(components.count > 2) token = [components objectAtIndex:2];
-        
+        if(components.count > 1) type  = components[1];
+        if(components.count > 2) token = components[2];
+
         if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
-        
+
+        //dismiss self before enqueueing anything
+        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])
+            [delegate ARISWebViewRequestsDismissal:self];
+
         if([type isEqualToString:@"game"])
             [_MODEL_ leaveGame];
         else if([type isEqualToString:@"tab"])
@@ -203,9 +255,6 @@
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_ITEMS_ itemForId:[token intValue]]];
         else if([type isEqualToString:@"character"] || [type isEqualToString:@"dialog"] || [type isEqualToString:@"conversation"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_DIALOGS_ dialogForId:[token intValue]]];
-        
-        if([delegate respondsToSelector:@selector(ARISWebViewRequestsDismissal:)])   
-            [delegate ARISWebViewRequestsDismissal:self];
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {
@@ -219,63 +268,140 @@
         Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
         NSString *playerJSON = [NSString stringWithFormat:
                                 @"{"
-                                "\"user_id\":%ld," 
+                                "\"user_id\":%ld,"
+                                "\"key\":\"%@\","
                                 "\"user_name\":\"%@\","
-                                "\"display_name\":\"%@\"," 
-                                "\"photoURL\":\"%@\"" 
+                                "\"display_name\":\"%@\","
+                                "\"photoURL\":\"%@\""
                                 "}",
                                 _MODEL_PLAYER_.user_id,
-                                _MODEL_PLAYER_.user_name, 
-                                _MODEL_PLAYER_.display_name, 
+                                _MODEL_PLAYER_.read_write_key,
+                                _MODEL_PLAYER_.user_name,
+                                _MODEL_PLAYER_.display_name,
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
-    else if([mainCommand isEqualToString:@"inventory"])
+    else if([mainCommand isEqualToString:@"group"])
     {
-        if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"get"])
+        [_MODEL_GROUPS_ setPlayerGroup:[_MODEL_GROUPS_ groupForId:[components[2] integerValue]]];
+    }
+    else if([mainCommand isEqualToString:@"scene"])
+    {
+        [_MODEL_SCENES_ setPlayerScene:[_MODEL_SCENES_ sceneForId:[components[2] integerValue]]];
+    }
+    else if([mainCommand isEqualToString:@"instances"])
+    {
+        if(components.count > 1 && [components[1] isEqualToString:@"player"])
         {
-            long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,qty]];
+            if(components.count > 2 && [components[2] isEqualToString:@"get"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,qty]];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,qty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"set"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_PLAYER_INSTANCES_ setItemsForPlayer:item_id qtyToSet:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"give"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:item_id qtyToAdd:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"take"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:item_id qtyToRemove:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdatePlayerItemQty(%ld,%ld);",item_id,newQty]];
+            }
         }
-        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"set"])
+        if(components.count > 1 && [components[1] isEqualToString:@"game"])
         {
-            long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_PLAYER_INSTANCES_ setItemsForPlayer:item_id qtyToSet:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+            if(components.count > 2 && [components[2] isEqualToString:@"get"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [_MODEL_GAME_INSTANCES_ qtyOwnedForItem:item_id];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,qty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"set"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GAME_INSTANCES_ setItemsForGame:item_id qtyToSet:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"give"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GAME_INSTANCES_ giveItemToGame:item_id qtyToAdd:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"take"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GAME_INSTANCES_ takeItemFromGame:item_id qtyToRemove:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGameItemQty(%ld,%ld);",item_id,newQty]];
+            }
         }
-        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"give"])
+        if(components.count > 1 && [components[1] isEqualToString:@"group"])
         {
-            long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:item_id qtyToAdd:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
-        }
-        if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"take"])
-        {
-            long item_id = [[components objectAtIndex:2] intValue];
-            long qty = [[components objectAtIndex:3] intValue];
-            long newQty = [_MODEL_PLAYER_INSTANCES_ takeItemFromPlayer:item_id qtyToRemove:qty];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateItemQty(%ld,%ld);",item_id,newQty]];
+            if(components.count > 2 && [components[2] isEqualToString:@"get"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [_MODEL_GROUP_INSTANCES_ qtyOwnedForItem:item_id];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGroupItemQty(%ld,%ld);",item_id,qty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"set"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GROUP_INSTANCES_ setItemsForGroup:item_id qtyToSet:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGroupItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"give"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GROUP_INSTANCES_ giveItemToGroup:item_id qtyToAdd:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGroupItemQty(%ld,%ld);",item_id,newQty]];
+            }
+            if(components.count > 2 && [components[2] isEqualToString:@"take"])
+            {
+                long item_id = [components[3] intValue];
+                long qty = [components[4] intValue];
+                long newQty = [_MODEL_GROUP_INSTANCES_ takeItemFromGroup:item_id qtyToRemove:qty];
+                [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didUpdateGroupItemQty(%ld,%ld);",item_id,newQty]];
+            }
         }
     }
     else if([mainCommand isEqualToString:@"media"])
     {
-        if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"prepare"])
-            [self loadAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"play"])
-            [self playAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if(components.count > 2 && [[components objectAtIndex:1] isEqualToString:@"stop"])
-            [self stopAudioFromMediaId:[[components objectAtIndex:2] intValue]];
-        else if(components.count > 3 && [[components objectAtIndex:1] isEqualToString:@"setVolume"])
-            [self setMediaId:[[components objectAtIndex:2] intValue] volumeTo:[[components objectAtIndex:3] floatValue]];
+        if(components.count > 2 && [components[1] isEqualToString:@"prepare"])
+            [self loadAudioFromMediaId:[components[2] intValue]];
+        else if(components.count > 2 && [components[1] isEqualToString:@"play"])
+            [self playAudioFromMediaId:[components[2] intValue]];
+        else if(components.count > 2 && [components[1] isEqualToString:@"stop"])
+            [self stopAudioFromMediaId:[components[2] intValue]];
+        else if(components.count > 3 && [components[1] isEqualToString:@"setVolume"])
+            [self setMediaId:[components[2] intValue] volumeTo:[components[3] floatValue]];
     }
     else if([mainCommand isEqualToString:@"vibrate"])
     {
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
     }
-    
+
     [webView stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
 }
 
@@ -308,7 +434,7 @@
 - (void) setMediaId:(long)media_id volumeTo:(float)volume
 {
     AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithLong:media_id]];
-    
+
     NSArray *audioTracks = [player.currentItem.asset tracksWithMediaType:AVMediaTypeAudio];
     NSMutableArray *allAudioParams = [NSMutableArray array];
     for (AVAssetTrack *track in audioTracks) {
@@ -318,12 +444,12 @@
         [audioInputParams setTrackID:[track trackID]];
         [allAudioParams addObject:audioInputParams];
     }
-    
+
     AVMutableAudioMix *audioMix = [AVMutableAudioMix audioMix];
     [audioMix setInputParameters:allAudioParams];
-    
+
     player.currentItem.audioMix = audioMix;
-    
+
 }
 
 - (BOOL) hookWithParams:(NSString *)params
@@ -332,10 +458,16 @@
     return false;
 }
 
+- (BOOL) tickWithParams:(NSString*)params
+{
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.tick(%@);",params]];
+    return false;
+}
+
 - (void) clear
 {
     [webView stopLoading];
-    webView.delegate = nil; 
+    webView.delegate = nil;
     [webView loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
     [audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         AVPlayer *player = obj;

@@ -9,6 +9,7 @@
 #import "Dialog.h"
 #import "Media.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Dialog
 
@@ -17,6 +18,7 @@
 @synthesize desc;
 @synthesize icon_media_id;
 @synthesize intro_dialog_script_id;
+@synthesize back_button_enabled;
 
 - (id) init
 {
@@ -27,6 +29,7 @@
     self.desc = @"";
     self.icon_media_id = 0;
     self.intro_dialog_script_id = 0;
+    self.back_button_enabled = YES;
   }
   return self;
 }
@@ -40,8 +43,21 @@
     self.desc                   = [dict validStringForKey:@"description"];
     self.icon_media_id          = [dict validIntForKey:@"icon_media_id"];
     self.intro_dialog_script_id = [dict validIntForKey:@"intro_dialog_script_id"];
+    self.back_button_enabled    = [dict validBoolForKey:@"back_button_enabled"];
   }
   return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.dialog_id] forKey:@"dialog_id"];
+  [d setObject:self.name forKey:@"name"];
+  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.intro_dialog_script_id] forKey:@"intro_dialog_script_id"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.back_button_enabled] forKey:@"back_button_enabled"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 - (Dialog *) copy
@@ -52,6 +68,7 @@
   c.desc                   = self.desc;
   c.icon_media_id          = self.icon_media_id;
   c.intro_dialog_script_id = self.intro_dialog_script_id;
+  c.back_button_enabled    = self.back_button_enabled;
   return c;
 }
 
@@ -72,3 +89,4 @@
 }
 
 @end
+

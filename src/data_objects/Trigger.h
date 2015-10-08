@@ -14,6 +14,7 @@
 @interface Trigger : NSObject <MKAnnotation>
 {
   long trigger_id;
+  long requirement_root_package_id;
   long instance_id;
   long scene_id;
   NSString *type;
@@ -28,9 +29,12 @@
   BOOL hidden;
   BOOL trigger_on_enter;
   NSString *qr_code;
+  int seconds;
+  int time_left; //client only!
 }
 
 @property (nonatomic, assign) long trigger_id;
+@property (nonatomic, assign) long requirement_root_package_id;
 @property (nonatomic, assign) long instance_id;
 @property (nonatomic, assign) long scene_id;
 @property (nonatomic, copy)   NSString *type;
@@ -45,9 +49,13 @@
 @property (nonatomic, assign) BOOL hidden;
 @property (nonatomic, assign) BOOL trigger_on_enter;
 @property (nonatomic, copy)   NSString *qr_code;
+@property (nonatomic, assign) int seconds;
+@property (nonatomic, assign) int time_left;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 - (BOOL) mergeDataFromTrigger:(Trigger *)t;
 - (BOOL) trigIsEqual:(Trigger *)t;
 
 @end
+

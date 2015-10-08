@@ -7,17 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ARISModel.h"
 #import "Overlay.h"
 
-@interface OverlaysModel : NSObject
+@interface OverlaysModel : ARISModel
 
 - (Overlay *) overlayForId:(long)overlay_id;
 - (NSArray *) playerOverlays;
 - (void) requestOverlays;
 - (void) requestPlayerOverlays;
-
-- (void) clearPlayerData;
-- (void) clearGameData;
 
 @end
 

@@ -8,6 +8,7 @@
 
 #import "Log.h"
 #import "NSDictionary+ValidParsers.h"
+#import "NSString+JSON.h"
 
 @implementation Log
 
@@ -32,15 +33,27 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if(self = [super init])
-    {
-      self.log_id = [dict validIntForKey:@"log_id"];
-      self.event_type = [dict validStringForKey:@"event_type"];
-      self.content_id = [dict validIntForKey:@"content_id"];
-      self.qty = [dict validIntForKey:@"qty"];
-      self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]]; 
-    }
-    return self;
+  if(self = [super init])
+  {
+    self.log_id = [dict validIntForKey:@"user_log_id"];
+    self.event_type = [dict validStringForKey:@"event_type"];
+    self.content_id = [dict validIntForKey:@"content_id"];
+    self.qty = [dict validIntForKey:@"qty"];
+    self.location = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"] longitude:[dict validDoubleForKey:@"longitude"]];
+  }
+  return self;
+}
+
+- (NSString *) serialize
+{
+  NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.log_id] forKey:@"log_id"];
+  [d setObject:self.event_type forKey:@"event_type"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.content_id] forKey:@"content_id"];
+  [d setObject:[NSString stringWithFormat:@"%ld",self.qty] forKey:@"qty"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude] forKey:@"self.location.coordinate.latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude] forKey:@"self.location.coordinate.longitude"];
+  return [NSString JSONFromFlatStringDict:d];
 }
 
 @end

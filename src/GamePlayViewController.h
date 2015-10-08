@@ -16,4 +16,5 @@
 
 @interface GamePlayViewController : ARISContainerViewController
 - (id) initWithDelegate:(id<GamePlayViewControllerDelegate>)d;
+- (void) destroy;
 @end

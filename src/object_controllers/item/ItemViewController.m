@@ -106,9 +106,9 @@
     line.backgroundColor = [UIColor ARISColorLightGray];
 
     //Web Item
-    if([item.type isEqualToString:@"URL"] && 
-       item.url                                && 
-       ![item.url isEqualToString:@"0"]        && 
+    if([item.type isEqualToString:@"URL"] &&
+       item.url                                &&
+       ![item.url isEqualToString:@"0"]        &&
        ![item.url isEqualToString:@""]         )
     {
         webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) delegate:self];
@@ -195,13 +195,8 @@
 
 - (void) refreshTitle
 {
-    if(instance.qty < 2 || instance.infinite_qty) self.title = item.name;
-    else self.title = [NSString stringWithFormat:@"%@ x%ld",item.name,instance.qty];
-}
-
-- (NSString *) getTabTitle
-{
-    return item.name;
+    if(instance.qty < 2 || instance.infinite_qty) self.title = self.tabTitle;
+    else self.title = [NSString stringWithFormat:@"%@ x%ld",self.tabTitle,instance.qty];
 }
 
 - (void) updateViewButtons
@@ -301,7 +296,7 @@
     long amtMoreCanHold = [_MODEL_PLAYER_INSTANCES_ qtyAllowedToGiveForItem:item.item_id];
     long allowablePickupAmt = instance.infinite_qty ? 99999999 : instance.qty;
     if(amtMoreCanHold < allowablePickupAmt) allowablePickupAmt = amtMoreCanHold;
-    
+
     if(allowablePickupAmt == 0)
     {
       [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Unable to Pick Up" message:@"Max qty already owned."];
@@ -431,15 +426,16 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"ITEM"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; if(item.name && ![item.name isEqualToString:@""]) return item.name; return @"Item"; }
-- (UIImage *) tabIcon
+- (ARISMediaView *) tabIcon
 {
-  if(item)
-  {
     ARISMediaView *amv = [[ARISMediaView alloc] init];
-    [amv setMedia:[_MODEL_MEDIA_ mediaForId:item.icon_media_id]];
-    if(amv.image) return amv.image;
-  }
-  return [UIImage imageNamed:@"logo_icon"];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else if(item.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:item.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"logo_icon"]];
+    return amv;
 }
 
 - (void) dealloc

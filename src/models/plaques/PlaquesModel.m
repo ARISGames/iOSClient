@@ -12,6 +12,7 @@
 
 #import "PlaquesModel.h"
 #import "AppServices.h"
+#import "SBJson.h"
 
 @interface PlaquesModel()
 {
@@ -32,9 +33,18 @@
     return self;
 }
 
+- (void) requestGameData
+{
+  [self requestPlaques];
+}
 - (void) clearGameData
 {
     plaques = [[NSMutableDictionary alloc] init];
+    n_game_data_received = 0;
+}
+- (long) nGameDataToReceive
+{
+  return 1;
 }
 
 - (void) plaquesReceived:(NSNotification *)notif
@@ -52,6 +62,7 @@
       newPlaqueId = [NSNumber numberWithLong:newPlaque.plaque_id];
       if(!plaques[newPlaqueId]) [plaques setObject:newPlaque forKey:newPlaqueId];
     }
+    n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_PLAQUES_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
 }
@@ -66,6 +77,52 @@
 {
   if(!plaque_id) return [[Plaque alloc] init];
   return plaques[[NSNumber numberWithLong:plaque_id]];
+}
+
+- (NSString *) serializedName
+{
+  return @"plaques";
+}
+
+- (NSString *) serializeGameData
+{
+  NSArray *plaques_a = [plaques allValues];
+  Plaque *p_o;
+
+  NSMutableString *r = [[NSMutableString alloc] init];
+  [r appendString:@"{\"plaques\":["];
+  for(long i = 0; i < plaques_a.count; i++)
+  {
+    p_o = plaques_a[i];
+    [r appendString:[p_o serialize]];
+    if(i != plaques_a.count-1) [r appendString:@","];
+  }
+  [r appendString:@"]}"];
+  return r;
+}
+
+- (void) deserializeGameData:(NSString *)data
+{
+  [self clearGameData];
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSArray *d_plaques = d_data[@"plaques"];
+  for(long i = 0; i < d_plaques.count; i++)
+  {
+    Plaque *p = [[Plaque alloc] initWithDictionary:d_plaques[i]];
+    [plaques setObject:p forKey:[NSNumber numberWithLong:p.plaque_id]];
+  }
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

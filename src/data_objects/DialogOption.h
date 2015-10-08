@@ -11,13 +11,14 @@
 @interface DialogOption : NSObject
 {
   long dialog_option_id;
-  long dialog_id; 
+  long dialog_id;
   long parent_dialog_script_id;
   NSString *prompt;
   NSString *link_type;
   long link_id;
   NSString *link_info;
-  long sort_index; 
+  long sort_index;
+  long requirement_root_package_id;
 }
 
 @property(nonatomic, assign) long dialog_option_id;
@@ -28,7 +29,10 @@
 @property(nonatomic, assign) long link_id;
 @property(nonatomic, strong) NSString *link_info;
 @property(nonatomic, assign) long sort_index;
+@property(nonatomic, assign) long requirement_root_package_id;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

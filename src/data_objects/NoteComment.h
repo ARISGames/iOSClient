@@ -16,7 +16,7 @@
     NSString *name;
     NSString *desc;
     NSString *user_display_name;
-    NSDate *created; 
+    NSDate *created;
 }
 
 @property(nonatomic, assign) long note_comment_id;
@@ -25,8 +25,10 @@
 @property(nonatomic, retain) NSString *name;
 @property(nonatomic, retain) NSString *desc;
 @property(nonatomic, retain) NSString *user_display_name;
-@property(nonatomic, retain) NSDate *created; 
+@property(nonatomic, retain) NSDate *created;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

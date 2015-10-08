@@ -42,7 +42,7 @@
       tab = t;
       delegate = d;
 
-      self.title = NSLocalizedString(@"PlayerTitleKey",@"");
+        self.title = self.tabTitle;
       instances = [[NSMutableArray alloc] init];
       iconCache = [[NSMutableArray alloc] init];
 
@@ -71,7 +71,7 @@
   nameLabel = [[UILabel alloc] init];
   nameLabel.frame = CGRectMake(-1, pcImage.frame.origin.y + pcImage.frame.size.height + 20, self.view.bounds.size.width + 1, 30);
 
-  nameLabel.text = _MODEL_PLAYER_.user_name;
+  nameLabel.text = _MODEL_PLAYER_.display_name;
   nameLabel.textAlignment = NSTextAlignmentCenter;
   nameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
   nameLabel.layer.borderWidth = 1.0f;
@@ -217,8 +217,16 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"PLAYER"; }
-- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Attributes"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"id_card"]; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Player"; }
+- (ARISMediaView *) tabIcon
+  {
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"id_card"]];
+    return amv;
+  }
 
 - (void) dealloc
 {

@@ -54,11 +54,11 @@
 @interface MapViewController() <MKMapViewDelegate, MapHUDDelegate>
 {
     Tab *tab;
-    
+
     MKMapView *mapView;
     NSMutableArray *annotationOverlays; //annot/overlays (triggers/circles) added to map
     NSMutableArray *overlays; //overlays (custom maps) added to map
-    
+
     MapHUD *hud;
     UIView *blackout;
     UIView *blackoutRight;
@@ -99,7 +99,7 @@
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_NEW_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_OVERLAYS_LESS_AVAILABLE",self,@selector(refreshViewFromModel),nil);
         firstLoad = true;
-        
+
         annotationOverlays = [[NSMutableArray alloc] init];
         overlays = [[NSMutableArray alloc] init];
     }
@@ -209,11 +209,11 @@
 - (void) triggersInvalidated:(NSNotification *)n
 {
     NSMutableArray *invalidated = n.userInfo[@"invalidated_triggers"];
-    
+
     Trigger *invalidatedTrigger;
     Trigger *mapTrigger;
     MapViewAnnotationOverlay *mvao;
-    
+
     for(long i = 0; i < invalidated.count; i++)
     {
         mvao = nil;
@@ -235,7 +235,7 @@
 - (void) clearLocalData
 {
     if(!mapView) return;
-    
+
     for(long i = 0; i < annotationOverlays.count; i++)
     {
         [mapView removeAnnotation:[self mvaoAt:i].annotation];
@@ -297,7 +297,7 @@
         modelTrigger = _MODEL_TRIGGERS_.playerTriggers[i];
         modelInstance = [_MODEL_INSTANCES_ instanceForId:modelTrigger.instance_id];
         if(modelInstance.instance_id == 0 || !modelInstance.object) continue;
-        
+
         if(
            ( //trigger not eligible for map
             ![modelTrigger.type isEqualToString:@"LOCATION"] || modelTrigger.hidden
@@ -318,9 +318,9 @@
         }
         if(shouldAdd)
         {
-            MKCircle *circle = [MKCircle circleWithCenterCoordinate:modelTrigger.location.coordinate radius:(modelTrigger.infinite_distance ? 0 : modelTrigger.distance)]; 
+            MKCircle *circle = [MKCircle circleWithCenterCoordinate:modelTrigger.location.coordinate radius:(modelTrigger.infinite_distance ? 0 : modelTrigger.distance)];
             MapViewAnnotationOverlay *mvao = [[MapViewAnnotationOverlay alloc] initWithAnnotation:modelTrigger overlay:circle];
-            
+
             [mapView addAnnotation:mvao.annotation];
             [mapView addOverlay:mvao.overlay];
             [annotationOverlays addObject:mvao];
@@ -365,10 +365,16 @@
             [overlays addObject:modelOverlay];
         }
     }
-    
+
     //refresh views (ugly)
     [mapView setCenterCoordinate:mapView.region.center animated:NO];
-    if(firstLoad) [self zoomToFitAnnotations:YES];
+    if(firstLoad)
+    {
+      NSLog(@"%@ %f",_MODEL_GAME_.map_focus,_MODEL_GAME_.map_location.coordinate.latitude);
+      if     ([_MODEL_GAME_.map_focus isEqualToString:@"PLAYER"])        [self centerMapOnPlayer];
+      else if([_MODEL_GAME_.map_focus isEqualToString:@"LOCATION"])      [self centerMapOnLoc:_MODEL_GAME_.map_location.coordinate zoom:_MODEL_GAME_.map_zoom_level];
+      else if([_MODEL_GAME_.map_focus isEqualToString:@"FIT_LOCATIONS"]) [self zoomToFitAnnotations:NO];
+    }
     firstLoad = false;
 }
 
@@ -416,9 +422,7 @@
 
 - (void) centerMapOnPlayer
 {
-    [self centerMapOnLoc:_MODEL_PLAYER_.location.coordinate];
-    MKCoordinateRegion region = mapView.region;
-    region.span = MKCoordinateSpanMake(0.001f, 0.001f);
+    [self centerMapOnLoc:_MODEL_PLAYER_.location.coordinate zoom:1.f];
 }
 
 - (void) centerMapOnLoc:(CLLocationCoordinate2D)loc
@@ -429,12 +433,22 @@
     [mapView setRegion:region animated:NO];
 }
 
-- (void) animateZoomToFitAnnotations
+- (void) centerMapOnLoc:(CLLocationCoordinate2D)loc zoom:(float)z
 {
-    [self zoomToFitAnnotations:NO];
+    MKCoordinateRegion region = mapView.region;
+    region.center = loc;
+    if(z > 3.) z = 3.;
+    region.span = MKCoordinateSpanMake(0.001f*pow(10,z), 0.001f*pow(10,z));
+
+    [mapView setRegion:region animated:NO];
 }
 
-- (void) zoomToFitAnnotations:(BOOL)force
+- (void) animateZoomToFitAnnotations
+{
+    [self zoomToFitAnnotations:YES];
+}
+
+- (void) zoomToFitAnnotations:(BOOL)animate
 {
     if(mapView.annotations.count == 0) return;
 
@@ -461,9 +475,11 @@
     region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
     region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.2;
     region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.2;
+    if(region.span.latitudeDelta > 180) region.span.latitudeDelta = 180;
+    if(region.span.longitudeDelta > 360) region.span.longitudeDelta = 360;
 
     region = [mapView regionThatFits:region];
-    [mapView setRegion:region animated:!force];
+    [mapView setRegion:region animated:animate];
 }
 
 - (void) showLoadingIndicator
@@ -655,25 +671,29 @@
 
 - (void) initBlackoutsAndSetFrame
 {
-    blackout = [[UIView alloc] init];
-    blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, (self.view.bounds.size.height/2) - 28);
-    [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackout.userInteractionEnabled = NO;
+  int icon_w = 56*2;
+  int screen_w = self.view.bounds.size.width;
+  int screen_h = self.view.bounds.size.height;
 
-    blackoutRight = [[UIView alloc] init];
-    blackoutRight.frame = CGRectMake(220, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
-    [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutRight.userInteractionEnabled = NO;
+  blackout = [[UIView alloc] init];
+  blackout.frame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, screen_w, (screen_h-(icon_w/2))/2);
+  [blackout addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+  blackout.userInteractionEnabled = NO;
 
-    blackoutLeft = [[UIView alloc] init];
-    blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, 100, self.view.bounds.size.height - blackout.frame.size.height);
-    [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutLeft.userInteractionEnabled = NO;
+  blackoutLeft = [[UIView alloc] init];
+  blackoutLeft.frame = CGRectMake(0, blackout.frame.size.height, (screen_w-icon_w)/2, screen_h-blackout.frame.size.height);
+  [blackoutLeft addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+  blackoutLeft.userInteractionEnabled = NO;
+  
+  blackoutRight = [[UIView alloc] init];
+  blackoutRight.frame = CGRectMake((screen_w+icon_w)/2, blackout.frame.size.height, (screen_w-icon_w)/2, screen_h-blackout.frame.size.height);
+  [blackoutRight addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+  blackoutRight.userInteractionEnabled = NO;
 
-    blackoutBottom = [[UIView alloc] init];
-    blackoutBottom.frame = CGRectMake(100, (self.view.bounds.size.height / 2) + 92, 120, self.view.bounds.size.height - ((self.view.bounds.size.height / 2) + 92));
-    [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
-    blackoutBottom.userInteractionEnabled = NO;
+  blackoutBottom = [[UIView alloc] init];
+  blackoutBottom.frame = CGRectMake((screen_w-icon_w)/2, blackout.frame.size.height+icon_w, icon_w, screen_h-(blackout.frame.size.height+icon_w));
+  [blackoutBottom addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blackoutTouched)]];
+  blackoutBottom.userInteractionEnabled = NO;
 }
 
 - (void) displayBlackout
@@ -705,7 +725,15 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"MAP"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Map"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"map"]; }
+- (ARISMediaView *) tabIcon
+{
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"map"]];
+    return amv;
+}
 
 - (void) dealloc
 {

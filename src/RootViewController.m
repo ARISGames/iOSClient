@@ -26,13 +26,13 @@
 
 @interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, ChangePasswordViewControllerDelegate, GamePickersViewControllerDelegate, GameDetailsViewControllerDelegate, LoadingViewControllerDelegate, GamePlayViewControllerDelegate>
 {
-    ARISNavigationController *loginNavigationController;
-    ARISNavigationController *playerSettingsNavigationController;
-    ARISNavigationController *changePasswordNavigationController;
-    GamePickersViewController *gamePickersViewController;
-    ARISNavigationController *gameDetailsNavigationController;
-    LoadingViewController *loadingViewController;
-    GamePlayViewController *gamePlayViewController;
+  ARISNavigationController *loginNavigationController;
+  ARISNavigationController *playerSettingsNavigationController;
+  ARISNavigationController *changePasswordNavigationController;
+  GamePickersViewController *gamePickersViewController;
+  ARISNavigationController *gameDetailsNavigationController;
+  LoadingViewController *loadingViewController;
+  GamePlayViewController *gamePlayViewController;
 }
 
 @end
@@ -41,136 +41,159 @@
 
 + (id) sharedRootViewController
 {
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
-        _sharedObject = [[self alloc] init];
-    });
-    return _sharedObject;
+  static dispatch_once_t pred = 0;
+  __strong static id _sharedObject = nil;
+  dispatch_once(&pred, ^{
+      _sharedObject = [[self alloc] init];
+      });
+  return _sharedObject;
 }
 
 - (id) init
 {
-    if(self = [super init])
-    {
-        loginNavigationController =
-            [[ARISNavigationController alloc] initWithRootViewController:
-                [[LoginViewController alloc] initWithDelegate:self]
-             ];
+  if(self = [super init])
+  {
+    loginNavigationController =
+      [[ARISNavigationController alloc] initWithRootViewController:
+      [[LoginViewController alloc] initWithDelegate:self]
+      ];
 
-        playerSettingsNavigationController =
-            [[ARISNavigationController alloc] initWithRootViewController:
-                [[PlayerSettingsViewController alloc] initWithDelegate:self]
-             ];
-        
-        changePasswordNavigationController =
-            [[ARISNavigationController alloc] initWithRootViewController:
-                [[ChangePasswordViewController alloc] initWithDelegate:self]
-             ];
+    playerSettingsNavigationController =
+      [[ARISNavigationController alloc] initWithRootViewController:
+      [[PlayerSettingsViewController alloc] initWithDelegate:self]
+      ];
 
-        gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
+    changePasswordNavigationController =
+      [[ARISNavigationController alloc] initWithRootViewController:
+      [[ChangePasswordViewController alloc] initWithDelegate:self]
+      ];
 
-        loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
+    gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
 
-        _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(playerLoggedIn),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(playerLoggedOut),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_CHOSEN",self,@selector(gameChosen),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN",self,@selector(gameBegan),nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT",self,@selector(gameLeft),nil);
-    }
-    return self;
+    _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_IN",self,@selector(playerLoggedIn),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_LOGGED_OUT",self,@selector(playerLoggedOut),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_CHOSEN",self,@selector(gameChosen),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN",self,@selector(gameBegan),nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT",self,@selector(gameLeft),nil);
+  }
+  return self;
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+  [super viewWillAppear:animated];
 
-    if(!_MODEL_PLAYER_)
-        [self displayContentController:loginNavigationController];
-    else if(!currentChildViewController || currentChildViewController == loginNavigationController)
-    {
-        if(!_MODEL_GAME_)
-            [self displayContentController:gamePickersViewController];
-    }
+  if(!_MODEL_PLAYER_)
+    [self displayContentController:loginNavigationController];
+  else if(!currentChildViewController || currentChildViewController == loginNavigationController)
+  {
+    if(!_MODEL_GAME_)
+      [self displayContentController:gamePickersViewController];
+  }
 }
 
 - (void) playerLoggedOut
 {
-    gamePlayViewController = nil;
-    [self displayContentController:loginNavigationController];
+  if(gamePlayViewController) [gamePlayViewController destroy];
+  gamePlayViewController = nil;
+  [self displayContentController:loginNavigationController];
 }
 
 - (void) playerLoggedIn
 {
-    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    
-    if((status != AVAuthorizationStatusDenied && status != AVAuthorizationStatusRestricted) &&
-       (!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id))
-        [self displayContentController:playerSettingsNavigationController];
-    else if(!_MODEL_GAME_)
-        [self displayContentController:gamePickersViewController];
-    else if(gamePlayViewController)
-        [self displayContentController:gamePlayViewController];
+  AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+
+  if((status != AVAuthorizationStatusDenied && status != AVAuthorizationStatusRestricted) &&
+      _MODEL_.auto_profile_enabled && (!_MODEL_PLAYER_.display_name || !_MODEL_PLAYER_.media_id))
+    [self displayContentController:playerSettingsNavigationController];
+  else if(!_MODEL_GAME_)
+  {
+    [self displayContentController:gamePickersViewController];
+    if(_MODEL_.preferred_game_id)
+      [self performSelector:@selector(choosePreferredGame) withObject:nil afterDelay:0.1];
+  }
+  else if(gamePlayViewController)
+    [self displayContentController:gamePlayViewController];
 }
 
 - (void) gameChosen
 {
-    [self displayContentController:loadingViewController];
-    [loadingViewController startLoading];
+  loadingViewController = [[LoadingViewController alloc] initWithDelegate:self];
+  [self displayContentController:loadingViewController];
+  [loadingViewController startLoading];
 }
 
 - (void) gameBegan
 {
-    gamePlayViewController = [[GamePlayViewController alloc] initWithDelegate:self];
-    [self displayContentController:gamePlayViewController];
+  gamePlayViewController = [[GamePlayViewController alloc] initWithDelegate:self];
+  [self displayContentController:gamePlayViewController];
 }
 
 - (void) gameLeft
 {
-    [self displayContentController:gamePickersViewController];
-    gamePlayViewController = nil; //immediately dealloc
+  [self displayContentController:gamePickersViewController];
+  if(gamePlayViewController) [gamePlayViewController destroy];
+  gamePlayViewController = nil; //immediately dealloc
 }
 
-- (void) gameDetailsRequested:(Game *)g
+- (void) gameDetailsRequested:(Game *)g downloaded:(BOOL)d
 {
-   gameDetailsNavigationController =
+  gameDetailsNavigationController =
     [[ARISNavigationController alloc] initWithRootViewController:
-     [[GameDetailsViewController alloc] initWithGame:g delegate:self]
-     ];
-    [self displayContentController:gameDetailsNavigationController];
+    [[GameDetailsViewController alloc] initWithGame:g downloaded:d delegate:self]
+    ];
+  [self displayContentController:gameDetailsNavigationController];
 }
 
 - (void) gameDetailsCanceled:(Game *)g
 {
-    [self displayContentController:gamePickersViewController];
-    gameDetailsNavigationController = nil;
+  [self displayContentController:gamePickersViewController];
+  gameDetailsNavigationController = nil;
 }
 
 - (void) profileEditRequested
 {
-    [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
-    [self displayContentController:playerSettingsNavigationController];
+  [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
+  [self displayContentController:playerSettingsNavigationController];
 }
 
 - (void) passChangeRequested
 {
-    [self displayContentController:changePasswordNavigationController];
+  [self displayContentController:changePasswordNavigationController];
 }
 
 - (void) playerSettingsWasDismissed
 {
-    if(!_MODEL_GAME_)
-        [self displayContentController:gamePickersViewController];
-    else if(gamePlayViewController)
-        [self displayContentController:gamePlayViewController];
+  if(!_MODEL_GAME_)
+  {
+    [self displayContentController:gamePickersViewController];
+    if(_MODEL_.preferred_game_id)
+      [self performSelector:@selector(choosePreferredGame) withObject:nil afterDelay:0.1];
+  }
+  else if(gamePlayViewController)
+    [self displayContentController:gamePlayViewController];
 }
 
 - (void) changePasswordWasDismissed
 {
-    if(!_MODEL_GAME_)
-        [self displayContentController:gamePickersViewController];
-    else if(gamePlayViewController)
-        [self displayContentController:gamePlayViewController];
+  if(!_MODEL_GAME_)
+    [self displayContentController:gamePickersViewController];
+  else if(gamePlayViewController)
+    [self displayContentController:gamePlayViewController];
+}
+
+- (void) choosePreferredGame
+{
+  Game *g = [_MODEL_GAMES_ gameForId:_MODEL_.preferred_game_id];
+  if(!g)
+  {
+    g = [[Game alloc] init];
+    g.game_id = _MODEL_.preferred_game_id;
+    [_MODEL_GAMES_ mergeInGame:g];
+    [_MODEL_GAMES_ requestGame:_MODEL_.preferred_game_id];
+  }
+
+  [_MODEL_ chooseGame:g useDownloaded:NO];
 }
 
 @end

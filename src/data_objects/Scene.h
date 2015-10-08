@@ -13,12 +13,14 @@
 @interface Scene : NSObject <InstantiableProtocol>
 {
     long scene_id;
-    NSString *name; 
+    NSString *name;
 }
 
 @property (nonatomic, assign) long scene_id;
-@property (nonatomic, strong) NSString *name; 
+@property (nonatomic, strong) NSString *name;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
+- (NSString *) serialize;
 
 @end
+

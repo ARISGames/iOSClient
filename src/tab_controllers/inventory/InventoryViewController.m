@@ -18,14 +18,18 @@
 {
     Tab *tab;
 
+    /* TAG TRASH
     UIScrollView *tagsView;
     NSMutableArray *sortableTags;
     long currentTagIndex;
+     */
 
     UITableView *inventoryTable;
     //parallel arrays
     NSMutableArray *instances;
+    /* TAG TRASH
     NSMutableArray *tags;
+     */
 
     UIProgressView *capBar;
     UILabel *capLabel;
@@ -47,17 +51,23 @@
         tab = t;
         delegate = d;
 
-        self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
+        self.title = self.tabTitle;
 
+        /* TAG TRASH
         sortableTags = [[NSMutableArray alloc] init];
         [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
+         */
 
         instances = [[NSMutableArray alloc] init];
+        /* TAG TRASH
         tags = [[NSMutableArray alloc] init];
+         */
 
         iconCache  = [[NSMutableDictionary alloc] initWithCapacity:10];
         viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
+        /* TAG TRASH
         currentTagIndex = 0;
+         */
 
         _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_INSTANCES_AVAILABLE",self,@selector(refreshViews),nil);
     }
@@ -69,12 +79,14 @@
     [super loadView];
     self.view.autoresizesSubviews = NO;
 
+    /* TAG TRASH
     tagsView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,100)];
     tagsView.contentInset = UIEdgeInsetsMake(0,0,0,0);
     tagsView.backgroundColor = [UIColor ARISColorDarkGray];
     tagsView.scrollEnabled = YES;
     tagsView.bounces = YES;
     [self.view addSubview:tagsView];
+     */
 
     inventoryTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     inventoryTable.frame = self.view.bounds;
@@ -122,6 +134,7 @@
     [self refetch];
 }
 
+/* TAG TRASH
 - (void) sizeViewsForTagView
 {
     tagsView.frame = CGRectMake(0,64,self.view.bounds.size.width,100);
@@ -129,17 +142,23 @@
     inventoryTable.contentInset = UIEdgeInsetsMake(0,0,0,0);
     inventoryTable.frame = CGRectMake(0,100+64,self.view.bounds.size.width,self.view.bounds.size.height-100-44);
 }
+ */
 
 - (void) sizeViewsWithoutTagView
 {
+    /* TAG TRASH
     tagsView.frame = CGRectMake(0,0,self.view.bounds.size.width,0);
     tagsView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+     */
     inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
     inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
 
+    /* TAG TRASH
     currentTagIndex = 0;
+     */
 }
 
+/*
 - (long) listIndexForTableIndex:(long)table_index
 {
     NSArray *inst_tags;
@@ -163,6 +182,7 @@
     }
     return 0; //really shouldn't get here
 }
+ */
 
 - (void) refreshViews
 {
@@ -170,7 +190,9 @@
 
     NSArray *playerInstances = _ARIS_ARRAY_SORTED_ON_(_MODEL_PLAYER_INSTANCES_.inventory,@"name");
     [instances removeAllObjects];
+    /* TAG TRASH
     [tags removeAllObjects];
+     */
 
     Instance *tmp_inst;
     for(long i = 0; i < playerInstances.count; i++)
@@ -178,14 +200,16 @@
         tmp_inst = playerInstances[i];
         if(tmp_inst.qty == 0) continue;
         [instances addObject:tmp_inst];
+        /* TAG TRASH
         [tags addObject:[_MODEL_TAGS_ tagsForObjectType:tmp_inst.object_type id:tmp_inst.object_id]];
+         */
     }
 
+    /* TAG TRASH
     NSArray *allTags = _ARIS_ARRAY_SORTED_ON_(_MODEL_TAGS_.tags,@"sort_index");
     [sortableTags removeAllObjects];
     [sortableTags addObject:[_MODEL_TAGS_ tagForId:0]]; //null tag always exists
 
-    /*
     // Only display tags if you have an item with that tag
     Tag* tmp_tag;
     NSArray *inst_tags;
@@ -210,7 +234,6 @@
 
         }
     }
-    */
 
     // Display all curated tags
     Tag* tmp_tag;
@@ -225,12 +248,16 @@
     else                       [self sizeViewsWithoutTagView];
 
     [self refreshTagsView];
+     */
     [inventoryTable reloadData];
 
+    /* TAG TRASH
     //Apple is for some reason competing over the control of this view. Without this constantly being called, it messes everything up.
     tagsView.contentSize = CGSizeMake(sortableTags.count*100,tagsView.bounds.size.height);
+     */
 }
 
+/* TAG TRASH
 - (void) refreshTagsView
 {
     while(tagsView.subviews.count > 0) [[tagsView.subviews objectAtIndex:0] removeFromSuperview];
@@ -265,9 +292,11 @@
     }
     tagsView.contentSize = CGSizeMake(sortableTags.count*100,tagsView.bounds.size.height);
 }
+ */
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    /* TAG TRASH
     long rows = 0;
     NSArray *instTags;
     Tag *tag;
@@ -285,6 +314,8 @@
             rows++; //untagged selected, and item has no tags
     }
     return rows;
+     */
+  return instances.count;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -346,7 +377,10 @@
 
     cell.contentView.backgroundColor = [UIColor ARISColorWhite];
 
+    /* TAG TRASH
     long i = [self listIndexForTableIndex:indexPath.row];
+     */
+  long i = indexPath.row;
     Instance *instance = instances[i];
     Item *item = (Item *)instance.object;
 
@@ -384,7 +418,10 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
+    /* TAG TRASH
     long i = [self listIndexForTableIndex:indexPath.row];
+     */
+  long i = indexPath.row;
     Instance *instance = instances[i];
     Item *item = (Item *)instance.object;
 
@@ -422,7 +459,9 @@
 
 - (void) tagTapped:(UITapGestureRecognizer *)r
 {
+    /* TAG TRASH
     currentTagIndex = r.view.tag;
+     */
     [self refreshViews];
 }
 
@@ -434,7 +473,15 @@
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"INVENTORY"; }
 - (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Inventory"; }
-- (UIImage *) tabIcon { return [UIImage imageNamed:@"toolbox"]; }
+- (ARISMediaView *) tabIcon
+{
+    ARISMediaView *amv = [[ARISMediaView alloc] init];
+    if(tab.icon_media_id)
+        [amv setMedia:[_MODEL_MEDIA_ mediaForId:tab.icon_media_id]];
+    else
+        [amv setImage:[UIImage imageNamed:@"toolbox"]];
+    return amv;
+}
 
 - (void) dealloc
 {

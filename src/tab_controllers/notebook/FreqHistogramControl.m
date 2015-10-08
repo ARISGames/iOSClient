@@ -11,7 +11,7 @@
 
 @interface FreqHistogramControl()
 {
-   id<FreqHistogramControlDelegate> __unsafe_unretained delegate; 
+   id<FreqHistogramControlDelegate> __unsafe_unretained delegate;
 }
 
 @end
@@ -59,7 +59,7 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self drawSquareRect:self.bounds fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
-    
+
     if(fourierData != nil)
     {
         float binWidth = self.bounds.size.width / 256; //512/2
@@ -73,9 +73,9 @@
             [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
             currentBinCoor += binWidth;
         }
-        
+
     }
-    
+
     CGPoint startPoint = CGPointMake(currentFreqX, 0);
     CGPoint endPoint = CGPointMake(currentFreqX, self.bounds.size.height);
     [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor ARISColorDarkBlue].CGColor];

@@ -26,7 +26,11 @@
 
 @synthesize serverURL;
 @synthesize showPlayerOnMap;
-@synthesize disableLeaveGame;
+@synthesize preferred_game_id;
+@synthesize leave_game_enabled;
+@synthesize auto_profile_enabled;
+@synthesize download_not_play;
+@synthesize play_using_download;
 @synthesize hidePlayers;
 @synthesize player;
 @synthesize game;
@@ -39,7 +43,7 @@
 @synthesize persistentStoreCoordinator;
 @synthesize servicesGraveyard;
 
-+ (id) sharedAppModel
++ (AppModel *) sharedAppModel
 {
   static dispatch_once_t pred = 0;
   __strong static id _sharedObject = nil;
@@ -51,7 +55,10 @@
 {
   if(self = [super init])
   {
-    disableLeaveGame = NO;
+    leave_game_enabled = YES;
+    auto_profile_enabled = YES;
+    download_not_play = NO;
+    play_using_download = NO;
 
     servicesGraveyard = [[ARISServiceGraveyard alloc] initWithContext:[self requestsManagedObjectContext]];
     usersModel        = [[UsersModel alloc] init];
@@ -146,30 +153,58 @@
 {
   if(_MODEL_GAME_) [self leaveGame];
   _MODEL_PLAYER_ = nil;
+  _MODEL_.auto_profile_enabled = YES;
+  _MODEL_.download_not_play = NO;
+  _MODEL_.play_using_download = NO;
+  _MODEL_.leave_game_enabled = YES;
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ logoutPlayer];
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil);
 }
 
-- (void) chooseGame:(Game *)g
+- (void) chooseGame:(Game *)g useDownloaded:(BOOL)d
 {
   _MODEL_GAME_ = g;
+  _MODEL_.download_not_play = NO;
+  _MODEL_.play_using_download = d;
   [_MODEL_GAME_ getReadyToPlay];
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ loginGame:_MODEL_GAME_.game_id];
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);
 }
 
+- (void) downloadGame:(Game *)g
+{
+  _MODEL_GAME_ = g;
+  _MODEL_.download_not_play = YES;
+  _MODEL_.play_using_download = NO;
+  [_MODEL_GAME_ getReadyToPlay];
+  _ARIS_NOTIF_SEND_(@"MODEL_GAME_CHOSEN",nil,nil);
+}
+
 - (void) beginGame
 {
-  [_MODEL_LOGS_ playerEnteredGame];
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
+  _MODEL_.preferred_game_id = 0; //assume the preference was met
+  _MODEL_.play_using_download = NO; //already loaded, so good to go
+  if(_MODEL_.download_not_play)
+  {
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
+    _MODEL_.download_not_play = NO;
+    [_MODEL_ storeGame];
+    [self leaveGame];
+  }
+  else
+  {
+    [_MODEL_LOGS_ playerEnteredGame];
+    _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
+  }
 }
 
 - (void) leaveGame
 {
   [_MODEL_GAME_ endPlay];
   _MODEL_GAME_ = nil;
+  _MODEL_.leave_game_enabled = YES;
   [_DEFAULTS_ saveUserDefaults];
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_LEFT",nil,nil);
 }
@@ -227,6 +262,63 @@
   return requestsManagedObjectContext;
 }
 
+- (void) storeGame
+{
+  NSError *error;
+  
+  NSData *data;
+  NSString *file;
+  
+  NSString *folder = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id]];
+  [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error];
+  
+  data = [[_MODEL_GAME_ serialize] dataUsingEncoding:NSUTF8StringEncoding];
+  file = [folder stringByAppendingPathComponent:@"game.json"];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  ARISModel *m;
+  for(long i = 0; i < _MODEL_GAME_.models.count; i++)
+  {
+    m = _MODEL_GAME_.models[i];
+    data = [[m serializeGameData] dataUsingEncoding:NSUTF8StringEncoding];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_game.json",m.serializedName]];
+    [data writeToFile:file atomically:YES];
+    [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  }
+  for(long i = 0; i < _MODEL_GAME_.models.count; i++)
+  {
+    m = _MODEL_GAME_.models[i];
+    data = [[m serializePlayerData] dataUsingEncoding:NSUTF8StringEncoding];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",m.serializedName]];
+    [data writeToFile:file atomically:YES];
+    [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  }
+  _MODEL_GAME_.downloaded = YES;
+}
+
+- (void) restoreGame
+{
+  NSError *error;
+  NSString *file;
+
+  NSString *folder = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id]];
+
+  ARISModel *m;
+  for(long i = 0; i < _MODEL_GAME_.models.count; i++)
+  {
+    m = _MODEL_GAME_.models[i];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_game.json",m.serializedName]];
+    [m deserializeGameData:[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error]];
+  }
+  for(long i = 0; i < _MODEL_GAME_.models.count; i++)
+  {
+    m = _MODEL_GAME_.models[i];
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",m.serializedName]];
+    [m deserializePlayerData:[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error]];
+  }
+}
+
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator
 {
   if(!persistentStoreCoordinator)
@@ -243,6 +335,8 @@
     NSError *error;
     if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
       _ARIS_LOG_(@"AppModel: Error getting the persistentStoreCoordinator");
+
+    [storeUrl setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
   }
   return persistentStoreCoordinator;
 }
@@ -266,6 +360,31 @@
       [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorSavingToDiskKey", @"") message:[NSString stringWithFormat:@"%@",[error userInfo]]];
     }
   }
+}
+
+- (NSString *) serializedName
+{
+  return @"app";
+}
+
+- (NSString *) serializeGameData
+{
+  return @"";
+}
+
+- (void) deserializeGameData:(NSString *)data
+{
+
+}
+
+- (NSString *) serializePlayerData
+{
+  return @"";
+}
+
+- (void) deserializePlayerData:(NSString *)data
+{
+
 }
 
 - (void) dealloc

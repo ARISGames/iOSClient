@@ -6,6 +6,8 @@
 //
 //
 
+#include "ARISMediaView.h"
+
 @protocol GamePlayTabBarViewControllerDelegate
 - (void) gamePlayTabBarViewControllerRequestsNav;
 @end
@@ -13,6 +15,6 @@
 @protocol GamePlayTabBarViewControllerProtocol
 - (NSString *) tabId;
 - (NSString *) tabTitle;
-- (UIImage *) tabIcon;
+- (ARISMediaView *) tabIcon;
 - (void) showNav;
 @end

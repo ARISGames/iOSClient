@@ -10,24 +10,28 @@
 
 @interface ARISServiceResult : NSObject
 {
+    NSString *humanDescription;
     NSObject *resultData;
     NSDictionary *userInfo;
-   	NSMutableData *asyncData; 
+     NSMutableData *asyncData;
     NSURLRequest *urlRequest;
-    NSURLConnection *connection; 
+    NSURLConnection *connection;
+    float progress;
     id __unsafe_unretained handler;
-    SEL successSelector; 
-    SEL failSelector;   
+    SEL successSelector;
+    SEL failSelector;
     BOOL retryOnFail;
-    
+
     NSDate *start;
     NSTimeInterval time;
 };
+@property (nonatomic, strong) NSString *humanDescription;
 @property (nonatomic, strong) NSObject *resultData;
 @property (nonatomic, strong) NSDictionary *userInfo;
 @property (nonatomic, strong) NSMutableData *asyncData;
 @property (nonatomic, strong) NSURLRequest *urlRequest;
 @property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, assign) float progress;
 @property (nonatomic, assign) id handler;
 @property (nonatomic, assign) SEL successSelector;
 @property (nonatomic, assign) SEL failSelector;
