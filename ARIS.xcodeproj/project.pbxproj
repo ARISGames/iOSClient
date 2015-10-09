@@ -2509,7 +2509,7 @@
 					"-all_load",
 					"-v",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.client;
 				PRODUCT_NAME = ARIS;
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
@@ -2565,7 +2565,7 @@
 					"-all_load",
 					"-v",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.client;
 				PRODUCT_NAME = ARIS;
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
