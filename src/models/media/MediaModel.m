@@ -140,7 +140,7 @@
   [_SERVICES_ fetchMedias];
 }
 
-- (void) requestMediaData
+- (long) requestMediaData
 {
   NSArray *media_ids = [mediaIdsToLoad allKeys];
   Media *m;
@@ -165,6 +165,7 @@
 
   for(int i = 0; i < mediaDataLoadMedia.count; i++) //needs separate loop so notif doesn't get sent in same stack as generating count
       [_SERVICES_MEDIA_ loadMedia:mediaDataLoadMedia[i] delegateHandle:mediaDataLoadDelegateHandles[i]]; //calls 'mediaLoaded' upon complete
+  return mediaDataLoadMedia.count;
 }
 
 - (void) mediaLoaded:(Media *)m
