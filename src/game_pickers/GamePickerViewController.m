@@ -114,13 +114,13 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   if(games.count == 0) return;
-  [delegate gamePicked:games[indexPath.row] downloaded:NO];
+  [delegate gamePicked:games[indexPath.row]];
 }
 
 - (void) tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
   if(games.count == 0) return;
-  [delegate gamePicked:games[indexPath.row] downloaded:NO];
+  [delegate gamePicked:games[indexPath.row]];
 }
 
 - (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

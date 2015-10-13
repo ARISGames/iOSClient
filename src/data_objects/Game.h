@@ -65,6 +65,7 @@
   NSString *network_level;
   BOOL allow_download;
   BOOL preload_media;
+  long version;
 
   NSMutableArray *models;
 
@@ -125,6 +126,7 @@
 @property (nonatomic, strong) NSString *network_level;
 @property (nonatomic, assign) BOOL allow_download;
 @property (nonatomic, assign) BOOL preload_media;
+@property (nonatomic, assign) long version;
 
 @property (nonatomic, strong) NSMutableArray *models;
 @property (nonatomic, strong) ScenesModel       *scenesModel;

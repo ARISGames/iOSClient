@@ -110,13 +110,7 @@
 
 - (void) startLoading
 {
-  if(_MODEL_.play_using_download)
-  {
-    [_MODEL_ restoreGame];
-    [_MODEL_ beginGame];
-  }
-  else
-    [_MODEL_GAME_ requestGameData];
+  [_MODEL_GAME_ requestGameData];
 }
 
 - (void) gameDataLoaded

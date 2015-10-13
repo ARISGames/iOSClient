@@ -59,6 +59,7 @@
 @synthesize network_level;
 @synthesize allow_download;
 @synthesize preload_media;
+@synthesize version;
 
 @synthesize models;
 @synthesize scenesModel;
@@ -139,6 +140,7 @@
 
     allow_download = [dict validBoolForKey:@"allow_download"];
     preload_media = [dict validBoolForKey:@"preload_media"];
+    version = [dict validIntForKey:@"version"];
     
     
     downloaded = [[NSFileManager defaultManager] fileExistsAtPath:[[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld/game.json",game_id]]];
@@ -185,6 +187,7 @@
 
   [d setObject:[NSString stringWithFormat:@"%d",allow_download] forKey:@"allow_download"];
   [d setObject:[NSString stringWithFormat:@"%d",preload_media] forKey:@"preload_media"];
+  [d setObject:[NSString stringWithFormat:@"%ld",version] forKey:@"version"];
   return [NSString JSONFromFlatStringDict:d];
 }
 
@@ -236,6 +239,7 @@
   network_level = g.network_level;
   allow_download = g.allow_download;
   preload_media = g.preload_media;
+  version = g.version;
   
   downloaded = g.downloaded;
 }

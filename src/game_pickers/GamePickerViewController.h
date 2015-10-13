@@ -12,7 +12,7 @@
 @class Game;
 
 @protocol GamePickerViewControllerDelegate
-- (void) gamePicked:(Game *)g downloaded:(BOOL)d;
+- (void) gamePicked:(Game *)g;
 @end
 
 @interface GamePickerViewController : ARISViewController <UITableViewDelegate, UITableViewDataSource>

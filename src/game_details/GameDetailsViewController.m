@@ -22,7 +22,6 @@
     ARISWebView   *descriptionView;
 
     UIButton *resetButton;
-    UIButton *downloadButton;
     UIButton *startButton;
     UIButton *resumeButton;
     UIButton *rateButton;
@@ -30,7 +29,6 @@
     Game *game;
     BOOL loading_has_been_played;
     BOOL has_been_played;
-    BOOL use_downloaded_contents;
     id<GameDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -38,7 +36,7 @@
 
 @implementation GameDetailsViewController
 
-- (id) initWithGame:(Game *)g downloaded:(BOOL)downloaded delegate:(id<GameDetailsViewControllerDelegate>)d
+- (id) initWithGame:(Game *)g delegate:(id<GameDetailsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
@@ -46,18 +44,8 @@
         game = g;
         _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE", self, @selector(gamePlayedReceived:), nil);
 
-        use_downloaded_contents = downloaded;
-      
-        if(use_downloaded_contents)
-        {
-          loading_has_been_played = NO;
-          has_been_played = NO;
-        }
-        else
-        {
-          loading_has_been_played = YES;
-          [_MODEL_GAMES_ requestPlayerPlayedGame:game.game_id];
-        }
+        loading_has_been_played = YES;
+        [_MODEL_GAMES_ requestPlayerPlayedGame:game.game_id];
     }
     return self;
 }
@@ -88,12 +76,6 @@
     [resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     resetButton.titleLabel.font = [ARISTemplate ARISButtonFont];
   
-    downloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [downloadButton setTitle:@"Download" forState:UIControlStateNormal];
-    [downloadButton setBackgroundColor:[UIColor ARISColorDarkGray]];
-    [downloadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    downloadButton.titleLabel.font = [ARISTemplate ARISButtonFont];
-
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [startButton setTitle:NSLocalizedString(@"GameDetailsNewGameKey", @"") forState:UIControlStateNormal];
     [startButton setBackgroundColor:[UIColor ARISColorLightBlue]];
@@ -120,7 +102,6 @@
     [rateButton addSubview:reviewsTextView];
 
     [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    [downloadButton addTarget:self action:@selector(downloadButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [startButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [resumeButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [rateButton  addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside];
@@ -140,8 +121,6 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if(game.downloaded) [downloadButton setTitle:@"\U00002713 Download" forState:UIControlStateNormal];
-    else                [downloadButton setTitle:@"Download" forState:UIControlStateNormal];
 
     [self refreshFromGame];
 }
@@ -159,7 +138,6 @@
 
   long n_buttons = 0;
   if(!loading_has_been_played && has_been_played) n_buttons++; //reset
-  if(game.allow_download && !use_downloaded_contents) n_buttons++; //download
   n_buttons++; //either resume or start
   
   long b_y = self.view.bounds.size.height-40;
@@ -169,8 +147,6 @@
   long i = 0;
   resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
   if(!loading_has_been_played && has_been_played) i++;
-  downloadButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
-  if(game.allow_download && !use_downloaded_contents) i++;
   startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
   resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
 }
@@ -218,7 +194,6 @@
   else              [mediaView setImage:[UIImage imageNamed:@"DefaultGameSplash"]];
 
   [resetButton removeFromSuperview];
-  [downloadButton removeFromSuperview];
   [startButton removeFromSuperview];
   [resumeButton removeFromSuperview];
 
@@ -231,8 +206,6 @@
     }
     else
       [self.view addSubview:startButton];
-    if(game.allow_download && !use_downloaded_contents)
-      [self.view addSubview:downloadButton];
   }
 
 }
@@ -251,18 +224,13 @@
 
 - (void) startButtonTouched
 {
-  [_MODEL_ chooseGame:game useDownloaded:use_downloaded_contents];
+  [_MODEL_ chooseGame:game];
 }
 
 - (void) resetButtonTouched
 {
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles:NSLocalizedString(@"GameDetailsResetKey", @""), nil];
   [alert show];
-}
-
-- (void) downloadButtonTouched
-{
-  [_MODEL_ downloadGame:game];
 }
 
 - (void) rateButtonTouched
