@@ -196,6 +196,7 @@
     Event *e = [[Event alloc] initWithDictionary:d_events[i]];
     [events setObject:e forKey:[NSNumber numberWithLong:e.event_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

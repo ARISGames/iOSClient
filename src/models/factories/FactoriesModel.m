@@ -113,6 +113,7 @@
     Factory *f = [[Factory alloc] initWithDictionary:d_factories[i]];
     [factories setObject:f forKey:[NSNumber numberWithLong:f.factory_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

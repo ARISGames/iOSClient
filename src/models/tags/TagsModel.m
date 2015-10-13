@@ -189,6 +189,7 @@
     Tag *t = [[Tag alloc] initWithDictionary:d_tags[i]];
     [tags setObject:t forKey:[NSNumber numberWithLong:t.tag_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

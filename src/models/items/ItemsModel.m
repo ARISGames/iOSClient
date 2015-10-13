@@ -118,6 +118,7 @@
     Item *it = [[Item alloc] initWithDictionary:d_items[i]];
     [items setObject:it forKey:[NSNumber numberWithLong:it.item_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

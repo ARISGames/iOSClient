@@ -113,9 +113,12 @@
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 
+    descriptionView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
+    [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
+  
+    [scrollView addSubview:descriptionView];
+    [scrollView addSubview:mediaView];
     [self.view addSubview:scrollView];
-
-    [self loadGame];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -149,15 +152,6 @@
   if(!loading_has_been_played && has_been_played) i++;
   startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
   resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
-}
-
-- (void) loadGame
-{
-    [scrollView addSubview:descriptionView];
-    descriptionView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-
-    [scrollView addSubview:mediaView];
-    [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
 }
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv

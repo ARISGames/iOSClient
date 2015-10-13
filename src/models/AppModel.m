@@ -279,6 +279,11 @@
 
 - (void) restoreGame
 {
+  [self restoreGameData];
+  [self restorePlayerData];
+}
+- (void) restoreGameData
+{
   NSError *error;
   NSString *file;
 
@@ -291,6 +296,15 @@
     file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_game.json",m.serializedName]];
     [m deserializeGameData:[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error]];
   }
+}
+- (void) restorePlayerData
+{
+  NSError *error;
+  NSString *file;
+
+  NSString *folder = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id]];
+
+  ARISModel *m;
   for(long i = 0; i < _MODEL_GAME_.models.count; i++)
   {
     m = _MODEL_GAME_.models[i];
@@ -354,7 +368,6 @@
 
 - (void) deserializeGameData:(NSString *)data
 {
-
 }
 
 - (NSString *) serializePlayerData

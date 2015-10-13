@@ -114,6 +114,8 @@
 
 - (void) storeGame;
 - (void) restoreGame;
+- (void) restoreGameData;
+- (void) restorePlayerData;
 
 @end
 

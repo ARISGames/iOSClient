@@ -288,6 +288,7 @@
     Quest *q = [[Quest alloc] initWithDictionary:d_quests[i]];
     [quests setObject:q forKey:[NSNumber numberWithLong:q.quest_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

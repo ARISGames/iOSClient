@@ -270,6 +270,7 @@
     Note *n = [[Note alloc] initWithDictionary:d_notes[i]];
     [notes setObject:n forKey:[NSNumber numberWithLong:n.note_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

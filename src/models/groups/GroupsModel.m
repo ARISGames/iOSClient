@@ -184,6 +184,7 @@
     Group *g = [[Group alloc] initWithDictionary:d_groups[i]];
     [groups setObject:g forKey:[NSNumber numberWithLong:g.group_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

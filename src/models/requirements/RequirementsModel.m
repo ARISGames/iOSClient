@@ -388,6 +388,7 @@
     RequirementAtom *r = [[RequirementAtom alloc] initWithDictionary:d_atoms[i]];
     [requirementAtoms setObject:r forKey:[NSNumber numberWithLong:r.requirement_atom_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

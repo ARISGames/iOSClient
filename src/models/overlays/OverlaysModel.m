@@ -216,6 +216,7 @@
     Overlay *o = [[Overlay alloc] initWithDictionary:d_overlays[i]];
     [overlays setObject:o forKey:[NSNumber numberWithLong:o.overlay_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

@@ -187,6 +187,7 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

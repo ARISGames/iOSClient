@@ -113,6 +113,7 @@
     Plaque *p = [[Plaque alloc] initWithDictionary:d_plaques[i]];
     [plaques setObject:p forKey:[NSNumber numberWithLong:p.plaque_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

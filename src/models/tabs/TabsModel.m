@@ -245,6 +245,7 @@
     Tab *t = [[Tab alloc] initWithDictionary:d_tabs[i]];
     [tabs setObject:t forKey:[NSNumber numberWithLong:t.tab_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

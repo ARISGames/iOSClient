@@ -198,6 +198,7 @@
     Scene *s = [[Scene alloc] initWithDictionary:d_scenes[i]];
     [scenes setObject:s forKey:[NSNumber numberWithLong:s.scene_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

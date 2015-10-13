@@ -110,7 +110,13 @@
 
 - (void) startLoading
 {
-  [_MODEL_GAME_ requestGameData];
+  if(_MODEL_GAME_.downloadedVersion == 0 || _MODEL_GAME_.version != _MODEL_GAME_.downloadedVersion)
+    [_MODEL_GAME_ requestGameData];
+  else
+  {
+    [_MODEL_ restoreGameData];
+    [self gameDataLoaded];
+  }
 }
 
 - (void) gameDataLoaded

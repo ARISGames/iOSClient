@@ -270,6 +270,8 @@
     DialogOption *d_o = [[DialogOption alloc] initWithDictionary:d_dialog_options[i]];
     [dialogOptions setObject:d_o forKey:[NSNumber numberWithLong:d_o.dialog_option_id]];
   }
+
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

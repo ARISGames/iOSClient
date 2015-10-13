@@ -305,6 +305,7 @@
     Trigger *t = [[Trigger alloc] initWithDictionary:d_triggers[i]];
     [triggers setObject:t forKey:[NSNumber numberWithLong:t.trigger_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

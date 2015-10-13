@@ -50,7 +50,7 @@
 
 - (void) deserializeGameData:(NSString *)data
 {
-
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData
