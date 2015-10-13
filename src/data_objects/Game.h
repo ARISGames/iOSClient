@@ -90,7 +90,7 @@
   QuestsModel       *questsModel;
   DisplayQueueModel *displayQueueModel;
   
-  BOOL downloaded;
+  long downloadedVersion;
 }
 
 @property (nonatomic, assign) long game_id;
@@ -151,7 +151,7 @@
 @property (nonatomic, strong) QuestsModel       *questsModel;
 @property (nonatomic, strong) DisplayQueueModel *displayQueueModel;
 
-@property (nonatomic, assign) BOOL downloaded;
+@property (nonatomic, assign) long downloadedVersion;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) serialize;

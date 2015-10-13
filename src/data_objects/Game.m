@@ -14,6 +14,7 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 #import "NSString+JSON.h"
+#import "SBJson.h"
 
 @interface Game()
 {
@@ -83,7 +84,7 @@
 @synthesize logsModel;
 @synthesize questsModel;
 @synthesize displayQueueModel;
-@synthesize downloaded;
+@synthesize downloadedVersion;
 
 - (id) init
 {
@@ -142,8 +143,14 @@
     preload_media = [dict validBoolForKey:@"preload_media"];
     version = [dict validIntForKey:@"version"];
     
-    
-    downloaded = [[NSFileManager defaultManager] fileExistsAtPath:[[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld/game.json",game_id]]];
+    downloadedVersion = 0;
+    NSString *gameJsonFile = [[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld/game.json",game_id]];
+    if([[NSFileManager defaultManager] fileExistsAtPath:gameJsonFile])
+    {
+      SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+      NSDictionary *gameDict = [jsonParser objectWithString:[NSString stringWithContentsOfFile:gameJsonFile encoding:NSUTF8StringEncoding error:nil]];
+      downloadedVersion = [gameDict validIntForKey:@"version"];
+    }
 
     NSArray *authorDicts;
     for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
@@ -198,13 +205,8 @@
 
   authors  = [NSMutableArray arrayWithCapacity:5];
   comments = [NSMutableArray arrayWithCapacity:5];
-
-  network_level = @"HYBRID";
   
-  downloaded = NO;
-
-  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
-  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
+  downloadedVersion = 0;
 }
 
 - (void) mergeDataFromGame:(Game *)g
@@ -241,13 +243,15 @@
   preload_media = g.preload_media;
   version = g.version;
   
-  downloaded = g.downloaded;
+  downloadedVersion = g.downloadedVersion;
 }
 
 - (void) getReadyToPlay
 {
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",self,@selector(gamePlayerPieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
+  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
 
   n_game_data_received = 0;
   n_player_data_received = 0;

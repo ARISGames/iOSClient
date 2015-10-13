@@ -371,7 +371,6 @@
     [mapView setCenterCoordinate:mapView.region.center animated:NO];
     if(firstLoad)
     {
-      NSLog(@"%@ %f",_MODEL_GAME_.map_focus,_MODEL_GAME_.map_location.coordinate.latitude);
       if     ([_MODEL_GAME_.map_focus isEqualToString:@"PLAYER"])        [self centerMapOnPlayer];
       else if([_MODEL_GAME_.map_focus isEqualToString:@"LOCATION"])      [self centerMapOnLoc:_MODEL_GAME_.map_location.coordinate zoom:_MODEL_GAME_.map_zoom_level];
       else if([_MODEL_GAME_.map_focus isEqualToString:@"FIT_LOCATIONS"]) [self zoomToFitAnnotations:NO];

@@ -202,7 +202,6 @@
         Factory *f = [_MODEL_FACTORIES_ factoryForId:i.factory_id];
         if(!f) continue;
         int time = [[NSDate date] timeIntervalSinceDate:i.created];
-        NSLog(@"%d",time);
         if(time > f.produce_expiration_time)
         {
           [rejected addObject:i];
@@ -211,7 +210,6 @@
       }
       [ptrigs addObject:t];
     }
-    NSLog(@"Accepted: %lu, Rejected: %lu",(unsigned long)ptrigs.count,(unsigned long)rejected.count);
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",nil,@{@"triggers":ptrigs});
   }
   if(![self playerDataReceived] ||

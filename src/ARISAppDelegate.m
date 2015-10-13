@@ -54,7 +54,7 @@
   [_DEFAULTS_ loadUserDefaults]; //check if changed since last active
 
   _SERVICES_;
-  
+
   NSLog(@"Local Docs Dir: %@",[_MODEL_ applicationDocumentsDirectory]);
 
   //Init after model, as they might be listening for updates
