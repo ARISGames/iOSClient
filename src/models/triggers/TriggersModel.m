@@ -192,7 +192,7 @@
     for(int i = 0; i < ts.count; i++)
     {
       Trigger *t = ts[i];
-      if(!t.scene_id == _MODEL_SCENES_.playerScene.scene_id  || ![_MODEL_REQUIREMENTS_ evaluateRequirementRoot:t.requirement_root_package_id]) continue;
+      if(t.scene_id != _MODEL_SCENES_.playerScene.scene_id  || ![_MODEL_REQUIREMENTS_ evaluateRequirementRoot:t.requirement_root_package_id]) continue;
       
       Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
       if(!i) continue;

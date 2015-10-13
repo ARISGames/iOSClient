@@ -17,7 +17,8 @@
     UILabel *progressLabel;
     UILabel *mediaLabel;
     UILabel *mediaCountLabel;
-    int mediaCount;
+    long mediaCount;
+    long needeMediaCount;
 
     UIButton *retryGameLoadButton;
     UIButton *retryPlayerLoadButton;
@@ -67,7 +68,7 @@
     mediaLabel.font = [ARISTemplate ARISCellSubtextFont];
     mediaLabel.textColor = [UIColor ARISColorDarkBlue];
 
-    mediaCountLabel.text = @"0 loaded...";
+    mediaCountLabel.text = @"0/? loaded...";
     mediaCountLabel.font = [ARISTemplate ARISCellSubtextFont];
     mediaCountLabel.textColor = [UIColor ARISColorDarkBlue];
 
@@ -81,7 +82,6 @@
     [retryPlayerLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
     [retryPlayerLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
     [retryPlayerLoadButton addTarget:self action:@selector(retryPlayerFetch) forControlEvents:UIControlEventTouchUpInside];
-
 
     [retryMediaDataLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
     [retryMediaDataLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
@@ -151,7 +151,7 @@
 
 - (void) sendOffRequestMediaData //this is only a function so it can fit in 'performselector'
 {
-  [_MODEL_MEDIA_ requestMediaData];
+  needeMediaCount = [_MODEL_MEDIA_ requestMediaData];
 }
 
 - (void) playerFetchFailed
@@ -168,7 +168,16 @@
 - (void) mediaDataLoaded
 {
   mediaCount++;
-  mediaCountLabel.text = [NSString stringWithFormat:@"%d loaded...",mediaCount];
+  if(needeMediaCount <= 0)
+    mediaCountLabel.text = [NSString stringWithFormat:@"%ld/? loaded...",mediaCount];
+  else
+  {
+    mediaCountLabel.text = [NSString stringWithFormat:@"%ld/%ld loaded...",mediaCount,needeMediaCount];
+    
+    [self.view addSubview:progressBar];
+    progressBar.frame = CGRectMake(10, 165, self.view.frame.size.width-20, 10);
+    progressBar.progress = (float)mediaCount/(float)needeMediaCount;
+  }
 }
 
 - (void) mediaDataComplete
