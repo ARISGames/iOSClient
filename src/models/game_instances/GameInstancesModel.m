@@ -50,15 +50,15 @@
   gameOwnedInstances = nil;
 }
 
-- (void) requestMaintenenceData
+- (void) requestMaintenanceData
 {
   [self touchGameInstances];
 }
-- (void) clearMaintenenceData
+- (void) clearMaintenanceData
 {
   n_maintenance_data_received = 0;
 }
-- (long) nMaintenenceDataToReceive
+- (long) nMaintenanceDataToReceive
 {
   return 1;
 }

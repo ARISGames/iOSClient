@@ -245,18 +245,18 @@
 - (void) storeGame
 {
   NSError *error;
-  
+
   NSData *data;
   NSString *file;
-  
+
   NSString *folder = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id]];
   [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error];
-  
+
   data = [[_MODEL_GAME_ serialize] dataUsingEncoding:NSUTF8StringEncoding];
   file = [folder stringByAppendingPathComponent:@"game.json"];
   [data writeToFile:file atomically:YES];
   [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-  
+
   ARISModel *m;
   for(long i = 0; i < _MODEL_GAME_.models.count; i++)
   {

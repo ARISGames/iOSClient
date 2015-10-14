@@ -48,15 +48,10 @@
 
 - (void) fetchUsers; //TBD what this actually does...
 - (void) fetchScenes;
-- (void) touchSceneForPlayer;
 - (void) fetchGroups;
-- (void) touchGroupForPlayer;
 - (void) fetchMedias;
 - (void) fetchPlaques;
 - (void) fetchItems;
-- (void) touchItemsForPlayer; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
-- (void) touchItemsForGame; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
-- (void) touchItemsForGroups; //an odd request- but IS a game-level fetch (calls GAME_PIECE_RECEIVED)
 - (void) fetchDialogs;
 - (void) fetchDialogCharacters;
 - (void) fetchDialogScripts;
@@ -76,6 +71,12 @@
 - (void) fetchRequirementRoots;
 - (void) fetchRequirementAnds;
 - (void) fetchRequirementAtoms;
+
+- (void) touchSceneForPlayer;
+- (void) touchGroupForPlayer;
+- (void) touchItemsForPlayer;
+- (void) touchItemsForGame;
+- (void) touchItemsForGroups;
 
 - (void) fetchLogsForPlayer;
 - (void) fetchSceneForPlayer; //literally a number... oh well

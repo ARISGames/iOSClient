@@ -300,4 +300,10 @@
     [self commitContext];
 }
 
+- (NSString *) serializedName
+{
+  //not incredibly important- media stores its data in coreData, not serialized (SHOULD FIX!)
+  return @"media";
+}
+
 @end

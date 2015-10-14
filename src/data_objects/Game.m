@@ -296,9 +296,11 @@
   n_media_data_to_receive = 0;
   for(long i = 0; i < models.count; i++)
   {
-    n_game_data_to_receive        += [(ARISModel *)models[i] nGameDataToReceive];
-    n_maintenance_data_to_receive += [(ARISModel *)models[i] nMaintenanceDataToReceive];
-    n_player_data_to_receive      += [(ARISModel *)models[i] nPlayerDataToReceive];
+    ARISModel *m = models[i];
+    n_game_data_to_receive        += [m nGameDataToReceive];
+    n_maintenance_data_to_receive += [m nMaintenanceDataToReceive];
+    n_player_data_to_receive      += [m nPlayerDataToReceive];
+    NSLog(@"%@ COUNTS %ld %ld %ld",[m serializedName],n_game_data_to_receive,n_maintenance_data_to_receive,n_player_data_to_receive);
   }
   n_media_data_to_receive = [_MODEL_MEDIA_ numMediaTryingToLoad]; //must be recalculated once game info gotten
 }

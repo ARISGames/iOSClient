@@ -124,7 +124,7 @@
 
 //Game Data
 - (void) requestGameData { [self.view addSubview:gameProgressLabel]; [self.view addSubview:gameProgressBar]; [_MODEL_GAME_ requestGameData]; }
-- (void) gamePercentLoaded:(NSNotification *)notif { NSLog(@"GPERCENTZ: %f",[notif.userInfo[@"percent"] floatValue]); gameProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) gamePercentLoaded:(NSNotification *)notif { gameProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) gameDataLoaded { [self requestMaintenanceData]; }
 - (void) gameFetchFailed { [self.view addSubview:gameRetryLoadButton]; }
 - (void) retryGameFetch
@@ -135,7 +135,7 @@
 
 //Maintenance Data
 - (void) requestMaintenanceData { [self.view addSubview:maintenanceProgressLabel]; [self.view addSubview:maintenanceProgressBar]; [_MODEL_GAME_ requestMaintenanceData]; }
-- (void) maintenancePercentLoaded:(NSNotification *)notif { NSLog(@"MPERCENTZ: %f",[notif.userInfo[@"percent"] floatValue]); maintenanceProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) maintenancePercentLoaded:(NSNotification *)notif { maintenanceProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) maintenanceDataLoaded { [self requestPlayerData]; }
 - (void) maintenanceFetchFailed { [self.view addSubview:maintenanceRetryLoadButton]; }
 - (void) retryMaintenanceFetch
@@ -146,7 +146,7 @@
 
 //Player Data
 - (void) requestPlayerData { [self.view addSubview:playerProgressLabel]; [self.view addSubview:playerProgressBar]; [_MODEL_GAME_ requestPlayerData]; }
-- (void) playerPercentLoaded:(NSNotification *)notif { NSLog(@"PPERCENTZ: %f",[notif.userInfo[@"percent"] floatValue]);playerProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) playerPercentLoaded:(NSNotification *)notif { playerProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) playerDataLoaded
 {
   if(_MODEL_GAME_.preload_media) [self requestMediaData];
@@ -161,7 +161,7 @@
 
 //Media Data
 - (void) requestMediaData { [self.view addSubview:mediaProgressLabel]; [self.view addSubview:mediaProgressBar]; [_MODEL_GAME_ requestMediaData]; }
-- (void) mediaPercentLoaded:(NSNotification *)notif { NSLog(@"EPERCENTZ: %f",[notif.userInfo[@"percent"] floatValue]); mediaProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) mediaPercentLoaded:(NSNotification *)notif { mediaProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) mediaDataLoaded { [_MODEL_ beginGame]; }
 - (void) mediaFetchFailed { [self.view addSubview:mediaRetryLoadButton]; }
 - (void) retryMediaFetch {
