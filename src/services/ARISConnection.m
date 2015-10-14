@@ -15,7 +15,7 @@
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
 
-//#define CONNECTION_DEBUG
+#define CONNECTION_DEBUG
 
 NSString *const kARISServerServicePackage = @"v2";
 

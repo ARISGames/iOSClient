@@ -127,7 +127,7 @@
 
         tmpMedia.game_id = [NSNumber numberWithLong:[mediaDict validIntForKey:@"game_id"]];
         tmpMedia.user_id = [NSNumber numberWithLong:[mediaDict validIntForKey:@"user_id"]];
-        _ARIS_LOG_(@"Media cache   : Media id:%ld cached:%@",media_id,tmpMedia.remoteURL);
+        //_ARIS_LOG_(@"Media cache   : Media id:%ld cached:%@",media_id,tmpMedia.remoteURL);
     }
     [self commitContext];
     n_game_data_received++;
@@ -163,9 +163,14 @@
   if(mediaDataLoadDelegateHandles.count == 0)
     [self mediaLoaded:nil];
 
-  for(int i = 0; i < mediaDataLoadMedia.count; i++) //needs separate loop so notif doesn't get sent in same stack as generating count
-      [_SERVICES_MEDIA_ loadMedia:mediaDataLoadMedia[i] delegateHandle:mediaDataLoadDelegateHandles[i]]; //calls 'mediaLoaded' upon complete
+  [self performSelector:@selector(deferedLoadMedia) withObject:nil afterDelay:1.];
   return mediaDataLoadDelegateHandles.count;
+}
+
+- (void) deferedLoadMedia
+{
+  for(int i = 0; i < mediaDataLoadMedia.count; i++)
+      [_SERVICES_MEDIA_ loadMedia:mediaDataLoadMedia[i] delegateHandle:mediaDataLoadDelegateHandles[i]]; //calls 'mediaLoaded' upon complete
 }
 
 - (long) numMediaTryingToLoad

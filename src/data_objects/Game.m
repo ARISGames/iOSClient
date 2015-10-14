@@ -300,7 +300,6 @@
     n_game_data_to_receive        += [m nGameDataToReceive];
     n_maintenance_data_to_receive += [m nMaintenanceDataToReceive];
     n_player_data_to_receive      += [m nPlayerDataToReceive];
-    NSLog(@"%@ COUNTS %ld %ld %ld",[m serializedName],n_game_data_to_receive,n_maintenance_data_to_receive,n_player_data_to_receive);
   }
   n_media_data_to_receive = [_MODEL_MEDIA_ numMediaTryingToLoad]; //must be recalculated once game info gotten
 }
@@ -315,6 +314,8 @@
   n_player_data_received = 0;
   n_media_data_to_receive = 0;
   n_media_data_received = 0;
+  
+  [self clearModels];
 
   models = nil;
 
@@ -369,9 +370,12 @@
   n_media_data_received = 0;
   n_media_data_to_receive = [_MODEL_MEDIA_ requestMediaData];
   
-  //hack to quickly check if already done
-  n_media_data_received--;
-  [self mediaPieceReceived];
+  if(n_media_data_to_receive == 0)
+  {
+    //hack to quickly check if already done
+    n_media_data_received--;
+    [self mediaPieceReceived];
+  }
 }
 
 - (void) gamePieceReceived
@@ -425,7 +429,9 @@
 - (void) gameBegan
 {
   _ARIS_NOTIF_IGNORE_(@"GAME_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"MAINTENANCE_PIECE_AVAILABLE", self, nil);
   _ARIS_NOTIF_IGNORE_(@"PLAYER_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"MEDIA_PIECE_AVAILABLE", self, nil);
   poller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(requestPlayerData) userInfo:nil repeats:YES];
 }
 

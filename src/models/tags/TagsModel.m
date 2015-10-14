@@ -37,7 +37,7 @@
 
 - (void) requestGameData
 {
-  [self requestTags];
+  [self requestTags]; //calls 2 things
 }
 - (void) clearGameData
 {
@@ -47,7 +47,7 @@
 }
 - (long) nGameDataToReceive
 {
-  return 1;
+  return 2;
 }
 
 - (void) tagsReceived:(NSNotification *)notif
