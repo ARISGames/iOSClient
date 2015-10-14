@@ -77,13 +77,13 @@
 {
   [self updateInstances:[notif.userInfo objectForKey:@"instances"]];
   n_player_data_received++;
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 - (void) gameInstancesReceived:(NSNotification *)notif
 {
   [self updateInstances:[notif.userInfo objectForKey:@"instances"]];
   n_game_data_received++;
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 - (void) instanceReceived:(NSNotification *)notif
 { [self updateInstances:@[[notif.userInfo objectForKey:@"instance"]]]; }
@@ -300,14 +300,9 @@
   n_game_data_received = [self nGameDataToReceive];
 }
 
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
 - (void) deserializePlayerData:(NSString *)data
 {
-  //don't clear 'player data', as player data was actually received by deserializing game data
+  //don't clear 'player data', as player data was actually received by deserializing game data //yikes
 }
 
 - (void) dealloc

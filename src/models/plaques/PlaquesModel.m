@@ -64,7 +64,7 @@
     }
     n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_PLAQUES_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestPlaques
@@ -114,16 +114,6 @@
     [plaques setObject:p forKey:[NSNumber numberWithLong:p.plaque_id]];
   }
   n_game_data_received = [self nGameDataToReceive];
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
 }
 
 - (void) dealloc

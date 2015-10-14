@@ -85,7 +85,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestQuests       { [_SERVICES_ fetchQuests]; }
@@ -157,7 +157,7 @@
   [self updateCompleteQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"complete"]]];
   [self updateActiveQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"active"]]];
   n_player_data_received++;
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updateActiveQuests:(NSArray *)newQuests

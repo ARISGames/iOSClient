@@ -211,26 +211,6 @@
   return @"display_queue";
 }
 
-- (NSString *) serializeGameData
-{
-  return @"";
-}
-
-- (void) deserializeGameData:(NSString *)data
-{
-
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
-}
-
 - (void) dealloc
 {
   [timerPoller invalidate];

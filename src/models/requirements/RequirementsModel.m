@@ -78,7 +78,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_ROOT_PACKAGES_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 //AND
@@ -98,7 +98,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_AND_PACKAGES_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 //ATOM
@@ -118,7 +118,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_ATOMS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 
@@ -389,16 +389,6 @@
     [requirementAtoms setObject:r forKey:[NSNumber numberWithLong:r.requirement_atom_id]];
   }
   n_game_data_received = [self nGameDataToReceive];
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
 }
 
 - (void) dealloc

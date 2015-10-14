@@ -13,16 +13,11 @@
 @interface LoadingViewController()
 {
     UIImageView *splashImage;
-    UIProgressView *progressBar;
-    UILabel *progressLabel;
-    UILabel *mediaLabel;
-    UILabel *mediaCountLabel;
-    long mediaCount;
-    long needeMediaCount;
-
-    UIButton *retryGameLoadButton;
-    UIButton *retryPlayerLoadButton;
-    UIButton *retryMediaDataLoadButton;
+  
+    UIProgressView *gameProgressBar;        UILabel *gameProgressLabel;        UIButton *gameRetryLoadButton;
+    UIProgressView *maintenanceProgressBar; UILabel *maintenanceProgressLabel; UIButton *maintenanceRetryLoadButton;
+    UIProgressView *playerProgressBar;      UILabel *playerProgressLabel;      UIButton *playerRetryLoadButton;
+    UIProgressView *mediaProgressBar;       UILabel *mediaProgressLabel;       UIButton *mediaRetryLoadButton;
 
     id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -33,85 +28,93 @@
 
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
 {
-    if(self = [super init])
-    {
-        delegate = d;
-        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PERCENT_LOADED",     self, @selector(percentLoaded:),    nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_DATA_LOADED",        self, @selector(gameDataLoaded),    nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_DATA_LOADED", self, @selector(playerDataLoaded),  nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_MEDIA_DATA_LOADED",       self, @selector(mediaDataLoaded),   nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_MEDIA_DATA_COMPLETE",     self, @selector(mediaDataComplete), nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_FETCH_FAILED",    self, @selector(gameFetchFailed),   nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_FETCH_FAILED",  self, @selector(playerFetchFailed), nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    delegate = d;
+  
+    _ARIS_NOTIF_LISTEN_(@"GAME_PERCENT_LOADED",               self, @selector(gamePercentLoaded:),        nil);
+    _ARIS_NOTIF_LISTEN_(@"MAINTENANCE_PERCENT_LOADED",        self, @selector(maintenancePercentLoaded:), nil);
+    _ARIS_NOTIF_LISTEN_(@"PLAYER_PERCENT_LOADED",             self, @selector(playerPercentLoaded:),      nil);
+    _ARIS_NOTIF_LISTEN_(@"MEDIA_PERCENT_LOADED",              self, @selector(mediaPercentLoaded:),       nil);
+  
+    _ARIS_NOTIF_LISTEN_(@"GAME_DATA_LOADED",                  self, @selector(gameDataLoaded),         nil);
+    _ARIS_NOTIF_LISTEN_(@"MAINTENANCE_DATA_LOADED",           self, @selector(maintenanceDataLoaded),  nil);
+    _ARIS_NOTIF_LISTEN_(@"PLAYER_DATA_LOADED",                self, @selector(playerDataLoaded),       nil);
+    _ARIS_NOTIF_LISTEN_(@"MEDIA_DATA_LOADED",                 self, @selector(mediaDataLoaded),        nil);
+  
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_FETCH_FAILED",        self, @selector(gameFetchFailed),        nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_MAINTENANCE_FETCH_FAILED", self, @selector(maintenanceFetchFailed), nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_FETCH_FAILED",      self, @selector(playerFetchFailed),      nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIA_FETCH_FAILED",       self, @selector(mediaFetchFailed),      nil);
+  }
+  return self;
+}
+
+//for easy/consistent styling
+- (void) setupLabel:(UILabel *)l progressBar:(UIProgressView *)p retryButton:(UIButton *)r
+{
+  l.font = [ARISTemplate ARISCellSubtextFont];
+  l.textColor = [UIColor ARISColorDarkBlue];
+  p.progress = 0.0;
+  p.progressTintColor = [UIColor ARISColorDarkBlue];
+  [r setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+  [r setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
 }
 
 - (void) loadView
 {
-    [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorOffWhite];
+  [super loadView];
+  self.view.backgroundColor = [UIColor ARISColorOffWhite];
 
-    progressLabel = [[UILabel alloc] init];
-    mediaLabel = [[UILabel alloc] init];
-    mediaCountLabel = [[UILabel alloc] init];
-    progressBar = [[UIProgressView alloc] init];
-    retryGameLoadButton = [[UIButton alloc] init];
-    retryPlayerLoadButton = [[UIButton alloc] init];
-    retryMediaDataLoadButton = [[UIButton alloc] init];
+  gameProgressLabel = [[UILabel alloc] init];
+  gameProgressBar = [[UIProgressView alloc] init];
+  gameRetryLoadButton = [[UIButton alloc] init];
+  [self setupLabel:gameProgressLabel progressBar:gameProgressBar retryButton:gameRetryLoadButton];
+  gameProgressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
+  [gameRetryLoadButton addTarget:self action:@selector(retryGameFetch) forControlEvents:UIControlEventTouchUpInside];
+  
+  maintenanceProgressLabel = [[UILabel alloc] init];
+  maintenanceProgressBar = [[UIProgressView alloc] init];
+  maintenanceRetryLoadButton = [[UIButton alloc] init];
+  [self setupLabel:maintenanceProgressLabel progressBar:maintenanceProgressBar retryButton:maintenanceRetryLoadButton];
+  maintenanceProgressLabel.text = @"Performing Maintenance...";
+  [maintenanceRetryLoadButton addTarget:self action:@selector(retryMaintenanceFetch) forControlEvents:UIControlEventTouchUpInside];
+  
+  playerProgressLabel = [[UILabel alloc] init];
+  playerProgressBar = [[UIProgressView alloc] init];
+  playerRetryLoadButton = [[UIButton alloc] init];
+  [self setupLabel:playerProgressLabel progressBar:playerProgressBar retryButton:playerRetryLoadButton];
+  playerProgressLabel.text = @"Fetching Player Data...";
+  [playerRetryLoadButton addTarget:self action:@selector(retryPlayerFetch) forControlEvents:UIControlEventTouchUpInside];
+  
+  mediaProgressLabel = [[UILabel alloc] init];
+  mediaProgressBar = [[UIProgressView alloc] init];
+  mediaRetryLoadButton = [[UIButton alloc] init];
+  [self setupLabel:mediaProgressLabel progressBar:mediaProgressBar retryButton:mediaRetryLoadButton];
+  mediaProgressLabel.text = @"Fetching Media (this could take a while)...";
+  [mediaRetryLoadButton addTarget:self action:@selector(retryMediaFetch) forControlEvents:UIControlEventTouchUpInside];
+}
 
-    progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
-    progressLabel.font = [ARISTemplate ARISCellSubtextFont];
-    progressLabel.textColor = [UIColor ARISColorDarkBlue];
-
-    mediaLabel.text = @"Fetching Media... (this could take a while)";
-    mediaLabel.font = [ARISTemplate ARISCellSubtextFont];
-    mediaLabel.textColor = [UIColor ARISColorDarkBlue];
-
-    mediaCountLabel.text = @"0/? loaded...";
-    mediaCountLabel.font = [ARISTemplate ARISCellSubtextFont];
-    mediaCountLabel.textColor = [UIColor ARISColorDarkBlue];
-
-    progressBar.progress = 0.0;
-    progressBar.progressTintColor = [UIColor ARISColorDarkBlue];
-
-    [retryGameLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
-    [retryGameLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
-    [retryGameLoadButton addTarget:self action:@selector(retryGameFetch) forControlEvents:UIControlEventTouchUpInside];
-
-    [retryPlayerLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
-    [retryPlayerLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
-    [retryPlayerLoadButton addTarget:self action:@selector(retryPlayerFetch) forControlEvents:UIControlEventTouchUpInside];
-
-    [retryMediaDataLoadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
-    [retryMediaDataLoadButton setTitle:@"Load Failed; Retry?" forState:UIControlStateNormal];
-    [retryMediaDataLoadButton addTarget:self action:@selector(retryMediaDataFetch) forControlEvents:UIControlEventTouchUpInside];
-
-    [self.view addSubview:progressLabel];
-    [self.view addSubview:progressBar];
+//for easy/consistent styling
+- (void) frameLabel:(UILabel *)l progressBar:(UIProgressView *)p retryButton:(UIButton *)r atOffset:(float)o
+{
+  l.frame = CGRectMake(10,    o, self.view.frame.size.width-20, 40);
+  p.frame = CGRectMake(10, 40+o, self.view.frame.size.width-20, 10);
+  r.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2+80,50,50);
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    progressLabel.frame = CGRectMake(10, 60, self.view.frame.size.width-20, 40);
-    mediaLabel.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 40);
-    mediaCountLabel.frame = CGRectMake(10, 120, self.view.frame.size.width-20, 40);
-    progressBar.frame = CGRectMake(10, 100, self.view.frame.size.width-20, 10);
-    progressBar.progress = 0;
-
-    retryGameLoadButton.frame   = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
-    retryPlayerLoadButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
-    retryMediaDataLoadButton.frame = CGRectMake(self.view.frame.size.width/2-25,self.view.frame.size.height/2-25,50,50);
-
-    [retryGameLoadButton removeFromSuperview];
-    [retryPlayerLoadButton removeFromSuperview];
-    [retryMediaDataLoadButton removeFromSuperview];
+  [self frameLabel:gameProgressLabel        progressBar:gameProgressBar        retryButton:gameRetryLoadButton        atOffset:60.];
+  [self frameLabel:maintenanceProgressLabel progressBar:maintenanceProgressBar retryButton:maintenanceRetryLoadButton atOffset:110.];
+  [self frameLabel:playerProgressLabel      progressBar:playerProgressBar      retryButton:playerRetryLoadButton      atOffset:160.];
+  [self frameLabel:mediaProgressLabel       progressBar:mediaProgressBar       retryButton:mediaRetryLoadButton       atOffset:210.];
 }
 
 - (void) startLoading
 {
-  if(_MODEL_GAME_.downloadedVersion == 0 || _MODEL_GAME_.version != _MODEL_GAME_.downloadedVersion)
-    [_MODEL_GAME_ requestGameData];
+  if(true)//_MODEL_GAME_.downloadedVersion == 0 || _MODEL_GAME_.version != _MODEL_GAME_.downloadedVersion)
+    [self requestGameData];
   else
   {
     [_MODEL_ restoreGameData];
@@ -119,86 +122,51 @@
   }
 }
 
-- (void) gameDataLoaded
-{
-  [_MODEL_GAME_ requestPlayerData];
-}
-
-- (void) gameFetchFailed
-{
-  [self.view addSubview:retryGameLoadButton];
-}
-
+//Game Data
+- (void) requestGameData { [self.view addSubview:gameProgressLabel]; [self.view addSubview:gameProgressBar]; [_MODEL_GAME_ requestGameData]; }
+- (void) gamePercentLoaded:(NSNotification *)notif { NSLog(@"GPERCENTZ: %f",[notif.userInfo[@"percent"] floatValue]); gameProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) gameDataLoaded { [self requestMaintenanceData]; }
+- (void) gameFetchFailed { [self.view addSubview:gameRetryLoadButton]; }
 - (void) retryGameFetch
 {
-  [retryGameLoadButton removeFromSuperview];
-  [_MODEL_GAME_ requestGameData];
+  [gameRetryLoadButton removeFromSuperview];
+  [self requestGameData];
 }
 
+//Maintenance Data
+- (void) requestMaintenanceData { [self.view addSubview:maintenanceProgressLabel]; [self.view addSubview:maintenanceProgressBar]; [_MODEL_GAME_ requestMaintenanceData]; }
+- (void) maintenancePercentLoaded:(NSNotification *)notif { NSLog(@"MPERCENTZ: %f",[notif.userInfo[@"percent"] floatValue]); maintenanceProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) maintenanceDataLoaded { [self requestPlayerData]; }
+- (void) maintenanceFetchFailed { [self.view addSubview:maintenanceRetryLoadButton]; }
+- (void) retryMaintenanceFetch
+{
+  [maintenanceRetryLoadButton removeFromSuperview];
+  [self requestMaintenanceData];
+}
+
+//Player Data
+- (void) requestPlayerData { [self.view addSubview:playerProgressLabel]; [self.view addSubview:playerProgressBar]; [_MODEL_GAME_ requestPlayerData]; }
+- (void) playerPercentLoaded:(NSNotification *)notif { NSLog(@"PPERCENTZ: %f",[notif.userInfo[@"percent"] floatValue]);playerProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) playerDataLoaded
 {
-  if(_MODEL_GAME_.preload_media)
-  {
-    [self.view addSubview:mediaLabel];
-    [self.view addSubview:mediaCountLabel];
-    [self performSelector:@selector(sendOffRequestMediaData) withObject:nil afterDelay:1]; //to let added subviews render...
-  }
-  else
-  {
-    [_MODEL_ beginGame];
-  }
+  if(_MODEL_GAME_.preload_media) [self requestMediaData];
+  else [_MODEL_ beginGame];
 }
-
-- (void) sendOffRequestMediaData //this is only a function so it can fit in 'performselector'
-{
-  needeMediaCount = [_MODEL_MEDIA_ requestMediaData];
-}
-
-- (void) playerFetchFailed
-{
-    [self.view addSubview:retryPlayerLoadButton];
-}
-
+- (void) playerFetchFailed { [self.view addSubview:playerRetryLoadButton]; }
 - (void) retryPlayerFetch
 {
-    [retryPlayerLoadButton removeFromSuperview];
-    [_MODEL_GAME_ requestPlayerData];
+  [playerRetryLoadButton removeFromSuperview];
+  [self requestPlayerData];
 }
 
-- (void) mediaDataLoaded
-{
-  mediaCount++;
-  if(needeMediaCount <= 0)
-    mediaCountLabel.text = [NSString stringWithFormat:@"%ld/? loaded...",mediaCount];
-  else
-  {
-    mediaCountLabel.text = [NSString stringWithFormat:@"%ld/%ld loaded...",mediaCount,needeMediaCount];
-    
-    [self.view addSubview:progressBar];
-    progressBar.frame = CGRectMake(10, 165, self.view.frame.size.width-20, 10);
-    progressBar.progress = (float)mediaCount/(float)needeMediaCount;
-  }
-}
-
-- (void) mediaDataComplete
-{
-  [_MODEL_ beginGame];
-}
-
-- (void) mediaDataFetchFailed
-{
-    [self.view addSubview:retryMediaDataLoadButton];
-}
-
-- (void) retryMediaDataFetch
-{
-    [retryMediaDataLoadButton removeFromSuperview];
-    [_MODEL_MEDIA_ requestMediaData];
-}
-
-- (void) percentLoaded:(NSNotification *)notif
-{
-    progressBar.progress = [notif.userInfo[@"percent"] floatValue];
+//Media Data
+- (void) requestMediaData { [self.view addSubview:mediaProgressLabel]; [self.view addSubview:mediaProgressBar]; [_MODEL_GAME_ requestMediaData]; }
+- (void) mediaPercentLoaded:(NSNotification *)notif { NSLog(@"EPERCENTZ: %f",[notif.userInfo[@"percent"] floatValue]); mediaProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) mediaDataLoaded { [_MODEL_ beginGame]; }
+- (void) mediaFetchFailed { [self.view addSubview:mediaRetryLoadButton]; }
+- (void) retryMediaFetch {
+    [mediaRetryLoadButton removeFromSuperview];
+    [self requestMediaData];
 }
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations

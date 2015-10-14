@@ -50,25 +50,24 @@
   groupOwnedInstances = nil;
 }
 
-- (void) requestGameData
+- (void) requestMaintenanceData
 {
   [self touchGroupInstances];
 }
-- (void) clearGameData
+- (void) clearMaintenanceData
 {
-  [self clearPlayerData];
-  n_game_data_received = 0;
+  n_maintenance_data_received = 0;
 }
-- (long) nGameDataToReceive
+- (long) nMaintenanceDataToReceive
 {
   return 1;
 }
 
 - (void) groupInstancesTouched:(NSNotification *)notif
 {
-  n_game_data_received++;
+  n_maintenance_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_GROUP_INSTANCES_TOUCHED",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MAINTENANCE_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) touchGroupInstances
@@ -179,17 +178,6 @@
   return @"group_instances";
 }
 
-- (NSString *) serializeGameData
-{
-  return @"";
-}
-
-- (void) deserializeGameData:(NSString *)data
-{
-  [self clearGameData];
-  n_game_data_received = [self nGameDataToReceive];
-}
-
 - (NSString *) serializePlayerData
 {
   NSArray *instances_a = [instances allValues];
@@ -227,3 +215,4 @@
 }
 
 @end
+

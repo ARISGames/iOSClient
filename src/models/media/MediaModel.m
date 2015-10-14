@@ -132,7 +132,7 @@
     [self commitContext];
     n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestMedia
@@ -165,16 +165,20 @@
 
   for(int i = 0; i < mediaDataLoadMedia.count; i++) //needs separate loop so notif doesn't get sent in same stack as generating count
       [_SERVICES_MEDIA_ loadMedia:mediaDataLoadMedia[i] delegateHandle:mediaDataLoadDelegateHandles[i]]; //calls 'mediaLoaded' upon complete
-  return mediaDataLoadMedia.count;
+  return mediaDataLoadDelegateHandles.count;
 }
 
+- (long) numMediaTryingToLoad
+{
+  if(!mediaDataLoadDelegateHandles) return 9999;
+  return mediaDataLoadDelegateHandles.count;
+}
 - (void) mediaLoaded:(Media *)m
 {
   mediaDataLoaded++;
-  _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_DATA_LOADED",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MEDIA_PIECE_AVAILABLE",nil,nil);
   if(mediaDataLoaded >= mediaDataLoadDelegateHandles.count)
   {
-    _ARIS_NOTIF_SEND_(@"MODEL_MEDIA_DATA_COMPLETE",nil,nil);
     mediaDataLoadMedia = nil;
     mediaDataLoadDelegateHandles = nil;
   }

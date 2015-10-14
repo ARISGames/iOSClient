@@ -157,8 +157,12 @@
 - (NSString *) serialize;
 - (void) mergeDataFromGame:(Game *)g;
 - (void) getReadyToPlay;
+
 - (void) requestGameData;
+- (void) requestMaintenanceData;
 - (void) requestPlayerData;
+- (void) requestMediaData;
+
 - (void) endPlay;
 - (void) clearModels;
 

@@ -121,7 +121,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_NOTES_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestNotes
@@ -151,7 +151,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_NOTE_COMMENTS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestNoteComments
@@ -271,16 +271,6 @@
     [notes setObject:n forKey:[NSNumber numberWithLong:n.note_id]];
   }
   n_game_data_received = [self nGameDataToReceive];
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
 }
 
 - (void) dealloc

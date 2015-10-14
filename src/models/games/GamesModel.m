@@ -274,26 +274,6 @@
   return @"games";
 }
 
-- (NSString *) serializeGameData
-{
-  return @"";
-}
-
-- (void) deserializeGameData:(NSString *)data
-{
-  n_game_data_received = [self nGameDataToReceive];
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
-}
-
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);

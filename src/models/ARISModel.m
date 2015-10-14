@@ -61,6 +61,7 @@
 
 - (void) deserializeGameData:(NSString *)data
 {
+  [self clearGameData];
   n_game_data_received = [self nGameDataToReceive];
 }
 
@@ -71,7 +72,8 @@
 
 - (void) deserializePlayerData:(NSString *)data
 {
-
+  [self clearPlayerData];
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 @end

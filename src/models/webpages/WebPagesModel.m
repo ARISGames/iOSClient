@@ -63,7 +63,7 @@
       if(![webPages objectForKey:newWebPageId]) [webPages setObject:newWebPage forKey:newWebPageId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_WEB_PAGES_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
     n_game_data_received++;
 }
 
@@ -116,19 +116,10 @@
   n_game_data_received = [self nGameDataToReceive];
 }
 
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
-}
-
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
+

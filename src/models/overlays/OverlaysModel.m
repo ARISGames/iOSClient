@@ -82,7 +82,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (NSArray *) conformOverlaysListToFlyweight:(NSArray *)newOverlays
@@ -144,7 +144,7 @@
   n_player_data_received++;
   if(addedOverlays.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_NEW_AVAILABLE",nil,@{@"added":addedOverlays});
   if(removedOverlays.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_OVERLAYS_LESS_AVAILABLE",nil,@{@"removed":removedOverlays});
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestOverlays       { [_SERVICES_ fetchOverlays];   }
@@ -217,16 +217,6 @@
     [overlays setObject:o forKey:[NSNumber numberWithLong:o.overlay_id]];
   }
   n_game_data_received = [self nGameDataToReceive];
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
 }
 
 - (void) dealloc

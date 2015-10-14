@@ -47,7 +47,7 @@
 }
 - (long) nGameDataToReceive
 {
-  return 2;
+  return 1;
 }
 
 - (void) tagsReceived:(NSNotification *)notif
@@ -71,7 +71,7 @@
     }
     n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_TAGS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updateObjectTags:(NSArray *)newObjectTags
@@ -86,7 +86,7 @@
     }
     n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_OBJECT_TAGS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestTags
@@ -192,19 +192,10 @@
   n_game_data_received = [self nGameDataToReceive];
 }
 
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
-}
-
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
+

@@ -20,8 +20,12 @@
 {
   long n_game_data_to_receive;
   long n_game_data_received;
+  long n_maintenance_data_to_receive;
+  long n_maintenance_data_received;
   long n_player_data_to_receive;
   long n_player_data_received;
+  long n_media_data_to_receive;
+  long n_media_data_received;
 
   NSTimer *poller;
 }
@@ -248,8 +252,11 @@
 
 - (void) getReadyToPlay
 {
-  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
-  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",self,@selector(gamePlayerPieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"MAINTENANCE_PIECE_AVAILABLE",self,@selector(maintenancePieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"PLAYER_PIECE_AVAILABLE",self,@selector(playerPieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"MEDIA_PIECE_AVAILABLE",self,@selector(mediaPieceReceived),nil);
+  
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
 
@@ -284,20 +291,28 @@
   [models addObject:_MODEL_MEDIA_];
 
   n_game_data_to_receive = 0;
+  n_maintenance_data_to_receive = 0;
   n_player_data_to_receive = 0;
+  n_media_data_to_receive = 0;
   for(long i = 0; i < models.count; i++)
   {
-    n_game_data_to_receive   += [(ARISModel *)models[i] nGameDataToReceive];
-    n_player_data_to_receive += [(ARISModel *)models[i] nPlayerDataToReceive];
+    n_game_data_to_receive        += [(ARISModel *)models[i] nGameDataToReceive];
+    n_maintenance_data_to_receive += [(ARISModel *)models[i] nMaintenanceDataToReceive];
+    n_player_data_to_receive      += [(ARISModel *)models[i] nPlayerDataToReceive];
   }
+  n_media_data_to_receive = [_MODEL_MEDIA_ numMediaTryingToLoad]; //must be recalculated once game info gotten
 }
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
 {
   n_game_data_to_receive = 0;
   n_game_data_received = 0;
+  n_maintenance_data_to_receive = 0;
+  n_maintenance_data_received = 0;
   n_player_data_to_receive = 0;
   n_player_data_received = 0;
+  n_media_data_to_receive = 0;
+  n_media_data_received = 0;
 
   models = nil;
 
@@ -333,6 +348,13 @@
     [(ARISModel *)models[i] requestGameData];
 }
 
+- (void) requestMaintenanceData
+{
+  n_maintenance_data_received = 0;
+  for(long i = 0; i < models.count; i++)
+    [(ARISModel *)models[i] requestMaintenanceData];
+}
+
 - (void) requestPlayerData
 {
   n_player_data_received = 0;
@@ -340,39 +362,68 @@
     [(ARISModel *)models[i] requestPlayerData];
 }
 
+- (void) requestMediaData
+{
+  n_media_data_received = 0;
+  n_media_data_to_receive = [_MODEL_MEDIA_ requestMediaData];
+  
+  //hack to quickly check if already done
+  n_media_data_received--;
+  [self mediaPieceReceived];
+}
+
 - (void) gamePieceReceived
 {
   n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"GAME_PERCENT_LOADED", nil,
+                    @{@"percent":[NSNumber numberWithFloat:(float)n_game_data_received/(float)n_game_data_to_receive]});
   if([self allGameDataReceived])
   {
     n_game_data_received = n_game_data_to_receive; //should already be exactly this...
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);
+    _ARIS_NOTIF_SEND_(@"GAME_DATA_LOADED", nil, nil);
   }
-  [self percentLoadedChanged];
 }
 
-- (void) gamePlayerPieceReceived
+- (void) maintenancePieceReceived
+{
+  n_maintenance_data_received++;
+  _ARIS_NOTIF_SEND_(@"MAINTENANCE_PERCENT_LOADED", nil,
+                    @{@"percent":[NSNumber numberWithFloat:(float)n_maintenance_data_received/(float)n_maintenance_data_to_receive]});
+  if([self allMaintenanceDataReceived])
+  {
+    n_maintenance_data_received = n_maintenance_data_to_receive; //should already be exactly this...
+    _ARIS_NOTIF_SEND_(@"MAINTENANCE_DATA_LOADED", nil, nil);
+  }
+}
+
+- (void) playerPieceReceived
 {
   n_player_data_received++;
-  if(n_player_data_received >= n_player_data_to_receive)
+  _ARIS_NOTIF_SEND_(@"PLAYER_PERCENT_LOADED", nil,
+                    @{@"percent":[NSNumber numberWithFloat:(float)n_player_data_received/(float)n_player_data_to_receive]});
+  if([self allPlayerDataReceived])
   {
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);
+    n_player_data_received = n_player_data_to_receive; //should already be exactly this...
+    _ARIS_NOTIF_SEND_(@"PLAYER_DATA_LOADED", nil, nil);
   }
-  [self percentLoadedChanged];
 }
 
-- (void) percentLoadedChanged
+- (void) mediaPieceReceived
 {
-  NSNumber *percentReceived = [NSNumber numberWithFloat:
-                               (float)(n_game_data_received+n_player_data_received)/(float)(n_game_data_to_receive+n_player_data_to_receive)
-                               ];
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PERCENT_LOADED", nil, @{@"percent":percentReceived});
+  n_media_data_received++;
+  _ARIS_NOTIF_SEND_(@"MEDIA_PERCENT_LOADED", nil,
+                    @{@"percent":[NSNumber numberWithFloat:(float)n_media_data_received/(float)n_media_data_to_receive]});
+  if([self allMediaDataReceived])
+  {
+    n_media_data_received = n_media_data_to_receive; //should already be exactly this...
+    _ARIS_NOTIF_SEND_(@"MEDIA_DATA_LOADED", nil, nil);
+  }
 }
 
 - (void) gameBegan
 {
-  _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PIECE_AVAILABLE", self, nil);
-  _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"GAME_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"PLAYER_PIECE_AVAILABLE", self, nil);
   poller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(requestPlayerData) userInfo:nil repeats:YES];
 }
 
@@ -386,6 +437,25 @@
   for(long i = 0; i < models.count; i++)
     if(![(ARISModel *)models[i] gameDataReceived]) return NO;
   return YES;
+}
+
+- (BOOL) allMaintenanceDataReceived
+{
+  for(long i = 0; i < models.count; i++)
+    if(![(ARISModel *)models[i] maintenanceDataReceived]) return NO;
+  return YES;
+}
+
+- (BOOL) allPlayerDataReceived
+{
+  for(long i = 0; i < models.count; i++)
+    if(![(ARISModel *)models[i] playerDataReceived]) return NO;
+  return YES;
+}
+
+- (BOOL) allMediaDataReceived
+{
+  return n_media_data_received >= n_media_data_to_receive; //a bit more fragile than others'...
 }
 
 - (void) clearModels

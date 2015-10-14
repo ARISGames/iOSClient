@@ -21,5 +21,7 @@
 
 - (void) saveAlteredMedia:(Media *)m; //don't like this...
 
+- (long) numMediaTryingToLoad;
+
 @end
 

@@ -83,7 +83,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_USERS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil); //weird... not "game" piece. whatever.
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil); //weird... not "game" piece. whatever.
 }
 
 - (NSArray *) conformUsersListToFlyweight:(NSArray *)newUsers
@@ -117,26 +117,6 @@
 - (NSString *) serializedName
 {
   return @"users";
-}
-
-- (NSString *) serializeGameData
-{
-  return @"";
-}
-
-- (void) deserializeGameData:(NSString *)data
-{
-  n_game_data_received = [self nGameDataToReceive];
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
 }
 
 - (void) dealloc

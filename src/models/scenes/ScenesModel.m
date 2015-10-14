@@ -39,7 +39,6 @@
 - (void) requestGameData
 {
   [self requestScenes];
-  [self touchPlayerScene];
 }
 - (void) clearGameData
 {
@@ -48,7 +47,20 @@
 }
 - (long) nGameDataToReceive
 {
-  return 2;
+  return 1;
+}
+
+- (void) requestMaintenanceData
+{
+  [self touchPlayerScene];
+}
+- (void) clearMaintenanceData
+{
+  n_maintenance_data_received = 0;
+}
+- (long) nMaintenanceDataToReceive
+{
+  return 1;
 }
 
 - (void) requestPlayerData
@@ -92,9 +104,9 @@
 
 - (void) sceneTouched:(NSNotification *)notif
 {
-  n_game_data_received++;
+  n_maintenance_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_SCENE_TOUCHED",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MAINTENANCE_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updateScenes:(NSArray *)newScenes
@@ -109,7 +121,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_SCENES_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updatePlayerScene:(Scene *)newScene
@@ -117,7 +129,7 @@
   playerScene = newScene;
   n_player_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_SCENES_PLAYER_SCENE_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestScenes
@@ -226,3 +238,4 @@
 }
 
 @end
+
