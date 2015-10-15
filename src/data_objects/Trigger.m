@@ -95,8 +95,8 @@
   [d setObject:name forKey:@"name"];
   [d setObject:title forKey:@"title"];
   [d setObject:[NSString stringWithFormat:@"%ld",icon_media_id] forKey:@"icon_media_id"];
-  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.longitude] forKey:@"location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.longitude] forKey:@"longitude"];
   [d setObject:[NSString stringWithFormat:@"%ld",distance] forKey:@"distance"];
   [d setObject:[NSString stringWithFormat:@"%d",infinite_distance] forKey:@"infinite_distance"];
   [d setObject:[NSString stringWithFormat:@"%d",wiggle] forKey:@"wiggle"];
@@ -104,6 +104,7 @@
   [d setObject:[NSString stringWithFormat:@"%d",hidden] forKey:@"hidden"];
   [d setObject:[NSString stringWithFormat:@"%d",trigger_on_enter] forKey:@"trigger_on_enter"];
   [d setObject:qr_code forKey:@"qr_code"];
+  [d setObject:[NSString stringWithFormat:@"%ld",seconds] forKey:@"seconds"];
   return [NSString JSONFromFlatStringDict:d];
 }
 

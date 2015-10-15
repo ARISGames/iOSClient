@@ -370,13 +370,13 @@
 
   NSDictionary *d_data = [jsonParser objectWithString:data];
 
-  NSArray *d_roots = d_data[@"requirement_roots"];
+  NSArray *d_roots = d_data[@"requirement_root_packages"];
   for(long i = 0; i < d_roots.count; i++)
   {
     RequirementRootPackage *r = [[RequirementRootPackage alloc] initWithDictionary:d_roots[i]];
     [requirementRootPackages setObject:r forKey:[NSNumber numberWithLong:r.requirement_root_package_id]];
   }
-  NSArray *d_ands = d_data[@"requirement_ands"];
+  NSArray *d_ands = d_data[@"requirement_and_packages"];
   for(long i = 0; i < d_ands.count; i++)
   {
     RequirementAndPackage *r = [[RequirementAndPackage alloc] initWithDictionary:d_ands[i]];

@@ -131,7 +131,6 @@
     {
       if([_MODEL_REQUIREMENTS_ evaluateRequirementRoot:q.complete_requirement_root_package_id])
       {
-        [_MODEL_REQUIREMENTS_ evaluateRequirementRoot:q.complete_requirement_root_package_id];
         [_MODEL_LOGS_ playerCompletedQuestId:q.quest_id];
       }
     }

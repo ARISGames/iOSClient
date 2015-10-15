@@ -113,7 +113,7 @@
 
 - (void) startLoading
 {
-  if(true)//_MODEL_GAME_.downloadedVersion == 0 || _MODEL_GAME_.version != _MODEL_GAME_.downloadedVersion)
+  if(_MODEL_GAME_.downloadedVersion == 0 || _MODEL_GAME_.version != _MODEL_GAME_.downloadedVersion)
     [self requestGameData];
   else
   {

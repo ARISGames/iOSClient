@@ -171,8 +171,8 @@
   [d setObject:desc forKey:@"desc"];
   [d setObject:[NSString stringWithFormat:@"%d",published] forKey:@"published"];
   [d setObject:type forKey:@"type"];
-  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.longitude] forKey:@"location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.longitude] forKey:@"longitude"];
   [d setObject:[NSString stringWithFormat:@"%ld",player_count] forKey:@"player_count"];
 
   [d setObject:[NSString stringWithFormat:@"%ld",icon_media_id] forKey:@"icon_media_id"];
@@ -182,8 +182,8 @@
 
   [d setObject:map_type forKey:@"map_type"];
   [d setObject:map_focus forKey:@"map_focus"];
-  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.latitude] forKey:@"map_location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.longitude] forKey:@"map_location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.latitude] forKey:@"map_latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.longitude] forKey:@"map_longitude"];
   [d setObject:[NSString stringWithFormat:@"%f",map_zoom_level] forKey:@"map_zoom_level"];
   [d setObject:[NSString stringWithFormat:@"%d",map_show_player] forKey:@"map_show_player"];
   [d setObject:[NSString stringWithFormat:@"%d",map_show_players] forKey:@"map_show_players"];

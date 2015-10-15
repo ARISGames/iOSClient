@@ -59,8 +59,8 @@
   [d setObject:self.email forKey:@"email"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
   [d setObject:self.read_write_key forKey:@"read_write_key"];
-  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude] forKey:@"self.location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude] forKey:@"self.location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude] forKey:@"latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude] forKey:@"longitude"];
   return [NSString JSONFromFlatStringDict:d];
 }
 

@@ -51,8 +51,8 @@
   [d setObject:self.event_type forKey:@"event_type"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.content_id] forKey:@"content_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.qty] forKey:@"qty"];
-  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude] forKey:@"self.location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude] forKey:@"self.location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.latitude] forKey:@"latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",self.location.coordinate.longitude] forKey:@"longitude"];
   return [NSString JSONFromFlatStringDict:d];
 }
 

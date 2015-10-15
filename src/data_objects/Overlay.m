@@ -49,12 +49,12 @@
   NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
   [d setObject:[NSString stringWithFormat:@"%ld",overlay_id] forKey:@"overlay_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",media_id] forKey:@"media_id"];
-  [d setObject:[NSString stringWithFormat:@"%f",top_left_corner.coordinate.latitude] forKey:@"top_left_corner.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",top_left_corner.coordinate.longitude] forKey:@"top_left_corner.coordinate.longitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",top_right_corner.coordinate.latitude] forKey:@"top_right_corner.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",top_right_corner.coordinate.longitude] forKey:@"top_right_corner.coordinate.longitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",bottom_left_corner.coordinate.latitude] forKey:@"bottom_left_corner.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",bottom_left_corner.coordinate.longitude] forKey:@"bottom_left_corner.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",top_left_corner.coordinate.latitude] forKey:@"top_left_latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",top_left_corner.coordinate.longitude] forKey:@"top_left_longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",top_right_corner.coordinate.latitude] forKey:@"top_right_latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",top_right_corner.coordinate.longitude] forKey:@"top_right_longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",bottom_left_corner.coordinate.latitude] forKey:@"bottom_left_latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",bottom_left_corner.coordinate.longitude] forKey:@"bottom_left_longitude"];
   return [NSString JSONFromFlatStringDict:d];
 }
 

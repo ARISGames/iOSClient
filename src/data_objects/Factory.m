@@ -141,8 +141,8 @@
   [d setObject:[NSString stringWithFormat:@"%ld",trigger_distance] forKey:@"trigger_distance"];
   [d setObject:trigger_title forKey:@"trigger_title"];
   [d setObject:[NSString stringWithFormat:@"%ld",trigger_icon_media_id] forKey:@"trigger_icon_media_id"];
-  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.latitude] forKey:@"trigger_location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.longitude] forKey:@"trigger_location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.latitude] forKey:@"trigger_latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.longitude] forKey:@"trigger_longitude"];
   [d setObject:[NSString stringWithFormat:@"%d",trigger_infinite_distance] forKey:@"trigger_infinite_distance"];
   [d setObject:[NSString stringWithFormat:@"%d",trigger_wiggle] forKey:@"trigger_wiggle"];
   [d setObject:[NSString stringWithFormat:@"%d",trigger_show_title] forKey:@"trigger_show_title"];
