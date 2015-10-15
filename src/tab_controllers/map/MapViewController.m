@@ -117,7 +117,7 @@
     mapView = [[MKMapView alloc] init];
     mapView.delegate = self;
     mapView.showsUserLocation = _MODEL_GAME_.map_show_player;
-    mapView.showsCompass = YES;
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0f) mapView.showsCompass = YES;
 
     if     ([_MODEL_GAME_.map_type isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([_MODEL_GAME_.map_type isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
