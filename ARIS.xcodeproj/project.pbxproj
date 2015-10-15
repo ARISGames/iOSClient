@@ -2268,7 +2268,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n#/bin/sh \"${SCRIPT}\" \"AAf54358abb9b1392483832d54b6d6cbf006e94cc3\"";
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n/bin/sh \"${SCRIPT}\" \"AAf54358abb9b1392483832d54b6d6cbf006e94cc3\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2512,6 +2512,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.client;
 				PRODUCT_NAME = ARIS;
+				PROVISIONING_PROFILE = "a7121a39-107e-4c95-961f-b47090720010";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2569,6 +2570,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.client;
 				PRODUCT_NAME = ARIS;
+				PROVISIONING_PROFILE = "c410daa2-c863-4341-aa1e-35835bad94aa";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = 1;
