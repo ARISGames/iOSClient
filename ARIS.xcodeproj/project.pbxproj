@@ -2268,7 +2268,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n#/bin/sh \"${SCRIPT}\" \"AAf54358abb9b1392483832d54b6d6cbf006e94cc3\"";
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n/bin/sh \"${SCRIPT}\" \"AAf54358abb9b1392483832d54b6d6cbf006e94cc3\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
