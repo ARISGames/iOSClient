@@ -138,6 +138,7 @@
      */
 
     allow_download = [dict validBoolForKey:@"allow_download"];
+    allow_download = NO;
     preload_media = [dict validBoolForKey:@"preload_media"];
     
     
