@@ -88,7 +88,11 @@
 @synthesize logsModel;
 @synthesize questsModel;
 @synthesize displayQueueModel;
+
+//local stuff
 @synthesize downloadedVersion;
+@synthesize know_if_begin_fresh;
+@synthesize begin_fresh;
 
 - (id) init
 {
@@ -151,10 +155,13 @@
     NSString *gameJsonFile = [[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld/game.json",game_id]];
     if([[NSFileManager defaultManager] fileExistsAtPath:gameJsonFile])
     {
+      //careful to not 'initGameWithDict' here, or infinite loop
       SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
       NSDictionary *gameDict = [jsonParser objectWithString:[NSString stringWithContentsOfFile:gameJsonFile encoding:NSUTF8StringEncoding error:nil]];
       downloadedVersion = [gameDict validIntForKey:@"version"];
     }
+    know_if_begin_fresh = NO;
+    begin_fresh = NO;
 
     NSArray *authorDicts;
     for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
@@ -211,6 +218,8 @@
   comments = [NSMutableArray arrayWithCapacity:5];
   
   downloadedVersion = 0;
+  know_if_begin_fresh = NO;
+  begin_fresh = NO;
 }
 
 - (void) mergeDataFromGame:(Game *)g
@@ -247,7 +256,10 @@
   preload_media = g.preload_media;
   version = g.version;
   
+  //local
   downloadedVersion = g.downloadedVersion;
+  //know_if_begin_fresh = g.know_if_begin_fresh; //don't merge
+  //begin_fresh = g.begin_fresh; //don't merge
 }
 
 - (void) getReadyToPlay
@@ -496,6 +508,11 @@
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);
+}
+
+- (BOOL) hasLatestDownload
+{
+  return (self.downloadedVersion != 0 && self.version == self.downloadedVersion);
 }
 
 @end

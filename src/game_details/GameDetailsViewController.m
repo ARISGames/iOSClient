@@ -27,8 +27,6 @@
     UIButton *rateButton;
 
     Game *game;
-    BOOL loading_has_been_played;
-    BOOL has_been_played;
     id<GameDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -44,7 +42,7 @@
         game = g;
         _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE", self, @selector(gamePlayedReceived:), nil);
 
-        loading_has_been_played = YES;
+        game.know_if_begin_fresh = NO; //we'll double check right now anyways
         [_MODEL_GAMES_ requestPlayerPlayedGame:game.game_id];
     }
     return self;
@@ -140,7 +138,7 @@
   scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
 
   long n_buttons = 0;
-  if(!loading_has_been_played && has_been_played) n_buttons++; //reset
+  if(game.know_if_begin_fresh && !game.begin_fresh) n_buttons++; //reset
   n_buttons++; //either resume or start
   
   long b_y = self.view.bounds.size.height-40;
@@ -149,7 +147,7 @@
   
   long i = 0;
   resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
-  if(!loading_has_been_played && has_been_played) i++;
+  if(game.know_if_begin_fresh && !game.begin_fresh) i++;
   startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
   resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
 }
@@ -191,9 +189,9 @@
   [startButton removeFromSuperview];
   [resumeButton removeFromSuperview];
 
-  if(!loading_has_been_played)
+  if(game.know_if_begin_fresh)
   {
-    if(has_been_played)
+    if(!game.begin_fresh)
     {
       [self.view addSubview:resetButton];
       [self.view addSubview:resumeButton];
@@ -240,30 +238,30 @@
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(buttonIndex == 1)
-    {
-        [_MODEL_GAMES_ playerResetGame:game.game_id];
-        has_been_played = NO;
-        [self refreshFromGame];
-    }
+  if(buttonIndex == 1)
+  {
+    [_MODEL_GAMES_ playerResetGame:game.game_id];
+    game.begin_fresh = YES;
+    [self refreshFromGame];
+  }
 }
 
 - (void) gamePlayedReceived:(NSNotification *)notif
 {
-    has_been_played = [notif.userInfo[@"has_played"] boolValue];
-    loading_has_been_played = NO;
-    [self refreshFromGame];
+  game.begin_fresh = ![notif.userInfo[@"has_played"] boolValue];
+  game.know_if_begin_fresh = YES;
+  [self refreshFromGame];
 }
 
 //implement statecontrol stuff for webpage, but ignore any requests
 - (BOOL) displayTrigger:(Trigger *)t   { return NO; }
-- (BOOL) displayTriggerId:(long)t       { return NO; }
+- (BOOL) displayTriggerId:(long)t      { return NO; }
 - (BOOL) displayInstance:(Instance *)i { return NO; }
-- (BOOL) displayInstanceId:(long)i      { return NO; }
+- (BOOL) displayInstanceId:(long)i     { return NO; }
 - (BOOL) displayObject:(id)o           { return NO; }
 - (BOOL) displayObjectType:(NSString *)type id:(long)type_id { return NO; }
 - (void) displayTab:(Tab *)t           { }
-- (void) displayTabId:(long)t           { }
+- (void) displayTabId:(long)t          { }
 - (void) displayTabType:(NSString *)t  { }
 - (void) displayScannerWithPrompt:(NSString *)p { }
 

@@ -12,14 +12,14 @@
 
 @interface LoadingViewController()
 {
-    UIImageView *splashImage;
-  
-    UIProgressView *gameProgressBar;        UILabel *gameProgressLabel;        UIButton *gameRetryLoadButton;
-    UIProgressView *maintenanceProgressBar; UILabel *maintenanceProgressLabel; UIButton *maintenanceRetryLoadButton;
-    UIProgressView *playerProgressBar;      UILabel *playerProgressLabel;      UIButton *playerRetryLoadButton;
-    UIProgressView *mediaProgressBar;       UILabel *mediaProgressLabel;       UIButton *mediaRetryLoadButton;
+  UIImageView *splashImage;
 
-    id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
+  UIProgressView *gameProgressBar;        UILabel *gameProgressLabel;        UIButton *gameRetryLoadButton;
+  UIProgressView *maintenanceProgressBar; UILabel *maintenanceProgressLabel; UIButton *maintenanceRetryLoadButton;
+  UIProgressView *playerProgressBar;      UILabel *playerProgressLabel;      UIButton *playerRetryLoadButton;
+  UIProgressView *mediaProgressBar;       UILabel *mediaProgressLabel;       UIButton *mediaRetryLoadButton;
+
+  id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
@@ -113,7 +113,7 @@
 
 - (void) startLoading
 {
-  if(_MODEL_GAME_.downloadedVersion == 0 || _MODEL_GAME_.version != _MODEL_GAME_.downloadedVersion)
+  if(![_MODEL_GAME_ hasLatestDownload])
     [self requestGameData];
   else
   {
@@ -125,7 +125,17 @@
 //Game Data
 - (void) requestGameData { [self.view addSubview:gameProgressLabel]; [self.view addSubview:gameProgressBar]; [_MODEL_GAME_ requestGameData]; }
 - (void) gamePercentLoaded:(NSNotification *)notif { gameProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
-- (void) gameDataLoaded { [self requestMaintenanceData]; }
+- (void) gameDataLoaded
+{
+  if(![_MODEL_GAME_ hasLatestDownload] || !_MODEL_GAME_.begin_fresh)
+    [self requestMaintenanceData];
+  else
+  {
+    //skip maintenance step
+    [_MODEL_ restorePlayerData];
+    [self playerDataLoaded];
+  }
+}
 - (void) gameFetchFailed { [self.view addSubview:gameRetryLoadButton]; }
 - (void) retryGameFetch
 {
@@ -149,8 +159,13 @@
 - (void) playerPercentLoaded:(NSNotification *)notif { playerProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) playerDataLoaded
 {
-  if(_MODEL_GAME_.preload_media) [self requestMediaData];
-  else [_MODEL_ beginGame];
+  if(![_MODEL_GAME_ hasLatestDownload])
+  {
+    if(_MODEL_GAME_.preload_media) [self requestMediaData];
+    else [_MODEL_ beginGame];
+  }
+  else
+    [_MODEL_ beginGame];
 }
 - (void) playerFetchFailed { [self.view addSubview:playerRetryLoadButton]; }
 - (void) retryPlayerFetch

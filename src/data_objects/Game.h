@@ -90,7 +90,10 @@
   QuestsModel       *questsModel;
   DisplayQueueModel *displayQueueModel;
   
+  //local stuff
   long downloadedVersion;
+  BOOL know_if_begin_fresh;
+  BOOL begin_fresh;
 }
 
 @property (nonatomic, assign) long game_id;
@@ -151,7 +154,10 @@
 @property (nonatomic, strong) QuestsModel       *questsModel;
 @property (nonatomic, strong) DisplayQueueModel *displayQueueModel;
 
+//local stuff
 @property (nonatomic, assign) long downloadedVersion;
+@property (nonatomic, assign) BOOL know_if_begin_fresh;
+@property (nonatomic, assign) BOOL begin_fresh;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) serialize;
@@ -165,6 +171,9 @@
 
 - (void) endPlay;
 - (void) clearModels;
+
+- (BOOL) hasLatestDownload;
+
 
 @end
 

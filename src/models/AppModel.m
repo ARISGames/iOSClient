@@ -175,7 +175,7 @@
 - (void) beginGame
 {
   _MODEL_.preferred_game_id = 0; //assume the preference was met
-  [_MODEL_ storeGame];
+  if(_MODEL_GAME_.begin_fresh) [_MODEL_ storeGame]; //we loaded fresh, so can store player data
   [_MODEL_LOGS_ playerEnteredGame];
   _ARIS_NOTIF_SEND_(@"MODEL_GAME_BEGAN",nil,nil);
 }
