@@ -127,7 +127,7 @@
 - (void) gamePercentLoaded:(NSNotification *)notif { gameProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) gameDataLoaded
 {
-  if(![_MODEL_GAME_ hasLatestDownload] || !_MODEL_GAME_.begin_fresh)
+  if(![_MODEL_GAME_ hasLatestDownload] || !_MODEL_GAME_.begin_fresh || ![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"]) //if !local, need to perform maintenance on server so it doesn't keep conflicting with local data
     [self requestMaintenanceData];
   else
   {
@@ -146,7 +146,16 @@
 //Maintenance Data
 - (void) requestMaintenanceData { [self.view addSubview:maintenanceProgressLabel]; [self.view addSubview:maintenanceProgressBar]; [_MODEL_GAME_ requestMaintenanceData]; }
 - (void) maintenancePercentLoaded:(NSNotification *)notif { maintenanceProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
-- (void) maintenanceDataLoaded { [self requestPlayerData]; }
+- (void) maintenanceDataLoaded
+{
+  if(![_MODEL_GAME_ hasLatestDownload] || !_MODEL_GAME_.begin_fresh)
+    [self requestPlayerData];
+  else
+  {
+    [_MODEL_ restorePlayerData];
+    [self playerDataLoaded];
+  }
+}
 - (void) maintenanceFetchFailed { [self.view addSubview:maintenanceRetryLoadButton]; }
 - (void) retryMaintenanceFetch
 {
