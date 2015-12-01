@@ -20,6 +20,7 @@
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureSession *session;
     BOOL scanning;
+    BOOL waitingToStartScanning;
     UIBarButtonItem *leftNavButton;
     id<ScannerViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -65,6 +66,7 @@
 - (void) loadAVMetadataScanner
 {
     scanning = NO;
+    waitingToStartScanning = NO;
 
     // Create a new AVCaptureSession
     session = [[AVCaptureSession alloc] init];
@@ -117,7 +119,16 @@
     [super viewDidAppear:animated];
 
     [session startRunning];
-    scanning = YES;
+    waitingToStartScanning = YES;
+    [self performSelector:@selector(startScanning) withObject:nil afterDelay:1.0];
+}
+
+- (void) startScanning
+{
+    if (waitingToStartScanning) {
+        scanning = YES;
+    }
+    waitingToStartScanning = NO;
 }
 
 - (void) viewDidDisappear:(BOOL)animated
@@ -127,6 +138,7 @@
     [self setPrompt:@""];
     [session stopRunning];
     scanning = NO;
+    waitingToStartScanning = NO;
 }
 
 - (void) showNav
