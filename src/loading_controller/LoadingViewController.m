@@ -113,7 +113,7 @@
 
 - (void) startLoading
 {
-  if(![_MODEL_GAME_ hasLatestDownload])
+  if(![_MODEL_GAME_ hasLatestDownload] || [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
     [self requestGameData];
   else
   {
