@@ -97,6 +97,7 @@
   if(gamePlayViewController) [gamePlayViewController destroy];
   gamePlayViewController = nil;
   [self displayContentController:loginNavigationController];
+  [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
 }
 
 - (void) playerLoggedIn
