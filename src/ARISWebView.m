@@ -185,7 +185,12 @@
         {
             item = items[i];
             item_id = item.item_id;
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItemName(%ld,\"%@\");",item_id,item.name]];
+            NSString *escapedItemName = item.name;
+            escapedItemName = [escapedItemName stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+            escapedItemName = [escapedItemName stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+            escapedItemName = [escapedItemName stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
+            escapedItemName = [escapedItemName stringByReplacingOccurrencesOfString:@"\t" withString:@"\\t"];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setItemName(%ld,\"%@\");",item_id,escapedItemName]];
             item_qty = [_MODEL_PLAYER_INSTANCES_ qtyOwnedForItem:item_id];
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.cache.setPlayerItem(%ld,%ld);",item_id,item_qty]];
             item_qty = [_MODEL_GAME_INSTANCES_ qtyOwnedForItem:item_id];
