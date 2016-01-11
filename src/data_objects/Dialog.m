@@ -53,7 +53,7 @@
   NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
   [d setObject:[NSString stringWithFormat:@"%ld",self.dialog_id] forKey:@"dialog_id"];
   [d setObject:self.name forKey:@"name"];
-  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:self.desc forKey:@"description"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.intro_dialog_script_id] forKey:@"intro_dialog_script_id"];
   [d setObject:[NSString stringWithFormat:@"%d",self.back_button_enabled] forKey:@"back_button_enabled"];

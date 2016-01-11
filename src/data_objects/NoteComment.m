@@ -62,7 +62,7 @@
   [d setObject:[NSString stringWithFormat:@"%ld",self.note_id] forKey:@"note_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.user_id] forKey:@"user_id"];
   [d setObject:self.name forKey:@"name"];
-  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:self.desc forKey:@"description"];
   [d setObject:[self.created descriptionWithLocale:nil] forKey:@"created"];
   return [NSString JSONFromFlatStringDict:d];
 }

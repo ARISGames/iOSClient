@@ -175,7 +175,7 @@
   NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
   [d setObject:[NSString stringWithFormat:@"%ld",game_id] forKey:@"game_id"];
   [d setObject:name forKey:@"name"];
-  [d setObject:desc forKey:@"desc"];
+  [d setObject:desc forKey:@"description"];
   [d setObject:[NSString stringWithFormat:@"%d",published] forKey:@"published"];
   [d setObject:type forKey:@"type"];
   [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"latitude"];

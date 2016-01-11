@@ -59,7 +59,7 @@
   NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
   [d setObject:[NSString stringWithFormat:@"%ld",self.plaque_id] forKey:@"plaque_id"];
   [d setObject:self.name forKey:@"name"];
-  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:self.desc forKey:@"description"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.event_package_id] forKey:@"event_package_id"];
