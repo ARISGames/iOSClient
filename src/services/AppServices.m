@@ -297,8 +297,9 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_PLAYED_GAME_RECEIVED", nil, (NSDictionary *)result.resultData);
 }
 
-- (void) gameFetchFailed   { _ARIS_NOTIF_SEND_(@"SERVICES_GAME_FETCH_FAILED", nil, nil); }
-- (void) playerFetchFailed { _ARIS_NOTIF_SEND_(@"SERVICES_GAME_FETCH_FAILED", nil, nil); }
+- (void) gameFetchFailed        { _ARIS_NOTIF_SEND_(@"SERVICES_GAME_FETCH_FAILED",        nil, nil); }
+- (void) maintenanceFetchFailed { _ARIS_NOTIF_SEND_(@"SERVICES_MAINTENANCE_FETCH_FAILED", nil, nil); }
+- (void) playerFetchFailed      { _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_FETCH_FAILED",      nil, nil); }
 
 - (void) fetchUsers
 {
@@ -341,7 +342,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"client" method:@"touchSceneForPlayer" arguments:args handler:self successSelector:@selector(parseSceneTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Game..." userInfo:nil]; //technically a game fetch
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchSceneForPlayer" arguments:args handler:self successSelector:@selector(parseSceneTouch:) failSelector:@selector(maintenanceFetchFailed) retryOnFail:NO humanDesc:@"Preparing Game..." userInfo:nil]; //technically a game fetch
 }
 - (void) parseSceneTouch:(ARISServiceResult *)result
 {
@@ -372,7 +373,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"client" method:@"touchGroupForPlayer" arguments:args handler:self successSelector:@selector(parseGroupTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Game..." userInfo:nil]; //technically a game fetch
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchGroupForPlayer" arguments:args handler:self successSelector:@selector(parseGroupTouch:) failSelector:@selector(maintenanceFetchFailed) retryOnFail:NO humanDesc:@"Preparing Game..." userInfo:nil]; //technically a game fetch
 }
 - (void) parseGroupTouch:(ARISServiceResult *)result
 {
@@ -435,7 +436,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForPlayer" arguments:args handler:self successSelector:@selector(parsePlayerItemTouch:) failSelector:@selector(maintenanceFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
 }
 - (void) parsePlayerItemTouch:(ARISServiceResult *)result
 {
@@ -450,7 +451,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
       };
-  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGame" arguments:args handler:self successSelector:@selector(parseGameItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGame" arguments:args handler:self successSelector:@selector(parseGameItemTouch:) failSelector:@selector(maintenanceFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
 }
 - (void) parseGameItemTouch:(ARISServiceResult *)result
 {
@@ -465,7 +466,7 @@
     @{
       @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id],
       };
-  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGroups" arguments:args handler:self successSelector:@selector(parseGroupItemTouch:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
+  [connection performAsynchronousRequestWithService:@"client" method:@"touchItemsForGroups" arguments:args handler:self successSelector:@selector(parseGroupItemTouch:) failSelector:@selector(maintenanceFetchFailed) retryOnFail:NO humanDesc:@"Preparing Items... " userInfo:nil]; //technically a game fetch
 }
 - (void) parseGroupItemTouch:(ARISServiceResult *)result
 {

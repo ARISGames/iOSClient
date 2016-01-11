@@ -97,6 +97,7 @@
   if(gamePlayViewController) [gamePlayViewController destroy];
   gamePlayViewController = nil;
   [self displayContentController:loginNavigationController];
+  [(PlayerSettingsViewController *)playerSettingsNavigationController.topViewController resetState];
 }
 
 - (void) playerLoggedIn
@@ -136,11 +137,11 @@
   gamePlayViewController = nil; //immediately dealloc
 }
 
-- (void) gameDetailsRequested:(Game *)g downloaded:(BOOL)d
+- (void) gameDetailsRequested:(Game *)g
 {
   gameDetailsNavigationController =
     [[ARISNavigationController alloc] initWithRootViewController:
-    [[GameDetailsViewController alloc] initWithGame:g downloaded:d delegate:self]
+    [[GameDetailsViewController alloc] initWithGame:g delegate:self]
     ];
   [self displayContentController:gameDetailsNavigationController];
 }
@@ -193,7 +194,7 @@
     [_MODEL_GAMES_ requestGame:_MODEL_.preferred_game_id];
   }
 
-  [_MODEL_ chooseGame:g useDownloaded:NO];
+  [_MODEL_ chooseGame:g];
 }
 
 @end

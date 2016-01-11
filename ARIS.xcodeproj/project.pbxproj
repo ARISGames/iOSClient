@@ -19,12 +19,12 @@
 		5B1D9991178CC3A700661453 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9987178CC3A700661453 /* stop@2x.png */; };
 		5BBA6A6517822F5E00387DBD /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BBA6A6417822F5E00387DBD /* Accelerate.framework */; };
 		A70C6BB719115F2B00A48B4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A70C6BB619115F2B00A48B4C /* Images.xcassets */; };
-		A73C11C71BCC497F00950F34 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A73C11C61BCC497F00950F34 /* Launch Screen.storyboard */; settings = {ASSET_TAGS = (); }; };
+		A73C11C71BCC497F00950F34 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A73C11C61BCC497F00950F34 /* Launch Screen.storyboard */; };
 		A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8AF0F4B7E9400820FEA /* Foundation.framework */; };
 		A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */; };
 		A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79202630F8E717C0049F990 /* MediaPlayer.framework */; };
 		A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7955B920F73E095005148E4 /* AudioToolbox.framework */; };
-		A7BA24111BBC6BC9008A9D35 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7BA24101BBC6BC9008A9D35 /* NewRelicAgent.framework */; settings = {ASSET_TAGS = (); }; };
+		A7BA24111BBC6BC9008A9D35 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7BA24101BBC6BC9008A9D35 /* NewRelicAgent.framework */; };
 		A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */; };
 		A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */; };
 		A7E7AE521BA680230094C539 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E7AE511BA680230094C539 /* CoreTelephony.framework */; };
@@ -244,7 +244,7 @@
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
-		AABED6E71BB5B23000EBDB42 /* GamePickerDownloadedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABED6E61BB5B23000EBDB42 /* GamePickerDownloadedViewController.m */; settings = {ASSET_TAGS = (); }; };
+		AABED6E71BB5B23000EBDB42 /* GamePickerDownloadedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABED6E61BB5B23000EBDB42 /* GamePickerDownloadedViewController.m */; };
 		AAC0D8801930F4E200CA1DE3 /* DialogScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */; };
 		AAC0D8811930F4E200CA1DE3 /* DialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8771930F4E200CA1DE3 /* DialogViewController.m */; };
 		AAC0D8891930F6D900CA1DE3 /* Dialog.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC0D8861930F6D900CA1DE3 /* Dialog.m */; };
@@ -254,7 +254,7 @@
 		AAC3C324185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */; };
 		AAC6573C187200940063EAF7 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = AAC6573B187200940063EAF7 /* play.png */; };
 		AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC8290E18A53A68000EA4C7 /* ARISServiceResult.m */; };
-		AACB0AE81BB45C9D000D3060 /* NSString+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB0AE71BB45C9D000D3060 /* NSString+JSON.m */; settings = {ASSET_TAGS = (); }; };
+		AACB0AE81BB45C9D000D3060 /* NSString+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AACB0AE71BB45C9D000D3060 /* NSString+JSON.m */; };
 		AACE25E2189C1EF000E6A680 /* NoteLocationPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACE25E1189C1EF000E6A680 /* NoteLocationPickerController.m */; };
 		AAD298C917D1160C002A4C47 /* InventoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD298C817D1160C002A4C47 /* InventoryViewController.m */; };
 		AAD8EFE31A0AD96600E29C8F /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD8EFE21A0AD96600E29C8F /* ChangePasswordViewController.m */; };
@@ -263,7 +263,7 @@
 		AAE2F7A11A129DE20042455A /* roll@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE2F7A01A129DE20042455A /* roll@2x.png */; };
 		AAE3C9A91A2537DD001D33CF /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = AAE3C9A81A2537DD001D33CF /* reload.png */; };
 		AAE6BDE31AB0B50E00C2D083 /* PlaqueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6BDE21AB0B50E00C2D083 /* PlaqueViewController.m */; };
-		AAEB74521BBC714B002F49FA /* DropDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAEB74511BBC714B002F49FA /* DropDownViewController.m */; settings = {ASSET_TAGS = (); }; };
+		AAEB74521BBC714B002F49FA /* DropDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAEB74511BBC714B002F49FA /* DropDownViewController.m */; };
 		AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
@@ -341,6 +341,7 @@
 		9CC22A53E3957B1FCEA9FD06 /* Pods-ARIS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARIS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARIS/Pods-ARIS.debug.xcconfig"; sourceTree = "<group>"; };
 		A70C6BB619115F2B00A48B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A73C11C61BCC497F00950F34 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		A73EAC7F1C03AE4A00BC0859 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A78FD8AF0F4B7E9400820FEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A79202630F8E717C0049F990 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -2083,7 +2084,7 @@
 				LastUpgradeCheck = 0700;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = VDP976Y25G;
+						DevelopmentTeam = 35RSEH8MHF;
 					};
 				};
 			};
@@ -2101,6 +2102,7 @@
 				fr,
 				de,
 				sv,
+				ja,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
 			projectDirPath = "";
@@ -2470,6 +2472,7 @@
 				AB0A5BA61203665C0065CE68 /* es */,
 				ABD24F59120A5BAD00D792F5 /* fr */,
 				F91684FF1912C6B900114E71 /* de */,
+				A73EAC7F1C03AE4A00BC0859 /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -2486,6 +2489,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/**",
@@ -2512,7 +2516,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.client;
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "a7121a39-107e-4c95-961f-b47090720010";
+				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2545,7 +2549,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/**",
@@ -2570,7 +2575,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.arisgames.client;
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "c410daa2-c863-4341-aa1e-35835bad94aa";
+				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = 1;

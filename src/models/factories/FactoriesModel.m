@@ -63,7 +63,7 @@
     if(!factories[newFactoryId]) [factories setObject:newFactory forKey:newFactoryId];
   }
   _ARIS_NOTIF_SEND_(@"MODEL_FACTORIES_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
   n_game_data_received = 1;
 }
 
@@ -113,16 +113,7 @@
     Factory *f = [[Factory alloc] initWithDictionary:d_factories[i]];
     [factories setObject:f forKey:[NSNumber numberWithLong:f.factory_id]];
   }
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (void) dealloc

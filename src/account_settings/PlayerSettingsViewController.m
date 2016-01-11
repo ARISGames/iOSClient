@@ -134,11 +134,10 @@
 
 - (void) saveButtonTouched
 {
-  //temporary workaround
-  //[delegate playerSettingsWasDismissed];
-  //return;
+  AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+  bool camera_avail = (status != AVAuthorizationStatusDenied && status != AVAuthorizationStatusRestricted && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]);
 
-  if([playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
+  if([playerNameField.text isEqualToString:@""] || (camera_avail && chosenMediaId == 0))
   {
     [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ProfileSaveErrorKey", @"") message:NSLocalizedString(@"ProfileSaveErrorMessageKey", @"")];
     return;

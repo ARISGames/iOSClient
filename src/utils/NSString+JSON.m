@@ -14,6 +14,9 @@
 {
   NSString *escapedV = [v        stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
             escapedV = [escapedV stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+            escapedV = [escapedV stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+            escapedV = [escapedV stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
+            escapedV = [escapedV stringByReplacingOccurrencesOfString:@"\t" withString:@"\\t"];
   return [NSString stringWithFormat:@"\"%@\":\"%@\"",k,escapedV];
 }
 

@@ -87,7 +87,7 @@
     factory_id                          = [dict validIntForKey:@"factory_id"];
     game_id                             = [dict validIntForKey:@"game_id"];
     name                                = [dict validStringForKey:@"name"];
-    desc                                = [dict validStringForKey:@"desc"];
+    desc                                = [dict validStringForKey:@"description"];
     object_type                         = [dict validStringForKey:@"object_type"];
     object_id                           = [dict validIntForKey:@"object_id"];
     seconds_per_production              = [dict validIntForKey:@"seconds_per_production"];
@@ -123,7 +123,7 @@
   [d setObject:[NSString stringWithFormat:@"%ld",factory_id] forKey:@"factory_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",game_id] forKey:@"game_id"];
   [d setObject:name forKey:@"name"];
-  [d setObject:desc forKey:@"desc"];
+  [d setObject:desc forKey:@"description"];
   [d setObject:object_type forKey:@"object_type"];
   [d setObject:[NSString stringWithFormat:@"%ld",object_id] forKey:@"object_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",seconds_per_production] forKey:@"seconds_per_production"];
@@ -141,8 +141,8 @@
   [d setObject:[NSString stringWithFormat:@"%ld",trigger_distance] forKey:@"trigger_distance"];
   [d setObject:trigger_title forKey:@"trigger_title"];
   [d setObject:[NSString stringWithFormat:@"%ld",trigger_icon_media_id] forKey:@"trigger_icon_media_id"];
-  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.latitude] forKey:@"trigger_location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.longitude] forKey:@"trigger_location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.latitude] forKey:@"trigger_latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",trigger_location.coordinate.longitude] forKey:@"trigger_longitude"];
   [d setObject:[NSString stringWithFormat:@"%d",trigger_infinite_distance] forKey:@"trigger_infinite_distance"];
   [d setObject:[NSString stringWithFormat:@"%d",trigger_wiggle] forKey:@"trigger_wiggle"];
   [d setObject:[NSString stringWithFormat:@"%d",trigger_show_title] forKey:@"trigger_show_title"];

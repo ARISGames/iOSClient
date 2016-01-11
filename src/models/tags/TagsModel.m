@@ -37,7 +37,7 @@
 
 - (void) requestGameData
 {
-  [self requestTags];
+  [self requestTags]; //calls 2 things
 }
 - (void) clearGameData
 {
@@ -71,7 +71,7 @@
     }
     n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_TAGS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updateObjectTags:(NSArray *)newObjectTags
@@ -86,7 +86,7 @@
     }
     n_game_data_received++;
     _ARIS_NOTIF_SEND_(@"MODEL_OBJECT_TAGS_AVAILABLE",nil,nil);
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestTags
@@ -189,16 +189,7 @@
     Tag *t = [[Tag alloc] initWithDictionary:d_tags[i]];
     [tags setObject:t forKey:[NSNumber numberWithLong:t.tag_id]];
   }
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (void) dealloc
@@ -207,3 +198,4 @@
 }
 
 @end
+

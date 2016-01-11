@@ -97,11 +97,11 @@
   NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
   [d setObject:[NSString stringWithFormat:@"%ld",quest_id] forKey:@"quest_id"];
   [d setObject:name forKey:@"name"];
-  [d setObject:desc forKey:@"desc"];
+  [d setObject:desc forKey:@"description"];
 
   [d setObject:[NSString stringWithFormat:@"%ld",active_icon_media_id] forKey:@"active_icon_media_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",active_media_id] forKey:@"active_media_id"];
-  [d setObject:active_desc forKey:@"active_desc"];
+  [d setObject:active_desc forKey:@"active_description"];
   [d setObject:active_notification_type forKey:@"active_notification_type"];
   [d setObject:active_function forKey:@"active_function"];
   [d setObject:[NSString stringWithFormat:@"%ld",active_event_package_id] forKey:@"active_event_package_id"];
@@ -109,7 +109,7 @@
 
   [d setObject:[NSString stringWithFormat:@"%ld",complete_icon_media_id] forKey:@"complete_icon_media_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",complete_media_id] forKey:@"complete_media_id"];
-  [d setObject:complete_desc forKey:@"complete_desc"];
+  [d setObject:complete_desc forKey:@"complete_description"];
   [d setObject:complete_notification_type forKey:@"complete_notification_type"];
   [d setObject:complete_function forKey:@"complete_function"];
   [d setObject:[NSString stringWithFormat:@"%ld",complete_event_package_id] forKey:@"complete_event_package_id"];

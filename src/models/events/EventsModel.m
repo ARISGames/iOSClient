@@ -67,7 +67,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_EVENTS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) runEventPackageId:(long)event_package_id
@@ -196,16 +196,7 @@
     Event *e = [[Event alloc] initWithDictionary:d_events[i]];
     [events setObject:e forKey:[NSNumber numberWithLong:e.event_id]];
   }
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (void) dealloc

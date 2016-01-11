@@ -55,6 +55,8 @@
 
   _SERVICES_;
 
+  NSLog(@"Local Docs Dir: %@",[_MODEL_ applicationDocumentsDirectory]);
+
   //Init after model, as they might be listening for updates
   _ARIS_NOTIF_LISTEN_(kReachabilityChangedNotification,self,@selector(reachabilityChanged:),nil);
   reachability = [Reachability reachabilityForInternetConnection];

@@ -14,13 +14,18 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 #import "NSString+JSON.h"
+#import "SBJson.h"
 
 @interface Game()
 {
   long n_game_data_to_receive;
   long n_game_data_received;
+  long n_maintenance_data_to_receive;
+  long n_maintenance_data_received;
   long n_player_data_to_receive;
   long n_player_data_received;
+  long n_media_data_to_receive;
+  long n_media_data_received;
 
   NSTimer *poller;
 }
@@ -59,6 +64,7 @@
 @synthesize network_level;
 @synthesize allow_download;
 @synthesize preload_media;
+@synthesize version;
 
 @synthesize models;
 @synthesize scenesModel;
@@ -82,7 +88,11 @@
 @synthesize logsModel;
 @synthesize questsModel;
 @synthesize displayQueueModel;
-@synthesize downloaded;
+
+//local stuff
+@synthesize downloadedVersion;
+@synthesize know_if_begin_fresh;
+@synthesize begin_fresh;
 
 - (id) init
 {
@@ -140,9 +150,19 @@
     allow_download = [dict validBoolForKey:@"allow_download"];
     allow_download = NO;
     preload_media = [dict validBoolForKey:@"preload_media"];
+    version = [dict validIntForKey:@"version"];
     
-    
-    downloaded = [[NSFileManager defaultManager] fileExistsAtPath:[[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld/game.json",game_id]]];
+    downloadedVersion = 0;
+    NSString *gameJsonFile = [[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld/game.json",game_id]];
+    if([[NSFileManager defaultManager] fileExistsAtPath:gameJsonFile])
+    {
+      //careful to not 'initGameWithDict' here, or infinite loop
+      SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+      NSDictionary *gameDict = [jsonParser objectWithString:[NSString stringWithContentsOfFile:gameJsonFile encoding:NSUTF8StringEncoding error:nil]];
+      downloadedVersion = [gameDict validIntForKey:@"version"];
+    }
+    know_if_begin_fresh = NO;
+    begin_fresh = NO;
 
     NSArray *authorDicts;
     for(long i = 0; (authorDicts || (authorDicts = [dict objectForKey:@"authors"])) && i < authorDicts.count; i++)
@@ -156,11 +176,11 @@
   NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
   [d setObject:[NSString stringWithFormat:@"%ld",game_id] forKey:@"game_id"];
   [d setObject:name forKey:@"name"];
-  [d setObject:desc forKey:@"desc"];
+  [d setObject:desc forKey:@"description"];
   [d setObject:[NSString stringWithFormat:@"%d",published] forKey:@"published"];
   [d setObject:type forKey:@"type"];
-  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.longitude] forKey:@"location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",location.coordinate.longitude] forKey:@"longitude"];
   [d setObject:[NSString stringWithFormat:@"%ld",player_count] forKey:@"player_count"];
 
   [d setObject:[NSString stringWithFormat:@"%ld",icon_media_id] forKey:@"icon_media_id"];
@@ -170,8 +190,8 @@
 
   [d setObject:map_type forKey:@"map_type"];
   [d setObject:map_focus forKey:@"map_focus"];
-  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.latitude] forKey:@"map_location.coordinate.latitude"];
-  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.longitude] forKey:@"map_location.coordinate.longitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.latitude] forKey:@"map_latitude"];
+  [d setObject:[NSString stringWithFormat:@"%f",map_location.coordinate.longitude] forKey:@"map_longitude"];
   [d setObject:[NSString stringWithFormat:@"%f",map_zoom_level] forKey:@"map_zoom_level"];
   [d setObject:[NSString stringWithFormat:@"%d",map_show_player] forKey:@"map_show_player"];
   [d setObject:[NSString stringWithFormat:@"%d",map_show_players] forKey:@"map_show_players"];
@@ -186,6 +206,7 @@
 
   [d setObject:[NSString stringWithFormat:@"%d",allow_download] forKey:@"allow_download"];
   [d setObject:[NSString stringWithFormat:@"%d",preload_media] forKey:@"preload_media"];
+  [d setObject:[NSString stringWithFormat:@"%ld",version] forKey:@"version"];
   return [NSString JSONFromFlatStringDict:d];
 }
 
@@ -196,13 +217,10 @@
 
   authors  = [NSMutableArray arrayWithCapacity:5];
   comments = [NSMutableArray arrayWithCapacity:5];
-
-  network_level = @"HYBRID";
   
-  downloaded = NO;
-
-  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
-  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
+  downloadedVersion = 0;
+  know_if_begin_fresh = NO;
+  begin_fresh = NO;
 }
 
 - (void) mergeDataFromGame:(Game *)g
@@ -237,14 +255,23 @@
   network_level = g.network_level;
   allow_download = g.allow_download;
   preload_media = g.preload_media;
+  version = g.version;
   
-  downloaded = g.downloaded;
+  //local
+  downloadedVersion = g.downloadedVersion;
+  //know_if_begin_fresh = g.know_if_begin_fresh; //don't merge
+  //begin_fresh = g.begin_fresh; //don't merge
 }
 
 - (void) getReadyToPlay
 {
-  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
-  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",self,@selector(gamePlayerPieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"MAINTENANCE_PIECE_AVAILABLE",self,@selector(maintenancePieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"PLAYER_PIECE_AVAILABLE",self,@selector(playerPieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"MEDIA_PIECE_AVAILABLE",self,@selector(mediaPieceReceived),nil);
+  
+  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
+  _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
 
   n_game_data_received = 0;
   n_player_data_received = 0;
@@ -277,20 +304,31 @@
   [models addObject:_MODEL_MEDIA_];
 
   n_game_data_to_receive = 0;
+  n_maintenance_data_to_receive = 0;
   n_player_data_to_receive = 0;
+  n_media_data_to_receive = 0;
   for(long i = 0; i < models.count; i++)
   {
-    n_game_data_to_receive   += [(ARISModel *)models[i] nGameDataToReceive];
-    n_player_data_to_receive += [(ARISModel *)models[i] nPlayerDataToReceive];
+    ARISModel *m = models[i];
+    n_game_data_to_receive        += [m nGameDataToReceive];
+    n_maintenance_data_to_receive += [m nMaintenanceDataToReceive];
+    n_player_data_to_receive      += [m nPlayerDataToReceive];
   }
+  n_media_data_to_receive = [_MODEL_MEDIA_ numMediaTryingToLoad]; //must be recalculated once game info gotten
 }
 
 - (void) endPlay //to remove models while retaining the game stub for lists and such
 {
   n_game_data_to_receive = 0;
   n_game_data_received = 0;
+  n_maintenance_data_to_receive = 0;
+  n_maintenance_data_received = 0;
   n_player_data_to_receive = 0;
   n_player_data_received = 0;
+  n_media_data_to_receive = 0;
+  n_media_data_received = 0;
+  
+  [self clearModels];
 
   models = nil;
 
@@ -326,6 +364,13 @@
     [(ARISModel *)models[i] requestGameData];
 }
 
+- (void) requestMaintenanceData
+{
+  n_maintenance_data_received = 0;
+  for(long i = 0; i < models.count; i++)
+    [(ARISModel *)models[i] requestMaintenanceData];
+}
+
 - (void) requestPlayerData
 {
   n_player_data_received = 0;
@@ -333,39 +378,73 @@
     [(ARISModel *)models[i] requestPlayerData];
 }
 
+- (void) requestMediaData
+{
+  n_media_data_received = 0;
+  n_media_data_to_receive = [_MODEL_MEDIA_ requestMediaData];
+  
+  if(n_media_data_to_receive == 0)
+  {
+    //hack to quickly check if already done
+    n_media_data_received--;
+    [self mediaPieceReceived];
+  }
+}
+
 - (void) gamePieceReceived
 {
   n_game_data_received++;
+  _ARIS_NOTIF_SEND_(@"GAME_PERCENT_LOADED", nil,
+                    @{@"percent":[NSNumber numberWithFloat:(float)n_game_data_received/(float)n_game_data_to_receive]});
   if([self allGameDataReceived])
   {
     n_game_data_received = n_game_data_to_receive; //should already be exactly this...
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_DATA_LOADED", nil, nil);
+    _ARIS_NOTIF_SEND_(@"GAME_DATA_LOADED", nil, nil);
   }
-  [self percentLoadedChanged];
 }
 
-- (void) gamePlayerPieceReceived
+- (void) maintenancePieceReceived
+{
+  n_maintenance_data_received++;
+  _ARIS_NOTIF_SEND_(@"MAINTENANCE_PERCENT_LOADED", nil,
+                    @{@"percent":[NSNumber numberWithFloat:(float)n_maintenance_data_received/(float)n_maintenance_data_to_receive]});
+  if([self allMaintenanceDataReceived])
+  {
+    n_maintenance_data_received = n_maintenance_data_to_receive; //should already be exactly this...
+    _ARIS_NOTIF_SEND_(@"MAINTENANCE_DATA_LOADED", nil, nil);
+  }
+}
+
+- (void) playerPieceReceived
 {
   n_player_data_received++;
-  if(n_player_data_received >= n_player_data_to_receive)
+  _ARIS_NOTIF_SEND_(@"PLAYER_PERCENT_LOADED", nil,
+                    @{@"percent":[NSNumber numberWithFloat:(float)n_player_data_received/(float)n_player_data_to_receive]});
+  if([self allPlayerDataReceived])
   {
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_DATA_LOADED", nil, nil);
+    n_player_data_received = n_player_data_to_receive; //should already be exactly this...
+    _ARIS_NOTIF_SEND_(@"PLAYER_DATA_LOADED", nil, nil);
   }
-  [self percentLoadedChanged];
 }
 
-- (void) percentLoadedChanged
+- (void) mediaPieceReceived
 {
-  NSNumber *percentReceived = [NSNumber numberWithFloat:
-                               (float)(n_game_data_received+n_player_data_received)/(float)(n_game_data_to_receive+n_player_data_to_receive)
-                               ];
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PERCENT_LOADED", nil, @{@"percent":percentReceived});
+  n_media_data_received++;
+  _ARIS_NOTIF_SEND_(@"MEDIA_PERCENT_LOADED", nil,
+                    @{@"percent":[NSNumber numberWithFloat:(float)n_media_data_received/(float)n_media_data_to_receive]});
+  if([self allMediaDataReceived])
+  {
+    n_media_data_received = n_media_data_to_receive; //should already be exactly this...
+    _ARIS_NOTIF_SEND_(@"MEDIA_DATA_LOADED", nil, nil);
+  }
 }
 
 - (void) gameBegan
 {
-  _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PIECE_AVAILABLE", self, nil);
-  _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"GAME_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"MAINTENANCE_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"PLAYER_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"MEDIA_PIECE_AVAILABLE", self, nil);
   poller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(requestPlayerData) userInfo:nil repeats:YES];
 }
 
@@ -379,6 +458,25 @@
   for(long i = 0; i < models.count; i++)
     if(![(ARISModel *)models[i] gameDataReceived]) return NO;
   return YES;
+}
+
+- (BOOL) allMaintenanceDataReceived
+{
+  for(long i = 0; i < models.count; i++)
+    if(![(ARISModel *)models[i] maintenanceDataReceived]) return NO;
+  return YES;
+}
+
+- (BOOL) allPlayerDataReceived
+{
+  for(long i = 0; i < models.count; i++)
+    if(![(ARISModel *)models[i] playerDataReceived]) return NO;
+  return YES;
+}
+
+- (BOOL) allMediaDataReceived
+{
+  return n_media_data_received >= n_media_data_to_receive; //a bit more fragile than others'...
 }
 
 - (void) clearModels
@@ -411,6 +509,11 @@
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);
+}
+
+- (BOOL) hasLatestDownload
+{
+  return (self.downloadedVersion != 0 && self.version == self.downloadedVersion);
 }
 
 @end

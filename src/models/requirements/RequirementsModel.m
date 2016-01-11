@@ -78,7 +78,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_ROOT_PACKAGES_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 //AND
@@ -98,7 +98,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_AND_PACKAGES_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 //ATOM
@@ -118,7 +118,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_REQUIREMENT_ATOMS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 
@@ -370,13 +370,13 @@
 
   NSDictionary *d_data = [jsonParser objectWithString:data];
 
-  NSArray *d_roots = d_data[@"requirement_roots"];
+  NSArray *d_roots = d_data[@"requirement_root_packages"];
   for(long i = 0; i < d_roots.count; i++)
   {
     RequirementRootPackage *r = [[RequirementRootPackage alloc] initWithDictionary:d_roots[i]];
     [requirementRootPackages setObject:r forKey:[NSNumber numberWithLong:r.requirement_root_package_id]];
   }
-  NSArray *d_ands = d_data[@"requirement_ands"];
+  NSArray *d_ands = d_data[@"requirement_and_packages"];
   for(long i = 0; i < d_ands.count; i++)
   {
     RequirementAndPackage *r = [[RequirementAndPackage alloc] initWithDictionary:d_ands[i]];
@@ -388,16 +388,7 @@
     RequirementAtom *r = [[RequirementAtom alloc] initWithDictionary:d_atoms[i]];
     [requirementAtoms setObject:r forKey:[NSNumber numberWithLong:r.requirement_atom_id]];
   }
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
-
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (void) dealloc

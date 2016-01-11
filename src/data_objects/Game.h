@@ -65,6 +65,7 @@
   NSString *network_level;
   BOOL allow_download;
   BOOL preload_media;
+  long version;
 
   NSMutableArray *models;
 
@@ -89,7 +90,10 @@
   QuestsModel       *questsModel;
   DisplayQueueModel *displayQueueModel;
   
-  BOOL downloaded;
+  //local stuff
+  long downloadedVersion;
+  BOOL know_if_begin_fresh;
+  BOOL begin_fresh;
 }
 
 @property (nonatomic, assign) long game_id;
@@ -125,6 +129,7 @@
 @property (nonatomic, strong) NSString *network_level;
 @property (nonatomic, assign) BOOL allow_download;
 @property (nonatomic, assign) BOOL preload_media;
+@property (nonatomic, assign) long version;
 
 @property (nonatomic, strong) NSMutableArray *models;
 @property (nonatomic, strong) ScenesModel       *scenesModel;
@@ -149,16 +154,26 @@
 @property (nonatomic, strong) QuestsModel       *questsModel;
 @property (nonatomic, strong) DisplayQueueModel *displayQueueModel;
 
-@property (nonatomic, assign) BOOL downloaded;
+//local stuff
+@property (nonatomic, assign) long downloadedVersion;
+@property (nonatomic, assign) BOOL know_if_begin_fresh;
+@property (nonatomic, assign) BOOL begin_fresh;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) serialize;
 - (void) mergeDataFromGame:(Game *)g;
 - (void) getReadyToPlay;
+
 - (void) requestGameData;
+- (void) requestMaintenanceData;
 - (void) requestPlayerData;
+- (void) requestMediaData;
+
 - (void) endPlay;
 - (void) clearModels;
+
+- (BOOL) hasLatestDownload;
+
 
 @end
 

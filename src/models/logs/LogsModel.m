@@ -35,22 +35,17 @@
     return self;
 }
 
-- (void) clearPlayerData
-{
-    logs = [[NSMutableDictionary alloc] init];
-}
-
-- (void) requestGameData
+- (void) requestPlayerData
 {
   [self requestPlayerLogs];
 }
-- (void) clearGameData
+- (void) clearPlayerData
 {
-  [self clearPlayerData];
+  logs = [[NSMutableDictionary alloc] init];
   local_log_id = 1;
-  n_game_data_received = 0;
+  n_player_data_received = 0;
 }
-- (long) nGameDataToReceive
+- (long) nPlayerDataToReceive
 {
   return 1;
 }
@@ -71,8 +66,8 @@
       if(![logs objectForKey:newLogId]) [logs setObject:newLog forKey:newLogId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_LOGS_AVAILABLE",nil,nil);
-    n_game_data_received++;
-    _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+    n_player_data_received++;
+    _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) addLogType:(NSString *)type content:(long)content_id qty:(long)qty
@@ -275,16 +270,6 @@
 - (NSString *) serializedName
 {
   return @"logs";
-}
-
-- (NSString *) serializeGameData
-{
-  return @"";
-}
-
-- (void) deserializeGameData:(NSString *)data
-{
-  [self clearGameData];
 }
 
 - (NSString *) serializePlayerData

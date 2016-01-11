@@ -78,7 +78,11 @@
         DialogCharacter *c = [_MODEL_DIALOGS_ characterForId:s.dialog_character_id];
         if(c.media_id) [mediaView setMedia:[_MODEL_MEDIA_ mediaForId:c.media_id]];
         else [mediaView setImage:[UIImage imageNamed:@"defaultCharacter.png"]];
-        [delegate setNavTitle:c.name];
+        if ([c.title isEqualToString:@""]) {
+            [delegate setNavTitle:c.name];
+        } else {
+            [delegate setNavTitle:c.title];
+        }
     }
     [dialogTextView loadText:s.text];
     [dialogTextView setOptionsLoading];

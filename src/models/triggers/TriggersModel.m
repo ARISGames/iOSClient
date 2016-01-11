@@ -101,7 +101,7 @@
 
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (NSArray *) conformTriggersListToFlyweight:(NSArray *)newTriggers
@@ -176,7 +176,7 @@
   if(addedTriggers.count > 0)   _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_NEW_AVAILABLE",nil,@{@"added":addedTriggers});
   if(removedTriggers.count > 0) _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_LESS_AVAILABLE",nil,@{@"removed":removedTriggers});
   _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_TRIGGERS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestTriggers { [_SERVICES_ fetchTriggers]; }
@@ -202,7 +202,6 @@
         Factory *f = [_MODEL_FACTORIES_ factoryForId:i.factory_id];
         if(!f) continue;
         int time = [[NSDate date] timeIntervalSinceDate:i.created];
-        NSLog(@"%d",time);
         if(time > f.produce_expiration_time)
         {
           [rejected addObject:i];
@@ -211,7 +210,6 @@
       }
       [ptrigs addObject:t];
     }
-    NSLog(@"Accepted: %lu, Rejected: %lu",(unsigned long)ptrigs.count,(unsigned long)rejected.count);
     _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",nil,@{@"triggers":ptrigs});
   }
   if(![self playerDataReceived] ||
@@ -307,6 +305,7 @@
     Trigger *t = [[Trigger alloc] initWithDictionary:d_triggers[i]];
     [triggers setObject:t forKey:[NSNumber numberWithLong:t.trigger_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData

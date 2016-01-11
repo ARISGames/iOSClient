@@ -41,7 +41,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   if(games.count == 0) return;
-  [delegate gamePicked:games[indexPath.row] downloaded:YES];
+  [delegate gamePicked:games[indexPath.row]];
 }
 
 - (void) dealloc

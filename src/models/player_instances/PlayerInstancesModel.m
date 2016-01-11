@@ -53,25 +53,24 @@
   attributes = nil;
 }
 
-- (void) requestGameData
+- (void) requestMaintenanceData
 {
   [self touchPlayerInstances];
 }
-- (void) clearGameData
+- (void) clearMaintenanceData
 {
-  [self clearPlayerData];
-  n_game_data_received = 0;
+  n_maintenance_data_received = 0;
 }
-- (long) nGameDataReceived
+- (long) nMaintenanceDataToReceive
 {
   return 1;
 }
 
 - (void) playerInstancesTouched:(NSNotification *)notif
 {
-  n_game_data_received++;
+  n_maintenance_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_INSTANCES_TOUCHED",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MAINTENANCE_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) touchPlayerInstances
@@ -214,16 +213,6 @@
 - (NSString *) serializedName
 {
   return @"player_instances";
-}
-
-- (NSString *) serializeGameData
-{
-  return @"";
-}
-
-- (void) deserializeGameData:(NSString *)data
-{
-  [self clearGameData];
 }
 
 - (NSString *) serializePlayerData

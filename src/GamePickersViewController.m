@@ -99,9 +99,9 @@
     [self displayContentController:self.gamePickersRevealController];
 }
 
-- (void) gamePicked:(Game *)g downloaded:(BOOL)d
+- (void) gamePicked:(Game *)g
 {
-    [delegate gameDetailsRequested:g downloaded:d];
+    [delegate gameDetailsRequested:g];
 }
 
 - (void) accountButtonTouched

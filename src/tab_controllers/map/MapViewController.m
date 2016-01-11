@@ -117,8 +117,7 @@
     mapView = [[MKMapView alloc] init];
     mapView.delegate = self;
     mapView.showsUserLocation = _MODEL_GAME_.map_show_player;
-    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0f)
-      mapView.showsCompass = YES;
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0f) mapView.showsCompass = YES;
 
     if     ([_MODEL_GAME_.map_type isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([_MODEL_GAME_.map_type isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
@@ -372,7 +371,6 @@
     [mapView setCenterCoordinate:mapView.region.center animated:NO];
     if(firstLoad)
     {
-      NSLog(@"%@ %f",_MODEL_GAME_.map_focus,_MODEL_GAME_.map_location.coordinate.latitude);
       if     ([_MODEL_GAME_.map_focus isEqualToString:@"PLAYER"])        [self centerMapOnPlayer];
       else if([_MODEL_GAME_.map_focus isEqualToString:@"LOCATION"])      [self centerMapOnLoc:_MODEL_GAME_.map_location.coordinate zoom:_MODEL_GAME_.map_zoom_level];
       else if([_MODEL_GAME_.map_focus isEqualToString:@"FIT_LOCATIONS"]) [self zoomToFitAnnotations:NO];

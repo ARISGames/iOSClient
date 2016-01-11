@@ -64,7 +64,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_ITEMS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestItems
@@ -118,15 +118,7 @@
     Item *it = [[Item alloc] initWithDictionary:d_items[i]];
     [items setObject:it forKey:[NSNumber numberWithLong:it.item_id]];
   }
-}
-
-- (NSString *) serializePlayerData
-{
-  return @"";
-}
-
-- (void) deserializePlayerData:(NSString *)data
-{
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (void) dealloc
@@ -135,3 +127,4 @@
 }
 
 @end
+

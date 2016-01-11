@@ -39,7 +39,6 @@
 - (void) requestGameData
 {
   [self requestGroups];
-  [self touchPlayerGroup];
 }
 - (void) clearGameData
 {
@@ -48,7 +47,20 @@
 }
 - (long) nGameDataToReceive
 {
-  return 2;
+  return 1;
+}
+
+- (void) requestMaintenanceData
+{
+  [self touchPlayerGroup];
+}
+- (void) clearMaintenanceData
+{
+  n_maintenance_data_received = 0;
+}
+- (long) nMaintenanceDataToReceive
+{
+  return 1;
 }
 
 - (void) requestPlayerData
@@ -78,9 +90,9 @@
 
 - (void) groupTouched:(NSNotification *)notif
 {
-  n_game_data_received++;
+  n_maintenance_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_GROUP_TOUCHED",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MAINTENANCE_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updateGroups:(NSArray *)newGroups
@@ -95,7 +107,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updatePlayerGroup:(Group *)newGroup
@@ -103,7 +115,7 @@
   playerGroup = newGroup;
   n_player_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_GROUPS_PLAYER_GROUP_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestGroups
@@ -184,6 +196,7 @@
     Group *g = [[Group alloc] initWithDictionary:d_groups[i]];
     [groups setObject:g forKey:[NSNumber numberWithLong:g.group_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData
@@ -211,3 +224,4 @@
 }
 
 @end
+

@@ -72,7 +72,7 @@
   NSMutableDictionary *d = [[NSMutableDictionary alloc] init];
   [d setObject:[NSString stringWithFormat:@"%ld",self.item_id] forKey:@"item_id"];
   [d setObject:self.name forKey:@"name"];
-  [d setObject:self.desc forKey:@"desc"];
+  [d setObject:self.desc forKey:@"description"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.icon_media_id] forKey:@"icon_media_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
   [d setObject:[NSString stringWithFormat:@"%d",self.droppable] forKey:@"droppable"];

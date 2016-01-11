@@ -85,7 +85,7 @@
   }
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_AVAILABLE",nil,nil);
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) requestQuests       { [_SERVICES_ fetchQuests]; }
@@ -131,7 +131,6 @@
     {
       if([_MODEL_REQUIREMENTS_ evaluateRequirementRoot:q.complete_requirement_root_package_id])
       {
-        [_MODEL_REQUIREMENTS_ evaluateRequirementRoot:q.complete_requirement_root_package_id];
         [_MODEL_LOGS_ playerCompletedQuestId:q.quest_id];
       }
     }
@@ -157,7 +156,7 @@
   [self updateCompleteQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"complete"]]];
   [self updateActiveQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"active"]]];
   n_player_data_received++;
-  _ARIS_NOTIF_SEND_(@"MODEL_GAME_PLAYER_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
 - (void) updateActiveQuests:(NSArray *)newQuests
@@ -288,6 +287,7 @@
     Quest *q = [[Quest alloc] initWithDictionary:d_quests[i]];
     [quests setObject:q forKey:[NSNumber numberWithLong:q.quest_id]];
   }
+  n_game_data_received = [self nGameDataToReceive];
 }
 
 - (NSString *) serializePlayerData
