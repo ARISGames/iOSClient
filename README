@@ -5,8 +5,12 @@ cd ARISiOSClient
 git submodule init
 git submodule update
 
+You will also need to install andd init CocoPods
 
-Configuring and Running automated Tests
+Install CocoPods:                 sudo gem install cocoapods
+Install The Pods used by ARIS:    pod install
+
+Configuring and Running automated Tests (Not Currently Used)
 (Using OSX 10.9 or newer)
 
 1. Install bwoken:                  sudo gem install bwoken && bwoken init
