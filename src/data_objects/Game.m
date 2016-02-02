@@ -444,11 +444,13 @@
   _ARIS_NOTIF_IGNORE_(@"MAINTENANCE_PIECE_AVAILABLE", self, nil);
   _ARIS_NOTIF_IGNORE_(@"PLAYER_PIECE_AVAILABLE", self, nil);
   _ARIS_NOTIF_IGNORE_(@"MEDIA_PIECE_AVAILABLE", self, nil);
+  _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_BEGAN", self, nil);
   poller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(requestPlayerData) userInfo:nil repeats:YES];
 }
 
 - (void) gameLeft
 {
+  _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_LEFT", self, nil);
   [poller invalidate];
 }
 
