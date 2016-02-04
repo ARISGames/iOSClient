@@ -620,7 +620,7 @@
 		AABC7071172739D60074CC21 /* ARISAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISAppDelegate.h; sourceTree = "<group>"; };
 		AABC7072172739D60074CC21 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISAppDelegate.m; sourceTree = "<group>"; };
 		AABC7074172739D60074CC21 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
-		AABC7075172739D60074CC21 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		AABC7075172739D60074CC21 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; tabWidth = 2; };
 		AABC7076172739D60074CC21 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		AABC7077172739D60074CC21 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		AABC707A172739D60074CC21 /* MediaCD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaCD.h; sourceTree = "<group>"; };

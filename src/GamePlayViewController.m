@@ -80,13 +80,13 @@
     //buffer to protect us from that...
     NSMutableArray *local_inst_queue;
 
-    BOOL viewingObject; //because apple's heirarchy design is terrible
     id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
 
 @implementation GamePlayViewController
+@synthesize viewingObject;
 
 - (id) initWithDelegate:(id<GamePlayViewControllerDelegate>)d
 {

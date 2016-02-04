@@ -15,6 +15,7 @@
 #import "NSDictionary+ValidParsers.h"
 #import "NSString+JSON.h"
 #import "SBJson.h"
+#import "RootViewController.h"
 
 @interface Game()
 {
@@ -370,6 +371,13 @@
     [(ARISModel *)models[i] requestMaintenanceData];
 }
 
+- (void) requestPlayerDataUnlessBusy
+{
+  if (![[[RootViewController sharedRootViewController] gamePlayViewController] viewingObject]) {
+    [self requestPlayerData];
+  }
+}
+
 - (void) requestPlayerData
 {
   n_player_data_received = 0;
@@ -445,7 +453,7 @@
   _ARIS_NOTIF_IGNORE_(@"PLAYER_PIECE_AVAILABLE", self, nil);
   _ARIS_NOTIF_IGNORE_(@"MEDIA_PIECE_AVAILABLE", self, nil);
   _ARIS_NOTIF_IGNORE_(@"MODEL_GAME_BEGAN", self, nil);
-  poller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(requestPlayerData) userInfo:nil repeats:YES];
+  poller = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(requestPlayerDataUnlessBusy) userInfo:nil repeats:YES];
 }
 
 - (void) gameLeft

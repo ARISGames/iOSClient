@@ -32,12 +32,12 @@
   GamePickersViewController *gamePickersViewController;
   ARISNavigationController *gameDetailsNavigationController;
   LoadingViewController *loadingViewController;
-  GamePlayViewController *gamePlayViewController;
 }
 
 @end
 
 @implementation RootViewController
+@synthesize gamePlayViewController;
 
 + (id) sharedRootViewController
 {

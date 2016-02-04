@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "ARISContainerViewController.h"
+#import "GamePlayViewController.h"
 
 @interface RootViewController : ARISContainerViewController
+{
+    GamePlayViewController *viewingObject;
+}
 + (RootViewController *) sharedRootViewController;
+@property (nonatomic, strong) GamePlayViewController *gamePlayViewController;
 @end
