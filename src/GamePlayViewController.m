@@ -315,7 +315,7 @@
     [self reSetOverlayControllersInVC:self atYDelta:-20];
 
     [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
-    [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:0.1];
+    [self performSelector:@selector(tryDequeue) withObject:nil];
 }
 
 - (void) reSetOverlayControllersInVC:(UIViewController *)vc atYDelta:(int)ydelt
