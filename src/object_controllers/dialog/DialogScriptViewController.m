@@ -47,7 +47,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
 
     CGRect b = self.view.bounds;
     CGRect mediaViewRect = CGRectMake(b.origin.x,b.origin.y+64,b.size.width,b.size.height-64);

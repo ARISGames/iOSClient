@@ -23,7 +23,6 @@
 + (UIColor *) ARISColorTextBackdrop           { return [UIColor ARISColorTranslucentWhite]; }
 + (UIColor *) ARISColorText                   { return [UIColor ARISColorBlack]; }
 + (UIColor *) ARISColorContentBackdrop        { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorDialogContentBackdrop  { return [UIColor blackColor]; }
 + (UIColor *) ARISColorViewBackdrop           { return [UIColor ARISColorWhite]; }
 + (UIColor *) ARISColorViewText               { return [UIColor ARISColorBlack]; }
 + (UIColor *) ARISColorSideNavigationBackdrop { return [UIColor ARISColorTranslucentWhite];  }

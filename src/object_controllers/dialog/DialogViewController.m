@@ -74,7 +74,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [ARISTemplate ARISColorDialogContentBackdrop];
+    self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
 
     //this should go in viewwilllayoutsubviews, but apple is terrible
     centerFrame = self.view.bounds;

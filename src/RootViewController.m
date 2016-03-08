@@ -24,6 +24,8 @@
 
 #import "ARISNavigationController.h"
 
+#import "ARISTemplate.h"
+
 @interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, ChangePasswordViewControllerDelegate, GamePickersViewControllerDelegate, GameDetailsViewControllerDelegate, LoadingViewControllerDelegate, GamePlayViewControllerDelegate>
 {
   ARISNavigationController *loginNavigationController;
@@ -82,6 +84,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
+  self.view.backgroundColor = [UIColor ARISColorWhite];
 
   if(!_MODEL_PLAYER_)
     [self displayContentController:loginNavigationController];
