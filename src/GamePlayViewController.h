@@ -15,10 +15,7 @@
 @end
 
 @interface GamePlayViewController : ARISContainerViewController
-{
-    BOOL viewingObject; //because apple's heirarchy design is terrible
-}
 - (id) initWithDelegate:(id<GamePlayViewControllerDelegate>)d;
 - (void) destroy;
-@property (nonatomic, assign) BOOL viewingObject;
+- (BOOL) viewingObject;
 @end

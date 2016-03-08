@@ -63,7 +63,7 @@
 {
     PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
-
+    ARISNavigationController *instantiableViewController;
     GameNotificationViewController *gameNotificationViewController;
     LoadingIndicatorViewController *loadingIndicatorViewController;
     NSTimer *tickerTimer;
@@ -86,7 +86,6 @@
 @end
 
 @implementation GamePlayViewController
-@synthesize viewingObject;
 
 - (id) initWithDelegate:(id<GamePlayViewControllerDelegate>)d
 {
@@ -100,7 +99,6 @@
         gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
 
         local_inst_queue = [[NSMutableArray alloc] init];
-        viewingObject = NO;
         _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE", self, @selector(flushBufferQueuedInstances), nil);
         _ARIS_NOTIF_LISTEN_(@"MODEL_DISPLAY_NEW_ENQUEUED", self, @selector(tryDequeue), nil);
     }
@@ -147,11 +145,8 @@
     [gamePlayRevealController showViewController:avc];
 }
 
-- (void) tryDequeue
+- (void) doDequeue
 {
-    //Doesn't currently have the view-heirarchy authority to display.
-    //if(!(self.isViewLoaded && self.view.window)) //should work but apple's timing is terrible
-    if(viewingObject) return;
     NSObject *o;
     if((o = [_MODEL_DISPLAY_QUEUE_ dequeue]))
     {
@@ -160,6 +155,14 @@
         else if([o isKindOfClass:[Tab class]])      [self displayTab:(Tab *)o];
         else if([o conformsToProtocol:@protocol(InstantiableProtocol)]) [self displayObject:(NSObject <InstantiableProtocol>*)o];
     }
+}
+
+- (void) tryDequeue
+{
+    //Doesn't currently have the view-heirarchy authority to display.
+    //if(!(self.isViewLoaded && self.view.window)) //should work but apple's timing is terrible
+    if(instantiableViewController) return;
+    [self doDequeue];
 }
 
 - (void) flushBufferQueuedInstances
@@ -244,8 +247,7 @@
             [_MODEL_TRIGGERS_ expireTriggersForInstanceId:i.instance_id];
     }
 
-    ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
-    [self presentDisplay:nav];
+    [self presentInstantiableViewController:[[ARISNavigationController alloc] initWithRootViewController:vc]];
 }
 
 - (void) displayObject:(NSObject <InstantiableProtocol>*)o
@@ -295,27 +297,26 @@
       vc = [[NoteViewController alloc] initWithInstance:i delegate:self];
     }
 
-    ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:vc];
-    [self presentDisplay:nav];
+    [self presentInstantiableViewController:[[ARISNavigationController alloc] initWithRootViewController:vc]];
 }
 
-- (void) presentDisplay:(UIViewController *)vc
+- (void) presentInstantiableViewController:(ARISNavigationController *)viewToDisplay
 {
-    [self presentViewController:vc animated:NO completion:nil];
-    viewingObject = YES;
+    [self displayContentController:viewToDisplay];
 
-    [self reSetOverlayControllersInVC:vc atYDelta:20];
+    [self reSetOverlayControllersInVC:viewToDisplay atYDelta:20];
+    
+    instantiableViewController = viewToDisplay;
 }
 
 - (void) instantiableViewControllerRequestsDismissal:(id<InstantiableViewControllerProtocol>)ivc
 {
-    [((ARISViewController *)ivc).navigationController dismissViewControllerAnimated:NO completion:nil];
-    viewingObject = NO;
-
     [self reSetOverlayControllersInVC:self atYDelta:-20];
-
+    
     [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
-    [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
+    [self doDequeue];
+    
+    [((ARISViewController *)ivc).navigationController dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void) reSetOverlayControllersInVC:(UIViewController *)vc atYDelta:(int)ydelt
@@ -337,6 +338,9 @@
 
 - (void) displayTab:(Tab *)t
 {
+    [self displayContentController:gamePlayRevealController];
+    instantiableViewController = nil;
+    
     [gamePlayTabSelectorController requestDisplayTab:t];
     [self tryDequeue]; //no 'closing event' for tab
 }
@@ -370,6 +374,16 @@
 {
   [self destroy];
   _ARIS_NOTIF_IGNORE_ALL_(self);
+}
+
+- (BOOL) viewingObject
+{
+    if (instantiableViewController) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
 @end
