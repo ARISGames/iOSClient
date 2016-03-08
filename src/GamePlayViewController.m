@@ -145,7 +145,7 @@
     [gamePlayRevealController showViewController:avc];
 }
 
-- (void) doDequeue
+- (BOOL) doDequeue
 {
     NSObject *o;
     if((o = [_MODEL_DISPLAY_QUEUE_ dequeue]))
@@ -154,6 +154,9 @@
         else if([o isKindOfClass:[Instance class]]) [self displayInstance:(Instance *)o];
         else if([o isKindOfClass:[Tab class]])      [self displayTab:(Tab *)o];
         else if([o conformsToProtocol:@protocol(InstantiableProtocol)]) [self displayObject:(NSObject <InstantiableProtocol>*)o];
+        return YES;
+    } else {
+        return NO;
     }
 }
 
@@ -314,9 +317,10 @@
     [self reSetOverlayControllersInVC:self atYDelta:-20];
     
     [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
-    [self doDequeue];
-    
-    [((ARISViewController *)ivc).navigationController dismissViewControllerAnimated:NO completion:nil];
+    if (![self doDequeue]) {
+        [self displayContentController:gamePlayRevealController];
+        instantiableViewController = nil;
+    }
 }
 
 - (void) reSetOverlayControllersInVC:(UIViewController *)vc atYDelta:(int)ydelt
