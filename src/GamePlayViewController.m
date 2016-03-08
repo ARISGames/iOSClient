@@ -154,6 +154,7 @@
         else if([o isKindOfClass:[Instance class]]) [self displayInstance:(Instance *)o];
         else if([o isKindOfClass:[Tab class]])      [self displayTab:(Tab *)o];
         else if([o conformsToProtocol:@protocol(InstantiableProtocol)]) [self displayObject:(NSObject <InstantiableProtocol>*)o];
+        else return NO;
         return YES;
     } else {
         return NO;
@@ -317,7 +318,7 @@
     [self reSetOverlayControllersInVC:self atYDelta:-20];
     
     [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
-    if (![self doDequeue]) {
+    if (![self doDequeue] && instantiableViewController.viewControllers[0] == ivc) {
         [self displayContentController:gamePlayRevealController];
         instantiableViewController = nil;
     }
