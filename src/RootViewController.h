@@ -11,9 +11,6 @@
 #import "GamePlayViewController.h"
 
 @interface RootViewController : ARISContainerViewController
-{
-    GamePlayViewController *viewingObject;
-}
 + (RootViewController *) sharedRootViewController;
 @property (nonatomic, strong) GamePlayViewController *gamePlayViewController;
 @end
