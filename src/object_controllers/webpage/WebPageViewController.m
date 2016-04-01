@@ -94,7 +94,7 @@
 {
     hasAppeared = YES;
 
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 
     activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.view.bounds];
     [activityIndicator startAnimating];
