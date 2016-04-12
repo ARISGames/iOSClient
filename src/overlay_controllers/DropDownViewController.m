@@ -64,15 +64,15 @@
 {
   if(!self.view) self.view.hidden = NO; //Just accesses view to force its load
   label.text = s;
-  self.view.frame = CGRectMake(0,22,self.view.bounds.size.width,1);
-  [UIView animateWithDuration:1 animations:^{self.view.frame = CGRectMake(0,22,self.view.bounds.size.width,64); } completion:nil];
+  self.view.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
+  [UIView animateWithDuration:1 animations:^{self.view.frame = CGRectMake(0,0,self.view.bounds.size.width,64); } completion:nil];
   [self performSelector:@selector(requestDismiss) withObject:nil afterDelay:3.];
 }
 
 - (void) requestDismiss
 {
   [UIView animateWithDuration:1
-                   animations:^{self.view.frame = CGRectMake(0,22,self.view.bounds.size.width,1); }
+                   animations:^{self.view.frame = CGRectMake(0,0,self.view.bounds.size.width,1); }
                    completion:^(BOOL finished){if(delegate)[delegate dropDownRequestsDismiss];}];
 }
 
