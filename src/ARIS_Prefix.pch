@@ -6,7 +6,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "ARISTemplate.h"
-#import <NewRelicAgent/NewRelic.h>
 
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 
