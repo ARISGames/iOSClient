@@ -22,6 +22,7 @@
 @synthesize media_id;
 @synthesize game_id;
 @synthesize user_id;
+@synthesize autoplay;
 @synthesize localURL;
 @synthesize remoteURL;
 @synthesize data;
@@ -70,6 +71,16 @@
 - (void) setMediaId:(long)mid
 {
     mediaCD.media_id = [NSNumber numberWithLong:mid];
+}
+
+- (BOOL) autoplay
+{
+    return [mediaCD.autoplay intValue] != 0;
+}
+
+- (void) setAutoplay:(BOOL)ap
+{
+    mediaCD.autoplay = [NSNumber numberWithLong:(ap ? 1 : 0)];
 }
 
 - (NSURL *) localURL

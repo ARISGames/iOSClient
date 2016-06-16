@@ -196,7 +196,7 @@
   [self addPlayIcon];
 
   avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-  avVC.moviePlayer.shouldAutoplay = NO;
+  avVC.moviePlayer.shouldAutoplay = [m autoplay];
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
   if(m.thumb)
@@ -213,7 +213,7 @@
   [self addPlayIcon];
 
   avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-  avVC.moviePlayer.shouldAutoplay = NO;
+  avVC.moviePlayer.shouldAutoplay = [m autoplay];
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
   if(m.thumb)

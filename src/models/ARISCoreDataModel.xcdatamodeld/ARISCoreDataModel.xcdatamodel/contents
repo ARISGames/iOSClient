@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15F34" minimumToolsVersion="Xcode 4.3">
     <entity name="GameCD" syncable="YES">
         <attribute name="game_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="MediaCD" syncable="YES">
+        <attribute name="autoplay" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="game_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="localURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="media_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -23,9 +24,9 @@
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="GameCD" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MediaCD" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="NoteCD" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="RequestCD" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="GameCD" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="MediaCD" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="NoteCD" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="RequestCD" positionX="0" positionY="0" width="128" height="90"/>
     </elements>
 </model>

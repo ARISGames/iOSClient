@@ -127,6 +127,7 @@
 
         tmpMedia.game_id = [NSNumber numberWithLong:[mediaDict validIntForKey:@"game_id"]];
         tmpMedia.user_id = [NSNumber numberWithLong:[mediaDict validIntForKey:@"user_id"]];
+        tmpMedia.autoplay = [NSNumber numberWithLong:[mediaDict validIntForKey:@"autoplay"]];
         //_ARIS_LOG_(@"Media cache   : Media id:%ld cached:%@",media_id,tmpMedia.remoteURL);
     }
     [self commitContext];
