@@ -73,6 +73,15 @@
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     NSError *error = nil;
 
+    if ([device hasTorch]) {
+        [session beginConfiguration];
+        [device lockForConfiguration:nil];
+        [device setTorchMode:AVCaptureTorchModeOn];
+        [device setFlashMode:AVCaptureFlashModeOn];
+        [device unlockForConfiguration];
+        [session commitConfiguration];
+    }
+
     // Want the normal device
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
 
