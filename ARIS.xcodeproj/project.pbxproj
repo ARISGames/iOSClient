@@ -15,6 +15,7 @@
 		3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB24ACA152B8CE500B49876 /* ImageIO.framework */; };
 		4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD5C40714E0661E00081B20 /* CoreData.framework */; };
 		531599891D199DE40020C494 /* play-solid.png in Resources */ = {isa = PBXBuildFile; fileRef = 531599881D199DE40020C494 /* play-solid.png */; };
+		53B3449C1D19A9340094D97A /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 53B3449B1D19A9340094D97A /* transparent.png */; };
 		5B1D998B178CC3A700661453 /* shuffle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9981178CC3A700661453 /* shuffle@2x.png */; };
 		5B1D998D178CC3A700661453 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9983178CC3A700661453 /* pause@2x.png */; };
 		5B1D998F178CC3A700661453 /* dark_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9985178CC3A700661453 /* dark_play@2x.png */; };
@@ -335,6 +336,7 @@
 		42392735862BCA2E9DA61F55 /* Pods-ARIS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARIS.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARIS/Pods-ARIS.release.xcconfig"; sourceTree = "<group>"; };
 		4AD5C40714E0661E00081B20 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		531599881D199DE40020C494 /* play-solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-solid.png"; sourceTree = "<group>"; };
+		53B3449B1D19A9340094D97A /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
 		5B1D9981178CC3A700661453 /* shuffle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shuffle@2x.png"; sourceTree = "<group>"; };
 		5B1D9983178CC3A700661453 /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
 		5B1D9985178CC3A700661453 /* dark_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark_play@2x.png"; sourceTree = "<group>"; };
@@ -1248,6 +1250,7 @@
 				F9B26EC918EE0830005A6DF3 /* White-Gradient-100-0.png */,
 				F9B26EC718EDF904005A6DF3 /* Diamond.png */,
 				F9B26EC318EDF8F7005A6DF3 /* White-Gradient-100-60.png */,
+				53B3449B1D19A9340094D97A /* transparent.png */,
 				AA04E33F18E61B9200621F0C /* lock@2x.png */,
 				AA04E33918E6172A00621F0C /* expand.png */,
 				AA04E33318E6140300621F0C /* location_white.png */,
@@ -2148,6 +2151,7 @@
 				AAB62FE118C689DD00030F48 /* barcode@2x.png in Resources */,
 				AABC6FF11727398B0074CC21 /* DefaultGameSplash.png in Resources */,
 				AABC6FF31727398B0074CC21 /* DefaultPCImage.png in Resources */,
+				53B3449C1D19A9340094D97A /* transparent.png in Resources */,
 				AA942B9D17CD4F86004EDEA1 /* logo_text.png in Resources */,
 				AA04E33218E613E400621F0C /* threelines_white.png in Resources */,
 				ABE735E817D65C0100396CF5 /* arrowBack@2x.png in Resources */,

@@ -216,13 +216,8 @@
   avVC.moviePlayer.shouldAutoplay = [m autoplay];
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
-  /*
-  if(m.thumb)
-  {
-    image = [UIImage imageWithData:m.thumb];
-    [self displayImage];
-  }
-  */
+  image = [UIImage imageNamed:@"transparent.png"];
+  [self displayImage];
 }
 
 - (void) conformFrameToMode
