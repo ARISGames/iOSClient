@@ -196,7 +196,7 @@
   [self addPlayIcon];
 
   avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-  avVC.moviePlayer.shouldAutoplay = [m autoplay];
+  avVC.moviePlayer.shouldAutoplay = NO;
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
   if(m.thumb)
@@ -206,6 +206,7 @@
   }
   if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewIsReadyToPlay:)])
     [delegate ARISMediaViewIsReadyToPlay:self];
+  if ([m autoplay]) [self play];
 }
 
 - (void) displayAudio:(Media *)m
@@ -213,11 +214,12 @@
   [self addPlayIcon];
 
   avVC = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-  avVC.moviePlayer.shouldAutoplay = [m autoplay];
+  avVC.moviePlayer.shouldAutoplay = NO;
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
   image = [UIImage imageNamed:@"transparent.png"];
   [self displayImage];
+  if ([m autoplay]) [self play];
 }
 
 - (void) conformFrameToMode
