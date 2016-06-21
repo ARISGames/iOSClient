@@ -11,8 +11,10 @@
 		11BE779F13B0FCC7000D037B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BE779E13B0FCC7000D037B /* OpenGLES.framework */; };
 		11BE77A713B26515000D037B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BE77A613B26515000D037B /* CoreMotion.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2EF43710882BD081477B892B /* libPods-ARIS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26CAC96C23CD145815CAF160 /* libPods-ARIS.a */; };
 		3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB24ACA152B8CE500B49876 /* ImageIO.framework */; };
 		4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD5C40714E0661E00081B20 /* CoreData.framework */; };
+		531599891D199DE40020C494 /* play-solid.png in Resources */ = {isa = PBXBuildFile; fileRef = 531599881D199DE40020C494 /* play-solid.png */; };
 		5B1D998B178CC3A700661453 /* shuffle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9981178CC3A700661453 /* shuffle@2x.png */; };
 		5B1D998D178CC3A700661453 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9983178CC3A700661453 /* pause@2x.png */; };
 		5B1D998F178CC3A700661453 /* dark_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9985178CC3A700661453 /* dark_play@2x.png */; };
@@ -302,7 +304,6 @@
 		ABE735F917D6B96600396CF5 /* arrowForward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABE735F717D6B96600396CF5 /* arrowForward@2x.png */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
-		BE6DFD06EAAC87A8972086B4 /* libPods-ARIS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDEFDD71454153A152F5672 /* libPods-ARIS.a */; };
 		C02FE1881A76BBB300E0B15A /* LoginScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = C02FE1861A76BBB300E0B15A /* LoginScannerViewController.mm */; };
 		C06331541A6055F8002A8026 /* notebooktext@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C06331531A6055F8002A8026 /* notebooktext@2x.png */; };
 		C0878F421A672182001739E3 /* LICENCE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0878F3E1A672182001739E3 /* LICENCE.txt */; };
@@ -328,16 +329,17 @@
 		11BE779E13B0FCC7000D037B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		11BE77A613B26515000D037B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		2EDEFDD71454153A152F5672 /* libPods-ARIS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARIS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		26CAC96C23CD145815CAF160 /* libPods-ARIS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARIS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A64BB3BC5FE70AB98936F70 /* Pods-ARIS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARIS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARIS/Pods-ARIS.debug.xcconfig"; sourceTree = "<group>"; };
 		3AB24ACA152B8CE500B49876 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		42392735862BCA2E9DA61F55 /* Pods-ARIS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARIS.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARIS/Pods-ARIS.release.xcconfig"; sourceTree = "<group>"; };
 		4AD5C40714E0661E00081B20 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		531599881D199DE40020C494 /* play-solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-solid.png"; sourceTree = "<group>"; };
 		5B1D9981178CC3A700661453 /* shuffle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shuffle@2x.png"; sourceTree = "<group>"; };
 		5B1D9983178CC3A700661453 /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
 		5B1D9985178CC3A700661453 /* dark_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark_play@2x.png"; sourceTree = "<group>"; };
 		5B1D9987178CC3A700661453 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop@2x.png"; sourceTree = "<group>"; };
 		5BBA6A6417822F5E00387DBD /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		899886A99577378298DEC8C9 /* Pods-ARIS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARIS.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARIS/Pods-ARIS.release.xcconfig"; sourceTree = "<group>"; };
-		9CC22A53E3957B1FCEA9FD06 /* Pods-ARIS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARIS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARIS/Pods-ARIS.debug.xcconfig"; sourceTree = "<group>"; };
 		A70C6BB619115F2B00A48B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A73C11C61BCC497F00950F34 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A73EAC7F1C03AE4A00BC0859 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -457,7 +459,7 @@
 		AA4685A61940C90000721B2B /* TabsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabsModel.h; sourceTree = "<group>"; };
 		AA4685A71940C90000721B2B /* TabsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabsModel.m; sourceTree = "<group>"; };
 		AA49A25B17AAE6C200629C87 /* ARISMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaView.h; sourceTree = "<group>"; };
-		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
+		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; tabWidth = 2; };
 		AA4A75531B2B2F0000C434A7 /* GroupInstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupInstancesModel.h; sourceTree = "<group>"; };
 		AA4A75541B2B2F0000C434A7 /* GroupInstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupInstancesModel.m; sourceTree = "<group>"; };
 		AA4A75581B3CA91A00C434A7 /* EventPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventPackage.h; sourceTree = "<group>"; };
@@ -867,7 +869,7 @@
 				AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */,
 				AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */,
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
-				BE6DFD06EAAC87A8972086B4 /* libPods-ARIS.a in Frameworks */,
+				2EF43710882BD081477B892B /* libPods-ARIS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -882,6 +884,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		246BBE17D629D2353273238D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3A64BB3BC5FE70AB98936F70 /* Pods-ARIS.debug.xcconfig */,
+				42392735862BCA2E9DA61F55 /* Pods-ARIS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
@@ -893,8 +904,8 @@
 				AABC704B1727399C0074CC21 /* gpx_locations */,
 				AABC6F3C1727398B0074CC21 /* assets */,
 				AABC7062172739D60074CC21 /* src */,
-				682A0304208BAB48D76C4238 /* Pods */,
-				A715069B7B8BD49277059151 /* Frameworks */,
+				246BBE17D629D2353273238D /* Pods */,
+				E6C24F9D1DB1B1FEDC175F18 /* Frameworks */,
 			);
 			name = ARIS;
 			sourceTree = "<group>";
@@ -908,23 +919,6 @@
 				5B1D9987178CC3A700661453 /* stop@2x.png */,
 			);
 			path = audio_visualizer;
-			sourceTree = "<group>";
-		};
-		682A0304208BAB48D76C4238 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9CC22A53E3957B1FCEA9FD06 /* Pods-ARIS.debug.xcconfig */,
-				899886A99577378298DEC8C9 /* Pods-ARIS.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		A715069B7B8BD49277059151 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				2EDEFDD71454153A152F5672 /* libPods-ARIS.a */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		AA02477A1927D0DD00CF5CE3 /* games */ = {
@@ -1258,6 +1252,7 @@
 				AA04E33918E6172A00621F0C /* expand.png */,
 				AA04E33318E6140300621F0C /* location_white.png */,
 				AA8E9EA418BE422E00F343A2 /* star_gray.png */,
+				531599881D199DE40020C494 /* play-solid.png */,
 				AAC6573B187200940063EAF7 /* play.png */,
 				AA527E3E17E0B6830040AB75 /* navbar */,
 				AA527E4317E0B6830040AB75 /* notebook */,
@@ -2039,6 +2034,14 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
+		E6C24F9D1DB1B1FEDC175F18 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				26CAC96C23CD145815CAF160 /* libPods-ARIS.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F92B5E4118CA72AE00D1D1A7 /* overlays */ = {
 			isa = PBXGroup;
 			children = (
@@ -2055,13 +2058,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ARIS" */;
 			buildPhases = (
-				A7C8C40C7BEFFAE8CD71642C /* Check Pods Manifest.lock */,
+				CA91ECC66DBFC694CC749A05 /* [CP] Check Pods Manifest.lock */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				AB508AC8119330710002FCFA /* Run Script */,
-				1844493E170AEDC7DE669856 /* Copy Pods Resources */,
-				02A459203620A02E0291CB4F /* Embed Pods Frameworks */,
+				C3A8D936015E71DEC55D42B6 /* [CP] Embed Pods Frameworks */,
+				18D752051292AC31076231F4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2124,6 +2127,7 @@
 				AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */,
 				AA04E34018E61B9200621F0C /* lock@2x.png in Resources */,
 				C0878F421A672182001739E3 /* LICENCE.txt in Resources */,
+				531599891D199DE40020C494 /* play-solid.png in Resources */,
 				AA04E34418E62A6400621F0C /* sound_with_bg@2x.png in Resources */,
 				AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */,
 				F92B5E3518C66EF000D1D1A7 /* search@2x.png in Resources */,
@@ -2225,49 +2229,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		02A459203620A02E0291CB4F /* Embed Pods Frameworks */ = {
+		18D752051292AC31076231F4 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARIS/Pods-ARIS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1844493E170AEDC7DE669856 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARIS/Pods-ARIS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A7C8C40C7BEFFAE8CD71642C /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AB508AC8119330710002FCFA /* Run Script */ = {
@@ -2283,6 +2257,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "";
+		};
+		C3A8D936015E71DEC55D42B6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARIS/Pods-ARIS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CA91ECC66DBFC694CC749A05 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2494,7 +2498,7 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CC22A53E3957B1FCEA9FD06 /* Pods-ARIS.debug.xcconfig */;
+			baseConfigurationReference = 3A64BB3BC5FE70AB98936F70 /* Pods-ARIS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2555,7 +2559,7 @@
 		};
 		AB1CA8BC13C7D2B700131F81 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 899886A99577378298DEC8C9 /* Pods-ARIS.release.xcconfig */;
+			baseConfigurationReference = 42392735862BCA2E9DA61F55 /* Pods-ARIS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

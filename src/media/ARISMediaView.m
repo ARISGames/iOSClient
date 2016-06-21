@@ -216,11 +216,13 @@
   avVC.moviePlayer.shouldAutoplay = [m autoplay];
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
+  /*
   if(m.thumb)
   {
     image = [UIImage imageWithData:m.thumb];
     [self displayImage];
   }
+  */
 }
 
 - (void) conformFrameToMode
@@ -305,7 +307,7 @@
 - (void) addPlayIcon
 {
   if(playIcon) [self removePlayIcon];
-  playIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play.png"]];
+  playIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play-solid.png"]];
   [playIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playIconTouched)]];
   playIcon.userInteractionEnabled = YES;
   [self centerPlayIcon];
