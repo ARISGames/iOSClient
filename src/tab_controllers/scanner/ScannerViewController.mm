@@ -73,6 +73,15 @@
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     NSError *error = nil;
 
+    if ([device hasTorch]) {
+        [session beginConfiguration];
+        [device lockForConfiguration:nil];
+        [device setTorchMode:AVCaptureTorchModeOn];
+        [device setFlashMode:AVCaptureFlashModeOn];
+        [device unlockForConfiguration];
+        [session commitConfiguration];
+    }
+
     // Want the normal device
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
 
@@ -121,6 +130,7 @@
     [session startRunning];
     waitingToStartScanning = YES;
     [self performSelector:@selector(startScanning) withObject:nil afterDelay:1.0];
+    previewLayer.opacity = 1.0; // show camera display after being hidden in viewDidDisappear
 }
 
 - (void) startScanning
@@ -139,6 +149,7 @@
     [session stopRunning];
     scanning = NO;
     waitingToStartScanning = NO;
+    previewLayer.opacity = 0.0; // hide camera display so you don't get a ghost image when scanner comes back
 }
 
 - (void) showNav

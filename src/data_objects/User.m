@@ -9,6 +9,8 @@
 #import "User.h"
 #import "NSDictionary+ValidParsers.h"
 #import "NSString+JSON.h"
+#import "AppServices.h"
+#import "AppModel.h"
 
 @implementation User
 
@@ -73,6 +75,10 @@
   self.media_id       = u.media_id;
   if(u.read_write_key && [u.read_write_key isEqualToString:@""])
       self.read_write_key = u.read_write_key; //only merge in read_write key if exists
+
+  //load the player media immediately if possible
+  if(u.media_id != 0) [_SERVICES_MEDIA_ loadMedia:[_MODEL_MEDIA_ mediaForId:u.media_id] delegateHandle:nil];
+
   return self;
 }
 

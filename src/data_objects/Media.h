@@ -27,6 +27,7 @@
 @property (readonly, assign) long media_id;
 @property (readonly, assign) long game_id;
 @property (readonly, assign) long user_id;
+@property (readonly, assign) BOOL autoplay;
 @property (nonatomic, strong, readonly) NSURL *localURL;
 @property (nonatomic, strong) NSURL *remoteURL;
 @property (nonatomic, strong) NSData *data;

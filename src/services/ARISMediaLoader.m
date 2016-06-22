@@ -38,7 +38,11 @@
 
   MediaResult *mr = [[MediaResult alloc] init];
   mr.media = m;
-  mr.delegateHandles = @[dh];
+  if (dh) {
+    mr.delegateHandles = @[dh];
+  } else {
+    mr.delegateHandles = @[];
+  }
 
   [self loadMediaFromMR:mr];
 }

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSNumber *user_id;
 @property (nonatomic, strong) NSString *localURL;
 @property (nonatomic, strong) NSString *remoteURL;
+@property (nonatomic, strong) NSNumber *autoplay;
 
 @end
 

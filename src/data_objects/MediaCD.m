@@ -10,6 +10,6 @@
 #import "AppModel.h"
 
 @implementation MediaCD
-@dynamic media_id, game_id, user_id, localURL, remoteURL;
+@dynamic media_id, game_id, user_id, localURL, remoteURL, autoplay;
 @end
 

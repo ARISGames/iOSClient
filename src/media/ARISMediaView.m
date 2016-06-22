@@ -206,6 +206,7 @@
   }
   if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewIsReadyToPlay:)])
     [delegate ARISMediaViewIsReadyToPlay:self];
+  if ([m autoplay]) [self play];
 }
 
 - (void) displayAudio:(Media *)m
@@ -216,11 +217,9 @@
   avVC.moviePlayer.shouldAutoplay = NO;
   avVC.moviePlayer.controlStyle = MPMovieControlStyleNone;
   _ARIS_NOTIF_LISTEN_(MPMoviePlayerPlaybackDidFinishNotification,self,@selector(playbackFinished:),nil);
-  if(m.thumb)
-  {
-    image = [UIImage imageWithData:m.thumb];
-    [self displayImage];
-  }
+  image = [UIImage imageNamed:@"transparent.png"];
+  [self displayImage];
+  if ([m autoplay]) [self play];
 }
 
 - (void) conformFrameToMode
@@ -305,7 +304,7 @@
 - (void) addPlayIcon
 {
   if(playIcon) [self removePlayIcon];
-  playIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play.png"]];
+  playIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play-solid.png"]];
   [playIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playIconTouched)]];
   playIcon.userInteractionEnabled = YES;
   [self centerPlayIcon];
