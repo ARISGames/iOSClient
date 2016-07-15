@@ -55,9 +55,8 @@
     if(self = [super init])
     {
         self.pusherClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
-        self.pusherClient.delegate = self;
-
-        self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://arisgames.org/server/events/auths/private_auth.php"];
+        self.pusherClient.authorizationURL = [NSURL URLWithString:@"https://arisgames.org/server/events/auths/private_auth.php"];
+        [self.pusherClient connect];
     }
     return self;
 }
@@ -70,6 +69,7 @@
 
 - (void) loginPlayer:(long)user_id
 {
+    if (self.playerChannel) return;
     self.playerChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-player-channel",user_id]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceivePlayerChannelEventNotification:) ,self.playerChannel);
 }
