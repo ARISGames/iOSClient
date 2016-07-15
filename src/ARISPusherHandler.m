@@ -63,25 +63,28 @@
 
 - (void) loginGame:(long)game_id
 {
+    [self logoutGame];
     self.gameChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-game-channel",game_id]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGameChannelEventNotification:) ,self.gameChannel);
 }
 
 - (void) loginPlayer:(long)user_id
 {
-    if (self.playerChannel) return;
+    [self logoutPlayer];
     self.playerChannel = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-player-channel",user_id]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceivePlayerChannelEventNotification:) ,self.playerChannel);
 }
 
 - (void) loginGroup:(NSString *)group
 {
+    [self logoutGroup];
     self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGroupChannelEventNotification:) ,self.groupChannel);
 }
 
 - (void) loginWebPage:(long)web_page_id
 {
+    [self logoutWebPage];
     self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%ld-webpage-channel",web_page_id]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveWebPageChannelEventNotification:) ,self.webPageChannel);
 }
