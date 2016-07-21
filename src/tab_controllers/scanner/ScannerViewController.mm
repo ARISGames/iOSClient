@@ -19,6 +19,7 @@
     UILabel *promptLabel;
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureSession *session;
+    AVCaptureDevice *device;
     BOOL scanning;
     BOOL waitingToStartScanning;
     UIBarButtonItem *leftNavButton;
@@ -70,17 +71,8 @@
 
     // Create a new AVCaptureSession
     session = [[AVCaptureSession alloc] init];
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     NSError *error = nil;
-
-    if ([device hasTorch]) {
-        [session beginConfiguration];
-        [device lockForConfiguration:nil];
-        [device setTorchMode:AVCaptureTorchModeOn];
-        [device setFlashMode:AVCaptureFlashModeOn];
-        [device unlockForConfiguration];
-        [session commitConfiguration];
-    }
 
     // Want the normal device
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
@@ -131,6 +123,14 @@
     waitingToStartScanning = YES;
     [self performSelector:@selector(startScanning) withObject:nil afterDelay:1.0];
     previewLayer.opacity = 1.0; // show camera display after being hidden in viewDidDisappear
+
+    if ([device hasTorch]) {
+        [session beginConfiguration];
+        [device lockForConfiguration:nil];
+        [device setTorchMode:AVCaptureTorchModeOn];
+        [device unlockForConfiguration];
+        [session commitConfiguration];
+    }
 }
 
 - (void) startScanning
