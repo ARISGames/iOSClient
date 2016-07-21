@@ -85,6 +85,15 @@
   [connection performAsynchronousRequestWithService:@"users" method:@"logIn" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO humanDesc:@"Loggin In..." userInfo:nil];
 }
 
+- (void) logInUserWithID:(long)user_id authToken:(NSString *)auth_token;
+{
+  NSDictionary *args =
+    @{
+      @"auth": @{@"user_id":[NSNumber numberWithLong:user_id],@"key":auth_token}
+    };
+  [connection performAsynchronousRequestWithService:@"users" method:@"logIn" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO humanDesc:@"Loggin In..." userInfo:nil];
+}
+
 - (void) parseLoginResponse:(ARISServiceResult *)result
 {
   if(!result.resultData) { _ARIS_NOTIF_SEND_(@"SERVICES_LOGIN_FAILED",nil,nil); return; }

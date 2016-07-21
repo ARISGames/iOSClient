@@ -32,6 +32,7 @@
 - (void) createUserWithName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password;
 - (void) generateUserFromGroup:(NSString *)group_name;
 - (void) logInUserWithName:(NSString *)user_name password:(NSString *)password;
+- (void) logInUserWithID:(long)user_id authToken:(NSString *)auth_token;
 - (void) resetPasswordForEmail:(NSString *)email;
 - (void) changePasswordFrom:(NSString *)oldp to:(NSString *)newp;
 - (void) updatePlayerName:(NSString *)display_name;

@@ -34,6 +34,8 @@
   long game_id;
   BOOL newPlayer;
   BOOL leave_game_enabled;
+  long user_id;
+  NSString *auth_token;
 
   BOOL scanning;
 
@@ -290,6 +292,8 @@
   group_name = @"";
   game_id = 0;
   leave_game_enabled = YES;
+  user_id = 0;
+  auth_token = @"";
   if([terms[0] intValue] == 2) //v2.0
   {
     for(int i = 1; i < terms.count; i++)
@@ -303,6 +307,14 @@
           group_name = [NSString stringWithUTF8String:c+2];
         else
           game_id = [[NSString stringWithUTF8String:c+1] intValue];
+      }
+      if(c[0] == 'u' && c[1] == 'i' && c[2] == 'd')
+      {
+        user_id = [[NSString stringWithUTF8String:c+3] intValue];
+      }
+      if(c[0] == 'a')
+      {
+        auth_token = [NSString stringWithUTF8String:c+1];
       }
     }
   }
@@ -328,7 +340,14 @@
   _MODEL_.leave_game_enabled = leave_game_enabled;
   _MODEL_.preferred_game_id = game_id;
   [self dismissViewControllerAnimated:NO completion:nil];
-  [_MODEL_ generateUserFromGroup:group_name];
+  if (user_id)
+  {
+    [_MODEL_ attemptLogInWithUserID:user_id authToken:auth_token];
+  }
+  else
+  {
+    [_MODEL_ generateUserFromGroup:group_name];
+  }
   return true;
 }
 

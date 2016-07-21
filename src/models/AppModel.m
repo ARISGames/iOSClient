@@ -97,6 +97,11 @@
   [_SERVICES_ logInUserWithName:user_name password:password];
 }
 
+- (void) attemptLogInWithUserID:(long)user_id authToken:(NSString *)auth_token
+{
+  [_SERVICES_ logInUserWithID:user_id authToken:auth_token];
+}
+
 - (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password
 {
   [_SERVICES_ createUserWithName:user_name displayName:display_name groupName:(NSString *)group_name email:email password:password];
