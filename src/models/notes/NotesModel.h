@@ -35,6 +35,7 @@
 
 - (NSArray *) notes;
 - (NSArray *) playerNotes;
+- (long) qtyPlayerMediaOfType:(NSString *)type Within:(long)distance Lat:(double)lat Long:(double)lng;
 - (NSArray *) listNotes;
 - (NSArray *) notesMatchingTag:(Tag *)tag;
 - (NSArray *) noteComments;
