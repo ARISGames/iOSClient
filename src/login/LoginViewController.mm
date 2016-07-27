@@ -186,8 +186,7 @@
 
 - (void) attemptLogin
 {
-  ARISAppDelegate *ad = [[UIApplication sharedApplication] delegate];
-  if([ad.reachability currentReachabilityStatus] == NotReachable)
+  if([_DELEGATE_.reachability currentReachabilityStatus] == NotReachable)
     [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"No Connection" message:@"Ensure you are connected to the internet, then try again."];
   else [_MODEL_ attemptLogInWithUserName:usernameField.text password:passwordField.text];
 }

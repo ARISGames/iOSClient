@@ -266,7 +266,7 @@
             [delegate ARISWebViewRequestsRefresh:self];
     }
     else if([mainCommand isEqualToString:@"vibrate"])
-        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
+        [_DELEGATE_ vibrate];
     else if([mainCommand isEqualToString:@"player"])
     {
         Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
@@ -402,9 +402,7 @@
             [self setMediaId:[components[2] intValue] volumeTo:[components[3] floatValue]];
     }
     else if([mainCommand isEqualToString:@"vibrate"])
-    {
-        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
-    }
+      [_DELEGATE_ vibrate];
 
     [webView stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
 }

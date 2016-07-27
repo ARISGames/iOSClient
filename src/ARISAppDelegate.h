@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Reachability.h"
 
+#define _DELEGATE_ ((ARISAppDelegate *)[[UIApplication sharedApplication] delegate])
+
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate>
 {
   UIWindow *window;
