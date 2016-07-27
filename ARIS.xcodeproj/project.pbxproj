@@ -780,6 +780,7 @@
 		AAF92336188715C20026A4FC /* WaveSampleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveSampleProvider.m; sourceTree = "<group>"; };
 		AAFC09551B2211E300A8D861 /* GameInstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInstancesModel.h; sourceTree = "<group>"; };
 		AAFC09561B2211E300A8D861 /* GameInstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameInstancesModel.m; sourceTree = "<group>"; };
+		AAFC11101D4950F20091A6C1 /* ARISCoreDataModel_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ARISCoreDataModel_2.xcdatamodel; sourceTree = "<group>"; };
 		AAFE960B19805236007F6BBD /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		AAFE960C19805236007F6BBD /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		AAFE9611198055EA007F6BBD /* EventsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsModel.h; sourceTree = "<group>"; };
@@ -2650,9 +2651,10 @@
 		AAC3C322185F7D67001430BE /* ARISCoreDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AAFC11101D4950F20091A6C1 /* ARISCoreDataModel_2.xcdatamodel */,
 				AAC3C323185F7D67001430BE /* ARISCoreDataModel.xcdatamodel */,
 			);
-			currentVersion = AAC3C323185F7D67001430BE /* ARISCoreDataModel.xcdatamodel */;
+			currentVersion = AAFC11101D4950F20091A6C1 /* ARISCoreDataModel_2.xcdatamodel */;
 			path = ARISCoreDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

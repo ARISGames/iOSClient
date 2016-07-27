@@ -4,6 +4,7 @@
         <attribute name="game_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="MediaCD" syncable="YES">
+        <attribute name="autoplay" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="game_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="localURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="media_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -24,7 +25,7 @@
     </entity>
     <elements>
         <element name="GameCD" positionX="0" positionY="0" width="128" height="60"/>
-        <element name="MediaCD" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="MediaCD" positionX="0" positionY="0" width="128" height="135"/>
         <element name="NoteCD" positionX="0" positionY="0" width="128" height="120"/>
         <element name="RequestCD" positionX="0" positionY="0" width="128" height="90"/>
     </elements>
