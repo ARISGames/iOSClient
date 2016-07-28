@@ -99,10 +99,10 @@
   [rateButton addSubview:starView];
   [rateButton addSubview:reviewsTextView];
 
-  [resetButton addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-  [startButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+  [resetButton  addTarget:self action:@selector(resetButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+  [startButton  addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
   [resumeButton addTarget:self action:@selector(startButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-  [rateButton  addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside];
+  [rateButton   addTarget:self action:@selector(rateButtonTouched)  forControlEvents:UIControlEventTouchUpInside];
 
   UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
   backButton.frame = CGRectMake(0,0,19,19);
@@ -111,8 +111,8 @@
   [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 
-  descriptionView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-  [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
+  descriptionView.frame = CGRectMake(0,0,self.view.bounds.size.width,10);//Needs correct width to calc height
+  mediaView.frame       = CGRectMake(0,0,self.view.bounds.size.width,20);
 
   [scrollView addSubview:descriptionView];
   [scrollView addSubview:mediaView];
