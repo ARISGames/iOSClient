@@ -237,19 +237,19 @@
   }
   if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM"])
   {
-    return a.bool_operator == ([_MODEL_NOTES_ qtyPlayerMediaOfType:nil Within:a.distance Lat:a.latitude Long:a.longitude] >= a.qty);
+    return a.bool_operator == ([_MODEL_LOGS_ countLogsOfType:@"UPLOAD_MEDIA_ITEM" Within:a.distance Lat:a.latitude Long:a.longitude] >= a.qty);
   }
   if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM_IMAGE"])
   {
-    return a.bool_operator == ([_MODEL_NOTES_ qtyPlayerMediaOfType:@"IMAGE" Within:a.distance Lat:a.latitude Long:a.longitude] >= a.qty);
+    return a.bool_operator == ([_MODEL_LOGS_ countLogsOfType:@"UPLOAD_MEDIA_ITEM_IMAGE" Within:a.distance Lat:a.latitude Long:a.longitude] >= a.qty);
   }
   if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM_AUDIO"])
   {
-    return a.bool_operator == ([_MODEL_NOTES_ qtyPlayerMediaOfType:@"AUDIO" Within:a.distance Lat:a.latitude Long:a.longitude] >= a.qty);
+    return a.bool_operator == ([_MODEL_LOGS_ countLogsOfType:@"UPLOAD_MEDIA_ITEM_AUDIO" Within:a.distance Lat:a.latitude Long:a.longitude] >= a.qty);
   }
   if([a.requirement isEqualToString:@"PLAYER_HAS_UPLOADED_MEDIA_ITEM_VIDEO"])
   {
-    return a.bool_operator == ([_MODEL_NOTES_ qtyPlayerMediaOfType:@"VIDEO" Within:a.distance Lat:a.latitude Long:a.longitude] >= a.qty);
+    return a.bool_operator == ([_MODEL_LOGS_ countLogsOfType:@"UPLOAD_MEDIA_ITEM_VIDEO" Within:a.distance Lat:a.latitude Long:a.longitude] >= a.qty);
   }
   if([a.requirement isEqualToString:@"PLAYER_HAS_COMPLETED_QUEST"])
   {
@@ -277,7 +277,7 @@
   }
   if([a.requirement isEqualToString:@"PLAYER_HAS_GIVEN_NOTE_COMMENTS"])
   {
-    return a.bool_operator == NO;
+    return a.bool_operator == ([_MODEL_LOGS_ countLogsOfType:@"GIVE_NOTE_COMMENT"] >= a.qty);
   }
 
   return YES;
