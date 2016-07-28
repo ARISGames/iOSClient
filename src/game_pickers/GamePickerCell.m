@@ -75,7 +75,7 @@
   float cellWidth = [UIScreen mainScreen].bounds.size.width;
   loadingIndicator.frame = CGRectMake(cellWidth-20, 1, 15, 15);
   titleLabel.frame = CGRectMake(60,1,cellWidth-60,25);
-  authorLabel.frame = CGRectMake(60,23,cellWidth-60-80,15);
+  authorLabel.frame = CGRectMake(60,23,cellWidth-60,15);
   customLabel.frame = CGRectMake(cellWidth-80,24,60,15);
   downloadedView.frame = CGRectMake(60, 40, 12, 12);
   iconView.frame = CGRectMake(5, 5, 50, 50);
@@ -116,8 +116,16 @@
   }
   else
   {
+    User *tmp_auth;
+    NSString *tmp_str;
     for(long i = 0; i < game.authors.count; i++)
-      authorLabel.text = [NSString stringWithFormat:@"%@%@, ",authorLabel.text,((User *)game.authors[i]).display_name];
+    {
+      tmp_auth = game.authors[i];
+      tmp_str = tmp_auth.display_name;
+      if(!tmp_str || [tmp_str isEqualToString:@""] || [tmp_str isEqualToString:@" "]) tmp_str = tmp_auth.user_name;
+      if(!tmp_str || [tmp_str isEqualToString:@""] || [tmp_str isEqualToString:@" "]) continue;
+      authorLabel.text = [NSString stringWithFormat:@"%@%@, ",authorLabel.text,tmp_str];
+    }
   }
 
   titleLabel.text  = game.name;
