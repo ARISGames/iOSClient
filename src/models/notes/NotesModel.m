@@ -181,6 +181,31 @@
   return playerNotes;
 }
 
+- (long) qtyPlayerMediaOfType:(NSString *)type Within:(long)distance Lat:(double)lat Long:(double)lng
+{
+  [self playerNotes];
+  long qty = 0;
+  for (long i = 0; i < playerNotes.count; i++) {
+    // first check the media type
+    if (type) {
+      Media *m = [_MODEL_MEDIA_ mediaForId:((Note *)playerNotes[i]).media_id];
+      if (!m) continue;
+      if (![[m type] isEqualToString:type]) continue;
+    }
+
+    // then check the trigger distance
+    NSArray *insts = [_MODEL_INSTANCES_ instancesForType:@"NOTE" id:((Note *)playerNotes[i]).note_id];
+    if (insts.count == 0) continue;
+    NSArray *trigs = [_MODEL_TRIGGERS_ triggersForInstanceId:((Instance *)insts[0]).instance_id];
+    if (trigs.count == 0) continue;
+    CLLocation *loc = ((Trigger *)trigs[0]).location;
+    if ([loc distanceFromLocation:[[CLLocation alloc] initWithLatitude:lat longitude:lng]] <= distance) {
+      qty++;
+    }
+  }
+  return qty;
+}
+
 - (NSArray *) listNotes
 {
   if(listNotes) return listNotes;
