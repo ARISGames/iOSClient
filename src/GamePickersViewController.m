@@ -7,6 +7,7 @@
 //
 
 #import "ARISAppDelegate.h"
+#import "ARISAlertHandler.h"
 #import "GamePickersViewController.h"
 #import "GamePickerViewController.h"
 
@@ -30,6 +31,7 @@
   UITabBarController *offline_gamePickersTabBarController;
   UITabBarController *cur_gamePickersTabBarController;
   ARISNavigationController *accountSettingsNavigationController;
+  BOOL seen_download_notif;
 
   id<GamePickersViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -40,6 +42,7 @@
 @property (nonatomic, strong) UITabBarController *offline_gamePickersTabBarController;
 @property (nonatomic, strong) UITabBarController *cur_gamePickersTabBarController;
 @property (nonatomic, strong) ARISNavigationController *accountSettingsNavigationController;
+@property (nonatomic, assign) BOOL seen_download_notif;
 
 @end
 
@@ -51,14 +54,16 @@
 @synthesize offline_gamePickersTabBarController;
 @synthesize cur_gamePickersTabBarController;
 @synthesize accountSettingsNavigationController;
+@synthesize seen_download_notif;
 
 - (id) initWithDelegate:(id<GamePickersViewControllerDelegate>)d;
 {
-    if(self = [super init])
-    {
-        delegate = d;
-    }
-    return self;
+  if(self = [super init])
+  {
+    delegate = d;
+    seen_download_notif = NO;
+  }
+  return self;
 }
 
 - (void) loadView
@@ -120,8 +125,24 @@
   _ARIS_NOTIF_LISTEN_(@"NETWORK_DISCONNECTED",self,@selector(swapToOffline),nil);
 }
 
-- (void) swapToOnline { [self swapToTabController:self.online_gamePickersTabBarController]; }
-- (void) swapToOffline { [self swapToTabController:self.offline_gamePickersTabBarController]; }
+- (void) checkIfStillOffline
+{
+  if([_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) //offline
+  {
+    [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Cannot Connect to Internet" message:@"Until we can connect to the internet, you will only be able to play games you have already downloaded."];
+    seen_download_notif = YES;
+  }
+}
+- (void) swapToOnline
+{
+  [self swapToTabController:self.online_gamePickersTabBarController];
+}
+- (void) swapToOffline
+{
+  if(!seen_download_notif)
+    [self performSelector:@selector(checkIfStillOffline) withObject:nil afterDelay:1];
+  [self swapToTabController:self.offline_gamePickersTabBarController];
+}
 - (void) swapToTabController:(UITabBarController *)tbc
 {
   tbc.navigationItem.titleView = self.cur_gamePickersTabBarController.navigationItem.titleView;
