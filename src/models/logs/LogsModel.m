@@ -267,6 +267,39 @@
   return NO;
 }
 
+- (long) countLogsOfType:(NSString *)type
+{
+  NSArray *alllogs = [logs allValues];
+  long qty = 0;
+  for (int i = 0; i < alllogs.count; i++)
+  {
+    Log *l = alllogs[i];
+    if (type && ![l.event_type isEqualToString:type]) {
+      continue;
+    }
+    qty++;
+  }
+  return qty;
+}
+
+- (long) countLogsOfType:(NSString *)type Within:(long)distance Lat:(double)lat Long:(double)lng
+{
+  NSArray *alllogs = [logs allValues];
+  long qty = 0;
+  for (int i = 0; i < alllogs.count; i++)
+  {
+    Log *l = alllogs[i];
+    if (type && ![l.event_type isEqualToString:type]) {
+      continue;
+    }
+    if ([l.location distanceFromLocation:[[CLLocation alloc] initWithLatitude:lat longitude:lng]] > distance) {
+      continue;
+    }
+    qty++;
+  }
+  return qty;
+}
+
 - (NSString *) serializedName
 {
   return @"logs";

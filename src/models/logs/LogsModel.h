@@ -37,5 +37,8 @@
 - (BOOL) hasLogType:(NSString *)type content:(long)content_id;
 - (BOOL) hasLogType:(NSString *)type content:(long)content_id qty:(long)qty;
 
+- (long) countLogsOfType:(NSString *)type;
+- (long) countLogsOfType:(NSString *)type Within:(long)distance Lat:(double)lat Long:(double)lng;
+
 @end
 
