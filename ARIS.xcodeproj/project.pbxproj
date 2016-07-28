@@ -282,6 +282,8 @@
 		AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92334188715C20026A4FC /* WaveformControl.m */; };
 		AAF9233D188715C20026A4FC /* WaveSampleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF92336188715C20026A4FC /* WaveSampleProvider.m */; };
 		AAFC09571B2211E300A8D861 /* GameInstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFC09561B2211E300A8D861 /* GameInstancesModel.m */; };
+		AAFC11151D4A8FAE0091A6C1 /* download_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAFC11131D4A8FAE0091A6C1 /* download_red@2x.png */; };
+		AAFC11161D4A8FAE0091A6C1 /* download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAFC11141D4A8FAE0091A6C1 /* download@2x.png */; };
 		AAFE960D19805236007F6BBD /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE960C19805236007F6BBD /* Event.m */; };
 		AAFE9613198055EA007F6BBD /* EventsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFE9612198055EA007F6BBD /* EventsModel.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
@@ -781,6 +783,8 @@
 		AAFC09551B2211E300A8D861 /* GameInstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInstancesModel.h; sourceTree = "<group>"; };
 		AAFC09561B2211E300A8D861 /* GameInstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameInstancesModel.m; sourceTree = "<group>"; };
 		AAFC11101D4950F20091A6C1 /* ARISCoreDataModel_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ARISCoreDataModel_2.xcdatamodel; sourceTree = "<group>"; };
+		AAFC11131D4A8FAE0091A6C1 /* download_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download_red@2x.png"; sourceTree = "<group>"; };
+		AAFC11141D4A8FAE0091A6C1 /* download@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download@2x.png"; sourceTree = "<group>"; };
 		AAFE960B19805236007F6BBD /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		AAFE960C19805236007F6BBD /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		AAFE9611198055EA007F6BBD /* EventsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsModel.h; sourceTree = "<group>"; };
@@ -969,6 +973,8 @@
 		AA2D211617DE560C00CF4198 /* gamepicker_tabbar */ = {
 			isa = PBXGroup;
 			children = (
+				AAFC11131D4A8FAE0091A6C1 /* download_red@2x.png */,
+				AAFC11141D4A8FAE0091A6C1 /* download@2x.png */,
 				AA0D160B18EDF14500D856F1 /* clock_red@2x.png */,
 				AA0D160C18EDF14500D856F1 /* globe_red@2x.png */,
 				AA0D160D18EDF14500D856F1 /* locationarrow_red@2x.png */,
@@ -2152,6 +2158,7 @@
 				AAB62FE118C689DD00030F48 /* barcode@2x.png in Resources */,
 				AABC6FF11727398B0074CC21 /* DefaultGameSplash.png in Resources */,
 				AABC6FF31727398B0074CC21 /* DefaultPCImage.png in Resources */,
+				AAFC11151D4A8FAE0091A6C1 /* download_red@2x.png in Resources */,
 				53B3449C1D19A9340094D97A /* transparent.png in Resources */,
 				AA942B9D17CD4F86004EDEA1 /* logo_text.png in Resources */,
 				AA04E33218E613E400621F0C /* threelines_white.png in Resources */,
@@ -2197,6 +2204,7 @@
 				AABC705E1727399C0074CC21 /* Institutes for Discovery.gpx in Resources */,
 				AABC705F1727399C0074CC21 /* North Hall.gpx in Resources */,
 				ABE735F917D6B96600396CF5 /* arrowForward@2x.png in Resources */,
+				AAFC11161D4A8FAE0091A6C1 /* download@2x.png in Resources */,
 				AAB62FE718C68BCE00030F48 /* threelines.png in Resources */,
 				AABC70601727399C0074CC21 /* Science Hall.gpx in Resources */,
 				AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */,
