@@ -127,20 +127,17 @@
 - (void) gamePercentLoaded:(NSNotification *)notif { gameProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) gameDataLoaded
 {
-  if(_MODEL_GAME_.downloadedVersion && [_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) //offline but playable...
+  if(
+    (_MODEL_GAME_.downloadedVersion && [_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) ||//offline but playable...
+    ([_MODEL_GAME_ hasLatestDownload] && [_MODEL_GAME_.network_level isEqualToString:@"LOCAL"]) //if !local, need to perform maintenance on server so it doesn't keep conflicting with local data
+  ) 
   {
     //skip maintenance step
     [_MODEL_ restorePlayerData];
     [self playerDataLoaded];
   }
-  else if(![_MODEL_GAME_ hasLatestDownload] || !_MODEL_GAME_.begin_fresh || ![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"]) //if !local, need to perform maintenance on server so it doesn't keep conflicting with local data
-    [self requestMaintenanceData];
   else
-  {
-    //skip maintenance step
-    [_MODEL_ restorePlayerData];
-    [self playerDataLoaded];
-  }
+    [self requestMaintenanceData];
 }
 - (void) gameFetchFailed { [self.view addSubview:gameRetryLoadButton]; }
 - (void) retryGameFetch
