@@ -182,14 +182,36 @@
   long n_buttons = 0;
   long b_y = self.view.bounds.size.height-40;
   long b_h = 40;
+  
   if(game.downloadedVersion && [_DELEGATE_.reachability currentReachabilityStatus] == NotReachable)
   {
-    n_buttons++; //start
-    long b_w = self.view.bounds.size.width/n_buttons;
-    
-    long i = 0;
-    startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h); i++;
-    [self.view addSubview:startButton];
+    NSError *error;
+    NSString *folder = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",game.game_id]];
+    NSString *file;
+    NSString *contents;
+    file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"logs"]];
+    contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+    if(contents.length)
+    {
+      n_buttons++; //resume
+      n_buttons++; //reset
+      long b_w = self.view.bounds.size.width/n_buttons;
+      
+      long i = 0;
+      resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h); i++;
+      resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h); i++;
+      [self.view addSubview:resetButton];
+      [self.view addSubview:resumeButton];
+    }
+    else
+    {
+      n_buttons++; //start
+      long b_w = self.view.bounds.size.width/n_buttons;
+      
+      long i = 0;
+      startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h); i++;
+      [self.view addSubview:startButton];
+    }
   }
   else if(game.know_if_begin_fresh && game.begin_fresh)
   {

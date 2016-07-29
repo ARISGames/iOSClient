@@ -113,13 +113,16 @@
 
 - (void) startLoading
 {
-  if(![_MODEL_GAME_ hasLatestDownload] || [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
-    [self requestGameData];
-  else
+  if(
+    (_MODEL_GAME_.downloadedVersion && [_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) ||//offline but playable...
+    ([_MODEL_GAME_ hasLatestDownload] && ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"]) //safe to use store anyways
+  )
   {
     [_MODEL_ restoreGameData];
     [self gameDataLoaded];
   }
+  else
+    [self requestGameData];
 }
 
 //Game Data
@@ -132,7 +135,6 @@
     ([_MODEL_GAME_ hasLatestDownload] && [_MODEL_GAME_.network_level isEqualToString:@"LOCAL"]) //if !local, need to perform maintenance on server so it doesn't keep conflicting with local data
   ) 
   {
-    //skip maintenance step
     [_MODEL_ restorePlayerData];
     [self playerDataLoaded];
   }
@@ -193,18 +195,18 @@
 - (void) mediaFetchFailed { [self.view addSubview:mediaRetryLoadButton]; }
 - (void) retryMediaFetch
 {
-    [mediaRetryLoadButton removeFromSuperview];
-    [self requestMediaData];
+  [mediaRetryLoadButton removeFromSuperview];
+  [self requestMediaData];
 }
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+  return UIInterfaceOrientationMaskPortrait;
 }
 
 -(void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
