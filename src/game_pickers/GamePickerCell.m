@@ -76,8 +76,8 @@
   loadingIndicator.frame = CGRectMake(cellWidth-20, 1, 15, 15);
   titleLabel.frame = CGRectMake(60,1,cellWidth-60,25);
   authorLabel.frame = CGRectMake(60,23,cellWidth-60,15);
-  customLabel.frame = CGRectMake(cellWidth-80,24,60,15);
   downloadedView.frame = CGRectMake(60, 40, 12, 12);
+  customLabel.frame = CGRectMake(82,40,cellWidth-92,12);
   iconView.frame = CGRectMake(5, 5, 50, 50);
   starView.frame = CGRectMake(60,40,60,12);
   numReviewsLabel.frame = CGRectMake(160,40,cellWidth-160,15);
