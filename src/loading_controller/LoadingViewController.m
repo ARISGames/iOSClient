@@ -188,7 +188,8 @@
 - (void) mediaPercentLoaded:(NSNotification *)notif { mediaProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) mediaDataLoaded { [_MODEL_ beginGame]; }
 - (void) mediaFetchFailed { [self.view addSubview:mediaRetryLoadButton]; }
-- (void) retryMediaFetch {
+- (void) retryMediaFetch
+{
     [mediaRetryLoadButton removeFromSuperview];
     [self requestMediaData];
 }

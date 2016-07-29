@@ -373,9 +373,8 @@
 
 - (void) requestPlayerDataUnlessBusy
 {
-  if (![[[RootViewController sharedRootViewController] gamePlayViewController] viewingObject]) {
+  if(![[[RootViewController sharedRootViewController] gamePlayViewController] viewingObject])
     [self requestPlayerData];
-  }
 }
 
 - (void) requestPlayerData

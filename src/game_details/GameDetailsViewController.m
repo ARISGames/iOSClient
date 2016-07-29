@@ -7,6 +7,7 @@
 //
 
 #import "GameDetailsViewController.h"
+#import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "GameCommentsViewController.h"
 
@@ -43,7 +44,8 @@
     _ARIS_NOTIF_LISTEN_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE", self, @selector(gamePlayedReceived:), nil);
 
     game.know_if_begin_fresh = NO; //we'll double check right now anyways
-    [_MODEL_GAMES_ requestPlayerPlayedGame:game.game_id];
+    if([_DELEGATE_.reachability currentReachabilityStatus] != NotReachable) //online
+      [_MODEL_GAMES_ requestPlayerPlayedGame:game.game_id];
   }
   return self;
 }
@@ -137,19 +139,7 @@
   scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
   scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
 
-  long n_buttons = 0;
-  if(game.know_if_begin_fresh && !game.begin_fresh) n_buttons++; //reset
-  n_buttons++; //either resume or start
-  
-  long b_y = self.view.bounds.size.height-40;
-  long b_w = self.view.bounds.size.width/n_buttons;
-  long b_h = 40;
-  
-  long i = 0;
-  resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
-  if(game.know_if_begin_fresh && !game.begin_fresh) i++;
-  startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
-  resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h);
+  [self refreshFromGame];
 }
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
@@ -189,15 +179,38 @@
   [startButton removeFromSuperview];
   [resumeButton removeFromSuperview];
 
-  if(game.know_if_begin_fresh)
+  long n_buttons = 0;
+  long b_y = self.view.bounds.size.height-40;
+  long b_h = 40;
+  if(game.downloadedVersion && [_DELEGATE_.reachability currentReachabilityStatus] == NotReachable)
   {
-    if(!game.begin_fresh)
-    {
-      [self.view addSubview:resetButton];
-      [self.view addSubview:resumeButton];
-    }
-    else
-      [self.view addSubview:startButton];
+    n_buttons++; //start
+    long b_w = self.view.bounds.size.width/n_buttons;
+    
+    long i = 0;
+    startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h); i++;
+    [self.view addSubview:startButton];
+  }
+  else if(game.know_if_begin_fresh && game.begin_fresh)
+  {
+    n_buttons++; //start
+    long b_w = self.view.bounds.size.width/n_buttons;
+    
+    long i = 0;
+    startButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h); i++;
+    [self.view addSubview:startButton];
+  }
+  else if(game.know_if_begin_fresh && !game.begin_fresh)
+  {
+    n_buttons++; //resume
+    n_buttons++; //reset
+    long b_w = self.view.bounds.size.width/n_buttons;
+    
+    long i = 0;
+    resetButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h); i++;
+    resumeButton.frame = CGRectMake(b_w*i,b_y,b_w,b_h); i++;
+    [self.view addSubview:resetButton];
+    [self.view addSubview:resumeButton];
   }
 }
 

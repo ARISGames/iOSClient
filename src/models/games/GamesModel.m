@@ -245,7 +245,8 @@
       {
         NSString *content = [NSString stringWithContentsOfFile:gameDataString encoding:NSUTF8StringEncoding error:nil];
         Game *g = [[Game alloc] initWithDictionary:[jsonParser objectWithString:content]];
-        [d_games addObject:g];
+        if(![g.network_level isEqualToString:@"REMOTE"])
+          [d_games addObject:g];
       }
     }
     //emulate 'services' for consistency's sake
