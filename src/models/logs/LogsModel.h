@@ -32,6 +32,10 @@
 - (void) playerChangedGroupId:(long)group_id;
 - (void) playerRanEventPackageId:(long)event_package_id;
 - (void) playerCompletedQuestId:(long)quest_id;
+- (void) playerUploadedMedia:(long)media_id Location:(CLLocation *)loc;
+- (void) playerUploadedMediaImage:(long)media_id Location:(CLLocation *)loc;
+- (void) playerUploadedMediaAudio:(long)media_id Location:(CLLocation *)loc;
+- (void) playerUploadedMediaVideo:(long)media_id Location:(CLLocation *)loc;
 
 - (BOOL) hasLogType:(NSString *)type;
 - (BOOL) hasLogType:(NSString *)type content:(long)content_id;

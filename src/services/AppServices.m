@@ -1058,6 +1058,12 @@
            @"file_name":[m.localURL absoluteString],
           @"data":[m.data base64EncodedStringWithOptions:0]
         };
+      CLLocation *loc = tr ? tr.location : nil;
+      [_MODEL_LOGS_ playerUploadedMedia:0 Location:loc];
+      NSString *mediaType = [m type];
+      if      ([mediaType isEqualToString:@"IMAGE"]) [_MODEL_LOGS_ playerUploadedMediaImage:0 Location:loc];
+      else if ([mediaType isEqualToString:@"AUDIO"]) [_MODEL_LOGS_ playerUploadedMediaAudio:0 Location:loc];
+      else if ([mediaType isEqualToString:@"VIDEO"]) [_MODEL_LOGS_ playerUploadedMediaVideo:0 Location:loc];
     }
     if(t)
     {
