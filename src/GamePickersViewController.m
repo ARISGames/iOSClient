@@ -95,7 +95,6 @@
                                                       gpdvc,
                                                       nil];
 
-
   if([_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) //offline
     self.cur_gamePickersTabBarController = self.offline_gamePickersTabBarController;
   else

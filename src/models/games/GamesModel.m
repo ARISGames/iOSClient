@@ -11,6 +11,7 @@
 // we can't know what data we're invalidating by replacing a ptr
 
 #import "GamesModel.h"
+#import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "SBJson.h"
@@ -260,8 +261,28 @@
 
 - (void) requestPlayerPlayedGame:(long)game_id
 {
+  Game *g = [_MODEL_GAMES_ gameForId:game_id];
   //when offline mode implemented, just check log here
-  [_SERVICES_ fetchPlayerPlayedGame:game_id];
+  if(
+    [_DELEGATE_.reachability currentReachabilityStatus] == NotReachable && //offline
+    g.downloadedVersion //downloaded
+    )
+  {
+    NSError *error;
+    NSString *folder = [[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",game_id]];
+    NSString *file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"logs"]];
+    NSString *contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+    if(!contents || [contents isEqualToString:@""] || [contents isEqualToString:@"{\"logs\":[]}"])
+    {
+      _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE",nil,(@{@"game_id":[NSNumber numberWithLong:game_id],@"has_played":[NSNumber numberWithBool:FALSE]}));
+    }
+    else
+    {
+      _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_PLAYED_GAME_AVAILABLE",nil,(@{@"game_id":[NSNumber numberWithLong:game_id],@"has_played":[NSNumber numberWithBool:TRUE]}));
+    }
+  }
+  else
+    [_SERVICES_ fetchPlayerPlayedGame:game_id];
 }
 
 - (void) playerPlayedGameReceived:(NSNotification *)notif
