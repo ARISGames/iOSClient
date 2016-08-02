@@ -230,6 +230,8 @@
   NSDictionary *d_data = [jsonParser objectWithString:data];
   Scene *s = [[Scene alloc] initWithDictionary:d_data[@"scene"]];
   playerScene = [_MODEL_SCENES_ sceneForId:s.scene_id];
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc

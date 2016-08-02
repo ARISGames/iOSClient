@@ -360,6 +360,8 @@
     Log *l = [[Log alloc] initWithDictionary:d_logs[i]];
     [logs setObject:l forKey:[NSNumber numberWithLong:l.log_id]];
   }
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc

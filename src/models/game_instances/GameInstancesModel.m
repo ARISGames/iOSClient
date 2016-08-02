@@ -210,6 +210,8 @@
     Instance *in = [[Instance alloc] initWithDictionary:d_instances[i]];
     [instances setObject:[_MODEL_INSTANCES_ instanceForId:in.instance_id] forKey:[NSNumber numberWithLong:in.instance_id]];
   }
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc

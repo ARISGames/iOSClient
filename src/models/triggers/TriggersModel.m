@@ -339,6 +339,8 @@
     [pts addObject:[_MODEL_TRIGGERS_ triggerForId:t.trigger_id]];
   }
   playerTriggers = pts;
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc
