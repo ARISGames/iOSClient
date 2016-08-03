@@ -135,6 +135,9 @@
 }
 - (void) playerResetGame:(long)game_id
 {
+  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];;
+  SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
+  
   Game *g = [_MODEL_GAMES_ gameForId:game_id];
   
   //reset any stores (manually because infrastructure to access server might not exist)
@@ -144,7 +147,14 @@
   [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error]; //if folder doesn't exist...
   NSString *contents;
   NSString *newcontents;
+  NSDictionary *items_json;
+  NSMutableDictionary *json;
   NSData *data;
+  
+  //first grab items
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_game.json",@"items"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  items_json = [jsonParser objectWithString:contents];
 
   //logs
   file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"logs"]];
@@ -202,15 +212,24 @@
   [data writeToFile:file atomically:YES];
   [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
   
-  /*
   //player instances
   file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"player_instances"]];
   contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
-  newcontents = @"{\"instances\":[";
+  //json = [jsonParser objectWithString:@"{\"instances\":[]}"];
+  json = [[NSMutableDictionary alloc] init];
+  [json setObject:[[NSMutableArray alloc] init] forKey:@"instances"];
+  for(long i = 0; i < ((NSArray *)items_json[@"items"]).count; i++)
+  {
+    [((NSMutableArray*)json[@"instances"]) addObject:[[NSMutableArray alloc] init]];
+    NSString *key;
+    key = @"";
+    [((NSMutableDictionary *)((NSMutableArray*)json[@"instances"])) setObject:((NSDictionary *)((NSArray *)items_json[@"items"])[i])[key] forKey:key];
+  }
+  newcontents = [jsonWriter stringWithObject:json];
   data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
   [data writeToFile:file atomically:YES];
   [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
-   */
+  
   
   [_SERVICES_ logPlayerResetGame:game_id];
 }
