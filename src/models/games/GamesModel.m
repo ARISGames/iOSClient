@@ -135,6 +135,83 @@
 }
 - (void) playerResetGame:(long)game_id
 {
+  Game *g = [_MODEL_GAMES_ gameForId:game_id];
+  
+  //reset any stores (manually because infrastructure to access server might not exist)
+  NSError *error;
+  NSString *file;
+  NSString *folder = [[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld",g.game_id]];
+  [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error]; //if folder doesn't exist...
+  NSString *contents;
+  NSString *newcontents;
+  NSData *data;
+
+  //logs
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"logs"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  newcontents = @"{\"logs\":[]}";
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  //groups
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"groups"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  newcontents = @"{\"group\":{\"name\":\"\",\"group_id\":\"0\"}}";
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  //quests
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"quests"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  newcontents = @"{\"complete_quests\":[],\"active_quests\":[]}";
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  //tabs
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"tabs"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  newcontents = @"{\"tabs\":[]}";
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  //scene
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"scene"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  newcontents = @"{}";
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  //triggers
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"triggers"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  newcontents = @"{\"triggers\":[]}";
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  //scene
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"scene"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  newcontents = @"{}";
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  /*
+  //player instances
+  file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"player_instances"]];
+  contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
+  newcontents = @"{\"instances\":[";
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+   */
+  
   [_SERVICES_ logPlayerResetGame:game_id];
 }
 
