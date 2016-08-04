@@ -153,13 +153,7 @@
 - (void) maintenancePercentLoaded:(NSNotification *)notif { maintenanceProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) maintenanceDataLoaded
 {
-  if(![_MODEL_GAME_ hasLatestDownload] || !_MODEL_GAME_.begin_fresh)
-    [self requestPlayerData];
-  else
-  {
-    [_MODEL_ restorePlayerData];
-    [self playerDataLoaded];
-  }
+  [self requestPlayerData];
 }
 - (void) maintenanceFetchFailed { [self.view addSubview:maintenanceRetryLoadButton]; }
 - (void) retryMaintenanceFetch
