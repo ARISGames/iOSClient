@@ -148,6 +148,7 @@
   NSString *contents;
   NSString *newcontents;
   NSDictionary *items_json;
+  NSDictionary *instances_json;
   NSMutableDictionary *json;
   NSData *data;
   
@@ -215,7 +216,47 @@
   //player instances
   file = [folder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_player.json",@"player_instances"]];
   contents = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:&error];
-  //json = [jsonParser objectWithString:@"{\"instances\":[]}"];
+  
+  instances_json = [jsonParser objectWithString:contents];
+  NSArray *old_instances_arr = instances_json[@"instances"];
+  NSDictionary *old_instance_dict;
+  NSMutableArray *instances_arr = [[NSMutableArray alloc] init];
+  NSMutableDictionary *instance_dict;
+  NSString *key;
+  
+  json = [[NSMutableDictionary alloc] init];
+  [json setObject:instances_arr forKey:@"instances"];
+  for(long i = 0; i < old_instances_arr.count; i++)
+  {
+    old_instance_dict = old_instances_arr[i];
+    instance_dict = [[NSMutableDictionary alloc] init];
+    [instances_arr addObject:instance_dict];
+    
+    key = @"instance_id";
+    [instance_dict setObject:old_instance_dict[key] forKey:key];
+    key = @"factory_id";
+    [instance_dict setObject:old_instance_dict[key] forKey:key];
+    key = @"object_type";
+    [instance_dict setObject:old_instance_dict[key] forKey:key];
+    key = @"created";
+    [instance_dict setObject:old_instance_dict[key] forKey:key];
+    key = @"owner_type";
+    [instance_dict setObject:old_instance_dict[key] forKey:key];
+    key = @"object_id";
+    [instance_dict setObject:old_instance_dict[key] forKey:key];
+    key = @"infinite_qty";
+    [instance_dict setObject:old_instance_dict[key] forKey:key];
+    key = @"owner_id";
+    [instance_dict setObject:old_instance_dict[key] forKey:key];
+    key = @"qty"; //EXPLICITLY SET TO 0!
+    [instance_dict setObject:[NSNumber numberWithLong:0] forKey:key];
+  }
+  newcontents = [jsonWriter stringWithObject:json];
+  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
+  [data writeToFile:file atomically:YES];
+  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  
+  /* //set properties based on items
   json = [[NSMutableDictionary alloc] init];
   [json setObject:[[NSMutableArray alloc] init] forKey:@"instances"];
   for(long i = 0; i < ((NSArray *)items_json[@"items"]).count; i++)
@@ -225,10 +266,8 @@
     key = @"";
     [((NSMutableDictionary *)((NSMutableArray*)json[@"instances"])) setObject:((NSDictionary *)((NSArray *)items_json[@"items"])[i])[key] forKey:key];
   }
-  newcontents = [jsonWriter stringWithObject:json];
-  data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
-  [data writeToFile:file atomically:YES];
-  [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+  */
+  
   
   
   [_SERVICES_ logPlayerResetGame:game_id];
