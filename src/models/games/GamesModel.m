@@ -135,6 +135,7 @@
 }
 - (void) playerResetGame:(long)game_id
 {
+  /*
   SBJsonParser *jsonParser = [[SBJsonParser alloc] init];;
   SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
   
@@ -253,6 +254,7 @@
   data = [newcontents dataUsingEncoding:NSUTF8StringEncoding];
   [data writeToFile:file atomically:YES];
   [[NSURL fileURLWithPath:file] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&error];
+   */
   
   [_SERVICES_ logPlayerResetGame:game_id];
 }

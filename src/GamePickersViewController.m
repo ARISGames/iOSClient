@@ -121,7 +121,7 @@
   self.cur_gamePickersTabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
 
   _ARIS_NOTIF_LISTEN_(@"NETWORK_CONNECTED",self,@selector(swapToOnline),nil);
-  _ARIS_NOTIF_LISTEN_(@"NETWORK_DISCONNECTED",self,@selector(swapToOffline),nil);
+  //_ARIS_NOTIF_LISTEN_(@"NETWORK_DISCONNECTED",self,@selector(swapToOffline),nil);
 }
 
 - (void) checkIfStillOffline
@@ -153,8 +153,9 @@
 - (void) viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  if([_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) [self swapToOffline];
-  else                                                                    [self swapToOnline];
+  //if([_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) //[self swapToOffline];
+  //else
+  [self swapToOnline];
     
   [self displayContentController:self.gamePickersRevealController];
 }
