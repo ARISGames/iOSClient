@@ -48,93 +48,93 @@
 
 - (id) initWithDelegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
 {
-    if(self = [super init])
-    {
-        delegate = d;
-        viewControllersDict = [[NSMutableDictionary alloc] init];
-        viewControllers = [[NSMutableArray alloc] init];
-        [self refreshFromModel];
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_NEW_AVAILABLE",  self, @selector(refreshFromModel), nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_LESS_AVAILABLE", self, @selector(refreshFromModel), nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    delegate = d;
+    viewControllersDict = [[NSMutableDictionary alloc] init];
+    viewControllers = [[NSMutableArray alloc] init];
+    [self refreshFromModel];
+    _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_NEW_AVAILABLE",  self, @selector(refreshFromModel), nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_TABS_LESS_AVAILABLE", self, @selector(refreshFromModel), nil);
+  }
+  return self;
 }
 
 - (void) loadView
 {
-    [super loadView];
-    self.view.backgroundColor = [ARISTemplate ARISColorSideNavigationBackdrop];
-
-    tableView = [[UITableView alloc] init];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    tableView.opaque = NO;
-    tableView.backgroundColor = [UIColor clearColor];
-
-    leaveGameButton = [[UIView alloc] init];
-    leaveGameButton.userInteractionEnabled = YES;
-    leaveGameButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
-    leaveGameButton.opaque = NO;
-    [leaveGameButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leaveGameButtonTouched)]];
-
-    leaveGameLabel = [[UILabel alloc] init];
-    leaveGameLabel.textAlignment = NSTextAlignmentLeft;
-    leaveGameLabel.font = [ARISTemplate ARISButtonFont];
-    leaveGameLabel.text = NSLocalizedString(@"BogusTitleKey", @""); //leave game text
-    leaveGameLabel.textColor = [ARISTemplate ARISColorText];
-    leaveGameLabel.accessibilityLabel = @"Leave Game";
-
-    leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
-
-    leaveGameLine = [[UIView alloc] init];
-    leaveGameLine.backgroundColor = [UIColor ARISColorLightGray];
-
-    [leaveGameButton addSubview:leaveGameLine];
-    [leaveGameButton addSubview:leaveGameLabel];
-    [leaveGameButton addSubview:leaveGameArrow];
-
-    long headerHeight = 40;
-
-    CGRect headerFrame = CGRectMake(0, 0, self.view.bounds.size.width, headerHeight);
-    UIView *headerView = [[UIView alloc] init];
-    headerView.frame = headerFrame;
-
-    UILabel *gameName = [[UILabel alloc] init];
-    gameName.frame = CGRectMake(57, (headerHeight/2) - (35/2), 200, 35);
-    gameName.text = _MODEL_GAME_.name;
-    [headerView addSubview:gameName];
-
-    ARISMediaView *gameIcon = [[ARISMediaView alloc] init];
-    [gameIcon setDisplayMode:ARISMediaDisplayModeAspectFit];
-    [gameIcon setFrame:CGRectMake(15, (headerHeight/2) - (35/2), 30, 35)];
-    if(_MODEL_GAME_.icon_media_id == 0) [gameIcon setImage:[UIImage imageNamed:@"logo_icon"]];
-    else [gameIcon setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_GAME_.icon_media_id]];
-    [headerView addSubview:gameIcon];
-
-    [tableView setTableHeaderView:headerView];
-
-    [self.view addSubview:tableView];
-    if(_MODEL_.leave_game_enabled) [self.view addSubview:leaveGameButton];
+  [super loadView];
+  self.view.backgroundColor = [ARISTemplate ARISColorSideNavigationBackdrop];
+  
+  tableView = [[UITableView alloc] init];
+  tableView.delegate = self;
+  tableView.dataSource = self;
+  tableView.opaque = NO;
+  tableView.backgroundColor = [UIColor clearColor];
+  
+  leaveGameButton = [[UIView alloc] init];
+  leaveGameButton.userInteractionEnabled = YES;
+  leaveGameButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+  leaveGameButton.opaque = NO;
+  [leaveGameButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leaveGameButtonTouched)]];
+  
+  leaveGameLabel = [[UILabel alloc] init];
+  leaveGameLabel.textAlignment = NSTextAlignmentLeft;
+  leaveGameLabel.font = [ARISTemplate ARISButtonFont];
+  leaveGameLabel.text = NSLocalizedString(@"BogusTitleKey", @""); //leave game text
+  leaveGameLabel.textColor = [ARISTemplate ARISColorText];
+  leaveGameLabel.accessibilityLabel = @"Leave Game";
+  
+  leaveGameArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrowBack"]];
+  
+  leaveGameLine = [[UIView alloc] init];
+  leaveGameLine.backgroundColor = [UIColor ARISColorLightGray];
+  
+  [leaveGameButton addSubview:leaveGameLine];
+  [leaveGameButton addSubview:leaveGameLabel];
+  [leaveGameButton addSubview:leaveGameArrow];
+  
+  long headerHeight = 40;
+  
+  CGRect headerFrame = CGRectMake(0, 0, self.view.bounds.size.width, headerHeight);
+  UIView *headerView = [[UIView alloc] init];
+  headerView.frame = headerFrame;
+  
+  UILabel *gameName = [[UILabel alloc] init];
+  gameName.frame = CGRectMake(57, (headerHeight/2) - (35/2), 200, 35);
+  gameName.text = _MODEL_GAME_.name;
+  [headerView addSubview:gameName];
+  
+  ARISMediaView *gameIcon = [[ARISMediaView alloc] init];
+  [gameIcon setDisplayMode:ARISMediaDisplayModeAspectFit];
+  [gameIcon setFrame:CGRectMake(15, (headerHeight/2) - (35/2), 30, 35)];
+  if(_MODEL_GAME_.icon_media_id == 0) [gameIcon setImage:[UIImage imageNamed:@"logo_icon"]];
+  else [gameIcon setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_GAME_.icon_media_id]];
+  [headerView addSubview:gameIcon];
+  
+  [tableView setTableHeaderView:headerView];
+  
+  [self.view addSubview:tableView];
+  if(_MODEL_.leave_game_enabled) [self.view addSubview:leaveGameButton];
 }
 
 - (void) viewWillLayoutSubviews
 {
-    [super viewWillLayoutSubviews];
-
-    tableView.frame = self.view.bounds;
-    if(_MODEL_.leave_game_enabled) tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
-    else                           tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
-
-    leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
-    leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
-    leaveGameArrow.frame = CGRectMake(6,13,19,19);
-    leaveGameLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
+  [super viewWillLayoutSubviews];
+  
+  tableView.frame = self.view.bounds;
+  if(_MODEL_.leave_game_enabled) tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
+  else                           tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
+  
+  leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+  leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
+  leaveGameArrow.frame = CGRectMake(6,13,19,19);
+  leaveGameLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
 }
 
 - (void) viewDidLoad
 {
-    [super viewDidLoad];
-    [tableView reloadData];
+  [super viewDidLoad];
+  [tableView reloadData];
 }
 
 - (void) refreshFromModel
