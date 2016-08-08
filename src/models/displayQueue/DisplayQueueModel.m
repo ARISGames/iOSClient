@@ -17,6 +17,7 @@
   //(prevents constant triggering if somone has bad requirements)
   NSMutableArray *displayBlacklist;
   NSTimer *timerPoller;
+  Trigger *triggerLookingAt;
 }
 @end
 
@@ -56,7 +57,10 @@
   _ARIS_NOTIF_SEND_(@"MODEL_DISPLAY_NEW_ENQUEUED", nil, nil);
 }
 
-- (void) enqueueTrigger:(Trigger *)t                       { [self enqueue:t]; }
+- (Trigger *)getTriggerLookingAt{
+	return triggerLookingAt;
+}
+- (void) enqueueTrigger:(Trigger *)t                       { [self enqueue:t];triggerLookingAt = t; }
 - (void) injectTrigger: (Trigger *)t                       { [self inject:t];  }
 - (void) enqueueInstance:(Instance *)i                     { [self enqueue:i]; }
 - (void) injectInstance: (Instance *)i                     { [self inject:i];  }

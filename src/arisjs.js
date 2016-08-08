@@ -72,6 +72,7 @@ var ARISJS = function(_ARIS)
     _ARIS.setGroup            = function(group_id)         { _ARIS.enqueueRequest("aris://group/set/" + group_id); }
     _ARIS.setScene            = function(scene_id)         { _ARIS.enqueueRequest("aris://scene/set/" + scene_id); }
     _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); }
+	_ARIS.getTriggerLocation  = function()                 { _ARIS.enqueueRequest("aris://trigger"); }
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, body, auth, callback)
@@ -130,6 +131,7 @@ var ARISJS = function(_ARIS)
     if(!callbacks_enabled || typeof(_ARIS.didUpdateGameItemQty)   === 'undefined') { _ARIS.didUpdateGameItemQty   = function(updatedItemId,qty) {} }
     if(!callbacks_enabled || typeof(_ARIS.didUpdateGroupItemQty)  === 'undefined') { _ARIS.didUpdateGroupItemQty  = function(updatedItemId,qty) {} }
     if(!callbacks_enabled || typeof(_ARIS.didReceivePlayer)       === 'undefined') { _ARIS.didReceivePlayer       = function(player)            {} }
+	if(!callbacks_enabled || typeof(_ARIS.didReceiveTriggerLocation) === 'undefined') { _ARIS.didReceiveTriggerLocation      = function(trigger)           {} }
     if(!callbacks_enabled || typeof(_ARIS.hook)                   === 'undefined') { _ARIS.hook                   = function(paramsJSON)        {} }
     if(!callbacks_enabled || typeof(_ARIS.tick)                   === 'undefined') { _ARIS.tick                   = function(paramsJSON)        {} }
     if(                      typeof(_ARIS.ready)                  === 'undefined') { _ARIS.ready                  = function()                  {} }
