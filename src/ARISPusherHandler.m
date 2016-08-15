@@ -50,15 +50,25 @@
     return _sharedObject;
 }
 
+- (void)connectPusher
+{
+    [self.pusherClient connect];
+}
+
 - (id) init
 {
     if(self = [super init])
     {
         self.pusherClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
         self.pusherClient.authorizationURL = [NSURL URLWithString:@"https://arisgames.org/server/events/auths/private_auth.php"];
-        [self.pusherClient connect];
+        [self connectPusher];
     }
     return self;
+}
+
+- (void)pusher:(PTPusher *)pusher connection:(PTPusherConnection *)connection failedWithError:(NSError *)error
+{
+    [self performSelector:@selector(connectPusher) withObject:nil afterDelay:2.0];
 }
 
 - (void) loginGame:(long)game_id
@@ -78,7 +88,7 @@
 - (void) loginGroup:(NSString *)group
 {
     [self logoutGroup];
-    self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
+    self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",group]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGroupChannelEventNotification:) ,self.groupChannel);
 }
 
@@ -127,21 +137,25 @@
 {
     if(self.gameChannel)    [(PTPusherChannel *)self.gameChannel    unsubscribe];
     self.gameChannel    = nil;
+    _ARIS_NOTIF_IGNORE_(PTPusherEventReceivedNotification, self, self.gameChannel);
 }
 - (void) logoutPlayer
 {
     if(self.playerChannel)  [(PTPusherChannel *)self.playerChannel  unsubscribe];
     self.playerChannel  = nil;
+    _ARIS_NOTIF_IGNORE_(PTPusherEventReceivedNotification, self, self.playerChannel);
 }
 - (void) logoutGroup
 {
     if(self.groupChannel)   [(PTPusherChannel *)self.groupChannel   unsubscribe];
     self.groupChannel   = nil;
+    _ARIS_NOTIF_IGNORE_(PTPusherEventReceivedNotification, self, self.groupChannel);
 }
 - (void) logoutWebPage
 {
     if(self.webPageChannel) [(PTPusherChannel *)self.webPageChannel unsubscribe];
     self.webPageChannel = nil;
+    _ARIS_NOTIF_IGNORE_(PTPusherEventReceivedNotification, self, self.webPageChannel);
 }
 
 @end
