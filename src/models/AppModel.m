@@ -144,6 +144,7 @@
   if(deviceLocation) _MODEL_PLAYER_.location = deviceLocation;
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ loginPlayer:_MODEL_PLAYER_.user_id];
+  [_PUSHER_ loginGroup:_MODEL_PLAYER_.group_name];
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_IN",nil,nil);
 
   //load the player media immediately if possible
@@ -158,6 +159,7 @@
   _MODEL_.leave_game_enabled = YES;
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ logoutPlayer];
+  [_PUSHER_ logoutGroup];
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil);
 }
 

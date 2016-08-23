@@ -17,6 +17,7 @@
 @synthesize user_id;
 @synthesize user_name;
 @synthesize display_name;
+@synthesize group_name;
 @synthesize email;
 @synthesize media_id;
 @synthesize read_write_key;
@@ -29,6 +30,7 @@
         self.user_id        = 0;
         self.user_name      = @"Unknown Player";
         self.display_name   = @"Unknown Player";
+        self.group_name     = @"";
         self.email          = @"";
         self.media_id       = 0;
         self.read_write_key = @"";
@@ -44,6 +46,7 @@
     self.user_id        = [dict validIntForKey:@"user_id"];
     self.user_name      = [dict validStringForKey:@"user_name"];
     self.display_name   = [dict validStringForKey:@"display_name"];
+    self.group_name     = [dict validStringForKey:@"group_name"];
     self.email          = [dict validStringForKey:@"email"];
     self.media_id       = [dict validIntForKey:@"media_id"];
     self.read_write_key = [dict validStringForKey:@"read_write_key"];
@@ -58,6 +61,7 @@
   [d setObject:[NSString stringWithFormat:@"%ld",self.user_id] forKey:@"user_id"];
   [d setObject:self.user_name forKey:@"user_name"];
   [d setObject:self.display_name forKey:@"display_name"];
+  [d setObject:self.group_name forKey:@"group_name"];
   [d setObject:self.email forKey:@"email"];
   [d setObject:[NSString stringWithFormat:@"%ld",self.media_id] forKey:@"media_id"];
   [d setObject:self.read_write_key forKey:@"read_write_key"];
@@ -71,6 +75,7 @@
   self.user_id        = u.user_id;
   self.user_name      = u.user_name;
   self.display_name   = u.display_name;
+  self.group_name     = u.group_name;
   self.email          = u.email;
   self.media_id       = u.media_id;
   if(u.read_write_key && [u.read_write_key isEqualToString:@""])

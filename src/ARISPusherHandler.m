@@ -88,6 +88,7 @@
 - (void) loginGroup:(NSString *)group
 {
     [self logoutGroup];
+    if (!(group.length)) return;
     self.groupChannel  = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",group]];
   _ARIS_NOTIF_LISTEN_(PTPusherEventReceivedNotification, self ,@selector(didReceiveGroupChannelEventNotification:) ,self.groupChannel);
 }
