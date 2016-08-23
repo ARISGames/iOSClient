@@ -93,6 +93,7 @@
   u.user_id        = [defaults integerForKey:@"user_id"];
   u.user_name      = [defaults objectForKey:@"user_name"];
   u.display_name   = [defaults objectForKey:@"display_name"];
+  u.group_name     = [defaults objectForKey:@"group_name"];
   u.email          = [defaults objectForKey:@"email"];
   u.media_id       = [defaults integerForKey:@"media_id"];
   u.read_write_key = [defaults objectForKey:@"read_write_key"];
@@ -100,6 +101,7 @@
   _ARIS_LOG_(@"Defaults loaded: user_id       = %ld",u.user_id);
   _ARIS_LOG_(@"Defaults loaded: user_name     = %@",u.user_name);
   _ARIS_LOG_(@"Defaults loaded: display_name  = %@",u.display_name);
+  _ARIS_LOG_(@"Defaults loaded: group_name    = %@",u.group_name);
   _ARIS_LOG_(@"Defaults loaded: email         = %@",u.email);
   _ARIS_LOG_(@"Defaults loaded: media_id      = %ld",u.media_id);
   _ARIS_LOG_(@"Defaults loaded: read_write_key= %@",u.read_write_key);
@@ -126,6 +128,7 @@
     [defaults setInteger:_MODEL_PLAYER_.user_id        forKey:@"user_id"];
     [defaults setObject: _MODEL_PLAYER_.user_name      forKey:@"user_name"];
     [defaults setObject: _MODEL_PLAYER_.display_name   forKey:@"display_name"];
+    [defaults setObject: _MODEL_PLAYER_.group_name     forKey:@"group_name"];
     [defaults setObject: _MODEL_PLAYER_.email          forKey:@"email"];
     [defaults setInteger:_MODEL_PLAYER_.media_id       forKey:@"media_id"];
     [defaults setObject: _MODEL_PLAYER_.read_write_key forKey:@"read_write_key"];
@@ -135,6 +138,7 @@
     [defaults setInteger:0  forKey:@"user_id"];
     [defaults setObject:@"" forKey:@"user_name"];
     [defaults setObject:@"" forKey:@"display_name"];
+    [defaults setObject:@"" forKey:@"group_name"];
     [defaults setObject:@"" forKey:@"email"];
     [defaults setInteger:0  forKey:@"media_id"];
     [defaults setObject:@"" forKey:@"read_write_key"];
