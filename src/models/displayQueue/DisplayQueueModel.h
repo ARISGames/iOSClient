@@ -26,7 +26,7 @@
 - (void) injectObject:(NSObject <InstantiableProtocol>*)o;
 - (void) enqueueTab:(Tab *)t;
 - (void) injectTab:(Tab *)t;
-
+- (Trigger *)getTriggerLookingAt;
 - (NSObject *) dequeue;
 
 - (void) endPlay;
