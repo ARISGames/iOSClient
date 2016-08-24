@@ -60,7 +60,7 @@
 - (Trigger *)getTriggerLookingAt{
   return triggerLookingAt;
 }
-- (void) enqueueTrigger:(Trigger *)t                       { [self enqueue:t]; triggerLookingAt = t; }
+- (void) enqueueTrigger:(Trigger *)t                       { [self enqueue:t]; }
 - (void) injectTrigger: (Trigger *)t                       { [self inject:t];  }
 - (void) enqueueInstance:(Instance *)i                     { [self enqueue:i]; }
 - (void) injectInstance: (Instance *)i                     { [self inject:i];  }
@@ -79,6 +79,13 @@
     [displayQueue removeObject:o];
 
     if([o isKindOfClass:[Trigger class]] && ((Trigger *)o).trigger_id != 0) [displayBlacklist addObject:o];
+
+    if([o isKindOfClass:[Trigger class]]) triggerLookingAt = (Trigger *)o;
+    else                                  triggerLookingAt = nil;
+  }
+  else
+  {
+    triggerLookingAt = nil;
   }
   return o;
 }
