@@ -285,36 +285,36 @@
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
     }
-	else if([mainCommand isEqualToString:@"trigger"])
-	{
-		Trigger *trigger = [_MODEL_DISPLAY_QUEUE_ getTriggerLookingAt];
-		NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-		[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-		NSString *now = [dateFormatter stringFromDate:[NSDate date]];
-		NSLog(@"%@",now);
-		NSString *triggerJSON = [NSString stringWithFormat: @"{"
-								 "\"trigger_id\":%ld,"
-								 "\"game_id\":%ld,"
-								 "\"user_id\":%ld,"
-								 "\"user_name\":\"%@\","
-								 "\"type\":\"%@\","
-								 "\"title\":\"%@\","
-								 "\"longitude\":%g,"
-								 "\"latitude\":%g,"
-								 "\"date\":\"%@\","
-								 "}",
-								 trigger.trigger_id,
-								 _MODEL_GAME_.game_id,
-								 _MODEL_PLAYER_.user_id,
-								 _MODEL_PLAYER_.user_name,
-								 trigger.type,
-								 trigger.title,
-								 trigger.location.coordinate.longitude,
-								 trigger.location.coordinate.latitude,
-								 now
-								 ];
-		[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceiveTriggerLocation(%@);",triggerJSON]];
-	}
+    else if([mainCommand isEqualToString:@"trigger"])
+    {
+        Trigger *trigger = [_MODEL_DISPLAY_QUEUE_ getTriggerLookingAt];
+        NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *now = [dateFormatter stringFromDate:[NSDate date]];
+        NSLog(@"%@",now);
+        NSString *triggerJSON = [NSString stringWithFormat: @"{"
+                                 "\"trigger_id\":%ld,"
+                                 "\"game_id\":%ld,"
+                                 "\"user_id\":%ld,"
+                                 "\"user_name\":\"%@\","
+                                 "\"type\":\"%@\","
+                                 "\"title\":\"%@\","
+                                 "\"longitude\":%g,"
+                                 "\"latitude\":%g,"
+                                 "\"date\":\"%@\","
+                                 "}",
+                                 trigger.trigger_id,
+                                 _MODEL_GAME_.game_id,
+                                 _MODEL_PLAYER_.user_id,
+                                 _MODEL_PLAYER_.user_name,
+                                 trigger.type,
+                                 trigger.title,
+                                 trigger.location.coordinate.longitude,
+                                 trigger.location.coordinate.latitude,
+                                 now
+                                 ];
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceiveTriggerLocation(%@);",triggerJSON]];
+    }
     else if([mainCommand isEqualToString:@"group"])
     {
         [_MODEL_GROUPS_ setPlayerGroup:[_MODEL_GROUPS_ groupForId:[components[2] integerValue]]];

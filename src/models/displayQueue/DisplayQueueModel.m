@@ -58,9 +58,9 @@
 }
 
 - (Trigger *)getTriggerLookingAt{
-	return triggerLookingAt;
+  return triggerLookingAt;
 }
-- (void) enqueueTrigger:(Trigger *)t                       { [self enqueue:t];triggerLookingAt = t; }
+- (void) enqueueTrigger:(Trigger *)t                       { [self enqueue:t]; triggerLookingAt = t; }
 - (void) injectTrigger: (Trigger *)t                       { [self inject:t];  }
 - (void) enqueueInstance:(Instance *)i                     { [self enqueue:i]; }
 - (void) injectInstance: (Instance *)i                     { [self inject:i];  }
