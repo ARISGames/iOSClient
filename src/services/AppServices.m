@@ -1688,6 +1688,7 @@
 - (void) parseTrigger:(ARISServiceResult *)result
 {
     NSDictionary *triggerDict= (NSDictionary *)result.resultData;
+    if(!result.resultData || [result.resultData isEqual:[NSNull null]]) return;
     Trigger *trigger = [[Trigger alloc] initWithDictionary:triggerDict];
     _ARIS_NOTIF_SEND_(@"SERVICES_TRIGGER_RECEIVED", nil, @{@"trigger":trigger});
 }
