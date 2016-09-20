@@ -124,6 +124,7 @@
     [self performSelector:@selector(startScanning) withObject:nil afterDelay:1.0];
     previewLayer.opacity = 1.0; // show camera display after being hidden in viewDidDisappear
 
+    /*
     if ([device hasTorch]) {
         [session beginConfiguration];
         [device lockForConfiguration:nil];
@@ -131,6 +132,7 @@
         [device unlockForConfiguration];
         [session commitConfiguration];
     }
+    */
 }
 
 - (void) startScanning
