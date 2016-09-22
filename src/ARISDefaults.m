@@ -73,8 +73,8 @@
     tmpVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 
   if(
-    (serverURL && ![tmpServer isEqualToString:serverURL]) || //new server
-    (version && ![tmpVersion isEqualToString:version]) || //new version
+    // (serverURL && ![tmpServer isEqualToString:serverURL]) || //new server
+    // (version && ![tmpVersion isEqualToString:version]) || //new version
     [defaults boolForKey:@"clearCache"] //requested clear
     )
   _ARIS_NOTIF_SEND_(@"DEFAULTS_CLEAR",nil,nil);
