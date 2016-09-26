@@ -213,10 +213,13 @@
 {
   switch ([reachability currentReachabilityStatus])
   {
-    case NotReachable: break;
+    case NotReachable:
+        _ARIS_NOTIF_SEND_(@"NETWORK_DISCONNECTED",self,nil); break;
+      break;
     case ReachableViaWWAN:
     case ReachableViaWiFi:
-        _ARIS_NOTIF_SEND_(@"WIFI_CONNECTED",self,nil); break;
+        _ARIS_NOTIF_SEND_(@"NETWORK_CONNECTED",self,nil); break;
+    break;
   }
 }
 

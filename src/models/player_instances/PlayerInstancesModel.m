@@ -88,10 +88,10 @@
   {
     newInstance = newInstances[i];
     if(![newInstance.object_type isEqualToString:@"ITEM"] || newInstance.owner_id != _MODEL_PLAYER_.user_id) continue;
-    
+
     if(playerInstances[[NSNumber numberWithLong:newInstance.object_id]] && ((Instance *)playerInstances[[NSNumber numberWithLong:newInstance.object_id]]).instance_id > newInstance.instance_id)
       continue;  //"new Instance" has older ID than known... prefer newer
-    
+
     playerInstances[[NSNumber numberWithLong:newInstance.object_id]] = newInstance;
   }
   _ARIS_NOTIF_SEND_(@"MODEL_PLAYER_INSTANCES_AVAILABLE",nil,nil);
@@ -247,6 +247,8 @@
     Instance *in = [[Instance alloc] initWithDictionary:d_instances[i]];
     [playerInstances setObject:[_MODEL_INSTANCES_ instanceForId:in.instance_id] forKey:[NSNumber numberWithLong:in.instance_id]];
   }
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc

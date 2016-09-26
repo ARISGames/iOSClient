@@ -70,14 +70,20 @@
     _ARIS_NOTIF_SEND_(@"PLAYER_PIECE_AVAILABLE",nil,nil);
 }
 
-- (void) addLogType:(NSString *)type content:(long)content_id qty:(long)qty
+- (void) addLogType:(NSString *)type content:(long)content_id qty:(long)qty location:(CLLocation *)loc
 {
   Log *l = [[Log alloc] init];
   l.log_id = local_log_id++;
   l.event_type = type;
   l.content_id = content_id;
   l.qty = qty;
+  if (loc) l.location = loc;
   [logs setObject:l forKey:[NSNumber numberWithLong:l.log_id]];
+}
+
+- (void) addLogType:(NSString *)type content:(long)content_id qty:(long)qty
+{
+  [self addLogType:type content:content_id qty:qty location:nil];
 }
 
 - (void) requestPlayerLogs
@@ -228,6 +234,26 @@
   [_MODEL_QUESTS_ logAnyNewlyCompletedQuests];
 }
 
+- (void) playerUploadedMedia:(long)media_id Location:(CLLocation *)loc
+{
+  [self addLogType:@"UPLOAD_MEDIA_ITEM" content:media_id qty:0 location:loc];
+}
+
+- (void) playerUploadedMediaImage:(long)media_id Location:(CLLocation *)loc
+{
+  [self addLogType:@"UPLOAD_MEDIA_ITEM_IMAGE" content:media_id qty:0 location:loc];
+}
+
+- (void) playerUploadedMediaAudio:(long)media_id Location:(CLLocation *)loc
+{
+  [self addLogType:@"UPLOAD_MEDIA_ITEM_AUDIO" content:media_id qty:0 location:loc];
+}
+
+- (void) playerUploadedMediaVideo:(long)media_id Location:(CLLocation *)loc
+{
+  [self addLogType:@"UPLOAD_MEDIA_ITEM_VIDEO" content:media_id qty:0 location:loc];
+}
+
 - (BOOL) hasLogType:(NSString *)type
 {
   NSArray *alllogs = [logs allValues];
@@ -267,6 +293,39 @@
   return NO;
 }
 
+- (long) countLogsOfType:(NSString *)type
+{
+  NSArray *alllogs = [logs allValues];
+  long qty = 0;
+  for (int i = 0; i < alllogs.count; i++)
+  {
+    Log *l = alllogs[i];
+    if (type && ![l.event_type isEqualToString:type]) {
+      continue;
+    }
+    qty++;
+  }
+  return qty;
+}
+
+- (long) countLogsOfType:(NSString *)type Within:(long)distance Lat:(double)lat Long:(double)lng
+{
+  NSArray *alllogs = [logs allValues];
+  long qty = 0;
+  for (int i = 0; i < alllogs.count; i++)
+  {
+    Log *l = alllogs[i];
+    if (type && ![l.event_type isEqualToString:type]) {
+      continue;
+    }
+    if ([l.location distanceFromLocation:[[CLLocation alloc] initWithLatitude:lat longitude:lng]] > distance) {
+      continue;
+    }
+    qty++;
+  }
+  return qty;
+}
+
 - (NSString *) serializedName
 {
   return @"logs";
@@ -301,6 +360,8 @@
     Log *l = [[Log alloc] initWithDictionary:d_logs[i]];
     [logs setObject:l forKey:[NSNumber numberWithLong:l.log_id]];
   }
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc

@@ -18,8 +18,8 @@
   {
     self.title = NSLocalizedString(@"GamePickerDownloadedTabKey", @"");
 
-    [self.tabBarItem setImage:[[UIImage imageNamed:@"clock.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"clock_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [self.tabBarItem setImage:[[UIImage imageNamed:@"download.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [self.tabBarItem setSelectedImage:[[UIImage imageNamed:@"download_red.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     _ARIS_NOTIF_LISTEN_(@"MODEL_DOWNLOADED_GAMES_AVAILABLE",self,@selector(downloadedGamesAvailable),nil);
   }
   return self;

@@ -40,7 +40,7 @@
   {
     connection = [[ARISConnection alloc] initWithServer:_MODEL_.serverURL graveyard:_MODEL_.servicesGraveyard];
     mediaLoader = [[ARISMediaLoader alloc] init];
-  _ARIS_NOTIF_LISTEN_(@"WIFI_CONNECTED",self,@selector(retryFailedRequests),nil);
+    _ARIS_NOTIF_LISTEN_(@"NETWORK_CONNECTED",self,@selector(retryFailedRequests),nil);
   }
   return self;
 }
@@ -81,6 +81,15 @@
       @"user_name"  :user_name,
       @"password"   :password,
       @"permission" :@"read_write"
+    };
+  [connection performAsynchronousRequestWithService:@"users" method:@"logIn" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO humanDesc:@"Loggin In..." userInfo:nil];
+}
+
+- (void) logInUserWithID:(long)user_id authToken:(NSString *)auth_token;
+{
+  NSDictionary *args =
+    @{
+      @"auth": @{@"user_id":[NSNumber numberWithLong:user_id],@"key":auth_token}
     };
   [connection performAsynchronousRequestWithService:@"users" method:@"logIn" arguments:args handler:self successSelector:@selector(parseLoginResponse:) failSelector:nil retryOnFail:NO humanDesc:@"Loggin In..." userInfo:nil];
 }
@@ -1049,6 +1058,12 @@
            @"file_name":[m.localURL absoluteString],
           @"data":[m.data base64EncodedStringWithOptions:0]
         };
+      CLLocation *loc = tr ? tr.location : nil;
+      [_MODEL_LOGS_ playerUploadedMedia:0 Location:loc];
+      NSString *mediaType = [m type];
+      if      ([mediaType isEqualToString:@"IMAGE"]) [_MODEL_LOGS_ playerUploadedMediaImage:0 Location:loc];
+      else if ([mediaType isEqualToString:@"AUDIO"]) [_MODEL_LOGS_ playerUploadedMediaAudio:0 Location:loc];
+      else if ([mediaType isEqualToString:@"VIDEO"]) [_MODEL_LOGS_ playerUploadedMediaVideo:0 Location:loc];
     }
     if(t)
     {
@@ -1673,6 +1688,7 @@
 - (void) parseTrigger:(ARISServiceResult *)result
 {
     NSDictionary *triggerDict= (NSDictionary *)result.resultData;
+    if(!result.resultData || [result.resultData isEqual:[NSNull null]]) return;
     Trigger *trigger = [[Trigger alloc] initWithDictionary:triggerDict];
     _ARIS_NOTIF_SEND_(@"SERVICES_TRIGGER_RECEIVED", nil, @{@"trigger":trigger});
 }

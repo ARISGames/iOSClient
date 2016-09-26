@@ -266,7 +266,7 @@
             [delegate ARISWebViewRequestsRefresh:self];
     }
     else if([mainCommand isEqualToString:@"vibrate"])
-        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
+        [_DELEGATE_ vibrate];
     else if([mainCommand isEqualToString:@"player"])
     {
         Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];
@@ -284,6 +284,36 @@
                                 _MODEL_PLAYER_.display_name,
                                 playerMedia.remoteURL];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceivePlayer(%@);",playerJSON]];
+    }
+    else if([mainCommand isEqualToString:@"trigger"])
+    {
+        Trigger *trigger = [_MODEL_DISPLAY_QUEUE_ getTriggerLookingAt];
+        NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *now = [dateFormatter stringFromDate:[NSDate date]];
+        NSLog(@"%@",now);
+        NSString *triggerJSON = [NSString stringWithFormat: @"{"
+                                 "\"trigger_id\":%ld,"
+                                 "\"game_id\":%ld,"
+                                 "\"user_id\":%ld,"
+                                 "\"user_name\":\"%@\","
+                                 "\"type\":\"%@\","
+                                 "\"title\":\"%@\","
+                                 "\"longitude\":%g,"
+                                 "\"latitude\":%g,"
+                                 "\"date\":\"%@\","
+                                 "}",
+                                 trigger.trigger_id,
+                                 _MODEL_GAME_.game_id,
+                                 _MODEL_PLAYER_.user_id,
+                                 _MODEL_PLAYER_.user_name,
+                                 trigger.type,
+                                 trigger.title,
+                                 trigger.location.coordinate.longitude,
+                                 trigger.location.coordinate.latitude,
+                                 now
+                                 ];
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceiveTriggerLocation(%@);",triggerJSON]];
     }
     else if([mainCommand isEqualToString:@"group"])
     {
@@ -402,9 +432,7 @@
             [self setMediaId:[components[2] intValue] volumeTo:[components[3] floatValue]];
     }
     else if([mainCommand isEqualToString:@"vibrate"])
-    {
-        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
-    }
+      [_DELEGATE_ vibrate];
 
     [webView stringByEvaluatingJavaScriptFromString:@"ARIS.isNotCurrentlyCalling();"];
 }

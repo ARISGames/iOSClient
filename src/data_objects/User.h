@@ -14,6 +14,7 @@
     long user_id;
     NSString *user_name;
     NSString *display_name;
+    NSString *group_name;
     NSString* email;
     long media_id;
     NSString *read_write_key;
@@ -23,6 +24,7 @@
 @property (nonatomic, assign) long user_id;
 @property (nonatomic, strong) NSString *user_name;
 @property (nonatomic, strong) NSString *display_name;
+@property (nonatomic, strong) NSString *group_name;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, assign) long media_id;
 @property (nonatomic, strong) NSString *read_write_key;

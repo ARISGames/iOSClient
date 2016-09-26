@@ -38,49 +38,49 @@
 #import "AudioVisualizerViewController.h"
 
 @interface GamePlayViewController() <
-    UINavigationControllerDelegate,
-    InstantiableViewControllerDelegate,
-    GamePlayTabBarViewControllerDelegate,
+  UINavigationControllerDelegate,
+  InstantiableViewControllerDelegate,
+  GamePlayTabBarViewControllerDelegate,
 
-    QuestsViewControllerDelegate,
-    MapViewControllerDelegate,
-    InventoryViewControllerDelegate,
-    AttributesViewControllerDelegate,
-    NotebookViewControllerDelegate,
-    DecoderViewControllerDelegate,
+  QuestsViewControllerDelegate,
+  MapViewControllerDelegate,
+  InventoryViewControllerDelegate,
+  AttributesViewControllerDelegate,
+  NotebookViewControllerDelegate,
+  DecoderViewControllerDelegate,
 
-    PlaqueViewControllerDelegate,
-    ItemViewControllerDelegate,
-    DialogViewControllerDelegate,
-    WebPageViewControllerDelegate,
-    NoteViewControllerDelegate,
+  PlaqueViewControllerDelegate,
+  ItemViewControllerDelegate,
+  DialogViewControllerDelegate,
+  WebPageViewControllerDelegate,
+  NoteViewControllerDelegate,
 
-    GamePlayTabSelectorViewControllerDelegate,
-    GameNotificationViewControllerDelegate,
-    LoadingIndicatorViewControllerDelegate,
-    ARISWebViewDelegate
-    >
+  GamePlayTabSelectorViewControllerDelegate,
+  GameNotificationViewControllerDelegate,
+  LoadingIndicatorViewControllerDelegate,
+  ARISWebViewDelegate
+  >
 {
-    PKRevealController *gamePlayRevealController;
-    GamePlayTabSelectorViewController *gamePlayTabSelectorController;
-    ARISNavigationController *instantiableViewController;
-    GameNotificationViewController *gameNotificationViewController;
-    LoadingIndicatorViewController *loadingIndicatorViewController;
-    NSTimer *tickerTimer;
-    ARISWebView *ticker;
-
-    //queue of dequeued instances to be displayed but were not yet loaded
-    //yes, the fact that we need this second layer of queue points
-    //to something being wrong with our architecture.
-    //the culprit is the global nature of all our services.
-    //the fact that we send off a global event and wait for another
-    //global event yields too many oportunities for the code flow
-    //to go somewhere else or stop and never come back, potentially leaving us
-    //in an invalid state. hopefully this provides a sufficient temporary
-    //buffer to protect us from that...
-    NSMutableArray *local_inst_queue;
-
-    id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
+  PKRevealController *gamePlayRevealController;
+  GamePlayTabSelectorViewController *gamePlayTabSelectorController;
+  ARISNavigationController *instantiableViewController;
+  GameNotificationViewController *gameNotificationViewController;
+  LoadingIndicatorViewController *loadingIndicatorViewController;
+  NSTimer *tickerTimer;
+  ARISWebView *ticker;
+  
+  //queue of dequeued instances to be displayed but were not yet loaded
+  //yes, the fact that we need this second layer of queue points
+  //to something being wrong with our architecture.
+  //the culprit is the global nature of all our services.
+  //the fact that we send off a global event and wait for another
+  //global event yields too many oportunities for the code flow
+  //to go somewhere else or stop and never come back, potentially leaving us
+  //in an invalid state. hopefully this provides a sufficient temporary
+  //buffer to protect us from that...
+  NSMutableArray *local_inst_queue;
+  
+  id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
@@ -89,39 +89,39 @@
 
 - (id) initWithDelegate:(id<GamePlayViewControllerDelegate>)d
 {
-    if(self = [super init])
-    {
-        delegate = d;
-
-        gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
-        loadingIndicatorViewController = [[LoadingIndicatorViewController alloc] initWithDelegate:self];
-        gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
-        gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
-
-        local_inst_queue = [[NSMutableArray alloc] init];
-        _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE", self, @selector(flushBufferQueuedInstances), nil);
-        _ARIS_NOTIF_LISTEN_(@"MODEL_DISPLAY_NEW_ENQUEUED", self, @selector(tryDequeue), nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    delegate = d;
+    
+    gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
+    loadingIndicatorViewController = [[LoadingIndicatorViewController alloc] initWithDelegate:self];
+    gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
+    gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
+    
+    local_inst_queue = [[NSMutableArray alloc] init];
+    _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE", self, @selector(flushBufferQueuedInstances), nil);
+    _ARIS_NOTIF_LISTEN_(@"MODEL_DISPLAY_NEW_ENQUEUED", self, @selector(tryDequeue), nil);
+  }
+  return self;
 }
 
 - (void) loadView
 {
-    [super loadView];
+  [super loadView];
 
-    gameNotificationViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-    loadingIndicatorViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+  gameNotificationViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+  loadingIndicatorViewController.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+  [super viewWillAppear:animated];
 
-    if(!currentChildViewController)
-    {
-        [self displayContentController:gamePlayRevealController];
-        [self reSetOverlayControllersInVC:self atYDelta:0];
-    }
+  if(!currentChildViewController)
+  {
+    [self displayContentController:gamePlayRevealController];
+    [self reSetOverlayControllersInVC:self atYDelta:0];
+  }
 }
 
 - (void) viewDidAppear:(BOOL)animated

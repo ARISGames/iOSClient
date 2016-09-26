@@ -7,8 +7,8 @@
 //
 
 #import "LoadingViewController.h"
-#import "AppModel.h"
 #import "ARISAppDelegate.h"
+#import "AppModel.h"
 
 @interface LoadingViewController()
 {
@@ -113,13 +113,16 @@
 
 - (void) startLoading
 {
-  if(![_MODEL_GAME_ hasLatestDownload] || [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"])
-    [self requestGameData];
-  else
+  if(
+    (_MODEL_GAME_.downloadedVersion && [_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) ||//offline but playable...
+    ([_MODEL_GAME_ hasLatestDownload] && ![_MODEL_GAME_.network_level isEqualToString:@"REMOTE"]) //safe to use store anyways
+  )
   {
     [_MODEL_ restoreGameData];
     [self gameDataLoaded];
   }
+  else
+    [self requestGameData];
 }
 
 //Game Data
@@ -127,14 +130,16 @@
 - (void) gamePercentLoaded:(NSNotification *)notif { gameProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) gameDataLoaded
 {
-  if(![_MODEL_GAME_ hasLatestDownload] || !_MODEL_GAME_.begin_fresh || ![_MODEL_GAME_.network_level isEqualToString:@"LOCAL"]) //if !local, need to perform maintenance on server so it doesn't keep conflicting with local data
-    [self requestMaintenanceData];
-  else
+  if(
+    (_MODEL_GAME_.downloadedVersion && [_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) ||//offline but playable...
+    ([_MODEL_GAME_ hasLatestDownload] && [_MODEL_GAME_.network_level isEqualToString:@"LOCAL"]) //if !local, need to perform maintenance on server so it doesn't keep conflicting with local data
+  ) 
   {
-    //skip maintenance step
     [_MODEL_ restorePlayerData];
     [self playerDataLoaded];
   }
+  else
+    [self requestMaintenanceData];
 }
 - (void) gameFetchFailed { [self.view addSubview:gameRetryLoadButton]; }
 - (void) retryGameFetch
@@ -148,13 +153,7 @@
 - (void) maintenancePercentLoaded:(NSNotification *)notif { maintenanceProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) maintenanceDataLoaded
 {
-  if(![_MODEL_GAME_ hasLatestDownload] || !_MODEL_GAME_.begin_fresh)
-    [self requestPlayerData];
-  else
-  {
-    [_MODEL_ restorePlayerData];
-    [self playerDataLoaded];
-  }
+  [self requestPlayerData];
 }
 - (void) maintenanceFetchFailed { [self.view addSubview:maintenanceRetryLoadButton]; }
 - (void) retryMaintenanceFetch
@@ -188,19 +187,20 @@
 - (void) mediaPercentLoaded:(NSNotification *)notif { mediaProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
 - (void) mediaDataLoaded { [_MODEL_ beginGame]; }
 - (void) mediaFetchFailed { [self.view addSubview:mediaRetryLoadButton]; }
-- (void) retryMediaFetch {
-    [mediaRetryLoadButton removeFromSuperview];
-    [self requestMediaData];
+- (void) retryMediaFetch
+{
+  [mediaRetryLoadButton removeFromSuperview];
+  [self requestMediaData];
 }
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+  return UIInterfaceOrientationMaskPortrait;
 }
 
 -(void) dealloc
 {
-    _ARIS_NOTIF_IGNORE_ALL_(self);
+  _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end

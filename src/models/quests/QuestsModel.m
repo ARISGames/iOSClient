@@ -338,6 +338,8 @@
     [qs addObject:[_MODEL_QUESTS_ questForId:q.quest_id]];
   }
   visibleActiveQuests = qs;
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc

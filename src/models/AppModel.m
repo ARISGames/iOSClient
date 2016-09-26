@@ -97,6 +97,11 @@
   [_SERVICES_ logInUserWithName:user_name password:password];
 }
 
+- (void) attemptLogInWithUserID:(long)user_id authToken:(NSString *)auth_token
+{
+  [_SERVICES_ logInUserWithID:user_id authToken:auth_token];
+}
+
 - (void) createAccountWithUserName:(NSString *)user_name displayName:(NSString *)display_name groupName:(NSString *)group_name email:(NSString *)email password:(NSString *)password
 {
   [_SERVICES_ createUserWithName:user_name displayName:display_name groupName:(NSString *)group_name email:email password:password];
@@ -139,6 +144,7 @@
   if(deviceLocation) _MODEL_PLAYER_.location = deviceLocation;
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ loginPlayer:_MODEL_PLAYER_.user_id];
+  [_PUSHER_ loginGroup:_MODEL_PLAYER_.group_name];
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_IN",nil,nil);
 
   //load the player media immediately if possible
@@ -153,6 +159,7 @@
   _MODEL_.leave_game_enabled = YES;
   [_DEFAULTS_ saveUserDefaults];
   [_PUSHER_ logoutPlayer];
+  [_PUSHER_ logoutGroup];
   _ARIS_NOTIF_SEND_(@"MODEL_LOGGED_OUT",nil,nil);
 }
 

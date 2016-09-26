@@ -114,7 +114,7 @@
     [self enqueueDropDownNotificationWithString:notifString];
   }
   if(deltas.count > 0)
-    [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+    [_DELEGATE_ playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 }
 
 - (void) parseLostInstancesIntoNotifications:(NSNotification *)notification
@@ -135,7 +135,7 @@
     [self enqueueDropDownNotificationWithString:notifString];
   }
   if(deltas.count > 0)
-    [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+    [_DELEGATE_ playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 }
 
 - (void) parseAvailableTriggersIntoNotifications:(NSNotification *)notification

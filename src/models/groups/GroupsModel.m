@@ -216,6 +216,8 @@
   NSDictionary *d_data = [jsonParser objectWithString:data];
   Group *g = [[Group alloc] initWithDictionary:d_data[@"group"]];
   playerGroup = [_MODEL_GROUPS_ groupForId:g.group_id];
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc

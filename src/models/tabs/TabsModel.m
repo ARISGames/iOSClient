@@ -279,6 +279,8 @@
     [pts addObject:[_MODEL_TABS_ tabForId:t.tab_id]];
   }
   playerTabs = pts;
+  
+  n_player_data_received = [self nPlayerDataToReceive];
 }
 
 - (void) dealloc
