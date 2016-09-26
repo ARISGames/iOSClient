@@ -15,12 +15,12 @@
 #import <CoreMotion/CoreMotion.h>
 #import "AudioToolbox/AudioToolbox.h"
 #import "User.h"
-#import <Crashlytics/Crashlytics.h>
 
 #import "ARISDefaults.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "RootViewController.h"
+#import <Google/Analytics.h>
 
 @interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate, CLLocationManagerDelegate>
 {
@@ -40,6 +40,16 @@
 {
   application.statusBarOrientation = UIInterfaceOrientationPortrait;
   application.idleTimerDisabled = YES;
+
+    // Configure tracker from GoogleService-Info.plist.
+    NSError *configureError;
+    [[GGLContext sharedInstance] configureWithError:&configureError];
+    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
+    // Optional: configure GAI options.
+    GAI *gai = [GAI sharedInstance];
+    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+    
 
   [self setApplicationUITemplates];
 

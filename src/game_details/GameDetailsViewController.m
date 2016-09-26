@@ -15,6 +15,8 @@
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
 #import "ARISStarView.h"
+#import <Google/Analytics.h>
+
 
 @interface GameDetailsViewController() <ARISMediaViewDelegate, ARISWebViewDelegate, GameCommentsViewControllerDelegate, UIWebViewDelegate>
 {
@@ -123,8 +125,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-
   [self refreshFromGame];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Game Details"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewWillLayoutSubviews

@@ -16,6 +16,8 @@
 #import "Item.h"
 #import "ItemViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import <Google/Analytics.h>
+
 
 @interface AttributesViewController() <ARISMediaViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
@@ -100,6 +102,10 @@
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewDidAppear:(BOOL)animated

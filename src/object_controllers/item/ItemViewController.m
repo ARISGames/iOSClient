@@ -21,6 +21,8 @@
 #import "Game.h"
 #import "ItemsModel.h"
 #import "MediaModel.h"
+#import <Google/Analytics.h>
+
 
 @interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, ItemActionViewControllerDelegate, UITextViewDelegate>
 {
@@ -170,6 +172,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Item"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
     [self updateViewButtons];
     [self refreshTitle];

@@ -10,6 +10,8 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "ARISAlertHandler.h"
+#import <Google/Analytics.h>
+
 
 @interface ScannerViewController() <AVCaptureMetadataOutputObjectsDelegate, UITextFieldDelegate>
 {
@@ -113,6 +115,13 @@
     promptLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
     [self.view addSubview:promptLabel];
     [self setPrompt:prompt];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewDidAppear:(BOOL)animated

@@ -9,6 +9,8 @@
 #import "CreateAccountViewController.h"
 #import "AppModel.h"
 #import "ARISAlertHandler.h"
+#import <Google/Analytics.h>
+
 
 @interface CreateAccountViewController() <UITextFieldDelegate, UITextViewDelegate>
 {
@@ -119,6 +121,9 @@
     self.navigationItem.titleView = titleContainer;
     [self.navigationController.navigationBar layoutIfNeeded];
   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewWillLayoutSubviews

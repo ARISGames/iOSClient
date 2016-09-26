@@ -11,6 +11,8 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "ARISAlertHandler.h"
+#import <Google/Analytics.h>
+
 
 @interface LoginScannerViewController() <AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -116,6 +118,12 @@
 
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
 
 - (void) viewDidAppear:(BOOL)animated
 {

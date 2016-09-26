@@ -23,6 +23,7 @@
 		5BBA6A6517822F5E00387DBD /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BBA6A6417822F5E00387DBD /* Accelerate.framework */; };
 		A70C6BB719115F2B00A48B4C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A70C6BB619115F2B00A48B4C /* Images.xcassets */; };
 		A73C11C71BCC497F00950F34 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A73C11C61BCC497F00950F34 /* Launch Screen.storyboard */; };
+		A75B541E1D98C1B900C538B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A75B541D1D98C1B900C538B7 /* GoogleService-Info.plist */; };
 		A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8AF0F4B7E9400820FEA /* Foundation.framework */; };
 		A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */; };
 		A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79202630F8E717C0049F990 /* MediaPlayer.framework */; };
@@ -347,6 +348,7 @@
 		A70C6BB619115F2B00A48B4C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A73C11C61BCC497F00950F34 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A73EAC7F1C03AE4A00BC0859 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A75B541D1D98C1B900C538B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A78FD8AF0F4B7E9400820FEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A79202630F8E717C0049F990 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -903,6 +905,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				A75B541D1D98C1B900C538B7 /* GoogleService-Info.plist */,
 				A7E7AE511BA680230094C539 /* CoreTelephony.framework */,
 				AABC74E317273A0F0074CC21 /* Info.plist */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
@@ -2075,6 +2078,7 @@
 				AB508AC8119330710002FCFA /* Run Script */,
 				C3A8D936015E71DEC55D42B6 /* [CP] Embed Pods Frameworks */,
 				18D752051292AC31076231F4 /* [CP] Copy Pods Resources */,
+				80333FC89FB7FF8826092EDB /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2171,6 +2175,7 @@
 				AA942B9C17CD4F86004EDEA1 /* logo_text_nav.png in Resources */,
 				AA41A35F18E4CCAE006CB373 /* checkmark@2x.png in Resources */,
 				AA04E34218E6267E00621F0C /* speech_bubble@2x.png in Resources */,
+				A75B541E1D98C1B900C538B7 /* GoogleService-Info.plist in Resources */,
 				AAC6573C187200940063EAF7 /* play.png in Resources */,
 				AABC70351727398B0074CC21 /* star_blue.png in Resources */,
 				AA2D214E17DE560C00CF4198 /* qr_small.png in Resources */,
@@ -2255,6 +2260,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARIS/Pods-ARIS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80333FC89FB7FF8826092EDB /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARIS/Pods-ARIS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AB508AC8119330710002FCFA /* Run Script */ = {
@@ -2516,10 +2536,16 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/**",
+					"$(inherited)",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks/frameworks\"",
+					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks/frameworks\"",
+					"\"${PODS_ROOT}/GoogleInterchangeUtilities/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleSymbolUtilities/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleUtilities/Frameworks\"",
 					"$(PROJECT_DIR)/src/third_party",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2577,10 +2603,16 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/**",
+					"$(inherited)",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks/frameworks\"",
+					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks/frameworks\"",
+					"\"${PODS_ROOT}/GoogleInterchangeUtilities/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleSymbolUtilities/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleUtilities/Frameworks\"",
 					"$(PROJECT_DIR)/src/third_party",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

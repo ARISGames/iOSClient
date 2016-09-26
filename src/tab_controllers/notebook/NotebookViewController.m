@@ -15,6 +15,8 @@
 #import "AppModel.h"
 #import "Game.h"
 #import "CircleButton.h"
+#import <Google/Analytics.h>
+
 
 @interface NotebookViewController() <InstantiableViewControllerDelegate, NoteEditorViewControllerDelegate, NotebookNotesViewControllerDelegate, NoteTagSelectorViewControllerDelegate>
 {
@@ -206,6 +208,10 @@
   [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
   self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
   self.navigationController.navigationBar.translucent = YES;
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewDidDisappear:(BOOL)animated

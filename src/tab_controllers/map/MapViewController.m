@@ -21,6 +21,8 @@
 #import "MapOverlayView.h"
 #import "TriangleButton.h"
 #import "ItemActionViewController.h"
+#import <Google/Analytics.h>
+
 
 // simple struct to hold annotation/overlay pairs so they can be added/removed together
 @interface MapViewAnnotationOverlay : NSObject
@@ -191,6 +193,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewDidAppear:(BOOL)animated

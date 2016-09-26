@@ -15,6 +15,8 @@
 #import "WebPage.h"
 #import "WebPageViewController.h"
 #import "ARISWebView.h"
+#import <Google/Analytics.h>
+
 
 static long const ACTIVE_SECTION = 0;
 static long const COMPLETE_SECTION = 1;
@@ -101,6 +103,10 @@ static long const COMPLETE_SECTION = 1;
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewWillLayoutSubviews

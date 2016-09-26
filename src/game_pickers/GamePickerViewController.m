@@ -12,6 +12,8 @@
 #import "Game.h"
 #import "GamePickerCell.h"
 #import "ARISMediaView.h"
+#import <Google/Analytics.h>
+
 
 @interface GamePickerViewController () <ARISMediaViewDelegate>
 {
@@ -58,6 +60,13 @@
   [gameTable addSubview:refreshControl];
 
   [gameTable reloadData];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewDidAppear:(BOOL)animated

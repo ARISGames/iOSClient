@@ -13,6 +13,8 @@
 #import "Quest.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
+#import <Google/Analytics.h>
+
 
 @interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate>
 {
@@ -134,6 +136,10 @@
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Quest Details"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv

@@ -3,5 +3,6 @@
 
 target 'ARIS' do
 pod 'libPusher', '~> 1.6.1'
+pod 'Google/Analytics'
 end
 

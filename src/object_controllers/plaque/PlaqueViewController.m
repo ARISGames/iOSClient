@@ -19,6 +19,8 @@
 #import "Plaque.h"
 
 #import <MediaPlayer/MediaPlayer.h>
+#import <Google/Analytics.h>
+
 
 static NSString * const OPTION_CELL = @"option";
 
@@ -124,6 +126,10 @@ static NSString * const OPTION_CELL = @"option";
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Plaque"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
     if(tab)
     {

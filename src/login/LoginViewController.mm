@@ -17,6 +17,7 @@
 
 #import "CreateAccountViewController.h"
 #import "ForgotPasswordViewController.h"
+#import <Google/Analytics.h>
 
 @interface LoginViewController() <LoginScannerViewControllerDelegate, CreateAccountViewControllerDelegate, UITextFieldDelegate>
 {
@@ -146,6 +147,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
   [self resetState];
 }

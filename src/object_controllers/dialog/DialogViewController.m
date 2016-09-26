@@ -12,6 +12,8 @@
 #import "DialogScriptViewController.h"
 #import "AppModel.h"
 #import "ARISMediaView.h"
+#import <Google/Analytics.h>
+
 
 @interface DialogViewController() <DialogScriptViewControllerDelegate>
 {
@@ -125,6 +127,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Dialog"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
     if(tab)
     {

@@ -13,6 +13,8 @@
 #import "ARISMediaView.h"
 #import "Media.h"
 #import "Item.h"
+#import <Google/Analytics.h>
+
 
 @interface InventoryViewController ()<ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
@@ -125,6 +127,10 @@
         capBar.progress = (float)((float)currentWeight/(float)weightCap);
         capLabel.text = [NSString stringWithFormat:@"%@: %ld/%ld", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
     }
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void) viewDidAppear:(BOOL)animated

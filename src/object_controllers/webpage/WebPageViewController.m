@@ -12,6 +12,8 @@
 #import "AppModel.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
+#import <Google/Analytics.h>
+
 
 @interface WebPageViewController() <ARISWebViewDelegate>
 {
@@ -87,6 +89,11 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Webpage"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
     if(!hasAppeared) [self viewWillAppearFirstTime];
 }
 

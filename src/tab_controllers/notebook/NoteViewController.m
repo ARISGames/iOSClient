@@ -16,6 +16,8 @@
 #import "User.h"
 #import "AppModel.h"
 #import "Game.h"
+#import <Google/Analytics.h>
+
 
 @interface NoteViewController () <NoteCommentInputViewControllerDelegate, NoteCommentsViewControllerDelegate, NoteEditorViewControllerDelegate, UIScrollViewDelegate, ARISMediaViewDelegate>
 {
@@ -111,6 +113,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Note"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, 19, 19);
