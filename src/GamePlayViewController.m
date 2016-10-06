@@ -315,13 +315,13 @@
 
 - (void) instantiableViewControllerRequestsDismissal:(id<InstantiableViewControllerProtocol>)ivc
 {
-    [self reSetOverlayControllersInVC:self atYDelta:-20];
-    
     [_MODEL_LOGS_ playerViewedContent:ivc.instance.object_type id:ivc.instance.object_id];
-    if (![self doDequeue] && instantiableViewController.viewControllers[0] == ivc) {
+    if(![self doDequeue] && instantiableViewController.viewControllers[0] == ivc)
+    {
         [self displayContentController:gamePlayRevealController];
         instantiableViewController = nil;
     }
+    [self reSetOverlayControllersInVC:self atYDelta:-20];
 }
 
 - (void) reSetOverlayControllersInVC:(UIViewController *)vc atYDelta:(int)ydelt
