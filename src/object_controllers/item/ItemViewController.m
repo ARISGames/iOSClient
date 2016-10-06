@@ -218,6 +218,9 @@
         dropBtn    = nil;
         pickupBtn  = nil;
     }
+  
+    if(lastbuttontouched == 2) //just picked up an item
+      pickupBtn = nil;
 
     long numButtons = (destroyBtn != nil) + (dropBtn != nil) + (pickupBtn != nil);
     long numPlacedButtons = 0;
@@ -250,7 +253,7 @@
 
     if(amtCanDrop > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDropKey", @"") positive:NO maxqty:instance.qty delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDropKey", @"") maxqty:instance.qty delegate:self];
 
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
@@ -278,7 +281,7 @@
 
     if(amtCanDestroy > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDeleteKey", @"") positive:NO maxqty:instance.qty delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemDeleteKey", @"") maxqty:instance.qty delegate:self];
 
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
@@ -310,7 +313,7 @@
     }
     else if(allowablePickupAmt > 1 && !instance.infinite_qty)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") positive:YES maxqty:allowablePickupAmt delegate:self];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithPrompt:NSLocalizedString(@"ItemPickupKey", @"") maxqty:allowablePickupAmt delegate:self];
         [[self navigationController] pushViewController:itemActionVC animated:YES];
     }
     else [self pickupItemQty:1];
@@ -326,15 +329,12 @@
     [self refreshTitle];
 }
 
-- (void) amtChosen:(long)amt positive:(BOOL)p
+- (void) amtChosen:(long)amt
 {
     [[self navigationController] popToViewController:self animated:YES];
-    if(lastbuttontouched == 0)
-        [self dropItemQty:amt];
-    else if(lastbuttontouched == 1)
-        [self destroyItemQty:amt];
-    else if(lastbuttontouched == 2)
-        [self pickupItemQty:amt];
+         if(lastbuttontouched == 0) [self dropItemQty:amt];
+    else if(lastbuttontouched == 1) [self destroyItemQty:amt];
+    else if(lastbuttontouched == 2) [self pickupItemQty:amt];
 }
 
 - (void) movieFinishedCallback:(NSNotification*) aNotification

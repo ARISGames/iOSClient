@@ -14,8 +14,8 @@
 @class Item;
 
 @protocol ItemActionViewControllerDelegate
-- (void) amtChosen:(long)amt positive:(BOOL)p;
+- (void) amtChosen:(long)amt;
 @end
 @interface ItemActionViewController : ARISViewController
-- (id) initWithPrompt:(NSString *)s positive:(BOOL)p maxqty:(long)q delegate:(id)d;
+- (id) initWithPrompt:(NSString *)s maxqty:(long)q delegate:(id)d;
 @end
