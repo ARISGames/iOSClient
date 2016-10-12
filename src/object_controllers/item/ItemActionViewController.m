@@ -19,7 +19,6 @@
     NSString *prompt;
     long maxqty;
     long amtChosen;
-    BOOL positive;
 
     id<ItemActionViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -27,12 +26,11 @@
 
 @implementation ItemActionViewController
 
-- (id) initWithPrompt:(NSString *)s positive:(BOOL)p maxqty:(long)q delegate:(id)d
+- (id) initWithPrompt:(NSString *)s maxqty:(long)q delegate:(id)d
 {
     if(self = [super init])
     {
         prompt = s;
-        positive = p;
         maxqty = q;
 
         amtChosen = 1;
@@ -63,7 +61,7 @@
 
 - (void) actionButtonTouched
 {
-    [delegate amtChosen:amtChosen positive:positive];
+    [delegate amtChosen:amtChosen];
 }
 
 - (NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView

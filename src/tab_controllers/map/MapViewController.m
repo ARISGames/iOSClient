@@ -23,7 +23,6 @@
 #import "ItemActionViewController.h"
 #import <Google/Analytics.h>
 
-
 // simple struct to hold annotation/overlay pairs so they can be added/removed together
 @interface MapViewAnnotationOverlay : NSObject
 {
@@ -156,7 +155,7 @@
     fitToAnnotationButton.layer.borderWidth = 2.0f;
 
     viewAnnotationButton = [[TriangleButton alloc] initWithColor:[UIColor ARISColorLightBlue] isPointingLeft:NO];
-    pickUpButton = [[TriangleButton alloc] initWithColor:[UIColor colorWithRed:229.0f/255.0f green:127.0f/255.0f blue:134.0f/255.0f alpha:1.0f] isPointingLeft:YES];
+    pickUpButton         = [[TriangleButton alloc] initWithColor:[UIColor ARISColorLightBlue] isPointingLeft:YES];
 
     [self.view addSubview:mapView];
     [self.view addSubview:threeLinesButton];
@@ -558,22 +557,20 @@
         viewAnnotationButton.frame = CGRectMake((self.view.bounds.size.width / 2) + 60, (self.view.bounds.size.height / 2) - 28, 75, 120);
         [viewAnnotationButton setTitle:NSLocalizedString(@"ViewLocationKey", @"") forState:UIControlStateNormal];
         [viewAnnotationButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
-        [viewAnnotationButton addTarget:self action:@selector(interactWithLocation:) forControlEvents:UIControlEventTouchUpInside];
+        [viewAnnotationButton addTarget:self action:@selector(interactWithTriggerView:) forControlEvents:UIControlEventTouchUpInside];
         [viewAnnotationButton setAlpha:0.0f];
         [self.view addSubview:viewAnnotationButton];
 
-        /*
-        if([location.gameObject isKindOfClass:[Item class]])
+        Instance *inst = [_MODEL_INSTANCES_ instanceForId:trigger.instance_id];
+        if([inst.object_type isEqualToString:@"ITEM"])
         {
             pickUpButton.frame = CGRectMake((self.view.bounds.size.width / 2) - 135, (self.view.bounds.size.height / 2) - 28, 75, 120);
             [pickUpButton setTitle:NSLocalizedString(@"PickUpItemKey", @"") forState:UIControlStateNormal];
             [pickUpButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
+            [pickUpButton addTarget:self action:@selector(interactWithTriggerPickup:) forControlEvents:UIControlEventTouchUpInside];
             [pickUpButton setAlpha:0.0f];
-            [pickUpButton setLocation:location];
-            [pickUpButton addTarget:self action:@selector(pickUpItem:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:pickUpButton];
         }
-         */
     }
     [self animateInButtons];
     triggerLookingAt = trigger;
@@ -592,18 +589,6 @@
     [blackoutRight setAlpha:1.0f];
     [UIView commitAnimations];
 }
-
-/*
-- (void) pickUpItem:(TriangleButton*)sender
-{
-    Trigger *currLocation = sender.location;
-    if([currLocation.gameObject isKindOfClass:[Item class]])
-    {
-        Item *item = (Item *)currLocation.gameObject;
-        [self dismissSelection];
-    }
-}
- */
 
 - (void) dismissSelection
 {
@@ -661,11 +646,26 @@
     [self dismissSelection];
 }
 
-- (void) interactWithLocation:(TriangleButton*)sender
+- (void) interactWithTriggerView:(TriangleButton*)sender
 {
     if(triggerLookingAt) { [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:triggerLookingAt]; [self dismissSelection]; }
     else [self dismissSelection];
     triggerLookingAt = nil;
+}
+
+- (void) interactWithTriggerPickup:(TriangleButton*)sender
+{
+    Instance *inst = [_MODEL_INSTANCES_ instanceForId:triggerLookingAt.instance_id];
+    Item *it = [_MODEL_ITEMS_ itemForId:inst.object_id];
+  
+    long q = 1;
+    [_MODEL_PLAYER_INSTANCES_ giveItemToPlayer:it.item_id qtyToAdd:q];
+    long nq = inst.qty - q;
+    [_MODEL_INSTANCES_ setQtyForInstanceId:inst.instance_id qty:nq];
+    inst.qty = nq; //should get set in above call- but if bogus instance, can't hurt to force it
+  
+    [self dismissSelection];
+    [self refreshViewFromModel];
 }
 
 - (void) showNav
