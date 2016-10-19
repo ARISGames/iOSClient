@@ -178,6 +178,24 @@
   }
 }
 
+- (void) addBeaconForTrigger:(Trigger *)trigger {
+  CLBeaconRegion *region = [[CLBeaconRegion alloc]
+                            initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:trigger.beacon_uuid]
+                            major:trigger.beacon_major minor:trigger.beacon_minor identifier:[NSString stringWithFormat:@"%ld",trigger.trigger_id]
+                            ];
+  [locationManager startMonitoringForRegion:region];
+  [locationManager startRangingBeaconsInRegion:region];
+}
+
+- (void) clearBeacons {
+  for (CLBeaconRegion *region in locationManager.rangedRegions) {
+    [locationManager stopRangingBeaconsInRegion:region];
+  }
+  for (CLBeaconRegion *region in locationManager.monitoredRegions) {
+    [locationManager stopMonitoringForRegion:region];
+  }
+}
+
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate
 {
   if (shouldVibrate == YES) [NSThread detachNewThreadSelector:@selector(vibrate) toTarget:self withObject:nil];

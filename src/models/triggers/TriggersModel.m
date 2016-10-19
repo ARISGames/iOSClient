@@ -14,6 +14,7 @@
 #import "AppServices.h"
 #import "AppModel.h"
 #import "SBJson.h"
+#import "ARISAppDelegate.h"
 
 @interface TriggersModel()
 {
@@ -102,6 +103,12 @@
   n_game_data_received++;
   _ARIS_NOTIF_SEND_(@"MODEL_TRIGGERS_AVAILABLE",nil,nil);
   _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
+
+  for (Trigger *trigger in newTriggers) {
+    if ([trigger.type isEqualToString:@"BEACON"]) {
+      [_DELEGATE_ addBeaconForTrigger:trigger];
+    }
+  }
 }
 
 - (NSArray *) conformTriggersListToFlyweight:(NSArray *)newTriggers
@@ -346,6 +353,8 @@
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);
+
+  [_DELEGATE_ clearBeacons];
 }
 
 @end

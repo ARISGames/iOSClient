@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Reachability.h"
+#import "Trigger.h"
 
 #define _DELEGATE_ ((ARISAppDelegate *)[[UIApplication sharedApplication] delegate])
 
@@ -24,5 +25,7 @@
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) stopAudio;
 - (BOOL) application:(UIApplication *)application handleOpenURL:(NSURL *)url;
+- (void) addBeaconForTrigger:(Trigger *)trigger;
+- (void) clearBeacons;
 
 @end

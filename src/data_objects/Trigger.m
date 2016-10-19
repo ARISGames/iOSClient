@@ -30,6 +30,9 @@
 @synthesize trigger_on_enter;
 @synthesize qr_code;
 @synthesize seconds;
+@synthesize beacon_uuid;
+@synthesize beacon_major;
+@synthesize beacon_minor;
 @synthesize time_left;
 
 - (id) init
@@ -53,6 +56,9 @@
     trigger_on_enter = NO;
     qr_code = @"";
     seconds = 0;
+    beacon_uuid = @"";
+    beacon_major = 0;
+    beacon_minor = 0;
     time_left = 0;
   }
   return self;
@@ -79,6 +85,9 @@
     trigger_on_enter            = [dict validBoolForKey:@"trigger_on_enter"];
     qr_code                     = [dict validStringForKey:@"qr_code"];
     seconds                     = [dict validIntForKey:@"seconds"];
+    beacon_uuid                 = [dict validStringForKey:@"beacon_uuid"];
+    beacon_major                = [dict validIntForKey:@"beacon_major"];
+    beacon_minor                = [dict validIntForKey:@"beacon_minor"];
     time_left                   = seconds;
   }
   return self;
@@ -105,6 +114,9 @@
   [d setObject:[NSString stringWithFormat:@"%d",trigger_on_enter] forKey:@"trigger_on_enter"];
   [d setObject:qr_code forKey:@"qr_code"];
   [d setObject:[NSString stringWithFormat:@"%ld",seconds] forKey:@"seconds"];
+  [d setObject:beacon_uuid forKey:@"beacon_uuid"];
+  [d setObject:[NSString stringWithFormat:@"%ld",beacon_major] forKey:@"beacon_major"];
+  [d setObject:[NSString stringWithFormat:@"%ld",beacon_minor] forKey:@"beacon_minor"];
   return [NSString JSONFromFlatStringDict:d];
 }
 
@@ -128,6 +140,9 @@
   trigger_on_enter  = t.trigger_on_enter;
   qr_code           = t.qr_code;
   seconds           = t.seconds;
+  beacon_uuid       = t.beacon_uuid;
+  beacon_major      = t.beacon_major;
+  beacon_minor      = t.beacon_minor;
   if(time_left > seconds) time_left = seconds;
   return e;
 }
@@ -158,8 +173,11 @@
      show_title                    == t.show_title                    &&
      hidden                        == t.hidden                        &&
      trigger_on_enter              == t.trigger_on_enter              &&
-     [qr_code isEqualToString:t.qr_code])                             &&
-     seconds                       == t.seconds;
+     [qr_code isEqualToString:t.qr_code]                              &&
+     seconds                       == t.seconds                       &&
+     [beacon_uuid isEqualToString:t.beacon_uuid]                      &&
+     beacon_major                  == t.beacon_major                  &&
+     beacon_minor                  == t.beacon_minor);
      //time_left                     == t.time_left //
 }
 

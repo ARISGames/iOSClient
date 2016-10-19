@@ -191,6 +191,7 @@
   for(long i = 0; i < pt.count; i++)
   {
     t = pt[i];
+    // MT: this needs to support beacons
     if(
         (
          [t.type isEqualToString:@"IMMEDIATE"] ||
