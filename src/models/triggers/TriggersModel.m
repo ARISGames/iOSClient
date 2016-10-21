@@ -312,6 +312,12 @@
     Trigger *t = [[Trigger alloc] initWithDictionary:d_triggers[i]];
     [triggers setObject:t forKey:[NSNumber numberWithLong:t.trigger_id]];
   }
+  for (id key in triggers) {
+    Trigger *trigger = [triggers objectForKey:key];
+    if ([trigger.type isEqualToString:@"BEACON"]) {
+      [_DELEGATE_ addBeaconForTrigger:trigger];
+    }
+  }
   n_game_data_received = [self nGameDataToReceive];
 }
 

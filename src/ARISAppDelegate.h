@@ -27,5 +27,6 @@
 - (BOOL) application:(UIApplication *)application handleOpenURL:(NSURL *)url;
 - (void) addBeaconForTrigger:(Trigger *)trigger;
 - (void) clearBeacons;
+- (CLProximity) proximityToBeaconTrigger:(Trigger *)trigger;
 
 @end

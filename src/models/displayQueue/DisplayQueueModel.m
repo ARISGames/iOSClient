@@ -8,6 +8,7 @@
 
 #import "DisplayQueueModel.h"
 #import "AppModel.h"
+#import "ARISAppDelegate.h"
 
 @interface DisplayQueueModel ()
 {
@@ -33,6 +34,7 @@
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_LESS_AVAILABLE",self,@selector(reevaluateAutoTriggers),nil);
     _ARIS_NOTIF_LISTEN_(@"MODEL_TRIGGERS_INVALIDATED",self,@selector(reevaluateAutoTriggers),nil);
     _ARIS_NOTIF_LISTEN_(@"USER_MOVED",self,@selector(reevaluateAutoTriggers),nil);
+    _ARIS_NOTIF_LISTEN_(@"BEACONS_MOVED",self,@selector(reevaluateAutoTriggers),nil);
   }
   return self;
 }
@@ -191,7 +193,6 @@
   for(long i = 0; i < pt.count; i++)
   {
     t = pt[i];
-    // MT: this needs to support beacons
     if(
         (
          [t.type isEqualToString:@"IMMEDIATE"] ||
@@ -202,6 +203,11 @@
            t.infinite_distance ||
            [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
           )
+         ) ||
+         (
+          [t.type isEqualToString:@"BEACON"] &&
+          t.trigger_on_enter &&
+          [_DELEGATE_ proximityToBeaconTrigger:t] <= t.distance
          )
         ) &&
         ![self displayBlacklisted:t]
