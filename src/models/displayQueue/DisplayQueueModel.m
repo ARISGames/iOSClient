@@ -152,7 +152,6 @@
              ) ||
              (
               [t.type isEqualToString:@"BEACON"] &&
-              t.trigger_on_enter &&
               [_DELEGATE_ proximityToBeaconTrigger:t] <= t.distance
              )
            )
@@ -211,7 +210,6 @@
          ) ||
          (
           [t.type isEqualToString:@"BEACON"] &&
-          t.trigger_on_enter &&
           [_DELEGATE_ proximityToBeaconTrigger:t] <= t.distance
          )
         ) &&
