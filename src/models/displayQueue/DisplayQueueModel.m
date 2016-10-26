@@ -149,8 +149,13 @@
                t.infinite_distance ||
                [t.location distanceFromLocation:_MODEL_PLAYER_.location] < t.distance
               )
+             ) ||
+             (
+              [t.type isEqualToString:@"BEACON"] &&
+              t.trigger_on_enter &&
+              [_DELEGATE_ proximityToBeaconTrigger:t] <= t.distance
              )
-            )
+           )
           )
           valid = YES;
       }
