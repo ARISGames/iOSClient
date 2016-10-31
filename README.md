@@ -1,0 +1,62 @@
+# Cloning and Compiling ARIS
+
+
+```
+git clone git@github.com:ARISGames/iOSClient.git ARISiOSClient
+cd ARISiOSClient/
+git submodule init
+git submodule update
+```
+
+
+## You will also need to install and init CocoPods
+Install CocoPods:
+```
+sudo gem install cocoapods
+```
+
+Install The Pods used by ARIS:
+```
+pod install
+```
+
+## Configuring and Running automated tests (Not Currently Used)
+(Using OSX 10.9 or newer)
+
+1) Install bwoken:
+
+```
+sudo gem install bwoken && bwoken init
+```
+
+2) Install brew:
+
+```
+ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+```
+
+3) Install imagemagick using brew:
+
+```
+brew install imagemagick
+```
+
+4) Compile and Run the tests:
+
+```
+bwoken test
+```
+
+Note: once you have compiled, you can quickly re-run the tests by running: 
+```
+bwoken test --skip-build
+```
+
+# Deploying
+
+Archive ARIS.ipa into dist/ folder. Run `make timestep` from Project root.
+
+
+# Releasing
+
+Above steps, and then `make tag` to git tag the release version.
