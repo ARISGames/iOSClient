@@ -163,7 +163,11 @@ static NSString * const OPTION_CELL = @"option";
     {
         [scrollView addSubview:webView];
         webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
-        [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], plaque.desc] baseURL:nil];
+        NSString *html = [NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], plaque.desc];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            html = [html stringByAppendingString:@"<script>document.body.style.zoom = 2.0;</script>"];
+        }
+        [webView loadHTMLString:html baseURL:nil];
     }
 
     Media *media = [_MODEL_MEDIA_ mediaForId:plaque.media_id];
@@ -212,6 +216,9 @@ static NSString * const OPTION_CELL = @"option";
 
     //Calculate the height of the web content
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        newHeight *= 2;
+    }
     [webView setFrame:CGRectMake(webView.frame.origin.x,
                                       webView.frame.origin.y,
                                       webView.frame.size.width,
