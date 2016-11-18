@@ -72,10 +72,11 @@
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return UIInterfaceOrientationMaskAll;
-    else
-        return [currentChildViewController supportedInterfaceOrientations];
+  return [currentChildViewController supportedInterfaceOrientations];
+}
+- (BOOL) shouldAutorotate
+{
+  return [currentChildViewController shouldAutorotate];
 }
 
 @end

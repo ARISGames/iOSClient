@@ -191,6 +191,10 @@
 {
   return UIInterfaceOrientationMaskPortrait;
 }
+- (BOOL) shouldAutorotate
+{
+  return NO;
+}
 
 - (void) dealloc
 {

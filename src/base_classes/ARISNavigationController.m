@@ -12,10 +12,11 @@
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return UIInterfaceOrientationMaskAll;
-    else
-        return [self.topViewController supportedInterfaceOrientations];
+  return [self.topViewController supportedInterfaceOrientations];
+}
+- (BOOL) shouldAutorotate
+{
+  return [self.topViewController shouldAutorotate];
 }
 
 @end

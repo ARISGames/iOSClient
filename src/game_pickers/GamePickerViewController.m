@@ -149,10 +149,11 @@
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
-  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    return UIInterfaceOrientationMaskAll;
-  else
-    return UIInterfaceOrientationMaskPortrait;
+  return UIInterfaceOrientationMaskPortrait;
+}
+- (BOOL) shouldAutorotate
+{
+  return NO;
 }
 
 - (void) dealloc

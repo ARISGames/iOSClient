@@ -580,5 +580,9 @@
 {
     return UIInterfaceOrientationMaskLandscape;
 }
+- (BOOL) shouldAutorotate
+{
+  return YES;
+}
 
 @end

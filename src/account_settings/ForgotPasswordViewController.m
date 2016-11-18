@@ -107,5 +107,9 @@
 {
     return UIInterfaceOrientationMaskPortrait;
 }
+- (BOOL) shouldAutorotate
+{
+  return NO;
+}
 
 @end

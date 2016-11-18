@@ -356,13 +356,11 @@
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
-    //BAD BAD HACK
-    //if ([[notesNavigationController topViewController] isKindOfClass:[AudioVisualizerViewController class]]) {
-        //return UIInterfaceOrientationMaskLandscape;
-    //}
-    //else {
-        return UIInterfaceOrientationMaskPortrait;
-    //}
+  return UIInterfaceOrientationMaskPortrait;
+}
+- (BOOL) shouldAutorotate
+{
+  return NO;
 }
 
 - (void) tickTicker

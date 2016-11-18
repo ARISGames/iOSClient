@@ -132,7 +132,6 @@
     [session startRunning];
 }
 
-
 - (void) viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
