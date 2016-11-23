@@ -22,6 +22,8 @@
 #import "RootViewController.h"
 #import <Google/Analytics.h>
 
+#import "VuforiaManager.h"
+
 @interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate, CLLocationManagerDelegate>
 {
   CLLocationManager *locationManager;
@@ -29,6 +31,7 @@
   CLLocation *lastKnownLocation;
   AVAudioPlayer *player;
   NSMutableDictionary *beaconSignals;
+  VuforiaManager *vuforiaManager;
 }
 @end
 
@@ -82,6 +85,8 @@
   if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
 
   beaconSignals = [[NSMutableDictionary alloc] init];
+  
+  vuforiaManager = [[VuforiaManager alloc] init];
 }
 
 - (void) setApplicationUITemplates

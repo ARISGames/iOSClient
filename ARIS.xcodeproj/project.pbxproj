@@ -17,6 +17,7 @@
 		53038C871DE62CB80002A3EA /* libVuforia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53038C861DE62CB80002A3EA /* libVuforia.a */; };
 		53038C8A1DE62D460002A3EA /* AugmentedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 53038C891DE62D460002A3EA /* AugmentedViewController.mm */; };
 		531599891D199DE40020C494 /* play-solid.png in Resources */ = {isa = PBXBuildFile; fileRef = 531599881D199DE40020C494 /* play-solid.png */; };
+		536A1A2F1DE64C9E0069F646 /* VuforiaManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 536A1A2E1DE64C9E0069F646 /* VuforiaManager.mm */; };
 		53B3449C1D19A9340094D97A /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 53B3449B1D19A9340094D97A /* transparent.png */; };
 		5B1D998B178CC3A700661453 /* shuffle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9981178CC3A700661453 /* shuffle@2x.png */; };
 		5B1D998D178CC3A700661453 /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1D9983178CC3A700661453 /* pause@2x.png */; };
@@ -344,6 +345,8 @@
 		53038C891DE62D460002A3EA /* AugmentedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AugmentedViewController.mm; path = augmented/AugmentedViewController.mm; sourceTree = "<group>"; };
 		53038C8B1DE62D600002A3EA /* AugmentedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AugmentedViewController.h; path = augmented/AugmentedViewController.h; sourceTree = "<group>"; };
 		531599881D199DE40020C494 /* play-solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-solid.png"; sourceTree = "<group>"; };
+		536A1A2E1DE64C9E0069F646 /* VuforiaManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VuforiaManager.mm; sourceTree = "<group>"; };
+		536A1A301DE64CB00069F646 /* VuforiaManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VuforiaManager.h; sourceTree = "<group>"; };
 		53B3449B1D19A9340094D97A /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
 		5B1D9981178CC3A700661453 /* shuffle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shuffle@2x.png"; sourceTree = "<group>"; };
 		5B1D9983178CC3A700661453 /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
@@ -629,7 +632,7 @@
 		AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSettingsViewController.m; sourceTree = "<group>"; };
 		AABC7070172739D60074CC21 /* ARIS_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARIS_Prefix.pch; sourceTree = "<group>"; };
 		AABC7071172739D60074CC21 /* ARISAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISAppDelegate.h; sourceTree = "<group>"; };
-		AABC7072172739D60074CC21 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISAppDelegate.m; sourceTree = "<group>"; };
+		AABC7072172739D60074CC21 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = ARISAppDelegate.m; sourceTree = "<group>"; tabWidth = 2; };
 		AABC7074172739D60074CC21 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		AABC7075172739D60074CC21 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; tabWidth = 2; };
 		AABC7076172739D60074CC21 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
@@ -901,7 +904,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		29B97314FDCFA39411CA2CEA = {
+		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
 				53038C831DE62C7F0002A3EA /* vuforia */,
@@ -1388,6 +1391,8 @@
 				AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */,
 				AAA3FAA418CA733000C8D016 /* CircleView.h */,
 				AAA3FAA518CA733000C8D016 /* CircleView.m */,
+				536A1A2E1DE64C9E0069F646 /* VuforiaManager.mm */,
+				536A1A301DE64CB00069F646 /* VuforiaManager.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -2137,7 +2142,7 @@
 				sv,
 				ja,
 			);
-			mainGroup = 29B97314FDCFA39411CA2CEA;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
 			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2472,6 +2477,7 @@
 				AABC74DD172739D80074CC21 /* UIDevice+Hardware.m in Sources */,
 				AA3B7FC2182037CB006C9715 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				AABC74DE172739D80074CC21 /* UIImage+Alpha.m in Sources */,
+				536A1A2F1DE64C9E0069F646 /* VuforiaManager.mm in Sources */,
 				AA9F7131194F418B00384832 /* DialogCharacter.m in Sources */,
 				AA4685A81940C90000721B2B /* TabsModel.m in Sources */,
 				AA0CDB2319312D2F00697DB6 /* ARISDefaults.m in Sources */,
