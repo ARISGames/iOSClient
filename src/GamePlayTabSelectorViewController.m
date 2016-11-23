@@ -19,6 +19,7 @@
 #import "NotebookViewController.h"
 #import "DecoderViewController.h"
 #import "ScannerViewController.h"
+#import "AugmentedViewController.h"
 
 #import "DialogViewController.h"
 #import "ItemViewController.h"
@@ -186,8 +187,14 @@
             else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
             {
                 ScannerViewController *scannerViewController = [[ScannerViewController alloc] initWithTab:tab delegate:
-                    (id<ScannerViewControllerDelegate>)delegate];
+                                                                (id<ScannerViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:scannerViewController];
+            }
+            else if([tab.type isEqualToString:@"AUGMENTED"])
+            {
+                AugmentedViewController *augmentedViewController = [[AugmentedViewController alloc] initWithTab:tab delegate:
+                                                                (id<AugmentedViewControllerDelegate>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:augmentedViewController];
             }
             else if([tab.type isEqualToString:@"PLAYER"])
             {
