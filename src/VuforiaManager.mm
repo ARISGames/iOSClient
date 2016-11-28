@@ -17,6 +17,18 @@
 #import <Vuforia/VideoBackgroundConfig.h>
 #import <Vuforia/UpdateCallback.h>
 
+namespace {
+    // --- Data private to this unit ---
+    
+    // camera to use for the session
+    Vuforia::CameraDevice::CAMERA_DIRECTION mCamera = Vuforia::CameraDevice::CAMERA_DIRECTION_DEFAULT;
+    
+    // class used to support the Vuforia callback mechanism
+    class VuforiaApplication_UpdateCallback : public Vuforia::UpdateCallback {
+        virtual void Vuforia_onUpdate(Vuforia::State& state);
+    } vuforiaUpdate;
+}
+
 @interface VuforiaManager()
 {
 }
@@ -63,6 +75,15 @@
             }
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Callback function called by the tracker when each tracking cycle has finished
+void VuforiaApplication_UpdateCallback::Vuforia_onUpdate(Vuforia::State& state)
+{
+    //if (instance != nil) {
+    //    [instance Vuforia_onUpdate:&state];
+    //}
 }
 
 @end

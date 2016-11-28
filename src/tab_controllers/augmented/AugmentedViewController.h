@@ -9,11 +9,37 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ARISViewController.h"
 #import "GamePlayTabBarViewControllerProtocol.h"
+#import "SampleApplicationSession.h"
+#import "AugmentedEAGLView.h"
+#import <Vuforia/DataSet.h>
 
 @protocol AugmentedViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
 @class Tab;
-@interface AugmentedViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
+@interface AugmentedViewController : ARISViewController <GamePlayTabBarViewControllerProtocol, SampleApplicationControl> {
+
+    Vuforia::DataSet*  dataSetCurrent;
+    Vuforia::DataSet*  dataSetTarmac;
+    Vuforia::DataSet*  dataSetStonesAndChips;
+    
+    BOOL switchToTarmac;
+    BOOL switchToStonesAndChips;
+    
+    // menu options
+    BOOL extendedTrackingEnabled;
+    BOOL continuousAutofocusEnabled;
+    BOOL flashEnabled;
+    BOOL frontCameraEnabled;
+    
+}
+
+@property (nonatomic, strong) AugmentedEAGLView* eaglView;
+@property (nonatomic, strong) UITapGestureRecognizer * tapGestureRecognizer;
+@property (nonatomic, strong) SampleApplicationSession * vapp;
+
+@property (nonatomic, readwrite) BOOL showingMenu;
+
 - (id) initWithTab:(Tab *)t delegate:(id<AugmentedViewControllerDelegate>)d;
+
 @end
