@@ -29,6 +29,9 @@
     UIBarButtonItem *leftNavButton;
     id<AugmentedViewControllerDelegate> __unsafe_unretained delegate;
 }
+
+@property (weak, nonatomic) IBOutlet UIImageView *ARViewPlaceholder;
+
 @end
 
 @implementation AugmentedViewController
@@ -51,8 +54,6 @@
 
 - (void) loadView
 {
-    // TODO: replace with the one from ImageTargetsViewController
-    
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorBlack];
     
@@ -61,61 +62,65 @@
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
     leftNavButton = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+
+    // following is from ImageTargetsViewController
+    
+    if (self.ARViewPlaceholder != nil) {
+        [self.ARViewPlaceholder removeFromSuperview];
+        self.ARViewPlaceholder = nil;
+    }
+    
+    extendedTrackingEnabled = NO;
+    continuousAutofocusEnabled = YES;
+    flashEnabled = NO;
+    frontCameraEnabled = NO;
+    
+    vapp = [[SampleApplicationSession alloc] initWithDelegate:self];
+    
+    CGRect viewFrame = [self getCurrentARViewFrame];
+    
+    eaglView = [[AugmentedEAGLView alloc] initWithFrame:viewFrame appSession:vapp];
+    [self setView:eaglView];
+    ARISAppDelegate *appDelegate = _DELEGATE_;
+    appDelegate.glResourceHandler = eaglView;
+    
+    // a single tap will trigger a single autofocus operation
+    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autofocus:)];
+    
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureAction:)];
+    [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:swipeRight];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(dismissARViewController)
+                                                 name:@"kDismissARViewController"
+                                               object:nil];
+    
+    // we use the iOS notification to pause/resume the AR when the application goes (or come back from) background
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(pauseAR)
+     name:UIApplicationWillResignActiveNotification
+     object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(resumeAR)
+     name:UIApplicationDidBecomeActiveNotification
+     object:nil];
+    
+    // initialize AR
+    [vapp initAR:Vuforia::GL_20 orientation:self.interfaceOrientation];
+
+    // show loading animation while AR is being initialized
+    [self showLoadingAnimation];
 }
 
 
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [self loadAVMetadataScanner];
     self.navigationItem.leftBarButtonItem = leftNavButton;
-}
-
-- (void) loadAVMetadataScanner
-{
-    
-    // Create a new AVCaptureSession
-    session = [[AVCaptureSession alloc] init];
-    device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    NSError *error = nil;
-    
-    // Want the normal device
-    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
-    
-    if(input) [session addInput:input];
-    else { _ARIS_LOG_(@"error: %@", error); return; }
-    
-    // Display on screen
-    previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
-    previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    previewLayer.bounds = self.view.bounds;
-    previewLayer.position = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
-    [self.view.layer addSublayer:previewLayer];
-    
-    [session stopRunning];
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:self.title];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-}
-
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [session startRunning];
-    previewLayer.opacity = 1.0; // show camera display after being hidden in viewDidDisappear
-}
-
-- (void) viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    [session stopRunning];
-    previewLayer.opacity = 0.0; // hide camera display so you don't get a ghost image when scanner comes back
 }
 
 - (void) showNav
@@ -136,17 +141,6 @@
     return amv;
 }
 
-- (bool) doDeinitTrackers {
-    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
-    trackerManager.deinitTracker(Vuforia::ObjectTracker::getClassType());
-    return YES;
-}
-
-- (void)configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight
-{
-    [eaglView configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight];
-}
-
 - (CGRect)getCurrentARViewFrame
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
@@ -159,6 +153,130 @@
         viewFrame.size.height *= [UIScreen mainScreen].nativeScale;
     }
     return viewFrame;
+}
+
+- (void) pauseAR {
+    NSError * error = nil;
+    if (![vapp pauseAR:&error]) {
+        NSLog(@"ARIS Vuforia: Error pausing AR:%@", [error description]);
+    }
+}
+
+- (void) resumeAR {
+    NSError * error = nil;
+    if(! [vapp resumeAR:&error]) {
+        NSLog(@"ARIS Vuforia: Error resuming AR:%@", [error description]);
+    }
+    [eaglView updateRenderingPrimitives];
+    // on resume, we reset the flash
+    Vuforia::CameraDevice::getInstance().setFlashTorchMode(false);
+    flashEnabled = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self resumeAR];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self pauseAR];
+}
+
+- (void)finishOpenGLESCommands
+{
+    // Called in response to applicationWillResignActive.  Inform the EAGLView
+    [eaglView finishOpenGLESCommands];
+}
+
+- (void)freeOpenGLESResources
+{
+    // Called in response to applicationDidEnterBackground.  Inform the EAGLView
+    [eaglView freeOpenGLESResources];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - loading animation
+
+- (void) showLoadingAnimation {
+    CGRect indicatorBounds;
+    CGRect mainBounds = [[UIScreen mainScreen] bounds];
+    int smallerBoundsSize = MIN(mainBounds.size.width, mainBounds.size.height);
+    int largerBoundsSize = MAX(mainBounds.size.width, mainBounds.size.height);
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown ) {
+        indicatorBounds = CGRectMake(smallerBoundsSize / 2 - 12,
+                                     largerBoundsSize / 2 - 12, 24, 24);
+    }
+    else {
+        indicatorBounds = CGRectMake(largerBoundsSize / 2 - 12,
+                                     smallerBoundsSize / 2 - 12, 24, 24);
+    }
+    
+    UIActivityIndicatorView *loadingIndicator = [[UIActivityIndicatorView alloc]
+                                                 initWithFrame:indicatorBounds];
+    
+    loadingIndicator.tag  = 1;
+    loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    [eaglView addSubview:loadingIndicator];
+    [loadingIndicator startAnimating];
+}
+
+- (void) hideLoadingAnimation {
+    UIActivityIndicatorView *loadingIndicator = (UIActivityIndicatorView *)[eaglView viewWithTag:1];
+    [loadingIndicator removeFromSuperview];
+}
+
+
+#pragma mark - SampleApplicationControl
+
+// Initialize the application trackers
+- (bool) doInitTrackers {
+    // Initialize the object tracker
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::Tracker* trackerBase = trackerManager.initTracker(Vuforia::ObjectTracker::getClassType());
+    if (trackerBase == NULL)
+    {
+        NSLog(@"ARIS Vuforia: Failed to initialize ObjectTracker.");
+        return false;
+    }
+    return true;
+}
+
+// load the data associated to the trackers
+- (bool) doLoadTrackersData {
+    dataSetStonesAndChips = [self loadObjectTrackerDataSet:@"StonesAndChips.xml"];
+    dataSetTarmac = [self loadObjectTrackerDataSet:@"Tarmac.xml"];
+    if ((dataSetStonesAndChips == NULL) || (dataSetTarmac == NULL)) {
+        NSLog(@"ARIS Vuforia: Failed to load datasets");
+        return NO;
+    }
+    if (! [self activateDataSet:dataSetStonesAndChips]) {
+        NSLog(@"ARIS Vuforia: Failed to activate dataset");
+        return NO;
+    }
+    
+    
+    return YES;
+}
+
+// start the application trackers
+- (bool) doStartTrackers {
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::Tracker* tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
+    if(tracker == 0) {
+        return false;
+    }
+    tracker->start();
+    return true;
 }
 
 // callback called when the initailization of the AR is done
@@ -178,7 +296,7 @@
         //[eaglView configureBackground];
         
     } else {
-        NSLog(@"Error initializing AR:%@", [initError description]);
+        NSLog(@"ARIS Vuforia: Error initializing AR:%@", [initError description]);
         dispatch_async( dispatch_get_main_queue(), ^{
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -191,23 +309,40 @@
     }
 }
 
-// Initialize the application trackers
-- (bool) doInitTrackers {
-    // Initialize the object tracker
-    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
-    Vuforia::Tracker* trackerBase = trackerManager.initTracker(Vuforia::ObjectTracker::getClassType());
-    if (trackerBase == NULL)
-    {
-        NSLog(@"Failed to initialize ObjectTracker.");
-        return false;
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kDismissARViewController" object:nil];
+}
+
+- (void)dismissARViewController
+{
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
+
+- (void)configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight
+{
+    [eaglView configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight];
+}
+
+- (void) onVuforiaUpdate: (Vuforia::State *) state
+{
+    if (switchToTarmac) {
+        [self activateDataSet:dataSetTarmac];
+        switchToTarmac = NO;
     }
-    return true;
+    if (switchToStonesAndChips) {
+        [self activateDataSet:dataSetStonesAndChips];
+        switchToStonesAndChips = NO;
+    }
 }
 
 // Load the image tracker data set
 - (Vuforia::DataSet *)loadObjectTrackerDataSet:(NSString*)dataFile
 {
-    NSLog(@"loadObjectTrackerDataSet (%@)", dataFile);
+    NSLog(@"ARIS Vuforia: loadObjectTrackerDataSet (%@)", dataFile);
     Vuforia::DataSet * dataSet = NULL;
     
     // Get the Vuforia tracker manager image tracker
@@ -215,87 +350,66 @@
     Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
     
     if (NULL == objectTracker) {
-        NSLog(@"ERROR: failed to get the ObjectTracker from the tracker manager");
+        NSLog(@"ARIS Vuforia: ERROR: failed to get the ObjectTracker from the tracker manager");
         return NULL;
     } else {
         dataSet = objectTracker->createDataSet();
         
         if (NULL != dataSet) {
-            NSLog(@"INFO: successfully loaded data set");
+            NSLog(@"ARIS Vuforia: INFO: successfully loaded data set");
             
             // Load the data set from the app's resources location
             if (!dataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE)) {
-                NSLog(@"ERROR: failed to load data set");
+                NSLog(@"ARIS Vuforia: ERROR: failed to load data set");
                 objectTracker->destroyDataSet(dataSet);
                 dataSet = NULL;
             }
         }
         else {
-            NSLog(@"ERROR: failed to create data set");
+            NSLog(@"ARIS Vuforia: ERROR: failed to create data set");
         }
     }
     
     return dataSet;
 }
 
-- (BOOL) setExtendedTrackingForDataSet:(Vuforia::DataSet *)theDataSet start:(BOOL) start {
-    BOOL result = YES;
-    for (int tIdx = 0; tIdx < theDataSet->getNumTrackables(); tIdx++) {
-        Vuforia::Trackable* trackable = theDataSet->getTrackable(tIdx);
-        if (start) {
-            if (!trackable->startExtendedTracking())
-            {
-                NSLog(@"Failed to start extended tracking on: %s", trackable->getName());
-                result = false;
-            }
-        } else {
-            if (!trackable->stopExtendedTracking())
-            {
-                NSLog(@"Failed to stop extended tracking on: %s", trackable->getName());
-                result = false;
-            }
-        }
-    }
-    return result;
-}
 
-- (BOOL)deactivateDataSet:(Vuforia::DataSet *)theDataSet
-{
-    if ((dataSetCurrent == nil) || (theDataSet != dataSetCurrent))
-    {
-        NSLog(@"Invalid request to deactivate data set.");
+- (bool) doStopTrackers {
+    // Stop the tracker
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::Tracker* tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
+    
+    if (NULL != tracker) {
+        tracker->stop();
+        NSLog(@"INFO: successfully stopped tracker");
+        return YES;
+    }
+    else {
+        NSLog(@"ERROR: failed to get the tracker from the tracker manager");
         return NO;
     }
-    
-    BOOL success = NO;
-    
-    // we deactivate the enhanced tracking
-    [self setExtendedTrackingForDataSet:theDataSet start:NO];
+}
+
+- (bool) doUnloadTrackersData {
+    [self deactivateDataSet: dataSetCurrent];
+    dataSetCurrent = nil;
     
     // Get the image tracker:
     Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
     Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
     
-    if (objectTracker == NULL)
+    // Destroy the data sets:
+    if (!objectTracker->destroyDataSet(dataSetTarmac))
     {
-        NSLog(@"Failed to unload tracking data set because the ObjectTracker has not been initialized.");
+        NSLog(@"Failed to destroy data set Tarmac.");
     }
-    else
+    if (!objectTracker->destroyDataSet(dataSetStonesAndChips))
     {
-        // Activate the data set:
-        if (!objectTracker->deactivateDataSet(theDataSet))
-        {
-            NSLog(@"Failed to deactivate data set.");
-        }
-        else
-        {
-            success = YES;
-        }
+        NSLog(@"Failed to destroy data set Stones and Chips.");
     }
     
-    dataSetCurrent = nil;
-    
-    return success;
+    NSLog(@"datasets destroyed");
+    return YES;
 }
 
 - (BOOL)activateDataSet:(Vuforia::DataSet *)theDataSet
@@ -337,75 +451,107 @@
     return success;
 }
 
-// load the data associated to the trackers
-- (bool) doLoadTrackersData {
-    dataSetStonesAndChips = [self loadObjectTrackerDataSet:@"StonesAndChips.xml"];
-    dataSetTarmac = [self loadObjectTrackerDataSet:@"Tarmac.xml"];
-    if ((dataSetStonesAndChips == NULL) || (dataSetTarmac == NULL)) {
-        NSLog(@"Failed to load datasets");
-        return NO;
-    }
-    if (! [self activateDataSet:dataSetStonesAndChips]) {
-        NSLog(@"Failed to activate dataset");
+- (BOOL)deactivateDataSet:(Vuforia::DataSet *)theDataSet
+{
+    if ((dataSetCurrent == nil) || (theDataSet != dataSetCurrent))
+    {
+        NSLog(@"Invalid request to deactivate data set.");
         return NO;
     }
     
+    BOOL success = NO;
     
-    return YES;
-}
-
-- (bool) doUnloadTrackersData {
-    [self deactivateDataSet: dataSetCurrent];
-    dataSetCurrent = nil;
+    // we deactivate the enhanced tracking
+    [self setExtendedTrackingForDataSet:theDataSet start:NO];
     
     // Get the image tracker:
     Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
     Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
     
-    // Destroy the data sets:
-    if (!objectTracker->destroyDataSet(dataSetTarmac))
+    if (objectTracker == NULL)
     {
-        NSLog(@"Failed to destroy data set Tarmac.");
+        NSLog(@"Failed to unload tracking data set because the ObjectTracker has not been initialized.");
     }
-    if (!objectTracker->destroyDataSet(dataSetStonesAndChips))
+    else
     {
-        NSLog(@"Failed to destroy data set Stones and Chips.");
+        // Activate the data set:
+        if (!objectTracker->deactivateDataSet(theDataSet))
+        {
+            NSLog(@"Failed to deactivate data set.");
+        }
+        else
+        {
+            success = YES;
+        }
     }
     
-    NSLog(@"datasets destroyed");
+    dataSetCurrent = nil;
+    
+    return success;
+}
+
+- (BOOL) setExtendedTrackingForDataSet:(Vuforia::DataSet *)theDataSet start:(BOOL) start {
+    BOOL result = YES;
+    for (int tIdx = 0; tIdx < theDataSet->getNumTrackables(); tIdx++) {
+        Vuforia::Trackable* trackable = theDataSet->getTrackable(tIdx);
+        if (start) {
+            if (!trackable->startExtendedTracking())
+            {
+                NSLog(@"Failed to start extended tracking on: %s", trackable->getName());
+                result = false;
+            }
+        } else {
+            if (!trackable->stopExtendedTracking())
+            {
+                NSLog(@"Failed to stop extended tracking on: %s", trackable->getName());
+                result = false;
+            }
+        }
+    }
+    return result;
+}
+
+- (bool) doDeinitTrackers {
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    trackerManager.deinitTracker(Vuforia::ObjectTracker::getClassType());
     return YES;
 }
 
-// start the application trackers
-- (bool) doStartTrackers {
-    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
-    Vuforia::Tracker* tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
-    if(tracker == 0) {
-        return false;
-    }
-    tracker->start();
-    return true;
+- (void)autofocus:(UITapGestureRecognizer *)sender
+{
+    [self performSelector:@selector(cameraPerformAutoFocus) withObject:nil afterDelay:.4];
 }
 
-- (bool) doStopTrackers {
-    // Stop the tracker
-    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
-    Vuforia::Tracker* tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
+- (void)cameraPerformAutoFocus
+{
+    Vuforia::CameraDevice::getInstance().setFocusMode(Vuforia::CameraDevice::FOCUS_MODE_TRIGGERAUTO);
     
-    if (NULL != tracker) {
-        tracker->stop();
-        NSLog(@"INFO: successfully stopped tracker");
-        return YES;
+    // After triggering an autofocus event,
+    // we must restore the previous focus mode
+    if (continuousAutofocusEnabled)
+    {
+        [self performSelector:@selector(restoreContinuousAutoFocus) withObject:nil afterDelay:2.0];
     }
-    else {
-        NSLog(@"ERROR: failed to get the tracker from the tracker manager");
-        return NO;
-    }
+}
+
+- (void)restoreContinuousAutoFocus
+{
+    Vuforia::CameraDevice::getInstance().setFocusMode(Vuforia::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
 }
 
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
+    
+    [vapp stopAR:nil];
+    
+    // Be a good OpenGL ES citizen: now that Vuforia is paused and the render
+    // thread is not executing, inform the root view controller that the
+    // EAGLView should finish any OpenGL ES commands
+    [self finishOpenGLESCommands];
+    
+    ARISAppDelegate *appDelegate = _DELEGATE_;
+    appDelegate.glResourceHandler = nil;
 }
 
 @end

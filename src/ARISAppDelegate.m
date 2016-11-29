@@ -22,8 +22,6 @@
 #import "RootViewController.h"
 #import <Google/Analytics.h>
 
-#import "VuforiaManager.h"
-
 @interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate, CLLocationManagerDelegate>
 {
   CLLocationManager *locationManager;
@@ -31,7 +29,6 @@
   CLLocation *lastKnownLocation;
   AVAudioPlayer *player;
   NSMutableDictionary *beaconSignals;
-  VuforiaManager *vuforiaManager;
 }
 @end
 
@@ -85,8 +82,6 @@
   if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
 
   beaconSignals = [[NSMutableDictionary alloc] init];
-  
-  vuforiaManager = [[VuforiaManager alloc] init];
 }
 
 - (void) setApplicationUITemplates
@@ -285,6 +280,17 @@
 {
   [self stopPollingLocation];
   _ARIS_NOTIF_IGNORE_ALL_(self);
+}
+
+// from vuforia sample code
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+  // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+  // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+  if (self.glResourceHandler) {
+    // Delete OpenGL resources (e.g. framebuffer) of the SampleApp AR View
+    [self.glResourceHandler freeOpenGLESResources];
+    [self.glResourceHandler finishOpenGLESCommands];
+  }
 }
 
 @end
