@@ -50,11 +50,25 @@ namespace {
     
     // Teapot texture filenames
     const char* textureFilenames[] = {
-        "TextureTeapotBrass.png",
-        "TextureTeapotBlue.png",
-        "TextureTeapotRed.png",
-        "building_texture.jpeg"
+        "frame00000.png",
+        "frame00001.png",
+        "frame00002.png",
+        "frame00003.png",
+        "frame00004.png",
+        "frame00005.png",
+        "frame00006.png",
+        "frame00007.png",
+        "frame00008.png",
+        "frame00009.png",
+        "frame00010.png",
+        "frame00011.png",
+        "frame00012.png",
+        "frame00013.png",
+        "frame00014.png",
+        "frame00015.png"
     };
+
+    int frame_number = 0;
     
     // Model scale factor
     const float kObjectScaleNormal = 3.0f;
@@ -239,6 +253,9 @@ namespace {
     }
     glCullFace(GL_BACK);
     
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    
     for (int i = 0; i < state.getNumTrackableResults(); ++i) {
         // Get the trackable
         const Vuforia::TrackableResult* result = state.getTrackableResult(i);
@@ -276,20 +293,19 @@ namespace {
         glEnableVertexAttribArray(normalHandle);
         glEnableVertexAttribArray(textureCoordHandle);
         
+        /*
         // Choose the texture based on the target name
         int targetIndex = 0; // "stones"
         if (!strcmp(trackable.getName(), "chips"))
             targetIndex = 1;
         else if (!strcmp(trackable.getName(), "tarmac"))
             targetIndex = 2;
+        */
         
         glActiveTexture(GL_TEXTURE0);
         
-        if (offTargetTrackingEnabled) {
-            glBindTexture(GL_TEXTURE_2D, augmentationTexture[3].textureID);
-        } else {
-            glBindTexture(GL_TEXTURE_2D, augmentationTexture[targetIndex].textureID);
-        }
+        glBindTexture(GL_TEXTURE_2D, augmentationTexture[frame_number / 3].textureID);
+        frame_number = (frame_number + 1) % (kNumAugmentationTextures * 3);
         glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
         glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
         
@@ -306,6 +322,7 @@ namespace {
         SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
     }
     
+    glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     
