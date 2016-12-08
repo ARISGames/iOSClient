@@ -17,7 +17,7 @@
 #import "SampleGLResourceHandler.h"
 #import "SampleAppRenderer.h"
 
-#define kNumAugmentationTextures 16
+#define kNumAugmentationTextures 272
 
 
 // EAGLView is a subclass of UIView and conforms to the informal protocol
@@ -42,7 +42,7 @@
     GLint texSampler2DHandle;
     
     // Texture used when rendering augmentation
-    Texture* augmentationTexture[kNumAugmentationTextures];
+    Texture* augmentationTexture;
     
     BOOL offTargetTrackingEnabled;
     SampleApplication3DModel * buildingModel;

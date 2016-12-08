@@ -47,32 +47,14 @@
 
 namespace {
     // --- Data private to this unit ---
-    
-    // Teapot texture filenames
-    const char* textureFilenames[] = {
-        "frame00000.png",
-        "frame00001.png",
-        "frame00002.png",
-        "frame00003.png",
-        "frame00004.png",
-        "frame00005.png",
-        "frame00006.png",
-        "frame00007.png",
-        "frame00008.png",
-        "frame00009.png",
-        "frame00010.png",
-        "frame00011.png",
-        "frame00012.png",
-        "frame00013.png",
-        "frame00014.png",
-        "frame00015.png"
-    };
 
     int frame_number = 0;
     
     // Model scale factor
     const float kObjectScaleNormal = 3.0f;
     const float kObjectScaleOffTargetTracking = 12.0f;
+
+    GLuint textureID;
 }
 
 
@@ -113,10 +95,8 @@ namespace {
             [self setContentScaleFactor:[UIScreen mainScreen].nativeScale];
         }
         
-        // Load the augmentation textures
-        for (int i = 0; i < kNumAugmentationTextures; ++i) {
-            augmentationTexture[i] = [[Texture alloc] initWithImageFile:[NSString stringWithCString:textureFilenames[i] encoding:NSASCIIStringEncoding]];
-        }
+        // Load the initial augmentation texture
+        augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"Vanessa_AlphaChannelTest_0000.png" encoding:NSASCIIStringEncoding]];
         
         // Create the OpenGL ES context
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -129,15 +109,12 @@ namespace {
         
         // Generate the OpenGL ES texture and upload the texture data for use
         // when rendering the augmentation
-        for (int i = 0; i < kNumAugmentationTextures; ++i) {
-            GLuint textureID;
-            glGenTextures(1, &textureID);
-            [augmentationTexture[i] setTextureID:textureID];
-            glBindTexture(GL_TEXTURE_2D, textureID);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, [augmentationTexture[i] width], [augmentationTexture[i] height], 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture[i] pngData]);
-        }
+        glGenTextures(1, &textureID);
+        [augmentationTexture setTextureID:textureID];
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, [augmentationTexture width], [augmentationTexture height], 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture pngData]);
         
         offTargetTrackingEnabled = NO;
         sampleAppRenderer = [[SampleAppRenderer alloc]initWithSampleAppRendererControl:self deviceMode:Vuforia::Device::MODE_AR stereo:false nearPlane:50.0 farPlane:5000.0];
@@ -173,9 +150,7 @@ namespace {
         [EAGLContext setCurrentContext:nil];
     }
     
-    for (int i = 0; i < kNumAugmentationTextures; ++i) {
-        augmentationTexture[i] = nil;
-    }
+    augmentationTexture = nil;
 }
 
 
@@ -304,8 +279,14 @@ namespace {
         
         glActiveTexture(GL_TEXTURE0);
         
-        glBindTexture(GL_TEXTURE_2D, augmentationTexture[frame_number / 3].textureID);
-        frame_number = (frame_number + 1) % (kNumAugmentationTextures * 3);
+        // Load the frame into the texture
+        char textureFilename[50];
+        sprintf(textureFilename, "Vanessa_AlphaChannelTest_%04d.png", frame_number);
+        [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
+
+        glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, [augmentationTexture width], [augmentationTexture height], GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture pngData]);
+        frame_number = (frame_number + 1) % kNumAugmentationTextures;
         glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
         glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
         

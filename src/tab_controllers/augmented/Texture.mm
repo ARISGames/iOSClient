@@ -43,10 +43,6 @@
     }
 }
 
-
-//------------------------------------------------------------------------------
-#pragma mark - Private methods
-
 - (BOOL)loadImage:(NSString*)filename
 {
     BOOL ret = NO;
@@ -79,6 +75,10 @@
     
     return ret;
 }
+
+
+//------------------------------------------------------------------------------
+#pragma mark - Private methods
 
 
 - (BOOL)copyImageDataForOpenGL:(CFDataRef)imageData
