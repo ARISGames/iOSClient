@@ -25,6 +25,7 @@
 #import "SampleApplicationShaderUtils.h"
 #import "Teapot.h"
 
+#import <AVFoundation/AVFoundation.h>
 
 //******************************************************************************
 // *** OpenGL ES thread safety ***
@@ -55,6 +56,8 @@ namespace {
     const float kObjectScaleOffTargetTracking = 12.0f;
 
     GLuint textureID;
+
+    AVAudioPlayer *audio;
 }
 
 
@@ -124,6 +127,11 @@ namespace {
         
         // we initialize the rendering method of the SampleAppRenderer
         [sampleAppRenderer initRendering];
+
+        NSString *audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Vanessa_AlphaChannelTest_PNG_audio.mp3"];
+        audio = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
+        [audio setNumberOfLoops:-1];
+        [audio play];
     }
     
     return self;
@@ -151,6 +159,8 @@ namespace {
     }
     
     augmentationTexture = nil;
+
+    [audio stop];
 }
 
 
@@ -280,13 +290,15 @@ namespace {
         glActiveTexture(GL_TEXTURE0);
         
         // Load the frame into the texture
+        frame_number = floor([audio currentTime] * 29.97);
+        if (frame_number < 0) frame_number = 0;
+        if (frame_number > kNumAugmentationTextures - 1) frame_number = kNumAugmentationTextures - 1;
         char textureFilename[50];
         sprintf(textureFilename, "Vanessa_AlphaChannelTest_%04d.png", frame_number);
         [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
 
         glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, [augmentationTexture width], [augmentationTexture height], GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture pngData]);
-        frame_number = (frame_number + 1) % kNumAugmentationTextures;
         glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
         glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
         
