@@ -160,6 +160,7 @@
     if (![vapp pauseAR:&error]) {
         NSLog(@"ARIS Vuforia: Error pausing AR:%@", [error description]);
     }
+    [eaglView stopAudio];
 }
 
 - (void) resumeAR {

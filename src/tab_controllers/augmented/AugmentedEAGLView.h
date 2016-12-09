@@ -60,4 +60,7 @@
 - (void) setOffTargetTrackingMode:(BOOL) enabled;
 - (void)configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight;
 - (void) updateRenderingPrimitives;
+
+- (void) stopAudio;
+
 @end

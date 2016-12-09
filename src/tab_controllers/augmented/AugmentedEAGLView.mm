@@ -131,7 +131,6 @@ namespace {
         NSString *audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Vanessa_AlphaChannelTest_PNG_audio.mp3"];
         audio = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
         [audio setNumberOfLoops:-1];
-        [audio play];
     }
     
     return self;
@@ -199,6 +198,11 @@ namespace {
     [sampleAppRenderer updateRenderingPrimitives];
 }
 
+
+- (void) stopAudio
+{
+    [audio stop];
+}
 
 //------------------------------------------------------------------------------
 #pragma mark - UIGLViewProtocol methods
@@ -313,6 +317,14 @@ namespace {
         glDisableVertexAttribArray(textureCoordHandle);
         
         SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
+
+        if (![audio isPlaying]) {
+            [audio play];
+        }
+    }
+
+    if (state.getNumTrackableResults() == 0) {
+        [audio stop];
     }
     
     glDisable(GL_BLEND);
