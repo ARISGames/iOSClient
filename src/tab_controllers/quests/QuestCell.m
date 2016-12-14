@@ -9,6 +9,7 @@
 #import "QuestCell.h"
 #import "Quest.h"
 #import "ARISWebView.h"
+#import "AppModel.h"
 
 @interface QuestCell () <ARISWebViewDelegate>
 {
@@ -74,6 +75,8 @@
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     float newHeight = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
+        newHeight *= 2;
     descriptionView.frame = CGRectMake(0,20,self.frame.size.width,newHeight);
     [delegate heightCalculated:descriptionView.frame.origin.y+descriptionView.frame.size.height forQuest:quest inCell:self];
 }

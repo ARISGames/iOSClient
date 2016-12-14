@@ -189,6 +189,7 @@
   //Init Icon with tag 4
   lblTemp = [[UILabel alloc] initWithFrame:label3Frame];
   lblTemp.tag = 4;
+  lblTemp.font = [ARISTemplate ARISCellSubtextFont];
   lblTemp.numberOfLines = 2;
   lblTemp.textColor = [UIColor darkGrayColor];
   lblTemp.backgroundColor = [UIColor clearColor];

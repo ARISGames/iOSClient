@@ -9,6 +9,7 @@
 #import "DialogTextView.h"
 #import "ARISWebView.h"
 #import "DialogOption.h"
+#import "AppModel.h"
 
 @interface DialogTextView() <ARISWebViewDelegate>
 {
@@ -106,6 +107,8 @@
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
 {
     CGFloat height = [[wv stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
+      height *= 2;
     wv.frame = CGRectMake(wv.frame.origin.x, wv.frame.origin.y, wv.frame.size.width, height);
 
     if(wv == textView) webViewLoaded = YES;

@@ -214,9 +214,7 @@ static NSString * const OPTION_CELL = @"option";
     //Calculate the height of the web content
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
-    {
         newHeight *= 2;
-    }
     [webView setFrame:CGRectMake(webView.frame.origin.x,
                                       webView.frame.origin.y,
                                       webView.frame.size.width,
