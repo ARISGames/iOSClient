@@ -56,7 +56,7 @@
   
   UICollectionViewFlowLayout *questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
     questIconCollectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
+  if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
   {
     questIconCollectionViewLayout.itemSize = CGSizeMake(200, 240);
     questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);

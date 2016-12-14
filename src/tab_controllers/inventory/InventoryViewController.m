@@ -136,7 +136,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
+  if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
     return 120;
   else
     return 60;
@@ -152,7 +152,7 @@
   UILabel *lblTemp;
   ARISMediaView *iconViewTemp;
   
-  if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
+  if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
   {
     cellFrame   = CGRectMake(cellFrame.origin.x*2.,cellFrame.origin.y*2.,cellFrame.size.width*2.,cellFrame.size.height*2.);
     iconFrame   = CGRectMake(iconFrame.origin.x*2.,iconFrame.origin.y*2.,iconFrame.size.width*2.,iconFrame.size.height*2.);

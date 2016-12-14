@@ -65,6 +65,7 @@
   NSString *network_level;
   BOOL allow_download;
   BOOL preload_media;
+  BOOL ipad_two_x;
   long version;
 
   NSMutableArray *models;
@@ -129,6 +130,7 @@
 @property (nonatomic, strong) NSString *network_level;
 @property (nonatomic, assign) BOOL allow_download;
 @property (nonatomic, assign) BOOL preload_media;
+@property (nonatomic, assign) BOOL ipad_two_x;
 @property (nonatomic, assign) long version;
 
 @property (nonatomic, strong) NSMutableArray *models;
@@ -176,4 +178,3 @@
 
 
 @end
-
