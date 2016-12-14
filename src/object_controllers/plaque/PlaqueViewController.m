@@ -164,10 +164,6 @@ static NSString * const OPTION_CELL = @"option";
         [scrollView addSubview:webView];
         webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
         NSString *html = [NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], plaque.desc];
-        if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
-        {
-            html = [html stringByAppendingString:@"<script>document.body.style.zoom = 2.0;</script>"];
-        }
         [webView loadHTMLString:html baseURL:nil];
     }
 
