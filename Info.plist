@@ -36,11 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-<<<<<<< HEAD
-	<string>20161215</string>
-=======
 	<string>20161220</string>
->>>>>>> dd82d6b3c989a241679d3dc4f1a6aa480b0552c8
 	<key>Copyright (human-readable)</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
