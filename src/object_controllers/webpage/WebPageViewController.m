@@ -140,7 +140,9 @@
     [activityIndicator stopAnimating];
     activityIndicator = nil;
 
-    [webView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom = 2.0;"];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [webView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom = 2.0;"];
+    }
     [self.view addSubview:webView];
 }
 
