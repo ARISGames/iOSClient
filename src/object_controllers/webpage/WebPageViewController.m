@@ -140,7 +140,7 @@
     [activityIndicator stopAnimating];
     activityIndicator = nil;
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [webView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom = 2.0;"];
     }
     [self.view addSubview:webView];
