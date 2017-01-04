@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "ScenesModel.h"
+#import "ARTargetsModel.h"
 #import "GroupsModel.h"
 #import "PlaquesModel.h"
 #import "ItemsModel.h"
@@ -71,6 +72,7 @@
   NSMutableArray *models;
 
   ScenesModel       *scenesModel;
+  ARTargetsModel    *arTargetsModel;
   GroupsModel       *groupsModel;
   PlaquesModel      *plaquesModel;
   ItemsModel        *itemsModel;
@@ -135,6 +137,7 @@
 
 @property (nonatomic, strong) NSMutableArray *models;
 @property (nonatomic, strong) ScenesModel       *scenesModel;
+@property (nonatomic, strong) ARTargetsModel    *arTargetsModel;
 @property (nonatomic, strong) GroupsModel       *groupsModel;
 @property (nonatomic, strong) PlaquesModel      *plaquesModel;
 @property (nonatomic, strong) ItemsModel        *itemsModel;
