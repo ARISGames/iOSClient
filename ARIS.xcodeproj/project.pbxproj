@@ -108,6 +108,7 @@
 		AA4A755A1B3CA91A00C434A7 /* EventPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4A75591B3CA91A00C434A7 /* EventPackage.m */; };
 		AA4AC3CC1B7BE97D00E0BBD1 /* ARISModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4AC3CB1B7BE97D00E0BBD1 /* ARISModel.m */; };
 		AA4B84FF18BFA3C1005DBCB5 /* QuestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */; };
+		AA4E62421E1D96B500A2AD1B /* ARTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4E62411E1D96B500A2AD1B /* ARTarget.m */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
 		AA5D8D32191AB20800116FA1 /* WebPagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5D8D31191AB20800116FA1 /* WebPagesModel.m */; };
 		AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5F5ACE183147C00057AC1C /* NotesModel.m */; };
@@ -472,6 +473,8 @@
 		AA4AC3CB1B7BE97D00E0BBD1 /* ARISModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISModel.m; sourceTree = "<group>"; };
 		AA4B84FD18BFA3C1005DBCB5 /* QuestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCell.h; sourceTree = "<group>"; };
 		AA4B84FE18BFA3C1005DBCB5 /* QuestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestCell.m; sourceTree = "<group>"; };
+		AA4E62401E1D96B500A2AD1B /* ARTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTarget.h; sourceTree = "<group>"; };
+		AA4E62411E1D96B500A2AD1B /* ARTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTarget.m; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		AA522B8D17AC225200C8A72B /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		AA5D8D30191AB20800116FA1 /* WebPagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPagesModel.h; sourceTree = "<group>"; };
@@ -1391,6 +1394,8 @@
 		AABC7073172739D60074CC21 /* data_objects */ = {
 			isa = PBXGroup;
 			children = (
+				AA4E62401E1D96B500A2AD1B /* ARTarget.h */,
+				AA4E62411E1D96B500A2AD1B /* ARTarget.m */,
 				AA4A75581B3CA91A00C434A7 /* EventPackage.h */,
 				AA4A75591B3CA91A00C434A7 /* EventPackage.m */,
 				AA33A7271860C0A000D48789 /* cd_data_objects */,
@@ -2495,6 +2500,7 @@
 				AA30AC1818579C6B00068667 /* NoteCommentInputViewController.m in Sources */,
 				AA383B1118283B9F00612FFB /* NoteCell.m in Sources */,
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
+				AA4E62421E1D96B500A2AD1B /* ARTarget.m in Sources */,
 				AA4A755A1B3CA91A00C434A7 /* EventPackage.m in Sources */,
 				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
 				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
