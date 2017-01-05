@@ -38,20 +38,17 @@
 
   MediaResult *mr = [[MediaResult alloc] init];
   mr.media = m;
-  if (dh) {
-    mr.delegateHandles = @[dh];
-  } else {
-    mr.delegateHandles = @[];
-  }
+  if(dh) mr.delegateHandles = @[dh];
+  else   mr.delegateHandles = @[];
 
   [self loadMediaFromMR:mr];
 }
 
 - (void) loadMediaFromMR:(MediaResult *)mr
 {
-       if(mr.media.thumb)      { [self mediaLoadedForMR:mr]; }
-  else if(mr.media.data)       { [self deriveThumbForMR:mr]; }
-  else if(mr.media.localURL)   { mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL]; [self loadMediaFromMR:mr]; }
+       if(mr.media.thumb)     { [self mediaLoadedForMR:mr]; }
+  else if(mr.media.data)      { [self deriveThumbForMR:mr]; }
+  else if(mr.media.localURL)  { mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL]; [self loadMediaFromMR:mr]; }
   else if(mr.media.remoteURL)
   {
     NSURLRequest *request = [NSURLRequest requestWithURL:mr.media.remoteURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];

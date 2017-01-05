@@ -18,6 +18,13 @@
 @interface ARTargetsModel()
 {
   NSMutableDictionary *ar_targets;
+  
+  NSMutableData *xmlData;
+  NSURLRequest *xmlRequest;
+  NSURLConnection *xmlConnection;
+  NSMutableData *datData;
+  NSURLRequest *datRequest;
+  NSURLConnection *datConnection;
 }
 
 @end
@@ -117,10 +124,53 @@
   n_game_data_received = [self nGameDataToReceive];
 }
 
+- (void) loadTargetDBXML
+{
+  NSURL *xmlUrl = [[NSURL alloc] initWithString:@""];
+  xmlData = [[NSMutableData alloc] initWithCapacity:2048];
+  xmlRequest = [NSURLRequest requestWithURL:xmlUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+  xmlConnection = [[NSURLConnection alloc] initWithRequest:xmlRequest delegate:self];
+}
+
+- (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
+{
+  if(c == xmlConnection) [xmlData appendData:d];
+  if(c == datConnection) [datData appendData:d];
+}
+
+- (void) connectionDidFinishLoading:(NSURLConnection*)c
+{
+  NSString *g = [NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id]; //game_id as string
+  NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+  
+  if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
+    [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
+  
+  if(c == xmlConnection)
+  {
+    NSString *partial_url = [NSString stringWithFormat:@"%@/vuforiadb.xml",g];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
+    [xmlData writeToURL:url options:nil error:nil];
+    [url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    xmlConnection = nil;
+    xmlData = nil;
+  }
+  if(c == datConnection)
+  {
+    NSString *partial_url = [NSString stringWithFormat:@"%@/vuforiadb.dat",g];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
+    [datData writeToURL:url options:nil error:nil];
+    [url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    datConnection = nil;
+    datData = nil;
+  }
+}
+
 - (void) dealloc
 {
+  if(xmlConnection) [xmlConnection cancel];
+  if(datConnection) [datConnection cancel];
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
 @end
-

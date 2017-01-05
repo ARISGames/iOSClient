@@ -33,8 +33,8 @@
   {
     [self clearGameData];
 
-    _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGERS_RECEIVED",self,@selector(triggersReceived:),nil);
-    _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGER_RECEIVED",self,@selector(triggerReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGERS_RECEIVED",       self,@selector(triggersReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_TRIGGER_RECEIVED",        self,@selector(triggerReceived:),nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_TRIGGERS_RECEIVED",self,@selector(playerTriggersReceived:),nil);
   }
   return self;
@@ -364,4 +364,3 @@
 }
 
 @end
-
