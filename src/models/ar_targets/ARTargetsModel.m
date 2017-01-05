@@ -15,7 +15,7 @@
 #import "AppServices.h"
 #import "SBJson.h"
 
-@interface ARTargetsModel()
+@interface ARTargetsModel() <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
   NSMutableDictionary *ar_targets;
   
@@ -44,6 +44,7 @@
 - (void) requestGameData
 {
   [self requestARTargets];
+  [self loadTargetDB];
 }
 - (void) clearGameData
 {
@@ -52,7 +53,7 @@
 }
 - (long) nGameDataToReceive
 {
-  return 1;
+  return 3;
 }
 
 - (void) arTargetsReceived:(NSNotification *)notif
@@ -124,18 +125,39 @@
   n_game_data_received = [self nGameDataToReceive];
 }
 
-- (void) loadTargetDBXML
+- (void) loadTargetDB
 {
   NSURL *xmlUrl = [[NSURL alloc] initWithString:@""];
   xmlData = [[NSMutableData alloc] initWithCapacity:2048];
   xmlRequest = [NSURLRequest requestWithURL:xmlUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
   xmlConnection = [[NSURLConnection alloc] initWithRequest:xmlRequest delegate:self];
+  
+  NSURL *datUrl = [[NSURL alloc] initWithString:@""];
+  datData = [[NSMutableData alloc] initWithCapacity:2048];
+  datRequest = [NSURLRequest requestWithURL:datUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+  datConnection = [[NSURLConnection alloc] initWithRequest:datRequest delegate:self];
 }
 
 - (void) connection:(NSURLConnection *)c didReceiveData:(NSData *)d
 {
   if(c == xmlConnection) [xmlData appendData:d];
   if(c == datConnection) [datData appendData:d];
+}
+
+- (void) connection:(NSURLConnection *)c didFailWithError:(NSError *)error
+{
+  if(c == xmlConnection)
+  {
+    n_game_data_received++;
+    _ARIS_NOTIF_SEND_(@"MODEL_AR_TARGET_DB_XML_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
+  }
+  if(c == datConnection)
+  {
+    n_game_data_received++;
+    _ARIS_NOTIF_SEND_(@"MODEL_AR_TARGET_DB_DAT_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
+  }
 }
 
 - (void) connectionDidFinishLoading:(NSURLConnection*)c
@@ -154,6 +176,9 @@
     [url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     xmlConnection = nil;
     xmlData = nil;
+    n_game_data_received++;
+    _ARIS_NOTIF_SEND_(@"MODEL_AR_TARGET_DB_XML_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
   }
   if(c == datConnection)
   {
@@ -163,6 +188,9 @@
     [url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     datConnection = nil;
     datData = nil;
+    n_game_data_received++;
+    _ARIS_NOTIF_SEND_(@"MODEL_AR_TARGET_DB_DAT_AVAILABLE",nil,nil);
+    _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
   }
 }
 
