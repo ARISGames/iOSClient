@@ -30,6 +30,7 @@
   BOOL trigger_on_enter;
   NSString *qr_code;
   long seconds;
+  long ar_target_id;
   NSString *beacon_uuid;
   long beacon_major;
   long beacon_minor;
@@ -53,6 +54,7 @@
 @property (nonatomic, assign) BOOL trigger_on_enter;
 @property (nonatomic, copy)   NSString *qr_code;
 @property (nonatomic, assign) long seconds;
+@property (nonatomic, assign) long ar_target_id;
 @property (nonatomic, copy)   NSString *beacon_uuid;
 @property (nonatomic, assign) long beacon_major;
 @property (nonatomic, assign) long beacon_minor;

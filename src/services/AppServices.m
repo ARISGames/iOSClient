@@ -344,6 +344,23 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_SCENES_RECEIVED", nil, @{@"scenes":scenes});
 }
 
+- (void) fetchARTargets
+{
+  NSDictionary *args =
+    @{
+      @"game_id":[NSNumber numberWithLong:_MODEL_GAME_.game_id]
+      };
+  [connection performAsynchronousRequestWithService:@"ar_targets" method:@"getARTargetsForGame" arguments:args handler:self successSelector:@selector(parseARTargets:) failSelector:@selector(gameFetchFailed) retryOnFail:NO humanDesc:@"Fetching ARTargets..." userInfo:nil];
+}
+- (void) parseARTargets:(ARISServiceResult *)result
+{
+    NSArray *arTargetDicts = (NSArray *)result.resultData;
+    NSMutableArray *ar_targets = [[NSMutableArray alloc] init];
+    for(long i = 0; i < arTargetDicts.count; i++)
+        ar_targets[i] = [[ARTarget alloc] initWithDictionary:arTargetDicts[i]];
+    _ARIS_NOTIF_SEND_(@"SERVICES_AR_TARGETS_RECEIVED", nil, @{@"ar_targets":ar_targets});
+}
+
 //creates player scene for game if not already created
 - (void) touchSceneForPlayer
 {
@@ -1460,6 +1477,21 @@
     NSDictionary *sceneDict= (NSDictionary *)result.resultData;
     Scene *scene = [[Scene alloc] initWithDictionary:sceneDict];
     _ARIS_NOTIF_SEND_(@"SERVICES_SCENE_RECEIVED", nil, @{@"scene":scene});
+}
+
+- (void) fetchARTargetById:(long)ar_target_id;
+{
+  NSDictionary *args =
+    @{
+      @"ar_target_id":[NSNumber numberWithLong:ar_target_id]
+      };
+  [connection performAsynchronousRequestWithService:@"ar_targets" method:@"getARTarget" arguments:args handler:self successSelector:@selector(parseARTarget:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching ARTarget..." userInfo:nil];
+}
+- (void) parseARTarget:(ARISServiceResult *)result
+{
+    NSDictionary *arTargetDict= (NSDictionary *)result.resultData;
+    ARTarget *ar_target = [[ARTarget alloc] initWithDictionary:arTargetDict];
+    _ARIS_NOTIF_SEND_(@"SERVICES_AR_TARGET_RECEIVED", nil, @{@"ar_target":ar_target});
 }
 
 - (void) fetchGroupById:(long)group_id;
