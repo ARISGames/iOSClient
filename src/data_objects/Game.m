@@ -65,6 +65,7 @@
 @synthesize network_level;
 @synthesize allow_download;
 @synthesize preload_media;
+@synthesize ipad_two_x;
 @synthesize version;
 
 @synthesize models;
@@ -150,6 +151,7 @@
 
     allow_download = [dict validBoolForKey:@"allow_download"];
     preload_media = [dict validBoolForKey:@"preload_media"];
+    ipad_two_x = [dict validBoolForKey:@"ipad_two_x"];
     version = [dict validIntForKey:@"version"];
     
     downloadedVersion = 0;
@@ -206,6 +208,7 @@
 
   [d setObject:[NSString stringWithFormat:@"%d",allow_download] forKey:@"allow_download"];
   [d setObject:[NSString stringWithFormat:@"%d",preload_media] forKey:@"preload_media"];
+  [d setObject:[NSString stringWithFormat:@"%d",ipad_two_x] forKey:@"ipad_two_x"];
   [d setObject:[NSString stringWithFormat:@"%ld",version] forKey:@"version"];
   return [NSString JSONFromFlatStringDict:d];
 }
@@ -255,6 +258,7 @@
   network_level = g.network_level;
   allow_download = g.allow_download;
   preload_media = g.preload_media;
+  ipad_two_x = g.ipad_two_x;
   version = g.version;
   
   //local

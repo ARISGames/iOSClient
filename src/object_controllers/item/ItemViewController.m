@@ -86,6 +86,7 @@
     btn.userInteractionEnabled = YES;
     btn.textAlignment = NSTextAlignmentCenter;
     btn.text = t;
+    btn.font = [ARISTemplate ARISButtonFont];
     btn.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
     btn.textColor       = [ARISTemplate ARISColorText];
     [btn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:s]];
@@ -378,6 +379,8 @@
     if(wv == descriptionView)
     {
         float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+        if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
+          newHeight *= 2;
         if (newHeight > (self.view.bounds.size.height - 64) * (2.0f/3.0f)) {
             descriptionView.userInteractionEnabled = YES;
             descriptionView.scrollView.scrollEnabled = YES;
