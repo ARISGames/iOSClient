@@ -49,7 +49,7 @@
 namespace {
     // --- Data private to this unit ---
 
-    int frame_number = 0;
+    int father_frame_number = 0;
     
     // Model scale factor
     const float kObjectScaleNormal = 3.0f;
@@ -99,7 +99,7 @@ namespace {
         }
         
         // Load the initial augmentation texture
-        augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"Vanessa_AlphaChannelTest_0000.png" encoding:NSASCIIStringEncoding]];
+        augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding]];
         
         // Create the OpenGL ES context
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -128,7 +128,7 @@ namespace {
         // we initialize the rendering method of the SampleAppRenderer
         [sampleAppRenderer initRendering];
 
-        NSString *audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Vanessa_AlphaChannelTest_PNG_audio.mp3"];
+        NSString *audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"brother.mp3"];
         audio = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
         [audio setNumberOfLoops:-1];
     }
@@ -245,6 +245,7 @@ namespace {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     
+    bool play_brother_audio = false;
     for (int i = 0; i < state.getNumTrackableResults(); ++i) {
         // Get the trackable
         const Vuforia::TrackableResult* result = state.getTrackableResult(i);
@@ -294,11 +295,18 @@ namespace {
         glActiveTexture(GL_TEXTURE0);
         
         // Load the frame into the texture
-        frame_number = floor([audio currentTime] * 29.97);
-        if (frame_number < 0) frame_number = 0;
-        if (frame_number > kNumAugmentationTextures - 1) frame_number = kNumAugmentationTextures - 1;
         char textureFilename[50];
-        sprintf(textureFilename, "Vanessa_AlphaChannelTest_%04d.png", frame_number);
+        if (!strcmp(trackable.getName(), "PTP_MGG_OlderBrother")) {
+            play_brother_audio = true;
+            int frame_number = floor([audio currentTime] * 29.97);
+            if (frame_number < 0) frame_number = 0;
+            if (frame_number > kNumAugmentationTextures - 1) frame_number = kNumAugmentationTextures - 1;
+            sprintf(textureFilename, "brother_%03d.png.jpg", frame_number + 1);
+        } else {
+            sprintf(textureFilename, "father_%03d.png.jpg", father_frame_number + 1);
+            father_frame_number++;
+            if (father_frame_number == 339) father_frame_number = 0;
+        }
         [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
 
         glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
@@ -317,13 +325,11 @@ namespace {
         glDisableVertexAttribArray(textureCoordHandle);
         
         SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
-
-        if (![audio isPlaying]) {
-            [audio play];
-        }
     }
 
-    if (state.getNumTrackableResults() == 0) {
+    if (play_brother_audio) {
+        if (![audio isPlaying]) [audio play];
+    } else {
         [audio stop];
     }
     

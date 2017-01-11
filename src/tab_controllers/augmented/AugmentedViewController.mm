@@ -254,9 +254,9 @@
 
 // load the data associated to the trackers
 - (bool) doLoadTrackersData {
-    dataSetStonesAndChips = [self loadObjectTrackerDataSet:@"StonesAndChips.xml"];
-    dataSetTarmac = [self loadObjectTrackerDataSet:@"Tarmac.xml"];
-    if ((dataSetStonesAndChips == NULL) || (dataSetTarmac == NULL)) {
+    dataSetStonesAndChips = [self loadObjectTrackerDataSet:@"MGG_2017_01_07.xml"];
+    //dataSetStonesAndChips = [self loadObjectTrackerDataSet:@"StonesAndChips.xml"];
+    if (dataSetStonesAndChips == NULL) {
         NSLog(@"ARIS Vuforia: Failed to load datasets");
         return NO;
     }

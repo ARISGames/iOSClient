@@ -17,10 +17,10 @@
 
 static const float teapotVertices[NUM_TEAPOT_OBJECT_VERTEX * 3] =
 {
-    -20, -20, 0,
-    20, -20, 0,
-    -20, 20, 0,
-    20, 20, 0
+    -85, -85, 0,
+    85, -85, 0,
+    -85, 85, 0,
+    85, 85, 0
 };
 
 static const float teapotTexCoords[NUM_TEAPOT_OBJECT_VERTEX * 2] =
