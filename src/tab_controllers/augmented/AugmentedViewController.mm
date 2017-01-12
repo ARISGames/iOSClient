@@ -86,10 +86,7 @@
     
     // a single tap will trigger a single autofocus operation
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autofocus:)];
-    
-    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureAction:)];
-    [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.view addGestureRecognizer:swipeRight];
+    [self.view addGestureRecognizer:tapGestureRecognizer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(dismissARViewController)
@@ -520,7 +517,13 @@
 
 - (void)autofocus:(UITapGestureRecognizer *)sender
 {
-    [self performSelector:@selector(cameraPerformAutoFocus) withObject:nil afterDelay:.4];
+    NSString *arQRcode = [eaglView arQRcode];
+    if (!arQRcode) return;
+    Trigger *t = [_MODEL_TRIGGERS_ triggerForQRCode:arQRcode];
+    if(t)
+    {
+        [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
+    }
 }
 
 - (void)cameraPerformAutoFocus

@@ -56,4 +56,6 @@
 
 - (void) stopAudio;
 
+- (NSString *) arQRcode;
+
 @end

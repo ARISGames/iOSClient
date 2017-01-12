@@ -59,6 +59,8 @@ namespace {
     
     AVAudioPlayer *audioBrother;
     AVAudioPlayer *audioTheater;
+    
+    NSString *arQRcode;
 }
 
 
@@ -134,6 +136,8 @@ namespace {
         NSString *audioPath2 = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"theater.mp3"];
         audioTheater = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath2] error:nil];
         [audioTheater setNumberOfLoops:-1];
+        
+        arQRcode = nil;
     }
     
     return self;
@@ -273,20 +277,24 @@ namespace {
             if (frame_number < 0) frame_number = 0;
             if (frame_number > 748) frame_number = 748;
             sprintf(textureFilename, "brother_%03d.png.jpg", frame_number + 1);
+            arQRcode = @"AR_brother";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
             play_theater_audio = true;
             int frame_number = floor(fmod([audioTheater currentTime], 16.32) * 29.97);
             if (frame_number < 0) frame_number = 0;
             if (frame_number > 487) frame_number = 487;
             sprintf(textureFilename, "theater-%03d.png", frame_number + 1);
+            arQRcode = @"AR_theater";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_Father")) {
             sprintf(textureFilename, "father_%03d.png.jpg", father_frame_number + 1);
             father_frame_number++;
             if (father_frame_number == 339) father_frame_number = 0;
+            arQRcode = @"AR_father";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
             sprintf(textureFilename, "nurse-%03d.jpg", nurse_frame_number + 1);
             nurse_frame_number++;
             if (nurse_frame_number == 611) nurse_frame_number = 0;
+            arQRcode = @"AR_nurse";
         }
         [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
 
@@ -316,11 +324,20 @@ namespace {
         [audioTheater pause];
     }
     
+    if (state.getNumTrackableResults() == 0) {
+        arQRcode = nil;
+    }
+    
     glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     
     [self presentFramebuffer];
+}
+
+- (NSString *)arQRcode
+{
+    return arQRcode;
 }
 
 - (void)configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight
@@ -435,6 +452,9 @@ namespace {
     return [context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-
+- (void) stopAudio {
+    [audioBrother stop];
+    [audioTheater stop];
+}
 
 @end
