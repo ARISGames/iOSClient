@@ -17,9 +17,6 @@
 #import "SampleGLResourceHandler.h"
 #import "SampleAppRenderer.h"
 
-#define kNumAugmentationTextures 749
-
-
 // EAGLView is a subclass of UIView and conforms to the informal protocol
 // UIGLViewProtocol
 @interface AugmentedEAGLView : UIView <UIGLViewProtocol, SampleGLResourceHandler, SampleAppRendererControl> {
@@ -44,9 +41,6 @@
     // Texture used when rendering augmentation
     Texture* augmentationTexture;
     
-    BOOL offTargetTrackingEnabled;
-    SampleApplication3DModel * buildingModel;
-    
     SampleAppRenderer * sampleAppRenderer;
 }
 
@@ -57,7 +51,6 @@
 - (void)finishOpenGLESCommands;
 - (void)freeOpenGLESResources;
 
-- (void) setOffTargetTrackingMode:(BOOL) enabled;
 - (void)configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight;
 - (void) updateRenderingPrimitives;
 

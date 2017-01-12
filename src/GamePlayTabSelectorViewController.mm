@@ -178,12 +178,18 @@
                     (id<InventoryViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:inventoryViewController];
             }
-            else if([tab.type isEqualToString:@"DECODER"]) //text only
+            else if([tab.type isEqualToString:@"DECODER"] && _MODEL_GAME_.game_id == 24455)
             {
-                // TESTING
+                // temporary, for MHS purposes
                 AugmentedViewController *augmentedViewController = [[AugmentedViewController alloc] initWithTab:tab delegate:
                                                                     (id<AugmentedViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:augmentedViewController];
+            }
+            else if([tab.type isEqualToString:@"DECODER"]) //text only
+            {
+                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithTab:tab delegate:
+                                                                (id<DecoderViewControllerDelegate>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             }
             else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
             {

@@ -23,6 +23,24 @@ static const float teapotVertices[NUM_TEAPOT_OBJECT_VERTEX * 3] =
     85, 85, 0
 };
 
+
+static const float teapotVertices_Theater[NUM_TEAPOT_OBJECT_VERTEX * 3] =
+{
+    -85, -51.53125, 0,
+    85, -51.53125, 0,
+    -85, 51.53125, 0,
+    85, 51.53125, 0
+};
+
+
+static const float teapotVertices_Nurse[NUM_TEAPOT_OBJECT_VERTEX * 3] =
+{
+    -85, -48.34375, 0,
+    85, -48.34375, 0,
+    -85, 48.34375, 0,
+    85, 48.34375, 0
+};
+
 static const float teapotTexCoords[NUM_TEAPOT_OBJECT_VERTEX * 2] =
 {
     0, 0,

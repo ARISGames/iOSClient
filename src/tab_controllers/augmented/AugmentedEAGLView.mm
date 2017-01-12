@@ -48,16 +48,17 @@
 
 namespace {
     // --- Data private to this unit ---
-
+    
     int father_frame_number = 0;
+    int nurse_frame_number = 0;
     
     // Model scale factor
     const float kObjectScaleNormal = 3.0f;
-    const float kObjectScaleOffTargetTracking = 12.0f;
 
     GLuint textureID;
-
-    AVAudioPlayer *audio;
+    
+    AVAudioPlayer *audioBrother;
+    AVAudioPlayer *audioTheater;
 }
 
 
@@ -119,18 +120,20 @@ namespace {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, [augmentationTexture width], [augmentationTexture height], 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture pngData]);
         
-        offTargetTrackingEnabled = NO;
         sampleAppRenderer = [[SampleAppRenderer alloc]initWithSampleAppRendererControl:self deviceMode:Vuforia::Device::MODE_AR stereo:false nearPlane:50.0 farPlane:5000.0];
         
-        [self loadBuildingsModel];
         [self initShaders];
         
         // we initialize the rendering method of the SampleAppRenderer
         [sampleAppRenderer initRendering];
-
+        
         NSString *audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"brother.mp3"];
-        audio = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
-        [audio setNumberOfLoops:-1];
+        audioBrother = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
+        [audioBrother setNumberOfLoops:-1];
+        
+        NSString *audioPath2 = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"theater.mp3"];
+        audioTheater = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath2] error:nil];
+        [audioTheater setNumberOfLoops:-1];
     }
     
     return self;
@@ -158,8 +161,9 @@ namespace {
     }
     
     augmentationTexture = nil;
-
-    [audio stop];
+    
+    [audioBrother stop];
+    [audioTheater stop];
 }
 
 
@@ -183,25 +187,9 @@ namespace {
     glFinish();
 }
 
-- (void) setOffTargetTrackingMode:(BOOL) enabled {
-    offTargetTrackingEnabled = enabled;
-}
-
-- (void) loadBuildingsModel {
-    buildingModel = [[SampleApplication3DModel alloc] initWithTxtResourceName:@"buildings"];
-    [buildingModel read];
-}
-
-
 - (void) updateRenderingPrimitives
 {
     [sampleAppRenderer updateRenderingPrimitives];
-}
-
-
-- (void) stopAudio
-{
-    [audio stop];
 }
 
 //------------------------------------------------------------------------------
@@ -235,17 +223,14 @@ namespace {
     // We must detect if background reflection is active and adjust the culling direction.
     // If the reflection is active, this means the pose matrix has been reflected as well,
     // therefore standard counter clockwise face culling will result in "inside out" models.
-    if (offTargetTrackingEnabled) {
-        glDisable(GL_CULL_FACE);
-    } else {
-        glEnable(GL_CULL_FACE);
-    }
+    glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     
     bool play_brother_audio = false;
+    bool play_theater_audio = false;
     for (int i = 0; i < state.getNumTrackableResults(); ++i) {
         // Get the trackable
         const Vuforia::TrackableResult* result = state.getTrackableResult(i);
@@ -257,40 +242,26 @@ namespace {
         // OpenGL 2
         Vuforia::Matrix44F modelViewProjection;
         
-        if (offTargetTrackingEnabled) {
-            SampleApplicationUtils::rotatePoseMatrix(90, 1, 0, 0,&modelViewMatrix.data[0]);
-            SampleApplicationUtils::scalePoseMatrix(kObjectScaleOffTargetTracking, kObjectScaleOffTargetTracking, kObjectScaleOffTargetTracking, &modelViewMatrix.data[0]);
-        } else {
-            SampleApplicationUtils::translatePoseMatrix(0.0f, 0.0f, kObjectScaleNormal, &modelViewMatrix.data[0]);
-            SampleApplicationUtils::scalePoseMatrix(kObjectScaleNormal, kObjectScaleNormal, kObjectScaleNormal, &modelViewMatrix.data[0]);
-        }
+        SampleApplicationUtils::translatePoseMatrix(0.0f, 0.0f, kObjectScaleNormal, &modelViewMatrix.data[0]);
+        SampleApplicationUtils::scalePoseMatrix(kObjectScaleNormal, kObjectScaleNormal, kObjectScaleNormal, &modelViewMatrix.data[0]);
         
         SampleApplicationUtils::multiplyMatrix(&projectionMatrix.data[0], &modelViewMatrix.data[0], &modelViewProjection.data[0]);
         
         glUseProgram(shaderProgramID);
         
-        if (offTargetTrackingEnabled) {
-            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)buildingModel.vertices);
-            glVertexAttribPointer(normalHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)buildingModel.normals);
-            glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)buildingModel.texCoords);
+        if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
+            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Theater);
+        } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
+            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Nurse);
         } else {
-            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices);
-            glVertexAttribPointer(normalHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotNormals);
-            glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotTexCoords);
+            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices); // square
         }
+        glVertexAttribPointer(normalHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotNormals);
+        glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotTexCoords);
         
         glEnableVertexAttribArray(vertexHandle);
         glEnableVertexAttribArray(normalHandle);
         glEnableVertexAttribArray(textureCoordHandle);
-        
-        /*
-        // Choose the texture based on the target name
-        int targetIndex = 0; // "stones"
-        if (!strcmp(trackable.getName(), "chips"))
-            targetIndex = 1;
-        else if (!strcmp(trackable.getName(), "tarmac"))
-            targetIndex = 2;
-        */
         
         glActiveTexture(GL_TEXTURE0);
         
@@ -298,14 +269,24 @@ namespace {
         char textureFilename[50];
         if (!strcmp(trackable.getName(), "PTP_MGG_OlderBrother")) {
             play_brother_audio = true;
-            int frame_number = floor([audio currentTime] * 29.97);
+            int frame_number = floor([audioBrother currentTime] * 29.97);
             if (frame_number < 0) frame_number = 0;
-            if (frame_number > kNumAugmentationTextures - 1) frame_number = kNumAugmentationTextures - 1;
+            if (frame_number > 748) frame_number = 748;
             sprintf(textureFilename, "brother_%03d.png.jpg", frame_number + 1);
-        } else {
+        } else if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
+            play_theater_audio = true;
+            int frame_number = floor(fmod([audioTheater currentTime], 16.32) * 29.97);
+            if (frame_number < 0) frame_number = 0;
+            if (frame_number > 487) frame_number = 487;
+            sprintf(textureFilename, "theater-%03d.png", frame_number + 1);
+        } else if (!strcmp(trackable.getName(), "PTP_MGG_Father")) {
             sprintf(textureFilename, "father_%03d.png.jpg", father_frame_number + 1);
             father_frame_number++;
             if (father_frame_number == 339) father_frame_number = 0;
+        } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
+            sprintf(textureFilename, "nurse-%03d.jpg", nurse_frame_number + 1);
+            nurse_frame_number++;
+            if (nurse_frame_number == 611) nurse_frame_number = 0;
         }
         [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
 
@@ -314,11 +295,7 @@ namespace {
         glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
         glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
         
-        if (offTargetTrackingEnabled) {
-            glDrawArrays(GL_TRIANGLES, 0, (int)buildingModel.numVertices);
-        } else {
-            glDrawElements(GL_TRIANGLES, NUM_TEAPOT_OBJECT_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)teapotIndices);
-        }
+        glDrawElements(GL_TRIANGLES, NUM_TEAPOT_OBJECT_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)teapotIndices);
         
         glDisableVertexAttribArray(vertexHandle);
         glDisableVertexAttribArray(normalHandle);
@@ -326,11 +303,17 @@ namespace {
         
         SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
     }
-
+    
     if (play_brother_audio) {
-        if (![audio isPlaying]) [audio play];
+        if (![audioBrother isPlaying]) [audioBrother play];
     } else {
-        [audio stop];
+        [audioBrother pause];
+    }
+    
+    if (play_theater_audio) {
+        if (![audioTheater isPlaying]) [audioTheater play];
+    } else {
+        [audioTheater pause];
     }
     
     glDisable(GL_BLEND);
