@@ -13,7 +13,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB24ACA152B8CE500B49876 /* ImageIO.framework */; };
 		4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD5C40714E0661E00081B20 /* CoreData.framework */; };
-		53038C841DE62C7F0002A3EA /* vuforia in Resources */ = {isa = PBXBuildFile; fileRef = 53038C831DE62C7F0002A3EA /* vuforia */; };
 		53038C871DE62CB80002A3EA /* libVuforia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53038C861DE62CB80002A3EA /* libVuforia.a */; };
 		53038C8A1DE62D460002A3EA /* AugmentedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 53038C891DE62D460002A3EA /* AugmentedViewController.mm */; };
 		531599891D199DE40020C494 /* play-solid.png in Resources */ = {isa = PBXBuildFile; fileRef = 531599881D199DE40020C494 /* play-solid.png */; };
@@ -11022,7 +11021,6 @@
 				53A0FB1E1E27F66D0076499D /* theater-127.png in Resources */,
 				53A0F7051E27F6480076499D /* nurse-178.jpg in Resources */,
 				5B1D998F178CC3A700661453 /* dark_play@2x.png in Resources */,
-				53038C841DE62C7F0002A3EA /* vuforia in Resources */,
 				53E7DFA61E2045AA00CCA3B0 /* father_208.png.jpg in Resources */,
 				53A0FC071E27F66E0076499D /* theater-360.png in Resources */,
 				53A0F6BD1E27F6480076499D /* nurse-106.jpg in Resources */,
