@@ -12,10 +12,15 @@
 
 @interface ARTargetsModel : ARISModel
 {
+  NSURL *xmlURL;
+  NSURL *datURL;
 }
 
 - (ARTarget *) arTargetForId:(long)ar_target_id;
 - (void) requestARTargets;
+
+@property (nonatomic, strong) NSURL *xmlURL;
+@property (nonatomic, strong) NSURL *datURL;
 
 @end
 

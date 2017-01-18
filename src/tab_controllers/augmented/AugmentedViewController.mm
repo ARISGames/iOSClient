@@ -357,7 +357,7 @@
             NSLog(@"ARIS Vuforia: INFO: successfully loaded data set");
             
             // Load the data set from the app's resources location
-            if (!dataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE)) {
+            if(!dataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE)) {
                 NSLog(@"ARIS Vuforia: ERROR: failed to load data set");
                 objectTracker->destroyDataSet(dataSet);
                 dataSet = NULL;

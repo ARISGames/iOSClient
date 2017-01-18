@@ -117,7 +117,7 @@
     [ARISViewController attemptRotationToDeviceOrientation];
      */
 
-    objc_msgSend([UIDevice currentDevice], @selector(setOrientation:), orientation);
+    //objc_msgSend([UIDevice currentDevice], @selector(setOrientation:), orientation);
 }
 
 - (void) loadView

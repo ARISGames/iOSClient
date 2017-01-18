@@ -22,6 +22,7 @@
   NSMutableData *xmlData;
   NSURLRequest *xmlRequest;
   NSURLConnection *xmlConnection;
+  
   NSMutableData *datData;
   NSURLRequest *datRequest;
   NSURLConnection *datConnection;
@@ -30,6 +31,9 @@
 @end
 
 @implementation ARTargetsModel
+
+@synthesize xmlURL;
+@synthesize datURL;
 
 - (id) init
 {
@@ -171,21 +175,22 @@
   if(c == xmlConnection)
   {
     NSString *partial_url = [NSString stringWithFormat:@"%@/vuforiadb.xml",g];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
-    [xmlData writeToURL:url options:nil error:nil];
-    [url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    xmlURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
+    [xmlData writeToURL:xmlURL options:nil error:nil];
+    [xmlURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     xmlConnection = nil;
     xmlData = nil;
     n_game_data_received++;
+    
     _ARIS_NOTIF_SEND_(@"MODEL_AR_TARGET_DB_XML_AVAILABLE",nil,nil);
     _ARIS_NOTIF_SEND_(@"GAME_PIECE_AVAILABLE",nil,nil);
   }
   if(c == datConnection)
   {
     NSString *partial_url = [NSString stringWithFormat:@"%@/vuforiadb.dat",g];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
-    [datData writeToURL:url options:nil error:nil];
-    [url setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    datURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
+    [datData writeToURL:datURL options:nil error:nil];
+    [datURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     datConnection = nil;
     datData = nil;
     n_game_data_received++;
