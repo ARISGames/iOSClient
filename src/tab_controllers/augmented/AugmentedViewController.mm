@@ -329,14 +329,13 @@
 
 - (void) onVuforiaUpdate: (Vuforia::State *) state
 {
-    [self activateDataSet:dataSet];
 }
 
 // Load the image tracker data set
 - (Vuforia::DataSet *)loadObjectTrackerDataSet:(NSString*)dataFile
 {
     NSLog(@"ARIS Vuforia: loadObjectTrackerDataSet (%@)", dataFile);
-    Vuforia::DataSet * dataSet = NULL;
+    Vuforia::DataSet * tDataSet = NULL;
     
     // Get the Vuforia tracker manager image tracker
     Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
@@ -346,29 +345,30 @@
         NSLog(@"ARIS Vuforia: ERROR: failed to get the ObjectTracker from the tracker manager");
         return NULL;
     } else {
-        dataSet = objectTracker->createDataSet();
+        tDataSet = objectTracker->createDataSet();
         
-        if(NULL != dataSet)
+        if(NULL != tDataSet)
         {
             NSLog(@"ARIS Vuforia: INFO: successfully loaded data set");
             
             // Load the data set from the app's resources location
             if(dataFile && ![dataFile isEqualToString:@""])
             {
-              if(!dataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_ABSOLUTE))
+              if(!tDataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_ABSOLUTE))
               {
-                NSLog(@"ARIS Vuforia: ERROR: failed to load data set");
-                objectTracker->destroyDataSet(dataSet);
-                dataSet = NULL;
+                NSLog(@"ARIS Vuforia: ERROR: failed to load custom data set");
+                objectTracker->destroyDataSet(tDataSet);
+                tDataSet = NULL;
               }
             }
             else
             {
-              if(!dataSet->load([@"StonesAndChips.xml" cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE))
+              NSString *defaultDataFile = [NSString stringWithFormat:@"MGG_2017_01_07.xml"];//@"StonesAndChips.xml"];
+              if(!tDataSet->load([defaultDataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE))
               {
-                NSLog(@"ARIS Vuforia: ERROR: failed to load data set");
-                objectTracker->destroyDataSet(dataSet);
-                dataSet = NULL;
+                NSLog(@"ARIS Vuforia: ERROR: failed to load default data set");
+                objectTracker->destroyDataSet(tDataSet);
+                tDataSet = NULL;
               }
             }
         }
@@ -377,7 +377,7 @@
         }
     }
     
-    return dataSet;
+    return tDataSet;
 }
 
 

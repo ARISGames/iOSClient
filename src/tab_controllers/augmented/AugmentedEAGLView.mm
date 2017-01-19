@@ -253,13 +253,13 @@ namespace {
         
         glUseProgram(shaderProgramID);
         
-        if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
+      if (1){//!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
             glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Theater);
-        } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
-            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Nurse);
-        } else {
-            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices); // square
-        }
+        } //else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
+          //  glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Nurse);
+       // } else {
+       //     glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices); // square
+       // }
         glVertexAttribPointer(normalHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotNormals);
         glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotTexCoords);
         
