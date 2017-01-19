@@ -251,13 +251,15 @@
 
 // load the data associated to the trackers
 - (bool) doLoadTrackersData {
-    dataSetStonesAndChips = [self loadObjectTrackerDataSet:@"MGG_2017_01_07.xml"];
-    //dataSetStonesAndChips = [self loadObjectTrackerDataSet:@"StonesAndChips.xml"];
-    if (dataSetStonesAndChips == NULL) {
+    //NOTE- dataSetSto
+    //dataSet = [self loadObjectTrackerDataSet:@"MGG_2017_01_07.xml"];
+    //dataSet = [self loadObjectTrackerDataSet:@"StonesAndChips.xml"];
+    dataSet = [self loadObjectTrackerDataSet:[_MODEL_AR_TARGETS_.xmlURL absoluteString]];
+    if (dataSet == NULL) {
         NSLog(@"ARIS Vuforia: Failed to load datasets");
         return NO;
     }
-    if (! [self activateDataSet:dataSetStonesAndChips]) {
+    if (! [self activateDataSet:dataSet]) {
         NSLog(@"ARIS Vuforia: Failed to activate dataset");
         return NO;
     }
@@ -327,14 +329,7 @@
 
 - (void) onVuforiaUpdate: (Vuforia::State *) state
 {
-    if (switchToTarmac) {
-        [self activateDataSet:dataSetTarmac];
-        switchToTarmac = NO;
-    }
-    if (switchToStonesAndChips) {
-        [self activateDataSet:dataSetStonesAndChips];
-        switchToStonesAndChips = NO;
-    }
+    [self activateDataSet:dataSet];
 }
 
 // Load the image tracker data set
@@ -353,14 +348,28 @@
     } else {
         dataSet = objectTracker->createDataSet();
         
-        if (NULL != dataSet) {
+        if(NULL != dataSet)
+        {
             NSLog(@"ARIS Vuforia: INFO: successfully loaded data set");
             
             // Load the data set from the app's resources location
-            if(!dataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE)) {
+            if(dataFile && ![dataFile isEqualToString:@""])
+            {
+              if(!dataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_ABSOLUTE))
+              {
                 NSLog(@"ARIS Vuforia: ERROR: failed to load data set");
                 objectTracker->destroyDataSet(dataSet);
                 dataSet = NULL;
+              }
+            }
+            else
+            {
+              if(!dataSet->load([@"StonesAndChips.xml" cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE))
+              {
+                NSLog(@"ARIS Vuforia: ERROR: failed to load data set");
+                objectTracker->destroyDataSet(dataSet);
+                dataSet = NULL;
+              }
             }
         }
         else {
@@ -397,13 +406,9 @@
     Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
     
     // Destroy the data sets:
-    if (!objectTracker->destroyDataSet(dataSetTarmac))
+    if (!objectTracker->destroyDataSet(dataSet))
     {
-        NSLog(@"Failed to destroy data set Tarmac.");
-    }
-    if (!objectTracker->destroyDataSet(dataSetStonesAndChips))
-    {
-        NSLog(@"Failed to destroy data set Stones and Chips.");
+      NSLog(@"Failed to destroy data set");
     }
     
     NSLog(@"datasets destroyed");

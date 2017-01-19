@@ -20,11 +20,7 @@
 @interface AugmentedViewController : ARISViewController <GamePlayTabBarViewControllerProtocol, SampleApplicationControl> {
 
     Vuforia::DataSet*  dataSetCurrent;
-    Vuforia::DataSet*  dataSetTarmac;
-    Vuforia::DataSet*  dataSetStonesAndChips;
-    
-    BOOL switchToTarmac;
-    BOOL switchToStonesAndChips;
+    Vuforia::DataSet*  dataSet;
     
     // menu options
     BOOL extendedTrackingEnabled;
