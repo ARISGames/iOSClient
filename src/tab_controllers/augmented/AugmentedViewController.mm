@@ -254,7 +254,7 @@
     //NOTE- dataSetSto
     //dataSet = [self loadObjectTrackerDataSet:@"MGG_2017_01_07.xml"];
     //dataSet = [self loadObjectTrackerDataSet:@"StonesAndChips.xml"];
-    dataSet = [self loadObjectTrackerDataSet:[_MODEL_AR_TARGETS_.xmlURL absoluteString]];
+    dataSet = [self loadObjectTrackerDataSet:[_MODEL_AR_TARGETS_.xmlURL path]];
     if (dataSet == NULL) {
         NSLog(@"ARIS Vuforia: Failed to load datasets");
         return NO;
@@ -341,10 +341,13 @@
     Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
     Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
     
-    if (NULL == objectTracker) {
+    if(NULL == objectTracker)
+    {
         NSLog(@"ARIS Vuforia: ERROR: failed to get the ObjectTracker from the tracker manager");
         return NULL;
-    } else {
+    }
+    else
+    {
         tDataSet = objectTracker->createDataSet();
         
         if(NULL != tDataSet)
@@ -372,7 +375,8 @@
               }
             }
         }
-        else {
+        else
+        {
             NSLog(@"ARIS Vuforia: ERROR: failed to create data set");
         }
     }

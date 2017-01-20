@@ -168,16 +168,18 @@
 {
   NSString *g = [NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id]; //game_id as string
   NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+  NSString *partial_url;
+  NSError *e;
   
   if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
     [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
   
   if(c == xmlConnection)
   {
-    NSString *partial_url = [NSString stringWithFormat:@"%@/vuforiadb.xml",g];
+    partial_url = [NSString stringWithFormat:@"%@/vuforiadb.xml",g];
     xmlURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
-    [xmlData writeToURL:xmlURL options:nil error:nil];
-    [xmlURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    if([xmlData writeToURL:xmlURL atomically:YES])
+      [xmlURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&e];
     xmlConnection = nil;
     xmlData = nil;
     n_game_data_received++;
@@ -187,10 +189,10 @@
   }
   if(c == datConnection)
   {
-    NSString *partial_url = [NSString stringWithFormat:@"%@/vuforiadb.dat",g];
+    partial_url = [NSString stringWithFormat:@"%@/vuforiadb.dat",g];
     datURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
-    [datData writeToURL:datURL options:nil error:nil];
-    [datURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+    if([datData writeToURL:datURL atomically:YES])
+      [datURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&e];
     datConnection = nil;
     datData = nil;
     n_game_data_received++;
