@@ -334,6 +334,7 @@
 // Load the image tracker data set
 - (Vuforia::DataSet *)loadObjectTrackerDataSet:(NSString*)dataFile
 {
+    dataFile = @"";
     NSLog(@"ARIS Vuforia: loadObjectTrackerDataSet (%@)", dataFile);
     Vuforia::DataSet * tDataSet = NULL;
     
@@ -366,7 +367,7 @@
             }
             else
             {
-              NSString *defaultDataFile = [NSString stringWithFormat:@"MGG_2017_01_07.xml"];//@"StonesAndChips.xml"];
+              NSString *defaultDataFile = [NSString stringWithFormat:@"vuforiadb.xml"];//@"MGG_2017_01_07.xml"];//@"StonesAndChips.xml"];
               if(!tDataSet->load([defaultDataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE))
               {
                 NSLog(@"ARIS Vuforia: ERROR: failed to load default data set");

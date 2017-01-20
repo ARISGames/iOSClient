@@ -2319,6 +2319,8 @@
 		AA4E62421E1D96B500A2AD1B /* ARTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4E62411E1D96B500A2AD1B /* ARTarget.m */; };
 		AA4E62461E1D9B4F00A2AD1B /* ARTargetsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4E62451E1D9B4F00A2AD1B /* ARTargetsModel.m */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
+		AA5688A21E32A01A00E8B823 /* vuforiadb.dat in Resources */ = {isa = PBXBuildFile; fileRef = AA5688A01E32A01A00E8B823 /* vuforiadb.dat */; };
+		AA5688A31E32A01A00E8B823 /* vuforiadb.xml in Resources */ = {isa = PBXBuildFile; fileRef = AA5688A11E32A01A00E8B823 /* vuforiadb.xml */; };
 		AA5D8D32191AB20800116FA1 /* WebPagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5D8D31191AB20800116FA1 /* WebPagesModel.m */; };
 		AA5F5ACF183147C00057AC1C /* NotesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5F5ACE183147C00057AC1C /* NotesModel.m */; };
 		AA5FCA36197EF00E005C2A2F /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5FCA35197EF00E005C2A2F /* Tag.m */; };
@@ -4909,6 +4911,8 @@
 		AA4E62451E1D9B4F00A2AD1B /* ARTargetsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTargetsModel.m; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		AA522B8D17AC225200C8A72B /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
+		AA5688A01E32A01A00E8B823 /* vuforiadb.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = vuforiadb.dat; sourceTree = "<group>"; };
+		AA5688A11E32A01A00E8B823 /* vuforiadb.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vuforiadb.xml; sourceTree = "<group>"; };
 		AA5D8D30191AB20800116FA1 /* WebPagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPagesModel.h; sourceTree = "<group>"; };
 		AA5D8D31191AB20800116FA1 /* WebPagesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPagesModel.m; sourceTree = "<group>"; };
 		AA5F5ACD183147C00057AC1C /* NotesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesModel.h; sourceTree = "<group>"; };
@@ -7954,6 +7958,8 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AA5688A01E32A01A00E8B823 /* vuforiadb.dat */,
+				AA5688A11E32A01A00E8B823 /* vuforiadb.xml */,
 				53E7D7A21E2042AD00CCA3B0 /* MGG_2017_01_07.dat */,
 				53E7D7A31E2042AD00CCA3B0 /* MGG_2017_01_07.xml */,
 				53E7D7A81E2045A200CCA3B0 /* brother */,
@@ -8950,6 +8956,7 @@
 				53E7DEE61E2045AA00CCA3B0 /* father_016.png.jpg in Resources */,
 				53A0FB211E27F66D0076499D /* theater-130.png in Resources */,
 				53A0F7711E27F6490076499D /* nurse-286.jpg in Resources */,
+				AA5688A31E32A01A00E8B823 /* vuforiadb.xml in Resources */,
 				53A0F6C51E27F6480076499D /* nurse-114.jpg in Resources */,
 				53A0F7E91E27F6490076499D /* nurse-406.jpg in Resources */,
 				53E7DE1D1E2045A900CCA3B0 /* brother_564.png.jpg in Resources */,
@@ -9174,6 +9181,7 @@
 				53E7DC821E2045A800CCA3B0 /* brother_153.png.jpg in Resources */,
 				53E7DF621E2045AA00CCA3B0 /* father_140.png.jpg in Resources */,
 				53A0FB981E27F66D0076499D /* theater-249.png in Resources */,
+				AA5688A21E32A01A00E8B823 /* vuforiadb.dat in Resources */,
 				53A0F7AF1E27F6490076499D /* nurse-348.jpg in Resources */,
 				53E7DF981E2045AA00CCA3B0 /* father_194.png.jpg in Resources */,
 				53A0FB8F1E27F66D0076499D /* theater-240.png in Resources */,

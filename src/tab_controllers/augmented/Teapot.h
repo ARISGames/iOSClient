@@ -18,9 +18,9 @@
 static const float teapotVertices[NUM_TEAPOT_OBJECT_VERTEX * 3] =
 {
     -85, -85, 0,
-    85, -85, 0,
-    -85, 85, 0,
-    85, 85, 0
+     85, -85, 0,
+    -85,  85, 0,
+     85,  85, 0
 };
 
 
