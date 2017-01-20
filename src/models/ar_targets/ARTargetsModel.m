@@ -133,12 +133,12 @@
 {
   NSURL *xmlUrl = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@/gamedatav2/%ld/ar/vuforiadb.xml",_MODEL_.serverURL,_MODEL_GAME_.game_id]];
   xmlData = [[NSMutableData alloc] initWithCapacity:2048];
-  xmlRequest = [NSURLRequest requestWithURL:xmlUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+  xmlRequest = [NSURLRequest requestWithURL:xmlUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
   xmlConnection = [[NSURLConnection alloc] initWithRequest:xmlRequest delegate:self];
   
   NSURL *datUrl = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@/gamedatav2/%ld/ar/vuforiadb.dat",_MODEL_.serverURL,_MODEL_GAME_.game_id]];
   datData = [[NSMutableData alloc] initWithCapacity:2048];
-  datRequest = [NSURLRequest requestWithURL:datUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+  datRequest = [NSURLRequest requestWithURL:datUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
   datConnection = [[NSURLConnection alloc] initWithRequest:datRequest delegate:self];
 }
 

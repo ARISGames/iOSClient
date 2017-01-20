@@ -334,7 +334,6 @@
 // Load the image tracker data set
 - (Vuforia::DataSet *)loadObjectTrackerDataSet:(NSString*)dataFile
 {
-    dataFile = @"";
     NSLog(@"ARIS Vuforia: loadObjectTrackerDataSet (%@)", dataFile);
     Vuforia::DataSet * tDataSet = NULL;
     
