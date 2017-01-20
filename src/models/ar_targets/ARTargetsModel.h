@@ -12,6 +12,7 @@
 
 @interface ARTargetsModel : ARISModel
 {
+  NSMutableDictionary *ar_targets;
   NSURL *xmlURL;
   NSURL *datURL;
 }
@@ -19,6 +20,7 @@
 - (ARTarget *) arTargetForId:(long)ar_target_id;
 - (void) requestARTargets;
 
+@property (nonatomic, strong) NSMutableDictionary *ar_targets;
 @property (nonatomic, strong) NSURL *xmlURL;
 @property (nonatomic, strong) NSURL *datURL;
 

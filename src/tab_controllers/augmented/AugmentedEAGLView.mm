@@ -24,6 +24,7 @@
 #import "SampleApplicationUtils.h"
 #import "SampleApplicationShaderUtils.h"
 #import "Teapot.h"
+#import "AppModel.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -253,13 +254,7 @@ namespace {
         
         glUseProgram(shaderProgramID);
         
-      //if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
-            //glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Theater);
-        //} else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
-            //glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Nurse);
-        //} else {
-            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices); // square
-        //}
+        glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices); // square
         glVertexAttribPointer(normalHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotNormals);
         glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotTexCoords);
         
@@ -268,35 +263,57 @@ namespace {
         glEnableVertexAttribArray(textureCoordHandle);
         
         glActiveTexture(GL_TEXTURE0);
-        
-        // Load the frame into the texture
-        char textureFilename[50];
-      if (1){//!strcmp(trackable.getName(), "PTP_MGG_OlderBrother")) {
+      
+        NSArray *vals;
+        ARTarget *target;
+        Trigger *trigger;
+        char texture_filename[2048];
+      
+        vals = [_MODEL_AR_TARGETS_.ar_targets allValues];
+        int ar_target_id = -1;
+        for(int i = 0; i < vals.count; i++)
+        {
+          target = vals[i];
+          if(!strcmp(trackable.getName(), [target.name UTF8String]))
+            ar_target_id = target.ar_target_id;
+        }
+      
+        vals = _MODEL_TRIGGERS_.playerTriggers;
+        for(int i = 0; i < vals.count; i++)
+        {
+          trigger = vals[i];
+          if([trigger.type isEqualToString:@"AR"] && trigger.ar_target_id == ar_target_id)
+            sprintf(texture_filename, "%s", [[[_MODEL_MEDIA_ mediaForId:trigger.icon_media_id].localURL path] UTF8String]);
+        }
+      
+          /*
+        if(!strcmp(trackable.getName(), "PTP_MGG_OlderBrother")) {
             play_brother_audio = true;
             int frame_number = floor([audioBrother currentTime] * 29.97);
             if (frame_number < 0) frame_number = 0;
             if (frame_number > 748) frame_number = 748;
-            sprintf(textureFilename, "brother_%03d.png.jpg", frame_number + 1);
+            sprintf(texture_filename, "brother_%03d.png.jpg", frame_number + 1);
             arQRcode = @"AR_brother";
-        }// else if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
-            //play_theater_audio = true;
-            //int frame_number = floor(fmod([audioTheater currentTime], 16.32) * 29.97);
-            //if (frame_number < 0) frame_number = 0;
-            //if (frame_number > 487) frame_number = 487;
-            //sprintf(textureFilename, "theater-%03d.png", frame_number + 1);
-            //arQRcode = @"AR_theater";
-        //} else if (!strcmp(trackable.getName(), "PTP_MGG_Father")) {
-            //sprintf(textureFilename, "father_%03d.png.jpg", father_frame_number + 1);
-            //father_frame_number++;
-            //if (father_frame_number == 339) father_frame_number = 0;
-            //arQRcode = @"AR_father";
-        //} else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
-            //sprintf(textureFilename, "nurse-%03d.jpg", nurse_frame_number + 1);
-            //nurse_frame_number++;
-            //if (nurse_frame_number == 611) nurse_frame_number = 0;
-            //arQRcode = @"AR_nurse";
-        //}
-        [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
+        } else if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
+            play_theater_audio = true;
+            int frame_number = floor(fmod([audioTheater currentTime], 16.32) * 29.97);
+            if (frame_number < 0) frame_number = 0;
+            if (frame_number > 487) frame_number = 487;
+            sprintf(texture_filename, "theater-%03d.png", frame_number + 1);
+            arQRcode = @"AR_theater";
+        } else if (!strcmp(trackable.getName(), "PTP_MGG_Father")) {
+            sprintf(texture_filename, "father_%03d.png.jpg", father_frame_number + 1);
+            father_frame_number++;
+            if (father_frame_number == 339) father_frame_number = 0;
+            arQRcode = @"AR_father";
+        } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
+            sprintf(texture_filename, "nurse-%03d.jpg", nurse_frame_number + 1);
+            nurse_frame_number++;
+            if (nurse_frame_number == 611) nurse_frame_number = 0;
+            arQRcode = @"AR_nurse";
+        }
+          */
+        [augmentationTexture loadAbsoImage:[NSString stringWithCString:texture_filename encoding:NSASCIIStringEncoding]];
 
         glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, [augmentationTexture width], [augmentationTexture height], GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture pngData]);

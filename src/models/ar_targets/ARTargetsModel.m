@@ -17,8 +17,6 @@
 
 @interface ARTargetsModel() <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
-  NSMutableDictionary *ar_targets;
-  
   NSMutableData *xmlData;
   NSURLRequest *xmlRequest;
   NSURLConnection *xmlConnection;
@@ -32,6 +30,7 @@
 
 @implementation ARTargetsModel
 
+@synthesize ar_targets;
 @synthesize xmlURL;
 @synthesize datURL;
 
