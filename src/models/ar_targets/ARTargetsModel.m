@@ -174,14 +174,12 @@
   if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
     [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
   
-  _ARIS_LOG_(@"PHIL!!!!");
   if(c == xmlConnection)
   {
     partial_url = [NSString stringWithFormat:@"%@/vuforiadb.xml",g];
     xmlURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
     if([xmlData writeToURL:xmlURL atomically:YES])
       [xmlURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&e];
-    _ARIS_LOG_(@"%ul",[xmlData length]);
     xmlConnection = nil;
     xmlData = nil;
     n_game_data_received++;
@@ -195,7 +193,6 @@
     datURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
     if([datData writeToURL:datURL atomically:YES])
       [datURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:&e];
-    _ARIS_LOG_(@"%ul",[datData length]);
     datConnection = nil;
     datData = nil;
     n_game_data_received++;
