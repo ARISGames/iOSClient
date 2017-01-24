@@ -50,7 +50,7 @@
   CGColorSpaceRef colorspace = CGImageGetColorSpace(image);
   CGContextRef context = CGBitmapContextCreate(NULL, width, height,
                                                CGImageGetBitsPerComponent(image),
-                                               CGImageGetBytesPerRow(image),
+                                               CGImageGetBitsPerPixel(image)/8*width,//CGImageGetBytesPerRow(image),
                                                colorspace,
                                                CGImageGetAlphaInfo(image));
   CGColorSpaceRelease(colorspace);
