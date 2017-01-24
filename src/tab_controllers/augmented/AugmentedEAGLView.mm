@@ -23,7 +23,7 @@
 #import "Texture.h"
 #import "SampleApplicationUtils.h"
 #import "SampleApplicationShaderUtils.h"
-#import "Teapot.h"
+#import "Mesh.h"
 #import "AppModel.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -47,23 +47,15 @@
 //******************************************************************************
 
 
-namespace {
+namespace
+{
     // --- Data private to this unit ---
-    
-    int father_frame_number = 0;
-    int nurse_frame_number = 0;
-    
+    int frame_number = 0;
     // Model scale factor
     const float kObjectScaleNormal = 3.0f;
-
     GLuint textureID;
-    
-    AVAudioPlayer *audioBrother;
-    AVAudioPlayer *audioTheater;
-    
-    NSString *arQRcode;
+    AVAudioPlayer *audio;
 }
-
 
 @interface AugmentedEAGLView (PrivateMethods)
 
@@ -75,7 +67,6 @@ namespace {
 
 @end
 
-
 @implementation AugmentedEAGLView
 
 @synthesize vapp = vapp;
@@ -86,7 +77,6 @@ namespace {
 {
     return [CAEAGLLayer class];
 }
-
 
 //------------------------------------------------------------------------------
 #pragma mark - Lifecycle
@@ -131,19 +121,12 @@ namespace {
         [sampleAppRenderer initRendering];
         
         NSString *audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"brother.mp3"];
-        audioBrother = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
-        [audioBrother setNumberOfLoops:-1];
-        
-        NSString *audioPath2 = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"theater.mp3"];
-        audioTheater = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath2] error:nil];
-        [audioTheater setNumberOfLoops:-1];
-        
-        arQRcode = nil;
+        audio = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
+        [audio setNumberOfLoops:-1];
     }
     
     return self;
 }
-
 
 - (CGSize)getCurrentARViewBoundsSize
 {
@@ -167,8 +150,7 @@ namespace {
     
     augmentationTexture = nil;
     
-    [audioBrother stop];
-    [audioTheater stop];
+    [audio stop];
 }
 
 
@@ -208,11 +190,8 @@ namespace {
 // *** Vuforia will call this method periodically on a background thread ***
 - (void)renderFrameVuforia
 {
-    if (! vapp.cameraIsStarted) {
-        return;
-    }
-    
-    [sampleAppRenderer renderFrameVuforia];
+  if(!vapp.cameraIsStarted) return;
+  [sampleAppRenderer renderFrameVuforia];
 }
 
 - (void) renderFrameWithState:(const Vuforia::State&) state projectMatrix:(Vuforia::Matrix44F&) projectionMatrix {
@@ -234,9 +213,9 @@ namespace {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     
-    bool play_brother_audio = false;
-    bool play_theater_audio = false;
-    for (int i = 0; i < state.getNumTrackableResults(); ++i) {
+    bool play_audio = false;
+    for (int i = 0; i < state.getNumTrackableResults(); ++i)
+    {
         // Get the trackable
         const Vuforia::TrackableResult* result = state.getTrackableResult(i);
         const Vuforia::Trackable& trackable = result->getTrackable();
@@ -254,9 +233,9 @@ namespace {
         
         glUseProgram(shaderProgramID);
         
-        glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices); // square
-        glVertexAttribPointer(normalHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotNormals);
-        glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotTexCoords);
+        glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshPositions); // square
+        glVertexAttribPointer(normalHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshNormals);
+        glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshTexCoords);
         
         glEnableVertexAttribArray(vertexHandle);
         glEnableVertexAttribArray(normalHandle);
@@ -268,9 +247,10 @@ namespace {
         ARTarget *target;
         Trigger *trigger;
         char texture_filename[2048];
+        texture_filename[0] = '\0';
       
         vals = [_MODEL_AR_TARGETS_.ar_targets allValues];
-        int ar_target_id = -1;
+        long ar_target_id = -1;
         for(int i = 0; i < vals.count; i++)
         {
           target = vals[i];
@@ -286,41 +266,25 @@ namespace {
             sprintf(texture_filename, "%s", [[[_MODEL_MEDIA_ mediaForId:trigger.icon_media_id].localURL path] UTF8String]);
         }
       
-          /*
-        if(!strcmp(trackable.getName(), "PTP_MGG_OlderBrother")) {
-            play_brother_audio = true;
-            int frame_number = floor([audioBrother currentTime] * 29.97);
-            if (frame_number < 0) frame_number = 0;
-            if (frame_number > 748) frame_number = 748;
-            sprintf(texture_filename, "brother_%03d.png.jpg", frame_number + 1);
-            arQRcode = @"AR_brother";
-        } else if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
-            play_theater_audio = true;
-            int frame_number = floor(fmod([audioTheater currentTime], 16.32) * 29.97);
-            if (frame_number < 0) frame_number = 0;
-            if (frame_number > 487) frame_number = 487;
-            sprintf(texture_filename, "theater-%03d.png", frame_number + 1);
-            arQRcode = @"AR_theater";
-        } else if (!strcmp(trackable.getName(), "PTP_MGG_Father")) {
-            sprintf(texture_filename, "father_%03d.png.jpg", father_frame_number + 1);
-            father_frame_number++;
-            if (father_frame_number == 339) father_frame_number = 0;
-            arQRcode = @"AR_father";
-        } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
-            sprintf(texture_filename, "nurse-%03d.jpg", nurse_frame_number + 1);
-            nurse_frame_number++;
-            if (nurse_frame_number == 611) nurse_frame_number = 0;
-            arQRcode = @"AR_nurse";
-        }
-          */
-        [augmentationTexture loadAbsoImage:[NSString stringWithCString:texture_filename encoding:NSASCIIStringEncoding]];
+      /*
+        play_audio = true;
+        int frame_number = floor([audio currentTime] * 29.97);
+        if (frame_number < 0) frame_number = 0;
+        if (frame_number > 748) frame_number = 748;
+        sprintf(texture_filename, "brother_%03d.png.jpg", frame_number + 1);
+      */
+      
+        if(texture_filename[0] == '\0')
+          [NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding];
+        else
+          [augmentationTexture loadAbsoImage:[NSString stringWithCString:texture_filename encoding:NSASCIIStringEncoding]];
 
         glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, [augmentationTexture width], [augmentationTexture height], GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture pngData]);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, augmentationTexture.width, augmentationTexture.height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)augmentationTexture.pngData);
         glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
         glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
         
-        glDrawElements(GL_TRIANGLES, NUM_TEAPOT_OBJECT_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)teapotIndices);
+        glDrawElements(GL_TRIANGLES, NUM_MESH_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)meshIndices);
         
         glDisableVertexAttribArray(vertexHandle);
         glDisableVertexAttribArray(normalHandle);
@@ -329,32 +293,17 @@ namespace {
         SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
     }
     
-    if (play_brother_audio) {
-        if (![audioBrother isPlaying]) [audioBrother play];
-    } else {
-        [audioBrother pause];
+    if(play_audio)
+    {
+      if(![audio isPlaying]) [audio play];
     }
-    
-    if (play_theater_audio) {
-        if (![audioTheater isPlaying]) [audioTheater play];
-    } else {
-        [audioTheater pause];
-    }
-    
-    if (state.getNumTrackableResults() == 0) {
-        arQRcode = nil;
-    }
+    else [audio pause];
     
     glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     
     [self presentFramebuffer];
-}
-
-- (NSString *)arQRcode
-{
-    return arQRcode;
 }
 
 - (void)configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight
@@ -470,8 +419,7 @@ namespace {
 }
 
 - (void) stopAudio {
-    [audioBrother stop];
-    [audioTheater stop];
+    [audio stop];
 }
 
 @end

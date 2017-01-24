@@ -46,16 +46,14 @@
 
 @property (nonatomic, weak) SampleApplicationSession * vapp;
 
-- (id)initWithFrame:(CGRect)frame appSession:(SampleApplicationSession *) app;
+- (id) initWithFrame:(CGRect)frame appSession:(SampleApplicationSession *) app;
 
-- (void)finishOpenGLESCommands;
-- (void)freeOpenGLESResources;
+- (void) finishOpenGLESCommands;
+- (void) freeOpenGLESResources;
 
-- (void)configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight;
+- (void) configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight;
 - (void) updateRenderingPrimitives;
 
 - (void) stopAudio;
-
-- (NSString *) arQRcode;
 
 @end

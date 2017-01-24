@@ -2556,7 +2556,7 @@
 		531599881D199DE40020C494 /* play-solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-solid.png"; sourceTree = "<group>"; };
 		531B26271DEC99390044E013 /* AugmentedEAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AugmentedEAGLView.mm; path = augmented/AugmentedEAGLView.mm; sourceTree = "<group>"; };
 		531B26291DEC99450044E013 /* AugmentedEAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AugmentedEAGLView.h; path = augmented/AugmentedEAGLView.h; sourceTree = "<group>"; };
-		531B262A1DECB81A0044E013 /* Teapot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Teapot.h; path = augmented/Teapot.h; sourceTree = "<group>"; };
+		531B262A1DECB81A0044E013 /* Mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mesh.h; path = augmented/Mesh.h; sourceTree = "<group>"; };
 		531B262B1DECB8410044E013 /* Texture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Texture.mm; path = augmented/Texture.mm; sourceTree = "<group>"; };
 		531B262D1DECB84C0044E013 /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = augmented/Texture.h; sourceTree = "<group>"; };
 		531B262E1DECB96C0044E013 /* SampleApplication3DModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleApplication3DModel.h; path = augmented/SampleApplication3DModel.h; sourceTree = "<group>"; };
@@ -5360,7 +5360,7 @@
 				53038C8B1DE62D600002A3EA /* AugmentedViewController.h */,
 				531B26271DEC99390044E013 /* AugmentedEAGLView.mm */,
 				531B26291DEC99450044E013 /* AugmentedEAGLView.h */,
-				531B262A1DECB81A0044E013 /* Teapot.h */,
+				531B262A1DECB81A0044E013 /* Mesh.h */,
 				531B262B1DECB8410044E013 /* Texture.mm */,
 				531B262D1DECB84C0044E013 /* Texture.h */,
 				531B262E1DECB96C0044E013 /* SampleApplication3DModel.h */,
