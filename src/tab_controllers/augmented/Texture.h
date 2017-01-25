@@ -22,6 +22,7 @@
 
 // --- Public methods ---
 - (id)initWithImageFile:(NSString*)filename;
+- (BOOL) loadUIImage:(UIImage *)image;
 - (BOOL)loadImage:(NSString*)filename;
 - (BOOL)loadAbsoImage:(NSString*)filename;
 

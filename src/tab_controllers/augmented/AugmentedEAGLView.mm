@@ -27,6 +27,7 @@
 #import "AppModel.h"
 
 #import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 //******************************************************************************
 // *** OpenGL ES thread safety ***
@@ -50,12 +51,17 @@
 namespace
 {
     // --- Data private to this unit ---
-    int frame_number = 0;
-  long cur_trigger_id;
+    long cur_trigger_id;
+    BOOL is_video;
+    UIImage *image;
+    AVURLAsset *avurlasset;
+    AVAsset *avasset;
+    AVAssetImageGenerator *avassetimagegen;
+    MPMoviePlayerViewController *video;
+  
     // Model scale factor
     const float kObjectScaleNormal = 3.0f;
     GLuint textureID;
-    AVAudioPlayer *audio;
 }
 
 @interface AugmentedEAGLView (PrivateMethods)
@@ -86,14 +92,14 @@ namespace
 {
     self = [super initWithFrame:frame];
     
-    if (self) {
+    if(self)
+    {
         vapp = app;
         // Enable retina mode if available on this device
-        if (YES == [vapp isRetinaDisplay]) {
-            [self setContentScaleFactor:[UIScreen mainScreen].nativeScale];
-        }
+        if(YES == [vapp isRetinaDisplay]) [self setContentScaleFactor:[UIScreen mainScreen].nativeScale];
       
-      cur_trigger_id = 0;
+        cur_trigger_id = 0;
+        is_video = NO;
         
         // Load the initial augmentation texture
         augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding]];
@@ -122,10 +128,6 @@ namespace
         
         // we initialize the rendering method of the SampleAppRenderer
         [sampleAppRenderer initRendering];
-        
-        NSString *audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"brother.mp3"];
-        audio = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
-        [audio setNumberOfLoops:-1];
     }
     
     return self;
@@ -153,7 +155,7 @@ namespace
     
     augmentationTexture = nil;
     
-    [audio stop];
+    [video.moviePlayer stop];
 }
 
 
@@ -197,7 +199,8 @@ namespace
   [sampleAppRenderer renderFrameVuforia];
 }
 
-- (void) renderFrameWithState:(const Vuforia::State&) state projectMatrix:(Vuforia::Matrix44F&) projectionMatrix {
+- (void) renderFrameWithState:(const Vuforia::State&) state projectMatrix:(Vuforia::Matrix44F&) projectionMatrix
+{
     [self setFramebuffer];
     
     // Clear colour and depth buffers
@@ -216,8 +219,7 @@ namespace
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     
-    bool play_audio = false;
-    for (int i = 0; i < state.getNumTrackableResults(); ++i)
+    for(int i = 0; i < state.getNumTrackableResults(); ++i)
     {
         // Get the trackable
         const Vuforia::TrackableResult* result = state.getTrackableResult(i);
@@ -256,50 +258,62 @@ namespace
             new_trigger_id = trigger.trigger_id;
         }
       
-      /*
-        play_audio = true;
-        int frame_number = floor([audio currentTime] * 29.97);
-        if (frame_number < 0) frame_number = 0;
-        if (frame_number > 748) frame_number = 748;
-        sprintf(texture_filename, "brother_%03d.png.jpg", frame_number + 1);
-      */
-      
       if(new_trigger_id != cur_trigger_id)
       {
         float width  = 1;
         float height = 1;
         if(new_trigger_id == 0)
         {
+          if(is_video) //old video
+            [video.moviePlayer stop];
           [NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding];
+          is_video = NO;
         }
         else
         {
           Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:new_trigger_id];
           Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
-          char texture_filename[2048];
-          sprintf(texture_filename, "%s", [[media.localURL path] UTF8String]);
-          [augmentationTexture loadAbsoImage:[NSString stringWithCString:texture_filename encoding:NSASCIIStringEncoding]];
-          
-          UIImage *image;
-          if(media.data) image = [UIImage imageWithData:media.data];
-          else if(media.localURL) image = [UIImage imageWithContentsOfFile:media.localURL.path];
-          
-          width  = image.size.width;
-          height = image.size.height;
-          
-          //aspect fill
-          if(width < height)
+          is_video = [media.type isEqualToString:@"VIDEO"];
+          if(is_video)
           {
-            height /= width;
-            width = 1.;
+            video = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
+            video.moviePlayer.shouldAutoplay = NO;
+            video.moviePlayer.controlStyle = MPMovieControlStyleNone;
+            [video.moviePlayer play];
+            
+            avasset = [AVAsset assetWithURL:media.localURL];
+            avassetimagegen = [[AVAssetImageGenerator alloc] initWithAsset:avasset];
+            
+            avurlasset = [AVURLAsset URLAssetWithURL:media.localURL options:nil];
+            NSArray *tracks = [avurlasset tracksWithMediaType:AVMediaTypeVideo];
+            AVAssetTrack *track = [tracks objectAtIndex:0];
+            CGSize mediaSize = track.naturalSize;
+            width = mediaSize.width;
+            height = mediaSize.height;
           }
           else
           {
-            width /= height;
-            height = 1.;
+            if(media.data) image = [UIImage imageWithData:media.data];
+            else if(media.localURL) image = [UIImage imageWithContentsOfFile:media.localURL.path];
+            
+            [augmentationTexture loadUIImage:image];
+            
+            width  = image.size.width;
+            height = image.size.height;
           }
         }
           
+        //aspect fill
+        if(width < height)
+        {
+          height /= width;
+          width = 1.;
+        }
+        else
+        {
+          width /= height;
+          height = 1.;
+        }
         for(int i = 0; i < 4; i++)
         {
           int j = 0;
@@ -309,9 +323,20 @@ namespace
           index = i*3+j; meshPositions[index] = meshUnitPositions[index]*height*POS_SCALE; j++; //y
           index = i*3+j; meshPositions[index] = meshUnitPositions[index]*0.    *POS_SCALE; j++; //z
         }
-        
-        cur_trigger_id = new_trigger_id;
       }
+      if(is_video)
+      {
+        avassetimagegen.appliesPreferredTrackTransform = YES;
+        CMTime time = [avasset duration];
+        time.value = video.moviePlayer.currentPlaybackTime;
+        CGImageRef imageRef = [avassetimagegen copyCGImageAtTime:time actualTime:NULL error:NULL];
+        image = [UIImage imageWithCGImage:imageRef];
+        CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
+        
+        [augmentationTexture loadUIImage:image];
+      }
+          
+      cur_trigger_id = new_trigger_id;
 
       glUseProgram(shaderProgramID);
       
@@ -336,12 +361,6 @@ namespace
       
       SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
     }
-    
-    if(play_audio)
-    {
-      if(![audio isPlaying]) [audio play];
-    }
-    else [audio pause];
     
     glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);

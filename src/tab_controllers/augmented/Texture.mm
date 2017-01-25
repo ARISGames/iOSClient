@@ -66,37 +66,42 @@
   return imgRef;
 }
 
+- (BOOL) loadUIImage:(UIImage *)image
+{
+  BOOL ret = NO;
+  
+  if(image)
+  {
+    // Get the inner CGImage from the UIImage wrapper
+    CGImageRef cgImage = [self resizeCGImage:image.CGImage toWidth:TEX_SIZE andHeight:TEX_SIZE];
+    
+    // Get the image size
+    _width = (int)CGImageGetWidth(cgImage);
+    _height = (int)CGImageGetHeight(cgImage);
+    
+    // Record the number of channels
+    _channels = (int)CGImageGetBitsPerPixel(cgImage)/CGImageGetBitsPerComponent(cgImage);
+    
+    // Generate a CFData object from the CGImage object (a CFData object represents an area of memory)
+    CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+    
+    // Copy the image data for use by Open GL
+    ret = [self copyImageDataForOpenGL:imageData];
+    
+    CFRelease(imageData);
+  }
+  
+  return ret;
+}
+
 - (BOOL) loadAbsoImage:(NSString*)filename
 {
-    BOOL ret = NO;
-    
     // Build the full path of the image file
     NSString* fullPath = filename;//[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:filename];
     
     // Create a UIImage with the contents of the file
     UIImage* uiImage = [UIImage imageWithContentsOfFile:fullPath];
-    if(uiImage)
-    {
-        // Get the inner CGImage from the UIImage wrapper
-        CGImageRef cgImage = [self resizeCGImage:uiImage.CGImage toWidth:TEX_SIZE andHeight:TEX_SIZE];
-        
-        // Get the image size
-        _width = (int)CGImageGetWidth(cgImage);
-        _height = (int)CGImageGetHeight(cgImage);
-        
-        // Record the number of channels
-        _channels = (int)CGImageGetBitsPerPixel(cgImage)/CGImageGetBitsPerComponent(cgImage);
-        
-        // Generate a CFData object from the CGImage object (a CFData object represents an area of memory)
-        CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-        
-        // Copy the image data for use by Open GL
-        ret = [self copyImageDataForOpenGL:imageData];
-        
-        CFRelease(imageData);
-    }
-    
-    return ret;
+    return [self loadUIImage:uiImage];
 }
 
 - (BOOL) loadImage:(NSString*)filename
