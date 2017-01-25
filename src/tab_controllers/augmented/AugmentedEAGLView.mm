@@ -51,6 +51,7 @@ namespace
 {
     // --- Data private to this unit ---
     int frame_number = 0;
+  long cur_trigger_id;
     // Model scale factor
     const float kObjectScaleNormal = 3.0f;
     GLuint textureID;
@@ -91,6 +92,8 @@ namespace
         if (YES == [vapp isRetinaDisplay]) {
             [self setContentScaleFactor:[UIScreen mainScreen].nativeScale];
         }
+      
+      cur_trigger_id = 0;
         
         // Load the initial augmentation texture
         augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding]];
@@ -231,39 +234,26 @@ namespace
         
         SampleApplicationUtils::multiplyMatrix(&projectionMatrix.data[0], &modelViewMatrix.data[0], &modelViewProjection.data[0]);
         
-        glUseProgram(shaderProgramID);
-        
-        glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshPositions); // square
-        glVertexAttribPointer(normalHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshNormals);
-        glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshTexCoords);
-        
-        glEnableVertexAttribArray(vertexHandle);
-        glEnableVertexAttribArray(normalHandle);
-        glEnableVertexAttribArray(textureCoordHandle);
-        
         glActiveTexture(GL_TEXTURE0);
       
         NSArray *vals;
-        ARTarget *target;
-        Trigger *trigger;
-        char texture_filename[2048];
-        texture_filename[0] = '\0';
       
         vals = [_MODEL_AR_TARGETS_.ar_targets allValues];
         long ar_target_id = -1;
         for(int i = 0; i < vals.count; i++)
         {
-          target = vals[i];
+          ARTarget *target = vals[i];
           if(!strcmp(trackable.getName(), [target.name UTF8String]))
             ar_target_id = target.ar_target_id;
         }
       
         vals = _MODEL_TRIGGERS_.playerTriggers;
+        long new_trigger_id = 0;
         for(int i = 0; i < vals.count; i++)
         {
-          trigger = vals[i];
+          Trigger *trigger = vals[i];
           if([trigger.type isEqualToString:@"AR"] && trigger.ar_target_id == ar_target_id)
-            sprintf(texture_filename, "%s", [[[_MODEL_MEDIA_ mediaForId:trigger.icon_media_id].localURL path] UTF8String]);
+            new_trigger_id = trigger.trigger_id;
         }
       
       /*
@@ -274,23 +264,77 @@ namespace
         sprintf(texture_filename, "brother_%03d.png.jpg", frame_number + 1);
       */
       
-        if(texture_filename[0] == '\0')
+      if(new_trigger_id != cur_trigger_id)
+      {
+        float width  = 1;
+        float height = 1;
+        if(new_trigger_id == 0)
+        {
           [NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding];
+        }
         else
+        {
+          Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:new_trigger_id];
+          Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
+          char texture_filename[2048];
+          sprintf(texture_filename, "%s", [[media.localURL path] UTF8String]);
           [augmentationTexture loadAbsoImage:[NSString stringWithCString:texture_filename encoding:NSASCIIStringEncoding]];
+          
+          UIImage *image;
+          if(media.data) image = [UIImage imageWithData:media.data];
+          else if(media.localURL) image = [UIImage imageWithContentsOfFile:media.localURL.path];
+          
+          width  = image.size.width;
+          height = image.size.height;
+          
+          //aspect fill
+          if(width < height)
+          {
+            height /= width;
+            width = 1.;
+          }
+          else
+          {
+            width /= height;
+            height = 1.;
+          }
+        }
+          
+        for(int i = 0; i < 4; i++)
+        {
+          int j = 0;
+          int index = 0;
+          #define POS_SCALE 85
+          index = i*3+j; meshPositions[index] = meshUnitPositions[index]*width *POS_SCALE; j++; //x
+          index = i*3+j; meshPositions[index] = meshUnitPositions[index]*height*POS_SCALE; j++; //y
+          index = i*3+j; meshPositions[index] = meshUnitPositions[index]*0.    *POS_SCALE; j++; //z
+        }
+        
+        cur_trigger_id = new_trigger_id;
+      }
 
-        glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, augmentationTexture.width, augmentationTexture.height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)augmentationTexture.pngData);
-        glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
-        glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
-        
-        glDrawElements(GL_TRIANGLES, NUM_MESH_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)meshIndices);
-        
-        glDisableVertexAttribArray(vertexHandle);
-        glDisableVertexAttribArray(normalHandle);
-        glDisableVertexAttribArray(textureCoordHandle);
-        
-        SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
+      glUseProgram(shaderProgramID);
+      
+      glVertexAttribPointer(vertexHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshPositions); // square
+      glVertexAttribPointer(normalHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshNormals);
+      glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshTexCoords);
+      
+      glEnableVertexAttribArray(vertexHandle);
+      glEnableVertexAttribArray(normalHandle);
+      glEnableVertexAttribArray(textureCoordHandle);
+
+      glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
+      glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, augmentationTexture.width, augmentationTexture.height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)augmentationTexture.pngData);
+      glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
+      glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
+      
+      glDrawElements(GL_TRIANGLES, NUM_MESH_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)meshIndices);
+      
+      glDisableVertexAttribArray(vertexHandle);
+      glDisableVertexAttribArray(normalHandle);
+      glDisableVertexAttribArray(textureCoordHandle);
+      
+      SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
     }
     
     if(play_audio)

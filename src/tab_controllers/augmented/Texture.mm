@@ -75,7 +75,6 @@
     
     // Create a UIImage with the contents of the file
     UIImage* uiImage = [UIImage imageWithContentsOfFile:fullPath];
-    
     if(uiImage)
     {
         // Get the inner CGImage from the UIImage wrapper

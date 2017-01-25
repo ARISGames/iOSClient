@@ -13,12 +13,20 @@
 #define NUM_MESH_VERTEX 4
 #define NUM_MESH_INDEX 6
 
-static const float meshPositions[NUM_MESH_VERTEX * 3] =
+static const float meshUnitPositions[NUM_MESH_VERTEX * 3] =
 {
-    -85, -85, 0,
-     85, -85, 0,
-    -85,  85, 0,
-     85,  85, 0
+    -1,-1, 0,
+     1,-1, 0,
+    -1, 1, 0,
+     1, 1, 0
+};
+
+static float meshPositions[NUM_MESH_VERTEX * 3] =
+{
+    -1,-1, 0,
+     1,-1, 0,
+    -1, 1, 0,
+     1, 1, 0
 };
 
 static const float meshTexCoords[NUM_MESH_VERTEX * 2] =

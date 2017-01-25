@@ -144,7 +144,8 @@
     glCullFace(GL_BACK);
     
     // Iterate over the ViewList
-    for (int viewIdx = 0; viewIdx < viewList.getNumViews(); viewIdx++) {
+    for(int viewIdx = 0; viewIdx < viewList.getNumViews(); viewIdx++)
+    {
         Vuforia::VIEW vw = viewList.getView(viewIdx);
         self.currentView = vw;
         
