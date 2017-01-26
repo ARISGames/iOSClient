@@ -18,6 +18,7 @@
   UIProgressView *maintenanceProgressBar; UILabel *maintenanceProgressLabel; UIButton *maintenanceRetryLoadButton;
   UIProgressView *playerProgressBar;      UILabel *playerProgressLabel;      UIButton *playerRetryLoadButton;
   UIProgressView *mediaProgressBar;       UILabel *mediaProgressLabel;       UIButton *mediaRetryLoadButton;
+  UIProgressView *ARProgressBar;          UILabel *ARProgressLabel;          UIButton *ARRetryLoadButton;
 
   id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -36,16 +37,19 @@
     _ARIS_NOTIF_LISTEN_(@"MAINTENANCE_PERCENT_LOADED",        self, @selector(maintenancePercentLoaded:), nil);
     _ARIS_NOTIF_LISTEN_(@"PLAYER_PERCENT_LOADED",             self, @selector(playerPercentLoaded:),      nil);
     _ARIS_NOTIF_LISTEN_(@"MEDIA_PERCENT_LOADED",              self, @selector(mediaPercentLoaded:),       nil);
+    _ARIS_NOTIF_LISTEN_(@"AR_PERCENT_LOADED",                 self, @selector(ARPercentLoaded:),          nil);
   
     _ARIS_NOTIF_LISTEN_(@"GAME_DATA_LOADED",                  self, @selector(gameDataLoaded),         nil);
     _ARIS_NOTIF_LISTEN_(@"MAINTENANCE_DATA_LOADED",           self, @selector(maintenanceDataLoaded),  nil);
     _ARIS_NOTIF_LISTEN_(@"PLAYER_DATA_LOADED",                self, @selector(playerDataLoaded),       nil);
     _ARIS_NOTIF_LISTEN_(@"MEDIA_DATA_LOADED",                 self, @selector(mediaDataLoaded),        nil);
+    _ARIS_NOTIF_LISTEN_(@"AR_DATA_LOADED",                    self, @selector(ARDataLoaded),           nil);
   
     _ARIS_NOTIF_LISTEN_(@"SERVICES_GAME_FETCH_FAILED",        self, @selector(gameFetchFailed),        nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_MAINTENANCE_FETCH_FAILED", self, @selector(maintenanceFetchFailed), nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_PLAYER_FETCH_FAILED",      self, @selector(playerFetchFailed),      nil);
     _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIA_FETCH_FAILED",       self, @selector(mediaFetchFailed),      nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_AR_FETCH_FAILED",          self, @selector(ARFetchFailed),         nil);
   }
   return self;
 }
@@ -93,6 +97,13 @@
   [self setupLabel:mediaProgressLabel progressBar:mediaProgressBar retryButton:mediaRetryLoadButton];
   mediaProgressLabel.text = @"Fetching Media (this could take a while)...";
   [mediaRetryLoadButton addTarget:self action:@selector(retryMediaFetch) forControlEvents:UIControlEventTouchUpInside];
+  
+  ARProgressLabel = [[UILabel alloc] init];
+  ARProgressBar = [[UIProgressView alloc] init];
+  ARRetryLoadButton = [[UIButton alloc] init];
+  [self setupLabel:ARProgressLabel progressBar:ARProgressBar retryButton:ARRetryLoadButton];
+  ARProgressLabel.text = @"Caching AR (this could take a while)...";
+  [ARRetryLoadButton addTarget:self action:@selector(retryARFetch) forControlEvents:UIControlEventTouchUpInside];
 }
 
 //for easy/consistent styling
@@ -109,6 +120,7 @@
   [self frameLabel:maintenanceProgressLabel progressBar:maintenanceProgressBar retryButton:maintenanceRetryLoadButton atOffset:110.];
   [self frameLabel:playerProgressLabel      progressBar:playerProgressBar      retryButton:playerRetryLoadButton      atOffset:160.];
   [self frameLabel:mediaProgressLabel       progressBar:mediaProgressBar       retryButton:mediaRetryLoadButton       atOffset:210.];
+  [self frameLabel:ARProgressLabel          progressBar:ARProgressBar          retryButton:ARRetryLoadButton          atOffset:260.];
 }
 
 - (void) startLoading
@@ -185,12 +197,23 @@
 //Media Data
 - (void) requestMediaData { [self.view addSubview:mediaProgressLabel]; [self.view addSubview:mediaProgressBar]; [_MODEL_GAME_ requestMediaData]; }
 - (void) mediaPercentLoaded:(NSNotification *)notif { mediaProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
-- (void) mediaDataLoaded { [_MODEL_ beginGame]; }
+- (void) mediaDataLoaded { [self requestARData]; }
 - (void) mediaFetchFailed { [self.view addSubview:mediaRetryLoadButton]; }
 - (void) retryMediaFetch
 {
   [mediaRetryLoadButton removeFromSuperview];
   [self requestMediaData];
+}
+
+//AR Data
+- (void) requestARData { [self.view addSubview:ARProgressLabel]; [self.view addSubview:ARProgressBar]; [_MODEL_AR_TARGETS_ cacheARData]; }
+- (void) ARPercentLoaded:(NSNotification *)notif { ARProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) ARDataLoaded { [_MODEL_ beginGame]; }
+- (void) ARFetchFailed { [self.view addSubview:ARRetryLoadButton]; }
+- (void) retryARFetch
+{
+  [ARRetryLoadButton removeFromSuperview];
+  [self requestARData];
 }
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations

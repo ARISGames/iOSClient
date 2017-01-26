@@ -267,6 +267,11 @@
   return playerTriggers;
 }
 
+- (NSArray *) allTriggers
+{
+  return [triggers allValues];
+}
+
 - (void) expireTriggersForInstanceId:(long)instance_id
 {
   NSMutableArray *newTriggers = [[NSMutableArray alloc] init];

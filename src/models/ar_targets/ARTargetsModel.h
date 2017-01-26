@@ -19,6 +19,7 @@
 
 - (ARTarget *) arTargetForId:(long)ar_target_id;
 - (void) requestARTargets;
+- (void) cacheARData;
 
 @property (nonatomic, strong) NSMutableDictionary *ar_targets;
 @property (nonatomic, strong) NSURL *xmlURL;
