@@ -251,10 +251,10 @@
           
           [exportSession exportAsynchronouslyWithCompletionHandler:^{
             if (exportSession.status==AVAssetExportSessionStatusFailed) {
-              NSLog(@"failed");
+              NSLog(@"AR AUDIO failed");
             }
             else {
-              NSLog(@"AudioLocation : %@",audioPath);
+              NSLog(@"AR AUDIO AudioLocation : %@",audioPath);
             }
           }];
           

@@ -54,10 +54,10 @@ namespace
   long cur_trigger_id;
   BOOL is_video;
   UIImage *image;
+  
+  AVAudioPlayer *audio;
   AVURLAsset *avurlasset;
   AVAsset *avasset;
-  AVAssetImageGenerator *avassetimagegen;
-  MPMoviePlayerViewController *video;
 
   // Model scale factor
   const float kObjectScaleNormal = 3.0f;
@@ -88,7 +88,7 @@ namespace
 //------------------------------------------------------------------------------
 #pragma mark - Lifecycle
 
-- (id)initWithFrame:(CGRect)frame appSession:(SampleApplicationSession *) app
+- (id) initWithFrame:(CGRect)frame appSession:(SampleApplicationSession *) app
 {
   self = [super initWithFrame:frame];
   
@@ -153,7 +153,7 @@ namespace
   
   augmentationTexture = nil;
   
-  [video.moviePlayer stop];
+  [audio stop];
 }
 
 - (void)finishOpenGLESCommands
@@ -216,156 +216,169 @@ namespace
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
   
+  long new_trigger_id = 0;
+  //const Vuforia::Trackable& trackable = result->getTrackable();
+  Vuforia::Matrix44F modelViewMatrix;
+  // OpenGL 2
+  Vuforia::Matrix44F modelViewProjection;
   for(int i = 0; i < state.getNumTrackableResults(); ++i)
   {
-      // Get the trackable
-      const Vuforia::TrackableResult* result = state.getTrackableResult(i);
-      const Vuforia::Trackable& trackable = result->getTrackable();
-      
-      //const Vuforia::Trackable& trackable = result->getTrackable();
-      Vuforia::Matrix44F modelViewMatrix = Vuforia::Tool::convertPose2GLMatrix(result->getPose());
-      
-      // OpenGL 2
-      Vuforia::Matrix44F modelViewProjection;
-      
-      SampleApplicationUtils::translatePoseMatrix(0.0f, 0.0f, kObjectScaleNormal, &modelViewMatrix.data[0]);
-      SampleApplicationUtils::scalePoseMatrix(kObjectScaleNormal, kObjectScaleNormal, kObjectScaleNormal, &modelViewMatrix.data[0]);
-      
-      SampleApplicationUtils::multiplyMatrix(&projectionMatrix.data[0], &modelViewMatrix.data[0], &modelViewProjection.data[0]);
-      
-      glActiveTexture(GL_TEXTURE0);
+    // Get the trackable
+    const Vuforia::TrackableResult* result = state.getTrackableResult(i);
+    const Vuforia::Trackable& trackable = result->getTrackable();
     
-      NSArray *vals;
+    //const Vuforia::Trackable& trackable = result->getTrackable();
+    modelViewMatrix = Vuforia::Tool::convertPose2GLMatrix(result->getPose());
     
-      vals = [_MODEL_AR_TARGETS_.ar_targets allValues];
-      long ar_target_id = -1;
-      for(int i = 0; i < vals.count; i++)
-      {
-        ARTarget *target = vals[i];
-        if(!strcmp(trackable.getName(), [target.name UTF8String]))
-          ar_target_id = target.ar_target_id;
-      }
+    // OpenGL 2
+    SampleApplicationUtils::translatePoseMatrix(0.0f, 0.0f, kObjectScaleNormal, &modelViewMatrix.data[0]);
+    SampleApplicationUtils::scalePoseMatrix(kObjectScaleNormal, kObjectScaleNormal, kObjectScaleNormal, &modelViewMatrix.data[0]);
     
-      vals = _MODEL_TRIGGERS_.playerTriggers;
-      long new_trigger_id = 0;
-      for(int i = 0; i < vals.count; i++)
-      {
-        Trigger *trigger = vals[i];
-        if([trigger.type isEqualToString:@"AR"] && trigger.ar_target_id == ar_target_id)
-          new_trigger_id = trigger.trigger_id;
-      }
+    SampleApplicationUtils::multiplyMatrix(&projectionMatrix.data[0], &modelViewMatrix.data[0], &modelViewProjection.data[0]);
     
-    if(new_trigger_id != cur_trigger_id)
+    glActiveTexture(GL_TEXTURE0);
+  
+    NSArray *vals;
+  
+    vals = [_MODEL_AR_TARGETS_.ar_targets allValues];
+    long ar_target_id = -1;
+    for(int i = 0; i < vals.count; i++)
     {
-      float width  = 1;
-      float height = 1;
-      if(new_trigger_id == 0)
-      {
-        if(is_video) //old video
-          [video.moviePlayer stop];
-        [NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding];
-        is_video = NO;
-      }
-      else
-      {
-        Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:new_trigger_id];
-        Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
-        is_video = [media.type isEqualToString:@"VIDEO"];
-        if(is_video)
-        {
-          video = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-          video.moviePlayer.shouldAutoplay = NO;
-          video.moviePlayer.controlStyle = MPMovieControlStyleNone;
-          [video.moviePlayer play];
-          
-          avasset = [AVAsset assetWithURL:media.localURL];
-          avassetimagegen = [[AVAssetImageGenerator alloc] initWithAsset:avasset];
-          
-          avurlasset = [AVURLAsset URLAssetWithURL:media.localURL options:nil];
-          NSArray *tracks = [avurlasset tracksWithMediaType:AVMediaTypeVideo];
-          AVAssetTrack *track = [tracks objectAtIndex:0];
-          CGSize mediaSize = track.naturalSize;
-          width = mediaSize.width;
-          height = mediaSize.height;
-        }
-        else
-        {
-          if(media.data) image = [UIImage imageWithData:media.data];
-          else if(media.localURL) image = [UIImage imageWithContentsOfFile:media.localURL.path];
-          
-          [augmentationTexture loadUIImage:image];
-          
-          width  = image.size.width;
-          height = image.size.height;
-        }
-      }
-        
-      //aspect fill
-      if(width < height)
-      {
-        height /= width;
-        width = 1.;
-      }
-      else
-      {
-        width /= height;
-        height = 1.;
-      }
-      for(int i = 0; i < 4; i++)
-      {
-        int j = 0;
-        int index = 0;
-        #define POS_SCALE 85
-        index = i*3+j; meshPositions[index] = meshUnitPositions[index]*width *POS_SCALE; j++; //x
-        index = i*3+j; meshPositions[index] = meshUnitPositions[index]*height*POS_SCALE; j++; //y
-        index = i*3+j; meshPositions[index] = meshUnitPositions[index]*0.    *POS_SCALE; j++; //z
-      }
+      ARTarget *target = vals[i];
+      if(!strcmp(trackable.getName(), [target.name UTF8String]))
+        ar_target_id = target.ar_target_id;
     }
-    if(is_video)
+  
+    vals = _MODEL_TRIGGERS_.playerTriggers;
+    for(int i = 0; i < vals.count; i++)
     {
-      [video.moviePlayer play];
-      avassetimagegen.appliesPreferredTrackTransform = YES;
-      int frame = video.moviePlayer.currentPlaybackTime*1000./64;
-      
-      NSString *filename;
-      Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:cur_trigger_id];
-      Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
-      
-      //short names to cope with obj-c verbosity
-      NSString *g = [NSString stringWithFormat:@"%ld/AR",_MODEL_GAME_.game_id]; //game_id as string
-      NSString *f = [[[[media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
-
-      NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
-      filename = [NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,frame];
-      
-      [augmentationTexture loadAbsoImageNoResize:filename];
+      Trigger *trigger = vals[i];
+      if([trigger.type isEqualToString:@"AR"] && trigger.ar_target_id == ar_target_id)
+        new_trigger_id = trigger.trigger_id;
     }
-        
-    cur_trigger_id = new_trigger_id;
-
-    glUseProgram(shaderProgramID);
     
-    glVertexAttribPointer(vertexHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshPositions); // square
-    glVertexAttribPointer(normalHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshNormals);
-    glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshTexCoords);
-    
-    glEnableVertexAttribArray(vertexHandle);
-    glEnableVertexAttribArray(normalHandle);
-    glEnableVertexAttribArray(textureCoordHandle);
-
-    glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, augmentationTexture.width, augmentationTexture.height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)augmentationTexture.pngData);
-    glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
-    glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
-    
-    glDrawElements(GL_TRIANGLES, NUM_MESH_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)meshIndices);
-    
-    glDisableVertexAttribArray(vertexHandle);
-    glDisableVertexAttribArray(normalHandle);
-    glDisableVertexAttribArray(textureCoordHandle);
-    
-    SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
   }
+  
+  
+  if(new_trigger_id != cur_trigger_id)
+  {
+    float width  = 1;
+    float height = 1;
+    if(new_trigger_id == 0)
+    {
+      if(is_video) //old video
+        [audio stop];
+      [NSString stringWithCString:"black256.png" encoding:NSASCIIStringEncoding];
+      is_video = NO;
+    }
+    else
+    {
+      Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:new_trigger_id];
+      Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
+      is_video = [media.type isEqualToString:@"VIDEO"];
+      if(is_video)
+      {
+        //short names to cope with obj-c verbosity
+        NSString *g = [NSString stringWithFormat:@"%ld/AR",media.game_id]; //game_id as string
+        NSString *f = [[[[media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
+
+        NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+        NSString *audioPath = [NSString stringWithFormat:@"%@/%@.m4a",newFolder,f];
+        _ARIS_LOG_(@"AR AUDIO IS %@",audioPath);
+        if([[NSFileManager defaultManager] fileExistsAtPath:audioPath]) { _ARIS_LOG_(@"GR8"); }
+        
+        audio = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
+        [audio setNumberOfLoops:-1];
+        [audio play];
+        
+        avasset = [AVAsset assetWithURL:media.localURL];
+        
+        avurlasset = [AVURLAsset URLAssetWithURL:media.localURL options:nil];
+        NSArray *tracks = [avurlasset tracksWithMediaType:AVMediaTypeVideo];
+        AVAssetTrack *track = [tracks objectAtIndex:0];
+        CGSize mediaSize = track.naturalSize;
+        width = mediaSize.width;
+        height = mediaSize.height;
+      }
+      else
+      {
+        if(media.data) image = [UIImage imageWithData:media.data];
+        else if(media.localURL) image = [UIImage imageWithContentsOfFile:media.localURL.path];
+        
+        [augmentationTexture loadUIImage:image];
+        
+        width  = image.size.width;
+        height = image.size.height;
+      }
+    }
+      
+    //aspect fill
+    if(width < height)
+    {
+      height /= width;
+      width = 1.;
+    }
+    else
+    {
+      width /= height;
+      height = 1.;
+    }
+    for(int i = 0; i < 4; i++)
+    {
+      int j = 0;
+      int index = 0;
+      #define POS_SCALE 85
+      index = i*3+j; meshPositions[index] = meshUnitPositions[index]*width *POS_SCALE; j++; //x
+      index = i*3+j; meshPositions[index] = meshUnitPositions[index]*height*POS_SCALE; j++; //y
+      index = i*3+j; meshPositions[index] = meshUnitPositions[index]*0.    *POS_SCALE; j++; //z
+    }
+  }
+  if(is_video)
+  {
+    if(![audio isPlaying]) [audio play];
+    int frame = [audio currentTime] * 1000./64;
+    
+    NSString *filename;
+    Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:cur_trigger_id];
+    Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
+    
+    //short names to cope with obj-c verbosity
+    NSString *g = [NSString stringWithFormat:@"%ld/AR",_MODEL_GAME_.game_id]; //game_id as string
+    NSString *f = [[[[media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
+
+    NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+    filename = [NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,frame];
+    
+    [augmentationTexture loadAbsoImageNoResize:filename];
+  }
+      
+  cur_trigger_id = new_trigger_id;
+
+  glUseProgram(shaderProgramID);
+  
+  glVertexAttribPointer(vertexHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshPositions); // square
+  glVertexAttribPointer(normalHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshNormals);
+  glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshTexCoords);
+  
+  glEnableVertexAttribArray(vertexHandle);
+  glEnableVertexAttribArray(normalHandle);
+  glEnableVertexAttribArray(textureCoordHandle);
+
+  glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
+  glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, augmentationTexture.width, augmentationTexture.height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)augmentationTexture.pngData);
+  glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
+  glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
+  
+  glDrawElements(GL_TRIANGLES, NUM_MESH_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)meshIndices);
+  
+  glDisableVertexAttribArray(vertexHandle);
+  glDisableVertexAttribArray(normalHandle);
+  glDisableVertexAttribArray(textureCoordHandle);
+  
+  SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
+
+  
+  
   
   glDisable(GL_BLEND);
   glDisable(GL_DEPTH_TEST);
@@ -401,7 +414,7 @@ namespace
   }
 }
 
-- (void)createFramebuffer
+- (void) createFramebuffer
 {
   if(context)
   {
@@ -434,7 +447,7 @@ namespace
   }
 }
 
-- (void)deleteFramebuffer
+- (void) deleteFramebuffer
 {
   if(context)
   {
