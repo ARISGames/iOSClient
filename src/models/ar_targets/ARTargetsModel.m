@@ -215,72 +215,104 @@
       Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
       if([media.type isEqualToString:@"VIDEO"])
       {
-        // --- Data private to this unit ---
-        UIImage *image;
-        AVURLAsset *avurlasset;
-        AVAsset *avasset;
-        AVAssetImageGenerator *avassetimagegen;
-        MPMoviePlayerViewController *video;
-
-        video = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-        video.moviePlayer.shouldAutoplay = NO;
-        video.moviePlayer.controlStyle = MPMovieControlStyleNone;
-        [video.moviePlayer play];
-        
-        avasset = [AVAsset assetWithURL:media.localURL];
-        avassetimagegen = [[AVAssetImageGenerator alloc] initWithAsset:avasset];
-        
-        avurlasset = [AVURLAsset URLAssetWithURL:media.localURL options:nil];
-        NSArray *tracks = [avurlasset tracksWithMediaType:AVMediaTypeVideo];
-        AVAssetTrack *track = [tracks objectAtIndex:0];
-        CMTime duration = track.timeRange.duration;
-      
-        avassetimagegen.appliesPreferredTrackTransform = YES;
-        CMTime time = [avasset duration];
-        
         //short names to cope with obj-c verbosity
         NSString *g = [NSString stringWithFormat:@"%ld/AR",media.game_id]; //game_id as string
         NSString *f = [[[[media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
 
         NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
-        if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
-          [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
-        
-        int width = 256;
-        int height = 256;
-        
-        CGImageRef rawFrame;
-        CGImageRef resizedFrame;
-        int cur_frame = 0;
-        while(cur_frame * 64 < ((float)duration.value/duration.timescale)*1000.) //15 fps
+        NSString *first_frame_url = [NSString stringWithFormat:@"%@/%@_0.png",newFolder,f];
+        if(![[NSFileManager defaultManager] fileExistsAtPath:first_frame_url isDirectory:nil])
         {
-          time.value = ((cur_frame*64.)/1000.)*duration.timescale;
-          rawFrame = [avassetimagegen copyCGImageAtTime:time actualTime:NULL error:NULL];
+          AVAsset *avasset = [AVAsset assetWithURL:media.localURL];
+          AVURLAsset *avurlasset = [AVURLAsset URLAssetWithURL:media.localURL options:nil];
           
-          // create context, keeping original image properties
-          CGColorSpaceRef colorspace = CGImageGetColorSpace(rawFrame);
-          CGContextRef context = CGBitmapContextCreate(NULL, width, height,
-                                                       CGImageGetBitsPerComponent(rawFrame),
-                                                       CGImageGetBitsPerPixel(rawFrame)/8*width,//CGImageGetBytesPerRow(image),
-                                                       colorspace,
-                                                       CGImageGetAlphaInfo(rawFrame));
-          CGColorSpaceRelease(colorspace);
-  
-          // draw image to context (resizing it)
-          CGContextDrawImage(context, CGRectMake(0, 0, width, height), rawFrame);
-          // extract resulting image from context
-          resizedFrame = CGBitmapContextCreateImage(context);
-          CGContextRelease(context);
-          CGImageRelease(rawFrame);  // CGImageRef won't be released by ARC
-  
-          image = [UIImage imageWithCGImage:resizedFrame];
-          NSData *pngImageData =  UIImagePNGRepresentation(image);
+          NSArray *tracks = [avurlasset tracksWithMediaType:AVMediaTypeVideo];
+          AVAssetTrack *track = [tracks objectAtIndex:0];
+          CMTime duration = track.timeRange.duration;
+          
+          float startTime = 0;
+          float endTime = duration.value/(float)duration.timescale;
+          
+          NSString *audioPath = [NSString stringWithFormat:@"%@/%@.m4a",newFolder,f];
+          
+          AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:avasset presetName:AVAssetExportPresetAppleM4A];
+          
+          exportSession.outputURL = [NSURL fileURLWithPath:audioPath];
+          exportSession.outputFileType = AVFileTypeAppleM4A;
+          
+          CMTime vocalStartMarker = CMTimeMake((int)(floor(startTime * 100)), 100);
+          CMTime vocalEndMarker = CMTimeMake((int)(ceil(endTime * 100)), 100);
+          
+          CMTimeRange exportTimeRange = CMTimeRangeFromTimeToTime(vocalStartMarker, vocalEndMarker);
+          exportSession.timeRange= exportTimeRange;
+          if ([[NSFileManager defaultManager] fileExistsAtPath:audioPath]) {
+            [[NSFileManager defaultManager] removeItemAtPath:audioPath error:nil];
+          }
+          
+          [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            if (exportSession.status==AVAssetExportSessionStatusFailed) {
+              NSLog(@"failed");
+            }
+            else {
+              NSLog(@"AudioLocation : %@",audioPath);
+            }
+          }];
+          
+          // --- Data private to this unit ---
+          UIImage *image;
+          AVAssetImageGenerator *avassetimagegen;
+          MPMoviePlayerViewController *video;
+
+          video = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
+          video.moviePlayer.shouldAutoplay = NO;
+          video.moviePlayer.controlStyle = MPMovieControlStyleNone;
+          [video.moviePlayer play];
+          
+          avassetimagegen = [[AVAssetImageGenerator alloc] initWithAsset:avasset];
         
-          NSURL *arURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,cur_frame]];
-          _ARIS_LOG_(@"AR Caching %@",arURL.absoluteString);
-          [pngImageData writeToURL:arURL options:nil error:nil];
-          [arURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
-          cur_frame++;
+          avassetimagegen.appliesPreferredTrackTransform = YES;
+          CMTime time = [avasset duration];
+          
+          //short names to cope with obj-c verbosity
+          if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
+            [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
+          
+          int width = 256;
+          int height = 256;
+          
+          CGImageRef rawFrame;
+          CGImageRef resizedFrame;
+          int cur_frame = 0;
+          while(cur_frame * 64 < ((float)duration.value/duration.timescale)*1000.) //15 fps
+          {
+            time.value = ((cur_frame*64.)/1000.)*duration.timescale;
+            rawFrame = [avassetimagegen copyCGImageAtTime:time actualTime:NULL error:NULL];
+            
+            // create context, keeping original image properties
+            CGColorSpaceRef colorspace = CGImageGetColorSpace(rawFrame);
+            CGContextRef context = CGBitmapContextCreate(NULL, width, height,
+                                                         CGImageGetBitsPerComponent(rawFrame),
+                                                         CGImageGetBitsPerPixel(rawFrame)/8*width,//CGImageGetBytesPerRow(image),
+                                                         colorspace,
+                                                         CGImageGetAlphaInfo(rawFrame));
+            CGColorSpaceRelease(colorspace);
+    
+            // draw image to context (resizing it)
+            CGContextDrawImage(context, CGRectMake(0, 0, width, height), rawFrame);
+            // extract resulting image from context
+            resizedFrame = CGBitmapContextCreateImage(context);
+            CGContextRelease(context);
+            CGImageRelease(rawFrame);  // CGImageRef won't be released by ARC
+    
+            image = [UIImage imageWithCGImage:resizedFrame];
+            NSData *pngImageData =  UIImagePNGRepresentation(image);
+          
+            NSURL *arURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,cur_frame]];
+            _ARIS_LOG_(@"AR Caching %@",arURL.absoluteString);
+            [pngImageData writeToURL:arURL options:nil error:nil];
+            [arURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+            cur_frame++;
+          }
         }
       }
     }
