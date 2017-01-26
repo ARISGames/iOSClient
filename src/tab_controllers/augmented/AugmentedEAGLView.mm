@@ -102,7 +102,7 @@ namespace
     is_video = NO;
     
     // Load the initial augmentation texture
-    augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding]];
+    augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"black256.png" encoding:NSASCIIStringEncoding]];
     
     // Create the OpenGL ES context
     context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -323,14 +323,22 @@ namespace
     }
     if(is_video)
     {
+      [video.moviePlayer play];
       avassetimagegen.appliesPreferredTrackTransform = YES;
-      CMTime time = [avasset duration];
-      time.value = video.moviePlayer.currentPlaybackTime;
-      CGImageRef imageRef = [avassetimagegen copyCGImageAtTime:time actualTime:NULL error:NULL];
-      image = [UIImage imageWithCGImage:imageRef];
-      CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
+      int frame = video.moviePlayer.currentPlaybackTime*1000./64;
       
-      [augmentationTexture loadUIImage:image];
+      NSString *filename;
+      Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:cur_trigger_id];
+      Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
+      
+      //short names to cope with obj-c verbosity
+      NSString *g = [NSString stringWithFormat:@"%ld/AR",_MODEL_GAME_.game_id]; //game_id as string
+      NSString *f = [[[[media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
+
+      NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
+      filename = [NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,frame];
+      
+      [augmentationTexture loadAbsoImageNoResize:filename];
     }
         
     cur_trigger_id = new_trigger_id;

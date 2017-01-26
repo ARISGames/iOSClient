@@ -2341,6 +2341,7 @@
 		AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */; };
 		AA7DBAEE18D74A1300092B75 /* clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F92B5E3218C66EE800D1D1A7 /* clock@2x.png */; };
 		AA7EACC61965A876003CE431 /* DisplayQueueModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7EACC51965A876003CE431 /* DisplayQueueModel.m */; };
+		AA8001811E3AA1FA008909D8 /* black256.png in Resources */ = {isa = PBXBuildFile; fileRef = AA8001801E3AA1FA008909D8 /* black256.png */; };
 		AA83EEA218A43CB70077FF0E /* ARISServiceGraveyard.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83EEA118A43CB70077FF0E /* ARISServiceGraveyard.m */; };
 		AA83EEA718A43EE30077FF0E /* RequestCD.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83EEA618A43EE30077FF0E /* RequestCD.m */; };
 		AA856FF517A9AFA900E9D451 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF317A9AFA900E9D451 /* qr.png */; };
@@ -4952,6 +4953,7 @@
 		AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerAnywhereViewController.m; sourceTree = "<group>"; };
 		AA7EACC41965A876003CE431 /* DisplayQueueModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayQueueModel.h; sourceTree = "<group>"; };
 		AA7EACC51965A876003CE431 /* DisplayQueueModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayQueueModel.m; sourceTree = "<group>"; };
+		AA8001801E3AA1FA008909D8 /* black256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black256.png; sourceTree = "<group>"; };
 		AA83EEA018A43CB70077FF0E /* ARISServiceGraveyard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISServiceGraveyard.h; sourceTree = "<group>"; };
 		AA83EEA118A43CB70077FF0E /* ARISServiceGraveyard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISServiceGraveyard.m; sourceTree = "<group>"; };
 		AA83EEA518A43EE30077FF0E /* RequestCD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestCD.h; sourceTree = "<group>"; };
@@ -7958,6 +7960,7 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AA8001801E3AA1FA008909D8 /* black256.png */,
 				AA5688A01E32A01A00E8B823 /* vuforiadb.dat */,
 				AA5688A11E32A01A00E8B823 /* vuforiadb.xml */,
 				53E7D7A21E2042AD00CCA3B0 /* MGG_2017_01_07.dat */,
@@ -9711,6 +9714,7 @@
 				53A0F73C1E27F6480076499D /* nurse-233.jpg in Resources */,
 				53E7DFD91E2045AB00CCA3B0 /* father_259.png.jpg in Resources */,
 				53E7DE671E2045A900CCA3B0 /* brother_638.png.jpg in Resources */,
+				AA8001811E3AA1FA008909D8 /* black256.png in Resources */,
 				53E7DF3A1E2045AA00CCA3B0 /* father_100.png.jpg in Resources */,
 				53A0FBC61E27F66D0076499D /* theater-295.png in Resources */,
 				53E7DC271E2045A800CCA3B0 /* brother_062.png.jpg in Resources */,
