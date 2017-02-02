@@ -113,7 +113,7 @@
   if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
     [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
   [mr.media setPartialLocalURL:[NSString stringWithFormat:@"%@/%@",g,f]];
-  [mr.media.data writeToURL:mr.media.localURL options:nil error:nil];
+  [mr.media.data writeToURL:mr.media.localURL options:0 error:nil];
   [mr.media.localURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
 
   [_MODEL_MEDIA_ saveAlteredMedia:mr.media];//not as elegant as I'd like...

@@ -221,6 +221,11 @@
 
         NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
         NSString *first_frame_url = [NSString stringWithFormat:@"%@/%@_0.png",newFolder,f];
+
+        //short names to cope with obj-c verbosity
+        if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
+            [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
+
         if(![[NSFileManager defaultManager] fileExistsAtPath:first_frame_url isDirectory:nil])
         {
           AVAsset *avasset = [AVAsset assetWithURL:media.localURL];
@@ -271,11 +276,11 @@
           avassetimagegen = [[AVAssetImageGenerator alloc] initWithAsset:avasset];
         
           avassetimagegen.appliesPreferredTrackTransform = YES;
+          // MT: if you don't have these next 2 lines,
+          // the times of images are wildly off from the requested times
+          avassetimagegen.requestedTimeToleranceBefore = kCMTimeZero;
+          avassetimagegen.requestedTimeToleranceAfter = kCMTimeZero;
           CMTime time = [avasset duration];
-          
-          //short names to cope with obj-c verbosity
-          if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
-            [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
           
           int width = 256;
           int height = 256;
@@ -309,7 +314,7 @@
           
             NSURL *arURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,cur_frame]];
             _ARIS_LOG_(@"AR Caching %@",arURL.absoluteString);
-            [pngImageData writeToURL:arURL options:nil error:nil];
+            [pngImageData writeToURL:arURL options:0 error:nil];
             [arURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
             cur_frame++;
           }

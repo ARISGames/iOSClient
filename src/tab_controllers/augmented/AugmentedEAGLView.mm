@@ -181,6 +181,11 @@ namespace
   [sampleAppRenderer updateRenderingPrimitives];
 }
 
+- (void) stopAudio
+{
+  [audio stop];
+}
+
 //------------------------------------------------------------------------------
 #pragma mark - UIGLViewProtocol methods
 
@@ -339,7 +344,7 @@ namespace
     int frame = [audio currentTime] * 1000./64;
     
     NSString *filename;
-    Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:cur_trigger_id];
+    Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:new_trigger_id];
     Media *media = [_MODEL_MEDIA_ mediaForId:trigger.icon_media_id];
     
     //short names to cope with obj-c verbosity
@@ -351,7 +356,7 @@ namespace
     
     [augmentationTexture loadAbsoImageNoResize:filename];
   }
-      
+
   cur_trigger_id = new_trigger_id;
 
   glUseProgram(shaderProgramID);

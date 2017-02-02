@@ -227,7 +227,7 @@
   [m setPartialLocalURL:[NSString stringWithFormat:@"%@/%@",g,f]];
 
   m.data = UIImageJPEGRepresentation(i, 0.4);
-  [m.data writeToURL:m.localURL options:nil error:nil];
+  [m.data writeToURL:m.localURL options:0 error:nil];
 
   [playerPic setImage:i];
   [_MODEL_ updatePlayerMedia:m];
