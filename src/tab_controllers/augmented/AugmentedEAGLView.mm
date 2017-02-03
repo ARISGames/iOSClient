@@ -509,4 +509,9 @@ namespace
   return [context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
+- (long) cur_trigger_id
+{
+    return cur_trigger_id;
+}
+
 @end

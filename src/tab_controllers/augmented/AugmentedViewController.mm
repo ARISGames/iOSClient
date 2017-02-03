@@ -513,13 +513,11 @@
 
 - (void)autofocus:(UITapGestureRecognizer *)sender
 {
-  /*
-    Trigger *t = [_MODEL_TRIGGERS_ triggerForQRCode:arQRcode];
-    if(t)
-    {
-        [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
-    }
-   */
+    long trigger_id = [eaglView cur_trigger_id];
+    if (!trigger_id) return;
+    Trigger *t = [_MODEL_TRIGGERS_ triggerForId:trigger_id];
+    if (!t) return;
+    [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
 }
 
 - (void)cameraPerformAutoFocus
