@@ -251,9 +251,6 @@
 
 // load the data associated to the trackers
 - (bool) doLoadTrackersData {
-    //NOTE- dataSetSto
-    //dataSet = [self loadObjectTrackerDataSet:@"MGG_2017_01_07.xml"];
-    //dataSet = [self loadObjectTrackerDataSet:@"StonesAndChips.xml"];
     dataSet = [self loadObjectTrackerDataSet:[_MODEL_AR_TARGETS_.xmlURL path]];
     if (dataSet == NULL) {
         NSLog(@"ARIS Vuforia: Failed to load datasets");
@@ -360,16 +357,6 @@
               if(!tDataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_ABSOLUTE))
               {
                 NSLog(@"ARIS Vuforia: ERROR: failed to load custom data set");
-                objectTracker->destroyDataSet(tDataSet);
-                tDataSet = NULL;
-              }
-            }
-            else
-            {
-              NSString *defaultDataFile = [NSString stringWithFormat:@"vuforiadb.xml"];//@"MGG_2017_01_07.xml"];//@"StonesAndChips.xml"];
-              if(!tDataSet->load([defaultDataFile cStringUsingEncoding:NSASCIIStringEncoding], Vuforia::STORAGE_APPRESOURCE))
-              {
-                NSLog(@"ARIS Vuforia: ERROR: failed to load default data set");
                 objectTracker->destroyDataSet(tDataSet);
                 tDataSet = NULL;
               }
