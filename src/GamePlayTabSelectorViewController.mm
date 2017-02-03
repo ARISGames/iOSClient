@@ -178,7 +178,7 @@
                     (id<InventoryViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:inventoryViewController];
             }
-            else if([tab.type isEqualToString:@"DECODER"] && _MODEL_GAME_.game_id == 24455)
+            else if([tab.type isEqualToString:@"DECODER"])// && _MODEL_GAME_.game_id == 24455)
             {
                 // temporary, for MHS purposes
                 AugmentedViewController *augmentedViewController = [[AugmentedViewController alloc] initWithTab:tab delegate:

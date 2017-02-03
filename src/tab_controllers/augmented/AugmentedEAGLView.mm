@@ -59,6 +59,8 @@ namespace {
     
     AVAudioPlayer *audioBrother;
     AVAudioPlayer *audioTheater;
+    AVAudioPlayer *audioDryCleaner;
+    AVAudioPlayer *audioMeatPacker;
     
     NSString *arQRcode;
 }
@@ -128,14 +130,23 @@ namespace {
         
         // we initialize the rendering method of the SampleAppRenderer
         [sampleAppRenderer initRendering];
+        NSString *audioPath;
         
-        NSString *audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"brother.mp3"];
+        audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"brother.mp3"];
         audioBrother = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
         [audioBrother setNumberOfLoops:-1];
         
-        NSString *audioPath2 = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"theater.mp3"];
-        audioTheater = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath2] error:nil];
+        audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"theater.mp3"];
+        audioTheater = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
         [audioTheater setNumberOfLoops:-1];
+        
+        audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"drycleaner.mp3"];
+        audioDryCleaner = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
+        [audioDryCleaner setNumberOfLoops:-1];
+        
+        audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"meatpacker.mp3"];
+        audioMeatPacker = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
+        [audioMeatPacker setNumberOfLoops:-1];
         
         arQRcode = nil;
     }
@@ -166,8 +177,7 @@ namespace {
     
     augmentationTexture = nil;
     
-    [audioBrother stop];
-    [audioTheater stop];
+    [self stopAudio];
 }
 
 
@@ -235,6 +245,8 @@ namespace {
     
     bool play_brother_audio = false;
     bool play_theater_audio = false;
+    bool play_meatpacker_audio = false;
+    bool play_drycleaner_audio = false;
     for (int i = 0; i < state.getNumTrackableResults(); ++i) {
         // Get the trackable
         const Vuforia::TrackableResult* result = state.getTrackableResult(i);
@@ -273,30 +285,46 @@ namespace {
         char textureFilename[50];
         if (!strcmp(trackable.getName(), "PTP_MGG_OlderBrother")) {
             play_brother_audio = true;
-            int frame_number = floor([audioBrother currentTime] * 29.97);
+            int frame_number = floor([audioBrother currentTime] * 15.625);
             if (frame_number < 0) frame_number = 0;
-            if (frame_number > 748) frame_number = 748;
-            sprintf(textureFilename, "brother_%03d.png.jpg", frame_number + 1);
+            if (frame_number > 391) frame_number = 391;
+            sprintf(textureFilename, "brother_%03d_small.png.jpg", frame_number + 1);
             arQRcode = @"AR_brother";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
             play_theater_audio = true;
-            int frame_number = floor(fmod([audioTheater currentTime], 16.32) * 29.97);
+            int frame_number = floor([audioTheater currentTime] * 15.625);
+            if (frame_number < 0) frame_number = 0;
+            if (frame_number > 255) frame_number = 255;
+            sprintf(textureFilename, "theater_%03d_small.png", frame_number + 1);
+            arQRcode = @"AR_theater";
+        } else if (!strcmp(trackable.getName(), "MeatPacker_Trigger")) {
+            play_meatpacker_audio = true;
+            int frame_number = floor([audioMeatPacker currentTime] * 15.625);
             if (frame_number < 0) frame_number = 0;
             if (frame_number > 487) frame_number = 487;
-            sprintf(textureFilename, "theater-%03d.png", frame_number + 1);
-            arQRcode = @"AR_theater";
+            sprintf(textureFilename, "meatpacker_%03d_small.png.jpg", frame_number + 1);
+            arQRcode = @"ar_meatpacker";
+        } else if (!strcmp(trackable.getName(), "DryCleaner_Trigger")) {
+            play_drycleaner_audio = true;
+            int frame_number = floor([audioDryCleaner currentTime] * 15.625);
+            if (frame_number < 0) frame_number = 0;
+            if (frame_number > 392) frame_number = 392;
+            sprintf(textureFilename, "drycleaner_%03d_small.png", frame_number + 1);
+            arQRcode = @"ar_drycleaner";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_Father")) {
-            sprintf(textureFilename, "father_%03d.png.jpg", father_frame_number + 1);
+            sprintf(textureFilename, "father_%03d_small.png.jpg", father_frame_number + 1);
             father_frame_number++;
-            if (father_frame_number == 339) father_frame_number = 0;
+            if (father_frame_number == 180) father_frame_number = 0;
             arQRcode = @"AR_father";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
-            sprintf(textureFilename, "nurse-%03d.jpg", nurse_frame_number + 1);
+            sprintf(textureFilename, "nurse_%03d_small.png.jpg", nurse_frame_number + 1);
             nurse_frame_number++;
-            if (nurse_frame_number == 611) nurse_frame_number = 0;
+            if (nurse_frame_number == 320) nurse_frame_number = 0;
             arQRcode = @"AR_nurse";
         }
-        [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
+        NSLog(@"%s", textureFilename);
+        BOOL b = [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
+        NSLog(@"%d", b);
 
         glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, [augmentationTexture width], [augmentationTexture height], GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture pngData]);
@@ -322,6 +350,18 @@ namespace {
         if (![audioTheater isPlaying]) [audioTheater play];
     } else {
         [audioTheater pause];
+    }
+    
+    if (play_drycleaner_audio) {
+        if (![audioDryCleaner isPlaying]) [audioDryCleaner play];
+    } else {
+        [audioDryCleaner pause];
+    }
+    
+    if (play_meatpacker_audio) {
+        if (![audioMeatPacker isPlaying]) [audioMeatPacker play];
+    } else {
+        [audioMeatPacker pause];
     }
     
     if (state.getNumTrackableResults() == 0) {
@@ -455,6 +495,8 @@ namespace {
 - (void) stopAudio {
     [audioBrother stop];
     [audioTheater stop];
+    [audioMeatPacker stop];
+    [audioDryCleaner stop];
 }
 
 @end
