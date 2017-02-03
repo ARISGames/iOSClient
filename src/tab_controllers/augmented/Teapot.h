@@ -24,6 +24,24 @@ static const float teapotVertices[NUM_TEAPOT_OBJECT_VERTEX * 3] =
 };
 
 
+static const float teapotVertices_MeatPacker[NUM_TEAPOT_OBJECT_VERTEX * 3] =
+{
+    -85, -75.703125, 0,
+    85, -75.703125, 0,
+    -85, 75.703125, 0,
+    85, 75.703125, 0
+};
+
+
+static const float teapotVertices_DryCleaner[NUM_TEAPOT_OBJECT_VERTEX * 3] =
+{
+    -85, -97.484375, 0,
+    85, -97.484375, 0,
+    -85, 97.484375, 0,
+    85, 97.484375, 0
+};
+
+
 static const float teapotVertices_Theater[NUM_TEAPOT_OBJECT_VERTEX * 3] =
 {
     -85, -51.53125, 0,

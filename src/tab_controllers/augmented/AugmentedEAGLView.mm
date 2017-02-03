@@ -104,7 +104,7 @@ namespace {
         }
         
         // Load the initial augmentation texture
-        augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"brother_001.png.jpg" encoding:NSASCIIStringEncoding]];
+        augmentationTexture = [[Texture alloc] initWithImageFile:[NSString stringWithCString:"brother_001_small.png.jpg" encoding:NSASCIIStringEncoding]];
         
         // Create the OpenGL ES context
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -269,6 +269,10 @@ namespace {
             glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Theater);
         } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
             glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_Nurse);
+        } else if (!strcmp(trackable.getName(), "MeatPacker_Trigger")) {
+            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_MeatPacker);
+        } else if (!strcmp(trackable.getName(), "DryCleaner_Trigger")) {
+            glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices_DryCleaner);
         } else {
             glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)teapotVertices); // square
         }
@@ -292,39 +296,37 @@ namespace {
             arQRcode = @"AR_brother";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_TheaterKid_Trigger_01")) {
             play_theater_audio = true;
-            int frame_number = floor([audioTheater currentTime] * 15.625);
+            int frame_number = floor(fmod([audioTheater currentTime], 16.32) * 15.625);
             if (frame_number < 0) frame_number = 0;
             if (frame_number > 255) frame_number = 255;
             sprintf(textureFilename, "theater_%03d_small.png", frame_number + 1);
             arQRcode = @"AR_theater";
         } else if (!strcmp(trackable.getName(), "MeatPacker_Trigger")) {
             play_meatpacker_audio = true;
-            int frame_number = floor([audioMeatPacker currentTime] * 15.625);
+            int frame_number = floor(fmod([audioMeatPacker currentTime], 14.93) * 15.625);
             if (frame_number < 0) frame_number = 0;
             if (frame_number > 487) frame_number = 487;
             sprintf(textureFilename, "meatpacker_%03d_small.png.jpg", frame_number + 1);
             arQRcode = @"ar_meatpacker";
         } else if (!strcmp(trackable.getName(), "DryCleaner_Trigger")) {
             play_drycleaner_audio = true;
-            int frame_number = floor([audioDryCleaner currentTime] * 15.625);
+            int frame_number = floor(fmod([audioDryCleaner currentTime], 25.06) * 15.625);
             if (frame_number < 0) frame_number = 0;
             if (frame_number > 392) frame_number = 392;
             sprintf(textureFilename, "drycleaner_%03d_small.png", frame_number + 1);
             arQRcode = @"ar_drycleaner";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_Father")) {
-            sprintf(textureFilename, "father_%03d_small.png.jpg", father_frame_number + 1);
+            sprintf(textureFilename, "father_%03d_small.png.jpg", (father_frame_number / 2) + 1);
             father_frame_number++;
-            if (father_frame_number == 180) father_frame_number = 0;
+            if (father_frame_number == 180 * 2) father_frame_number = 0;
             arQRcode = @"AR_father";
         } else if (!strcmp(trackable.getName(), "PTP_MGG_Nurse")) {
-            sprintf(textureFilename, "nurse_%03d_small.png.jpg", nurse_frame_number + 1);
+            sprintf(textureFilename, "nurse_%03d_small.png.jpg", (nurse_frame_number / 2) + 1);
             nurse_frame_number++;
-            if (nurse_frame_number == 320) nurse_frame_number = 0;
+            if (nurse_frame_number == 320 * 2) nurse_frame_number = 0;
             arQRcode = @"AR_nurse";
         }
-        NSLog(@"%s", textureFilename);
-        BOOL b = [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
-        NSLog(@"%d", b);
+        [augmentationTexture loadImage:[NSString stringWithCString:textureFilename encoding:NSASCIIStringEncoding]];
 
         glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, [augmentationTexture width], [augmentationTexture height], GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[augmentationTexture pngData]);
