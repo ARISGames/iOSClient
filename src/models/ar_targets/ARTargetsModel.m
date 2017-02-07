@@ -300,7 +300,7 @@
                                                          CGImageGetBitsPerPixel(rawFrame)/8*width,//CGImageGetBytesPerRow(image),
                                                          colorspace,
                                                          CGImageGetAlphaInfo(rawFrame));
-            CGColorSpaceRelease(colorspace);
+            // CGColorSpaceRelease(colorspace);
     
             // draw image to context (resizing it)
             CGContextDrawImage(context, CGRectMake(0, 0, width, height), rawFrame);

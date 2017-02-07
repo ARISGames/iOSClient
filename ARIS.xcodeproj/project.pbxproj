@@ -1013,7 +1013,7 @@
 		53038C891DE62D460002A3EA /* AugmentedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AugmentedViewController.mm; path = augmented/AugmentedViewController.mm; sourceTree = "<group>"; };
 		53038C8B1DE62D600002A3EA /* AugmentedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AugmentedViewController.h; path = augmented/AugmentedViewController.h; sourceTree = "<group>"; };
 		531599881D199DE40020C494 /* play-solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-solid.png"; sourceTree = "<group>"; };
-		531B26271DEC99390044E013 /* AugmentedEAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AugmentedEAGLView.mm; path = augmented/AugmentedEAGLView.mm; sourceTree = "<group>"; };
+		531B26271DEC99390044E013 /* AugmentedEAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.cpp.objcpp; name = AugmentedEAGLView.mm; path = augmented/AugmentedEAGLView.mm; sourceTree = "<group>"; tabWidth = 2; };
 		531B26291DEC99450044E013 /* AugmentedEAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AugmentedEAGLView.h; path = augmented/AugmentedEAGLView.h; sourceTree = "<group>"; };
 		531B262A1DECB81A0044E013 /* Mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Mesh.h; path = augmented/Mesh.h; sourceTree = "<group>"; };
 		531B262B1DECB8410044E013 /* Texture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Texture.mm; path = augmented/Texture.mm; sourceTree = "<group>"; };
@@ -1827,7 +1827,7 @@
 		AA4E62401E1D96B500A2AD1B /* ARTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTarget.h; sourceTree = "<group>"; };
 		AA4E62411E1D96B500A2AD1B /* ARTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTarget.m; sourceTree = "<group>"; };
 		AA4E62441E1D9B4F00A2AD1B /* ARTargetsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTargetsModel.h; sourceTree = "<group>"; };
-		AA4E62451E1D9B4F00A2AD1B /* ARTargetsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTargetsModel.m; sourceTree = "<group>"; };
+		AA4E62451E1D9B4F00A2AD1B /* ARTargetsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = ARTargetsModel.m; sourceTree = "<group>"; tabWidth = 2; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		AA522B8D17AC225200C8A72B /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		AA5D8D30191AB20800116FA1 /* WebPagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPagesModel.h; sourceTree = "<group>"; };

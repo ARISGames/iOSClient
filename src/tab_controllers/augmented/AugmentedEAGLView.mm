@@ -316,18 +316,8 @@ namespace
         height = image.size.height;
       }
     }
-      
-    //aspect fill
-    if(width < height)
-    {
-      height /= width;
-      width = 1.;
-    }
-    else
-    {
-      width /= height;
-      height = 1.;
-    }
+    height /= width;
+    width = 1.;
     for(int i = 0; i < 4; i++)
     {
       int j = 0;
