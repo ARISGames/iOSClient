@@ -290,6 +290,29 @@
           int cur_frame = 0;
           while(cur_frame * 64 < ((float)duration.value/duration.timescale)*1000.) //15 fps
           {
+            NSURL *arURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,cur_frame]];
+            
+            // alpha PNG overrides
+            if (media.media_id == 411187) {
+              NSString *resourceName = [NSString stringWithFormat:@"theater_%03d_small.png", cur_frame - 1];
+              NSLog(@"Copying frame %@ to %@", resourceName, arURL);
+              [UIImagePNGRepresentation([UIImage imageNamed:resourceName]) writeToURL:arURL atomically:YES];
+              cur_frame++;
+              continue;
+            } else if (media.media_id == 410680) {
+              NSString *resourceName = [NSString stringWithFormat:@"drycleaner_%03d_small.png", cur_frame - 1];
+              NSLog(@"Copying frame %@ to %@", resourceName, arURL);
+              [UIImagePNGRepresentation([UIImage imageNamed:resourceName]) writeToURL:arURL atomically:YES];
+              cur_frame++;
+              continue;
+            } else if (media.media_id == 411383) {
+              NSString *resourceName = [NSString stringWithFormat:@"tvshop_%03d_small.png", cur_frame - 1];
+              NSLog(@"Copying frame %@ to %@", resourceName, arURL);
+              [UIImagePNGRepresentation([UIImage imageNamed:resourceName]) writeToURL:arURL atomically:YES];
+              cur_frame++;
+              continue;
+            }
+            
             time.value = ((cur_frame*64.)/1000.)*duration.timescale;
             rawFrame = [avassetimagegen copyCGImageAtTime:time actualTime:NULL error:NULL];
             
@@ -312,7 +335,6 @@
             image = [UIImage imageWithCGImage:resizedFrame];
             NSData *pngImageData =  UIImagePNGRepresentation(image);
           
-            NSURL *arURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,cur_frame]];
             _ARIS_LOG_(@"AR Caching %@",arURL.absoluteString);
             [pngImageData writeToURL:arURL options:0 error:nil];
             [arURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
