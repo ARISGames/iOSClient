@@ -27,6 +27,8 @@
     AVCaptureSession *session;
     AVCaptureDevice *device;
     UIBarButtonItem *leftNavButton;
+    NSString *prompt;
+    UILabel *promptLabel;
     id<AugmentedViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -50,6 +52,14 @@
         delegate = d;
     }
     return self;
+}
+
+-  (void) setPrompt:(NSString *)p
+{
+    if (prompt && [p isEqualToString:prompt]) return;
+    prompt = p;
+    promptLabel.text = prompt;
+    promptLabel.hidden = [prompt isEqualToString:@""];
 }
 
 - (void) loadView
@@ -111,6 +121,17 @@
 
     // show loading animation while AR is being initialized
     [self showLoadingAnimation];
+    
+    // Add Prompt
+    promptLabel = [[UILabel alloc] init];
+    promptLabel.frame = CGRectMake(0, self.view.bounds.size.height-75,self.view.bounds.size.width,75);
+    promptLabel.numberOfLines = 0;
+    promptLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    promptLabel.textAlignment = NSTextAlignmentCenter;
+    promptLabel.textColor       = [UIColor ARISColorLightGray];
+    promptLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
+    [self.view addSubview:promptLabel];
+    [self setPrompt:@""];
 }
 
 
@@ -326,6 +347,16 @@
 
 - (void) onVuforiaUpdate: (Vuforia::State *) state
 {
+    long trigger_id = [eaglView cur_trigger_id];
+    
+    // hiding/unhiding the prompt needs to happen on main thread
+    dispatch_async(dispatch_get_main_queue(),^{
+        if (trigger_id) {
+            [self setPrompt:@"Continue >"];
+        } else {
+            [self setPrompt:@""];
+        }
+    });
 }
 
 // Load the image tracker data set
