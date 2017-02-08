@@ -220,13 +220,13 @@
         NSString *f = [[[[media.remoteURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; //filename
 
         NSString *newFolder = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(g);
-        NSString *first_frame_url = [NSString stringWithFormat:@"%@/%@_0.png",newFolder,f];
+        NSString *splitting_done_url = [NSString stringWithFormat:@"%@/%@_done.txt",newFolder,f];
 
         //short names to cope with obj-c verbosity
         if(![[NSFileManager defaultManager] fileExistsAtPath:newFolder isDirectory:nil])
             [[NSFileManager defaultManager] createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:nil];
 
-        if(![[NSFileManager defaultManager] fileExistsAtPath:first_frame_url isDirectory:nil])
+        if(![[NSFileManager defaultManager] fileExistsAtPath:splitting_done_url isDirectory:nil])
         {
           AVAsset *avasset = [AVAsset assetWithURL:media.localURL];
           AVURLAsset *avurlasset = [AVURLAsset URLAssetWithURL:media.localURL options:nil];
@@ -318,6 +318,8 @@
             [arURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
             cur_frame++;
           }
+          
+          [@"done!" writeToFile:splitting_done_url atomically:true encoding:NSUTF8StringEncoding error:nil];
         }
       }
     }
