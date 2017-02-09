@@ -61,6 +61,7 @@ namespace {
     AVAudioPlayer *audioTheater;
     AVAudioPlayer *audioDryCleaner;
     AVAudioPlayer *audioMeatPacker;
+    AVAudioPlayer *audioTVShop;
     
     NSString *arQRcode;
 }
@@ -147,6 +148,10 @@ namespace {
         audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"meatpacker.mp3"];
         audioMeatPacker = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
         [audioMeatPacker setNumberOfLoops:-1];
+        
+        audioPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"tvshop.mp3"];
+        audioTVShop = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:audioPath] error:nil];
+        [audioTVShop setNumberOfLoops:-1];
         
         arQRcode = nil;
     }
@@ -246,6 +251,7 @@ namespace {
     bool play_brother_audio = false;
     bool play_theater_audio = false;
     bool play_meatpacker_audio = false;
+    bool play_tvshop_audio = false;
     bool play_drycleaner_audio = false;
     for (int i = 0; i < state.getNumTrackableResults(); ++i) {
         // Get the trackable
@@ -308,6 +314,13 @@ namespace {
             if (frame_number > 487) frame_number = 487;
             sprintf(textureFilename, "meatpacker_%03d_small.png.jpg", frame_number + 1);
             arQRcode = @"ar_meatpacker";
+        } else if (!strcmp(trackable.getName(), "TVShop_Trigger_500")) {
+            play_tvshop_audio = true;
+            int frame_number = floor(fmod([audioTVShop currentTime], 17.98) * 15.625);
+            if (frame_number < 0) frame_number = 0;
+            if (frame_number > 282) frame_number = 282;
+            sprintf(textureFilename, "tvshop_%03d_small.png.jpg", frame_number + 1);
+            arQRcode = @"ar_tvshop";
         } else if (!strcmp(trackable.getName(), "DryCleaner_Trigger")) {
             play_drycleaner_audio = true;
             int frame_number = floor(fmod([audioDryCleaner currentTime], 25.06) * 15.625);
@@ -364,6 +377,12 @@ namespace {
         if (![audioMeatPacker isPlaying]) [audioMeatPacker play];
     } else {
         [audioMeatPacker pause];
+    }
+    
+    if (play_tvshop_audio) {
+        if (![audioTVShop isPlaying]) [audioTVShop play];
+    } else {
+        [audioTVShop pause];
     }
     
     if (state.getNumTrackableResults() == 0) {
@@ -499,6 +518,7 @@ namespace {
     [audioTheater stop];
     [audioMeatPacker stop];
     [audioDryCleaner stop];
+    [audioTVShop stop];
 }
 
 @end

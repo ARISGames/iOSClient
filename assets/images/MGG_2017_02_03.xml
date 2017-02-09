@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="TVShop_Trigger_500" size="500.000000 500.000000" />
     <ImageTarget name="MeatPacker_Trigger" size="500.000000 445.312500" />
     <ImageTarget name="DryCleaner_Trigger" size="500.000000 573.437500" />
     <ImageTarget name="PTP_MGG_TheaterKid_Trigger_01" size="500.000000 303.125000" />
