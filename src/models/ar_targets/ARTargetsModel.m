@@ -18,6 +18,20 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+#include <math.h>
+
+#include <libavutil/opt.h>
+#include <libavcodec/avcodec.h>
+#include <libavutil/channel_layout.h>
+#include <libavutil/common.h>
+#include <libavutil/imgutils.h>
+#include <libavutil/mathematics.h>
+#include <libavutil/samplefmt.h>
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
+
+#define INBUF_SIZE 4096
+
 @interface ARTargetsModel() <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
   NSMutableData *xmlData;
@@ -206,6 +220,8 @@
 //technically not associated with AR _targets_, but instead the _triggers_ associated with those targets.
 - (void) cacheARData
 {
+  av_register_all();
+  
   NSArray *triggers = _MODEL_TRIGGERS_.allTriggers;
   for(int i = 0; i < triggers.count; i++)
   {
@@ -263,82 +279,129 @@
             }
           }];
           
-          // --- Data private to this unit ---
-          UIImage *image;
-          AVAssetImageGenerator *avassetimagegen;
-          MPMoviePlayerViewController *video;
-
-          video = [[MPMoviePlayerViewController alloc] initWithContentURL:media.localURL];
-          video.moviePlayer.shouldAutoplay = NO;
-          video.moviePlayer.controlStyle = MPMovieControlStyleNone;
-          [video.moviePlayer play];
-          
-          avassetimagegen = [[AVAssetImageGenerator alloc] initWithAsset:avasset];
-        
-          avassetimagegen.appliesPreferredTrackTransform = YES;
-          // MT: if you don't have these next 2 lines,
-          // the times of images are wildly off from the requested times
-          avassetimagegen.requestedTimeToleranceBefore = kCMTimeZero;
-          avassetimagegen.requestedTimeToleranceAfter = kCMTimeZero;
-          CMTime time = [avasset duration];
-          
-          int width = 256;
-          int height = 256;
-          
-          CGImageRef rawFrame;
-          CGImageRef resizedFrame;
-          int cur_frame = 0;
-          while(cur_frame * 64 < ((float)duration.value/duration.timescale)*1000.) //15 fps
-          {
-            NSURL *arURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,cur_frame]];
-            
-            // alpha PNG overrides
-            if (media.media_id == 411187) {
-              NSString *resourceName = [NSString stringWithFormat:@"theater_%03d_small.png", cur_frame - 1];
-              NSLog(@"Copying frame %@ to %@", resourceName, arURL);
-              [UIImagePNGRepresentation([UIImage imageNamed:resourceName]) writeToURL:arURL atomically:YES];
-              cur_frame++;
-              continue;
-            } else if (media.media_id == 410680) {
-              NSString *resourceName = [NSString stringWithFormat:@"drycleaner_%03d_small.png", cur_frame - 1];
-              NSLog(@"Copying frame %@ to %@", resourceName, arURL);
-              [UIImagePNGRepresentation([UIImage imageNamed:resourceName]) writeToURL:arURL atomically:YES];
-              cur_frame++;
-              continue;
-            } else if (media.media_id == 411383) {
-              NSString *resourceName = [NSString stringWithFormat:@"tvshop_%03d_small.png", cur_frame - 1];
-              NSLog(@"Copying frame %@ to %@", resourceName, arURL);
-              [UIImagePNGRepresentation([UIImage imageNamed:resourceName]) writeToURL:arURL atomically:YES];
-              cur_frame++;
-              continue;
+          // ffmpeg stuff starts here
+          AVFormatContext *pFormatCtx = NULL;
+          int avfCode = avformat_open_input(&pFormatCtx, media.localURL.path.UTF8String, NULL, NULL);
+          if (avfCode != 0) {
+            char errStr[1024];
+            av_strerror(avfCode, errStr, sizeof(errStr));
+            NSLog(@"ffmpeg: avformat couldn't open input %@ - error %d is: %s", media.localURL.path, avfCode, errStr);
+            exit(1);
+          }
+          if (avformat_find_stream_info(pFormatCtx, NULL) < 0) {
+            NSLog(@"ffmpeg: couldn't find stream information");
+            exit(1);
+          }
+          int videoStream = -1;
+          for(int i = 0; i < pFormatCtx->nb_streams; i++) {
+            if(pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+              videoStream = i;
+              break;
             }
-            
-            time.value = ((cur_frame*64.)/1000.)*duration.timescale;
-            rawFrame = [avassetimagegen copyCGImageAtTime:time actualTime:NULL error:NULL];
-            
-            // create context, keeping original image properties
-            CGColorSpaceRef colorspace = CGImageGetColorSpace(rawFrame);
-            CGContextRef context = CGBitmapContextCreate(NULL, width, height,
-                                                         CGImageGetBitsPerComponent(rawFrame),
-                                                         CGImageGetBitsPerPixel(rawFrame)/8*width,//CGImageGetBytesPerRow(image),
-                                                         colorspace,
-                                                         CGImageGetAlphaInfo(rawFrame));
-            // CGColorSpaceRelease(colorspace);
-    
-            // draw image to context (resizing it)
-            CGContextDrawImage(context, CGRectMake(0, 0, width, height), rawFrame);
-            // extract resulting image from context
-            resizedFrame = CGBitmapContextCreateImage(context);
-            CGContextRelease(context);
-            CGImageRelease(rawFrame);  // CGImageRef won't be released by ARC
-    
-            image = [UIImage imageWithCGImage:resizedFrame];
-            NSData *pngImageData =  UIImagePNGRepresentation(image);
+          }
+          if (videoStream == -1) {
+            NSLog(@"ffmpeg: no video stream found");
+            exit(1);
+          }
+          AVCodecContext *pCodecCtxOrig = pFormatCtx->streams[videoStream]->codec;
+          NSLog(@"ffmpeg: detected codec: %s", avcodec_get_name(pCodecCtxOrig->codec_id));
           
-            _ARIS_LOG_(@"AR Caching %@",arURL.absoluteString);
-            [pngImageData writeToURL:arURL options:0 error:nil];
-            [arURL setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
-            cur_frame++;
+          // decode example stuff starts here
+          AVCodec *pCodec;
+          AVCodecContext *pCodecCtx = NULL;
+          
+          pCodec = avcodec_find_decoder(pCodecCtxOrig->codec_id);
+          if (!pCodec) {
+            NSLog(@"ffmpeg: codec not found!");
+            exit(1);
+          }
+          
+          pCodecCtx = avcodec_alloc_context3(pCodec);
+          if (avcodec_copy_context(pCodecCtx, pCodecCtxOrig) != 0) {
+            NSLog(@"ffmpeg: couldn't copy codec context");
+            exit(1);
+          }
+          
+          if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
+            NSLog(@"ffmpeg: could not open codec");
+            exit(1);
+          }
+          
+          AVFrame *pFrame = av_frame_alloc();
+          if (!pFrame) {
+            NSLog(@"ffmpeg: could not allocate video frame");
+            exit(1);
+          }
+          AVFrame *pFrameRGBA = av_frame_alloc();
+          if (!pFrameRGBA) {
+            NSLog(@"ffmpeg: could not allocate output frame");
+            exit(1);
+          }
+          uint8_t *buffer = NULL;
+          int numBytes = avpicture_get_size(PIX_FMT_RGBA, 256, 256);
+          buffer = (uint8_t *) av_malloc(numBytes * sizeof(uint8_t));
+          avpicture_fill((AVPicture *) pFrameRGBA, buffer, PIX_FMT_RGBA, 256, 256);
+          pFrameRGBA->width = 256;
+          pFrameRGBA->height = 256;
+          pFrameRGBA->format = PIX_FMT_RGBA;
+          NSLog(@"width %d height %d format %d", pFrameRGBA->width, pFrameRGBA->height, pFrameRGBA->format);
+          
+          NSLog(@"ffmpeg: initialized ok!");
+          
+          struct SwsContext *sws_ctx = NULL;
+          int frameFinished;
+          AVPacket packet;
+          int frame_count = 0;
+          sws_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, 256, 256, PIX_FMT_RGBA, SWS_FAST_BILINEAR, NULL, NULL, NULL);
+          while (av_read_frame(pFormatCtx, &packet) >= 0) {
+            if (packet.stream_index == videoStream) {
+              int err = avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished, &packet);
+              if (err < 0) { NSLog(@"ffmpeg: avcodec_decode_video2 failed"); exit(1); }
+              if (frameFinished) {
+                NSLog(@"ffmpeg: got frame %d", frame_count);
+                int code = sws_scale(sws_ctx, (uint8_t const * const *) pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGBA->data, pFrameRGBA->linesize);
+                NSLog(@"ffmpeg: sws_scale returned %d", code);
+                
+                NSURL *arURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,frame_count]];
+                NSLog(@"ffmpeg: opening file %@", arURL);
+                NSError *fileError;
+                [[NSFileManager defaultManager] createFileAtPath:arURL.path contents:nil attributes:nil];
+                NSFileHandle *f_frame = [NSFileHandle fileHandleForWritingToURL:arURL error:&fileError];
+                if (fileError) {
+                  NSLog(@"%@", fileError);
+                }
+                
+                AVCodec *codecOut = avcodec_find_encoder(AV_CODEC_ID_PNG);
+                AVCodecContext *contextOut = avcodec_alloc_context3(codecOut);
+                contextOut->pix_fmt = PIX_FMT_RGBA;
+                contextOut->height = 256;
+                contextOut->width = 256;
+                contextOut->codec_type = AVMEDIA_TYPE_VIDEO;
+                contextOut->time_base.num = pCodecCtx->time_base.num;
+                contextOut->time_base.den = pCodecCtx->time_base.den;
+                err = avcodec_open2(contextOut, codecOut, NULL);
+                if (err < 0) { NSLog(@"ffmpeg: avcodec_open2 (png output) failed with %d", err); exit(1); }
+                AVPacket outPacket;
+                av_init_packet(&outPacket);
+                outPacket.size = 0;
+                outPacket.data = NULL;
+                int got_frame = 0;
+                if (avcodec_encode_video2(contextOut, &outPacket, pFrameRGBA, &got_frame) < 0) {
+                  NSLog(@"ffmpeg: could not encode video frame");
+                  exit(1);
+                }
+                NSLog(@"ffmpeg: packet size is %d", outPacket.size);
+                
+                NSData *data_frame = [NSData dataWithBytes:outPacket.data length:outPacket.size];
+                [f_frame writeData:data_frame];
+                [f_frame closeFile];
+                
+                avcodec_close(contextOut);
+                av_free(contextOut);
+                
+                frame_count++;
+              }
+            }
           }
           
           [@"done!" writeToFile:splitting_done_url atomically:true encoding:NSUTF8StringEncoding error:nil];
@@ -347,6 +410,7 @@
     }
   }
   _ARIS_NOTIF_SEND_(@"AR_DATA_LOADED",nil,nil);
+  return;
 }
 
 - (void) dealloc
