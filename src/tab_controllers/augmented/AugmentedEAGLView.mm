@@ -62,6 +62,8 @@ namespace
   // Model scale factor
   const float kObjectScaleNormal = 3.0f;
   GLuint textureID;
+  
+  float ar_video_fps;
 }
 
 @interface AugmentedEAGLView (PrivateMethods)
@@ -128,6 +130,8 @@ namespace
     
     // we initialize the rendering method of the SampleAppRenderer
     [sampleAppRenderer initRendering];
+    
+    ar_video_fps = 1000./64.;
   }
   
   return self;
@@ -304,6 +308,13 @@ namespace
         CGSize mediaSize = track.naturalSize;
         width = mediaSize.width;
         height = mediaSize.height;
+        
+        NSString *fps_file = [NSString stringWithFormat:@"%@/%@_done.txt", newFolder, f];
+        NSString *fps_str = [NSString stringWithContentsOfFile:fps_file encoding:NSUTF8StringEncoding error:NULL];
+        NSArray *fps_lines = [fps_str componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        float fps_num = [fps_lines[0] integerValue];
+        float fps_den = [fps_lines[1] integerValue];
+        ar_video_fps = fps_num / fps_den;
       }
       else
       {
@@ -331,7 +342,7 @@ namespace
   if(is_video)
   {
     if(![audio isPlaying]) [audio play];
-    int frame = [audio currentTime] * 1000./64;
+    int frame = [audio currentTime] * ar_video_fps;
     
     NSString *filename;
     Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:new_trigger_id];

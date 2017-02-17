@@ -280,28 +280,29 @@
           }];
           
           // ffmpeg stuff starts here
+          
           AVFormatContext *pFormatCtx = NULL;
-          int avfCode = avformat_open_input(&pFormatCtx, media.localURL.path.UTF8String, NULL, NULL);
-          if (avfCode != 0) {
-            char errStr[1024];
-            av_strerror(avfCode, errStr, sizeof(errStr));
-            NSLog(@"ffmpeg: avformat couldn't open input %@ - error %d is: %s", media.localURL.path, avfCode, errStr);
-            exit(1);
+          if (avformat_open_input(&pFormatCtx, media.localURL.path.UTF8String, NULL, NULL) != 0) {
+            NSLog(@"ffmpeg: error, avformat couldn't open input %@", media.localURL.path);
+            continue;
           }
           if (avformat_find_stream_info(pFormatCtx, NULL) < 0) {
-            NSLog(@"ffmpeg: couldn't find stream information");
-            exit(1);
+            NSLog(@"ffmpeg: error, couldn't find stream information");
+            continue;
           }
           int videoStream = -1;
+          int fps_num, fps_den;
           for(int i = 0; i < pFormatCtx->nb_streams; i++) {
             if(pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+              fps_num = pFormatCtx->streams[i]->avg_frame_rate.num;
+              fps_den = pFormatCtx->streams[i]->avg_frame_rate.den;
               videoStream = i;
               break;
             }
           }
           if (videoStream == -1) {
             NSLog(@"ffmpeg: no video stream found");
-            exit(1);
+            continue;
           }
           AVCodecContext *pCodecCtxOrig = pFormatCtx->streams[videoStream]->codec;
           NSLog(@"ffmpeg: detected codec: %s", avcodec_get_name(pCodecCtxOrig->codec_id));
@@ -313,29 +314,29 @@
           pCodec = avcodec_find_decoder(pCodecCtxOrig->codec_id);
           if (!pCodec) {
             NSLog(@"ffmpeg: codec not found!");
-            exit(1);
+            continue;
           }
           
           pCodecCtx = avcodec_alloc_context3(pCodec);
           if (avcodec_copy_context(pCodecCtx, pCodecCtxOrig) != 0) {
             NSLog(@"ffmpeg: couldn't copy codec context");
-            exit(1);
+            continue;
           }
           
           if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
             NSLog(@"ffmpeg: could not open codec");
-            exit(1);
+            continue;
           }
           
           AVFrame *pFrame = av_frame_alloc();
           if (!pFrame) {
             NSLog(@"ffmpeg: could not allocate video frame");
-            exit(1);
+            continue;
           }
           AVFrame *pFrameRGBA = av_frame_alloc();
           if (!pFrameRGBA) {
             NSLog(@"ffmpeg: could not allocate output frame");
-            exit(1);
+            continue;
           }
           uint8_t *buffer = NULL;
           int numBytes = avpicture_get_size(PIX_FMT_RGBA, 256, 256);
@@ -344,7 +345,6 @@
           pFrameRGBA->width = 256;
           pFrameRGBA->height = 256;
           pFrameRGBA->format = PIX_FMT_RGBA;
-          NSLog(@"width %d height %d format %d", pFrameRGBA->width, pFrameRGBA->height, pFrameRGBA->format);
           
           NSLog(@"ffmpeg: initialized ok!");
           
@@ -356,11 +356,13 @@
           while (av_read_frame(pFormatCtx, &packet) >= 0) {
             if (packet.stream_index == videoStream) {
               int err = avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished, &packet);
-              if (err < 0) { NSLog(@"ffmpeg: avcodec_decode_video2 failed"); exit(1); }
+              if (err < 0) {
+                NSLog(@"ffmpeg: avcodec_decode_video2 failed");
+                break;
+              }
               if (frameFinished) {
                 NSLog(@"ffmpeg: got frame %d", frame_count);
-                int code = sws_scale(sws_ctx, (uint8_t const * const *) pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGBA->data, pFrameRGBA->linesize);
-                NSLog(@"ffmpeg: sws_scale returned %d", code);
+                sws_scale(sws_ctx, (uint8_t const * const *) pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGBA->data, pFrameRGBA->linesize);
                 
                 NSURL *arURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,frame_count]];
                 NSLog(@"ffmpeg: opening file %@", arURL);
@@ -380,22 +382,25 @@
                 contextOut->time_base.num = pCodecCtx->time_base.num;
                 contextOut->time_base.den = pCodecCtx->time_base.den;
                 err = avcodec_open2(contextOut, codecOut, NULL);
-                if (err < 0) { NSLog(@"ffmpeg: avcodec_open2 (png output) failed with %d", err); exit(1); }
+                if (err < 0) {
+                  NSLog(@"ffmpeg: error, avcodec_open2 (png output) failed with %d", err);
+                  break;
+                }
                 AVPacket outPacket;
                 av_init_packet(&outPacket);
                 outPacket.size = 0;
                 outPacket.data = NULL;
                 int got_frame = 0;
                 if (avcodec_encode_video2(contextOut, &outPacket, pFrameRGBA, &got_frame) < 0) {
-                  NSLog(@"ffmpeg: could not encode video frame");
-                  exit(1);
+                  NSLog(@"ffmpeg: error, could not encode video frame");
+                  break;
                 }
-                NSLog(@"ffmpeg: packet size is %d", outPacket.size);
                 
                 NSData *data_frame = [NSData dataWithBytes:outPacket.data length:outPacket.size];
                 [f_frame writeData:data_frame];
                 [f_frame closeFile];
                 
+                av_free_packet(&outPacket);
                 avcodec_close(contextOut);
                 av_free(contextOut);
                 
@@ -403,8 +408,8 @@
               }
             }
           }
-          
-          [@"done!" writeToFile:splitting_done_url atomically:true encoding:NSUTF8StringEncoding error:nil];
+          [[NSString stringWithFormat:@"%d\n%d\n", fps_num, fps_den] writeToFile:splitting_done_url atomically:true encoding:NSUTF8StringEncoding error:nil];
+          NSLog(@"ffmpeg: video frame rate is %d/%d", fps_num, fps_den);
         }
       }
     }
