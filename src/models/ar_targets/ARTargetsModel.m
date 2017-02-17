@@ -362,17 +362,18 @@
           BOOL skip_frame = NO;
           while (av_read_frame(pFormatCtx, &packet) >= 0) {
             if (packet.stream_index == videoStream) {
-              if (skip_frame) {
-                skip_frame = NO;
-                continue;
-              }
-              if (!skip_frame && fps_halved) skip_frame = YES;
               int err = avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished, &packet);
               if (err < 0) {
                 NSLog(@"ffmpeg: avcodec_decode_video2 failed");
                 break;
               }
               if (frameFinished) {
+                if (skip_frame) {
+                  NSLog(@"ffmpeg: skipping a frame");
+                  skip_frame = NO;
+                  continue;
+                }
+                if (!skip_frame && fps_halved) skip_frame = YES;
                 NSLog(@"ffmpeg: got frame %d", frame_count);
                 sws_scale(sws_ctx, (uint8_t const * const *) pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGBA->data, pFrameRGBA->linesize);
                 
