@@ -292,10 +292,16 @@
           }
           int videoStream = -1;
           int fps_num, fps_den;
+          BOOL fps_halved = NO;
           for(int i = 0; i < pFormatCtx->nb_streams; i++) {
             if(pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
               fps_num = pFormatCtx->streams[i]->avg_frame_rate.num;
               fps_den = pFormatCtx->streams[i]->avg_frame_rate.den;
+              if (((float) fps_num) / ((float) fps_den) > 29) {
+                fps_halved = YES;
+                fps_den *= 2;
+                NSLog(@"ffmpeg: cutting video fps in half");
+              }
               videoStream = i;
               break;
             }
@@ -353,8 +359,14 @@
           AVPacket packet;
           int frame_count = 0;
           sws_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, 256, 256, PIX_FMT_RGBA, SWS_FAST_BILINEAR, NULL, NULL, NULL);
+          BOOL skip_frame = NO;
           while (av_read_frame(pFormatCtx, &packet) >= 0) {
             if (packet.stream_index == videoStream) {
+              if (skip_frame) {
+                skip_frame = NO;
+                continue;
+              }
+              if (!skip_frame && fps_halved) skip_frame = YES;
               int err = avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished, &packet);
               if (err < 0) {
                 NSLog(@"ffmpeg: avcodec_decode_video2 failed");
