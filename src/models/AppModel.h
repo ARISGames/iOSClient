@@ -18,6 +18,7 @@
 #define _MODEL_MEDIA_ [AppModel sharedAppModel].mediaModel
 #define _MODEL_GAME_ [AppModel sharedAppModel].game
 #define _MODEL_SCENES_ [AppModel sharedAppModel].game.scenesModel
+#define _MODEL_AR_TARGETS_ [AppModel sharedAppModel].game.arTargetsModel
 #define _MODEL_GROUPS_ [AppModel sharedAppModel].game.groupsModel
 #define _MODEL_PLAQUES_ [AppModel sharedAppModel].game.plaquesModel
 #define _MODEL_ITEMS_ [AppModel sharedAppModel].game.itemsModel

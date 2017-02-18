@@ -49,6 +49,7 @@
 
 - (void) fetchUsers; //TBD what this actually does...
 - (void) fetchScenes;
+- (void) fetchARTargets;
 - (void) fetchGroups;
 - (void) fetchMedias;
 - (void) fetchPlaques;
@@ -128,6 +129,7 @@
 //if you are editing your game mid-play, expect undefined behavior
 - (void) fetchUserById:(long)user_id;
 - (void) fetchSceneById:(long)scene_id;
+- (void) fetchARTargetById:(long)ar_target_id;
 - (void) fetchGroupById:(long)group_id;
 - (void) fetchMediaById:(long)media_id;
 - (void) fetchPlaqueById:(long)plaque_id;

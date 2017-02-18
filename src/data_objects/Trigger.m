@@ -30,6 +30,7 @@
 @synthesize trigger_on_enter;
 @synthesize qr_code;
 @synthesize seconds;
+@synthesize ar_target_id;
 @synthesize beacon_uuid;
 @synthesize beacon_major;
 @synthesize beacon_minor;
@@ -56,6 +57,7 @@
     trigger_on_enter = NO;
     qr_code = @"";
     seconds = 0;
+    ar_target_id = 0;
     beacon_uuid = @"";
     beacon_major = 0;
     beacon_minor = 0;
@@ -85,6 +87,7 @@
     trigger_on_enter            = [dict validBoolForKey:@"trigger_on_enter"];
     qr_code                     = [dict validStringForKey:@"qr_code"];
     seconds                     = [dict validIntForKey:@"seconds"];
+    ar_target_id                = [dict validIntForKey:@"ar_target_id"];
     beacon_uuid                 = [dict validStringForKey:@"beacon_uuid"];
     beacon_major                = [dict validIntForKey:@"beacon_major"];
     beacon_minor                = [dict validIntForKey:@"beacon_minor"];
@@ -114,6 +117,7 @@
   [d setObject:[NSString stringWithFormat:@"%d",trigger_on_enter] forKey:@"trigger_on_enter"];
   [d setObject:qr_code forKey:@"qr_code"];
   [d setObject:[NSString stringWithFormat:@"%ld",seconds] forKey:@"seconds"];
+  [d setObject:[NSString stringWithFormat:@"%ld",ar_target_id] forKey:@"ar_target_id"];
   [d setObject:beacon_uuid forKey:@"beacon_uuid"];
   [d setObject:[NSString stringWithFormat:@"%ld",beacon_major] forKey:@"beacon_major"];
   [d setObject:[NSString stringWithFormat:@"%ld",beacon_minor] forKey:@"beacon_minor"];
@@ -140,6 +144,7 @@
   trigger_on_enter  = t.trigger_on_enter;
   qr_code           = t.qr_code;
   seconds           = t.seconds;
+  ar_target_id      = t.ar_target_id;
   beacon_uuid       = t.beacon_uuid;
   beacon_major      = t.beacon_major;
   beacon_minor      = t.beacon_minor;
@@ -175,6 +180,7 @@
      trigger_on_enter              == t.trigger_on_enter              &&
      [qr_code isEqualToString:t.qr_code]                              &&
      seconds                       == t.seconds                       &&
+     ar_target_id                  == t.ar_target_id                  &&
      [beacon_uuid isEqualToString:t.beacon_uuid]                      &&
      beacon_major                  == t.beacon_major                  &&
      beacon_minor                  == t.beacon_minor);

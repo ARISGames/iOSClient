@@ -70,6 +70,7 @@
 
 @synthesize models;
 @synthesize scenesModel;
+@synthesize arTargetsModel;
 @synthesize groupsModel;
 @synthesize plaquesModel;
 @synthesize itemsModel;
@@ -283,6 +284,7 @@
   models = [[NSMutableArray alloc] init];
 
   scenesModel          = [[ScenesModel          alloc] init]; [models addObject:scenesModel];
+  arTargetsModel       = [[ARTargetsModel       alloc] init]; [models addObject:arTargetsModel];
   groupsModel          = [[GroupsModel          alloc] init]; [models addObject:groupsModel];
   plaquesModel         = [[PlaquesModel         alloc] init]; [models addObject:plaquesModel];
   itemsModel           = [[ItemsModel           alloc] init]; [models addObject:itemsModel];
@@ -337,6 +339,7 @@
   models = nil;
 
   scenesModel          = nil;
+  arTargetsModel       = nil;
   groupsModel          = nil;
   plaquesModel         = nil;
   itemsModel           = nil;
