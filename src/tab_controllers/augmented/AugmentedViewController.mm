@@ -124,6 +124,8 @@
     // show loading animation while AR is being initialized
     [self showLoadingAnimation];
     
+    return;
+    
     // Add Prompt
     promptLabel = [[UILabel alloc] init];
     promptLabel.frame = CGRectMake(0, self.view.bounds.size.height-75,self.view.bounds.size.width,75);
@@ -347,6 +349,7 @@
     [eaglView configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight];
 }
 
+/*
 - (void) onVuforiaUpdate: (Vuforia::State *) state
 {
     long trigger_id = [eaglView cur_trigger_id];
@@ -360,6 +363,7 @@
         }
     });
 }
+*/
 
 // Load the image tracker data set
 - (Vuforia::DataSet *)loadObjectTrackerDataSet:(NSString*)dataFile
