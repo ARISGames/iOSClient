@@ -5,6 +5,8 @@
  countries.
  ===============================================================================*/
 
+#if !TARGET_OS_SIMULATOR
+
 #import "SampleApplicationShaderUtils.h"
 #import <OpenGLES/ES2/glext.h>
 
@@ -103,3 +105,5 @@
 
 
 @end
+
+#endif

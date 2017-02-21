@@ -7,6 +7,8 @@ Copyright (c) 2015-2016 PTC Inc. All Rights Reserved.
  countries.
  ===============================================================================*/
 
+#if !TARGET_OS_SIMULATOR
+
 #import "SampleApplicationSession.h"
 #import "SampleApplicationUtils.h"
 #import <Vuforia/Vuforia.h>
@@ -478,3 +480,5 @@ void VuforiaApplication_UpdateCallback::Vuforia_onUpdate(Vuforia::State& state)
 }
 
 @end
+
+#endif

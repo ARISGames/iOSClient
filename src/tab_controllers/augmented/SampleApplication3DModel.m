@@ -5,6 +5,7 @@
  countries.
  ===============================================================================*/
 
+#if !TARGET_OS_SIMULATOR
 
 #import "SampleApplication3DModel.h"
 
@@ -100,3 +101,5 @@
     }
 }
 @end
+
+#endif

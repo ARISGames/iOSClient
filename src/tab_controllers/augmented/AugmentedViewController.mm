@@ -6,6 +6,8 @@
 //
 //
 
+#if !TARGET_OS_SIMULATOR
+
 #import "AugmentedViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
@@ -584,3 +586,5 @@
 }
 
 @end
+
+#endif

@@ -7,6 +7,8 @@
  countries.
  ===============================================================================*/
 
+#if !TARGET_OS_SIMULATOR
+
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
@@ -516,3 +518,5 @@ namespace
 }
 
 @end
+
+#endif

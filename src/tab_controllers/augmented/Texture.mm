@@ -5,6 +5,8 @@
  countries.
  ===============================================================================*/
 
+#if !TARGET_OS_SIMULATOR
+
 #import "Texture.h"
 #import <UIKit/UIKit.h>
 
@@ -168,3 +170,5 @@
 }
 
 @end
+
+#endif

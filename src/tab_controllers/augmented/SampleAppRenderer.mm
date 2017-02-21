@@ -7,6 +7,8 @@
  countries.
  ===============================================================================*/
 
+#if !TARGET_OS_SIMULATOR
+
 #import "SampleAppRenderer.h"
 #import <UIKit/UIKit.h>
 
@@ -441,3 +443,5 @@
 }
 
 @end
+
+#endif

@@ -192,9 +192,15 @@
             }
             else if([tab.type isEqualToString:@"AUGMENTED"])
             {
+#if TARGET_OS_SIMULATOR
+                DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithTab:tab delegate:
+                                                                (id<DecoderViewControllerDelegate>)delegate];
+                vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
+#else
                 AugmentedViewController *augmentedViewController = [[AugmentedViewController alloc] initWithTab:tab delegate:
                                                                 (id<AugmentedViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:augmentedViewController];
+#endif
             }
             else if([tab.type isEqualToString:@"PLAYER"])
             {
