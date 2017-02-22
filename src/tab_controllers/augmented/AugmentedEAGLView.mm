@@ -362,31 +362,32 @@ namespace
 
   cur_trigger_id = new_trigger_id;
 
-  glUseProgram(shaderProgramID);
+  if (cur_trigger_id != 0) {
   
-  glVertexAttribPointer(vertexHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshPositions); // square
-  glVertexAttribPointer(normalHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshNormals);
-  glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshTexCoords);
-  
-  glEnableVertexAttribArray(vertexHandle);
-  glEnableVertexAttribArray(normalHandle);
-  glEnableVertexAttribArray(textureCoordHandle);
+    glUseProgram(shaderProgramID);
+    
+    glVertexAttribPointer(vertexHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshPositions); // square
+    glVertexAttribPointer(normalHandle,       3, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshNormals);
+    glVertexAttribPointer(textureCoordHandle, 2, GL_FLOAT, GL_FALSE, 0, (const GLvoid*)meshTexCoords);
+    
+    glEnableVertexAttribArray(vertexHandle);
+    glEnableVertexAttribArray(normalHandle);
+    glEnableVertexAttribArray(textureCoordHandle);
 
-  glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
-  glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, augmentationTexture.width, augmentationTexture.height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)augmentationTexture.pngData);
-  glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
-  glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
-  
-  glDrawElements(GL_TRIANGLES, NUM_MESH_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)meshIndices);
-  
-  glDisableVertexAttribArray(vertexHandle);
-  glDisableVertexAttribArray(normalHandle);
-  glDisableVertexAttribArray(textureCoordHandle);
-  
-  SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
+    glBindTexture(GL_TEXTURE_2D, augmentationTexture.textureID);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, augmentationTexture.width, augmentationTexture.height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)augmentationTexture.pngData);
+    glUniformMatrix4fv(mvpMatrixHandle, 1, GL_FALSE, (const GLfloat*)&modelViewProjection.data[0]);
+    glUniform1i(texSampler2DHandle, 0 /*GL_TEXTURE0*/);
+    
+    glDrawElements(GL_TRIANGLES, NUM_MESH_INDEX, GL_UNSIGNED_SHORT, (const GLvoid*)meshIndices);
+    
+    glDisableVertexAttribArray(vertexHandle);
+    glDisableVertexAttribArray(normalHandle);
+    glDisableVertexAttribArray(textureCoordHandle);
+    
+    SampleApplicationUtils::checkGlError("EAGLView renderFrameVuforia");
 
-  
-  
+  }
   
   glDisable(GL_BLEND);
   glDisable(GL_DEPTH_TEST);
