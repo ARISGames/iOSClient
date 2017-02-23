@@ -420,6 +420,7 @@
                 frame_count++;
               }
             }
+            av_free_packet(&packet);
           }
           [[NSString stringWithFormat:@"%d\n%d\n", fps_num, fps_den] writeToFile:splitting_done_url atomically:true encoding:NSUTF8StringEncoding error:nil];
           NSLog(@"ffmpeg: video frame rate is %d/%d", fps_num, fps_den);
