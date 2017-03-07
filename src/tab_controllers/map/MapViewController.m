@@ -314,6 +314,10 @@
             !modelInstance.infinite_qty &&
              modelInstance.qty <= 0
            )
+           ||
+           (
+            [modelInstance.object_type isEqualToString:@"NOTE"] && !tab.showNotesOnMap
+           )
           ) continue;
 
         shouldAdd = YES;

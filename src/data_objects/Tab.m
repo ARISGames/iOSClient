@@ -20,6 +20,7 @@
 @synthesize info;
 @synthesize sort_index;
 @synthesize requirement_root_package_id;
+@synthesize showNotesOnMap;
 
 - (id) init
 {
@@ -33,6 +34,7 @@
     self.info = @"";
     self.sort_index = 0;
     self.requirement_root_package_id = 0;
+    self.showNotesOnMap = false;
   }
   return self;
 }
@@ -49,6 +51,7 @@
     self.info                        = [dict validStringForKey:@"info"];
     self.sort_index                  = [dict validIntForKey:@"sort_index"];
     self.requirement_root_package_id = [dict validIntForKey:@"requirement_root_package_id"];
+    self.showNotesOnMap              = false;
   }
   return self;
 }

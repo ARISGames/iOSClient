@@ -18,6 +18,7 @@
     NSString *info;
     long sort_index;
     long requirement_root_package_id;
+    bool showNotesOnMap;
 }
 
 @property (nonatomic, assign) long tab_id;
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) NSString *info;
 @property (nonatomic, assign) long sort_index;
 @property (nonatomic, assign) long requirement_root_package_id;
+@property (nonatomic, assign) bool showNotesOnMap;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) serialize;
