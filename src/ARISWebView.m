@@ -325,6 +325,19 @@
     }
     else if([mainCommand isEqualToString:@"instances"])
     {
+        if(components.count > 1 && [components[1] isEqualToString:@"map"]) {
+            if(components.count > 2 && [components[2] isEqualToString:@"showNotesOnMap"]) {
+                if(components.count > 3 && [components[3] isEqualToString:@"get"]) {
+                    //Tab *t = [_MODEL_TABS_ tabForId:components[4]];
+                    
+                }
+                if(components.count > 3 && [components[3] isEqualToString:@"set"]) {
+                    Tab *t = [_MODEL_TABS_ tabForId:components[4]];
+                    bool showNotes = [components[5] boolValue];
+                    t.showNotesOnMap = showNotes;
+                }
+            }
+        }
         if(components.count > 1 && [components[1] isEqualToString:@"player"])
         {
             if(components.count > 2 && [components[2] isEqualToString:@"get"])
