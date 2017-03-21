@@ -149,4 +149,7 @@
 - (void) fetchOverlayById:(long)overlay_id;
 - (void) fetchTabById:(long)tab_id;
 
+- (void) reportJSONError;
+- (void) clearJSONError;
+
 @end

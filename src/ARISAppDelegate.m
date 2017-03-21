@@ -124,6 +124,8 @@
       !(_MODEL_PLAYER_ && _MODEL_PLAYER_.user_id))
     [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
   if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
+
+  [_SERVICES_ reportJSONError];
 }
 
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
