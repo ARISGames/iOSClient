@@ -162,13 +162,19 @@
           @"data":[media.data base64EncodedStringWithOptions:0]
         }
      };
-    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Player..." userInfo:nil];
+    NSLog(@"MT: Beginning upload of player media.");
+    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:@selector(updatePlayerMediaFailed) retryOnFail:YES humanDesc:@"Updating Player..." userInfo:nil];
 }
 - (void) parseUpdatePlayerMedia:(ARISServiceResult *)result
 {
+  NSLog(@"MT: Parsing result of player media upload.");
   if(!result.resultData) { _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_FAILED",nil,nil); return; }
   User *user = [[User alloc] initWithDictionary:(NSDictionary *)result.resultData];
   _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_RECEIVED",nil,@{@"user":user});
+}
+- (void) updatePlayerMediaFailed
+{
+  NSLog(@"MT: Failed to upload player media.");
 }
 
 
