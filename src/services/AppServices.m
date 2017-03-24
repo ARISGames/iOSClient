@@ -162,13 +162,19 @@
           @"data":[media.data base64EncodedStringWithOptions:0]
         }
      };
-    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Player..." userInfo:nil];
+    NSLog(@"MT: Beginning upload of player media.");
+    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:@selector(updatePlayerMediaFailed) retryOnFail:YES humanDesc:@"Updating Player..." userInfo:nil];
 }
 - (void) parseUpdatePlayerMedia:(ARISServiceResult *)result
 {
+  NSLog(@"MT: Parsing result of player media upload.");
   if(!result.resultData) { _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_FAILED",nil,nil); return; }
   User *user = [[User alloc] initWithDictionary:(NSDictionary *)result.resultData];
   _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_RECEIVED",nil,@{@"user":user});
+}
+- (void) updatePlayerMediaFailed
+{
+  NSLog(@"MT: Failed to upload player media.");
 }
 
 
@@ -1770,53 +1776,29 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_TAB_RECEIVED", nil, @{@"tab":tab});
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- (void) uploadNote:(Note *)n
+- (void) reportJSONError
 {
-}
-- (void) uploadPlayerPic:(Media *)m
-{
-  NSDictionary *mdict = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [m.localURL absoluteString],@"filename",
-    [m.data base64EncodedStringWithOptions:0],@"data",
-    nil];
-
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSNumber numberWithLong:_MODEL_PLAYER_.user_id],    @"user_id",
-    mdict,                                                                 @"media",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"uploadPlayerMediaFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:nil retryOnFail:NO humanDesc:@"Uploading Player Pic..." userInfo:nil];
+    NSString *json_error_url = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(@"json_error.txt");
+    if (![[NSFileManager defaultManager] fileExistsAtPath:json_error_url]) {
+        return;
+    }
+    NSError *err;
+    NSString *json_error = [NSString stringWithContentsOfFile:json_error_url encoding:NSUTF8StringEncoding error:&err];
+    if (err) {
+        json_error = @"There was a JSON error log file, but I couldn't read it.";
+        NSLog(@"%@", json_error);
+    }
+    NSDictionary *args =
+        @{
+          @"message":json_error
+        };
+    [connection performAsynchronousRequestWithService:@"log" method:@"errorLog" arguments:args handler:self successSelector:@selector(clearJSONError) failSelector:nil retryOnFail:NO humanDesc:@"Uploading JSON error log..." userInfo:nil];
 }
 
-- (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(long) noteId type: (NSString *)type
+- (void) clearJSONError
 {
-  NSNumber *nId = [[NSNumber alloc] initWithLong:noteId];
-  NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
-  [userInfo setValue:name forKey:@"title"];
-  [userInfo setValue:nId forKey:@"noteId"];
-  [userInfo setValue:type forKey: @"type"];
-  [userInfo setValue:fileURL forKey:@"url"];
-
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    @"object", @"key",
-    nil];
-  [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(noteContentUploadDidFinish:) failSelector:@selector(uploadNoteContentDidFail:) retryOnFail:NO humanDesc:@"Uploading Note Content..." userInfo:userInfo];
+    NSString *json_error_url = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(@"json_error.txt");
+    [[NSFileManager defaultManager] removeItemAtPath:json_error_url error:nil];
 }
 
 @end

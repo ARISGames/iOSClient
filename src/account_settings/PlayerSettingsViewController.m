@@ -113,12 +113,21 @@
   if([playerNameField.text isEqualToString:@""]) [playerNameField becomeFirstResponder];
 
   if(chosenMediaId > 0)       [playerPic setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
-  else if(chosenMediaId == 0) [self takePicture];
+  else if(chosenMediaId == 0) {
+      NSLog(@"MT: Prompting a photo because player has no media attached.");
+      [self takePicture];
+  }
   //chosenMediaId < 0 = newly chosen
 
   // handle a saved image with newly-scanned login QR code
-  if(chosenMediaId < 0 && playerPic.image && _MODEL_PLAYER_.media_id == 0)
-    [self uploadImage: playerPic.image];
+  if(chosenMediaId < 0 && playerPic.image && _MODEL_PLAYER_.media_id == 0) {
+    if (playerPic.image == [UIImage imageNamed:@"DefaultPCImage.png"]) {
+      NSLog(@"MT: Not uploading default player image.");
+    } else {
+      NSLog(@"MT: Reuploading saved player pic with new login QR code.");
+      [self uploadImage: playerPic.image];
+    }
+  }
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
@@ -184,6 +193,7 @@
 
 - (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
+  NSLog(@"MT: Receiving photo from camera or image picker.");
   chosenMediaId = -1;
   [aPicker dismissViewControllerAnimated:NO completion:nil];
 
@@ -227,7 +237,7 @@
   [m setPartialLocalURL:[NSString stringWithFormat:@"%@/%@",g,f]];
 
   m.data = UIImageJPEGRepresentation(i, 0.4);
-  [m.data writeToURL:m.localURL options:nil error:nil];
+  [m.data writeToURL:m.localURL options:0 error:nil];
 
   [playerPic setImage:i];
   [_MODEL_ updatePlayerMedia:m];

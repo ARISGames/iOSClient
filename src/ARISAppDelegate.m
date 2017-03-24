@@ -8,7 +8,6 @@
 
 #import "ARISAppDelegate.h"
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVAudioPlayer.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CLLocation.h>
 #import <CoreLocation/CLLocationManager.h>
@@ -125,6 +124,8 @@
       !(_MODEL_PLAYER_ && _MODEL_PLAYER_.user_id))
     [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
   if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
+
+  [_SERVICES_ reportJSONError];
 }
 
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
@@ -280,6 +281,17 @@
 {
   [self stopPollingLocation];
   _ARIS_NOTIF_IGNORE_ALL_(self);
+}
+
+// from vuforia sample code
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+  // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+  // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+  if (self.glResourceHandler) {
+    // Delete OpenGL resources (e.g. framebuffer) of the SampleApp AR View
+    [self.glResourceHandler freeOpenGLESResources];
+    [self.glResourceHandler finishOpenGLESCommands];
+  }
 }
 
 @end

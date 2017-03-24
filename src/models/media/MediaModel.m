@@ -29,46 +29,46 @@
 
 - (id) initWithContext:(NSManagedObjectContext *)c
 {
-    if(self = [super init])
-    {
-        [self clearGameData];
-        context = c;
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIAS_RECEIVED",self,@selector(mediasReceived:),nil);
-        _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIA_RECEIVED",self,@selector(mediaReceived:),nil);
-    }
-    return self;
+  if(self = [super init])
+  {
+    [self clearGameData];
+    context = c;
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIAS_RECEIVED",self,@selector(mediasReceived:),nil);
+    _ARIS_NOTIF_LISTEN_(@"SERVICES_MEDIA_RECEIVED",self,@selector(mediaReceived:),nil);
+  }
+  return self;
 }
 
 - (NSArray *) mediaForPredicate:(NSPredicate *)predicate
 {
-    NSError *error;
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MediaCD" inManagedObjectContext:context];
-    [fetchRequest setEntity:entity];
-    [fetchRequest setPredicate:predicate];
-    NSArray *cachedMediaArray = [context executeFetchRequest:fetchRequest error:&error] ;
+  NSError *error;
+  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+  NSEntityDescription *entity = [NSEntityDescription entityForName:@"MediaCD" inManagedObjectContext:context];
+  [fetchRequest setEntity:entity];
+  [fetchRequest setPredicate:predicate];
+  NSArray *cachedMediaArray = [context executeFetchRequest:fetchRequest error:&error] ;
 
-    return cachedMediaArray;
+  return cachedMediaArray;
 }
 
 - (void) commitContext
 {
-    NSError *error;
-    if(![context save:&error])
-        _ARIS_LOG_(@"Error saving media context - error:%@",error);
+  NSError *error;
+  if(![context save:&error])
+    _ARIS_LOG_(@"Error saving media context - error:%@",error);
 }
 
 - (void) clearCache
 {
-    NSArray *cachedMediaArray = [self mediaForPredicate:nil];
+  NSArray *cachedMediaArray = [self mediaForPredicate:nil];
 
-    for(NSManagedObject *managedObject in cachedMediaArray)
-    {
-        [context deleteObject:managedObject];
-        _ARIS_LOG_(@"Media object deleted"); //this is really only useful because this potentially takes a while, and this shows that its not frozen
-    }
+  for(NSManagedObject *managedObject in cachedMediaArray)
+  {
+    [context deleteObject:managedObject];
+    _ARIS_LOG_(@"Media object deleted"); //this is really only useful because this potentially takes a while, and this shows that its not frozen
+  }
 
-    [self commitContext];
+  [self commitContext];
 }
 
 - (void) requestGameData
@@ -88,12 +88,12 @@
 
 - (void) mediasReceived:(NSNotification *)notif
 {
-    [self updateMedias:notif.userInfo[@"medias"]];
+  [self updateMedias:notif.userInfo[@"medias"]];
 }
 
 - (void) mediaReceived:(NSNotification *)notif
 {
-    [self updateMedias:@[notif.userInfo[@"media"]]];
+  [self updateMedias:@[notif.userInfo[@"media"]]];
 }
 
 //Different than other models, as it expects raw dicts rather than fully populated objects
@@ -105,7 +105,7 @@
     //Turn array to dict for quick check of existence in cache
     NSMutableDictionary *currentlyCachedMediaMap = [[NSMutableDictionary alloc] init];
     for(long i = 0; i < currentlyCachedMediaArray.count; i++)
-        [currentlyCachedMediaMap setObject:currentlyCachedMediaArray[i] forKey:((MediaCD *)currentlyCachedMediaArray[i]).media_id];
+      [currentlyCachedMediaMap setObject:currentlyCachedMediaArray[i] forKey:((MediaCD *)currentlyCachedMediaArray[i]).media_id];
 
     MediaCD *tmpMedia;
     for(long i = 0; i < mediaToCacheDicts.count; i++)
