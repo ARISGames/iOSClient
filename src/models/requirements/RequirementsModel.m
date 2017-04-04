@@ -158,8 +158,12 @@
   if(ands.count == 0) return YES;
   for(int i = 0; i < ands.count; i++)
   {
-    if([self evaluateRequirementAnd:((RequirementAndPackage *)ands[i]).requirement_and_package_id]) return YES;
+    if([self evaluateRequirementAnd:((RequirementAndPackage *)ands[i]).requirement_and_package_id]) {
+      NSLog(@"evaluateRequirementRoot(%ld) is TRUE", requirement_root_package_id);
+      return YES;
+    }
   }
+  NSLog(@"evaluateRequirementRoot(%ld) is FALSE", requirement_root_package_id);
   return NO;
 }
 - (BOOL) evaluateRequirementAnd:(long)requirement_and_package_id

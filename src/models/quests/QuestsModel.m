@@ -153,6 +153,8 @@
 
 - (void) playerQuestsReceived:(NSNotification *)notification
 {
+  NSLog(@"playerQuestsReceived complete quests: %@", [notification.userInfo objectForKey:@"complete"]);
+  NSLog(@"playerQuestsReceived active quests: %@", [notification.userInfo objectForKey:@"active"]);
   [self updateCompleteQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"complete"]]];
   [self updateActiveQuests:[self conformQuestListToFlyweight:[notification.userInfo objectForKey:@"active"]]];
   n_player_data_received++;
@@ -165,8 +167,10 @@
   visibleActiveQuests = newQuests; //assumes already conforms to flyweight
 
   NSArray *addedDeltas = deltas[@"added"];
-  if(addedDeltas.count > 0)
+  if(addedDeltas.count > 0) {
     _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE",nil,deltas);
+    NSLog(@"MODEL_QUESTS_ACTIVE_NEW_AVAILABLE: %@", addedDeltas);
+  }
   if([self playerDataReceived])
   {
     for(long i = 0; i < addedDeltas.count; i++)
@@ -174,8 +178,10 @@
   }
 
   NSArray *removedDeltas = deltas[@"removed"];
-  if(removedDeltas.count > 0)
+  if(removedDeltas.count > 0) {
     _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_ACTIVE_LESS_AVAILABLE",nil,deltas);
+    NSLog(@"MODEL_QUESTS_ACTIVE_LESS_AVAILABLE: %@", removedDeltas);
+  }
 }
 
 - (void) updateCompleteQuests:(NSArray *)newQuests
@@ -184,8 +190,10 @@
   visibleCompleteQuests = newQuests; //assumes already conforms to flyweight
 
   NSArray *addedDeltas = deltas[@"added"];
-  if(addedDeltas.count > 0)
+  if(addedDeltas.count > 0) {
     _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE",nil,deltas);
+    NSLog(@"MODEL_QUESTS_COMPLETE_NEW_AVAILABLE: %@", addedDeltas);
+  }
   if([self playerDataReceived])
   {
     for(long i = 0; i < addedDeltas.count; i++)
@@ -193,8 +201,10 @@
   }
 
   NSArray *removedDeltas = deltas[@"removed"];
-  if(removedDeltas.count > 0)
+  if(removedDeltas.count > 0) {
     _ARIS_NOTIF_SEND_(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE",nil,deltas);
+    NSLog(@"MODEL_QUESTS_COMPLETE_LESS_AVAILABLE: %@", removedDeltas);
+  }
 }
 
 //finds deltas in quest lists generally, so I can just use same code for complete/active
