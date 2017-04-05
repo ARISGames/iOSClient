@@ -1091,8 +1091,10 @@
 				B7780565319993FE153A1890 /* Pods */,
 				85C99A4D7B79A57397DE8E90 /* Frameworks */,
 			);
+			indentWidth = 2;
 			name = ARIS;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		53038C881DE62D320002A3EA /* augmented */ = {
 			isa = PBXGroup;
