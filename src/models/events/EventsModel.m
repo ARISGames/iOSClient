@@ -72,7 +72,6 @@
 
 - (void) runEventPackageId:(long)event_package_id
 {
-  NSLog(@"runEventPackageId: %ld", event_package_id);
   NSArray *es = [self eventsForEventPackageId:event_package_id];
   Event *e;
   for(long i = 0; i < es.count; i++)

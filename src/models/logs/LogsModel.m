@@ -68,10 +68,7 @@
     {
       newLog = [newLogs objectAtIndex:i];
       newLogId = [NSNumber numberWithLong:newLog.log_id];
-      if(![logs objectForKey:newLogId]) {
-        [logs setObject:newLog forKey:newLogId];
-        NSLog(@"updateLogs got new log: %ld, %@, %ld, %ld", newLog.log_id, newLog.event_type, newLog.content_id, newLog.qty);
-      }
+      if(![logs objectForKey:newLogId]) [logs setObject:newLog forKey:newLogId];
     }
     _ARIS_NOTIF_SEND_(@"MODEL_LOGS_AVAILABLE",nil,nil);
     n_player_data_received++;
@@ -86,7 +83,6 @@
   l.content_id = content_id;
   l.qty = qty;
   if (loc) l.location = loc;
-  NSLog(@"addLogType making local log: %ld, %@, %ld, %ld", l.log_id, l.event_type, l.content_id, l.qty);
   [logs setObject:l forKey:[NSNumber numberWithLong:l.log_id]];
 }
 

@@ -129,7 +129,6 @@
   if(!pII) return 0; //UH OH! NO INSTANCE TO TAKE ITEM FROM! (shouldn't happen if touchItemsForPlayer was called...)
   if(pII.qty < qty) qty = pII.qty;
 
-  NSLog(@"takeItemFromPlayer: %ld, %ld", item_id, qty);
   return [self setItemsForPlayer:item_id qtyToSet:pII.qty-qty];
 }
 
@@ -138,15 +137,12 @@
   Instance *pII = playerInstances[[NSNumber numberWithLong:item_id]];
   if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
   if(qty > [self qtyAllowedToGiveForItem:item_id]) qty = [self qtyAllowedToGiveForItem:item_id];
-  
-  NSLog(@"giveItemToPlayer: %ld, %ld", item_id, qty);
+
   return [self setItemsForPlayer:item_id qtyToSet:pII.qty+qty];
 }
 
 - (long) setItemsForPlayer:(long)item_id qtyToSet:(long)qty
 {
-  NSLog(@"setItemsForPlayer(%ld, %ld)", item_id, qty);
-  
   Instance *pII = playerInstances[[NSNumber numberWithLong:item_id]];
   if(!pII) return 0; //UH OH! NO INSTANCE TO GIVE ITEM TO! (shouldn't happen if touchItemsForPlayer was called...)
 

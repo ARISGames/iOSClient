@@ -81,9 +81,6 @@
   if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
 
   beaconSignals = [[NSMutableDictionary alloc] init];
-  
-  NSString *pathForLog = [[_MODEL_ applicationDocumentsDirectory] stringByAppendingPathComponent:@"the_big_log.txt"];
-  freopen([pathForLog cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
 - (void) setApplicationUITemplates
