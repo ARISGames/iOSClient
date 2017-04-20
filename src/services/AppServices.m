@@ -315,6 +315,7 @@
 - (void) gameFetchFailed        { _ARIS_NOTIF_SEND_(@"SERVICES_GAME_FETCH_FAILED",        nil, nil); }
 - (void) maintenanceFetchFailed { _ARIS_NOTIF_SEND_(@"SERVICES_MAINTENANCE_FETCH_FAILED", nil, nil); }
 - (void) playerFetchFailed      { _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_FETCH_FAILED",      nil, nil); }
+- (void) mediaFetchFailed       { _ARIS_NOTIF_SEND_(@"SERVICES_MEDIA_FETCH_FAILED",       nil, nil); }
 
 - (void) fetchUsers
 {
@@ -1522,7 +1523,7 @@
     @{
       @"media_id":[NSNumber numberWithLong:media_id]
       };
-  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Media..." userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:@selector(mediaFetchFailed) retryOnFail:NO humanDesc:@"Fetching Media..." userInfo:nil];
 }
 - (void) parseMedia:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
 {
