@@ -57,6 +57,9 @@ namespace
   BOOL is_video;
   UIImage *image;
   NSString *caption;
+  NSMutableArray *captionStarts;
+  NSMutableArray *captionEnds;
+  NSMutableArray *captionTexts;
   
   AVAudioPlayer *audio;
   AVURLAsset *avurlasset;
@@ -135,6 +138,10 @@ namespace
     [sampleAppRenderer initRendering];
     
     ar_video_fps = 1000./64.;
+    
+    captionStarts = [[NSMutableArray alloc] init];
+    captionEnds   = [[NSMutableArray alloc] init];
+    captionTexts  = [[NSMutableArray alloc] init];
   }
   
   return self;
@@ -318,6 +325,20 @@ namespace
         float fps_num = [fps_lines[0] integerValue];
         float fps_den = [fps_lines[1] integerValue];
         ar_video_fps = fps_num / fps_den;
+        
+        [captionStarts removeAllObjects];
+        [captionEnds removeAllObjects];
+        [captionTexts removeAllObjects];
+        long captionCount = [fps_lines[2] integerValue];
+        int lineIndex = 3;
+        NSNumberFormatter *numfmt = [[NSNumberFormatter alloc] init];
+        numfmt.numberStyle = NSNumberFormatterDecimalStyle;
+        for (int i = 0; i < captionCount; i++) {
+          [captionStarts addObject:[numfmt numberFromString:fps_lines[lineIndex]]];
+          [captionEnds addObject:[numfmt numberFromString:fps_lines[lineIndex + 1]]];
+          [captionTexts addObject:fps_lines[lineIndex + 2]];
+          lineIndex += 3;
+        }
       }
       else
       {
@@ -345,7 +366,8 @@ namespace
   if(is_video)
   {
     if(![audio isPlaying]) [audio play];
-    int frame = [audio currentTime] * ar_video_fps;
+    NSTimeInterval audioTime = [audio currentTime];
+    int frame = audioTime * ar_video_fps;
     
     NSString *filename;
     Trigger *trigger = [_MODEL_TRIGGERS_ triggerForId:new_trigger_id];
@@ -360,7 +382,15 @@ namespace
     
     [augmentationTexture loadAbsoImageNoResize:filename];
     
-    caption = @"Playing a video";
+    BOOL hasCaption = NO;
+    for (int i = 0; i < captionStarts.count; i++) {
+      if ([captionStarts[i] doubleValue] <= audioTime && audioTime < [captionEnds[i] doubleValue]) {
+        hasCaption = YES;
+        caption = captionTexts[i];
+        break;
+      }
+    }
+    if (!hasCaption) caption = @"";
   } else {
     caption = @"";
   }
