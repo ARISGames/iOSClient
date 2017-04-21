@@ -223,7 +223,10 @@
   if (rect->type == SUBTITLE_TEXT) {
     s = [NSString stringWithUTF8String:rect->text];
   } else if (rect->type == SUBTITLE_ASS) {
-    s = [[[NSString stringWithUTF8String:rect->ass] componentsSeparatedByString:@","] lastObject];
+    // TODO: this needs to be way more robust
+    NSArray *comps = [[NSString stringWithUTF8String:rect->ass] componentsSeparatedByString:@","];
+    NSArray *text_comps = [comps subarrayWithRange:NSMakeRange(9, [comps count] - 9)];
+    s = [text_comps componentsJoinedByString:@","];
   } else {
     return nil;
   }
