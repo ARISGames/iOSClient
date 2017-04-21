@@ -291,9 +291,11 @@
             continue;
           }
           int videoStream = -1;
+          int subtitleStream = -1;
           int fps_num, fps_den;
           BOOL fps_halved = NO;
           for(int i = 0; i < pFormatCtx->nb_streams; i++) {
+            AVStream *strm = pFormatCtx->streams[i];
             if(pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
               fps_num = pFormatCtx->streams[i]->avg_frame_rate.num;
               fps_den = pFormatCtx->streams[i]->avg_frame_rate.den;
@@ -303,7 +305,8 @@
                 NSLog(@"ffmpeg: cutting video fps in half");
               }
               videoStream = i;
-              break;
+            } else if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
+              subtitleStream = i;
             }
           }
           if (videoStream == -1) {
@@ -311,26 +314,42 @@
             continue;
           }
           AVCodecContext *pCodecCtxOrig = pFormatCtx->streams[videoStream]->codec;
+          AVCodecContext *pCodecCtxOrigSub = pFormatCtx->streams[subtitleStream]->codec;
           NSLog(@"ffmpeg: detected codec: %s", avcodec_get_name(pCodecCtxOrig->codec_id));
           
           // decode example stuff starts here
           AVCodec *pCodec;
           AVCodecContext *pCodecCtx = NULL;
+          AVCodec *pCodecSub;
+          AVCodecContext *pCodecCtxSub = NULL;
           
           pCodec = avcodec_find_decoder(pCodecCtxOrig->codec_id);
           if (!pCodec) {
             NSLog(@"ffmpeg: codec not found!");
             continue;
           }
-          
           pCodecCtx = avcodec_alloc_context3(pCodec);
           if (avcodec_copy_context(pCodecCtx, pCodecCtxOrig) != 0) {
             NSLog(@"ffmpeg: couldn't copy codec context");
             continue;
           }
-          
           if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
             NSLog(@"ffmpeg: could not open codec");
+            continue;
+          }
+          
+          pCodecSub = avcodec_find_decoder(pCodecCtxOrigSub->codec_id);
+          if (!pCodecSub) {
+            NSLog(@"ffmpeg: sub codec not found!");
+            continue;
+          }
+          pCodecCtxSub = avcodec_alloc_context3(pCodecSub);
+          if (avcodec_copy_context(pCodecCtxSub, pCodecCtxOrigSub) != 0) {
+            NSLog(@"ffmpeg: couldn't copy sub codec context");
+            continue;
+          }
+          if (avcodec_open2(pCodecCtxSub, pCodecSub, NULL) < 0) {
+            NSLog(@"ffmpeg: could not open sub codec");
             continue;
           }
           
@@ -418,6 +437,19 @@
                 av_free(contextOut);
                 
                 frame_count++;
+              }
+            } else if (packet.stream_index == subtitleStream) {
+              int gotSub;
+              AVSubtitle sub;
+              int err = avcodec_decode_subtitle2(pCodecCtxSub, &sub, &gotSub, &packet);
+              if (err < 0) {
+                NSLog(@"ffmpeg: avcodec_decode_subtitle2 failed");
+              }
+              if (gotSub) {
+                // TODO
+                NSLog(@"Got subtitle: %s", sub.rects[0]->text);
+              } else {
+                NSLog(@"Got subtitle packet but no subtitle was decoded.");
               }
             }
             av_free_packet(&packet);

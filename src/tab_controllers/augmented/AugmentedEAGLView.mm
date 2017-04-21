@@ -56,6 +56,7 @@ namespace
   long cur_trigger_id;
   BOOL is_video;
   UIImage *image;
+  NSString *caption;
   
   AVAudioPlayer *audio;
   AVURLAsset *avurlasset;
@@ -358,6 +359,10 @@ namespace
     filename = [NSString stringWithFormat:@"%@/%@_%d.png",newFolder,f,frame];
     
     [augmentationTexture loadAbsoImageNoResize:filename];
+    
+    caption = @"Playing a video";
+  } else {
+    caption = @"";
   }
 
   cur_trigger_id = new_trigger_id;
@@ -515,7 +520,12 @@ namespace
 
 - (long) cur_trigger_id
 {
-    return cur_trigger_id;
+  return cur_trigger_id;
+}
+
+- (NSString *) caption
+{
+  return caption;
 }
 
 @end
