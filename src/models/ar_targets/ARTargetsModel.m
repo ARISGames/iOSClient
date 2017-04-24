@@ -337,7 +337,7 @@
             continue;
           }
           AVCodecContext *pCodecCtxOrig = pFormatCtx->streams[videoStream]->codec;
-          AVCodecContext *pCodecCtxOrigSub = pFormatCtx->streams[subtitleStream]->codec;
+          AVCodecContext *pCodecCtxOrigSub = subtitleStream == -1 ? NULL : pFormatCtx->streams[subtitleStream]->codec;
           NSLog(@"ffmpeg: detected codec: %s", avcodec_get_name(pCodecCtxOrig->codec_id));
           
           // decode example stuff starts here
@@ -361,19 +361,21 @@
             continue;
           }
           
-          pCodecSub = avcodec_find_decoder(pCodecCtxOrigSub->codec_id);
-          if (!pCodecSub) {
-            NSLog(@"ffmpeg: sub codec not found!");
-            continue;
-          }
-          pCodecCtxSub = avcodec_alloc_context3(pCodecSub);
-          if (avcodec_copy_context(pCodecCtxSub, pCodecCtxOrigSub) != 0) {
-            NSLog(@"ffmpeg: couldn't copy sub codec context");
-            continue;
-          }
-          if (avcodec_open2(pCodecCtxSub, pCodecSub, NULL) < 0) {
-            NSLog(@"ffmpeg: could not open sub codec");
-            continue;
+          if (pCodecCtxOrigSub) {
+            pCodecSub = avcodec_find_decoder(pCodecCtxOrigSub->codec_id);
+            if (!pCodecSub) {
+              NSLog(@"ffmpeg: sub codec not found!");
+              continue;
+            }
+            pCodecCtxSub = avcodec_alloc_context3(pCodecSub);
+            if (avcodec_copy_context(pCodecCtxSub, pCodecCtxOrigSub) != 0) {
+              NSLog(@"ffmpeg: couldn't copy sub codec context");
+              continue;
+            }
+            if (avcodec_open2(pCodecCtxSub, pCodecSub, NULL) < 0) {
+              NSLog(@"ffmpeg: could not open sub codec");
+              continue;
+            }
           }
           
           AVFrame *pFrame = av_frame_alloc();
