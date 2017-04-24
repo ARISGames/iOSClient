@@ -127,7 +127,7 @@
     
     // caption text box
     captionLabel = [[UILabel alloc] init];
-    captionLabel.frame = CGRectMake(0, self.view.bounds.size.height-115,self.view.bounds.size.width,75);
+    captionLabel.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-115) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,75 / [UIScreen mainScreen].scale);
     captionLabel.numberOfLines = 0;
     captionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     captionLabel.textAlignment = NSTextAlignmentCenter;
@@ -137,7 +137,7 @@
     [self setCaption:@""];
     
     continueButton = [[UIButton alloc] init];
-    continueButton.frame = CGRectMake(0, self.view.bounds.size.height-40,self.view.bounds.size.width,40);
+    continueButton.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-40) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,40 / [UIScreen mainScreen].scale);
     [continueButton setTitle:@"Continue" forState:UIControlStateNormal];
     [continueButton setBackgroundColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.8]];
     [continueButton.layer setBorderWidth:2.0f];
