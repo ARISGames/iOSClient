@@ -23,7 +23,7 @@
   NSArray *anywhereGames;   NSDate *anywhereStamp;
   NSArray *popularGames;    NSDate *popularStamp; NSString *interval;
   NSArray *recentGames;     NSDate *recentStamp;
-  NSArray *searchGames;     NSDate *searchStamp; NSString *search;
+  NSArray *searchGames;     NSDate *searchStamp; NSString *search; long searchPage; BOOL isSearching; BOOL searchDone;
   NSArray *mineGames;       NSDate *mineStamp;
   NSArray *downloadedGames; NSDate *downloadedStamp;
 }
@@ -71,7 +71,7 @@
   anywhereStamp = nil;
   popularStamp = nil; interval = nil;
   recentStamp = nil;
-  searchStamp = nil; search = nil;
+  searchStamp = nil; search = nil; searchPage = 0; isSearching = NO; searchDone = NO;
   mineStamp = nil;
   downloadedStamp = nil;
 }
@@ -95,7 +95,17 @@
 - (void) notifRecentGames { _ARIS_NOTIF_SEND_(@"MODEL_RECENT_GAMES_AVAILABLE",nil,nil); }
 
 - (void) searchGamesReceived:(NSNotification *)n { [self updateSearchGames:n.userInfo[@"games"]]; }
-- (void) updateSearchGames:(NSArray *)gs { searchGames = [self updateGames:gs]; [self notifSearchGames]; }
+- (void) updateSearchGames:(NSArray *)gs {
+  if (searchPage == 0) {
+    searchGames = [self updateGames:gs];
+  } else {
+    searchGames = [searchGames arrayByAddingObjectsFromArray:[self updateGames:gs]];
+  }
+  isSearching = NO;
+  searchDone = [gs count] == 0;
+  searchPage++;
+  [self notifSearchGames];
+}
 - (void) notifSearchGames { _ARIS_NOTIF_SEND_(@"MODEL_SEARCH_GAMES_AVAILABLE",nil,nil); }
 
 - (void) mineGamesReceived:(NSNotification *)n { [self updateMineGames:n.userInfo[@"games"]]; }
@@ -326,11 +336,22 @@
   {
     searchStamp = [[NSDate alloc] init];
     search = s;
-    [_SERVICES_ fetchSearchGames:s];
+    searchPage = 0;
+    searchDone = NO;
+    isSearching = YES;
+    [_SERVICES_ fetchSearchGames:s page:0];
   }
   else [self performSelector:@selector(notifSearchGames) withObject:nil afterDelay:1];
 
   return searchGames;
+}
+- (void) continueSearchGames
+{
+  if (isSearching || searchDone) return;
+  searchStamp = [[NSDate alloc] init];
+  [_SERVICES_ fetchSearchGames:search page:searchPage];
+  isSearching = YES;
+  return;
 }
 - (NSArray *) searchGames { return searchGames; }
 

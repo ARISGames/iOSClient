@@ -266,7 +266,7 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_POPULAR_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchSearchGames:(NSString *)search
+- (void) fetchSearchGames:(NSString *)search page:(long)page
 {
     NSDictionary *args =
         @{
@@ -274,7 +274,7 @@
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"text":search,
-            @"page":[NSNumber numberWithLong:0]
+            @"page":[NSNumber numberWithLong:page]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getSearchGamesForPlayer" arguments:args handler:self successSelector:@selector(parseSearchGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Search for Games..." userInfo:nil];
 }

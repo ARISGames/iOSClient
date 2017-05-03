@@ -30,6 +30,7 @@
 
 - (NSArray *) searchGames;
 - (NSArray *) pingSearchGames:(NSString *)search;
+- (void) continueSearchGames;
 
 - (NSArray *) mineGames;
 - (NSArray *) pingMineGames;

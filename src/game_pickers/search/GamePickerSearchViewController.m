@@ -180,6 +180,15 @@
     [self searchBarCancelButtonClicked:theSearchBar];
 }
 
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+  CGFloat actualPosition = scrollView.contentOffset.y;
+  CGFloat contentHeight = scrollView.contentSize.height - scrollView.frame.size.height;
+  if (contentHeight > 0 && actualPosition >= contentHeight) {
+    [_MODEL_GAMES_ continueSearchGames];
+  }
+}
+
 - (void) dealloc
 {
     _ARIS_NOTIF_IGNORE_ALL_(self);
