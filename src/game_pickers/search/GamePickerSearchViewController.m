@@ -16,7 +16,6 @@
     UISearchBar *theSearchBar;
     UIView *disableViewOverlay;
     NSString *searchText;
-    long currentPage;
     BOOL currentlyFetchingNextPage;
     BOOL allResultsFound;
 }
@@ -29,7 +28,6 @@
 {
     if(self = [super initWithDelegate:d])
     {
-        currentPage = 0;
         currentlyFetchingNextPage = NO;
         allResultsFound = YES;
         searchText = @"";
@@ -136,7 +134,6 @@
     searchText = searchBar.text;
 
     [self searchBar:searchBar activate:NO];
-    currentPage = 0;
     [self attemptSearch:searchText];
 }
 

@@ -24,9 +24,11 @@
 
 - (NSArray *) popularGames;
 - (NSArray *) pingPopularGames:(NSString *)interval;
+- (void) continuePopularGames;
 
 - (NSArray *) recentGames;
 - (NSArray *) pingRecentGames;
+- (void) continueRecentGames;
 
 - (NSArray *) searchGames;
 - (NSArray *) pingSearchGames:(NSString *)search;

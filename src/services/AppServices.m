@@ -233,14 +233,14 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_ANYWHERE_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchRecentGames
+- (void) fetchRecentGamesPage:(long)page
 {
     NSDictionary *args =
         @{
             @"user_id":[NSString stringWithFormat:@"%ld",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"page":[NSNumber numberWithLong:0]
+            @"page":[NSNumber numberWithLong:page]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Recent Games..." userInfo:nil];
 }
@@ -249,7 +249,7 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchPopularGamesInterval:(NSString *)i
+- (void) fetchPopularGamesInterval:(NSString *)i page:(long)page
 {
     NSDictionary *args =
         @{
@@ -257,7 +257,7 @@
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"interval":i,//@"MONTH",
-            @"page":[NSNumber numberWithLong:0]
+            @"page":[NSNumber numberWithLong:page]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getPopularGamesForPlayer" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Popular Games..." userInfo:nil];
 }

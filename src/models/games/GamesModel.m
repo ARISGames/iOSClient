@@ -21,9 +21,9 @@
   NSMutableDictionary *games;
   NSArray *nearbyGames;     NSDate *nearbyStamp; CLLocation *location;
   NSArray *anywhereGames;   NSDate *anywhereStamp;
-  NSArray *popularGames;    NSDate *popularStamp; NSString *interval;
-  NSArray *recentGames;     NSDate *recentStamp;
-  NSArray *searchGames;     NSDate *searchStamp; NSString *search; long searchPage; BOOL isSearching; BOOL searchDone;
+  NSArray *popularGames;    NSDate *popularStamp; NSString *interval; long popularPage; BOOL popularInProgress; BOOL popularDone;
+  NSArray *recentGames;     NSDate *recentStamp; long recentPage; BOOL recentInProgress; BOOL recentDone;
+  NSArray *searchGames;     NSDate *searchStamp; NSString *search; long searchPage; BOOL searchInProgress; BOOL searchDone;
   NSArray *mineGames;       NSDate *mineStamp;
   NSArray *downloadedGames; NSDate *downloadedStamp;
 }
@@ -69,9 +69,9 @@
 {
   nearbyStamp = nil; location = nil;
   anywhereStamp = nil;
-  popularStamp = nil; interval = nil;
-  recentStamp = nil;
-  searchStamp = nil; search = nil; searchPage = 0; isSearching = NO; searchDone = NO;
+  popularStamp = nil; interval = nil; popularPage = 0; popularInProgress = NO; popularDone = NO;
+  recentStamp = nil; recentPage = 0; recentInProgress = NO; recentDone = NO;
+  searchStamp = nil; search = nil; searchPage = 0; searchInProgress = NO; searchDone = NO;
   mineStamp = nil;
   downloadedStamp = nil;
 }
@@ -87,11 +87,31 @@
 - (void) notifAnywhereGames { _ARIS_NOTIF_SEND_(@"MODEL_ANYWHERE_GAMES_AVAILABLE",nil,nil); }
 
 - (void) popularGamesReceived:(NSNotification *)n { [self updatePopularGames:n.userInfo[@"games"]]; }
-- (void) updatePopularGames:(NSArray *)gs { popularGames = [self updateGames:gs]; [self notifPopularGames]; }
+- (void) updatePopularGames:(NSArray *)gs {
+  if (popularPage == 0) {
+    popularGames = [self updateGames:gs];
+  } else {
+    popularGames = [popularGames arrayByAddingObjectsFromArray:[self updateGames:gs]];
+  }
+  popularInProgress = NO;
+  popularDone = [gs count] == 0;
+  popularPage++;
+  [self notifPopularGames];
+}
 - (void) notifPopularGames { _ARIS_NOTIF_SEND_(@"MODEL_POPULAR_GAMES_AVAILABLE",nil,nil); }
 
 - (void) recentGamesReceived:(NSNotification *)n { [self updateRecentGames:n.userInfo[@"games"]]; }
-- (void) updateRecentGames:(NSArray *)gs { recentGames = [self updateGames:gs]; [self notifRecentGames]; }
+- (void) updateRecentGames:(NSArray *)gs {
+  if (recentPage == 0) {
+    recentGames = [self updateGames:gs];
+  } else {
+    recentGames = [recentGames arrayByAddingObjectsFromArray:[self updateGames:gs]];
+  }
+  recentInProgress = NO;
+  recentDone = [gs count] == 0;
+  recentPage++;
+  [self notifRecentGames];
+}
 - (void) notifRecentGames { _ARIS_NOTIF_SEND_(@"MODEL_RECENT_GAMES_AVAILABLE",nil,nil); }
 
 - (void) searchGamesReceived:(NSNotification *)n { [self updateSearchGames:n.userInfo[@"games"]]; }
@@ -101,7 +121,7 @@
   } else {
     searchGames = [searchGames arrayByAddingObjectsFromArray:[self updateGames:gs]];
   }
-  isSearching = NO;
+  searchInProgress = NO;
   searchDone = [gs count] == 0;
   searchPage++;
   [self notifSearchGames];
@@ -308,11 +328,22 @@
   {
     popularStamp = [[NSDate alloc] init];
     interval = i;
-    [_SERVICES_ fetchPopularGamesInterval:interval];
+    popularPage = 0;
+    popularDone = NO;
+    popularInProgress = YES;
+    [_SERVICES_ fetchPopularGamesInterval:interval page:0];
   }
   else [self performSelector:@selector(notifPopularGames) withObject:nil afterDelay:1];
 
   return popularGames;
+}
+- (void) continuePopularGames
+{
+  if (popularInProgress || popularDone) return;
+  popularStamp = [[NSDate alloc] init];
+  [_SERVICES_ fetchPopularGamesInterval:interval page:popularPage];
+  popularInProgress = YES;
+  return;
 }
 - (NSArray *) popularGames { return popularGames; }
 
@@ -321,11 +352,22 @@
   if(!recentStamp || [recentStamp timeIntervalSinceNow] < -10)
   {
     recentStamp = [[NSDate alloc] init];
-    [_SERVICES_ fetchRecentGames];
+    recentPage = 0;
+    recentDone = NO;
+    recentInProgress = YES;
+    [_SERVICES_ fetchRecentGamesPage:0];
   }
   else [self performSelector:@selector(notifRecentGames) withObject:nil afterDelay:1];
 
   return recentGames;
+}
+- (void) continueRecentGames
+{
+  if (recentInProgress || recentDone) return;
+  recentStamp = [[NSDate alloc] init];
+  [_SERVICES_ fetchRecentGamesPage:recentPage];
+  recentInProgress = YES;
+  return;
 }
 - (NSArray *) recentGames { return recentGames; }
 
@@ -338,7 +380,7 @@
     search = s;
     searchPage = 0;
     searchDone = NO;
-    isSearching = YES;
+    searchInProgress = YES;
     [_SERVICES_ fetchSearchGames:s page:0];
   }
   else [self performSelector:@selector(notifSearchGames) withObject:nil afterDelay:1];
@@ -347,10 +389,10 @@
 }
 - (void) continueSearchGames
 {
-  if (isSearching || searchDone) return;
+  if (searchInProgress || searchDone) return;
   searchStamp = [[NSDate alloc] init];
   [_SERVICES_ fetchSearchGames:search page:searchPage];
-  isSearching = YES;
+  searchInProgress = YES;
   return;
 }
 - (NSArray *) searchGames { return searchGames; }
