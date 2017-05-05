@@ -319,16 +319,16 @@
           BOOL fps_halved = NO;
           for(int i = 0; i < pFormatCtx->nb_streams; i++) {
             AVStream *strm = pFormatCtx->streams[i];
-            if(pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
-              fps_num = pFormatCtx->streams[i]->avg_frame_rate.num;
-              fps_den = pFormatCtx->streams[i]->avg_frame_rate.den;
+            if(strm->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+              fps_num = strm->avg_frame_rate.num;
+              fps_den = strm->avg_frame_rate.den;
               if (((float) fps_num) / ((float) fps_den) > 29) {
                 fps_halved = YES;
                 fps_den *= 2;
                 NSLog(@"ffmpeg: cutting video fps in half");
               }
               videoStream = i;
-            } else if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
+            } else if (strm->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
               subtitleStream = i;
             }
           }
