@@ -182,7 +182,7 @@
 - (void) mediaLoaded:(Media *)m
 {
   mediaDataLoaded++;
-  _ARIS_NOTIF_SEND_(@"MEDIA_PIECE_AVAILABLE",nil,nil);
+  _ARIS_NOTIF_SEND_(@"MEDIA_PIECE_AVAILABLE",nil,@{@"media": m});
   if(mediaDataLoaded >= mediaDataLoadDelegateHandles.count)
   {
     mediaDataLoadMedia = nil;

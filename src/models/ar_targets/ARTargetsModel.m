@@ -217,6 +217,29 @@
   }
 }
 
+- (NSString *) getSubtitleText:(AVSubtitleRect *)rect
+{
+  NSString *s;
+  if (rect->type == SUBTITLE_TEXT) {
+    s = [NSString stringWithUTF8String:rect->text];
+  } else if (rect->type == SUBTITLE_ASS) {
+    // TODO: this needs to be way more robust
+    NSArray *comps = [[NSString stringWithUTF8String:rect->ass] componentsSeparatedByString:@","];
+    NSArray *text_comps = [comps subarrayWithRange:NSMakeRange(9, [comps count] - 9)];
+    s = [text_comps componentsJoinedByString:@","];
+  } else {
+    return nil;
+  }
+  s = [s stringByReplacingOccurrencesOfString:@"\r" withString:@" "];
+  s = [s stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+  s = [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  if ([s isEqualToString:@""]) {
+    return nil;
+  } else {
+    return s;
+  }
+}
+
 //technically not associated with AR _targets_, but instead the _triggers_ associated with those targets.
 - (void) cacheARData
 {
@@ -291,19 +314,22 @@
             continue;
           }
           int videoStream = -1;
+          int subtitleStream = -1;
           int fps_num, fps_den;
           BOOL fps_halved = NO;
           for(int i = 0; i < pFormatCtx->nb_streams; i++) {
-            if(pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
-              fps_num = pFormatCtx->streams[i]->avg_frame_rate.num;
-              fps_den = pFormatCtx->streams[i]->avg_frame_rate.den;
+            AVStream *strm = pFormatCtx->streams[i];
+            if(strm->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+              fps_num = strm->avg_frame_rate.num;
+              fps_den = strm->avg_frame_rate.den;
               if (((float) fps_num) / ((float) fps_den) > 29) {
                 fps_halved = YES;
                 fps_den *= 2;
                 NSLog(@"ffmpeg: cutting video fps in half");
               }
               videoStream = i;
-              break;
+            } else if (strm->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
+              subtitleStream = i;
             }
           }
           if (videoStream == -1) {
@@ -311,27 +337,45 @@
             continue;
           }
           AVCodecContext *pCodecCtxOrig = pFormatCtx->streams[videoStream]->codec;
+          AVCodecContext *pCodecCtxOrigSub = subtitleStream == -1 ? NULL : pFormatCtx->streams[subtitleStream]->codec;
           NSLog(@"ffmpeg: detected codec: %s", avcodec_get_name(pCodecCtxOrig->codec_id));
           
           // decode example stuff starts here
           AVCodec *pCodec;
           AVCodecContext *pCodecCtx = NULL;
+          AVCodec *pCodecSub;
+          AVCodecContext *pCodecCtxSub = NULL;
           
           pCodec = avcodec_find_decoder(pCodecCtxOrig->codec_id);
           if (!pCodec) {
             NSLog(@"ffmpeg: codec not found!");
             continue;
           }
-          
           pCodecCtx = avcodec_alloc_context3(pCodec);
           if (avcodec_copy_context(pCodecCtx, pCodecCtxOrig) != 0) {
             NSLog(@"ffmpeg: couldn't copy codec context");
             continue;
           }
-          
           if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0) {
             NSLog(@"ffmpeg: could not open codec");
             continue;
+          }
+          
+          if (pCodecCtxOrigSub) {
+            pCodecSub = avcodec_find_decoder(pCodecCtxOrigSub->codec_id);
+            if (!pCodecSub) {
+              NSLog(@"ffmpeg: sub codec not found!");
+              continue;
+            }
+            pCodecCtxSub = avcodec_alloc_context3(pCodecSub);
+            if (avcodec_copy_context(pCodecCtxSub, pCodecCtxOrigSub) != 0) {
+              NSLog(@"ffmpeg: couldn't copy sub codec context");
+              continue;
+            }
+            if (avcodec_open2(pCodecCtxSub, pCodecSub, NULL) < 0) {
+              NSLog(@"ffmpeg: could not open sub codec");
+              continue;
+            }
           }
           
           AVFrame *pFrame = av_frame_alloc();
@@ -360,6 +404,9 @@
           int frame_count = 0;
           sws_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, 256, 256, PIX_FMT_RGBA, SWS_FAST_BILINEAR, NULL, NULL, NULL);
           BOOL skip_frame = NO;
+          NSMutableArray *captionStarts = [[NSMutableArray alloc] init];
+          NSMutableArray *captionEnds   = [[NSMutableArray alloc] init];
+          NSMutableArray *captionTexts  = [[NSMutableArray alloc] init];
           while (av_read_frame(pFormatCtx, &packet) >= 0) {
             if (packet.stream_index == videoStream) {
               int err = avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished, &packet);
@@ -419,10 +466,44 @@
                 
                 frame_count++;
               }
+            } else if (packet.stream_index == subtitleStream) {
+              int gotSub;
+              AVSubtitle sub;
+              int err = avcodec_decode_subtitle2(pCodecCtxSub, &sub, &gotSub, &packet);
+              if (err < 0) {
+                NSLog(@"ffmpeg: avcodec_decode_subtitle2 failed");
+              }
+              if (gotSub) {
+                if (sub.num_rects > 0) {
+                  NSString *cap = [self getSubtitleText:sub.rects[0]];
+                  if (cap) {
+                    double packetTime
+                      = ((double) packet.pts)
+                      * ((double) pFormatCtx->streams[subtitleStream]->time_base.num)
+                      / ((double) pFormatCtx->streams[subtitleStream]->time_base.den);
+                    double capStart = packetTime + ((double) sub.start_display_time) / 1000;
+                    double capEnd = packetTime + ((double) sub.end_display_time) / 1000;
+                    [captionStarts addObject:[NSNumber numberWithDouble:capStart]];
+                    [captionEnds addObject:[NSNumber numberWithDouble:capEnd]];
+                    [captionTexts addObject:cap];
+                    NSLog(@"Got subtitle: %@", cap);
+                  } else {
+                    NSLog(@"Got subtitle but rect text is NULL.");
+                  }
+                } else {
+                  NSLog(@"Got subtitle with no rects.");
+                }
+              } else {
+                NSLog(@"Got subtitle packet but no subtitle was decoded.");
+              }
             }
             av_free_packet(&packet);
           }
-          [[NSString stringWithFormat:@"%d\n%d\n", fps_num, fps_den] writeToFile:splitting_done_url atomically:true encoding:NSUTF8StringEncoding error:nil];
+          NSString *logOutput = [NSString stringWithFormat:@"%d\n%d\n%lu\n", fps_num, fps_den, (unsigned long)captionStarts.count];
+          for (int i = 0; i < captionStarts.count; i++) {
+            logOutput = [logOutput stringByAppendingFormat:@"%@\n%@\n%@\n", [captionStarts[i] stringValue], [captionEnds[i] stringValue], captionTexts[i]];
+          }
+          [logOutput writeToFile:splitting_done_url atomically:true encoding:NSUTF8StringEncoding error:nil];
           NSLog(@"ffmpeg: video frame rate is %d/%d", fps_num, fps_den);
         }
       }

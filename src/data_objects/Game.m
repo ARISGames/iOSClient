@@ -273,7 +273,7 @@
   _ARIS_NOTIF_LISTEN_(@"GAME_PIECE_AVAILABLE",self,@selector(gamePieceReceived),nil);
   _ARIS_NOTIF_LISTEN_(@"MAINTENANCE_PIECE_AVAILABLE",self,@selector(maintenancePieceReceived),nil);
   _ARIS_NOTIF_LISTEN_(@"PLAYER_PIECE_AVAILABLE",self,@selector(playerPieceReceived),nil);
-  _ARIS_NOTIF_LISTEN_(@"MEDIA_PIECE_AVAILABLE",self,@selector(mediaPieceReceived),nil);
+  _ARIS_NOTIF_LISTEN_(@"MEDIA_PIECE_AVAILABLE",self,@selector(mediaPieceReceived:),nil);
   
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_BEGAN", self, @selector(gameBegan), nil);
   _ARIS_NOTIF_LISTEN_(@"MODEL_GAME_LEFT", self, @selector(gameLeft), nil);
@@ -400,7 +400,7 @@
   {
     //hack to quickly check if already done
     n_media_data_received--;
-    [self mediaPieceReceived];
+    [self mediaPieceReceived: nil];
   }
 }
 
@@ -440,8 +440,17 @@
   }
 }
 
-- (void) mediaPieceReceived
+- (void) mediaPieceReceived:(NSNotification *)n
 {
+  NSObject *obj = [n.userInfo objectForKey:@"media"];
+  if (obj && [obj isKindOfClass:[Media class]]) {
+    Media *m = (Media *) obj;
+    // garbage collect the NSData for the media during preload
+    m.data = nil;
+    m.thumb = nil;
+    // we also remove thumb because of the order in which
+    // ARISMediaLoader's loadMediaFromMR looks at media fields.
+  }
   n_media_data_received++;
   _ARIS_NOTIF_SEND_(@"MEDIA_PERCENT_LOADED", nil,
                     @{@"percent":[NSNumber numberWithFloat:(float)n_media_data_received/(float)n_media_data_to_receive]});

@@ -124,7 +124,11 @@
       tmp_str = tmp_auth.display_name;
       if(!tmp_str || [tmp_str isEqualToString:@""] || [tmp_str isEqualToString:@" "]) tmp_str = tmp_auth.user_name;
       if(!tmp_str || [tmp_str isEqualToString:@""] || [tmp_str isEqualToString:@" "]) continue;
-      authorLabel.text = [NSString stringWithFormat:@"%@%@, ",authorLabel.text,tmp_str];
+      if (i == game.authors.count - 1) {
+        authorLabel.text = [NSString stringWithFormat:@"%@%@",authorLabel.text,tmp_str];
+      } else {
+        authorLabel.text = [NSString stringWithFormat:@"%@%@, ",authorLabel.text,tmp_str];
+      }
     }
   }
 

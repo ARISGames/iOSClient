@@ -57,5 +57,6 @@
 - (void) stopAudio;
 
 - (long) cur_trigger_id;
+- (NSString *) caption;
 
 @end

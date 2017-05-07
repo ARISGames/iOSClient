@@ -370,7 +370,7 @@
 		4AD5C40714E0661E00081B20 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		53038C831DE62C7F0002A3EA /* vuforia */ = {isa = PBXFileReference; lastKnownFileType = folder; path = vuforia; sourceTree = "<group>"; };
 		53038C861DE62CB80002A3EA /* libVuforia.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVuforia.a; path = vuforia/lib/arm/libVuforia.a; sourceTree = "<group>"; };
-		53038C891DE62D460002A3EA /* AugmentedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AugmentedViewController.mm; path = augmented/AugmentedViewController.mm; sourceTree = "<group>"; };
+		53038C891DE62D460002A3EA /* AugmentedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AugmentedViewController.mm; path = augmented/AugmentedViewController.mm; sourceTree = "<group>"; tabWidth = 4; };
 		53038C8B1DE62D600002A3EA /* AugmentedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AugmentedViewController.h; path = augmented/AugmentedViewController.h; sourceTree = "<group>"; };
 		531599881D199DE40020C494 /* play-solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-solid.png"; sourceTree = "<group>"; };
 		531B26271DEC99390044E013 /* AugmentedEAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.cpp.objcpp; name = AugmentedEAGLView.mm; path = augmented/AugmentedEAGLView.mm; sourceTree = "<group>"; tabWidth = 2; };
@@ -1091,8 +1091,10 @@
 				B7780565319993FE153A1890 /* Pods */,
 				85C99A4D7B79A57397DE8E90 /* Frameworks */,
 			);
+			indentWidth = 2;
 			name = ARIS;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		53038C881DE62D320002A3EA /* augmented */ = {
 			isa = PBXGroup;

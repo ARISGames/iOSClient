@@ -29,8 +29,9 @@
     AVCaptureSession *session;
     AVCaptureDevice *device;
     UIBarButtonItem *leftNavButton;
-    NSString *prompt;
-    UILabel *promptLabel;
+    NSString *caption;
+    UILabel *captionLabel;
+    UIButton *continueButton;
     id<AugmentedViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -56,12 +57,12 @@
     return self;
 }
 
--  (void) setPrompt:(NSString *)p
+-  (void) setCaption:(NSString *)cap
 {
-    if (prompt && [p isEqualToString:prompt]) return;
-    prompt = p;
-    promptLabel.text = prompt;
-    promptLabel.hidden = [prompt isEqualToString:@""];
+    if (caption && [cap isEqualToString:caption]) return;
+    caption = cap;
+    captionLabel.text = caption;
+    captionLabel.hidden = [caption isEqualToString:@""];
 }
 
 - (void) loadView
@@ -124,16 +125,27 @@
     // show loading animation while AR is being initialized
     [self showLoadingAnimation];
     
-    // Add Prompt
-    promptLabel = [[UILabel alloc] init];
-    promptLabel.frame = CGRectMake(0, self.view.bounds.size.height-75,self.view.bounds.size.width,75);
-    promptLabel.numberOfLines = 0;
-    promptLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    promptLabel.textAlignment = NSTextAlignmentCenter;
-    promptLabel.textColor       = [UIColor ARISColorLightGray];
-    promptLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
-    [self.view addSubview:promptLabel];
-    [self setPrompt:@""];
+    // caption text box
+    captionLabel = [[UILabel alloc] init];
+    captionLabel.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-115) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,75 / [UIScreen mainScreen].scale);
+    captionLabel.numberOfLines = 0;
+    captionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    captionLabel.textAlignment = NSTextAlignmentCenter;
+    captionLabel.textColor       = [UIColor ARISColorLightGray];
+    captionLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
+    [self.view addSubview:captionLabel];
+    [self setCaption:@""];
+    
+    continueButton = [[UIButton alloc] init];
+    continueButton.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-40) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,40 / [UIScreen mainScreen].scale);
+    [continueButton setTitle:@"Continue" forState:UIControlStateNormal];
+    [continueButton setBackgroundColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.8]];
+    [continueButton.layer setBorderWidth:2.0f];
+    [continueButton.layer setBorderColor:[[UIColor ARISColorWhite] colorWithAlphaComponent:0.8].CGColor];
+    continueButton.clipsToBounds = YES;
+    continueButton.userInteractionEnabled = NO;
+    continueButton.hidden = YES;
+    [self.view addSubview:continueButton];
 }
 
 
@@ -350,14 +362,12 @@
 - (void) onVuforiaUpdate: (Vuforia::State *) state
 {
     long trigger_id = [eaglView cur_trigger_id];
+    NSString *cap = [eaglView caption];
     
-    // hiding/unhiding the prompt needs to happen on main thread
+    // hiding/unhiding the labels needs to happen on main thread
     dispatch_async(dispatch_get_main_queue(),^{
-        if (trigger_id) {
-            [self setPrompt:@"Continue >"];
-        } else {
-            [self setPrompt:@""];
-        }
+        continueButton.hidden = (trigger_id ? NO : YES);
+        [self setCaption:cap];
     });
 }
 
