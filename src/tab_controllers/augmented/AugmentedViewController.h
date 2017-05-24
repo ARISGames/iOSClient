@@ -38,4 +38,6 @@
 
 - (id) initWithTab:(Tab *)t delegate:(id<AugmentedViewControllerDelegate>)d;
 
+- (void) setOverlay:(Media *)media;
+
 @end

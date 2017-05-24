@@ -30,6 +30,8 @@
     AVCaptureDevice *device;
     UIBarButtonItem *leftNavButton;
     NSString *caption;
+    ARISMediaView *overlay;
+    Media *overlayMedia;
     UILabel *captionLabel;
     UIButton *continueButton;
     id<AugmentedViewControllerDelegate> __unsafe_unretained delegate;
@@ -49,6 +51,7 @@
     {
         tab = t;
         self.title = self.tabTitle;
+        overlayMedia = nil;
         
         lastError = [NSDate date];
         
@@ -63,6 +66,17 @@
     caption = cap;
     captionLabel.text = caption;
     captionLabel.hidden = [caption isEqualToString:@""];
+}
+
+- (void) setOverlay:(Media *)media
+{
+    overlayMedia = media;
+    if (media) {
+        [overlay setHidden:NO];
+        [overlay setMedia:overlayMedia];
+    } else {
+        [overlay setHidden:YES];
+    }
 }
 
 - (void) loadView
@@ -125,9 +139,17 @@
     // show loading animation while AR is being initialized
     [self showLoadingAnimation];
     
+    CGFloat scale = [UIScreen mainScreen].scale;
+    
+    overlay = [[ARISMediaView alloc] init];
+    overlay.frame = CGRectMake(0, 64, self.view.bounds.size.width / scale, self.view.bounds.size.height / scale - 64);
+    overlay.displayMode = ARISMediaDisplayModeAspectFill;
+    [self setOverlay:overlayMedia];
+    [self.view addSubview:overlay];
+    
     // caption text box
     captionLabel = [[UILabel alloc] init];
-    captionLabel.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-115) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,75 / [UIScreen mainScreen].scale);
+    captionLabel.frame = CGRectMake(0, (self.view.bounds.size.height-115) / scale, self.view.bounds.size.width / scale, 75 / scale);
     captionLabel.numberOfLines = 0;
     captionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     captionLabel.textAlignment = NSTextAlignmentCenter;
@@ -153,6 +175,13 @@
 {
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItem = leftNavButton;
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self setOverlay:nil];
 }
 
 - (void) showNav

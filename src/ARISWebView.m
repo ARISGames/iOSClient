@@ -248,6 +248,11 @@
             [_MODEL_TABS_ tabForType:@"SCANNER"].info = token;
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"SCANNER"]];
         }
+        else if([type isEqualToString:@"augmented"])
+        {
+            [_MODEL_TABS_ tabForType:@"AUGMENTED"].info = token;
+            [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"AUGMENTED"]];
+        }
         else if([type isEqualToString:@"plaque"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_PLAQUES_ plaqueForId:[token intValue]]];
         else if([type isEqualToString:@"webpage"])
