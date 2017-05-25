@@ -23,10 +23,7 @@
     Vuforia::DataSet*  dataSet;
     
     // menu options
-    BOOL extendedTrackingEnabled;
     BOOL continuousAutofocusEnabled;
-    BOOL flashEnabled;
-    BOOL frontCameraEnabled;
     
 }
 

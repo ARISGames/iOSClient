@@ -25,9 +25,6 @@
 {
     Tab *tab;
     NSDate *lastError;
-    AVCaptureVideoPreviewLayer *previewLayer;
-    AVCaptureSession *session;
-    AVCaptureDevice *device;
     UIBarButtonItem *leftNavButton;
     NSString *caption;
     ARISMediaView *overlay;
@@ -97,10 +94,7 @@
         self.ARViewPlaceholder = nil;
     }
     
-    extendedTrackingEnabled = NO;
     continuousAutofocusEnabled = YES;
-    flashEnabled = NO;
-    frontCameraEnabled = NO;
     
     vapp = [[SampleApplicationSession alloc] initWithDelegate:self];
     
@@ -111,8 +105,8 @@
     ARISAppDelegate *appDelegate = _DELEGATE_;
     appDelegate.glResourceHandler = eaglView;
     
-    // a single tap will trigger a single autofocus operation
-    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autofocus:)];
+    // a single tap will run a trigger if a target is being recognized
+    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectTrigger:)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -232,7 +226,6 @@
     [eaglView updateRenderingPrimitives];
     // on resume, we reset the flash
     Vuforia::CameraDevice::getInstance().setFlashTorchMode(false);
-    flashEnabled = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -511,7 +504,7 @@
     
     // we set the off target tracking mode to the current state
     if (success) {
-        [self setExtendedTrackingForDataSet:dataSetCurrent start:extendedTrackingEnabled];
+        [self setExtendedTrackingForDataSet:dataSetCurrent start:NO];
     }
     
     return success;
@@ -583,7 +576,7 @@
     return YES;
 }
 
-- (void)autofocus:(UITapGestureRecognizer *)sender
+- (void)selectTrigger:(UITapGestureRecognizer *)sender
 {
     long trigger_id = [eaglView cur_trigger_id];
     if (!trigger_id) return;
