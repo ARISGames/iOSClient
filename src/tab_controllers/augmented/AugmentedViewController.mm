@@ -153,11 +153,11 @@
     [self setCaption:@""];
     
     continueButton = [[UIButton alloc] init];
-    continueButton.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-40) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,40 / [UIScreen mainScreen].scale);
+    continueButton.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-80) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,80 / [UIScreen mainScreen].scale);
     [continueButton setTitle:@"Continue" forState:UIControlStateNormal];
-    [continueButton setBackgroundColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.8]];
-    [continueButton.layer setBorderWidth:2.0f];
-    [continueButton.layer setBorderColor:[[UIColor ARISColorWhite] colorWithAlphaComponent:0.8].CGColor];
+    [continueButton setBackgroundColor:[UIColor ARISColorWhite]];
+    [continueButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
+    [continueButton setTitleColor:[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
     continueButton.clipsToBounds = YES;
     continueButton.userInteractionEnabled = NO;
     continueButton.hidden = YES;
