@@ -25,11 +25,10 @@
 {
     Tab *tab;
     NSDate *lastError;
-    AVCaptureVideoPreviewLayer *previewLayer;
-    AVCaptureSession *session;
-    AVCaptureDevice *device;
     UIBarButtonItem *leftNavButton;
     NSString *caption;
+    ARISMediaView *overlay;
+    Media *overlayMedia;
     UILabel *captionLabel;
     UIButton *continueButton;
     id<AugmentedViewControllerDelegate> __unsafe_unretained delegate;
@@ -49,6 +48,7 @@
     {
         tab = t;
         self.title = self.tabTitle;
+        overlayMedia = nil;
         
         lastError = [NSDate date];
         
@@ -63,6 +63,17 @@
     caption = cap;
     captionLabel.text = caption;
     captionLabel.hidden = [caption isEqualToString:@""];
+}
+
+- (void) setOverlay:(Media *)media
+{
+    overlayMedia = media;
+    if (media) {
+        [overlay setHidden:NO];
+        [overlay setMedia:overlayMedia];
+    } else {
+        [overlay setHidden:YES];
+    }
 }
 
 - (void) loadView
@@ -83,10 +94,7 @@
         self.ARViewPlaceholder = nil;
     }
     
-    extendedTrackingEnabled = NO;
     continuousAutofocusEnabled = YES;
-    flashEnabled = NO;
-    frontCameraEnabled = NO;
     
     vapp = [[SampleApplicationSession alloc] initWithDelegate:self];
     
@@ -97,8 +105,8 @@
     ARISAppDelegate *appDelegate = _DELEGATE_;
     appDelegate.glResourceHandler = eaglView;
     
-    // a single tap will trigger a single autofocus operation
-    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autofocus:)];
+    // a single tap will run a trigger if a target is being recognized
+    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectTrigger:)];
     [self.view addGestureRecognizer:tapGestureRecognizer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -125,9 +133,17 @@
     // show loading animation while AR is being initialized
     [self showLoadingAnimation];
     
+    CGFloat scale = [UIScreen mainScreen].scale;
+    
+    overlay = [[ARISMediaView alloc] init];
+    overlay.frame = CGRectMake(0, 64, self.view.bounds.size.width / scale, self.view.bounds.size.height / scale - 64);
+    overlay.displayMode = ARISMediaDisplayModeAspectFill;
+    [self setOverlay:overlayMedia];
+    [self.view addSubview:overlay];
+    
     // caption text box
     captionLabel = [[UILabel alloc] init];
-    captionLabel.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-115) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,75 / [UIScreen mainScreen].scale);
+    captionLabel.frame = CGRectMake(0, (self.view.bounds.size.height-115) / scale, self.view.bounds.size.width / scale, 75 / scale);
     captionLabel.numberOfLines = 0;
     captionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     captionLabel.textAlignment = NSTextAlignmentCenter;
@@ -137,11 +153,11 @@
     [self setCaption:@""];
     
     continueButton = [[UIButton alloc] init];
-    continueButton.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-40) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,40 / [UIScreen mainScreen].scale);
+    continueButton.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-80) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,80 / [UIScreen mainScreen].scale);
     [continueButton setTitle:@"Continue" forState:UIControlStateNormal];
-    [continueButton setBackgroundColor:[[UIColor ARISColorTranslucentBlack] colorWithAlphaComponent:0.8]];
-    [continueButton.layer setBorderWidth:2.0f];
-    [continueButton.layer setBorderColor:[[UIColor ARISColorWhite] colorWithAlphaComponent:0.8].CGColor];
+    [continueButton setBackgroundColor:[UIColor ARISColorWhite]];
+    [continueButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
+    [continueButton setTitleColor:[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
     continueButton.clipsToBounds = YES;
     continueButton.userInteractionEnabled = NO;
     continueButton.hidden = YES;
@@ -153,6 +169,13 @@
 {
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItem = leftNavButton;
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self setOverlay:nil];
 }
 
 - (void) showNav
@@ -203,7 +226,6 @@
     [eaglView updateRenderingPrimitives];
     // on resume, we reset the flash
     Vuforia::CameraDevice::getInstance().setFlashTorchMode(false);
-    flashEnabled = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -482,7 +504,7 @@
     
     // we set the off target tracking mode to the current state
     if (success) {
-        [self setExtendedTrackingForDataSet:dataSetCurrent start:extendedTrackingEnabled];
+        [self setExtendedTrackingForDataSet:dataSetCurrent start:NO];
     }
     
     return success;
@@ -554,7 +576,7 @@
     return YES;
 }
 
-- (void)autofocus:(UITapGestureRecognizer *)sender
+- (void)selectTrigger:(UITapGestureRecognizer *)sender
 {
     long trigger_id = [eaglView cur_trigger_id];
     if (!trigger_id) return;

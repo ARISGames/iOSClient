@@ -92,7 +92,7 @@
     if(![triggers objectForKey:newTriggerId])
     {
       [triggers setObject:newTrigger forKey:newTriggerId];
-      [blacklist removeObjectForKey:[NSNumber numberWithLong:newTriggerId]];
+      [blacklist removeObjectForKey:newTriggerId];
     }
     else
       if(![[triggers objectForKey:newTriggerId] mergeDataFromTrigger:newTrigger])

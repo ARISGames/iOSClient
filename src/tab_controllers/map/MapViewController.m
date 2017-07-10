@@ -625,7 +625,7 @@
         //Drop animation
         CGRect endFrame = aView.frame;
         aView.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y - 230.0, aView.frame.size.width, aView.frame.size.height);
-        [UIView animateWithDuration:0.45 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{[aView setFrame: endFrame];} completion:^(BOOL finished) {}];
+        [UIView animateWithDuration:0.45 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{[aView setFrame: endFrame];} completion:^(BOOL finished) {}];
     }
 }
 

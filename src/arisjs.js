@@ -47,6 +47,10 @@ var ARISJS = function(_ARIS)
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
     _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+prompt); }
+    _ARIS.exitToAugmented     = function(options)          {
+      if (options == null) options = {};
+      _ARIS.enqueueRequest("aris://exit/augmented/"+(options.media_id || 0));
+    }
     _ARIS.exitToPlaque        = function(plaque_id)        { _ARIS.enqueueRequest("aris://exit/plaque/"+plaque_id); }
     _ARIS.exitToWebpage       = function(webpageId)        { _ARIS.enqueueRequest("aris://exit/webpage/"+webpageId); }
     _ARIS.exitToItem          = function(item_id)          { _ARIS.enqueueRequest("aris://exit/item/"+item_id); }

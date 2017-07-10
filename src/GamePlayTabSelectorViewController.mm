@@ -310,6 +310,18 @@
                 // clean this up later.
                 tab.info = @"";
             }
+            else if([tab.type isEqualToString:@"AUGMENTED"])
+            {
+                ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]];
+                int media_id = [tab.info intValue];
+                if (media_id != 0) {
+                    Media *m = [_MODEL_MEDIA_ mediaForId:media_id];
+                    if (m) {
+                        [((AugmentedViewController *)navigation.topViewController) setOverlay:m];
+                    }
+                }
+                tab.info = @"";
+            }
             else if([tab.type isEqualToString:@"DIALOG"])
             {
                 DialogViewController *dialogViewController = [[DialogViewController alloc] initWithTab:tab delegate:
