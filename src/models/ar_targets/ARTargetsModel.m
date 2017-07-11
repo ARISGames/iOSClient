@@ -499,6 +499,12 @@
             }
             av_free_packet(&packet);
           }
+          
+          sws_freeContext(sws_ctx);
+          if (pCodecCtxSub) avcodec_free_context(&pCodecCtxSub);
+          avcodec_free_context(&pCodecCtx);
+          avformat_free_context(pFormatCtx);
+          
           NSString *logOutput = [NSString stringWithFormat:@"%d\n%d\n%lu\n", fps_num, fps_den, (unsigned long)captionStarts.count];
           for (int i = 0; i < captionStarts.count; i++) {
             logOutput = [logOutput stringByAppendingFormat:@"%@\n%@\n%@\n", [captionStarts[i] stringValue], [captionEnds[i] stringValue], captionTexts[i]];
