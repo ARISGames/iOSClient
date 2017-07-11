@@ -51,7 +51,7 @@
   else if(mr.media.localURL)  { mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL]; [self loadMediaFromMR:mr]; }
   else if(mr.media.remoteURL)
   {
-    NSURLRequest *request = [NSURLRequest requestWithURL:mr.media.remoteURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSURLRequest *request = [NSURLRequest requestWithURL:mr.media.remoteURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:1000.0];
     if(mr.connection) [mr.connection cancel];
     mr.data = [[NSMutableData alloc] initWithCapacity:2048];
     mr.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
