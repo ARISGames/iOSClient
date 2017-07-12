@@ -501,6 +501,9 @@
           }
           
           sws_freeContext(sws_ctx);
+          av_free(buffer);
+          av_frame_free(&pFrameRGBA);
+          av_frame_free(&pFrame);
           if (pCodecCtxSub) avcodec_free_context(&pCodecCtxSub);
           avcodec_free_context(&pCodecCtx);
           avformat_free_context(pFormatCtx);
