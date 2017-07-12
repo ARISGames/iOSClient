@@ -13,6 +13,8 @@
 
 #import "NSDictionary+ValidParsers.h"
 
+#define LOAD_MEDIA_AT_ONCE 5
+
 @interface MediaModel() <ARISMediaLoaderDelegate>
 {
   NSMutableDictionary *medias; //light cache on mediaCD wrappers ('Media' objects)
@@ -170,7 +172,9 @@
 
 - (void) deferedLoadMedia
 {
-  for(int i = 0; i < mediaDataLoadMedia.count; i++)
+  NSUInteger initialLoadCount = mediaDataLoadMedia.count;
+  if (initialLoadCount > LOAD_MEDIA_AT_ONCE) initialLoadCount = LOAD_MEDIA_AT_ONCE;
+  for(int i = 0; i < initialLoadCount; i++)
       [_SERVICES_MEDIA_ loadMedia:mediaDataLoadMedia[i] delegateHandle:mediaDataLoadDelegateHandles[i]]; //calls 'mediaLoaded' upon complete
 }
 
@@ -183,6 +187,14 @@
 {
   mediaDataLoaded++;
   _ARIS_NOTIF_SEND_(@"MEDIA_PIECE_AVAILABLE",nil,@{@"media": m});
+  int loadMediaNext = mediaDataLoaded + LOAD_MEDIA_AT_ONCE - 1;
+  if (loadMediaNext < mediaDataLoadDelegateHandles.count)
+  {
+    [_SERVICES_MEDIA_
+      loadMedia:mediaDataLoadMedia[loadMediaNext]
+      delegateHandle:mediaDataLoadDelegateHandles[loadMediaNext]
+    ]; //calls 'mediaLoaded' upon complete
+  }
   if(mediaDataLoaded >= mediaDataLoadDelegateHandles.count)
   {
     mediaDataLoadMedia = nil;
