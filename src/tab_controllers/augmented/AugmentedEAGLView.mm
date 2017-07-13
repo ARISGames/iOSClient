@@ -20,6 +20,7 @@
 #import <Vuforia/Renderer.h>
 #import <Vuforia/TrackableResult.h>
 #import <Vuforia/VideoBackgroundConfig.h>
+#import <Vuforia/Image.h>
 
 #import "AugmentedEAGLView.h"
 #import "Texture.h"
@@ -54,6 +55,7 @@ namespace
 {
   // --- Data private to this unit ---
   long cur_trigger_id;
+  NSString *cur_qr_string;
   BOOL is_video;
   UIImage *image;
   NSString *caption;
@@ -70,6 +72,8 @@ namespace
   GLuint textureID;
   
   float ar_video_fps;
+  
+  int framesRendered;
 }
 
 @interface AugmentedEAGLView (PrivateMethods)
@@ -107,6 +111,7 @@ namespace
     if(YES == [vapp isRetinaDisplay]) [self setContentScaleFactor:[UIScreen mainScreen].nativeScale];
   
     cur_trigger_id = 0;
+    cur_qr_string = NULL;
     is_video = NO;
     
     // Load the initial augmentation texture
@@ -142,6 +147,8 @@ namespace
     captionStarts = [[NSMutableArray alloc] init];
     captionEnds   = [[NSMutableArray alloc] init];
     captionTexts  = [[NSMutableArray alloc] init];
+    
+    framesRendered = 0;
   }
   
   return self;
@@ -429,6 +436,62 @@ namespace
   glDisable(GL_CULL_FACE);
   
   [self presentFramebuffer];
+  
+  framesRendered++;
+  if (framesRendered % 30 == 0) {
+    // Look for QR codes once per second.
+    Vuforia::Frame frame = state.getFrame();
+    const Vuforia::Image *img = NULL;
+    int imgSize = 0;
+    for (int i = 0, c = frame.getNumImages(); i < c; i++) {
+      const Vuforia::Image *newImage = frame.getImage(i);
+      int newSize = newImage->getWidth() * newImage->getHeight();
+      if (newSize > imgSize && newImage->getFormat() == Vuforia::GRAYSCALE) {
+        img = newImage;
+      }
+    }
+    if (img) {
+      CIFormat fmt = 0;
+      switch (img->getFormat()) {
+        case Vuforia::GRAYSCALE:
+          // this is the only format MHS ipod currently returns
+          // (makes sense since AR target finding is done in grayscale)
+          fmt = kCIFormatR8; // technically redscale but it works
+          break;
+        case Vuforia::RGBA8888:
+          fmt = kCIFormatRGBA8;
+          break;
+        case Vuforia::UNKNOWN_FORMAT:
+        case Vuforia::RGB565: // does not exist
+        case Vuforia::RGB888: // does not exist
+        case Vuforia::YUV: // does not exist
+        case Vuforia::INDEXED:
+        default:
+          ;
+      }
+      if (fmt) {
+        CGSize size = {
+          .width  = (float) img->getWidth(),
+          .height = (float) img->getHeight()
+        };
+        int stride = img->getStride();
+        // To avoid Vuforia freeing memory before we use it,
+        // copy the image data into NSData in this thread
+        NSData *data = [NSData dataWithBytes:img->getPixels() length:stride * img->getHeight()];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+          // Then do the QR search work on separate thread
+          CIImage *ci = [[CIImage alloc] initWithBitmapData:data bytesPerRow:stride size:size format:fmt colorSpace:CGColorSpaceCreateDeviceRGB()];
+          NSDictionary *detectorOptions = [NSDictionary dictionaryWithObject:CIDetectorAccuracyLow forKey:CIDetectorAccuracy];
+          CIDetector *detect = [CIDetector detectorOfType:CIDetectorTypeQRCode context:NULL options:detectorOptions];
+          NSString *new_qr_string = NULL;
+          for (CIQRCodeFeature *feature in [detect featuresInImage:ci]) {
+            new_qr_string = feature.messageString;
+          }
+          cur_qr_string = new_qr_string;
+        });
+      }
+    }
+  }
 }
 
 - (void)configureVideoBackgroundWithViewWidth:(float)viewWidth andHeight:(float)viewHeight
@@ -551,6 +614,13 @@ namespace
 - (long) cur_trigger_id
 {
   return cur_trigger_id;
+}
+
+- (NSString *) processQRString;
+{
+  NSString *s = cur_qr_string;
+  cur_qr_string = NULL;
+  return s;
 }
 
 - (NSString *) caption

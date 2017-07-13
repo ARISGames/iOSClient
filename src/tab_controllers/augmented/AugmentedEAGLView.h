@@ -57,6 +57,7 @@
 - (void) stopAudio;
 
 - (long) cur_trigger_id;
+- (NSString *) processQRString;
 - (NSString *) caption;
 
 @end

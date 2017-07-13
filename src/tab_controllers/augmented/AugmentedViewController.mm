@@ -24,13 +24,14 @@
 @interface AugmentedViewController() <AVCaptureMetadataOutputObjectsDelegate, UITextFieldDelegate>
 {
     Tab *tab;
-    NSDate *lastError;
     UIBarButtonItem *leftNavButton;
     NSString *caption;
     ARISMediaView *overlay;
     Media *overlayMedia;
     UILabel *captionLabel;
     UIButton *continueButton;
+    NSDate *lastQRTrigger;
+    BOOL unrecognizedQRPopup;
     id<AugmentedViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -50,7 +51,8 @@
         self.title = self.tabTitle;
         overlayMedia = nil;
         
-        lastError = [NSDate date];
+        lastQRTrigger = [NSDate date];
+        unrecognizedQRPopup = NO;
         
         delegate = d;
     }
@@ -230,6 +232,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    lastQRTrigger = [NSDate date];
     [super viewDidAppear:animated];
     [self resumeAR];
 }
@@ -363,13 +366,6 @@
     }
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kDismissARViewController" object:nil];
-}
-
 - (void)dismissARViewController
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -391,6 +387,39 @@
         continueButton.hidden = (trigger_id ? NO : YES);
         [self setCaption:cap];
     });
+    
+    if ( !unrecognizedQRPopup
+        && [lastQRTrigger timeIntervalSinceNow] < -1.0 // if last qr scan was 1s ago or more
+    ) {
+        NSString *qr = [eaglView processQRString];
+        if (qr) {
+            lastQRTrigger = [NSDate date];
+            if ([qr isEqualToString:@"log-out"]) {
+                dispatch_async(dispatch_get_main_queue(),^{
+                    [_MODEL_ logOut];
+                });
+            } else {
+                Trigger *t = [_MODEL_TRIGGERS_ triggerForQRCode:qr];
+                if (t) {
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        [_MODEL_DISPLAY_QUEUE_ enqueueTrigger:t];
+                    });
+                } else {
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        unrecognizedQRPopup = YES;
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", nil) message:NSLocalizedString(@"QRScannerErrorMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+                        [alert show];
+                    });
+                }
+            }
+        }
+    }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    lastQRTrigger = [NSDate date];
+    unrecognizedQRPopup = NO;
 }
 
 // Load the image tracker data set
