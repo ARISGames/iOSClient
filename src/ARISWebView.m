@@ -234,8 +234,10 @@
 
         NSString *type = @"";
         NSString *token = @"";
-        if(components.count > 1) type  = components[1];
-        if(components.count > 2) token = components[2];
+        NSString *token2 = @"";
+        if(components.count > 1) type   = components[1];
+        if(components.count > 2) token  = components[2];
+        if(components.count > 3) token2 = components[3];
 
         if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
 
@@ -250,7 +252,7 @@
         }
         else if([type isEqualToString:@"augmented"])
         {
-            [_MODEL_TABS_ tabForType:@"AUGMENTED"].info = token;
+            [_MODEL_TABS_ tabForType:@"AUGMENTED"].info = [NSString stringWithFormat:@"%@|%@", token, token2];
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"AUGMENTED"]];
         }
         else if([type isEqualToString:@"plaque"])

@@ -36,5 +36,6 @@
 - (id) initWithTab:(Tab *)t delegate:(id<AugmentedViewControllerDelegate>)d;
 
 - (void) setOverlay:(Media *)media;
+- (void) setPrompt:(NSString *)prompt;
 
 @end

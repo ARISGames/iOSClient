@@ -313,12 +313,22 @@
             else if([tab.type isEqualToString:@"AUGMENTED"])
             {
                 ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]];
-                int media_id = [tab.info intValue];
-                if (media_id != 0) {
-                    Media *m = [_MODEL_MEDIA_ mediaForId:media_id];
-                    if (m) {
-                        [((AugmentedViewController *)navigation.topViewController) setOverlay:m];
+                AugmentedViewController *augView = (AugmentedViewController *) navigation.topViewController;
+                NSArray<NSString *> *parts = [tab.info componentsSeparatedByString:@"|"];
+                if ([parts count] > 0) {
+                    int media_id = [[parts objectAtIndex:0] intValue];
+                    if (media_id != 0) {
+                        Media *m = [_MODEL_MEDIA_ mediaForId:media_id];
+                        if (m) {
+                            [augView setOverlay:m];
+                        }
                     }
+                }
+                if ([parts count] > 1) {
+                    NSString *prompt = [parts objectAtIndex:1];
+                    [augView setPrompt:prompt];
+                } else {
+                    [augView setPrompt:@""];
                 }
                 tab.info = @"";
             }

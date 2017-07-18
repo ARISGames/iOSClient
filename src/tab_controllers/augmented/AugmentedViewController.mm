@@ -25,9 +25,11 @@
 {
     Tab *tab;
     UIBarButtonItem *leftNavButton;
+    NSString *prompt;
     NSString *caption;
     ARISMediaView *overlay;
     Media *overlayMedia;
+    UILabel *promptLabel;
     UILabel *captionLabel;
     UIButton *continueButton;
     NSDate *lastQRTrigger;
@@ -65,6 +67,19 @@
     caption = cap;
     captionLabel.text = caption;
     captionLabel.hidden = [caption isEqualToString:@""];
+}
+
+-  (void) setPrompt:(NSString *)pmt
+{
+    if (prompt && [pmt isEqualToString:prompt]) return;
+    prompt = pmt;
+    if (prompt) {
+        promptLabel.text = prompt;
+        promptLabel.hidden = [prompt isEqualToString:@""];
+    } else {
+        promptLabel.text = @"";
+        promptLabel.hidden = YES;
+    }
 }
 
 - (void) setOverlay:(Media *)media
@@ -151,8 +166,20 @@
     captionLabel.textAlignment = NSTextAlignmentCenter;
     captionLabel.textColor       = [UIColor ARISColorLightGray];
     captionLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
-    [self.view addSubview:captionLabel];
     [self setCaption:@""];
+    [self.view addSubview:captionLabel];
+    
+    // prompt text box
+    promptLabel = [[UILabel alloc] init];
+    promptLabel.frame = CGRectMake(0, 150 / scale, self.view.bounds.size.width / scale, 75 / scale);
+    promptLabel.numberOfLines = 0;
+    promptLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    promptLabel.textAlignment = NSTextAlignmentCenter;
+    promptLabel.textColor       = [UIColor ARISColorLightGray];
+    promptLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
+    [self setPrompt:@""];
+    promptLabel.hidden = YES;
+    [self.view addSubview:promptLabel];
     
     continueButton = [[UIButton alloc] init];
     continueButton.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-80) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,80 / [UIScreen mainScreen].scale);
@@ -178,6 +205,7 @@
     [super viewDidDisappear:animated];
     
     [self setOverlay:nil];
+    [self setPrompt:@""];
 }
 
 - (void) showNav
