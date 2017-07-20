@@ -46,7 +46,7 @@ var ARISJS = function(_ARIS)
     _ARIS.logOut              = function()                 { _ARIS.enqueueRequest("aris://logout"); }
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
-    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+prompt); }
+    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+(prompt || "")); }
     _ARIS.exitToAugmented     = function(options)          {
       if (options == null) options = {};
       _ARIS.enqueueRequest("aris://exit/augmented/"+(options.media_id || 0)+"/"+(options.prompt || ""));
