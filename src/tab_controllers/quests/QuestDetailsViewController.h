@@ -15,4 +15,5 @@
 @end
 @interface QuestDetailsViewController : ARISViewController
 - (id) initWithQuest:(Quest *)q mode:(NSString *)m delegate:(id<QuestDetailsViewControllerDelegate>)d;
+- (void) dismissQuestDetails;
 @end

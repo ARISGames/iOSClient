@@ -12,6 +12,7 @@
 #import "GamePlayTabSelectorCell.h"
 
 #import "QuestsViewController.h"
+#import "QuestDetailsViewController.h"
 #import "IconQuestsViewController.h"
 #import "InventoryViewController.h"
 #import "MapViewController.h"
@@ -310,8 +311,19 @@
                 // clean this up later.
                 tab.info = @"";
             }
+            else if([tab.type isEqualToString:@"QUESTS"])
+            {
+                ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]];
+                if([navigation.topViewController isKindOfClass:[QuestDetailsViewController class]])
+                {
+                    QuestDetailsViewController *questVC = (QuestDetailsViewController *) (navigation.topViewController);
+                    [questVC dismissQuestDetails];
+                }
+            }
             else if([tab.type isEqualToString:@"AUGMENTED"])
             {
+#if TARGET_OS_SIMULATOR
+#else
                 ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]];
                 AugmentedViewController *augView = (AugmentedViewController *) navigation.topViewController;
                 NSArray<NSString *> *parts = [tab.info componentsSeparatedByString:@"|"];
@@ -331,6 +343,7 @@
                     [augView setPrompt:@""];
                 }
                 tab.info = @"";
+#endif
             }
             else if([tab.type isEqualToString:@"DIALOG"])
             {

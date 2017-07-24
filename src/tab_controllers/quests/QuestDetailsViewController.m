@@ -186,6 +186,11 @@
     [delegate questDetailsRequestsDismissal];
 }
 
+- (void) dismissQuestDetails
+{
+  [delegate questDetailsRequestsDismissal];
+}
+
 - (void) goButtonTouched
 {
     if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"JAVASCRIPT"]) [webView hookWithParams:@""];
