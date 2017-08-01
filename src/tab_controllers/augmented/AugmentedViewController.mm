@@ -160,7 +160,7 @@
     
     // caption text box
     captionLabel = [[UILabel alloc] init];
-    captionLabel.frame = CGRectMake(0, (self.view.bounds.size.height-115) / scale, self.view.bounds.size.width / scale, 75 / scale);
+    captionLabel.frame = CGRectMake(0, (self.view.bounds.size.height-155) / scale, self.view.bounds.size.width / scale, 75 / scale);
     captionLabel.numberOfLines = 0;
     captionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     captionLabel.textAlignment = NSTextAlignmentCenter;
@@ -182,7 +182,7 @@
     [self.view addSubview:promptLabel];
     
     continueButton = [[UIButton alloc] init];
-    continueButton.frame = CGRectMake(0 / [UIScreen mainScreen].scale, (self.view.bounds.size.height-80) / [UIScreen mainScreen].scale,self.view.bounds.size.width / [UIScreen mainScreen].scale,80 / [UIScreen mainScreen].scale);
+    continueButton.frame = CGRectMake(0 / scale, (self.view.bounds.size.height-80) / scale,self.view.bounds.size.width / scale,80 / scale);
     [continueButton setTitle:@"Continue" forState:UIControlStateNormal];
     [continueButton setBackgroundColor:[UIColor ARISColorWhite]];
     [continueButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
