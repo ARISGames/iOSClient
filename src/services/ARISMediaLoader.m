@@ -48,7 +48,12 @@
 {
        if(mr.media.thumb)     { [self mediaLoadedForMR:mr]; }
   else if(mr.media.data)      { [self deriveThumbForMR:mr]; }
-  else if(mr.media.localURL)  { mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL]; [self loadMediaFromMR:mr]; }
+  else if(mr.media.localURL)  {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+      mr.media.data = [NSData dataWithContentsOfURL:mr.media.localURL];
+      [self loadMediaFromMR:mr];
+    });
+  }
   else if(mr.media.remoteURL)
   {
     NSURLRequest *request = [NSURLRequest requestWithURL:mr.media.remoteURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:120.0];
