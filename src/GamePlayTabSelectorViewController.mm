@@ -19,7 +19,6 @@
 #import "AttributesViewController.h"
 #import "NotebookViewController.h"
 #import "DecoderViewController.h"
-#import "ScannerViewController.h"
 #import "AugmentedViewController.h"
 
 #import "DialogViewController.h"
@@ -185,12 +184,6 @@
                                                                 (id<DecoderViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
             }
-            else if([tab.type isEqualToString:@"SCANNER"]) //will be scanner only- supports both for legacy
-            {
-                ScannerViewController *scannerViewController = [[ScannerViewController alloc] initWithTab:tab delegate:
-                                                                (id<ScannerViewControllerDelegate>)delegate];
-                vc = [[ARISNavigationController alloc] initWithRootViewController:scannerViewController];
-            }
             else if([tab.type isEqualToString:@"AUGMENTED"])
             {
 #if TARGET_OS_SIMULATOR
@@ -304,14 +297,7 @@
         tab = playerTabs[i];
         if(tab == t)
         {
-            if([tab.type isEqualToString:@"SCANNER"])
-            {
-                ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]];
-                [((ScannerViewController *)navigation.topViewController) setPrompt:tab.info];
-                // clean this up later.
-                tab.info = @"";
-            }
-            else if([tab.type isEqualToString:@"QUESTS"])
+            if([tab.type isEqualToString:@"QUESTS"])
             {
                 ARISNavigationController *navigation = (ARISNavigationController*)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]];
                 if([navigation.topViewController isKindOfClass:[QuestDetailsViewController class]])
@@ -409,21 +395,6 @@
         }
     }
      */
-}
-
-- (void) requestDisplayScannerWithPrompt:(NSString *)p
-{
-    Tab *tab;
-    for(long i = 0; i < playerTabs.count; i++)
-    {
-        tab = playerTabs[i];
-        if([tab.type isEqualToString:@"SCANNER"])
-        {
-            [((ScannerViewController *)viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]) setPrompt:p];
-            [delegate viewControllerRequestedDisplay:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
-            return;
-        }
-    }
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

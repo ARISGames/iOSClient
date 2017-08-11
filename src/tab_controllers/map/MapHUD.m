@@ -155,6 +155,5 @@
 - (void) displayTab:(Tab *)t           { }
 - (void) displayTabId:(long)t           { }
 - (void) displayTabType:(NSString *)t  { }
-- (void) displayScannerWithPrompt:(NSString *)p { }
 
 @end

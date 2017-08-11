@@ -185,8 +185,9 @@
   //first, search player tabs
   for(long i = 0; i < playerTabs.count; i++)
   {
-    if([((Tab *)playerTabs[i]).type isEqualToString:t])
-      tab = playerTabs[i];
+    Tab *thisTab = (Tab *) playerTabs[i];
+    if([thisTab.type isEqualToString:t])
+      tab = thisTab;
   }
   if(tab) return tab;
 
@@ -194,8 +195,9 @@
   NSArray *gameTabs = [tabs allValues];
   for(long i = 0; i < gameTabs.count; i++)
   {
-    if([((Tab *)gameTabs[i]).type isEqualToString:t])
-      tab = gameTabs[i];
+    Tab *thisTab = (Tab *) gameTabs[i];
+    if([thisTab.type isEqualToString:t])
+      tab = thisTab;
   }
   return tab;
 }

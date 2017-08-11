@@ -57,6 +57,8 @@
         unrecognizedQRPopup = NO;
         
         delegate = d;
+        
+        prompt = nil;
     }
     return self;
 }
@@ -71,7 +73,6 @@
 
 -  (void) setPrompt:(NSString *)pmt
 {
-    if (prompt && [pmt isEqualToString:prompt]) return;
     prompt = pmt;
     if (prompt) {
         promptLabel.text = prompt;
@@ -177,8 +178,7 @@
     promptLabel.textAlignment = NSTextAlignmentCenter;
     promptLabel.textColor       = [UIColor ARISColorLightGray];
     promptLabel.backgroundColor = [UIColor ARISColorTranslucentBlack];
-    [self setPrompt:@""];
-    promptLabel.hidden = YES;
+    [self setPrompt:prompt];
     [self.view addSubview:promptLabel];
     
     continueButton = [[UIButton alloc] init];

@@ -247,11 +247,13 @@
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:token]];
         else if([type isEqualToString:@"scanner"])
         {
-            [_MODEL_TABS_ tabForType:@"SCANNER"].info = token;
-            [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"SCANNER"]];
+            // legacy scanner call, takes single prompt argument
+            [_MODEL_TABS_ tabForType:@"AUGMENTED"].info = [NSString stringWithFormat:@"0|%@", token];
+            [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"AUGMENTED"]];
         }
         else if([type isEqualToString:@"augmented"])
         {
+            // new augmented call, takes 2 args: media_id and prompt
             [_MODEL_TABS_ tabForType:@"AUGMENTED"].info = [NSString stringWithFormat:@"%@|%@", token, token2];
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"AUGMENTED"]];
         }

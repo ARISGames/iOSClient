@@ -349,10 +349,6 @@
     [gamePlayTabSelectorController requestDisplayTab:t];
     [self tryDequeue]; //no 'closing event' for tab
 }
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [gamePlayTabSelectorController requestDisplayScannerWithPrompt:p];
-}
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {

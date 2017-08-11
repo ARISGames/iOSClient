@@ -127,8 +127,8 @@
     else if([op.link_type isEqualToString:@"EXIT_TO_TAB"])
     {
         Tab *t = [_MODEL_TABS_ tabForId:op.link_id];
-        if ([t.type isEqualToString:@"SCANNER"] && op.link_info && ![op.link_info isEqualToString:@"scanner"] && ![op.link_info isEqualToString:@"Scanner"] && ![op.link_info isEqualToString:@""]) {
-            [_MODEL_TABS_ tabForType:@"SCANNER"].info = op.link_info;
+        if ([t.type isEqualToString:@"AUGMENTED"] && op.link_info && ![op.link_info isEqualToString:@"scanner"] && ![op.link_info isEqualToString:@"Scanner"] && ![op.link_info isEqualToString:@""]) {
+            [_MODEL_TABS_ tabForType:@"AUGMENTED"].info = [NSString stringWithFormat:@"|%@", op.link_info];
         }
         [_MODEL_DISPLAY_QUEUE_ enqueueTab:t];
         [delegate exitRequested];
