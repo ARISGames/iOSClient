@@ -339,7 +339,13 @@
 
 // load the data associated to the trackers
 - (bool) doLoadTrackersData {
-    dataSet = [self loadObjectTrackerDataSet:[_MODEL_AR_TARGETS_.xmlURL path]];
+    NSURL *url = _MODEL_AR_TARGETS_.xmlURL;
+    if (!url) {
+        NSString *g = [NSString stringWithFormat:@"%ld",_MODEL_GAME_.game_id];
+        NSString *partial_url = [NSString stringWithFormat:@"%@/vuforiadb.xml",g];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
+    }
+    dataSet = [self loadObjectTrackerDataSet:[url path]];
     if (dataSet == NULL) {
         NSLog(@"ARIS Vuforia: Failed to load datasets");
         return NO;
@@ -348,8 +354,7 @@
         NSLog(@"ARIS Vuforia: Failed to activate dataset");
         return NO;
     }
-    
-    
+
     return YES;
 }
 
