@@ -448,6 +448,7 @@ namespace
       int newSize = newImage->getWidth() * newImage->getHeight();
       if (newSize > imgSize && newImage->getFormat() == Vuforia::GRAYSCALE) {
         img = newImage;
+        imgSize = newSize;
       }
     }
     if (img) {
