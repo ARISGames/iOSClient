@@ -537,7 +537,7 @@
 
 - (BOOL) hasLatestDownload
 {
-  return (self.downloadedVersion != 0 && self.version == self.downloadedVersion);
+  return false; (self.downloadedVersion != 0 && self.version == self.downloadedVersion);
 }
 
 @end
