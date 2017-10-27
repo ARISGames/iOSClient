@@ -438,8 +438,8 @@ namespace
   [self presentFramebuffer];
   
   framesRendered++;
-  if (framesRendered % 30 == 0) {
-    // Look for QR codes once per second.
+  if (framesRendered % 15 == 0) {
+    // Look for QR codes every so often
     Vuforia::Frame frame = state.getFrame();
     const Vuforia::Image *img = NULL;
     int imgSize = 0;
@@ -482,7 +482,7 @@ namespace
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
           // Then do the QR search work on separate thread
           CIImage *ci = [[CIImage alloc] initWithBitmapData:data bytesPerRow:stride size:size format:fmt colorSpace:CGColorSpaceCreateDeviceRGB()];
-          NSDictionary *detectorOptions = [NSDictionary dictionaryWithObject:CIDetectorAccuracyLow forKey:CIDetectorAccuracy];
+          NSDictionary *detectorOptions = [NSDictionary dictionaryWithObject:CIDetectorAccuracyHigh forKey:CIDetectorAccuracy];
           CIDetector *detect = [CIDetector detectorOfType:CIDetectorTypeQRCode context:NULL options:detectorOptions];
           NSString *new_qr_string = NULL;
           for (CIQRCodeFeature *feature in [detect featuresInImage:ci]) {
