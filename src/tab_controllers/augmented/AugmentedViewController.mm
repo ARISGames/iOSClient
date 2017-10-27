@@ -345,14 +345,16 @@
         NSString *partial_url = [NSString stringWithFormat:@"%@/vuforiadb.xml",g];
         url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",_ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(partial_url)]];
     }
-    dataSet = [self loadObjectTrackerDataSet:[url path]];
-    if (dataSet == NULL) {
-        NSLog(@"ARIS Vuforia: Failed to load datasets");
-        return NO;
-    }
-    if (! [self activateDataSet:dataSet]) {
-        NSLog(@"ARIS Vuforia: Failed to activate dataset");
-        return NO;
+    if ([[_MODEL_AR_TARGETS_ ar_targets] count] > 0) {
+        dataSet = [self loadObjectTrackerDataSet:[url path]];
+        if (dataSet == NULL) {
+            NSLog(@"ARIS Vuforia: Failed to load datasets");
+            return NO;
+        }
+        if (! [self activateDataSet:dataSet]) {
+            NSLog(@"ARIS Vuforia: Failed to activate dataset");
+            return NO;
+        }
     }
 
     return YES;
