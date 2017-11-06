@@ -202,7 +202,7 @@
                     (id<AttributesViewControllerDelegate>)delegate];
                 vc = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
             }
-            else if([tab.type isEqualToString:@"NOTEBOOK"])
+            else if([tab.type isEqualToString:@"NOTEBOOK"] || [tab.type isEqualToString:@"SIFTR"])
             {
                 NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithTab:tab delegate:
                     (id<NotebookViewControllerDelegate>)delegate];
@@ -368,7 +368,19 @@
               }
             }
 
-            [delegate viewControllerRequestedDisplay:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
+            if ([tab.type isEqualToString:@"SIFTR"])
+            {
+                NSURL *customURL = [NSURL URLWithString:[NSString stringWithFormat:@"siftr://?siftr_id=%ld&aris=1", [_MODEL_GAME_ game_id]]];
+                // TODO: pass auth token
+                if ([[UIApplication sharedApplication] canOpenURL:customURL])
+                {
+                    [[UIApplication sharedApplication] openURL:customURL];
+                }
+            }
+            else
+            {
+                [delegate viewControllerRequestedDisplay:viewControllersDict[[NSNumber numberWithLong:tab.tab_id]]];
+            }
             return;
         }
     }
