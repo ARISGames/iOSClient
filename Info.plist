@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.5.3</string>
+	<string>2.5.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20171107</string>
+	<string>20171108</string>
 	<key>Copyright (human-readable)</key>
 	<string></string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -56,6 +56,8 @@
 	<string>Scan QR codes within ARIS games, and take a photo for your profile.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Some ARIS games require your location to play.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Save photos that you take in ARIS.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload photos to attach to notes in ARIS game notebooks.</string>
 	<key>UILaunchStoryboardName</key>
