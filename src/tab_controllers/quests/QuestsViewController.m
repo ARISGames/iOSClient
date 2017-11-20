@@ -103,6 +103,9 @@ static long const COMPLETE_SECTION = 1;
   [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
   threeLineNavButton.accessibilityLabel = @"In-Game Menu";
   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+  // newly required in iOS 11: https://stackoverflow.com/a/44456952
+  [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+  [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
   
   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
   [tracker set:kGAIScreenName value:self.title];

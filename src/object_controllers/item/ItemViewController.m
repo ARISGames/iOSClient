@@ -188,6 +188,9 @@
         [threeLineNavButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
         threeLineNavButton.accessibilityLabel = @"In-Game Menu";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+        // newly required in iOS 11: https://stackoverflow.com/a/44456952
+        [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+        [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
     }
     else
     {
