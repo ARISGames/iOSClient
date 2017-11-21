@@ -55,8 +55,11 @@
 
   //These next four lines are required in precise order for this to work. apple. c'mon.
   gameTable.frame = self.view.bounds;
-  gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
-  [gameTable setContentOffset:CGPointMake(0,-64)];
+  // MT: these appear to not be necessary on iOS 11
+  if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+    gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
+    [gameTable setContentOffset:CGPointMake(0,-64)];
+  }
   [gameTable addSubview:refreshControl];
 
   [gameTable reloadData];
@@ -75,8 +78,11 @@
 
   /*APPLE STOP TRYING TO FIX THINGS*/
   gameTable.frame = self.view.bounds;
-  gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
-  [gameTable setContentOffset:CGPointMake(0,-64)];
+  // MT: these appear to not be necessary on iOS 11
+  if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+    gameTable.contentInset = UIEdgeInsetsMake(64,0,49,0);
+    [gameTable setContentOffset:CGPointMake(0,-64)];
+  }
 
   [self refreshViewFromModel];
 }

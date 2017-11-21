@@ -78,8 +78,14 @@ const long VIEW_MODE_TAG  = 2;
   self.navigationItem.titleView = navTitleView;
 
   table = [[UITableView alloc] initWithFrame:self.view.frame];
-  table.contentInset = UIEdgeInsetsMake(100,0,49,0);
-  [table setContentOffset:CGPointMake(0,-100)];
+  // MT: these appear to be different on iOS 11 (only need to account for post-nav space)
+  if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+    table.contentInset = UIEdgeInsetsMake(100,0,49,0);
+    [table setContentOffset:CGPointMake(0,-100)];
+  } else {
+    table.contentInset = UIEdgeInsetsMake(36,0,49,0);
+    [table setContentOffset:CGPointMake(0,-36)];
+  }
   table.delegate   = self;
   table.dataSource = self;
 

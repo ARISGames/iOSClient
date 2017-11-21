@@ -97,7 +97,10 @@
 {
     [super viewWillLayoutSubviews];
     tableView.frame = self.view.bounds;
-    tableView.contentInset = UIEdgeInsetsMake(64,0,44,0);
+    // MT: this appears to not be necessary on iOS 11
+    if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+        tableView.contentInset = UIEdgeInsetsMake(64,0,44,0);
+    }
 
     logoutButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
     logoutLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);

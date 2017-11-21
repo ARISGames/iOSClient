@@ -75,7 +75,10 @@
     capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), 0, 0];
   }
   
-  inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
+  // MT: this appears to not be necessary on iOS 11
+  if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+    inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
+  }
   inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
   
   [self refreshViews];

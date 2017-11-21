@@ -85,8 +85,11 @@
   
   //apple. so dumb.
   questIconCollectionView.frame = self.view.bounds;
-  questIconCollectionView.contentInset = UIEdgeInsetsMake(64,0,0,0);
-  [questIconCollectionView setContentOffset:CGPointMake(0,-64)];
+  // MT: these appear to not be necessary on iOS 11
+  if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+    questIconCollectionView.contentInset = UIEdgeInsetsMake(64,0,0,0);
+    [questIconCollectionView setContentOffset:CGPointMake(0,-64)];
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated

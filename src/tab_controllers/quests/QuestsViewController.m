@@ -121,8 +121,14 @@ static long const COMPLETE_SECTION = 1;
   
   //apple. so dumb.
   questsTable.frame = self.view.bounds;
-  questsTable.contentInset = UIEdgeInsetsMake(104,0,40,0);
-  [questsTable setContentOffset:CGPointMake(0,-104)];
+  // MT: these appear to be different on iOS 11 (only need to account for post-nav space)
+  if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+    questsTable.contentInset = UIEdgeInsetsMake(104,0,40,0);
+    [questsTable setContentOffset:CGPointMake(0,-104)];
+  } else {
+    questsTable.contentInset = UIEdgeInsetsMake(40,0,40,0);
+    [questsTable setContentOffset:CGPointMake(0,-40)];
+  }
 }
 
 - (void) viewDidAppear:(BOOL)animated
