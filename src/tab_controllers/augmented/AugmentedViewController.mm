@@ -105,8 +105,10 @@
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
     leftNavButton = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
     // newly required in iOS 11: https://stackoverflow.com/a/44456952
-    [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
-    [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+    if ([threeLineNavButton respondsToSelector:@selector(widthAnchor)] && [threeLineNavButton respondsToSelector:@selector(heightAnchor)]) {
+        [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+        [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+    }
 
     // following is from ImageTargetsViewController
     
@@ -218,7 +220,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"AUGMENTED"; }
-- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Augmented"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Scanner"; }
 - (ARISMediaView *) tabIcon
 {
     ARISMediaView *amv = [[ARISMediaView alloc] init];

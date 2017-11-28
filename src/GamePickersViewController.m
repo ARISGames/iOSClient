@@ -120,8 +120,10 @@
   settingsbutton.accessibilityLabel = @"Settings Button";
   self.cur_gamePickersTabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
   // newly required in iOS 11: https://stackoverflow.com/a/44456952
-  [[settingsbutton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
-  [[settingsbutton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+  if ([settingsbutton respondsToSelector:@selector(widthAnchor)] && [settingsbutton respondsToSelector:@selector(heightAnchor)]) {
+    [[settingsbutton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+    [[settingsbutton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+  }
 
   _ARIS_NOTIF_LISTEN_(@"NETWORK_CONNECTED",self,@selector(swapToOnline),nil);
   //_ARIS_NOTIF_LISTEN_(@"NETWORK_DISCONNECTED",self,@selector(swapToOffline),nil);
