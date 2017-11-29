@@ -182,9 +182,49 @@
   }
 }
 
-- (void) addBeaconForTrigger:(Trigger *)trigger {
+//needs to create 8-4-4-4-12
+- (NSString *) massageUUID:(NSString *)uuid
+{
+  NSMutableString *justhex = [NSMutableString stringWithCapacity:uuid.length+4];//+4 is to account for the potential addition of 4 dashes
+  
+  NSScanner *scanner = [NSScanner scannerWithString:uuid];
+  NSCharacterSet *hex = [NSCharacterSet characterSetWithCharactersInString:@"0123456789abcdefABCDEF"];
+  
+  while(![scanner isAtEnd])
+  {
+    NSString *buff;
+    if([scanner scanCharactersFromSet:hex intoString:&buff])
+      [justhex appendString:buff];
+    else
+      [scanner setScanLocation:([scanner scanLocation] + 1)];
+  }
+  
+  if(justhex.length == 32)
+  {
+    //insert from back to front, for clearer indices
+    [justhex insertString:@"-" atIndex:8+4+4+4];
+    [justhex insertString:@"-" atIndex:8+4+4];
+    [justhex insertString:@"-" atIndex:8+4];
+    [justhex insertString:@"-" atIndex:8];
+    return [justhex uppercaseString];
+  }
+  else return @"";
+}
+
+- (void) addBeaconForTrigger:(Trigger *)trigger
+{
+  _ARIS_LOG_(@"%@",[self massageUUID:@"test"]);
+  _ARIS_LOG_(@"%@",[self massageUUID:@"12345678901234567890123456789012"]);
+  _ARIS_LOG_(@"%@",[self massageUUID:@"1A2345678901234567890123456789012"]);
+  _ARIS_LOG_(@"%@",[self massageUUID:@"1234567890123456789012345678901"]);
+  _ARIS_LOG_(@"%@",[self massageUUID:@"A2B4C6D8E0F234567890123456789012"]);
+  _ARIS_LOG_(@"%@",[self massageUUID:@"12-345678901234-567890123456--7890-12"]);
+  _ARIS_LOG_(@"%@",[self massageUUID:@"12345678-9012-3456-7890-123456789012"]);
+
+  NSString *uuid = [self massageUUID:trigger.beacon_uuid];
+  if(uuid.length == 0) return;
   CLBeaconRegion *region = [[CLBeaconRegion alloc]
-                            initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:trigger.beacon_uuid]
+                            initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:uuid]
                             major:trigger.beacon_major minor:trigger.beacon_minor identifier:[NSString stringWithFormat:@"%ld",trigger.trigger_id]
                             ];
   [locationManager startMonitoringForRegion:region];
