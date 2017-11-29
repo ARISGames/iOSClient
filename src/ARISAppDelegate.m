@@ -213,14 +213,6 @@
 
 - (void) addBeaconForTrigger:(Trigger *)trigger
 {
-  _ARIS_LOG_(@"%@",[self massageUUID:@"test"]);
-  _ARIS_LOG_(@"%@",[self massageUUID:@"12345678901234567890123456789012"]);
-  _ARIS_LOG_(@"%@",[self massageUUID:@"1A2345678901234567890123456789012"]);
-  _ARIS_LOG_(@"%@",[self massageUUID:@"1234567890123456789012345678901"]);
-  _ARIS_LOG_(@"%@",[self massageUUID:@"A2B4C6D8E0F234567890123456789012"]);
-  _ARIS_LOG_(@"%@",[self massageUUID:@"12-345678901234-567890123456--7890-12"]);
-  _ARIS_LOG_(@"%@",[self massageUUID:@"12345678-9012-3456-7890-123456789012"]);
-
   NSString *uuid = [self massageUUID:trigger.beacon_uuid];
   if(uuid.length == 0) return;
   CLBeaconRegion *region = [[CLBeaconRegion alloc]
