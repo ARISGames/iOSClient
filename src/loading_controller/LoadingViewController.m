@@ -181,7 +181,16 @@
 {
   if(![_MODEL_GAME_ hasLatestDownload])
   {
-    if(_MODEL_GAME_.preload_media) [self requestMediaData];
+    BOOL preload = _MODEL_GAME_.preload_media;
+    if (!preload) {
+      for (Trigger *t in _MODEL_TRIGGERS_.allTriggers) {
+        if ([t.type isEqualToString:@"AR"]) {
+          preload = YES;
+          break;
+        }
+      }
+    }
+    if(preload) [self requestMediaData];
     else [_MODEL_ beginGame];
   }
   else
