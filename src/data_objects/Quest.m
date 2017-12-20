@@ -15,6 +15,7 @@
 @synthesize quest_id;
 @synthesize name;
 @synthesize desc;
+@synthesize quest_type;
 
 @synthesize active_icon_media_id;
 @synthesize active_media_id;
@@ -33,6 +34,7 @@
 @synthesize complete_requirement_root_package_id;
 
 @synthesize sort_index;
+@synthesize parent_quest_id;
 
 - (Quest *) init
 {
@@ -41,6 +43,7 @@
         quest_id = 0;
         name = @"";
         desc = @"";
+        quest_type = @"QUEST";
 
         active_icon_media_id = 0;
         active_media_id = 0;
@@ -59,6 +62,7 @@
         complete_requirement_root_package_id = 0;
 
         sort_index = 0;
+        parent_quest_id = 0;
     }
     return self;
 }
@@ -70,6 +74,7 @@
     quest_id                             = [dict validIntForKey:@"quest_id"];
     name                                 = [dict validStringForKey:@"name"];
     desc                                 = [dict validStringForKey:@"description"];
+    quest_type                           = [dict validStringForKey:@"quest_type"];
 
     active_icon_media_id                 = [dict validIntForKey:@"active_icon_media_id"];
     active_media_id                      = [dict validIntForKey:@"active_media_id"];
@@ -88,6 +93,7 @@
     complete_requirement_root_package_id = [dict validIntForKey:@"complete_requirement_root_package_id"];
 
     sort_index                           = [dict validIntForKey:@"sort_index"];
+    parent_quest_id                      = [dict validIntForKey:@"parent_quest_id"];
   }
   return self;
 }
@@ -98,6 +104,7 @@
   [d setObject:[NSString stringWithFormat:@"%ld",quest_id] forKey:@"quest_id"];
   [d setObject:name forKey:@"name"];
   [d setObject:desc forKey:@"description"];
+  [d setObject:quest_type forKey:@"quest_type"];
 
   [d setObject:[NSString stringWithFormat:@"%ld",active_icon_media_id] forKey:@"active_icon_media_id"];
   [d setObject:[NSString stringWithFormat:@"%ld",active_media_id] forKey:@"active_media_id"];
@@ -116,6 +123,7 @@
   [d setObject:[NSString stringWithFormat:@"%ld",complete_requirement_root_package_id] forKey:@"complete_requirement_root_package_id"];
 
   [d setObject:[NSString stringWithFormat:@"%ld",sort_index] forKey:@"sort_index"];
+  [d setObject:[NSString stringWithFormat:@"%ld",parent_quest_id] forKey:@"parent_quest_id"];
   return [NSString JSONFromFlatStringDict:d];
 }
 

@@ -23,6 +23,10 @@
   NSArray *activeQuests;
   NSArray *completeQuests;
   
+  NSMutableDictionary *questCategories;
+  NSMutableDictionary *questCategoryTitles;
+  NSMutableArray *questCategoryList;
+  
   id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @property (nonatomic, strong) UICollectionView *questIconCollectionView;
@@ -122,17 +126,53 @@
 {
   activeQuests   = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleActiveQuests,@"sort_index");
   completeQuests = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleCompleteQuests,@"sort_index");
+  
+  NSArray *allQuests = [activeQuests arrayByAddingObjectsFromArray:completeQuests];
+  
+  questCategories = [[NSMutableDictionary alloc] init];
+  questCategoryTitles = [[NSMutableDictionary alloc] init];
+  questCategoryList = [[NSMutableArray alloc] init];
+  // first, find all the categories
+  [questCategoryTitles setValue:@"" forKey:@"0"];
+  [questCategoryList addObject:@"0"];
+  [questCategories setValue:[[NSMutableArray alloc] init] forKey:@"0"];
+  for (Quest *q in allQuests) {
+    if ([q.quest_type isEqualToString:@"CATEGORY"]) {
+      NSString *category_id = [NSString stringWithFormat:@"%ld", q.quest_id];
+      [questCategoryTitles setValue:q.name forKey:category_id];
+      [questCategoryList addObject:category_id];
+      [questCategories setValue:[[NSMutableArray alloc] init] forKey:category_id];
+    }
+  }
+  // then sort quests into categories
+  for (Quest *q in allQuests) {
+    if (![q.quest_type isEqualToString:@"CATEGORY"]) {
+      NSString *category_id = [NSString stringWithFormat:@"%ld", q.parent_quest_id];
+      [[questCategories objectForKey:category_id] addObject:q];
+    }
+  }
+  
   [self.questIconCollectionView reloadData];
 }
 
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-  return 1;
+  return [questCategoryList count];
 }
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-  return activeQuests.count + completeQuests.count;
+  return [[questCategories objectForKey:[questCategoryList objectAtIndex:section]] count];
+}
+
+- (Quest *) getQuestAt:(NSIndexPath *)indexPath
+{
+  return [[questCategories objectForKey:[questCategoryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+}
+
+- (BOOL) isActiveQuest:(Quest *)quest
+{
+  return [activeQuests indexOfObject:quest] != NSNotFound;
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -143,10 +183,7 @@
   for(UIView *view in [cell.contentView subviews])
     [view removeFromSuperview];
   
-  Quest *q;
-  
-  if(indexPath.item < activeQuests.count) q = [activeQuests   objectAtIndex:indexPath.item];
-  else                                    q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];
+  Quest *q = [self getQuestAt:indexPath];
   
   CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-20), cell.contentView.frame.size.width, 20);
   UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
@@ -160,7 +197,7 @@
   
   ARISMediaView *icon = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.width) delegate:self];
   [icon setDisplayMode:ARISMediaDisplayModeAspectFit];
-  if(indexPath.item < activeQuests.count)
+  if([self isActiveQuest:q])
   {
     if(q.active_icon_media_id != 0) [icon setMedia:[_MODEL_MEDIA_ mediaForId:q.active_icon_media_id]];
     else                            [icon setImage:[UIImage imageNamed:@"logo_icon.png"]];
@@ -179,11 +216,9 @@
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  Quest *q;
-  if(indexPath.item < activeQuests.count) q = [activeQuests    objectAtIndex:indexPath.item];
-  else                                      q = [completeQuests objectAtIndex:indexPath.item-activeQuests.count];
+  Quest *q = [self getQuestAt:indexPath];
   
-  [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:((indexPath.item < activeQuests.count) ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
+  [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:([self isActiveQuest:q] ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
 }
 
 - (void) questDetailsRequestsDismissal
