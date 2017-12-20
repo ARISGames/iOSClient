@@ -215,8 +215,16 @@
 }
 
 //AR Data
-- (void) requestARData { [self.view addSubview:ARProgressLabel]; [self.view addSubview:ARProgressBar]; [_MODEL_AR_TARGETS_ cacheARData]; }
-- (void) ARPercentLoaded:(NSNotification *)notif { ARProgressBar.progress = [notif.userInfo[@"percent"] floatValue]; }
+- (void) requestARData {
+  [self.view addSubview:ARProgressLabel];
+  [self.view addSubview:ARProgressBar];
+  dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [_MODEL_AR_TARGETS_ cacheARData];
+  });
+}
+- (void) ARPercentLoaded:(NSNotification *)notif {
+  ARProgressBar.progress = [notif.userInfo[@"percent"] floatValue];
+}
 - (void) ARDataLoaded { [_MODEL_ beginGame]; }
 - (void) ARFetchFailed { [self.view addSubview:ARRetryLoadButton]; }
 - (void) retryARFetch

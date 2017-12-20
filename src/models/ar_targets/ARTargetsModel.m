@@ -517,8 +517,15 @@
         }
       }
     }
+    dispatch_async( dispatch_get_main_queue(), ^{
+      float progress = ((float) i) / ((float) triggers.count);
+      _ARIS_NOTIF_SEND_(@"AR_PERCENT_LOADED", nil,
+                        @{@"percent":[NSNumber numberWithFloat:progress]});
+    });
   }
-  _ARIS_NOTIF_SEND_(@"AR_DATA_LOADED",nil,nil);
+  dispatch_async( dispatch_get_main_queue(), ^{
+    _ARIS_NOTIF_SEND_(@"AR_DATA_LOADED",nil,nil);
+  });
   return;
 }
 
