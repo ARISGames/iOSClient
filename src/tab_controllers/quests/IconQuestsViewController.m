@@ -149,7 +149,11 @@
   for (Quest *q in allQuests) {
     if (![q.quest_type isEqualToString:@"CATEGORY"]) {
       NSString *category_id = [NSString stringWithFormat:@"%ld", q.parent_quest_id];
-      [[questCategories objectForKey:category_id] addObject:q];
+      NSMutableArray *category = [questCategories objectForKey:category_id];
+      if (!category) {
+        category = [questCategories objectForKey:@"0"];
+      }
+      [category addObject:q];
     }
   }
   
@@ -220,7 +224,7 @@
   if (section == 0) {
     return CGSizeMake(0, 0);
   } else {
-    return CGSizeMake(0, 25);
+    return CGSizeMake(0, 60);
   }
 }
 
@@ -229,9 +233,12 @@
   if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
     UICollectionReusableView *reusableview = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, self.view.frame.size.width, 40)];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = [questCategoryTitles objectForKey:[questCategoryList objectAtIndex:indexPath.section]];
+    label.textColor = [UIColor ARISColorBlack];
+    label.backgroundColor = [UIColor ARISColorLightGray];
+    label.font = [UIFont boldSystemFontOfSize:18.0];
     [reusableview addSubview:label];
     return reusableview;
   }
