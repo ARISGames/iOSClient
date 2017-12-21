@@ -29,6 +29,11 @@ static long const COMPLETE_SECTION = 1;
   NSArray *sortedCompleteQuests;
   NSMutableDictionary *activeQuestCellHeights;
   NSMutableDictionary *completeQuestCellHeights;
+  
+  NSMutableDictionary *activeQuestCategories;
+  NSMutableDictionary *completeQuestCategories;
+  NSMutableDictionary *questCategoryTitles;
+  NSMutableArray *questCategoryList;
 
   UITableView *questsTable;
   UIButton *activeButton;
@@ -151,7 +156,7 @@ static long const COMPLETE_SECTION = 1;
   sortedActiveQuests   = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleActiveQuests,   @"sort_index");
   sortedCompleteQuests = _ARIS_ARRAY_SORTED_ON_(_MODEL_QUESTS_.visibleCompleteQuests, @"sort_index");
   
-  if(sortedActiveQuests.count == 0)
+  if(sortedActiveQuests.count == 0) // TODO ignore categories in this check
   {
     Quest *nullQuest = [_MODEL_QUESTS_ questForId:0];
     //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
@@ -159,13 +164,56 @@ static long const COMPLETE_SECTION = 1;
     nullQuest.active_desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNoQuestsAvailableKey", @"")];
     sortedActiveQuests = [NSArray arrayWithObjects:nullQuest, nil];
   }
-  if(sortedCompleteQuests.count == 0)
+  if(sortedCompleteQuests.count == 0) // TODO ignore categories in this check
   {
     Quest *nullQuest = [_MODEL_QUESTS_ questForId:0];
     //nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
     nullQuest.name = NSLocalizedString(@"EmptyKey", @"");
     nullQuest.complete_desc = [NSString stringWithFormat:@"<span style='color:#555555;'>(%@)</span>", NSLocalizedString(@"QuestViewNocompleteQuestsKey", @"")];
     sortedCompleteQuests = [NSArray arrayWithObjects:nullQuest, nil];
+  }
+  
+  NSArray *allQuests = [sortedActiveQuests arrayByAddingObjectsFromArray:sortedCompleteQuests];
+  
+  // TODO remove categories with no quests in each of the two tabs
+  activeQuestCategories = [[NSMutableDictionary alloc] init];
+  completeQuestCategories = [[NSMutableDictionary alloc] init];
+  questCategoryTitles = [[NSMutableDictionary alloc] init];
+  questCategoryList = [[NSMutableArray alloc] init];
+  // first, find all the categories
+  [questCategoryTitles setValue:@"" forKey:@"0"];
+  [questCategoryList addObject:@"0"];
+  [activeQuestCategories setValue:[[NSMutableArray alloc] init] forKey:@"0"];
+  [completeQuestCategories setValue:[[NSMutableArray alloc] init] forKey:@"0"];
+  for (Quest *q in allQuests) {
+    if ([q.quest_type isEqualToString:@"CATEGORY"]) {
+      NSString *category_id = [NSString stringWithFormat:@"%ld", q.quest_id];
+      [questCategoryTitles setValue:q.name forKey:category_id];
+      [questCategoryList addObject:category_id];
+      [activeQuestCategories setValue:[[NSMutableArray alloc] init] forKey:category_id];
+      [completeQuestCategories setValue:[[NSMutableArray alloc] init] forKey:category_id];
+    }
+  }
+  // then sort quests into categories
+  for (Quest *q in sortedActiveQuests) {
+    if (![q.quest_type isEqualToString:@"CATEGORY"]) {
+      NSString *category_id = [NSString stringWithFormat:@"%ld", q.parent_quest_id];
+      NSMutableArray *category = [activeQuestCategories objectForKey:category_id];
+      if (!category) {
+        category = [activeQuestCategories objectForKey:@"0"];
+      }
+      [category addObject:q];
+    }
+  }
+  for (Quest *q in sortedCompleteQuests) {
+    if (![q.quest_type isEqualToString:@"CATEGORY"]) {
+      NSString *category_id = [NSString stringWithFormat:@"%ld", q.parent_quest_id];
+      NSMutableArray *category = [completeQuestCategories objectForKey:category_id];
+      if (!category) {
+        category = [completeQuestCategories objectForKey:@"0"];
+      }
+      [category addObject:q];
+    }
   }
   
   [questsTable reloadData];
@@ -184,11 +232,35 @@ static long const COMPLETE_SECTION = 1;
   [[self navigationItem] setRightBarButtonItem:nil];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+  return [questCategoryList count];
+}
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  if(questTypeShown == ACTIVE_SECTION)    return sortedActiveQuests.count;
-  if(questTypeShown == COMPLETE_SECTION) return sortedCompleteQuests.count;
+  if(questTypeShown == ACTIVE_SECTION) {
+    return [[activeQuestCategories objectForKey:[questCategoryList objectAtIndex:section]] count];
+  }
+  if(questTypeShown == COMPLETE_SECTION) {
+    return [[completeQuestCategories objectForKey:[questCategoryList objectAtIndex:section]] count];
+  }
   return 0;
+}
+
+- (Quest *) getActiveQuestAt:(NSIndexPath *)indexPath
+{
+  return [[activeQuestCategories objectForKey:[questCategoryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+}
+
+- (Quest *) getCompleteQuestAt:(NSIndexPath *)indexPath
+{
+  return [[activeQuestCategories objectForKey:[questCategoryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+  return [questCategoryTitles objectForKey:[questCategoryList objectAtIndex:section]];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -197,9 +269,9 @@ static long const COMPLETE_SECTION = 1;
   if(!cell) cell = [[QuestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"QuestCell"];
   
   if(questTypeShown == ACTIVE_SECTION)
-    [cell setQuest:[sortedActiveQuests objectAtIndex:indexPath.row]];
+    [cell setQuest:[self getActiveQuestAt:indexPath]];
   if(questTypeShown == COMPLETE_SECTION)
-    [cell setQuest:[sortedCompleteQuests objectAtIndex:indexPath.row]];
+    [cell setQuest:[self getCompleteQuestAt:indexPath]];
   
   [cell setDelegate:self];
   
