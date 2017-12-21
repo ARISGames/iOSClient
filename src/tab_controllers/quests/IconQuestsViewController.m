@@ -80,6 +80,7 @@
   questIconCollectionView.dataSource = self;
   questIconCollectionView.delegate = self;
   [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
+  [questIconCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
   [self.view addSubview:questIconCollectionView];
 }
 
@@ -212,6 +213,29 @@
   [cell.contentView addSubview:icon];
   
   return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+  if (section == 0) {
+    return CGSizeMake(0, 0);
+  } else {
+    return CGSizeMake(0, 25);
+  }
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+  if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+    UICollectionReusableView *reusableview = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = [questCategoryTitles objectForKey:[questCategoryList objectAtIndex:indexPath.section]];
+    [reusableview addSubview:label];
+    return reusableview;
+  }
+  return nil;
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
