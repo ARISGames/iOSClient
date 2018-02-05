@@ -380,4 +380,35 @@ static long const COMPLETE_SECTION = 1;
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
 
+- (void) showQuestByName:(NSString *) quest_name
+{
+  NSLog(@"showQuestByName %@", quest_name);
+
+  Quest *quest;
+  NSString *mode;
+  for (Quest *q in sortedActiveQuests) {
+    if ([q.name isEqualToString:quest_name]) {
+      quest = q;
+      mode = @"ACTIVE";
+      break;
+    }
+  }
+  if (!quest) {
+    for (Quest *q in sortedCompleteQuests) {
+      if ([q.name isEqualToString:quest_name]) {
+        quest = q;
+        mode = @"COMPLETE";
+        break;
+      }
+    }
+  }
+
+  if (quest) {
+    NSLog(@"showQuestByName success");
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:quest mode:mode delegate:self] animated:YES];
+  } else {
+    NSLog(@"showQuestByName failed");
+  }
+}
+
 @end

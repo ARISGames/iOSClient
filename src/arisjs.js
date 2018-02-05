@@ -55,6 +55,7 @@ var ARISJS = function(_ARIS)
     _ARIS.exitToWebpage       = function(webpageId)        { _ARIS.enqueueRequest("aris://exit/webpage/"+webpageId); }
     _ARIS.exitToItem          = function(item_id)          { _ARIS.enqueueRequest("aris://exit/item/"+item_id); }
     _ARIS.exitToDialog        = function(dialog_id)        { _ARIS.enqueueRequest("aris://exit/character/"+dialog_id); }
+    _ARIS.exitToQuest         = function(quest_name)       { _ARIS.enqueueRequest("aris://exit/quest/"+quest_name); }
     _ARIS.exitGame            = function()                 { _ARIS.enqueueRequest("aris://exit/game/"); }
     _ARIS.prepareMedia        = function(media_id)         { _ARIS.enqueueRequest("aris://media/prepare/" + media_id); }
     _ARIS.playMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/play/" + media_id); }

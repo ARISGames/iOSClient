@@ -259,6 +259,12 @@
         }
         else if([type isEqualToString:@"plaque"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_PLAQUES_ plaqueForId:[token intValue]]];
+        else if([type isEqualToString:@"quest"])
+        {
+            Tab *tab = [_MODEL_TABS_ tabForType:@"QUESTS"];
+            tab.info = token;
+            [_MODEL_DISPLAY_QUEUE_ enqueueTab:tab];
+        }
         else if([type isEqualToString:@"webpage"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_WEB_PAGES_ webPageForId:[token intValue]]];
         else if([type isEqualToString:@"item"])

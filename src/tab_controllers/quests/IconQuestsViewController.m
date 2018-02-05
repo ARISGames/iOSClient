@@ -280,4 +280,32 @@
   return amv;
 }
 
+- (void) showQuestByName:(NSString *) quest_name
+{
+  NSLog(@"showQuestByName %@", quest_name);
+
+  Quest *quest;
+  for (Quest *q in activeQuests) {
+    if ([q.name isEqualToString:quest_name]) {
+      quest = q;
+      break;
+    }
+  }
+  if (!quest) {
+    for (Quest *q in completeQuests) {
+      if ([q.name isEqualToString:quest_name]) {
+        quest = q;
+        break;
+      }
+    }
+  }
+
+  if (quest) {
+    NSLog(@"showQuestByName success");
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:quest mode:([self isActiveQuest:quest] ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
+  } else {
+    NSLog(@"showQuestByName failed");
+  }
+}
+
 @end

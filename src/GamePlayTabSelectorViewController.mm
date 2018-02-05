@@ -305,6 +305,11 @@
                     QuestDetailsViewController *questVC = (QuestDetailsViewController *) (navigation.topViewController);
                     [questVC dismissQuestDetails];
                 }
+                NSString *quest_name = tab.info;
+                if (![quest_name isEqualToString:@""]) {
+                    QuestsViewController *questView = (QuestsViewController *) navigation.topViewController;
+                    [questView showQuestByName:quest_name];
+                }
             }
             else if([tab.type isEqualToString:@"AUGMENTED"])
             {
