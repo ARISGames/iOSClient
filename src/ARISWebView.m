@@ -302,7 +302,14 @@
     }
     else if([mainCommand isEqualToString:@"trigger"])
     {
-        Trigger *trigger = [_MODEL_DISPLAY_QUEUE_ getTriggerLookingAt];
+        long trigger_id = 0;
+        if (components.count > 1) trigger_id = [components[1] intValue];
+        Trigger *trigger;
+        if (trigger_id) {
+            trigger = [_MODEL_TRIGGERS_ triggerForId:trigger_id];
+        } else {
+            trigger = [_MODEL_DISPLAY_QUEUE_ getTriggerLookingAt];
+        }
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString *now = [dateFormatter stringFromDate:[NSDate date]];
@@ -316,6 +323,7 @@
                                  "\"title\":\"%@\","
                                  "\"longitude\":%g,"
                                  "\"latitude\":%g,"
+                                 "\"proximity\":%ld,"
                                  "\"date\":\"%@\","
                                  "}",
                                  trigger.trigger_id,
@@ -326,6 +334,7 @@
                                  trigger.title,
                                  trigger.location.coordinate.longitude,
                                  trigger.location.coordinate.latitude,
+                                 [_DELEGATE_ proximityToBeaconTrigger:trigger],
                                  now
                                  ];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceiveTriggerLocation(%@);",triggerJSON]];
