@@ -180,6 +180,7 @@ static long const COMPLETE_SECTION = 1;
   completeQuestCategories = [[NSMutableDictionary alloc] init];
   questCategoryTitles = [[NSMutableDictionary alloc] init];
   questCategoryList = [[NSMutableArray alloc] init];
+  NSMutableSet *questCompounds = [[NSMutableSet alloc] init];
   // first, find all the categories
   [questCategoryTitles setValue:@"" forKey:@"0"];
   [questCategoryList addObject:@"0"];
@@ -192,11 +193,17 @@ static long const COMPLETE_SECTION = 1;
       [questCategoryList addObject:category_id];
       [activeQuestCategories setValue:[[NSMutableArray alloc] init] forKey:category_id];
       [completeQuestCategories setValue:[[NSMutableArray alloc] init] forKey:category_id];
+    } else if ([q.quest_type isEqualToString:@"COMPOUND"]) {
+      [questCompounds addObject:[NSString stringWithFormat:@"%ld", q.quest_id]];
     }
   }
   // then sort quests into categories
   for (Quest *q in sortedActiveQuests) {
     if (![q.quest_type isEqualToString:@"CATEGORY"]) {
+      // don't display this if its parent is a compound quest
+      if ([questCompounds containsObject:[NSString stringWithFormat:@"%ld", q.parent_quest_id]]) {
+        continue;
+      }
       NSString *category_id = [NSString stringWithFormat:@"%ld", q.parent_quest_id];
       NSMutableArray *category = [activeQuestCategories objectForKey:category_id];
       if (!category) {
@@ -207,6 +214,10 @@ static long const COMPLETE_SECTION = 1;
   }
   for (Quest *q in sortedCompleteQuests) {
     if (![q.quest_type isEqualToString:@"CATEGORY"]) {
+      // don't display this if its parent is a compound quest
+      if ([questCompounds containsObject:[NSString stringWithFormat:@"%ld", q.parent_quest_id]]) {
+        continue;
+      }
       NSString *category_id = [NSString stringWithFormat:@"%ld", q.parent_quest_id];
       NSMutableArray *category = [completeQuestCategories objectForKey:category_id];
       if (!category) {
