@@ -266,7 +266,7 @@ static long const COMPLETE_SECTION = 1;
 
 - (Quest *) getCompleteQuestAt:(NSIndexPath *)indexPath
 {
-  return [[activeQuestCategories objectForKey:[questCategoryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+  return [[completeQuestCategories objectForKey:[questCategoryList objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
