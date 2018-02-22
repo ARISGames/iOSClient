@@ -16,7 +16,7 @@
 #import <Google/Analytics.h>
 
 
-@interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate>
+@interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, QuestDetailsViewControllerDelegate>
 {
     UIScrollView *scrollView;
     ARISMediaView  *mediaView;
@@ -28,6 +28,8 @@
 
     Quest *quest;
     NSString *mode;
+    NSArray *activeQuests;
+    NSArray *completeQuests;
     id<QuestDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -35,12 +37,14 @@
 
 @implementation QuestDetailsViewController
 
-- (id) initWithQuest:(Quest *)q mode:(NSString *)m delegate:(id<QuestDetailsViewControllerDelegate>)d
+- (id) initWithQuest:(Quest *)q mode:(NSString *)m activeQuests:(NSArray *)a completeQuests:(NSArray *)c delegate:(id<QuestDetailsViewControllerDelegate>)d
 {
     if(self = [super init])
     {
         quest = q;
         mode = m;
+        activeQuests = a;
+        completeQuests = c;
         delegate = d;
         self.title = quest.name;
     }
@@ -103,6 +107,21 @@
 
 - (void) loadQuest
 {
+    CGFloat y = 66.0;
+    for (Quest *q in [activeQuests arrayByAddingObjectsFromArray:completeQuests]) {
+        if (q.parent_quest_id == quest.quest_id) {
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.backgroundColor = [UIColor blueColor];
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(launchSubquest:) forControlEvents:UIControlEventTouchUpInside];
+            button.tag = q.quest_id;
+            [button setTitle:q.name forState:UIControlStateNormal];
+            button.frame = CGRectMake(0.0, y, self.view.bounds.size.width, 40.0);
+            y += 40.0;
+            [self.view addSubview:button];
+        }
+    }
+
     [scrollView addSubview:webView];
     webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
     [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], ([mode isEqualToString:@"ACTIVE"] ? quest.active_desc : quest.complete_desc)] baseURL:nil];
@@ -197,6 +216,22 @@
     else if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"]) return;
     else if([([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"PICKGAME"]) [_MODEL_ leaveGame];
     else [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function)]];
+}
+
+- (void) launchSubquest:(UIButton *)button
+{
+    for (Quest *q in [activeQuests arrayByAddingObjectsFromArray:completeQuests]) {
+        if (q.quest_id == button.tag) {
+            [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:mode activeQuests:nil completeQuests:nil delegate:self] animated:YES];
+            return;
+        }
+    }
+}
+
+// this is when a subquest of this (compound) quest requests dismissal
+- (void) questDetailsRequestsDismissal
+{
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (void) dealloc

@@ -256,7 +256,7 @@
 {
   Quest *q = [self getQuestAt:indexPath];
   
-  [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:([self isActiveQuest:q] ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
+  [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:([self isActiveQuest:q] ? @"ACTIVE" : @"COMPLETE") activeQuests:activeQuests completeQuests:completeQuests delegate:self] animated:YES];
 }
 
 - (void) questDetailsRequestsDismissal
@@ -309,7 +309,7 @@
 
   if (quest) {
     NSLog(@"showQuestByName success");
-    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:quest mode:([self isActiveQuest:quest] ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:quest mode:([self isActiveQuest:quest] ? @"ACTIVE" : @"COMPLETE") activeQuests:activeQuests completeQuests:completeQuests delegate:self] animated:YES];
   } else {
     NSLog(@"showQuestByName failed");
   }

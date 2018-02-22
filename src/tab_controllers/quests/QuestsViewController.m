@@ -344,7 +344,7 @@ static long const COMPLETE_SECTION = 1;
   
   if(q.quest_id < 1) return;
   
-  [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:((questTypeShown == ACTIVE_SECTION) ? @"ACTIVE" : @"COMPLETE") delegate:self] animated:YES];
+  [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:((questTypeShown == ACTIVE_SECTION) ? @"ACTIVE" : @"COMPLETE") activeQuests:sortedActiveQuests completeQuests:sortedCompleteQuests delegate:self] animated:YES];
 }
 
 - (void) questDetailsRequestsDismissal
@@ -416,7 +416,7 @@ static long const COMPLETE_SECTION = 1;
 
   if (quest) {
     NSLog(@"showQuestByName success");
-    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:quest mode:mode delegate:self] animated:YES];
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:quest mode:mode activeQuests:sortedActiveQuests completeQuests:sortedCompleteQuests delegate:self] animated:YES];
   } else {
     NSLog(@"showQuestByName failed");
   }
