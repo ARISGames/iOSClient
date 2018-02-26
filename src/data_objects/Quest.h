@@ -14,6 +14,7 @@
     NSString *name;
     NSString *desc;
     NSString *prompt;
+    long stars;
     NSString *quest_type;
 
     long active_icon_media_id;
@@ -40,6 +41,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSString *prompt;
+@property (nonatomic, assign) long stars;
 @property (nonatomic, strong) NSString *quest_type;
 
 @property (nonatomic, assign) long active_icon_media_id;

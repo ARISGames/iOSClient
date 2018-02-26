@@ -222,7 +222,27 @@
   
   icon.layer.cornerRadius = 11.0f;
   [cell.contentView addSubview:icon];
-  
+
+  if (q.stars > 0) {
+    long currentStars = 0;
+    for (Quest *complete in completeQuests) {
+      if (complete.parent_quest_id == q.quest_id) {
+        currentStars += complete.stars;
+      }
+    }
+    if (currentStars > q.stars) currentStars = q.stars;
+
+    CGRect starsFrame = CGRectMake(0, (cell.contentView.frame.size.height-40), cell.contentView.frame.size.width, 20);
+    UILabel *starsLabel = [[UILabel alloc] initWithFrame:starsFrame];
+    starsLabel.text = [NSString stringWithFormat:@"%ld / %ld", currentStars, q.stars];
+    starsLabel.textColor = [ARISTemplate ARISColorViewText];
+    starsLabel.backgroundColor = [UIColor ARISColorLightGray];
+    starsLabel.textAlignment = NSTextAlignmentCenter;
+    starsLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
+    starsLabel.font = [ARISTemplate ARISSubtextFont];
+    [cell.contentView addSubview:starsLabel];
+  }
+
   return cell;
 }
 

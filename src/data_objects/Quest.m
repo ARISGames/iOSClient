@@ -15,6 +15,8 @@
 @synthesize quest_id;
 @synthesize name;
 @synthesize desc;
+@synthesize prompt;
+@synthesize stars;
 @synthesize quest_type;
 
 @synthesize active_icon_media_id;
@@ -44,6 +46,7 @@
         name = @"";
         desc = @"";
         prompt = @"";
+        stars = 0;
         quest_type = @"QUEST";
 
         active_icon_media_id = 0;
@@ -76,6 +79,7 @@
     name                                 = [dict validStringForKey:@"name"];
     desc                                 = [dict validStringForKey:@"description"];
     prompt                               = [dict validStringForKey:@"prompt"];
+    stars                                = [dict validIntForKey:@"stars"];
     quest_type                           = [dict validStringForKey:@"quest_type"];
 
     active_icon_media_id                 = [dict validIntForKey:@"active_icon_media_id"];
@@ -107,6 +111,7 @@
   [d setObject:name forKey:@"name"];
   [d setObject:desc forKey:@"description"];
   [d setObject:prompt forKey:@"prompt"];
+  [d setObject:[NSString stringWithFormat:@"%ld",stars] forKey:@"stars"];
   [d setObject:quest_type forKey:@"quest_type"];
 
   [d setObject:[NSString stringWithFormat:@"%ld",active_icon_media_id] forKey:@"active_icon_media_id"];
