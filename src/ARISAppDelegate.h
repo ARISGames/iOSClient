@@ -1,4 +1,4 @@
-﻿//
+//
 //  ARISAppDelegate.h
 //  ARIS
 //
@@ -30,5 +30,6 @@
 - (void) addBeaconForTrigger:(Trigger *)trigger;
 - (void) clearBeacons;
 - (CLProximity) proximityToBeaconTrigger:(Trigger *)trigger;
+- (double) accuracyToBeaconTrigger:(Trigger *)trigger;
 
 @end

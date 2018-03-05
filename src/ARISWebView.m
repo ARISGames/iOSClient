@@ -324,6 +324,7 @@
                                  "\"longitude\":%g,"
                                  "\"latitude\":%g,"
                                  "\"proximity\":%ld,"
+                                 "\"accuracy\":%f,"
                                  "\"date\":\"%@\","
                                  "}",
                                  trigger.trigger_id,
@@ -334,7 +335,8 @@
                                  trigger.title,
                                  trigger.location.coordinate.longitude,
                                  trigger.location.coordinate.latitude,
-                                 [_DELEGATE_ proximityToBeaconTrigger:trigger],
+                                 (long)[_DELEGATE_ proximityToBeaconTrigger:trigger],
+                                 [_DELEGATE_ accuracyToBeaconTrigger:trigger],
                                  now
                                  ];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceiveTriggerLocation(%@);",triggerJSON]];

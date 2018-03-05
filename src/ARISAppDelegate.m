@@ -27,7 +27,8 @@
   NSTimer *locationPoller;
   CLLocation *lastKnownLocation;
   AVAudioPlayer *player;
-  NSMutableDictionary *beaconSignals;
+  NSMutableDictionary *beaconProximity;
+  NSMutableDictionary *beaconAccuracy;
 }
 @end
 
@@ -80,7 +81,8 @@
   if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
   if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
 
-  beaconSignals = [[NSMutableDictionary alloc] init];
+  beaconProximity = [[NSMutableDictionary alloc] init];
+  beaconAccuracy = [[NSMutableDictionary alloc] init];
 }
 
 - (void) setApplicationUITemplates
@@ -224,7 +226,8 @@
 }
 
 - (void) clearBeacons {
-  [beaconSignals removeAllObjects];
+  [beaconProximity removeAllObjects];
+  [beaconAccuracy removeAllObjects];
   for (CLBeaconRegion *region in locationManager.rangedRegions) {
     [locationManager stopRangingBeaconsInRegion:region];
   }
@@ -235,22 +238,39 @@
 
 - (CLProximity) proximityToBeaconTrigger:(Trigger *)trigger {
   NSString *trigger_id = [NSString stringWithFormat:@"%ld", trigger.trigger_id];
-  NSNumber *beacon_id = [beaconSignals objectForKey:trigger_id];
+  NSNumber *beacon_id = [beaconProximity objectForKey:trigger_id];
   if (beacon_id == nil) {
     return CLProximityFar + 1;
   } else {
-    return [beacon_id intValue];
+    return [beacon_id longValue];
+  }
+}
+
+- (double) accuracyToBeaconTrigger:(Trigger *)trigger {
+  NSString *trigger_id = [NSString stringWithFormat:@"%ld", trigger.trigger_id];
+  NSNumber *beacon_id = [beaconAccuracy objectForKey:trigger_id];
+  if (beacon_id == nil) {
+    return 9999.0f; // TODO what should this be
+  } else {
+    return [beacon_id doubleValue];
   }
 }
 
 - (void) locationManager:(CLLocationManager *)manager didRangeBeacons:(nonnull NSArray<CLBeacon *> *)beacons inRegion:(nonnull CLBeaconRegion *)region {
-  int proximity = CLProximityFar + 1;
+  long proximity = CLProximityFar + 1;
+  double accuracy = 9999.0f; // TODO what should this be
   for (CLBeacon *beacon in beacons) {
-    if (proximity > beacon.proximity && beacon.proximity != CLProximityUnknown) {
-      proximity = beacon.proximity;
+    if (beacon.proximity != CLProximityUnknown) {
+      if (proximity > beacon.proximity) {
+        proximity = beacon.proximity;
+      }
+      if (accuracy > beacon.accuracy) {
+        accuracy = beacon.accuracy;
+      }
     }
   }
-  [beaconSignals setValue:[NSNumber numberWithInteger:proximity] forKey:region.identifier];
+  [beaconProximity setValue:[NSNumber numberWithInteger:proximity] forKey:region.identifier];
+  [beaconAccuracy setValue:[NSNumber numberWithDouble:accuracy] forKey:region.identifier];
   _ARIS_NOTIF_SEND_(@"BEACONS_MOVED",nil,nil);
 }
 
