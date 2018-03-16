@@ -182,8 +182,11 @@
 {
     NSMutableArray *games= [[NSMutableArray alloc] init];
 
-    for(long i = 0; i < gamesDicts.count; i++)
-        [games addObject:[[Game alloc] initWithDictionary:gamesDicts[i]]];
+    for(long i = 0; i < gamesDicts.count; i++) {
+        if ([gamesDicts[i] isKindOfClass:[NSDictionary class]]) {
+            [games addObject:[[Game alloc] initWithDictionary:gamesDicts[i]]];
+        }
+    }
 
     return games;
 }
