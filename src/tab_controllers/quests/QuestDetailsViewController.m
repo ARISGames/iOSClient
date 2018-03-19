@@ -11,16 +11,18 @@
 #import "AppModel.h"
 #import "MediaModel.h"
 #import "Quest.h"
+#import "QuestCell.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
 #import <Google/Analytics.h>
 
 
-@interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, QuestDetailsViewControllerDelegate>
+@interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, QuestDetailsViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, QuestCellDelegate>
 {
     UIScrollView *scrollView;
     ARISMediaView  *mediaView;
     ARISWebView *webView;
+    UITableView *subquestsTable;
     UIView *goButton;
     UILabel *goLbl;
     UIImageView *arrow;
@@ -30,6 +32,8 @@
     NSString *mode;
     NSArray *activeQuests;
     NSArray *completeQuests;
+    NSMutableArray *subquests;
+    NSMutableDictionary *subquestHeights;
     id<QuestDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -72,6 +76,10 @@
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
 
+    subquestsTable = [[UITableView alloc] init];
+    subquestsTable.dataSource = self;
+    subquestsTable.delegate = self;
+    
     goButton = [[UIView alloc] init];
     goButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
     goButton.userInteractionEnabled = YES;
@@ -107,18 +115,10 @@
 
 - (void) loadQuest
 {
-    CGFloat y = 66.0;
+    subquests = [[NSMutableArray alloc] init];
     for (Quest *q in [activeQuests arrayByAddingObjectsFromArray:completeQuests]) {
         if (q.parent_quest_id == quest.quest_id) {
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.backgroundColor = [UIColor blueColor];
-            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [button addTarget:self action:@selector(launchSubquest:) forControlEvents:UIControlEventTouchUpInside];
-            button.tag = q.quest_id;
-            [button setTitle:q.name forState:UIControlStateNormal];
-            button.frame = CGRectMake(0.0, y, self.view.bounds.size.width, 40.0);
-            y += 40.0;
-            [self.view addSubview:button];
+            [subquests addObject:q];
         }
     }
 
@@ -133,6 +133,10 @@
         [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
         [mediaView setMedia:media];
     }
+    
+    [scrollView addSubview:subquestsTable];
+    [subquestsTable setFrame:CGRectMake(0,0,self.view.bounds.size.width,10)];
+    // TODO subquestsTable needs to be positioned correctly
 
     if(![([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"])
     {
@@ -163,13 +167,20 @@
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
+    CGFloat scrollHeight;
+    
     if(![([mode isEqualToString:@"ACTIVE"] ? quest.active_desc : quest.complete_desc) isEqualToString:@""])
     {
         webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
-        scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
+        scrollHeight = webView.frame.origin.y+webView.frame.size.height+10;
     }
     else
-        scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,mediaView.frame.size.height);
+    {
+        scrollHeight = mediaView.frame.size.height;
+    }
+    
+    scrollHeight += subquestsTable.frame.size.height;
+    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, scrollHeight);
 }
 
 - (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
@@ -218,16 +229,6 @@
     else [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function)]];
 }
 
-- (void) launchSubquest:(UIButton *)button
-{
-    for (Quest *q in [activeQuests arrayByAddingObjectsFromArray:completeQuests]) {
-        if (q.quest_id == button.tag) {
-            [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:mode activeQuests:nil completeQuests:nil delegate:self] animated:YES];
-            return;
-        }
-    }
-}
-
 // this is when a subquest of this (compound) quest requests dismissal
 - (void) questDetailsRequestsDismissal
 {
@@ -239,6 +240,68 @@
     webView.delegate = nil;
     [webView stopLoading];
     _ARIS_NOTIF_IGNORE_ALL_(self);
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1; // TODO maybe have two categories for active and complete
+}
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return subquests.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"";
+}
+
+- (UITableViewCell *) tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QuestCell *cell = [subquestsTable dequeueReusableCellWithIdentifier:@"QuestCell"];
+    if(!cell) cell = [[QuestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"QuestCell"];
+    
+    [cell setQuest:[subquests objectAtIndex:indexPath.row]];
+    
+    [cell setDelegate:self];
+    
+    return cell;
+}
+
+- (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Quest *q = [subquests objectAtIndex:indexPath.row];
+    if([subquestHeights objectForKey:[q description]])
+        return [((NSNumber *)[subquestHeights objectForKey:[q description]]) intValue];
+    
+    NSMutableParagraphStyle *paragraphStyle;
+    CGRect textRect;
+    paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    textRect = [q.desc boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 2000000)
+                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                 attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle}
+                                    context:nil];
+    CGSize calcSize = textRect.size;
+    return calcSize.height+30;
+}
+
+- (void) heightCalculated:(long)h forQuest:(Quest *)q inCell:(QuestCell *)qc
+{
+    if(![subquestHeights objectForKey:[q description]])
+    {
+        [subquestHeights setValue:[NSNumber numberWithLong:h] forKey:[q description]];
+        [subquestsTable reloadData];
+    }
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Quest *q = [subquests objectAtIndex:indexPath.row];
+    if (q) {
+        [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:mode activeQuests:nil completeQuests:nil delegate:self] animated:YES];
+    }
 }
 
 @end
