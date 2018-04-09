@@ -19,10 +19,9 @@
 
 @interface QuestDetailsViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, QuestDetailsViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, QuestCellDelegate>
 {
-    UIScrollView *scrollView;
+    UITableView *scrollView;
     ARISMediaView  *mediaView;
     ARISWebView *webView;
-    UITableView *subquestsTable;
     UIView *goButton;
     UILabel *goLbl;
     UIImageView *arrow;
@@ -33,6 +32,8 @@
     NSArray *activeQuests;
     NSArray *completeQuests;
     NSMutableArray *subquests;
+    CGFloat mediaHeight;
+    CGFloat descriptionHeight;
     NSMutableDictionary *subquestHeights;
     id<QuestDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -62,10 +63,11 @@
     self.view.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     self.navigationItem.title = quest.name;
 
-    scrollView = [[UIScrollView alloc] init];
-    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    scrollView = [[UITableView alloc] init];
     scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
     scrollView.clipsToBounds = NO;
+    scrollView.dataSource = self;
+    scrollView.delegate = self;
 
     webView = [[ARISWebView alloc] initWithDelegate:self];
     webView.backgroundColor = [UIColor clearColor];
@@ -75,10 +77,8 @@
 
     mediaView = [[ARISMediaView alloc] initWithDelegate:self];
     [mediaView setDisplayMode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight];
-
-    subquestsTable = [[UITableView alloc] init];
-    subquestsTable.dataSource = self;
-    subquestsTable.delegate = self;
+    
+    subquestHeights = [[NSMutableDictionary alloc] initWithCapacity:10];
     
     goButton = [[UIView alloc] init];
     goButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
@@ -122,31 +122,23 @@
         }
     }
 
-    [scrollView addSubview:webView];
     webView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 10);//Needs correct width to calc height
     [webView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], ([mode isEqualToString:@"ACTIVE"] ? quest.active_desc : quest.complete_desc)] baseURL:nil];
 
     Media *media = [_MODEL_MEDIA_ mediaForId:([mode isEqualToString:@"ACTIVE"] ? quest.active_media_id : quest.complete_media_id)];
     if(media)
     {
-        [scrollView addSubview:mediaView];
         [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
         [mediaView setMedia:media];
     }
-    
-    [scrollView addSubview:subquestsTable];
-    [subquestsTable setFrame:CGRectMake(0,0,self.view.bounds.size.width,10)];
-    // TODO subquestsTable needs to be positioned correctly
 
     if(![([mode isEqualToString:@"ACTIVE"] ? quest.active_function : quest.complete_function) isEqualToString:@"NONE"])
     {
-        scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
+        scrollView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
         [self.view addSubview:goButton];
         [self.view addSubview:arrow];
         [self.view addSubview:line];
     }
-    else
-        scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -167,20 +159,8 @@
 
 - (void) ARISMediaViewFrameUpdated:(ARISMediaView *)amv
 {
-    CGFloat scrollHeight;
-    
-    if(![([mode isEqualToString:@"ACTIVE"] ? quest.active_desc : quest.complete_desc) isEqualToString:@""])
-    {
-        webView.frame = CGRectMake(0, mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height);
-        scrollHeight = webView.frame.origin.y+webView.frame.size.height+10;
-    }
-    else
-    {
-        scrollHeight = mediaView.frame.size.height;
-    }
-    
-    scrollHeight += subquestsTable.frame.size.height;
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, scrollHeight);
+    mediaHeight = mediaView.frame.size.height;
+    [scrollView reloadData];
 }
 
 - (BOOL) webView:(ARISWebView*)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt
@@ -196,14 +176,14 @@
 {
     webView.alpha = 1.00;
 
-    float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    descriptionHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
-      newHeight *= 2;
+      descriptionHeight *= 2;
     [webView setFrame:CGRectMake(webView.frame.origin.x,
-                                      webView.frame.origin.y,
-                                      webView.frame.size.width,
-                                      newHeight)];
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,webView.frame.origin.y+webView.frame.size.height+10);
+                                 webView.frame.origin.y,
+                                 webView.frame.size.width,
+                                 descriptionHeight)];
+    [scrollView reloadData];
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
@@ -244,11 +224,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1; // TODO maybe have two categories for active and complete
+    return 3; // media view, web view (description), subquests
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 0 || section == 1) return 1; // media view or web view
     return subquests.count;
 }
 
@@ -259,32 +240,53 @@
 
 - (UITableViewCell *) tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QuestCell *cell = [subquestsTable dequeueReusableCellWithIdentifier:@"QuestCell"];
-    if(!cell) cell = [[QuestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"QuestCell"];
-    
-    [cell setQuest:[subquests objectAtIndex:indexPath.row]];
-    
-    [cell setDelegate:self];
-    
-    return cell;
+    if (indexPath.section == 0 || indexPath.section == 1) {
+        BOOL isMediaView = indexPath.section == 0;
+        NSString *cellIdentifier = isMediaView ? @"ARISMediaView" : @"ARISWebView";
+        UIView *thisView = isMediaView ? mediaView : webView;
+        UITableViewCell *cell = [scrollView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if(!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        } else {
+            [[cell.contentView viewWithTag:500] removeFromSuperview];
+        }
+        thisView.tag = 500;
+        [cell.contentView addSubview:thisView];
+        return cell;
+    } else {
+        QuestCell *cell = [scrollView dequeueReusableCellWithIdentifier:@"QuestCell"];
+        if(!cell) cell = [[QuestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"QuestCell"];
+        
+        [cell setQuest:[subquests objectAtIndex:indexPath.row]];
+        
+        [cell setDelegate:self];
+        
+        return cell;
+    }
 }
 
 - (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Quest *q = [subquests objectAtIndex:indexPath.row];
-    if([subquestHeights objectForKey:[q description]])
-        return [((NSNumber *)[subquestHeights objectForKey:[q description]]) intValue];
-    
-    NSMutableParagraphStyle *paragraphStyle;
-    CGRect textRect;
-    paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    textRect = [q.desc boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 2000000)
-                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                 attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle}
-                                    context:nil];
-    CGSize calcSize = textRect.size;
-    return calcSize.height+30;
+    if (indexPath.section == 0) {
+        return mediaHeight;
+    } else if (indexPath.section == 1) {
+        return descriptionHeight;
+    } else {
+        Quest *q = [subquests objectAtIndex:indexPath.row];
+        if([subquestHeights objectForKey:[q description]])
+            return [((NSNumber *)[subquestHeights objectForKey:[q description]]) intValue];
+        
+        NSMutableParagraphStyle *paragraphStyle;
+        CGRect textRect;
+        paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        textRect = [q.desc boundingRectWithSize:CGSizeMake(self.view.bounds.size.width, 2000000)
+                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                     attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0],NSParagraphStyleAttributeName:paragraphStyle}
+                                        context:nil];
+        CGSize calcSize = textRect.size;
+        return calcSize.height+30;
+    }
 }
 
 - (void) heightCalculated:(long)h forQuest:(Quest *)q inCell:(QuestCell *)qc
@@ -292,15 +294,17 @@
     if(![subquestHeights objectForKey:[q description]])
     {
         [subquestHeights setValue:[NSNumber numberWithLong:h] forKey:[q description]];
-        [subquestsTable reloadData];
+        [scrollView reloadData];
     }
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Quest *q = [subquests objectAtIndex:indexPath.row];
-    if (q) {
-        [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:mode activeQuests:nil completeQuests:nil delegate:self] animated:YES];
+    if (indexPath.section == 2) {
+        Quest *q = [subquests objectAtIndex:indexPath.row];
+        if (q) {
+            [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:mode activeQuests:nil completeQuests:nil delegate:self] animated:YES];
+        }
     }
 }
 
