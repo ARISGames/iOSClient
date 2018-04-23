@@ -82,7 +82,7 @@ var ARISJS = function(_ARIS)
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, body, auth, callback)
     {
-        var ROOT_URL = "http://arisgames.org"
+        var ROOT_URL = "https://arisgames.org"
         var url = ROOT_URL+'/server/json.php/v2.'+serviceName;
 
         var request = new XMLHttpRequest();
