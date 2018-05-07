@@ -158,7 +158,7 @@
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
-    [self dismissSelf];
+    [self dismissSelfNoNav];
 }
 
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
@@ -178,10 +178,15 @@
 
 - (void) dismissSelf
 {
+    [self dismissSelfNoNav];
+    if(tab) [self showNav];
+}
+
+- (void) dismissSelfNoNav
+{
     [webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
     [delegate instantiableViewControllerRequestsDismissal:self];
-    if(tab) [self showNav];
 }
 
 - (void) showNav
