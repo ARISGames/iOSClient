@@ -298,10 +298,6 @@
 		AAE6BDE31AB0B50E00C2D083 /* PlaqueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE6BDE21AB0B50E00C2D083 /* PlaqueViewController.m */; };
 		AAEB74521BBC714B002F49FA /* DropDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAEB74511BBC714B002F49FA /* DropDownViewController.m */; };
 		AAF3EEE11938F2DD00388BE1 /* InstancesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */; };
-		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
-		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
-		AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */; };
-		AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */; };
 		AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.mm */; };
 		AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116517B971ED00262A37 /* ARISCollapseView.m */; };
 		AAF8A384196C536200CD3D71 /* DialogTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF8A383196C536200CD3D71 /* DialogTextView.m */; };
@@ -859,7 +855,7 @@
 		AABC715E172739D60074CC21 /* AnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationView.m; sourceTree = "<group>"; };
 		AABC71A9172739D70074CC21 /* IconQuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconQuestsViewController.m; sourceTree = "<group>"; };
 		AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailsViewController.h; sourceTree = "<group>"; };
-		AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; };
+		AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; tabWidth = 4; };
 		AABC71AF172739D70074CC21 /* QuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestsViewController.h; sourceTree = "<group>"; };
 		AABC71B0172739D70074CC21 /* QuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsViewController.m; sourceTree = "<group>"; };
 		AABC7363172739D80074CC21 /* NSDictionary+ValidParsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ValidParsers.h"; sourceTree = "<group>"; };
@@ -922,13 +918,6 @@
 		AAEB74511BBC714B002F49FA /* DropDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownViewController.m; sourceTree = "<group>"; };
 		AAF3EEDF1938F2DD00388BE1 /* InstancesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstancesModel.h; sourceTree = "<group>"; };
 		AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstancesModel.m; sourceTree = "<group>"; };
-		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		AAF7115517B9579900262A37 /* PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealController.h; sourceTree = "<group>"; };
-		AAF7115617B9579900262A37 /* PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealController.m; sourceTree = "<group>"; };
-		AAF7115717B9579900262A37 /* PKRevealControllerContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealControllerContainerView.h; sourceTree = "<group>"; };
-		AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealControllerContainerView.m; sourceTree = "<group>"; };
-		AAF7115917B9579900262A37 /* UIViewController+PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PKRevealController.h"; sourceTree = "<group>"; };
-		AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PKRevealController.m"; sourceTree = "<group>"; };
 		AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabSelectorViewController.h; sourceTree = "<group>"; };
 		AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamePlayTabSelectorViewController.mm; sourceTree = "<group>"; tabWidth = 4; };
 		AAF7116417B971ED00262A37 /* ARISCollapseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISCollapseView.h; sourceTree = "<group>"; };
@@ -1071,7 +1060,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		29B97314FDCFA39411CA2CEA /* ARIS */ = {
+		29B97314FDCFA39411CA2CEA = {
 			isa = PBXGroup;
 			children = (
 				53038C831DE62C7F0002A3EA /* vuforia */,
@@ -2223,7 +2212,6 @@
 			isa = PBXGroup;
 			children = (
 				C0878F3D1A672182001739E3 /* Reachability */,
-				AAF7115117B9579900262A37 /* PKRevealController */,
 				AABC71C0172739D70074CC21 /* JSON */,
 			);
 			path = third_party;
@@ -2332,36 +2320,6 @@
 				AAF3EEE01938F2DD00388BE1 /* InstancesModel.m */,
 			);
 			path = instances;
-			sourceTree = "<group>";
-		};
-		AAF7115117B9579900262A37 /* PKRevealController */ = {
-			isa = PBXGroup;
-			children = (
-				AAF7115217B9579900262A37 /* .gitignore */,
-				AAF7115317B9579900262A37 /* PKRevealController */,
-			);
-			path = PKRevealController;
-			sourceTree = "<group>";
-		};
-		AAF7115317B9579900262A37 /* PKRevealController */ = {
-			isa = PBXGroup;
-			children = (
-				AAF7115417B9579900262A37 /* Controller */,
-			);
-			path = PKRevealController;
-			sourceTree = "<group>";
-		};
-		AAF7115417B9579900262A37 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				AAF7115517B9579900262A37 /* PKRevealController.h */,
-				AAF7115617B9579900262A37 /* PKRevealController.m */,
-				AAF7115717B9579900262A37 /* PKRevealControllerContainerView.h */,
-				AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */,
-				AAF7115917B9579900262A37 /* UIViewController+PKRevealController.h */,
-				AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */,
-			);
-			path = Controller;
 			sourceTree = "<group>";
 		};
 		AAF92328188715AB0026A4FC /* AudioVisHelpers */ = {
@@ -2491,8 +2449,6 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				AB508AC8119330710002FCFA /* Run Script */,
-				6436BB9ECF3FDA2F3CC705A3 /* [CP] Embed Pods Frameworks */,
-				6563EB0331FFBDB8110B571B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2532,7 +2488,7 @@
 				sv,
 				ja,
 			);
-			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
+			mainGroup = 29B97314FDCFA39411CA2CEA;
 			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2652,7 +2608,6 @@
 				536A4B2C1DEE3498000B9AF8 /* Background.vertsh in Resources */,
 				536A4B311DEE3498000B9AF8 /* SimpleWithColor.fragsh in Resources */,
 				AB45E7401A01502500A7A77B /* factory_icon_120.png in Resources */,
-				AAF7115B17B9579900262A37 /* .gitignore in Resources */,
 				AA04E33A18E6172A00621F0C /* expand.png in Resources */,
 				AA41A36618E4CE64006CB373 /* overarrow@2x.png in Resources */,
 				5B1D998B178CC3A700661453 /* shuffle@2x.png in Resources */,
@@ -2674,36 +2629,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6436BB9ECF3FDA2F3CC705A3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARIS/Pods-ARIS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6563EB0331FFBDB8110B571B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARIS/Pods-ARIS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AB508AC8119330710002FCFA /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2724,13 +2649,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ARIS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2831,7 +2759,6 @@
 				C02FE1881A76BBB300E0B15A /* LoginScannerViewController.mm in Sources */,
 				AA957CB31B2894150005137D /* RequirementsModel.m in Sources */,
 				AA00C3B31AB3476600576B9E /* GamePlayTabSelectorCell.m in Sources */,
-				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				531B26281DEC99390044E013 /* AugmentedEAGLView.mm in Sources */,
 				F92B5E3D18C68C5800D1D1A7 /* MapOverlayView.m in Sources */,
 				AA383B0E1828324F00612FFB /* NotebookViewController.m in Sources */,
@@ -2852,7 +2779,6 @@
 				AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */,
 				AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */,
 				AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */,
-				AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */,
 				AAE2851D1810461700E2534A /* ItemViewController.m in Sources */,
 				531B263A1DECB9FF0044E013 /* SampleAppRenderer.mm in Sources */,
 				53D580DE1E53B7360015C668 /* README.md in Sources */,
@@ -2917,7 +2843,6 @@
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AA4E62421E1D96B500A2AD1B /* ARTarget.m in Sources */,
 				AA4A755A1B3CA91A00C434A7 /* EventPackage.m in Sources */,
-				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
 				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
 				AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */,
 				AA9F7136194F53FA00384832 /* LogsModel.m in Sources */,
