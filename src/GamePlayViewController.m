@@ -96,7 +96,7 @@
     gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
     loadingIndicatorViewController = [[LoadingIndicatorViewController alloc] initWithDelegate:self];
     gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
-    gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
+    gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController];
     
     local_inst_queue = [[NSMutableArray alloc] init];
     _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE", self, @selector(flushBufferQueuedInstances), nil);
