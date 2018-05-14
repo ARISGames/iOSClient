@@ -150,7 +150,6 @@
 - (void) searchBar:(UISearchBar *)searchBar activate:(BOOL)active
 {
     gameTable.allowsSelection = !active;
-    gameTable.scrollEnabled   = !active;
     if (!active)
     {
         [disableViewOverlay removeFromSuperview];
