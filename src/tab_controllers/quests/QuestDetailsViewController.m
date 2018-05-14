@@ -106,6 +106,10 @@
     [super viewWillLayoutSubviews];
 
     scrollView.frame = self.view.bounds;
+    // MT: added for iOS before 11
+    if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+        scrollView.contentInset = UIEdgeInsetsMake(64,0,44,0);
+    }
 
     goButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
     goLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,44);
