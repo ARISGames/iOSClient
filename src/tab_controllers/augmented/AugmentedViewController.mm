@@ -69,14 +69,24 @@
     caption = cap;
     captionLabel.text = caption;
     captionLabel.hidden = [caption isEqualToString:@""];
+    // TODO support multiple lines like setPrompt
 }
 
 -  (void) setPrompt:(NSString *)pmt
 {
     prompt = pmt;
-    if (prompt) {
+    if (prompt && ![prompt isEqualToString:@""]) {
+        // thanks to (the bottom comments of)
+        // https://gist.github.com/danielphillips/1005520
+        CGFloat scale = [UIScreen mainScreen].scale;
+        NSDictionary *attributesDictionary = nil;
+        if (promptLabel.font) attributesDictionary = @{NSFontAttributeName:promptLabel.font};
+        CGSize maximumLabelSize = CGSizeMake(promptLabel.frame.size.width, 9999);
+        CGSize expectedLabelSize = [prompt boundingRectWithSize:maximumLabelSize options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:attributesDictionary context:nil].size;
+        [promptLabel setFrame:CGRectMake(promptLabel.frame.origin.x, promptLabel.frame.origin.y, promptLabel.frame.size.width, expectedLabelSize.height + 20 / scale)];
+
         promptLabel.text = prompt;
-        promptLabel.hidden = [prompt isEqualToString:@""];
+        promptLabel.hidden = NO;
     } else {
         promptLabel.text = @"";
         promptLabel.hidden = YES;
