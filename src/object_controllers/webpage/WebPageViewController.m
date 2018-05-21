@@ -192,6 +192,9 @@
 
 - (void) showNav
 {
+    // normally the "log player viewed" is done on "view controller requests dismissal"
+    // so this is only needed for a tab
+    if (tab) [_MODEL_LOGS_ playerViewedContent:instance.object_type id:instance.object_id];
     [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 
