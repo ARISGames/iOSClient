@@ -106,7 +106,7 @@
     currentThemViewController = 0;
 
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, 19, 19);
+    backButton.frame = CGRectMake(0, 0, 27, 27);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];

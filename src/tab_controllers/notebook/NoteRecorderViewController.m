@@ -157,7 +157,7 @@
     [editButton    removeFromSuperview];
 
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0,0,19,19);
+    backButton.frame = CGRectMake(0,0,27,27);
     backButton.accessibilityLabel = @"Back Button";
     [backButton setTitle:NSLocalizedString(@"CancelKey", nil) forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
