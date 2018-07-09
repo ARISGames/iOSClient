@@ -371,6 +371,12 @@
 
 - (void) dealloc
 {
+  // MT: adding these after upgrading PKRevealController
+  // to avoid a reference issue where GamePlayTabSelectorViewController
+  // doesn't get dealloc'd
+  [gamePlayRevealController setFrontViewController:nil];
+  [gamePlayRevealController setLeftViewController:nil];
+
   [self destroy];
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
