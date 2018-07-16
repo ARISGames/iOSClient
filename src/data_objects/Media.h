@@ -37,6 +37,7 @@
 - (void) setPartialLocalURL:(NSString *)partLocalURL;
 - (NSString *) fileExtension;
 - (NSString *) type;
+- (NSString *) mimeType;
 
 @end
 

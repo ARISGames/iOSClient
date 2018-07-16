@@ -19,6 +19,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "RootViewController.h"
+#import "ARISMediaURLProtocol.h"
 #import <Google/Analytics.h>
 
 @interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate, CLLocationManagerDelegate>
@@ -83,6 +84,8 @@
 
   beaconProximity = [[NSMutableDictionary alloc] init];
   beaconAccuracy = [[NSMutableDictionary alloc] init];
+  
+  [NSURLProtocol registerClass:[ARISMediaURLProtocol class]];
 }
 
 - (void) setApplicationUITemplates

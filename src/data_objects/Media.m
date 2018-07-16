@@ -148,4 +148,28 @@
   else return @"";
 }
 
+- (NSString *) mimeType
+{
+  NSString *ext = [[self fileExtension] lowercaseString];
+  
+  if ([ext isEqualToString:@"jpg"]) return @"image/jpeg";
+  if ([ext isEqualToString:@"jpeg"]) return @"image/jpeg";
+  if ([ext isEqualToString:@"png"]) return @"image/png";
+  if ([ext isEqualToString:@"gif"]) return @"image/gif";
+  
+  if ([ext isEqualToString:@"mov"]) return @"video/quicktime";
+  if ([ext isEqualToString:@"avi"]) return @"video/x-msvideo";
+  if ([ext isEqualToString:@"3gp"]) return @"video/3gpp";
+  if ([ext isEqualToString:@"m4v"]) return @"video/m4v";
+  if ([ext isEqualToString:@"mp4"]) return @"video/mp4";
+  
+  if ([ext isEqualToString:@"mp3"]) return @"audio/mpeg";
+  if ([ext isEqualToString:@"wav"]) return @"audio/wav";
+  if ([ext isEqualToString:@"m4a"]) return @"audio/m4a";
+  if ([ext isEqualToString:@"ogg"]) return @"audio/ogg";
+  if ([ext isEqualToString:@"caf"]) return @"audio/x-caf";
+  
+  return @"application/octet-stream";
+}
+
 @end

@@ -33,6 +33,7 @@
 		536A4B301DEE3498000B9AF8 /* Simple.vertsh in Resources */ = {isa = PBXBuildFile; fileRef = 536A4B291DEE3498000B9AF8 /* Simple.vertsh */; };
 		536A4B311DEE3498000B9AF8 /* SimpleWithColor.fragsh in Resources */ = {isa = PBXBuildFile; fileRef = 536A4B2A1DEE3498000B9AF8 /* SimpleWithColor.fragsh */; };
 		537CFD541E53B77D0020E421 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 537CFD531E53B77D0020E421 /* libbz2.tbd */; };
+		5382A3BD20FD356C003272B3 /* ARISMediaURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 5382A3BC20FD356C003272B3 /* ARISMediaURLProtocol.m */; };
 		53B3449C1D19A9340094D97A /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 53B3449B1D19A9340094D97A /* transparent.png */; };
 		53D580D51E53B7360015C668 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 53D580631E53B7360015C668 /* .gitignore */; };
 		53D580D61E53B7360015C668 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D580CC1E53B7360015C668 /* libavcodec.a */; };
@@ -394,6 +395,8 @@
 		536A4B291DEE3498000B9AF8 /* Simple.vertsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Simple.vertsh; path = augmented/shaders/Simple.vertsh; sourceTree = "<group>"; };
 		536A4B2A1DEE3498000B9AF8 /* SimpleWithColor.fragsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimpleWithColor.fragsh; path = augmented/shaders/SimpleWithColor.fragsh; sourceTree = "<group>"; };
 		537CFD531E53B77D0020E421 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		5382A3BC20FD356C003272B3 /* ARISMediaURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARISMediaURLProtocol.m; sourceTree = "<group>"; };
+		5382A3BE20FD358D003272B3 /* ARISMediaURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARISMediaURLProtocol.h; sourceTree = "<group>"; };
 		53B3449B1D19A9340094D97A /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
 		53D580631E53B7360015C668 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		53D580661E53B7360015C668 /* avcodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avcodec.h; sourceTree = "<group>"; };
@@ -1963,6 +1966,8 @@
 				AA49A25C17AAE6C200629C87 /* ARISMediaView.m */,
 				AAB62FC518C64D0F00030F48 /* ARISDelegateHandle.h */,
 				AAB62FC618C64D0F00030F48 /* ARISDelegateHandle.m */,
+				5382A3BC20FD356C003272B3 /* ARISMediaURLProtocol.m */,
+				5382A3BE20FD358D003272B3 /* ARISMediaURLProtocol.h */,
 			);
 			path = media;
 			sourceTree = "<group>";
@@ -2833,6 +2838,7 @@
 				AA7EACC61965A876003CE431 /* DisplayQueueModel.m in Sources */,
 				C0878F431A672182001739E3 /* Reachability.m in Sources */,
 				AAA682F41ACDAE1900C99951 /* FactoriesModel.m in Sources */,
+				5382A3BD20FD356C003272B3 /* ARISMediaURLProtocol.m in Sources */,
 				AA957CAF1B288A290005137D /* Requirement.m in Sources */,
 				AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */,
 				AA5FCA3D197F139A005C2A2F /* ObjectTag.m in Sources */,
