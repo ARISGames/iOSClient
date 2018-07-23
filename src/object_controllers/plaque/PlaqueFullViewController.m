@@ -93,7 +93,11 @@
   [activityIndicator startAnimating];
   [self.view addSubview:activityIndicator];
   
-  webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64) delegate:self];
+  CGFloat continueHeight = 0.0;
+  if (![plaque.continue_function isEqualToString:@"NONE"]) {
+    continueHeight = 44.0;
+  }
+  webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,64,self.view.bounds.size.width,self.view.bounds.size.height-64-continueHeight) delegate:self];
   //webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
   webView.scrollView.bounces = NO;
   webView.scalesPageToFit = YES;
@@ -101,6 +105,7 @@
   webView.mediaPlaybackRequiresUserAction = NO;
   [webView loadHTMLString:plaque.desc baseURL:nil]; // does nil work here?
   
+  /*
   UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
   backButton.frame = CGRectMake(0, 0, 27, 27);
   [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
@@ -109,6 +114,7 @@
   
   if(!plaque || plaque.back_button_enabled)
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+  */
   
   if(tab)
   {
@@ -135,12 +141,52 @@
   if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
     [webView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom = 2.0;"];
   }
+
   [self.view addSubview:webView];
+  
+  if (![plaque.continue_function isEqualToString:@"NONE"]) {
+    continueButton = [[UIView alloc] init];
+    continueButton.backgroundColor = [ARISTemplate ARISColorTextBackdrop];
+    continueButton.userInteractionEnabled = YES;
+    continueButton.accessibilityLabel = @"Continue";
+    continueLbl = [[UILabel alloc] init];
+    continueLbl.textColor = [ARISTemplate ARISColorText];
+    continueLbl.textAlignment = NSTextAlignmentRight;
+    continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
+    continueLbl.font = [ARISTemplate ARISButtonFont];
+    [continueButton addSubview:continueLbl];
+    [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+    
+    arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
+    line = [[UIView alloc] init];
+    line.backgroundColor = [UIColor ARISColorLightGray];
+
+    continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+    continueLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,44);
+    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19);
+    line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
+    
+    [self.view addSubview:continueButton];
+    [self.view addSubview:arrow];
+    [self.view addSubview:line];
+  }
+  
 }
 
 - (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)r navigationType:(UIWebViewNavigationType)nt
 {
   return YES;
+}
+
+- (void) continueButtonTouched
+{
+  if ([plaque.continue_function isEqualToString:@"JAVASCRIPT"]) {
+    [webView hookWithParams:@""];
+  } else if ([plaque.continue_function isEqualToString:@"EXIT"]) {
+    [self dismissSelf];
+  } else {
+    // this shouldn't happen, the button shouldn't have been drawn
+  }
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
