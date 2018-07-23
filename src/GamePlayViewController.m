@@ -29,6 +29,7 @@
 #import "DecoderViewController.h"
 
 #import "PlaqueViewController.h"
+#import "PlaqueFullViewController.h"
 #import "ItemViewController.h"
 #import "DialogViewController.h"
 #import "WebPageViewController.h"
@@ -50,6 +51,7 @@
   DecoderViewControllerDelegate,
 
   PlaqueViewControllerDelegate,
+  PlaqueFullViewControllerDelegate,
   ItemViewControllerDelegate,
   DialogViewControllerDelegate,
   WebPageViewControllerDelegate,
@@ -203,8 +205,13 @@
 - (void) displayInstance:(Instance *)i
 {
     ARISViewController *vc;
-    if([i.object_type isEqualToString:@"PLAQUE"])
-      vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+    if([i.object_type isEqualToString:@"PLAQUE"]) {
+        if ([_MODEL_PLAQUES_ plaqueForId:i.object_id].full_screen) {
+            vc = [[PlaqueFullViewController alloc] initWithInstance:i delegate:self];
+        } else {
+            vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+        }
+    }
     if([i.object_type isEqualToString:@"ITEM"])
         vc = [[ItemViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"DIALOG"])
@@ -263,7 +270,11 @@
       Plaque *p = (Plaque *)o;
       i.object_type = @"PLAQUE";
       i.object_id = p.plaque_id;
-      vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+      if (p.full_screen) {
+        vc = [[PlaqueFullViewController alloc] initWithInstance:i delegate:self];
+      } else {
+        vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+      }
     }
     else if([o isKindOfClass:[Item class]])
     {

@@ -34,6 +34,7 @@
 		536A4B311DEE3498000B9AF8 /* SimpleWithColor.fragsh in Resources */ = {isa = PBXBuildFile; fileRef = 536A4B2A1DEE3498000B9AF8 /* SimpleWithColor.fragsh */; };
 		537CFD541E53B77D0020E421 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 537CFD531E53B77D0020E421 /* libbz2.tbd */; };
 		5382A3BD20FD356C003272B3 /* ARISMediaURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 5382A3BC20FD356C003272B3 /* ARISMediaURLProtocol.m */; };
+		53A47101210631DB00AE3989 /* PlaqueFullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A47100210631DB00AE3989 /* PlaqueFullViewController.m */; };
 		53B3449C1D19A9340094D97A /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 53B3449B1D19A9340094D97A /* transparent.png */; };
 		53D580D51E53B7360015C668 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 53D580631E53B7360015C668 /* .gitignore */; };
 		53D580D61E53B7360015C668 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D580CC1E53B7360015C668 /* libavcodec.a */; };
@@ -397,6 +398,8 @@
 		537CFD531E53B77D0020E421 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		5382A3BC20FD356C003272B3 /* ARISMediaURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARISMediaURLProtocol.m; sourceTree = "<group>"; };
 		5382A3BE20FD358D003272B3 /* ARISMediaURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARISMediaURLProtocol.h; sourceTree = "<group>"; };
+		53A47100210631DB00AE3989 /* PlaqueFullViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaqueFullViewController.m; sourceTree = "<group>"; };
+		53A47102210631EC00AE3989 /* PlaqueFullViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaqueFullViewController.h; sourceTree = "<group>"; };
 		53B3449B1D19A9340094D97A /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
 		53D580631E53B7360015C668 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		53D580661E53B7360015C668 /* avcodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avcodec.h; sourceTree = "<group>"; };
@@ -2314,6 +2317,8 @@
 			children = (
 				AAE6BDE11AB0B50E00C2D083 /* PlaqueViewController.h */,
 				AAE6BDE21AB0B50E00C2D083 /* PlaqueViewController.m */,
+				53A47102210631EC00AE3989 /* PlaqueFullViewController.h */,
+				53A47100210631DB00AE3989 /* PlaqueFullViewController.m */,
 			);
 			path = plaque;
 			sourceTree = "<group>";
@@ -2747,6 +2752,7 @@
 				AAB398E41918166700E0E766 /* Plaque.m in Sources */,
 				AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */,
 				AABC73B3172739D80074CC21 /* AppModel.m in Sources */,
+				53A47101210631DB00AE3989 /* PlaqueFullViewController.m in Sources */,
 				AA251ADF1974361C00061CB6 /* DialogOption.m in Sources */,
 				AABC73B7172739D80074CC21 /* MediaModel.m in Sources */,
 				AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */,

@@ -19,6 +19,7 @@
   long event_package_id;
   BOOL back_button_enabled;
   NSString *continue_function;
+  BOOL full_screen;
 }
 
 @property(nonatomic, assign) long plaque_id;
@@ -29,6 +30,7 @@
 @property(nonatomic, assign) long event_package_id;
 @property(nonatomic, assign) BOOL back_button_enabled;
 @property(nonatomic, strong) NSString *continue_function;
+@property(nonatomic, assign) BOOL full_screen;
 
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) serialize;

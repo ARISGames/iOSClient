@@ -24,6 +24,7 @@
 #import "DialogViewController.h"
 #import "ItemViewController.h"
 #import "PlaqueViewController.h"
+#import "PlaqueFullViewController.h"
 #import "WebPageViewController.h"
 
 #import "AppModel.h"
@@ -223,9 +224,13 @@
             }
             else if([tab.type isEqualToString:@"PLAQUE"])
             {
-                PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithTab:tab delegate:
-                    (id<PlaqueViewControllerDelegate>)delegate];
-                vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
+                if ([_MODEL_PLAQUES_ plaqueForId:tab.content_id].full_screen) {
+                    PlaqueFullViewController *plaqueViewController = [[PlaqueFullViewController alloc] initWithTab:tab delegate:(id<PlaqueFullViewControllerDelegate>)delegate];
+                    vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
+                } else {
+                    PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithTab:tab delegate:(id<PlaqueViewControllerDelegate>)delegate];
+                    vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
+                }
             }
             else if([tab.type isEqualToString:@"WEB_PAGE"])
             {
@@ -350,9 +355,13 @@
             }
             else if([tab.type isEqualToString:@"PLAQUE"])
             {
-                PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithTab:tab delegate:
-                    (id<PlaqueViewControllerDelegate>)delegate];
-                vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
+                if ([_MODEL_PLAQUES_ plaqueForId:tab.content_id].full_screen) {
+                    PlaqueFullViewController *plaqueViewController = [[PlaqueFullViewController alloc] initWithTab:tab delegate:(id<PlaqueFullViewControllerDelegate>)delegate];
+                    vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
+                } else {
+                    PlaqueViewController *plaqueViewController = [[PlaqueViewController alloc] initWithTab:tab delegate:(id<PlaqueViewControllerDelegate>)delegate];
+                    vc = [[ARISNavigationController alloc] initWithRootViewController:plaqueViewController];
+                }
             }
             else if([tab.type isEqualToString:@"WEB_PAGE"])
             {
