@@ -316,6 +316,7 @@
     {
       const char *c = [terms[i] UTF8String]; //to not deal with awful NSString
       if(c[0] == 'p') auto_profile_enabled = c[1] != '0';
+      if(c[0] == 'n' && c[1] == 'p') auto_profile_enabled = NO;
       if(c[0] == 'l') leave_game_enabled   = c[1] != '0';
       if(c[0] == 'g')
       {
