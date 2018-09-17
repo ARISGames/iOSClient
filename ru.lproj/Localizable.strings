@@ -196,7 +196,6 @@
 
 //Game Picker Nearby Выбор игры поблизости
 "GamePickerNearbyTabKey" = "Поблизости";
-"GamePickerNearbyTitleKey" = "Игры поблизости";
 
 //Game Picker Anywhere Выбор игры в любом месте
 "GamePickerAnywhereTabKey" = "В любом месте";
@@ -204,7 +203,6 @@
 
 //Game Picker Popular Выбор популярных игр
 "GamePickerPopularTabKey" = "Популярные";
-"GamePickerPopularTitleKey" = "Популярные игры";
 "GamePickerDailyKey" = "Ежедневно";
 "GamePickerWeeklyKey" = "Еженедельно";
 "GamePickerMonthlyKey" = "Ежемесячно";

@@ -32,11 +32,14 @@
 "WaitingKey" = "Warte...";
 "ReviewsKey" = "Bewertungen";
 "TapToContinueKey" = "Fortfahren";
+"ContinueKey" = "Fortfahren";
 "OfKey" = "von";
 "NoneKey" = "Keine";
 "DontShareKey" = "Nicht teilen";
 "BothKey" = "Beide";
 "CancelKey" = "Abbrechen";
+"RetakeKey" = "Retake";
+"UseKey" = "Use";
 "SharingKey" = "Teilen";
 "DoneKey" = "Fertig";
 "ErrorKey" = "Fehler";
@@ -65,21 +68,21 @@
 "ConfirmingKey" = "Confirming"; //NOT TRANSLATED
 "GameNoticeKey" = "Game Notice"; //NOT TRANSLATED
 "PlayerNoticeKey" = "Player Notice"; //NOT TRANSLATED
-"EmptyKey" = "Empty"; //NOT TRANSLATED
+"EmptyKey" = "Leer";
 
 //New Notification Keys
 "LostNotifKey" = "Verloren";
 "TotalNotifKey" = "Gesamt";
-"LeftNotifKey" = "Links"; //NOT TRANSLATED
+"LeftNotifKey" = "Übrig";
 "ReceivedNotifKey" = "Empfangen";
 "CompletedNotifKey" = "Fertig";
 
 //Account Settings
-"AccountSettingsKey" = "Account Settings"; //NOT TRANSLATED
-"PublicNameAndImageKey" = "Public Name and Image"; //NOT TRANSLATED
-"ChangePasswordKey" = "Change Password"; //NOT TRANSLATED
-"ProfileSaveErrorKey" = "Profile Save Error"; //NOT TRANSLATED
-"ProfileSaveErrorMessageKey" = "Please choose a picture and name"; //NOT TRANSLATED
+"AccountSettingsKey" = "Account Einstellungen";
+"PublicNameAndImageKey" = "Öffentliche Name und Bild";
+"ChangePasswordKey" = "Passwort ändern";
+"ProfileSaveErrorKey" = "Profile Save Error";
+"ProfileSaveErrorMessageKey" = "Bitte wählen Sie ein Bild und einen Namen";
 
 //AppModel
 "AppModelItemReceivedKey" = "Gegenstand empfangen";
@@ -87,24 +90,10 @@
 "AppModelItemRemovedKey" = "entfernt";
 "ErrorSavingToDiskKey" = "Error saving to disk"; //NOT TRANSLATED
 
-//AppServices
-"AppServicesReceivedOverlayListKey" = "Overlay Liste empfangen...";
-"AppServicesReceivedQuestListKey" = "Aufgabenliste empfangen...";
-"AppServicesReceivedLocationListKey" = "Location Liste empfangen...";
-"AppServicesCachingGameMediaKey" = "Lade Game Media...";
-"AppServicesStartingGameKey" = "Starte Spiel.";
-"AppServicesReceivedGameItemListKey" = "Game Item Liste empfangen...";
-"AppServicesReceivedGameNodeListKey" = "Game Node Liste empfangen...";
-"AppServicesReceivedGameTabListKey" = "Game Tab Liste empfangen...";
-"AppServicesReceivedGameNPCListKey" = "Game NPC Liste empfangen...";
-"AppServicesReceivedGameWebPageListKey" = "Game WebPage Liste empfangen...";
-"AppServicesReceivedInventoryKey" = "Inventar empfangen...";
-"AppServicesUploadFailedMessageKey" = "Während des Uploads ist ein Übertragungsfehler aufgetreten";
-
 //Attributes View
 //"AttributeReceivedKey" = "Attribut empfangen"; NOT USED
 //"AttributeLostKey" = "Eigenschaft verloren"; NOT USED OR TRANSLATED
-"AttributesViewNameKey" = "Name"; //NOT TRANSLATED
+"AttributesViewNameKey" = "Name";
 "AttributesViewGroupKey" = "Gruppe: N/A";
 "AttributesAttributesTitleKey" = "Eigenschaften";
 "AttributesNoCurrentlyKey" = "Aktuell sind keine Eigenschaften verfügbar";
@@ -173,8 +162,8 @@
 "ForgotMessageKey" = "Eine Email mit Anweisungen zum Ändern des Passwortes wurde an Dich gesendet.";
 "ForgotPasswordTitleKey" = "Ungültige Email Adresse";
 "ForgotPasswordMessageKey" = "Bitte gib die zum Account gehörende Email Adresse an, um das Passwortes wiederherzustellen.";
-"EmailToResetKey" = "Email to Reset"; //NOT TRANSLATED
-"EmailInstructionsKey" = "An email will be sent to the above address with instructions on how to reset your password."; //NOT TRANSLATED
+"EmailToResetKey" = "E-Mail zum Zurücksetzen";
+"EmailInstructionsKey" = "Sie erhalten eine E-Mail an die oben genannte Adresse mit Anweisungen zum Zurücksetzen Ihres Passworts.";
 
 //Game Details View
 "GameDetailsAuthorKey" = "Autor(en)";
@@ -200,31 +189,40 @@
 "DescriptionKey" = "Beschreibung";
 "MapKey" = "Karte";
 
-//Game Picker Nearby
 "GamePickerNoGamesKey" = "Keine Spiele gefunden";
 "GamePickerMakeOneGameKey" = "Erstelle eines auf arisgames.org!";
-"GamePickerNearbyGamesKey" = "Spiele in der Nähe";
+"GamePickerReviewsKey" = "reviews";
+
+//Game Picker Nearby
+"GamePickerNearbyTabKey" = "In der Nähe";
+
+//Game Picker Anywhere
+"GamePickerAnywhereTabKey" = "Irgendwo";
 
 //Game Picker Popular
-"GamePickerPopularTitleKey" = "Beliebte";
-"GamePickerPopularPlayedKey" = "Beliebte Spiele";
-"GamePickerDailyKey" = "Daily"; //NOT TRANSLATED
-"GamePickerWeeklyKey" = "Weekly"; //NOT TRANSLATED
-"GamePickerMonthlyKey" = "Monthly"; //NOT TRANSLATED
+"GamePickerPopularTabKey" = "Beliebte";
+"GamePickerDailyKey" = "Täglich";
+"GamePickerWeeklyKey" = "Wöchentlich";
+"GamePickerMonthlyKey" = "Monatlich";
 
 //Game Picker Recent
-"GamePickerRecentTitleKey" = "Letzte";
-"GamePickeRecentPlayedKey" = "Letzte Spiele";
-"GamePickerRecentReviewsKey" = "Bewertungen";
+"GamePickerRecentTabKey" = "Letzte";
 
 //Game Picker Search
-"GamePickerSearchGamesKey" = "Suche nach Spielen";
-"GamePickerSearchLoadingMoreKey" = "Lade weitere Ergebnisse...";
+"GamePickerSearchTitleKey" = "Suche nach Spielen";
+"GamePickerSearchTabKey" = "Suche";
+"GamePickerSearchLoadingMoreKey" = "Mehr Ergebnisse laden ...";
 "GamePickerSearchNoMoreKey" = "Keine weiteren Ergebnisse";
 "GamePickerSearchNoResults" = "Keine Ergebnisse gefunden";
 
+//Game Picker Mine
+"GamePickerMineTabKey" = "Meine";
+
+//Game Picker Downloaded
+"GamePickerDownloadedTabKey" = "Heruntergeladen";
+
 //GPS View
-"GPSViewQuickTravelKey" = "Quick Travel"; //NOT TRANSLATED
+"GPSViewQuickTravelKey" = "Schnelle Reise";
 
 //Inventory View
 "InventoryAddedToKey" = "hinzugefügt";
@@ -242,7 +240,7 @@
 "PickedUpKey" = "aufgenommen";
 "ItemAcionCannotPickUpKey" = "Dieser Gegenstand kann nicht aufgenommen werden.";
 "ItemAcionCannotCarryMoreKey" = "Du kannst nicht mehr von diesem Gegenstand tragen.";
-"ItemAcionTooHeavyKey" = "ZU schwer! Nur";
+"ItemAcionTooHeavyKey" = "Zu schwer! Nur";
 "ItemAcionInventoryOverLimitKey" = "Inventar überladen";
 
 //Item Details View
@@ -259,10 +257,6 @@
 "ItemPickedUpTitleKey" = "Nimm einen Gegenstand auf";
 "ItemPickedUpMessageKey" = "Er ist in Deinem Inventar verfügbar";
 "ItemKey" = "Item"; //NOT TRANSLATED
-
-//Inventory Trade View
-"InventoryTradeViewTitleKey" = "Tausche";
-"InventoryTradeViewToTradeKey" = "Gegenstände zum Tauschen";
 
 //Login and
 "LoginTitleKey" = "Bei ARIS anmelden";
@@ -330,7 +324,7 @@
 "NoteEditorUnsavedChagned" = "You Have Unsaved Changes"; //NOT TRANSLATED
 
 //Note Tag Editor
-"NoteTagChooseLabelKey" = "Unlabeled"; //NOT TRANSLATED
+"NoteTagChooseLabelKey" = "Choose Tag"; //NOT TRANSLATED
 
 //Player Attributes
 "PlayerTitleKey" = "Spieler";
@@ -389,9 +383,3 @@
 "TitleAndDescriptionTitleKey" = "Titel";
 "TitleAndDescriptionTitlePrompt" = "Titel einfügen";
 "TitleAndDescriptionDescriptionPrompt" = "Beschreibung einfügen";
-
-//Upload Man
-"UploadManDelayedKey" = "Upload verzögert";
-"UploadManDelayedMessageKey" = "Dieser Gegenstand ist grösser als  500Kb. Verbinde Dich über WLAN und starte den Upload erneut.";
-"UploadManRetryUploadTitleKey" = "Upload erneut starten?";
-"UploadManRetryUploadTextKey" = "Der Inhalt wurde nicht vollständig in die ARIS Datenbank geladen. Upload Erneut starten?";

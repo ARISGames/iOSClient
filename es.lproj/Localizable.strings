@@ -196,14 +196,12 @@
 
 //Game Picker Nearby
 "GamePickerNearbyTabKey" = "Cercanos";
-"GamePickerNearbyTitleKey" = "Juegos Cercanos";
 
 //Game Picker Anywhere
 "GamePickerAnywhereTabKey" = "Mundo";
 
 //Game Picker Popular
 "GamePickerPopularTabKey" = "Popular";
-"GamePickerPopularTitleKey" = "Juegos Populares";
 "GamePickerDailyKey" = "Día";
 "GamePickerWeeklyKey" = "Semana";
 "GamePickerMonthlyKey" = "Mes";

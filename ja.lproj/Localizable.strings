@@ -194,14 +194,12 @@
 
 //Game Picker Nearby
 "GamePickerNearbyTabKey" = "周囲";
-"GamePickerNearbyTitleKey" = "周囲にあるゲーム";
 
 //Game Picker Anywhere
 "GamePickerAnywhereTabKey" = "どこでも";
 
 //Game Picker Popular
 "GamePickerPopularTabKey" = "人気";
-"GamePickerPopularTitleKey" = "人気のあるゲーム";
 "GamePickerDailyKey" = "デイリー";
 "GamePickerWeeklyKey" = "ウィークリー";
 "GamePickerMonthlyKey" = "マンスリー";

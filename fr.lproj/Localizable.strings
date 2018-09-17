@@ -1,4 +1,4 @@
-/* 
+/*
  Localizable.strings
  ARIS
  
@@ -28,17 +28,18 @@
 "SaveKey" = "Garder";
 "NearbyObjectsTabKey" = "Proximité";
 "NearbyObjectsTitleKey" = "Objets à Proximité";
-"GamePickerNearbyGamesKey" = "Jeux";
-"SearchKey" = "Chercher"; 
+"SearchKey" = "Chercher";
 "WaitingKey" = "En attente…";
 "ReviewsKey" = "Revues";
 "TapToContinueKey" = "Appuyer pour Continuer";
-"TapToContinueKey" = "Continuer";
+"ContinueKey" = "Continue";
 "OfKey" = "de";
 "NoneKey" = "Rien";
 "DontShareKey" = "Ne pas Partager";
 "BothKey" = "Les deux";
 "CancelKey" = "Annuler";
+"RetakeKey" = "Retake";
+"UseKey" = "Use";
 "SharingKey" = "Partager";
 "DoneKey" = "Effectué";
 "ErrorKey" = "Erreur";
@@ -50,49 +51,50 @@
 "HideKeyboardKey" = "Cacher le Clavier";
 "SaveCommentKey" = "Sauver le Commentaire";
 "GoToKey" = "Go to";
-"WriteReviewKey" = "Write a Review"; //NOT TRANSLATED
-"OptionalKey" = "Optional"; //NOT TRANSLATED
-"PostKey" = "Post"; //NOT TRANSLATED
-"MaxKey" = "Max"; //NOT TRANSLATED
-"LabelsKey" = "Labels"; //NOT TRANSLATED
-"DeleteKey" = "Delete"; //NOT TRANSLATED
-"AddKey" = "Add"; //NOT TRANSLATED
-"ImageKey" = "Image"; //NOT TRANSLATED
-"AudioKey" = "Audio"; //NOT TRANSLATED
-"SetKey" = "Set"; //NOT TRANSLATED
-"LocationKey" = "Location"; //NOT TRANSLATED
-"NoteKey" = "Note"; //NOT TRANSLATED
-"ResetKey" = "Reset"; //NOT TRANSLATED
-"UnlabeledKey" = "Unlabeled"; //NOT TRANSLATED
-"ConfirmingKey" = "Confirming"; //NOT TRANSLATED
-"GameNoticeKey" = "Game Notice"; //NOT TRANSLATED
-"PlayerNoticeKey" = "Player Notice"; //NOT TRANSLATED
-"EmptyKey" = "Empty"; //NOT TRANSLATED
+"WriteReviewKey" = "Write a Review";
+"OptionalKey" = "Optional";
+"PostKey" = "Post";
+"MaxKey" = "Max";
+"LabelsKey" = "Search by Tag";
+"DeleteKey" = "Delete";
+"AddKey" = "Add";
+"ImageKey" = "Image";
+"AudioKey" = "Audio";
+"SetKey" = "Set";
+"LocationKey" = "Location";
+"NoteKey" = "Note";
+"ResetKey" = "Reset";
+"UnlabeledKey" = "Unlabeled";
+"ConfirmingKey" = "Confirming";
+"GameNoticeKey" = "Notice de jeu";
+"PlayerNoticeKey" = "Avis du joueur";
+"EmptyKey" = "Vide";
+
 
 //New Notification Keys
 "LostNotifKey" = "Perdu";
 "TotalNotifKey" = "Total";
-"LeftNotifKey" = "Gauche";
+"LeftNotifKey" = "Restant";
 "ReceivedNotifKey" = "Reçu";
 "CompletedNotifKey" = "Terminé";
 
 //Account Settings
-"AccountSettingsKey" = "Account Settings"; //NOT TRANSLATED
-"PublicNameAndImageKey" = "Public Name and Image"; //NOT TRANSLATED
-"ChangePasswordKey" = "Change Password"; //NOT TRANSLATED
-"ProfileSaveErrorKey" = "Profile Save Error"; //NOT TRANSLATED
-"ProfileSaveErrorMessageKey" = "Please choose a picture and name"; //NOT TRANSLATED
+"AccountSettingsKey" = "Account Settings";
+"PublicNameAndImageKey" = "Nom et image publiques";
+"ChangePasswordKey" = "Changer le mot de passe";
+"ProfileSaveErrorKey" = "Profile Save Error";
+"ProfileSaveErrorMessageKey" = "Svp, choisissez une image et un nom";
 
 //AppModel
 "AppModelItemReceivedKey" = "Élément Reçu";
 "AppModelItemLostKey" = "Élément Perdu";
 "AppModelItemRemovedKey" = "Élément Retiré de l'Inventaire";
-"ErrorSavingToDiskKey" = "Error saving to disk"; //NOT TRANSLATED
+"ErrorSavingToDiskKey" = "Error saving to disk";
 
 //Attributes View
-//"AttributeReceivedKey" = "Propriété Reçue";
-//"AttributeLostKey" = "Attribute Lost";
-"AttributesViewNameKey" = "Nom";
+//"AttributeReceivedKey" = "Propriété Reçue"; NOT USED
+//"AttributeLostKey" = "Attribute Lost"; NOT USED OR TRANSLATED
+"AttributesViewNameKey" = "Name";
 "AttributesViewGroupKey" = "Groupe: non disponible";
 "AttributesAttributesTitleKey" = "Attributs";
 "AttributesNoCurrentlyKey" = "Pas d'Attributs Actuellement Disponibles";
@@ -113,7 +115,7 @@
 "DiscardChangesKey" = "Discard Changes";                    //NOT TRANSLATED
 "SaveErrorKey" = "Sorry, the file didn't save properly";    //NOT TRANSLATED
 "SaveErrorTitleKey" = "Saving error";                       //NOT TRANSLATED
-"DiscardAudioWarningKey" = "Discard audio?";                //NOT TRANSLATED
+"DiscardAudioWarningKey" = "Discard audio?";
 
 //AR View
 "ARViewTitleKey" = "Vue AR";
@@ -160,9 +162,9 @@
 "ForgotEmailSentTitleKey" = "Email Envoyé";
 "ForgotMessageKey" = "Un email t'a été envoyé avec les instructions pour changer ton mot de passe";
 "ForgotPasswordTitleKey" = "Adresse Email non Valide";
-"ForgotPasswordMessageKey" = "Svp, entre ton adresse email associée avec ton compte de joueur pour récupérer ton mot de passe..";
-"EmailToResetKey" = "Email to Reset"; //NOT TRANSLATED
-"EmailInstructionsKey" = "An email will be sent to the above address with instructions on how to reset your password."; //NOT TRANSLATED
+"ForgotPasswordMessageKey" = "Svp, entre ton adresse email associée avec ton compte de joueur pour récupérer ton mot de passe.";
+"EmailToResetKey" = "L'email à réinitialiser"; //NOT TRANSLATED
+"EmailInstructionsKey" = "Un email sera envoyé à l'adresse ci-dessus avec des instructions sur la façon de réinitialiser votre mot de passe."; //NOT TRANSLATED
 
 //Game Details View
 "GameDetailsAuthorKey" = "Auteur(s)";
@@ -188,37 +190,46 @@
 "DescriptionKey" = "Description";
 "MapKey" = "Carte";
 
-//Game Picker Nearby
 "GamePickerNoGamesKey" = "Aucun Jeu Trouvé";
 "GamePickerMakeOneGameKey" = "Tu Devrais en faire un à arisgames.org!";
-"GamePickerNearbyGamesKey" = "Jeux à proximité";
-
-//Game Picker Popular
-"GamePickerPopularTitleKey" = "Populaire";
-"GamePickerPopularPlayedKey" = "Jeux Populaires";
-"GamePickerDailyKey" = "Daily"; //NOT TRANSLATED
-"GamePickerWeeklyKey" = "Weekly"; //NOT TRANSLATED
-"GamePickerMonthlyKey" = "Monthly"; //NOT TRANSLATED
-
-//Game Picker Recent
-"GamePickerRecentTitleKey" = "Récent";
-"GamePickeRecentPlayedKey" = "Jeux Joués Récemment ";
 "GamePickerReviewsKey" = "revues";
 
+//Game Picker Nearby
+"GamePickerNearbyTabKey" = "Proximité";
+
+//Game Picker Anywhere
+"GamePickerAnywhereTabKey" = "Monde";
+
+//Game Picker Popular
+"GamePickerPopularTabKey" = "Populaires";
+"GamePickerDailyKey" = "Jour";
+"GamePickerWeeklyKey" = "Semaine";
+"GamePickerMonthlyKey" = "Mois";
+
+//Game Picker Recent
+"GamePickerRecentTabKey" = "Récents";
+
 //Game Picker Search
-"GamePickerSearchGamesKey" = "Recherche de Jeux";
+"GamePickerSearchTitleKey" = "Recherche de Jeux";
+"GamePickerSearchTabKey" = "Chercher";
 "GamePickerSearchLoadingMoreKey" = "Charger plus de résultats...";
 "GamePickerSearchNoMoreKey" = "Pas plus de résultats";
-"GamePickerSearchNoResults" = "No results found";
+"GamePickerSearchNoResults" = "Aucun résultat trouvé";
+
+//Game Picker Mine
+"GamePickerMineTabKey" = "Moi";
+
+//Game Picker Downloaded
+"GamePickerDownloadedTabKey" = "Téléchargé";
 
 //GPS View
 "GPSViewQuickTravelKey" = "Voyage Rapide";
 
 //Inventory View
-"InventoryViewTitleKey" = "Inventaire";
 "InventoryAddedToKey" = "mis dans l'inventaire";
 "InventoryNewItemKey" = "Nouvel Élément";
 "InventoryNewItemMessageKey" = "Tu as un nouvel Élément dans ton Inventaire! Toucher en bas pour voir maintenant tes éléments.";
+"InventoryViewTitleKey" = "Inventaire";
 "WeightCapacityKey" = "Capacité de Poids";
 "QuantityKey" = "Quantité";
 "WeightKey" = "Poids";
@@ -230,7 +241,7 @@
 "PickedUpKey" = "récupéré";
 "ItemAcionCannotPickUpKey" = "Cet élément ne peut pas être récupéré.";
 "ItemAcionCannotCarryMoreKey" = "Vous ne pouvez pas récupérer plus de cet élément.";
-"ItemAcionTooHeavyKey" = "Trop Lourd! Seulement ";
+"ItemAcionTooHeavyKey" = "Trop Lourd! Seulement";
 "ItemAcionInventoryOverLimitKey" = "Inventaire Saturé";
 
 //Item Details View
@@ -261,7 +272,7 @@
 "FirstNameKey" = "Prénom";
 "LastNameKey" = "Nom";
 "CreateAccountKey" = "Créer un Compte d’accès";
-"ForgotPasswordKey" = "Forgot Password?"; //NOT TRANSLATED
+"ForgotPasswordKey" = "Mot de passe oublié?";
 
 //Logout
 "LogoutTitleKey" = "Log Out";
@@ -269,23 +280,23 @@
 "LogoutWarningKey" = "Es-tu certain de vouloir réaliser un Logout?";
 
 //Map Hud
-"OutOfRangeWalkKey" = "Out of range- walk"; //NOT TRANSLATED
-"OutOfRangeKey" = "Out of range"; //NOT TRANSLATED
+"OutOfRangeWalkKey" = "Hors de portée- marcher";
+"OutOfRangeKey" = "Hors de portée";
 
 //Map View
 "MapViewTitleKey" = "Carte";
 "MapTypeKey" = "Type de Carte";
-"ViewLocationKey" = "View"; //NOT TRANSLATED
-"PickUpItemKey" = "PickUp"; //NOT TRANSLATED
+"ViewLocationKey" = "View";
+"PickUpItemKey" = "PickUp";
 
 //Notebook View
 "NotebookTitleKey" = "Bloc-notes";
 "NotebookNoNotesKey" = "Pas de Notes";
 "NotebooksPressToAddKey" = "Appuyer sur un Bouton Superieur pour Ajouter!";
 "NotebookCommentsKey" = "commentaires";
-"NotebookMyNotesKey" = "My Notes"; //NOT TRANSLATED
-"NotebookAllNotesKey" = "All Notes"; //NOT TRANSLATED
-"NotebookNoMediaKey" = "no media added"; //NOT TRANSLATED
+"NotebookMyNotesKey" = "Mes notes";
+"NotebookAllNotesKey" = "Toutes les notes";
+"NotebookNoMediaKey" = "aucun média ajouté";
 
 //Note Comment View
 "NoteCommentViewTitleKey" = "Commentaires";
@@ -314,16 +325,16 @@
 "NoteEditorUnsavedChagned" = "You Have Unsaved Changes"; //NOT TRANSLATED
 
 //Note Tag Editor
-"NoteTagChooseLabelKey" = "Unlabeled"; //NOT TRANSLATED
+"NoteTagChooseLabelKey" = "Choose Tag"; // TODO
 
 //Player Attributes
-"PlayerTitleKey" = "Player";
+"PlayerTitleKey" = "Joueur";
 
 //QR Scanner
-"QRScannerTitleKey" = "Scanner"; //NOT TRANSLATED
+"QRScannerTitleKey" = "Scanner";
 "QRDecoderTitleKey" = "Décodeur";
 "QRScannerErrorTitleKey" = "Scan Réussi, Mais...";
-"QRScannerErrorMessageKey" = "Ce code ne veut rien dire pour le moment. Veux-tu revenir plus tard ?";
+"QRScannerErrorMessageKey" = "Ce code ne veut rien dire pour le moment. Veux-tu revenir plus tard?";
 "QRScannerDecodingErrorTitleKey" = "Erreur de Décodification";
 "QRScannerDecodingKey" = "Décodage...";
 "ScanUsingCameraKey" = "Numérisation à l'aide de l'appareil photo";
@@ -339,9 +350,9 @@
 "QuestsComplete" = "Missions Accomplies";
 "QuestsViewNewQuestsKey" = "Pas de Missions Disponibles";
 "QuestsViewQuestCompletedKey" = "Mission Accomplie";
-"QuestViewBeginQuestKey" = "Begin Quest"; //NOT TRANSLATED
-"QuestViewNoQuestsAvailableKey" = "there are no quests available at this time"; //NOT TRANSLATED
-"QuestViewNoCompletedQuestsKey" = "you have not completed any quests"; //NOT TRANSLATED
+"QuestViewBeginQuestKey" = "Commencer la mission";
+"QuestViewNoQuestsAvailableKey" = "il n'y a pas de missions disponibles pour le moment";
+"QuestViewNoCompletedQuestsKey" = "vous n'avez terminé aucune mission";
 
 //Self Registration
 "SelfRegistrationErrorMessageKey" = "Ou bien ce nom a été pris ou tu n'as pas rempli toute l'information requise.";
