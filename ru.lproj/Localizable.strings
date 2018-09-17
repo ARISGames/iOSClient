@@ -1,0 +1,392 @@
+/*
+ Localizable.strings
+ ARIS
+ 
+ Created by David J Gagnon on 7/30/10.
+ Copyright 2010 University of Wisconsin. All rights reserved.
+ */
+
+//General Общие
+
+"TakeYourPictureKey" = "[Фото для вашего публичного профиля игрока]";
+
+"NoConnectionTitleKey" = "Нет подключения к Интернету.";
+"NoConnectionMessageKey" = "Пожалуйста, подключитесь к Интернету и перезагрузите ARIS.";
+"NoLocationTitleKey" = "Ошибка службы геолокации";
+"NoLocationMessageKey" = "Пожалуйста, включите определение геолокации для ARIS в iOS настройках -> Общие -> Службы геолокации.";
+"PoorConnectionTitleKey" = "Предупреждение сети";
+"PoorConnectionMessageKey" = "ARIS не может связаться с сервером.";
+"BadServerResponseTitleKey" = "Неверный запрос сервера";
+"BadServerResponseMessageKey" = "Ошибка с сервером или неправильный URL-адрес сервера.";
+"LoginErrorTitleKey" = "Ошибка входа";
+"LoginErrorMessageKey" = "Неизвестное имя пользователя / пароль";
+"PreparingToPlayKey" = "Подготовка к игре";
+"TouchToPlayKey" = "Нажмите, чтобы начать игру";
+"BackButtonKey" = "Назад";
+"LoadingKey" = "Загрузка...";
+"OkKey" = "OK";
+"SaveKey" = "Сохранить";
+"NearbyObjectsTabKey" = "Поблизости";
+"NearbyObjectsTitleKey" = "Объекты поблизости";
+"SearchKey" = "Поиск";
+"WaitingKey" = "Ожидание...";
+"ReviewsKey" = "Отзывы";
+"TapToContinueKey" = "Нажмите, чтобы продолжить";
+"ContinueKey" = "Продолжать"; // original: немаркированный
+"OfKey" = "of";
+"NoneKey" = "Отсутствует";
+"DontShareKey" = "Не делиться";
+"BothKey" = "Оба"; // Оба / И то и другое
+"CancelKey" = "Отменить";
+"RetakeKey" = "Переснять";
+"UseKey" = "Использовать";
+"SharingKey" = "Поделиться";
+"DoneKey" = "Готово";
+"ErrorKey" = "Ошибка";
+"PleaseAddCommentKey" = "Добавить комментарий";
+"UploadFailedKey" = "Загрузка не удалась";
+"IgnoreKey" = "Пропустить";
+"ReportKey" = "Отчет";
+"EditKey" = "Изменить";
+"HideKeyboardKey" = "Скрыть клавиатуру";
+"SaveCommentKey" = "Сохранить комментарий";
+"GoToKey" = "Идти к";
+"WriteReviewKey" = "Написать комментарий";
+"OptionalKey" = "Необязательный";
+"PostKey" = "Опубликовать";
+"MaxKey" = "Макс."; // Макс. / Максимум
+"LabelsKey" = "Поиск по тегам";
+"DeleteKey" = "Удалить";
+"AddKey" = "Добавить";
+"ImageKey" = "Изображение";
+"AudioKey" = "Аудио";
+"SetKey" = "Задавать";
+"LocationKey" = "Местонахождение";
+"NoteKey" = "Заметка";
+"ResetKey" = "Сброс";
+"UnlabeledKey" = "Немаркированный";
+"ConfirmingKey" = "Подтверждающий";
+"GameNoticeKey" = "Уведомление игры";
+"PlayerNoticeKey" = "Уведомление игрока";
+"EmptyKey" = "Пустой";
+
+
+//New Notification Keys Кнопки новых уведомлений
+"LostNotifKey" = "Потерянный";
+"TotalNotifKey" = "Всего";
+"LeftNotifKey" = "Осталось"; // Левый (left hand) / Оставил (past tense of leave)
+"ReceivedNotifKey" = "Получено";
+"CompletedNotifKey" = "Завершенный";
+
+//Account Settings Настройки аккаунта
+"AccountSettingsKey" = "Настройки аккаунта";
+"PublicNameAndImageKey" = "Публичное имя и изображение";
+"ChangePasswordKey" = "Изменить пароль";
+"ProfileSaveErrorKey" = "Ошибка сохранения профиля";
+"ProfileSaveErrorMessageKey" = "Пожалуйста, выберете изображение и имя";
+
+//AppModel Модель приложения
+"AppModelItemReceivedKey" = "Предмет получен";
+"AppModelItemLostKey" = "Предмет потерят";
+"AppModelItemRemovedKey" = "Удален";
+"ErrorSavingToDiskKey" = "Ошибка сохранения на диске";
+
+//Attributes View Просмотр атрибутов
+//"AttributeReceivedKey" = "Полученный атрибут"; NOT USED
+//"AttributeLostKey" = "Потерянный атрибут"; NOT USED OR TRANSLATED
+"AttributesViewNameKey" = "Имя";
+"AttributesViewGroupKey" = "Группа: неприменимый";
+"AttributesAttributesTitleKey" = "Атрибуты";
+"AttributesNoCurrentlyKey" = "Нет доступных атрибутов";
+
+//Audio Recorder Диктофон
+"AudioRecorderTitleKey" = "Магнитофон";
+"BeginRecordingKey" = "Начать запись";
+"StopRecordingKey" = "Остановить запись";
+"PlayKey" = "Играть";
+"StopKey" = "Остановить";
+"UploadKey" = "Загрузить";
+"DiscardKey" = "Сбросить";
+"EditKey" = "Изменить";
+"NoAudioHardwareAvailableTitleKey" = "Предупреждение";
+"NoAudioHardwareAvailableMessageKey" = "Оборудование для аудиовхода недоступно";
+
+"SaveConfirmationKey" = "Would you like to save?";          //NOT TRANSLATED
+"DiscardChangesKey" = "Discard Changes";                    //NOT TRANSLATED
+"SaveErrorKey" = "Sorry, the file didn't save properly";    //NOT TRANSLATED
+"SaveErrorTitleKey" = "Saving error";                       //NOT TRANSLATED
+"DiscardAudioWarningKey" = "Сбросить аудио?";
+
+//AR View Просмотр AR
+"ARViewTitleKey" = "Просмотр AR";
+
+//ARIS App Delegate Делегат приложения ARIS
+"ARISAppDelegateFectchingGameListsKey" = "Получение списка игр...";
+"ARISAppDelegateWIFIErrorMessageKey" = "Возможно, вам нужно войти в ваше Wi-Fi соединение из Safari. \nВы также можете проверить настройки сервера ARIS в системных настройках. \nЕсли проблема не устранена, отправьте нам определённую отладочную информацию (debugging information).";
+
+//Bogus Game Игра Bogus
+"BogusTitleKey" = "Покинуть игру";
+
+//Camera Камера
+"CameraTitleKey" = "Камера";
+"CameraLibraryButtonTitleKey" = "Использовать библиотеку";
+"CameraCameraButtonTitleKey" = "Использовать камеру";
+"CameraImageTakenKey" = "Изображения снятые в ARIS";
+"CameraGameKey" = "Игра";
+"CameraPlayerKey" = "Игрок";
+"CameraWarningKey" = "Предупреждение";
+"CameraWarningMessageKey" = "Настройки конфиденциальности запрещают нам сохранять в ваших альбомах. Перейдите в Системные настройки, чтобы отключить эти настройки.";
+
+//Comments Form Cell Ячейка для комментарий
+"CommentsFormNumberOfStarsRatingKey" = "Пожалуйста, дайте этой игре рейтинг от одной до пяти звезд.";
+"CommentsFormSuccessKey" = "Удачно!";
+"CommentsFormSuccessMessageKey" = "Комментарий успешно отправлен.";
+
+//Comments View Просмотр комментарий
+"CommentTitleKey" = "Комментарий";
+
+//Developer View Просмотр разработчика
+"DeveloperTitleKey" = "Разработчик";
+"DevelopersMetersKey" = "Метрика";
+
+//Dialog View Диалоговое окно
+"DialogContinue" = "Нажмите, чтобы продолжить";
+"DialogReview" = "Нажмите, чтобы оставить отзыв";
+"DialogEnd" = "Покинуть обсуждение";
+"DialogPlayerName" = "Вы";
+
+//Drop On Map View Просмотр на карте
+"DropOnMapTitleKey" = "Расположить заметку на карте";
+
+//Forgot View
+"ForgotEmailSentTitleKey" = "Письмо отправлено";
+"ForgotMessageKey" = "Вам было отправлено электронное письмо с инструкциями по смене пароля.";
+"ForgotPasswordTitleKey" = "Неверный адрес электронной почты";
+"ForgotPasswordMessageKey" = "Пожалуйста, введите адрес электронной почты, связанный с вашей учетной записью, чтобы восстановить свой пароль.";
+"EmailToResetKey" = "Электронная почта для восстановления";
+"EmailInstructionsKey" = "На указанный адрес будет отправлено электронное письмо с инструкциями по восстановлению пароля.";
+
+//Game Details View Просмотр информации о игре
+"GameDetailsAuthorKey" = "Авторы";
+"DescriptionKey" = "Описание";
+"RatingKey" = "Рэйтинг";
+"GameDetailsPlayNowKey" = "Играть сейчас";
+"GameDetailsResetKey" = "Сброс";
+"GameDetailsResetTitleKey" = "Вы уверены?";
+"GameDetailsResetMessageKey" = "Сброс удалит весь прогресс игры. Вы уверены, что хотите это сделать?";
+"GameDetailsResumeKey" = "Продолжить";
+"GameDetailsNewGameKey" = "Новая игра";
+"RatingPromptKey" = "Нажмите на значок звезды для оценки";
+
+//Game Picker Выбор игры
+"GamePickerTitleKey" = "Выйти из игры";
+"KilometersKey" = "Километры";
+"PercentCompleteKey" = "% Завершено";
+"GamePickerNoNearbyGamesKey" = "Поблизости не найдето игр";
+"GamePickerOtherGamesKey" = "Другие игры";
+"GameDetailsTitleKey" = "Информация";
+"PlayersKey" = "Игроки";
+"AuthorsKey" = "Авторы";
+"DescriptionKey" = "Описание";
+"MapKey" = "Карта";
+
+"GamePickerNoGamesKey" = "Игры не найдены";
+"GamePickerMakeOneGameKey" = "Создайте сами на arisgames.org!";
+"GamePickerReviewsKey" = "Отзывы";
+
+//Game Picker Nearby Выбор игры поблизости
+"GamePickerNearbyTabKey" = "Поблизости";
+"GamePickerNearbyTitleKey" = "Игры поблизости";
+
+//Game Picker Anywhere Выбор игры в любом месте
+"GamePickerAnywhereTabKey" = "В любом месте";
+"GamePickerAnywhereTitleKey" = "Игры в любом месте";
+
+//Game Picker Popular Выбор популярных игр
+"GamePickerPopularTabKey" = "Популярные";
+"GamePickerPopularTitleKey" = "Популярные игры";
+"GamePickerDailyKey" = "Ежедневно";
+"GamePickerWeeklyKey" = "Еженедельно";
+"GamePickerMonthlyKey" = "Ежемесячно";
+
+//Game Picker Recent Выбор недавних игр
+"GamePickerRecentTabKey" = "Недавние";
+"GamePickeRecentTitleKey" = "Недавние Игры";
+
+//Game Picker Search Выбор игры Поиск
+"GamePickerSearchTitleKey" = "Поиск игр";
+"GamePickerSearchTabKey" = "Поиск";
+"GamePickerSearchLoadingMoreKey" = "Загрузка дополнительных результатов...";
+"GamePickerSearchNoMoreKey" = "Больше никаких результатов";
+"GamePickerSearchNoResults" = "Результатов не найдено";
+
+//Game Picker Mine Выбор игры Собственные/ Мои
+"GamePickerMineTabKey" = "Мои";
+"GamePickeMineTitleKey" = "Мои игры";
+
+//Game Picker Downloaded Выбор игры Загруженные
+"GamePickerDownloadedTabKey" = "Загруженные";
+"GamePickeDownloadedTitleKey" = "Загруженные игры";
+
+//GPS View Просмотр GPS
+"GPSViewQuickTravelKey" = "Быстрое путешествие";
+
+//Inventory View Просмотр инвентаря
+"InventoryAddedToKey" = "добавлено";
+"InventoryNewItemKey" = "Новый предмет";
+"InventoryNewItemMessageKey" = "У вас есть новый предмет в инвентаре! Нажмите ниже, чтобы просмотреть свои предметы.";
+"InventoryViewTitleKey" = "Инвентарь";
+"WeightCapacityKey" = "Грузоподъемность";
+"QuantityKey" = "Количество";
+"WeightKey" = "Вес";
+
+//Item Action View Просмотр действия предмета
+"ItemActionCanCarryKey" = "Can only carry"; // TODO: Можно переносить
+"ItemActionOfItemKey" = "of this item"; // TODO: этого предмета
+"ItemAcionCarryThatMuchKey" = "You can't carry that much. Only"; // TODO: Вы не можете столько переносить. Только
+"PickedUpKey" = "picked up"; // TODO: поднято
+"ItemAcionCannotPickUpKey" = "This item cannot be picked up."; // TODO: Этот предмет не может быть поднять
+"ItemAcionCannotCarryMoreKey" = "You cannot carry any more of this item."; // TODO: Вы не можете переносить больше количества этого предмета.
+"ItemAcionTooHeavyKey" = "Too Heavy! Only"; // TODO: Слишком тяжело! Только
+"ItemAcionInventoryOverLimitKey" = "Inventory over Limit"; // TODO: Инвентарь над лимитом
+
+//Item Details View Просмотр деталей
+"ItemDropKey" = "Сбросить";
+"ItemDeleteKey" = "Уничтожить";
+"ItemPickupKey" = "Подбирать"; // original: Поднять
+"ItemDetailKey" = "Детали";
+"ItemDroppedTitleKey" = "Предмет сброшен";
+"ItemDroppedMessageKey" = "Ваш предмет был сброшен здесь, на карте, чтобы другие игроки могли видеть";
+"ItemDestroyedTitleKey" = "Предмет уничтожен";
+"ItemDestroyedMessageKey" = "Этот предмет был удален из вашего инвентаря и навсегда уничтожен";
+"ItemDuplicateTitleKey" = "Скопировать предмет";
+"ItemDuplicateMessageKey" = "Вы не можете больше переносить этот предмет";
+"ItemPickedUpTitleKey" = "Поднял предмет";
+"ItemPickedUpMessageKey" = "Предмет доступен в вашем инвентаре";
+"ItemKey" = "Предмет";
+
+//Login and Вход и
+"LoginTitleKey" = "Вход";
+"UsernameKey" = "Имя пользователя";
+"PasswordKey" = "Пароль";
+"LoginKey" = "Вход";
+"NewAccountMessageKey" = "У вас нет учетной записи?";
+"CreateAccountKey" = "Зарегистрироваться";
+"SelfRegistrationTitleKey" = "Создать нового пользователя";
+"SelfRegistrationMessageKey" = "Введите все следующие";
+"EmailKey" = "Электронная почта";
+"FirstNameKey" = "Имя";
+"LastNameKey" = "Фамилия";
+"CreateAccountKey" = "Создать аккаунт";
+"ForgotPasswordKey" = "Забыли пароль?";
+
+//Logout Выйти
+"LogoutTitleKey" = "Выйти";
+"LogoutKey" = "Выйти";
+"LogoutWarningKey" = "Вы действительно хотите выйти?";
+
+//Map Hud Карта Hud
+"OutOfRangeWalkKey" = "Out of range- walk"; // TODO Вне диапазона ходьбы
+"OutOfRangeKey" = "Вне диапазона";
+
+//Map View Просмотр карты
+"MapViewTitleKey" = "Карта";
+"MapTypeKey" = "Вид карты";
+"ViewLocationKey" = "Просмотр";
+"PickUpItemKey" = "Подобрать";
+
+//Notebook View Просмотр блокнота
+"NotebookTitleKey" = "Блокнот";
+"NotebookNoNotesKey" = "Нет записей";
+"NotebooksPressToAddKey" = "Нажмите кнопку выше, чтобы создать запись!";
+"NotebookCommentsKey" = "комментарий";
+"NotebookMyNotesKey" = "Мои записи";
+"NotebookAllNotesKey" = "Все записи";
+"NotebookNoMediaKey" = "нет медиа";
+
+//Note Comment View Просмотр комментарий к Заметкам
+"NoteCommentViewTitleKey" = "Комментарий";
+"NoteCommentViewCreateFailedKey" = "Ошибка создания комментария";
+"NoteCommentViewCreateFailedMessageKey" = "Не удается создать комментарий в автономном режиме.";
+
+//Note Editor View Просмотр редактора заметок
+"NoteEditorNoContentAddedKey" = "Нет контента";
+"NoteEditorPressButtonsKey" = "Нажмите кнопки ниже, чтобы добавить!";
+"NodeEditorNewNoteKey" = "Новая заметка";
+"NoteEditorNotAllowedOneOrMoreMessageKey" = "Эта игра не допускает один или несколько параметров совместного доступа.";
+"NoteEditorNotAllowedKey" = "Не допускается!";
+"NoteEditorNotAllowedSharingToMapMessageKey" = "Эта игра не допускает совместный доступ к карту.";
+"NoteEditorListAndMapKey" = "Список и карта";
+"NoteEditorMapOnlyKey" = "Только карта";
+"NoteEditorNotAllowedSharingToListsMessageKey" = "Эта игра не допускает совместный доступ к спискам других людей.";
+"NoteEditorListOnlyKey" = "Только список";
+"NoteEditorCreateNoteFailedKey" = "Ошибка создания заметки";
+"NoteEditorCreateNoteFailedMessageKey" = "Не удается создать заметку в автономном режиме";
+"NoteEditorDescriptionKey" = "Заметки Описание";
+"NoteEditorTitleNoteKey" = "Заглавие";
+"NoteEditorSaveUntitledKey" = "Сохранить без названия";
+"NoteEditorContinueEditingKey" = "Продолжить редактирование";
+"NoteEditorNoteIsUntitledKey" = "Ваша заметка Без названия";
+"NoteEditorNoteIsntLabeled" = "Ваша заметка не помечена!";
+"NoteEditorUnsavedChagned" = "У вас есть несохраненные изменения";
+
+//Note Tag Editor Заметки. Редактор тегов
+"NoteTagChooseLabelKey" = "Выберите тег";
+
+//Player Attributes Атрибуты игрока
+"PlayerTitleKey" = "Игрок";
+
+//QR Scanner QR Сканер
+"QRScannerTitleKey" = "Сканер";
+"QRDecoderTitleKey" = "Декодер";
+"QRScannerErrorTitleKey" = "Сканирование успешно, но...";
+"QRScannerErrorMessageKey" = "Этот код ничего не значит сейчас. Вернитесь позже";
+"QRScannerDecodingErrorTitleKey" = "Ошибка декодирования";
+"QRScannerDecodingKey" = "Декодирования...";
+"ScanUsingCameraKey" = "Сканирование используя камеры";
+"EnterCodeKey" = "Ввести код";
+"ScanKey" = "Сканировать";
+
+//Quests View Просмотр квестов
+"QuestViewTitleKey" = "Квесты";
+"QuestsActiveTitleKey" = "Активные";
+"QuestsCompleteTitleKey" = "Завершенные";
+"QuestViewNewQuestKey" = "Новый квест";
+"QuestViewNewQuestMessageKey" = "У вас новый квест! Нажмите здесь, чтобы увидеть текущие и завершенные квесты.";
+"QuestsComplete" = "Квесты завершены";
+"QuestsViewNewQuestsKey" = "Доступен новый квест";
+"QuestsViewQuestCompletedKey" = "Квест завершен";
+"QuestViewBeginQuestKey" = "Начать квест!";
+"QuestViewNoQuestsAvailableKey" = "в настоящее время нет квеста";
+"QuestViewNoCompletedQuestsKey" = "вы не закончили квесты";
+
+//Self Registration Самостоятельная регистрация
+"SelfRegistrationErrorMessageKey" = "Либо это имя пользователя существует или вы не заполнили всю необходимую информацию.";
+"SelfRegistrationSuccessMessageKey" = "Ваш новый пользователь создан. Пожалуйста, войдите в систему.";
+
+//Start Over Начать заново
+"StartOverTitleKey" = "Начать заново";
+"StartOverKey" = "Начать заново";
+"StartOverWarningKey" = "Это нельзя отменить";
+"StartOverResetAlertTitleKey" = "Успех";
+"StartOverResetAlertMessageKey" = "Вы сбросили свой прогресс для этой игры";
+
+//Tag View Просмотр тегов
+"TagViewCannotCreateKey" = "Невозможно создать новый тег";
+"TagViewNoPlayerCreatedTagsKey" = "Эта игра не позволяет использовать созданные игроком теги!";
+"TagViewNoGameTagsKey" = "Нет игровых тегов";
+"TagViewNoTagsCreatedKey" = "Для этой игры не было создано никаких тегов";
+"TagViewNoTagsKey" = "Нет тегов";
+"TagViewNotCreatedKey" = "Вы не создали теги";
+"TagViewCreateNewTagKey" = "Создать новый тег";
+"TagViewGameTagsKey" = "Теги игры";
+"TagViewPlayerCreatedTags" = "Созданные игроком теги";
+"TagViewNoLabelsKey" = "нет доступных меток";
+
+//Text View Просмотр текста
+"TextViewTitleKey" = "Добавить текст";
+
+//Title and Description Form Форма названия и описания
+"TitleAndDescriptionTitleKey" = "Заглавие";
+"TitleAndDescriptionTitlePrompt" = "Введите заголовок";
+"TitleAndDescriptionDescriptionPrompt" = "Введите описание";
