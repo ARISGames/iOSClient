@@ -296,7 +296,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"QUESTS"; }
-- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Quests"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return NSLocalizedString(@"QuestViewTitleKey", @""); }
 - (ARISMediaView *) tabIcon
 {
   ARISMediaView *amv = [[ARISMediaView alloc] init];

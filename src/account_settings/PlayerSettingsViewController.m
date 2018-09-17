@@ -67,7 +67,7 @@
 
   saveButton = [[UIButton alloc] init];
   [saveButton addTarget:self action:@selector(saveButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-  [saveButton setTitle:@"Save" forState:UIControlStateNormal];
+  [saveButton setTitle:NSLocalizedString(@"SaveKey", nil) forState:UIControlStateNormal];
   [saveButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
 
   [self.view addSubview:playerNameField];
