@@ -36,6 +36,8 @@
 		5382A3BD20FD356C003272B3 /* ARISMediaURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 5382A3BC20FD356C003272B3 /* ARISMediaURLProtocol.m */; };
 		53A47101210631DB00AE3989 /* PlaqueFullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A47100210631DB00AE3989 /* PlaqueFullViewController.m */; };
 		53B3449C1D19A9340094D97A /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 53B3449B1D19A9340094D97A /* transparent.png */; };
+		53C0B3D321595D3B00EA4E80 /* quest-star-empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 53C0B3D121595D3A00EA4E80 /* quest-star-empty.png */; };
+		53C0B3D421595D3B00EA4E80 /* quest-star-filled.png in Resources */ = {isa = PBXBuildFile; fileRef = 53C0B3D221595D3A00EA4E80 /* quest-star-filled.png */; };
 		53D580D51E53B7360015C668 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 53D580631E53B7360015C668 /* .gitignore */; };
 		53D580D61E53B7360015C668 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D580CC1E53B7360015C668 /* libavcodec.a */; };
 		53D580D71E53B7360015C668 /* libavdevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D580CD1E53B7360015C668 /* libavdevice.a */; };
@@ -402,6 +404,8 @@
 		53A47100210631DB00AE3989 /* PlaqueFullViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaqueFullViewController.m; sourceTree = "<group>"; };
 		53A47102210631EC00AE3989 /* PlaqueFullViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaqueFullViewController.h; sourceTree = "<group>"; };
 		53B3449B1D19A9340094D97A /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
+		53C0B3D121595D3A00EA4E80 /* quest-star-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quest-star-empty.png"; sourceTree = "<group>"; };
+		53C0B3D221595D3A00EA4E80 /* quest-star-filled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quest-star-filled.png"; sourceTree = "<group>"; };
 		53D580631E53B7360015C668 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		53D580661E53B7360015C668 /* avcodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avcodec.h; sourceTree = "<group>"; };
 		53D580671E53B7360015C668 /* avfft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avfft.h; sourceTree = "<group>"; };
@@ -1690,6 +1694,8 @@
 				AABC6F6C1727398B0074CC21 /* DefaultPCImage.png */,
 				AABC6F7B1727398B0074CC21 /* location.png */,
 				AABC6FAE1727398B0074CC21 /* star_blue.png */,
+				53C0B3D121595D3A00EA4E80 /* quest-star-empty.png */,
+				53C0B3D221595D3A00EA4E80 /* quest-star-filled.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -2553,6 +2559,7 @@
 				AA942B9D17CD4F86004EDEA1 /* logo_text.png in Resources */,
 				531B26421DECD2A40044E013 /* building_texture.jpeg in Resources */,
 				536A4B2F1DEE3498000B9AF8 /* Simple.fragsh in Resources */,
+				53C0B3D421595D3B00EA4E80 /* quest-star-filled.png in Resources */,
 				AA04E33218E613E400621F0C /* threelines_white.png in Resources */,
 				ABE735E817D65C0100396CF5 /* arrowBack@2x.png in Resources */,
 				AABC70021727398B0074CC21 /* location.png in Resources */,
@@ -2609,6 +2616,7 @@
 				AA04E33018E60E1E00621F0C /* delete@2x.png in Resources */,
 				AA0D161218EDF14500D856F1 /* locationarrow_red@2x.png in Resources */,
 				AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */,
+				53C0B3D321595D3B00EA4E80 /* quest-star-empty.png in Resources */,
 				AA04E33418E6140300621F0C /* location_white.png in Resources */,
 				53D580D51E53B7360015C668 /* .gitignore in Resources */,
 				AA09B8E618E1EB5500A45562 /* video@2x.png in Resources */,

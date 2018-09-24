@@ -232,15 +232,21 @@
     }
     if (currentStars > q.stars) currentStars = q.stars;
 
-    CGRect starsFrame = CGRectMake(0, (cell.contentView.frame.size.height-40), cell.contentView.frame.size.width, 20);
-    UILabel *starsLabel = [[UILabel alloc] initWithFrame:starsFrame];
-    starsLabel.text = [NSString stringWithFormat:@"%ld / %ld", currentStars, q.stars];
-    starsLabel.textColor = [ARISTemplate ARISColorViewText];
-    starsLabel.backgroundColor = [UIColor ARISColorLightGray];
-    starsLabel.textAlignment = NSTextAlignmentCenter;
-    starsLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
-    starsLabel.font = [ARISTemplate ARISSubtextFont];
-    [cell.contentView addSubview:starsLabel];
+    long starSlots = (q.stars == 2 ? 4 : q.stars);
+    long starOffset = (q.stars == 2 ? 1 : 0);
+
+    for (int i = 0; i < q.stars; i++) {
+      CGRect starFrame = CGRectMake
+        ( cell.contentView.frame.size.width * (((CGFloat) i + starOffset) / starSlots)
+        , cell.contentView.frame.size.height - 40
+        , cell.contentView.frame.size.width / starSlots
+        , 20
+        );
+      UIImageView *starIcon = (i < currentStars ? [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"quest-star-filled.png"]] : [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"quest-star-empty.png"]]);
+      starIcon.frame = starFrame;
+      starIcon.contentMode = UIViewContentModeScaleAspectFit;
+      [cell.contentView addSubview:starIcon];
+    }
   }
 
   return cell;
