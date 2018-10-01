@@ -224,12 +224,7 @@
   [cell.contentView addSubview:icon];
 
   if (q.stars > 0) {
-    long currentStars = 0;
-    for (Quest *complete in completeQuests) {
-      if (complete.parent_quest_id == q.quest_id) {
-        currentStars += complete.stars;
-      }
-    }
+    long currentStars = [_MODEL_QUESTS_ starsForCompoundQuest:q.quest_id];
     if (currentStars > q.stars) currentStars = q.stars;
 
     long starSlots = (q.stars == 2 ? 4 : q.stars);
@@ -238,7 +233,7 @@
     for (int i = 0; i < q.stars; i++) {
       CGRect starFrame = CGRectMake
         ( cell.contentView.frame.size.width * (((CGFloat) i + starOffset) / starSlots)
-        , cell.contentView.frame.size.height - 40
+        , cell.contentView.frame.size.height - 43
         , cell.contentView.frame.size.width / starSlots
         , 20
         );

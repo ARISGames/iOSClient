@@ -255,6 +255,10 @@
   {
     return a.bool_operator == [_MODEL_LOGS_ hasLogType:@"COMPLETE_QUEST" content:a.content_id];
   }
+  if([a.requirement isEqualToString:@"PLAYER_HAS_QUEST_STARS"])
+  {
+    return a.bool_operator == ([_MODEL_QUESTS_ starsForCompoundQuest:a.content_id] >= a.qty);
+  }
   if([a.requirement isEqualToString:@"PLAYER_HAS_RECEIVED_INCOMING_WEB_HOOK"])
   {
     return a.bool_operator == NO;
