@@ -457,7 +457,7 @@ namespace
         case Vuforia::GRAYSCALE:
           // this is the only format MHS ipod currently returns
           // (makes sense since AR target finding is done in grayscale)
-          fmt = kCIFormatR8; // technically redscale but it works
+          fmt = kCIFormatL8;
           break;
         case Vuforia::RGBA8888:
           fmt = kCIFormatRGBA8;
@@ -482,6 +482,7 @@ namespace
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
           // Then do the QR search work on separate thread
           CIImage *ci = [[CIImage alloc] initWithBitmapData:data bytesPerRow:stride size:size format:fmt colorSpace:CGColorSpaceCreateDeviceRGB()];
+          ci = [ci imageByApplyingFilter:@"CIExposureAdjust" withInputParameters:@{kCIInputEVKey: [NSNumber numberWithDouble:2.0]}];
           NSDictionary *detectorOptions = [NSDictionary dictionaryWithObject:CIDetectorAccuracyHigh forKey:CIDetectorAccuracy];
           CIDetector *detect = [CIDetector detectorOfType:CIDetectorTypeQRCode context:NULL options:detectorOptions];
           NSString *new_qr_string = NULL;
