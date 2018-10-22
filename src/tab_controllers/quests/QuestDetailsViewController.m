@@ -65,6 +65,7 @@
 
     scrollView = [[UITableView alloc] init];
     scrollView.backgroundColor = [ARISTemplate ARISColorContentBackdrop];
+    scrollView.separatorColor = [UIColor clearColor];
     scrollView.clipsToBounds = NO;
     scrollView.dataSource = self;
     scrollView.delegate = self;
