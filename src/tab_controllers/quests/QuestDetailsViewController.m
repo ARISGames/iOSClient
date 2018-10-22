@@ -261,7 +261,9 @@
         QuestCell *cell = [scrollView dequeueReusableCellWithIdentifier:@"QuestCell"];
         if(!cell) cell = [[QuestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"QuestCell"];
         
-        [cell setQuest:[subquests objectAtIndex:indexPath.row]];
+        Quest *q = [subquests objectAtIndex:indexPath.row];
+        [cell setQuest:q];
+        [cell setChecked:[completeQuests containsObject:q]];
         
         [cell setDelegate:self];
         
@@ -307,7 +309,7 @@
     if (indexPath.section == 2) {
         Quest *q = [subquests objectAtIndex:indexPath.row];
         if (q) {
-            [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:mode activeQuests:nil completeQuests:nil delegate:self] animated:YES];
+            [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q mode:([completeQuests containsObject:q] ? @"COMPLETE" : @"ACTIVE") activeQuests:activeQuests completeQuests:completeQuests delegate:self] animated:YES];
         }
     }
 }

@@ -13,8 +13,9 @@
 
 @interface QuestCell () <ARISWebViewDelegate>
 {
-  UILabel *titleView;
-     ARISWebView *descriptionView;
+    UILabel *titleView;
+    ARISWebView *descriptionView;
+    UIImageView *checkboxView;
 
     Quest *quest;
     id<QuestCellDelegate> __unsafe_unretained delegate;
@@ -28,6 +29,7 @@
     if(self = [super init])
     {
         [self initializeViews];
+        checkboxView = NULL;
     }
     return self;
 }
@@ -70,6 +72,24 @@
     titleView.text = quest.name;
     descriptionView.frame = CGRectMake(0,20,self.frame.size.width,15);
     [descriptionView loadHTMLString:[NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], q.desc] baseURL:nil];
+}
+
+- (void) setChecked:(BOOL)checked
+{
+    UIImage *img = [UIImage imageNamed:(checked ? @"check-full" : @"check-empty")];
+    if (!checkboxView) {
+        titleView.frame = CGRectMake
+            ( titleView.frame.origin.x + 32
+            , titleView.frame.origin.y
+            , titleView.frame.size.width - 32
+            , titleView.frame.size.height
+            );
+        checkboxView = [[UIImageView alloc] initWithImage:img];
+        checkboxView.frame = CGRectMake(5, 5, 32, 32);
+        [self addSubview:checkboxView];
+    } else {
+        checkboxView.image = img;
+    }
 }
 
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv
