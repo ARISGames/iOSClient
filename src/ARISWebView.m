@@ -351,6 +351,13 @@
     }
     else if([mainCommand isEqualToString:@"instances"])
     {
+        if(components.count > 1 && [components[1] isEqualToString:@"map"]) {
+            if(components.count > 2 && [components[2] isEqualToString:@"showNotesOnMap"]) {
+                Tab *t = [_MODEL_TABS_ tabForType:(@"MAP")];
+                bool showNotes = [components[4] boolValue];
+                t.showNotesOnMap = showNotes;
+            }
+        }
         if(components.count > 1 && [components[1] isEqualToString:@"player"])
         {
             if(components.count > 2 && [components[2] isEqualToString:@"get"])

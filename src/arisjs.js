@@ -78,6 +78,7 @@ var ARISJS = function(_ARIS)
     _ARIS.setScene            = function(scene_id)         { _ARIS.enqueueRequest("aris://scene/set/" + scene_id); }
     _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); }
     _ARIS.getTriggerLocation  = function(trigger_id)       { _ARIS.enqueueRequest("aris://trigger/" + (trigger_id || 0)); }
+    _ARIS.showNotesOnMap      = function(showNotes)        { _ARIS.enqueueRequest("aris://instances/map/showNotesOnMap/set/" + showNotes); }
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, body, auth, callback)
