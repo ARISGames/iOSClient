@@ -45,6 +45,7 @@
   {
     self.tab_id                      = [dict validIntForKey:@"tab_id"];
     self.type                        = [dict validStringForKey:@"type"];
+    if ([self.type isEqualToString:@"SCANNER"]) self.type = @"AUGMENTED";
     self.name                        = [dict validStringForKey:@"name"];
     self.icon_media_id               = [dict validIntForKey:@"icon_media_id"];
     self.content_id                  = [dict validIntForKey:@"content_id"];

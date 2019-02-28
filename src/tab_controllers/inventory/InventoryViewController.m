@@ -75,7 +75,10 @@
     capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), 0, 0];
   }
   
-  inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
+  // MT: this appears to not be necessary on iOS 11
+  if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+    inventoryTable.contentInset = UIEdgeInsetsMake(64,0,0,0);
+  }
   inventoryTable.frame = CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height);
   
   [self refreshViews];
@@ -90,6 +93,11 @@
   [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
   threeLineNavButton.accessibilityLabel = @"In-Game Menu";
   self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+  // newly required in iOS 11: https://stackoverflow.com/a/44456952
+  if ([threeLineNavButton respondsToSelector:@selector(widthAnchor)] && [threeLineNavButton respondsToSelector:@selector(heightAnchor)]) {
+    [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+    [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+  }
   
   if(capBar)
   {
@@ -291,7 +299,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"INVENTORY"; }
-- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Inventory"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return NSLocalizedString(@"InventoryViewTitleKey", @""); }
 - (ARISMediaView *) tabIcon
 {
   ARISMediaView *amv = [[ARISMediaView alloc] init];

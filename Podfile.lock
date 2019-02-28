@@ -1,13 +1,13 @@
 PODS:
-  - FirebaseAnalytics (3.5.1):
+  - FirebaseAnalytics (3.6.0):
     - FirebaseCore (~> 3.4)
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCore (3.4.4):
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+  - FirebaseCore (3.4.5):
     - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseInstanceID (1.0.8)
   - Google/Analytics (3.0.3):
     - Google/Core
@@ -19,30 +19,47 @@ PODS:
     - GoogleSymbolUtilities (~> 1.1)
   - GoogleSymbolUtilities (1.1.2)
   - GoogleToolboxForMac/Defines (2.1.0)
-  - GoogleToolboxForMac/NSData+zlib (2.1.0):
+  - "GoogleToolboxForMac/NSData+zlib (2.1.0)":
     - GoogleToolboxForMac/Defines (= 2.1.0)
   - libPusher (1.6.2):
     - libPusher/Core (= 1.6.2)
   - libPusher/Core (1.6.2):
     - SocketRocket (= 0.5.1)
+  - PKRevealController (2.0.6)
   - SocketRocket (0.5.1)
 
 DEPENDENCIES:
   - Google/Analytics
   - libPusher (~> 1.6.1)
+  - PKRevealController
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseInstanceID
+    - Google
+    - GoogleAnalytics
+    - GoogleInterchangeUtilities
+    - GoogleSymbolUtilities
+    - GoogleToolboxForMac
+    - libPusher
+    - PKRevealController
+    - SocketRocket
 
 SPEC CHECKSUMS:
-  FirebaseAnalytics: 6e58fc9b397664369ac7617fb0ba93fab6ba7b5b
-  FirebaseCore: d0ed25f27b6f9158eccc439f1be6f92e81207e28
+  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
-  Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
+  Google: cd92fab98f800f509da88c1e0c570275713bc9d5
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   libPusher: 21c6209fa84a829e963f1b2fe5bff34722f3f3f4
+  PKRevealController: ffb45a16f5a5032ad90a3d16e5cbb0d8e035bd58
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
 
-PODFILE CHECKSUM: 91e97d69c353d15183ad649c7ebbc04de2768c0d
+PODFILE CHECKSUM: 29f8b8c22c6ae78a2b7dd3756086ddb39b04caab
 
-COCOAPODS: 1.1.0.beta.1
+COCOAPODS: 1.5.0

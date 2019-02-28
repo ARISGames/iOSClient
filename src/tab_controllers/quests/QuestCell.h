@@ -17,5 +17,6 @@
 
 @interface QuestCell : UITableViewCell
 - (void) setQuest:(Quest *)q;
+- (void) setChecked:(BOOL)checked;
 - (void) setDelegate:(id<QuestCellDelegate>)d;
 @end

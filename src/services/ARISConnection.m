@@ -14,6 +14,7 @@
 #import "ARISServiceGraveyard.h"
 #import "ARISAlertHandler.h"
 #import "AppModel.h"
+#import "AppServices.h"
 
 #define CONNECTION_DEBUG
 
@@ -139,7 +140,7 @@ NSString *const kARISServerServicePackage = @"v2";
       ///* silently handle errors */[[ARISAlertHandler sharedAlertHandler] showNetworkAlert];
       return nil;
     }
-    sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding]];
+    sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding] requestURL:rURL.URL];
 
     return sr;
 }
@@ -199,7 +200,7 @@ NSString *const kARISServerServicePackage = @"v2";
     _ARIS_LOG_(@"Fin async data: %@", [[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]);
     #endif
 
-    sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding]];
+    sr.resultData = [self parseJSONString:[[NSString alloc] initWithData:sr.asyncData encoding:NSUTF8StringEncoding] requestURL:sr.urlRequest.URL];
     [connections removeObjectForKey:c.description];
     if(connections.count == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     sr.connection = nil;
@@ -246,12 +247,12 @@ NSString *const kARISServerServicePackage = @"v2";
     sr.progress = (float)totalBytesWritten/(float)totalBytesExpectedToWrite;
 }
 
-- (NSObject *) parseJSONString:(NSString *)json
+- (NSObject *) parseJSONString:(NSString *)json requestURL:(NSURL *)requestURL
 {
     NSDictionary *result = [jsonParser objectWithString:json];
     if(!result)
     {
-        _ARIS_LOG_(@"JSONResult: Error parsing JSON String: %@.", json);
+        _ARIS_LOG_(@"JSONResult: Error parsing JSON String: %@", json);
         /* no need to show error to user
         [[ARISAlertHandler sharedAlertHandler] showServerAlertEmailWithTitle:NSLocalizedString(@"BadServerResponseTitleKey",@"") message:NSLocalizedString(@"BadServerResponseMessageKey",@"") details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@",json]];
          */
@@ -263,7 +264,15 @@ NSString *const kARISServerServicePackage = @"v2";
     else
     {
         _ARIS_LOG_(@"JSONResult: Return code %ld: %@",returnCode,[result objectForKey:@"returnCodeDescription"]);
+        NSString *json_error = [NSString stringWithFormat:@"ARIS URL [%@] returned non-zero returnCode. Response: %@", requestURL.absoluteString, json];
+        NSString *json_error_url = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(@"json_error.txt");
+        NSError *err;
+        [json_error writeToFile:json_error_url atomically:YES encoding:NSUTF8StringEncoding error:&err];
+        if (err) {
+            NSLog(@"%@", err);
+        }
         [_MODEL_ logOut];
+        [_SERVICES_ reportJSONError];
         return nil;
     }
 }

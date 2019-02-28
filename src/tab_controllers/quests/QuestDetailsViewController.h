@@ -14,5 +14,6 @@
 - (void) questDetailsRequestsDismissal;
 @end
 @interface QuestDetailsViewController : ARISViewController
-- (id) initWithQuest:(Quest *)q mode:(NSString *)m delegate:(id<QuestDetailsViewControllerDelegate>)d;
+- (id) initWithQuest:(Quest *)q mode:(NSString *)m activeQuests:(NSArray *)a completeQuests:(NSArray *)c delegate:(id<QuestDetailsViewControllerDelegate>)d;
+- (void) dismissQuestDetails;
 @end

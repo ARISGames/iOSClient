@@ -16,6 +16,7 @@
 - (Trigger *) triggerForQRCode:(NSString *)code;
 - (NSArray *) triggersForInstanceId:(long)instance_id;
 
+- (NSArray *) allTriggers;
 - (NSArray *) playerTriggers;
 - (void) requestTriggers;
 - (void) requestPlayerTriggers;

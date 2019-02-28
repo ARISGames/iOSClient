@@ -16,7 +16,6 @@
     UISearchBar *theSearchBar;
     UIView *disableViewOverlay;
     NSString *searchText;
-    long currentPage;
     BOOL currentlyFetchingNextPage;
     BOOL allResultsFound;
 }
@@ -29,7 +28,6 @@
 {
     if(self = [super initWithDelegate:d])
     {
-        currentPage = 0;
         currentlyFetchingNextPage = NO;
         allResultsFound = YES;
         searchText = @"";
@@ -136,7 +134,6 @@
     searchText = searchBar.text;
 
     [self searchBar:searchBar activate:NO];
-    currentPage = 0;
     [self attemptSearch:searchText];
 }
 
@@ -153,7 +150,6 @@
 - (void) searchBar:(UISearchBar *)searchBar activate:(BOOL)active
 {
     gameTable.allowsSelection = !active;
-    gameTable.scrollEnabled   = !active;
     if (!active)
     {
         [disableViewOverlay removeFromSuperview];
@@ -178,6 +174,15 @@
 - (void) hideKeyboard: (UIGestureRecognizer *) gesture
 {
     [self searchBarCancelButtonClicked:theSearchBar];
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+  CGFloat actualPosition = scrollView.contentOffset.y;
+  CGFloat contentHeight = scrollView.contentSize.height - scrollView.frame.size.height;
+  if (contentHeight > 0 && actualPosition >= contentHeight) {
+    [_MODEL_GAMES_ continueSearchGames];
+  }
 }
 
 - (void) dealloc

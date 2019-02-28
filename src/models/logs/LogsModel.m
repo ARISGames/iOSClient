@@ -37,7 +37,12 @@
 
 - (void) requestPlayerData
 {
-  [self requestPlayerLogs];
+  if(  ![self playerDataReceived]
+    || [_MODEL_GAME_.network_level isEqualToString:@"HYBRID"]
+    || [_MODEL_GAME_.network_level isEqualToString:@"REMOTE"]
+    ) {
+    [self requestPlayerLogs];
+  }
 }
 - (void) clearPlayerData
 {

@@ -21,6 +21,7 @@
 @synthesize event_package_id;
 @synthesize back_button_enabled;
 @synthesize continue_function;
+@synthesize full_screen;
 
 - (id) init
 {
@@ -34,6 +35,7 @@
         self.event_package_id = 0;
         self.back_button_enabled = YES;
         self.continue_function = @"EXIT";
+        self.full_screen = NO;
     }
     return self;
 }
@@ -50,6 +52,7 @@
     self.event_package_id    = [dict validIntForKey:@"event_package_id"];
     self.back_button_enabled = [dict validBoolForKey:@"back_button_enabled"];
     self.continue_function   = [dict validStringForKey:@"continue_function"];
+    self.full_screen         = [dict validBoolForKey:@"full_screen"];
   }
   return self;
 }
@@ -65,6 +68,7 @@
   [d setObject:[NSString stringWithFormat:@"%ld",self.event_package_id] forKey:@"event_package_id"];
   [d setObject:[NSString stringWithFormat:@"%d",self.back_button_enabled] forKey:@"back_button_enabled"];
   [d setObject:self.continue_function forKey:@"continue_function"];
+  [d setObject:[NSString stringWithFormat:@"%d",self.full_screen] forKey:@"full_screen"];
   return [NSString JSONFromFlatStringDict:d];
 }
 

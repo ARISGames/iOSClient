@@ -46,11 +46,16 @@ var ARISJS = function(_ARIS)
     _ARIS.logOut              = function()                 { _ARIS.enqueueRequest("aris://logout"); }
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
-    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+prompt); }
+    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+(prompt || "")); }
+    _ARIS.exitToAugmented     = function(options)          {
+      if (options == null) options = {};
+      _ARIS.enqueueRequest("aris://exit/augmented/"+(options.media_id || 0)+"/"+(options.prompt || ""));
+    }
     _ARIS.exitToPlaque        = function(plaque_id)        { _ARIS.enqueueRequest("aris://exit/plaque/"+plaque_id); }
     _ARIS.exitToWebpage       = function(webpageId)        { _ARIS.enqueueRequest("aris://exit/webpage/"+webpageId); }
     _ARIS.exitToItem          = function(item_id)          { _ARIS.enqueueRequest("aris://exit/item/"+item_id); }
     _ARIS.exitToDialog        = function(dialog_id)        { _ARIS.enqueueRequest("aris://exit/character/"+dialog_id); }
+    _ARIS.exitToQuest         = function(quest_name)       { _ARIS.enqueueRequest("aris://exit/quest/"+quest_name); }
     _ARIS.exitGame            = function()                 { _ARIS.enqueueRequest("aris://exit/game/"); }
     _ARIS.prepareMedia        = function(media_id)         { _ARIS.enqueueRequest("aris://media/prepare/" + media_id); }
     _ARIS.playMedia           = function(media_id)         { _ARIS.enqueueRequest("aris://media/play/" + media_id); }
@@ -72,15 +77,13 @@ var ARISJS = function(_ARIS)
     _ARIS.setGroup            = function(group_id)         { _ARIS.enqueueRequest("aris://group/set/" + group_id); }
     _ARIS.setScene            = function(scene_id)         { _ARIS.enqueueRequest("aris://scene/set/" + scene_id); }
     _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); }
-    _ARIS.getTriggerLocation  = function()                 { _ARIS.enqueueRequest("aris://trigger"); }
-    _ARIS.showNotesOnMap   = function(showNotes) {
-        _ARIS.enqueueRequest("aris://instances/map/showNotesOnMap/set/" + showNotes);
-    }
+    _ARIS.getTriggerLocation  = function(trigger_id)       { _ARIS.enqueueRequest("aris://trigger/" + (trigger_id || 0)); }
+    _ARIS.showNotesOnMap      = function(showNotes)        { _ARIS.enqueueRequest("aris://instances/map/showNotesOnMap/set/" + showNotes); }
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, body, auth, callback)
     {
-        var ROOT_URL = "http://arisgames.org"
+        var ROOT_URL = "https://arisgames.org"
         var url = ROOT_URL+'/server/json.php/v2.'+serviceName;
 
         var request = new XMLHttpRequest();

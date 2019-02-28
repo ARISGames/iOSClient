@@ -162,13 +162,19 @@
           @"data":[media.data base64EncodedStringWithOptions:0]
         }
      };
-    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:nil retryOnFail:NO humanDesc:@"Updating Player..." userInfo:nil];
+    NSLog(@"MT: Beginning upload of player media.");
+    [connection performAsynchronousRequestWithService:@"users" method:@"updateUser" arguments:args handler:self successSelector:@selector(parseUpdatePlayerMedia:) failSelector:@selector(updatePlayerMediaFailed) retryOnFail:YES humanDesc:@"Updating Player..." userInfo:nil];
 }
 - (void) parseUpdatePlayerMedia:(ARISServiceResult *)result
 {
+  NSLog(@"MT: Parsing result of player media upload.");
   if(!result.resultData) { _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_FAILED",nil,nil); return; }
   User *user = [[User alloc] initWithDictionary:(NSDictionary *)result.resultData];
   _ARIS_NOTIF_SEND_(@"SERVICES_UPDATE_USER_RECEIVED",nil,@{@"user":user});
+}
+- (void) updatePlayerMediaFailed
+{
+  NSLog(@"MT: Failed to upload player media.");
 }
 
 
@@ -176,8 +182,11 @@
 {
     NSMutableArray *games= [[NSMutableArray alloc] init];
 
-    for(long i = 0; i < gamesDicts.count; i++)
-        [games addObject:[[Game alloc] initWithDictionary:gamesDicts[i]]];
+    for(long i = 0; i < gamesDicts.count; i++) {
+        if ([gamesDicts[i] isKindOfClass:[NSDictionary class]]) {
+            [games addObject:[[Game alloc] initWithDictionary:gamesDicts[i]]];
+        }
+    }
 
     return games;
 }
@@ -227,14 +236,14 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_ANYWHERE_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchRecentGames
+- (void) fetchRecentGamesPage:(long)page
 {
     NSDictionary *args =
         @{
             @"user_id":[NSString stringWithFormat:@"%ld",_MODEL_PLAYER_.user_id],
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
-            @"page":[NSNumber numberWithLong:0]
+            @"page":[NSNumber numberWithLong:page]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getRecentGamesForPlayer" arguments:args handler:self successSelector:@selector(parseRecentGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Recent Games..." userInfo:nil];
 }
@@ -243,7 +252,7 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_RECENT_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchPopularGamesInterval:(NSString *)i
+- (void) fetchPopularGamesInterval:(NSString *)i page:(long)page
 {
     NSDictionary *args =
         @{
@@ -251,7 +260,7 @@
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"interval":i,//@"MONTH",
-            @"page":[NSNumber numberWithLong:0]
+            @"page":[NSNumber numberWithLong:page]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getPopularGamesForPlayer" arguments:args handler:self successSelector:@selector(parsePopularGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Popular Games..." userInfo:nil];
 }
@@ -260,7 +269,7 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_POPULAR_GAMES_RECEIVED", nil, @{@"games":[self parseGames:(NSArray *)result.resultData]});
 }
 
-- (void) fetchSearchGames:(NSString *)search
+- (void) fetchSearchGames:(NSString *)search page:(long)page
 {
     NSDictionary *args =
         @{
@@ -268,7 +277,7 @@
             @"latitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.latitude],
             @"longitude":[NSString stringWithFormat:@"%f",_MODEL_PLAYER_.location.coordinate.longitude],
             @"text":search,
-            @"page":[NSNumber numberWithLong:0]
+            @"page":[NSNumber numberWithLong:page]
         };
   [connection performAsynchronousRequestWithService:@"client" method:@"getSearchGamesForPlayer" arguments:args handler:self successSelector:@selector(parseSearchGames:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Search for Games..." userInfo:nil];
 }
@@ -309,6 +318,7 @@
 - (void) gameFetchFailed        { _ARIS_NOTIF_SEND_(@"SERVICES_GAME_FETCH_FAILED",        nil, nil); }
 - (void) maintenanceFetchFailed { _ARIS_NOTIF_SEND_(@"SERVICES_MAINTENANCE_FETCH_FAILED", nil, nil); }
 - (void) playerFetchFailed      { _ARIS_NOTIF_SEND_(@"SERVICES_PLAYER_FETCH_FAILED",      nil, nil); }
+- (void) mediaFetchFailed       { _ARIS_NOTIF_SEND_(@"SERVICES_MEDIA_FETCH_FAILED",       nil, nil); }
 
 - (void) fetchUsers
 {
@@ -1516,7 +1526,7 @@
     @{
       @"media_id":[NSNumber numberWithLong:media_id]
       };
-  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:nil retryOnFail:NO humanDesc:@"Fetching Media..." userInfo:nil];
+  [connection performAsynchronousRequestWithService:@"media" method:@"getMedia" arguments:args handler:self successSelector:@selector(parseMedia:) failSelector:@selector(mediaFetchFailed) retryOnFail:NO humanDesc:@"Fetching Media..." userInfo:nil];
 }
 - (void) parseMedia:(ARISServiceResult *)result //note that this intentionally only sends the dictionaries, not fully populated Media objects
 {
@@ -1770,53 +1780,29 @@
     _ARIS_NOTIF_SEND_(@"SERVICES_TAB_RECEIVED", nil, @{@"tab":tab});
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- (void) uploadNote:(Note *)n
+- (void) reportJSONError
 {
-}
-- (void) uploadPlayerPic:(Media *)m
-{
-  NSDictionary *mdict = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [m.localURL absoluteString],@"filename",
-    [m.data base64EncodedStringWithOptions:0],@"data",
-    nil];
-
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    [NSNumber numberWithLong:_MODEL_PLAYER_.user_id],    @"user_id",
-    mdict,                                                                 @"media",
-    nil];
-  [connection performAsynchronousRequestWithService:@"players" method:@"uploadPlayerMediaFromJSON" arguments:args handler:self successSelector:@selector(playerPicUploadDidFinish:) failSelector:nil retryOnFail:NO humanDesc:@"Uploading Player Pic..." userInfo:nil];
+    NSString *json_error_url = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(@"json_error.txt");
+    if (![[NSFileManager defaultManager] fileExistsAtPath:json_error_url]) {
+        return;
+    }
+    NSError *err;
+    NSString *json_error = [NSString stringWithContentsOfFile:json_error_url encoding:NSUTF8StringEncoding error:&err];
+    if (err) {
+        json_error = @"There was a JSON error log file, but I couldn't read it.";
+        NSLog(@"%@", json_error);
+    }
+    NSDictionary *args =
+        @{
+          @"message":json_error
+        };
+    [connection performAsynchronousRequestWithService:@"log" method:@"errorLog" arguments:args handler:self successSelector:@selector(clearJSONError) failSelector:nil retryOnFail:NO humanDesc:@"Uploading JSON error log..." userInfo:nil];
 }
 
-- (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(long) noteId type: (NSString *)type
+- (void) clearJSONError
 {
-  NSNumber *nId = [[NSNumber alloc] initWithLong:noteId];
-  NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
-  [userInfo setValue:name forKey:@"title"];
-  [userInfo setValue:nId forKey:@"noteId"];
-  [userInfo setValue:type forKey: @"type"];
-  [userInfo setValue:fileURL forKey:@"url"];
-
-  NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:
-    @"object", @"key",
-    nil];
-  [connection performAsynchronousRequestWithService:@"?" method:@"?" arguments:args handler:self successSelector:@selector(noteContentUploadDidFinish:) failSelector:@selector(uploadNoteContentDidFail:) retryOnFail:NO humanDesc:@"Uploading Note Content..." userInfo:userInfo];
+    NSString *json_error_url = _ARIS_LOCAL_URL_FROM_PARTIAL_PATH_(@"json_error.txt");
+    [[NSFileManager defaultManager] removeItemAtPath:json_error_url error:nil];
 }
 
 @end

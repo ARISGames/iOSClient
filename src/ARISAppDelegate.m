@@ -8,7 +8,6 @@
 
 #import "ARISAppDelegate.h"
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVAudioPlayer.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CLLocation.h>
 #import <CoreLocation/CLLocationManager.h>
@@ -20,6 +19,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "RootViewController.h"
+#import "ARISMediaURLProtocol.h"
 #import <Google/Analytics.h>
 
 @interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate, CLLocationManagerDelegate>
@@ -28,7 +28,8 @@
   NSTimer *locationPoller;
   CLLocation *lastKnownLocation;
   AVAudioPlayer *player;
-  NSMutableDictionary *beaconSignals;
+  NSMutableDictionary *beaconProximity;
+  NSMutableDictionary *beaconAccuracy;
 }
 @end
 
@@ -81,7 +82,10 @@
   if(_DEFAULTS_.fallbackUser && _DEFAULTS_.fallbackUser.user_id) [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
   if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
 
-  beaconSignals = [[NSMutableDictionary alloc] init];
+  beaconProximity = [[NSMutableDictionary alloc] init];
+  beaconAccuracy = [[NSMutableDictionary alloc] init];
+  
+  [NSURLProtocol registerClass:[ARISMediaURLProtocol class]];
 }
 
 - (void) setApplicationUITemplates
@@ -125,6 +129,8 @@
       !(_MODEL_PLAYER_ && _MODEL_PLAYER_.user_id))
     [_MODEL_ logInPlayer:_DEFAULTS_.fallbackUser];
   if(_DEFAULTS_.fallbackGameId) _ARIS_LOG_(@"I should start loading %ld, but I won't",_DEFAULTS_.fallbackGameId);
+
+  [_SERVICES_ reportJSONError];
 }
 
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
@@ -181,9 +187,41 @@
   }
 }
 
-- (void) addBeaconForTrigger:(Trigger *)trigger {
+//needs to create 8-4-4-4-12
+- (NSString *) massageUUID:(NSString *)uuid
+{
+  NSMutableString *justhex = [NSMutableString stringWithCapacity:uuid.length+4];//+4 is to account for the potential addition of 4 dashes
+  
+  NSScanner *scanner = [NSScanner scannerWithString:uuid];
+  NSCharacterSet *hex = [NSCharacterSet characterSetWithCharactersInString:@"0123456789abcdefABCDEF"];
+  
+  while(![scanner isAtEnd])
+  {
+    NSString *buff;
+    if([scanner scanCharactersFromSet:hex intoString:&buff])
+      [justhex appendString:buff];
+    else
+      [scanner setScanLocation:([scanner scanLocation] + 1)];
+  }
+  
+  if(justhex.length == 32)
+  {
+    //insert from back to front, for clearer indices
+    [justhex insertString:@"-" atIndex:8+4+4+4];
+    [justhex insertString:@"-" atIndex:8+4+4];
+    [justhex insertString:@"-" atIndex:8+4];
+    [justhex insertString:@"-" atIndex:8];
+    return [justhex uppercaseString];
+  }
+  else return @"";
+}
+
+- (void) addBeaconForTrigger:(Trigger *)trigger
+{
+  NSString *uuid = [self massageUUID:trigger.beacon_uuid];
+  if(uuid.length == 0) return;
   CLBeaconRegion *region = [[CLBeaconRegion alloc]
-                            initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:trigger.beacon_uuid]
+                            initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:uuid]
                             major:trigger.beacon_major minor:trigger.beacon_minor identifier:[NSString stringWithFormat:@"%ld",trigger.trigger_id]
                             ];
   [locationManager startMonitoringForRegion:region];
@@ -191,7 +229,8 @@
 }
 
 - (void) clearBeacons {
-  [beaconSignals removeAllObjects];
+  [beaconProximity removeAllObjects];
+  [beaconAccuracy removeAllObjects];
   for (CLBeaconRegion *region in locationManager.rangedRegions) {
     [locationManager stopRangingBeaconsInRegion:region];
   }
@@ -202,22 +241,39 @@
 
 - (CLProximity) proximityToBeaconTrigger:(Trigger *)trigger {
   NSString *trigger_id = [NSString stringWithFormat:@"%ld", trigger.trigger_id];
-  NSNumber *beacon_id = [beaconSignals objectForKey:trigger_id];
+  NSNumber *beacon_id = [beaconProximity objectForKey:trigger_id];
   if (beacon_id == nil) {
     return CLProximityFar + 1;
   } else {
-    return [beacon_id intValue];
+    return [beacon_id longValue];
+  }
+}
+
+- (double) accuracyToBeaconTrigger:(Trigger *)trigger {
+  NSString *trigger_id = [NSString stringWithFormat:@"%ld", trigger.trigger_id];
+  NSNumber *beacon_id = [beaconAccuracy objectForKey:trigger_id];
+  if (beacon_id == nil) {
+    return 9999.0f; // TODO what should this be
+  } else {
+    return [beacon_id doubleValue];
   }
 }
 
 - (void) locationManager:(CLLocationManager *)manager didRangeBeacons:(nonnull NSArray<CLBeacon *> *)beacons inRegion:(nonnull CLBeaconRegion *)region {
-  int proximity = CLProximityFar + 1;
+  long proximity = CLProximityFar + 1;
+  double accuracy = 9999.0f; // TODO what should this be
   for (CLBeacon *beacon in beacons) {
-    if (proximity > beacon.proximity && beacon.proximity != CLProximityUnknown) {
-      proximity = beacon.proximity;
+    if (beacon.proximity != CLProximityUnknown) {
+      if (proximity > beacon.proximity) {
+        proximity = beacon.proximity;
+      }
+      if (accuracy > beacon.accuracy) {
+        accuracy = beacon.accuracy;
+      }
     }
   }
-  [beaconSignals setValue:[NSNumber numberWithInteger:proximity] forKey:region.identifier];
+  [beaconProximity setValue:[NSNumber numberWithInteger:proximity] forKey:region.identifier];
+  [beaconAccuracy setValue:[NSNumber numberWithDouble:accuracy] forKey:region.identifier];
   _ARIS_NOTIF_SEND_(@"BEACONS_MOVED",nil,nil);
 }
 
@@ -280,6 +336,17 @@
 {
   [self stopPollingLocation];
   _ARIS_NOTIF_IGNORE_ALL_(self);
+}
+
+// from vuforia sample code
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+  // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+  // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+  if (self.glResourceHandler) {
+    // Delete OpenGL resources (e.g. framebuffer) of the SampleApp AR View
+    [self.glResourceHandler freeOpenGLESResources];
+    [self.glResourceHandler finishOpenGLESCommands];
+  }
 }
 
 @end

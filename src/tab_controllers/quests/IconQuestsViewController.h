@@ -14,4 +14,5 @@
 
 @interface IconQuestsViewController : ARISViewController <GamePlayTabBarViewControllerProtocol>
 - (id) initWithTab:(Tab *)t delegate:(id<QuestsViewControllerDelegate>)d;
+- (void) showQuestByName:(NSString *) quest_name;
 @end

@@ -19,6 +19,10 @@
 #import "ForgotPasswordViewController.h"
 #import <Google/Analytics.h>
 
+#define LOGIN_GOOD     0
+#define LOGIN_INTERNET 1
+#define LOGIN_BAD      2
+
 @interface LoginViewController() <LoginScannerViewControllerDelegate, CreateAccountViewControllerDelegate, UITextFieldDelegate>
 {
   UITextField *usernameField;
@@ -257,9 +261,10 @@
         }
         NSString *result = [code stringValue];
 
-        if([self loginWithString:result])
+        int loginResult = [self loginWithString:result];
+        if (loginResult == LOGIN_GOOD)
           return;
-        else
+        else if (loginResult == LOGIN_BAD)
           not_found = YES;
       }
 
@@ -279,8 +284,15 @@
   [self loginWithString:result];
 }
 
-- (BOOL) loginWithString:(NSString *)result
+- (int) loginWithString:(NSString *)result
 {
+  if([_DELEGATE_.reachability currentReachabilityStatus] == NotReachable) {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Connection" message:@"Ensure you are connected to the internet, then try again." delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+    [alert show];
+    return LOGIN_INTERNET;
+  }
+  
   NSArray *terms  = [result componentsSeparatedByString:@","];
 
   //(DON'T USE) - // 0,user_name,password,game_id,disable_leave_game
@@ -304,6 +316,7 @@
     {
       const char *c = [terms[i] UTF8String]; //to not deal with awful NSString
       if(c[0] == 'p') auto_profile_enabled = c[1] != '0';
+      if(c[0] == 'n' && c[1] == 'p') auto_profile_enabled = NO;
       if(c[0] == 'l') leave_game_enabled   = c[1] != '0';
       if(c[0] == 'g')
       {
@@ -338,7 +351,7 @@
      if(terms.count > 3) game_id            = [terms[3] intValue];
      if(terms.count > 4) leave_game_enabled = ![terms[4] boolValue];
      */
-    return false;
+    return LOGIN_BAD;
   }
   _MODEL_.auto_profile_enabled = auto_profile_enabled;
   _MODEL_.leave_game_enabled = leave_game_enabled;
@@ -352,7 +365,7 @@
   {
     [_MODEL_ generateUserFromGroup:group_name];
   }
-  return true;
+  return LOGIN_GOOD;
 }
 
 - (void) cancelLoginScan

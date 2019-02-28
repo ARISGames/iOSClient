@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ARISModel.h"
-#import "Log.h"
+#import "data_objects/Log.h"
 #import "Tab.h"
 
 @interface LogsModel : ARISModel

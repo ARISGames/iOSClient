@@ -116,7 +116,7 @@
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:webPage.url]] withAppendation:[NSString stringWithFormat:@"&web_page_id=%ld",webPage.web_page_id]];
 
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, 19, 19);
+    backButton.frame = CGRectMake(0, 0, 27, 27);
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
@@ -128,9 +128,15 @@
     {
         UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
         [threeLineNavButton setImage:[UIImage imageNamed:@"threelines"] forState:UIControlStateNormal];
-        [threeLineNavButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
+        // TODO fix this to close the nav if it's already open
+        [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
         threeLineNavButton.accessibilityLabel = @"In-Game Menu";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+        // newly required in iOS 11: https://stackoverflow.com/a/44456952
+        if ([threeLineNavButton respondsToSelector:@selector(widthAnchor)] && [threeLineNavButton respondsToSelector:@selector(heightAnchor)]) {
+            [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+            [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+        }
     }
 }
 
@@ -153,7 +159,7 @@
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
-    [self dismissSelf];
+    [self dismissSelfNoNav];
 }
 
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
@@ -173,14 +179,22 @@
 
 - (void) dismissSelf
 {
+    [self dismissSelfNoNav];
+    if(tab) [self showNav];
+}
+
+- (void) dismissSelfNoNav
+{
     [webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
     [delegate instantiableViewControllerRequestsDismissal:self];
-    if(tab) [self showNav];
 }
 
 - (void) showNav
 {
+    // normally the "log player viewed" is done on "view controller requests dismissal"
+    // so this is only needed for a tab
+    if (tab) [_MODEL_LOGS_ playerViewedContent:instance.object_type id:instance.object_id];
     [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 

@@ -105,7 +105,7 @@
 
   self.accountSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:[[AccountSettingsViewController alloc] initWithDelegate:self]];
 
-  self.gamePickersRevealController = [PKRevealController revealControllerWithFrontViewController:self.gamePickersNavigationController leftViewController:self.accountSettingsNavigationController options:nil];
+  self.gamePickersRevealController = [PKRevealController revealControllerWithFrontViewController:self.gamePickersNavigationController leftViewController:self.accountSettingsNavigationController];
 
   UIView *logoContainer = [[UIView alloc] initWithFrame:self.cur_gamePickersTabBarController.navigationItem.titleView.frame];
   UIImageView *logoText  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
@@ -119,6 +119,11 @@
   [settingsbutton addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
   settingsbutton.accessibilityLabel = @"Settings Button";
   self.cur_gamePickersTabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
+  // newly required in iOS 11: https://stackoverflow.com/a/44456952
+  if ([settingsbutton respondsToSelector:@selector(widthAnchor)] && [settingsbutton respondsToSelector:@selector(heightAnchor)]) {
+    [[settingsbutton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+    [[settingsbutton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+  }
 
   _ARIS_NOTIF_LISTEN_(@"NETWORK_CONNECTED",self,@selector(swapToOnline),nil);
   //_ARIS_NOTIF_LISTEN_(@"NETWORK_DISCONNECTED",self,@selector(swapToOffline),nil);

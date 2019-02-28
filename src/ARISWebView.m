@@ -234,8 +234,10 @@
 
         NSString *type = @"";
         NSString *token = @"";
-        if(components.count > 1) type  = components[1];
-        if(components.count > 2) token = components[2];
+        NSString *token2 = @"";
+        if(components.count > 1) type   = components[1];
+        if(components.count > 2) token  = components[2];
+        if(components.count > 3) token2 = components[3];
 
         if(!_MODEL_GAME_) return; //game doesn't exist yet, can't "exit to"
 
@@ -245,11 +247,24 @@
             [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:token]];
         else if([type isEqualToString:@"scanner"])
         {
-            [_MODEL_TABS_ tabForType:@"SCANNER"].info = token;
-            [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"SCANNER"]];
+            // legacy scanner call, takes single prompt argument
+            [_MODEL_TABS_ tabForType:@"AUGMENTED"].info = [NSString stringWithFormat:@"0|%@", token];
+            [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"AUGMENTED"]];
+        }
+        else if([type isEqualToString:@"augmented"])
+        {
+            // new augmented call, takes 2 args: media_id and prompt
+            [_MODEL_TABS_ tabForType:@"AUGMENTED"].info = [NSString stringWithFormat:@"%@|%@", token, token2];
+            [_MODEL_DISPLAY_QUEUE_ enqueueTab:[_MODEL_TABS_ tabForType:@"AUGMENTED"]];
         }
         else if([type isEqualToString:@"plaque"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_PLAQUES_ plaqueForId:[token intValue]]];
+        else if([type isEqualToString:@"quest"])
+        {
+            Tab *tab = [_MODEL_TABS_ tabForType:@"QUESTS"];
+            tab.info = token;
+            [_MODEL_DISPLAY_QUEUE_ enqueueTab:tab];
+        }
         else if([type isEqualToString:@"webpage"])
             [_MODEL_DISPLAY_QUEUE_ enqueueObject:[_MODEL_WEB_PAGES_ webPageForId:[token intValue]]];
         else if([type isEqualToString:@"item"])
@@ -287,7 +302,14 @@
     }
     else if([mainCommand isEqualToString:@"trigger"])
     {
-        Trigger *trigger = [_MODEL_DISPLAY_QUEUE_ getTriggerLookingAt];
+        long trigger_id = 0;
+        if (components.count > 1) trigger_id = [components[1] intValue];
+        Trigger *trigger;
+        if (trigger_id) {
+            trigger = [_MODEL_TRIGGERS_ triggerForId:trigger_id];
+        } else {
+            trigger = [_MODEL_DISPLAY_QUEUE_ getTriggerLookingAt];
+        }
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString *now = [dateFormatter stringFromDate:[NSDate date]];
@@ -301,6 +323,8 @@
                                  "\"title\":\"%@\","
                                  "\"longitude\":%g,"
                                  "\"latitude\":%g,"
+                                 "\"proximity\":%ld,"
+                                 "\"accuracy\":%f,"
                                  "\"date\":\"%@\","
                                  "}",
                                  trigger.trigger_id,
@@ -311,6 +335,8 @@
                                  trigger.title,
                                  trigger.location.coordinate.longitude,
                                  trigger.location.coordinate.latitude,
+                                 (long)[_DELEGATE_ proximityToBeaconTrigger:trigger],
+                                 [_DELEGATE_ accuracyToBeaconTrigger:trigger],
                                  now
                                  ];
         [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.didReceiveTriggerLocation(%@);",triggerJSON]];

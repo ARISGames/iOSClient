@@ -106,7 +106,7 @@
       [fakeExistingInstance mergeDataFromInstance:newInstance];
       fakeExistingInstance.qty = 0;
       [instances setObject:fakeExistingInstance forKey:newInstanceId];
-      [blacklist removeObjectForKey:[NSNumber numberWithLong:newInstanceId]];
+      [blacklist removeObjectForKey:newInstanceId];
     }
 
     Instance *existingInstance = [instances objectForKey:newInstanceId];

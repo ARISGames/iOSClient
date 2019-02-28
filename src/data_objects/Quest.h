@@ -13,6 +13,9 @@
     long quest_id;
     NSString *name;
     NSString *desc;
+    NSString *prompt;
+    long stars;
+    NSString *quest_type;
 
     long active_icon_media_id;
     long active_media_id;
@@ -31,11 +34,15 @@
     long complete_requirement_root_package_id;
 
     long sort_index;
+    long parent_quest_id;
 }
 
 @property (nonatomic, assign) long quest_id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *prompt;
+@property (nonatomic, assign) long stars;
+@property (nonatomic, strong) NSString *quest_type;
 
 @property (nonatomic, assign) long active_icon_media_id;
 @property (nonatomic, assign) long active_media_id;
@@ -54,6 +61,7 @@
 @property (nonatomic, assign) long complete_requirement_root_package_id;
 
 @property (nonatomic, assign) long sort_index;
+@property (nonatomic, assign) long parent_quest_id;
 
 - (Quest *) initWithDictionary:(NSDictionary *)dict;
 - (NSString *) serialize;

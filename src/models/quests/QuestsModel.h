@@ -18,6 +18,7 @@
 - (void) requestQuests;
 - (void) requestPlayerQuests;
 - (void) logAnyNewlyCompletedQuests;
+- (long) starsForCompoundQuest:(long)quest_id;
 
 @end
 

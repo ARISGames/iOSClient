@@ -76,7 +76,7 @@
     if(![users objectForKey:newUserId])
     {
       [users setObject:newUser forKey:newUserId];
-      [blacklist removeObjectForKey:[NSNumber numberWithLong:newUserId]];
+      [blacklist removeObjectForKey:newUserId];
     }
     else
       [[users objectForKey:newUserId] mergeDataFromUser:newUser];

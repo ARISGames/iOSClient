@@ -138,6 +138,11 @@ static NSString * const OPTION_CELL = @"option";
         [threeLineNavButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
         threeLineNavButton.accessibilityLabel = @"In-Game Menu";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+        // newly required in iOS 11: https://stackoverflow.com/a/44456952
+        if ([threeLineNavButton respondsToSelector:@selector(widthAnchor)] && [threeLineNavButton respondsToSelector:@selector(heightAnchor)]) {
+            [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+            [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+        }
     }
 }
 

@@ -342,6 +342,18 @@
   n_player_data_received = [self nPlayerDataToReceive];
 }
 
+- (long) starsForCompoundQuest:(long)quest_id
+{
+  long sum = 0;
+  for (NSNumber *k in quests) {
+    Quest *quest = [quests objectForKey:k];
+    if (quest.parent_quest_id == quest_id && [_MODEL_LOGS_ hasLogType:@"COMPLETE_QUEST" content:quest.quest_id]) {
+      sum += quest.stars;
+    }
+  }
+  return sum;
+}
+
 - (void) dealloc
 {
   _ARIS_NOTIF_IGNORE_ALL_(self);

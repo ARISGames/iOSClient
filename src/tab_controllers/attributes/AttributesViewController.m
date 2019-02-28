@@ -102,6 +102,11 @@
     [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
     threeLineNavButton.accessibilityLabel = @"In-Game Menu";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+    // newly required in iOS 11: https://stackoverflow.com/a/44456952
+    if ([threeLineNavButton respondsToSelector:@selector(widthAnchor)] && [threeLineNavButton respondsToSelector:@selector(heightAnchor)]) {
+      [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+      [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+    }
     
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:self.title];
@@ -223,7 +228,7 @@
 
 //implement gameplaytabbarviewcontrollerprotocol junk
 - (NSString *) tabId { return @"PLAYER"; }
-- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return @"Player"; }
+- (NSString *) tabTitle { if(tab.name && ![tab.name isEqualToString:@""]) return tab.name; return NSLocalizedString(@"PlayerTitleKey",@""); }
 - (ARISMediaView *) tabIcon
   {
     ARISMediaView *amv = [[ARISMediaView alloc] init];

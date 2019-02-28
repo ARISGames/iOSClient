@@ -20,7 +20,7 @@
 
 #define _ARIS_NOTIF_SEND_(arg_name,arg_object,arg_info) \
 ({ \
-_ARIS_LOG_(@"NSNotification: "arg_name); \
+_ARIS_LOG_(@"NSNotification: " arg_name); \
 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:arg_name object:arg_object userInfo:arg_info]]; \
 })
 

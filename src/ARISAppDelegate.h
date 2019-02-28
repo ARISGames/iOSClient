@@ -1,4 +1,4 @@
-﻿//
+//
 //  ARISAppDelegate.h
 //  ARIS
 //
@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Reachability.h"
 #import "Trigger.h"
+#import "SampleGLResourceHandler.h"
 
 #define _DELEGATE_ ((ARISAppDelegate *)[[UIApplication sharedApplication] delegate])
 
@@ -20,6 +21,7 @@
 
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) Reachability *reachability;
+@property (nonatomic, weak) id<SampleGLResourceHandler> glResourceHandler;
 
 - (void) vibrate;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
@@ -28,5 +30,6 @@
 - (void) addBeaconForTrigger:(Trigger *)trigger;
 - (void) clearBeacons;
 - (CLProximity) proximityToBeaconTrigger:(Trigger *)trigger;
+- (double) accuracyToBeaconTrigger:(Trigger *)trigger;
 
 @end

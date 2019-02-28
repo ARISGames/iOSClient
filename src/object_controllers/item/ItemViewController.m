@@ -188,11 +188,16 @@
         [threeLineNavButton addTarget:self action:@selector(dismissSelf) forControlEvents:UIControlEventTouchUpInside];
         threeLineNavButton.accessibilityLabel = @"In-Game Menu";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+        // newly required in iOS 11: https://stackoverflow.com/a/44456952
+        if ([threeLineNavButton respondsToSelector:@selector(widthAnchor)] && [threeLineNavButton respondsToSelector:@selector(heightAnchor)]) {
+            [[threeLineNavButton.widthAnchor constraintEqualToConstant:27.0] setActive:true];
+            [[threeLineNavButton.heightAnchor constraintEqualToConstant:27.0] setActive:true];
+        }
     }
     else
     {
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        backButton.frame = CGRectMake(0, 0, 19, 19);
+        backButton.frame = CGRectMake(0, 0, 27, 27);
         [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
         [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
         backButton.accessibilityLabel = @"Back Button";

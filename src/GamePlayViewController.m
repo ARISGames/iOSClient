@@ -29,6 +29,7 @@
 #import "DecoderViewController.h"
 
 #import "PlaqueViewController.h"
+#import "PlaqueFullViewController.h"
 #import "ItemViewController.h"
 #import "DialogViewController.h"
 #import "WebPageViewController.h"
@@ -50,6 +51,7 @@
   DecoderViewControllerDelegate,
 
   PlaqueViewControllerDelegate,
+  PlaqueFullViewControllerDelegate,
   ItemViewControllerDelegate,
   DialogViewControllerDelegate,
   WebPageViewControllerDelegate,
@@ -96,7 +98,7 @@
     gameNotificationViewController = [[GameNotificationViewController alloc] initWithDelegate:self];
     loadingIndicatorViewController = [[LoadingIndicatorViewController alloc] initWithDelegate:self];
     gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithDelegate:self];
-    gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController options:nil];
+    gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:gamePlayTabSelectorController.firstViewController leftViewController:gamePlayTabSelectorController];
     
     local_inst_queue = [[NSMutableArray alloc] init];
     _ARIS_NOTIF_LISTEN_(@"MODEL_INSTANCES_PLAYER_AVAILABLE", self, @selector(flushBufferQueuedInstances), nil);
@@ -203,8 +205,13 @@
 - (void) displayInstance:(Instance *)i
 {
     ARISViewController *vc;
-    if([i.object_type isEqualToString:@"PLAQUE"])
-      vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+    if([i.object_type isEqualToString:@"PLAQUE"]) {
+        if ([_MODEL_PLAQUES_ plaqueForId:i.object_id].full_screen) {
+            vc = [[PlaqueFullViewController alloc] initWithInstance:i delegate:self];
+        } else {
+            vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+        }
+    }
     if([i.object_type isEqualToString:@"ITEM"])
         vc = [[ItemViewController alloc] initWithInstance:i delegate:self];
     if([i.object_type isEqualToString:@"DIALOG"])
@@ -263,7 +270,11 @@
       Plaque *p = (Plaque *)o;
       i.object_type = @"PLAQUE";
       i.object_id = p.plaque_id;
-      vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+      if (p.full_screen) {
+        vc = [[PlaqueFullViewController alloc] initWithInstance:i delegate:self];
+      } else {
+        vc = [[PlaqueViewController alloc] initWithInstance:i delegate:self];
+      }
     }
     else if([o isKindOfClass:[Item class]])
     {
@@ -349,10 +360,6 @@
     [gamePlayTabSelectorController requestDisplayTab:t];
     [self tryDequeue]; //no 'closing event' for tab
 }
-- (void) displayScannerWithPrompt:(NSString *)p
-{
-    [gamePlayTabSelectorController requestDisplayScannerWithPrompt:p];
-}
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations
 {
@@ -375,6 +382,12 @@
 
 - (void) dealloc
 {
+  // MT: adding these after upgrading PKRevealController
+  // to avoid a reference issue where GamePlayTabSelectorViewController
+  // doesn't get dealloc'd
+  [gamePlayRevealController setFrontViewController:nil];
+  [gamePlayRevealController setLeftViewController:nil];
+
   [self destroy];
   _ARIS_NOTIF_IGNORE_ALL_(self);
 }
