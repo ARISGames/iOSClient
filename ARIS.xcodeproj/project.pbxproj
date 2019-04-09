@@ -732,7 +732,7 @@
 		AAA1CE2B1891C1C20005F4DC /* NoteComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteComment.h; sourceTree = "<group>"; };
 		AAA1CE2C1891C1C20005F4DC /* NoteComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteComment.m; sourceTree = "<group>"; };
 		AAA2F8C618A3F85B00B77249 /* MapHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapHUD.h; sourceTree = "<group>"; };
-		AAA2F8C718A3F85B00B77249 /* MapHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapHUD.m; sourceTree = "<group>"; };
+		AAA2F8C718A3F85B00B77249 /* MapHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = MapHUD.m; sourceTree = "<group>"; tabWidth = 4; };
 		AAA3FA9F18CA28B500C8D016 /* ARISSelectorHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISSelectorHandle.h; sourceTree = "<group>"; };
 		AAA3FAA018CA28B500C8D016 /* ARISSelectorHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISSelectorHandle.m; sourceTree = "<group>"; };
 		AAA3FAA418CA733000C8D016 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
@@ -795,9 +795,9 @@
 		AABC70551727399C0074CC21 /* Science Hall.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Science Hall.gpx"; sourceTree = "<group>"; };
 		AABC70561727399C0074CC21 /* Van Hise.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Van Hise.gpx"; sourceTree = "<group>"; };
 		AABC7065172739D60074CC21 /* AccountSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountSettingsViewController.h; sourceTree = "<group>"; };
-		AABC7066172739D60074CC21 /* AccountSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountSettingsViewController.m; sourceTree = "<group>"; };
+		AABC7066172739D60074CC21 /* AccountSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = AccountSettingsViewController.m; sourceTree = "<group>"; tabWidth = 4; };
 		AABC706A172739D60074CC21 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
-		AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
+		AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; tabWidth = 4; };
 		AABC706D172739D60074CC21 /* PlayerSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSettingsViewController.h; sourceTree = "<group>"; };
 		AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSettingsViewController.m; sourceTree = "<group>"; };
 		AABC7070172739D60074CC21 /* ARIS_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARIS_Prefix.pch; sourceTree = "<group>"; };
@@ -844,7 +844,7 @@
 		AABC70CB172739D60074CC21 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		AABC70CC172739D60074CC21 /* LoginViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginViewController.mm; sourceTree = "<group>"; };
 		AABC70CE172739D60074CC21 /* CreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateAccountViewController.h; sourceTree = "<group>"; };
-		AABC70CF172739D60074CC21 /* CreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateAccountViewController.m; sourceTree = "<group>"; };
+		AABC70CF172739D60074CC21 /* CreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = CreateAccountViewController.m; sourceTree = "<group>"; tabWidth = 4; };
 		AABC70D0172739D60074CC21 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		AABC70DC172739D60074CC21 /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
 		AABC70DD172739D60074CC21 /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppModel.m; sourceTree = "<group>"; };
@@ -890,15 +890,15 @@
 		AABC7373172739D80074CC21 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		AABC74E317273A0F0074CC21 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AABC74FD1728600B0074CC21 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		AABC74FE1728600B0074CC21 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		AABC74FE1728600B0074CC21 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; tabWidth = 4; };
 		AABC75021728604E0074CC21 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageViewController.h; sourceTree = "<group>"; };
 		AABC75031728604E0074CC21 /* WebPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPageViewController.m; sourceTree = "<group>"; };
 		AABC750E172860860074CC21 /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		AABC750F172860860074CC21 /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
 		AABED6E51BB5B23000EBDB42 /* GamePickerDownloadedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerDownloadedViewController.h; sourceTree = "<group>"; };
 		AABED6E61BB5B23000EBDB42 /* GamePickerDownloadedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerDownloadedViewController.m; sourceTree = "<group>"; };
-		AAC0D8741930F4E200CA1DE3 /* DialogScriptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScriptViewController.h; sourceTree = "<group>"; };
-		AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScriptViewController.m; sourceTree = "<group>"; };
+		AAC0D8741930F4E200CA1DE3 /* DialogScriptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = DialogScriptViewController.h; sourceTree = "<group>"; tabWidth = 4; };
+		AAC0D8751930F4E200CA1DE3 /* DialogScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScriptViewController.m; sourceTree = "<group>"; tabWidth = 4; };
 		AAC0D8761930F4E200CA1DE3 /* DialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogViewController.h; sourceTree = "<group>"; };
 		AAC0D8771930F4E200CA1DE3 /* DialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogViewController.m; sourceTree = "<group>"; };
 		AAC0D8851930F6D900CA1DE3 /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dialog.h; sourceTree = "<group>"; };
@@ -938,7 +938,7 @@
 		AAF7116417B971ED00262A37 /* ARISCollapseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISCollapseView.h; sourceTree = "<group>"; };
 		AAF7116517B971ED00262A37 /* ARISCollapseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISCollapseView.m; sourceTree = "<group>"; };
 		AAF8A382196C536200CD3D71 /* DialogTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogTextView.h; sourceTree = "<group>"; };
-		AAF8A383196C536200CD3D71 /* DialogTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogTextView.m; sourceTree = "<group>"; };
+		AAF8A383196C536200CD3D71 /* DialogTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = DialogTextView.m; sourceTree = "<group>"; tabWidth = 4; };
 		AAF9231C1885968B0026A4FC /* NoteRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteRecorderViewController.m; sourceTree = "<group>"; };
 		AAF9231D1885968B0026A4FC /* NoteRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteRecorderViewController.h; sourceTree = "<group>"; };
 		AAF923221885D7580026A4FC /* AudioVisualizerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVisualizerViewController.h; sourceTree = "<group>"; };

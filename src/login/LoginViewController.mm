@@ -78,7 +78,7 @@
   [titleContainer addSubview:logoText];
   self.navigationItem.titleView = titleContainer;
   [self.navigationController.navigationBar layoutIfNeeded];
-
+  
   long navOffset = 66;
 
   usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
@@ -162,14 +162,19 @@
 - (void) viewWillLayoutSubviews
 {
   [super viewWillLayoutSubviews];
+  UIEdgeInsets insets;
   long navOffset = 66;
+  if (@available(iOS 11.0, *)) {
+    insets = self.view.safeAreaInsets;
+    navOffset = insets.top;
+  }
 
   usernameField.frame    = CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20);
   passwordField.frame    = CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20);
   loginButton.frame      = CGRectMake(self.view.frame.size.width-60, navOffset+100, 60, 50);
-  qrButton.frame         = CGRectMake(80, self.view.frame.size.height-(self.view.frame.size.width-160)-80, self.view.frame.size.width-160, self.view.frame.size.width-160);
-  newAccountButton.frame = CGRectMake(0, self.view.frame.size.height-60, self.view.frame.size.width, 20);
-  changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
+  qrButton.frame         = CGRectMake(80, self.view.frame.size.height-(self.view.frame.size.width-160)-80-insets.bottom, self.view.frame.size.width-160, self.view.frame.size.width-160);
+  newAccountButton.frame = CGRectMake(0, self.view.frame.size.height-60-insets.bottom, self.view.frame.size.width, 20);
+  changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30-insets.bottom, self.view.frame.size.width, 20);
   line1.frame            = CGRectMake(20, navOffset+20+20+5, self.view.frame.size.width-40, 1);
   line2.frame            = CGRectMake(20, navOffset+20+20+20+20+5, self.view.frame.size.width-40, 1);
 }

@@ -129,7 +129,12 @@
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    UIEdgeInsets insets;
     long navOffset = 66;
+    if (@available(iOS 11.0, *)) {
+        insets = self.view.safeAreaInsets;
+        navOffset = insets.top;
+    }
 
     line4.frame = CGRectMake(20,navOffset+20+20+5,self.view.frame.size.width-40, 1);
     line3.frame = CGRectMake(20,navOffset+20+20+20+20+20+20+5, self.view.frame.size.width-40, 1);

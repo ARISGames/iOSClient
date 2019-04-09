@@ -180,13 +180,20 @@
 {
     [super viewWillLayoutSubviews];
     mapView.frame = self.view.bounds;
-
+    
     long buttonSize = 40;
-    threeLinesButton.frame      = CGRectMake(15, 24,  buttonSize, buttonSize);
-    centerButton.frame          = CGRectMake(15, 74,  buttonSize, buttonSize);
-    fitToAnnotationButton.frame = CGRectMake(15, 124, buttonSize, buttonSize);
+    long topBuffer = 0;
+    long bottomBuffer = 0;
+    if (@available(iOS 11.0, *)) {
+        UIEdgeInsets insets = self.view.safeAreaInsets;
+        topBuffer = insets.top - self.navigationController.navigationBar.frame.size.height;
+        bottomBuffer = insets.bottom;
+    }
+    threeLinesButton.frame      = CGRectMake(15, topBuffer + 24,  buttonSize, buttonSize);
+    centerButton.frame          = CGRectMake(15, topBuffer + 74,  buttonSize, buttonSize);
+    fitToAnnotationButton.frame = CGRectMake(15, topBuffer + 124, buttonSize, buttonSize);
 
-    hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80, self.view.bounds.size.width, 80);
+    hud.view.frame = CGRectMake(0, self.view.bounds.size.height-80-bottomBuffer, self.view.bounds.size.width, 80+bottomBuffer);
 }
 
 - (void) viewWillAppear:(BOOL)animated

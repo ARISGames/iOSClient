@@ -93,7 +93,7 @@
     [collapseView setFrame:self.view.bounds];
     hudView.frame = CGRectMake(0, 23, self.view.frame.size.width, self.view.frame.size.height-23);
 
-    whiteGradient.frame = CGRectMake(hudView.bounds.origin.x, hudView.bounds.origin.y, hudView.bounds.size.width, 57);
+    whiteGradient.frame = CGRectMake(hudView.bounds.origin.x, hudView.bounds.origin.y, hudView.bounds.size.width, self.view.frame.size.height-23);
     prompt.frame = CGRectMake(75, 12, self.view.frame.size.width-160, 25);
     warning.frame = CGRectMake(75, 35, self.view.frame.size.width-160, 17);
     warningImage.frame = CGRectMake(self.view.frame.size.width-70, 2, 50, 52);

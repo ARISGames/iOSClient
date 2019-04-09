@@ -134,13 +134,22 @@
 - (void) viewWillLayoutSubviews
 {
   [super viewWillLayoutSubviews];
-
+  
   [mediaView setFrame:CGRectMake(0,0,self.view.bounds.size.width,20)];
   rateButton.frame = CGRectMake(0, startButton.frame.origin.y-40, self.view.bounds.size.width, 40);
 
-  scrollView.frame = self.view.bounds;
-  scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
-  scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
+  if (@available(iOS 11.0, *)) {
+    UIEdgeInsets insets = self.view.safeAreaInsets;
+    insets.bottom += 40; // reset/start buttons
+    scrollView.frame = UIEdgeInsetsInsetRect(self.view.frame, insets);
+    scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-insets.top-insets.bottom); // I don't think this matters
+    scrollView.clipsToBounds = YES;
+  } else {
+    scrollView.frame = self.view.bounds;
+    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
+    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
+  }
 
   [self refreshFromGame];
 }
@@ -182,8 +191,13 @@
   [startButton removeFromSuperview];
   [resumeButton removeFromSuperview];
 
+  long bottomBuffer = 0;
+  if (@available(iOS 11.0, *)) {
+    bottomBuffer = self.view.safeAreaInsets.bottom;
+  }
+  
   long n_buttons = 0;
-  long b_y = self.view.bounds.size.height-40;
+  long b_y = self.view.bounds.size.height-40-bottomBuffer;
   long b_h = 40;
   
   if(game.know_if_begin_fresh && game.begin_fresh)

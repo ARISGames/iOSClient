@@ -12,6 +12,7 @@
 @interface ForgotPasswordViewController() <UITextFieldDelegate>
 {
     UITextField *emailField;
+    UIView *line;
     UILabel *instructions;
     BOOL viewHasAppeared;
     id<ForgotPasswordViewControllerDelegate> delegate;
@@ -65,7 +66,6 @@
     emailField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:emailField];
 
-    UIView *line;
     line = [[UIView alloc] initWithFrame:CGRectMake(20,66+20+20+5,self.view.frame.size.width-40, 1)];
     line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
     [self.view addSubview:line];
@@ -81,7 +81,21 @@
     [backButton setImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     backButton.accessibilityLabel = @"Back Button";
     [backButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
+
+- (void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    long navOffset = 66;
+    if (@available(iOS 11.0, *)) {
+        UIEdgeInsets insets = self.view.safeAreaInsets;
+        navOffset = insets.top;
+    }
+    
+    emailField.frame = CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20);
+    line.frame = CGRectMake(20,navOffset+20+20+5,self.view.frame.size.width-40, 1);
+    instructions.frame = CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,80);
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField

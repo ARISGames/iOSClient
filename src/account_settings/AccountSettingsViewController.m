@@ -97,12 +97,15 @@
 {
     [super viewWillLayoutSubviews];
     tableView.frame = self.view.bounds;
-    // MT: this appears to not be necessary on iOS 11
-    if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
+    UIEdgeInsets insets;
+    if (@available(iOS 11.0, *)) {
+        insets = tableView.safeAreaInsets;
+    } else {
+        // old handler for positioning scroll content correctly
         tableView.contentInset = UIEdgeInsetsMake(64,0,44,0);
     }
-
-    logoutButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+  
+    logoutButton.frame = CGRectMake(0,self.view.bounds.size.height-44-insets.bottom,self.view.bounds.size.width,44+insets.bottom);
     logoutLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
     logoutArrow.frame = CGRectMake(6,13,19,19);
     logoutLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);

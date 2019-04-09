@@ -121,16 +121,22 @@
 
 - (void) viewWillLayoutSubviews
 {
-  [super viewWillLayoutSubviews];
-  
-  tableView.frame = self.view.bounds;
-  if(_MODEL_.leave_game_enabled) tableView.contentInset = UIEdgeInsetsMake(20,0,44,0);
-  else                           tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
-  
-  leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
-  leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
-  leaveGameArrow.frame = CGRectMake(6,13,19,19);
-  leaveGameLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
+    [super viewWillLayoutSubviews];
+    
+    tableView.frame = self.view.bounds;
+    UIEdgeInsets insets;
+    if (@available(iOS 11.0, *)) {
+        insets = tableView.safeAreaInsets;
+    } else {
+        insets.bottom = 44;
+    }
+    if(_MODEL_.leave_game_enabled) tableView.contentInset = UIEdgeInsetsMake(20,0,insets.bottom,0);
+    else                           tableView.contentInset = UIEdgeInsetsMake(20,0,0,0);
+    
+    leaveGameButton.frame = CGRectMake(0,self.view.bounds.size.height-44-insets.bottom,self.view.bounds.size.width,44+insets.bottom);
+    leaveGameLabel.frame = CGRectMake(30,0,self.view.bounds.size.width-30,44);
+    leaveGameArrow.frame = CGRectMake(6,13,19,19);
+    leaveGameLine.frame = CGRectMake(0,0,self.view.bounds.size.width,1);
 }
 
 - (void) viewDidLoad
