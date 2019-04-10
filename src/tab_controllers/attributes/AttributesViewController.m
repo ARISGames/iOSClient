@@ -53,33 +53,40 @@
     return self;
 }
 
-- (void) loadView
-{
-  [super loadView];
+- (void)viewWillLayoutSubviews {
+  [super viewWillLayoutSubviews];
+  
+  UIEdgeInsets insets;
+  if (@available(iOS 11.0, *)) {
+    insets = self.view.safeAreaInsets;
+  } else {
+    insets.top = 64;
+  }
+  
   self.view.backgroundColor = [UIColor whiteColor];
   self.view.autoresizesSubviews = NO;
-
+  
   long playerImageWidth = 200;
-  CGRect playerImageFrame = CGRectMake((self.view.bounds.size.width / 2) - (playerImageWidth / 2), 64, playerImageWidth, 200);
+  CGRect playerImageFrame = CGRectMake((self.view.bounds.size.width / 2) - (playerImageWidth / 2), insets.top, playerImageWidth, 200);
   pcImage = [[ARISMediaView alloc] initWithFrame:playerImageFrame delegate:self];
   [pcImage setDisplayMode:ARISMediaDisplayModeAspectFit];
-
+  
   if(_MODEL_PLAYER_.media_id != 0)
     [pcImage setMedia:[_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id]];
   else [pcImage setImage:[UIImage imageNamed:@"profile.png"]];
-
+  
   [self.view addSubview:pcImage];
-
+  
   nameLabel = [[UILabel alloc] init];
   nameLabel.frame = CGRectMake(-1, pcImage.frame.origin.y + pcImage.frame.size.height + 20, self.view.bounds.size.width + 1, 30);
-
+  
   nameLabel.text = _MODEL_PLAYER_.display_name;
   nameLabel.textAlignment = NSTextAlignmentCenter;
   nameLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
   nameLabel.layer.borderWidth = 1.0f;
   [self.view addSubview:nameLabel];
-
-    int attriby = nameLabel.frame.origin.y + nameLabel.frame.size.height;
+  
+  int attriby = nameLabel.frame.origin.y + nameLabel.frame.size.height;
   attributesTable = [[UITableView alloc] initWithFrame:CGRectMake(0,attriby,self.view.bounds.size.width,self.view.bounds.size.height-attriby)];
   attributesTable.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
   attributesTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -89,7 +96,7 @@
   attributesTable.opaque = NO;
   attributesTable.backgroundView = nil;
   [self.view addSubview:attributesTable];
-
+  
   [self refreshViews];
 }
 

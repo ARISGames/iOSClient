@@ -149,17 +149,28 @@ static NSString * const OPTION_CELL = @"option";
 - (void) viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    scrollView.frame = self.view.bounds;
-    scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
-    if(scrollView.contentSize.height < self.view.bounds.size.height-64-44)
-      scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-64-44);
+    
+    UIEdgeInsets insets;
+    if (@available(iOS 11.0, *)) {
+        insets = self.view.safeAreaInsets;
+    } else {
+        insets.top = 64;
+    }
+    long continueHeight = 44;
+    insets.bottom += continueHeight;
+    
+    scrollView.frame = UIEdgeInsetsInsetRect(self.view.bounds, insets);
+    scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    if(scrollView.contentSize.height < self.view.bounds.size.height-insets.top-insets.bottom)
+      scrollView.contentSize = CGSizeMake(self.view.bounds.size.width,self.view.bounds.size.height-insets.top-insets.bottom);
+    scrollView.clipsToBounds = YES;
 
     webView.frame = CGRectMake(0, mediaView.frame.origin.y+mediaView.frame.size.height, self.view.bounds.size.width, webView.frame.size.height > 10 ? webView.frame.size.height : 10);
 
-    continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-    continueLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,44);
-    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19);
-    line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
+    continueButton.frame = CGRectMake(0, self.view.bounds.size.height-insets.bottom, self.view.bounds.size.width, continueHeight);
+    continueLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,continueHeight);
+    arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-insets.bottom+14, 19, 19);
+    line.frame = CGRectMake(0, self.view.bounds.size.height-insets.bottom, self.view.bounds.size.width, 1);
 }
 
 - (void) loadPlaque

@@ -16,7 +16,7 @@
 @interface DecoderViewController() <UITextFieldDelegate>
 {
     Tab *tab;
-  UITextField *codeTextField;
+    UITextField *codeTextField;
     BOOL firstTime;
 
     id<DecoderViewControllerDelegate> __unsafe_unretained delegate;
@@ -41,8 +41,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorBlack];
-
+    
     self.view.backgroundColor = [UIColor ARISColorWhite];
     codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20+64,self.view.frame.size.width-40,30)];
     codeTextField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -52,6 +51,16 @@
     codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
     codeTextField.delegate = self;
     [self.view addSubview:codeTextField];
+}
+
+- (void)viewWillLayoutSubviews {
+    UIEdgeInsets insets;
+    if (@available(iOS 11.0, *)) {
+        insets = self.view.safeAreaInsets;
+    } else {
+        insets.top = 64;
+    }
+    codeTextField.frame = CGRectMake(20,20+insets.top,self.view.frame.size.width-40,30);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -110,9 +119,9 @@
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
 {
-  [textField resignFirstResponder];
+    [textField resignFirstResponder];
 
-  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
     Trigger *t;
     if([codeTextField.text isEqualToString:@"log-out"]) [_MODEL_ logOut];
     else

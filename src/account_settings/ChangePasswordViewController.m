@@ -70,10 +70,17 @@
 
 - (void) viewWillLayoutSubviews
 {
-    oldPasswordField.frame = CGRectMake(20,66+20,self.view.frame.size.width-40,20);
-    newPasswordField.frame = CGRectMake(20,66+20+30,self.view.frame.size.width-40,20);
-    line.frame = CGRectMake(20,66+20+30+30,self.view.frame.size.width-40, 1);
-    instructions.frame = CGRectMake(20,66+20+20+20+20,self.view.frame.size.width-40,80);
+    UIEdgeInsets insets;
+    if (@available(iOS 11.0, *)) {
+        insets = self.view.safeAreaInsets;
+    } else {
+        insets.top = 64;
+    }
+  
+    oldPasswordField.frame = CGRectMake(20,insets.top+20,self.view.frame.size.width-40,20);
+    newPasswordField.frame = CGRectMake(20,insets.top+20+30,self.view.frame.size.width-40,20);
+    line.frame = CGRectMake(20,insets.top+20+30+30,self.view.frame.size.width-40, 1);
+    instructions.frame = CGRectMake(20,insets.top+20+20+20+20,self.view.frame.size.width-40,80);
 }
 
 - (void) viewWillAppear:(BOOL)animated

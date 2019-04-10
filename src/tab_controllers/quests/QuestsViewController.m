@@ -123,18 +123,25 @@ static long const COMPLETE_SECTION = 1;
 {
   [super viewWillLayoutSubviews];
   
-  activeButton.frame   = CGRectMake(0, 64, self.view.bounds.size.width/2, 40);
-  completeButton.frame = CGRectMake(self.view.bounds.size.width/2, 64, self.view.bounds.size.width/2, 40);
+  long topButtonsHeight = 40;
+  UIEdgeInsets insets;
+  if (@available(iOS 11.0, *)) {
+    insets = self.view.safeAreaInsets;
+  } else {
+    insets.top = 64;
+  }
+  
+  activeButton.frame   = CGRectMake(0, insets.top, self.view.bounds.size.width/2, topButtonsHeight);
+  completeButton.frame = CGRectMake(self.view.bounds.size.width/2, insets.top, self.view.bounds.size.width/2, topButtonsHeight);
   
   //apple. so dumb.
   questsTable.frame = self.view.bounds;
-  // MT: these appear to be different on iOS 11 (only need to account for post-nav space)
-  if ( 11 > [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] ) {
-    questsTable.contentInset = UIEdgeInsetsMake(104,0,40,0);
-    [questsTable setContentOffset:CGPointMake(0,-104)];
+  if (@available(iOS 11.0, *)) {
+    questsTable.contentInset = UIEdgeInsetsMake(topButtonsHeight,0,topButtonsHeight,0);
+    [questsTable setContentOffset:CGPointMake(0,-topButtonsHeight)];
   } else {
-    questsTable.contentInset = UIEdgeInsetsMake(40,0,40,0);
-    [questsTable setContentOffset:CGPointMake(0,-40)];
+    questsTable.contentInset = UIEdgeInsetsMake(insets.top + topButtonsHeight,0,topButtonsHeight,0);
+    [questsTable setContentOffset:CGPointMake(0,-(insets.top + topButtonsHeight))];
   }
 }
 

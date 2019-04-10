@@ -79,11 +79,19 @@
 - (void) viewWillLayoutSubviews
 {
   [super viewWillLayoutSubviews];
-  playerNameField.frame = CGRectMake(0,74,self.view.frame.size.width,20);
+  
+  UIEdgeInsets insets;
+  if (@available(iOS 11.0, *)) {
+    insets = self.view.safeAreaInsets;
+  } else {
+    insets.top = 64;
+  }
+  
+  playerNameField.frame = CGRectMake(0,10+insets.top,self.view.frame.size.width,20);
   playerPic.frame = CGRectMake(0,playerNameField.frame.origin.y+playerNameField.frame.size.height+10,self.view.frame.size.width,self.view.frame.size.width);
 
-  cameraButton.frame = CGRectMake(10, self.view.frame.size.height-30, 100, 20);
-  saveButton.frame = CGRectMake(self.view.frame.size.width-110, self.view.frame.size.height-30, 100, 20);
+  cameraButton.frame = CGRectMake(10, self.view.frame.size.height-30-insets.bottom, 100, 20);
+  saveButton.frame = CGRectMake(self.view.frame.size.width-110, self.view.frame.size.height-30-insets.bottom, 100, 20);
 }
 
 - (void) viewWillAppear:(BOOL)animated
