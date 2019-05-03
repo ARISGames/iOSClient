@@ -13,7 +13,6 @@
 #import "DialogsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "SBJson.h"
 
 @interface DialogsModel()
 {
@@ -239,9 +238,9 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
 
   NSArray *d_dialogs = d_data[@"dialogs"];
   for(long i = 0; i < d_dialogs.count; i++)

@@ -12,7 +12,6 @@
 
 #import "WebPagesModel.h"
 #import "AppServices.h"
-#import "SBJson.h"
 
 @interface WebPagesModel()
 {
@@ -104,9 +103,9 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_web_pages = d_data[@"web_pages"];
   for(long i = 0; i < d_web_pages.count; i++)
   {

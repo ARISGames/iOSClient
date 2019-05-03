@@ -13,7 +13,6 @@
 #import "ARTargetsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "SBJson.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -133,9 +132,9 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_ar_targets = d_data[@"ar_targets"];
   for(long i = 0; i < d_ar_targets.count; i++)
   {

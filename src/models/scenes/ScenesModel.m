@@ -13,7 +13,6 @@
 #import "ScenesModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "SBJson.h"
 
 @interface ScenesModel()
 {
@@ -201,9 +200,9 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_scenes = d_data[@"scenes"];
   for(long i = 0; i < d_scenes.count; i++)
   {
@@ -225,9 +224,9 @@
 - (void) deserializePlayerData:(NSString *)data
 {
   [self clearPlayerData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
 
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   Scene *s = [[Scene alloc] initWithDictionary:d_data[@"scene"]];
   playerScene = [_MODEL_SCENES_ sceneForId:s.scene_id];
   

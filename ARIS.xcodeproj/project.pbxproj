@@ -119,16 +119,6 @@
 		AA383B1118283B9F00612FFB /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1018283B9F00612FFB /* NoteCell.m */; };
 		AA383B1B1829AD2F00612FFB /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA383B1A1829AD2F00612FFB /* NoteViewController.m */; };
 		AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */; };
-		AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FA8182037CB006C9715 /* SBJsonParser.m */; };
-		AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAA182037CB006C9715 /* SBJsonStreamParser.m */; };
-		AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAC182037CB006C9715 /* SBJsonStreamParserAccumulator.m */; };
-		AA3B7FBE182037CB006C9715 /* SBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FAE182037CB006C9715 /* SBJsonStreamParserAdapter.m */; };
-		AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB0182037CB006C9715 /* SBJsonStreamParserState.m */; };
-		AA3B7FC0182037CB006C9715 /* SBJsonStreamTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB2182037CB006C9715 /* SBJsonStreamTokeniser.m */; };
-		AA3B7FC1182037CB006C9715 /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB4182037CB006C9715 /* SBJsonStreamWriter.m */; };
-		AA3B7FC2182037CB006C9715 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB6182037CB006C9715 /* SBJsonStreamWriterAccumulator.m */; };
-		AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FB8182037CB006C9715 /* SBJsonStreamWriterState.m */; };
-		AA3B7FC4182037CB006C9715 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */; };
 		AA41A35F18E4CCAE006CB373 /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A35D18E4CCAE006CB373 /* checkmark@2x.png */; };
 		AA41A36018E4CCAE006CB373 /* pencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A35E18E4CCAE006CB373 /* pencil@2x.png */; };
 		AA41A36418E4CD2F006CB373 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA41A36318E4CD2F006CB373 /* save@2x.png */; };
@@ -608,27 +598,6 @@
 		AA383B1A1829AD2F00612FFB /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteViewController.m; path = ../../tab_controllers/notebook/NoteViewController.m; sourceTree = "<group>"; };
 		AA39FEC418970E15001F723D /* NoteTagPredictionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTagPredictionViewController.h; sourceTree = "<group>"; };
 		AA39FEC518970E15001F723D /* NoteTagPredictionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteTagPredictionViewController.m; sourceTree = "<group>"; };
-		AA3B7FA6182037CB006C9715 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
-		AA3B7FA7182037CB006C9715 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		AA3B7FA8182037CB006C9715 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
-		AA3B7FA9182037CB006C9715 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
-		AA3B7FAA182037CB006C9715 /* SBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParser.m; sourceTree = "<group>"; };
-		AA3B7FAB182037CB006C9715 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
-		AA3B7FAC182037CB006C9715 /* SBJsonStreamParserAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAccumulator.m; sourceTree = "<group>"; };
-		AA3B7FAD182037CB006C9715 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
-		AA3B7FAE182037CB006C9715 /* SBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
-		AA3B7FAF182037CB006C9715 /* SBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserState.h; sourceTree = "<group>"; };
-		AA3B7FB0182037CB006C9715 /* SBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserState.m; sourceTree = "<group>"; };
-		AA3B7FB1182037CB006C9715 /* SBJsonStreamTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamTokeniser.h; sourceTree = "<group>"; };
-		AA3B7FB2182037CB006C9715 /* SBJsonStreamTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamTokeniser.m; sourceTree = "<group>"; };
-		AA3B7FB3182037CB006C9715 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
-		AA3B7FB4182037CB006C9715 /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriter.m; sourceTree = "<group>"; };
-		AA3B7FB5182037CB006C9715 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
-		AA3B7FB6182037CB006C9715 /* SBJsonStreamWriterAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterAccumulator.m; sourceTree = "<group>"; };
-		AA3B7FB7182037CB006C9715 /* SBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterState.h; sourceTree = "<group>"; };
-		AA3B7FB8182037CB006C9715 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
-		AA3B7FB9182037CB006C9715 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		AA41A35D18E4CCAE006CB373 /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
 		AA41A35E18E4CCAE006CB373 /* pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pencil@2x.png"; sourceTree = "<group>"; };
 		AA41A36318E4CD2F006CB373 /* save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
@@ -2233,37 +2202,8 @@
 			isa = PBXGroup;
 			children = (
 				C0878F3D1A672182001739E3 /* Reachability */,
-				AABC71C0172739D70074CC21 /* JSON */,
 			);
 			path = third_party;
-			sourceTree = "<group>";
-		};
-		AABC71C0172739D70074CC21 /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				AA3B7FA6182037CB006C9715 /* SBJson.h */,
-				AA3B7FA7182037CB006C9715 /* SBJsonParser.h */,
-				AA3B7FA8182037CB006C9715 /* SBJsonParser.m */,
-				AA3B7FA9182037CB006C9715 /* SBJsonStreamParser.h */,
-				AA3B7FAA182037CB006C9715 /* SBJsonStreamParser.m */,
-				AA3B7FAB182037CB006C9715 /* SBJsonStreamParserAccumulator.h */,
-				AA3B7FAC182037CB006C9715 /* SBJsonStreamParserAccumulator.m */,
-				AA3B7FAD182037CB006C9715 /* SBJsonStreamParserAdapter.h */,
-				AA3B7FAE182037CB006C9715 /* SBJsonStreamParserAdapter.m */,
-				AA3B7FAF182037CB006C9715 /* SBJsonStreamParserState.h */,
-				AA3B7FB0182037CB006C9715 /* SBJsonStreamParserState.m */,
-				AA3B7FB1182037CB006C9715 /* SBJsonStreamTokeniser.h */,
-				AA3B7FB2182037CB006C9715 /* SBJsonStreamTokeniser.m */,
-				AA3B7FB3182037CB006C9715 /* SBJsonStreamWriter.h */,
-				AA3B7FB4182037CB006C9715 /* SBJsonStreamWriter.m */,
-				AA3B7FB5182037CB006C9715 /* SBJsonStreamWriterAccumulator.h */,
-				AA3B7FB6182037CB006C9715 /* SBJsonStreamWriterAccumulator.m */,
-				AA3B7FB7182037CB006C9715 /* SBJsonStreamWriterState.h */,
-				AA3B7FB8182037CB006C9715 /* SBJsonStreamWriterState.m */,
-				AA3B7FB9182037CB006C9715 /* SBJsonWriter.h */,
-				AA3B7FBA182037CB006C9715 /* SBJsonWriter.m */,
-			);
-			path = JSON;
 			sourceTree = "<group>";
 		};
 		AABC7362172739D80074CC21 /* utils */ = {
@@ -2696,7 +2636,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA3B7FC3182037CB006C9715 /* SBJsonStreamWriterState.m in Sources */,
 				AAC8290F18A53A68000EA4C7 /* ARISServiceResult.m in Sources */,
 				AAF923241885D7580026A4FC /* AudioVisualizerViewController.m in Sources */,
 				AABC7375172739D80074CC21 /* AccountSettingsViewController.m in Sources */,
@@ -2719,7 +2658,6 @@
 				AAF9233A188715C20026A4FC /* FreqHistogramControl.m in Sources */,
 				AABC7389172739D80074CC21 /* User.m in Sources */,
 				AA2B833F187DAB5300D92A28 /* ARISWebView.m in Sources */,
-				AA3B7FBD182037CB006C9715 /* SBJsonStreamParserAccumulator.m in Sources */,
 				AABC738A172739D80074CC21 /* Quest.m in Sources */,
 				AAB679BD1B4309B200766B0D /* GroupsModel.m in Sources */,
 				AA4AC3CC1B7BE97D00E0BBD1 /* ARISModel.m in Sources */,
@@ -2768,7 +2706,6 @@
 				AABC73AD172739D80074CC21 /* main.mm in Sources */,
 				AABC064718A1896500315FB5 /* CrumbPath.m in Sources */,
 				AAB398E41918166700E0E766 /* Plaque.m in Sources */,
-				AA3B7FBC182037CB006C9715 /* SBJsonStreamParser.m in Sources */,
 				AABC73B3172739D80074CC21 /* AppModel.m in Sources */,
 				53A47101210631DB00AE3989 /* PlaqueFullViewController.m in Sources */,
 				AA251ADF1974361C00061CB6 /* DialogOption.m in Sources */,
@@ -2799,7 +2736,6 @@
 				AA5D8D32191AB20800116FA1 /* WebPagesModel.m in Sources */,
 				AABC73ED172739D80074CC21 /* AnnotationView.m in Sources */,
 				AA8C360E1858C827000A8F0B /* NoteCameraViewController.m in Sources */,
-				AA3B7FBB182037CB006C9715 /* SBJsonParser.m in Sources */,
 				AABED6E71BB5B23000EBDB42 /* GamePickerDownloadedViewController.m in Sources */,
 				AAA2F8C818A3F85B00B77249 /* MapHUD.m in Sources */,
 				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.mm in Sources */,
@@ -2816,7 +2752,6 @@
 				53038C8A1DE62D460002A3EA /* AugmentedViewController.mm in Sources */,
 				AAFC09571B2211E300A8D861 /* GameInstancesModel.m in Sources */,
 				AA6EC33A192E730200D70D38 /* ARISContainerViewController.m in Sources */,
-				AA3B7FC1182037CB006C9715 /* SBJsonStreamWriter.m in Sources */,
 				AA0DE0E1193A3E7900DF8D35 /* TriggersModel.m in Sources */,
 				AAF9233C188715C20026A4FC /* WaveformControl.m in Sources */,
 				AA83EEA718A43EE30077FF0E /* RequestCD.m in Sources */,
@@ -2825,20 +2760,16 @@
 				AA9A6D98182D7ECA000CC323 /* NoteTagEditorViewController.m in Sources */,
 				AAF92338188715C20026A4FC /* AudioSlider.m in Sources */,
 				AAB398E8191821D400E0E766 /* PlaquesModel.m in Sources */,
-				AA3B7FC4182037CB006C9715 /* SBJsonWriter.m in Sources */,
-				AA3B7FBE182037CB006C9715 /* SBJsonStreamParserAdapter.m in Sources */,
 				AABC064818A1896500315FB5 /* CrumbPathView.m in Sources */,
 				AA2A8AC417F1DF5C002DA8C4 /* UIImage+animatedGIF.m in Sources */,
 				531B263D1DECBA0D0044E013 /* SampleApplicationShaderUtils.m in Sources */,
 				AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */,
-				AA3B7FC0182037CB006C9715 /* SBJsonStreamTokeniser.m in Sources */,
 				AA5FCA3A197EFEAB005C2A2F /* TagsModel.m in Sources */,
 				AAA3FAA118CA28B500C8D016 /* ARISSelectorHandle.m in Sources */,
 				AABC74DB172739D80074CC21 /* NSDictionary+ValidParsers.m in Sources */,
 				AABC74DC172739D80074CC21 /* NSMutableDictionary+ImageMetadata.m in Sources */,
 				AABC74DD172739D80074CC21 /* UIDevice+Hardware.m in Sources */,
 				531B26331DECB9AE0044E013 /* SampleApplicationSession.mm in Sources */,
-				AA3B7FC2182037CB006C9715 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				AABC74DE172739D80074CC21 /* UIImage+Alpha.m in Sources */,
 				AA9F7131194F418B00384832 /* DialogCharacter.m in Sources */,
 				AA4685A81940C90000721B2B /* TabsModel.m in Sources */,
@@ -2873,7 +2804,6 @@
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AA4E62421E1D96B500A2AD1B /* ARTarget.m in Sources */,
 				AA4A755A1B3CA91A00C434A7 /* EventPackage.m in Sources */,
-				AA3B7FBF182037CB006C9715 /* SBJsonStreamParserState.m in Sources */,
 				AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */,
 				AA9F7136194F53FA00384832 /* LogsModel.m in Sources */,
 				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,

@@ -14,7 +14,6 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "SBJson.h"
 
 @interface GamesModel()
 {
@@ -418,7 +417,6 @@
     //gen downloaded games
     
     NSMutableArray *d_games = [[NSMutableArray alloc] init];
-    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     NSString *rootString = [_MODEL_ applicationDocumentsDirectory];
     
     NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rootString error:NULL];
@@ -428,8 +426,9 @@
       NSString *gameDataString = [gameFolderString stringByAppendingPathComponent:@"game.json"];
       if([[NSFileManager defaultManager] fileExistsAtPath:gameDataString])
       {
-        NSString *content = [NSString stringWithContentsOfFile:gameDataString encoding:NSUTF8StringEncoding error:nil];
-        Game *g = [[Game alloc] initWithDictionary:[jsonParser objectWithString:content]];
+        NSData *content = [NSData dataWithContentsOfFile:gameDataString];
+        NSError *error = nil;
+        Game *g = [[Game alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:content options:kNilOptions error:&error]];
         if(![g.network_level isEqualToString:@"REMOTE"])
           [d_games addObject:g];
       }

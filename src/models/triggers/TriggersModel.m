@@ -13,7 +13,6 @@
 #import "TriggersModel.h"
 #import "AppServices.h"
 #import "AppModel.h"
-#import "SBJson.h"
 #import "ARISAppDelegate.h"
 
 @interface TriggersModel()
@@ -308,9 +307,9 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_triggers = d_data[@"triggers"];
   for(long i = 0; i < d_triggers.count; i++)
   {
@@ -346,9 +345,9 @@
 - (void) deserializePlayerData:(NSString *)data
 {
   [self clearPlayerData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_triggers = d_data[@"triggers"];
   NSMutableArray *pts = [[NSMutableArray alloc] init];
   for(long i = 0; i < d_triggers.count; i++)

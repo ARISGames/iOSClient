@@ -13,7 +13,6 @@
 #import "QuestsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "SBJson.h"
 
 @interface QuestsModel()
 {
@@ -278,9 +277,9 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_quests = d_data[@"quests"];
   for(long i = 0; i < d_quests.count; i++)
   {
@@ -318,9 +317,9 @@
 - (void) deserializePlayerData:(NSString *)data
 {
   [self clearPlayerData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_quests = d_data[@"complete_quests"];
   NSMutableArray *qs = [[NSMutableArray alloc] init];
   for(long i = 0; i < d_quests.count; i++)

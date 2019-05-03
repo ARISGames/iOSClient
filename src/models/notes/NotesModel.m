@@ -15,7 +15,6 @@
 #import "NotesModel.h"
 #import "User.h"
 #import "NoteComment.h"
-#import "SBJson.h"
 
 @interface NotesModel()
 {
@@ -261,9 +260,9 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_notes = d_data[@"notes"];
   for(long i = 0; i < d_notes.count; i++)
   {

@@ -13,7 +13,6 @@
 #import "TabsModel.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "SBJson.h"
 
 @interface TabsModel()
 {
@@ -238,9 +237,9 @@
 - (void) deserializeGameData:(NSString *)data
 {
   [self clearGameData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_tabs = d_data[@"tabs"];
   for(long i = 0; i < d_tabs.count; i++)
   {
@@ -270,9 +269,9 @@
 - (void) deserializePlayerData:(NSString *)data
 {
   [self clearPlayerData];
-  SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-
-  NSDictionary *d_data = [jsonParser objectWithString:data];
+  
+  NSError *error = nil;
+  NSDictionary *d_data = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
   NSArray *d_tabs = d_data[@"tabs"];
   NSMutableArray *pts = [[NSMutableArray alloc] init];
   for(long i = 0; i < d_tabs.count; i++)

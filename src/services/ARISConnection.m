@@ -8,7 +8,6 @@
 
 #import "ARISConnection.h"
 #import "AppModel.h"
-#import "SBJson.h"
 #import "ARISServiceResult.h"
 #import "RequestCD.h"
 #import "ARISServiceGraveyard.h"
@@ -22,8 +21,6 @@ NSString *const kARISServerServicePackage = @"v2";
 
 @interface ARISConnection() <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
-    SBJsonParser *jsonParser;
-    SBJsonWriter *jsonWriter;
     ARISServiceGraveyard *graveyard;
     NSString *server;
     NSMutableDictionary *connections;
@@ -40,8 +37,6 @@ NSString *const kARISServerServicePackage = @"v2";
 {
     if(self = [super init])
     {
-        jsonParser = [[SBJsonParser alloc] init];
-        jsonWriter = [[SBJsonWriter alloc] init];
         server = s;
         graveyard = g;
         connections   = [[NSMutableDictionary alloc] initWithCapacity:20];
@@ -157,8 +152,8 @@ NSString *const kARISServerServicePackage = @"v2";
         args = margs;
     }
 
-    NSString *sData = [jsonWriter stringWithObject:args];
-    NSData *data = [sData dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:args options:kNilOptions error:&error];
 
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestBaseString]];
     [urlRequest setHTTPMethod:@"POST"];
@@ -249,8 +244,9 @@ NSString *const kARISServerServicePackage = @"v2";
 
 - (NSObject *) parseJSONString:(NSString *)json requestURL:(NSURL *)requestURL
 {
-    NSDictionary *result = [jsonParser objectWithString:json];
-    if(!result)
+    NSError *error = nil;
+    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+    if(error)
     {
         _ARIS_LOG_(@"JSONResult: Error parsing JSON String: %@", json);
         /* no need to show error to user

@@ -14,7 +14,6 @@
 #import "AppModel.h"
 #import "NSDictionary+ValidParsers.h"
 #import "NSString+JSON.h"
-#import "SBJson.h"
 #import "RootViewController.h"
 
 @interface Game()
@@ -160,8 +159,8 @@
     if([[NSFileManager defaultManager] fileExistsAtPath:gameJsonFile])
     {
       //careful to not 'initGameWithDict' here, or infinite loop
-      SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-      NSDictionary *gameDict = [jsonParser objectWithString:[NSString stringWithContentsOfFile:gameJsonFile encoding:NSUTF8StringEncoding error:nil]];
+      NSError *error = nil;
+      NSDictionary *gameDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:gameJsonFile] options:kNilOptions error:&error];
       downloadedVersion = [gameDict validIntForKey:@"version"];
     }
     know_if_begin_fresh = NO;
