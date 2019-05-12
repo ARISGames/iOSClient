@@ -190,6 +190,7 @@
         ((UIViewController *)themViewControllers[0]).view.frame = rightFrame;
         ((UIViewController *)themViewControllers[1]).view.frame = rightFrame;
         [UIView commitAnimations];
+        [old_vc clearText];
     }
     else
     {
@@ -212,6 +213,7 @@
         ((UIViewController *)youViewControllers[0]).view.frame = leftFrame;
         ((UIViewController *)youViewControllers[1]).view.frame = leftFrame;
         [UIView commitAnimations];
+        [old_vc clearText];
     }
 }
 

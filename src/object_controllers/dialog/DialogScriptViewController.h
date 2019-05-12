@@ -24,6 +24,7 @@
 }
 - (id) initWithDialog:(Dialog *)n delegate:(id<DialogScriptViewControllerDelegate>)d;
 - (void) loadScript:(DialogScript *)s guessedHeight:(long)h;
+- (void) clearText;
 - (long) heightOfTextBox;
 @property (nonatomic, strong) Dialog *dialog;
 @end

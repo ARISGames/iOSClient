@@ -92,6 +92,12 @@
     [_MODEL_DIALOGS_ requestPlayerOptionsForDialogId:dialog.dialog_id scriptId:s.dialog_script_id];
 }
 
+- (void) clearText
+{
+    [dialogTextView loadText:@""];
+    [mediaView setMedia:NULL];
+}
+
 - (void) scriptOptionsAvailable:(NSNotification *)n
 {
     if(!script || [((NSNumber *)n.userInfo[@"dialog_script_id"]) intValue] != script.dialog_script_id) return;
