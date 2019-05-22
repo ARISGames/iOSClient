@@ -254,6 +254,11 @@ static NSString * const OPTION_CELL = @"option";
     [self dismissSelf];
 }
 
+- (void)ARISWebViewRequestsButtonLabel:(ARISWebView *)awv label:(NSString *)s
+{
+    continueLbl.text = s;
+}
+
 - (void) dismissSelf
 {
     [delegate instantiableViewControllerRequestsDismissal:self];

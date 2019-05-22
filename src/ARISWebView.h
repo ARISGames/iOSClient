@@ -17,6 +17,7 @@
 - (void) ARISWebViewRequestsDismissal: (ARISWebView *)awv;
 - (void) ARISWebViewRequestsRefresh:   (ARISWebView *)awv;
 - (void) ARISWebViewRequestsHideButton:(ARISWebView *)awv;
+- (void) ARISWebViewRequestsButtonLabel:(ARISWebView *)awv label:(NSString *)s;
 //WebViewDelegate pretenders:
 - (BOOL) ARISWebView:(ARISWebView *)wv shouldStartLoadWithRequest:(NSURLRequest*)r navigationType:(UIWebViewNavigationType)nt;
 - (void) ARISWebViewDidFinishLoad:(ARISWebView *)wv;

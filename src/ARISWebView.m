@@ -280,8 +280,13 @@
         if([delegate respondsToSelector:@selector(ARISWebViewRequestsRefresh:)])
             [delegate ARISWebViewRequestsRefresh:self];
     }
-    else if([mainCommand isEqualToString:@"vibrate"])
-        [_DELEGATE_ vibrate];
+    else if([mainCommand isEqualToString:@"button"])
+    {
+        NSString *label = @"";
+        if(components.count > 1) label = components[1];
+        if([delegate respondsToSelector:@selector(ARISWebViewRequestsButtonLabel:label:)])
+            [delegate ARISWebViewRequestsButtonLabel:self label:label];
+    }
     else if([mainCommand isEqualToString:@"player"])
     {
         Media *playerMedia = [_MODEL_MEDIA_ mediaForId:_MODEL_PLAYER_.media_id];

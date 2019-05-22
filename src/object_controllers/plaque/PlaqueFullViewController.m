@@ -194,6 +194,11 @@
   [self dismissSelfNoNav];
 }
 
+- (void)ARISWebViewRequestsButtonLabel:(ARISWebView *)awv label:(NSString *)s
+{
+  continueLbl.text = s;
+}
+
 - (void) backButtonTouched
 {
   [self dismissSelf];
