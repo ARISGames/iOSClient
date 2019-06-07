@@ -46,10 +46,10 @@ var ARISJS = function(_ARIS)
     _ARIS.logOut              = function()                 { _ARIS.enqueueRequest("aris://logout"); }
     _ARIS.exit                = function()                 { _ARIS.enqueueRequest("aris://exit"); }
     _ARIS.exitToTab           = function(tab)              { _ARIS.enqueueRequest("aris://exit/tab/"+tab); }
-    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+(prompt || "")); }
+    _ARIS.exitToScanner       = function(prompt)           { _ARIS.enqueueRequest("aris://exit/scanner/"+encodeURIComponent(prompt || "")); }
     _ARIS.exitToAugmented     = function(options)          {
       if (options == null) options = {};
-      _ARIS.enqueueRequest("aris://exit/augmented/"+(options.media_id || 0)+"/"+(options.prompt || ""));
+      _ARIS.enqueueRequest("aris://exit/augmented/"+(options.media_id || 0)+"/"+encodeURIComponent(options.prompt || ""));
     }
     _ARIS.exitToPlaque        = function(plaque_id)        { _ARIS.enqueueRequest("aris://exit/plaque/"+plaque_id); }
     _ARIS.exitToWebpage       = function(webpageId)        { _ARIS.enqueueRequest("aris://exit/webpage/"+webpageId); }
@@ -79,7 +79,9 @@ var ARISJS = function(_ARIS)
     _ARIS.getPlayer           = function()                 { _ARIS.enqueueRequest("aris://player"); }
     _ARIS.getTriggerLocation  = function(trigger_id)       { _ARIS.enqueueRequest("aris://trigger/" + (trigger_id || 0)); }
     _ARIS.setButtonLabel      = function(label)
-        { _ARIS.enqueueRequest("aris://button/" + label); }
+        { _ARIS.enqueueRequest("aris://button/" + encodeURIComponent(label)); }
+    _ARIS.popup               = function(content)
+        { _ARIS.enqueueRequest("aris://popup/" + encodeURIComponent(content)); }
 
     //Call ARIS API directly (USE WITH CAUTION)
     _ARIS.callService = function(serviceName, body, auth, callback)

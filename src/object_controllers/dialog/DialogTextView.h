@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 @class DialogTextView;
-@protocol DialogTextViewDelegate
+@protocol DialogTextViewDelegate <NSObject>
 - (void) dialogTextView:(DialogTextView *)dtv expandedToSize:(CGSize)s;
 - (void) dialogTextView:(DialogTextView *)dtv selectedOption:(long)o;
+- (void) popupWithContent:(NSString *)s;
 @end
 
 @interface DialogTextView : UIView

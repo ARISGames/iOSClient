@@ -12,10 +12,11 @@
 #import "DialogScriptViewController.h"
 #import "AppModel.h"
 #import "ARISMediaView.h"
+#import "PopupWebViewController.h"
 #import <Google/Analytics.h>
 
 
-@interface DialogViewController() <DialogScriptViewControllerDelegate>
+@interface DialogViewController() <DialogScriptViewControllerDelegate, PopupWebViewControllerDelegate>
 {
     Dialog *dialog;
     Instance *instance;
@@ -38,6 +39,8 @@
     CGRect centerFrame;
     CGRect leftFrame;
     CGRect rightFrame;
+  
+    PopupWebViewController *popupVC;
 
     id<DialogViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -221,6 +224,19 @@
 {
   self.title = title;
   self.navigationItem.title = title;
+}
+
+- (void) popupWithContent:(NSString *)s
+{
+  popupVC = [[PopupWebViewController alloc] initWithContent:s delegate:self];
+  popupVC.view.frame = self.view.frame;
+  popupVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+  [self presentViewController:popupVC animated:YES completion:nil];
+}
+
+- (void) popupRequestsDismiss
+{
+  [popupVC dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) exitRequested

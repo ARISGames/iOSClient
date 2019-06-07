@@ -38,6 +38,7 @@
 		53B3449C1D19A9340094D97A /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 53B3449B1D19A9340094D97A /* transparent.png */; };
 		53C0B3D321595D3B00EA4E80 /* quest-star-empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 53C0B3D121595D3A00EA4E80 /* quest-star-empty.png */; };
 		53C0B3D421595D3B00EA4E80 /* quest-star-filled.png in Resources */ = {isa = PBXBuildFile; fileRef = 53C0B3D221595D3A00EA4E80 /* quest-star-filled.png */; };
+		53C543AD22A9F4A400876F51 /* PopupWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C543AC22A9F4A400876F51 /* PopupWebViewController.m */; };
 		53C66966217E619600914731 /* check-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 53C66964217E619500914731 /* check-full.png */; };
 		53C66967217E619600914731 /* check-empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 53C66965217E619500914731 /* check-empty.png */; };
 		53D580D51E53B7360015C668 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 53D580631E53B7360015C668 /* .gitignore */; };
@@ -398,6 +399,8 @@
 		53B3449B1D19A9340094D97A /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
 		53C0B3D121595D3A00EA4E80 /* quest-star-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quest-star-empty.png"; sourceTree = "<group>"; };
 		53C0B3D221595D3A00EA4E80 /* quest-star-filled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quest-star-filled.png"; sourceTree = "<group>"; };
+		53C543AC22A9F4A400876F51 /* PopupWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PopupWebViewController.m; sourceTree = "<group>"; };
+		53C543AE22A9F4B000876F51 /* PopupWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupWebViewController.h; sourceTree = "<group>"; };
 		53C66964217E619500914731 /* check-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-full.png"; sourceTree = "<group>"; };
 		53C66965217E619500914731 /* check-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-empty.png"; sourceTree = "<group>"; };
 		53D580631E53B7360015C668 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -2058,6 +2061,8 @@
 				AABC7112172739D60074CC21 /* PopOverViewController.m */,
 				AA701FE3173428C3003A840D /* ARISAlertHandler.h */,
 				AA701FE4173428C3003A840D /* ARISAlertHandler.m */,
+				53C543AC22A9F4A400876F51 /* PopupWebViewController.m */,
+				53C543AE22A9F4B000876F51 /* PopupWebViewController.h */,
 			);
 			path = overlay_controllers;
 			sourceTree = "<group>";
@@ -2804,6 +2809,7 @@
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AA4E62421E1D96B500A2AD1B /* ARTarget.m in Sources */,
 				AA4A755A1B3CA91A00C434A7 /* EventPackage.m in Sources */,
+				53C543AD22A9F4A400876F51 /* PopupWebViewController.m in Sources */,
 				AA39FEC618970E15001F723D /* NoteTagPredictionViewController.m in Sources */,
 				AA9F7136194F53FA00384832 /* LogsModel.m in Sources */,
 				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,

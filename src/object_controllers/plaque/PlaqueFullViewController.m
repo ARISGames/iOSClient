@@ -10,9 +10,10 @@
 #import "AppModel.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
+#import "PopupWebViewController.h"
 #import <Google/Analytics.h>
 
-@interface PlaqueFullViewController() <ARISWebViewDelegate>
+@interface PlaqueFullViewController() <ARISWebViewDelegate, PopupWebViewControllerDelegate>
 {
   Plaque *plaque;
   Instance *instance;
@@ -24,6 +25,7 @@
   UILabel *continueLbl;
   UIImageView *arrow;
   UIView *line;
+  PopupWebViewController *popupVC;
   
   BOOL hasAppeared;
   
@@ -202,6 +204,19 @@
 - (void) backButtonTouched
 {
   [self dismissSelf];
+}
+
+- (void)ARISWebViewRequestsPopup:(ARISWebView *)awv content:(NSString *)s
+{
+  popupVC = [[PopupWebViewController alloc] initWithContent:s delegate:self];
+  popupVC.view.frame = self.view.frame;
+  popupVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+  [self presentViewController:popupVC animated:YES completion:nil];
+}
+
+- (void) popupRequestsDismiss
+{
+  [popupVC dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) dismissSelf

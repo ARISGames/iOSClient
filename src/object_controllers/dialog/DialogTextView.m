@@ -37,7 +37,7 @@
         delegate = d;
 
         textView = [[ARISWebView alloc] initWithDelegate:self];
-        textView.userInteractionEnabled = NO;
+        textView.scrollView.bounces = NO;
         textView.frame = CGRectMake(0,0,self.frame.size.width,1);
         webViewLoaded = NO;
 
@@ -173,6 +173,12 @@
 {
     for(long i = 0; i < optionButtons.count; i++)
         if(r.view == optionButtons[i]) [delegate dialogTextView:self selectedOption:i];
+}
+
+- (void)ARISWebViewRequestsPopup:(ARISWebView *)awv content:(NSString *)s
+{
+    if ([delegate respondsToSelector:@selector(popupWithContent:)])
+        [delegate popupWithContent:s];
 }
 
 @end

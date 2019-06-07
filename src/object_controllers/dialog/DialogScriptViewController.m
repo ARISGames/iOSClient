@@ -146,6 +146,12 @@
     //[collapseView handleTapped:g];
 }
 
+- (void)popupWithContent:(NSString *)s
+{
+    if ([delegate respondsToSelector:@selector(popupWithContent:)])
+        [delegate popupWithContent:s];
+}
+
 - (long) heightOfTextBox
 {
     return lastKnownTextFrameHeight;

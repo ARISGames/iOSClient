@@ -12,10 +12,11 @@
 @class Dialog;
 @class DialogScript;
 
-@protocol DialogScriptViewControllerDelegate
+@protocol DialogScriptViewControllerDelegate <NSObject>
 - (void) dialogScriptChosen:(DialogScript *)s;
 - (void) setNavTitle:(NSString *)s;
 - (void) exitRequested;
+- (void) popupWithContent:(NSString *)s;
 @end
 
 @interface DialogScriptViewController : ARISViewController

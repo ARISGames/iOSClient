@@ -17,6 +17,7 @@
 #import "WebPage.h"
 #import "UIImage+Scale.h"
 #import "Plaque.h"
+#import "PopupWebViewController.h"
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <Google/Analytics.h>
@@ -24,7 +25,7 @@
 
 static NSString * const OPTION_CELL = @"option";
 
-@interface PlaqueViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate>
+@interface PlaqueViewController() <UIScrollViewDelegate, ARISWebViewDelegate, ARISMediaViewDelegate, PopupWebViewControllerDelegate>
 {
     Plaque *plaque;
     Instance *instance;
@@ -37,6 +38,7 @@ static NSString * const OPTION_CELL = @"option";
     UILabel *continueLbl;
     UIImageView *arrow;
     UIView *line;
+    PopupWebViewController *popupVC;
     id <PlaqueViewControllerDelegate> __unsafe_unretained delegate;
 }
 
@@ -257,6 +259,19 @@ static NSString * const OPTION_CELL = @"option";
 - (void)ARISWebViewRequestsButtonLabel:(ARISWebView *)awv label:(NSString *)s
 {
     continueLbl.text = s;
+}
+
+- (void)ARISWebViewRequestsPopup:(ARISWebView *)awv content:(NSString *)s
+{
+    popupVC = [[PopupWebViewController alloc] initWithContent:s delegate:self];
+    popupVC.view.frame = self.view.frame;
+    popupVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:popupVC animated:YES completion:nil];
+}
+
+- (void) popupRequestsDismiss
+{
+    [popupVC dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) dismissSelf

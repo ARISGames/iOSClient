@@ -174,6 +174,7 @@
 
     NSString *mainCommand = [[request URL] host];
     NSArray *components   = [[request URL] pathComponents];
+    NSString *fullComponent = [[[request URL] relativePath] substringFromIndex:1];
 
     if([mainCommand isEqual:@"cache"])
     {
@@ -282,10 +283,13 @@
     }
     else if([mainCommand isEqualToString:@"button"])
     {
-        NSString *label = @"";
-        if(components.count > 1) label = components[1];
         if([delegate respondsToSelector:@selector(ARISWebViewRequestsButtonLabel:label:)])
-            [delegate ARISWebViewRequestsButtonLabel:self label:label];
+            [delegate ARISWebViewRequestsButtonLabel:self label:fullComponent];
+    }
+    else if([mainCommand isEqualToString:@"popup"])
+    {
+        if ([delegate respondsToSelector:@selector(ARISWebViewRequestsPopup:content:)])
+            [delegate ARISWebViewRequestsPopup:self content:fullComponent];
     }
     else if([mainCommand isEqualToString:@"player"])
     {
