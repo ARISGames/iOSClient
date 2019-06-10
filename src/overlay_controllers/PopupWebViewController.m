@@ -98,6 +98,7 @@
   continueLbl.text = NSLocalizedString(@"ContinueKey", @"");
   continueLbl.font = [ARISTemplate ARISButtonFont];
   [continueButton addSubview:continueLbl];
+  [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
   [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
   
   arrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"arrowForward"]];
