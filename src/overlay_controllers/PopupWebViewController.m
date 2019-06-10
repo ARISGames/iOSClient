@@ -63,12 +63,13 @@
   [activityIndicator startAnimating];
   [self.view addSubview:activityIndicator];
   
-  CGFloat continueHeight = 44.0;
-  webView = [[ARISWebView alloc] initWithFrame:CGRectInset(CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-continueHeight), 40.0, 40.0) delegate:self];
+  CGFloat insetAmount = 40.0;
+  webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - insetAmount * 2, 10) delegate:self];
   webView.backgroundColor = [UIColor whiteColor];
   //webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
   webView.scrollView.bounces = NO;
 //  webView.scalesPageToFit = YES;
+  webView.alpha = 0.0;
   webView.allowsInlineMediaPlayback = YES;
   webView.mediaPlaybackRequiresUserAction = NO;
   NSString *html = [NSString stringWithFormat:[ARISTemplate ARISHtmlTemplate], content];
@@ -103,14 +104,28 @@
   line = [[UIView alloc] init];
   line.backgroundColor = [UIColor ARISColorLightGray];
   
-  continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-  continueLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,44);
+  CGFloat continueHeight = 44.0;
+  continueButton.frame = CGRectMake(0, self.view.bounds.size.height-continueHeight, self.view.bounds.size.width, continueHeight);
+  continueLbl.frame = CGRectMake(0,0,self.view.bounds.size.width-30,continueHeight);
   arrow.frame = CGRectMake(self.view.bounds.size.width-25, self.view.bounds.size.height-30, 19, 19);
-  line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
+  line.frame = CGRectMake(0, self.view.bounds.size.height-continueHeight, self.view.bounds.size.width, 1);
   
   [self.view addSubview:continueButton];
   [self.view addSubview:arrow];
   [self.view addSubview:line];
+  
+  // show the webview, with correct height
+  webView.alpha = 1.0;
+  float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+  if(_MODEL_GAME_.ipad_two_x && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) //2x
+    newHeight *= 2;
+  CGFloat insetAmount = 40.0;
+  CGFloat maxHeight = self.view.bounds.size.height - continueHeight - insetAmount * 2;
+  if (newHeight > maxHeight) newHeight = maxHeight;
+  [webView setFrame:CGRectMake(insetAmount,
+                               insetAmount,
+                               webView.frame.size.width,
+                               newHeight)];
   
 }
 
