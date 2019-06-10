@@ -34,7 +34,7 @@ DEPENDENCIES:
   - PKRevealController
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseInstanceID
@@ -62,4 +62,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 29f8b8c22c6ae78a2b7dd3756086ddb39b04caab
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.7.1
