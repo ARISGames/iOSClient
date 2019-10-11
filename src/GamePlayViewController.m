@@ -152,8 +152,8 @@
     NSObject *o;
     if((o = [_MODEL_DISPLAY_QUEUE_ dequeue]))
     {
-        if     ([o isKindOfClass:[Trigger class]])  [self displayTrigger:(Trigger *)o];
-        else if([o isKindOfClass:[Instance class]]) [self displayInstance:(Instance *)o];
+        if     ([o isKindOfClass:[Trigger class]])  return [self displayTrigger:(Trigger *)o];
+        else if([o isKindOfClass:[Instance class]]) return [self displayInstance:(Instance *)o];
         else if([o isKindOfClass:[Tab class]])      [self displayTab:(Tab *)o];
         else if([o conformsToProtocol:@protocol(InstantiableProtocol)]) [self displayObject:(NSObject <InstantiableProtocol>*)o];
         else return NO;
@@ -185,7 +185,7 @@
   }
 }
 
-- (void) displayTrigger:(Trigger *)t
+- (BOOL) displayTrigger:(Trigger *)t
 {
     Instance *i = [_MODEL_INSTANCES_ instanceForId:t.instance_id];
     if(!i.instance_id)
@@ -193,16 +193,18 @@
       //this is bad and points to a need for a non-global service architecture.
       //see notes by 'local_inst_queue'
       [local_inst_queue addObject:[NSNumber numberWithLong:t.instance_id]];
+      return YES;
     }
     else
     {
       _ARIS_NOTIF_SEND_(@"GAME_PLAY_DISPLAYED_TRIGGER",nil,@{@"trigger":t});
-      [self displayInstance:i];
+      BOOL b = [self displayInstance:i];
       [_MODEL_LOGS_ playerTriggeredTriggerId:t.trigger_id];
+      return b;
     }
 }
 
-- (void) displayInstance:(Instance *)i
+- (BOOL) displayInstance:(Instance *)i
 {
     ARISViewController *vc;
     if([i.object_type isEqualToString:@"PLAQUE"]) {
@@ -225,7 +227,7 @@
         [_MODEL_EVENTS_ runEventPackageId:i.object_id]; //will take care of log
         //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
         [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
-        return;
+        return NO;
     }
     if([i.object_type isEqualToString:@"SCENE"]) //Special case (don't actually display anything)
     {
@@ -233,7 +235,7 @@
         [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
         //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
         [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
-        return;
+        return NO;
     }
     if([i.object_type isEqualToString:@"EVENT_PACKAGE"]) //Special case (don't actually display anything)
     {
@@ -241,13 +243,13 @@
         [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
         //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
         [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
-        return;
+        return NO;
     }
     if([i.object_type isEqualToString:@"FACTORY"]) //Special case (don't actually display anything)
     {
         //Hack 'dequeue' as simulation for normally inevitable request dismissal of VC we didn't put up...
         [self performSelector:@selector(tryDequeue) withObject:nil afterDelay:1];
-        return;
+        return NO;
     }
     [_MODEL_LOGS_ playerViewedInstanceId:i.instance_id];
     _ARIS_NOTIF_SEND_(@"GAME_PLAY_DISPLAYED_INSTANCE",nil,@{@"instance":i});
@@ -259,6 +261,7 @@
     }
 
     [self presentInstantiableViewController:[[ARISNavigationController alloc] initWithRootViewController:vc]];
+    return YES;
 }
 
 - (void) displayObject:(NSObject <InstantiableProtocol>*)o
