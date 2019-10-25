@@ -174,7 +174,11 @@
 
     NSString *mainCommand = [[request URL] host];
     NSArray *components   = [[request URL] pathComponents];
-    NSString *fullComponent = [[[request URL] relativePath] substringFromIndex:1];
+    NSString *fullComponent = [[request URL] relativePath];
+    if (![fullComponent isEqualToString:@""]) {
+        // remove initial slash
+        fullComponent = [fullComponent substringFromIndex:1];
+    }
 
     if([mainCommand isEqual:@"cache"])
     {
